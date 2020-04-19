@@ -71,21 +71,34 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fBh-sS-v5N">
-                                <rect key="frame" x="884" y="494.5" width="152" height="86"/>
-                                <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
-                                <state key="normal" title="Play"/>
-                                <connections>
-                                    <segue destination="499-42-d0g" kind="presentation" id="iKb-3Z-2ug"/>
-                                </connections>
-                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="64" translatesAutoresizingMaskIntoConstraints="NO" id="DIB-lf-ruD">
+                                <rect key="frame" x="616" y="494.5" width="688" height="86"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fBh-sS-v5N">
+                                        <rect key="frame" x="0.0" y="0.0" width="312" height="86"/>
+                                        <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
+                                        <state key="normal" title="Play"/>
+                                        <connections>
+                                            <segue destination="499-42-d0g" kind="presentation" id="iKb-3Z-2ug"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F87-YN-ocl">
+                                        <rect key="frame" x="376" y="0.0" width="312" height="86"/>
+                                        <inset key="contentEdgeInsets" minX="40" minY="20" maxX="40" maxY="20"/>
+                                        <state key="normal" title="Leaderboards"/>
+                                        <connections>
+                                            <action selector="leaderboardButtonPressed:" destination="IDq-6Q-Kku" eventType="primaryActionTriggered" id="YtL-m5-9eL"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <constraints>
+                            <constraint firstItem="DIB-lf-ruD" firstAttribute="top" secondItem="Fx9-PT-SkJ" secondAttribute="bottom" constant="64" id="0Ab-my-Nyj"/>
                             <constraint firstItem="Fx9-PT-SkJ" firstAttribute="firstBaseline" secondItem="BYd-DJ-KkB" secondAttribute="centerY" constant="-128" id="QL4-Zl-d5A"/>
-                            <constraint firstItem="BYd-DJ-KkB" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="fBh-sS-v5N" secondAttribute="bottom" constant="32" id="SfS-lP-SCG"/>
-                            <constraint firstItem="fBh-sS-v5N" firstAttribute="top" secondItem="Fx9-PT-SkJ" secondAttribute="bottom" constant="64" id="lOx-7w-Lal"/>
+                            <constraint firstItem="DIB-lf-ruD" firstAttribute="centerX" secondItem="BYd-DJ-KkB" secondAttribute="centerX" id="eR0-9g-wab"/>
+                            <constraint firstItem="DIB-lf-ruD" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="BYd-DJ-KkB" secondAttribute="leading" constant="64" id="fTn-JQ-E5M"/>
                             <constraint firstItem="Fx9-PT-SkJ" firstAttribute="centerX" secondItem="BYd-DJ-KkB" secondAttribute="centerX" id="oDk-sZ-DPI"/>
-                            <constraint firstItem="fBh-sS-v5N" firstAttribute="centerX" secondItem="BYd-DJ-KkB" secondAttribute="centerX" id="v7L-QF-vcs"/>
                             <constraint firstItem="Fx9-PT-SkJ" firstAttribute="top" relation="greaterThanOrEqual" secondItem="BYd-DJ-KkB" secondAttribute="top" constant="32" id="y9b-24-md3"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="BYd-DJ-KkB"/>

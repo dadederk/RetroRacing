@@ -103,6 +103,9 @@
                                         <rect key="frame" x="106" y="0.0" width="98" height="33"/>
                                         <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                         <state key="normal" title="Leaderboard"/>
+                                        <connections>
+                                            <action selector="leaderboardButtonPressed:" destination="Erq-Lc-Syh" eventType="touchUpInside" id="nGL-f3-rpq"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
