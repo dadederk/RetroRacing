@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import StoreKit
 
 class MenuViewController: UIViewController {
     @IBOutlet private weak var titleLabel: UILabel!
@@ -23,5 +24,9 @@ class MenuViewController: UIViewController {
         rateAppButton.titleLabel?.adjustsFontForContentSizeCategory = true
         
         titleLabel.text = NSLocalizedString("gameName", comment: "")
+    }
+    
+    @IBAction private func rateAppButtonPressed(_ sender: Any) {
+        SKStoreReviewController.requestReview()
     }
 }

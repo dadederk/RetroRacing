@@ -110,6 +110,9 @@
                                 <rect key="frame" x="158" y="813" width="98" height="33"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                 <state key="normal" title="Rate the app"/>
+                                <connections>
+                                    <action selector="rateAppButtonPressed:" destination="Erq-Lc-Syh" eventType="touchUpInside" id="aJS-9v-5gG"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
