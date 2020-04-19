@@ -9,9 +9,8 @@
 import WatchKit
 import Foundation
 
-
 class GameInterfaceController: WKInterfaceController {
-    @IBOutlet var skInterface: WKInterfaceSKScene!
+    @IBOutlet private var skInterface: WKInterfaceSKScene!
     
     private var allowRotation = true
     private var scene: GameScene!
@@ -27,7 +26,7 @@ class GameInterfaceController: WKInterfaceController {
         
         crownSequencer.delegate = self
         
-        setTitle("Score: 0")
+        setTitle(scoreString(forScore: 0))
     }
     
     override func willActivate() {
@@ -37,6 +36,10 @@ class GameInterfaceController: WKInterfaceController {
     
     override func didDeactivate() {
         super.didDeactivate()
+    }
+    
+    private func scoreString(forScore score: Int) -> String {
+        return "\(NSLocalizedString("score", comment: "")): \(score)"
     }
 }
 
@@ -62,21 +65,17 @@ extension GameInterfaceController: WKCrownDelegate {
 
 extension GameInterfaceController: GameSceneDelegate {
     func gameScene(_ gameScene: GameScene, didUpdateScore score: Int) {
-        setTitle("Score: \(score)")
+        setTitle(scoreString(forScore: score))
     }
     
     func gameSceneDidDetectCollision(_ gameScene: GameScene) {
-        
-        let title = "Game Over"
-        let message = "Your score: \(gameScene.gameState.score)"
+        let title = NSLocalizedString("gameOver", comment: "")
+        let message = scoreString(forScore: gameScene.gameState.score)
 
+        let restartAction = WKAlertAction(title: NSLocalizedString("restart", comment: ""), style: .default, handler: { self.scene.start() })
         
-        let restartAction = WKAlertAction(title: "Restart", style: .default, handler: {
-            self.scene.start()
-        })
-        
-        let finishAction = WKAlertAction(title: "Finish", style: .default, handler: {
-            self.dismiss()
+        let finishAction = WKAlertAction(title: NSLocalizedString("finish", comment: ""), style: .default, handler: { [unowned self] in
+            DispatchQueue.main.async { self.dismiss() }
         })
 
         presentAlert(withTitle: title, message: message, preferredStyle: .alert, actions: [restartAction, finishAction])
