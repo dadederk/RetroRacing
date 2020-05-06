@@ -7,7 +7,7 @@
 //
 
 import WatchKit
-import Foundation
+import GameKit
 
 class GameInterfaceController: WKInterfaceController {
     @IBOutlet private var skInterface: WKInterfaceSKScene!
@@ -41,6 +41,14 @@ class GameInterfaceController: WKInterfaceController {
     private func scoreString(forScore score: Int) -> String {
         return "\(NSLocalizedString("score", comment: "")): \(score)"
     }
+    
+    private func updateGameCenterScore(_ score: Int) {
+        let scoreValue = Int64(score)
+        let gameCenterScore = GKScore(leaderboardIdentifier: "bestwatchos001", player: GKLocalPlayer.local)
+        gameCenterScore.value = scoreValue
+        
+        GKScore.report([gameCenterScore], withCompletionHandler: nil)
+    }
 }
 
 extension GameInterfaceController: WKCrownDelegate {
@@ -68,9 +76,9 @@ extension GameInterfaceController: GameSceneDelegate {
         setTitle(scoreString(forScore: score))
     }
     
-    func gameSceneDidDetectCollision(_ gameScene: GameScene) {
+    func gameScene(_ gameScene: GameScene, didDetectCollisionWithScore score: Int) {
         let title = NSLocalizedString("gameOver", comment: "")
-        let message = scoreString(forScore: gameScene.gameState.score)
+        let message = scoreString(forScore: score)
 
         let restartAction = WKAlertAction(title: NSLocalizedString("restart", comment: ""), style: .default, handler: { self.scene.start() })
         
@@ -79,5 +87,7 @@ extension GameInterfaceController: GameSceneDelegate {
         })
 
         presentAlert(withTitle: title, message: message, preferredStyle: .alert, actions: [restartAction, finishAction])
+        
+        updateGameCenterScore(score)
     }
 }

@@ -10,7 +10,7 @@ import SpriteKit
 
 protocol GameSceneDelegate: AnyObject {
     func gameScene(_ gameScene: GameScene, didUpdateScore score: Int)
-    func gameSceneDidDetectCollision(_ gameScene: GameScene)
+    func gameScene(_ gameScene: GameScene, didDetectCollisionWithScore score: Int)
 }
 
 protocol GameController {
@@ -25,14 +25,13 @@ class GameScene: SKScene {
     private var lastGameUpdateTime: TimeInterval = 0
     private var timeCollisioning: TimeInterval = 0
     private var gamePaused = false
-    
-    private var grid = [[SKShapeNode]]()
+
     private var rivalCars = [SKSpriteNode]()
     private var car: SKSpriteNode!
     
     private var carPosition: Int = 0 {
         didSet {
-            let cell = grid[carPosition][0]
+            let cell = gridCell(column: carPosition, row: 0)
             let xPosition = cell.frame.origin.x + (cell.frame.size.width / 2.0)
             let yPosition = cell.frame.origin.y + (cell.frame.size.height / 2.0)
             let point = CGPoint(x: xPosition, y: yPosition)
@@ -42,7 +41,7 @@ class GameScene: SKScene {
         }
     }
     
-    private(set) var gameState: GameState!
+    private var gameState: GameState!
     
     weak var gameDelegate: GameSceneDelegate?
     
@@ -74,7 +73,7 @@ class GameScene: SKScene {
             if gameState.cellState(forColumn: carPosition, andRow: 0) == .Car {
                 timeCollisioning = timeCollisioning + dt
                 if timeCollisioning >= 0.1 {
-                    gameDelegate?.gameSceneDidDetectCollision(self)
+                    gameDelegate?.gameScene(self, didDetectCollisionWithScore: gameState.score)
                     gamePaused = true
                 }
             } else {
@@ -115,30 +114,43 @@ class GameScene: SKScene {
     }
     
     private func createGrid() {
-        for column in 0..<numberOfColumns {
+        for column in 0 ..< numberOfColumns {
             var rowOfCells = [SKShapeNode]()
-            for row in 0..<numberOfRows {
+            for row in 0 ..< numberOfRows {
                 let cell = createCell(column:column, row:row)
                 rowOfCells.append(cell)
                 addChild(cell)
             }
-            grid.append(rowOfCells)
         }
     }
     
     private func addCar() {
+        let cellSize = sizeForCell()
         car = SKSpriteNode(imageNamed: "playersCar")
-        car.size = sizeForCell()
+        car.aspectFitToSize(cellSize)
         addChild(car)
     }
     
     private func createCell(column: Int, row:Int) -> (SKShapeNode) {
         let size = sizeForCell()
-        let position = positionForCellIn(column: column, row: row, size:size)
-        let frame = CGRect(origin: position, size: size)
+        let origin = positionForCellIn(column: column, row: row, size:size)
+        let frame = CGRect(origin: origin, size: size)
         let cell = SKShapeNode(rect: frame)
+        cell.name = stringNameForCell(column: column, row: row)
         cell.fillColor = .orange
         cell.strokeColor = .gray
+        
+        return cell
+    }
+    
+    private func stringNameForCell(column: Int, row: Int) -> String {
+        return "\(column)x\(row)"
+    }
+    
+    private func gridCell(column: Int, row: Int) -> SKShapeNode {
+        guard let cell = childNode(withName: stringNameForCell(column: column, row: row)) as? SKShapeNode else {
+            fatalError("Failed to retrieve grid cell at \(column) x \(row)")
+        }
         
         return cell
     }
@@ -211,26 +223,26 @@ extension GameScene: GameStateDelegate {
         
         for row in 0..<numberOfRows {
             for column in 0..<numberOfColumns {
+                let cell = gridCell(column: column, row: row)
                 let cellState = gameState.cellState(forColumn: column, andRow: row)
                 var color = UIColor.orange
+                
                 if cellState == CellState.Car {
-                    color = UIColor.lightGray
-                    
-                    // Insert car
-                    let cellSize = sizeForCell()
+                    let cellSize = cell.frame.size
                     let sizeFactor = CGFloat(numberOfRows - row) / CGFloat(numberOfRows)
                     let size = CGSize(width: cellSize.width * sizeFactor, height: cellSize.height * sizeFactor)
-                    let origin = positionForCellIn(column: column, row: row, size: cellSize)
-                    let position = CGPoint(x: origin.x + (cellSize.width / 2.0),
-                                           y: origin.y + (cellSize.height / 2.0))
-                    let rect = CGRect(origin: origin, size: size)
+
                     let car = SKSpriteNode(imageNamed: "playersCar")
-                    car.size = rect.size
-                    car.position = position
+                    
+                    car.position = CGPoint(x: cell.frame.origin.x + cellSize.width / 2.0,
+                                           y: cell.frame.origin.y + cellSize.height / 2.0)
+                    car.aspectFitToSize(size)
                     rivalCars.append(car)
-                    addChild(car)
+                    cell.addChild(car)
+                    
+                    color = UIColor.lightGray
                 }
-                grid[column][row].fillColor = color
+                cell.fillColor = color
             }
         }
     }

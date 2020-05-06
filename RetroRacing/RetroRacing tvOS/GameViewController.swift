@@ -8,7 +8,7 @@
 
 import UIKit
 import SpriteKit
-import GameplayKit
+import GameKit
 
 class GameViewController: UIViewController {
     @IBOutlet private weak var sceneView: SKView!
@@ -46,6 +46,14 @@ class GameViewController: UIViewController {
     private func scoreString(forScore score: Int) -> String {
         return "\(NSLocalizedString("score", comment: "")): \(score)"
     }
+    
+    private func updateGameCenterScore(_ score: Int) {
+        let scoreValue = Int64(score)
+        let gameCenterScore = GKScore(leaderboardIdentifier: "besttvos001", player: GKLocalPlayer.local)
+        gameCenterScore.value = scoreValue
+        
+        GKScore.report([gameCenterScore], withCompletionHandler: nil)
+    }
 }
 
 extension GameViewController: GameSceneDelegate {
@@ -53,9 +61,9 @@ extension GameViewController: GameSceneDelegate {
         scoreLabel.text = scoreString(forScore: score)
     }
     
-    func gameSceneDidDetectCollision(_ gameScene: GameScene) {
+    func gameScene(_ gameScene: GameScene, didDetectCollisionWithScore score: Int) {
         let gameOverAlertController = UIAlertController(title: NSLocalizedString("gameOver", comment: ""),
-                                                        message: scoreString(forScore: gameScene.gameState.score),
+                                                        message: scoreString(forScore: score),
             preferredStyle: .alert)
         gameOverAlertController.addAction(UIAlertAction(title: NSLocalizedString("restart", comment: ""), style: .default, handler: { [weak self] alertAction in
             self?.scene.start()
@@ -65,5 +73,7 @@ extension GameViewController: GameSceneDelegate {
         }))
         
         present(gameOverAlertController, animated: true, completion: nil)
+        
+        updateGameCenterScore(score)
     }
 }
