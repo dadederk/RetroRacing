@@ -9,7 +9,7 @@
         <!--Menu Interface Controller-->
         <scene sceneID="7Jk-1i-duK">
             <objects>
-                <controller id="JJV-bI-bFM" customClass="MenuInterfaceController" customModule="RetroRacing_Extension">
+                <controller id="JJV-bI-bFM" customClass="MenuInterfaceController" customModule="RetroRacing__Extension">
                     <items>
                         <group width="1" height="1" alignment="left" layout="vertical" id="PFu-Gc-Ndi">
                             <items>
@@ -33,7 +33,7 @@
         <!--Game Interface Controller-->
         <scene sceneID="aou-V4-d1y">
             <objects>
-                <controller id="AgC-eL-Hgc" customClass="GameInterfaceController" customModule="RetroRacing" customModuleProvider="target">
+                <controller id="AgC-eL-Hgc" customClass="GameInterfaceController" customModule="RetroRacing__Extension">
                     <items>
                         <group width="1" alignment="left" layout="vertical" id="Px5-Vz-KRl">
                             <items>

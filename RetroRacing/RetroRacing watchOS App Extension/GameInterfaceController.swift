@@ -7,6 +7,7 @@
 //
 
 import WatchKit
+import Foundation
 import GameKit
 
 class GameInterfaceController: WKInterfaceController {
