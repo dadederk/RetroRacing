@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -31,7 +31,7 @@
 		0BF04B9B244C75BF005BC68E /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF04B9A244C75BF005BC68E /* GameViewController.swift */; };
 		0BF04B9E244C75BF005BC68E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0BF04B9C244C75BF005BC68E /* Main.storyboard */; };
 		0BF04BA1244C75BF005BC68E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0BF04B9F244C75BF005BC68E /* LaunchScreen.storyboard */; };
-		0BF04BA6244C75BF005BC68E /* RetroRacing!.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 0BF04BA5244C75BF005BC68E /* RetroRacing!.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		0BF04BA6244C75BF005BC68E /* RetroRacing!.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 0BF04BA5244C75BF005BC68E /* RetroRacing!.app */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		0BF04BAC244C75BF005BC68E /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0BF04BAA244C75BF005BC68E /* Interface.storyboard */; };
 		0BF04BB3244C75BF005BC68E /* RetroRacing! Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 0BF04BB2244C75BF005BC68E /* RetroRacing! Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		0BF04BB8244C75BF005BC68E /* GameInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF04BB7244C75BF005BC68E /* GameInterfaceController.swift */; };
@@ -120,6 +120,7 @@
 		0B6DBE6424B263D00024356D /* bip.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = bip.m4a; sourceTree = "<group>"; };
 		0B6DBE6A24B265320024356D /* start.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = start.m4a; sourceTree = "<group>"; };
 		0B6DBE7024B265B50024356D /* fail.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = fail.m4a; sourceTree = "<group>"; };
+		0B6DBE7624B269620024356D /* RetroRacing!.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "RetroRacing!.entitlements"; sourceTree = "<group>"; };
 		0BF04B8D244C75BD005BC68E /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		0BF04B8E244C75BD005BC68E /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		0BF04B8F244C75BD005BC68E /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
@@ -247,6 +248,7 @@
 		0BF04B97244C75BF005BC68E /* RetroRacing iOS */ = {
 			isa = PBXGroup;
 			children = (
+				0B6DBE7624B269620024356D /* RetroRacing!.entitlements */,
 				0BF04B98244C75BF005BC68E /* AppDelegate.swift */,
 				0BF04C02244C891C005BC68E /* MenuViewController.swift */,
 				0BF04B9A244C75BF005BC68E /* GameViewController.swift */,
@@ -574,6 +576,7 @@
 /* Begin PBXTargetDependency section */
 		0BF04BA8244C75BF005BC68E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
+			platformFilter = ios;
 			target = 0BF04BA4244C75BF005BC68E /* RetroRacing watchOS App */;
 			targetProxy = 0BF04BA7244C75BF005BC68E /* PBXContainerItemProxy */;
 		};
@@ -844,6 +847,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "RetroRacing iOS/RetroRacing!.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5RA76D6WD4;
 				INFOPLIST_FILE = "RetroRacing iOS/Info.plist";
@@ -855,6 +859,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.desfici.retro-racing";
 				PRODUCT_NAME = "RetroRacing!";
 				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -864,6 +869,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "RetroRacing iOS/RetroRacing!.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5RA76D6WD4;
 				INFOPLIST_FILE = "RetroRacing iOS/Info.plist";
@@ -875,6 +881,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.desfici.retro-racing";
 				PRODUCT_NAME = "RetroRacing!";
 				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
