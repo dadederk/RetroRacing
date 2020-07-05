@@ -24,11 +24,19 @@ class GameViewController: UIViewController {
         // Present the scene
         sceneView.presentScene(scene)
 //        sceneView.ignoresSiblingOrder = true
-//        sceneView.showsFPS = true
-//        sceneView.showsNodeCount = true
-//
+        sceneView.showsFPS = true
+        sceneView.showsNodeCount = true
+
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap(recognizer:)))
+        let swipeLeftGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeGesture(recognizer:)))
+        let swipeRightGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeGesture(recognizer:)))
+        
+        swipeLeftGestureRecognizer.direction = .left
+        swipeRightGestureRecognizer.direction = .right
+        
         view.addGestureRecognizer(tapGestureRecognizer)
+        view.addGestureRecognizer(swipeLeftGestureRecognizer)
+        view.addGestureRecognizer(swipeRightGestureRecognizer)
     }
     
     override var shouldAutorotate: Bool {
@@ -55,6 +63,15 @@ class GameViewController: UIViewController {
             scene.left()
         } else {
             scene.right()
+        }
+    }
+    
+    @objc private func handleSwipeGesture(recognizer: UISwipeGestureRecognizer) {
+        switch recognizer.direction {
+        case .left: scene.left()
+        case .right: scene.right()
+        case .down, .up: break
+        default: break
         }
     }
     
