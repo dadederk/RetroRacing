@@ -13,6 +13,9 @@ protocol GameController {
 class GameScene: SKScene {
     private let numberOfRows = 5
     private let numberOfColumns = 3
+    private let startSound = SKAction.playSoundFileNamed("start.m4a", waitForCompletion: true)
+    private let stateUpdatedSound = SKAction.playSoundFileNamed("bip.m4a", waitForCompletion: false)
+    private let failSound = SKAction.playSoundFileNamed("fail.m4a", waitForCompletion: false)
     
     private var lastFrameUpdateTime: TimeInterval = 0
     private var lastGameUpdateTime: TimeInterval = 0
@@ -72,6 +75,8 @@ class GameScene: SKScene {
         gameState.level = 1
         
         gamePaused = false
+        
+        run(startSound)
     }
     
     private func createGrid() {
@@ -152,6 +157,7 @@ extension GameScene {
 extension GameScene: GameStateDelegate {
     func gameStateDidUpdate(_ gameState: GameState) {
         updateGrid(withGameState: gameState)
+        run(stateUpdatedSound)
     }
     
     private func resetScene() {
@@ -183,6 +189,7 @@ extension GameScene: GameStateDelegate {
                     addSprite(crash, toCell: cell, row: row, column: column)
                     gamePaused = true
                     gameDelegate?.gameScene(self, didDetectCollisionWithScore: gameState.score)
+                    run(failSound)
                 }
 
                 cell.fillColor = UIColor.orange

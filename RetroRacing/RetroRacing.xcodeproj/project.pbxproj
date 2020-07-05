@@ -12,6 +12,21 @@
 		0B5BDAB12460989900F05C8E /* SKNode+SizeAndPositionUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B5BDAAE2460989900F05C8E /* SKNode+SizeAndPositionUtilities.swift */; };
 		0B5BDAB22460989900F05C8E /* SKNode+SizeAndPositionUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B5BDAAE2460989900F05C8E /* SKNode+SizeAndPositionUtilities.swift */; };
 		0B5BDAB42463465A00F05C8E /* MenuInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B5BDAB32463465A00F05C8E /* MenuInterfaceController.swift */; };
+		0B6DBE6524B263D00024356D /* bip.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DBE6424B263D00024356D /* bip.m4a */; };
+		0B6DBE6624B263D00024356D /* bip.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DBE6424B263D00024356D /* bip.m4a */; };
+		0B6DBE6724B263D00024356D /* bip.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DBE6424B263D00024356D /* bip.m4a */; };
+		0B6DBE6824B263D00024356D /* bip.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DBE6424B263D00024356D /* bip.m4a */; };
+		0B6DBE6924B263D00024356D /* bip.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DBE6424B263D00024356D /* bip.m4a */; };
+		0B6DBE6B24B265320024356D /* start.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DBE6A24B265320024356D /* start.m4a */; };
+		0B6DBE6C24B265320024356D /* start.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DBE6A24B265320024356D /* start.m4a */; };
+		0B6DBE6D24B265320024356D /* start.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DBE6A24B265320024356D /* start.m4a */; };
+		0B6DBE6E24B265320024356D /* start.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DBE6A24B265320024356D /* start.m4a */; };
+		0B6DBE6F24B265320024356D /* start.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DBE6A24B265320024356D /* start.m4a */; };
+		0B6DBE7124B265B50024356D /* fail.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DBE7024B265B50024356D /* fail.m4a */; };
+		0B6DBE7224B265B50024356D /* fail.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DBE7024B265B50024356D /* fail.m4a */; };
+		0B6DBE7324B265B50024356D /* fail.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DBE7024B265B50024356D /* fail.m4a */; };
+		0B6DBE7424B265B50024356D /* fail.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DBE7024B265B50024356D /* fail.m4a */; };
+		0B6DBE7524B265B50024356D /* fail.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DBE7024B265B50024356D /* fail.m4a */; };
 		0BF04B99244C75BF005BC68E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF04B98244C75BF005BC68E /* AppDelegate.swift */; };
 		0BF04B9B244C75BF005BC68E /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF04B9A244C75BF005BC68E /* GameViewController.swift */; };
 		0BF04B9E244C75BF005BC68E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0BF04B9C244C75BF005BC68E /* Main.storyboard */; };
@@ -102,6 +117,9 @@
 /* Begin PBXFileReference section */
 		0B5BDAAE2460989900F05C8E /* SKNode+SizeAndPositionUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SKNode+SizeAndPositionUtilities.swift"; sourceTree = "<group>"; };
 		0B5BDAB32463465A00F05C8E /* MenuInterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuInterfaceController.swift; sourceTree = "<group>"; };
+		0B6DBE6424B263D00024356D /* bip.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = bip.m4a; sourceTree = "<group>"; };
+		0B6DBE6A24B265320024356D /* start.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = start.m4a; sourceTree = "<group>"; };
+		0B6DBE7024B265B50024356D /* fail.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = fail.m4a; sourceTree = "<group>"; };
 		0BF04B8D244C75BD005BC68E /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
 		0BF04B8E244C75BD005BC68E /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		0BF04B8F244C75BD005BC68E /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
@@ -176,6 +194,16 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		0B6DBE6324B263BC0024356D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				0B6DBE6A24B265320024356D /* start.m4a */,
+				0B6DBE6424B263D00024356D /* bip.m4a */,
+				0B6DBE7024B265B50024356D /* fail.m4a */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		0BF04B87244C75BD005BC68E = {
 			isa = PBXGroup;
 			children = (
@@ -198,6 +226,7 @@
 				0BF04B8F244C75BD005BC68E /* GameScene.swift */,
 				0BF04B90244C75BF005BC68E /* Assets.xcassets */,
 				0BF04C0E244CAAF2005BC68E /* Localizable.strings */,
+				0B6DBE6324B263BC0024356D /* Resources */,
 				0B5BDAAD2460986F00F05C8E /* Extensions */,
 			);
 			path = "RetroRacing Shared";
@@ -418,11 +447,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				0BF04BDE244C75C0005BC68E /* GameScene.sks in Resources */,
+				0B6DBE7124B265B50024356D /* fail.m4a in Resources */,
 				0BF04C0F244CAAF2005BC68E /* Localizable.strings in Resources */,
 				0BF04B9E244C75BF005BC68E /* Main.storyboard in Resources */,
+				0B6DBE6524B263D00024356D /* bip.m4a in Resources */,
 				0BF04BDB244C75C0005BC68E /* Actions.sks in Resources */,
 				0BF04BA1244C75BF005BC68E /* LaunchScreen.storyboard in Resources */,
 				0BF04BE6244C75C0005BC68E /* Assets.xcassets in Resources */,
+				0B6DBE6B24B265320024356D /* start.m4a in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -430,8 +462,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B6DBE6C24B265320024356D /* start.m4a in Resources */,
 				0BF04BE7244C75C0005BC68E /* Assets.xcassets in Resources */,
 				0BF04C10244CAAF2005BC68E /* Localizable.strings in Resources */,
+				0B6DBE6624B263D00024356D /* bip.m4a in Resources */,
+				0B6DBE7224B265B50024356D /* fail.m4a in Resources */,
 				0BF04BAC244C75BF005BC68E /* Interface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -440,8 +475,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B6DBE6D24B265320024356D /* start.m4a in Resources */,
 				0BF04C0D244CA066005BC68E /* Assets.xcassets in Resources */,
 				0BF04C11244CAAF2005BC68E /* Localizable.strings in Resources */,
+				0B6DBE6724B263D00024356D /* bip.m4a in Resources */,
+				0B6DBE7324B265B50024356D /* fail.m4a in Resources */,
 				0BF04BDF244C75C0005BC68E /* GameScene.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -451,11 +489,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				0BF04BE0244C75C0005BC68E /* GameScene.sks in Resources */,
+				0B6DBE7424B265B50024356D /* fail.m4a in Resources */,
 				0BF04C12244CAAF2005BC68E /* Localizable.strings in Resources */,
 				0BF04BC8244C75BF005BC68E /* Main.storyboard in Resources */,
+				0B6DBE6824B263D00024356D /* bip.m4a in Resources */,
 				0BF04BDC244C75C0005BC68E /* Actions.sks in Resources */,
 				0BF04BCB244C75BF005BC68E /* LaunchScreen.storyboard in Resources */,
 				0BF04BE8244C75C0005BC68E /* Assets.xcassets in Resources */,
+				0B6DBE6E24B265320024356D /* start.m4a in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -463,11 +504,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B6DBE6924B263D00024356D /* bip.m4a in Resources */,
 				0BF04C13244CAAF2005BC68E /* Localizable.strings in Resources */,
 				0BF04BD9244C75C0005BC68E /* Main.storyboard in Resources */,
 				0BF04BE1244C75C0005BC68E /* GameScene.sks in Resources */,
+				0B6DBE7524B265B50024356D /* fail.m4a in Resources */,
 				0BF04BE9244C75C0005BC68E /* Assets.xcassets in Resources */,
 				0BF04BDD244C75C0005BC68E /* Actions.sks in Resources */,
+				0B6DBE6F24B265320024356D /* start.m4a in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
