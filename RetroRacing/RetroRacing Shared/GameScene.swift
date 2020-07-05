@@ -133,10 +133,12 @@ class GameScene: SKScene {
 
 extension GameScene: GameController {
     func left() {
+        guard !gamePaused else { return }
         gameState.movePlayersCar(to: .left)
     }
     
     func right() {
+        guard !gamePaused else { return }
         gameState.movePlayersCar(to: .right)
     }
 }

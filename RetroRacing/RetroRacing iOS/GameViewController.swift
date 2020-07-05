@@ -46,6 +46,12 @@ class GameViewController: UIViewController {
         return true
     }
     
+    override func pressesBegan(_ presses: Set<UIPress>,
+                               with event: UIPressesEvent?) {
+        super.pressesBegan(presses, with: event)
+        presses.first?.key.map(keyPressed)
+    }
+    
     @objc private func handleTap(recognizer: UITapGestureRecognizer) {
         let view = recognizer.view
         let location = recognizer.location(in: view)
@@ -76,6 +82,14 @@ class GameViewController: UIViewController {
         gameCenterScore.value = scoreValue
         
         GKScore.report([gameCenterScore], withCompletionHandler: nil)
+    }
+    
+    private func keyPressed(_ key: UIKey) {
+        switch key.keyCode {
+        case .keyboardLeftArrow: scene.left()
+        case .keyboardRightArrow: scene.right()
+        default: break
+        }
     }
 }
 
