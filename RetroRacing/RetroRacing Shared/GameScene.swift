@@ -66,7 +66,8 @@ class GameScene: SKScene {
         var dtForGameUpdate = 1.0
         
         if gameState.level > 1 {
-            dtForGameUpdate = 1.0 / (Double(gameState.level) *  0.51)
+            dtForGameUpdate = 1.0 / (Double(gameState.level) *  0.50)
+            // dtForGameUpdate = 2.25 - ((Double(gameState.level) * 0.25)
         }
         
         if !gamePaused {
@@ -106,7 +107,6 @@ class GameScene: SKScene {
         
         gameState.delegate = self
         gameState.level = 1
-        gameState.score = 0
         
         carPosition = Int(Float(numberOfColumns)/2.0)
         
@@ -214,18 +214,20 @@ extension GameScene: GameStateDelegate {
         updateGrid(withGameState: gameState)
     }
     
-    private func updateGrid(withGameState gameState: GameState) {
-        
+    private func removeAllRivalCars() {
         for rivalCar in rivalCars {
             rivalCar.removeFromParent()
         }
         rivalCars.removeAll()
+    }
+    
+    private func updateGrid(withGameState gameState: GameState) {
+        removeAllRivalCars()
         
         for row in 0..<numberOfRows {
             for column in 0..<numberOfColumns {
                 let cell = gridCell(column: column, row: row)
                 let cellState = gameState.cellState(forColumn: column, andRow: row)
-                var color = UIColor.orange
                 
                 if cellState == CellState.Car {
                     let cellSize = cell.frame.size
@@ -234,15 +236,20 @@ extension GameScene: GameStateDelegate {
 
                     let car = SKSpriteNode(imageNamed: "playersCar")
                     
-                    car.position = CGPoint(x: cell.frame.origin.x + cellSize.width / 2.0,
-                                           y: cell.frame.origin.y + cellSize.height / 2.0)
+                    var horizontalTranslationFactor: CGFloat = 0.0
+                    if column < (numberOfColumns / 2) {
+                        horizontalTranslationFactor = (cellSize.width - size.width)
+                    } else if column > (numberOfColumns / 2) {
+                        horizontalTranslationFactor = -(cellSize.width - size.width)
+                    }
+                    
+                    car.position = CGPoint(x: cell.frame.origin.x + ((cellSize.width + horizontalTranslationFactor) / 2.0),
+                                           y: cell.frame.origin.y + (cellSize.height / 2.0))
                     car.aspectFitToSize(size)
                     rivalCars.append(car)
                     cell.addChild(car)
-                    
-                    color = UIColor.lightGray
                 }
-                cell.fillColor = color
+                cell.fillColor = UIColor.orange
             }
         }
     }

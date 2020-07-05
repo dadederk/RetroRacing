@@ -16,44 +16,41 @@ protocol GameStateDelegate: AnyObject {
 enum CellState: Int {
     case Car = 0
     case Empty = 1
+    case Player
+    case Crash
 }
 
 struct GameState {
-    weak var delegate: GameStateDelegate?
+    private let numberOfRows: Int
+    private let numberOfColumns: Int
     
     var level = 1
-    var score = 0 {
-        didSet {
-            delegate?.gameState(self, didUpdateScore: score)
-        }
+    
+    var playerCarPosition: Int
+    
+    private(set) var score = 0 {
+        didSet { delegate?.gameState(self, didUpdateScore: score) }
     }
     
-    private var cellStates: [CellState]! {
-        didSet {
-            self.delegate?.gameStateDidUpdate(self)
-        }
+    private var cellStates = [CellState]() {
+        didSet { delegate?.gameStateDidUpdate(self) }
     }
     
-    let numberOfRows: Int
-    let numberOfColumns: Int
+    weak var delegate: GameStateDelegate?
     
     init(numberOfRows: Int, numberOfColumns: Int) {
         self.numberOfRows = numberOfRows
         self.numberOfColumns = numberOfColumns
-        cellStates = Array(repeating: .Empty,
-                           count: numberOfRows * numberOfColumns)
+        
+        playerCarPosition = numberOfColumns / 2
+        
+        cellStates = Array(repeating: .Empty, count: numberOfRows * numberOfColumns)
     }
     
     func cellState(forColumn column: Int, andRow row: Int) -> CellState? {
-        var cellState: CellState?
-        
-        if isColumnInRange(column) &&
-            isRowInRange(row) {
-            let index = position(forColumn: column, andRow: row)
-            cellState = cellStates[index]
-        }
-        
-        return cellState
+        guard isColumnInRange(column) && isRowInRange(row) else { return nil }
+        let index = position(forColumn: column, andRow: row)
+        return cellStates[index]
     }
     
     private func isColumnInRange(_ column: Int) -> Bool {
@@ -67,7 +64,7 @@ struct GameState {
     private func getRow(_ index: Int) -> [CellState] {
         let startIndex = numberOfRows * index
         let endIndex = startIndex + numberOfColumns
-        let row = cellStates[startIndex..<endIndex]
+        let row = cellStates[startIndex ..< endIndex]
         
         return Array(row)
     }
@@ -85,8 +82,7 @@ struct GameState {
     mutating func calculateGameState() {
         let firstRow = getRow(0)
         score += numberOfCars(inRow: firstRow)
-        
-        level = Int(score / 100) + 1
+        level = Int(floor(Double(score / 100))) + 1
         
         var newRandomRow = Array(repeating: CellState.Empty, count: numberOfColumns)
         
@@ -156,16 +152,16 @@ struct GameState {
             }
         }
         
-        replaceLastRow(withNewRow: newRandomRow)
+        replaceTopRow(withNewRow: newRandomRow)
         delegate?.gameStateDidUpdate(self)
     }
     
-    private mutating func replaceLastRow(withNewRow row: [CellState]) {
-        // TODO : Check the row passed has the right number of elements
+    private mutating func replaceTopRow(withNewRow row: [CellState]) {
+        guard row.count == numberOfColumns else { fatalError("The row passed should have \(numberOfColumns) elements") }
         var newCellStates = self.cellStates
-        newCellStates!.removeFirst(row.count)
-        newCellStates!.append(contentsOf: row)
-        self.cellStates = newCellStates!
+        newCellStates.removeFirst(row.count)
+        newCellStates.append(contentsOf: row)
+        self.cellStates = newCellStates
     }
     
     private func cellState(forRow row: [CellState], atIndex index: Int) -> CellState? {
