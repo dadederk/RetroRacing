@@ -21,25 +21,11 @@ protocol GameController {
 class GameScene: SKScene {
     private let numberOfRows = 5
     private let numberOfColumns = 3
+    
     private var lastFrameUpdateTime: TimeInterval = 0
     private var lastGameUpdateTime: TimeInterval = 0
-    private var timeCollisioning: TimeInterval = 0
     private var gamePaused = false
-
-    private var rivalCars = [SKSpriteNode]()
-    private var car: SKSpriteNode!
-    
-    private var carPosition: Int = 0 {
-        didSet {
-            let cell = gridCell(column: carPosition, row: 0)
-            let xPosition = cell.frame.origin.x + (cell.frame.size.width / 2.0)
-            let yPosition = cell.frame.origin.y + (cell.frame.size.height / 2.0)
-            let point = CGPoint(x: xPosition, y: yPosition)
-            let moveCarAction = SKAction.move(to: point, duration: 0.0)
-            moveCarAction.timingMode = .easeInEaseOut
-            car.run(moveCarAction)
-        }
-    }
+    private var spritesForGivenState = [SKSpriteNode]()
     
     private var gameState: GameState!
     
@@ -58,12 +44,10 @@ class GameScene: SKScene {
     override func update(_ currentTime: TimeInterval) {
         if (lastFrameUpdateTime == 0) {
             lastFrameUpdateTime = currentTime
-            timeCollisioning = currentTime
         }
-        
-        let dt = currentTime - lastFrameUpdateTime
+
         let dtGameUpdate = currentTime - lastGameUpdateTime
-        var dtForGameUpdate = 1.0
+        var dtForGameUpdate = 0.5
         
         if gameState.level > 1 {
             dtForGameUpdate = 1.0 / (Double(gameState.level) *  0.50)
@@ -71,18 +55,7 @@ class GameScene: SKScene {
         }
         
         if !gamePaused {
-            if gameState.cellState(forColumn: carPosition, andRow: 0) == .Car {
-                timeCollisioning = timeCollisioning + dt
-                if timeCollisioning >= 0.1 {
-                    gameDelegate?.gameScene(self, didDetectCollisionWithScore: gameState.score)
-                    gamePaused = true
-                }
-            } else {
-                timeCollisioning = 0
-            }
-            
             if dtGameUpdate > dtForGameUpdate {
-                
                 lastGameUpdateTime = currentTime
                 gameState.calculateGameState()
             }
@@ -94,21 +67,17 @@ class GameScene: SKScene {
     private func setUpScene() {
         scaleMode = .aspectFit
         createGrid()
-        addCar()
         initialiseGame()
     }
     
     private func initialiseGame() {
         lastFrameUpdateTime = 0
-        timeCollisioning = 0
         
         gameState = GameState(numberOfRows: numberOfRows,
                               numberOfColumns: numberOfColumns)
-        
+    
         gameState.delegate = self
         gameState.level = 1
-        
-        carPosition = Int(Float(numberOfColumns)/2.0)
         
         gamePaused = false
     }
@@ -122,13 +91,6 @@ class GameScene: SKScene {
                 addChild(cell)
             }
         }
-    }
-    
-    private func addCar() {
-        let cellSize = sizeForCell()
-        car = SKSpriteNode(imageNamed: "playersCar")
-        car.aspectFitToSize(cellSize)
-        addChild(car)
     }
     
     private func createCell(column: Int, row:Int) -> (SKShapeNode) {
@@ -174,15 +136,11 @@ class GameScene: SKScene {
 
 extension GameScene: GameController {
     func left() {
-        if carPosition > 0 {
-            carPosition = carPosition - 1
-        }
+        gameState.movePlayersCar(to: .left)
     }
     
     func right() {
-        if carPosition < numberOfColumns - 1 {
-            carPosition = carPosition + 1
-        }
+        gameState.movePlayersCar(to: .right)
     }
 }
 
@@ -209,49 +167,63 @@ extension GameScene {
 #endif
 
 extension GameScene: GameStateDelegate {
-    
     func gameStateDidUpdate(_ gameState: GameState) {
         updateGrid(withGameState: gameState)
     }
     
-    private func removeAllRivalCars() {
-        for rivalCar in rivalCars {
-            rivalCar.removeFromParent()
+    private func resetScene() {
+        for sprite in spritesForGivenState {
+            sprite.removeFromParent()
         }
-        rivalCars.removeAll()
+        spritesForGivenState.removeAll()
     }
     
     private func updateGrid(withGameState gameState: GameState) {
-        removeAllRivalCars()
+        resetScene()
         
         for row in 0..<numberOfRows {
             for column in 0..<numberOfColumns {
+                guard let cellState = gameState.cellState(forColumn: column, andRow: row) else { return }
                 let cell = gridCell(column: column, row: row)
-                let cellState = gameState.cellState(forColumn: column, andRow: row)
                 
-                if cellState == CellState.Car {
-                    let cellSize = cell.frame.size
-                    let sizeFactor = CGFloat(numberOfRows - row) / CGFloat(numberOfRows)
-                    let size = CGSize(width: cellSize.width * sizeFactor, height: cellSize.height * sizeFactor)
-
+                switch cellState {
+                case .Car:
                     let car = SKSpriteNode(imageNamed: "playersCar")
-                    
-                    var horizontalTranslationFactor: CGFloat = 0.0
-                    if column < (numberOfColumns / 2) {
-                        horizontalTranslationFactor = (cellSize.width - size.width)
-                    } else if column > (numberOfColumns / 2) {
-                        horizontalTranslationFactor = -(cellSize.width - size.width)
-                    }
-                    
-                    car.position = CGPoint(x: cell.frame.origin.x + ((cellSize.width + horizontalTranslationFactor) / 2.0),
-                                           y: cell.frame.origin.y + (cellSize.height / 2.0))
-                    car.aspectFitToSize(size)
-                    rivalCars.append(car)
-                    cell.addChild(car)
+                    addSprite(car, toCell: cell, row: row, column: column)
+                case .Empty:
+                    break
+                case .Player:
+                    let car = SKSpriteNode(imageNamed: "playersCar")
+                    addSprite(car, toCell: cell, row: row, column: column)
+                case .Crash:
+                    let crash = SKSpriteNode(imageNamed: "crash")
+                    addSprite(crash, toCell: cell, row: row, column: column)
+                    gamePaused = true
+                    gameDelegate?.gameScene(self, didDetectCollisionWithScore: gameState.score)
                 }
+
                 cell.fillColor = UIColor.orange
             }
         }
+    }
+    
+    func addSprite(_ sprite: SKSpriteNode, toCell cell: SKShapeNode, row: Int, column: Int) {
+        let cellSize = cell.frame.size
+        let sizeFactor = CGFloat(numberOfRows - row) / CGFloat(numberOfRows)
+        let size = CGSize(width: cellSize.width * sizeFactor, height: cellSize.height * sizeFactor)
+        
+        var horizontalTranslationFactor: CGFloat = 0.0
+        if column < (numberOfColumns / 2) {
+            horizontalTranslationFactor = (cellSize.width - size.width)
+        } else if column > (numberOfColumns / 2) {
+            horizontalTranslationFactor = -(cellSize.width - size.width)
+        }
+        
+        sprite.position = CGPoint(x: cell.frame.origin.x + ((cellSize.width + horizontalTranslationFactor) / 2.0),
+                               y: cell.frame.origin.y + (cellSize.height / 2.0))
+        sprite.aspectFitToSize(size)
+        spritesForGivenState.append(sprite)
+        cell.addChild(sprite)
     }
     
     func gameState(_ gameState: GameState, didUpdateScore score: Int) {

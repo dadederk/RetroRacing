@@ -13,6 +13,11 @@ protocol GameStateDelegate: AnyObject {
     func gameState(_ gameState: GameState, didUpdateScore score: Int)
 }
 
+enum PlayersCarDirection {
+    case left
+    case right
+}
+
 enum CellState: Int {
     case Car = 0
     case Empty = 1
@@ -45,6 +50,19 @@ struct GameState {
         playerCarPosition = numberOfColumns / 2
         
         cellStates = Array(repeating: .Empty, count: numberOfRows * numberOfColumns)
+    }
+    
+    mutating func movePlayersCar(to direction: PlayersCarDirection) {
+        cellStates[playerCarPosition] = .Empty
+        
+        switch direction {
+        case .left: playerCarPosition = (playerCarPosition > 0) ? playerCarPosition - 1 : playerCarPosition
+        case .right: playerCarPosition = (playerCarPosition < numberOfColumns - 1) ? playerCarPosition + 1 : playerCarPosition
+        }
+        
+        cellStates[playerCarPosition] = .Player
+        
+        self.delegate?.gameStateDidUpdate(self)
     }
     
     func cellState(forColumn column: Int, andRow row: Int) -> CellState? {
@@ -80,10 +98,6 @@ struct GameState {
     }
     
     mutating func calculateGameState() {
-        let firstRow = getRow(0)
-        score += numberOfCars(inRow: firstRow)
-        level = Int(floor(Double(score / 100))) + 1
-        
         var newRandomRow = Array(repeating: CellState.Empty, count: numberOfColumns)
         
         // Check empty indexes in last row
@@ -152,15 +166,51 @@ struct GameState {
             }
         }
         
+        let collision = detectCollision()
+        let scoreToUpdate = numberOfCars(inRow: getRow(1))
+        
         replaceTopRow(withNewRow: newRandomRow)
+        emptyRowFromRivalCars(0)
+        
+        cellStates[position(forColumn: playerCarPosition, andRow: 0)] = collision ? .Crash : .Player
+        
         delegate?.gameStateDidUpdate(self)
+        
+        if !collision {
+            score += scoreToUpdate
+            level = Int(floor(Double(score / 100))) + 1
+        }
     }
     
     private mutating func replaceTopRow(withNewRow row: [CellState]) {
         guard row.count == numberOfColumns else { fatalError("The row passed should have \(numberOfColumns) elements") }
-        var newCellStates = self.cellStates
+        var newCellStates = cellStates
         newCellStates.removeFirst(row.count)
         newCellStates.append(contentsOf: row)
+        cellStates = newCellStates
+    }
+    
+    private func detectCollision() -> Bool {
+        var collision = false
+        
+        if cellStates[position(forColumn: playerCarPosition, andRow: 1)] == .Car {
+            collision = true
+        }
+        
+        return collision
+    }
+    
+    private mutating func emptyRowFromRivalCars(_ row: Int) {
+        guard row >= 0 && row < numberOfRows - 1 else { fatalError("The row \(row) to be emptied does not exist. There are \(numberOfRows) rows.") }
+        var newCellStates = cellStates
+        
+        for column in 0..<numberOfColumns {
+            let position = self.position(forColumn: column, andRow: row)
+            if cellStates[position] == .Car {
+                newCellStates[position] = .Empty
+            }
+        }
+
         self.cellStates = newCellStates
     }
     
