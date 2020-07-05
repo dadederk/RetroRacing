@@ -1,11 +1,3 @@
-//
-//  GameInterfaceController.swift
-//  RetroRacing watchOS App Extension
-//
-//  Created by Daniel Devesa Derksen-Staats on 19/04/2020.
-//  Copyright © 2020 Desfici Ltd. All rights reserved.
-//
-
 import WatchKit
 import Foundation
 import GameKit

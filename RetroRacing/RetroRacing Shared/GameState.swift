@@ -1,11 +1,3 @@
-//
-//  GameState.swift
-//  RetroRacing
-//
-//  Created by Daniel Devesa Derksen-Staats on 14/03/2017.
-//  Copyright © 2017 Desfici. All rights reserved.
-//
-
 import Foundation
 
 protocol GameStateDelegate: AnyObject {

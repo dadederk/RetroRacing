@@ -1,11 +1,3 @@
-//
-//  GameViewController.swift
-//  RetroRacing iOS
-//
-//  Created by Daniel Devesa Derksen-Staats on 19/04/2020.
-//  Copyright © 2020 Desfici Ltd. All rights reserved.
-//
-
 import UIKit
 import SpriteKit
 import GameKit
@@ -23,7 +15,6 @@ class GameViewController: UIViewController {
         
         // Present the scene
         sceneView.presentScene(scene)
-//        sceneView.ignoresSiblingOrder = true
         sceneView.showsFPS = true
         sceneView.showsNodeCount = true
 

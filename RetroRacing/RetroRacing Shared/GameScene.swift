@@ -1,11 +1,3 @@
-//
-//  GameScene.swift
-//  RetroRacing Shared
-//
-//  Created by Daniel Devesa Derksen-Staats on 19/04/2020.
-//  Copyright © 2020 Desfici Ltd. All rights reserved.
-//
-
 import SpriteKit
 
 protocol GameSceneDelegate: AnyObject {
@@ -148,20 +140,11 @@ extension GameScene: GameController {
 // Mouse-based event handling
 extension GameScene {
     
-    override func mouseDown(with event: NSEvent) {
-        if let label = self.label {
-            label.run(SKAction.init(named: "Pulse")!, withKey: "fadeInOut")
-        }
-        self.makeSpinny(at: event.location(in: self), color: SKColor.green)
-    }
+    override func mouseDown(with event: NSEvent) {}
     
-    override func mouseDragged(with event: NSEvent) {
-        self.makeSpinny(at: event.location(in: self), color: SKColor.blue)
-    }
+    override func mouseDragged(with event: NSEvent) {}
     
-    override func mouseUp(with event: NSEvent) {
-        self.makeSpinny(at: event.location(in: self), color: SKColor.red)
-    }
+    override func mouseUp(with event: NSEvent) {}
     
 }
 #endif

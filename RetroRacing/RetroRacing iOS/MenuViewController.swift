@@ -1,11 +1,3 @@
-//
-//  MenuViewController.swift
-//  RetroRacing
-//
-//  Created by Daniel Devesa Derksen-Staats on 19/04/2020.
-//  Copyright © 2020 Desfici Ltd. All rights reserved.
-//
-
 import UIKit
 import GameKit
 import StoreKit
