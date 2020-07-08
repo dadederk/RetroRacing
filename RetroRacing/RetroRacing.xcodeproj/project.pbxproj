@@ -752,6 +752,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 5RA76D6WD4;
 				INFOPLIST_FILE = "RetroRacing watchOS App Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -759,6 +760,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
+				MARKETING_VERSION = 1.01;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.desfici.retro-racing.watchkitapp.watchkitextension";
 				PRODUCT_NAME = "RetroRacing! Extension";
 				SDKROOT = watchos;
@@ -773,6 +775,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 5RA76D6WD4;
 				INFOPLIST_FILE = "RetroRacing watchOS App Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -780,6 +783,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
+				MARKETING_VERSION = 1.01;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.desfici.retro-racing.watchkitapp.watchkitextension";
 				PRODUCT_NAME = "RetroRacing! Extension";
 				SDKROOT = watchos;
@@ -798,6 +802,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 5RA76D6WD4;
 				IBSC_MODULE = RetroRacing_Extension;
 				INFOPLIST_FILE = "RetroRacing watchOS App/Info.plist";
@@ -806,6 +811,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
+				MARKETING_VERSION = 1.01;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.desfici.retro-racing.watchkitapp";
 				PRODUCT_NAME = "RetroRacing!";
 				SDKROOT = watchos;
@@ -824,6 +830,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 5RA76D6WD4;
 				IBSC_MODULE = RetroRacing_Extension;
 				INFOPLIST_FILE = "RetroRacing watchOS App/Info.plist";
@@ -832,6 +839,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
+				MARKETING_VERSION = 1.01;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.desfici.retro-racing.watchkitapp";
 				PRODUCT_NAME = "RetroRacing!";
 				SDKROOT = watchos;
@@ -849,6 +857,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "RetroRacing iOS/RetroRacing!.entitlements";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 5RA76D6WD4;
 				INFOPLIST_FILE = "RetroRacing iOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
@@ -856,6 +865,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.01;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.desfici.retro-racing";
 				PRODUCT_NAME = "RetroRacing!";
 				SDKROOT = iphoneos;
@@ -871,6 +881,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "RetroRacing iOS/RetroRacing!.entitlements";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = 5RA76D6WD4;
 				INFOPLIST_FILE = "RetroRacing iOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
@@ -878,6 +889,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.01;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.desfici.retro-racing";
 				PRODUCT_NAME = "RetroRacing!";
 				SDKROOT = iphoneos;
