@@ -17,6 +17,7 @@ class GameScene: SKScene {
     private let stateUpdatedSound = SKAction.playSoundFileNamed("bip.m4a", waitForCompletion: false)
     private let failSound = SKAction.playSoundFileNamed("fail.m4a", waitForCompletion: false)
     
+    private var initialDtForGameUpdate = 0.5
     private var lastFrameUpdateTime: TimeInterval = 0
     private var lastGameUpdateTime: TimeInterval = 0
     private var gamePaused = false
@@ -42,11 +43,12 @@ class GameScene: SKScene {
         }
 
         let dtGameUpdate = currentTime - lastGameUpdateTime
-        var dtForGameUpdate = 0.5
+        var dtForGameUpdate = initialDtForGameUpdate
         
         if gameState.level > 1 {
-            dtForGameUpdate = 1.0 / (Double(gameState.level) *  0.50)
-            // dtForGameUpdate = 2.25 - ((Double(gameState.level) * 0.25)
+//            dtForGameUpdate = initialDtForGameUpdate / (Double(gameState.level + 1) *  0.50)
+//            dtForGameUpdate = initialDtForGameUpdate - 0.1 * (Double(gameState.level - 1)
+            dtForGameUpdate = initialDtForGameUpdate - (log(Double(gameState.level)) / 4)
         }
         
         if !gamePaused {
