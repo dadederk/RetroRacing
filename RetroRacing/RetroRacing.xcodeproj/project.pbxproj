@@ -10,23 +10,28 @@
 		0B5BDAAF2460989900F05C8E /* SKNode+SizeAndPositionUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B5BDAAE2460989900F05C8E /* SKNode+SizeAndPositionUtilities.swift */; };
 		0B5BDAB02460989900F05C8E /* SKNode+SizeAndPositionUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B5BDAAE2460989900F05C8E /* SKNode+SizeAndPositionUtilities.swift */; };
 		0B5BDAB12460989900F05C8E /* SKNode+SizeAndPositionUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B5BDAAE2460989900F05C8E /* SKNode+SizeAndPositionUtilities.swift */; };
-		0B5BDAB22460989900F05C8E /* SKNode+SizeAndPositionUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B5BDAAE2460989900F05C8E /* SKNode+SizeAndPositionUtilities.swift */; };
 		0B5BDAB42463465A00F05C8E /* MenuInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B5BDAB32463465A00F05C8E /* MenuInterfaceController.swift */; };
 		0B6DBE6524B263D00024356D /* bip.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DBE6424B263D00024356D /* bip.m4a */; };
 		0B6DBE6624B263D00024356D /* bip.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DBE6424B263D00024356D /* bip.m4a */; };
 		0B6DBE6724B263D00024356D /* bip.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DBE6424B263D00024356D /* bip.m4a */; };
 		0B6DBE6824B263D00024356D /* bip.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DBE6424B263D00024356D /* bip.m4a */; };
-		0B6DBE6924B263D00024356D /* bip.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DBE6424B263D00024356D /* bip.m4a */; };
 		0B6DBE6B24B265320024356D /* start.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DBE6A24B265320024356D /* start.m4a */; };
 		0B6DBE6C24B265320024356D /* start.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DBE6A24B265320024356D /* start.m4a */; };
 		0B6DBE6D24B265320024356D /* start.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DBE6A24B265320024356D /* start.m4a */; };
 		0B6DBE6E24B265320024356D /* start.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DBE6A24B265320024356D /* start.m4a */; };
-		0B6DBE6F24B265320024356D /* start.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DBE6A24B265320024356D /* start.m4a */; };
 		0B6DBE7124B265B50024356D /* fail.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DBE7024B265B50024356D /* fail.m4a */; };
 		0B6DBE7224B265B50024356D /* fail.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DBE7024B265B50024356D /* fail.m4a */; };
 		0B6DBE7324B265B50024356D /* fail.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DBE7024B265B50024356D /* fail.m4a */; };
 		0B6DBE7424B265B50024356D /* fail.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DBE7024B265B50024356D /* fail.m4a */; };
-		0B6DBE7524B265B50024356D /* fail.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DBE7024B265B50024356D /* fail.m4a */; };
+		0B6DBE7824B658650024356D /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6DBE7724B658650024356D /* GameState.swift */; };
+		0B6DBE7924B658650024356D /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6DBE7724B658650024356D /* GameState.swift */; };
+		0B6DBE7A24B658650024356D /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6DBE7724B658650024356D /* GameState.swift */; };
+		0B6DBE7D24B65C990024356D /* GridStateCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6DBE7C24B65C990024356D /* GridStateCalculator.swift */; };
+		0B6DBE7E24B65C990024356D /* GridStateCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6DBE7C24B65C990024356D /* GridStateCalculator.swift */; };
+		0B6DBE7F24B65C990024356D /* GridStateCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6DBE7C24B65C990024356D /* GridStateCalculator.swift */; };
+		0B6DBE8224B8EEF50024356D /* GridState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6DBE8124B8EEF50024356D /* GridState.swift */; };
+		0B6DBE8324B8EEF50024356D /* GridState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6DBE8124B8EEF50024356D /* GridState.swift */; };
+		0B6DBE8424B8EEF50024356D /* GridState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6DBE8124B8EEF50024356D /* GridState.swift */; };
 		0BF04B99244C75BF005BC68E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF04B98244C75BF005BC68E /* AppDelegate.swift */; };
 		0BF04B9B244C75BF005BC68E /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF04B9A244C75BF005BC68E /* GameViewController.swift */; };
 		0BF04B9E244C75BF005BC68E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0BF04B9C244C75BF005BC68E /* Main.storyboard */; };
@@ -40,28 +45,12 @@
 		0BF04BC5244C75BF005BC68E /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF04BC4244C75BF005BC68E /* GameViewController.swift */; };
 		0BF04BC8244C75BF005BC68E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0BF04BC6244C75BF005BC68E /* Main.storyboard */; };
 		0BF04BCB244C75BF005BC68E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0BF04BC9244C75BF005BC68E /* LaunchScreen.storyboard */; };
-		0BF04BD4244C75C0005BC68E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF04BD3244C75C0005BC68E /* AppDelegate.swift */; };
-		0BF04BD6244C75C0005BC68E /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF04BD5244C75C0005BC68E /* GameViewController.swift */; };
-		0BF04BD9244C75C0005BC68E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0BF04BD7244C75C0005BC68E /* Main.storyboard */; };
-		0BF04BDB244C75C0005BC68E /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 0BF04B8D244C75BD005BC68E /* Actions.sks */; };
-		0BF04BDC244C75C0005BC68E /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 0BF04B8D244C75BD005BC68E /* Actions.sks */; };
-		0BF04BDD244C75C0005BC68E /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 0BF04B8D244C75BD005BC68E /* Actions.sks */; };
-		0BF04BDE244C75C0005BC68E /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 0BF04B8E244C75BD005BC68E /* GameScene.sks */; };
-		0BF04BDF244C75C0005BC68E /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 0BF04B8E244C75BD005BC68E /* GameScene.sks */; };
-		0BF04BE0244C75C0005BC68E /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 0BF04B8E244C75BD005BC68E /* GameScene.sks */; };
-		0BF04BE1244C75C0005BC68E /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 0BF04B8E244C75BD005BC68E /* GameScene.sks */; };
 		0BF04BE2244C75C0005BC68E /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF04B8F244C75BD005BC68E /* GameScene.swift */; };
 		0BF04BE3244C75C0005BC68E /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF04B8F244C75BD005BC68E /* GameScene.swift */; };
 		0BF04BE4244C75C0005BC68E /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF04B8F244C75BD005BC68E /* GameScene.swift */; };
-		0BF04BE5244C75C0005BC68E /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF04B8F244C75BD005BC68E /* GameScene.swift */; };
 		0BF04BE6244C75C0005BC68E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0BF04B90244C75BF005BC68E /* Assets.xcassets */; };
 		0BF04BE7244C75C0005BC68E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0BF04B90244C75BF005BC68E /* Assets.xcassets */; };
 		0BF04BE8244C75C0005BC68E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0BF04B90244C75BF005BC68E /* Assets.xcassets */; };
-		0BF04BE9244C75C0005BC68E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0BF04B90244C75BF005BC68E /* Assets.xcassets */; };
-		0BF04BFE244C81EA005BC68E /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF04BFD244C81EA005BC68E /* GameState.swift */; };
-		0BF04BFF244C81EA005BC68E /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF04BFD244C81EA005BC68E /* GameState.swift */; };
-		0BF04C00244C81EA005BC68E /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF04BFD244C81EA005BC68E /* GameState.swift */; };
-		0BF04C01244C81FB005BC68E /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF04BFD244C81EA005BC68E /* GameState.swift */; };
 		0BF04C03244C891C005BC68E /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF04C02244C891C005BC68E /* MenuViewController.swift */; };
 		0BF04C0B244C9CB2005BC68E /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF04C0A244C9CB2005BC68E /* MenuViewController.swift */; };
 		0BF04C0D244CA066005BC68E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0BF04B90244C75BF005BC68E /* Assets.xcassets */; };
@@ -69,7 +58,9 @@
 		0BF04C10244CAAF2005BC68E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0BF04C0E244CAAF2005BC68E /* Localizable.strings */; };
 		0BF04C11244CAAF2005BC68E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0BF04C0E244CAAF2005BC68E /* Localizable.strings */; };
 		0BF04C12244CAAF2005BC68E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0BF04C0E244CAAF2005BC68E /* Localizable.strings */; };
-		0BF04C13244CAAF2005BC68E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0BF04C0E244CAAF2005BC68E /* Localizable.strings */; };
+		0BFE9FD224B9DD0F00C93AB4 /* Int+Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFE9FD124B9DD0F00C93AB4 /* Int+Random.swift */; };
+		0BFE9FD324B9DD0F00C93AB4 /* Int+Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFE9FD124B9DD0F00C93AB4 /* Int+Random.swift */; };
+		0BFE9FD424B9DD0F00C93AB4 /* Int+Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFE9FD124B9DD0F00C93AB4 /* Int+Random.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -121,8 +112,9 @@
 		0B6DBE6A24B265320024356D /* start.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = start.m4a; sourceTree = "<group>"; };
 		0B6DBE7024B265B50024356D /* fail.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = fail.m4a; sourceTree = "<group>"; };
 		0B6DBE7624B269620024356D /* RetroRacing!.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "RetroRacing!.entitlements"; sourceTree = "<group>"; };
-		0BF04B8D244C75BD005BC68E /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
-		0BF04B8E244C75BD005BC68E /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
+		0B6DBE7724B658650024356D /* GameState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameState.swift; sourceTree = "<group>"; };
+		0B6DBE7C24B65C990024356D /* GridStateCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridStateCalculator.swift; sourceTree = "<group>"; };
+		0B6DBE8124B8EEF50024356D /* GridState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridState.swift; sourceTree = "<group>"; };
 		0BF04B8F244C75BD005BC68E /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		0BF04B90244C75BF005BC68E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0BF04B95244C75BF005BC68E /* RetroRacing!.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RetroRacing!.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -144,15 +136,14 @@
 		0BF04BC7244C75BF005BC68E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0BF04BCA244C75BF005BC68E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0BF04BCC244C75BF005BC68E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0BF04BD1244C75C0005BC68E /* RetroRacing!.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RetroRacing!.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BF04BD3244C75C0005BC68E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0BF04BD5244C75C0005BC68E /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		0BF04BD8244C75C0005BC68E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0BF04BDA244C75C0005BC68E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0BF04BFD244C81EA005BC68E /* GameState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameState.swift; sourceTree = "<group>"; };
 		0BF04C02244C891C005BC68E /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		0BF04C0A244C9CB2005BC68E /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		0BF04C0E244CAAF2005BC68E /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
+		0BFE9FD124B9DD0F00C93AB4 /* Int+Random.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Random.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -171,13 +162,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		0BF04BBD244C75BF005BC68E /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0BF04BCE244C75C0005BC68E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -221,9 +205,10 @@
 		0BF04B8C244C75BD005BC68E /* RetroRacing Shared */ = {
 			isa = PBXGroup;
 			children = (
-				0BF04B8D244C75BD005BC68E /* Actions.sks */,
-				0BF04B8E244C75BD005BC68E /* GameScene.sks */,
-				0BF04BFD244C81EA005BC68E /* GameState.swift */,
+				0B6DBE7724B658650024356D /* GameState.swift */,
+				0B6DBE8124B8EEF50024356D /* GridState.swift */,
+				0B6DBE7C24B65C990024356D /* GridStateCalculator.swift */,
+				0BFE9FD124B9DD0F00C93AB4 /* Int+Random.swift */,
 				0BF04B8F244C75BD005BC68E /* GameScene.swift */,
 				0BF04B90244C75BF005BC68E /* Assets.xcassets */,
 				0BF04C0E244CAAF2005BC68E /* Localizable.strings */,
@@ -240,7 +225,6 @@
 				0BF04BA5244C75BF005BC68E /* RetroRacing!.app */,
 				0BF04BB2244C75BF005BC68E /* RetroRacing! Extension.appex */,
 				0BF04BC0244C75BF005BC68E /* RetroRacing!.app */,
-				0BF04BD1244C75C0005BC68E /* RetroRacing!.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -376,23 +360,6 @@
 			productReference = 0BF04BC0244C75BF005BC68E /* RetroRacing!.app */;
 			productType = "com.apple.product-type.application";
 		};
-		0BF04BD0244C75C0005BC68E /* RetroRacing macOS */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 0BF04BFA244C75C0005BC68E /* Build configuration list for PBXNativeTarget "RetroRacing macOS" */;
-			buildPhases = (
-				0BF04BCD244C75C0005BC68E /* Sources */,
-				0BF04BCE244C75C0005BC68E /* Frameworks */,
-				0BF04BCF244C75C0005BC68E /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "RetroRacing macOS";
-			productName = "RetroRacing macOS";
-			productReference = 0BF04BD1244C75C0005BC68E /* RetroRacing!.app */;
-			productType = "com.apple.product-type.application";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -416,9 +383,6 @@
 					0BF04BBF244C75BF005BC68E = {
 						CreatedOnToolsVersion = 11.4.1;
 					};
-					0BF04BD0244C75C0005BC68E = {
-						CreatedOnToolsVersion = 11.4.1;
-					};
 				};
 			};
 			buildConfigurationList = 0BF04B8B244C75BD005BC68E /* Build configuration list for PBXProject "RetroRacing" */;
@@ -438,7 +402,6 @@
 				0BF04BA4244C75BF005BC68E /* RetroRacing watchOS App */,
 				0BF04BB1244C75BF005BC68E /* RetroRacing watchOS App Extension */,
 				0BF04BBF244C75BF005BC68E /* RetroRacing tvOS */,
-				0BF04BD0244C75C0005BC68E /* RetroRacing macOS */,
 			);
 		};
 /* End PBXProject section */
@@ -448,12 +411,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0BF04BDE244C75C0005BC68E /* GameScene.sks in Resources */,
 				0B6DBE7124B265B50024356D /* fail.m4a in Resources */,
 				0BF04C0F244CAAF2005BC68E /* Localizable.strings in Resources */,
 				0BF04B9E244C75BF005BC68E /* Main.storyboard in Resources */,
 				0B6DBE6524B263D00024356D /* bip.m4a in Resources */,
-				0BF04BDB244C75C0005BC68E /* Actions.sks in Resources */,
 				0BF04BA1244C75BF005BC68E /* LaunchScreen.storyboard in Resources */,
 				0BF04BE6244C75C0005BC68E /* Assets.xcassets in Resources */,
 				0B6DBE6B24B265320024356D /* start.m4a in Resources */,
@@ -482,7 +443,6 @@
 				0BF04C11244CAAF2005BC68E /* Localizable.strings in Resources */,
 				0B6DBE6724B263D00024356D /* bip.m4a in Resources */,
 				0B6DBE7324B265B50024356D /* fail.m4a in Resources */,
-				0BF04BDF244C75C0005BC68E /* GameScene.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -490,30 +450,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0BF04BE0244C75C0005BC68E /* GameScene.sks in Resources */,
 				0B6DBE7424B265B50024356D /* fail.m4a in Resources */,
 				0BF04C12244CAAF2005BC68E /* Localizable.strings in Resources */,
 				0BF04BC8244C75BF005BC68E /* Main.storyboard in Resources */,
 				0B6DBE6824B263D00024356D /* bip.m4a in Resources */,
-				0BF04BDC244C75C0005BC68E /* Actions.sks in Resources */,
 				0BF04BCB244C75BF005BC68E /* LaunchScreen.storyboard in Resources */,
 				0BF04BE8244C75C0005BC68E /* Assets.xcassets in Resources */,
 				0B6DBE6E24B265320024356D /* start.m4a in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0BF04BCF244C75C0005BC68E /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				0B6DBE6924B263D00024356D /* bip.m4a in Resources */,
-				0BF04C13244CAAF2005BC68E /* Localizable.strings in Resources */,
-				0BF04BD9244C75C0005BC68E /* Main.storyboard in Resources */,
-				0BF04BE1244C75C0005BC68E /* GameScene.sks in Resources */,
-				0B6DBE7524B265B50024356D /* fail.m4a in Resources */,
-				0BF04BE9244C75C0005BC68E /* Assets.xcassets in Resources */,
-				0BF04BDD244C75C0005BC68E /* Actions.sks in Resources */,
-				0B6DBE6F24B265320024356D /* start.m4a in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -524,9 +467,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B6DBE7824B658650024356D /* GameState.swift in Sources */,
+				0B6DBE8224B8EEF50024356D /* GridState.swift in Sources */,
+				0BFE9FD224B9DD0F00C93AB4 /* Int+Random.swift in Sources */,
+				0B6DBE7D24B65C990024356D /* GridStateCalculator.swift in Sources */,
 				0BF04BE2244C75C0005BC68E /* GameScene.swift in Sources */,
 				0BF04C03244C891C005BC68E /* MenuViewController.swift in Sources */,
-				0BF04BFE244C81EA005BC68E /* GameState.swift in Sources */,
 				0BF04B9B244C75BF005BC68E /* GameViewController.swift in Sources */,
 				0B5BDAAF2460989900F05C8E /* SKNode+SizeAndPositionUtilities.swift in Sources */,
 				0BF04B99244C75BF005BC68E /* AppDelegate.swift in Sources */,
@@ -537,8 +483,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B6DBE7924B658650024356D /* GameState.swift in Sources */,
+				0B6DBE8324B8EEF50024356D /* GridState.swift in Sources */,
+				0BFE9FD324B9DD0F00C93AB4 /* Int+Random.swift in Sources */,
+				0B6DBE7E24B65C990024356D /* GridStateCalculator.swift in Sources */,
 				0BF04BE3244C75C0005BC68E /* GameScene.swift in Sources */,
-				0BF04C01244C81FB005BC68E /* GameState.swift in Sources */,
 				0BF04BBA244C75BF005BC68E /* ExtensionDelegate.swift in Sources */,
 				0BF04BB8244C75BF005BC68E /* GameInterfaceController.swift in Sources */,
 				0B5BDAB42463465A00F05C8E /* MenuInterfaceController.swift in Sources */,
@@ -550,24 +499,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0B6DBE7A24B658650024356D /* GameState.swift in Sources */,
+				0B6DBE8424B8EEF50024356D /* GridState.swift in Sources */,
+				0BFE9FD424B9DD0F00C93AB4 /* Int+Random.swift in Sources */,
+				0B6DBE7F24B65C990024356D /* GridStateCalculator.swift in Sources */,
 				0BF04BE4244C75C0005BC68E /* GameScene.swift in Sources */,
 				0BF04C0B244C9CB2005BC68E /* MenuViewController.swift in Sources */,
-				0BF04BFF244C81EA005BC68E /* GameState.swift in Sources */,
 				0BF04BC5244C75BF005BC68E /* GameViewController.swift in Sources */,
 				0B5BDAB12460989900F05C8E /* SKNode+SizeAndPositionUtilities.swift in Sources */,
 				0BF04BC3244C75BF005BC68E /* AppDelegate.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0BF04BCD244C75C0005BC68E /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				0BF04BE5244C75C0005BC68E /* GameScene.swift in Sources */,
-				0BF04C00244C81EA005BC68E /* GameState.swift in Sources */,
-				0BF04BD6244C75C0005BC68E /* GameViewController.swift in Sources */,
-				0B5BDAB22460989900F05C8E /* SKNode+SizeAndPositionUtilities.swift in Sources */,
-				0BF04BD4244C75C0005BC68E /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -941,50 +881,6 @@
 			};
 			name = Release;
 		};
-		0BF04BFB244C75C0005BC68E /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 5RA76D6WD4;
-				ENABLE_HARDENED_RUNTIME = YES;
-				INFOPLIST_FILE = "RetroRacing macOS/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.desfici.retro-racing";
-				PRODUCT_NAME = "RetroRacing!";
-				SDKROOT = macosx;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		0BF04BFC244C75C0005BC68E /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 5RA76D6WD4;
-				ENABLE_HARDENED_RUNTIME = YES;
-				INFOPLIST_FILE = "RetroRacing macOS/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.desfici.retro-racing";
-				PRODUCT_NAME = "RetroRacing!";
-				SDKROOT = macosx;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1029,15 +925,6 @@
 			buildConfigurations = (
 				0BF04BF8244C75C0005BC68E /* Debug */,
 				0BF04BF9244C75C0005BC68E /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		0BF04BFA244C75C0005BC68E /* Build configuration list for PBXNativeTarget "RetroRacing macOS" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				0BF04BFB244C75C0005BC68E /* Debug */,
-				0BF04BFC244C75C0005BC68E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

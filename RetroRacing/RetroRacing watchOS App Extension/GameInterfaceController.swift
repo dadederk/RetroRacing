@@ -49,9 +49,9 @@ extension GameInterfaceController: WKCrownDelegate {
         //print("RotationDelta: \(rotationalDelta)")
         if allowRotation && abs(rotationalDelta) > 0.05  {
             if rotationalDelta > 0 {
-                scene.right()
+                scene.moveRight()
             } else {
-                scene.left()
+                scene.moveLeft()
             }
             
             allowRotation = false
@@ -69,8 +69,9 @@ extension GameInterfaceController: GameSceneDelegate {
         setTitle(scoreString(forScore: score))
     }
     
-    func gameScene(_ gameScene: GameScene, didDetectCollisionWithScore score: Int) {
+    func gameSceneDidDetectCollision(_ gameScene: GameScene) {
         let title = NSLocalizedString("gameOver", comment: "")
+        let score = gameScene.gameState.score
         let message = scoreString(forScore: score)
 
         let restartAction = WKAlertAction(title: NSLocalizedString("restart", comment: ""), style: .default, handler: { self.scene.start() })

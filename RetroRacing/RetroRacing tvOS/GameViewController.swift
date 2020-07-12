@@ -29,9 +29,9 @@ class GameViewController: UIViewController {
     
     @objc private func handleSwipe(swipeGestureRecognizer: UISwipeGestureRecognizer) {
         if swipeGestureRecognizer.direction == .left {
-            scene.left()
+            scene.moveLeft()
         } else if swipeGestureRecognizer.direction == .right {
-            scene.right()
+            scene.moveRight()
         }
     }
     
@@ -53,7 +53,8 @@ extension GameViewController: GameSceneDelegate {
         scoreLabel.text = scoreString(forScore: score)
     }
     
-    func gameScene(_ gameScene: GameScene, didDetectCollisionWithScore score: Int) {
+    func gameSceneDidDetectCollision(_ gameScene: GameScene) {
+        let score = gameScene.gameState.score
         let gameOverAlertController = UIAlertController(title: NSLocalizedString("gameOver", comment: ""),
                                                         message: scoreString(forScore: score),
             preferredStyle: .alert)

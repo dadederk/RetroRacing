@@ -2,28 +2,29 @@ import SpriteKit
 
 protocol GameSceneDelegate: AnyObject {
     func gameScene(_ gameScene: GameScene, didUpdateScore score: Int)
-    func gameScene(_ gameScene: GameScene, didDetectCollisionWithScore score: Int)
+    func gameSceneDidDetectCollision(_ gameScene: GameScene)
 }
 
 protocol GameController {
-    func left()
-    func right()
+    func moveLeft()
+    func moveRight()
 }
 
 class GameScene: SKScene {
-    private let numberOfRows = 5
-    private let numberOfColumns = 3
     private let startSound = SKAction.playSoundFileNamed("start.m4a", waitForCompletion: true)
     private let stateUpdatedSound = SKAction.playSoundFileNamed("bip.m4a", waitForCompletion: false)
     private let failSound = SKAction.playSoundFileNamed("fail.m4a", waitForCompletion: false)
     
-    private var initialDtForGameUpdate = 0.5
-    private var lastFrameUpdateTime: TimeInterval = 0
+    private var initialDtForGameUpdate = 0.6
     private var lastGameUpdateTime: TimeInterval = 0
     private var gamePaused = false
+    
     private var spritesForGivenState = [SKSpriteNode]()
     
-    private var gameState: GameState!
+    private let gridCalculator = GridStateCalculator()
+    private var gridState = GridState(numberOfRows: 5, numberOfColumns: 3)
+    
+    private(set) var gameState = GameState()
     
     weak var gameDelegate: GameSceneDelegate?
     
@@ -38,27 +39,36 @@ class GameScene: SKScene {
     #endif
     
     override func update(_ currentTime: TimeInterval) {
-        if (lastFrameUpdateTime == 0) {
-            lastFrameUpdateTime = currentTime
-        }
-
+        guard gamePaused == false else { return }
+        
         let dtGameUpdate = currentTime - lastGameUpdateTime
         var dtForGameUpdate = initialDtForGameUpdate
         
-        if gameState.level > 1 {
-//            dtForGameUpdate = initialDtForGameUpdate / (Double(gameState.level + 1) *  0.50)
-//            dtForGameUpdate = initialDtForGameUpdate - 0.1 * (Double(gameState.level - 1)
-            dtForGameUpdate = initialDtForGameUpdate - (log(Double(gameState.level)) / 4)
-        }
+        dtForGameUpdate = initialDtForGameUpdate - (log(Double(gameState.level)) / 4)
         
-        if !gamePaused {
-            if dtGameUpdate > dtForGameUpdate {
-                lastGameUpdateTime = currentTime
-                gameState.calculateGameState()
+        if dtGameUpdate > dtForGameUpdate {
+            lastGameUpdateTime = currentTime
+            
+            var effects: [GridStateCalculator.Effect]
+            (gridState, effects) = gridCalculator.nextGrid(previousGrid: gridState, gameState: gameState)
+            
+            for effect in effects {
+                if case GridStateCalculator.Effect.crashed = effect {
+                    gamePaused = true
+                    gameDelegate?.gameSceneDidDetectCollision(self)
+                    run(failSound)
+                } else if case GridStateCalculator.Effect.scored(points: let points) = effect {
+                    gameState.score += points
+                    gameDelegate?.gameScene(self, didUpdateScore: gameState.score)
+                }
             }
+            
+            gridStateDidUpdate(gridState)
         }
-        
-        lastFrameUpdateTime = currentTime
+    }
+    
+    func start() {
+        initialiseGame()
     }
     
     private func setUpScene() {
@@ -68,23 +78,16 @@ class GameScene: SKScene {
     }
     
     private func initialiseGame() {
-        lastFrameUpdateTime = 0
-        
-        gameState = GameState(numberOfRows: numberOfRows,
-                              numberOfColumns: numberOfColumns)
-    
-        gameState.delegate = self
-        gameState.level = 1
-        
         gamePaused = false
-        
+        gridState = GridState(numberOfRows: 5, numberOfColumns: 3)
+        gameState = GameState()
         run(startSound)
     }
     
     private func createGrid() {
-        for column in 0 ..< numberOfColumns {
+        for column in 0 ..< gridState.numberOfColumns {
             var rowOfCells = [SKShapeNode]()
-            for row in 0 ..< numberOfRows {
+            for row in 0 ..< gridState.numberOfRows {
                 let cell = createCell(column:column, row:row)
                 rowOfCells.append(cell)
                 addChild(cell)
@@ -97,19 +100,19 @@ class GameScene: SKScene {
         let origin = positionForCellIn(column: column, row: row, size:size)
         let frame = CGRect(origin: origin, size: size)
         let cell = SKShapeNode(rect: frame)
-        cell.name = stringNameForCell(column: column, row: row)
+        cell.name = nameForCell(column: column, row: row)
         cell.fillColor = .orange
         cell.strokeColor = .gray
         
         return cell
     }
     
-    private func stringNameForCell(column: Int, row: Int) -> String {
+    private func nameForCell(column: Int, row: Int) -> String {
         return "\(column)x\(row)"
     }
     
     private func gridCell(column: Int, row: Int) -> SKShapeNode {
-        guard let cell = childNode(withName: stringNameForCell(column: column, row: row)) as? SKShapeNode else {
+        guard let cell = childNode(withName: nameForCell(column: column, row: row)) as? SKShapeNode else {
             fatalError("Failed to retrieve grid cell at \(column) x \(row)")
         }
         
@@ -117,50 +120,19 @@ class GameScene: SKScene {
     }
     
     private func sizeForCell() -> (CGSize) {
-        let width = size.width / CGFloat(numberOfColumns)
-        let height = size.height / CGFloat(numberOfRows)
+        let width = size.width / CGFloat(gridState.numberOfColumns)
+        let height = size.height / CGFloat(gridState.numberOfRows)
         return CGSize(width: width, height: height)
     }
     
-    private func positionForCellIn(column:Int, row:Int, size: CGSize) -> (CGPoint) {
+    private func positionForCellIn(column: Int, row: Int, size: CGSize) -> (CGPoint) {
         let x = (CGFloat(column) * size.width)
-        let y = (CGFloat(row) * size.height)
+        let y = (CGFloat(gridState.numberOfRows - row - 1) * size.height)
         return CGPoint(x: x, y: y)
     }
     
-    func start() {
-        initialiseGame()
-    }
-}
-
-extension GameScene: GameController {
-    func left() {
-        guard !gamePaused else { return }
-        gameState.movePlayersCar(to: .left)
-    }
-    
-    func right() {
-        guard !gamePaused else { return }
-        gameState.movePlayersCar(to: .right)
-    }
-}
-
-#if os(OSX)
-// Mouse-based event handling
-extension GameScene {
-    
-    override func mouseDown(with event: NSEvent) {}
-    
-    override func mouseDragged(with event: NSEvent) {}
-    
-    override func mouseUp(with event: NSEvent) {}
-    
-}
-#endif
-
-extension GameScene: GameStateDelegate {
-    func gameStateDidUpdate(_ gameState: GameState) {
-        updateGrid(withGameState: gameState)
+    private func gridStateDidUpdate(_ gridState: GridState) {
+        updateGrid(withGridState: gridState)
         run(stateUpdatedSound)
     }
     
@@ -171,56 +143,70 @@ extension GameScene: GameStateDelegate {
         spritesForGivenState.removeAll()
     }
     
-    private func updateGrid(withGameState gameState: GameState) {
+    private func updateGrid(withGridState gridState: GridState) {
         resetScene()
         
-        for row in 0..<numberOfRows {
-            for column in 0..<numberOfColumns {
-                guard let cellState = gameState.cellState(forColumn: column, andRow: row) else { return }
+        for row in 0..<gridState.numberOfRows {
+            for column in 0..<gridState.numberOfColumns {
+                let cellState = gridState.grid[row][column]
                 let cell = gridCell(column: column, row: row)
                 
                 switch cellState {
-                case .Car:
-                    let car = SKSpriteNode(imageNamed: "playersCar")
-                    addSprite(car, toCell: cell, row: row, column: column)
-                case .Empty:
-                    break
-                case .Player:
-                    let car = SKSpriteNode(imageNamed: "playersCar")
-                    addSprite(car, toCell: cell, row: row, column: column)
-                case .Crash:
-                    let crash = SKSpriteNode(imageNamed: "crash")
-                    addSprite(crash, toCell: cell, row: row, column: column)
-                    gamePaused = true
-                    gameDelegate?.gameScene(self, didDetectCollisionWithScore: gameState.score)
-                    run(failSound)
+                case .Car: addSprite(SKSpriteNode(imageNamed: "playersCar"), toCell: cell, row: row, column: column)
+                case .Player: addSprite(SKSpriteNode(imageNamed: "playersCar"), toCell: cell, row: row, column: column)
+                case .Crash: addSprite(SKSpriteNode(imageNamed: "crash"), toCell: cell, row: row, column: column)
+                case .Empty: break
                 }
-
+                
                 cell.fillColor = UIColor.orange
             }
         }
     }
     
-    func addSprite(_ sprite: SKSpriteNode, toCell cell: SKShapeNode, row: Int, column: Int) {
+    private func addSprite(_ sprite: SKSpriteNode, toCell cell: SKShapeNode, row: Int, column: Int) {
         let cellSize = cell.frame.size
-        let sizeFactor = CGFloat(numberOfRows - row) / CGFloat(numberOfRows)
+        let sizeFactor = CGFloat(gridState.numberOfRows - (gridState.numberOfRows - row - 1)) / CGFloat(gridState.numberOfRows)
         let size = CGSize(width: cellSize.width * sizeFactor, height: cellSize.height * sizeFactor)
         
         var horizontalTranslationFactor: CGFloat = 0.0
-        if column < (numberOfColumns / 2) {
+        
+        if column < (gridState.numberOfColumns / 2) {
             horizontalTranslationFactor = (cellSize.width - size.width)
-        } else if column > (numberOfColumns / 2) {
+        } else if column > (gridState.numberOfColumns / 2) {
             horizontalTranslationFactor = -(cellSize.width - size.width)
         }
         
         sprite.position = CGPoint(x: cell.frame.origin.x + ((cellSize.width + horizontalTranslationFactor) / 2.0),
-                               y: cell.frame.origin.y + (cellSize.height / 2.0))
+                                  y: cell.frame.origin.y + (cellSize.height / 2.0))
         sprite.aspectFitToSize(size)
         spritesForGivenState.append(sprite)
         cell.addChild(sprite)
     }
+}
+
+extension GameScene: GameController {
+    func moveLeft() {
+        guard !gamePaused else { return }
+        
+        (gridState, _) = gridCalculator.nextGrid(previousGrid: gridState, gameState: gameState, actions: [.moveCar(direction: .left)])
+        
+        gridStateDidUpdate(gridState)
+    }
     
-    func gameState(_ gameState: GameState, didUpdateScore score: Int) {
-        gameDelegate?.gameScene(self, didUpdateScore: score)
+    func moveRight() {
+        guard !gamePaused else { return }
+        
+        (gridState, _) = gridCalculator.nextGrid(previousGrid: gridState, gameState: gameState, actions: [.moveCar(direction: .right)])
+        
+        gridStateDidUpdate(gridState)
     }
 }
+
+#if os(OSX)
+// Mouse-based event handling
+extension GameScene {
+    override func mouseDown(with event: NSEvent) {}
+    override func mouseDragged(with event: NSEvent) {}
+    override func mouseUp(with event: NSEvent) {}
+}
+#endif

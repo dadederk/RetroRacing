@@ -57,16 +57,16 @@ class GameViewController: UIViewController {
         let location = recognizer.location(in: view)
         
         if location.x < (view?.frame.size.width)! / 2.0 {
-            scene.left()
+            scene.moveLeft()
         } else {
-            scene.right()
+            scene.moveRight()
         }
     }
     
     @objc private func handleSwipeGesture(recognizer: UISwipeGestureRecognizer) {
         switch recognizer.direction {
-        case .left: scene.left()
-        case .right: scene.right()
+        case .left: scene.moveLeft()
+        case .right: scene.moveRight()
         case .down, .up: break
         default: break
         }
@@ -86,8 +86,8 @@ class GameViewController: UIViewController {
     
     private func keyPressed(_ key: UIKey) {
         switch key.keyCode {
-        case .keyboardLeftArrow: scene.left()
-        case .keyboardRightArrow: scene.right()
+        case .keyboardLeftArrow: scene.moveLeft()
+        case .keyboardRightArrow: scene.moveRight()
         default: break
         }
     }
@@ -98,7 +98,8 @@ extension GameViewController: GameSceneDelegate {
         scoreLabel.text = scoreString(forScore: score)
     }
     
-    func gameScene(_ gameScene: GameScene, didDetectCollisionWithScore score: Int) {
+    func gameSceneDidDetectCollision(_ gameScene: GameScene) {
+        let score = gameScene.gameState.score
         let impactFeedbackGenerator = UIImpactFeedbackGenerator(style: .rigid)
         impactFeedbackGenerator.impactOccurred()
         
