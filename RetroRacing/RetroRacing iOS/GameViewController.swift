@@ -85,7 +85,7 @@ class GameViewController: UIViewController {
     
     private func updateGameCenterScore(_ score: Int) {
         let scoreValue = Int64(score)
-        let gameCenterScore = GKScore(leaderboardIdentifier: "bestios001", player: GKLocalPlayer.local)
+        let gameCenterScore = GKScore(leaderboardIdentifier: "bestios001test", player: GKLocalPlayer.local)
         gameCenterScore.value = scoreValue
         
         GKScore.report([gameCenterScore], withCompletionHandler: nil)

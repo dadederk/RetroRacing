@@ -37,7 +37,7 @@ class GameInterfaceController: WKInterfaceController {
     
     private func updateGameCenterScore(_ score: Int) {
         let scoreValue = Int64(score)
-        let gameCenterScore = GKScore(leaderboardIdentifier: "bestwatchos001", player: GKLocalPlayer.local)
+        let gameCenterScore = GKScore(leaderboardIdentifier: "bestwatchos001test", player: GKLocalPlayer.local)
         gameCenterScore.value = scoreValue
         
         GKScore.report([gameCenterScore], withCompletionHandler: nil)
