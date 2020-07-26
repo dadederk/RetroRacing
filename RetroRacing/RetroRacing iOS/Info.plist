@@ -30,6 +30,12 @@
 	</array>
 	<key>UIStatusBarHidden</key>
 	<true/>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.arcade-games</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>PressStart2P-Regular.ttf</string>
+	</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

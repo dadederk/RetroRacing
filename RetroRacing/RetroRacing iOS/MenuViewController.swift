@@ -24,6 +24,10 @@ class MenuViewController: UIViewController {
         rateAppButton.titleLabel?.adjustsFontForContentSizeCategory = true
         
         titleLabel.text = NSLocalizedString("gameName", comment: "")
+        
+        if let font = UIFont(name: "PressStart2P-Regular", size: 27.0) {
+            titleLabel.font = UIFontMetrics(forTextStyle: .title1).scaledFont(for: font)
+        }
     }
     
     private func authenticateUserInGameCenter() {

@@ -11,6 +11,7 @@ protocol GameController {
 }
 
 class GameScene: SKScene {
+    private let gameBackgroundColor = UIColor(red: 202.0 / 255.0, green: 220.0 / 255.0, blue: 159.0 / 255.0, alpha: 1.0)
     private let startSound = SKAction.playSoundFileNamed("start.m4a", waitForCompletion: true)
     private let stateUpdatedSound = SKAction.playSoundFileNamed("bip.m4a", waitForCompletion: false)
     private let failSound = SKAction.playSoundFileNamed("fail.m4a", waitForCompletion: false)
@@ -101,7 +102,7 @@ class GameScene: SKScene {
         let frame = CGRect(origin: origin, size: size)
         let cell = SKShapeNode(rect: frame)
         cell.name = nameForCell(column: column, row: row)
-        cell.fillColor = .orange
+        cell.fillColor = gameBackgroundColor
         cell.strokeColor = .gray
         
         return cell
@@ -158,7 +159,7 @@ class GameScene: SKScene {
                 case .Empty: break
                 }
                 
-                cell.fillColor = UIColor.orange
+                cell.fillColor = gameBackgroundColor
             }
         }
     }

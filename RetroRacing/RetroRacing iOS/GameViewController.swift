@@ -15,9 +15,12 @@ class GameViewController: UIViewController {
         
         // Present the scene
         sceneView.presentScene(scene)
+        
+        #if DEBUG
         sceneView.showsFPS = true
         sceneView.showsNodeCount = true
-
+        #endif
+        
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap(recognizer:)))
         let swipeLeftGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeGesture(recognizer:)))
         let swipeRightGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeGesture(recognizer:)))
@@ -28,6 +31,10 @@ class GameViewController: UIViewController {
         view.addGestureRecognizer(tapGestureRecognizer)
         view.addGestureRecognizer(swipeLeftGestureRecognizer)
         view.addGestureRecognizer(swipeRightGestureRecognizer)
+        
+        if let font = UIFont(name: "PressStart2P-Regular", size: 22.0) {
+            scoreLabel.font = UIFontMetrics(forTextStyle: .title1).scaledFont(for: font)
+        }
     }
     
     override var shouldAutorotate: Bool {
