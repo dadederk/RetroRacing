@@ -32,7 +32,7 @@
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="jkf-Eq-aFx" firstAttribute="top" relation="greaterThanOrEqual" secondItem="gYB-PR-quf" secondAttribute="bottom" constant="4" id="8pz-3X-fKi"/>
+                            <constraint firstItem="jkf-Eq-aFx" firstAttribute="top" relation="greaterThanOrEqual" secondItem="gYB-PR-quf" secondAttribute="bottom" constant="8" id="8pz-3X-fKi"/>
                             <constraint firstItem="gYB-PR-quf" firstAttribute="leading" secondItem="9Sx-jS-rsx" secondAttribute="leading" constant="16" id="LRw-s8-QSw"/>
                             <constraint firstItem="jkf-Eq-aFx" firstAttribute="leading" secondItem="gYB-PR-quf" secondAttribute="trailing" constant="8" id="Mn7-Cf-Wnm"/>
                             <constraint firstItem="jkf-Eq-aFx" firstAttribute="centerX" secondItem="9Sx-jS-rsx" secondAttribute="centerX" id="Tmw-dN-JOt"/>
