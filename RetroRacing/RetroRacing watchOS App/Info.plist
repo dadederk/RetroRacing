@@ -26,7 +26,7 @@
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 	<key>WKCompanionAppBundleIdentifier</key>
-	<string>com.desfici.retro-racing</string>
+	<string>com.dadederk.retro-racing</string>
 	<key>WKWatchKitApp</key>
 	<true/>
 </dict>

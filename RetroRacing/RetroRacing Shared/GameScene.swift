@@ -55,9 +55,14 @@ class GameScene: SKScene {
             
             for effect in effects {
                 if case GridStateCalculator.Effect.crashed = effect {
-                    gamePaused = true
+                    gameState.lives -= 1
+                    
+                    if gameState.lives == 0 {
+                        gamePaused = true
+                        run(failSound)
+                    }
+                    
                     gameDelegate?.gameSceneDidDetectCollision(self)
-                    run(failSound)
                 } else if case GridStateCalculator.Effect.scored(points: let points) = effect {
                     gameState.score += points
                     gameDelegate?.gameScene(self, didUpdateScore: gameState.score)

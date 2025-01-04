@@ -5,6 +5,7 @@ import GameKit
 class GameViewController: UIViewController {
     @IBOutlet private weak var sceneView: SKView!
     @IBOutlet private weak var scoreLabel: UILabel!
+    @IBOutlet private weak var lifesLabel: UILabel!
     
     private lazy var scene: GameScene = { GameScene(size: sceneView.frame.size) }()
     
@@ -32,8 +33,11 @@ class GameViewController: UIViewController {
         view.addGestureRecognizer(swipeLeftGestureRecognizer)
         view.addGestureRecognizer(swipeRightGestureRecognizer)
         
+        lifesLabel.text = lifesString(withNumberOfLifes: scene.gameState.lives)
+        
         if let font = UIFont(name: "PressStart2P-Regular", size: 22.0) {
             scoreLabel.font = UIFontMetrics(forTextStyle: .title1).scaledFont(for: font)
+            lifesLabel.font = UIFontMetrics(forTextStyle: .title1).scaledFont(for: font)
         }
     }
     
@@ -80,7 +84,11 @@ class GameViewController: UIViewController {
     }
     
     private func scoreString(forScore score: Int) -> String {
-        return "\(NSLocalizedString("score", comment: "")): \(score)"
+        return "\(NSLocalizedString("score", comment: "")):\(score)"
+    }
+    
+    private func lifesString(withNumberOfLifes numberOfLifes: Int) -> String {
+        return "x\(numberOfLifes)"
     }
     
     private func updateGameCenterScore(_ score: Int) {
@@ -108,8 +116,18 @@ extension GameViewController: GameSceneDelegate {
     func gameSceneDidDetectCollision(_ gameScene: GameScene) {
         let score = gameScene.gameState.score
         let impactFeedbackGenerator = UIImpactFeedbackGenerator(style: .rigid)
+        
         impactFeedbackGenerator.impactOccurred()
         
+        lifesLabel.text = lifesString(withNumberOfLifes: scene.gameState.lives)
+        
+        if gameScene.gameState.lives == 0 {
+            presentGameFinishedAlert(forScore: score)
+            updateGameCenterScore(score)
+        }
+    }
+    
+    private func presentGameFinishedAlert(forScore score: Int) {
         let gameOverAlertController = UIAlertController(title: NSLocalizedString("gameOver", comment: ""),
                                                         message: scoreString(forScore: score),
                                                         preferredStyle: .alert)
@@ -122,7 +140,5 @@ extension GameViewController: GameSceneDelegate {
         }))
         
         present(gameOverAlertController, animated: true, completion: nil)
-        
-        updateGameCenterScore(score)
     }
 }
