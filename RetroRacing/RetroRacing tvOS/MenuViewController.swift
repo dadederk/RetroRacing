@@ -1,7 +1,7 @@
 import UIKit
 import GameKit
 
-class MenuViewController: UIViewController {
+final class MenuViewController: UIViewController {
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var playButton: UIButton!
     

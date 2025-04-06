@@ -3,169 +3,177 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		0B5BDAAF2460989900F05C8E /* SKNode+SizeAndPositionUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B5BDAAE2460989900F05C8E /* SKNode+SizeAndPositionUtilities.swift */; };
-		0B5BDAB02460989900F05C8E /* SKNode+SizeAndPositionUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B5BDAAE2460989900F05C8E /* SKNode+SizeAndPositionUtilities.swift */; };
-		0B5BDAB12460989900F05C8E /* SKNode+SizeAndPositionUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B5BDAAE2460989900F05C8E /* SKNode+SizeAndPositionUtilities.swift */; };
-		0B5BDAB42463465A00F05C8E /* MenuInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B5BDAB32463465A00F05C8E /* MenuInterfaceController.swift */; };
-		0B6DBE6524B263D00024356D /* bip.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DBE6424B263D00024356D /* bip.m4a */; };
-		0B6DBE6624B263D00024356D /* bip.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DBE6424B263D00024356D /* bip.m4a */; };
-		0B6DBE6724B263D00024356D /* bip.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DBE6424B263D00024356D /* bip.m4a */; };
-		0B6DBE6824B263D00024356D /* bip.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DBE6424B263D00024356D /* bip.m4a */; };
-		0B6DBE6B24B265320024356D /* start.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DBE6A24B265320024356D /* start.m4a */; };
-		0B6DBE6C24B265320024356D /* start.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DBE6A24B265320024356D /* start.m4a */; };
-		0B6DBE6D24B265320024356D /* start.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DBE6A24B265320024356D /* start.m4a */; };
-		0B6DBE6E24B265320024356D /* start.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DBE6A24B265320024356D /* start.m4a */; };
-		0B6DBE7124B265B50024356D /* fail.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DBE7024B265B50024356D /* fail.m4a */; };
-		0B6DBE7224B265B50024356D /* fail.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DBE7024B265B50024356D /* fail.m4a */; };
-		0B6DBE7324B265B50024356D /* fail.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DBE7024B265B50024356D /* fail.m4a */; };
-		0B6DBE7424B265B50024356D /* fail.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 0B6DBE7024B265B50024356D /* fail.m4a */; };
-		0B6DBE7824B658650024356D /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6DBE7724B658650024356D /* GameState.swift */; };
-		0B6DBE7924B658650024356D /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6DBE7724B658650024356D /* GameState.swift */; };
-		0B6DBE7A24B658650024356D /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6DBE7724B658650024356D /* GameState.swift */; };
-		0B6DBE7D24B65C990024356D /* GridStateCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6DBE7C24B65C990024356D /* GridStateCalculator.swift */; };
-		0B6DBE7E24B65C990024356D /* GridStateCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6DBE7C24B65C990024356D /* GridStateCalculator.swift */; };
-		0B6DBE7F24B65C990024356D /* GridStateCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6DBE7C24B65C990024356D /* GridStateCalculator.swift */; };
-		0B6DBE8224B8EEF50024356D /* GridState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6DBE8124B8EEF50024356D /* GridState.swift */; };
-		0B6DBE8324B8EEF50024356D /* GridState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6DBE8124B8EEF50024356D /* GridState.swift */; };
-		0B6DBE8424B8EEF50024356D /* GridState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6DBE8124B8EEF50024356D /* GridState.swift */; };
-		0B7F67D724CD8DA100EE468D /* PressStart2P-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0B7F67D624CD8DA100EE468D /* PressStart2P-Regular.ttf */; };
-		0B7F67D824CD8DA100EE468D /* PressStart2P-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0B7F67D624CD8DA100EE468D /* PressStart2P-Regular.ttf */; };
-		0B7F67D924CD8DA100EE468D /* PressStart2P-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0B7F67D624CD8DA100EE468D /* PressStart2P-Regular.ttf */; };
-		0BF04B99244C75BF005BC68E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF04B98244C75BF005BC68E /* AppDelegate.swift */; };
-		0BF04B9B244C75BF005BC68E /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF04B9A244C75BF005BC68E /* GameViewController.swift */; };
-		0BF04B9E244C75BF005BC68E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0BF04B9C244C75BF005BC68E /* Main.storyboard */; };
-		0BF04BA1244C75BF005BC68E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0BF04B9F244C75BF005BC68E /* LaunchScreen.storyboard */; };
-		0BF04BA6244C75BF005BC68E /* RetroRacing!.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 0BF04BA5244C75BF005BC68E /* RetroRacing!.app */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		0BF04BAC244C75BF005BC68E /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0BF04BAA244C75BF005BC68E /* Interface.storyboard */; };
-		0BF04BB3244C75BF005BC68E /* RetroRacing! Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 0BF04BB2244C75BF005BC68E /* RetroRacing! Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		0BF04BB8244C75BF005BC68E /* GameInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF04BB7244C75BF005BC68E /* GameInterfaceController.swift */; };
-		0BF04BBA244C75BF005BC68E /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF04BB9244C75BF005BC68E /* ExtensionDelegate.swift */; };
-		0BF04BC3244C75BF005BC68E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF04BC2244C75BF005BC68E /* AppDelegate.swift */; };
-		0BF04BC5244C75BF005BC68E /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF04BC4244C75BF005BC68E /* GameViewController.swift */; };
-		0BF04BC8244C75BF005BC68E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0BF04BC6244C75BF005BC68E /* Main.storyboard */; };
-		0BF04BCB244C75BF005BC68E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0BF04BC9244C75BF005BC68E /* LaunchScreen.storyboard */; };
-		0BF04BE2244C75C0005BC68E /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF04B8F244C75BD005BC68E /* GameScene.swift */; };
-		0BF04BE3244C75C0005BC68E /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF04B8F244C75BD005BC68E /* GameScene.swift */; };
-		0BF04BE4244C75C0005BC68E /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF04B8F244C75BD005BC68E /* GameScene.swift */; };
-		0BF04BE6244C75C0005BC68E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0BF04B90244C75BF005BC68E /* Assets.xcassets */; };
-		0BF04BE7244C75C0005BC68E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0BF04B90244C75BF005BC68E /* Assets.xcassets */; };
-		0BF04BE8244C75C0005BC68E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0BF04B90244C75BF005BC68E /* Assets.xcassets */; };
-		0BF04C03244C891C005BC68E /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF04C02244C891C005BC68E /* MenuViewController.swift */; };
-		0BF04C0B244C9CB2005BC68E /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BF04C0A244C9CB2005BC68E /* MenuViewController.swift */; };
-		0BF04C0D244CA066005BC68E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0BF04B90244C75BF005BC68E /* Assets.xcassets */; };
-		0BF04C0F244CAAF2005BC68E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0BF04C0E244CAAF2005BC68E /* Localizable.strings */; };
-		0BF04C10244CAAF2005BC68E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0BF04C0E244CAAF2005BC68E /* Localizable.strings */; };
-		0BF04C11244CAAF2005BC68E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0BF04C0E244CAAF2005BC68E /* Localizable.strings */; };
-		0BF04C12244CAAF2005BC68E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0BF04C0E244CAAF2005BC68E /* Localizable.strings */; };
-		0BFE9FD224B9DD0F00C93AB4 /* Int+Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFE9FD124B9DD0F00C93AB4 /* Int+Random.swift */; };
-		0BFE9FD324B9DD0F00C93AB4 /* Int+Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFE9FD124B9DD0F00C93AB4 /* Int+Random.swift */; };
-		0BFE9FD424B9DD0F00C93AB4 /* Int+Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BFE9FD124B9DD0F00C93AB4 /* Int+Random.swift */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXContainerItemProxy section */
-		0BF04BA7244C75BF005BC68E /* PBXContainerItemProxy */ = {
+		2104FBB62DA2E22F00AC4879 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 0BF04B88244C75BD005BC68E /* Project object */;
+			containerPortal = 210585B22DA01329004855FE /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 0BF04BA4244C75BF005BC68E;
-			remoteInfo = "RetroRacing watchOS App";
-		};
-		0BF04BB4244C75BF005BC68E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0BF04B88244C75BD005BC68E /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 0BF04BB1244C75BF005BC68E;
-			remoteInfo = "RetroRacing watchOS App Extension";
+			remoteGlobalIDString = 210585BE2DA0132B004855FE;
+			remoteInfo = "RetroRacing iOS";
 		};
 /* End PBXContainerItemProxy section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		0BF04BEF244C75C0005BC68E /* Embed App Extensions */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 13;
-			files = (
-				0BF04BB3244C75BF005BC68E /* RetroRacing! Extension.appex in Embed App Extensions */,
-			);
-			name = "Embed App Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0BF04BF3244C75C0005BC68E /* Embed Watch Content */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
-			dstSubfolderSpec = 16;
-			files = (
-				0BF04BA6244C75BF005BC68E /* RetroRacing!.app in Embed Watch Content */,
-			);
-			name = "Embed Watch Content";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
-		0B5BDAAE2460989900F05C8E /* SKNode+SizeAndPositionUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SKNode+SizeAndPositionUtilities.swift"; sourceTree = "<group>"; };
-		0B5BDAB32463465A00F05C8E /* MenuInterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuInterfaceController.swift; sourceTree = "<group>"; };
-		0B6DBE6424B263D00024356D /* bip.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = bip.m4a; sourceTree = "<group>"; };
-		0B6DBE6A24B265320024356D /* start.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = start.m4a; sourceTree = "<group>"; };
-		0B6DBE7024B265B50024356D /* fail.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = fail.m4a; sourceTree = "<group>"; };
-		0B6DBE7624B269620024356D /* RetroRacing!.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "RetroRacing!.entitlements"; sourceTree = "<group>"; };
-		0B6DBE7724B658650024356D /* GameState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameState.swift; sourceTree = "<group>"; };
-		0B6DBE7C24B65C990024356D /* GridStateCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridStateCalculator.swift; sourceTree = "<group>"; };
-		0B6DBE8124B8EEF50024356D /* GridState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridState.swift; sourceTree = "<group>"; };
-		0B7F67D624CD8DA100EE468D /* PressStart2P-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PressStart2P-Regular.ttf"; sourceTree = "<group>"; };
-		0BF04B8F244C75BD005BC68E /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
-		0BF04B90244C75BF005BC68E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		0BF04B95244C75BF005BC68E /* RetroRacing!.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RetroRacing!.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		0BF04B98244C75BF005BC68E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		0BF04B9A244C75BF005BC68E /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
-		0BF04B9D244C75BF005BC68E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		0BF04BA0244C75BF005BC68E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		0BF04BA2244C75BF005BC68E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0BF04BA5244C75BF005BC68E /* RetroRacing!.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RetroRacing!.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		0BF04BAB244C75BF005BC68E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
-		0BF04BAD244C75BF005BC68E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0BF04BB2244C75BF005BC68E /* RetroRacing! Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "RetroRacing! Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
-		0BF04BB7244C75BF005BC68E /* GameInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameInterfaceController.swift; sourceTree = "<group>"; };
-		0BF04BB9244C75BF005BC68E /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
-		0BF04BBB244C75BF005BC68E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0BF04BC0244C75BF005BC68E /* RetroRacing!.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RetroRacing!.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		0BF04BC2244C75BF005BC68E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		0BF04BC4244C75BF005BC68E /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
-		0BF04BC7244C75BF005BC68E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		0BF04BCA244C75BF005BC68E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		0BF04BCC244C75BF005BC68E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0BF04BD3244C75C0005BC68E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		0BF04BD5244C75C0005BC68E /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
-		0BF04BD8244C75C0005BC68E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		0BF04BDA244C75C0005BC68E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0BF04C02244C891C005BC68E /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
-		0BF04C0A244C9CB2005BC68E /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
-		0BF04C0E244CAAF2005BC68E /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
-		0BFE9FD124B9DD0F00C93AB4 /* Int+Random.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Random.swift"; sourceTree = "<group>"; };
+		2104FBB22DA2E22F00AC4879 /* RetroRacingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RetroRacingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		210585BF2DA0132B004855FE /* RetroRacing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RetroRacing.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		210585D02DA0132B004855FE /* RetroRacing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RetroRacing.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		210585E02DA0132B004855FE /* RetroRacing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RetroRacing.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		214E8E1A2DA01A1700AC8000 /* RetroRacing watchOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RetroRacing watchOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		210585F62DA0132B004855FE /* Exceptions for "RetroRacing Shared" folder in "RetroRacing iOS" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Actions.sks,
+				Assets.xcassets,
+				"Extensions/SKNode+SizeAndPositionUtilities.swift",
+				GameScene.sks,
+				GameScene.swift,
+				GameState.swift,
+				GridState.swift,
+				GridStateCalculator.swift,
+				"Int+Random.swift",
+				Localizable.xcstrings,
+				Resources/Audio/bip.m4a,
+				Resources/Audio/fail.m4a,
+				Resources/Audio/start.m4a,
+				"Resources/Font/PressStart2P-Regular.ttf",
+			);
+			target = 210585BE2DA0132B004855FE /* RetroRacing iOS */;
+		};
+		210585FA2DA0132B004855FE /* Exceptions for "RetroRacing Shared" folder in "RetroRacing tvOS" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Actions.sks,
+				Assets.xcassets,
+				"Extensions/SKNode+SizeAndPositionUtilities.swift",
+				GameScene.sks,
+				GameScene.swift,
+				GameState.swift,
+				GridState.swift,
+				GridStateCalculator.swift,
+				"Int+Random.swift",
+				Localizable.xcstrings,
+				Resources/Audio/bip.m4a,
+				Resources/Audio/fail.m4a,
+				Resources/Audio/start.m4a,
+				"Resources/Font/PressStart2P-Regular.ttf",
+			);
+			target = 210585CF2DA0132B004855FE /* RetroRacing tvOS */;
+		};
+		210585FE2DA0132B004855FE /* Exceptions for "RetroRacing Shared" folder in "RetroRacing macOS" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Actions.sks,
+				Assets.xcassets,
+				"Extensions/SKNode+SizeAndPositionUtilities.swift",
+				GameScene.sks,
+				GameScene.swift,
+				GameState.swift,
+				GridState.swift,
+				GridStateCalculator.swift,
+				"Int+Random.swift",
+				Localizable.xcstrings,
+				Resources/Audio/bip.m4a,
+				Resources/Audio/fail.m4a,
+				Resources/Audio/start.m4a,
+				"Resources/Font/PressStart2P-Regular.ttf",
+			);
+			target = 210585DF2DA0132B004855FE /* RetroRacing macOS */;
+		};
+		214E8E702DA01B4800AC8000 /* Exceptions for "RetroRacing Shared" folder in "RetroRacing watchOS" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Assets.xcassets,
+				"Extensions/SKNode+SizeAndPositionUtilities.swift",
+				GameScene.swift,
+				GameState.swift,
+				GridState.swift,
+				GridStateCalculator.swift,
+				"Int+Random.swift",
+				Localizable.xcstrings,
+				Resources/Audio/bip.m4a,
+				Resources/Audio/fail.m4a,
+				Resources/Audio/start.m4a,
+				"Resources/Font/PressStart2P-Regular.ttf",
+			);
+			target = 214E8E192DA01A1700AC8000 /* RetroRacing watchOS */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		2104FBB32DA2E22F00AC4879 /* RetroRacingTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = RetroRacingTests;
+			sourceTree = "<group>";
+		};
+		210585B62DA01329004855FE /* RetroRacing Shared */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				210585F62DA0132B004855FE /* Exceptions for "RetroRacing Shared" folder in "RetroRacing iOS" target */,
+				210585FA2DA0132B004855FE /* Exceptions for "RetroRacing Shared" folder in "RetroRacing tvOS" target */,
+				210585FE2DA0132B004855FE /* Exceptions for "RetroRacing Shared" folder in "RetroRacing macOS" target */,
+				214E8E702DA01B4800AC8000 /* Exceptions for "RetroRacing Shared" folder in "RetroRacing watchOS" target */,
+			);
+			path = "RetroRacing Shared";
+			sourceTree = "<group>";
+		};
+		210585C12DA0132B004855FE /* RetroRacing iOS */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "RetroRacing iOS";
+			sourceTree = "<group>";
+		};
+		210585D12DA0132B004855FE /* RetroRacing tvOS */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "RetroRacing tvOS";
+			sourceTree = "<group>";
+		};
+		210585E12DA0132B004855FE /* RetroRacing macOS */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "RetroRacing macOS";
+			sourceTree = "<group>";
+		};
+		214E8E1E2DA01A1700AC8000 /* RetroRacing watchOS */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "RetroRacing watchOS";
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
-		0BF04B92244C75BF005BC68E /* Frameworks */ = {
+		2104FBAF2DA2E22F00AC4879 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		0BF04BAF244C75BF005BC68E /* Frameworks */ = {
+		210585BC2DA0132B004855FE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		0BF04BBD244C75BF005BC68E /* Frameworks */ = {
+		210585CD2DA0132B004855FE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		210585DD2DA0132B004855FE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		214E8E172DA01A1700AC8000 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -175,442 +183,515 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0B5BDAAD2460986F00F05C8E /* Extensions */ = {
+		210585B12DA01329004855FE = {
 			isa = PBXGroup;
 			children = (
-				0B5BDAAE2460989900F05C8E /* SKNode+SizeAndPositionUtilities.swift */,
-			);
-			path = Extensions;
-			sourceTree = "<group>";
-		};
-		0B6DBE6324B263BC0024356D /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				0B7F67D524CD8D8600EE468D /* Font */,
-				0B7F67D424CD8D7C00EE468D /* Audio */,
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
-		0B7F67D424CD8D7C00EE468D /* Audio */ = {
-			isa = PBXGroup;
-			children = (
-				0B6DBE6A24B265320024356D /* start.m4a */,
-				0B6DBE6424B263D00024356D /* bip.m4a */,
-				0B6DBE7024B265B50024356D /* fail.m4a */,
-			);
-			path = Audio;
-			sourceTree = "<group>";
-		};
-		0B7F67D524CD8D8600EE468D /* Font */ = {
-			isa = PBXGroup;
-			children = (
-				0B7F67D624CD8DA100EE468D /* PressStart2P-Regular.ttf */,
-			);
-			path = Font;
-			sourceTree = "<group>";
-		};
-		0BF04B87244C75BD005BC68E = {
-			isa = PBXGroup;
-			children = (
-				0BF04B8C244C75BD005BC68E /* RetroRacing Shared */,
-				0BF04B97244C75BF005BC68E /* RetroRacing iOS */,
-				0BF04BA9244C75BF005BC68E /* RetroRacing watchOS App */,
-				0BF04BB6244C75BF005BC68E /* RetroRacing watchOS App Extension */,
-				0BF04BC1244C75BF005BC68E /* RetroRacing tvOS */,
-				0BF04BD2244C75C0005BC68E /* RetroRacing macOS */,
-				0BF04B96244C75BF005BC68E /* Products */,
+				210585B62DA01329004855FE /* RetroRacing Shared */,
+				210585C12DA0132B004855FE /* RetroRacing iOS */,
+				210585D12DA0132B004855FE /* RetroRacing tvOS */,
+				210585E12DA0132B004855FE /* RetroRacing macOS */,
+				214E8E1E2DA01A1700AC8000 /* RetroRacing watchOS */,
+				2104FBB32DA2E22F00AC4879 /* RetroRacingTests */,
+				210585C02DA0132B004855FE /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		0BF04B8C244C75BD005BC68E /* RetroRacing Shared */ = {
+		210585C02DA0132B004855FE /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				0B6DBE7724B658650024356D /* GameState.swift */,
-				0B6DBE8124B8EEF50024356D /* GridState.swift */,
-				0B6DBE7C24B65C990024356D /* GridStateCalculator.swift */,
-				0BFE9FD124B9DD0F00C93AB4 /* Int+Random.swift */,
-				0BF04B8F244C75BD005BC68E /* GameScene.swift */,
-				0BF04B90244C75BF005BC68E /* Assets.xcassets */,
-				0BF04C0E244CAAF2005BC68E /* Localizable.strings */,
-				0B6DBE6324B263BC0024356D /* Resources */,
-				0B5BDAAD2460986F00F05C8E /* Extensions */,
-			);
-			path = "RetroRacing Shared";
-			sourceTree = "<group>";
-		};
-		0BF04B96244C75BF005BC68E /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				0BF04B95244C75BF005BC68E /* RetroRacing!.app */,
-				0BF04BA5244C75BF005BC68E /* RetroRacing!.app */,
-				0BF04BB2244C75BF005BC68E /* RetroRacing! Extension.appex */,
-				0BF04BC0244C75BF005BC68E /* RetroRacing!.app */,
+				210585BF2DA0132B004855FE /* RetroRacing.app */,
+				210585D02DA0132B004855FE /* RetroRacing.app */,
+				210585E02DA0132B004855FE /* RetroRacing.app */,
+				214E8E1A2DA01A1700AC8000 /* RetroRacing watchOS.app */,
+				2104FBB22DA2E22F00AC4879 /* RetroRacingTests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		0BF04B97244C75BF005BC68E /* RetroRacing iOS */ = {
-			isa = PBXGroup;
-			children = (
-				0B6DBE7624B269620024356D /* RetroRacing!.entitlements */,
-				0BF04B98244C75BF005BC68E /* AppDelegate.swift */,
-				0BF04C02244C891C005BC68E /* MenuViewController.swift */,
-				0BF04B9A244C75BF005BC68E /* GameViewController.swift */,
-				0BF04B9C244C75BF005BC68E /* Main.storyboard */,
-				0BF04B9F244C75BF005BC68E /* LaunchScreen.storyboard */,
-				0BF04BA2244C75BF005BC68E /* Info.plist */,
-			);
-			path = "RetroRacing iOS";
-			sourceTree = "<group>";
-		};
-		0BF04BA9244C75BF005BC68E /* RetroRacing watchOS App */ = {
-			isa = PBXGroup;
-			children = (
-				0BF04BAA244C75BF005BC68E /* Interface.storyboard */,
-				0BF04BAD244C75BF005BC68E /* Info.plist */,
-			);
-			path = "RetroRacing watchOS App";
-			sourceTree = "<group>";
-		};
-		0BF04BB6244C75BF005BC68E /* RetroRacing watchOS App Extension */ = {
-			isa = PBXGroup;
-			children = (
-				0B5BDAB32463465A00F05C8E /* MenuInterfaceController.swift */,
-				0BF04BB7244C75BF005BC68E /* GameInterfaceController.swift */,
-				0BF04BB9244C75BF005BC68E /* ExtensionDelegate.swift */,
-				0BF04BBB244C75BF005BC68E /* Info.plist */,
-			);
-			path = "RetroRacing watchOS App Extension";
-			sourceTree = "<group>";
-		};
-		0BF04BC1244C75BF005BC68E /* RetroRacing tvOS */ = {
-			isa = PBXGroup;
-			children = (
-				0BF04BC2244C75BF005BC68E /* AppDelegate.swift */,
-				0BF04C0A244C9CB2005BC68E /* MenuViewController.swift */,
-				0BF04BC4244C75BF005BC68E /* GameViewController.swift */,
-				0BF04BC6244C75BF005BC68E /* Main.storyboard */,
-				0BF04BC9244C75BF005BC68E /* LaunchScreen.storyboard */,
-				0BF04BCC244C75BF005BC68E /* Info.plist */,
-			);
-			path = "RetroRacing tvOS";
-			sourceTree = "<group>";
-		};
-		0BF04BD2244C75C0005BC68E /* RetroRacing macOS */ = {
-			isa = PBXGroup;
-			children = (
-				0BF04BD3244C75C0005BC68E /* AppDelegate.swift */,
-				0BF04BD5244C75C0005BC68E /* GameViewController.swift */,
-				0BF04BD7244C75C0005BC68E /* Main.storyboard */,
-				0BF04BDA244C75C0005BC68E /* Info.plist */,
-			);
-			path = "RetroRacing macOS";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		0BF04B94244C75BF005BC68E /* RetroRacing iOS */ = {
+		2104FBB12DA2E22F00AC4879 /* RetroRacingTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0BF04BF4244C75C0005BC68E /* Build configuration list for PBXNativeTarget "RetroRacing iOS" */;
+			buildConfigurationList = 2104FBB82DA2E22F00AC4879 /* Build configuration list for PBXNativeTarget "RetroRacingTests" */;
 			buildPhases = (
-				0BF04B91244C75BF005BC68E /* Sources */,
-				0BF04B92244C75BF005BC68E /* Frameworks */,
-				0BF04B93244C75BF005BC68E /* Resources */,
-				0BF04BF3244C75C0005BC68E /* Embed Watch Content */,
+				2104FBAE2DA2E22F00AC4879 /* Sources */,
+				2104FBAF2DA2E22F00AC4879 /* Frameworks */,
+				2104FBB02DA2E22F00AC4879 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				0BF04BA8244C75BF005BC68E /* PBXTargetDependency */,
+				2104FBB72DA2E22F00AC4879 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				2104FBB32DA2E22F00AC4879 /* RetroRacingTests */,
+			);
+			name = RetroRacingTests;
+			packageProductDependencies = (
+			);
+			productName = RetroRacingTests;
+			productReference = 2104FBB22DA2E22F00AC4879 /* RetroRacingTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		210585BE2DA0132B004855FE /* RetroRacing iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 210585F72DA0132B004855FE /* Build configuration list for PBXNativeTarget "RetroRacing iOS" */;
+			buildPhases = (
+				210585BB2DA0132B004855FE /* Sources */,
+				210585BC2DA0132B004855FE /* Frameworks */,
+				210585BD2DA0132B004855FE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				210585C12DA0132B004855FE /* RetroRacing iOS */,
 			);
 			name = "RetroRacing iOS";
+			packageProductDependencies = (
+			);
 			productName = "RetroRacing iOS";
-			productReference = 0BF04B95244C75BF005BC68E /* RetroRacing!.app */;
+			productReference = 210585BF2DA0132B004855FE /* RetroRacing.app */;
 			productType = "com.apple.product-type.application";
 		};
-		0BF04BA4244C75BF005BC68E /* RetroRacing watchOS App */ = {
+		210585CF2DA0132B004855FE /* RetroRacing tvOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0BF04BF0244C75C0005BC68E /* Build configuration list for PBXNativeTarget "RetroRacing watchOS App" */;
+			buildConfigurationList = 210585FB2DA0132B004855FE /* Build configuration list for PBXNativeTarget "RetroRacing tvOS" */;
 			buildPhases = (
-				0BF04BA3244C75BF005BC68E /* Resources */,
-				0BF04BEF244C75C0005BC68E /* Embed App Extensions */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				0BF04BB5244C75BF005BC68E /* PBXTargetDependency */,
-			);
-			name = "RetroRacing watchOS App";
-			productName = "RetroRacing watchOS App";
-			productReference = 0BF04BA5244C75BF005BC68E /* RetroRacing!.app */;
-			productType = "com.apple.product-type.application.watchapp2";
-		};
-		0BF04BB1244C75BF005BC68E /* RetroRacing watchOS App Extension */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 0BF04BEC244C75C0005BC68E /* Build configuration list for PBXNativeTarget "RetroRacing watchOS App Extension" */;
-			buildPhases = (
-				0BF04BAE244C75BF005BC68E /* Sources */,
-				0BF04BAF244C75BF005BC68E /* Frameworks */,
-				0BF04BB0244C75BF005BC68E /* Resources */,
+				210585CC2DA0132B004855FE /* Sources */,
+				210585CD2DA0132B004855FE /* Frameworks */,
+				210585CE2DA0132B004855FE /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = "RetroRacing watchOS App Extension";
-			productName = "RetroRacing watchOS App Extension";
-			productReference = 0BF04BB2244C75BF005BC68E /* RetroRacing! Extension.appex */;
-			productType = "com.apple.product-type.watchkit2-extension";
-		};
-		0BF04BBF244C75BF005BC68E /* RetroRacing tvOS */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 0BF04BF7244C75C0005BC68E /* Build configuration list for PBXNativeTarget "RetroRacing tvOS" */;
-			buildPhases = (
-				0BF04BBC244C75BF005BC68E /* Sources */,
-				0BF04BBD244C75BF005BC68E /* Frameworks */,
-				0BF04BBE244C75BF005BC68E /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
+			fileSystemSynchronizedGroups = (
+				210585D12DA0132B004855FE /* RetroRacing tvOS */,
 			);
 			name = "RetroRacing tvOS";
+			packageProductDependencies = (
+			);
 			productName = "RetroRacing tvOS";
-			productReference = 0BF04BC0244C75BF005BC68E /* RetroRacing!.app */;
+			productReference = 210585D02DA0132B004855FE /* RetroRacing.app */;
+			productType = "com.apple.product-type.application";
+		};
+		210585DF2DA0132B004855FE /* RetroRacing macOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 210585FF2DA0132B004855FE /* Build configuration list for PBXNativeTarget "RetroRacing macOS" */;
+			buildPhases = (
+				210585DC2DA0132B004855FE /* Sources */,
+				210585DD2DA0132B004855FE /* Frameworks */,
+				210585DE2DA0132B004855FE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				210585E12DA0132B004855FE /* RetroRacing macOS */,
+			);
+			name = "RetroRacing macOS";
+			packageProductDependencies = (
+			);
+			productName = "RetroRacing macOS";
+			productReference = 210585E02DA0132B004855FE /* RetroRacing.app */;
+			productType = "com.apple.product-type.application";
+		};
+		214E8E192DA01A1700AC8000 /* RetroRacing watchOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 214E8E442DA01A1900AC8000 /* Build configuration list for PBXNativeTarget "RetroRacing watchOS" */;
+			buildPhases = (
+				214E8E162DA01A1700AC8000 /* Sources */,
+				214E8E172DA01A1700AC8000 /* Frameworks */,
+				214E8E182DA01A1700AC8000 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				214E8E1E2DA01A1700AC8000 /* RetroRacing watchOS */,
+			);
+			name = "RetroRacing watchOS";
+			packageProductDependencies = (
+			);
+			productName = "RetroRacing watchOS Watch App";
+			productReference = 214E8E1A2DA01A1700AC8000 /* RetroRacing watchOS.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		0BF04B88244C75BD005BC68E /* Project object */ = {
+		210585B22DA01329004855FE /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1140;
-				LastUpgradeCheck = 1150;
-				ORGANIZATIONNAME = "Desfici Ltd";
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1630;
+				LastUpgradeCheck = 1630;
 				TargetAttributes = {
-					0BF04B94244C75BF005BC68E = {
-						CreatedOnToolsVersion = 11.4.1;
+					2104FBB12DA2E22F00AC4879 = {
+						CreatedOnToolsVersion = 16.3;
+						TestTargetID = 210585BE2DA0132B004855FE;
 					};
-					0BF04BA4244C75BF005BC68E = {
-						CreatedOnToolsVersion = 11.4.1;
-						LastSwiftMigration = 1140;
+					210585BE2DA0132B004855FE = {
+						CreatedOnToolsVersion = 16.3;
 					};
-					0BF04BB1244C75BF005BC68E = {
-						CreatedOnToolsVersion = 11.4.1;
+					210585CF2DA0132B004855FE = {
+						CreatedOnToolsVersion = 16.3;
 					};
-					0BF04BBF244C75BF005BC68E = {
-						CreatedOnToolsVersion = 11.4.1;
+					210585DF2DA0132B004855FE = {
+						CreatedOnToolsVersion = 16.3;
+					};
+					214E8E192DA01A1700AC8000 = {
+						CreatedOnToolsVersion = 16.3;
 					};
 				};
 			};
-			buildConfigurationList = 0BF04B8B244C75BD005BC68E /* Build configuration list for PBXProject "RetroRacing" */;
-			compatibilityVersion = "Xcode 9.3";
+			buildConfigurationList = 210585B52DA01329004855FE /* Build configuration list for PBXProject "RetroRacing" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = 0BF04B87244C75BD005BC68E;
-			productRefGroup = 0BF04B96244C75BF005BC68E /* Products */;
+			mainGroup = 210585B12DA01329004855FE;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 210585C02DA0132B004855FE /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				0BF04B94244C75BF005BC68E /* RetroRacing iOS */,
-				0BF04BA4244C75BF005BC68E /* RetroRacing watchOS App */,
-				0BF04BB1244C75BF005BC68E /* RetroRacing watchOS App Extension */,
-				0BF04BBF244C75BF005BC68E /* RetroRacing tvOS */,
+				210585BE2DA0132B004855FE /* RetroRacing iOS */,
+				210585CF2DA0132B004855FE /* RetroRacing tvOS */,
+				210585DF2DA0132B004855FE /* RetroRacing macOS */,
+				214E8E192DA01A1700AC8000 /* RetroRacing watchOS */,
+				2104FBB12DA2E22F00AC4879 /* RetroRacingTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		0BF04B93244C75BF005BC68E /* Resources */ = {
+		2104FBB02DA2E22F00AC4879 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0B7F67D724CD8DA100EE468D /* PressStart2P-Regular.ttf in Resources */,
-				0B6DBE7124B265B50024356D /* fail.m4a in Resources */,
-				0BF04C0F244CAAF2005BC68E /* Localizable.strings in Resources */,
-				0BF04B9E244C75BF005BC68E /* Main.storyboard in Resources */,
-				0B6DBE6524B263D00024356D /* bip.m4a in Resources */,
-				0BF04BA1244C75BF005BC68E /* LaunchScreen.storyboard in Resources */,
-				0BF04BE6244C75C0005BC68E /* Assets.xcassets in Resources */,
-				0B6DBE6B24B265320024356D /* start.m4a in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		0BF04BA3244C75BF005BC68E /* Resources */ = {
+		210585BD2DA0132B004855FE /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0B6DBE6C24B265320024356D /* start.m4a in Resources */,
-				0BF04BE7244C75C0005BC68E /* Assets.xcassets in Resources */,
-				0BF04C10244CAAF2005BC68E /* Localizable.strings in Resources */,
-				0B6DBE6624B263D00024356D /* bip.m4a in Resources */,
-				0B6DBE7224B265B50024356D /* fail.m4a in Resources */,
-				0BF04BAC244C75BF005BC68E /* Interface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		0BF04BB0244C75BF005BC68E /* Resources */ = {
+		210585CE2DA0132B004855FE /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0B7F67D824CD8DA100EE468D /* PressStart2P-Regular.ttf in Resources */,
-				0B6DBE6D24B265320024356D /* start.m4a in Resources */,
-				0BF04C0D244CA066005BC68E /* Assets.xcassets in Resources */,
-				0BF04C11244CAAF2005BC68E /* Localizable.strings in Resources */,
-				0B6DBE6724B263D00024356D /* bip.m4a in Resources */,
-				0B6DBE7324B265B50024356D /* fail.m4a in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		0BF04BBE244C75BF005BC68E /* Resources */ = {
+		210585DE2DA0132B004855FE /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0B7F67D924CD8DA100EE468D /* PressStart2P-Regular.ttf in Resources */,
-				0B6DBE7424B265B50024356D /* fail.m4a in Resources */,
-				0BF04C12244CAAF2005BC68E /* Localizable.strings in Resources */,
-				0BF04BC8244C75BF005BC68E /* Main.storyboard in Resources */,
-				0B6DBE6824B263D00024356D /* bip.m4a in Resources */,
-				0BF04BCB244C75BF005BC68E /* LaunchScreen.storyboard in Resources */,
-				0BF04BE8244C75C0005BC68E /* Assets.xcassets in Resources */,
-				0B6DBE6E24B265320024356D /* start.m4a in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		214E8E182DA01A1700AC8000 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		0BF04B91244C75BF005BC68E /* Sources */ = {
+		2104FBAE2DA2E22F00AC4879 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0B6DBE7824B658650024356D /* GameState.swift in Sources */,
-				0B6DBE8224B8EEF50024356D /* GridState.swift in Sources */,
-				0BFE9FD224B9DD0F00C93AB4 /* Int+Random.swift in Sources */,
-				0B6DBE7D24B65C990024356D /* GridStateCalculator.swift in Sources */,
-				0BF04BE2244C75C0005BC68E /* GameScene.swift in Sources */,
-				0BF04C03244C891C005BC68E /* MenuViewController.swift in Sources */,
-				0BF04B9B244C75BF005BC68E /* GameViewController.swift in Sources */,
-				0B5BDAAF2460989900F05C8E /* SKNode+SizeAndPositionUtilities.swift in Sources */,
-				0BF04B99244C75BF005BC68E /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		0BF04BAE244C75BF005BC68E /* Sources */ = {
+		210585BB2DA0132B004855FE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0B6DBE7924B658650024356D /* GameState.swift in Sources */,
-				0B6DBE8324B8EEF50024356D /* GridState.swift in Sources */,
-				0BFE9FD324B9DD0F00C93AB4 /* Int+Random.swift in Sources */,
-				0B6DBE7E24B65C990024356D /* GridStateCalculator.swift in Sources */,
-				0BF04BE3244C75C0005BC68E /* GameScene.swift in Sources */,
-				0BF04BBA244C75BF005BC68E /* ExtensionDelegate.swift in Sources */,
-				0BF04BB8244C75BF005BC68E /* GameInterfaceController.swift in Sources */,
-				0B5BDAB42463465A00F05C8E /* MenuInterfaceController.swift in Sources */,
-				0B5BDAB02460989900F05C8E /* SKNode+SizeAndPositionUtilities.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		0BF04BBC244C75BF005BC68E /* Sources */ = {
+		210585CC2DA0132B004855FE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0B6DBE7A24B658650024356D /* GameState.swift in Sources */,
-				0B6DBE8424B8EEF50024356D /* GridState.swift in Sources */,
-				0BFE9FD424B9DD0F00C93AB4 /* Int+Random.swift in Sources */,
-				0B6DBE7F24B65C990024356D /* GridStateCalculator.swift in Sources */,
-				0BF04BE4244C75C0005BC68E /* GameScene.swift in Sources */,
-				0BF04C0B244C9CB2005BC68E /* MenuViewController.swift in Sources */,
-				0BF04BC5244C75BF005BC68E /* GameViewController.swift in Sources */,
-				0B5BDAB12460989900F05C8E /* SKNode+SizeAndPositionUtilities.swift in Sources */,
-				0BF04BC3244C75BF005BC68E /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		210585DC2DA0132B004855FE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		214E8E162DA01A1700AC8000 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		0BF04BA8244C75BF005BC68E /* PBXTargetDependency */ = {
+		2104FBB72DA2E22F00AC4879 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			platformFilter = ios;
-			target = 0BF04BA4244C75BF005BC68E /* RetroRacing watchOS App */;
-			targetProxy = 0BF04BA7244C75BF005BC68E /* PBXContainerItemProxy */;
-		};
-		0BF04BB5244C75BF005BC68E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 0BF04BB1244C75BF005BC68E /* RetroRacing watchOS App Extension */;
-			targetProxy = 0BF04BB4244C75BF005BC68E /* PBXContainerItemProxy */;
+			target = 210585BE2DA0132B004855FE /* RetroRacing iOS */;
+			targetProxy = 2104FBB62DA2E22F00AC4879 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
-/* Begin PBXVariantGroup section */
-		0BF04B9C244C75BF005BC68E /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0BF04B9D244C75BF005BC68E /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		0BF04B9F244C75BF005BC68E /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0BF04BA0244C75BF005BC68E /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-		0BF04BAA244C75BF005BC68E /* Interface.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0BF04BAB244C75BF005BC68E /* Base */,
-			);
-			name = Interface.storyboard;
-			sourceTree = "<group>";
-		};
-		0BF04BC6244C75BF005BC68E /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0BF04BC7244C75BF005BC68E /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		0BF04BC9244C75BF005BC68E /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0BF04BCA244C75BF005BC68E /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-		0BF04BD7244C75C0005BC68E /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0BF04BD8244C75C0005BC68E /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
-		0BF04BEA244C75C0005BC68E /* Debug */ = {
+		2104FBB92DA2E22F00AC4879 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = L8P3SDVYVX;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				MACOSX_DEPLOYMENT_TARGET = 15.3;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dadederk.RetroRacingTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RetroRacing.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/RetroRacing";
+				XROS_DEPLOYMENT_TARGET = 2.4;
+			};
+			name = Debug;
+		};
+		2104FBBA2DA2E22F00AC4879 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = L8P3SDVYVX;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
+				MACOSX_DEPLOYMENT_TARGET = 15.3;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dadederk.RetroRacingTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RetroRacing.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/RetroRacing";
+				XROS_DEPLOYMENT_TARGET = 2.4;
+			};
+			name = Release;
+		};
+		210585F82DA0132B004855FE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = L8P3SDVYVX;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "RetroRacing-iOS-Info.plist";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIStatusBarHidden = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dadederk.RetroRacing;
+				PRODUCT_NAME = RetroRacing;
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		210585F92DA0132B004855FE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = L8P3SDVYVX;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "RetroRacing-iOS-Info.plist";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIStatusBarHidden = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dadederk.RetroRacing;
+				PRODUCT_NAME = RetroRacing;
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		210585FC2DA0132B004855FE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "tvOS App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = L8P3SDVYVX;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Automatic;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dadederk.RetroRacing;
+				PRODUCT_NAME = RetroRacing;
+				SDKROOT = appletvos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 18.0;
+			};
+			name = Debug;
+		};
+		210585FD2DA0132B004855FE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "tvOS App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = L8P3SDVYVX;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIUserInterfaceStyle = Automatic;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dadederk.RetroRacing;
+				PRODUCT_NAME = RetroRacing;
+				SDKROOT = appletvos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 18.0;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		210586002DA0132B004855FE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "RetroRacing macOS/RetroRacing_macOS.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = L8P3SDVYVX;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dadederk.RetroRacing;
+				PRODUCT_NAME = RetroRacing;
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		210586012DA0132B004855FE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "RetroRacing macOS/RetroRacing_macOS.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = L8P3SDVYVX;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dadederk.RetroRacing;
+				PRODUCT_NAME = RetroRacing;
+				REGISTER_APP_GROUPS = YES;
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		210586022DA0132B004855FE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -629,6 +710,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -637,9 +719,11 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = L8P3SDVYVX;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -653,22 +737,24 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
-		0BF04BEB244C75C0005BC68E /* Release */ = {
+		210586032DA0132B004855FE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -687,6 +773,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -695,9 +782,11 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = L8P3SDVYVX;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -705,267 +794,131 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 			};
 			name = Release;
 		};
-		0BF04BED244C75C0005BC68E /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
-				DEVELOPMENT_TEAM = K977UXC69X;
-				INFOPLIST_FILE = "RetroRacing watchOS App Extension/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 1.7;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.dadederk.retro-racing.watchkitapp.watchkitextension";
-				PRODUCT_NAME = "RetroRacing! Extension";
-				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 10.0;
-			};
-			name = Debug;
-		};
-		0BF04BEE244C75C0005BC68E /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
-				DEVELOPMENT_TEAM = K977UXC69X;
-				INFOPLIST_FILE = "RetroRacing watchOS App Extension/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 1.7;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.dadederk.retro-racing.watchkitapp.watchkitextension";
-				PRODUCT_NAME = "RetroRacing! Extension";
-				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				VALIDATE_PRODUCT = YES;
-				WATCHOS_DEPLOYMENT_TARGET = 10.0;
-			};
-			name = Release;
-		};
-		0BF04BF1244C75C0005BC68E /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
-				DEVELOPMENT_TEAM = K977UXC69X;
-				IBSC_MODULE = RetroRacing_Extension;
-				INFOPLIST_FILE = "RetroRacing watchOS App/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
-				MARKETING_VERSION = 1.7;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.dadederk.retro-racing.watchkitapp";
-				PRODUCT_NAME = "RetroRacing!";
-				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 10.0;
-			};
-			name = Debug;
-		};
-		0BF04BF2244C75C0005BC68E /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
-				DEVELOPMENT_TEAM = K977UXC69X;
-				IBSC_MODULE = RetroRacing_Extension;
-				INFOPLIST_FILE = "RetroRacing watchOS App/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
-				MARKETING_VERSION = 1.7;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.dadederk.retro-racing.watchkitapp";
-				PRODUCT_NAME = "RetroRacing!";
-				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				VALIDATE_PRODUCT = YES;
-				WATCHOS_DEPLOYMENT_TARGET = 10.0;
-			};
-			name = Release;
-		};
-		0BF04BF5244C75C0005BC68E /* Debug */ = {
+		214E8E3E2DA01A1900AC8000 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "RetroRacing iOS/RetroRacing!.entitlements";
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
-				DEVELOPMENT_TEAM = K977UXC69X;
-				INFOPLIST_FILE = "RetroRacing iOS/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "RetroRacing!";
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = L8P3SDVYVX;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "RetroRacing watchOS";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKWatchOnly = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.7;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.dadederk.retro-racing";
-				PRODUCT_NAME = "RetroRacing!";
-				SDKROOT = iphoneos;
-				SUPPORTS_MACCATALYST = NO;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "dadederk.RetroRacing-watchOS.watchkitapp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 11.0;
 			};
 			name = Debug;
 		};
-		0BF04BF6244C75C0005BC68E /* Release */ = {
+		214E8E3F2DA01A1900AC8000 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "RetroRacing iOS/RetroRacing!.entitlements";
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
-				DEVELOPMENT_TEAM = K977UXC69X;
-				INFOPLIST_FILE = "RetroRacing iOS/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "RetroRacing!";
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = L8P3SDVYVX;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "RetroRacing watchOS";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKWatchOnly = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.7;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.dadederk.retro-racing";
-				PRODUCT_NAME = "RetroRacing!";
-				SDKROOT = iphoneos;
-				SUPPORTS_MACCATALYST = NO;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "dadederk.RetroRacing-watchOS.watchkitapp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 4;
 				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		0BF04BF8244C75C0005BC68E /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "tvOS App Icon & Top Shelf Image";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
-				DEVELOPMENT_TEAM = K977UXC69X;
-				INFOPLIST_FILE = "RetroRacing tvOS/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "RetroRacing!";
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.7;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.dadederk.retro-racing";
-				PRODUCT_NAME = "RetroRacing!";
-				SDKROOT = appletvos;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 17.0;
-			};
-			name = Debug;
-		};
-		0BF04BF9244C75C0005BC68E /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "tvOS App Icon & Top Shelf Image";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
-				DEVELOPMENT_TEAM = K977UXC69X;
-				INFOPLIST_FILE = "RetroRacing tvOS/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "RetroRacing!";
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.games";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.7;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.dadederk.retro-racing";
-				PRODUCT_NAME = "RetroRacing!";
-				SDKROOT = appletvos;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 17.0;
-				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 11.0;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0BF04B8B244C75BD005BC68E /* Build configuration list for PBXProject "RetroRacing" */ = {
+		2104FBB82DA2E22F00AC4879 /* Build configuration list for PBXNativeTarget "RetroRacingTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				0BF04BEA244C75C0005BC68E /* Debug */,
-				0BF04BEB244C75C0005BC68E /* Release */,
+				2104FBB92DA2E22F00AC4879 /* Debug */,
+				2104FBBA2DA2E22F00AC4879 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0BF04BEC244C75C0005BC68E /* Build configuration list for PBXNativeTarget "RetroRacing watchOS App Extension" */ = {
+		210585B52DA01329004855FE /* Build configuration list for PBXProject "RetroRacing" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				0BF04BED244C75C0005BC68E /* Debug */,
-				0BF04BEE244C75C0005BC68E /* Release */,
+				210586022DA0132B004855FE /* Debug */,
+				210586032DA0132B004855FE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0BF04BF0244C75C0005BC68E /* Build configuration list for PBXNativeTarget "RetroRacing watchOS App" */ = {
+		210585F72DA0132B004855FE /* Build configuration list for PBXNativeTarget "RetroRacing iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				0BF04BF1244C75C0005BC68E /* Debug */,
-				0BF04BF2244C75C0005BC68E /* Release */,
+				210585F82DA0132B004855FE /* Debug */,
+				210585F92DA0132B004855FE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0BF04BF4244C75C0005BC68E /* Build configuration list for PBXNativeTarget "RetroRacing iOS" */ = {
+		210585FB2DA0132B004855FE /* Build configuration list for PBXNativeTarget "RetroRacing tvOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				0BF04BF5244C75C0005BC68E /* Debug */,
-				0BF04BF6244C75C0005BC68E /* Release */,
+				210585FC2DA0132B004855FE /* Debug */,
+				210585FD2DA0132B004855FE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0BF04BF7244C75C0005BC68E /* Build configuration list for PBXNativeTarget "RetroRacing tvOS" */ = {
+		210585FF2DA0132B004855FE /* Build configuration list for PBXNativeTarget "RetroRacing macOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				0BF04BF8244C75C0005BC68E /* Debug */,
-				0BF04BF9244C75C0005BC68E /* Release */,
+				210586002DA0132B004855FE /* Debug */,
+				210586012DA0132B004855FE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		214E8E442DA01A1900AC8000 /* Build configuration list for PBXNativeTarget "RetroRacing watchOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				214E8E3E2DA01A1900AC8000 /* Debug */,
+				214E8E3F2DA01A1900AC8000 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 0BF04B88244C75BD005BC68E /* Project object */;
+	rootObject = 210585B22DA01329004855FE /* Project object */;
 }

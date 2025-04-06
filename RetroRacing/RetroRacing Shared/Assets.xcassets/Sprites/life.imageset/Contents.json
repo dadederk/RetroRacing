@@ -1,17 +1,16 @@
 {
   "images" : [
     {
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
       "filename" : "life.png",
-      "idiom" : "universal",
-      "scale" : "3x"
+      "idiom" : "universal"
+    },
+    {
+      "filename" : "life 1.png",
+      "idiom" : "watch"
+    },
+    {
+      "filename" : "life 2.png",
+      "idiom" : "tv"
     }
   ],
   "info" : {

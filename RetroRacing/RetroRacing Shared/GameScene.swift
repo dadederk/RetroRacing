@@ -1,3 +1,10 @@
+//
+//  GameScene.swift
+//  RetroRacing Shared
+//
+//  Created by Dani on 04/04/2025.
+//
+
 import SpriteKit
 
 protocol GameSceneDelegate: AnyObject {
@@ -11,6 +18,7 @@ protocol GameController {
 }
 
 class GameScene: SKScene {
+    // Assets
     private let gameBackgroundColor = UIColor(red: 202.0 / 255.0, green: 220.0 / 255.0, blue: 159.0 / 255.0, alpha: 1.0)
     private let startSound = SKAction.playSoundFileNamed("start.m4a", waitForCompletion: true)
     private let stateUpdatedSound = SKAction.playSoundFileNamed("bip.m4a", waitForCompletion: false)
@@ -24,23 +32,45 @@ class GameScene: SKScene {
     
     private let gridCalculator = GridStateCalculator()
     private var gridState = GridState(numberOfRows: 5, numberOfColumns: 3)
-    
     private(set) var gameState = GameState()
     
     weak var gameDelegate: GameSceneDelegate?
     
-    #if os(watchOS)
+    class func newGameScene() -> GameScene {
+        // Load 'GameScene.sks' as an SKScene.
+        guard let scene = SKScene(fileNamed: "GameScene") as? GameScene else {
+            print("Failed to load GameScene.sks")
+            abort()
+        }
+        return scene
+    }
+    
+    func start() {
+        initialiseGame()
+    }
+    
+    func setUpScene() {
+        scaleMode = .aspectFit
+        createGrid()
+        initialiseGame()
+    }
+    
+#if os(watchOS)
     override func sceneDidLoad() {
         setUpScene()
     }
-    #else
+#else
     override func didMove(to view: SKView) {
         setUpScene()
     }
-    #endif
+#endif
     
     override func update(_ currentTime: TimeInterval) {
         guard gamePaused == false else { return }
+        guard gridState.hasCrashed == false else {
+            gamePaused = true
+            return
+        }
         
         let dtGameUpdate = currentTime - lastGameUpdateTime
         var dtForGameUpdate = initialDtForGameUpdate
@@ -71,16 +101,6 @@ class GameScene: SKScene {
             
             gridStateDidUpdate(gridState)
         }
-    }
-    
-    func start() {
-        initialiseGame()
-    }
-    
-    private func setUpScene() {
-        scaleMode = .aspectFit
-        createGrid()
-        initialiseGame()
     }
     
     private func initialiseGame() {
@@ -208,11 +228,46 @@ extension GameScene: GameController {
     }
 }
 
+#if os(iOS) || os(tvOS)
+// Touch-based event handling
+extension GameScene {
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+
+    }
+    
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+
+    }
+    
+   
+}
+#endif
+
 #if os(OSX)
 // Mouse-based event handling
 extension GameScene {
-    override func mouseDown(with event: NSEvent) {}
-    override func mouseDragged(with event: NSEvent) {}
-    override func mouseUp(with event: NSEvent) {}
+
+    override func mouseDown(with event: NSEvent) {
+
+    }
+    
+    override func mouseDragged(with event: NSEvent) {
+        
+    }
+    
+    override func mouseUp(with event: NSEvent) {
+
+    }
+
 }
 #endif
+

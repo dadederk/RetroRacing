@@ -1,2 +1,2 @@
 # RetroRacing
-Retro racing game for watchOS, iOS, iPadOS, tvOS y macOS
+Retro racing game for watchOS, iOS, iPadOS, tvOS & macOS.

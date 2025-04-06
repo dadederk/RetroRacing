@@ -40,11 +40,11 @@ class GameViewController: UIViewController {
     }
     
     private func updateGameCenterScore(_ score: Int) {
-        let scoreValue = Int64(score)
-        let gameCenterScore = GKScore(leaderboardIdentifier: "besttvos001", player: GKLocalPlayer.local)
-        gameCenterScore.value = scoreValue
-        
-        GKScore.report([gameCenterScore], withCompletionHandler: nil)
+//        let scoreValue = Int64(score)
+//        let gameCenterScore = GKScore(leaderboardIdentifier: "besttvos001", player: GKLocalPlayer.local)
+//        gameCenterScore.value = scoreValue
+//        
+//        GKScore.report([gameCenterScore], withCompletionHandler: nil)
     }
 }
 

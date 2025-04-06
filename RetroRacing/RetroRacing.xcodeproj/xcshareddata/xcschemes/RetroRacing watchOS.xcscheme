@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1540"
+   LastUpgradeVersion = "1630"
    version = "1.7">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -15,9 +15,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0BF04BA4244C75BF005BC68E"
-               BuildableName = "RetroRacing!.app"
-               BlueprintName = "RetroRacing watchOS App"
+               BlueprintIdentifier = "214E8E192DA01A1700AC8000"
+               BuildableName = "RetroRacing watchOS.app"
+               BlueprintName = "RetroRacing watchOS"
                ReferencedContainer = "container:RetroRacing.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -29,9 +29,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0BF04B94244C75BF005BC68E"
-               BuildableName = "RetroRacing!.app"
-               BlueprintName = "RetroRacing iOS"
+               BlueprintIdentifier = "214E8E192DA01A1700AC8000"
+               BuildableName = "RetroRacing watchOS.app"
+               BlueprintName = "RetroRacing watchOS"
                ReferencedContainer = "container:RetroRacing.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -43,6 +43,30 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES"
       shouldAutocreateTestPlan = "YES">
+      <Testables>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "214E8E282DA01A1900AC8000"
+               BuildableName = "RetroRacing watchOS Watch AppTests.xctest"
+               BlueprintName = "RetroRacing watchOS Watch AppTests"
+               ReferencedContainer = "container:RetroRacing.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "214E8E322DA01A1900AC8000"
+               BuildableName = "RetroRacing watchOS Watch AppUITests.xctest"
+               BlueprintName = "RetroRacing watchOS Watch AppUITests"
+               ReferencedContainer = "container:RetroRacing.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+      </Testables>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -58,9 +82,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0BF04BA4244C75BF005BC68E"
-            BuildableName = "RetroRacing!.app"
-            BlueprintName = "RetroRacing watchOS App"
+            BlueprintIdentifier = "214E8E192DA01A1700AC8000"
+            BuildableName = "RetroRacing watchOS.app"
+            BlueprintName = "RetroRacing watchOS"
             ReferencedContainer = "container:RetroRacing.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -75,9 +99,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0BF04BA4244C75BF005BC68E"
-            BuildableName = "RetroRacing!.app"
-            BlueprintName = "RetroRacing watchOS App"
+            BlueprintIdentifier = "214E8E192DA01A1700AC8000"
+            BuildableName = "RetroRacing watchOS.app"
+            BlueprintName = "RetroRacing watchOS"
             ReferencedContainer = "container:RetroRacing.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

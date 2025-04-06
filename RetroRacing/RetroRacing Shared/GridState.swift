@@ -21,6 +21,9 @@ struct GridState: CustomStringConvertible {
     let numberOfColumns: Int
     
     var grid: [[CellState]]
+    var hasCrashed: Bool {
+        grid.contains(where: { $0.contains(where: { $0 == .Crash }) })
+    }
     var description: String {
         grid.reduce("") { "\($0)\($1.reduce("") { "\($0)\($1.toString) " })\n" }
     }

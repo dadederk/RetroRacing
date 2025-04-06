@@ -1,26 +1,37 @@
+//
+//  GameViewController.swift
+//  RetroRacing iOS
+//
+//  Created by Dani on 04/04/2025.
+//
+
 import UIKit
 import SpriteKit
+import GameplayKit
 import GameKit
 
-class GameViewController: UIViewController {
-    @IBOutlet private weak var sceneView: SKView!
+final class GameViewController: UIViewController {
     @IBOutlet private weak var scoreLabel: UILabel!
     @IBOutlet private weak var lifesLabel: UILabel!
+    @IBOutlet private weak var skView: SKView!
+    @IBOutlet private weak var leadingConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var bottomConstraint: NSLayoutConstraint!
     
-    private lazy var scene: GameScene = { GameScene(size: sceneView.frame.size) }()
+    private lazy var scene: GameScene = { GameScene(size: skView.frame.size) }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         scene.gameDelegate = self
+        skView.translatesAutoresizingMaskIntoConstraints = false
+        skView.presentScene(scene)
+//        updateLayout()
         
-        // Present the scene
-        sceneView.presentScene(scene)
-        
-        #if DEBUG
-        sceneView.showsFPS = true
-        sceneView.showsNodeCount = true
-        #endif
+#if DEBUG
+        skView.ignoresSiblingOrder = true
+        skView.showsFPS = true
+        skView.showsNodeCount = true
+#endif
         
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap(recognizer:)))
         let swipeLeftGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeGesture(recognizer:)))
@@ -46,11 +57,7 @@ class GameViewController: UIViewController {
     }
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            return .allButUpsideDown
-        } else {
-            return .landscape
-        }
+        return .all
     }
     
     override var prefersStatusBarHidden: Bool {
@@ -63,7 +70,24 @@ class GameViewController: UIViewController {
         presses.first?.key.map(keyPressed)
     }
     
-    @objc private func handleTap(recognizer: UITapGestureRecognizer) {
+//    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+//        super.traitCollectionDidChange(previousTraitCollection)
+//        guard traitCollection.horizontalSizeClass != previousTraitCollection?.horizontalSizeClass else { return }
+//        updateLayout()
+//    }
+//    
+//    private func updateLayout() {
+//        if traitCollection.horizontalSizeClass == .compact {
+//            bottomConstraint.priority = .defaultLow
+//            leadingConstraint.priority = .required
+//        } else {
+//            bottomConstraint.priority = .required
+//            leadingConstraint.priority = .defaultLow
+//        }
+//    }
+    
+    @objc
+    private func handleTap(recognizer: UITapGestureRecognizer) {
         let view = recognizer.view
         let location = recognizer.location(in: view)
         
@@ -92,11 +116,11 @@ class GameViewController: UIViewController {
     }
     
     private func updateGameCenterScore(_ score: Int) {
-        let scoreValue = Int64(score)
-        let gameCenterScore = GKScore(leaderboardIdentifier: "bestios001test", player: GKLocalPlayer.local)
-        gameCenterScore.value = scoreValue
-        
-        GKScore.report([gameCenterScore], withCompletionHandler: nil)
+//        let scoreValue = Int64(score)
+//        let gameCenterScore = GKScore(leaderboardIdentifier: "bestios001test", player: GKLocalPlayer.local)
+//        gameCenterScore.value = scoreValue
+//        
+//        GKScore.report([gameCenterScore], withCompletionHandler: nil)
     }
     
     private func keyPressed(_ key: UIKey) {
