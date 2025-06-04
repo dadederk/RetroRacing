@@ -73,15 +73,13 @@ class GameScene: SKScene {
         }
         
         let dtGameUpdate = currentTime - lastGameUpdateTime
-        var dtForGameUpdate = initialDtForGameUpdate
-        
-        dtForGameUpdate = initialDtForGameUpdate - (log(Double(gameState.level)) / 4)
+        var dtForGameUpdate = initialDtForGameUpdate - (log(Double(gameState.level)) / 4)
         
         if dtGameUpdate > dtForGameUpdate {
             lastGameUpdateTime = currentTime
             
             var effects: [GridStateCalculator.Effect]
-            (gridState, effects) = gridCalculator.nextGrid(previousGrid: gridState, gameState: gameState)
+            (gridState, effects) = gridCalculator.nextGrid(previousGrid: gridState, actions: [.update])
             
             for effect in effects {
                 if case GridStateCalculator.Effect.crashed = effect {
@@ -214,7 +212,7 @@ extension GameScene: GameController {
     func moveLeft() {
         guard !gamePaused else { return }
         
-        (gridState, _) = gridCalculator.nextGrid(previousGrid: gridState, gameState: gameState, actions: [.moveCar(direction: .left)])
+        (gridState, _) = gridCalculator.nextGrid(previousGrid: gridState, actions: [.moveCar(direction: .left)])
         
         gridStateDidUpdate(gridState)
     }
@@ -222,7 +220,7 @@ extension GameScene: GameController {
     func moveRight() {
         guard !gamePaused else { return }
         
-        (gridState, _) = gridCalculator.nextGrid(previousGrid: gridState, gameState: gameState, actions: [.moveCar(direction: .right)])
+        (gridState, _) = gridCalculator.nextGrid(previousGrid: gridState, actions: [.moveCar(direction: .right)])
         
         gridStateDidUpdate(gridState)
     }

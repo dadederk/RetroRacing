@@ -1,12 +1,13 @@
 import Foundation
 
-class GridStateCalculator {
+final class GridStateCalculator {
     enum Effect {
         case scored(points: Int)
         case crashed
     }
     
     enum Action {
+        case update
         case moveCar(direction: Direction)
     }
     
@@ -15,17 +16,17 @@ class GridStateCalculator {
         case right
     }
     
-    func nextGrid(previousGrid: GridState, gameState: GameState, actions:[Action] = [Action]()) -> (GridState, [Effect]) {
+    func nextGrid(previousGrid: GridState,
+                  actions:[Action] = []) -> (GridState, [Effect]) {
         var nextGridState = previousGrid
         var effects = [Effect]()
         
-        if actions.isEmpty {
-            (nextGridState, effects) = gridStateInserting(newRandomRowAtIndex: 0, forPreviousGridState: nextGridState)
-            nextGridState = gridStateEnsuring(requiredNumberOfEmptyCells: 1, atRowIndex: 0, forPreviousGridState: nextGridState)
-        }
-        
         for action in actions {
-            if case Action.moveCar(direction: let direction) = action {
+            switch action {
+            case .update:
+                (nextGridState, effects) = gridStateInserting(newRandomRowAtIndex: 0, forPreviousGridState: nextGridState)
+                nextGridState = gridStateEnsuring(requiredNumberOfEmptyCells: 1, atRowIndex: 0, forPreviousGridState: nextGridState)
+            case .moveCar(direction: let direction):
                 nextGridState = gridStateMovingPlayer(toDirection: direction, forPreviousGridState: nextGridState)
             }
         }
@@ -72,11 +73,11 @@ class GridStateCalculator {
         return (newGridState, effects)
     }
     
-    private func gridStateEnsuring(requiredNumberOfEmptyCells: Int, atRowIndex rowIndex: Int, forPreviousGridState previousridState: GridState) -> GridState {
-        guard rowIndex >= 0 && rowIndex < previousridState.numberOfRows else { fatalError("Grid row index out of bounds") }
-        let numberOfEmptyCells = previousridState.grid[rowIndex].reduce(0) { $1 == .Empty ? $0 + 1 : $0 }
+    private func gridStateEnsuring(requiredNumberOfEmptyCells: Int, atRowIndex rowIndex: Int, forPreviousGridState previousGridState: GridState) -> GridState {
+        guard rowIndex >= 0 && rowIndex < previousGridState.numberOfRows else { fatalError("Grid row index out of bounds") }
+        let numberOfEmptyCells = previousGridState.grid[rowIndex].reduce(0) { $1 == .Empty ? $0 + 1 : $0 }
         let cellsToEmpty = requiredNumberOfEmptyCells - numberOfEmptyCells
-        var newGridState = previousridState
+        var newGridState = previousGridState
         var newRow = newGridState.grid[rowIndex]
         
         if cellsToEmpty > 0 {

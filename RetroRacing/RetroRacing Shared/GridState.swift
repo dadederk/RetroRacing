@@ -31,8 +31,8 @@ struct GridState: CustomStringConvertible {
     init(numberOfRows: Int, numberOfColumns: Int) {
         self.numberOfRows = numberOfRows
         self.numberOfColumns = numberOfColumns
-        
-        grid = Array(repeating: Array(repeating: .Empty, count: numberOfColumns), count: numberOfRows)
+
+        grid = Array(repeating: Array(repeating: CellState.Empty, count: numberOfColumns), count: numberOfRows)
         
         grid[numberOfRows - 1][numberOfColumns / 2] = .Player
     }
