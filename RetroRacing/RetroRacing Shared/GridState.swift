@@ -1,7 +1,7 @@
 import Foundation
 
 struct GridState: CustomStringConvertible {
-    enum CellState {
+    enum CellState: Equatable {
         case Empty
         case Car
         case Player
@@ -27,6 +27,9 @@ struct GridState: CustomStringConvertible {
     var description: String {
         grid.reduce("") { "\($0)\($1.reduce("") { "\($0)\($1.toString) " })\n" }
     }
+    var playerRowIndex: Int {
+        numberOfRows - 1
+    }
     
     init(numberOfRows: Int, numberOfColumns: Int) {
         self.numberOfRows = numberOfRows
@@ -35,5 +38,9 @@ struct GridState: CustomStringConvertible {
         grid = Array(repeating: Array(repeating: CellState.Empty, count: numberOfColumns), count: numberOfRows)
         
         grid[numberOfRows - 1][numberOfColumns / 2] = .Player
+    }
+    
+    func playerRow() -> [CellState] {
+        grid[playerRowIndex]
     }
 }
