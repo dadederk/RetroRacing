@@ -148,6 +148,8 @@ extension GameViewController: GameSceneDelegate {
         if gameScene.gameState.lives == 0 {
             presentGameFinishedAlert(forScore: score)
             updateGameCenterScore(score)
+        } else {
+            self.scene.resume()
         }
     }
     

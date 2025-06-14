@@ -26,7 +26,6 @@ class GameScene: SKScene {
     
     private var initialDtForGameUpdate = 0.6
     private var lastGameUpdateTime: TimeInterval = 0
-    private var gamePaused = false
     
     private var spritesForGivenState = [SKSpriteNode]()
     
@@ -49,6 +48,12 @@ class GameScene: SKScene {
         initialiseGame()
     }
     
+    func resume() {
+        gameState.isPaused = false
+        gridState = GridState(numberOfRows: 5, numberOfColumns: 3)
+        run(startSound)
+    }
+    
     func setUpScene() {
         scaleMode = .aspectFit
         createGrid()
@@ -66,11 +71,7 @@ class GameScene: SKScene {
 #endif
     
     override func update(_ currentTime: TimeInterval) {
-        guard gamePaused == false else { return }
-        guard gridState.hasCrashed == false else {
-            gamePaused = true
-            return
-        }
+        guard gameState.isPaused == false else { return }
         
         let dtGameUpdate = currentTime - lastGameUpdateTime
         var dtForGameUpdate = initialDtForGameUpdate - (log(Double(gameState.level)) / 4)
@@ -82,18 +83,15 @@ class GameScene: SKScene {
             (gridState, effects) = gridCalculator.nextGrid(previousGrid: gridState, actions: [.update])
             
             for effect in effects {
-                if case GridStateCalculator.Effect.crashed = effect {
-                    gameState.lives -= 1
-                    
-                    if gameState.lives == 0 {
-                        gamePaused = true
-                        run(failSound)
-                    }
-                    
-                    gameDelegate?.gameSceneDidDetectCollision(self)
-                } else if case GridStateCalculator.Effect.scored(points: let points) = effect {
+                switch effect {
+                case .scored(points: let points):
                     gameState.score += points
                     gameDelegate?.gameScene(self, didUpdateScore: gameState.score)
+                case .crashed:
+                    gameState.isPaused = true
+                    gameState.lives -= 1
+                    run(failSound)
+                    gameDelegate?.gameSceneDidDetectCollision(self)
                 }
             }
             
@@ -102,7 +100,7 @@ class GameScene: SKScene {
     }
     
     private func initialiseGame() {
-        gamePaused = false
+        gameState.isPaused = false
         gridState = GridState(numberOfRows: 5, numberOfColumns: 3)
         gameState = GameState()
         run(startSound)
@@ -210,7 +208,7 @@ class GameScene: SKScene {
 
 extension GameScene: GameController {
     func moveLeft() {
-        guard !gamePaused else { return }
+        guard !gameState.isPaused else { return }
         
         (gridState, _) = gridCalculator.nextGrid(previousGrid: gridState, actions: [.moveCar(direction: .left)])
         
@@ -218,7 +216,7 @@ extension GameScene: GameController {
     }
     
     func moveRight() {
-        guard !gamePaused else { return }
+        guard !gameState.isPaused else { return }
         
         (gridState, _) = gridCalculator.nextGrid(previousGrid: gridState, actions: [.moveCar(direction: .right)])
         
