@@ -1,4 +1,5 @@
 import Foundation
+import GameplayKit
 
 /// `GridStateCalculator` is responsible for computing the next state of a grid-based car game.
 /// 
@@ -20,6 +21,12 @@ import Foundation
 /// Usage of this type is generally internal to the game engine and not intended for direct 
 /// manipulation by UI components.
 final class GridStateCalculator {
+    private let randomSource: GKRandomSource
+    
+    init(randomSource: GKRandomSource = GKARC4RandomSource()) {
+        self.randomSource = randomSource
+    }
+    
     enum Effect: Equatable {
         case scored(points: Int)
         case crashed
@@ -120,7 +127,7 @@ final class GridStateCalculator {
         var newArray = Array(repeating: GridState.CellState.Empty, count: size)
         
         for (index, _) in newArray.enumerated() {
-            newArray[index] = (Int.random(in: 0...1) == 0) ? .Empty : .Car
+            newArray[index] = (randomSource.nextInt(upperBound: 2) == 0) ? .Empty : .Car
         }
         
         return newArray
@@ -129,7 +136,8 @@ final class GridStateCalculator {
     /// Returns a copy of the row with one random non-empty cell set to empty.
     private func rowEmptyingRandomCell(row: [GridState.CellState]) -> [GridState.CellState] {
         let indexesOfNonEmptyCells = row.enumerated().filter({ $1 != .Empty }).map({ $0.offset })
-        let randomPosition = Int.random(in: 0..<indexesOfNonEmptyCells.count)
+        let randomPositionIndex = randomSource.nextInt(upperBound: indexesOfNonEmptyCells.count)
+        let randomPosition = indexesOfNonEmptyCells[randomPositionIndex]
         var newRow = row
         
         newRow[randomPosition] = .Empty
@@ -137,4 +145,3 @@ final class GridStateCalculator {
         return newRow
     }
 }
-

@@ -9,15 +9,6 @@ import XCTest
 @testable import RetroRacing
 
 final class GridStateCalculatorTests: XCTestCase {
-
-    override func setUpWithError() throws {
-
-    }
-
-    override func tearDownWithError() throws {
-
-    }
-
     func testMoveLeftMovesPlayersCarFromCenterToTheLeft() throws {
         var gridState = GridState(numberOfRows: 5, numberOfColumns: 3)
         gridState.grid = [
@@ -28,7 +19,6 @@ final class GridStateCalculatorTests: XCTestCase {
             [.Empty, .Player, .Car],
         ]
         let sut = GridStateCalculator()
-        
         let (newGridState, _) = sut.nextGrid(previousGrid: gridState, actions: [.moveCar(direction: .left)])
         
         XCTAssertEqual(newGridState.grid[4][0], .Player)

@@ -1,20 +1,11 @@
 import Foundation
 
-struct GridState: CustomStringConvertible {
+struct GridState {
     enum CellState: Equatable {
         case Empty
         case Car
         case Player
         case Crash
-        
-        var toString: String {
-            switch self {
-            case .Empty: return "-"
-            case .Car: return "C"
-            case .Player: return "P"
-            case .Crash: return "X"
-            }
-        }
     }
     
     let numberOfRows: Int
@@ -23,9 +14,6 @@ struct GridState: CustomStringConvertible {
     var grid: [[CellState]]
     var hasCrashed: Bool {
         grid.contains(where: { $0.contains(where: { $0 == .Crash }) })
-    }
-    var description: String {
-        grid.reduce("") { "\($0)\($1.reduce("") { "\($0)\($1.toString) " })\n" }
     }
     var playerRowIndex: Int {
         numberOfRows - 1
