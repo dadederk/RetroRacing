@@ -74,7 +74,7 @@ class GameScene: SKScene {
         guard gameState.isPaused == false else { return }
         
         let dtGameUpdate = currentTime - lastGameUpdateTime
-        var dtForGameUpdate = initialDtForGameUpdate - (log(Double(gameState.level)) / 4)
+        let dtForGameUpdate = initialDtForGameUpdate - (log(Double(gameState.level)) / 4)
         
         if dtGameUpdate > dtForGameUpdate {
             lastGameUpdateTime = currentTime
@@ -88,10 +88,7 @@ class GameScene: SKScene {
                     gameState.score += points
                     gameDelegate?.gameScene(self, didUpdateScore: gameState.score)
                 case .crashed:
-                    gameState.isPaused = true
-                    gameState.lives -= 1
-                    run(failSound)
-                    gameDelegate?.gameSceneDidDetectCollision(self)
+                    handleCrash()
                 }
             }
             
@@ -174,9 +171,12 @@ class GameScene: SKScene {
                 let cell = gridCell(column: column, row: row)
                 
                 switch cellState {
-                case .Car: addSprite(SKSpriteNode(imageNamed: "playersCar"), toCell: cell, row: row, column: column)
+                case .Car: addSprite(SKSpriteNode(imageNamed: "rivalsCar"), toCell: cell, row: row, column: column)
                 case .Player: addSprite(SKSpriteNode(imageNamed: "playersCar"), toCell: cell, row: row, column: column)
-                case .Crash: addSprite(SKSpriteNode(imageNamed: "crash"), toCell: cell, row: row, column: column)
+                case .Crash:
+                    let crashSprite = SKSpriteNode(imageNamed: "crash")
+                    crashSprite.name = "crash"
+                    addSprite(crashSprite, toCell: cell, row: row, column: column)
                 case .Empty: break
                 }
                 
@@ -203,6 +203,27 @@ class GameScene: SKScene {
         sprite.aspectFitToSize(size)
         spritesForGivenState.append(sprite)
         cell.addChild(sprite)
+
+        if sprite.name == "crash" {
+            let blinkOnce = SKAction.sequence([
+                SKAction.fadeOut(withDuration: 0.2),
+                SKAction.fadeIn(withDuration: 0.2)
+            ])
+            let blinkThreeTimes = SKAction.repeat(blinkOnce, count: 3)
+            sprite.run(blinkThreeTimes)
+        }
+    }
+    
+    private func handleCrash() {
+        gameState.isPaused = true
+        gameState.lives -= 1
+        run(failSound)
+        
+        // After the blinking animation, call the delegate
+        self.run(SKAction.wait(forDuration: 2.0)) { [weak self] in
+            guard let self = self else { return }
+            self.gameDelegate?.gameSceneDidDetectCollision(self)
+        }
     }
 }
 

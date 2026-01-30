@@ -41,6 +41,12 @@
 				Resources/Audio/fail.m4a,
 				Resources/Audio/start.m4a,
 				"Resources/Font/PressStart2P-Regular.ttf",
+				Services/GameCenterPresenter.swift,
+				Services/GameCenterService.swift,
+				Services/LeaderboardConfiguration.swift,
+				Services/LeaderboardService.swift,
+				Services/RatingService.swift,
+				Services/StoreReviewService.swift,
 			);
 			target = 210585BE2DA0132B004855FE /* RetroRacing iOS */;
 		};
@@ -60,6 +66,12 @@
 				Resources/Audio/fail.m4a,
 				Resources/Audio/start.m4a,
 				"Resources/Font/PressStart2P-Regular.ttf",
+				Services/GameCenterPresenter.swift,
+				Services/GameCenterService.swift,
+				Services/LeaderboardConfiguration.swift,
+				Services/LeaderboardService.swift,
+				Services/RatingService.swift,
+				Services/StoreReviewService.swift,
 			);
 			target = 210585CF2DA0132B004855FE /* RetroRacing tvOS */;
 		};
@@ -79,6 +91,9 @@
 				Resources/Audio/fail.m4a,
 				Resources/Audio/start.m4a,
 				"Resources/Font/PressStart2P-Regular.ttf",
+				Services/GameCenterService.swift,
+				Services/LeaderboardConfiguration.swift,
+				Services/LeaderboardService.swift,
 			);
 			target = 210585DF2DA0132B004855FE /* RetroRacing macOS */;
 		};
@@ -96,6 +111,9 @@
 				Resources/Audio/fail.m4a,
 				Resources/Audio/start.m4a,
 				"Resources/Font/PressStart2P-Regular.ttf",
+				Services/GameCenterService.swift,
+				Services/LeaderboardConfiguration.swift,
+				Services/LeaderboardService.swift,
 			);
 			target = 214E8E192DA01A1700AC8000 /* RetroRacing watchOS */;
 		};
@@ -326,7 +344,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1630;
-				LastUpgradeCheck = 1630;
+				LastUpgradeCheck = 2600;
 				TargetAttributes = {
 					2104FBB12DA2E22F00AC4879 = {
 						CreatedOnToolsVersion = 16.3;
@@ -460,6 +478,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = L8P3SDVYVX;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
@@ -484,6 +503,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = L8P3SDVYVX;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.4;
@@ -507,9 +527,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "RetroRacing iOS/RetroRacing_iOS.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = L8P3SDVYVX;
+				DEVELOPMENT_TEAM = PV9S9FTZF2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "RetroRacing-iOS-Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -538,9 +559,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "RetroRacing iOS/RetroRacing_iOS.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = L8P3SDVYVX;
+				DEVELOPMENT_TEAM = PV9S9FTZF2;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "RetroRacing-iOS-Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -629,8 +651,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = L8P3SDVYVX;
+				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
@@ -659,8 +684,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = L8P3SDVYVX;
+				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
@@ -714,6 +742,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = L8P3SDVYVX;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -737,6 +766,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -777,6 +807,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = L8P3SDVYVX;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -793,6 +824,7 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 			};

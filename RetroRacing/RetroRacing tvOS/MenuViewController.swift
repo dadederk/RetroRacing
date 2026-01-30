@@ -1,39 +1,45 @@
 import UIKit
-import GameKit
 
 final class MenuViewController: UIViewController {
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var playButton: UIButton!
     
-    private let gameCenterController = GKGameCenterViewController()
+    private let gameCenterService: GameCenterService
+    
+    init(gameCenterService: GameCenterService = GameCenterService(configuration: tvOSLeaderboardConfiguration())) {
+        self.gameCenterService = gameCenterService
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        self.gameCenterService = GameCenterService(configuration: tvOSLeaderboardConfiguration())
+        super.init(coder: coder)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
-        authenticateUserInGameCenter()
+        configureUI()
+        gameCenterService.authenticate(presentingViewController: self)
     }
     
-    private func setupUI() {        
+    private func configureUI() {        
         playButton.titleLabel?.adjustsFontForContentSizeCategory = true
         titleLabel.text = NSLocalizedString("gameName", comment: "")
     }
     
-    private func authenticateUserInGameCenter() {
-        GKLocalPlayer.local.authenticateHandler = { viewController, error in
-            guard error != nil else { return }
-            guard let viewController = viewController else { return }
-            self.present(viewController, animated: true, completion: nil)
-        }
-    }
-    
     @IBAction private func leaderboardButtonPressed(_ sender: Any) {
-        gameCenterController.gameCenterDelegate = self
-        present(gameCenterController, animated: true, completion: nil)
+        gameCenterService.createLeaderboardViewController(delegate: self)?.present(from: self)
     }
 }
 
-extension MenuViewController: GKGameCenterControllerDelegate {
-    func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
-        dismiss(animated: true, completion: nil)
+extension MenuViewController: AuthenticationViewController {
+    func presentAuthenticationUI(_ viewController: UIViewController) {
+        present(viewController, animated: true)
+    }
+}
+
+extension MenuViewController: LeaderboardViewControllerDelegate {
+    func leaderboardViewControllerDidFinish() {
+        // Optional: Add any cleanup or analytics here
     }
 }

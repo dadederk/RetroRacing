@@ -1,15 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "car_1_prototype.png",
+      "filename" : "PlayerCar.png",
       "idiom" : "universal"
     },
     {
-      "filename" : "car_1_prototype-1.png",
+      "filename" : "PlayerCar 1.png",
       "idiom" : "watch"
     },
     {
-      "filename" : "car_1_prototype-2.png",
+      "filename" : "PlayerCar 2.png",
       "idiom" : "tv"
     }
   ],

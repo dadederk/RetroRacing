@@ -1,15 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "crash.png",
+      "filename" : "CRASH.png",
       "idiom" : "universal"
     },
     {
-      "filename" : "crash 1.png",
+      "filename" : "CRASH 1.png",
       "idiom" : "watch"
     },
     {
-      "filename" : "crash 2.png",
+      "filename" : "CRASH 2.png",
       "idiom" : "tv"
     }
   ],

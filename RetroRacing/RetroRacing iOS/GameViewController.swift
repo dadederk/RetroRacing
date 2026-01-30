@@ -7,17 +7,31 @@
 
 import UIKit
 import SpriteKit
-import GameplayKit
 import GameKit
 
 final class GameViewController: UIViewController {
     @IBOutlet private weak var scoreLabel: UILabel!
-    @IBOutlet private weak var lifesLabel: UILabel!
+    @IBOutlet private weak var livesLabel: UILabel!
     @IBOutlet private weak var skView: SKView!
     @IBOutlet private weak var leadingConstraint: NSLayoutConstraint!
     @IBOutlet private weak var bottomConstraint: NSLayoutConstraint!
     
     private lazy var scene: GameScene = { GameScene(size: skView.frame.size) }()
+    private let leaderboardService: LeaderboardService
+    private let ratingService: RatingService
+    
+    init(leaderboardService: LeaderboardService = GameCenterService(configuration: iOSLeaderboardConfiguration()),
+         ratingService: RatingService = StoreReviewService()) {
+        self.leaderboardService = leaderboardService
+        self.ratingService = ratingService
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        self.leaderboardService = GameCenterService(configuration: iOSLeaderboardConfiguration())
+        self.ratingService = StoreReviewService()
+        super.init(coder: coder)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +39,6 @@ final class GameViewController: UIViewController {
         scene.gameDelegate = self
         skView.translatesAutoresizingMaskIntoConstraints = false
         skView.presentScene(scene)
-//        updateLayout()
         
 #if DEBUG
         skView.ignoresSiblingOrder = true
@@ -33,22 +46,13 @@ final class GameViewController: UIViewController {
         skView.showsNodeCount = true
 #endif
         
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap(recognizer:)))
-        let swipeLeftGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeGesture(recognizer:)))
-        let swipeRightGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeGesture(recognizer:)))
+        configureGestures()
         
-        swipeLeftGestureRecognizer.direction = .left
-        swipeRightGestureRecognizer.direction = .right
-        
-        view.addGestureRecognizer(tapGestureRecognizer)
-        view.addGestureRecognizer(swipeLeftGestureRecognizer)
-        view.addGestureRecognizer(swipeRightGestureRecognizer)
-        
-        lifesLabel.text = lifesString(withNumberOfLifes: scene.gameState.lives)
+        livesLabel.text = livesString(withNumberOfLives: scene.gameState.lives)
         
         if let font = UIFont(name: "PressStart2P-Regular", size: 22.0) {
             scoreLabel.font = UIFontMetrics(forTextStyle: .title1).scaledFont(for: font)
-            lifesLabel.font = UIFontMetrics(forTextStyle: .title1).scaledFont(for: font)
+            livesLabel.font = UIFontMetrics(forTextStyle: .title1).scaledFont(for: font)
         }
     }
     
@@ -64,34 +68,30 @@ final class GameViewController: UIViewController {
         return true
     }
     
-    override func pressesBegan(_ presses: Set<UIPress>,
-                               with event: UIPressesEvent?) {
-        super.pressesBegan(presses, with: event)
-        presses.first?.key.map(keyPressed)
+    // MARK: - Gesture configuration
+    
+    private func configureGestures() {
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTap(recognizer:)))
+        view.addGestureRecognizer(tapGestureRecognizer)
+        
+        let swipeLeftGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeGesture(recognizer:)))
+        let swipeRightGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeGesture(recognizer:)))
+        
+        swipeLeftGestureRecognizer.direction = .left
+        swipeRightGestureRecognizer.direction = .right
+        
+        view.addGestureRecognizer(swipeLeftGestureRecognizer)
+        view.addGestureRecognizer(swipeRightGestureRecognizer)
     }
     
-//    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-//        super.traitCollectionDidChange(previousTraitCollection)
-//        guard traitCollection.horizontalSizeClass != previousTraitCollection?.horizontalSizeClass else { return }
-//        updateLayout()
-//    }
-//    
-//    private func updateLayout() {
-//        if traitCollection.horizontalSizeClass == .compact {
-//            bottomConstraint.priority = .defaultLow
-//            leadingConstraint.priority = .required
-//        } else {
-//            bottomConstraint.priority = .required
-//            leadingConstraint.priority = .defaultLow
-//        }
-//    }
+    // MARK: - Input Handlers
     
     @objc
     private func handleTap(recognizer: UITapGestureRecognizer) {
-        let view = recognizer.view
+        guard let view = recognizer.view else { return }
         let location = recognizer.location(in: view)
         
-        if location.x < (view?.frame.size.width)! / 2.0 {
+        if location.x < view.frame.size.width / 2.0 {
             scene.moveLeft()
         } else {
             scene.moveRight()
@@ -107,20 +107,10 @@ final class GameViewController: UIViewController {
         }
     }
     
-    private func scoreString(forScore score: Int) -> String {
-        return "\(NSLocalizedString("score", comment: "")):\(score)"
-    }
-    
-    private func lifesString(withNumberOfLifes numberOfLifes: Int) -> String {
-        return "x\(numberOfLifes)"
-    }
-    
-    private func updateGameCenterScore(_ score: Int) {
-//        let scoreValue = Int64(score)
-//        let gameCenterScore = GKScore(leaderboardIdentifier: "bestios001test", player: GKLocalPlayer.local)
-//        gameCenterScore.value = scoreValue
-//        
-//        GKScore.report([gameCenterScore], withCompletionHandler: nil)
+    override func pressesBegan(_ presses: Set<UIPress>,
+                               with event: UIPressesEvent?) {
+        super.pressesBegan(presses, with: event)
+        presses.first?.key.map(keyPressed)
     }
     
     private func keyPressed(_ key: UIKey) {
@@ -129,6 +119,20 @@ final class GameViewController: UIViewController {
         case .keyboardRightArrow: scene.moveRight()
         default: break
         }
+    }
+    
+    // MARK: - Label Helpers
+    
+    private func scoreString(forScore score: Int) -> String {
+        return "\(NSLocalizedString("score", comment: "")):\(score)"
+    }
+    
+    private func livesString(withNumberOfLives numberOfLives: Int) -> String {
+        return "x\(numberOfLives)"
+    }
+    
+    private func updateGameCenterScore(_ score: Int) {
+        leaderboardService.submitScore(score)
     }
 }
 
@@ -143,11 +147,12 @@ extension GameViewController: GameSceneDelegate {
         
         impactFeedbackGenerator.impactOccurred()
         
-        lifesLabel.text = lifesString(withNumberOfLifes: scene.gameState.lives)
+        livesLabel.text = livesString(withNumberOfLives: scene.gameState.lives)
         
         if gameScene.gameState.lives == 0 {
-            presentGameFinishedAlert(forScore: score)
             updateGameCenterScore(score)
+            ratingService.checkAndRequestRating(score: score)
+            presentGameFinishedAlert(forScore: score)
         } else {
             self.scene.resume()
         }

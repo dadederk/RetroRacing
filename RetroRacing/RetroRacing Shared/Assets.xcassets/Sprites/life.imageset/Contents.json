@@ -1,15 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "life.png",
+      "filename" : "LIVES.png",
       "idiom" : "universal"
     },
     {
-      "filename" : "life 1.png",
+      "filename" : "LIVES 1.png",
       "idiom" : "watch"
     },
     {
-      "filename" : "life 2.png",
+      "filename" : "LIVES 2.png",
       "idiom" : "tv"
     }
   ],

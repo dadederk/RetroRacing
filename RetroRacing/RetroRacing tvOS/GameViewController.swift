@@ -7,6 +7,21 @@ class GameViewController: UIViewController {
     @IBOutlet private weak var scoreLabel: UILabel!
     
     private lazy var scene: GameScene = { GameScene(size: sceneView.frame.size) }()
+    private let leaderboardService: LeaderboardService
+    private let ratingService: RatingService
+    
+    init(leaderboardService: LeaderboardService = GameCenterService(configuration: tvOSLeaderboardConfiguration()),
+         ratingService: RatingService = StoreReviewService()) {
+        self.leaderboardService = leaderboardService
+        self.ratingService = ratingService
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        self.leaderboardService = GameCenterService(configuration: tvOSLeaderboardConfiguration())
+        self.ratingService = StoreReviewService()
+        super.init(coder: coder)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,11 +55,7 @@ class GameViewController: UIViewController {
     }
     
     private func updateGameCenterScore(_ score: Int) {
-//        let scoreValue = Int64(score)
-//        let gameCenterScore = GKScore(leaderboardIdentifier: "besttvos001", player: GKLocalPlayer.local)
-//        gameCenterScore.value = scoreValue
-//        
-//        GKScore.report([gameCenterScore], withCompletionHandler: nil)
+        leaderboardService.submitScore(score)
     }
 }
 
@@ -55,6 +66,10 @@ extension GameViewController: GameSceneDelegate {
     
     func gameSceneDidDetectCollision(_ gameScene: GameScene) {
         let score = gameScene.gameState.score
+        
+        updateGameCenterScore(score)
+        ratingService.checkAndRequestRating(score: score)
+        
         let gameOverAlertController = UIAlertController(title: NSLocalizedString("gameOver", comment: ""),
                                                         message: scoreString(forScore: score),
             preferredStyle: .alert)
@@ -66,7 +81,5 @@ extension GameViewController: GameSceneDelegate {
         }))
         
         present(gameOverAlertController, animated: true, completion: nil)
-        
-        updateGameCenterScore(score)
     }
 }

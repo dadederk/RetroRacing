@@ -99,6 +99,9 @@
           }
         }
       }
+    },
+    "Sign in to Game Center to view the leaderboard." : {
+
     }
   },
   "version" : "1.0"
