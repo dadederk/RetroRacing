@@ -1,13 +1,14 @@
 //
-//  RetroRacingTests.swift
-//  RetroRacingTests
+//  RetroRacingSharedTests.swift
+//  RetroRacingSharedTests
 //
 //  Created by Dani Devesa Derksen-Staats on 01/02/2026.
 //
 
 import Testing
+@testable import RetroRacingShared
 
-struct RetroRacingTests {
+struct RetroRacingSharedTests {
 
     @Test func example() async throws {
         // Write your test here and use APIs like `#expect(...)` to check expected conditions.

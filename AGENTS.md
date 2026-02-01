@@ -71,21 +71,21 @@ RetroRacing/
 │   │   ├── RatingService.swift
 │   │   └── StoreReviewService.swift
 │   └── Extensions/         # Shared utilities
-├── RetroRacing iOS/        # iOS-specific UI (UIKit)
-│   ├── GameViewController.swift
-│   ├── MenuViewController.swift
+├── RetroRacing iOS/        # iOS-specific UI (SwiftUI)
+│   ├── Views/ (GameView, MenuView, LeaderboardView)
 │   └── Configuration/
 │       └── iOSLeaderboardConfiguration.swift
 ├── RetroRacing watchOS/    # watchOS-specific UI (SwiftUI)
-│   ├── GameView.swift
-│   └── MenuView.swift
-├── RetroRacing tvOS/       # tvOS-specific UI (UIKit)
+│   ├── WatchGameView, ContentView
+│   └── MenuView
+├── RetroRacing tvOS/       # tvOS-specific UI (SwiftUI)
 ├── RetroRacing macOS/      # macOS-specific UI (AppKit/SwiftUI)
 └── RetroRacing visionOS/   # visionOS-specific UI (SwiftUI)
 ```
 
 ### Key Principles
 
+- **SwiftUI first**: Prefer SwiftUI over UIKit; avoid UIKit in shared code and in platform UI where SwiftUI is sufficient. Migration goal: use and reuse SwiftUI.
 - **Protocol-Driven Design**: Abstract platform differences behind protocols
 - **Configuration Injection**: Platform differences via configuration objects
 - **Dependency Injection**: All dependencies passed explicitly, no defaults in init
@@ -231,20 +231,20 @@ struct GameView: View {
 
 ## Input Handling Strategy
 
-Each platform has unique input methods. **Handle at the UI layer**, pass commands to shared `GameController` protocol:
+Each platform has unique input methods. **Handle at the UI layer** (SwiftUI where possible), pass commands to shared `GameController` protocol:
 
 | Platform | Primary Input | Implementation |
 |----------|---------------|----------------|
-| iOS/iPadOS | Touch, Swipe, Tilt, Keyboard | `touchesBegan`, `UIGestureRecognizer`, `CMMotionManager`, `UIKeyCommand` |
+| iOS/iPadOS | Touch, Swipe, Tap | SwiftUI: transparent overlay on `SpriteView` with `DragGesture` and `onTapGesture`; no UIKit touch handling in shared `GameScene` |
 | watchOS | Digital Crown, Tap, Swipe | `digitalCrownRotation`, `TapGesture`, `DragGesture` |
-| tvOS | Siri Remote (swipe, click) | `pressesBegan`, focus engine |
+| tvOS | Siri Remote (swipe, click) | Focus engine, SwiftUI gestures |
 | macOS | Keyboard, Mouse, Trackpad | `keyDown`, `mouseDown`, `NSGestureRecognizer` |
 | visionOS | Gaze, Hand Gestures, Voice | `SpatialTapGesture`, `LookAtComponent`, accessibility actions |
 
 **Pattern:**
-- UI layer captures platform-specific input
-- Translates to `GameController` protocol calls
-- `GameScene` implements `GameController` with shared logic
+- UI layer captures platform-specific input (SwiftUI-first; avoid UIKit in shared layer)
+- Translates to `GameController` protocol calls (`moveLeft()`, `moveRight()`)
+- `GameScene` implements `GameController` with shared logic; no platform touch/gesture code in the scene
 
 ## Swift & SwiftUI Patterns
 
@@ -510,6 +510,7 @@ private func updateGrid() {
 - **Inject dependencies explicitly**: No defaults in init parameters
 - **Test with mocks**: Protocol-based design enables easy testing
 - **Handle errors gracefully**: Log, report to user, don't crash
+- **Log with emoji prefixes**: Use `AppLog` (🖼️ assets, 🔊 sound, 🔤 font, 🌐 localization, 🎨 theme, 🎮 game); concatenate when a log touches multiple features (e.g. `AppLog.assets + AppLog.sound`) so logs are easy to filter and visualise
 - **Respect user preferences**: Accessibility, motion, sound
 - **Document non-obvious code**: Explain "why", not "what"
 - **Run tests after changes**: Unit tests must always pass
