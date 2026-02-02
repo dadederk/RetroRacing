@@ -20,7 +20,7 @@ struct tvOSGameView: View {
         self.leaderboardService = leaderboardService
         self.ratingService = ratingService
         let size = CGSize(width: 1920, height: 1080)
-        _scene = State(initialValue: GameScene.scene(size: size))
+        _scene = State(initialValue: GameScene.scene(size: size, theme: nil, imageLoader: UIKitImageLoader()))
     }
 
     var body: some View {
@@ -39,32 +39,32 @@ struct tvOSGameView: View {
             }
 
             HStack {
-                Text(String(format: String(localized: "score %lld"), score))
+                Text(GameLocalizedStrings.format("score %lld", score))
                     .font(.custom("PressStart2P-Regular", size: 28))
                 Spacer()
                 HStack(spacing: 8) {
-                    Image("life", bundle: Self.sharedBundle)
+                    Image(LCDTheme().lifeSprite() ?? "life", bundle: Self.sharedBundle)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 28, height: 28)
-                    Text("\(lives)")
+                    Text(" x\(lives)")
                         .font(.custom("PressStart2P-Regular", size: 28))
                 }
             }
             .padding(60)
         }
-        .alert(String(localized: "gameOver"), isPresented: $showGameOver) {
-            Button(String(localized: "restart")) {
+        .alert(GameLocalizedStrings.string("gameOver"), isPresented: $showGameOver) {
+            Button(GameLocalizedStrings.string("restart")) {
                 scene.start()
                 score = scene.gameState.score
                 lives = scene.gameState.lives
                 showGameOver = false
             }
-            Button(String(localized: "finish")) {
+            Button(GameLocalizedStrings.string("finish")) {
                 dismiss()
             }
         } message: {
-            Text(String(format: String(localized: "score %lld"), gameOverScore))
+            Text(GameLocalizedStrings.format("score %lld", gameOverScore))
         }
         .onAppear {
             if delegate == nil {

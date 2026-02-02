@@ -19,7 +19,7 @@ public final class ThemeManager {
         let freeIDs = Set(initialThemes.filter { !$0.isPremium }.map(\.id))
         let storedUnlocked = userDefaults.stringArray(forKey: unlockedThemesKey) ?? []
         self.unlockedThemeIDs = freeIDs.union(storedUnlocked)
-        let selectedID = userDefaults.string(forKey: selectedThemeKey) ?? "classic"
+        let selectedID = userDefaults.string(forKey: selectedThemeKey) ?? "lcd"
         let selected = initialThemes.first { $0.id == selectedID } ?? initialThemes[0]
         self.currentTheme = selected
     }

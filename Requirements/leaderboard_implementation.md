@@ -53,22 +53,9 @@ View layer characteristics:
 
 ## Known Issues
 
-### Game Center View Controller Deprecations
+### Game Center (iOS 26 / tvOS 26)
 
-```
-'viewState' was deprecated in iOS 14.0
-'leaderboardIdentifier' was deprecated in iOS 14.0
-```
-
-**Status:** ⚠️ **Safe to Ignore**
-- Apple has NOT provided replacement API (as of iOS 18)
-- Properties continue to work correctly
-- Only way to configure `GKGameCenterViewController`
-- Documented in `GameCenterService.swift`
-
-**Alternative Considered:**
-- Build custom leaderboard UI using `GKLeaderboard` API directly
-- **Rejected**: Significantly more complex, loses native Game Center UI/UX
+**Resolved:** `GKGameCenterViewController` and `GKGameCenterControllerDelegate` were deprecated in iOS 26 / tvOS 26 with replacement **GKAccessPoint**. The app now uses `GKAccessPoint.shared.trigger(leaderboardID:playerScope:timeScope:handler:)` to present the leaderboard (see `LeaderboardView.swift`, `tvOSLeaderboardView.swift`). No deprecated Game Center APIs are used on iOS/tvOS 26+.
 
 ## Testing Strategy
 

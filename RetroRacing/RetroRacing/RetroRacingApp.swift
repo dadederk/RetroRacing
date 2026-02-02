@@ -28,7 +28,7 @@ struct RetroRacingApp: App {
         ratingService = StoreReviewService(ratingProvider: MacRatingServiceProvider())
         #endif
         themeManager = ThemeManager(
-            initialThemes: [ClassicTheme(), GameBoyTheme()],
+            initialThemes: [LCDTheme(), GameBoyTheme()],
             userDefaults: .standard
         )
     }

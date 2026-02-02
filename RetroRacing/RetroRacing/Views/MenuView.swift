@@ -18,15 +18,24 @@ struct MenuView: View {
     #endif
     @State private var showGame = false
     @State private var showLeaderboard = false
+    @State private var showSettings = false
     #if canImport(UIKit)
     @State private var authViewControllerToPresent: UIViewController?
     #endif
     @State private var showSignInAlert = false
 
+    private static var settingsToolbarPlacement: ToolbarItemPlacement {
+        #if os(macOS)
+        .primaryAction
+        #else
+        .topBarTrailing
+        #endif
+    }
+
     var body: some View {
         NavigationStack {
             VStack(spacing: 24) {
-                Text(String(localized: "gameName"))
+                Text(GameLocalizedStrings.string("gameName"))
                     .font(.custom("PressStart2P-Regular", size: 27))
                     .dynamicTypeSize(.xSmall ... .xxxLarge)
                     .padding(.bottom, 40)
@@ -39,6 +48,19 @@ struct MenuView: View {
                 }
             }
             .padding()
+            .toolbar {
+                ToolbarItem(placement: Self.settingsToolbarPlacement) {
+                    Button {
+                        showSettings = true
+                    } label: {
+                        Image(systemName: "gearshape")
+                    }
+                    .accessibilityLabel(GameLocalizedStrings.string("settings"))
+                }
+            }
+            .sheet(isPresented: $showSettings) {
+                SettingsView()
+            }
             .navigationDestination(isPresented: $showGame) {
                 GameView(
                     leaderboardService: leaderboardService,
@@ -57,10 +79,10 @@ struct MenuView: View {
                 }
             }
             #endif
-            .alert(String(localized: "leaderboard"), isPresented: $showSignInAlert) {
-                Button(String(localized: "ok"), role: .cancel) {}
+            .alert(GameLocalizedStrings.string("leaderboard"), isPresented: $showSignInAlert) {
+                Button(GameLocalizedStrings.string("ok"), role: .cancel) {}
             } message: {
-                Text(String(localized: "Sign in to Game Center to view the leaderboard."))
+                Text(GameLocalizedStrings.string("Sign in to Game Center to view the leaderboard."))
             }
         }
         .onAppear {
@@ -80,7 +102,7 @@ struct MenuView: View {
         Button {
             showGame = true
         } label: {
-            Text(String(localized: "play"))
+            Text(GameLocalizedStrings.string("play"))
                 .font(.custom("PressStart2P-Regular", size: 18))
         }
         .buttonStyle(.glassProminent)
@@ -95,7 +117,7 @@ struct MenuView: View {
                 showSignInAlert = true
             }
         } label: {
-            Text(String(localized: "leaderboard"))
+            Text(GameLocalizedStrings.string("leaderboard"))
                 .font(.custom("PressStart2P-Regular", size: 18))
         }
         .buttonStyle(.glass)
@@ -110,7 +132,7 @@ struct MenuView: View {
             ratingService.requestRating()
             #endif
         } label: {
-            Text(String(localized: "rateApp"))
+            Text(GameLocalizedStrings.string("rateApp"))
                 .font(.custom("PressStart2P-Regular", size: 18))
         }
         .buttonStyle(.glass)

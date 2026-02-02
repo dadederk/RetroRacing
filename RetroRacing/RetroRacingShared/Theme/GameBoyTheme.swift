@@ -35,6 +35,16 @@ public struct GameBoyTheme: GameTheme {
         Color(red: 0.059, green: 0.220, blue: 0.059)
     }
 
+    /// Dark green #0F380F for grid cells.
+    public func gridCellColor() -> Color {
+        Color(red: 0.059, green: 0.220, blue: 0.059)
+    }
+
     public func cellBorderWidth() -> CGFloat { 1 }
     public func cornerRadius() -> CGFloat { 0 }
+
+    public func playerCarSprite() -> String? { "playersCar-GameBoy" }
+    public func rivalCarSprite() -> String? { "rivalsCar-GameBoy" }
+    public func crashSprite() -> String? { "crash-GameBoy" }
+    public func lifeSprite() -> String? { "life-GameBoy" }
 }

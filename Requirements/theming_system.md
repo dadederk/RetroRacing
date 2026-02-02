@@ -17,6 +17,7 @@ protocol GameTheme {
     // Colors
     func backgroundColor(for state: GameState) -> Color
     func gridLineColor() -> Color
+    func gridCellColor() -> Color   // Grid cell fill (use .skColor in SpriteKit)
     func playerCarColor() -> Color
     func rivalCarColor() -> Color
     func crashColor() -> Color
@@ -49,33 +50,39 @@ final class ThemeManager {
 }
 ```
 
+## Asset Organization
+
+Sprite assets are grouped by theme family under `Assets.xcassets/Sprites/`:
+
+- **LCD/** – Default theme assets: `playersCar-LCD`, `rivalsCar-LCD`, `crash-LCD`, `life-LCD`
+- **GameBoy/** – Game Boy theme assets: `playersCar-GameBoy`, `rivalsCar-GameBoy`, `crash-GameBoy`, `life-GameBoy`
+
+Naming convention: `nameAsset-theme` (e.g. `playersCar-GameBoy`).
+
 ## Default Themes
 
-### Classic Theme (Free)
+### LCD Theme (Free, default)
 
-Default theme, available to all users.
+Default theme on iOS, tvOS, macOS, visionOS. Pastel beige grid to differentiate from Game Boy.
 
 **Visual Style:**
-- Background: Light green (#9ADC26)
+- Background: Light green
+- Grid cell fill: Pastel beige (RGB ~245/235/210)
 - Grid lines: Gray
-- Player car: Blue
-- Rival car: Red
-- Simple, clean aesthetic
+- Sprites: `playersCar-LCD`, `rivalsCar-LCD`, `crash-LCD`
 
-**Platforms:** All
+**Platforms:** iOS, tvOS, macOS, visionOS (default)
 
 ### Game Boy Theme (Free)
 
-Iconic monochrome green aesthetic.
+Iconic monochrome green aesthetic. Default on watchOS.
 
 **Visual Style:**
 - Background: `#9BBC0F` (classic Game Boy green)
-- Foreground: `#0F380F` (dark green)
-- Player car: Dark green outline
-- Rival car: Lighter green outline
-- 2-bit color palette
+- Grid cell fill: `#0F380F` (dark green)
+- Sprites: `playersCar-GameBoy`, `rivalsCar-GameBoy`, `crash-GameBoy`
 
-**Best on:** watchOS (small screen, nostalgia factor)
+**Platforms:** All; **default on watchOS**
 
 ### LCD Handheld Theme (Premium)
 

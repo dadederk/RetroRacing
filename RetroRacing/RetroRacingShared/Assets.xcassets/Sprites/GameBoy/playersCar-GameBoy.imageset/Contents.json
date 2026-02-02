@@ -1,15 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "RivalCar.png",
+      "filename" : "playersCar-GameBoy.png",
       "idiom" : "universal"
     },
     {
-      "filename" : "RivalCar 1.png",
+      "filename" : "playersCar-GameBoy 1.png",
       "idiom" : "watch"
     },
     {
-      "filename" : "RivalCar 2.png",
+      "filename" : "playersCar-GameBoy 2.png",
       "idiom" : "tv"
     }
   ],

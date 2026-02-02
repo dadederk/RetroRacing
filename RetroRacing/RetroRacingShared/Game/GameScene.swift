@@ -1,4 +1,5 @@
 import SpriteKit
+import SwiftUI
 import AVFoundation
 #if canImport(UIKit)
 import UIKit
@@ -6,7 +7,8 @@ import UIKit
 import AppKit
 #endif
 
-public protocol GameController {
+/// Input commands for the game. Named to avoid shadowing the GameController framework (physical controllers).
+public protocol RacingGameController {
     func moveLeft()
     func moveRight()
 }
@@ -37,9 +39,7 @@ public class GameScene: SKScene {
             let duration = player.duration
             activeSoundPlayers.append(player)
             return SKAction.sequence([
-                SKAction.run { [weak self] in
-                    player.play()
-                },
+                SKAction.run { player.play() },
                 SKAction.wait(forDuration: waitForCompletion ? duration : 0)
             ])
         } catch {
@@ -75,8 +75,12 @@ public class GameScene: SKScene {
     private var gridState = GridState(numberOfRows: 5, numberOfColumns: 3)
     public private(set) var gameState = GameState()
 
-    /// When set, sprite asset names come from the theme; otherwise defaults (playersCar, rivalsCar, crash) are used.
+    /// When set, sprite asset names and grid cell color come from the theme; otherwise LCD defaults.
     public var theme: (any GameTheme)?
+
+    /// Loads sprite images from the bundle. Injected so shared code has no UIKit/AppKit conditionals.
+    /// Optional so scene can be created before assignment; e.g. on watchOS sceneDidLoad() may run early.
+    public var imageLoader: (any ImageLoader)?
 
     public weak var gameDelegate: GameSceneDelegate?
 
@@ -90,9 +94,13 @@ public class GameScene: SKScene {
 
     /// Creates a new game scene with the given size. Use this for SwiftUI SpriteView when no .sks file is used.
     /// Grid is created when the scene is presented (didMove/to view or sceneDidLoad); use view size when possible so scene size matches view and scaling is 1:1.
-    /// - Parameter theme: Optional theme; when provided, sprite asset names (playerCarSprite, rivalCarSprite, crashSprite) are used.
-    public static func scene(size: CGSize, theme: (any GameTheme)? = nil) -> GameScene {
+    /// - Parameters:
+    ///   - size: Scene size.
+    ///   - theme: Optional theme; when provided, sprite asset names (playerCarSprite, rivalCarSprite, crashSprite) are used.
+    ///   - imageLoader: Loader for sprite textures (platform-specific: UIKit vs AppKit).
+    public static func scene(size: CGSize, theme: (any GameTheme)? = nil, imageLoader: some ImageLoader) -> GameScene {
         let scene = GameScene(size: size)
+        scene.imageLoader = imageLoader
         scene.theme = theme
         scene.anchorPoint = CGPoint(x: 0, y: 0)
         scene.scaleMode = .aspectFit
@@ -100,9 +108,10 @@ public class GameScene: SKScene {
     }
 
     /// Creates a new game scene. Use programmatic size; .sks loading uses main bundle and is not used from framework.
-    public class func newGameScene() -> GameScene {
+    /// Caller must set imageLoader before presenting the scene if using this initializer.
+    public class func newGameScene(imageLoader: some ImageLoader) -> GameScene {
         let defaultSize = CGSize(width: 800, height: 600)
-        return scene(size: defaultSize)
+        return scene(size: defaultSize, theme: nil, imageLoader: imageLoader)
     }
 
     public func start() {
@@ -178,6 +187,11 @@ public class GameScene: SKScene {
         }
     }
 
+    private func gridCellFillColor() -> SKColor {
+        guard let theme else { return gameBackgroundColor }
+        return theme.gridCellColor().skColor
+    }
+
     private func createCell(column: Int, row: Int) -> SKShapeNode {
         let cellSize = sizeForCell()
         let origin = positionForCellIn(column: column, row: row, size: cellSize)
@@ -187,7 +201,7 @@ public class GameScene: SKScene {
         }
         let cell = SKShapeNode(rect: frame)
         cell.name = nameForCell(column: column, row: row)
-        cell.fillColor = gameBackgroundColor
+        cell.fillColor = gridCellFillColor()
         cell.strokeColor = .gray
         cell.zPosition = 1
 
@@ -239,52 +253,32 @@ public class GameScene: SKScene {
                 let cell = gridCell(column: column, row: row)
 
                 switch cellState {
-                case .Car: addSprite(spriteNode(imageNamed: theme?.rivalCarSprite() ?? "rivalsCar"), toCell: cell, row: row, column: column)
-                case .Player: addSprite(spriteNode(imageNamed: theme?.playerCarSprite() ?? "playersCar"), toCell: cell, row: row, column: column)
+                case .Car: addSprite(spriteNode(imageNamed: theme?.rivalCarSprite() ?? "rivalsCar-LCD"), toCell: cell, row: row, column: column)
+                case .Player: addSprite(spriteNode(imageNamed: theme?.playerCarSprite() ?? "playersCar-LCD"), toCell: cell, row: row, column: column)
                 case .Crash:
-                    let crashSprite = spriteNode(imageNamed: theme?.crashSprite() ?? "crash")
+                    let crashSprite = spriteNode(imageNamed: theme?.crashSprite() ?? "crash-LCD")
                     crashSprite.name = "crash"
                     addSprite(crashSprite, toCell: cell, row: row, column: column)
                 case .Empty: break
                 }
 
-                cell.fillColor = gameBackgroundColor
+                cell.fillColor = gridCellFillColor()
             }
         }
     }
 
     private func spriteNode(imageNamed name: String) -> SKSpriteNode {
-        let texture = Self.texture(imageNamed: name)
+        let texture = texture(imageNamed: name)
         return SKSpriteNode(texture: texture)
     }
 
-    /// Loads texture from the shared framework bundle only. Uses Resources/Sprites/*.png so the same path works on all platforms (watchOS cannot use UIImage(named:in:compatibleWith:) from a framework).
-    private static func texture(imageNamed name: String) -> SKTexture {
-        guard let url = urlForSprite(named: name) else {
-            AppLog.error(AppLog.assets, "texture '\(name)' NOT FOUND in sharedBundle \(sharedBundle.bundleURL.lastPathComponent)")
+    /// Loads texture via injected imageLoader so shared code has no UIKit/AppKit conditionals.
+    private func texture(imageNamed name: String) -> SKTexture {
+        guard let imageLoader else {
+            AppLog.error(AppLog.assets, "texture '\(name)' skipped: imageLoader not set yet (scene not fully initialized)")
             return SKTexture()
         }
-        #if canImport(UIKit)
-        guard let data = try? Data(contentsOf: url),
-              let image = UIImage(data: data) else {
-            AppLog.error(AppLog.assets, "texture '\(name)' failed to load from \(url.path)")
-            return SKTexture()
-        }
-        AppLog.log(AppLog.assets, "texture '\(name)' loaded from sharedBundle")
-        return SKTexture(image: image)
-        #elseif canImport(AppKit)
-        guard let image = NSImage(contentsOf: url) else {
-            AppLog.error(AppLog.assets, "texture '\(name)' failed to load from \(url.path)")
-            return SKTexture()
-        }
-        AppLog.log(AppLog.assets, "texture '\(name)' loaded from sharedBundle")
-        return SKTexture(image: image)
-        #endif
-    }
-
-    private static func urlForSprite(named name: String) -> URL? {
-        sharedBundle.url(forResource: name, withExtension: "png", subdirectory: "Sprites")
-            ?? sharedBundle.url(forResource: name, withExtension: "png")
+        return imageLoader.loadTexture(imageNamed: name, bundle: Self.sharedBundle)
     }
 
     private func addSprite(_ sprite: SKSpriteNode, toCell cell: SKShapeNode, row: Int, column: Int) {
@@ -338,7 +332,7 @@ public class GameScene: SKScene {
     }
 }
 
-extension GameScene: GameController {
+extension GameScene: RacingGameController {
     public func moveLeft() {
         guard !gameState.isPaused else { return }
 

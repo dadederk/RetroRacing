@@ -2,36 +2,17 @@ import SwiftUI
 import GameKit
 import RetroRacingShared
 
-struct tvOSLeaderboardView: UIViewControllerRepresentable {
+/// Presents Game Center leaderboard via GKAccessPoint (replacement for deprecated GKGameCenterViewController). App targets tvOS 26+.
+struct tvOSLeaderboardView: View {
     let leaderboardID: String
     let onDismiss: () -> Void
 
-    func makeUIViewController(context: Context) -> GKGameCenterViewController {
-        let vc = GKGameCenterViewController(
-            leaderboardID: leaderboardID,
-            playerScope: .global,
-            timeScope: .allTime
-        )
-        vc.gameCenterDelegate = context.coordinator
-        return vc
-    }
-
-    func updateUIViewController(_ uiViewController: GKGameCenterViewController, context: Context) {}
-
-    func makeCoordinator() -> Coordinator {
-        Coordinator(onDismiss: onDismiss)
-    }
-
-    final class Coordinator: NSObject, GKGameCenterControllerDelegate {
-        let onDismiss: () -> Void
-
-        init(onDismiss: @escaping () -> Void) {
-            self.onDismiss = onDismiss
-        }
-
-        func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
-            gameCenterViewController.dismiss(animated: true)
-            onDismiss()
-        }
+    var body: some View {
+        Color.clear
+            .onAppear {
+                GKAccessPoint.shared.trigger(leaderboardID: leaderboardID, playerScope: .global, timeScope: .allTime) {
+                    onDismiss()
+                }
+            }
     }
 }
