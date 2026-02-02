@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		21DD469F2F2FCA97000C9FFA /* RetroRacing for watchOS Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 21DD467F2F2FCA96000C9FFA /* RetroRacing for watchOS Watch App.app */; platformFilters = ("!macos", ); settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		21DD469F2F2FCA97000C9FFA /* RetroRacingWatchOS.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 21DD467F2F2FCA96000C9FFA /* RetroRacingWatchOS.app */; platformFilters = ("!macos", ); settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		21DD46E02F2FCAD9000C9FFA /* RealityKitContent in Frameworks */ = {isa = PBXBuildFile; productRef = 21DD46DF2F2FCAD9000C9FFA /* RealityKitContent */; };
 		21DD47092F2FCB02000C9FFA /* RetroRacingShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21DD46FE2F2FCB02000C9FFA /* RetroRacingShared.framework */; };
 		21DD47132F2FCB02000C9FFA /* RetroRacingShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21DD46FE2F2FCB02000C9FFA /* RetroRacingShared.framework */; };
@@ -22,56 +22,56 @@
 			containerPortal = 21DD46392F2FC956000C9FFA /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 21DD46402F2FC956000C9FFA;
-			remoteInfo = RetroRacing;
+			remoteInfo = RetroRacingUniversal;
 		};
 		21DD465B2F2FC957000C9FFA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 21DD46392F2FC956000C9FFA /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 21DD46402F2FC956000C9FFA;
-			remoteInfo = RetroRacing;
+			remoteInfo = RetroRacingUniversal;
 		};
 		21DD468C2F2FCA97000C9FFA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 21DD46392F2FC956000C9FFA /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 21DD467E2F2FCA96000C9FFA;
-			remoteInfo = "RetroRacing for watchOS Watch App";
+			remoteInfo = RetroRacingWatchOS;
 		};
 		21DD46962F2FCA97000C9FFA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 21DD46392F2FC956000C9FFA /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 21DD467E2F2FCA96000C9FFA;
-			remoteInfo = "RetroRacing for watchOS Watch App";
+			remoteInfo = RetroRacingWatchOS;
 		};
 		21DD469D2F2FCA97000C9FFA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 21DD46392F2FC956000C9FFA /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 21DD467E2F2FCA96000C9FFA;
-			remoteInfo = "RetroRacing for watchOS Watch App";
+			remoteInfo = RetroRacingWatchOS;
 		};
 		21DD46BD2F2FCAB0000C9FFA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 21DD46392F2FC956000C9FFA /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 21DD46AD2F2FCAAF000C9FFA;
-			remoteInfo = "RetroRacing for tvOS";
+			remoteInfo = RetroRacingTvOS;
 		};
 		21DD46C72F2FCAB0000C9FFA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 21DD46392F2FC956000C9FFA /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 21DD46AD2F2FCAAF000C9FFA;
-			remoteInfo = "RetroRacing for tvOS";
+			remoteInfo = RetroRacingTvOS;
 		};
 		21DD46ED2F2FCADA000C9FFA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 21DD46392F2FC956000C9FFA /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 21DD46DA2F2FCAD9000C9FFA;
-			remoteInfo = "RetroRacing for visionOS";
+			remoteInfo = RetroRacingVisionOS;
 		};
 		21DD470A2F2FCB02000C9FFA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -85,7 +85,7 @@
 			containerPortal = 21DD46392F2FC956000C9FFA /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 21DD46402F2FC956000C9FFA;
-			remoteInfo = RetroRacing;
+			remoteInfo = RetroRacingUniversal;
 		};
 		21DD47112F2FCB02000C9FFA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -117,7 +117,7 @@
 			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
 			dstSubfolderSpec = 16;
 			files = (
-				21DD469F2F2FCA97000C9FFA /* RetroRacing for watchOS Watch App.app in Embed Watch Content */,
+				21DD469F2F2FCA97000C9FFA /* RetroRacingWatchOS.app in Embed Watch Content */,
 			);
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -136,89 +136,76 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		21DD46412F2FC956000C9FFA /* RetroRacing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RetroRacing.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		21DD46502F2FC957000C9FFA /* RetroRacingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RetroRacingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		21DD465A2F2FC957000C9FFA /* RetroRacingUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RetroRacingUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		21DD467F2F2FCA96000C9FFA /* RetroRacing for watchOS Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RetroRacing for watchOS Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		21DD468B2F2FCA97000C9FFA /* RetroRacing for watchOS Watch AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "RetroRacing for watchOS Watch AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		21DD46952F2FCA97000C9FFA /* RetroRacing for watchOS Watch AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "RetroRacing for watchOS Watch AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		21DD46AE2F2FCAAF000C9FFA /* RetroRacing for tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RetroRacing for tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		21DD46BC2F2FCAB0000C9FFA /* RetroRacing for tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "RetroRacing for tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		21DD46C62F2FCAB0000C9FFA /* RetroRacing for tvOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "RetroRacing for tvOSUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		21DD46DB2F2FCAD9000C9FFA /* RetroRacing for visionOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RetroRacing for visionOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		21DD46412F2FC956000C9FFA /* RetroRacingUniversal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RetroRacingUniversal.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		21DD46502F2FC957000C9FFA /* RetroRacingUniversalTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RetroRacingUniversalTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		21DD465A2F2FC957000C9FFA /* RetroRacingUniversalUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RetroRacingUniversalUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		21DD467F2F2FCA96000C9FFA /* RetroRacingWatchOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RetroRacingWatchOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		21DD468B2F2FCA97000C9FFA /* RetroRacingWatchOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RetroRacingWatchOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		21DD46952F2FCA97000C9FFA /* RetroRacingWatchOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RetroRacingWatchOSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		21DD46AE2F2FCAAF000C9FFA /* RetroRacingTvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RetroRacingTvOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		21DD46BC2F2FCAB0000C9FFA /* RetroRacingTvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RetroRacingTvOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		21DD46C62F2FCAB0000C9FFA /* RetroRacingTvOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RetroRacingTvOSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		21DD46DB2F2FCAD9000C9FFA /* RetroRacingVisionOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RetroRacingVisionOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		21DD46DE2F2FCAD9000C9FFA /* RealityKitContent */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = RealityKitContent; sourceTree = "<group>"; };
-		21DD46EC2F2FCADA000C9FFA /* RetroRacing for visionOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "RetroRacing for visionOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		21DD46EC2F2FCADA000C9FFA /* RetroRacingVisionOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RetroRacingVisionOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		21DD46FE2F2FCB02000C9FFA /* RetroRacingShared.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RetroRacingShared.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		21DD47082F2FCB02000C9FFA /* RetroRacingSharedTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RetroRacingSharedTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		21DD46F22F2FCADA000C9FFA /* Exceptions for "RetroRacing for visionOS" folder in "RetroRacing for visionOS" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = 21DD46DA2F2FCAD9000C9FFA /* RetroRacing for visionOS */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		21DD46432F2FC956000C9FFA /* RetroRacing */ = {
+		21DD46432F2FC956000C9FFA /* RetroRacingUniversal */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = RetroRacing;
+			path = RetroRacingUniversal;
 			sourceTree = "<group>";
 		};
-		21DD46532F2FC957000C9FFA /* RetroRacingTests */ = {
+		21DD46532F2FC957000C9FFA /* RetroRacingUniversalTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = RetroRacingTests;
+			path = RetroRacingUniversalTests;
 			sourceTree = "<group>";
 		};
-		21DD465D2F2FC957000C9FFA /* RetroRacingUITests */ = {
+		21DD465D2F2FC957000C9FFA /* RetroRacingUniversalUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = RetroRacingUITests;
+			path = RetroRacingUniversalUITests;
 			sourceTree = "<group>";
 		};
-		21DD46802F2FCA96000C9FFA /* RetroRacing for watchOS Watch App */ = {
+		21DD46802F2FCA96000C9FFA /* RetroRacingWatchOS */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "RetroRacing for watchOS Watch App";
+			path = RetroRacingWatchOS;
 			sourceTree = "<group>";
 		};
-		21DD468E2F2FCA97000C9FFA /* RetroRacing for watchOS Watch AppTests */ = {
+		21DD468E2F2FCA97000C9FFA /* RetroRacingWatchOSTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "RetroRacing for watchOS Watch AppTests";
+			path = RetroRacingWatchOSTests;
 			sourceTree = "<group>";
 		};
-		21DD46982F2FCA97000C9FFA /* RetroRacing for watchOS Watch AppUITests */ = {
+		21DD46982F2FCA97000C9FFA /* RetroRacingWatchOSUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "RetroRacing for watchOS Watch AppUITests";
+			path = RetroRacingWatchOSUITests;
 			sourceTree = "<group>";
 		};
-		21DD46AF2F2FCAAF000C9FFA /* RetroRacing for tvOS */ = {
+		21DD46AF2F2FCAAF000C9FFA /* RetroRacingTvOS */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "RetroRacing for tvOS";
+			path = RetroRacingTvOS;
 			sourceTree = "<group>";
 		};
-		21DD46BF2F2FCAB0000C9FFA /* RetroRacing for tvOSTests */ = {
+		21DD46BF2F2FCAB0000C9FFA /* RetroRacingTvOSTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "RetroRacing for tvOSTests";
+			path = RetroRacingTvOSTests;
 			sourceTree = "<group>";
 		};
-		21DD46C92F2FCAB0000C9FFA /* RetroRacing for tvOSUITests */ = {
+		21DD46C92F2FCAB0000C9FFA /* RetroRacingTvOSUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "RetroRacing for tvOSUITests";
+			path = RetroRacingTvOSUITests;
 			sourceTree = "<group>";
 		};
-		21DD46DC2F2FCAD9000C9FFA /* RetroRacing for visionOS */ = {
+		21DD46DC2F2FCAD9000C9FFA /* RetroRacingVisionOS */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				21DD46F22F2FCADA000C9FFA /* Exceptions for "RetroRacing for visionOS" folder in "RetroRacing for visionOS" target */,
-			);
-			path = "RetroRacing for visionOS";
+			path = RetroRacingVisionOS;
 			sourceTree = "<group>";
 		};
-		21DD46EF2F2FCADA000C9FFA /* RetroRacing for visionOSTests */ = {
+		21DD46EF2F2FCADA000C9FFA /* RetroRacingVisionOSTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "RetroRacing for visionOSTests";
+			path = RetroRacingVisionOSTests;
 			sourceTree = "<group>";
 		};
 		21DD46FF2F2FCB02000C9FFA /* RetroRacingShared */ = {
@@ -336,18 +323,18 @@
 		21DD46382F2FC956000C9FFA = {
 			isa = PBXGroup;
 			children = (
-				21DD46432F2FC956000C9FFA /* RetroRacing */,
-				21DD46532F2FC957000C9FFA /* RetroRacingTests */,
-				21DD465D2F2FC957000C9FFA /* RetroRacingUITests */,
-				21DD46802F2FCA96000C9FFA /* RetroRacing for watchOS Watch App */,
-				21DD468E2F2FCA97000C9FFA /* RetroRacing for watchOS Watch AppTests */,
-				21DD46982F2FCA97000C9FFA /* RetroRacing for watchOS Watch AppUITests */,
-				21DD46AF2F2FCAAF000C9FFA /* RetroRacing for tvOS */,
-				21DD46BF2F2FCAB0000C9FFA /* RetroRacing for tvOSTests */,
-				21DD46C92F2FCAB0000C9FFA /* RetroRacing for tvOSUITests */,
-				21DD46DC2F2FCAD9000C9FFA /* RetroRacing for visionOS */,
+				21DD46432F2FC956000C9FFA /* RetroRacingUniversal */,
+				21DD46532F2FC957000C9FFA /* RetroRacingUniversalTests */,
+				21DD465D2F2FC957000C9FFA /* RetroRacingUniversalUITests */,
+				21DD46802F2FCA96000C9FFA /* RetroRacingWatchOS */,
+				21DD468E2F2FCA97000C9FFA /* RetroRacingWatchOSTests */,
+				21DD46982F2FCA97000C9FFA /* RetroRacingWatchOSUITests */,
+				21DD46AF2F2FCAAF000C9FFA /* RetroRacingTvOS */,
+				21DD46BF2F2FCAB0000C9FFA /* RetroRacingTvOSTests */,
+				21DD46C92F2FCAB0000C9FFA /* RetroRacingTvOSUITests */,
+				21DD46DC2F2FCAD9000C9FFA /* RetroRacingVisionOS */,
 				21DD46DD2F2FCAD9000C9FFA /* Packages */,
-				21DD46EF2F2FCADA000C9FFA /* RetroRacing for visionOSTests */,
+				21DD46EF2F2FCADA000C9FFA /* RetroRacingVisionOSTests */,
 				21DD46FF2F2FCB02000C9FFA /* RetroRacingShared */,
 				21DD470E2F2FCB02000C9FFA /* RetroRacingSharedTests */,
 				21DD46422F2FC956000C9FFA /* Products */,
@@ -357,17 +344,17 @@
 		21DD46422F2FC956000C9FFA /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				21DD46412F2FC956000C9FFA /* RetroRacing.app */,
-				21DD46502F2FC957000C9FFA /* RetroRacingTests.xctest */,
-				21DD465A2F2FC957000C9FFA /* RetroRacingUITests.xctest */,
-				21DD467F2F2FCA96000C9FFA /* RetroRacing for watchOS Watch App.app */,
-				21DD468B2F2FCA97000C9FFA /* RetroRacing for watchOS Watch AppTests.xctest */,
-				21DD46952F2FCA97000C9FFA /* RetroRacing for watchOS Watch AppUITests.xctest */,
-				21DD46AE2F2FCAAF000C9FFA /* RetroRacing for tvOS.app */,
-				21DD46BC2F2FCAB0000C9FFA /* RetroRacing for tvOSTests.xctest */,
-				21DD46C62F2FCAB0000C9FFA /* RetroRacing for tvOSUITests.xctest */,
-				21DD46DB2F2FCAD9000C9FFA /* RetroRacing for visionOS.app */,
-				21DD46EC2F2FCADA000C9FFA /* RetroRacing for visionOSTests.xctest */,
+				21DD46412F2FC956000C9FFA /* RetroRacingUniversal.app */,
+				21DD46502F2FC957000C9FFA /* RetroRacingUniversalTests.xctest */,
+				21DD465A2F2FC957000C9FFA /* RetroRacingUniversalUITests.xctest */,
+				21DD467F2F2FCA96000C9FFA /* RetroRacingWatchOS.app */,
+				21DD468B2F2FCA97000C9FFA /* RetroRacingWatchOSTests.xctest */,
+				21DD46952F2FCA97000C9FFA /* RetroRacingWatchOSUITests.xctest */,
+				21DD46AE2F2FCAAF000C9FFA /* RetroRacingTvOS.app */,
+				21DD46BC2F2FCAB0000C9FFA /* RetroRacingTvOSTests.xctest */,
+				21DD46C62F2FCAB0000C9FFA /* RetroRacingTvOSUITests.xctest */,
+				21DD46DB2F2FCAD9000C9FFA /* RetroRacingVisionOS.app */,
+				21DD46EC2F2FCADA000C9FFA /* RetroRacingVisionOSTests.xctest */,
 				21DD46FE2F2FCB02000C9FFA /* RetroRacingShared.framework */,
 				21DD47082F2FCB02000C9FFA /* RetroRacingSharedTests.xctest */,
 			);
@@ -395,9 +382,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		21DD46402F2FC956000C9FFA /* RetroRacing */ = {
+		21DD46402F2FC956000C9FFA /* RetroRacingUniversal */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 21DD46642F2FC957000C9FFA /* Build configuration list for PBXNativeTarget "RetroRacing" */;
+			buildConfigurationList = 21DD46642F2FC957000C9FFA /* Build configuration list for PBXNativeTarget "RetroRacingUniversal" */;
 			buildPhases = (
 				21DD463D2F2FC956000C9FFA /* Sources */,
 				21DD463E2F2FC956000C9FFA /* Frameworks */,
@@ -412,18 +399,18 @@
 				21DD47122F2FCB02000C9FFA /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				21DD46432F2FC956000C9FFA /* RetroRacing */,
+				21DD46432F2FC956000C9FFA /* RetroRacingUniversal */,
 			);
-			name = RetroRacing;
+			name = RetroRacingUniversal;
 			packageProductDependencies = (
 			);
-			productName = RetroRacing;
-			productReference = 21DD46412F2FC956000C9FFA /* RetroRacing.app */;
+			productName = RetroRacingUniversal;
+			productReference = 21DD46412F2FC956000C9FFA /* RetroRacingUniversal.app */;
 			productType = "com.apple.product-type.application";
 		};
-		21DD464F2F2FC957000C9FFA /* RetroRacingTests */ = {
+		21DD464F2F2FC957000C9FFA /* RetroRacingUniversalTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 21DD46672F2FC957000C9FFA /* Build configuration list for PBXNativeTarget "RetroRacingTests" */;
+			buildConfigurationList = 21DD46672F2FC957000C9FFA /* Build configuration list for PBXNativeTarget "RetroRacingUniversalTests" */;
 			buildPhases = (
 				21DD464C2F2FC957000C9FFA /* Sources */,
 				21DD464D2F2FC957000C9FFA /* Frameworks */,
@@ -435,18 +422,18 @@
 				21DD46522F2FC957000C9FFA /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				21DD46532F2FC957000C9FFA /* RetroRacingTests */,
+				21DD46532F2FC957000C9FFA /* RetroRacingUniversalTests */,
 			);
-			name = RetroRacingTests;
+			name = RetroRacingUniversalTests;
 			packageProductDependencies = (
 			);
-			productName = RetroRacingTests;
-			productReference = 21DD46502F2FC957000C9FFA /* RetroRacingTests.xctest */;
+			productName = RetroRacingUniversalTests;
+			productReference = 21DD46502F2FC957000C9FFA /* RetroRacingUniversalTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		21DD46592F2FC957000C9FFA /* RetroRacingUITests */ = {
+		21DD46592F2FC957000C9FFA /* RetroRacingUniversalUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 21DD466A2F2FC957000C9FFA /* Build configuration list for PBXNativeTarget "RetroRacingUITests" */;
+			buildConfigurationList = 21DD466A2F2FC957000C9FFA /* Build configuration list for PBXNativeTarget "RetroRacingUniversalUITests" */;
 			buildPhases = (
 				21DD46562F2FC957000C9FFA /* Sources */,
 				21DD46572F2FC957000C9FFA /* Frameworks */,
@@ -458,18 +445,18 @@
 				21DD465C2F2FC957000C9FFA /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				21DD465D2F2FC957000C9FFA /* RetroRacingUITests */,
+				21DD465D2F2FC957000C9FFA /* RetroRacingUniversalUITests */,
 			);
-			name = RetroRacingUITests;
+			name = RetroRacingUniversalUITests;
 			packageProductDependencies = (
 			);
-			productName = RetroRacingUITests;
-			productReference = 21DD465A2F2FC957000C9FFA /* RetroRacingUITests.xctest */;
+			productName = RetroRacingUniversalUITests;
+			productReference = 21DD465A2F2FC957000C9FFA /* RetroRacingUniversalUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
-		21DD467E2F2FCA96000C9FFA /* RetroRacing for watchOS Watch App */ = {
+		21DD467E2F2FCA96000C9FFA /* RetroRacingWatchOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 21DD46A02F2FCA97000C9FFA /* Build configuration list for PBXNativeTarget "RetroRacing for watchOS Watch App" */;
+			buildConfigurationList = 21DD46A02F2FCA97000C9FFA /* Build configuration list for PBXNativeTarget "RetroRacingWatchOS" */;
 			buildPhases = (
 				21DD467B2F2FCA96000C9FFA /* Sources */,
 				21DD467C2F2FCA96000C9FFA /* Frameworks */,
@@ -481,18 +468,18 @@
 				21DD47C22F2FCA96000C9FFA /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				21DD46802F2FCA96000C9FFA /* RetroRacing for watchOS Watch App */,
+				21DD46802F2FCA96000C9FFA /* RetroRacingWatchOS */,
 			);
-			name = "RetroRacing for watchOS Watch App";
+			name = RetroRacingWatchOS;
 			packageProductDependencies = (
 			);
-			productName = "RetroRacing for watchOS Watch App";
-			productReference = 21DD467F2F2FCA96000C9FFA /* RetroRacing for watchOS Watch App.app */;
+			productName = RetroRacingWatchOS;
+			productReference = 21DD467F2F2FCA96000C9FFA /* RetroRacingWatchOS.app */;
 			productType = "com.apple.product-type.application";
 		};
-		21DD468A2F2FCA97000C9FFA /* RetroRacing for watchOS Watch AppTests */ = {
+		21DD468A2F2FCA97000C9FFA /* RetroRacingWatchOSTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 21DD46A42F2FCA97000C9FFA /* Build configuration list for PBXNativeTarget "RetroRacing for watchOS Watch AppTests" */;
+			buildConfigurationList = 21DD46A42F2FCA97000C9FFA /* Build configuration list for PBXNativeTarget "RetroRacingWatchOSTests" */;
 			buildPhases = (
 				21DD46872F2FCA97000C9FFA /* Sources */,
 				21DD46882F2FCA97000C9FFA /* Frameworks */,
@@ -504,18 +491,18 @@
 				21DD468D2F2FCA97000C9FFA /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				21DD468E2F2FCA97000C9FFA /* RetroRacing for watchOS Watch AppTests */,
+				21DD468E2F2FCA97000C9FFA /* RetroRacingWatchOSTests */,
 			);
-			name = "RetroRacing for watchOS Watch AppTests";
+			name = RetroRacingWatchOSTests;
 			packageProductDependencies = (
 			);
-			productName = "RetroRacing for watchOS Watch AppTests";
-			productReference = 21DD468B2F2FCA97000C9FFA /* RetroRacing for watchOS Watch AppTests.xctest */;
+			productName = RetroRacingWatchOSTests;
+			productReference = 21DD468B2F2FCA97000C9FFA /* RetroRacingWatchOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		21DD46942F2FCA97000C9FFA /* RetroRacing for watchOS Watch AppUITests */ = {
+		21DD46942F2FCA97000C9FFA /* RetroRacingWatchOSUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 21DD46A72F2FCA97000C9FFA /* Build configuration list for PBXNativeTarget "RetroRacing for watchOS Watch AppUITests" */;
+			buildConfigurationList = 21DD46A72F2FCA97000C9FFA /* Build configuration list for PBXNativeTarget "RetroRacingWatchOSUITests" */;
 			buildPhases = (
 				21DD46912F2FCA97000C9FFA /* Sources */,
 				21DD46922F2FCA97000C9FFA /* Frameworks */,
@@ -527,18 +514,18 @@
 				21DD46972F2FCA97000C9FFA /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				21DD46982F2FCA97000C9FFA /* RetroRacing for watchOS Watch AppUITests */,
+				21DD46982F2FCA97000C9FFA /* RetroRacingWatchOSUITests */,
 			);
-			name = "RetroRacing for watchOS Watch AppUITests";
+			name = RetroRacingWatchOSUITests;
 			packageProductDependencies = (
 			);
-			productName = "RetroRacing for watchOS Watch AppUITests";
-			productReference = 21DD46952F2FCA97000C9FFA /* RetroRacing for watchOS Watch AppUITests.xctest */;
+			productName = RetroRacingWatchOSUITests;
+			productReference = 21DD46952F2FCA97000C9FFA /* RetroRacingWatchOSUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
-		21DD46AD2F2FCAAF000C9FFA /* RetroRacing for tvOS */ = {
+		21DD46AD2F2FCAAF000C9FFA /* RetroRacingTvOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 21DD46CE2F2FCAB0000C9FFA /* Build configuration list for PBXNativeTarget "RetroRacing for tvOS" */;
+			buildConfigurationList = 21DD46CE2F2FCAB0000C9FFA /* Build configuration list for PBXNativeTarget "RetroRacingTvOS" */;
 			buildPhases = (
 				21DD46AA2F2FCAAF000C9FFA /* Sources */,
 				21DD46AB2F2FCAAF000C9FFA /* Frameworks */,
@@ -550,18 +537,18 @@
 				21DD47B22F2FCAB0000C9FFA /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				21DD46AF2F2FCAAF000C9FFA /* RetroRacing for tvOS */,
+				21DD46AF2F2FCAAF000C9FFA /* RetroRacingTvOS */,
 			);
-			name = "RetroRacing for tvOS";
+			name = RetroRacingTvOS;
 			packageProductDependencies = (
 			);
-			productName = "RetroRacing for tvOS";
-			productReference = 21DD46AE2F2FCAAF000C9FFA /* RetroRacing for tvOS.app */;
+			productName = RetroRacingTvOS;
+			productReference = 21DD46AE2F2FCAAF000C9FFA /* RetroRacingTvOS.app */;
 			productType = "com.apple.product-type.application";
 		};
-		21DD46BB2F2FCAB0000C9FFA /* RetroRacing for tvOSTests */ = {
+		21DD46BB2F2FCAB0000C9FFA /* RetroRacingTvOSTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 21DD46D12F2FCAB0000C9FFA /* Build configuration list for PBXNativeTarget "RetroRacing for tvOSTests" */;
+			buildConfigurationList = 21DD46D12F2FCAB0000C9FFA /* Build configuration list for PBXNativeTarget "RetroRacingTvOSTests" */;
 			buildPhases = (
 				21DD46B82F2FCAB0000C9FFA /* Sources */,
 				21DD46B92F2FCAB0000C9FFA /* Frameworks */,
@@ -573,18 +560,18 @@
 				21DD46BE2F2FCAB0000C9FFA /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				21DD46BF2F2FCAB0000C9FFA /* RetroRacing for tvOSTests */,
+				21DD46BF2F2FCAB0000C9FFA /* RetroRacingTvOSTests */,
 			);
-			name = "RetroRacing for tvOSTests";
+			name = RetroRacingTvOSTests;
 			packageProductDependencies = (
 			);
-			productName = "RetroRacing for tvOSTests";
-			productReference = 21DD46BC2F2FCAB0000C9FFA /* RetroRacing for tvOSTests.xctest */;
+			productName = RetroRacingTvOSTests;
+			productReference = 21DD46BC2F2FCAB0000C9FFA /* RetroRacingTvOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		21DD46C52F2FCAB0000C9FFA /* RetroRacing for tvOSUITests */ = {
+		21DD46C52F2FCAB0000C9FFA /* RetroRacingTvOSUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 21DD46D42F2FCAB0000C9FFA /* Build configuration list for PBXNativeTarget "RetroRacing for tvOSUITests" */;
+			buildConfigurationList = 21DD46D42F2FCAB0000C9FFA /* Build configuration list for PBXNativeTarget "RetroRacingTvOSUITests" */;
 			buildPhases = (
 				21DD46C22F2FCAB0000C9FFA /* Sources */,
 				21DD46C32F2FCAB0000C9FFA /* Frameworks */,
@@ -596,18 +583,18 @@
 				21DD46C82F2FCAB0000C9FFA /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				21DD46C92F2FCAB0000C9FFA /* RetroRacing for tvOSUITests */,
+				21DD46C92F2FCAB0000C9FFA /* RetroRacingTvOSUITests */,
 			);
-			name = "RetroRacing for tvOSUITests";
+			name = RetroRacingTvOSUITests;
 			packageProductDependencies = (
 			);
-			productName = "RetroRacing for tvOSUITests";
-			productReference = 21DD46C62F2FCAB0000C9FFA /* RetroRacing for tvOSUITests.xctest */;
+			productName = RetroRacingTvOSUITests;
+			productReference = 21DD46C62F2FCAB0000C9FFA /* RetroRacingTvOSUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
-		21DD46DA2F2FCAD9000C9FFA /* RetroRacing for visionOS */ = {
+		21DD46DA2F2FCAD9000C9FFA /* RetroRacingVisionOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 21DD46F32F2FCADA000C9FFA /* Build configuration list for PBXNativeTarget "RetroRacing for visionOS" */;
+			buildConfigurationList = 21DD46F32F2FCADA000C9FFA /* Build configuration list for PBXNativeTarget "RetroRacingVisionOS" */;
 			buildPhases = (
 				21DD46D72F2FCAD9000C9FFA /* Sources */,
 				21DD46D82F2FCAD9000C9FFA /* Frameworks */,
@@ -618,19 +605,19 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				21DD46DC2F2FCAD9000C9FFA /* RetroRacing for visionOS */,
+				21DD46DC2F2FCAD9000C9FFA /* RetroRacingVisionOS */,
 			);
-			name = "RetroRacing for visionOS";
+			name = RetroRacingVisionOS;
 			packageProductDependencies = (
 				21DD46DF2F2FCAD9000C9FFA /* RealityKitContent */,
 			);
-			productName = "RetroRacing for visionOS";
-			productReference = 21DD46DB2F2FCAD9000C9FFA /* RetroRacing for visionOS.app */;
+			productName = RetroRacingVisionOS;
+			productReference = 21DD46DB2F2FCAD9000C9FFA /* RetroRacingVisionOS.app */;
 			productType = "com.apple.product-type.application";
 		};
-		21DD46EB2F2FCADA000C9FFA /* RetroRacing for visionOSTests */ = {
+		21DD46EB2F2FCADA000C9FFA /* RetroRacingVisionOSTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 21DD46F62F2FCADA000C9FFA /* Build configuration list for PBXNativeTarget "RetroRacing for visionOSTests" */;
+			buildConfigurationList = 21DD46F62F2FCADA000C9FFA /* Build configuration list for PBXNativeTarget "RetroRacingVisionOSTests" */;
 			buildPhases = (
 				21DD46E82F2FCADA000C9FFA /* Sources */,
 				21DD46E92F2FCADA000C9FFA /* Frameworks */,
@@ -642,13 +629,13 @@
 				21DD46EE2F2FCADA000C9FFA /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				21DD46EF2F2FCADA000C9FFA /* RetroRacing for visionOSTests */,
+				21DD46EF2F2FCADA000C9FFA /* RetroRacingVisionOSTests */,
 			);
-			name = "RetroRacing for visionOSTests";
+			name = RetroRacingVisionOSTests;
 			packageProductDependencies = (
 			);
-			productName = "RetroRacing for visionOSTests";
-			productReference = 21DD46EC2F2FCADA000C9FFA /* RetroRacing for visionOSTests.xctest */;
+			productName = RetroRacingVisionOSTests;
+			productReference = 21DD46EC2F2FCADA000C9FFA /* RetroRacingVisionOSTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		21DD46FD2F2FCB02000C9FFA /* RetroRacingShared */ = {
@@ -771,17 +758,17 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				21DD46402F2FC956000C9FFA /* RetroRacing */,
-				21DD464F2F2FC957000C9FFA /* RetroRacingTests */,
-				21DD46592F2FC957000C9FFA /* RetroRacingUITests */,
-				21DD467E2F2FCA96000C9FFA /* RetroRacing for watchOS Watch App */,
-				21DD468A2F2FCA97000C9FFA /* RetroRacing for watchOS Watch AppTests */,
-				21DD46942F2FCA97000C9FFA /* RetroRacing for watchOS Watch AppUITests */,
-				21DD46AD2F2FCAAF000C9FFA /* RetroRacing for tvOS */,
-				21DD46BB2F2FCAB0000C9FFA /* RetroRacing for tvOSTests */,
-				21DD46C52F2FCAB0000C9FFA /* RetroRacing for tvOSUITests */,
-				21DD46DA2F2FCAD9000C9FFA /* RetroRacing for visionOS */,
-				21DD46EB2F2FCADA000C9FFA /* RetroRacing for visionOSTests */,
+				21DD46402F2FC956000C9FFA /* RetroRacingUniversal */,
+				21DD464F2F2FC957000C9FFA /* RetroRacingUniversalTests */,
+				21DD46592F2FC957000C9FFA /* RetroRacingUniversalUITests */,
+				21DD467E2F2FCA96000C9FFA /* RetroRacingWatchOS */,
+				21DD468A2F2FCA97000C9FFA /* RetroRacingWatchOSTests */,
+				21DD46942F2FCA97000C9FFA /* RetroRacingWatchOSUITests */,
+				21DD46AD2F2FCAAF000C9FFA /* RetroRacingTvOS */,
+				21DD46BB2F2FCAB0000C9FFA /* RetroRacingTvOSTests */,
+				21DD46C52F2FCAB0000C9FFA /* RetroRacingTvOSUITests */,
+				21DD46DA2F2FCAD9000C9FFA /* RetroRacingVisionOS */,
+				21DD46EB2F2FCADA000C9FFA /* RetroRacingVisionOSTests */,
 				21DD46FD2F2FCB02000C9FFA /* RetroRacingShared */,
 				21DD47072F2FCB02000C9FFA /* RetroRacingSharedTests */,
 			);
@@ -979,42 +966,42 @@
 /* Begin PBXTargetDependency section */
 		21DD46522F2FC957000C9FFA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 21DD46402F2FC956000C9FFA /* RetroRacing */;
+			target = 21DD46402F2FC956000C9FFA /* RetroRacingUniversal */;
 			targetProxy = 21DD46512F2FC957000C9FFA /* PBXContainerItemProxy */;
 		};
 		21DD465C2F2FC957000C9FFA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 21DD46402F2FC956000C9FFA /* RetroRacing */;
+			target = 21DD46402F2FC956000C9FFA /* RetroRacingUniversal */;
 			targetProxy = 21DD465B2F2FC957000C9FFA /* PBXContainerItemProxy */;
 		};
 		21DD468D2F2FCA97000C9FFA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 21DD467E2F2FCA96000C9FFA /* RetroRacing for watchOS Watch App */;
+			target = 21DD467E2F2FCA96000C9FFA /* RetroRacingWatchOS */;
 			targetProxy = 21DD468C2F2FCA97000C9FFA /* PBXContainerItemProxy */;
 		};
 		21DD46972F2FCA97000C9FFA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 21DD467E2F2FCA96000C9FFA /* RetroRacing for watchOS Watch App */;
+			target = 21DD467E2F2FCA96000C9FFA /* RetroRacingWatchOS */;
 			targetProxy = 21DD46962F2FCA97000C9FFA /* PBXContainerItemProxy */;
 		};
 		21DD469E2F2FCA97000C9FFA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 21DD467E2F2FCA96000C9FFA /* RetroRacing for watchOS Watch App */;
+			target = 21DD467E2F2FCA96000C9FFA /* RetroRacingWatchOS */;
 			targetProxy = 21DD469D2F2FCA97000C9FFA /* PBXContainerItemProxy */;
 		};
 		21DD46BE2F2FCAB0000C9FFA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 21DD46AD2F2FCAAF000C9FFA /* RetroRacing for tvOS */;
+			target = 21DD46AD2F2FCAAF000C9FFA /* RetroRacingTvOS */;
 			targetProxy = 21DD46BD2F2FCAB0000C9FFA /* PBXContainerItemProxy */;
 		};
 		21DD46C82F2FCAB0000C9FFA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 21DD46AD2F2FCAAF000C9FFA /* RetroRacing for tvOS */;
+			target = 21DD46AD2F2FCAAF000C9FFA /* RetroRacingTvOS */;
 			targetProxy = 21DD46C72F2FCAB0000C9FFA /* PBXContainerItemProxy */;
 		};
 		21DD46EE2F2FCADA000C9FFA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 21DD46DA2F2FCAD9000C9FFA /* RetroRacing for visionOS */;
+			target = 21DD46DA2F2FCAD9000C9FFA /* RetroRacingVisionOS */;
 			targetProxy = 21DD46ED2F2FCADA000C9FFA /* PBXContainerItemProxy */;
 		};
 		21DD470B2F2FCB02000C9FFA /* PBXTargetDependency */ = {
@@ -1024,7 +1011,7 @@
 		};
 		21DD470D2F2FCB02000C9FFA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 21DD46402F2FC956000C9FFA /* RetroRacing */;
+			target = 21DD46402F2FC956000C9FFA /* RetroRacingUniversal */;
 			targetProxy = 21DD470C2F2FCB02000C9FFA /* PBXContainerItemProxy */;
 		};
 		21DD47122F2FCB02000C9FFA /* PBXTargetDependency */ = {
@@ -1270,7 +1257,7 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,7";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RetroRacing.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/RetroRacing";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RetroRacingUniversal.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/RetroRacingUniversal";
 				XROS_DEPLOYMENT_TARGET = 26.0;
 			};
 			name = Debug;
@@ -1296,7 +1283,7 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,7";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RetroRacing.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/RetroRacing";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RetroRacingUniversal.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/RetroRacingUniversal";
 				XROS_DEPLOYMENT_TARGET = 26.0;
 			};
 			name = Release;
@@ -1436,7 +1423,7 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RetroRacing for watchOS Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/RetroRacing for watchOS Watch App";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RetroRacingWatchOS.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/RetroRacingWatchOS";
 				WATCHOS_DEPLOYMENT_TARGET = 26.0;
 			};
 			name = Debug;
@@ -1459,7 +1446,7 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RetroRacing for watchOS Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/RetroRacing for watchOS Watch App";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RetroRacingWatchOS.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/RetroRacingWatchOS";
 				VALIDATE_PRODUCT = YES;
 				WATCHOS_DEPLOYMENT_TARGET = 26.0;
 			};
@@ -1482,7 +1469,7 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				TEST_TARGET_NAME = "RetroRacing for watchOS Watch App";
+				TEST_TARGET_NAME = RetroRacingWatchOS;
 				WATCHOS_DEPLOYMENT_TARGET = 26.0;
 			};
 			name = Debug;
@@ -1504,7 +1491,7 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				TEST_TARGET_NAME = "RetroRacing for watchOS Watch App";
+				TEST_TARGET_NAME = RetroRacingWatchOS;
 				VALIDATE_PRODUCT = YES;
 				WATCHOS_DEPLOYMENT_TARGET = 26.0;
 			};
@@ -1591,7 +1578,7 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RetroRacing for tvOS.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/RetroRacing for tvOS";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RetroRacingTvOS.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/RetroRacingTvOS";
 				TVOS_DEPLOYMENT_TARGET = 26.0;
 			};
 			name = Debug;
@@ -1614,7 +1601,7 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RetroRacing for tvOS.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/RetroRacing for tvOS";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RetroRacingTvOS.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/RetroRacingTvOS";
 				TVOS_DEPLOYMENT_TARGET = 26.0;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1637,7 +1624,7 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
-				TEST_TARGET_NAME = "RetroRacing for tvOS";
+				TEST_TARGET_NAME = RetroRacingTvOS;
 				TVOS_DEPLOYMENT_TARGET = 26.0;
 			};
 			name = Debug;
@@ -1659,7 +1646,7 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
-				TEST_TARGET_NAME = "RetroRacing for tvOS";
+				TEST_TARGET_NAME = RetroRacingTvOS;
 				TVOS_DEPLOYMENT_TARGET = 26.0;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1747,7 +1734,7 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 7;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RetroRacing for visionOS.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/RetroRacing for visionOS";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RetroRacingVisionOS.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/RetroRacingVisionOS";
 				XROS_DEPLOYMENT_TARGET = 26.0;
 			};
 			name = Debug;
@@ -1771,7 +1758,7 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 7;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RetroRacing for visionOS.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/RetroRacing for visionOS";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RetroRacingVisionOS.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/RetroRacingVisionOS";
 				VALIDATE_PRODUCT = YES;
 				XROS_DEPLOYMENT_TARGET = 26.0;
 			};
@@ -1896,7 +1883,7 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,7";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RetroRacing.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/RetroRacing";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RetroRacingUniversal.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/RetroRacingUniversal";
 				XROS_DEPLOYMENT_TARGET = 26.0;
 			};
 			name = Debug;
@@ -1922,7 +1909,7 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,7";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RetroRacing.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/RetroRacing";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RetroRacingUniversal.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/RetroRacingUniversal";
 				XROS_DEPLOYMENT_TARGET = 26.0;
 			};
 			name = Release;
@@ -1939,7 +1926,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		21DD46642F2FC957000C9FFA /* Build configuration list for PBXNativeTarget "RetroRacing" */ = {
+		21DD46642F2FC957000C9FFA /* Build configuration list for PBXNativeTarget "RetroRacingUniversal" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				21DD46652F2FC957000C9FFA /* Debug */,
@@ -1948,7 +1935,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		21DD46672F2FC957000C9FFA /* Build configuration list for PBXNativeTarget "RetroRacingTests" */ = {
+		21DD46672F2FC957000C9FFA /* Build configuration list for PBXNativeTarget "RetroRacingUniversalTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				21DD46682F2FC957000C9FFA /* Debug */,
@@ -1957,7 +1944,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		21DD466A2F2FC957000C9FFA /* Build configuration list for PBXNativeTarget "RetroRacingUITests" */ = {
+		21DD466A2F2FC957000C9FFA /* Build configuration list for PBXNativeTarget "RetroRacingUniversalUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				21DD466B2F2FC957000C9FFA /* Debug */,
@@ -1966,7 +1953,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		21DD46A02F2FCA97000C9FFA /* Build configuration list for PBXNativeTarget "RetroRacing for watchOS Watch App" */ = {
+		21DD46A02F2FCA97000C9FFA /* Build configuration list for PBXNativeTarget "RetroRacingWatchOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				21DD46A12F2FCA97000C9FFA /* Debug */,
@@ -1975,7 +1962,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		21DD46A42F2FCA97000C9FFA /* Build configuration list for PBXNativeTarget "RetroRacing for watchOS Watch AppTests" */ = {
+		21DD46A42F2FCA97000C9FFA /* Build configuration list for PBXNativeTarget "RetroRacingWatchOSTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				21DD46A52F2FCA97000C9FFA /* Debug */,
@@ -1984,7 +1971,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		21DD46A72F2FCA97000C9FFA /* Build configuration list for PBXNativeTarget "RetroRacing for watchOS Watch AppUITests" */ = {
+		21DD46A72F2FCA97000C9FFA /* Build configuration list for PBXNativeTarget "RetroRacingWatchOSUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				21DD46A82F2FCA97000C9FFA /* Debug */,
@@ -1993,7 +1980,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		21DD46CE2F2FCAB0000C9FFA /* Build configuration list for PBXNativeTarget "RetroRacing for tvOS" */ = {
+		21DD46CE2F2FCAB0000C9FFA /* Build configuration list for PBXNativeTarget "RetroRacingTvOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				21DD46CF2F2FCAB0000C9FFA /* Debug */,
@@ -2002,7 +1989,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		21DD46D12F2FCAB0000C9FFA /* Build configuration list for PBXNativeTarget "RetroRacing for tvOSTests" */ = {
+		21DD46D12F2FCAB0000C9FFA /* Build configuration list for PBXNativeTarget "RetroRacingTvOSTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				21DD46D22F2FCAB0000C9FFA /* Debug */,
@@ -2011,7 +1998,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		21DD46D42F2FCAB0000C9FFA /* Build configuration list for PBXNativeTarget "RetroRacing for tvOSUITests" */ = {
+		21DD46D42F2FCAB0000C9FFA /* Build configuration list for PBXNativeTarget "RetroRacingTvOSUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				21DD46D52F2FCAB0000C9FFA /* Debug */,
@@ -2020,7 +2007,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		21DD46F32F2FCADA000C9FFA /* Build configuration list for PBXNativeTarget "RetroRacing for visionOS" */ = {
+		21DD46F32F2FCADA000C9FFA /* Build configuration list for PBXNativeTarget "RetroRacingVisionOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				21DD46F42F2FCADA000C9FFA /* Debug */,
@@ -2029,7 +2016,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		21DD46F62F2FCADA000C9FFA /* Build configuration list for PBXNativeTarget "RetroRacing for visionOSTests" */ = {
+		21DD46F62F2FCADA000C9FFA /* Build configuration list for PBXNativeTarget "RetroRacingVisionOSTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				21DD46F72F2FCADA000C9FFA /* Debug */,

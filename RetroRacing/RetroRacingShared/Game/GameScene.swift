@@ -15,13 +15,13 @@ public protocol RacingGameController {
 
 public class GameScene: SKScene {
     /// Bundle containing all game assets (sprites, sounds). Assets live only in RetroRacingShared; load from here.
-    private static let sharedBundle = Bundle(for: GameScene.self)
+    static let sharedBundle = Bundle(for: GameScene.self)
 
-    // Assets (SKColor is UIColor on iOS/tvOS, NSColor on macOS)
-    private let gameBackgroundColor = SKColor(red: 202.0 / 255.0, green: 220.0 / 255.0, blue: 159.0 / 255.0, alpha: 1.0)
+    // Assets (SKColor is UIColor on iOS/tvOS, NSColor on macOS). Internal so GameScene+Grid/Effects can access.
+    let gameBackgroundColor = SKColor(red: 202.0 / 255.0, green: 220.0 / 255.0, blue: 159.0 / 255.0, alpha: 1.0)
     private lazy var startSound: SKAction = makeSoundAction(filename: "start", waitForCompletion: true)
-    private lazy var stateUpdatedSound: SKAction = makeSoundAction(filename: "bip", waitForCompletion: false)
-    private lazy var failSound: SKAction = makeSoundAction(filename: "fail", waitForCompletion: false)
+    lazy var stateUpdatedSound: SKAction = makeSoundAction(filename: "bip", waitForCompletion: false)
+    lazy var failSound: SKAction = makeSoundAction(filename: "fail", waitForCompletion: false)
 
     /// Retain playing AVAudioPlayers so they are not deallocated before playback finishes.
     private var activeSoundPlayers: [AVAudioPlayer] = []
@@ -69,10 +69,10 @@ public class GameScene: SKScene {
     private var initialDtForGameUpdate = 0.6
     private var lastGameUpdateTime: TimeInterval = 0
 
-    private var spritesForGivenState = [SKSpriteNode]()
+    var spritesForGivenState = [SKSpriteNode]()
 
-    private let gridCalculator = GridStateCalculator()
-    private var gridState = GridState(numberOfRows: 5, numberOfColumns: 3)
+    let gridCalculator = GridStateCalculator()
+    var gridState = GridState(numberOfRows: 5, numberOfColumns: 3)
     public private(set) var gameState = GameState()
 
     /// When set, sprite asset names and grid cell color come from the theme; otherwise LCD defaults.
@@ -167,6 +167,7 @@ public class GameScene: SKScene {
             }
 
             gridStateDidUpdate(gridState)
+            gameDelegate?.gameSceneDidUpdateGrid(self)
         }
     }
 
@@ -178,149 +179,7 @@ public class GameScene: SKScene {
         run(startSound)
     }
 
-    private func createGrid() {
-        for column in 0 ..< gridState.numberOfColumns {
-            for row in 0 ..< gridState.numberOfRows {
-                let cell = createCell(column: column, row: row)
-                addChild(cell)
-            }
-        }
-    }
-
-    private func gridCellFillColor() -> SKColor {
-        guard let theme else { return gameBackgroundColor }
-        return theme.gridCellColor().skColor
-    }
-
-    private func createCell(column: Int, row: Int) -> SKShapeNode {
-        let cellSize = sizeForCell()
-        let origin = positionForCellIn(column: column, row: row, size: cellSize)
-        let frame = CGRect(origin: origin, size: cellSize)
-        if row == 0 && column == 0 {
-            AppLog.log(AppLog.assets, "createGrid scene.size=\(size) cellSize=\(cellSize) firstCell origin=\(origin) frame=\(frame)")
-        }
-        let cell = SKShapeNode(rect: frame)
-        cell.name = nameForCell(column: column, row: row)
-        cell.fillColor = gridCellFillColor()
-        cell.strokeColor = .gray
-        cell.zPosition = 1
-
-        return cell
-    }
-
-    private func nameForCell(column: Int, row: Int) -> String {
-        "\(column)x\(row)"
-    }
-
-    private func gridCell(column: Int, row: Int) -> SKShapeNode {
-        guard let cell = childNode(withName: nameForCell(column: column, row: row)) as? SKShapeNode else {
-            fatalError("Failed to retrieve grid cell at \(column) x \(row)")
-        }
-
-        return cell
-    }
-
-    private func sizeForCell() -> CGSize {
-        let width = size.width / CGFloat(gridState.numberOfColumns)
-        let height = size.height / CGFloat(gridState.numberOfRows)
-        return CGSize(width: width, height: height)
-    }
-
-    private func positionForCellIn(column: Int, row: Int, size: CGSize) -> CGPoint {
-        let x = (CGFloat(column) * size.width)
-        let y = (CGFloat(gridState.numberOfRows - row - 1) * size.height)
-        return CGPoint(x: x, y: y)
-    }
-
-    private func gridStateDidUpdate(_ gridState: GridState) {
-        updateGrid(withGridState: gridState)
-        run(stateUpdatedSound)
-    }
-
-    private func resetScene() {
-        for sprite in spritesForGivenState {
-            sprite.removeFromParent()
-        }
-        spritesForGivenState.removeAll()
-    }
-
-    private func updateGrid(withGridState gridState: GridState) {
-        resetScene()
-
-        for row in 0..<gridState.numberOfRows {
-            for column in 0..<gridState.numberOfColumns {
-                let cellState = gridState.grid[row][column]
-                let cell = gridCell(column: column, row: row)
-
-                switch cellState {
-                case .Car: addSprite(spriteNode(imageNamed: theme?.rivalCarSprite() ?? "rivalsCar-LCD"), toCell: cell, row: row, column: column)
-                case .Player: addSprite(spriteNode(imageNamed: theme?.playerCarSprite() ?? "playersCar-LCD"), toCell: cell, row: row, column: column)
-                case .Crash:
-                    let crashSprite = spriteNode(imageNamed: theme?.crashSprite() ?? "crash-LCD")
-                    crashSprite.name = "crash"
-                    addSprite(crashSprite, toCell: cell, row: row, column: column)
-                case .Empty: break
-                }
-
-                cell.fillColor = gridCellFillColor()
-            }
-        }
-    }
-
-    private func spriteNode(imageNamed name: String) -> SKSpriteNode {
-        let texture = texture(imageNamed: name)
-        return SKSpriteNode(texture: texture)
-    }
-
-    /// Loads texture via injected imageLoader so shared code has no UIKit/AppKit conditionals.
-    private func texture(imageNamed name: String) -> SKTexture {
-        guard let imageLoader else {
-            AppLog.error(AppLog.assets, "texture '\(name)' skipped: imageLoader not set yet (scene not fully initialized)")
-            return SKTexture()
-        }
-        return imageLoader.loadTexture(imageNamed: name, bundle: Self.sharedBundle)
-    }
-
-    private func addSprite(_ sprite: SKSpriteNode, toCell cell: SKShapeNode, row: Int, column: Int) {
-        let cellSize = cell.frame.size
-        let sizeFactor = CGFloat(gridState.numberOfRows - (gridState.numberOfRows - row - 1)) / CGFloat(gridState.numberOfRows)
-        let spriteSize = CGSize(width: cellSize.width * sizeFactor, height: cellSize.height * sizeFactor)
-
-        var horizontalTranslationFactor: CGFloat = 0.0
-
-        if column < (gridState.numberOfColumns / 2) {
-            horizontalTranslationFactor = (cellSize.width - spriteSize.width)
-        } else if column > (gridState.numberOfColumns / 2) {
-            horizontalTranslationFactor = -(cellSize.width - spriteSize.width)
-        }
-
-        let cellOriginInLocal = cell.frame.origin
-        let spritePosInCell = CGPoint(
-            x: cellOriginInLocal.x + (cellSize.width + horizontalTranslationFactor) / 2.0,
-            y: cellOriginInLocal.y + cellSize.height / 2.0
-        )
-        sprite.position = spritePosInCell
-        sprite.aspectFitToSize(spriteSize)
-        sprite.zPosition = 2
-        spritesForGivenState.append(sprite)
-        cell.addChild(sprite)
-
-        let texSize = sprite.texture?.size() ?? .zero
-        if row == 0 && column == 0 && spritesForGivenState.count <= 1 {
-            AppLog.log(AppLog.assets, "addSprite row=\(row) col=\(column) cellSize=\(cellSize) spriteSize=\(spriteSize) posInCell=\(spritePosInCell) textureSize=\(texSize) sprite.frame=\(sprite.frame) scale=\(sprite.xScale)")
-        }
-
-        if sprite.name == "crash" {
-            let blinkOnce = SKAction.sequence([
-                SKAction.fadeOut(withDuration: 0.2),
-                SKAction.fadeIn(withDuration: 0.2)
-            ])
-            let blinkThreeTimes = SKAction.repeat(blinkOnce, count: 3)
-            sprite.run(blinkThreeTimes)
-        }
-    }
-
-    private func handleCrash() {
+    func handleCrash() {
         gameState.isPaused = true
         gameState.lives -= 1
         run(failSound)

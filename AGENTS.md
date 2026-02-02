@@ -44,7 +44,7 @@ RetroRacing is a retro-style racing game built for **all Apple platforms** with 
 - **testing.md** - Testing strategy and requirements
 - **theming_system.md** - Visual theme system and monetization
 - **[Future]** game_logic.md - Core game mechanics and rules
-- **[Future]** accessibility.md - Accessibility requirements per platform
+- **accessibility.md** - Accessibility requirements per platform (Reduce Motion, VoiceOver, SpriteKit labels)
 - **[Future]** input_handling.md - Control schemes per platform
 - **[Future]** settings.md** - User customization options
 
@@ -74,7 +74,7 @@ RetroRacing/
 ├── RetroRacing iOS/        # iOS-specific UI (SwiftUI)
 │   ├── Views/ (GameView, MenuView, LeaderboardView)
 │   └── Configuration/
-│       └── iOSLeaderboardConfiguration.swift
+│       └── LeaderboardConfigurationUniversal.swift
 ├── RetroRacing watchOS/    # watchOS-specific UI (SwiftUI)
 │   ├── WatchGameView, ContentView
 │   └── MenuView
@@ -91,7 +91,7 @@ RetroRacing/
 - **Dependency Injection**: All dependencies passed explicitly, no defaults in init
 - **Maximum Code Reuse**: Share everything possible in `RetroRacing Shared/`
 - **Platform-Specific UI Only**: UI layer handles platform differences, logic is shared
-- **Accessibility First**: Every feature must be accessible on every platform
+- **Accessibility First**: Every feature should aim for best-effort accessibility on every platform
 
 ## Architecture Patterns
 
@@ -127,8 +127,8 @@ protocol LeaderboardConfiguration {
     var leaderboardID: String { get }
 }
 
-// Each platform has its own configuration
-struct iOSLeaderboardConfiguration: LeaderboardConfiguration {
+// Universal (iOS/iPadOS/macOS) and per-platform (TvOS) configurations
+struct LeaderboardConfigurationUniversal: LeaderboardConfiguration {
     let leaderboardID = "bestios001test"
 }
 
@@ -149,7 +149,7 @@ Services are **always injected**, never instantiated with defaults:
 ```swift
 // ❌ BAD - Creates hidden dependency
 init(leaderboardService: LeaderboardService = GameCenterService(
-    configuration: iOSLeaderboardConfiguration()
+    configuration: LeaderboardConfigurationUniversal()
 )) {
     self.leaderboardService = leaderboardService
 }
@@ -160,10 +160,12 @@ init(leaderboardService: LeaderboardService) {
 }
 
 // Instantiation happens at composition root (app delegate, scene):
-let config = iOSLeaderboardConfiguration()
+let config = LeaderboardConfigurationUniversal()
 let service = GameCenterService(configuration: config)
 let viewController = GameViewController(leaderboardService: service)
 ```
+
+**Infrastructure defaults:** For testability and clarity, **infrastructure** dependencies may use a single default when they are process-wide singletons (e.g. `UserDefaults.standard`, `SystemRandomSource()`). Business dependencies (e.g. `LeaderboardService`, `RatingService`, `GameTheme`) must always be injected with no default. Document any allowed default in the type’s doc comment.
 
 ### SpriteKit + SwiftUI Integration
 
@@ -334,9 +336,9 @@ extension GameScene {
 
 ## Accessibility Requirements
 
-### Complete Adaptability ⚠️
+### Best-Effort Adaptability ⚠️
 
-The game **must** be fully adaptive across ALL dimensions:
+The game **should** aim to be as adaptive as possible across ALL dimensions (best effort):
 - **Screen Sizes**: iPhone SE → iPad Pro, split-screen, slide-over
 - **Dynamic Type**: XS → XXXL with layout adjustments
 - **Orientation**: Portrait and landscape
@@ -408,8 +410,14 @@ class GameScene: SKScene {
 
 ⚠️ **ALWAYS run unit tests after code changes** — tests must pass
 
+**Shared logic and services** (game logic, GameCenterService, mocks):
 ```bash
-cd RetroRacing && xcrun xcodebuild test -scheme RetroRacingTests -destination "platform=iOS Simulator,name=iPhone 17 Pro"
+cd RetroRacing && xcrun xcodebuild test -scheme RetroRacingSharedTests -destination "platform=iOS Simulator,name=iPhone 17 Pro"
+```
+
+**App-level tests** (RetroRacingUniversal target):
+```bash
+cd RetroRacing && xcrun xcodebuild test -scheme RetroRacingUniversalTests -destination "platform=iOS Simulator,name=iPhone 17 Pro"
 ```
 
 **Focus Areas:**
@@ -520,7 +528,7 @@ private func updateGrid() {
 - **Duplicate logic**: If copying code between platforms, refactor to `Shared/`
 - **Hardcode platform differences**: Use configuration injection instead
 - **Use force unwraps**: Always safely unwrap optionals
-- **Ignore accessibility**: Every feature must be accessible
+- **Ignore accessibility**: Every feature should aim for best-effort accessibility
 - **Skip platform testing**: Test on physical devices when possible
 - **Hardcode strings**: Use localization from day one
 - **Overuse `#if os()`**: Minimize compilation flags (only for fundamentally different APIs)
@@ -545,7 +553,7 @@ private func updateGrid() {
 - **Shared Code**: `RetroRacing/RetroRacing Shared/`
 - **Services**: `RetroRacing/RetroRacing Shared/Services/`
 - **Platform UIs**: `RetroRacing/RetroRacing [Platform]/`
-- **Tests**: `RetroRacing/RetroRacingTests/`
+- **Tests**: `RetroRacing/RetroRacingUniversalTests/`, `RetroRacing/RetroRacingSharedTests/`
 - **Localization**: `RetroRacing/RetroRacing Shared/Localizable.xcstrings`
 
 ## Getting Started Checklist
@@ -556,7 +564,7 @@ When working on this project:
    - These contain detailed specs, edge cases, and design decisions
 2. ✅ Check if code can be shared — put in `RetroRacing Shared/` if platform-agnostic
 3. ✅ Follow architecture principles above
-4. ✅ Ensure accessibility compliance (fully adaptive)
+4. ✅ Ensure best-effort accessibility and adaptability
 5. ✅ Write unit tests for new functionality
 6. ✅ Run tests after changes — they must pass
 7. ✅ Use protocol-based dependency injection (no defaults)

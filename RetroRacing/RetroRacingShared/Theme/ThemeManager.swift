@@ -13,13 +13,13 @@ public final class ThemeManager {
     private let selectedThemeKey = "selectedThemeID"
     private let unlockedThemesKey = "unlockedThemes"
 
-    public init(initialThemes: [GameTheme], userDefaults: UserDefaults = .standard) {
+    public init(initialThemes: [GameTheme], defaultThemeID: String = "lcd", userDefaults: UserDefaults = .standard) {
         self.userDefaults = userDefaults
         self.availableThemes = initialThemes
         let freeIDs = Set(initialThemes.filter { !$0.isPremium }.map(\.id))
         let storedUnlocked = userDefaults.stringArray(forKey: unlockedThemesKey) ?? []
         self.unlockedThemeIDs = freeIDs.union(storedUnlocked)
-        let selectedID = userDefaults.string(forKey: selectedThemeKey) ?? "lcd"
+        let selectedID = userDefaults.string(forKey: selectedThemeKey) ?? defaultThemeID
         let selected = initialThemes.first { $0.id == selectedID } ?? initialThemes[0]
         self.currentTheme = selected
     }

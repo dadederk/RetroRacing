@@ -11,8 +11,9 @@ RetroRacing follows a **unit-test-first** approach with comprehensive coverage o
 **Target:** ⚠️ **ALWAYS run unit tests after code changes** — tests must pass
 
 ```bash
-cd RetroRacing && xcrun xcodebuild test -scheme RetroRacingTests -destination "platform=iOS Simulator,name=iPhone 17 Pro"
+cd RetroRacing && xcrun xcodebuild test -scheme RetroRacingSharedTests -destination "platform=iOS Simulator,name=iPhone 17 Pro"
 ```
+For app-level tests (RetroRacingUniversal): `-scheme RetroRacingUniversalTests`
 
 **Focus Areas:**
 - Game logic (`GridStateCalculator`, `GameState`, `GridState`)
@@ -111,13 +112,13 @@ func testCollisionDetection() {
 ### Testing Configuration
 
 ```swift
-func testIOSLeaderboardConfiguration() {
-    let config = iOSLeaderboardConfiguration()
+func testUniversalLeaderboardConfiguration() {
+    let config = LeaderboardConfigurationUniversal()
     XCTAssertEqual(config.leaderboardID, "bestios001test")
 }
 
-func testTVOSLeaderboardConfiguration() {
-    let config = tvOSLeaderboardConfiguration()
+func testTvOSLeaderboardConfiguration() {
+    let config = LeaderboardConfigurationTvOS()
     XCTAssertEqual(config.leaderboardID, "besttvos001")
 }
 ```

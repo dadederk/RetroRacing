@@ -16,8 +16,8 @@ protocol LeaderboardConfiguration {
 ```
 
 **Platform Implementations:**
-- `iOSLeaderboardConfiguration` → `"bestios001test"`
-- `tvOSLeaderboardConfiguration` → `"besttvos001"`  
+- `LeaderboardConfigurationUniversal` (iOS/iPadOS/macOS) → `"bestios001test"`
+- `LeaderboardConfigurationTvOS` → `"besttvos001"`  
 - `watchOSLeaderboardConfiguration` → `"bestwatchos001test"`
 - `macOSLeaderboardConfiguration` → TBD
 - `visionOSLeaderboardConfiguration` → TBD
@@ -38,18 +38,18 @@ protocol LeaderboardService {
 - Handles all Game Center authentication and presentation
 - Manages view controller lifecycle and delegation
 
-### View Controller/View Layer
+### View Layer (SwiftUI)
 
 **Platform Integration:**
-- iOS/tvOS: `MenuViewController` (UIKit)
-- watchOS: `MenuView` (SwiftUI)
-- macOS: TBD
+- iOS/macOS: `MenuView` (SwiftUI) in main app target; composition root in `RetroRacingApp.swift` injects `GameCenterService` and `LeaderboardConfiguration`.
+- tvOS: `tvOSMenuView` (SwiftUI) in tvOS target; composition root in `RetroRacingTvOSApp.swift`.
+- watchOS: `ContentView` (SwiftUI) as main menu; `RetroRacingWatchOSApp.swift` as composition root.
 - visionOS: TBD
 
 View layer characteristics:
 - Zero GameKit imports in view layer
-- Only calls service methods
-- Conforms to simple protocols for callbacks
+- Only calls service methods (`leaderboardService.submitScore`, `gameCenterService.isAuthenticated`, etc.)
+- Leaderboard presentation via `LeaderboardView` / `tvOSLeaderboardView` using `GKAccessPoint.shared.trigger(leaderboardID:...)` (iOS 26+ / tvOS 26+).
 
 ## Known Issues
 
@@ -64,7 +64,7 @@ View layer characteristics:
 **Configuration Tests:**
 ```swift
 func testConfigurationReturnsCorrectLeaderboardID() {
-    let config = iOSLeaderboardConfiguration()
+    let config = LeaderboardConfigurationUniversal()
     XCTAssertEqual(config.leaderboardID, "bestios001test")
 }
 ```
@@ -82,7 +82,7 @@ func testServiceUsesInjectedConfiguration() {
 }
 ```
 
-**View Controller Tests with Mock Service:**
+**View/Integration Tests with Mock Service:**
 ```swift
 final class MockLeaderboardService: LeaderboardService {
     var submittedScores: [Int] = []
@@ -99,10 +99,7 @@ final class MockLeaderboardService: LeaderboardService {
 
 func testScoreSubmission() {
     let mockService = MockLeaderboardService()
-    let viewController = GameViewController(leaderboardService: mockService)
-    
-    viewController.gameOver(score: 100)
-    
+    // Inject into MenuView/GameView or game-over flow; assert mockService.submittedScores
     XCTAssertEqual(mockService.submittedScores, [100])
 }
 ```
@@ -121,16 +118,14 @@ struct macOSLeaderboardConfiguration: LeaderboardConfiguration {
 
 2. **Update View Layer**
 ```swift
-// Inject platform-specific configuration
-init(gameCenterService: GameCenterService) {
-    self.gameCenterService = gameCenterService
-    super.init(nibName: nil, bundle: nil)
-}
-
-// In app delegate or parent view:
+// In app entry (e.g. RetroRacingApp or platform App struct):
 let config = macOSLeaderboardConfiguration()
 let service = GameCenterService(configuration: config)
-let viewController = MenuViewController(gameCenterService: service)
+MenuView(
+    leaderboardService: service,
+    gameCenterService: service,
+    // ... other injected dependencies
+)
 ```
 
 3. **Done!** No changes to `GameCenterService` required.

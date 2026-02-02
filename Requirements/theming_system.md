@@ -82,7 +82,7 @@ Iconic monochrome green aesthetic. Default on watchOS.
 - Grid cell fill: `#0F380F` (dark green)
 - Sprites: `playersCar-GameBoy`, `rivalsCar-GameBoy`, `crash-GameBoy`
 
-**Platforms:** All; **default on watchOS**
+**Platforms:** All; **default on watchOS** (see Platform defaults below).
 
 ### LCD Handheld Theme (Premium)
 
@@ -184,9 +184,22 @@ enum ThemeProduct: String, CaseIterable {
 }
 ```
 
+## Platform defaults (first launch)
+
+When the user has not yet chosen a theme, `ThemeManager` uses `defaultThemeID`:
+
+- **watchOS:** `defaultThemeID: "gameboy"` (Game Boy).
+- **iOS, tvOS, macOS, visionOS:** `defaultThemeID: "lcd"` (LCD).
+
+The app composition root creates `ThemeManager(initialThemes: [...], defaultThemeID: "lcd")` or `"gameboy"` per platform. Stored selection overrides the default.
+
 ## Theme Selection UI
 
-### Settings View
+### Settings
+
+The Settings screen (Universal, tvOS, watchOS) exposes a **Theme** section with a native picker of available themes. Selection is bound to `ThemeManager.currentTheme` via `setTheme`. Font and haptic feedback options are in the same Settings screen.
+
+### Settings View (reference)
 
 ```swift
 struct ThemeSettingsView: View {
