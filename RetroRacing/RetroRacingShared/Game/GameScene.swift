@@ -59,6 +59,20 @@ public class GameScene: SKScene {
         gameDelegate?.gameScene(self, didUpdatePauseState: isPaused)
     }
 
+    public init(
+        size: CGSize,
+        theme: (any GameTheme)?,
+        imageLoader: any ImageLoader,
+        soundPlayer: SoundEffectPlayer,
+        hapticController: HapticFeedbackController?
+    ) {
+        super.init(size: size)
+        self.theme = theme
+        self.imageLoader = imageLoader
+        self.soundPlayer = soundPlayer
+        self.hapticController = hapticController
+    }
+
     public override init(size: CGSize) {
         super.init(size: size)
     }
@@ -80,11 +94,13 @@ public class GameScene: SKScene {
         soundPlayer: SoundEffectPlayer = PlatformFactories.makeSoundPlayer(),
         hapticController: HapticFeedbackController? = nil
     ) -> GameScene {
-        let scene = GameScene(size: size)
-        scene.imageLoader = imageLoader
-        scene.theme = theme
-        scene.soundPlayer = soundPlayer
-        scene.hapticController = hapticController
+        let scene = GameScene(
+            size: size,
+            theme: theme,
+            imageLoader: imageLoader,
+            soundPlayer: soundPlayer,
+            hapticController: hapticController
+        )
         scene.anchorPoint = CGPoint(x: 0, y: 0)
         scene.scaleMode = .aspectFit
         return scene

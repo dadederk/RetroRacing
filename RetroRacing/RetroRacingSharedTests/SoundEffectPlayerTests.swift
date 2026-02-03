@@ -1,4 +1,5 @@
 import XCTest
+import AVFoundation
 @testable import RetroRacingShared
 
 final class SoundEffectPlayerTests: XCTestCase {
@@ -11,6 +12,7 @@ final class SoundEffectPlayerTests: XCTestCase {
             completionCalled.fulfill()
         }
 
+        try? await Task.sleep(for: .milliseconds(10))
         // Simulate delegate callback via test hook.
         _ = await sut._testComplete(effect: .bip)
 
@@ -33,6 +35,7 @@ final class SoundEffectPlayerTests: XCTestCase {
         let sut = AVSoundEffectPlayer(testPlayers: [.start: player])
 
         sut.setVolume(2.5)
+        sut.play(.start, completion: nil)
         try? await Task.sleep(for: .milliseconds(20))
         XCTAssertEqual(player.volume, 1.0, accuracy: 0.001)
     }

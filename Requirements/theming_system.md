@@ -304,6 +304,10 @@ class GameScene: SKScene {
 }
 ```
 
+### Texture Loading Performance
+
+Sprite textures are loaded through `ImageLoader` and cached in memory using `NSCache` (keyed by asset name). This avoids repeatedly decoding the same sprite images when the grid updates. Cache size is capped (current limit: 32 textures) to keep memory usage predictable, especially on watchOS.
+
 ### Theme Unlocking
 
 ```swift

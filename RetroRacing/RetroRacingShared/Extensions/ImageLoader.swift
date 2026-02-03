@@ -17,16 +17,32 @@ public protocol ImageLoader {
 #if canImport(UIKit)
 import UIKit
 
+/// Image loader for UIKit platforms.
+/// - Note: `init()` uses `NSCacheTextureCache.shared` as a process-wide default cache.
 public final class UIKitImageLoader: ImageLoader {
-    public init() {}
+    private let textureCache: TextureCache
+
+    public init(textureCache: TextureCache) {
+        self.textureCache = textureCache
+    }
+
+    public convenience init() {
+        self.init(textureCache: NSCacheTextureCache.shared)
+    }
 
     public func loadTexture(imageNamed name: String, bundle: Bundle) -> SKTexture {
+        if let cached = textureCache.texture(forKey: name) {
+            AppLog.log(AppLog.assets, "texture '\(name)' loaded from cache")
+            return cached
+        }
         // Prefer asset catalog (playersCar, rivalsCar, crash) — url(forResource:...) does not find .xcassets images.
         // UIImage(named:in:compatibleWith:) is unavailable on watchOS, so we only use it on iOS/tvOS.
         #if !os(watchOS)
         if let image = UIImage(named: name, in: bundle, compatibleWith: nil) {
             AppLog.log(AppLog.assets, "texture '\(name)' loaded from asset catalog")
-            return SKTexture(image: image)
+            let texture = SKTexture(image: image)
+            textureCache.store(texture, forKey: name)
+            return texture
         }
         #endif
         // Fallback: flat PNG in bundle (e.g. Resources/Sprites/).
@@ -40,7 +56,9 @@ public final class UIKitImageLoader: ImageLoader {
             return SKTexture()
         }
         AppLog.log(AppLog.assets, "texture '\(name)' loaded from bundle file")
-        return SKTexture(image: image)
+        let texture = SKTexture(image: image)
+        textureCache.store(texture, forKey: name)
+        return texture
     }
 
     private func urlForSprite(named name: String, in bundle: Bundle) -> URL? {
@@ -52,13 +70,29 @@ public final class UIKitImageLoader: ImageLoader {
 #elseif canImport(AppKit)
 import AppKit
 
+/// Image loader for AppKit platforms.
+/// - Note: `init()` uses `NSCacheTextureCache.shared` as a process-wide default cache.
 public final class AppKitImageLoader: ImageLoader {
-    public init() {}
+    private let textureCache: TextureCache
+
+    public init(textureCache: TextureCache) {
+        self.textureCache = textureCache
+    }
+
+    public convenience init() {
+        self.init(textureCache: NSCacheTextureCache.shared)
+    }
 
     public func loadTexture(imageNamed name: String, bundle: Bundle) -> SKTexture {
+        if let cached = textureCache.texture(forKey: name) {
+            AppLog.log(AppLog.assets, "texture '\(name)' loaded from cache")
+            return cached
+        }
         if let image = bundle.image(forResource: NSImage.Name(name)) {
             AppLog.log(AppLog.assets, "texture '\(name)' loaded from asset catalog")
-            return SKTexture(image: image)
+            let texture = SKTexture(image: image)
+            textureCache.store(texture, forKey: name)
+            return texture
         }
         // Fallback: flat PNG in bundle (e.g. Resources/Sprites/).
         guard let url = urlForSprite(named: name, in: bundle) else {
@@ -70,7 +104,9 @@ public final class AppKitImageLoader: ImageLoader {
             return SKTexture()
         }
         AppLog.log(AppLog.assets, "texture '\(name)' loaded from bundle file")
-        return SKTexture(image: image)
+        let texture = SKTexture(image: image)
+        textureCache.store(texture, forKey: name)
+        return texture
     }
 
     private func urlForSprite(named name: String, in bundle: Bundle) -> URL? {

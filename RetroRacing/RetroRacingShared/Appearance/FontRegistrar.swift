@@ -2,7 +2,7 @@
 //  FontRegistrar.swift
 //  RetroRacingShared
 //
-//  Created by Codex on 03/02/2026.
+//  Created by Dani Devesa on 03/02/2026.
 //
 
 import Foundation
@@ -44,4 +44,3 @@ public enum FontRegistrar {
         return false
     }
 }
-

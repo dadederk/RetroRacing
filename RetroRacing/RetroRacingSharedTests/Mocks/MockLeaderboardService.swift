@@ -30,13 +30,13 @@ final class MockRandomSource: RandomSource {
 }
 
 final class MockHapticFeedbackController: HapticFeedbackController {
-    private(set) var crashCount = 0
-    private(set) var updateCount = 0
-    private(set) var moveCount = 0
-    private(set) var successCount = 0
+    private(set) var crashes = 0
+    private(set) var gridUpdates = 0
+    private(set) var moves = 0
+    private(set) var successes = 0
 
-    func triggerCrashHaptic() { crashCount += 1 }
-    func triggerGridUpdateHaptic() { updateCount += 1 }
-    func triggerMoveHaptic() { moveCount += 1 }
-    func triggerSuccessHaptic() { successCount += 1 }
+    func triggerCrashHaptic() { crashes += 1 }
+    func triggerGridUpdateHaptic() { gridUpdates += 1 }
+    func triggerMoveHaptic() { moves += 1 }
+    func triggerSuccessHaptic() { successes += 1 }
 }

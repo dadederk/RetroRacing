@@ -3,20 +3,23 @@ import XCTest
 
 final class HighestScoreStoreTests: XCTestCase {
     private var userDefaults: UserDefaults!
+    private var suiteName: String!
     private var store: UserDefaultsHighestScoreStore!
 
     override func setUp() {
         super.setUp()
-        userDefaults = UserDefaults(suiteName: "test.highestscore.\(UUID().uuidString)")
+        suiteName = "test.highestscore.\(UUID().uuidString)"
+        userDefaults = UserDefaults(suiteName: suiteName)
         store = UserDefaultsHighestScoreStore(userDefaults: userDefaults)
     }
 
     override func tearDown() {
-        if let suiteName = userDefaults?.suiteName {
+        if let suiteName {
             UserDefaults().removePersistentDomain(forName: suiteName)
         }
         userDefaults = nil
         store = nil
+        suiteName = nil
         super.tearDown()
     }
 

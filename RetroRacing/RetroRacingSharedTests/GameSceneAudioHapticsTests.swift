@@ -1,11 +1,14 @@
 import XCTest
+import SpriteKit
 @testable import RetroRacingShared
 
+@MainActor
 final class GameSceneAudioHapticsTests: XCTestCase {
     private var soundPlayer: MockSoundEffectPlayer!
     private var haptics: MockHapticFeedbackController!
     private var scene: GameScene!
     private var delegate: MockGameSceneDelegate!
+    private var skView: SKView!
 
     override func setUp() {
         super.setUp()
@@ -21,7 +24,17 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         )
         delegate = MockGameSceneDelegate(haptics: haptics)
         scene.gameDelegate = delegate
-        scene.start() // start sound completes immediately via mock; unpauses.
+        skView = SKView(frame: CGRect(origin: .zero, size: CGSize(width: 200, height: 200)))
+        skView.presentScene(scene)
+    }
+
+    override func tearDown() {
+        skView = nil
+        delegate = nil
+        scene = nil
+        haptics = nil
+        soundPlayer = nil
+        super.tearDown()
     }
 
     func testMoveTriggersBipAndHaptic() {
@@ -60,20 +73,20 @@ final class GameSceneAudioHapticsTests: XCTestCase {
 
     func testStartAndResumeUnpauseAfterSound() {
         XCTAssertFalse(scene.gameState.isPaused, "start() should unpause after sound completion")
-        scene.gameState.isPaused = true
+        scene.pauseGameplay()
         scene.resume()
         XCTAssertFalse(scene.gameState.isPaused, "resume() should unpause after start sound completion")
     }
 
     func testResizeSceneRedrawsWithoutResettingState() {
-        // Simulate score/lives changes, then resize
-        scene.gameState.score = 42
-        scene.gameState.lives = 2
+        scene.handleCrash()
+        let initialScore = scene.gameState.score
+        let initialLives = scene.gameState.lives
 
         scene.resizeScene(to: CGSize(width: 300, height: 300))
 
-        XCTAssertEqual(scene.gameState.score, 42, "resize should not reset score")
-        XCTAssertEqual(scene.gameState.lives, 2, "resize should not reset lives")
+        XCTAssertEqual(scene.gameState.score, initialScore, "resize should not reset score")
+        XCTAssertEqual(scene.gameState.lives, initialLives, "resize should not reset lives")
         XCTAssertEqual(scene.size, CGSize(width: 300, height: 300))
     }
 
@@ -116,29 +129,6 @@ final class MockSoundEffectPlayer: SoundEffectPlayer {
 
     func setVolume(_ volume: Double) {
         lastVolume = volume
-    }
-}
-
-final class MockHapticFeedbackController: HapticFeedbackController {
-    private(set) var crashes = 0
-    private(set) var gridUpdates = 0
-    private(set) var moves = 0
-    private(set) var successes = 0
-
-    func triggerCrashHaptic() {
-        crashes += 1
-    }
-
-    func triggerGridUpdateHaptic() {
-        gridUpdates += 1
-    }
-
-    func triggerMoveHaptic() {
-        moves += 1
-    }
-
-    func triggerSuccessHaptic() {
-        successes += 1
     }
 }
 
