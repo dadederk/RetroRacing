@@ -22,6 +22,13 @@ struct SettingsView: View {
     }
 
     var body: some View {
+        settingsContent
+            #if os(macOS)
+            .frame(minWidth: 420, minHeight: 380)
+            #endif
+    }
+
+    private var settingsContent: some View {
         NavigationStack {
             List {
                 if fontPreferenceStore.isCustomFontAvailable {
@@ -103,6 +110,7 @@ struct SettingsView: View {
         }
     }
 }
+
 
 #if !os(macOS)
 private struct SettingsNavigationTitleStyle: ViewModifier {

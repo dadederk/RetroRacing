@@ -1,0 +1,51 @@
+{
+  "fill" : {
+    "automatic-gradient" : "display-p3:0.95578,0.88445,0.72039,1.00000"
+  },
+  "groups" : [
+    {
+      "layers" : [
+        {
+          "blend-mode" : "normal",
+          "glass" : false,
+          "image-name" : "CarIconTransparent.png",
+          "name" : "CarIconTransparent",
+          "position" : {
+            "scale" : 0.32,
+            "translation-in-points" : [
+              0,
+              0
+            ]
+          }
+        },
+        {
+          "glass" : false,
+          "hidden" : true,
+          "image-name" : "ed22da3c-3309-42aa-bf43-a7f61da0883e.png",
+          "name" : "ed22da3c-3309-42aa-bf43-a7f61da0883e",
+          "position" : {
+            "scale" : 1.28,
+            "translation-in-points" : [
+              2.1050087041950993,
+              29.10289292591199
+            ]
+          }
+        }
+      ],
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.5
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "circles" : [
+      "watchOS"
+    ],
+    "squares" : "shared"
+  }
+}
