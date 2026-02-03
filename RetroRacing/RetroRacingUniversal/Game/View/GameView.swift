@@ -149,6 +149,7 @@ struct GameView: View {
         .ignoresSafeArea(edges: .bottom)
         #if os(iOS)
         .persistentSystemOverlays(.hidden)
+        .background(InteractivePopGestureDisabler())
         #endif
         .toolbar {
             ToolbarItem(placement: Self.pauseToolbarPlacement) {
@@ -182,7 +183,11 @@ struct GameView: View {
             Text(GameLocalizedStrings.format("score %lld", gameOverScore))
         }
         .onDisappear {
+            // Tear down so re-entering from the menu always creates a fresh scene/run.
             sceneBox.scene?.stopAllSounds()
+            sceneBox.scene = nil
+            delegate = nil
+            inputAdapter = nil
         }
         .onChange(of: sfxVolume) { _, newValue in
             sceneBox.scene?.setSoundVolume(newValue)
@@ -224,3 +229,41 @@ struct GameView: View {
 private extension Notification.Name {
     static let gameSceneScoreDidUpdate = Notification.Name("GameSceneScoreDidUpdate")
 }
+
+#if os(iOS)
+/// Disables the iOS interactive pop (swipe-back) gesture while the game view is visible so drag controls
+/// are not intercepted by the navigation controller. Restores the previous state on exit.
+private struct InteractivePopGestureDisabler: UIViewControllerRepresentable {
+    func makeUIViewController(context: Context) -> Controller {
+        Controller()
+    }
+
+    func updateUIViewController(_ uiViewController: Controller, context: Context) {}
+
+    final class Controller: UIViewController {
+        private var previousEnabled: Bool?
+
+        override func viewWillAppear(_ animated: Bool) {
+            super.viewWillAppear(animated)
+            guard let gesture = navigationController?.interactivePopGestureRecognizer else { return }
+            previousEnabled = gesture.isEnabled
+            gesture.isEnabled = false
+        }
+
+        override func viewWillDisappear(_ animated: Bool) {
+            super.viewWillDisappear(animated)
+            restoreGestureState()
+        }
+
+        deinit {
+            restoreGestureState()
+        }
+
+        private func restoreGestureState() {
+            guard let gesture = navigationController?.interactivePopGestureRecognizer else { return }
+            // Default back to enabled if we never captured a prior state.
+            gesture.isEnabled = previousEnabled ?? true
+        }
+    }
+}
+#endif

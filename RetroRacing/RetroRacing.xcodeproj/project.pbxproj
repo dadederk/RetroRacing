@@ -14,6 +14,7 @@
 		21DD47142F2FCB02000C9FFA /* RetroRacingShared.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 21DD46FE2F2FCB02000C9FFA /* RetroRacingShared.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		21DD47B02F2FCAB0000C9FFA /* RetroRacingShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21DD46FE2F2FCB02000C9FFA /* RetroRacingShared.framework */; };
 		21DD47C02F2FCA96000C9FFA /* RetroRacingShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21DD46FE2F2FCB02000C9FFA /* RetroRacingShared.framework */; };
+		21F5E0002F400000000C9FFA /* RetroRacingShared.framework in Embed Frameworks (watchOS) */ = {isa = PBXBuildFile; fileRef = 21DD46FE2F2FCB02000C9FFA /* RetroRacingShared.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -131,6 +132,17 @@
 				21DD47142F2FCB02000C9FFA /* RetroRacingShared.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		21F5E0012F400000000C9FFA /* Embed Frameworks (watchOS) */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				21F5E0002F400000000C9FFA /* RetroRacingShared.framework in Embed Frameworks (watchOS) */,
+			);
+			name = "Embed Frameworks (watchOS)";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -470,6 +482,7 @@
 			buildPhases = (
 				21DD467B2F2FCA96000C9FFA /* Sources */,
 				21DD467C2F2FCA96000C9FFA /* Frameworks */,
+				21F5E0012F400000000C9FFA /* Embed Frameworks (watchOS) */,
 				21DD467D2F2FCA96000C9FFA /* Resources */,
 			);
 			buildRules = (

@@ -84,10 +84,11 @@ extension GameScene {
     /// Resizes the scene when the hosting view changes (rotation, split view) without restarting gameplay.
     /// Rebuilds the grid using the current game state so visuals stay in sync with logic.
     public func resizeScene(to newSize: CGSize) {
-        guard newSize != size,
-              newSize.width > 1,
+        guard newSize.width > 1,
               newSize.height > 1 else { return }
+        if let lastSize = lastConfiguredSize, lastSize == newSize { return }
 
+        lastConfiguredSize = newSize
         size = newSize
         anchorPoint = CGPoint(x: 0, y: 0)
         scaleMode = .aspectFit

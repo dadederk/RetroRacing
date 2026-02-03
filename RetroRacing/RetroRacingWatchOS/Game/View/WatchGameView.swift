@@ -8,6 +8,7 @@ struct WatchGameView: View {
     @AppStorage(SoundPreferences.volumeKey) private var sfxVolume: Double = SoundPreferences.defaultVolume
     @State private var scene: GameScene
     @State private var rotationValue: Double = 0
+    @State private var residualCrownDelta: Double = 0
     @State private var score: Int = 0
     @State private var lives: Int = 3
     @State private var scenePaused: Bool = false
@@ -43,22 +44,14 @@ struct WatchGameView: View {
 
     private static let sharedBundle = Bundle(for: GameScene.self)
 
-    private static let crownMoveThreshold: Double = 4
+    private static let crownMoveThreshold: Double = 0.3
+    private static let maxMovesPerEvent: Int = 1
 
     var body: some View {
         VStack {
             HStack {
                 Text(GameLocalizedStrings.format("score %lld", score))
                     .font(headerFont(size: 10))
-                Spacer()
-                Button {
-                    togglePause()
-                } label: {
-                    Image(systemName: isUserPaused ? "play.fill" : "pause.fill")
-                }
-                .accessibilityLabel(GameLocalizedStrings.string(isUserPaused ? "resume" : "pause"))
-                .disabled(pauseButtonDisabled)
-                .opacity(pauseButtonDisabled ? 0.4 : 1)
                 Spacer()
                 HStack(spacing: 2) {
                     Image(theme.lifeSprite() ?? "life", bundle: Self.sharedBundle)
@@ -83,14 +76,17 @@ struct WatchGameView: View {
                         }
                 }
                 .focusable()
-                .digitalCrownRotation($rotationValue, from: 0, through: 100, by: 1, sensitivity: .low, isContinuous: true, isHapticFeedbackEnabled: true)
+                .digitalCrownRotation(
+                    $rotationValue,
+                    from: -10,
+                    through: 10,
+                    by: 0.1,
+                    sensitivity: .high,
+                    isContinuous: true,
+                    isHapticFeedbackEnabled: true
+                )
                 .onChange(of: rotationValue, initial: false) { oldValue, newValue in
-                    let delta = newValue - oldValue
-                    if delta >= Self.crownMoveThreshold {
-                        inputAdapter?.handleRight()
-                    } else if delta <= -Self.crownMoveThreshold {
-                        inputAdapter?.handleLeft()
-                    }
+                    handleCrownDelta(newValue - oldValue)
                 }
             }
         }
@@ -138,6 +134,19 @@ struct WatchGameView: View {
         .onChange(of: sfxVolume) { _, newValue in
             scene.setSoundVolume(newValue)
         }
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    togglePause()
+                } label: {
+                    Image(systemName: isUserPaused ? "play.fill" : "pause.fill")
+                }
+                .accessibilityLabel(GameLocalizedStrings.string(isUserPaused ? "resume" : "pause"))
+                .disabled(pauseButtonDisabled)
+                .opacity(pauseButtonDisabled ? 0.4 : 1)
+                .buttonStyle(.glass)
+            }
+        }
     }
 
     private func togglePause() {
@@ -149,6 +158,25 @@ struct WatchGameView: View {
             scene.pauseGameplay()
             isUserPaused = true
         }
+    }
+
+    private func handleCrownDelta(_ delta: Double) {
+        var total = residualCrownDelta + delta
+        let threshold = Self.crownMoveThreshold
+        let sign: Double = total >= 0 ? 1 : -1
+        let moves = min(Self.maxMovesPerEvent, Int(abs(total) / threshold))
+
+        if moves > 0 {
+            if sign > 0 {
+                inputAdapter?.handleRight()
+                total -= threshold
+            } else {
+                inputAdapter?.handleLeft()
+                total += threshold
+            }
+        }
+
+        residualCrownDelta = total
     }
 }
 

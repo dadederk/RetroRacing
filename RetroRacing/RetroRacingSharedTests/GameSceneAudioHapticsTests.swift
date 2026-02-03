@@ -65,6 +65,18 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         XCTAssertFalse(scene.gameState.isPaused, "resume() should unpause after start sound completion")
     }
 
+    func testResizeSceneRedrawsWithoutResettingState() {
+        // Simulate score/lives changes, then resize
+        scene.gameState.score = 42
+        scene.gameState.lives = 2
+
+        scene.resizeScene(to: CGSize(width: 300, height: 300))
+
+        XCTAssertEqual(scene.gameState.score, 42, "resize should not reset score")
+        XCTAssertEqual(scene.gameState.lives, 2, "resize should not reset lives")
+        XCTAssertEqual(scene.size, CGSize(width: 300, height: 300))
+    }
+
     func testPauseGameplayNotifiesDelegate() {
         scene.pauseGameplay()
 

@@ -34,6 +34,8 @@ public class GameScene: SKScene {
 
     private var initialDtForGameUpdate = 0.6
     private var lastGameUpdateTime: TimeInterval = 0
+    private var hasConfiguredScene = false
+    var lastConfiguredSize: CGSize?
 
     var spritesForGivenState = [SKSpriteNode]()
 
@@ -121,13 +123,20 @@ public class GameScene: SKScene {
     }
 
     func setUpScene() {
-        AppLog.log(AppLog.game + AppLog.assets, "setUpScene bundle=\(Self.sharedBundle.bundleURL.path)")
-        anchorPoint = CGPoint(x: 0, y: 0)
-        scaleMode = .aspectFit
-        backgroundColor = gameBackgroundColor
-        AppLog.log(AppLog.game + AppLog.assets, "setUpScene size=\(size) anchorPoint=\(anchorPoint)")
-        createGrid()
-        initialiseGame()
+        AppLog.log(AppLog.game + AppLog.assets, "setUpScene bundle=\(Self.sharedBundle.bundleURL.path) size=\(size)")
+
+        if hasConfiguredScene {
+            resizeScene(to: size)
+        } else {
+            hasConfiguredScene = true
+            lastConfiguredSize = size
+            anchorPoint = CGPoint(x: 0, y: 0)
+            scaleMode = .aspectFit
+            backgroundColor = gameBackgroundColor
+            AppLog.log(AppLog.game + AppLog.assets, "setUpScene initial anchorPoint=\(anchorPoint)")
+            createGrid()
+            initialiseGame()
+        }
     }
 
 #if os(watchOS)
@@ -167,6 +176,7 @@ public class GameScene: SKScene {
     }
 
     private func initialiseGame() {
+        lastGameUpdateTime = 0
         gridState = GridState(numberOfRows: 5, numberOfColumns: 3)
         gameState = GameState()
         gridStateDidUpdate(gridState, shouldPlayFeedback: false, notifyDelegate: false)

@@ -24,7 +24,11 @@ The game **must** respect the user’s Reduce Motion preference:
 - **Dynamic Type:** Menu and UI text support Dynamic Type (e.g. `.dynamicTypeSize(.xSmall ... .xxxLarge)`); layouts should adapt.
 - **High Contrast:** Theme system and requirements (see `theming_system.md`) should support increased contrast where needed.
 - **Platform:** Follow platform HIG and accessibility APIs (iOS/tvOS/watchOS/macOS/visionOS) for focus, gestures, and system settings.
-- **Orientation / window changes:** SpriteKit scenes must persist across rotations and size class changes without restarting gameplay. Resize the existing scene to the new square dimension and redraw the current grid state; do not recreate the scene or reset score/lives during rotation.
+- **Orientation / window changes:** SpriteKit scenes must persist across rotations and size class changes without restarting gameplay. Resize the existing scene to the new square dimension and redraw the current grid state; do not recreate the scene or reset score/lives during rotation. Scenes should keep their existing `GameState` (score, lives, grid) when re-presented after a rotation.
+
+## Navigation & Gestures
+
+- iOS: Disable the interactive pop (edge swipe-back) gesture on the gameplay screen so horizontal drags used for car control are never intercepted by navigation. Users exit via the back button or in-game finish controls instead.
 
 ## Pause/Resume Control (Universal, watchOS, tvOS)
 

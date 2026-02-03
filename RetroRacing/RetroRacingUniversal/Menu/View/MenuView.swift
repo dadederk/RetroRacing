@@ -114,13 +114,15 @@ struct MenuView: View {
                     authViewControllerToPresent = vc
                 }
             }
-            #endif
-            // Start authentication as early as possible.
+            // Start authentication as early as possible (UIKit platforms).
             startAuthentication(startedByUser: false)
+            #endif
         }
+        #if canImport(UIKit)
         .onReceive(NotificationCenter.default.publisher(for: .GKPlayerAuthenticationDidChangeNotificationName)) { _ in
             refreshAuthState()
         }
+        #endif
     }
 
     @ViewBuilder
@@ -209,6 +211,12 @@ struct MenuView: View {
             }
         }
     }
+#endif
+
+#if os(macOS)
+    // macOS build: Game Center auth flow not shown; keep stubs so menu compiles.
+    private func startAuthentication(startedByUser: Bool) { }
+    private func refreshAuthState() { }
 #endif
 
     @ViewBuilder
