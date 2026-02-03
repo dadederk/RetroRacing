@@ -6,10 +6,12 @@ struct WatchGameView: View {
     let theme: any GameTheme
     let fontPreferenceStore: FontPreferenceStore?
     let highestScoreStore: HighestScoreStore
+    let crownConfiguration: LegacyCrownInputProcessor.Configuration
     @AppStorage(SoundPreferences.volumeKey) private var sfxVolume: Double = SoundPreferences.defaultVolume
     @State private var scene: GameScene
     @State private var rotationValue: Double = 0
-    @State private var residualCrownDelta: Double = 0
+    @State private var crownProcessor: LegacyCrownInputProcessor
+    @State private var crownIdleTask: Task<Void, Never>?
     @State private var score: Int = 0
     @State private var lives: Int = 3
     @State private var scenePaused: Bool = false
@@ -25,10 +27,16 @@ struct WatchGameView: View {
         scenePaused && isUserPaused == false
     }
 
-    init(theme: any GameTheme, fontPreferenceStore: FontPreferenceStore? = nil, highestScoreStore: HighestScoreStore) {
+    init(
+        theme: any GameTheme,
+        fontPreferenceStore: FontPreferenceStore? = nil,
+        highestScoreStore: HighestScoreStore,
+        crownConfiguration: LegacyCrownInputProcessor.Configuration
+    ) {
         self.theme = theme
         self.fontPreferenceStore = fontPreferenceStore
         self.highestScoreStore = highestScoreStore
+        self.crownConfiguration = crownConfiguration
         let size = CGSize(width: 400, height: 300)
         let soundPlayer = PlatformFactories.makeSoundPlayer()
         soundPlayer.setVolume(SoundPreferences.defaultVolume)
@@ -39,6 +47,7 @@ struct WatchGameView: View {
             soundPlayer: soundPlayer,
             hapticController: nil
         ))
+        _crownProcessor = State(initialValue: LegacyCrownInputProcessor(configuration: crownConfiguration))
     }
 
     private func headerFont(size: CGFloat = 10) -> Font {
@@ -47,8 +56,7 @@ struct WatchGameView: View {
 
     private static let sharedBundle = Bundle(for: GameScene.self)
 
-    private static let crownMoveThreshold: Double = 0.3
-    private static let maxMovesPerEvent: Int = 1
+    private static let crownIdleResetDelay: Duration = .milliseconds(150)
 
     var body: some View {
         VStack {
@@ -140,6 +148,8 @@ struct WatchGameView: View {
         }
         .onDisappear {
             scene.stopAllSounds()
+            crownIdleTask?.cancel()
+            crownIdleTask = nil
         }
         .onChange(of: sfxVolume) { _, newValue in
             scene.setSoundVolume(newValue)
@@ -171,22 +181,26 @@ struct WatchGameView: View {
     }
 
     private func handleCrownDelta(_ delta: Double) {
-        var total = residualCrownDelta + delta
-        let threshold = Self.crownMoveThreshold
-        let sign: Double = total >= 0 ? 1 : -1
-        let moves = min(Self.maxMovesPerEvent, Int(abs(total) / threshold))
+        let action = crownProcessor.handleRotationDelta(delta)
+        scheduleCrownIdleReset()
 
-        if moves > 0 {
-            if sign > 0 {
-                inputAdapter?.handleRight()
-                total -= threshold
-            } else {
-                inputAdapter?.handleLeft()
-                total += threshold
-            }
+        switch action {
+        case .moveLeft:
+            inputAdapter?.handleLeft()
+        case .moveRight:
+            inputAdapter?.handleRight()
+        case .none:
+            break
         }
+    }
 
-        residualCrownDelta = abs(total) < (threshold * 0.5) ? 0 : total
+    private func scheduleCrownIdleReset() {
+        crownIdleTask?.cancel()
+        crownIdleTask = Task { @MainActor in
+            try? await Task.sleep(for: Self.crownIdleResetDelay)
+            guard Task.isCancelled == false else { return }
+            crownProcessor.markIdle()
+        }
     }
 }
 

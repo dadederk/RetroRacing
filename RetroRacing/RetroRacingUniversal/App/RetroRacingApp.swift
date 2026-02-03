@@ -130,25 +130,7 @@ struct RetroRacingApp: App {
     /// Registers the custom font from the shared framework so `.font(.custom("PressStart2P-Regular", size:))` works. Font lives in RetroRacingShared only.
     /// - Returns: true if registration succeeded (use to show font settings).
     private static func registerCustomFont() -> Bool {
-        let fontName = "PressStart2P-Regular.ttf"
-        let frameworkBundle = Bundle(for: GameScene.self)
-        let urls: [URL] = [
-            frameworkBundle.url(forResource: "PressStart2P-Regular", withExtension: "ttf"),
-            frameworkBundle.url(forResource: fontName, withExtension: nil),
-            frameworkBundle.resourceURL?.appendingPathComponent("Resources/Font/\(fontName)", isDirectory: false),
-            frameworkBundle.resourceURL?.appendingPathComponent("Font/\(fontName)", isDirectory: false),
-            Bundle.main.url(forResource: "PressStart2P-Regular", withExtension: "ttf"),
-            Bundle.main.resourceURL?.appendingPathComponent("Resources/Font/\(fontName)", isDirectory: false),
-        ].compactMap { $0 }
-        for url in urls where (try? url.checkResourceIsReachable()) == true {
-            var error: Unmanaged<CFError>?
-            if CTFontManagerRegisterFontsForURL(url as CFURL, .process, &error) {
-                AppLog.log(AppLog.font, "font registered from \(url.lastPathComponent)")
-                return true
-            }
-        }
-        AppLog.error(AppLog.font, "font '\(fontName)' NOT registered (no reachable URL)")
-        return false
+        FontRegistrar.registerPressStart2P(additionalBundles: [Bundle.main])
     }
 
     var body: some Scene {

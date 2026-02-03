@@ -5,6 +5,7 @@ struct ContentView: View {
     let themeManager: ThemeManager
     let fontPreferenceStore: FontPreferenceStore
     let highestScoreStore: HighestScoreStore
+    let crownConfiguration: LegacyCrownInputProcessor.Configuration
     @State private var showGame = false
     @State private var gameID = 0
     @State private var showSettings = false
@@ -24,7 +25,12 @@ struct ContentView: View {
                 .buttonStyle(.glassProminent)
             }
             .navigationDestination(isPresented: $showGame) {
-                WatchGameView(theme: themeManager.currentTheme, fontPreferenceStore: fontPreferenceStore, highestScoreStore: highestScoreStore)
+                WatchGameView(
+                    theme: themeManager.currentTheme,
+                    fontPreferenceStore: fontPreferenceStore,
+                    highestScoreStore: highestScoreStore,
+                    crownConfiguration: crownConfiguration
+                )
                     .id(gameID)
             }
             .toolbar {
@@ -56,6 +62,7 @@ struct ContentView: View {
             userDefaults: InfrastructureDefaults.userDefaults,
             customFontAvailable: true
         ),
-        highestScoreStore: UserDefaultsHighestScoreStore(userDefaults: InfrastructureDefaults.userDefaults)
+        highestScoreStore: UserDefaultsHighestScoreStore(userDefaults: InfrastructureDefaults.userDefaults),
+        crownConfiguration: .watchLegacy
     )
 }

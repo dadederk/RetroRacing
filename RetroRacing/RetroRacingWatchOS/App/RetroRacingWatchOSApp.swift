@@ -5,6 +5,7 @@
 
 import SwiftUI
 import RetroRacingShared
+import CoreText
 
 @main
 struct RetroRacingWatchOSApp: App {
@@ -19,15 +20,26 @@ struct RetroRacingWatchOSApp: App {
             userDefaults: InfrastructureDefaults.userDefaults
         )
     }()
-    private let fontPreferenceStore = FontPreferenceStore(
-        userDefaults: InfrastructureDefaults.userDefaults,
-        customFontAvailable: true
-    )
+    private let crownConfiguration = LegacyCrownInputProcessor.Configuration.watchLegacy
+    private let fontPreferenceStore: FontPreferenceStore
     private let highestScoreStore = UserDefaultsHighestScoreStore(userDefaults: InfrastructureDefaults.userDefaults)
 
     var body: some Scene {
         WindowGroup {
-            ContentView(themeManager: themeManager, fontPreferenceStore: fontPreferenceStore, highestScoreStore: highestScoreStore)
+            ContentView(
+                themeManager: themeManager,
+                fontPreferenceStore: fontPreferenceStore,
+                highestScoreStore: highestScoreStore,
+                crownConfiguration: crownConfiguration
+            )
         }
+    }
+
+    init() {
+        let customFontAvailable = FontRegistrar.registerPressStart2P(additionalBundles: [Bundle.main])
+        fontPreferenceStore = FontPreferenceStore(
+            userDefaults: InfrastructureDefaults.userDefaults,
+            customFontAvailable: customFontAvailable
+        )
     }
 }

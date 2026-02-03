@@ -35,12 +35,12 @@ Requirements documents serve as:
 - **leaderboard_implementation.md** - Game Center integration with protocol-based architecture
 - **testing.md** - Unit test strategy, coverage goals, and testing patterns
 - **theming_system.md** - Visual theme system, monetization, and platform recommendations
+- **input_handling.md** - Control schemes per platform (touch, crown, remote, keyboard, etc.)
 
 ### Planned Features (TBD)
 
 - **game_logic.md** - Core game mechanics, scoring, difficulty progression
 - **accessibility.md** - Platform-specific accessibility requirements and patterns
-- **input_handling.md** - Control schemes per platform (touch, crown, remote, keyboard, etc.)
 - **settings.md** - User customization options and preferences
 - **audio_system.md** - Sound effects, music, and audio feedback
 - **achievements.md** - Game Center achievements and progression
@@ -131,5 +131,5 @@ If a requirement is unclear or missing:
 
 ---
 
-**Last Updated**: 2026-02-01  
+**Last Updated**: 2026-02-03  
 **Maintained By**: Development team and AI agents
