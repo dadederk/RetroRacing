@@ -1,7 +1,15 @@
+//
+//  ThemeManager.swift
+//  RetroRacingShared
+//
+//  Created by Dani Devesa on 03/02/2026.
+//
+
 import Foundation
 import SwiftUI
+import Observation
 
-/// Manages current theme, available themes, and premium unlock state.
+/// Manages theme selection, availability, and premium unlock persistence.
 @Observable
 @MainActor
 public final class ThemeManager {
@@ -13,7 +21,7 @@ public final class ThemeManager {
     private let selectedThemeKey = "selectedThemeID"
     private let unlockedThemesKey = "unlockedThemes"
 
-    public init(initialThemes: [GameTheme], defaultThemeID: String = "lcd", userDefaults: UserDefaults = .standard) {
+    public init(initialThemes: [GameTheme], defaultThemeID: String, userDefaults: UserDefaults) {
         self.userDefaults = userDefaults
         self.availableThemes = initialThemes
         let freeIDs = Set(initialThemes.filter { !$0.isPremium }.map(\.id))

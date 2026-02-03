@@ -11,7 +11,7 @@ final class GridStateCalculatorTests: XCTestCase {
             [.Empty, .Car, .Empty],
             [.Empty, .Player, .Car],
         ]
-        let sut = GridStateCalculator()
+        let sut = GridStateCalculator(randomSource: MockRandomSource())
         let (newGridState, _) = sut.nextGrid(previousGrid: gridState, actions: [.moveCar(direction: .left)])
 
         XCTAssertEqual(newGridState.grid[4][0], .Player)
@@ -26,7 +26,7 @@ final class GridStateCalculatorTests: XCTestCase {
             [.Empty, .Car, .Empty],
             [.Empty, .Player, .Empty],
         ]
-        let sut = GridStateCalculator()
+        let sut = GridStateCalculator(randomSource: MockRandomSource())
         let (newGridState, _) = sut.nextGrid(previousGrid: gridState, actions: [.moveCar(direction: .right)])
         XCTAssertEqual(newGridState.grid[4][2], .Player)
     }
@@ -40,7 +40,7 @@ final class GridStateCalculatorTests: XCTestCase {
             [.Empty, .Car, .Empty],
             [.Player, .Empty, .Car],
         ]
-        let sut = GridStateCalculator()
+        let sut = GridStateCalculator(randomSource: MockRandomSource())
         let (newGridState, _) = sut.nextGrid(previousGrid: gridState, actions: [.moveCar(direction: .left)])
         XCTAssertEqual(newGridState.grid[4][0], .Player)
     }
@@ -54,7 +54,7 @@ final class GridStateCalculatorTests: XCTestCase {
             [.Empty, .Car, .Empty],
             [.Empty, .Empty, .Player],
         ]
-        let sut = GridStateCalculator()
+        let sut = GridStateCalculator(randomSource: MockRandomSource())
         let (newGridState, _) = sut.nextGrid(previousGrid: gridState, actions: [.moveCar(direction: .right)])
         XCTAssertEqual(newGridState.grid[4][2], .Player)
     }
@@ -68,7 +68,7 @@ final class GridStateCalculatorTests: XCTestCase {
             [.Car, .Empty, .Empty],
             [.Empty, .Player, .Empty],
         ]
-        let sut = GridStateCalculator()
+        let sut = GridStateCalculator(randomSource: MockRandomSource())
         let (newGridState, _) = sut.nextGrid(previousGrid: gridState, actions: [.moveCar(direction: .left), .update])
         XCTAssertEqual(newGridState.grid[4][0], .Crash)
     }
@@ -82,7 +82,7 @@ final class GridStateCalculatorTests: XCTestCase {
             [.Empty, .Car, .Empty],
             [.Empty, .Player, .Empty],
         ]
-        let sut = GridStateCalculator()
+        let sut = GridStateCalculator(randomSource: MockRandomSource())
         let (_, effects) = sut.nextGrid(previousGrid: gridState, actions: [.moveCar(direction: .left), .update])
         let scoredPoints = effects.reduce(0) { partialResult, effect in
             if case GridStateCalculator.Effect.scored(points: let points) = effect {
@@ -91,5 +91,17 @@ final class GridStateCalculatorTests: XCTestCase {
             return partialResult
         }
         XCTAssertGreaterThan(scoredPoints, 0)
+    }
+
+    func testUpdateIntervalDecreasesAsLevelIncreases() {
+        let config = GridUpdateTimingConfiguration(initialInterval: 0.6, logDivider: 4)
+        let calculator = GridStateCalculator(randomSource: MockRandomSource(), timingConfiguration: config)
+
+        let level1 = calculator.intervalForLevel(1)
+        let level5 = calculator.intervalForLevel(5)
+
+        XCTAssertGreaterThan(level1, level5)
+        XCTAssertGreaterThan(level1, 0)
+        XCTAssertGreaterThan(level5, 0)
     }
 }

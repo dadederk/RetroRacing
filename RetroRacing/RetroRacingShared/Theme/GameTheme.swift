@@ -1,7 +1,14 @@
+//
+//  GameTheme.swift
+//  RetroRacingShared
+//
+//  Created by Dani Devesa on 03/02/2026.
+//
+
 import Foundation
 import SwiftUI
 
-/// Visual theme for the game. Implementations define colors, styles, and optional sprite names.
+/// Visual theme contract defining colors, typography, and optional sprite assets.
 public protocol GameTheme {
     var id: String { get }
     var name: String { get }
@@ -40,4 +47,3 @@ extension GameTheme {
     public func crashSprite() -> String? { nil }
     public func lifeSprite() -> String? { nil }
 }
-

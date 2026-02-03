@@ -2,9 +2,12 @@
 //  GameScene+Grid.swift
 //  RetroRacingShared
 //
+//  Created by Dani Devesa on 03/02/2026.
+//
 
 import SpriteKit
 
+/// Grid construction and sprite placement helpers scoped to GameScene.
 extension GameScene {
 
     func createGrid() {
@@ -61,9 +64,14 @@ extension GameScene {
         return CGPoint(x: x, y: y)
     }
 
-    func gridStateDidUpdate(_ gridState: GridState) {
+    func gridStateDidUpdate(_ gridState: GridState, shouldPlayFeedback: Bool = true, notifyDelegate: Bool = true) {
         updateGrid(withGridState: gridState)
-        run(stateUpdatedSound)
+        if shouldPlayFeedback {
+            play(SoundEffect.bip)
+        }
+        if notifyDelegate {
+            gameDelegate?.gameSceneDidUpdateGrid(self)
+        }
     }
 
     func resetScene() {
@@ -71,6 +79,23 @@ extension GameScene {
             sprite.removeFromParent()
         }
         spritesForGivenState.removeAll()
+    }
+
+    /// Resizes the scene when the hosting view changes (rotation, split view) without restarting gameplay.
+    /// Rebuilds the grid using the current game state so visuals stay in sync with logic.
+    public func resizeScene(to newSize: CGSize) {
+        guard newSize != size,
+              newSize.width > 1,
+              newSize.height > 1 else { return }
+
+        size = newSize
+        anchorPoint = CGPoint(x: 0, y: 0)
+        scaleMode = .aspectFit
+
+        removeAllChildren()
+        spritesForGivenState.removeAll()
+        createGrid()
+        gridStateDidUpdate(gridState, shouldPlayFeedback: false)
     }
 
     func updateGrid(withGridState gridState: GridState) {

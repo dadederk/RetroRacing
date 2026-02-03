@@ -81,5 +81,5 @@ One folder per feature; under each feature, subfolders by role: **View**, **Mode
 1. **Document** (this file) and agree on naming. ✅
 2. **RetroRacingShared first**: move `Models/*` into `Game/Model/`, then adjust project if needed. Run tests after. ✅ Done: `Game/Model/` contains `GameState.swift`, `GridState.swift`, `GridStateCalculator.swift`, `RandomSource.swift`.
 3. **One app as pilot** (e.g. RetroRacing): create Menu/, Settings/, Game/, Leaderboard/, Auth/, App/, Configuration/, move views, build and run. ✅ Done: `App/`, `Menu/View/`, `Settings/View/`, `Game/View/`, `Leaderboard/View/`, `Auth/View/` created; views and app entry moved.
-4. **Apply the same layout** to tvOS, watchOS, visionOS. (Optional follow-up.)
-5. **Rename top-level folders** on disk and update Xcode project paths and targets/schemes. (Requires pbxproj updates; do when renaming targets.)
+4. **Apply the same layout** to tvOS, watchOS, visionOS. ✅ (folders aligned)
+5. **Rename top-level folders** on disk and update Xcode project paths and targets/schemes. ✅ (legacy `RetroRacing/RetroRacing*` folders removed; pbxproj uses canonical targets)

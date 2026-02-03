@@ -1,7 +1,13 @@
+//
+//  HapticFeedbackPreference.swift
+//  RetroRacingShared
+//
+//  Created by Dani Devesa on 03/02/2026.
+//
+
 import Foundation
 
-/// UserDefaults key for the haptic feedback toggle. Default is true when key is missing.
-/// Whether the device supports haptics is determined by the app layer (configuration injection); use that to hide the setting when false.
+/// Storage key for the user-controlled haptic feedback preference; defaults to enabled when absent.
 public enum HapticFeedbackPreference {
     public static let storageKey = "hapticFeedbackEnabled"
 }

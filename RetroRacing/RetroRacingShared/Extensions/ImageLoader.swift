@@ -1,6 +1,15 @@
-import SpriteKit
+//
+//  ImageLoader.swift
+//  RetroRacingShared
+//
+//  Created by Dani Devesa on 03/02/2026.
+//
 
-/// Loads images from a bundle and returns SKTexture. Abstracts UIKit (UIImage) vs AppKit (NSImage) so shared game code has no platform conditionals.
+import Foundation
+import SpriteKit
+import AVFoundation
+
+/// Loads sprite textures from bundles while hiding UIKit/AppKit differences from shared game code.
 public protocol ImageLoader: Sendable {
     func loadTexture(imageNamed name: String, bundle: Bundle) -> SKTexture
 }
@@ -71,3 +80,25 @@ public final class AppKitImageLoader: ImageLoader, @unchecked Sendable {
     }
 }
 #endif
+
+// MARK: - Infrastructure defaults and factories
+
+/// Central place for allowed process-wide singletons. Use only at composition roots.
+public enum InfrastructureDefaults {
+    public static let userDefaults: UserDefaults = .standard
+    public static let randomSource: RandomSource = SystemRandomSource()
+}
+
+public enum PlatformFactories {
+    public static func makeImageLoader() -> any ImageLoader {
+        #if canImport(AppKit) && !os(iOS)
+        return AppKitImageLoader()
+        #else
+        return UIKitImageLoader()
+        #endif
+    }
+
+    public static func makeSoundPlayer() -> SoundEffectPlayer {
+        AVSoundEffectPlayer(bundle: Bundle(for: GameScene.self))
+    }
+}

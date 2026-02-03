@@ -1,9 +1,17 @@
+//
+//  GameCenterService.swift
+//  RetroRacingShared
+//
+//  Created by Dani Devesa on 03/02/2026.
+//
+
 import Foundation
 import GameKit
 
 /// Called when authentication UI should be registered with Game Center. Pass from the app layer; pass `nil` on watchOS (system handles auth).
 public typealias AuthenticateHandlerSetter = (AuthenticationPresenter) -> Void
 
+/// Game Center-backed leaderboard service handling authentication wiring and score submission.
 public final class GameCenterService: LeaderboardService {
     private let configuration: LeaderboardConfiguration
     private weak var authenticationPresenter: AuthenticationPresenter?
@@ -27,7 +35,10 @@ public final class GameCenterService: LeaderboardService {
     }
 
     public func submitScore(_ score: Int) {
-        guard isAuthenticated() else { return }
+        guard isAuthenticated() else {
+            AppLog.info(AppLog.game, "Skipped score submit \(score) because player not authenticated")
+            return
+        }
 
         GKLeaderboard.submitScore(
             score,
@@ -36,7 +47,7 @@ public final class GameCenterService: LeaderboardService {
             leaderboardIDs: [configuration.leaderboardID]
         ) { error in
             if let error = error {
-                print("Failed to submit score: \(error.localizedDescription)")
+                AppLog.error(AppLog.game, "Failed to submit score \(score): \(error.localizedDescription)")
             }
         }
     }

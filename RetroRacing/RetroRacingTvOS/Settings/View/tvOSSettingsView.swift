@@ -8,6 +8,7 @@ struct tvOSSettingsView: View {
     let supportsHapticFeedback: Bool
     @Environment(\.dismiss) private var dismiss
     @AppStorage(HapticFeedbackPreference.storageKey) private var hapticFeedbackEnabled: Bool = true
+    @AppStorage(SoundPreferences.volumeKey) private var sfxVolume: Double = SoundPreferences.defaultVolume
 
     private var fontForLabels: Font {
         fontPreferenceStore.font(size: 18)
@@ -67,6 +68,20 @@ struct tvOSSettingsView: View {
                         .font(fontForLabels)
                 } header: {
                     Text(GameLocalizedStrings.string("settings_controls"))
+                        .font(fontForLabels)
+                }
+
+                Section {
+                    Slider(value: $sfxVolume, in: 0...1, step: 0.05) {
+                        Text(GameLocalizedStrings.string("settings_sound_effects_volume"))
+                            .font(fontForLabels)
+                    } minimumValueLabel: {
+                        Text("0%").font(fontForLabels)
+                    } maximumValueLabel: {
+                        Text("100%").font(fontForLabels)
+                    }
+                } header: {
+                    Text(GameLocalizedStrings.string("settings_sound"))
                         .font(fontForLabels)
                 }
 

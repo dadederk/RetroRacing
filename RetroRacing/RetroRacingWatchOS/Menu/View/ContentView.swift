@@ -46,7 +46,14 @@ struct ContentView: View {
 
 #Preview {
     ContentView(
-        themeManager: ThemeManager(initialThemes: [LCDTheme(), GameBoyTheme()], defaultThemeID: "gameboy"),
-        fontPreferenceStore: FontPreferenceStore()
+        themeManager: ThemeManager(
+            initialThemes: [LCDTheme(), GameBoyTheme()],
+            defaultThemeID: "gameboy",
+            userDefaults: InfrastructureDefaults.userDefaults
+        ),
+        fontPreferenceStore: FontPreferenceStore(
+            userDefaults: InfrastructureDefaults.userDefaults,
+            customFontAvailable: true
+        )
     )
 }

@@ -1,7 +1,14 @@
+//
+//  GameBoyTheme.swift
+//  RetroRacingShared
+//
+//  Created by Dani Devesa on 03/02/2026.
+//
+
 import Foundation
 import SwiftUI
 
-/// Free theme: iconic Game Boy monochrome green aesthetic.
+/// Free theme capturing the monochrome green Game Boy aesthetic.
 public struct GameBoyTheme: GameTheme {
     public init() {}
 

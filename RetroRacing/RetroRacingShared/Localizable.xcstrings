@@ -626,6 +626,14 @@
         "es" : { "stringUnit" : { "state" : "translated", "value" : "Doble toque para mover el coche a la derecha" } }
       }
     },
+    "pause" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : { "stringUnit" : { "state" : "translated", "value" : "Pausa" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Pause" } },
+        "es" : { "stringUnit" : { "state" : "translated", "value" : "Pausa" } }
+      }
+    },
     "font_style_custom" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -648,6 +656,14 @@
         "ca" : { "stringUnit" : { "state" : "translated", "value" : "Sistema monoespaiat" } },
         "en" : { "stringUnit" : { "state" : "translated", "value" : "System monospaced" } },
         "es" : { "stringUnit" : { "state" : "translated", "value" : "Sistema monoespaciado" } }
+      }
+    },
+    "resume" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : { "stringUnit" : { "state" : "translated", "value" : "Reprén" } },
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Resume" } },
+        "es" : { "stringUnit" : { "state" : "translated", "value" : "Reanudar" } }
       }
     },
     "Shows Game Center leaderboard" : {

@@ -1,5 +1,13 @@
+//
+//  StoreReviewService.swift
+//  RetroRacingShared
+//
+//  Created by Dani Devesa on 03/02/2026.
+//
+
 import Foundation
 
+/// Rating prompt coordinator that throttles StoreKit requests based on gameplay activity.
 public final class StoreReviewService: RatingService {
     private let userDefaults: UserDefaults
     private let ratingProvider: RatingServiceProvider
@@ -17,7 +25,7 @@ public final class StoreReviewService: RatingService {
         Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "1.0"
     }
 
-    public init(userDefaults: UserDefaults = .standard, ratingProvider: RatingServiceProvider) {
+    public init(userDefaults: UserDefaults, ratingProvider: RatingServiceProvider) {
         self.userDefaults = userDefaults
         self.ratingProvider = ratingProvider
     }

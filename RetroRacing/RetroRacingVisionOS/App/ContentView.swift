@@ -2,7 +2,7 @@
 //  ContentView.swift
 //  RetroRacing for visionOS
 //
-//  Created by Dani Devesa Derksen-Staats on 01/02/2026.
+//  Created by Dani Devesa on 01/02/2026.
 //
 
 import SwiftUI
@@ -10,6 +10,7 @@ import RealityKit
 import RealityKitContent
 import RetroRacingShared
 
+/// Placeholder visionOS landing view until 3D gameplay is available.
 struct ContentView: View {
     var body: some View {
         VStack(spacing: 16) {

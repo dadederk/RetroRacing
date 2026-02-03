@@ -1,9 +1,31 @@
+//
+//  GameView.swift
+//  RetroRacingUniversal
+//
+//  Created by Dani Devesa on 03/02/2026.
+//
+
 import SwiftUI
 import SpriteKit
 import RetroRacingShared
+import Observation
 
+/// Holder to keep a single SKScene instance alive across SwiftUI view reloads (e.g. rotation).
+@Observable
+final class GameSceneBox {
+    var scene: GameScene?
+}
+
+/// SwiftUI game screen that hosts the shared SpriteKit scene and routes platform input.
 struct GameView: View {
     static let sharedBundle = Bundle(for: GameScene.self)
+    private static var pauseToolbarPlacement: ToolbarItemPlacement {
+        #if os(macOS)
+        .primaryAction
+        #else
+        .topBarTrailing
+        #endif
+    }
 
     let leaderboardService: LeaderboardService
     let ratingService: RatingService
@@ -11,14 +33,18 @@ struct GameView: View {
     let hapticController: HapticFeedbackController?
     let fontPreferenceStore: FontPreferenceStore?
 
-    @State var scene: GameScene?
+    @AppStorage(SoundPreferences.volumeKey) var sfxVolume: Double = SoundPreferences.defaultVolume
+    @State var sceneBox = GameSceneBox()
     @State var score: Int = 0
     @State var lives: Int = 3
+    @State var scenePaused: Bool = false          // reflects scene state (crash/start pauses)
+    @State var isUserPaused: Bool = false         // user-requested pause state
     @State var showGameOver = false
     @State var gameOverScore: Int = 0
     @State var delegate: GameSceneDelegateImpl?
     @State var leftButtonDown = false
     @State var rightButtonDown = false
+    @State var inputAdapter: GameInputAdapter?
     @ScaledMetric(relativeTo: .body) var directionButtonHeight: CGFloat = 120
     @Environment(\.dismiss) var dismiss
     #if os(macOS) || os(iOS)
@@ -26,6 +52,10 @@ struct GameView: View {
     @Environment(\.verticalSizeClass) var verticalSizeClass
     @FocusState var isGameAreaFocused: Bool
     #endif
+
+    private var pauseButtonDisabled: Bool {
+        scenePaused && isUserPaused == false
+    }
 
     init(leaderboardService: LeaderboardService, ratingService: RatingService, theme: (any GameTheme)? = nil, hapticController: HapticFeedbackController? = nil, fontPreferenceStore: FontPreferenceStore? = nil) {
         self.leaderboardService = leaderboardService
@@ -42,10 +72,17 @@ struct GameView: View {
             gameAreaContent(side: side)
                 .frame(width: side, height: side)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .modifier(GameAreaKeyboardModifier(scene: scene, onMoveLeft: { flashButton(.left) }, onMoveRight: { flashButton(.right) }))
+                .modifier(GameAreaKeyboardModifier(
+                    inputAdapter: inputAdapter,
+                    onMoveLeft: { flashButton(.left) },
+                    onMoveRight: { flashButton(.right) }
+                ))
                 .onAppear {
                     setFocusForGameArea()
                     setupSceneAndDelegateIfNeeded(side: side)
+                }
+                .onChange(of: geo.size) { _, newSize in
+                    updateSceneSizeIfNeeded(side: min(newSize.width, newSize.height))
                 }
         }
         .aspectRatio(1, contentMode: .fit)
@@ -65,9 +102,8 @@ struct GameView: View {
                         .contentShape(Rectangle())
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .onTapGesture {
-                            guard let scene = scene else { return }
                             flashButton(.left)
-                            scene.moveLeft()
+                            inputAdapter?.handleLeft()
                         }
                         .accessibilityLabel(GameLocalizedStrings.string("move_left"))
                         .accessibilityHint(GameLocalizedStrings.string("move_left_hint"))
@@ -76,9 +112,8 @@ struct GameView: View {
                         .contentShape(Rectangle())
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .onTapGesture {
-                            guard let scene = scene else { return }
                             flashButton(.right)
-                            scene.moveRight()
+                            inputAdapter?.handleRight()
                         }
                         .accessibilityLabel(GameLocalizedStrings.string("move_right"))
                         .accessibilityHint(GameLocalizedStrings.string("move_right_hint"))
@@ -88,14 +123,9 @@ struct GameView: View {
                 .gesture(
                     DragGesture(minimumDistance: 20)
                         .onEnded { value in
-                            guard let scene = scene else { return }
-                            if value.translation.width < 0 {
-                                flashButton(.left)
-                                scene.moveLeft()
-                            } else if value.translation.width > 0 {
-                                flashButton(.right)
-                                scene.moveRight()
-                            }
+                            guard value.translation.width != 0 else { return }
+                            if value.translation.width < 0 { flashButton(.left) } else { flashButton(.right) }
+                            inputAdapter?.handleDrag(translation: value.translation)
                         }
                 )
             }
@@ -104,13 +134,13 @@ struct GameView: View {
         .focusable()
         .focused($isGameAreaFocused)
         .onKeyPress(.leftArrow) {
-            guard let scene = scene else { return .ignored }
+            guard let scene = sceneBox.scene else { return .ignored }
             flashButton(.left)
             scene.moveLeft()
             return .handled
         }
         .onKeyPress(.rightArrow) {
-            guard let scene = scene else { return .ignored }
+            guard let scene = sceneBox.scene else { return .ignored }
             flashButton(.right)
             scene.moveRight()
             return .handled
@@ -120,10 +150,25 @@ struct GameView: View {
         #if os(iOS)
         .persistentSystemOverlays(.hidden)
         #endif
+        .toolbar {
+            ToolbarItem(placement: Self.pauseToolbarPlacement) {
+                Button {
+                    togglePause()
+                } label: {
+                    Label(
+                        GameLocalizedStrings.string(isUserPaused ? "resume" : "pause"),
+                        systemImage: isUserPaused ? "play.fill" : "pause.fill"
+                    )
+                }
+                .accessibilityLabel(GameLocalizedStrings.string(isUserPaused ? "resume" : "pause"))
+                .disabled(pauseButtonDisabled)
+                .opacity(pauseButtonDisabled ? 0.4 : 1)
+            }
+        }
         .alert(GameLocalizedStrings.string("gameOver"), isPresented: $showGameOver) {
             Button(GameLocalizedStrings.string("restart")) {
-                scene?.start()
-                if let scene = scene {
+                sceneBox.scene?.start()
+                if let scene = sceneBox.scene {
                     let (currentScore, currentLives) = Self.scoreAndLives(from: scene)
                     score = currentScore
                     lives = currentLives
@@ -136,9 +181,26 @@ struct GameView: View {
         } message: {
             Text(GameLocalizedStrings.format("score %lld", gameOverScore))
         }
+        .onDisappear {
+            sceneBox.scene?.stopAllSounds()
+        }
+        .onChange(of: sfxVolume) { _, newValue in
+            sceneBox.scene?.setSoundVolume(newValue)
+        }
     }
 
     private enum ButtonSide { case left, right }
+
+    private func togglePause() {
+        guard let scene = sceneBox.scene, pauseButtonDisabled == false else { return }
+        if isUserPaused {
+            scene.unpauseGameplay()
+            isUserPaused = false
+        } else {
+            scene.pauseGameplay()
+            isUserPaused = true
+        }
+    }
 
     private func flashButton(_ side: ButtonSide) {
         withAnimation(.easeOut(duration: 0.05)) {
@@ -162,4 +224,3 @@ struct GameView: View {
 private extension Notification.Name {
     static let gameSceneScoreDidUpdate = Notification.Name("GameSceneScoreDidUpdate")
 }
-

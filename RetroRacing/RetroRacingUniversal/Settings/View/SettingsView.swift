@@ -1,6 +1,14 @@
+//
+//  SettingsView.swift
+//  RetroRacingUniversal
+//
+//  Created by Dani Devesa on 03/02/2026.
+//
+
 import SwiftUI
 import RetroRacingShared
 
+/// Settings surface for themes, fonts, audio, and optional haptics.
 struct SettingsView: View {
     let themeManager: ThemeManager
     let fontPreferenceStore: FontPreferenceStore
@@ -8,6 +16,7 @@ struct SettingsView: View {
     let supportsHapticFeedback: Bool
     @Environment(\.dismiss) private var dismiss
     @AppStorage(HapticFeedbackPreference.storageKey) private var hapticFeedbackEnabled: Bool = true
+    @AppStorage(SoundPreferences.volumeKey) private var sfxVolume: Double = SoundPreferences.defaultVolume
 
     private var fontForLabels: Font {
         fontPreferenceStore.font(size: 14)
@@ -85,6 +94,20 @@ struct SettingsView: View {
                         .font(fontForLabels)
                 }
 
+                Section {
+                    Slider(value: $sfxVolume, in: 0...1, step: 0.05) {
+                        Text(GameLocalizedStrings.string("settings_sound_effects_volume"))
+                            .font(fontForLabels)
+                    } minimumValueLabel: {
+                        Text("0%").font(fontForLabels)
+                    } maximumValueLabel: {
+                        Text("100%").font(fontForLabels)
+                    }
+                } header: {
+                    Text(GameLocalizedStrings.string("settings_sound"))
+                        .font(fontForLabels)
+                }
+
                 if supportsHapticFeedback {
                     Section {
                         Toggle(isOn: $hapticFeedbackEnabled) {
@@ -128,8 +151,15 @@ private struct SettingsNavigationTitleStyle: ViewModifier {
 
 #Preview {
     SettingsView(
-        themeManager: ThemeManager(initialThemes: [LCDTheme(), GameBoyTheme()]),
-        fontPreferenceStore: FontPreferenceStore(),
+        themeManager: ThemeManager(
+            initialThemes: [LCDTheme(), GameBoyTheme()],
+            defaultThemeID: "lcd",
+            userDefaults: InfrastructureDefaults.userDefaults
+        ),
+        fontPreferenceStore: FontPreferenceStore(
+            userDefaults: InfrastructureDefaults.userDefaults,
+            customFontAvailable: true
+        ),
         supportsHapticFeedback: true
     )
 }

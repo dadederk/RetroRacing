@@ -16,7 +16,7 @@ private final class MockRatingServiceProvider: RatingServiceProvider {
 final class StoreReviewServiceTests: XCTestCase {
 
     func testRequestRatingCallsProviderAndRecordsPrompt() {
-        let defaults = UserDefaults.standard
+        let defaults = UserDefaults(suiteName: "StoreReviewServiceTests.prompt")!
         let key = "StoreReview.lastPromptDate"
         defaults.removeObject(forKey: key)
         defer { defaults.removeObject(forKey: key) }
@@ -32,7 +32,7 @@ final class StoreReviewServiceTests: XCTestCase {
 
     func testCheckAndRequestRatingDoesNotCallWhenScoreBelowThreshold() {
         let provider = MockRatingServiceProvider()
-        let service = StoreReviewService(userDefaults: .standard, ratingProvider: provider)
+        let service = StoreReviewService(userDefaults: UserDefaults(suiteName: "StoreReviewServiceTests.threshold")!, ratingProvider: provider)
 
         service.checkAndRequestRating(score: 100)
 
@@ -40,7 +40,7 @@ final class StoreReviewServiceTests: XCTestCase {
     }
 
     func testRecordGamePlayedIncrementsCount() {
-        let defaults = UserDefaults.standard
+        let defaults = UserDefaults(suiteName: "StoreReviewServiceTests.gamesPlayed")!
         let key = "StoreReview.gamesPlayed"
         defaults.removeObject(forKey: key)
         defer { defaults.removeObject(forKey: key) }

@@ -11,13 +11,21 @@ struct tvOSGameView: View {
     let hapticController: HapticFeedbackController?
     let fontPreferenceStore: FontPreferenceStore?
 
+    @AppStorage(SoundPreferences.volumeKey) private var sfxVolume: Double = SoundPreferences.defaultVolume
     @State private var scene: GameScene
     @State private var score: Int = 0
     @State private var lives: Int = 3
+    @State private var scenePaused: Bool = false
+    @State private var isUserPaused: Bool = false
     @State private var showGameOver = false
     @State private var gameOverScore: Int = 0
     @State private var delegate: GameSceneDelegateImpl?
+    @State private var inputAdapter: GameInputAdapter?
     @Environment(\.dismiss) private var dismiss
+
+    private var pauseButtonDisabled: Bool {
+        scenePaused && isUserPaused == false
+    }
 
     init(leaderboardService: LeaderboardService, ratingService: RatingService, theme: (any GameTheme)? = nil, hapticController: HapticFeedbackController? = nil, fontPreferenceStore: FontPreferenceStore? = nil) {
         self.leaderboardService = leaderboardService
@@ -26,7 +34,15 @@ struct tvOSGameView: View {
         self.hapticController = hapticController
         self.fontPreferenceStore = fontPreferenceStore
         let size = CGSize(width: 1920, height: 1080)
-        _scene = State(initialValue: GameScene.scene(size: size, theme: theme, imageLoader: UIKitImageLoader()))
+        let soundPlayer = PlatformFactories.makeSoundPlayer()
+        soundPlayer.setVolume(SoundPreferences.defaultVolume)
+        _scene = State(initialValue: GameScene.scene(
+            size: size,
+            theme: theme,
+            imageLoader: PlatformFactories.makeImageLoader(),
+            soundPlayer: soundPlayer,
+            hapticController: hapticController
+        ))
     }
 
     private func headerFont(size: CGFloat = 28) -> Font {
@@ -40,17 +56,32 @@ struct tvOSGameView: View {
             HStack(spacing: 0) {
                 Color.clear
                     .contentShape(Rectangle())
-                    .onTapGesture { scene.moveLeft() }
+                    .onTapGesture { inputAdapter?.handleLeft() }
                     .frame(maxWidth: .infinity)
                 Color.clear
                     .contentShape(Rectangle())
-                    .onTapGesture { scene.moveRight() }
+                    .onTapGesture { inputAdapter?.handleRight() }
                     .frame(maxWidth: .infinity)
             }
 
             HStack {
                 Text(GameLocalizedStrings.format("score %lld", score))
                     .font(headerFont(size: 28))
+                Spacer()
+                Button {
+                    togglePause()
+                } label: {
+                    Label(
+                        GameLocalizedStrings.string(isUserPaused ? "resume" : "pause"),
+                        systemImage: isUserPaused ? "play.fill" : "pause.fill"
+                    )
+                    .font(headerFont(size: 22))
+                }
+                .buttonStyle(.borderedProminent)
+                .labelStyle(.titleAndIcon)
+                .accessibilityLabel(GameLocalizedStrings.string(isUserPaused ? "resume" : "pause"))
+                .disabled(pauseButtonDisabled)
+                .opacity(pauseButtonDisabled ? 0.4 : 1)
                 Spacer()
                 HStack(spacing: 8) {
                     Image(theme?.lifeSprite() ?? "life", bundle: Self.sharedBundle)
@@ -76,7 +107,15 @@ struct tvOSGameView: View {
         } message: {
             Text(GameLocalizedStrings.format("score %lld", gameOverScore))
         }
+        .onDisappear {
+            scene.stopAllSounds()
+        }
+        .onChange(of: sfxVolume) { _, newValue in
+            scene.setSoundVolume(newValue)
+        }
+        .onPlayPauseCommand(perform: togglePause)
         .onAppear {
+            scene.setSoundVolume(sfxVolume)
             if delegate == nil {
                 let d = GameSceneDelegateImpl(
                     onScoreUpdate: { score = $0 },
@@ -92,13 +131,30 @@ struct tvOSGameView: View {
                             scene.resume()
                         }
                     },
+                    onPauseStateChange: { newPaused in
+                        scenePaused = newPaused
+                        if !isUserPaused { isUserPaused = false }
+                    },
                     hapticController: hapticController
                 )
                 delegate = d
                 scene.gameDelegate = d
             }
+            inputAdapter = RemoteGameInputAdapter(controller: scene, hapticController: hapticController)
             score = scene.gameState.score
             lives = scene.gameState.lives
+            scenePaused = scene.gameState.isPaused
+        }
+    }
+
+    private func togglePause() {
+        guard pauseButtonDisabled == false else { return }
+        if isUserPaused {
+            scene.unpauseGameplay()
+            isUserPaused = false
+        } else {
+            scene.pauseGameplay()
+            isUserPaused = true
         }
     }
 }
@@ -107,10 +163,17 @@ private final class GameSceneDelegateImpl: GameSceneDelegate {
     let onScoreUpdate: (Int) -> Void
     let onCollision: () -> Void
     let hapticController: HapticFeedbackController?
+    let onPauseStateChange: (Bool) -> Void
 
-    init(onScoreUpdate: @escaping (Int) -> Void, onCollision: @escaping () -> Void, hapticController: HapticFeedbackController? = nil) {
+    init(
+        onScoreUpdate: @escaping (Int) -> Void,
+        onCollision: @escaping () -> Void,
+        onPauseStateChange: @escaping (Bool) -> Void = { _ in },
+        hapticController: HapticFeedbackController? = nil
+    ) {
         self.onScoreUpdate = onScoreUpdate
         self.onCollision = onCollision
+        self.onPauseStateChange = onPauseStateChange
         self.hapticController = hapticController
     }
 
@@ -119,11 +182,14 @@ private final class GameSceneDelegateImpl: GameSceneDelegate {
     }
 
     func gameSceneDidDetectCollision(_ gameScene: GameScene) {
-        hapticController?.triggerCrashHaptic()
         onCollision()
     }
 
     func gameSceneDidUpdateGrid(_ gameScene: GameScene) {
         hapticController?.triggerGridUpdateHaptic()
+    }
+
+    func gameScene(_ gameScene: GameScene, didUpdatePauseState isPaused: Bool) {
+        onPauseStateChange(isPaused)
     }
 }

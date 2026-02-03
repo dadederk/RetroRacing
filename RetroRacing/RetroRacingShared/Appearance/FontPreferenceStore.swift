@@ -1,7 +1,15 @@
+//
+//  FontPreferenceStore.swift
+//  RetroRacingShared
+//
+//  Created by Dani Devesa on 03/02/2026.
+//
+
 import Foundation
 import SwiftUI
+import Observation
 
-/// Observable store for the selected app font style. Reads and writes UserDefaults.
+/// Observable store managing the persisted app font style selection.
 @Observable
 @MainActor
 public final class FontPreferenceStore {
@@ -16,7 +24,7 @@ public final class FontPreferenceStore {
 
     private let userDefaults: UserDefaults
 
-    public init(userDefaults: UserDefaults = .standard, customFontAvailable: Bool = true) {
+    public init(userDefaults: UserDefaults, customFontAvailable: Bool) {
         self.userDefaults = userDefaults
         self.isCustomFontAvailable = customFontAvailable
         let raw = userDefaults.string(forKey: AppFontStyle.storageKey) ?? AppFontStyle.custom.rawValue

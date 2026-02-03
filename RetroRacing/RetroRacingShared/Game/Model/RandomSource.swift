@@ -1,6 +1,13 @@
+//
+//  RandomSource.swift
+//  RetroRacingShared
+//
+//  Created by Dani Devesa on 03/02/2026.
+//
+
 import Foundation
 
-/// Cross-platform random source for game logic. Use `SystemRandomSource()` on all platforms.
+/// Cross-platform random source abstraction for deterministic game logic.
 public protocol RandomSource: AnyObject {
     func nextInt(upperBound: Int) -> Int
 }

@@ -1,3 +1,10 @@
+//
+//  RetroRacingApp.swift
+//  RetroRacingUniversal
+//
+//  Created by Dani Devesa on 03/02/2026.
+//
+
 import SwiftUI
 import RetroRacingShared
 import CoreText
@@ -7,6 +14,7 @@ import GameKit
 import CoreHaptics
 #endif
 
+/// App entry point assembling shared services and presenting the universal menu scene.
 @main
 struct RetroRacingApp: App {
     private let leaderboardConfiguration = LeaderboardConfigurationUniversal()
@@ -24,30 +32,48 @@ struct RetroRacingApp: App {
 
     init() {
         Self.configureAudioSession()
+        Self.configureGameCenterAccessPoint()
         let customFontAvailable = Self.registerCustomFont()
-        gameCenterService = GameCenterService(
-            configuration: leaderboardConfiguration,
-            authenticationPresenter: authenticationPresenter,
+        let userDefaults = InfrastructureDefaults.userDefaults
+        let leaderboardPlatformConfig = LeaderboardPlatformConfig(
+            leaderboardID: leaderboardConfiguration.leaderboardID,
             authenticateHandlerSetter: { presenter in
-                GKLocalPlayer.local.authenticateHandler = { viewController, _ in
-                    guard let viewController = viewController else { return }
-                    presenter.presentAuthenticationUI(viewController)
+                GKLocalPlayer.local.authenticateHandler = { viewController, error in
+                    if let viewController = viewController {
+                        presenter.presentAuthenticationUI(viewController)
+                        return
+                    }
+                    // When Game Center finishes (success or failure) without UI, notify listeners so they can refresh state.
+                    NotificationCenter.default.post(name: .GKPlayerAuthenticationDidChangeNotificationName, object: error)
                 }
             }
         )
-        #if canImport(UIKit)
-        ratingService = StoreReviewService(ratingProvider: RatingServiceProviderUniversal())
-        #else
-        ratingService = StoreReviewService(ratingProvider: RatingServiceProviderMac())
-        #endif
-        themeManager = ThemeManager(
-            initialThemes: [LCDTheme(), GameBoyTheme()],
-            defaultThemeID: "lcd",
-            userDefaults: .standard
+        gameCenterService = GameCenterService(
+            configuration: leaderboardConfiguration,
+            authenticationPresenter: authenticationPresenter,
+            authenticateHandlerSetter: leaderboardPlatformConfig.authenticateHandlerSetter
         )
-        fontPreferenceStore = FontPreferenceStore(customFontAvailable: customFontAvailable)
-        hapticController = UIKitHapticFeedbackController()
-        supportsHapticFeedback = Self.deviceSupportsHapticFeedback()
+        #if canImport(UIKit)
+        ratingService = StoreReviewService(userDefaults: userDefaults, ratingProvider: RatingServiceProviderUniversal())
+        #else
+        ratingService = StoreReviewService(userDefaults: userDefaults, ratingProvider: RatingServiceProviderMac())
+        #endif
+        let themeConfig = ThemePlatformConfig(
+            defaultThemeID: "lcd",
+            availableThemes: [LCDTheme(), GameBoyTheme()]
+        )
+        themeManager = ThemeManager(
+            initialThemes: themeConfig.availableThemes,
+            defaultThemeID: themeConfig.defaultThemeID,
+            userDefaults: userDefaults
+        )
+        fontPreferenceStore = FontPreferenceStore(userDefaults: userDefaults, customFontAvailable: customFontAvailable)
+        let hapticsConfig = HapticsPlatformConfig(
+            supportsHaptics: Self.deviceSupportsHapticFeedback(),
+            controllerProvider: { Self.makeHapticsController(userDefaults: userDefaults) }
+        )
+        hapticController = hapticsConfig.controllerProvider()
+        supportsHapticFeedback = hapticsConfig.supportsHaptics
     }
 
     /// Returns true when the device has haptic hardware. Used to show/hide haptic setting (configuration injection).
@@ -56,6 +82,20 @@ struct RetroRacingApp: App {
         return CHHapticEngine.capabilitiesForHardware().supportsHaptics
         #else
         return false
+        #endif
+    }
+
+    /// Configures access point location but keeps it hidden; we present GC explicitly from the Leaderboard button.
+    private static func configureGameCenterAccessPoint() {
+        GKAccessPoint.shared.location = .topTrailing
+        GKAccessPoint.shared.isActive = false
+    }
+
+    private static func makeHapticsController(userDefaults: UserDefaults) -> HapticFeedbackController {
+        #if canImport(UIKit) && !os(tvOS)
+        return UIKitHapticFeedbackController(userDefaults: userDefaults)
+        #else
+        return NoOpHapticFeedbackController()
         #endif
     }
 

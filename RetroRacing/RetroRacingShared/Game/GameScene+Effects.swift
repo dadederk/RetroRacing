@@ -2,6 +2,8 @@
 //  GameScene+Effects.swift
 //  RetroRacingShared
 //
+//  Created by Dani Devesa on 03/02/2026.
+//
 
 import SpriteKit
 #if canImport(UIKit)
@@ -10,6 +12,7 @@ import UIKit
 import AppKit
 #endif
 
+/// Visual and accessibility effects applied to sprites within GameScene.
 extension GameScene {
 
     func spriteNode(imageNamed name: String) -> SKSpriteNode {

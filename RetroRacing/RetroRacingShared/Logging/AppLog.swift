@@ -1,8 +1,14 @@
+//
+//  AppLog.swift
+//  RetroRacingShared
+//
+//  Created by Dani Devesa on 03/02/2026.
+//
+
 import Foundation
 import os
 
-/// Feature emojis for log filtering. Concatenate when a log touches multiple features.
-/// 🖼️ assets (sprites, textures) · 🔊 sound · 🔤 font · 🌐 localization · 🎨 theme · 🎮 game
+/// Emoji-tagged logging helper for filtering RetroRacing subsystems.
 public enum AppLog {
     public static let assets = "🖼️"
     public static let sound = "🔊"

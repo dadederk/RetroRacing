@@ -1,11 +1,14 @@
 //
 //  GameView+Layout.swift
-//  RetroRacing
+//  RetroRacingUniversal
+//
+//  Created by Dani Devesa on 03/02/2026.
 //
 
 import SwiftUI
 import RetroRacingShared
 
+/// Layout helpers for adapting GameView across orientations and platforms.
 extension GameView {
 
     /// Uses size classes when available (iPad split screen, multi-window); falls back to size comparison (e.g. macOS).

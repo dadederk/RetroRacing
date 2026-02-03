@@ -12,16 +12,20 @@ struct RetroRacingTvOSApp: App {
     private let hapticController: HapticFeedbackController
 
     init() {
-        themeManager = ThemeManager(
-            initialThemes: [LCDTheme(), GameBoyTheme()],
+        let userDefaults = InfrastructureDefaults.userDefaults
+        let themeConfig = ThemePlatformConfig(
             defaultThemeID: "lcd",
-            userDefaults: .standard
+            availableThemes: [LCDTheme(), GameBoyTheme()]
         )
-        fontPreferenceStore = FontPreferenceStore(customFontAvailable: false)
-        hapticController = NoOpHapticFeedbackController()
-        gameCenterService = GameCenterService(
-            configuration: leaderboardConfiguration,
-            authenticationPresenter: nil,
+        themeManager = ThemeManager(
+            initialThemes: themeConfig.availableThemes,
+            defaultThemeID: themeConfig.defaultThemeID,
+            userDefaults: userDefaults
+        )
+        fontPreferenceStore = FontPreferenceStore(userDefaults: userDefaults, customFontAvailable: false)
+        hapticController = RetroRacingTvOSApp.makeHapticsController()
+        let leaderboardConfig = LeaderboardPlatformConfig(
+            leaderboardID: leaderboardConfiguration.leaderboardID,
             authenticateHandlerSetter: { presenter in
                 GKLocalPlayer.local.authenticateHandler = { viewController, _ in
                     guard let viewController = viewController else { return }
@@ -29,7 +33,16 @@ struct RetroRacingTvOSApp: App {
                 }
             }
         )
-        ratingService = StoreReviewService(ratingProvider: RatingServiceProviderTvOS())
+        gameCenterService = GameCenterService(
+            configuration: leaderboardConfiguration,
+            authenticationPresenter: nil,
+            authenticateHandlerSetter: leaderboardConfig.authenticateHandlerSetter
+        )
+        ratingService = StoreReviewService(userDefaults: userDefaults, ratingProvider: RatingServiceProviderTvOS())
+    }
+
+    private static func makeHapticsController() -> HapticFeedbackController {
+        NoOpHapticFeedbackController()
     }
 
     var body: some Scene {

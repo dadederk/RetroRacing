@@ -12,6 +12,7 @@ Retro-style racing game for **watchOS**, **iOS**, **iPadOS**, **tvOS**, **macOS*
 - **RetroRacingSharedTests** — Unit tests for shared logic (sibling of `RetroRacingShared/` in the repo).
 
 Test and UI test targets are **siblings** of each app folder (e.g. `RetroRacingUniversalTests/`, `RetroRacingUniversalUITests/` next to `RetroRacingUniversal/`). See `Requirements/folder_structure.md` for the full layout.
+Legacy folders (`RetroRacing/RetroRacing*` old pilot layouts) have been removed; the pbxproj points only to the canonical structure above.
 
 ## Requirements
 

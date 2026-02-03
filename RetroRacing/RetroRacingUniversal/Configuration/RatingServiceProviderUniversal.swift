@@ -1,3 +1,10 @@
+//
+//  RatingServiceProviderUniversal.swift
+//  RetroRacingUniversal
+//
+//  Created by Dani Devesa on 03/02/2026.
+//
+
 import Foundation
 import RetroRacingShared
 import StoreKit

@@ -1,5 +1,13 @@
+//
+//  GridState.swift
+//  RetroRacingShared
+//
+//  Created by Dani Devesa on 03/02/2026.
+//
+
 import Foundation
 
+/// In-memory representation of the visible race grid and occupant states.
 public struct GridState {
     enum CellState: Equatable {
         case Empty

@@ -1,7 +1,14 @@
+//
+//  AppFontStyle.swift
+//  RetroRacingShared
+//
+//  Created by Dani Devesa on 03/02/2026.
+//
+
 import Foundation
 import SwiftUI
 
-/// User-selectable font style for app UI. Stored in UserDefaults under `AppFontStyle.storageKey`.
+/// User-selectable font style persisted in UserDefaults for consistent typography.
 public enum AppFontStyle: String, CaseIterable, Sendable {
     case custom = "custom"
     case system = "system"

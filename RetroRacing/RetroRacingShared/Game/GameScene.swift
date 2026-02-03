@@ -1,6 +1,12 @@
+//
+//  GameScene.swift
+//  RetroRacingShared
+//
+//  Created by Dani Devesa on 03/02/2026.
+//
+
 import SpriteKit
 import SwiftUI
-import AVFoundation
 #if canImport(UIKit)
 import UIKit
 #elseif canImport(AppKit)
@@ -13,65 +19,25 @@ public protocol RacingGameController {
     func moveRight()
 }
 
+/// SpriteKit scene that owns shared gameplay flow, grid updates, and sound feedback for RetroRacing.
 public class GameScene: SKScene {
     /// Bundle containing all game assets (sprites, sounds). Assets live only in RetroRacingShared; load from here.
     static let sharedBundle = Bundle(for: GameScene.self)
 
     // Assets (SKColor is UIColor on iOS/tvOS, NSColor on macOS). Internal so GameScene+Grid/Effects can access.
     let gameBackgroundColor = SKColor(red: 202.0 / 255.0, green: 220.0 / 255.0, blue: 159.0 / 255.0, alpha: 1.0)
-    private lazy var startSound: SKAction = makeSoundAction(filename: "start", waitForCompletion: true)
-    lazy var stateUpdatedSound: SKAction = makeSoundAction(filename: "bip", waitForCompletion: false)
-    lazy var failSound: SKAction = makeSoundAction(filename: "fail", waitForCompletion: false)
 
-    /// Retain playing AVAudioPlayers so they are not deallocated before playback finishes.
-    private var activeSoundPlayers: [AVAudioPlayer] = []
-
-    private func makeSoundAction(filename: String, waitForCompletion: Bool) -> SKAction {
-        guard let url = Self.soundURL(filename: filename) else {
-            AppLog.error(AppLog.sound, "sound '\(filename).m4a' NOT FOUND in bundle \(Self.sharedBundle.bundleURL.lastPathComponent)")
-            return SKAction.wait(forDuration: 0)
-        }
-        AppLog.log(AppLog.sound, "sound '\(filename).m4a' resolved → \(url.path)")
-        do {
-            let player = try AVAudioPlayer(contentsOf: url)
-            player.prepareToPlay()
-            player.delegate = self
-            let duration = player.duration
-            activeSoundPlayers.append(player)
-            return SKAction.sequence([
-                SKAction.run { player.play() },
-                SKAction.wait(forDuration: waitForCompletion ? duration : 0)
-            ])
-        } catch {
-            AppLog.error(AppLog.sound, "AVAudioPlayer failed for '\(filename).m4a': \(error.localizedDescription)")
-            return SKAction.wait(forDuration: 0)
-        }
-    }
-
-    /// Resolves URL to a sound file in the shared framework bundle. playSoundFileNamed only looks in main bundle, so we use AVAudioPlayer with this URL.
-    private static func soundURL(filename: String) -> URL? {
-        let name = "\(filename).m4a"
-        let dirs = ["Audio", "Resources/Audio", ""]
-        for dir in dirs where !dir.isEmpty {
-            if let u = sharedBundle.url(forResource: filename, withExtension: "m4a", subdirectory: dir.isEmpty ? nil : dir) { return u }
-        }
-        if let u = sharedBundle.url(forResource: filename, withExtension: "m4a") { return u }
-        guard let base = sharedBundle.resourceURL,
-              let enumerator = FileManager.default.enumerator(at: base, includingPropertiesForKeys: nil) else {
-            return nil
-        }
-        while let url = enumerator.nextObject() as? URL {
-            if url.lastPathComponent == name { return url }
-        }
-        return nil
-    }
+    /// Injected sound player for all SFX.
+    public var soundPlayer: SoundEffectPlayer?
+    /// Optional haptic controller to fire crash haptics immediately on collision.
+    public var hapticController: HapticFeedbackController?
 
     private var initialDtForGameUpdate = 0.6
     private var lastGameUpdateTime: TimeInterval = 0
 
     var spritesForGivenState = [SKSpriteNode]()
 
-    let gridCalculator = GridStateCalculator()
+    let gridCalculator = GridStateCalculator(randomSource: InfrastructureDefaults.randomSource)
     var gridState = GridState(numberOfRows: 5, numberOfColumns: 3)
     public private(set) var gameState = GameState()
 
@@ -83,6 +49,12 @@ public class GameScene: SKScene {
     public var imageLoader: (any ImageLoader)?
 
     public weak var gameDelegate: GameSceneDelegate?
+    
+    private func updatePauseState(_ isPaused: Bool) {
+        guard gameState.isPaused != isPaused else { return }
+        gameState.isPaused = isPaused
+        gameDelegate?.gameScene(self, didUpdatePauseState: isPaused)
+    }
 
     public override init(size: CGSize) {
         super.init(size: size)
@@ -98,10 +70,18 @@ public class GameScene: SKScene {
     ///   - size: Scene size.
     ///   - theme: Optional theme; when provided, sprite asset names (playerCarSprite, rivalCarSprite, crashSprite) are used.
     ///   - imageLoader: Loader for sprite textures (platform-specific: UIKit vs AppKit).
-    public static func scene(size: CGSize, theme: (any GameTheme)? = nil, imageLoader: some ImageLoader) -> GameScene {
+    public static func scene(
+        size: CGSize,
+        theme: (any GameTheme)? = nil,
+        imageLoader: some ImageLoader,
+        soundPlayer: SoundEffectPlayer = PlatformFactories.makeSoundPlayer(),
+        hapticController: HapticFeedbackController? = nil
+    ) -> GameScene {
         let scene = GameScene(size: size)
         scene.imageLoader = imageLoader
         scene.theme = theme
+        scene.soundPlayer = soundPlayer
+        scene.hapticController = hapticController
         scene.anchorPoint = CGPoint(x: 0, y: 0)
         scene.scaleMode = .aspectFit
         return scene
@@ -109,19 +89,35 @@ public class GameScene: SKScene {
 
     /// Creates a new game scene. Use programmatic size; .sks loading uses main bundle and is not used from framework.
     /// Caller must set imageLoader before presenting the scene if using this initializer.
-    public class func newGameScene(imageLoader: some ImageLoader) -> GameScene {
+    public class func newGameScene(
+        imageLoader: some ImageLoader,
+        soundPlayer: SoundEffectPlayer = PlatformFactories.makeSoundPlayer(),
+        hapticController: HapticFeedbackController? = nil
+    ) -> GameScene {
         let defaultSize = CGSize(width: 800, height: 600)
-        return scene(size: defaultSize, theme: nil, imageLoader: imageLoader)
+        return scene(size: defaultSize, theme: nil, imageLoader: imageLoader, soundPlayer: soundPlayer, hapticController: hapticController)
     }
 
     public func start() {
         initialiseGame()
     }
 
+    /// Pauses gameplay without resetting grid or score. Used by user-facing pause control.
+    public func pauseGameplay() {
+        updatePauseState(true)
+    }
+
+    /// Resumes gameplay after a user pause without resetting the grid.
+    public func unpauseGameplay() {
+        updatePauseState(false)
+    }
+
     public func resume() {
-        gameState.isPaused = false
         gridState = GridState(numberOfRows: 5, numberOfColumns: 3)
-        run(startSound)
+        updatePauseState(true)
+        play(.start) { [weak self] in
+            self?.updatePauseState(false)
+        }
     }
 
     func setUpScene() {
@@ -148,7 +144,7 @@ public class GameScene: SKScene {
         guard gameState.isPaused == false else { return }
 
         let dtGameUpdate = currentTime - lastGameUpdateTime
-        let dtForGameUpdate = initialDtForGameUpdate - (log(Double(gameState.level)) / 4)
+        let dtForGameUpdate = gridCalculator.intervalForLevel(gameState.level)
 
         if dtGameUpdate > dtForGameUpdate {
             lastGameUpdateTime = currentTime
@@ -167,27 +163,45 @@ public class GameScene: SKScene {
             }
 
             gridStateDidUpdate(gridState)
-            gameDelegate?.gameSceneDidUpdateGrid(self)
         }
     }
 
     private func initialiseGame() {
-        gameState.isPaused = false
         gridState = GridState(numberOfRows: 5, numberOfColumns: 3)
         gameState = GameState()
-        gridStateDidUpdate(gridState)
-        run(startSound)
+        gridStateDidUpdate(gridState, shouldPlayFeedback: false, notifyDelegate: false)
+        updatePauseState(true)
+        play(.start) { [weak self] in
+            self?.updatePauseState(false)
+        }
     }
 
     func handleCrash() {
-        gameState.isPaused = true
+        updatePauseState(true)
         gameState.lives -= 1
-        run(failSound)
+        hapticController?.triggerCrashHaptic()
+        play(.fail, completion: nil)
 
         run(SKAction.wait(forDuration: 2.0)) { [weak self] in
             guard let self = self else { return }
             self.gameDelegate?.gameSceneDidDetectCollision(self)
         }
+    }
+
+    func play(_ effect: SoundEffect, completion: (() -> Void)? = nil) {
+        guard let soundPlayer else {
+            completion?()
+            return
+        }
+        soundPlayer.play(effect, completion: completion)
+    }
+
+    public func setSoundVolume(_ volume: Double) {
+        soundPlayer?.setVolume(volume)
+    }
+
+    public func stopAllSounds(fadeDuration: TimeInterval = 0.15) {
+        soundPlayer?.stopAll(fadeDuration: fadeDuration)
     }
 }
 
@@ -197,7 +211,7 @@ extension GameScene: RacingGameController {
 
         (gridState, _) = gridCalculator.nextGrid(previousGrid: gridState, actions: [.moveCar(direction: .left)])
 
-        gridStateDidUpdate(gridState)
+        gridStateDidUpdate(gridState, shouldPlayFeedback: true, notifyDelegate: false)
     }
 
     public func moveRight() {
@@ -205,12 +219,82 @@ extension GameScene: RacingGameController {
 
         (gridState, _) = gridCalculator.nextGrid(previousGrid: gridState, actions: [.moveCar(direction: .right)])
 
-        gridStateDidUpdate(gridState)
+        gridStateDidUpdate(gridState, shouldPlayFeedback: true, notifyDelegate: false)
     }
 }
 
-extension GameScene: AVAudioPlayerDelegate {
-    public func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
-        activeSoundPlayers.removeAll { $0 === player }
+// MARK: - Input adapters
+
+public protocol GameInputAdapter {
+    func handleLeft()
+    func handleRight()
+    func handleDrag(translation: CGSize)
+}
+
+public struct TouchGameInputAdapter: GameInputAdapter {
+    private let controller: RacingGameController
+    private let hapticController: HapticFeedbackController?
+
+    public init(controller: RacingGameController, hapticController: HapticFeedbackController?) {
+        self.controller = controller
+        self.hapticController = hapticController
     }
+
+    public func handleLeft() {
+        hapticController?.triggerMoveHaptic()
+        controller.moveLeft()
+    }
+
+    public func handleRight() {
+        hapticController?.triggerMoveHaptic()
+        controller.moveRight()
+    }
+
+    public func handleDrag(translation: CGSize) {
+        guard translation.width != 0 else { return }
+        translation.width < 0 ? handleLeft() : handleRight()
+    }
+}
+
+public struct RemoteGameInputAdapter: GameInputAdapter {
+    private let controller: RacingGameController
+    private let hapticController: HapticFeedbackController?
+
+    public init(controller: RacingGameController, hapticController: HapticFeedbackController?) {
+        self.controller = controller
+        self.hapticController = hapticController
+    }
+
+    public func handleLeft() {
+        hapticController?.triggerMoveHaptic()
+        controller.moveLeft()
+    }
+
+    public func handleRight() {
+        hapticController?.triggerMoveHaptic()
+        controller.moveRight()
+    }
+
+    public func handleDrag(translation: CGSize) {
+        guard translation.width != 0 else { return }
+        translation.width < 0 ? handleLeft() : handleRight()
+    }
+}
+
+public struct CrownGameInputAdapter: GameInputAdapter {
+    private let controller: RacingGameController
+
+    public init(controller: RacingGameController) {
+        self.controller = controller
+    }
+
+    public func handleLeft() {
+        controller.moveLeft()
+    }
+
+    public func handleRight() {
+        controller.moveRight()
+    }
+
+    public func handleDrag(translation: CGSize) { }
 }

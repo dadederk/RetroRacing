@@ -1,6 +1,13 @@
+//
+//  GameLocalizedStrings.swift
+//  RetroRacingShared
+//
+//  Created by Dani Devesa on 03/02/2026.
+//
+
 import Foundation
 
-/// Shared localizations from RetroRacingShared framework bundle. Use for all game/menu/settings strings so platforms don't duplicate catalogs.
+/// Shared localization helper sourcing strings from the RetroRacingShared bundle.
 public enum GameLocalizedStrings {
     private static var bundle: Bundle { Bundle(for: GameScene.self) }
 

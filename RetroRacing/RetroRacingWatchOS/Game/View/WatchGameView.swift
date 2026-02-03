@@ -5,20 +5,36 @@ import RetroRacingShared
 struct WatchGameView: View {
     let theme: any GameTheme
     let fontPreferenceStore: FontPreferenceStore?
+    @AppStorage(SoundPreferences.volumeKey) private var sfxVolume: Double = SoundPreferences.defaultVolume
     @State private var scene: GameScene
     @State private var rotationValue: Double = 0
     @State private var score: Int = 0
     @State private var lives: Int = 3
+    @State private var scenePaused: Bool = false
+    @State private var isUserPaused: Bool = false
     @State private var showGameOver = false
     @State private var gameOverScore: Int = 0
     @State private var delegate: GameSceneDelegateImpl?
+    @State private var inputAdapter: GameInputAdapter?
     @Environment(\.dismiss) private var dismiss
+
+    private var pauseButtonDisabled: Bool {
+        scenePaused && isUserPaused == false
+    }
 
     init(theme: any GameTheme, fontPreferenceStore: FontPreferenceStore? = nil) {
         self.theme = theme
         self.fontPreferenceStore = fontPreferenceStore
         let size = CGSize(width: 400, height: 300)
-        _scene = State(initialValue: GameScene.scene(size: size, theme: theme, imageLoader: UIKitImageLoader()))
+        let soundPlayer = PlatformFactories.makeSoundPlayer()
+        soundPlayer.setVolume(SoundPreferences.defaultVolume)
+        _scene = State(initialValue: GameScene.scene(
+            size: size,
+            theme: theme,
+            imageLoader: PlatformFactories.makeImageLoader(),
+            soundPlayer: soundPlayer,
+            hapticController: nil
+        ))
     }
 
     private func headerFont(size: CGFloat = 10) -> Font {
@@ -34,6 +50,15 @@ struct WatchGameView: View {
             HStack {
                 Text(GameLocalizedStrings.format("score %lld", score))
                     .font(headerFont(size: 10))
+                Spacer()
+                Button {
+                    togglePause()
+                } label: {
+                    Image(systemName: isUserPaused ? "play.fill" : "pause.fill")
+                }
+                .accessibilityLabel(GameLocalizedStrings.string(isUserPaused ? "resume" : "pause"))
+                .disabled(pauseButtonDisabled)
+                .opacity(pauseButtonDisabled ? 0.4 : 1)
                 Spacer()
                 HStack(spacing: 2) {
                     Image(theme.lifeSprite() ?? "life", bundle: Self.sharedBundle)
@@ -51,9 +76,9 @@ struct WatchGameView: View {
                         .contentShape(Rectangle())
                         .onTapGesture(coordinateSpace: .local) { location in
                             if location.x < geo.size.width / 2 {
-                                scene.moveLeft()
+                                inputAdapter?.handleLeft()
                             } else {
-                                scene.moveRight()
+                                inputAdapter?.handleRight()
                             }
                         }
                 }
@@ -62,17 +87,20 @@ struct WatchGameView: View {
                 .onChange(of: rotationValue, initial: false) { oldValue, newValue in
                     let delta = newValue - oldValue
                     if delta >= Self.crownMoveThreshold {
-                        scene.moveRight()
+                        inputAdapter?.handleRight()
                     } else if delta <= -Self.crownMoveThreshold {
-                        scene.moveLeft()
+                        inputAdapter?.handleLeft()
                     }
                 }
             }
         }
         .onAppear {
+            scene.setSoundVolume(sfxVolume)
             scene.start()
             score = scene.gameState.score
             lives = scene.gameState.lives
+            scenePaused = scene.gameState.isPaused
+            inputAdapter = CrownGameInputAdapter(controller: scene)
             if delegate == nil {
                 let d = GameSceneDelegateImpl(
                     onScoreUpdate: { score = $0 },
@@ -84,7 +112,8 @@ struct WatchGameView: View {
                         } else {
                             scene.resume()
                         }
-                    }
+                    },
+                    onPauseStateChange: { scenePaused = $0 }
                 )
                 delegate = d
                 scene.gameDelegate = d
@@ -103,16 +132,35 @@ struct WatchGameView: View {
         } message: {
             Text(GameLocalizedStrings.format("score %lld", gameOverScore))
         }
+        .onDisappear {
+            scene.stopAllSounds()
+        }
+        .onChange(of: sfxVolume) { _, newValue in
+            scene.setSoundVolume(newValue)
+        }
+    }
+
+    private func togglePause() {
+        guard pauseButtonDisabled == false else { return }
+        if isUserPaused {
+            scene.unpauseGameplay()
+            isUserPaused = false
+        } else {
+            scene.pauseGameplay()
+            isUserPaused = true
+        }
     }
 }
 
 private final class GameSceneDelegateImpl: GameSceneDelegate {
     let onScoreUpdate: (Int) -> Void
     let onCollision: () -> Void
+    let onPauseStateChange: (Bool) -> Void
 
-    init(onScoreUpdate: @escaping (Int) -> Void, onCollision: @escaping () -> Void) {
+    init(onScoreUpdate: @escaping (Int) -> Void, onCollision: @escaping () -> Void, onPauseStateChange: @escaping (Bool) -> Void = { _ in }) {
         self.onScoreUpdate = onScoreUpdate
         self.onCollision = onCollision
+        self.onPauseStateChange = onPauseStateChange
     }
 
     func gameScene(_ gameScene: GameScene, didUpdateScore score: Int) {
@@ -124,4 +172,8 @@ private final class GameSceneDelegateImpl: GameSceneDelegate {
     }
 
     func gameSceneDidUpdateGrid(_ gameScene: GameScene) {}
+
+    func gameScene(_ gameScene: GameScene, didUpdatePauseState isPaused: Bool) {
+        onPauseStateChange(isPaused)
+    }
 }

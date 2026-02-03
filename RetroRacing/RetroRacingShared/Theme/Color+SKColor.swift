@@ -1,3 +1,10 @@
+//
+//  Color+SKColor.swift
+//  RetroRacingShared
+//
+//  Created by Dani Devesa on 03/02/2026.
+//
+
 import SwiftUI
 import SpriteKit
 

@@ -1,7 +1,14 @@
+//
+//  ClassicTheme.swift
+//  RetroRacingShared
+//
+//  Created by Dani Devesa on 03/02/2026.
+//
+
 import Foundation
 import SwiftUI
 
-/// Default LCD theme: pastel beige grid, LCD sprite family (playersCar-LCD, etc.).
+/// Default LCD theme: pastel beige grid with LCD sprite family (playersCar-LCD, etc.).
 public struct LCDTheme: GameTheme {
     public init() {}
 

@@ -1,3 +1,10 @@
+//
+//  UIKitHapticFeedbackController.swift
+//  RetroRacingUniversal
+//
+//  Created by Dani Devesa on 03/02/2026.
+//
+
 import Foundation
 import RetroRacingShared
 #if canImport(UIKit)
@@ -9,12 +16,14 @@ import UIKit
 public final class UIKitHapticFeedbackController: HapticFeedbackController, @unchecked Sendable {
     private let userDefaults: UserDefaults
     private let notificationGenerator = UINotificationFeedbackGenerator()
-    private let impactGenerator = UIImpactFeedbackGenerator(style: .light)
+    private let lightImpactGenerator = UIImpactFeedbackGenerator(style: .light)
+    private let mediumImpactGenerator = UIImpactFeedbackGenerator(style: .medium)
 
-    public init(userDefaults: UserDefaults = .standard) {
+    public init(userDefaults: UserDefaults) {
         self.userDefaults = userDefaults
         notificationGenerator.prepare()
-        impactGenerator.prepare()
+        lightImpactGenerator.prepare()
+        mediumImpactGenerator.prepare()
     }
 
     public func triggerCrashHaptic() {
@@ -26,14 +35,21 @@ public final class UIKitHapticFeedbackController: HapticFeedbackController, @unc
     public func triggerGridUpdateHaptic() {
         guard userDefaults.object(forKey: HapticFeedbackPreference.storageKey) == nil
             || userDefaults.bool(forKey: HapticFeedbackPreference.storageKey) else { return }
-        impactGenerator.impactOccurred()
+        lightImpactGenerator.impactOccurred()
+    }
+
+    public func triggerMoveHaptic() {
+        guard userDefaults.object(forKey: HapticFeedbackPreference.storageKey) == nil
+            || userDefaults.bool(forKey: HapticFeedbackPreference.storageKey) else { return }
+        mediumImpactGenerator.impactOccurred()
     }
 }
 #else
 /// No-op for macOS and other platforms without UIKit.
 public final class UIKitHapticFeedbackController: HapticFeedbackController, @unchecked Sendable {
-    public init(userDefaults: UserDefaults = .standard) {}
+    public init(userDefaults: UserDefaults) {}
     public func triggerCrashHaptic() {}
     public func triggerGridUpdateHaptic() {}
+    public func triggerMoveHaptic() {}
 }
 #endif

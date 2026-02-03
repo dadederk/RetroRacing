@@ -2,7 +2,7 @@
 //  RetroRacingSharedTests.swift
 //  RetroRacingSharedTests
 //
-//  Created by Dani Devesa Derksen-Staats on 01/02/2026.
+//  Created by Dani Devesa on 01/02/2026.
 //
 
 import Testing

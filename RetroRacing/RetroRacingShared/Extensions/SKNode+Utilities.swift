@@ -1,6 +1,14 @@
+//
+//  SKNode+Utilities.swift
+//  RetroRacingShared
+//
+//  Created by Dani Devesa on 03/02/2026.
+//
+
 import SpriteKit
 
 extension SKSpriteNode {
+    /// Scales the sprite to fit inside the given target size while preserving aspect ratio.
     func aspectFitToSize(_ targetSize: CGSize) {
         guard let texture = texture else { return }
         let texSize = texture.size()

@@ -1,29 +1,20 @@
+//
+//  GridStateCalculator.swift
+//  RetroRacingShared
+//
+//  Created by Dani Devesa on 03/02/2026.
+//
+
 import Foundation
 
-/// `GridStateCalculator` is responsible for computing the next state of a grid-based car game.
-///
-/// This class manages all logic related to updating the grid, moving the player's car, handling
-/// scoring, and detecting crashes. It operates on a `GridState` structure and provides effects
-/// that describe significant game events (such as scoring or crashing).
-///
-/// This class is stateless and does not hold any state.
-/// The primary method, `nextGrid(previousGrid:actions:)`, is a pure function: it has no side effects and does not mutate its input.
-///
-/// - The primary method, `nextGrid(previousGrid:actions:)`, takes the previous state of the grid
-///   and a sequence of actions (such as updating the grid or moving the car), and returns a tuple
-///   with the updated grid and a list of effects.
-/// - The class defines action types (such as updating and moving the car) and corresponding
-///   effects (like scoring points or crashing).
-/// - Various private helper methods encapsulate logic for moving the car, inserting new rows,
-///   ensuring a minimum number of empty cells, and generating random row values.
-///
-/// Usage of this type is generally internal to the game engine and not intended for direct
-/// manipulation by UI components.
+/// Pure grid engine that advances the race lanes and reports scoring or crash effects.
 public final class GridStateCalculator {
     private let randomSource: RandomSource
+    private let timingConfiguration: GridUpdateTimingConfiguration
 
-    public init(randomSource: RandomSource = SystemRandomSource()) {
+    public init(randomSource: RandomSource, timingConfiguration: GridUpdateTimingConfiguration = .defaultTiming) {
         self.randomSource = randomSource
+        self.timingConfiguration = timingConfiguration
     }
 
     public enum Effect: Equatable {
@@ -39,6 +30,10 @@ public final class GridStateCalculator {
     public enum Direction {
         case left
         case right
+    }
+
+    public func intervalForLevel(_ level: Int) -> TimeInterval {
+        timingConfiguration.updateInterval(forLevel: level)
     }
 
     public func nextGrid(previousGrid: GridState,
@@ -144,4 +139,20 @@ public final class GridStateCalculator {
 
         return newRow
     }
+}
+
+public struct GridUpdateTimingConfiguration {
+    public let initialInterval: TimeInterval
+    public let logDivider: Double
+
+    public init(initialInterval: TimeInterval, logDivider: Double) {
+        self.initialInterval = initialInterval
+        self.logDivider = logDivider
+    }
+
+    public func updateInterval(forLevel level: Int) -> TimeInterval {
+        max(0.05, initialInterval - (log(Double(max(level, 1))) / logDivider))
+    }
+
+    public static let defaultTiming = GridUpdateTimingConfiguration(initialInterval: 0.6, logDivider: 4)
 }

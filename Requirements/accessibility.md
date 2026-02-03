@@ -24,6 +24,15 @@ The game **must** respect the user’s Reduce Motion preference:
 - **Dynamic Type:** Menu and UI text support Dynamic Type (e.g. `.dynamicTypeSize(.xSmall ... .xxxLarge)`); layouts should adapt.
 - **High Contrast:** Theme system and requirements (see `theming_system.md`) should support increased contrast where needed.
 - **Platform:** Follow platform HIG and accessibility APIs (iOS/tvOS/watchOS/macOS/visionOS) for focus, gestures, and system settings.
+- **Orientation / window changes:** SpriteKit scenes must persist across rotations and size class changes without restarting gameplay. Resize the existing scene to the new square dimension and redraw the current grid state; do not recreate the scene or reset score/lives during rotation.
+
+## Pause/Resume Control (Universal, watchOS, tvOS)
+
+- Navigation toolbar includes a top-trailing pause/resume button; it must remain accessible with clear labels (`pause` / `resume` strings).
+- Button toggles gameplay without resetting grid or score; grid/haptics stay paused while in that state.
+- Keep hints minimal—label alone should be sufficient; rely on localization entries for VoiceOver output.
+- tvOS: the Play/Pause remote button triggers the same toggle.
+- watchOS: header icon toggles pause/resume; keep label present for VoiceOver.
 
 ## References
 
