@@ -8,7 +8,7 @@
 import Foundation
 
 /// Protocol for triggering haptic feedback from the view layer with platform-specific implementations.
-public protocol HapticFeedbackController: Sendable {
+public protocol HapticFeedbackController {
     /// Trigger failure haptic (e.g. on crash). Call from `gameSceneDidDetectCollision`.
     func triggerCrashHaptic()
     /// Trigger light impact (e.g. on each grid tick). Call from `gameSceneDidUpdateGrid`.
@@ -18,7 +18,7 @@ public protocol HapticFeedbackController: Sendable {
 }
 
 /// No-op implementation for platforms that do not use haptics (e.g. tvOS, macOS).
-public struct NoOpHapticFeedbackController: HapticFeedbackController, Sendable {
+public struct NoOpHapticFeedbackController: HapticFeedbackController {
     public init() {}
     public func triggerCrashHaptic() {}
     public func triggerGridUpdateHaptic() {}

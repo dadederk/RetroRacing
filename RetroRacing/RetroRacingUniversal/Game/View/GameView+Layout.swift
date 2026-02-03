@@ -30,11 +30,11 @@ extension GameView {
     }
 
     func headerScoreLabel() -> some View {
-        Text(GameLocalizedStrings.format("score %lld", score))
+        Text(GameLocalizedStrings.format("score %lld", hud.score))
             .font(headerFont(size: 14))
             .foregroundStyle(.primary)
             .shadow(color: Color.primary.opacity(0.35), radius: 0.5)
-            .accessibilityLabel(GameLocalizedStrings.format("score %lld", score))
+            .accessibilityLabel(GameLocalizedStrings.format("score %lld", hud.score))
     }
 
     func headerLivesView() -> some View {
@@ -44,11 +44,11 @@ extension GameView {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 20, height: 20)
-            Text(GameLocalizedStrings.format("lives_count", lives))
+            Text(GameLocalizedStrings.format("lives_count", hud.lives))
                 .font(headerFont(size: 14))
                 .foregroundStyle(.primary)
                 .shadow(color: Color.primary.opacity(0.35), radius: 0.5)
-                .accessibilityLabel(GameLocalizedStrings.format("%lld lives remaining", lives))
+                .accessibilityLabel(GameLocalizedStrings.format("%lld lives remaining", hud.lives))
         }
     }
 
@@ -99,7 +99,8 @@ extension GameView {
     }
 
     private func directionButtonImage(isLeft: Bool) -> some View {
-        let name = (isLeft ? leftButtonDown : rightButtonDown) ? "ButtonDown" : "ButtonUp"
+        let isPressed = isLeft ? controls.leftButtonDown : controls.rightButtonDown
+        let name = isPressed ? "ButtonDown" : "ButtonUp"
         return Image(name, bundle: Self.sharedBundle)
             .resizable()
             .aspectRatio(contentMode: .fit)

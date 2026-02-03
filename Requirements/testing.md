@@ -10,6 +10,8 @@ RetroRacing follows a **unit-test-first** approach with comprehensive coverage o
 
 **Target:** ⚠️ **ALWAYS run unit tests after code changes** — tests must pass
 
+**Build flags:** All schemes compile with `SWIFT_DEFAULT_ACTOR_ISOLATION=MainActor` and `SWIFT_STRICT_CONCURRENCY=targeted`. Keep tests green under these flags; raise to `complete` once warnings are zero.
+
 ```bash
 cd RetroRacing && xcrun xcodebuild test -scheme RetroRacingSharedTests -destination "platform=iOS Simulator,name=iPhone 17 Pro"
 ```

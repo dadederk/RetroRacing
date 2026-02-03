@@ -684,6 +684,6 @@ Document implementation decisions, edge cases discovered, testing results.
 
 ---
 
-**Version**: 1.0  
-**Last Updated**: 2026-02-01  
-**References**: Apple HIG, Swift 6.2 docs, Xarra AGENTS.md
+**Version**: 1.1  
+**Last Updated**: 2026-02-03  
+**References**: Apple HIG, Swift 6.2 docs, Xarra AGENTS.md, Requirements/concurrency.md

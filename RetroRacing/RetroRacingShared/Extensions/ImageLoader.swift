@@ -10,14 +10,14 @@ import SpriteKit
 import AVFoundation
 
 /// Loads sprite textures from bundles while hiding UIKit/AppKit differences from shared game code.
-public protocol ImageLoader: Sendable {
+public protocol ImageLoader {
     func loadTexture(imageNamed name: String, bundle: Bundle) -> SKTexture
 }
 
 #if canImport(UIKit)
 import UIKit
 
-public final class UIKitImageLoader: ImageLoader, @unchecked Sendable {
+public final class UIKitImageLoader: ImageLoader {
     public init() {}
 
     public func loadTexture(imageNamed name: String, bundle: Bundle) -> SKTexture {
@@ -52,7 +52,7 @@ public final class UIKitImageLoader: ImageLoader, @unchecked Sendable {
 #elseif canImport(AppKit)
 import AppKit
 
-public final class AppKitImageLoader: ImageLoader, @unchecked Sendable {
+public final class AppKitImageLoader: ImageLoader {
     public init() {}
 
     public func loadTexture(imageNamed name: String, bundle: Bundle) -> SKTexture {

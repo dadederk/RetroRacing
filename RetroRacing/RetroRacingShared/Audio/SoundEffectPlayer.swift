@@ -13,9 +13,53 @@ public enum SoundPreferences {
     public static let defaultVolume: Double = 0.8
 }
 
+// Minimal surface for AVAudioPlayer to allow mocking in tests.
+protocol AudioPlayer: AnyObject {
+    var isPlaying: Bool { get }
+    var volume: Float { get set }
+    var currentTime: TimeInterval { get set }
+    var delegate: AVAudioPlayerDelegate? { get set }
+    var objectID: ObjectIdentifier { get }
+
+    func prepareToPlay()
+    func play()
+    func stop()
+}
+
+/// Wrapper that exposes only the minimal API we need and aligns identity with the underlying AVAudioPlayer.
+private final class AVAudioPlayerBox: AudioPlayer {
+    private let player: AVAudioPlayer
+
+    init?(url: URL) {
+        guard let p = try? AVAudioPlayer(contentsOf: url) else { return nil }
+        self.player = p
+    }
+
+    var isPlaying: Bool { player.isPlaying }
+    var volume: Float {
+        get { player.volume }
+        set { player.volume = newValue }
+    }
+    var currentTime: TimeInterval {
+        get { player.currentTime }
+        set { player.currentTime = newValue }
+    }
+    var delegate: AVAudioPlayerDelegate? {
+        get { player.delegate }
+        set { player.delegate = newValue }
+    }
+    var objectID: ObjectIdentifier { ObjectIdentifier(player) }
+
+    func prepareToPlay() { player.prepareToPlay() }
+    func play() { player.play() }
+    func stop() { player.stop() }
+
+    var underlyingPlayer: AVAudioPlayer { player }
+}
+
 /// Abstract audio player used by the shared game logic.
-/// Implementations must be thread-safe enough for main-thread calls from SpriteKit.
-public protocol SoundEffectPlayer: Sendable {
+/// Implementations are invoked from the SpriteKit loop; keep them lightweight and cancellation-friendly.
+public protocol SoundEffectPlayer {
     /// Plays the given effect. When provided, `completion` executes after playback finishes.
     func play(_ effect: SoundEffect, completion: (() -> Void)?)
     /// Stops all sounds. A short fade keeps the UX soft when leaving the game.
@@ -24,96 +68,143 @@ public protocol SoundEffectPlayer: Sendable {
     func setVolume(_ volume: Double)
 }
 
-/// AVFoundation-backed implementation stored in the shared framework.
-/// Loads audio files from the bundle passed in at init.
-public final class AVSoundEffectPlayer: NSObject, SoundEffectPlayer, AVAudioPlayerDelegate, @unchecked Sendable {
-    private let bundle: Bundle
-    private var players: [SoundEffect: AVAudioPlayer] = [:]
-    private let queue = DispatchQueue(label: "com.retroracing.soundplayer")
+/// Internal worker actor so the public API remains synchronous while playback state stays thread-safe.
+private actor SoundEffectPlayerActor {
+    private var players: [SoundEffect: AudioPlayer] = [:]
+    private var completions: [ObjectIdentifier: (() -> Void)] = [:]
     private var volume: Float = 0.8
 
-    public init(bundle: Bundle) {
-        self.bundle = bundle
-        super.init()
-        preloadPlayers()
+    init(bundle: Bundle, playerFactory: (URL) -> AudioPlayer?) {
+        players = Self.loadPlayers(bundle: bundle, playerFactory: playerFactory)
     }
 
-    public func play(_ effect: SoundEffect, completion: (() -> Void)?) {
-        queue.async { [weak self] in
-            guard let self else { return }
-            guard let player = self.players[effect] else { return }
-            player.currentTime = 0
-            player.volume = self.volume
-            player.delegate = completion == nil ? nil : self
-            if let completion {
-                let key = ObjectIdentifier(player)
-                self.completions[key] = completion
+    init(players: [SoundEffect: AudioPlayer]) {
+        self.players = players
+    }
+
+    func prepareAndPlay(_ effect: SoundEffect, delegate: AVAudioPlayerDelegate, completion: (() -> Void)?) {
+        guard let player = players[effect] else { return }
+        player.currentTime = 0
+        player.volume = volume
+        player.delegate = completion == nil ? nil : delegate
+        if let completion {
+            completions[player.objectID] = completion
+        }
+        player.play()
+    }
+
+    func finish(for player: AVAudioPlayer) -> (() -> Void)? {
+        completions.removeValue(forKey: ObjectIdentifier(player))
+    }
+
+    func invokeCompletion(for effect: SoundEffect) -> (() -> Void)? {
+        guard let player = players[effect] else { return nil }
+        return completions.removeValue(forKey: player.objectID)
+    }
+
+    func stopAll(fadeDuration: TimeInterval) async {
+        let duration = max(0, fadeDuration)
+        for player in players.values where player.isPlaying {
+            completions.removeValue(forKey: ObjectIdentifier(player))
+            if duration == 0 {
+                player.stop()
+                continue
             }
-            player.play()
+            await fadeOutAndStop(player: player, duration: duration)
         }
     }
 
-    public func stopAll(fadeDuration: TimeInterval) {
-        queue.async { [weak self] in
-            guard let self else { return }
-            let duration = max(0, fadeDuration)
-            for player in self.players.values where player.isPlaying {
-                // Do not fire completion when manually stopping; leave paused state unchanged.
-                self.completions.removeValue(forKey: ObjectIdentifier(player))
-                if duration == 0 {
-                    player.stop()
-                } else {
-                    self.fadeOutAndStop(player: player, duration: duration)
-                }
-            }
-        }
+    func setVolume(_ volume: Double) {
+        self.volume = Float(min(max(volume, 0), 1))
     }
 
-    public func setVolume(_ volume: Double) {
-        queue.async { [weak self] in
-            guard let self else { return }
-            self.volume = Float(min(max(volume, 0), 1))
-        }
-    }
+    // MARK: - Private helpers
 
-    // MARK: - Private
-
-    private var completions: [ObjectIdentifier: (() -> Void)] = [:]
-
-    private func preloadPlayers() {
+    private static func loadPlayers(bundle: Bundle, playerFactory: (URL) -> AudioPlayer?) -> [SoundEffect: AudioPlayer] {
+        var result: [SoundEffect: AudioPlayer] = [:]
         for effect in SoundEffect.allCases {
             guard let url = bundle.url(forResource: effect.rawValue, withExtension: "m4a", subdirectory: "Resources/Audio")
-                    ?? bundle.url(forResource: effect.rawValue, withExtension: "m4a", subdirectory: "Audio")
+                    ?? bundle.url(forResource: effect.rawValue, withExtension: "Audio")
                     ?? bundle.url(forResource: effect.rawValue, withExtension: "m4a") else {
                 continue
             }
-            if let player = try? AVAudioPlayer(contentsOf: url) {
+            if let player = playerFactory(url) {
                 player.prepareToPlay()
-                players[effect] = player
+                result[effect] = player
             }
         }
+        return result
     }
 
-    private func fadeOutAndStop(player: AVAudioPlayer, duration: TimeInterval) {
+    private func fadeOutAndStop(player: AudioPlayer, duration: TimeInterval) async {
         let steps = 10
         let stepDuration = duration / Double(steps)
         let originalVolume = player.volume
         for i in 0..<steps {
-            queue.asyncAfter(deadline: .now() + stepDuration * Double(i)) { [weak self] in
-                guard let self else { return }
-                let fraction = Float(1.0 - Double(i) / Double(steps))
-                player.volume = originalVolume * fraction
-                if i == steps - 1 {
-                    player.stop()
-                    player.volume = self.volume
+            try? await Task.sleep(nanoseconds: UInt64(stepDuration * 1_000_000_000))
+            let fraction = Float(1.0 - Double(i) / Double(steps))
+            player.volume = originalVolume * fraction
+        }
+        player.stop()
+        player.volume = volume
+    }
+}
+
+/// AVFoundation-backed implementation stored in the shared framework.
+/// Loads audio files from the bundle passed in at init.
+    public final class AVSoundEffectPlayer: NSObject, SoundEffectPlayer, AVAudioPlayerDelegate {
+        private let worker: SoundEffectPlayerActor
+
+        public init(bundle: Bundle) {
+            self.worker = SoundEffectPlayerActor(bundle: bundle) { url in
+                AVAudioPlayerBox(url: url)
+            }
+            super.init()
+        }
+
+    /// Internal test-only initializer that bypasses bundle loading.
+    init(testPlayers: [SoundEffect: AudioPlayer]) {
+        self.worker = SoundEffectPlayerActor(players: testPlayers)
+        super.init()
+    }
+
+    public func play(_ effect: SoundEffect, completion: (() -> Void)?) {
+        Task { [worker] in
+            await worker.prepareAndPlay(effect, delegate: self, completion: completion)
+        }
+    }
+
+    public func stopAll(fadeDuration: TimeInterval) {
+        Task { [worker] in
+            await worker.stopAll(fadeDuration: fadeDuration)
+        }
+    }
+
+    public func setVolume(_ volume: Double) {
+        Task { [worker] in
+            await worker.setVolume(volume)
+        }
+    }
+
+    public func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        Task { [worker] in
+            if let completion = await worker.finish(for: player) {
+                await MainActor.run {
+                    completion()
                 }
             }
         }
     }
 
-    public func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
-        let key = ObjectIdentifier(player)
-        let completion = queue.sync { completions.removeValue(forKey: key) }
-        completion?()
+    /// Test-only helper: triggers completion for the given effect without relying on AVAudioPlayer callbacks.
+    @discardableResult
+    func _testComplete(effect: SoundEffect) async -> Bool {
+        if let completion = await worker.invokeCompletion(for: effect) {
+            await MainActor.run {
+                completion()
+            }
+            return true
+        }
+        return false
     }
 }

@@ -36,6 +36,7 @@ struct MenuView: View {
     #endif
     @State private var authState: AuthState = .idle
     @State private var authError: String?
+    @State private var authTimeoutTask: Task<Void, Never>?
 
     private enum AuthState {
         case idle
@@ -123,6 +124,9 @@ struct MenuView: View {
             refreshAuthState()
         }
         #endif
+        .onDisappear {
+            authTimeoutTask?.cancel()
+        }
     }
 
     @ViewBuilder
@@ -202,7 +206,9 @@ struct MenuView: View {
 
     /// Prevents the spinner from hanging forever if Game Center never calls back.
     private func scheduleAuthTimeout() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 8) {
+        authTimeoutTask?.cancel()
+        authTimeoutTask = Task { @MainActor in
+            try? await Task.sleep(for: .seconds(8))
             if authState == .authenticating {
                 refreshAuthState()
                 guard authState == .authenticating else { return }

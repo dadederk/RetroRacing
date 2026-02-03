@@ -42,6 +42,7 @@ public class GameScene: SKScene {
     let gridCalculator = GridStateCalculator(randomSource: InfrastructureDefaults.randomSource)
     var gridState = GridState(numberOfRows: 5, numberOfColumns: 3)
     public private(set) var gameState = GameState()
+    private var lastPlayerColumn: Int = 1
 
     /// When set, sprite asset names and grid cell color come from the theme; otherwise LCD defaults.
     public var theme: (any GameTheme)?
@@ -167,6 +168,7 @@ public class GameScene: SKScene {
                     gameState.score += points
                     gameDelegate?.gameScene(self, didUpdateScore: gameState.score)
                 case .crashed:
+                    ensureCrashSpriteAtLastPlayerColumn()
                     handleCrash()
                 }
             }
@@ -178,6 +180,7 @@ public class GameScene: SKScene {
     private func initialiseGame() {
         lastGameUpdateTime = 0
         gridState = GridState(numberOfRows: 5, numberOfColumns: 3)
+        lastPlayerColumn = gridState.playerRow().firstIndex(of: .Player) ?? 1
         gameState = GameState()
         gridStateDidUpdate(gridState, shouldPlayFeedback: false, notifyDelegate: false)
         updatePauseState(true)
@@ -196,6 +199,13 @@ public class GameScene: SKScene {
             guard let self = self else { return }
             self.gameDelegate?.gameSceneDidDetectCollision(self)
         }
+    }
+
+    private func ensureCrashSpriteAtLastPlayerColumn() {
+        guard lastPlayerColumn < gridState.numberOfColumns else { return }
+        let crashRow = gridState.playerRowIndex
+        gridState.grid[crashRow] = Array(repeating: .Empty, count: gridState.numberOfColumns)
+        gridState.grid[crashRow][lastPlayerColumn] = .Crash
     }
 
     func play(_ effect: SoundEffect, completion: (() -> Void)? = nil) {
@@ -220,6 +230,7 @@ extension GameScene: RacingGameController {
         guard !gameState.isPaused else { return }
 
         (gridState, _) = gridCalculator.nextGrid(previousGrid: gridState, actions: [.moveCar(direction: .left)])
+        lastPlayerColumn = gridState.playerRow().firstIndex(of: .Player) ?? lastPlayerColumn
 
         gridStateDidUpdate(gridState, shouldPlayFeedback: true, notifyDelegate: false)
     }
@@ -228,6 +239,7 @@ extension GameScene: RacingGameController {
         guard !gameState.isPaused else { return }
 
         (gridState, _) = gridCalculator.nextGrid(previousGrid: gridState, actions: [.moveCar(direction: .right)])
+        lastPlayerColumn = gridState.playerRow().firstIndex(of: .Player) ?? lastPlayerColumn
 
         gridStateDidUpdate(gridState, shouldPlayFeedback: true, notifyDelegate: false)
     }

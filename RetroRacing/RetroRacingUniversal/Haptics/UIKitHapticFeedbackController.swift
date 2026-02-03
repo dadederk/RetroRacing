@@ -13,7 +13,7 @@ import UIKit
 
 #if canImport(UIKit)
 /// iOS implementation: failure haptic on crash, light impact on grid update. Respects UserDefaults hapticFeedbackEnabled.
-public final class UIKitHapticFeedbackController: HapticFeedbackController, @unchecked Sendable {
+public final class UIKitHapticFeedbackController: HapticFeedbackController {
     private let userDefaults: UserDefaults
     private let notificationGenerator = UINotificationFeedbackGenerator()
     private let lightImpactGenerator = UIImpactFeedbackGenerator(style: .light)
@@ -46,7 +46,7 @@ public final class UIKitHapticFeedbackController: HapticFeedbackController, @unc
 }
 #else
 /// No-op for macOS and other platforms without UIKit.
-public final class UIKitHapticFeedbackController: HapticFeedbackController, @unchecked Sendable {
+public final class UIKitHapticFeedbackController: HapticFeedbackController {
     public init(userDefaults: UserDefaults) {}
     public func triggerCrashHaptic() {}
     public func triggerGridUpdateHaptic() {}

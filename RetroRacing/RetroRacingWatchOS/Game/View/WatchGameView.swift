@@ -87,6 +87,7 @@ struct WatchGameView: View {
                 )
                 .onChange(of: rotationValue, initial: false) { oldValue, newValue in
                     handleCrownDelta(newValue - oldValue)
+                    rotationValue = 0
                 }
             }
         }
@@ -176,7 +177,7 @@ struct WatchGameView: View {
             }
         }
 
-        residualCrownDelta = total
+        residualCrownDelta = abs(total) < (threshold * 0.5) ? 0 : total
     }
 }
 

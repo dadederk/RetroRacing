@@ -16,6 +16,46 @@ final class GameSceneBox {
     var scene: GameScene?
 }
 
+/// Bundles HUD-related state for clarity and predictable updates.
+struct HUDState {
+    var score: Int = 0
+    var lives: Int = 3
+    var showGameOver: Bool = false
+    var gameOverScore: Int = 0
+}
+
+/// Tracks pause states separately from HUD to avoid unrelated view updates.
+struct PauseState {
+    var scenePaused: Bool = false     // reflects scene state (crash/start pauses)
+    var isUserPaused: Bool = false    // user-requested pause state
+
+    var pauseButtonDisabled: Bool {
+        scenePaused && isUserPaused == false
+    }
+}
+
+/// Handles transient control visuals and their timers.
+struct ControlState {
+    var leftButtonDown: Bool = false
+    var rightButtonDown: Bool = false
+    var leftFlashTask: Task<Void, Never>?
+    var rightFlashTask: Task<Void, Never>?
+
+    mutating func cancelFlashTasks() {
+        leftFlashTask?.cancel()
+        rightFlashTask?.cancel()
+        leftFlashTask = nil
+        rightFlashTask = nil
+    }
+}
+
+/// Collects scene-scoped references to keep lifecycle wiring together.
+struct SceneContext {
+    var sceneBox = GameSceneBox()
+    var delegate: GameSceneDelegateImpl?
+    var inputAdapter: GameInputAdapter?
+}
+
 /// SwiftUI game screen that hosts the shared SpriteKit scene and routes platform input.
 struct GameView: View {
     static let sharedBundle = Bundle(for: GameScene.self)
@@ -34,17 +74,10 @@ struct GameView: View {
     let fontPreferenceStore: FontPreferenceStore?
 
     @AppStorage(SoundPreferences.volumeKey) var sfxVolume: Double = SoundPreferences.defaultVolume
-    @State var sceneBox = GameSceneBox()
-    @State var score: Int = 0
-    @State var lives: Int = 3
-    @State var scenePaused: Bool = false          // reflects scene state (crash/start pauses)
-    @State var isUserPaused: Bool = false         // user-requested pause state
-    @State var showGameOver = false
-    @State var gameOverScore: Int = 0
-    @State var delegate: GameSceneDelegateImpl?
-    @State var leftButtonDown = false
-    @State var rightButtonDown = false
-    @State var inputAdapter: GameInputAdapter?
+    @State var sceneContext = SceneContext()
+    @State var hud = HUDState()
+    @State var pause = PauseState()
+    @State var controls = ControlState()
     @ScaledMetric(relativeTo: .body) var directionButtonHeight: CGFloat = 120
     @Environment(\.dismiss) var dismiss
     #if os(macOS) || os(iOS)
@@ -53,16 +86,23 @@ struct GameView: View {
     @FocusState var isGameAreaFocused: Bool
     #endif
 
-    private var pauseButtonDisabled: Bool {
-        scenePaused && isUserPaused == false
-    }
-
     init(leaderboardService: LeaderboardService, ratingService: RatingService, theme: (any GameTheme)? = nil, hapticController: HapticFeedbackController? = nil, fontPreferenceStore: FontPreferenceStore? = nil) {
         self.leaderboardService = leaderboardService
         self.ratingService = ratingService
         self.theme = theme
         self.hapticController = hapticController
         self.fontPreferenceStore = fontPreferenceStore
+    }
+
+    private var pauseButtonDisabled: Bool {
+        pause.pauseButtonDisabled
+    }
+
+    private func binding<Value>(_ keyPath: WritableKeyPath<HUDState, Value>) -> Binding<Value> {
+        Binding(
+            get: { hud[keyPath: keyPath] },
+            set: { hud[keyPath: keyPath] = $0 }
+        )
     }
 
     @ViewBuilder
@@ -73,7 +113,7 @@ struct GameView: View {
                 .frame(width: side, height: side)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .modifier(GameAreaKeyboardModifier(
-                    inputAdapter: inputAdapter,
+                    inputAdapter: sceneContext.inputAdapter,
                     onMoveLeft: { flashButton(.left) },
                     onMoveRight: { flashButton(.right) }
                 ))
@@ -103,7 +143,7 @@ struct GameView: View {
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .onTapGesture {
                             flashButton(.left)
-                            inputAdapter?.handleLeft()
+                            sceneContext.inputAdapter?.handleLeft()
                         }
                         .accessibilityLabel(GameLocalizedStrings.string("move_left"))
                         .accessibilityHint(GameLocalizedStrings.string("move_left_hint"))
@@ -113,7 +153,7 @@ struct GameView: View {
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .onTapGesture {
                             flashButton(.right)
-                            inputAdapter?.handleRight()
+                            sceneContext.inputAdapter?.handleRight()
                         }
                         .accessibilityLabel(GameLocalizedStrings.string("move_right"))
                         .accessibilityHint(GameLocalizedStrings.string("move_right_hint"))
@@ -125,7 +165,7 @@ struct GameView: View {
                         .onEnded { value in
                             guard value.translation.width != 0 else { return }
                             if value.translation.width < 0 { flashButton(.left) } else { flashButton(.right) }
-                            inputAdapter?.handleDrag(translation: value.translation)
+                            sceneContext.inputAdapter?.handleDrag(translation: value.translation)
                         }
                 )
             }
@@ -134,13 +174,13 @@ struct GameView: View {
         .focusable()
         .focused($isGameAreaFocused)
         .onKeyPress(.leftArrow) {
-            guard let scene = sceneBox.scene else { return .ignored }
+            guard let scene = sceneContext.sceneBox.scene else { return .ignored }
             flashButton(.left)
             scene.moveLeft()
             return .handled
         }
         .onKeyPress(.rightArrow) {
-            guard let scene = sceneBox.scene else { return .ignored }
+            guard let scene = sceneContext.sceneBox.scene else { return .ignored }
             flashButton(.right)
             scene.moveRight()
             return .handled
@@ -157,71 +197,83 @@ struct GameView: View {
                     togglePause()
                 } label: {
                     Label(
-                        GameLocalizedStrings.string(isUserPaused ? "resume" : "pause"),
-                        systemImage: isUserPaused ? "play.fill" : "pause.fill"
+                        GameLocalizedStrings.string(pause.isUserPaused ? "resume" : "pause"),
+                        systemImage: pause.isUserPaused ? "play.fill" : "pause.fill"
                     )
                 }
-                .accessibilityLabel(GameLocalizedStrings.string(isUserPaused ? "resume" : "pause"))
+                .accessibilityLabel(GameLocalizedStrings.string(pause.isUserPaused ? "resume" : "pause"))
                 .disabled(pauseButtonDisabled)
                 .opacity(pauseButtonDisabled ? 0.4 : 1)
             }
         }
-        .alert(GameLocalizedStrings.string("gameOver"), isPresented: $showGameOver) {
+        .alert(GameLocalizedStrings.string("gameOver"), isPresented: binding(\.showGameOver)) {
             Button(GameLocalizedStrings.string("restart")) {
-                sceneBox.scene?.start()
-                if let scene = sceneBox.scene {
+                sceneContext.sceneBox.scene?.start()
+                if let scene = sceneContext.sceneBox.scene {
                     let (currentScore, currentLives) = Self.scoreAndLives(from: scene)
-                    score = currentScore
-                    lives = currentLives
+                    hud.score = currentScore
+                    hud.lives = currentLives
                 }
-                showGameOver = false
+                hud.showGameOver = false
             }
             Button(GameLocalizedStrings.string("finish")) {
                 dismiss()
             }
         } message: {
-            Text(GameLocalizedStrings.format("score %lld", gameOverScore))
+            Text(GameLocalizedStrings.format("score %lld", hud.gameOverScore))
         }
         .onDisappear {
             // Tear down so re-entering from the menu always creates a fresh scene/run.
-            sceneBox.scene?.stopAllSounds()
-            sceneBox.scene = nil
-            delegate = nil
-            inputAdapter = nil
+            controls.cancelFlashTasks()
+            sceneContext.sceneBox.scene?.stopAllSounds()
+            sceneContext.sceneBox.scene = nil
+            sceneContext.delegate = nil
+            sceneContext.inputAdapter = nil
         }
         .onChange(of: sfxVolume) { _, newValue in
-            sceneBox.scene?.setSoundVolume(newValue)
+            sceneContext.sceneBox.scene?.setSoundVolume(newValue)
         }
     }
 
     private enum ButtonSide { case left, right }
 
     private func togglePause() {
-        guard let scene = sceneBox.scene, pauseButtonDisabled == false else { return }
-        if isUserPaused {
+        guard let scene = sceneContext.sceneBox.scene, pauseButtonDisabled == false else { return }
+        if pause.isUserPaused {
             scene.unpauseGameplay()
-            isUserPaused = false
+            pause.isUserPaused = false
         } else {
             scene.pauseGameplay()
-            isUserPaused = true
+            pause.isUserPaused = true
         }
     }
 
     private func flashButton(_ side: ButtonSide) {
+        switch side {
+        case .left: controls.leftFlashTask?.cancel()
+        case .right: controls.rightFlashTask?.cancel()
+        }
+
         withAnimation(.easeOut(duration: 0.05)) {
             switch side {
-            case .left: leftButtonDown = true
-            case .right: rightButtonDown = true
+            case .left: controls.leftButtonDown = true
+            case .right: controls.rightButtonDown = true
             }
         }
-        Task { @MainActor in
-            try? await Task.sleep(nanoseconds: 150_000_000)
+
+        let task = Task { @MainActor in
+            try? await Task.sleep(for: .milliseconds(150))
             withAnimation(.easeOut(duration: 0.05)) {
                 switch side {
-                case .left: leftButtonDown = false
-                case .right: rightButtonDown = false
+                case .left: controls.leftButtonDown = false
+                case .right: controls.rightButtonDown = false
                 }
             }
+        }
+
+        switch side {
+        case .left: controls.leftFlashTask = task
+        case .right: controls.rightFlashTask = task
         }
     }
 }
