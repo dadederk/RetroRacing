@@ -62,6 +62,14 @@ struct SettingsView: View {
                         .font(fontForLabels)
                 }
 
+                Section {
+                    Text(GameLocalizedStrings.string("settings_controls_watchos"))
+                        .font(fontForLabels)
+                } header: {
+                    Text(GameLocalizedStrings.string("settings_controls"))
+                        .font(fontForLabels)
+                }
+
                 if supportsHapticFeedback {
                     Section {
                         Toggle(isOn: $hapticFeedbackEnabled) {

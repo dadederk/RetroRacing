@@ -42,10 +42,6 @@ struct GameView: View {
             gameAreaContent(side: side)
                 .frame(width: side, height: side)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                #if os(macOS) || os(iOS)
-                .focusable()
-                .focused($isGameAreaFocused)
-                #endif
                 .modifier(GameAreaKeyboardModifier(scene: scene, onMoveLeft: { flashButton(.left) }, onMoveRight: { flashButton(.right) }))
                 .onAppear {
                     setFocusForGameArea()
@@ -104,6 +100,22 @@ struct GameView: View {
                 )
             }
         }
+        #if os(macOS) || os(iOS)
+        .focusable()
+        .focused($isGameAreaFocused)
+        .onKeyPress(.leftArrow) {
+            guard let scene = scene else { return .ignored }
+            flashButton(.left)
+            scene.moveLeft()
+            return .handled
+        }
+        .onKeyPress(.rightArrow) {
+            guard let scene = scene else { return .ignored }
+            flashButton(.right)
+            scene.moveRight()
+            return .handled
+        }
+        #endif
         .ignoresSafeArea(edges: .bottom)
         #if os(iOS)
         .persistentSystemOverlays(.hidden)

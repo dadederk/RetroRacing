@@ -525,6 +525,75 @@
         }
       }
     },
+    "settings_controls_tvos" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Llisca a l’esquerra o a la dreta amb el control remot Siri per moure.\nFes clic al botó de reproducció per confirmar."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Swipe left or right on the Siri Remote to move.\nPress the play button to select."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desliza a la izquierda o derecha con el mando Siri para mover.\nPulsa el botón de reproducción para seleccionar."
+          }
+        }
+      }
+    },
+    "settings_controls_watchos" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gira la corona digital a l’esquerra o a la dreta per moure.\nToca la pantalla o prem el botó per confirmar."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rotate the Digital Crown left or right to move.\nTap the screen or press the side button to select."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gira la corona digital a la izquierda o derecha para mover.\nToca la pantalla o pulsa el botón lateral para seleccionar."
+          }
+        }
+      }
+    },
+    "settings_controls_macos" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fes servir les tecles de fletxa esquerra i dreta del teclat per moure.\nClica a la meitat esquerra o dreta de la pantalla amb el trackpad o el ratolí."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use the left and right arrow keys on the keyboard to move.\nClick the left or right half of the screen with the trackpad or mouse."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usa las teclas de flecha izquierda y derecha del teclado para mover.\nHaz clic en la mitad izquierda o derecha de la pantalla con el trackpad o el ratón."
+          }
+        }
+      }
+    },
     "move_left" : {
       "extractionState" : "manual",
       "localizations" : {

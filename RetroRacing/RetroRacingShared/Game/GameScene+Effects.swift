@@ -66,7 +66,7 @@ extension GameScene {
                 #if os(iOS) || os(tvOS)
                 return UIAccessibility.isReduceMotionEnabled
                 #elseif os(macOS)
-                return NSAccessibility.isReduceMotionEnabled
+                return NSWorkspace.shared.accessibilityDisplayShouldReduceMotion
                 #else
                 return false
                 #endif

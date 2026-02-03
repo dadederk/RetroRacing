@@ -60,6 +60,9 @@ struct MenuView: View {
                         Image(systemName: "gearshape")
                     }
                     .accessibilityLabel(GameLocalizedStrings.string("settings"))
+                    #if os(macOS)
+                    .keyboardShortcut(",", modifiers: .command)
+                    #endif
                 }
             }
             .sheet(isPresented: $showSettings) {

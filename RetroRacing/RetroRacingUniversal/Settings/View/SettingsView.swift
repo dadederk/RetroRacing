@@ -13,6 +13,14 @@ struct SettingsView: View {
         fontPreferenceStore.font(size: 14)
     }
 
+    private var controlsDescriptionKey: String {
+        #if os(macOS)
+        return "settings_controls_macos"
+        #else
+        return "settings_controls_ios"
+        #endif
+    }
+
     var body: some View {
         NavigationStack {
             List {
@@ -63,7 +71,7 @@ struct SettingsView: View {
                 }
 
                 Section {
-                    Text(GameLocalizedStrings.string("settings_controls_ios"))
+                    Text(GameLocalizedStrings.string(controlsDescriptionKey))
                         .font(fontForLabels)
                 } header: {
                     Text(GameLocalizedStrings.string("settings_controls"))

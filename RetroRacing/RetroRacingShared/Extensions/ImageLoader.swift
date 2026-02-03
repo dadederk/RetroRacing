@@ -47,8 +47,7 @@ public final class AppKitImageLoader: ImageLoader, @unchecked Sendable {
     public init() {}
 
     public func loadTexture(imageNamed name: String, bundle: Bundle) -> SKTexture {
-        // Prefer asset catalog (playersCar, rivalsCar, crash) — url(forResource:...) does not find .xcassets images.
-        if let image = NSImage(named: NSImage.Name(name), in: bundle) {
+        if let image = bundle.image(forResource: NSImage.Name(name)) {
             AppLog.log(AppLog.assets, "texture '\(name)' loaded from asset catalog")
             return SKTexture(image: image)
         }
