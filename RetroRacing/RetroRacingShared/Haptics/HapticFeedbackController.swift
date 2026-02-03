@@ -15,6 +15,8 @@ public protocol HapticFeedbackController {
     func triggerGridUpdateHaptic()
     /// Trigger medium impact (e.g. on user move left/right).
     func triggerMoveHaptic()
+    /// Trigger success haptic (e.g. on new personal best).
+    func triggerSuccessHaptic()
 }
 
 /// No-op implementation for platforms that do not use haptics (e.g. tvOS, macOS).
@@ -23,4 +25,5 @@ public struct NoOpHapticFeedbackController: HapticFeedbackController {
     public func triggerCrashHaptic() {}
     public func triggerGridUpdateHaptic() {}
     public func triggerMoveHaptic() {}
+    public func triggerSuccessHaptic() {}
 }

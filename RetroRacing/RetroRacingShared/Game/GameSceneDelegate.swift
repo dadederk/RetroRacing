@@ -15,8 +15,11 @@ public protocol GameSceneDelegate: AnyObject {
     func gameSceneDidUpdateGrid(_ gameScene: GameScene)
     /// Called whenever the pause state changes (user pause, crash pause, resume).
     func gameScene(_ gameScene: GameScene, didUpdatePauseState isPaused: Bool)
+    /// Called when a new personal best is achieved so the UI layer can react (e.g. haptic and messaging).
+    func gameScene(_ gameScene: GameScene, didAchieveNewHighScore score: Int)
 }
 
 public extension GameSceneDelegate {
     func gameScene(_ gameScene: GameScene, didUpdatePauseState isPaused: Bool) { }
+    func gameScene(_ gameScene: GameScene, didAchieveNewHighScore score: Int) { }
 }

@@ -10,6 +10,7 @@ struct tvOSGameView: View {
     let theme: (any GameTheme)?
     let hapticController: HapticFeedbackController?
     let fontPreferenceStore: FontPreferenceStore?
+    let highestScoreStore: HighestScoreStore
 
     @AppStorage(SoundPreferences.volumeKey) private var sfxVolume: Double = SoundPreferences.defaultVolume
     @State private var scene: GameScene
@@ -19,6 +20,7 @@ struct tvOSGameView: View {
     @State private var isUserPaused: Bool = false
     @State private var showGameOver = false
     @State private var gameOverScore: Int = 0
+    @State private var isNewHighScore = false
     @State private var delegate: GameSceneDelegateImpl?
     @State private var inputAdapter: GameInputAdapter?
     @Environment(\.dismiss) private var dismiss
@@ -27,12 +29,13 @@ struct tvOSGameView: View {
         scenePaused && isUserPaused == false
     }
 
-    init(leaderboardService: LeaderboardService, ratingService: RatingService, theme: (any GameTheme)? = nil, hapticController: HapticFeedbackController? = nil, fontPreferenceStore: FontPreferenceStore? = nil) {
+    init(leaderboardService: LeaderboardService, ratingService: RatingService, theme: (any GameTheme)? = nil, hapticController: HapticFeedbackController? = nil, fontPreferenceStore: FontPreferenceStore? = nil, highestScoreStore: HighestScoreStore) {
         self.leaderboardService = leaderboardService
         self.ratingService = ratingService
         self.theme = theme
         self.hapticController = hapticController
         self.fontPreferenceStore = fontPreferenceStore
+        self.highestScoreStore = highestScoreStore
         let size = CGSize(width: 1920, height: 1080)
         let soundPlayer = PlatformFactories.makeSoundPlayer()
         soundPlayer.setVolume(SoundPreferences.defaultVolume)
@@ -100,12 +103,17 @@ struct tvOSGameView: View {
                 score = scene.gameState.score
                 lives = scene.gameState.lives
                 showGameOver = false
+                isNewHighScore = false
             }
             Button(GameLocalizedStrings.string("finish")) {
                 dismiss()
             }
         } message: {
-            Text(GameLocalizedStrings.format("score %lld", gameOverScore))
+            if isNewHighScore {
+                Text(GameLocalizedStrings.format("new_high_score_message %lld", gameOverScore))
+            } else {
+                Text(GameLocalizedStrings.format("score %lld", gameOverScore))
+            }
         }
         .onDisappear {
             scene.stopAllSounds()
@@ -125,6 +133,10 @@ struct tvOSGameView: View {
                             let finalScore = scene.gameState.score
                             leaderboardService.submitScore(finalScore)
                             ratingService.checkAndRequestRating(score: finalScore)
+                            isNewHighScore = highestScoreStore.updateIfHigher(finalScore)
+                            if isNewHighScore {
+                                hapticController?.triggerSuccessHaptic()
+                            }
                             gameOverScore = finalScore
                             showGameOver = true
                         } else {
@@ -191,5 +203,9 @@ private final class GameSceneDelegateImpl: GameSceneDelegate {
 
     func gameScene(_ gameScene: GameScene, didUpdatePauseState isPaused: Bool) {
         onPauseStateChange(isPaused)
+    }
+
+    func gameScene(_ gameScene: GameScene, didAchieveNewHighScore score: Int) {
+        // High score handling lives in the view; no-op.
     }
 }

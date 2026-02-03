@@ -1012,6 +1012,29 @@
           }
         }
       }
+    },
+    "new_high_score_message %lld": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "New high score! %lld overtakes"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¡Nuevo récord! %lld adelantamientos"
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Nou rècord! %lld avançaments"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

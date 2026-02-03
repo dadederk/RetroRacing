@@ -22,6 +22,7 @@ struct HUDState {
     var lives: Int = 3
     var showGameOver: Bool = false
     var gameOverScore: Int = 0
+    var isNewHighScore: Bool = false
 }
 
 /// Tracks pause states separately from HUD to avoid unrelated view updates.
@@ -72,6 +73,7 @@ struct GameView: View {
     let theme: (any GameTheme)?
     let hapticController: HapticFeedbackController?
     let fontPreferenceStore: FontPreferenceStore?
+    let highestScoreStore: HighestScoreStore
 
     @AppStorage(SoundPreferences.volumeKey) var sfxVolume: Double = SoundPreferences.defaultVolume
     @State var sceneContext = SceneContext()
@@ -86,12 +88,13 @@ struct GameView: View {
     @FocusState var isGameAreaFocused: Bool
     #endif
 
-    init(leaderboardService: LeaderboardService, ratingService: RatingService, theme: (any GameTheme)? = nil, hapticController: HapticFeedbackController? = nil, fontPreferenceStore: FontPreferenceStore? = nil) {
+    init(leaderboardService: LeaderboardService, ratingService: RatingService, theme: (any GameTheme)? = nil, hapticController: HapticFeedbackController? = nil, fontPreferenceStore: FontPreferenceStore? = nil, highestScoreStore: HighestScoreStore) {
         self.leaderboardService = leaderboardService
         self.ratingService = ratingService
         self.theme = theme
         self.hapticController = hapticController
         self.fontPreferenceStore = fontPreferenceStore
+        self.highestScoreStore = highestScoreStore
     }
 
     private var pauseButtonDisabled: Bool {
@@ -215,12 +218,17 @@ struct GameView: View {
                     hud.lives = currentLives
                 }
                 hud.showGameOver = false
+                hud.isNewHighScore = false
             }
             Button(GameLocalizedStrings.string("finish")) {
                 dismiss()
             }
         } message: {
-            Text(GameLocalizedStrings.format("score %lld", hud.gameOverScore))
+            if hud.isNewHighScore {
+                Text(GameLocalizedStrings.format("new_high_score_message %lld", hud.gameOverScore))
+            } else {
+                Text(GameLocalizedStrings.format("score %lld", hud.gameOverScore))
+            }
         }
         .onDisappear {
             // Tear down so re-entering from the menu always creates a fresh scene/run.

@@ -10,6 +10,9 @@ import RetroRacingShared
 import CoreText
 import AVFoundation
 import GameKit
+#if canImport(UIKit)
+import UIKit
+#endif
 #if canImport(UIKit) && !os(tvOS)
 import CoreHaptics
 #endif
@@ -17,7 +20,7 @@ import CoreHaptics
 /// App entry point assembling shared services and presenting the universal menu scene.
 @main
 struct RetroRacingApp: App {
-    private let leaderboardConfiguration = LeaderboardConfigurationUniversal()
+    private let leaderboardConfiguration: LeaderboardConfiguration
     #if canImport(UIKit)
     private let authenticationPresenter = AuthenticationPresenterUniversal()
     #else
@@ -29,12 +32,24 @@ struct RetroRacingApp: App {
     private let fontPreferenceStore: FontPreferenceStore
     private let hapticController: HapticFeedbackController
     private let supportsHapticFeedback: Bool
+    private let highestScoreStore: HighestScoreStore
 
     init() {
         Self.configureAudioSession()
         Self.configureGameCenterAccessPoint()
         let customFontAvailable = Self.registerCustomFont()
         let userDefaults = InfrastructureDefaults.userDefaults
+        #if os(macOS)
+        leaderboardConfiguration = LeaderboardConfigurationMac()
+        #elseif canImport(UIKit)
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            leaderboardConfiguration = LeaderboardConfigurationIPad()
+        } else {
+            leaderboardConfiguration = LeaderboardConfigurationUniversal()
+        }
+        #else
+        leaderboardConfiguration = LeaderboardConfigurationUniversal()
+        #endif
         let leaderboardPlatformConfig = LeaderboardPlatformConfig(
             leaderboardID: leaderboardConfiguration.leaderboardID,
             authenticateHandlerSetter: { presenter in
@@ -74,6 +89,7 @@ struct RetroRacingApp: App {
         )
         hapticController = hapticsConfig.controllerProvider()
         supportsHapticFeedback = hapticsConfig.supportsHaptics
+        highestScoreStore = UserDefaultsHighestScoreStore(userDefaults: userDefaults)
     }
 
     /// Returns true when the device has haptic hardware. Used to show/hide haptic setting (configuration injection).
@@ -146,7 +162,8 @@ struct RetroRacingApp: App {
                 themeManager: themeManager,
                 fontPreferenceStore: fontPreferenceStore,
                 hapticController: hapticController,
-                supportsHapticFeedback: supportsHapticFeedback
+                supportsHapticFeedback: supportsHapticFeedback,
+                highestScoreStore: highestScoreStore
             )
         }
     }

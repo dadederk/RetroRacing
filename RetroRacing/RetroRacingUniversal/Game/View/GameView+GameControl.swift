@@ -79,4 +79,8 @@ final class GameSceneDelegateImpl: GameSceneDelegate {
     func gameScene(_ gameScene: GameScene, didUpdatePauseState isPaused: Bool) {
         onPauseStateChange(isPaused)
     }
+
+    func gameScene(_ gameScene: GameScene, didAchieveNewHighScore score: Int) {
+        // Handled in view layer; no-op here to satisfy protocol.
+    }
 }

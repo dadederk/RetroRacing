@@ -9,6 +9,7 @@ struct tvOSMenuView: View {
     let themeManager: ThemeManager
     let fontPreferenceStore: FontPreferenceStore
     let hapticController: HapticFeedbackController
+    let highestScoreStore: HighestScoreStore
 
     @State private var showGame = false
     @State private var showLeaderboard = false
@@ -45,7 +46,8 @@ struct tvOSMenuView: View {
                     ratingService: ratingService,
                     theme: themeManager.currentTheme,
                     hapticController: hapticController,
-                    fontPreferenceStore: fontPreferenceStore
+                    fontPreferenceStore: fontPreferenceStore,
+                    highestScoreStore: highestScoreStore
                 )
             }
             .fullScreenCover(isPresented: $showLeaderboard) {

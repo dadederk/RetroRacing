@@ -15,12 +15,13 @@ protocol LeaderboardConfiguration {
 }
 ```
 
-**Platform Implementations:**
-- `LeaderboardConfigurationUniversal` (iOS/iPadOS/macOS) → `"bestios001test"`
+**Platform Implementations (sandbox IDs):**
+- `LeaderboardConfigurationUniversal` (iPhone) → `"bestios001test"`
+- `LeaderboardConfigurationIPad` (iPadOS) → `"bestipad001test"`
+- `LeaderboardConfigurationMac` (macOS) → `"bestmacos001test"`  
 - `LeaderboardConfigurationTvOS` → `"besttvos001"`  
 - `watchOSLeaderboardConfiguration` → `"bestwatchos001test"`
-- `macOSLeaderboardConfiguration` → TBD
-- `visionOSLeaderboardConfiguration` → TBD
+- `visionOSLeaderboardConfiguration` → `"bestvision001test"` (optional)
 
 ### Service Layer
 
@@ -56,6 +57,10 @@ View layer characteristics:
 ### Game Center (iOS 26 / tvOS 26)
 
 **Resolved:** `GKGameCenterViewController` and `GKGameCenterControllerDelegate` were deprecated in iOS 26 / tvOS 26 with replacement **GKAccessPoint**. The app now uses `GKAccessPoint.shared.trigger(leaderboardID:playerScope:timeScope:handler:)` to present the leaderboard (see `LeaderboardView.swift`, `tvOSLeaderboardView.swift`). No deprecated Game Center APIs are used on iOS/tvOS 26+.
+
+### Localization for Score Units
+
+- English-only for sandbox: score suffix singular `overtake`, plural `Overtakes`. Applied to every leaderboard localization in App Store Connect (set + boards). Add ES/CA later for production.
 
 ## Testing Strategy
 

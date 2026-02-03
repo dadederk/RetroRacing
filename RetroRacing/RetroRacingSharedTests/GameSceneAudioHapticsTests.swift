@@ -123,6 +123,7 @@ final class MockHapticFeedbackController: HapticFeedbackController {
     private(set) var crashes = 0
     private(set) var gridUpdates = 0
     private(set) var moves = 0
+    private(set) var successes = 0
 
     func triggerCrashHaptic() {
         crashes += 1
@@ -134,6 +135,10 @@ final class MockHapticFeedbackController: HapticFeedbackController {
 
     func triggerMoveHaptic() {
         moves += 1
+    }
+
+    func triggerSuccessHaptic() {
+        successes += 1
     }
 }
 
@@ -164,4 +169,6 @@ final class MockGameSceneDelegate: GameSceneDelegate {
     func gameScene(_ gameScene: GameScene, didUpdatePauseState isPaused: Bool) {
         pauseUpdates.append(isPaused)
     }
+
+    func gameScene(_ gameScene: GameScene, didAchieveNewHighScore score: Int) { }
 }

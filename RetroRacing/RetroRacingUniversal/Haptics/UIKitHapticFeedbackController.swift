@@ -43,6 +43,12 @@ public final class UIKitHapticFeedbackController: HapticFeedbackController {
             || userDefaults.bool(forKey: HapticFeedbackPreference.storageKey) else { return }
         mediumImpactGenerator.impactOccurred()
     }
+
+    public func triggerSuccessHaptic() {
+        guard userDefaults.object(forKey: HapticFeedbackPreference.storageKey) == nil
+            || userDefaults.bool(forKey: HapticFeedbackPreference.storageKey) else { return }
+        notificationGenerator.notificationOccurred(.success)
+    }
 }
 #else
 /// No-op for macOS and other platforms without UIKit.
@@ -51,5 +57,6 @@ public final class UIKitHapticFeedbackController: HapticFeedbackController {
     public func triggerCrashHaptic() {}
     public func triggerGridUpdateHaptic() {}
     public func triggerMoveHaptic() {}
+    public func triggerSuccessHaptic() {}
 }
 #endif

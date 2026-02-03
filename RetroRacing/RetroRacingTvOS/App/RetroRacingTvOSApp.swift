@@ -10,6 +10,7 @@ struct RetroRacingTvOSApp: App {
     private let themeManager: ThemeManager
     private let fontPreferenceStore: FontPreferenceStore
     private let hapticController: HapticFeedbackController
+    private let highestScoreStore: HighestScoreStore
 
     init() {
         let userDefaults = InfrastructureDefaults.userDefaults
@@ -39,6 +40,7 @@ struct RetroRacingTvOSApp: App {
             authenticateHandlerSetter: leaderboardConfig.authenticateHandlerSetter
         )
         ratingService = StoreReviewService(userDefaults: userDefaults, ratingProvider: RatingServiceProviderTvOS())
+        highestScoreStore = UserDefaultsHighestScoreStore(userDefaults: userDefaults)
     }
 
     private static func makeHapticsController() -> HapticFeedbackController {
@@ -54,7 +56,8 @@ struct RetroRacingTvOSApp: App {
                 leaderboardConfiguration: leaderboardConfiguration,
                 themeManager: themeManager,
                 fontPreferenceStore: fontPreferenceStore,
-                hapticController: hapticController
+                hapticController: hapticController,
+                highestScoreStore: highestScoreStore
             )
         }
     }

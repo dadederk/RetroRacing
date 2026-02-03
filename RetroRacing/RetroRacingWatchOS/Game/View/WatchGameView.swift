@@ -5,6 +5,7 @@ import RetroRacingShared
 struct WatchGameView: View {
     let theme: any GameTheme
     let fontPreferenceStore: FontPreferenceStore?
+    let highestScoreStore: HighestScoreStore
     @AppStorage(SoundPreferences.volumeKey) private var sfxVolume: Double = SoundPreferences.defaultVolume
     @State private var scene: GameScene
     @State private var rotationValue: Double = 0
@@ -15,6 +16,7 @@ struct WatchGameView: View {
     @State private var isUserPaused: Bool = false
     @State private var showGameOver = false
     @State private var gameOverScore: Int = 0
+    @State private var isNewHighScore = false
     @State private var delegate: GameSceneDelegateImpl?
     @State private var inputAdapter: GameInputAdapter?
     @Environment(\.dismiss) private var dismiss
@@ -23,9 +25,10 @@ struct WatchGameView: View {
         scenePaused && isUserPaused == false
     }
 
-    init(theme: any GameTheme, fontPreferenceStore: FontPreferenceStore? = nil) {
+    init(theme: any GameTheme, fontPreferenceStore: FontPreferenceStore? = nil, highestScoreStore: HighestScoreStore) {
         self.theme = theme
         self.fontPreferenceStore = fontPreferenceStore
+        self.highestScoreStore = highestScoreStore
         let size = CGSize(width: 400, height: 300)
         let soundPlayer = PlatformFactories.makeSoundPlayer()
         soundPlayer.setVolume(SoundPreferences.defaultVolume)
@@ -105,6 +108,7 @@ struct WatchGameView: View {
                         lives = scene.gameState.lives
                         if scene.gameState.lives == 0 {
                             gameOverScore = scene.gameState.score
+                            isNewHighScore = highestScoreStore.updateIfHigher(gameOverScore)
                             showGameOver = true
                         } else {
                             scene.resume()
@@ -122,12 +126,17 @@ struct WatchGameView: View {
                 score = scene.gameState.score
                 lives = scene.gameState.lives
                 showGameOver = false
+                isNewHighScore = false
             }
             Button(GameLocalizedStrings.string("finish")) {
                 dismiss()
             }
         } message: {
-            Text(GameLocalizedStrings.format("score %lld", gameOverScore))
+            if isNewHighScore {
+                Text(GameLocalizedStrings.format("new_high_score_message %lld", gameOverScore))
+            } else {
+                Text(GameLocalizedStrings.format("score %lld", gameOverScore))
+            }
         }
         .onDisappear {
             scene.stopAllSounds()
@@ -204,5 +213,9 @@ private final class GameSceneDelegateImpl: GameSceneDelegate {
 
     func gameScene(_ gameScene: GameScene, didUpdatePauseState isPaused: Bool) {
         onPauseStateChange(isPaused)
+    }
+
+    func gameScene(_ gameScene: GameScene, didAchieveNewHighScore score: Int) {
+        // Watch high score handled in the view; no-op.
     }
 }

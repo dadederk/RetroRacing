@@ -115,6 +115,10 @@ extension GameView {
         if currentLives == 0 {
             leaderboardService.submitScore(currentScore)
             ratingService.checkAndRequestRating(score: currentScore)
+            hud.isNewHighScore = highestScoreStore.updateIfHigher(currentScore)
+            if hud.isNewHighScore {
+                hapticController?.triggerSuccessHaptic()
+            }
             hud.gameOverScore = currentScore
             hud.showGameOver = true
         } else {

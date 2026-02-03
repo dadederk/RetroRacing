@@ -4,6 +4,7 @@ import RetroRacingShared
 struct ContentView: View {
     let themeManager: ThemeManager
     let fontPreferenceStore: FontPreferenceStore
+    let highestScoreStore: HighestScoreStore
     @State private var showGame = false
     @State private var gameID = 0
     @State private var showSettings = false
@@ -23,7 +24,7 @@ struct ContentView: View {
                 .buttonStyle(.glassProminent)
             }
             .navigationDestination(isPresented: $showGame) {
-                WatchGameView(theme: themeManager.currentTheme, fontPreferenceStore: fontPreferenceStore)
+                WatchGameView(theme: themeManager.currentTheme, fontPreferenceStore: fontPreferenceStore, highestScoreStore: highestScoreStore)
                     .id(gameID)
             }
             .toolbar {
@@ -54,6 +55,7 @@ struct ContentView: View {
         fontPreferenceStore: FontPreferenceStore(
             userDefaults: InfrastructureDefaults.userDefaults,
             customFontAvailable: true
-        )
+        ),
+        highestScoreStore: UserDefaultsHighestScoreStore(userDefaults: InfrastructureDefaults.userDefaults)
     )
 }

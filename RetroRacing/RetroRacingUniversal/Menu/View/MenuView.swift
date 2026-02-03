@@ -24,6 +24,7 @@ struct MenuView: View {
     let hapticController: HapticFeedbackController
     /// Injected by app; when false, haptic setting is hidden (device has no haptics).
     let supportsHapticFeedback: Bool
+    let highestScoreStore: HighestScoreStore
 
     #if os(macOS)
     @Environment(\.requestReview) private var requestReview
@@ -91,7 +92,8 @@ struct MenuView: View {
                     ratingService: ratingService,
                     theme: themeManager.currentTheme,
                     hapticController: hapticController,
-                    fontPreferenceStore: fontPreferenceStore
+                    fontPreferenceStore: fontPreferenceStore,
+                    highestScoreStore: highestScoreStore
                 )
             }
 #if os(macOS)

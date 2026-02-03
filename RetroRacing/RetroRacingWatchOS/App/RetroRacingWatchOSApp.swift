@@ -23,10 +23,11 @@ struct RetroRacingWatchOSApp: App {
         userDefaults: InfrastructureDefaults.userDefaults,
         customFontAvailable: true
     )
+    private let highestScoreStore = UserDefaultsHighestScoreStore(userDefaults: InfrastructureDefaults.userDefaults)
 
     var body: some Scene {
         WindowGroup {
-            ContentView(themeManager: themeManager, fontPreferenceStore: fontPreferenceStore)
+            ContentView(themeManager: themeManager, fontPreferenceStore: fontPreferenceStore, highestScoreStore: highestScoreStore)
         }
     }
 }
