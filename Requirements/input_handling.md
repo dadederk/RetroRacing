@@ -19,6 +19,8 @@ RetroRacing captures platform-specific input at the UI layer and translates it i
 - **Threshold**: Rotation is ignored until `abs(delta) > 0.05`.
 - **Gating**: Only one move per rotation burst. Additional deltas are ignored until the crown is idle.
 - **Idle detection**: SwiftUI has no direct idle callback, so `WatchGameView` uses a debounced reset (`~150ms`) to simulate `crownDidBecomeIdle`.
+- **Delta source**: `digitalCrownRotation` deltas are computed from successive value changes (no manual reset), keeping the stream continuous.
+- **Focus**: `WatchGameView` sets focus with `@FocusState` to keep crown input active during play.
 - **Adapter**: Movement uses `CrownGameInputAdapter` to call `moveLeft()` / `moveRight()` on `GameScene`.
 
 ### Other Platforms (Summary)

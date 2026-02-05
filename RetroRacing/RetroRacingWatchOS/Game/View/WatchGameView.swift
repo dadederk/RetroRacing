@@ -9,7 +9,7 @@ struct WatchGameView: View {
     let crownConfiguration: LegacyCrownInputProcessor.Configuration
     @AppStorage(SoundPreferences.volumeKey) private var sfxVolume: Double = SoundPreferences.defaultVolume
     @State private var scene: GameScene
-    @State private var rotationValue: Double = 0
+    @State private var crownValue: Double = 0
     @State private var crownProcessor: LegacyCrownInputProcessor
     @State private var crownIdleTask: Task<Void, Never>?
     @State private var score: Int = 0
@@ -21,6 +21,7 @@ struct WatchGameView: View {
     @State private var isNewHighScore = false
     @State private var delegate: GameSceneDelegateImpl?
     @State private var inputAdapter: GameInputAdapter?
+    @FocusState private var isCrownFocused: Bool
     @Environment(\.dismiss) private var dismiss
 
     private var pauseButtonDisabled: Bool {
@@ -87,18 +88,18 @@ struct WatchGameView: View {
                         }
                 }
                 .focusable()
+                .focused($isCrownFocused)
                 .digitalCrownRotation(
-                    $rotationValue,
-                    from: -10,
-                    through: 10,
+                    $crownValue,
+                    from: -100,
+                    through: 100,
                     by: 0.1,
                     sensitivity: .high,
                     isContinuous: true,
                     isHapticFeedbackEnabled: true
                 )
-                .onChange(of: rotationValue, initial: false) { oldValue, newValue in
+                .onChange(of: crownValue, initial: false) { oldValue, newValue in
                     handleCrownDelta(newValue - oldValue)
-                    rotationValue = 0
                 }
             }
         }
@@ -109,6 +110,7 @@ struct WatchGameView: View {
             lives = scene.gameState.lives
             scenePaused = scene.gameState.isPaused
             inputAdapter = CrownGameInputAdapter(controller: scene)
+            isCrownFocused = true
             if delegate == nil {
                 let d = GameSceneDelegateImpl(
                     onScoreUpdate: { score = $0 },
