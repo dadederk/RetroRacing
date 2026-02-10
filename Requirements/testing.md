@@ -159,13 +159,13 @@ func testGivenTvOSConfigurationWhenAccessingLeaderboardIDThenReturnsTvOSLeaderbo
 ### Testing Theme System (Future)
 
 ```swift
-func testGivenGameBoyThemeWhenGettingColorsForStateThenReturnsGameBoyPalette() {
+func testGivenPocketThemeWhenGettingColorsForStateThenReturnsPocketPalette() {
     // Given
-    let gameBoyTheme = GameBoyTheme()
+    let pocketTheme = PocketTheme()
     let state = GameState()
     
     // When
-    let colors = gameBoyTheme.colors(for: state)
+    let colors = pocketTheme.colors(for: state)
     
     // Then
     XCTAssertEqual(colors.background, Color(red: 0.608, green: 0.737, blue: 0.059))

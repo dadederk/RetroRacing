@@ -1,5 +1,5 @@
 //
-//  GameBoyTheme.swift
+//  PocketTheme.swift
 //  RetroRacingShared
 //
 //  Created by Dani Devesa on 03/02/2026.
@@ -8,15 +8,15 @@
 import Foundation
 import SwiftUI
 
-/// Free theme capturing the monochrome green Game Boy aesthetic.
-public struct GameBoyTheme: GameTheme {
+/// Free theme capturing the monochrome green handheld console aesthetic.
+public struct PocketTheme: GameTheme {
     public init() {}
 
-    public var id: String { "gameboy" }
-    public var name: String { "Game Boy" }
+    public var id: String { "pocket" }
+    public var name: String { "Pocket" }
     public var isPremium: Bool { false }
 
-    /// Lightened Game Boy-inspired background for better contrast with car sprites.
+    /// Lightened handheld-inspired background for better contrast with car sprites.
     public func backgroundColor(for state: GameState) -> Color {
         Color(red: 200 / 255, green: 220 / 255, blue: 130 / 255)
     }
@@ -42,7 +42,7 @@ public struct GameBoyTheme: GameTheme {
         Color(red: 0.059, green: 0.220, blue: 0.059)
     }
 
-    /// Light green playfield to keep a Game Boy look with improved car contrast.
+    /// Light green playfield to keep a retro handheld look with improved car contrast.
     public func gridCellColor() -> Color {
         Color(red: 175 / 255, green: 197 / 255, blue: 102 / 255)
     }

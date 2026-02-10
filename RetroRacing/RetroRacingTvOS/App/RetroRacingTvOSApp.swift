@@ -24,7 +24,7 @@ struct RetroRacingTvOSApp: App {
         let userDefaults = InfrastructureDefaults.userDefaults
         let themeConfig = ThemePlatformConfig(
             defaultThemeID: "lcd",
-            availableThemes: [LCDTheme(), GameBoyTheme()]
+            availableThemes: [LCDTheme(), PocketTheme()]
         )
         themeManager = ThemeManager(
             initialThemes: themeConfig.availableThemes,

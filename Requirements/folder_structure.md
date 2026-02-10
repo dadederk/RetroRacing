@@ -59,7 +59,7 @@ One folder per feature; under each feature, subfolders by role: **View**, **Mode
 - **Support/** or root – `RetroRacingShared.swift`, `GameLocalizedStrings.swift`, `Localizable.xcstrings`
 - **Game/** – `GameScene.swift`, `GameSceneDelegate.swift`, `GameScene+Grid.swift`, `GameScene+Effects.swift`
 - **Game/Model/** – `GameState.swift`, `GridState.swift`, `GridStateCalculator.swift`, `RandomSource.swift` (game logic models)
-- **Theme/** – `GameTheme.swift`, `ClassicTheme.swift`, `GameBoyTheme.swift`, `ThemeManager.swift`, `Color+SKColor.swift`
+- **Theme/** – `GameTheme.swift`, `ClassicTheme.swift`, `PocketTheme.swift`, `ThemeManager.swift`, `Color+SKColor.swift`
 - **Services/** – `Protocols/`, `Implementations/` (Leaderboard, Rating, Auth)
 - **Extensions/** – `ImageLoader.swift`, `SKNode+Utilities.swift`
 - **Logging/** – `AppLog.swift`

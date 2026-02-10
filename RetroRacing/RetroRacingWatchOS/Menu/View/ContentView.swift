@@ -62,8 +62,8 @@ struct ContentView: View {
 #Preview {
     ContentView(
         themeManager: ThemeManager(
-            initialThemes: [LCDTheme(), GameBoyTheme()],
-            defaultThemeID: "gameboy",
+            initialThemes: [LCDTheme(), PocketTheme()],
+            defaultThemeID: "pocket",
             userDefaults: InfrastructureDefaults.userDefaults
         ),
         fontPreferenceStore: FontPreferenceStore(

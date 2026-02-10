@@ -20,8 +20,8 @@ private struct LeaderboardConfigurationWatchOS: LeaderboardConfiguration {
 struct RetroRacingWatchOSApp: App {
     private let themeManager: ThemeManager = {
         let config = ThemePlatformConfig(
-            defaultThemeID: "gameboy",
-            availableThemes: [LCDTheme(), GameBoyTheme()]
+            defaultThemeID: "pocket",
+            availableThemes: [LCDTheme(), PocketTheme()]
         )
         return ThemeManager(
             initialThemes: config.availableThemes,

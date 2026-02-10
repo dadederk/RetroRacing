@@ -168,19 +168,19 @@
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RetroRacing!"
+            "value" : "RetroRapid!"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RetroRacing!"
+            "value" : "RetroRapid!"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RetroRacing!"
+            "value" : "RetroRapid!"
           }
         }
       }
@@ -513,19 +513,19 @@
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Valora RetroRacing!"
+            "value" : "Valora RetroRapid!"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rate RetroRacing!"
+            "value" : "Rate RetroRapid!"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Valora RetroRacing!"
+            "value" : "Valora RetroRapid!"
           }
         }
       }
@@ -950,19 +950,19 @@
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RetroRacing!"
+            "value" : "RetroRapid!"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RetroRacing!"
+            "value" : "RetroRapid!"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RetroRacing!"
+            "value" : "RetroRapid!"
           }
         }
       }
@@ -1255,19 +1255,19 @@
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Has arribat al teu límit diari. Considera fer-te premium com una manera d'invitar-me a un café. Estar ben cafenat m'ajudarà a continuar desenvolupant RetroRacing!, mantindre'l i afegir-hi noves funcionalitats que espere que t'agraden."
+            "value" : "Has arribat al teu límit diari. Considera fer-te premium com una manera d'invitar-me a un café. Estar ben cafenat m'ajudarà a continuar desenvolupant RetroRapid!, mantindre'l i afegir-hi noves funcionalitats que espere que t'agraden."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "You've reached your daily limit. Consider going premium as a way to buy me coffee. Being caffeinated will help me further develop RetroRacing!, maintain it, and add new features that I hope you'll love."
+            "value" : "You've reached your daily limit. Consider going premium as a way to buy me coffee. Being caffeinated will help me further develop RetroRapid!, maintain it, and add new features that I hope you'll love."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Has alcanzado tu límite diario. Plantéate hacerte premium como una forma de invitarme a un café. Estar bien cafeinado me ayudará a seguir desarrollando RetroRacing!, mantenerlo y añadir nuevas funciones que espero que te encanten."
+            "value" : "Has alcanzado tu límite diario. Plantéate hacerte premium como una forma de invitarme a un café. Estar bien cafeinado me ayudará a seguir desarrollando RetroRapid!, mantenerlo y añadir nuevas funciones que espero que te encanten."
           }
         }
       }
@@ -1278,19 +1278,19 @@
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Amb Premium tens partides il·limitades i pots configurar diferents temes visuals per a RetroRacing!."
+            "value" : "Amb Premium tens partides il·limitades i pots configurar diferents temes visuals per a RetroRapid!."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "With Premium you get unlimited games and can configure different visual themes for RetroRacing!."
+            "value" : "With Premium you get unlimited games and can configure different visual themes for RetroRapid!."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Con Premium obtienes partidas ilimitadas y puedes configurar distintos temas visuales para RetroRacing!."
+            "value" : "Con Premium obtienes partidas ilimitadas y puedes configurar distintos temas visuales para RetroRapid!."
           }
         }
       }

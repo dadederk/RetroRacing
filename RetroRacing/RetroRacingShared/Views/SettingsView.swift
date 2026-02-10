@@ -389,7 +389,7 @@ private struct SettingsNavigationTitleStyle: ViewModifier {
 #Preview {
     SettingsView(
         themeManager: ThemeManager(
-            initialThemes: [LCDTheme(), GameBoyTheme()],
+            initialThemes: [LCDTheme(), PocketTheme()],
             defaultThemeID: "lcd",
             userDefaults: UserDefaults.standard
         ),

@@ -382,9 +382,9 @@ RetroRacing features interchangeable visual themes. See `/Requirements/theming_s
 
 **Key Points:**
 - Protocol-based theme system
-- Free themes: Classic, Game Boy
+- Free themes: Classic, Pocket
 - Premium themes: LCD, 8-Bit, Neon (IAP)
-- Platform-specific recommendations (Game Boy on watchOS, 8-Bit on iPad, etc.)
+- Platform-specific recommendations (Pocket on watchOS, 8-Bit on iPad, etc.)
 - Accessibility overrides for high contrast
 
 **Implementation:**

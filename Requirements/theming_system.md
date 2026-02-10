@@ -55,15 +55,15 @@ final class ThemeManager {
 Sprite assets are grouped by theme family under `Assets.xcassets/Sprites/`:
 
 - **LCD/** – Default theme assets: `playersCar-LCD`, `rivalsCar-LCD`, `crash-LCD`, `life-LCD`
-- **GameBoy/** – Game Boy theme assets: `playersCar-GameBoy`, `rivalsCar-GameBoy`, `crash-GameBoy`, `life-GameBoy`
+- **GameBoy/** – Pocket theme assets: `playersCar-GameBoy`, `rivalsCar-GameBoy`, `crash-GameBoy`, `life-GameBoy` (kept for backward compatibility)
 
-Naming convention: `nameAsset-theme` (e.g. `playersCar-GameBoy`).
+Naming convention: `nameAsset-theme` (e.g. `playersCar-LCD`).
 
 ## Default Themes
 
 ### LCD Theme (Free, default)
 
-Default theme on iOS, tvOS, macOS, visionOS. Pastel beige grid to differentiate from Game Boy.
+Default theme on iOS, tvOS, macOS, visionOS. Pastel beige grid to differentiate from Pocket.
 
 **Visual Style:**
 - Background: Light green
@@ -73,9 +73,9 @@ Default theme on iOS, tvOS, macOS, visionOS. Pastel beige grid to differentiate 
 
 **Platforms:** iOS, tvOS, macOS, visionOS (default)
 
-### Game Boy Theme (Free)
+### Pocket Theme (Free)
 
-Iconic monochrome green aesthetic. Default on watchOS.
+Retro monochrome green handheld console aesthetic. Default on watchOS.
 
 **Visual Style:**
 - Background: Light green (`#C8DC82`) to improve contrast with cars
@@ -128,7 +128,7 @@ When a user first launches the app on a platform, suggest an appropriate theme:
 
 | Platform | Suggested Theme | Reason |
 |----------|-----------------|--------|
-| watchOS | Game Boy | Small screen, monochrome nostalgia |
+| watchOS | Pocket | Small screen, monochrome nostalgia |
 | iOS | LCD Handheld | Handheld device, portable gaming |
 | iPadOS | 8-Bit | Larger screen, richer colors |
 | tvOS | Neon/Synthwave | Living room, cinematic feel |
@@ -139,7 +139,7 @@ When a user first launches the app on a platform, suggest an appropriate theme:
 ```swift
 func suggestedTheme(for platform: Platform) -> GameTheme {
     #if os(watchOS)
-    return GameBoyTheme()
+    return PocketTheme()
     #elseif os(iOS)
     return LCDHandheldTheme()
     #elseif os(tvOS)
@@ -156,7 +156,7 @@ func suggestedTheme(for platform: Platform) -> GameTheme {
 
 ### Free Themes
 - Classic (default)
-- Game Boy
+- Pocket
 
 ### Premium Themes (In-App Purchase)
 
@@ -189,10 +189,10 @@ enum ThemeProduct: String, CaseIterable {
 
 When the user has not yet chosen a theme, `ThemeManager` uses `defaultThemeID`:
 
-- **watchOS:** `defaultThemeID: "gameboy"` (Game Boy).
+- **watchOS:** `defaultThemeID: "pocket"` (Pocket).
 - **iOS, tvOS, macOS, visionOS:** `defaultThemeID: "lcd"` (LCD).
 
-The app composition root creates `ThemeManager(initialThemes: [...], defaultThemeID: "lcd")` or `"gameboy"` per platform. Stored selection overrides the default.
+The app composition root creates `ThemeManager(initialThemes: [...], defaultThemeID: "lcd")` or `"pocket"` per platform. Stored selection overrides the default.
 
 ## Theme Selection UI
 
@@ -336,7 +336,7 @@ struct ThemeUnlockStorage {
 
 ```swift
 func testThemeColors() {
-    let theme = GameBoyTheme()
+    let theme = PocketTheme()
     let state = GameState()
     
     let bgColor = theme.backgroundColor(for: state)

@@ -28,7 +28,7 @@ The goal is to encourage support without making the free experience feel hostile
 - **Type**: Non‑consumable, one‑time purchase.
 - **Entitlement**:
   - Grants **unlimited plays forever** (no daily limit).
-  - Unlocks **Game Boy theme** as a bonus on iOS/tvOS/macOS/visionOS (watchOS keeps Game Boy as the default theme for everyone).
+  - Unlocks **Pocket theme** as a bonus on iOS/tvOS/macOS/visionOS (watchOS keeps Pocket as the default theme for everyone).
 - StoreKit 2’s **on‑device verification** is used; **no server** is required.
 - Entitlement works across devices with the same Apple ID and survives app deletion/reinstallation.
 
@@ -141,7 +141,7 @@ NavigationStack {
 **watchOS**
 
 - Creates `UserDefaultsPlayLimitService` but does not currently expose paywall UI.
-- Game Boy theme remains default and free on watchOS.
+- Pocket theme remains default and free on watchOS.
 
 ### Theme Unlocks
 
@@ -157,8 +157,8 @@ NavigationStack {
 **Current behaviour:**
 
 - `LCDTheme` is free and always available.
-- `GameBoyTheme` is available on watchOS by default.
-- On other platforms, `GameBoyTheme` can be treated as a **bonus** for premium users by:
+- `PocketTheme` is available on watchOS by default.
+- On other platforms, `PocketTheme` can be treated as a **bonus** for premium users by:
   - Unlocking it when unlimited plays are purchased.
   - Using `ThemeManager`’s unlock APIs from the composition root when premium is detected (future enhancement).
 
