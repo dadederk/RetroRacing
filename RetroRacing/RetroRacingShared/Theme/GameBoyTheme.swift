@@ -16,14 +16,14 @@ public struct GameBoyTheme: GameTheme {
     public var name: String { "Game Boy" }
     public var isPremium: Bool { false }
 
-    /// Classic Game Boy background green #9BBC0F
+    /// Lightened Game Boy-inspired background for better contrast with car sprites.
     public func backgroundColor(for state: GameState) -> Color {
-        Color(red: 0.608, green: 0.737, blue: 0.059)
+        Color(red: 200 / 255, green: 220 / 255, blue: 130 / 255)
     }
 
-    /// Dark green #0F380F for foreground/grid
+    /// Grid lines stay close to the playfield tone while still reading as separators.
     public func gridLineColor() -> Color {
-        Color(red: 0.059, green: 0.220, blue: 0.059)
+        Color(red: 143 / 255, green: 161 / 255, blue: 82 / 255)
     }
 
     public func playerCarColor() -> Color {
@@ -42,9 +42,9 @@ public struct GameBoyTheme: GameTheme {
         Color(red: 0.059, green: 0.220, blue: 0.059)
     }
 
-    /// Dark green #0F380F for grid cells.
+    /// Light green playfield to keep a Game Boy look with improved car contrast.
     public func gridCellColor() -> Color {
-        Color(red: 0.059, green: 0.220, blue: 0.059)
+        Color(red: 175 / 255, green: 197 / 255, blue: 102 / 255)
     }
 
     public func cellBorderWidth() -> CGFloat { 1 }

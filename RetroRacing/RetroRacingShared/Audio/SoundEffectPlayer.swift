@@ -72,7 +72,6 @@ public protocol SoundEffectPlayer {
 private actor SoundEffectPlayerActor {
     private var players: [SoundEffect: AudioPlayer] = [:]
     private var completions: [ObjectIdentifier: (() -> Void)] = [:]
-    private var volume: Float = 0.8
 
     init(bundle: Bundle, playerFactory: (URL) -> AudioPlayer?) {
         players = Self.loadPlayers(bundle: bundle, playerFactory: playerFactory)
@@ -82,7 +81,12 @@ private actor SoundEffectPlayerActor {
         self.players = players
     }
 
-    func prepareAndPlay(_ effect: SoundEffect, delegate: AVAudioPlayerDelegate, completion: (() -> Void)?) {
+    func prepareAndPlay(
+        _ effect: SoundEffect,
+        delegate: AVAudioPlayerDelegate,
+        volume: Float,
+        completion: (() -> Void)?
+    ) {
         guard let player = players[effect] else { return }
         player.currentTime = 0
         player.volume = volume
@@ -102,7 +106,7 @@ private actor SoundEffectPlayerActor {
         return completions.removeValue(forKey: player.objectID)
     }
 
-    func stopAll(fadeDuration: TimeInterval) async {
+    func stopAll(fadeDuration: TimeInterval, targetVolume: Float) async {
         let duration = max(0, fadeDuration)
         for player in players.values where player.isPlaying {
             completions.removeValue(forKey: ObjectIdentifier(player))
@@ -110,12 +114,8 @@ private actor SoundEffectPlayerActor {
                 player.stop()
                 continue
             }
-            await fadeOutAndStop(player: player, duration: duration)
+            await fadeOutAndStop(player: player, duration: duration, targetVolume: targetVolume)
         }
-    }
-
-    func setVolume(_ volume: Double) {
-        self.volume = Float(min(max(volume, 0), 1))
     }
 
     // MARK: - Private helpers
@@ -136,7 +136,7 @@ private actor SoundEffectPlayerActor {
         return result
     }
 
-    private func fadeOutAndStop(player: AudioPlayer, duration: TimeInterval) async {
+    private func fadeOutAndStop(player: AudioPlayer, duration: TimeInterval, targetVolume: Float) async {
         let steps = 10
         let stepDuration = duration / Double(steps)
         let originalVolume = player.volume
@@ -146,14 +146,15 @@ private actor SoundEffectPlayerActor {
             player.volume = originalVolume * fraction
         }
         player.stop()
-        player.volume = volume
+        player.volume = targetVolume
     }
 }
 
 /// AVFoundation-backed implementation stored in the shared framework.
 /// Loads audio files from the bundle passed in at init.
-    public final class AVSoundEffectPlayer: NSObject, SoundEffectPlayer, AVAudioPlayerDelegate {
+public final class AVSoundEffectPlayer: NSObject, SoundEffectPlayer, AVAudioPlayerDelegate {
         private let worker: SoundEffectPlayerActor
+        private var volume: Float = Float(SoundPreferences.defaultVolume)
 
         public init(bundle: Bundle) {
             self.worker = SoundEffectPlayerActor(bundle: bundle) { url in
@@ -169,21 +170,21 @@ private actor SoundEffectPlayerActor {
     }
 
     public func play(_ effect: SoundEffect, completion: (() -> Void)?) {
+        let currentVolume = volume
         Task { [worker] in
-            await worker.prepareAndPlay(effect, delegate: self, completion: completion)
+            await worker.prepareAndPlay(effect, delegate: self, volume: currentVolume, completion: completion)
         }
     }
 
     public func stopAll(fadeDuration: TimeInterval) {
+        let currentVolume = volume
         Task { [worker] in
-            await worker.stopAll(fadeDuration: fadeDuration)
+            await worker.stopAll(fadeDuration: fadeDuration, targetVolume: currentVolume)
         }
     }
 
     public func setVolume(_ volume: Double) {
-        Task { [worker] in
-            await worker.setVolume(volume)
-        }
+        self.volume = Float(min(max(volume, 0), 1))
     }
 
     public func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {

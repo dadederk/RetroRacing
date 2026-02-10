@@ -1,1041 +1,2565 @@
 {
-  "sourceLanguage": "en",
-  "strings": {
-    "%lld lives remaining": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld vides restants"
+  "sourceLanguage" : "en",
+  "strings" : {
+    "%lld lives remaining" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld vides restants"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld lives remaining"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld lives remaining"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "%lld vidas restantes"
-          }
-        }
-      }
-    },
-    "coming_soon": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Properament"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Coming soon"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Próximamente"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld vidas restantes"
           }
         }
       }
     },
-    "Close": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tancar"
+    "0%" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "0%"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Close"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "0%"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cerrar"
-          }
-        }
-      }
-    },
-    "done": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fet"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Done"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Listo"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "0%"
           }
         }
       }
     },
-    "finish": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Acabar"
+    "100%" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "100%"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Finish"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "100%"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Finalizar"
-          }
-        }
-      }
-    },
-    "Game Center leaderboard is available on iOS and tvOS.": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "La classificació de Game Center està disponible a iOS i tvOS."
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Game Center leaderboard is available on iOS and tvOS."
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "La clasificación de Game Center está disponible en iOS y tvOS."
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "100%"
           }
         }
       }
     },
-    "gameName": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "RetroRacing!"
+    "about_also_supporting_header" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "També donem suport a"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "RetroRacing!"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Also Supporting"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "RetroRacing!"
-          }
-        }
-      }
-    },
-    "gameOver": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Joc Finalitzat"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Game Over"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fin del Juego"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "También apoyamos"
           }
         }
       }
     },
-    "leaderboard": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Classificació"
+    "about_ammec_footer" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El 10% dels ingressos de RetroRacing donen suport a AMMEC, promovent l’accessibilitat i la inclusió a la Comunitat Valenciana."
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Leaderboard"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "10% of RetroRacing proceeds support AMMEC, promoting accessibility and inclusion in the Valencian Community."
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Clasificación"
-          }
-        }
-      }
-    },
-    "lives_count": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": " x%lld"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": " x%lld"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": " x%lld"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El 10% de los ingresos de RetroRacing apoyan a AMMEC, promoviendo la accesibilidad y la inclusión en la Comunidad Valenciana."
           }
         }
       }
     },
-    "ok": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "D'acord"
+    "about_ammec_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AMMEC"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ok"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AMMEC"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Aceptar"
-          }
-        }
-      }
-    },
-    "player_car": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cotxe del jugador"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Player car"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Coche del jugador"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AMMEC"
           }
         }
       }
     },
-    "rival_car": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Cotxe rival"
+    "about_app_subtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Informació de l’app, consells i ajuda"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rival car"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "App information, tips, and help"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Coche rival"
-          }
-        }
-      }
-    },
-    "crash_sprite": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Xoc"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Crash"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Choque"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Información de la app, consejos y ayuda"
           }
         }
       }
     },
-    "Opens app rating prompt": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Obre la sol·licitud de valoració"
+    "about_app_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "RetroRacing"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Opens app rating prompt"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "RetroRacing"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Abre la solicitud de valoración"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "RetroRacing"
           }
         }
       }
     },
-    "play": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Jugar"
+    "about_connect_header" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connectem!"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Play"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Let's connect!"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Jugar"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¡Conectemos!"
           }
         }
       }
     },
-    "rateApp": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Valora l'app"
+    "about_credits_header" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crèdits"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rate the app"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Credits"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Valorar la app"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Créditos"
           }
         }
       }
     },
-    "restart": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tornar a jugar"
+    "about_font_license" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sota llicència SIL Open Font License 1.1"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Play again"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Licensed under the SIL Open Font License 1.1"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Jugar de nuevo"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bajo licencia SIL Open Font License 1.1"
           }
         }
       }
     },
-    "score": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Puntuació"
+    "about_font_press_start" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Press Start 2P"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Score"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Press Start 2P"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Puntuación"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Press Start 2P"
           }
         }
       }
     },
-    "score %lld": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Puntuació: %lld"
+    "about_footer_location" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oulu, Finlàndia"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Score: %lld"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oulu, Finland"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Puntuación: %lld"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Oulu, Finlandia"
           }
         }
       }
     },
-    "settings": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Configuració"
+    "about_footer_love" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alliberat amb estima ❤️ des d’ARCtic"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Settings"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Released with love ❤️ from ARCtic"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ajustes"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hecho con cariño ❤️ desde ARCtic"
           }
         }
       }
     },
-    "settings_coming_soon": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Configuració properament"
+    "about_footer_thanks" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gràcies a tothom qui ha jugat i m’ha animat a prémer el botó."
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Settings coming soon"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thanks to everyone that played the game and encouraged me to push the button."
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Ajustes próximamente"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gracias a todos los que habéis jugado y me habéis animado a pulsar el botón."
           }
         }
       }
     },
-    "settings_font": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tipus de lletra"
+    "about_giving_back_header" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Donar en torn"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Font"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Giving Back"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fuente"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Devolver"
           }
         }
       }
     },
-    "settings_theme": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tema"
+    "about_link_blog" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accessibility up to 11!"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Theme"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accessibility up to 11!"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Tema"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accessibility up to 11!"
           }
         }
       }
     },
-    "settings_haptic_feedback": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Retroalimentació hàptica"
+    "about_link_bluesky" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BlueSky"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Haptic feedback"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BlueSky"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Retroalimentación háptica"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "BlueSky"
           }
         }
       }
     },
-    "settings_vibration": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vibració"
+    "about_link_linkedin" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "LinkedIn"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vibration"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "LinkedIn"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Vibración"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "LinkedIn"
           }
         }
       }
     },
-    "settings_controls": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Controls"
+    "about_link_mastodon" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mastodon"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Controls"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mastodon"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Controles"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mastodon"
           }
         }
       }
     },
-    "settings_controls_ios": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Llisca cap a l'esquerra o la dreta per moure.\nToca la meitat esquerra o dreta de la pantalla.\nAmb VoiceOver: toca les zones esquerra o dreta i doble toc per moure.\nFes servir les tecles de fletxa esquerra i dreta amb un teclat connectat."
+    "about_link_twitter" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "X (Twitter)"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Swipe left or right to move.\nTap the left or right half of the screen.\nWith VoiceOver: use the left and right touch areas and double-tap to move.\nUse the left and right arrow keys when a keyboard is connected."
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "X (Twitter)"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Desliza a la izquierda o derecha para mover.\nToca la mitad izquierda o derecha de la pantalla.\nCon VoiceOver: usa las zonas táctiles izquierda y derecha y doble toque para mover.\nUsa las teclas de flecha con un teclado conectado."
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "X (Twitter)"
           }
         }
       }
     },
-    "settings_controls_tvos": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Llisca a l’esquerra o a la dreta amb el control remot Siri per moure.\nFes clic al botó de reproducció per confirmar."
+    "about_rate_hint" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Obre el diàleg per valorar l’app"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Swipe left or right on the Siri Remote to move.\nPress the play button to select."
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opens the rating dialog to rate the app"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Desliza a la izquierda o derecha con el mando Siri para mover.\nPulsa el botón de reproducción para seleccionar."
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abre el diálogo para valorar la app"
           }
         }
       }
     },
-    "settings_controls_watchos": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Gira la corona digital cap amunt per moure a la dreta i cap avall per moure a l'esquerra. Continua girant per moure't més ràpid. Toca la pantalla o prem el botó lateral per seleccionar."
+    "about_rate_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valora RetroRacing"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Rotate the Digital Crown up to move right and down to move left. Keep turning for faster moves. Tap the screen or press the side button to select."
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rate RetroRacing"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Gira la corona digital hacia arriba para mover a la derecha y hacia abajo para mover a la izquierda. Sigue girándola para moverte más rápido. Toca la pantalla o pulsa el botón lateral para seleccionar."
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valora RetroRacing"
           }
         }
       }
     },
-    "settings_controls_macos": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Fes servir les tecles de fletxa esquerra i dreta del teclat per moure.\nClica a la meitat esquerra o dreta de la pantalla amb el trackpad o el ratolí."
+    "about_swift_for_swifts_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Swift for Swifts"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Use the left and right arrow keys on the keyboard to move.\nClick the left or right half of the screen with the trackpad or mouse."
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Swift for Swifts"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Usa las teclas de flecha izquierda y derecha del teclado para mover.\nHaz clic en la mitad izquierda o derecha de la pantalla con el trackpad o el ratón."
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Swift for Swifts"
           }
         }
       }
     },
-    "move_left": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Moure a l'esquerra"
+    "about_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quant a"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Move left"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "About"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mover a la izquierda"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acerca de"
           }
         }
       }
     },
-    "move_right": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Moure a la dreta"
+    "Close" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tancar"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Move right"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mover a la derecha"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerrar"
           }
         }
       }
     },
-    "move_left_hint": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Doble toc per moure el cotxe a l'esquerra"
+    "coming_soon" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Properament"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Double-tap to move car left"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coming soon"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Doble toque para mover el coche a la izquierda"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Próximamente"
           }
         }
       }
     },
-    "move_right_hint": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Doble toc per moure el cotxe a la dreta"
+    "crash_sprite" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Xoc"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Double-tap to move car right"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crash"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Doble toque para mover el coche a la derecha"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choque"
           }
         }
       }
     },
-    "pause": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pausa"
+    "debug_section_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Debug"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pause"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Debug"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Pausa"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Debug"
           }
         }
       }
     },
-    "font_style_custom": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Retro (Press Start 2P)"
+    "debug_simulate_premium" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Simular accés Premium"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Retro (Press Start 2P)"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Simulate Premium Access"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Retro (Press Start 2P)"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Simular acceso Premium"
           }
         }
       }
     },
-    "font_style_system": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sistema"
+    "debug_simulate_premium_footer" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Simular accés Premium activa les partides il·limitades i els temes Premium per a proves sense fer una compra real."
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "System"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Simulate Premium Access enables unlimited plays and premium themes for testing without making a purchase."
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sistema"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Simular acceso Premium activa partidas ilimitadas y temas premium para probar sin hacer una compra real."
           }
         }
       }
     },
-    "font_style_system_monospaced": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sistema monoespaiat"
+    "error_product_not_available" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No s'han pogut carregar els productes. Comprova la teua connexió a Internet."
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "System monospaced"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unable to load products. Please check your internet connection."
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sistema monoespaciado"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se han podido cargar los productos. Comprueba tu conexión a Internet."
           }
         }
       }
     },
-    "resume": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Reprén"
+    "error_retry" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Torna-ho a provar"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Resume"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retry"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Reanudar"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reintentar"
           }
         }
       }
     },
-    "Shows Game Center leaderboard": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Mostra la classificació de Game Center"
+    "done" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fet"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Shows Game Center leaderboard"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Muestra la clasificación de Game Center"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Listo"
           }
         }
       }
     },
-    "Sign in to Game Center to view the leaderboard.": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Inicia la sessió a Game Center per veure la classificació."
+    "finish" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acabar"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Sign in to Game Center to view the leaderboard."
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finish"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Inicia sesión en Game Center para ver la clasificación."
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finalizar"
           }
         }
       }
     },
-    "Starts the game": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Inicia la partida"
+    "font_style_custom" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retro (Press Start 2P)"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Starts the game"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retro (Press Start 2P)"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Inicia la partida"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retro (Press Start 2P)"
           }
         }
       }
     },
-    "x%lld": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "x%lld"
+    "font_style_system" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sistema"
           }
         },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "x%lld"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "System"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "x%lld"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sistema"
           }
         }
       }
     },
-    "new_high_score_message %lld": {
-      "extractionState": "manual",
-      "localizations": {
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "New high score! %lld overtakes"
+    "font_style_system_monospaced" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sistema monoespaiat"
           }
         },
-        "es": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "¡Nuevo récord! %lld adelantamientos"
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "System monospaced"
           }
         },
-        "ca": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Nou rècord! %lld avançaments"
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sistema monoespaciado"
+          }
+        }
+      }
+    },
+    "Game Center is unavailable for this account." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Game Center no ha estat disponible per a este compte."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Game Center is unavailable for this account."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Game Center no ha estado disponible para esta cuenta."
+          }
+        }
+      }
+    },
+    "Game Center leaderboard is available on iOS and tvOS." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La classificació de Game Center està disponible a iOS i tvOS."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Game Center leaderboard is available on iOS and tvOS."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La clasificación de Game Center está disponible en iOS y tvOS."
+          }
+        }
+      }
+    },
+    "Game Center leaderboard is not available on this device." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La classificació de Game Center no ha estat disponible en este dispositiu."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Game Center leaderboard is not available on this device."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La clasificación de Game Center no ha estado disponible en este dispositivo."
+          }
+        }
+      }
+    },
+    "gameName" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "RetroRacing!"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "RetroRacing!"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "RetroRacing!"
+          }
+        }
+      }
+    },
+    "gameOver" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Joc Finalitzat"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Game Over"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fin del Juego"
+          }
+        }
+      }
+    },
+    "leaderboard" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Classificació"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leaderboard"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clasificación"
+          }
+        }
+      }
+    },
+    "lives_count" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " x%lld"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " x%lld"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : " x%lld"
+          }
+        }
+      }
+    },
+    "menu_button" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menú"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menu"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Menú"
+          }
+        }
+      }
+    },
+    "move_left" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Moure a l'esquerra"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Move left"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mover a la izquierda"
+          }
+        }
+      }
+    },
+    "move_left_hint" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doble toc per moure el cotxe a l'esquerra"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Double-tap to move car left"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doble toque para mover el coche a la izquierda"
+          }
+        }
+      }
+    },
+    "move_right" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Moure a la dreta"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Move right"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mover a la derecha"
+          }
+        }
+      }
+    },
+    "move_right_hint" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doble toc per moure el cotxe a la dreta"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Double-tap to move car right"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Doble toque para mover el coche a la derecha"
+          }
+        }
+      }
+    },
+    "new_high_score_message %lld" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nou rècord! %lld avançaments"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New high score! %lld overtakes"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¡Nuevo récord! %lld adelantamientos"
+          }
+        }
+      }
+    },
+    "ok" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "D'acord"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ok"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aceptar"
+          }
+        }
+      }
+    },
+    "OK" : {
+
+    },
+    "One-time purchase. No subscription. Unlocks unlimited plays forever." : {
+
+    },
+    "Opens app rating prompt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Obre la sol·licitud de valoració"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opens app rating prompt"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abre la solicitud de valoración"
+          }
+        }
+      }
+    },
+    "pause" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pausa"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pause"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pausa"
+          }
+        }
+      }
+    },
+    "paywall_caption_coffee" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Has arribat al teu límit diari. Considera fer-te premium com una manera d'invitar-me a un café. Estar ben cafenat m'ajudarà a continuar desenvolupant RetroRacing, mantindre'l i afegir-hi noves funcionalitats que espere que t'agraden."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You've reached your daily limit. Consider going premium as a way to buy me coffee. Being caffeinated will help me further develop RetroRacing, maintain it, and add new features that I hope you'll love."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Has alcanzado tu límite diario. Plantéate hacerte premium como una forma de invitarme a un café. Estar bien cafeinado me ayudará a seguir desarrollando RetroRacing, mantenerlo y añadir nuevas funciones que espero que te encanten."
+          }
+        }
+      }
+    },
+    "paywall_unlimited_and_themes" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Amb Premium tens partides il·limitades i pots configurar diferents temes visuals per a RetroRacing."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "With Premium you get unlimited games and can configure different visual themes for RetroRacing."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Con Premium obtienes partidas ilimitadas y puedes configurar distintos temas visuales para RetroRacing."
+          }
+        }
+      }
+    },
+    "paywall_close" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tanca"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerrar"
+          }
+        }
+      }
+    },
+    "paywall_giving_back_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El 10% dels ingressos es destinen a **AMMEC**, una associació que promou l'autonomia i la integració social de persones amb discapacitats físiques, donant suport a les famílies i fomentant la comunitat."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "10% of proceeds go to **AMMEC**, an association that promotes autonomy and social integration for people with physical disabilities, supporting families and fostering community."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El 10% de los ingresos se destinan a **AMMEC**, una asociación que promueve la autonomía e integración social de personas con discapacidades físicas, apoyando a las familias y fomentando la comunidad."
+          }
+        }
+      }
+    },
+    "paywall_giving_back_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tornar a la comunitat"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Giving Back"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Devolver a la comunidad"
+          }
+        }
+      }
+    },
+    "paywall_go_premium" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fes-te Premium"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Go Premium"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hazte Premium"
+          }
+        }
+      }
+    },
+    "paywall_learn_more" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Més informació"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Learn More"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Más información"
+          }
+        }
+      }
+    },
+    "paywall_stay_free_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cap problema! El teu límit diari es reinicia a mitjanit. Només cal esperar una miqueta per a tornar a gaudir del joc. Fins demà!"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No problem! Your daily limit resets at midnight. Just wait a bit to fully enjoy the game again. See you tomorrow!"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¡Sin problema! Tu límite diario se reinicia a medianoche. Solo tienes que esperar un poco para volver a disfrutar del juego. ¡Hasta mañana!"
+          }
+        }
+      }
+    },
+    "paywall_stay_free_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vols continuar jugant de franc?"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Want to Stay Free?"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Quieres seguir gratis?"
+          }
+        }
+      }
+    },
+    "paywall_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desbloqueja partides il·limitades"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unlock Unlimited Games"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desbloquea partidas ilimitadas"
+          }
+        }
+      }
+    },
+    "play" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jugar"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Play"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jugar"
+          }
+        }
+      }
+    },
+    "play_limit_remaining %lld" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restants: %lld de 6"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remaining: %lld of 6"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restantes: %lld de 6"
+          }
+        }
+      }
+    },
+    "play_limit_resets_in_hours %lld" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es reinicia d'ací %lld hores"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resets in %lld hours"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se reinicia en %lld horas"
+          }
+        }
+      }
+    },
+    "play_limit_resets_tomorrow" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Es reinicia demà a les 00:00"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resets tomorrow at 00:00"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Se reinicia mañana a las 00:00"
+          }
+        }
+      }
+    },
+    "play_limit_thank_you" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gràcies pel teu suport!"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thank you for your support!"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¡Gracias por tu apoyo!"
+          }
+        }
+      }
+    },
+    "play_limit_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Límit de partides"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Play Limit"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Límite de partidas"
+          }
+        }
+      }
+    },
+    "play_limit_unlimited" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "♾️ Il·limitat"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "♾️ Unlimited"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "♾️ Ilimitado"
+          }
+        }
+      }
+    },
+    "player_car" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cotxe del jugador"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Player car"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coche del jugador"
+          }
+        }
+      }
+    },
+    "product_unlimited_plays" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partides il·limitades"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unlimited Plays"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partidas ilimitadas"
+          }
+        }
+      }
+    },
+    "purchase_error_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La compra ha fallat"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Purchase Failed"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La compra ha fallado"
+          }
+        }
+      }
+    },
+    "purchase_restored_failed %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No s'han pogut restaurar les compres: %@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Failed to restore purchases: %@"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se han podido restaurar las compras: %@"
+          }
+        }
+      }
+    },
+    "purchase_restored_none" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No s'ha trobat cap compra per restaurar."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No purchases found to restore."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se ha encontrado ninguna compra para restaurar."
+          }
+        }
+      }
+    },
+    "purchase_restored_success" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compra restaurada correctament."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Purchase restored successfully!"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compra restaurada correctamente."
+          }
+        }
+      }
+    },
+    "purchase_success_message" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ara tens partides il·limitades!"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You now have unlimited plays!"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¡Ahora tienes partidas ilimitadas!"
+          }
+        }
+      }
+    },
+    "purchase_success_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compra correcta"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Purchase Successful"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compra realizada"
+          }
+        }
+      }
+    },
+    "rateApp" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valora l'app"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rate the app"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Valorar la app"
+          }
+        }
+      }
+    },
+    "redeem_code" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Redeem codi"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Redeem Code"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Canjear código"
+          }
+        }
+      }
+    },
+    "restart" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tornar a jugar"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Play again"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jugar de nuevo"
+          }
+        }
+      }
+    },
+    "restore_purchases" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restaurar compres"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restore Purchases"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restaurar compras"
+          }
+        }
+      }
+    },
+    "resume" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reprén"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resume"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reanudar"
+          }
+        }
+      }
+    },
+    "rival_car" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cotxe rival"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rival car"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coche rival"
+          }
+        }
+      }
+    },
+    "score" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Puntuació"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Score"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Puntuación"
+          }
+        }
+      }
+    },
+    "score %lld" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Puntuació: %lld"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Score: %lld"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Puntuación: %lld"
+          }
+        }
+      }
+    },
+    "settings" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configuració"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajustes"
+          }
+        }
+      }
+    },
+    "settings_coming_soon" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Configuració properament"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings coming soon"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajustes próximamente"
+          }
+        }
+      }
+    },
+    "settings_controls" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Controls"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Controls"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Controles"
+          }
+        }
+      }
+    },
+    "settings_controls_ios" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "• Llisca cap a l'esquerra o la dreta per moure.\n• Toca la meitat esquerra o dreta de la pantalla.\n• Fes servir les tecles de fletxa esquerra i dreta amb un teclat connectat."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "• Swipe left or right to move.\n• Tap the left or right half of the screen.\n• Use the left and right arrow keys when a keyboard is connected."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "• Desliza a la izquierda o derecha para mover.\n• Toca la mitad izquierda o derecha de la pantalla.\n• Usa las teclas de flecha con un teclado conectado."
+          }
+        }
+      }
+    },
+    "settings_controls_macos" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "• Fes servir les tecles de fletxa esquerra i dreta del teclat per moure.\n• Clica a la meitat esquerra o dreta de la pantalla amb el trackpad o el ratolí."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "• Use the left and right arrow keys on the keyboard to move.\n• Click the left or right half of the screen with the trackpad or mouse."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "• Usa las teclas de flecha izquierda y derecha del teclado para mover.\n• Haz clic en la mitad izquierda o derecha de la pantalla con el trackpad o el ratón."
+          }
+        }
+      }
+    },
+    "settings_controls_tvos" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "• Llisca a l’esquerra o a la dreta amb el control remot Siri per moure.\n• Fes clic al botó de reproducció per confirmar."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "• Swipe left or right on the Siri Remote to move.\n• Press the play button to select."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "• Desliza a la izquierda o derecha con el mando Siri para mover.\n• Pulsa el botón de reproducción para seleccionar."
+          }
+        }
+      }
+    },
+    "settings_controls_watchos" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "• Toca la part esquerra de la pantalla per moure a l'esquerra.\n• Toca la part dreta de la pantalla per moure a la dreta.\n• Llisca cap a l'esquerra o cap a la dreta per moure.\n• Fes servir el botó de pausa a la cantonada superior dreta per pausar o reprendre la cursa."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "• Tap the left side of the screen to move left.\n• Tap the right side of the screen to move right.\n• Swipe left or right on the screen to move.\n• Use the pause button in the top-right corner to pause or resume the race."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "• Toca la parte izquierda de la pantalla para moverte a la izquierda.\n• Toca la parte derecha de la pantalla para moverte a la derecha.\n• Desliza a la izquierda o derecha en la pantalla para moverte.\n• Usa el botón de pausa en la esquina superior derecha para pausar o reanudar la carrera."
+          }
+        }
+      }
+    },
+    "settings_font" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tipus de lletra"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Font"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fuente"
+          }
+        }
+      }
+    },
+    "settings_haptic_feedback" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retroalimentació hàptica"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Haptic feedback"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retroalimentación háptica"
+          }
+        }
+      }
+    },
+    "settings_leaderboard_watch_info" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les puntuacions s'envien a Game Center. Consulta les classificacions a l'iPhone o l'iPad."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scores are submitted to Game Center. View leaderboards on iPhone or iPad."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Las puntuaciones se envían a Game Center. Consulta las clasificaciones en iPhone o iPad."
+          }
+        }
+      }
+    },
+    "settings_leaderboard_watch_sign_in_required" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inicia la sessió a Game Center des del teu iPhone per enviar puntuacions des del rellotge."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign in to Game Center on your iPhone to submit scores from the watch."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inicia sesión en Game Center en tu iPhone para enviar puntuaciones desde el reloj."
+          }
+        }
+      }
+    },
+    "settings_learn_premium" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Més informació sobre Premium"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Learn About Going Premium"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Más información sobre Premium"
+          }
+        }
+      }
+    },
+    "settings_percentage_value" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld%%"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld%%"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld%%"
+          }
+        }
+      }
+    },
+    "settings_premium_active" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Premium actiu"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Premium Active"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Premium activo"
+          }
+        }
+      }
+    },
+    "settings_purchases_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compres"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Purchases"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compras"
+          }
+        }
+      }
+    },
+    "settings_restore_footer" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Si ja has comprat Premium en un altre dispositiu, toca Restaurar compres."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "If you've purchased premium on another device, tap Restore Purchases."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Si ya has comprado Premium en otro dispositivo, toca Restaurar compras."
+          }
+        }
+      }
+    },
+    "settings_sound" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "So"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sound"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sonido"
+          }
+        }
+      }
+    },
+    "settings_sound_effects_volume" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volum dels efectes de so"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sound effects volume"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Volumen de efectos de sonido"
+          }
+        }
+      }
+    },
+    "settings_theme" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tema"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Theme"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tema"
+          }
+        }
+      }
+    },
+    "settings_vibration" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vibració"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vibration"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vibración"
+          }
+        }
+      }
+    },
+    "Shows Game Center leaderboard" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostra la classificació de Game Center"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shows Game Center leaderboard"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Muestra la clasificación de Game Center"
+          }
+        }
+      }
+    },
+    "Sign in to Game Center to view the leaderboard." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inicia la sessió a Game Center per veure la classificació."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign in to Game Center to view the leaderboard."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inicia sesión en Game Center para ver la clasificación."
+          }
+        }
+      }
+    },
+    "Starts the game" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inicia la partida"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Starts the game"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inicia la partida"
+          }
+        }
+      }
+    },
+    "x%lld" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "x%lld"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "x%lld"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "x%lld"
           }
         }
       }
     }
   },
-  "version": "1.0"
+  "version" : "1.0"
 }

@@ -7,6 +7,7 @@ struct WatchGameView: View {
     let fontPreferenceStore: FontPreferenceStore?
     let highestScoreStore: HighestScoreStore
     let crownConfiguration: LegacyCrownInputProcessor.Configuration
+    let leaderboardService: LeaderboardService
     @AppStorage(SoundPreferences.volumeKey) private var sfxVolume: Double = SoundPreferences.defaultVolume
     @State private var scene: GameScene
     @State private var crownValue: Double = 0
@@ -32,12 +33,14 @@ struct WatchGameView: View {
         theme: any GameTheme,
         fontPreferenceStore: FontPreferenceStore? = nil,
         highestScoreStore: HighestScoreStore,
-        crownConfiguration: LegacyCrownInputProcessor.Configuration
+        crownConfiguration: LegacyCrownInputProcessor.Configuration,
+        leaderboardService: LeaderboardService
     ) {
         self.theme = theme
         self.fontPreferenceStore = fontPreferenceStore
         self.highestScoreStore = highestScoreStore
         self.crownConfiguration = crownConfiguration
+        self.leaderboardService = leaderboardService
         let size = CGSize(width: 400, height: 300)
         let soundPlayer = PlatformFactories.makeSoundPlayer()
         soundPlayer.setVolume(SoundPreferences.defaultVolume)
@@ -60,10 +63,13 @@ struct WatchGameView: View {
     private static let crownIdleResetDelay: Duration = .milliseconds(150)
 
     var body: some View {
-        VStack {
+        VStack(spacing: 4) {
             HStack {
                 Text(GameLocalizedStrings.format("score %lld", score))
                     .font(headerFont(size: 10))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.7)
+                    .allowsTightening(true)
                 Spacer()
                 HStack(spacing: 2) {
                     Image(theme.lifeSprite() ?? "life", bundle: Self.sharedBundle)
@@ -72,8 +78,13 @@ struct WatchGameView: View {
                         .frame(width: 16, height: 16)
                     Text(GameLocalizedStrings.format("lives_count", lives))
                         .font(headerFont(size: 10))
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.7)
+                        .allowsTightening(true)
                 }
             }
+            .frame(minHeight: 20)
+            .layoutPriority(1)
             GeometryReader { geo in
                 ZStack {
                     SpriteView(scene: scene)
@@ -81,11 +92,29 @@ struct WatchGameView: View {
                         .contentShape(Rectangle())
                         .onTapGesture(coordinateSpace: .local) { location in
                             if location.x < geo.size.width / 2 {
+                                AppLog.info(AppLog.game, "🎮 Watch tap on left half (x: \(location.x), width: \(geo.size.width))")
                                 inputAdapter?.handleLeft()
                             } else {
+                                AppLog.info(AppLog.game, "🎮 Watch tap on right half (x: \(location.x), width: \(geo.size.width))")
                                 inputAdapter?.handleRight()
                             }
                         }
+                        .gesture(
+                            DragGesture(minimumDistance: 20)
+                                .onEnded { value in
+                                    guard value.translation.width != 0 else { return }
+                                    let direction = value.translation.width < 0 ? "left" : "right"
+                                    AppLog.info(
+                                        AppLog.game,
+                                        "🎮 Watch swipe \(direction) with translation: \(value.translation.width)"
+                                    )
+                                    if value.translation.width < 0 {
+                                        inputAdapter?.handleLeft()
+                                    } else {
+                                        inputAdapter?.handleRight()
+                                    }
+                                }
+                        )
                 }
                 .focusable()
                 .focused($isCrownFocused)
@@ -99,7 +128,9 @@ struct WatchGameView: View {
                     isHapticFeedbackEnabled: true
                 )
                 .onChange(of: crownValue, initial: false) { oldValue, newValue in
-                    handleCrownDelta(newValue - oldValue)
+                    let delta = newValue - oldValue
+                    AppLog.info(AppLog.game, "🎮 Watch crown value changed: old=\(oldValue), new=\(newValue), delta=\(delta)")
+                    handleCrownDelta(delta)
                 }
             }
         }
@@ -118,6 +149,9 @@ struct WatchGameView: View {
                         lives = scene.gameState.lives
                         if scene.gameState.lives == 0 {
                             gameOverScore = scene.gameState.score
+                            let authenticated = leaderboardService.isAuthenticated()
+                            AppLog.info(AppLog.game + AppLog.leaderboard, "🏆 watchOS game over – score \(gameOverScore), Game Center authenticated: \(authenticated)")
+                            leaderboardService.submitScore(gameOverScore)
                             isNewHighScore = highestScoreStore.updateIfHigher(gameOverScore)
                             showGameOver = true
                         } else {
@@ -184,6 +218,7 @@ struct WatchGameView: View {
 
     private func handleCrownDelta(_ delta: Double) {
         let action = crownProcessor.handleRotationDelta(delta)
+        AppLog.info(AppLog.game, "🎮 Watch crown delta \(delta) produced action: \(String(describing: action))")
         scheduleCrownIdleReset()
 
         switch action {

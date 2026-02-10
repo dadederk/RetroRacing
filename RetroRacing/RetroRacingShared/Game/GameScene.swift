@@ -13,6 +13,12 @@ import UIKit
 import AppKit
 #endif
 
+// Single source of truth for the game grid dimensions.
+private enum GridConfiguration {
+    static let numberOfRows = 5
+    static let numberOfColumns = 3
+}
+
 /// Input commands for the game. Named to avoid shadowing the GameController framework (physical controllers).
 public protocol RacingGameController {
     func moveLeft()
@@ -40,7 +46,10 @@ public class GameScene: SKScene {
     var spritesForGivenState = [SKSpriteNode]()
 
     let gridCalculator = GridStateCalculator(randomSource: InfrastructureDefaults.randomSource)
-    var gridState = GridState(numberOfRows: 5, numberOfColumns: 3)
+    var gridState = GridState(
+        numberOfRows: GridConfiguration.numberOfRows,
+        numberOfColumns: GridConfiguration.numberOfColumns
+    )
     public private(set) var gameState = GameState()
     private var lastPlayerColumn: Int = 1
 
@@ -132,7 +141,10 @@ public class GameScene: SKScene {
     }
 
     public func resume() {
-        gridState = GridState(numberOfRows: 5, numberOfColumns: 3)
+        gridState = GridState(
+            numberOfRows: GridConfiguration.numberOfRows,
+            numberOfColumns: GridConfiguration.numberOfColumns
+        )
         updatePauseState(true)
         play(.start) { [weak self] in
             self?.updatePauseState(false)
@@ -195,7 +207,10 @@ public class GameScene: SKScene {
 
     private func initialiseGame() {
         lastGameUpdateTime = 0
-        gridState = GridState(numberOfRows: 5, numberOfColumns: 3)
+        gridState = GridState(
+            numberOfRows: GridConfiguration.numberOfRows,
+            numberOfColumns: GridConfiguration.numberOfColumns
+        )
         lastPlayerColumn = gridState.playerRow().firstIndex(of: .Player) ?? 1
         gameState = GameState()
         gridStateDidUpdate(gridState, shouldPlayFeedback: false, notifyDelegate: false)

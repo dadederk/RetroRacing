@@ -7,6 +7,11 @@ import SwiftUI
 import RetroRacingShared
 import CoreText
 
+/// Game Center leaderboard configuration for watchOS sandbox.
+private struct LeaderboardConfigurationWatchOS: LeaderboardConfiguration {
+    let leaderboardID = "bestwatchos001test"
+}
+
 @main
 struct RetroRacingWatchOSApp: App {
     private let themeManager: ThemeManager = {
@@ -21,8 +26,14 @@ struct RetroRacingWatchOSApp: App {
         )
     }()
     private let crownConfiguration = LegacyCrownInputProcessor.Configuration.watchLegacy
+    private let leaderboardService: LeaderboardService = GameCenterService(
+        configuration: LeaderboardConfigurationWatchOS(),
+        authenticationPresenter: nil,
+        authenticateHandlerSetter: nil
+    )
     private let fontPreferenceStore: FontPreferenceStore
     private let highestScoreStore = UserDefaultsHighestScoreStore(userDefaults: InfrastructureDefaults.userDefaults)
+    private let playLimitService = UserDefaultsPlayLimitService(userDefaults: InfrastructureDefaults.userDefaults)
 
     var body: some Scene {
         WindowGroup {
@@ -30,7 +41,8 @@ struct RetroRacingWatchOSApp: App {
                 themeManager: themeManager,
                 fontPreferenceStore: fontPreferenceStore,
                 highestScoreStore: highestScoreStore,
-                crownConfiguration: crownConfiguration
+                crownConfiguration: crownConfiguration,
+                leaderboardService: leaderboardService
             )
         }
     }

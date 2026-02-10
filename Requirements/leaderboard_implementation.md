@@ -44,23 +44,30 @@ protocol LeaderboardService {
 **Platform Integration:**
 - iOS/macOS: `MenuView` (SwiftUI) in main app target; composition root in `RetroRacingApp.swift` injects `GameCenterService` and `LeaderboardConfiguration`.
 - tvOS: `tvOSMenuView` (SwiftUI) in tvOS target; composition root in `RetroRacingTvOSApp.swift`.
-- watchOS: `ContentView` (SwiftUI) as main menu; `RetroRacingWatchOSApp.swift` as composition root.
+- watchOS: `ContentView` (SwiftUI) as main menu; `RetroRacingWatchOSApp.swift` as composition root. `GameCenterService` is injected with `LeaderboardConfigurationWatchOS`; `WatchGameView` calls `leaderboardService.submitScore(score)` on game over so watch scores appear on the watch leaderboard in App Store Connect. No Leaderboard button on menu; leaderboard info is in Settings.
 - visionOS: TBD
 
 View layer characteristics:
-- Zero GameKit imports in view layer
+- Zero GameKit imports in most of the view layer (except the dedicated shared `LeaderboardView` wrapper)
 - Only calls service methods (`leaderboardService.submitScore`, `gameCenterService.isAuthenticated`, etc.)
-- Leaderboard presentation via `LeaderboardView` / `tvOSLeaderboardView` using `GKAccessPoint.shared.trigger(leaderboardID:...)` (iOS 26+ / tvOS 26+).
+- Leaderboard presentation:
+  - iOS / tvOS: via `LeaderboardView` using `GKAccessPoint.shared.trigger(leaderboardID:...)` (iOS 26+ / tvOS 26+)
+  - macOS: via `LeaderboardView` wrapping `GKGameCenterViewController` in `NSViewControllerRepresentable` so the sheet dismisses cleanly
+  - watchOS: no in-app leaderboard UI (Apple does not provide a watch-appropriate leaderboard sheet). Scores are submitted to Game Center via the same `GameCenterService` and `LeaderboardConfiguration` (watch ID `bestwatchos001test`). Users see “Scores are submitted to Game Center. View leaderboards on iPhone or iPad.” in Settings.
 
 ## Known Issues
 
 ### Game Center (iOS 26 / tvOS 26)
 
-**Resolved:** `GKGameCenterViewController` and `GKGameCenterControllerDelegate` were deprecated in iOS 26 / tvOS 26 with replacement **GKAccessPoint**. The app now uses `GKAccessPoint.shared.trigger(leaderboardID:playerScope:timeScope:handler:)` to present the leaderboard (see `LeaderboardView.swift`, `tvOSLeaderboardView.swift`). No deprecated Game Center APIs are used on iOS/tvOS 26+.
+**Resolved:** `GKGameCenterViewController` and `GKGameCenterControllerDelegate` were deprecated in iOS 26 / tvOS 26 with replacement **GKAccessPoint**. The app now uses `GKAccessPoint.shared.trigger(leaderboardID:playerScope:timeScope:handler:)` to present the leaderboard on iOS/tvOS (see `LeaderboardView.swift`, `tvOSLeaderboardView.swift`). On macOS, the app uses `GKGameCenterViewController` wrapped in SwiftUI, which remains supported.
 
 ### Localization for Score Units
 
 - English-only for sandbox: score suffix singular `overtake`, plural `Overtakes`. Applied to every leaderboard localization in App Store Connect (set + boards). Add ES/CA later for production.
+
+### Debugging score submission
+
+- All leaderboard/Game Center logs use the 🏆 emoji (and `AppLog.leaderboard`). Filter console or logs by `🏆` to see: score submit attempts, “player not authenticated” skips, success, or failure with error message. Useful for diagnosing watch scores not appearing on the leaderboard.
 
 ## Testing Strategy
 

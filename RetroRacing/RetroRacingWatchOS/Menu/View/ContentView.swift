@@ -6,6 +6,7 @@ struct ContentView: View {
     let fontPreferenceStore: FontPreferenceStore
     let highestScoreStore: HighestScoreStore
     let crownConfiguration: LegacyCrownInputProcessor.Configuration
+    let leaderboardService: LeaderboardService
     @State private var showGame = false
     @State private var gameID = 0
     @State private var showSettings = false
@@ -24,14 +25,16 @@ struct ContentView: View {
                 }
                 .buttonStyle(.glassProminent)
             }
+            .fontPreferenceStore(fontPreferenceStore)
             .navigationDestination(isPresented: $showGame) {
                 WatchGameView(
                     theme: themeManager.currentTheme,
                     fontPreferenceStore: fontPreferenceStore,
                     highestScoreStore: highestScoreStore,
-                    crownConfiguration: crownConfiguration
+                    crownConfiguration: crownConfiguration,
+                    leaderboardService: leaderboardService
                 )
-                    .id(gameID)
+                .id(gameID)
             }
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -45,7 +48,12 @@ struct ContentView: View {
                 }
             }
             .sheet(isPresented: $showSettings) {
-                SettingsView(themeManager: themeManager, fontPreferenceStore: fontPreferenceStore, supportsHapticFeedback: true)
+                SettingsView(
+                    themeManager: themeManager,
+                    fontPreferenceStore: fontPreferenceStore,
+                    supportsHapticFeedback: true,
+                    isGameCenterAuthenticated: leaderboardService.isAuthenticated()
+                )
             }
         }
     }
@@ -63,6 +71,18 @@ struct ContentView: View {
             customFontAvailable: true
         ),
         highestScoreStore: UserDefaultsHighestScoreStore(userDefaults: InfrastructureDefaults.userDefaults),
-        crownConfiguration: .watchLegacy
+        crownConfiguration: .watchLegacy,
+        leaderboardService: PreviewLeaderboardService()
     )
+}
+
+/// Preview-only leaderboard service (no-op).
+private struct PreviewLeaderboardService: LeaderboardService {
+    func submitScore(_ score: Int) {}
+    func isAuthenticated() -> Bool { true }
+}
+
+private final class PreviewRatingServiceForSettings: RatingService {
+    func requestRating() {}
+    func checkAndRequestRating(score: Int) {}
 }

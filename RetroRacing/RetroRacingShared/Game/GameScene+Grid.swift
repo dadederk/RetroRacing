@@ -24,6 +24,11 @@ extension GameScene {
         return theme.gridCellColor().skColor
     }
 
+    func gridLineStrokeColor() -> SKColor {
+        guard let theme else { return .gray }
+        return theme.gridLineColor().skColor
+    }
+
     func createCell(column: Int, row: Int) -> SKShapeNode {
         let cellSize = sizeForCell()
         let origin = positionForCellIn(column: column, row: row, size: cellSize)
@@ -34,7 +39,7 @@ extension GameScene {
         let cell = SKShapeNode(rect: frame)
         cell.name = nameForCell(column: column, row: row)
         cell.fillColor = gridCellFillColor()
-        cell.strokeColor = .gray
+        cell.strokeColor = gridLineStrokeColor()
         cell.zPosition = 1
 
         return cell
@@ -118,6 +123,7 @@ extension GameScene {
                 }
 
                 cell.fillColor = gridCellFillColor()
+                cell.strokeColor = gridLineStrokeColor()
             }
         }
     }

@@ -20,7 +20,10 @@ public struct LCDTheme: GameTheme {
         Color(red: 154 / 255, green: 220 / 255, blue: 38 / 255)
     }
 
-    public func gridLineColor() -> Color { .gray }
+    /// Slightly darker beige than the cell fill for softer LCD lane separation.
+    public func gridLineColor() -> Color {
+        Color(red: 224 / 255, green: 213 / 255, blue: 185 / 255)
+    }
     /// Pastel beige grid to differentiate from Game Boy.
     public func gridCellColor() -> Color {
         Color(red: 245 / 255, green: 235 / 255, blue: 210 / 255)

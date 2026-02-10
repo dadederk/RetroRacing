@@ -28,7 +28,10 @@ The game **must** respect the user’s Reduce Motion preference:
 
 ## Navigation & Gestures
 
-- iOS: Disable the interactive pop (edge swipe-back) gesture on the gameplay screen so horizontal drags used for car control are never intercepted by navigation. Users exit via the back button or in-game finish controls instead.
+- iOS / iPadOS / macOS (Universal): Disable the interactive pop (edge swipe-back) gesture on the gameplay screen so horizontal drags used for car control are never intercepted by navigation. Users exit gameplay via the in-game **Finish** control, which returns to the full-screen menu overlay, or via an optional in-game **Menu** toolbar button that pauses the game and presents the same overlay.
+- tvOS: Map Siri Remote directional input to left/right movement using `onMoveCommand`.
+-
+- Menu overlay: When the menu is presented as a full-screen cover on top of `GameView`, gameplay is paused under the hood and `.interactiveDismissDisabled(true)` is used so the overlay is **Play-only dismiss**. This ensures VoiceOver and switch-control users have a clear, explicit way to start or resume gameplay.
 
 ## Pause/Resume Control (Universal, watchOS, tvOS)
 

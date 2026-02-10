@@ -36,18 +36,23 @@ public final class GameCenterService: LeaderboardService {
 
     public func submitScore(_ score: Int) {
         guard isAuthenticated() else {
-            AppLog.info(AppLog.game, "Skipped score submit \(score) because player not authenticated")
+            AppLog.info(AppLog.game + AppLog.leaderboard, "🏆 Skipped score submit \(score) – player not authenticated (leaderboardID: \(configuration.leaderboardID))")
             return
         }
+
+        let leaderboardID = configuration.leaderboardID
+        AppLog.info(AppLog.game + AppLog.leaderboard, "🏆 Submitting score \(score) to leaderboard \(leaderboardID)")
 
         GKLeaderboard.submitScore(
             score,
             context: 0,
             player: GKLocalPlayer.local,
-            leaderboardIDs: [configuration.leaderboardID]
+            leaderboardIDs: [leaderboardID]
         ) { error in
             if let error = error {
-                AppLog.error(AppLog.game, "Failed to submit score \(score): \(error.localizedDescription)")
+                AppLog.error(AppLog.game + AppLog.leaderboard, "🏆 Failed to submit score \(score) to \(leaderboardID): \(error.localizedDescription)")
+            } else {
+                AppLog.info(AppLog.game + AppLog.leaderboard, "🏆 Successfully submitted score \(score) to \(leaderboardID)")
             }
         }
     }

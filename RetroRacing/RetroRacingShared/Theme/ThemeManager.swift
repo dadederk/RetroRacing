@@ -42,6 +42,15 @@ public final class ThemeManager {
         !theme.isPremium || unlockedThemeIDs.contains(theme.id)
     }
 
+    /// Returns true when a theme with the given identifier is accessible
+    /// to the current user, taking into account free vs premium status.
+    public func isThemeAccessible(id: String) -> Bool {
+        guard let theme = availableThemes.first(where: { $0.id == id }) else {
+            return false
+        }
+        return isThemeAvailable(theme)
+    }
+
     public func unlockTheme(_ theme: GameTheme) {
         var ids = Array(unlockedThemeIDs)
         if !ids.contains(theme.id) {

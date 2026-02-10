@@ -68,7 +68,7 @@ Default theme on iOS, tvOS, macOS, visionOS. Pastel beige grid to differentiate 
 **Visual Style:**
 - Background: Light green
 - Grid cell fill: Pastel beige (RGB ~245/235/210)
-- Grid lines: Gray
+- Grid lines: Soft beige, slightly darker than cell fill (RGB ~224/213/185)
 - Sprites: `playersCar-LCD`, `rivalsCar-LCD`, `crash-LCD`
 
 **Platforms:** iOS, tvOS, macOS, visionOS (default)
@@ -78,8 +78,9 @@ Default theme on iOS, tvOS, macOS, visionOS. Pastel beige grid to differentiate 
 Iconic monochrome green aesthetic. Default on watchOS.
 
 **Visual Style:**
-- Background: `#9BBC0F` (classic Game Boy green)
-- Grid cell fill: `#0F380F` (dark green)
+- Background: Light green (`#C8DC82`) to improve contrast with cars
+- Grid cell fill: Mid-light green (`#AFC566`)
+- Grid lines: Subtle darker green (`#8FA152`) close to the playfield tone
 - Sprites: `playersCar-GameBoy`, `rivalsCar-GameBoy`, `crash-GameBoy`
 
 **Platforms:** All; **default on watchOS** (see Platform defaults below).

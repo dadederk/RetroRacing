@@ -19,6 +19,11 @@ Legacy folders (`RetroRacing/RetroRacing*` old pilot layouts) have been removed;
 - Xcode 16+
 - Deployment: iOS 26+, watchOS 26+, tvOS 26+, macOS 26+, visionOS 26+
 
+## Behaviour & Flow
+
+- Launch and menu flow is documented in `Requirements/launch_flow.md` (game-base + full-screen menu overlay on Universal and tvOS).
+- Accessibility requirements, including reduce motion, VoiceOver, and navigation expectations, are documented in `Requirements/accessibility.md`.
+
 ## Build and run
 
 1. Open `RetroRacing/RetroRacing.xcodeproj`.

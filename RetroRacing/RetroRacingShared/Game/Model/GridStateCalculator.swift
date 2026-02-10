@@ -58,7 +58,10 @@ public final class GridStateCalculator {
 
     /// Returns a new grid state by moving the player in the specified direction within the last row, if possible.
     private func movePlayer(toDirection direction: Direction, forPreviousGridState previousGridState: GridState) -> GridState {
-        guard let playerPosition = previousGridState.playerRow().firstIndex(of: .Player) else { fatalError("Player position not found") }
+        guard let playerPosition = previousGridState.playerRow().firstIndex(of: .Player) else {
+            AppLog.error(AppLog.game, "GridStateCalculator.movePlayer – Player position not found, returning previous grid unchanged")
+            return previousGridState
+        }
         var newGridState = previousGridState
         var newPlayerPosition: Int
 
@@ -76,7 +79,10 @@ public final class GridStateCalculator {
     /// Returns a new grid state by inserting a random row at the specified index and removing the penultimate row. Also computes effects for crashes or scoring.
     private func insert(newRandomRowAtIndex rowIndex: Int, forPreviousGridState previousGridState: GridState) -> (GridState, [Effect]) {
         guard rowIndex >= 0 && rowIndex < previousGridState.numberOfRows else { fatalError("Grid row index out of bounds") }
-        guard let playerPosition = previousGridState.playerRow().firstIndex(of: .Player) else { fatalError("Player position not found") }
+        guard let playerPosition = previousGridState.playerRow().firstIndex(of: .Player) else {
+            AppLog.error(AppLog.game, "GridStateCalculator.insert – Player position not found, returning previous grid and no effects")
+            return (previousGridState, [])
+        }
         let newRandomRow = rowWithRandomValues(size: previousGridState.numberOfColumns)
         let penultimateRowIndex = previousGridState.numberOfRows - 2
         let crash = previousGridState.grid[penultimateRowIndex][playerPosition] == GridState.CellState.Car

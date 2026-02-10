@@ -16,6 +16,8 @@ public enum AppLog {
     public static let localization = "🌐"
     public static let theme = "🎨"
     public static let game = "🎮"
+    /// Leaderboard / Game Center (filter logs with 🏆 to debug score submission).
+    public static let leaderboard = "🏆"
 
     private static let logger = Logger(
         subsystem: Bundle.main.bundleIdentifier ?? "com.retroracing",

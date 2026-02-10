@@ -6,6 +6,8 @@ struct SettingsView: View {
     let fontPreferenceStore: FontPreferenceStore
     /// Injected by app; watchOS has Taptic Engine, so true.
     let supportsHapticFeedback: Bool
+    /// When true, show "scores submitted…"; when false, show "sign in to Game Center on iPhone…".
+    let isGameCenterAuthenticated: Bool
     @Environment(\.dismiss) private var dismiss
     @AppStorage(HapticFeedbackPreference.storageKey) private var hapticFeedbackEnabled: Bool = true
     @AppStorage(SoundPreferences.volumeKey) private var sfxVolume: Double = SoundPreferences.defaultVolume
@@ -72,13 +74,25 @@ struct SettingsView: View {
                 }
 
                 Section {
+                    Text(GameLocalizedStrings.string(
+                        isGameCenterAuthenticated
+                            ? "settings_leaderboard_watch_info"
+                            : "settings_leaderboard_watch_sign_in_required"
+                    ))
+                    .font(fontForLabels)
+                } header: {
+                    Text(GameLocalizedStrings.string("leaderboard"))
+                        .font(fontForLabels)
+                }
+
+                Section {
                     Slider(value: $sfxVolume, in: 0...1, step: 0.05) {
                         Text(GameLocalizedStrings.string("settings_sound_effects_volume"))
                             .font(fontForLabels)
                     } minimumValueLabel: {
-                        Text("0%").font(fontForLabels)
+                        Text(GameLocalizedStrings.string("0%")).font(fontForLabels)
                     } maximumValueLabel: {
-                        Text("100%").font(fontForLabels)
+                        Text(GameLocalizedStrings.string("100%")).font(fontForLabels)
                     }
                 } header: {
                     Text(GameLocalizedStrings.string("settings_sound"))
@@ -91,6 +105,7 @@ struct SettingsView: View {
                             Text(GameLocalizedStrings.string("settings_haptic_feedback"))
                                 .font(fontForLabels)
                         }
+                        .tint(.accentColor)
                     }
                 }
             }
