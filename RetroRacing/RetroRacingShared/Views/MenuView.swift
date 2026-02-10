@@ -38,6 +38,7 @@ public struct MenuView: View {
     #if os(macOS)
     @Environment(\.requestReview) private var requestReview
     #endif
+    @Environment(StoreKitService.self) private var storeKit
     @State private var showGame = false
     @State private var showLeaderboard = false
     @State private var showSettings = false
@@ -177,8 +178,15 @@ public struct MenuView: View {
                 set: { authModel.authError = $0 }
             ),
             onPlay: {
-                if let service = playLimitService,
-                   service.canStartNewGame(on: Date()) == false {
+                // Premium users always have unlimited plays
+                if storeKit.hasPremiumAccess {
+                    if let onPlayRequest {
+                        onPlayRequest()
+                    } else {
+                        showGame = true
+                    }
+                } else if let service = playLimitService,
+                          service.canStartNewGame(on: Date()) == false {
                     showPaywall = true
                 } else if let onPlayRequest {
                     onPlayRequest()

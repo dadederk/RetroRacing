@@ -6,6 +6,10 @@
 import SwiftUI
 import RetroRacingShared
 import CoreText
+import GameKit
+#if canImport(WatchKit)
+import WatchKit
+#endif
 
 /// Game Center leaderboard configuration for watchOS sandbox.
 private struct LeaderboardConfigurationWatchOS: LeaderboardConfiguration {
@@ -26,11 +30,7 @@ struct RetroRacingWatchOSApp: App {
         )
     }()
     private let crownConfiguration = LegacyCrownInputProcessor.Configuration.watchLegacy
-    private let leaderboardService: LeaderboardService = GameCenterService(
-        configuration: LeaderboardConfigurationWatchOS(),
-        authenticationPresenter: nil,
-        authenticateHandlerSetter: nil
-    )
+    private let leaderboardService: GameCenterService
     private let fontPreferenceStore: FontPreferenceStore
     private let highestScoreStore = UserDefaultsHighestScoreStore(userDefaults: InfrastructureDefaults.userDefaults)
     private let playLimitService = UserDefaultsPlayLimitService(userDefaults: InfrastructureDefaults.userDefaults)
@@ -44,6 +44,9 @@ struct RetroRacingWatchOSApp: App {
                 crownConfiguration: crownConfiguration,
                 leaderboardService: leaderboardService
             )
+            .onAppear {
+                Self.setupGameCenterAuthentication()
+            }
         }
     }
 
@@ -53,5 +56,36 @@ struct RetroRacingWatchOSApp: App {
             userDefaults: InfrastructureDefaults.userDefaults,
             customFontAvailable: customFontAvailable
         )
+        
+        // Initialize Game Center service for watchOS
+        let configuration = LeaderboardConfigurationWatchOS()
+        leaderboardService = GameCenterService(
+            configuration: configuration,
+            authenticationPresenter: nil,
+            authenticateHandlerSetter: nil
+        )
+    }
+    
+    private static func setupGameCenterAuthentication() {
+        AppLog.info(AppLog.game + AppLog.leaderboard, "🏆 watchOS setting up Game Center authentication")
+        GKLocalPlayer.local.authenticateHandler = { error in
+            if let error = error {
+                AppLog.error(AppLog.game + AppLog.leaderboard, "🏆 watchOS Game Center authentication error: \(error.localizedDescription)")
+                return
+            }
+            // No error = auth completed (success or silent failure)
+            if GKLocalPlayer.local.isAuthenticated {
+                AppLog.info(AppLog.game + AppLog.leaderboard, "🏆 watchOS Game Center authenticated successfully - player: \(GKLocalPlayer.local.displayName)")
+            } else {
+                AppLog.info(AppLog.game + AppLog.leaderboard, "🏆 watchOS Game Center authentication handler called, but player not authenticated")
+            }
+        }
+    }
+}
+
+/// No-op authentication presenter for watchOS (no UI to present).
+private final class NoOpAuthenticationPresenter: AuthenticationPresenter {
+    func presentAuthenticationUI(_ viewController: Any) {
+        AppLog.info(AppLog.game + AppLog.leaderboard, "🏆 watchOS NoOpAuthenticationPresenter.presentAuthenticationUI called (no-op)")
     }
 }

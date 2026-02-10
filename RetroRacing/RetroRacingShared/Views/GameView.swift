@@ -46,6 +46,7 @@ public struct GameView: View {
     @State private var model: GameViewModel
     @ScaledMetric(relativeTo: .body) private var directionButtonHeight: CGFloat = 120
     @Environment(\.dismiss) private var dismiss
+    @Environment(StoreKitService.self) private var storeKit
     @State private var isPaywallPresented = false
 
     public init(
@@ -188,7 +189,10 @@ public struct GameView: View {
         }
         .alert(GameLocalizedStrings.string("gameOver"), isPresented: showGameOverBinding) {
             Button(GameLocalizedStrings.string("restart")) {
-                if let playLimitService, playLimitService.canStartNewGame(on: Date()) {
+                // Premium users always have unlimited plays
+                if storeKit.hasPremiumAccess {
+                    model.restartGame()
+                } else if let playLimitService, playLimitService.canStartNewGame(on: Date()) {
                     model.restartGame()
                 } else if playLimitService != nil {
                     isPaywallPresented = true

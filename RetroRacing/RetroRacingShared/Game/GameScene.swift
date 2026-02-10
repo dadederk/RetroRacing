@@ -260,18 +260,22 @@ extension GameScene: RacingGameController {
     public func moveLeft() {
         guard !gameState.isPaused else { return }
 
+        let previousColumn = lastPlayerColumn
         (gridState, _) = gridCalculator.nextGrid(previousGrid: gridState, actions: [.moveCar(direction: .left)])
         lastPlayerColumn = gridState.playerRow().firstIndex(of: .Player) ?? lastPlayerColumn
 
+        AppLog.info(AppLog.game, "🎮 GameScene.moveLeft from column \(String(describing: previousColumn)) to \(String(describing: lastPlayerColumn))")
         gridStateDidUpdate(gridState, shouldPlayFeedback: true, notifyDelegate: false)
     }
 
     public func moveRight() {
         guard !gameState.isPaused else { return }
 
+        let previousColumn = lastPlayerColumn
         (gridState, _) = gridCalculator.nextGrid(previousGrid: gridState, actions: [.moveCar(direction: .right)])
         lastPlayerColumn = gridState.playerRow().firstIndex(of: .Player) ?? lastPlayerColumn
 
+        AppLog.info(AppLog.game, "🎮 GameScene.moveRight from column \(String(describing: previousColumn)) to \(String(describing: lastPlayerColumn))")
         gridStateDidUpdate(gridState, shouldPlayFeedback: true, notifyDelegate: false)
     }
 }
@@ -342,10 +346,12 @@ public struct CrownGameInputAdapter: GameInputAdapter {
     }
 
     public func handleLeft() {
+        AppLog.info(AppLog.game, "🎮 CrownGameInputAdapter.handleLeft forwarding to controller")
         controller.moveLeft()
     }
 
     public func handleRight() {
+        AppLog.info(AppLog.game, "🎮 CrownGameInputAdapter.handleRight forwarding to controller")
         controller.moveRight()
     }
 

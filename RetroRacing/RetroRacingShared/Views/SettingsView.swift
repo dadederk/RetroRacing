@@ -115,7 +115,7 @@ public struct SettingsView: View {
                         .font(fontForLabels)
                 }
 
-                if let playLimitService {
+                if let playLimitService, !storeKit.hasPremiumAccess {
                     Section {
                         VStack(alignment: .leading, spacing: 4) {
                             Text(playLimitTitle(for: playLimitService))

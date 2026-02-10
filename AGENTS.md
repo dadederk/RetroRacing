@@ -426,6 +426,43 @@ cd RetroRacing && xcrun xcodebuild test -scheme RetroRacingUniversalTests -desti
 - Configuration objects
 - Theme system
 
+### Testing Conventions
+
+**Test Naming:** Use `testGivenWhenThen` format in camelCase (no underscores):
+- **Given** describes the initial state/context
+- **When** describes the action/trigger
+- **Then** describes the specific expected outcome (be concrete, not generic)
+
+**Test Structure:** Use `// Given`, `// When`, `// Then` comments with no extra explanations:
+
+```swift
+func testGivenUserIsNotAuthenticatedWhenSubmittingScoreThenScoreIsNotSent() {
+    // Given
+    let mockService = MockLeaderboardService()
+    mockService.authenticated = false
+    let viewController = GameViewController(leaderboardService: mockService)
+    
+    // When
+    viewController.gameOver(score: 150)
+    
+    // Then
+    XCTAssertTrue(mockService.submittedScores.isEmpty)
+}
+
+func testGivenUserIsAuthenticatedWhenSubmittingScoreThenScoreIsSentToLeaderboard() {
+    // Given
+    let mockService = MockLeaderboardService()
+    mockService.authenticated = true
+    let viewController = GameViewController(leaderboardService: mockService)
+    
+    // When
+    viewController.gameOver(score: 150)
+    
+    // Then
+    XCTAssertEqual(mockService.submittedScores, [150])
+}
+```
+
 ### Testing Pattern: Protocol Mocking
 
 ```swift
@@ -434,21 +471,14 @@ final class MockLeaderboardService: LeaderboardService {
     var authenticated = true
     
     func submitScore(_ score: Int) {
-        submittedScores.append(score)
+        if authenticated {
+            submittedScores.append(score)
+        }
     }
     
     func isAuthenticated() -> Bool {
         return authenticated
     }
-}
-
-func testScoreSubmission() {
-    let mockService = MockLeaderboardService()
-    let viewController = GameViewController(leaderboardService: mockService)
-    
-    viewController.gameOver(score: 150)
-    
-    XCTAssertEqual(mockService.submittedScores, [150])
 }
 ```
 
@@ -664,13 +694,16 @@ struct GameView: View {
 ### 5. Write Tests
 
 ```swift
-func testPowerUpCollection() {
+func testGivenPowerUpOnGridWhenUpdatingThenPowerUpIsCollected() {
+    // Given
     let calculator = GridStateCalculator()
     var state = GridState(numberOfRows: 5, numberOfColumns: 3)
     state.addPowerUp(.extraLife, at: GridPosition(row: 2, column: 1))
     
+    // When
     let (newState, effects) = calculator.nextGrid(previousGrid: state, actions: [.update])
     
+    // Then
     XCTAssertTrue(effects.contains(where: { 
         if case .collectedPowerUp(.extraLife) = $0 { return true }
         return false

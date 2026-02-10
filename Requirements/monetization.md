@@ -88,8 +88,10 @@ Key API:
 
 `hasPremiumAccess` logic:
 
-- In **DEBUG/TestFlight**: forced `true` when `debugPremiumEnabled` is `true`.
-- In **Release**: `true` if there is **at least one current entitlement** in `Transaction.currentEntitlements`.
+- Returns `true` when `debugPremiumEnabled` is `true` (for testing, always visible).
+- Otherwise, returns `true` if there is **at least one current entitlement** in `Transaction.currentEntitlements`.
+
+**Important**: `StoreKitService.hasPremiumAccess` is the **single source of truth** for premium status. All UI checks (MenuView, GameView, SettingsView) check this property **first** before falling back to `PlayLimitService` checks. This ensures premium users **always** have unlimited plays regardless of `PlayLimitService` state.
 
 ### Build Configuration Helper
 
@@ -168,13 +170,22 @@ NavigationStack {
 
 **File:** `RetroRacingShared/Views/MenuView.swift`
 
-- Injected dependency: `playLimitService: PlayLimitService?`
+- Injected dependencies: 
+  - `playLimitService: PlayLimitService?`
+  - `@Environment(StoreKitService.self) private var storeKit`
 - When user taps **Play**:
 
 ```swift
 onPlay: {
-    if let service = playLimitService,
-       service.canStartNewGame(on: Date()) == false {
+    // Premium users always have unlimited plays
+    if storeKit.hasPremiumAccess {
+        if let onPlayRequest {
+            onPlayRequest()
+        } else {
+            showGame = true
+        }
+    } else if let service = playLimitService,
+              service.canStartNewGame(on: Date()) == false {
         showPaywall = true
     } else if let onPlayRequest {
         onPlayRequest()
@@ -184,18 +195,24 @@ onPlay: {
 }
 ```
 
-- If the limit is reached, a **paywall sheet** is presented instead of starting gameplay.
+- **Premium users** (via `storeKit.hasPremiumAccess`) **always bypass** the play limit check.
+- **Free users** are checked against the daily limit; if reached, the **paywall sheet** is presented.
 
 ### Game – Restart Button
 
 **File:** `RetroRacingShared/Views/GameView.swift`
 
-- Injected dependency: `playLimitService: PlayLimitService?`
+- Injected dependencies: 
+  - `playLimitService: PlayLimitService?`
+  - `@Environment(StoreKitService.self) private var storeKit`
 - Game over alert:
 
 ```swift
 Button(GameLocalizedStrings.string("restart")) {
-    if let playLimitService, playLimitService.canStartNewGame(on: Date()) {
+    // Premium users always have unlimited plays
+    if storeKit.hasPremiumAccess {
+        model.restartGame()
+    } else if let playLimitService, playLimitService.canStartNewGame(on: Date()) {
         model.restartGame()
     } else if playLimitService != nil {
         isPaywallPresented = true
@@ -255,16 +272,14 @@ if transaction != nil {
 
 Sections added:
 
-1. **Play Limit**
+1. **Play Limit** (only visible for **free users**)
    - Title: `"play_limit_title"`
    - Free users:
      - `"play_limit_remaining %lld"` – “Remaining: X of 6”
      - Subtitle:
        - `"play_limit_resets_tomorrow"` or
        - `"play_limit_resets_in_hours %lld"`.
-   - Premium users:
-     - `"play_limit_unlimited"`
-     - Subtitle: `"play_limit_thank_you"`.
+   - **Note**: This entire section is **hidden** for premium users (via `if let playLimitService, !storeKit.hasPremiumAccess`) since they have unlimited plays.
 
 2. **Purchases**
    - Premium row:

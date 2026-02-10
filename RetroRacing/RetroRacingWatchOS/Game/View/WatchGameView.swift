@@ -98,6 +98,9 @@ struct WatchGameView: View {
                                 AppLog.info(AppLog.game, "🎮 Watch tap on right half (x: \(location.x), width: \(geo.size.width))")
                                 inputAdapter?.handleRight()
                             }
+                            // Ensure the crown stays focused after a tap interaction.
+                            AppLog.info(AppLog.game, "🎮 Watch tap reasserting crown focus")
+                            isCrownFocused = true
                         }
                         .gesture(
                             DragGesture(minimumDistance: 20)
@@ -113,6 +116,9 @@ struct WatchGameView: View {
                                     } else {
                                         inputAdapter?.handleRight()
                                     }
+                                    // Ensure the crown stays focused after a swipe interaction.
+                                    AppLog.info(AppLog.game, "🎮 Watch swipe reasserting crown focus")
+                                    isCrownFocused = true
                                 }
                         )
                 }
@@ -127,6 +133,9 @@ struct WatchGameView: View {
                     isContinuous: true,
                     isHapticFeedbackEnabled: true
                 )
+                .onChange(of: isCrownFocused) { _, newValue in
+                    AppLog.info(AppLog.game, "🎮 Watch crown focus changed: \(newValue)")
+                }
                 .onChange(of: crownValue, initial: false) { oldValue, newValue in
                     let delta = newValue - oldValue
                     AppLog.info(AppLog.game, "🎮 Watch crown value changed: old=\(oldValue), new=\(newValue), delta=\(delta)")
@@ -135,6 +144,7 @@ struct WatchGameView: View {
             }
         }
         .onAppear {
+            AppLog.info(AppLog.game, "🎮 WatchGameView onAppear - setting up scene and crown focus")
             scene.setSoundVolume(sfxVolume)
             scene.start()
             score = scene.gameState.score
@@ -219,24 +229,34 @@ struct WatchGameView: View {
     private func handleCrownDelta(_ delta: Double) {
         let action = crownProcessor.handleRotationDelta(delta)
         AppLog.info(AppLog.game, "🎮 Watch crown delta \(delta) produced action: \(String(describing: action))")
-        scheduleCrownIdleReset()
 
         switch action {
         case .moveLeft:
+            AppLog.info(AppLog.game, "🎮 Watch crown triggering moveLeft via adapter")
             inputAdapter?.handleLeft()
+            scheduleCrownIdleReset()
         case .moveRight:
+            AppLog.info(AppLog.game, "🎮 Watch crown triggering moveRight via adapter")
             inputAdapter?.handleRight()
+            scheduleCrownIdleReset()
         case .none:
             break
+        @unknown default:
+            AppLog.error(AppLog.game, "🎮 Watch crown received unknown CrownInputAction: \(String(describing: action))")
         }
     }
 
     private func scheduleCrownIdleReset() {
         crownIdleTask?.cancel()
         crownIdleTask = Task { @MainActor in
+            AppLog.info(AppLog.game, "🎮 Watch crown scheduling idle reset after \(Self.crownIdleResetDelay)")
             try? await Task.sleep(for: Self.crownIdleResetDelay)
-            guard Task.isCancelled == false else { return }
+            guard Task.isCancelled == false else {
+                AppLog.info(AppLog.game, "🎮 Watch crown idle reset task cancelled")
+                return
+            }
             crownProcessor.markIdle()
+            AppLog.info(AppLog.game, "🎮 Watch crown marked idle – rotation re-enabled")
         }
     }
 }

@@ -33,6 +33,38 @@ Not implemented yet. Consider for:
 - Game Center sandbox testing
 - StoreKit sandbox testing
 
+## Testing Conventions
+
+### Test Naming Convention
+
+Use `testGivenWhenThen` format in **camelCase** (no underscores):
+
+- **Given** describes the initial state/context
+- **When** describes the action/trigger
+- **Then** describes the **specific expected outcome** (be concrete, not generic)
+
+❌ **Avoid generic outcomes**: `returnsTheExpectedValue`, `isCorrect`, `worksAsExpected`  
+✅ **Use specific outcomes**: `scoreIsSentToLeaderboard`, `playerMovesLeft`, `sectionIsHidden`
+
+### Test Structure
+
+Use `// Given`, `// When`, `// Then` comments with **no extra explanations**:
+
+```swift
+func testGivenUserIsAuthenticatedWhenSubmittingScoreThenScoreIsSentToLeaderboard() {
+    // Given
+    let mockLeaderboard = MockLeaderboardService()
+    mockLeaderboard.authenticated = true
+    let viewController = GameViewController(leaderboardService: mockLeaderboard)
+    
+    // When
+    viewController.gameOver(score: 150)
+    
+    // Then
+    XCTAssertEqual(mockLeaderboard.submittedScores, [150])
+}
+```
+
 ## Testing Patterns
 
 ### Protocol-Based Mocking
@@ -45,7 +77,9 @@ final class MockLeaderboardService: LeaderboardService {
     var authenticated = true
     
     func submitScore(_ score: Int) {
-        submittedScores.append(score)
+        if authenticated {
+            submittedScores.append(score)
+        }
     }
     
     func isAuthenticated() -> Bool {
@@ -54,56 +88,41 @@ final class MockLeaderboardService: LeaderboardService {
 }
 ```
 
-### Dependency Injection for Testing
-
-Services are injected, making view controllers easy to test:
-
-```swift
-func testGameOverSubmitsScore() {
-    let mockLeaderboard = MockLeaderboardService()
-    let mockRating = MockRatingService()
-    let viewController = GameViewController(
-        leaderboardService: mockLeaderboard,
-        ratingService: mockRating
-    )
-    
-    viewController.gameOver(score: 150)
-    
-    XCTAssertEqual(mockLeaderboard.submittedScores, [150])
-}
-```
-
 ### Testing Game Logic
 
 Game logic should be pure and deterministic:
 
 ```swift
-func testPlayerMovesLeft() {
+func testGivenPlayerInCenterWhenMovingLeftThenPlayerMovesToLeftColumn() {
+    // Given
     let calculator = GridStateCalculator()
     let initialState = GridState(numberOfRows: 5, numberOfColumns: 3)
     
+    // When
     let (newState, effects) = calculator.nextGrid(
         previousGrid: initialState,
         actions: [.moveCar(direction: .left)]
     )
     
-    // Assert player position changed
+    // Then
     XCTAssertEqual(newState.playerColumn, initialState.playerColumn - 1)
     XCTAssertEqual(effects, [])
 }
 
-func testCollisionDetection() {
+func testGivenPlayerInSameColumnAsCarWhenUpdatingGridThenCrashEffectIsTriggered() {
+    // Given
     let calculator = GridStateCalculator()
     var state = GridState(numberOfRows: 5, numberOfColumns: 3)
-    // Set up collision scenario
     state.grid[0][1] = .Player
     state.grid[1][1] = .Car
     
+    // When
     let (newState, effects) = calculator.nextGrid(
         previousGrid: state,
         actions: [.update]
     )
     
+    // Then
     XCTAssertTrue(effects.contains(where: { 
         if case .crashed = $0 { return true }
         return false
@@ -114,39 +133,54 @@ func testCollisionDetection() {
 ### Testing Configuration
 
 ```swift
-func testUniversalLeaderboardConfiguration() {
+func testGivenUniversalConfigurationWhenAccessingLeaderboardIDThenReturnsIOSLeaderboardID() {
+    // Given
     let config = LeaderboardConfigurationUniversal()
-    XCTAssertEqual(config.leaderboardID, "bestios001test")
+    
+    // When
+    let leaderboardID = config.leaderboardID
+    
+    // Then
+    XCTAssertEqual(leaderboardID, "bestios001test")
 }
 
-func testTvOSLeaderboardConfiguration() {
+func testGivenTvOSConfigurationWhenAccessingLeaderboardIDThenReturnsTvOSLeaderboardID() {
+    // Given
     let config = LeaderboardConfigurationTvOS()
-    XCTAssertEqual(config.leaderboardID, "besttvos001")
+    
+    // When
+    let leaderboardID = config.leaderboardID
+    
+    // Then
+    XCTAssertEqual(leaderboardID, "besttvos001")
 }
 ```
 
 ### Testing Theme System (Future)
 
 ```swift
-func testThemeApplication() {
+func testGivenGameBoyThemeWhenGettingColorsForStateThenReturnsGameBoyPalette() {
+    // Given
     let gameBoyTheme = GameBoyTheme()
     let state = GameState()
     
+    // When
     let colors = gameBoyTheme.colors(for: state)
     
+    // Then
     XCTAssertEqual(colors.background, Color(red: 0.608, green: 0.737, blue: 0.059))
     XCTAssertEqual(colors.foreground, Color(red: 0.059, green: 0.220, blue: 0.059))
 }
 
-func testThemeSubscription() {
+func testGivenLockedPremiumThemeWhenUnlockingThemeThenThemeBecomesAvailable() {
+    // Given
     let manager = ThemeManager()
+    XCTAssertFalse(manager.isThemeAvailable(.lcd))
     
-    XCTAssertTrue(manager.isThemeAvailable(.gameBoy))
-    XCTAssertFalse(manager.isThemeAvailable(.lcd)) // Premium theme
-    
-    // Simulate purchase
+    // When
     manager.unlockTheme(.lcd)
     
+    // Then
     XCTAssertTrue(manager.isThemeAvailable(.lcd))
 }
 ```
@@ -198,7 +232,8 @@ Before committing code:
 2. ✅ New code has corresponding tests
 3. ✅ Mocks are updated if protocols changed
 4. ✅ No tests are disabled/skipped
-5. ✅ Test names are descriptive and follow convention: `test[Scenario][ExpectedBehavior]`
+5. ✅ Test names follow `testGivenWhenThen` convention (camelCase, specific outcomes)
+6. ✅ Test structure uses `// Given`, `// When`, `// Then` comments
 
 ## Continuous Integration (Future)
 

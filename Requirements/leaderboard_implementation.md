@@ -116,6 +116,79 @@ func testScoreSubmission() {
 }
 ```
 
+## watchOS Implementation
+
+watchOS uses Game Center but has critical platform-specific differences:
+
+```swift
+// RetroRacingWatchOSApp.swift
+@main
+struct RetroRacingWatchOSApp: App {
+    private let leaderboardService: GameCenterService
+    
+    init() {
+        // Initialize service with no authentication presenter (watchOS has no UI for this)
+        let configuration = LeaderboardConfigurationWatchOS()
+        leaderboardService = GameCenterService(
+            configuration: configuration,
+            authenticationPresenter: nil,
+            authenticateHandlerSetter: nil
+        )
+    }
+    
+    var body: some Scene {
+        WindowGroup {
+            ContentView(leaderboardService: leaderboardService, ...)
+                .onAppear {
+                    Self.setupGameCenterAuthentication()
+                }
+        }
+    }
+    
+    private static func setupGameCenterAuthentication() {
+        // CRITICAL: watchOS authenticateHandler signature differs from iOS/tvOS/macOS
+        // iOS/tvOS/macOS: (UIViewController?, Error?) -> Void
+        // watchOS:        (Error?) -> Void (no view controller parameter)
+        GKLocalPlayer.local.authenticateHandler = { error in
+            if let error = error {
+                AppLog.error(AppLog.game + AppLog.leaderboard, "🏆 watchOS Game Center authentication error: \(error.localizedDescription)")
+                return
+            }
+            if GKLocalPlayer.local.isAuthenticated {
+                AppLog.info(AppLog.game + AppLog.leaderboard, "🏆 watchOS Game Center authenticated successfully - player: \(GKLocalPlayer.local.displayName)")
+            } else {
+                AppLog.info(AppLog.game + AppLog.leaderboard, "🏆 watchOS Game Center authentication handler called, but player not authenticated")
+            }
+        }
+    }
+}
+
+// WatchGameView.swift  
+func handleGameOver() {
+    let finalScore = gameScene?.gameState.score ?? 0
+    leaderboardService.submitScore(finalScore)
+}
+```
+
+**Key watchOS differences:**
+- **Authentication handler signature**: watchOS only takes `Error?` (no view controller parameter)
+- Authentication setup happens in `onAppear` rather than via `authenticateHandlerSetter` closure
+- No in-app leaderboard UI (users view leaderboards on iPhone/iPad)
+- Settings view displays conditional text based on authentication status
+- Score submission happens automatically on game over
+
+**Debugging score submission:**
+
+Use the 🏆 emoji to filter logs:
+```bash
+# Watch logs for authentication
+log stream --predicate 'eventMessage CONTAINS "🏆"' --level debug
+
+# Common issues:
+# - "player not authenticated" → User must sign in to Game Center on paired iPhone
+# - "authentication error" → Check Game Center capability in Xcode project
+```
+
 ## Migration Guide
 
 To add a new platform:

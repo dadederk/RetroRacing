@@ -28,22 +28,25 @@ final class PlayLimitServiceTests: XCTestCase {
         super.tearDown()
     }
 
-    func testInitialState_AllowsSixGamesPerDay() {
+    func testGivenInitialStateWhenPlayingSixGamesThenSeventhGameIsBlocked() {
+        // Given
         let service = UserDefaultsPlayLimitService(userDefaults: userDefaults, calendar: calendar, maxPlaysPerDay: 6)
         let now = date(year: 2026, month: 2, day: 10, hour: 10)
 
+        // When
         for i in 0..<6 {
             XCTAssertTrue(service.canStartNewGame(on: now), "Game \(i) should be allowed")
             service.recordGamePlayed(on: now)
         }
 
-        XCTAssertFalse(service.canStartNewGame(on: now), "Seventh game should be blocked")
+        // Then
+        XCTAssertFalse(service.canStartNewGame(on: now))
         XCTAssertEqual(service.remainingPlays(on: now), 0)
     }
 
-    func testCounterResetsAtMidnight() {
+    func testGivenSixGamesPlayedWhenMidnightPassesThenCounterResetsToSix() {
+        // Given
         let service = UserDefaultsPlayLimitService(userDefaults: userDefaults, calendar: calendar, maxPlaysPerDay: 6)
-
         let day1 = date(year: 2026, month: 2, day: 10, hour: 23)
         for _ in 0..<6 {
             XCTAssertTrue(service.canStartNewGame(on: day1))
@@ -51,34 +54,40 @@ final class PlayLimitServiceTests: XCTestCase {
         }
         XCTAssertFalse(service.canStartNewGame(on: day1))
 
-        // Next day at 00:01
+        // When
         let day2 = date(year: 2026, month: 2, day: 11, hour: 0, minute: 1)
+
+        // Then
         XCTAssertTrue(service.canStartNewGame(on: day2))
         XCTAssertEqual(service.remainingPlays(on: day2), 6)
     }
 
-    func testUnlockUnlimitedAccess_DisablesCounting() {
+    func testGivenUnlimitedAccessWhenPlayingManyGamesThenAllGamesAreAllowed() {
+        // Given
         let service = UserDefaultsPlayLimitService(userDefaults: userDefaults, calendar: calendar, maxPlaysPerDay: 6)
         let now = date(year: 2026, month: 2, day: 10, hour: 9)
-
         service.unlockUnlimitedAccess()
-        XCTAssertTrue(service.hasUnlimitedAccess)
 
-        // Should never block, and remaining plays should be effectively unlimited.
+        // When
         for _ in 0..<20 {
             XCTAssertTrue(service.canStartNewGame(on: now))
             service.recordGamePlayed(on: now)
         }
 
+        // Then
+        XCTAssertTrue(service.hasUnlimitedAccess)
         XCTAssertEqual(service.remainingPlays(on: now), Int.max)
     }
 
-    func testNextResetDate_IsNextMidnight() {
+    func testGivenAfternoonDateWhenRequestingNextResetThenReturnsNextMidnight() {
+        // Given
         let service = UserDefaultsPlayLimitService(userDefaults: userDefaults, calendar: calendar, maxPlaysPerDay: 6)
-
         let now = date(year: 2026, month: 2, day: 10, hour: 15, minute: 30)
+
+        // When
         let reset = service.nextResetDate(after: now)
 
+        // Then
         let expected = date(year: 2026, month: 2, day: 11, hour: 0)
         XCTAssertEqual(reset, expected)
     }
@@ -95,4 +104,3 @@ final class PlayLimitServiceTests: XCTestCase {
         return calendar.date(from: components)!
     }
 }
-
