@@ -99,19 +99,19 @@
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "El 10% dels ingressos de RetroRacing donen suport a AMMEC, promovent l’accessibilitat i la inclusió a la Comunitat Valenciana."
+            "value" : "El 10% dels ingressos de RetroRacing! donen suport a AMMEC, promovent l’accessibilitat i la inclusió a la Comunitat Valenciana."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "10% of RetroRacing proceeds support AMMEC, promoting accessibility and inclusion in the Valencian Community."
+            "value" : "10% of RetroRacing! proceeds support AMMEC, promoting accessibility and inclusion in the Valencian Community."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "El 10% de los ingresos de RetroRacing apoyan a AMMEC, promoviendo la accesibilidad y la inclusión en la Comunidad Valenciana."
+            "value" : "El 10% de los ingresos de RetroRacing! apoyan a AMMEC, promoviendo la accesibilidad y la inclusión en la Comunidad Valenciana."
           }
         }
       }
@@ -168,19 +168,19 @@
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RetroRacing"
+            "value" : "RetroRacing!"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RetroRacing"
+            "value" : "RetroRacing!"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "RetroRacing"
+            "value" : "RetroRacing!"
           }
         }
       }
@@ -513,19 +513,19 @@
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Valora RetroRacing"
+            "value" : "Valora RetroRacing!"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Rate RetroRacing"
+            "value" : "Rate RetroRacing!"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Valora RetroRacing"
+            "value" : "Valora RetroRacing!"
           }
         }
       }
@@ -1255,19 +1255,19 @@
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Has arribat al teu límit diari. Considera fer-te premium com una manera d'invitar-me a un café. Estar ben cafenat m'ajudarà a continuar desenvolupant RetroRacing, mantindre'l i afegir-hi noves funcionalitats que espere que t'agraden."
+            "value" : "Has arribat al teu límit diari. Considera fer-te premium com una manera d'invitar-me a un café. Estar ben cafenat m'ajudarà a continuar desenvolupant RetroRacing!, mantindre'l i afegir-hi noves funcionalitats que espere que t'agraden."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "You've reached your daily limit. Consider going premium as a way to buy me coffee. Being caffeinated will help me further develop RetroRacing, maintain it, and add new features that I hope you'll love."
+            "value" : "You've reached your daily limit. Consider going premium as a way to buy me coffee. Being caffeinated will help me further develop RetroRacing!, maintain it, and add new features that I hope you'll love."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Has alcanzado tu límite diario. Plantéate hacerte premium como una forma de invitarme a un café. Estar bien cafeinado me ayudará a seguir desarrollando RetroRacing, mantenerlo y añadir nuevas funciones que espero que te encanten."
+            "value" : "Has alcanzado tu límite diario. Plantéate hacerte premium como una forma de invitarme a un café. Estar bien cafeinado me ayudará a seguir desarrollando RetroRacing!, mantenerlo y añadir nuevas funciones que espero que te encanten."
           }
         }
       }
@@ -1278,19 +1278,19 @@
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Amb Premium tens partides il·limitades i pots configurar diferents temes visuals per a RetroRacing."
+            "value" : "Amb Premium tens partides il·limitades i pots configurar diferents temes visuals per a RetroRacing!."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "With Premium you get unlimited games and can configure different visual themes for RetroRacing."
+            "value" : "With Premium you get unlimited games and can configure different visual themes for RetroRacing!."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Con Premium obtienes partidas ilimitadas y puedes configurar distintos temas visuales para RetroRacing."
+            "value" : "Con Premium obtienes partidas ilimitadas y puedes configurar distintos temas visuales para RetroRacing!."
           }
         }
       }

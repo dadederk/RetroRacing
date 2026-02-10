@@ -83,6 +83,7 @@ public struct AboutView: View {
                         .foregroundStyle(.tint)
                         .accessibilityHidden(true)
                     Text(GameLocalizedStrings.string("about_rate_title"))
+                        .font(fontPreferenceStore?.bodyFont ?? .body)
                         .foregroundStyle(.primary)
                 }
             }
@@ -110,6 +111,7 @@ public struct AboutView: View {
             }
         } header: {
             Text(GameLocalizedStrings.string("about_connect_header"))
+                .font(fontPreferenceStore?.headlineFont ?? .headline)
         }
     }
 
@@ -120,8 +122,10 @@ public struct AboutView: View {
             }
         } header: {
             Text(GameLocalizedStrings.string("about_giving_back_header"))
+                .font(fontPreferenceStore?.headlineFont ?? .headline)
         } footer: {
             Text(GameLocalizedStrings.string("about_ammec_footer"))
+                .font(fontPreferenceStore?.subheadlineFont ?? .subheadline)
         }
     }
 
@@ -132,6 +136,7 @@ public struct AboutView: View {
             }
         } header: {
             Text(GameLocalizedStrings.string("about_also_supporting_header"))
+                .font(fontPreferenceStore?.headlineFont ?? .headline)
         }
     }
 
@@ -147,6 +152,7 @@ public struct AboutView: View {
             }
         } header: {
             Text(GameLocalizedStrings.string("about_credits_header"))
+                .font(fontPreferenceStore?.headlineFont ?? .headline)
         }
     }
 

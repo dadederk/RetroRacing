@@ -107,6 +107,7 @@ struct PaywallErrorView: View {
 
             Button(action: retryAction) {
                 Label(GameLocalizedStrings.string("error_retry"), systemImage: "arrow.clockwise")
+                    .font(fontPreferenceStore?.subheadlineFont ?? .subheadline)
             }
             .buttonStyle(.bordered)
             .tint(.accentColor)

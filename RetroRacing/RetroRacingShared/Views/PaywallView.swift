@@ -60,7 +60,7 @@ public struct PaywallView: View {
                     )
 
                     Text(GameLocalizedStrings.string("paywall_unlimited_and_themes"))
-                        .font(.subheadline)
+                        .font(fontPreferenceStore?.subheadlineFont ?? .subheadline)
                         .multilineTextAlignment(.center)
                         .foregroundStyle(.primary)
 
