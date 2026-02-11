@@ -84,7 +84,7 @@ final class StoreKitServiceTests: XCTestCase {
         let rawValue = productID.rawValue
         
         // Then
-        XCTAssertEqual(rawValue, "com.retroRacing.unlimitedPlays")
+        XCTAssertEqual(rawValue, "com.accessibilityUpTo11.RetroRacing.unlimitedPlays")
     }
     
     func testGivenProductIDEnumWhenCheckingAllCasesThenReturnsOnlyUnlimitedPlays() {

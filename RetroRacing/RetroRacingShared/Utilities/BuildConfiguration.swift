@@ -39,8 +39,8 @@ public enum BuildConfiguration {
 
     /// Returns true when debug-only UI/features should be visible.
     /// Enabled in DEBUG and TestFlight builds.
-    static var shouldShowDebugFeatures: Bool {
-        isDebug || isTestFlight
+    public static var shouldShowDebugFeatures: Bool {
+        isDebug
     }
 
     // MARK: - Private

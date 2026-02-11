@@ -36,7 +36,7 @@ struct ProductRow: View {
                             .font(fontPreferenceStore?.subheadlineFont ?? .subheadline)
                             .foregroundStyle(.secondary)
                     } else {
-                        Text(product.displayPrice)
+                        Text(product.description)
                             .font(fontPreferenceStore?.subheadlineFont ?? .subheadline)
                             .foregroundStyle(.secondary)
                     }

@@ -259,21 +259,23 @@ public struct SettingsView: View {
                     }
                 }
 
-                Section {
-                    Toggle(
-                        GameLocalizedStrings.string("debug_simulate_premium"),
-                        isOn: Binding(
-                            get: { storeKit.debugPremiumEnabled },
-                            set: { storeKit.debugPremiumEnabled = $0 }
+                if BuildConfiguration.shouldShowDebugFeatures {
+                    Section {
+                        Toggle(
+                            GameLocalizedStrings.string("debug_simulate_premium"),
+                            isOn: Binding(
+                                get: { storeKit.debugPremiumEnabled },
+                                set: { storeKit.debugPremiumEnabled = $0 }
+                            )
                         )
-                    )
-                    .tint(.accentColor)
-                } header: {
-                    Text(GameLocalizedStrings.string("debug_section_title"))
-                        .font(fontForLabels)
-                } footer: {
-                    Text(GameLocalizedStrings.string("debug_simulate_premium_footer"))
-                        .font(fontPreferenceStore.font(size: 12))
+                        .tint(.accentColor)
+                    } header: {
+                        Text(GameLocalizedStrings.string("debug_section_title"))
+                            .font(fontForLabels)
+                    } footer: {
+                        Text(GameLocalizedStrings.string("debug_simulate_premium_footer"))
+                            .font(fontPreferenceStore.font(size: 12))
+                    }
                 }
 
                 Section {

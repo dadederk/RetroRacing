@@ -19,6 +19,7 @@ private enum AboutViewURLs {
     static let ammec = URL(string: "https://www.ammec.es/")
     static let swiftForSwifts = URL(string: "https://www.swiftforswifts.org")
     static let pressStartFont = URL(string: "https://fonts.google.com/specimen/Press+Start+2P")
+    static let helm = URL(string: "https://helm-app.com")
 }
 
 // MARK: - URL wrapper for sheet presentation
@@ -147,6 +148,14 @@ public struct AboutView: View {
                     icon: "textformat",
                     title: GameLocalizedStrings.string("about_font_press_start"),
                     subtitle: GameLocalizedStrings.string("about_font_license"),
+                    url: url
+                )
+            }
+            if let url = AboutViewURLs.helm {
+                linkRow(
+                    icon: "shippingbox.fill",
+                    title: GameLocalizedStrings.string("about_helm_title"),
+                    subtitle: GameLocalizedStrings.string("about_helm_subtitle"),
                     url: url
                 )
             }

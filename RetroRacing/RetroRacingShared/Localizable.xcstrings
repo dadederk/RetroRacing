@@ -369,6 +369,52 @@
         }
       }
     },
+    "about_helm_subtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Una aplicació nativa per a gestionar App Store Connect"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A native app for managing App Store Connect"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Una aplicación nativa para gestionar App Store Connect"
+          }
+        }
+      }
+    },
+    "about_helm_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shipped with Helm!"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shipped with Helm!"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shipped with Helm!"
+          }
+        }
+      }
+    },
     "about_link_blog" : {
       "extractionState" : "manual",
       "localizations" : {

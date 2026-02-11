@@ -294,6 +294,7 @@ Sections added:
 3. **Debug (DEBUG/TestFlight only)**
    - Toggle: `"debug_simulate_premium"` bound to `storeKit.debugPremiumEnabled`.
    - Footer: `"debug_simulate_premium_footer"`.
+   - **Note**: This entire section is **hidden** in Release builds (via `BuildConfiguration.shouldShowDebugFeatures`).
 
 An **About** section remains at the bottom with a link to `AboutView`.
 

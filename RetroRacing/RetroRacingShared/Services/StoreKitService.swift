@@ -21,7 +21,7 @@ public final class StoreKitService {
     // MARK: - Product identifiers
 
     public enum ProductID: String, CaseIterable {
-        case unlimitedPlays = "com.retroRacing.unlimitedPlays"
+        case unlimitedPlays = "com.accessibilityUpTo11.RetroRacing.unlimitedPlays"
     }
 
     // MARK: - Public state
@@ -45,7 +45,14 @@ public final class StoreKitService {
         return !purchasedProductIDs.isEmpty
     }
 
-    public init() { }
+    private var transactionUpdateTask: Task<Void, Never>?
+
+    public init() {
+        // Start listening for transaction updates immediately
+        transactionUpdateTask = Task { [weak self] in
+            await self?.observeTransactionUpdates()
+        }
+    }
 
     // MARK: - Loading products
 
@@ -126,6 +133,22 @@ public final class StoreKitService {
         }
 
         purchasedProductIDs = purchased
+    }
+
+    /// Observes the transaction updates stream to handle purchases completed outside the app,
+    /// on other devices, or while the app was closed.
+    private func observeTransactionUpdates() async {
+        for await verificationResult in Transaction.updates {
+            guard case .verified(let transaction) = verificationResult else {
+                continue
+            }
+
+            // Update purchased products when a new transaction arrives
+            await updatePurchasedProducts()
+
+            // Finish the transaction
+            await transaction.finish()
+        }
     }
 }
 
