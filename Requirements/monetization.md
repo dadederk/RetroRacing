@@ -1,11 +1,20 @@
-# Monetization – Daily Play Limit & Premium Unlock
+# Monetization – Daily Play Limit & Unlimited Plays
+
+## Terminology
+
+User-facing copy uses **Unlimited Plays** consistently (not “Premium”):
+
+- **Primary offer**: One-time purchase of **Unlimited Plays** — no daily limit, play as much as you want.
+- **Extras**: Benefits such as choosing visual themes (e.g. Pocket) are framed as **bonuses** that come with Unlimited Plays, not as a separate “premium tier”.
+
+Internal code may still use names like `hasPremiumAccess` for the entitlement; the product and all user-visible text refer to **Unlimited Plays**.
 
 ## Overview
 
 RetroRacing uses a **freemium** model with:
 
 - **Free tier**: up to **6 games per calendar day** (resets at local midnight)
-- **Premium tier**: one‑time purchase of **Unlimited Plays** (non‑consumable IAP)
+- **Unlimited Plays**: one‑time purchase (non‑consumable IAP) that removes the daily limit and includes theme choices as an extra
 
 The goal is to encourage support without making the free experience feel hostile. Messaging focuses on **supporting the game** (buying coffee) rather than hard paywalling.
 
@@ -13,22 +22,22 @@ The goal is to encourage support without making the free experience feel hostile
 
 ### Free Tier
 
-- A “game” is counted **per session**:
-  - A session starts when a new `GameScene` is created.
-  - Restarts inside the same session do **not** increment the counter.
-- Free users can play **6 games per calendar day** (`maxPlaysPerDay = 6`).
+- A “game” is counted **per round**:
+  - A round starts when a new `GameScene` is created (menu → game).
+  - Restarts after game over **also count as new rounds**.
+- Free users can play **6 rounds per calendar day** (`maxPlaysPerDay = 6`).
 - The day boundary is based on the user’s **current Calendar and time zone** and resets at **00:00 local time**.
 - When the limit is reached:
   - Starting a new game from the menu **shows the paywall**.
   - Restarting from the game over alert **shows the paywall** instead of restarting.
 
-### Premium Tier
+### Unlimited Plays (purchase)
 
 - **Product**: `com.retroRacing.unlimitedPlays`
 - **Type**: Non‑consumable, one‑time purchase.
 - **Entitlement**:
   - Grants **unlimited plays forever** (no daily limit).
-  - Unlocks **Pocket theme** as a bonus on iOS/tvOS/macOS/visionOS (watchOS keeps Pocket as the default theme for everyone).
+  - Unlocks **Pocket theme** and theme selection as an **extra** on iOS/tvOS/macOS/visionOS (watchOS keeps Pocket as the default theme for everyone).
 - StoreKit 2’s **on‑device verification** is used; **no server** is required.
 - Entitlement works across devices with the same Apple ID and survives app deletion/reinstallation.
 
@@ -88,10 +97,13 @@ Key API:
 
 `hasPremiumAccess` logic:
 
-- Returns `true` when `debugPremiumEnabled` is `true` (for testing, always visible).
+- Returns `true` when `debugPremiumEnabled` is `true` (for testing).
 - Otherwise, returns `true` if there is **at least one current entitlement** in `Transaction.currentEntitlements`.
 
-**Important**: `StoreKitService.hasPremiumAccess` is the **single source of truth** for premium status. All UI checks (MenuView, GameView, SettingsView) check this property **first** before falling back to `PlayLimitService` checks. This ensures premium users **always** have unlimited plays regardless of `PlayLimitService` state.
+**Important**: 
+- `debugPremiumEnabled` **defaults to `false`** to ensure App Store reviewers experience the free tier.
+- The Debug section (with the toggle) is **hidden** in Release builds via `BuildConfiguration.shouldShowDebugFeatures`.
+- `StoreKitService.hasPremiumAccess` is the **single source of truth** for premium status. All UI checks (MenuView, GameView, SettingsView) check this property **first** before falling back to `PlayLimitService` checks. This ensures premium users **always** have unlimited plays regardless of `PlayLimitService` state.
 
 ### Build Configuration Helper
 
@@ -126,8 +138,13 @@ playLimitService = UserDefaultsPlayLimitService(userDefaults: userDefaults)
 NavigationStack {
     rootView
         .environment(storeKitService)
+        .task {
+            await storeKitService.loadProducts()
+        }
 }
 ```
+
+**Important**: `loadProducts()` is called on app launch via `.task` to ensure entitlements are loaded **before** the user navigates to Settings or the Paywall. This ensures premium users see their status immediately.
 
 `GameView` and `MenuView` receive `playLimitService` via their initialisers.
 
@@ -228,13 +245,20 @@ Button(GameLocalizedStrings.string("restart")) {
 
 **File:** `RetroRacingShared/Views/GameViewModel+Scene.swift`
 
-- When a new `GameScene` is created:
+- When a new `GameScene` is created (menu → game):
 
 ```swift
 playLimitService?.recordGamePlayed(on: Date())
 ```
 
-- This ensures one count **per session**, aligned with how `sessionID` is managed in the app.
+- When the game is restarted after game over:
+
+```swift
+// In restartGame()
+playLimitService?.recordGamePlayed(on: Date())
+```
+
+- This ensures one count **per round** (every game start or restart).
 
 ### Paywall View
 
@@ -245,15 +269,22 @@ Key elements:
 - **Header** (`PaywallHeaderView`):
   - Icon: `gamecontroller.fill`
   - Title: `"paywall_title"` (“Unlock Unlimited Games”)
-  - Caption `"paywall_caption_coffee"` (coffee/support copy).
+  - Caption `"paywall_caption_coffee"` (coffee/support copy; mentions unlocking Unlimited Plays).
+- **Navigation title**: `"paywall_go_premium"` (displayed as “Unlock Unlimited Plays” / “Partidas ilimitadas” etc.).
 - **Product card** (`ProductRow`):
   - Shows product name (`"product_unlimited_plays"`) and price.
   - Button triggers StoreKit 2 purchase.
+- **Restore Purchases button**:
+  - Shows loading state while restoring.
+  - Disabled during purchase or restore operations.
+  - Matches Settings → Purchases functionality.
+- **Benefits text**:
+  - `"paywall_unlimited_and_themes"` – unlimited plays first, theme choice as an extra.
+  - Positioned below restore button, styled as secondary text.
 - **Info cards** (`PaywallInfoCard`):
   - Giving Back – explains that a percentage goes to accessibility/inclusion.
   - Want to Stay Free? – explains daily reset and “See you tomorrow!” message.
-- **Footer**:
-  - “One‑time purchase. No subscription. Unlocks unlimited plays forever.”
+- **Footer**: `"paywall_footer_one_time"` – one‑time purchase, no subscription, unlocks unlimited plays forever.
 
 Purchase handling:
 
@@ -263,6 +294,19 @@ if transaction != nil {
     playLimitService?.unlockUnlimitedAccess()
     onPurchaseCompleted?()
     showingSuccess = true
+}
+```
+
+Restore handling:
+
+```swift
+try await storeKit.restorePurchases()
+if storeKit.hasPremiumAccess {
+    playLimitService?.unlockUnlimitedAccess()
+    onPurchaseCompleted?()
+    showingRestoreAlert = true  // Success message
+} else {
+    showingRestoreAlert = true  // No purchases found
 }
 ```
 
@@ -282,17 +326,17 @@ Sections added:
    - **Note**: This entire section is **hidden** for premium users (via `if let playLimitService, !storeKit.hasPremiumAccess`) since they have unlimited plays.
 
 2. **Purchases**
-   - Premium row:
-     - `"settings_premium_active"` + `"product_unlimited_plays"`.
+   - Unlimited Plays row (when owned):
+     - `"settings_premium_active"` (displayed as “Unlimited Plays”) + `"product_unlimited_plays"`.
    - Free users:
-     - “Learn About Going Premium” → opens Paywall.
+     - “Learn About Unlimited Plays” → opens Paywall.
      - “Redeem Code” → opens System offer code redemption UI.
      - “Restore Purchases” → invokes `storeKit.restorePurchases()`.
    - Footer:
      - `"settings_restore_footer"`.
 
 3. **Debug (DEBUG/TestFlight only)**
-   - Toggle: `"debug_simulate_premium"` bound to `storeKit.debugPremiumEnabled`.
+   - Toggle: `"debug_simulate_premium"` (displayed as “Simulate Unlimited Plays”) bound to `storeKit.debugPremiumEnabled`.
    - Footer: `"debug_simulate_premium_footer"`.
    - **Note**: This entire section is **hidden** in Release builds (via `BuildConfiguration.shouldShowDebugFeatures`).
 

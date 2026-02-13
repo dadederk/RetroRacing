@@ -29,6 +29,9 @@ public struct PaywallView: View {
     @State private var showingSuccess = false
     @State private var hasLoadedProducts = false
     @State private var showingCharitySafari = false
+    @State private var isRestoringPurchases = false
+    @State private var restoreMessage: String?
+    @State private var showingRestoreAlert = false
 
     private let previewData: PaywallPreviewData?
 
@@ -59,12 +62,14 @@ public struct PaywallView: View {
                         caption: GameLocalizedStrings.string("paywall_caption_coffee")
                     )
 
+                    productsSection
+
+                    restorePurchasesButton
+
                     Text(GameLocalizedStrings.string("paywall_unlimited_and_themes"))
                         .font(fontPreferenceStore?.subheadlineFont ?? .subheadline)
                         .multilineTextAlignment(.center)
-                        .foregroundStyle(.primary)
-
-                    productsSection
+                        .foregroundStyle(.secondary)
 
                     // Giving Back (optional charity link)
                     PaywallInfoCard(
@@ -97,7 +102,7 @@ public struct PaywallView: View {
                     }
 
                     VStack(spacing: 4) {
-                        Text("One-time purchase. No subscription. Unlocks unlimited plays forever.")
+                        Text(GameLocalizedStrings.string("paywall_footer_one_time"))
                             .font(fontPreferenceStore?.caption2Font ?? .caption2)
                             .foregroundStyle(.primary)
                             .multilineTextAlignment(.center)
@@ -130,6 +135,13 @@ public struct PaywallView: View {
                     Text(message)
                 }
             }
+            .alert(GameLocalizedStrings.string("restore_purchases"), isPresented: $showingRestoreAlert) {
+                Button("OK", role: .cancel) {}
+            } message: {
+                if let message = restoreMessage {
+                    Text(message)
+                }
+            }
             .sheet(isPresented: $showingCharitySafari) {
                 #if os(iOS)
                 if let url = URL(string: "https://www.ammec.org/") {
@@ -151,6 +163,26 @@ public struct PaywallView: View {
     }
 
     // MARK: - Sections
+
+    @ViewBuilder
+    private var restorePurchasesButton: some View {
+        Button {
+            Task { await restorePurchases() }
+        } label: {
+            HStack {
+                if isRestoringPurchases {
+                    ProgressView()
+                        .progressViewStyle(.circular)
+                        .scaleEffect(0.8)
+                }
+                Text(GameLocalizedStrings.string("restore_purchases"))
+                    .font(fontPreferenceStore?.bodyFont ?? .body)
+            }
+        }
+        .buttonStyle(.glass)
+        .disabled(isRestoringPurchases || isPurchasing)
+        .opacity((isRestoringPurchases || isPurchasing) ? 0.6 : 1.0)
+    }
 
     @ViewBuilder
     private var productsSection: some View {
@@ -230,6 +262,30 @@ public struct PaywallView: View {
         }
 
         isPurchasing = false
+    }
+
+    private func restorePurchases() async {
+        if isPreviewMode { return }
+
+        isRestoringPurchases = true
+
+        do {
+            try await storeKit.restorePurchases()
+
+            if storeKit.hasPremiumAccess {
+                playLimitService?.unlockUnlimitedAccess()
+                onPurchaseCompleted?()
+                restoreMessage = GameLocalizedStrings.string("purchase_restored_success")
+            } else {
+                restoreMessage = GameLocalizedStrings.string("purchase_restored_none")
+            }
+            showingRestoreAlert = true
+        } catch {
+            restoreMessage = GameLocalizedStrings.format("purchase_restored_failed %@", error.localizedDescription)
+            showingRestoreAlert = true
+        }
+
+        isRestoringPurchases = false
     }
 }
 

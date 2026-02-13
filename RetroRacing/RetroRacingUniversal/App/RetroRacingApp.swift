@@ -127,6 +127,9 @@ struct RetroRacingApp: App {
             NavigationStack {
                 rootView
                     .environment(storeKitService)
+                    .task {
+                        await storeKitService.loadProducts()
+                    }
             }
         }
     }

@@ -17,6 +17,10 @@ extension GameViewModel {
         }
         hud.showGameOver = false
         hud.isNewHighScore = false
+        
+        // Record this restart against the daily play limit, if enabled.
+        // This ensures each "round" (start or restart) counts toward the limit.
+        playLimitService?.recordGamePlayed(on: Date())
     }
 
     func handleCollision() {

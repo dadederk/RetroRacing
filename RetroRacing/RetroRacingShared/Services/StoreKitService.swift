@@ -32,7 +32,8 @@ public final class StoreKitService {
     public private(set) var loadError: Error?
 
     /// Debug premium toggle – available in DEBUG and TestFlight builds.
-    public var debugPremiumEnabled: Bool = true
+    /// Defaults to false so App Store reviewers experience the free tier.
+    public var debugPremiumEnabled: Bool = false
 
     /// Returns true when the user has premium access.
     ///

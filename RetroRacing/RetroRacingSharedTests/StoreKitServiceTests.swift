@@ -11,7 +11,7 @@ import XCTest
 @MainActor
 final class StoreKitServiceTests: XCTestCase {
     
-    func testGivenInitialStateWhenDebugIsEnabledThenPremiumAccessIsGranted() {
+    func testGivenInitialStateWhenCheckingDefaultsThenDebugIsDisabledAndNoPremium() {
         // Given
         let service = StoreKitService()
         
@@ -19,8 +19,8 @@ final class StoreKitServiceTests: XCTestCase {
         let hasPremium = service.hasPremiumAccess
         
         // Then
-        XCTAssertTrue(service.debugPremiumEnabled)
-        XCTAssertTrue(hasPremium)
+        XCTAssertFalse(service.debugPremiumEnabled)
+        XCTAssertFalse(hasPremium)
     }
     
     func testGivenDebugEnabledWhenCheckingPremiumAccessThenReturnsTrue() {
@@ -52,6 +52,7 @@ final class StoreKitServiceTests: XCTestCase {
     func testGivenDebugEnabledWhenTogglingOffThenPremiumAccessIsDenied() {
         // Given
         let service = StoreKitService()
+        service.debugPremiumEnabled = true
         XCTAssertTrue(service.debugPremiumEnabled)
         XCTAssertTrue(service.hasPremiumAccess)
         

@@ -103,6 +103,9 @@ struct RetroRacingTvOSApp: App {
                 .animation(nil, value: isMenuPresented)
             }
             .environment(storeKitService)
+            .task {
+                await storeKitService.loadProducts()
+            }
         }
     }
 

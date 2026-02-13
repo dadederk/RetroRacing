@@ -720,19 +720,19 @@
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Simular accés Premium"
+            "value" : "Simular partides il·limitades"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Simulate Premium Access"
+            "value" : "Simulate Unlimited Plays"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Simular acceso Premium"
+            "value" : "Simular partidas ilimitadas"
           }
         }
       }
@@ -743,19 +743,42 @@
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Simular accés Premium activa les partides il·limitades i els temes Premium per a proves sense fer una compra real."
+            "value" : "Simular partides il·limitades activa partides il·limitades i accés als temes per a proves sense fer una compra real."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Simulate Premium Access enables unlimited plays and premium themes for testing without making a purchase."
+            "value" : "Simulate Unlimited Plays enables unlimited plays and theme access for testing without making a purchase."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Simular acceso Premium activa partidas ilimitadas y temas premium para probar sin hacer una compra real."
+            "value" : "Simular partidas ilimitadas activa partidas ilimitadas y acceso a los temas para probar sin hacer una compra real."
+          }
+        }
+      }
+    },
+    "done" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fet"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Listo"
           }
         }
       }
@@ -802,29 +825,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Reintentar"
-          }
-        }
-      }
-    },
-    "done" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ca" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fet"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Done"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Listo"
           }
         }
       }
@@ -1246,9 +1246,6 @@
     "OK" : {
 
     },
-    "One-time purchase. No subscription. Unlocks unlimited plays forever." : {
-
-    },
     "Opens app rating prompt" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1301,42 +1298,19 @@
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Has arribat al teu límit diari. Considera fer-te premium com una manera d'invitar-me a un café. Estar ben cafenat m'ajudarà a continuar desenvolupant RetroRapid!, mantindre'l i afegir-hi noves funcionalitats que espere que t'agraden."
+            "value" : "Has arribat al teu límit diari. Considera desbloquejar partides il·limitades com una manera d'invitar-me a un café. Estar ben cafenat m'ajudarà a continuar desenvolupant RetroRapid!, mantindre'l i afegir-hi noves funcionalitats que espere que t'agraden."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "You've reached your daily limit. Consider going premium as a way to buy me coffee. Being caffeinated will help me further develop RetroRapid!, maintain it, and add new features that I hope you'll love."
+            "value" : "You've reached your daily limit. Consider unlocking Unlimited Plays as a way to buy me coffee. Being caffeinated will help me further develop RetroRapid!, maintain it, and add new features that I hope you'll love."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Has alcanzado tu límite diario. Plantéate hacerte premium como una forma de invitarme a un café. Estar bien cafeinado me ayudará a seguir desarrollando RetroRapid!, mantenerlo y añadir nuevas funciones que espero que te encanten."
-          }
-        }
-      }
-    },
-    "paywall_unlimited_and_themes" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ca" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Amb Premium tens partides il·limitades i pots configurar diferents temes visuals per a RetroRapid!."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "With Premium you get unlimited games and can configure different visual themes for RetroRapid!."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Con Premium obtienes partidas ilimitadas y puedes configurar distintos temas visuales para RetroRapid!."
+            "value" : "Has alcanzado tu límite diario. Plantéate desbloquear partidas ilimitadas como una forma de invitarme a un café. Estar bien cafeinado me ayudará a seguir desarrollando RetroRapid!, mantenerlo y añadir nuevas funciones que espero que te encanten."
           }
         }
       }
@@ -1360,6 +1334,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cerrar"
+          }
+        }
+      }
+    },
+    "paywall_footer_one_time" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compra única. Sense subscripció. Desbloqueja partides il·limitades per sempre."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "One-time purchase. No subscription. Unlocks unlimited plays forever."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compra única. Sin suscripción. Desbloquea partidas ilimitadas para siempre."
           }
         }
       }
@@ -1416,19 +1413,19 @@
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fes-te Premium"
+            "value" : "Partides il·limitades"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Go Premium"
+            "value" : "Unlock Unlimited Plays"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hazte Premium"
+            "value" : "Partidas ilimitadas"
           }
         }
       }
@@ -1508,19 +1505,42 @@
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Desbloqueja partides il·limitades"
+            "value" : "Com obtenir partides il·limitades"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Unlock Unlimited Games"
+            "value" : "How to get Unlimited Plays"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Desbloquea partidas ilimitadas"
+            "value" : "Cómo obtener partidas ilimitadas"
+          }
+        }
+      }
+    },
+    "paywall_unlimited_and_themes" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partides il·limitades per sempre. A més, pots triar entre diferents temes visuals per a RetroRapid!."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unlimited plays forever. You also get to choose from different visual themes for RetroRapid!."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partidas ilimitadas para siempre. Además, puedes elegir entre distintos temas visuales para RetroRapid!."
           }
         }
       }
@@ -2313,19 +2333,19 @@
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Més informació sobre Premium"
+            "value" : "Més informació sobre partides il·limitades"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Learn About Going Premium"
+            "value" : "Learn About Unlimited Plays"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Más información sobre Premium"
+            "value" : "Más información sobre partidas ilimitadas"
           }
         }
       }
@@ -2359,19 +2379,19 @@
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Premium actiu"
+            "value" : "Partides il·limitades"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Premium Active"
+            "value" : "Unlimited Plays"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Premium activo"
+            "value" : "Partidas ilimitadas"
           }
         }
       }
@@ -2405,19 +2425,19 @@
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Si ja has comprat Premium en un altre dispositiu, toca Restaurar compres."
+            "value" : "Si ja has comprat partides il·limitades en un altre dispositiu, toca Restaurar compres."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "If you've purchased premium on another device, tap Restore Purchases."
+            "value" : "If you've purchased Unlimited Plays on another device, tap Restore Purchases."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Si ya has comprado Premium en otro dispositivo, toca Restaurar compras."
+            "value" : "Si ya has comprado partidas ilimitadas en otro dispositivo, toca Restaurar compras."
           }
         }
       }
