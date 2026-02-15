@@ -14,6 +14,8 @@ struct HUDState {
     var showGameOver: Bool = false
     var gameOverScore: Int = 0
     var isNewHighScore: Bool = false
+    /// True when the delegate reported that a level change is imminent (last few points before level-up).
+    var speedIncreaseImminent: Bool = false
 }
 
 /// Tracks pause states separately from HUD to avoid unrelated view updates.

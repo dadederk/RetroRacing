@@ -100,6 +100,7 @@ public struct GameView: View {
                     style: style,
                     score: model.hud.score,
                     lives: model.hud.lives,
+                    showSpeedAlert: model.hud.speedIncreaseImminent,
                     lifeAssetName: theme?.lifeSprite() ?? "life",
                     bundle: Self.sharedBundle,
                     leftButtonDown: model.controls.leftButtonDown,

@@ -69,18 +69,21 @@ extension GameViewModel {
         let (currentScore, currentLives) = Self.scoreAndLives(from: gameScene)
         hud.score = currentScore
         hud.lives = currentLives
+        hud.speedIncreaseImminent = GameState.isLevelChangeImminent(score: currentScore, windowPoints: gameScene.speedAlertWindowPoints)
     }
 
     private func syncScoreAndLives(from gameScene: GameScene) {
         let (currentScore, currentLives) = Self.scoreAndLives(from: gameScene)
         hud.score = currentScore
         hud.lives = currentLives
+        hud.speedIncreaseImminent = GameState.isLevelChangeImminent(score: currentScore, windowPoints: gameScene.speedAlertWindowPoints)
         pause.scenePaused = gameScene.gameState.isPaused
     }
 
     private func makeGameSceneDelegate() -> GameSceneDelegateImpl {
         GameSceneDelegateImpl(
             onScoreUpdate: { [weak self] in self?.hud.score = $0 },
+            onLevelChangeImminent: { [weak self] in self?.hud.speedIncreaseImminent = $0 },
             onCollision: { [weak self] in self?.handleCollision() },
             onPauseStateChange: { [weak self] newPaused in
                 guard let self else { return }

@@ -12,6 +12,7 @@ struct GameLayoutView<GameArea: View>: View {
     let style: GameViewStyle
     let score: Int
     let lives: Int
+    let showSpeedAlert: Bool
     let lifeAssetName: String
     let bundle: Bundle
     let leftButtonDown: Bool
@@ -29,12 +30,18 @@ struct GameLayoutView<GameArea: View>: View {
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Environment(\.verticalSizeClass) private var verticalSizeClass
     #endif
+    @ScaledMetric(relativeTo: .body) private var speedAlertIconMinHeight: CGFloat = 56
 
     var body: some View {
-        if useLandscapeLayout(containerSize: containerSize) {
-            landscapeLayout
-        } else {
-            portraitLayout
+        ZStack(alignment: .bottomLeading) {
+            if useLandscapeLayout(containerSize: containerSize) {
+                landscapeLayout
+            } else {
+                portraitLayout
+            }
+            if showSpeedAlert {
+                speedAlertView
+            }
         }
     }
 
@@ -144,6 +151,46 @@ struct GameLayoutView<GameArea: View>: View {
             directionButtonImage(isLeft: true)
             directionButtonImage(isLeft: false)
         }
+    }
+
+    private var speedAlertView: some View {
+        Group {
+            if useLandscapeLayout(containerSize: containerSize) {
+                VStack(alignment: .leading, spacing: 8) {
+                    speedAlertImage
+                    speedAlertText
+                }
+            } else {
+                HStack(alignment: .center, spacing: 8) {
+                    speedAlertImage
+                    speedAlertText
+                }
+            }
+        }
+        .padding(8)
+        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 8))
+        .padding(12)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(combinedSpeedAlertAccessibilityLabel)
+    }
+
+    private var speedAlertImage: some View {
+        Image("HeyHo", bundle: bundle)
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(height: speedAlertIconMinHeight)
+            .accessibilityLabel(GameLocalizedStrings.string("speed_alert_hey_ho"))
+    }
+
+    private var speedAlertText: some View {
+        Text(GameLocalizedStrings.string("speed_increasing_alert"))
+            .font(headerFont)
+            .foregroundStyle(.primary)
+            .shadow(color: Color.primary.opacity(0.35), radius: 0.5)
+    }
+
+    private var combinedSpeedAlertAccessibilityLabel: String {
+        GameLocalizedStrings.string("speed_alert_hey_ho") + " " + GameLocalizedStrings.string("speed_increasing_alert")
     }
 }
 

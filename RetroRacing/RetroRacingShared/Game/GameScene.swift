@@ -52,6 +52,10 @@ public class GameScene: SKScene {
     )
     public private(set) var gameState = GameState()
     private var lastPlayerColumn: Int = 1
+    private var lastLevelChangeImminent = false
+
+    /// Number of points before level-up to show the speed-increasing alert; configurable, defaults to 5.
+    public var speedAlertWindowPoints: Int = GameState.defaultSpeedAlertWindowPoints
 
     /// When set, sprite asset names and grid cell color come from the theme; otherwise LCD defaults.
     public var theme: (any GameTheme)?
@@ -195,6 +199,11 @@ public class GameScene: SKScene {
                 case .scored(points: let points):
                     gameState.score += points
                     gameDelegate?.gameScene(self, didUpdateScore: gameState.score)
+                    let isImminent = GameState.isLevelChangeImminent(score: gameState.score, windowPoints: speedAlertWindowPoints)
+                    if isImminent != lastLevelChangeImminent {
+                        lastLevelChangeImminent = isImminent
+                        gameDelegate?.gameScene(self, levelChangeImminent: isImminent)
+                    }
                 case .crashed:
                     ensureCrashSpriteAtLastPlayerColumn()
                     handleCrash()
@@ -213,6 +222,10 @@ public class GameScene: SKScene {
         )
         lastPlayerColumn = gridState.playerRow().firstIndex(of: .Player) ?? 1
         gameState = GameState()
+        if lastLevelChangeImminent {
+            lastLevelChangeImminent = false
+            gameDelegate?.gameScene(self, levelChangeImminent: false)
+        }
         gridStateDidUpdate(gridState, shouldPlayFeedback: false, notifyDelegate: false)
         updatePauseState(true)
         play(.start) { [weak self] in

@@ -1,0 +1,74 @@
+//
+//  GameStateTests.swift
+//  RetroRacingSharedTests
+//
+//  Created by Cursor on 2026-02-13.
+//
+
+import XCTest
+@testable import RetroRacingShared
+
+final class GameStateTests: XCTestCase {
+    func testGivenScoreBelow95WhenCheckingLevelChangeImminentThenReturnsFalse() {
+        // Given
+        let scores = [0, 50, 94]
+
+        // When / Then
+        for score in scores {
+            XCTAssertFalse(GameState.isLevelChangeImminent(score: score), "score \(score) should not be imminent")
+        }
+    }
+
+    func testGivenScore95To99WhenCheckingLevelChangeImminentThenReturnsTrue() {
+        // Given
+        let scores = [95, 96, 97, 98, 99]
+
+        // When / Then
+        for score in scores {
+            XCTAssertTrue(GameState.isLevelChangeImminent(score: score), "score \(score) should be imminent")
+        }
+    }
+
+    func testGivenScore100WhenCheckingLevelChangeImminentThenReturnsFalse() {
+        // Given
+        let score = 100
+
+        // When
+        let result = GameState.isLevelChangeImminent(score: score)
+
+        // Then
+        XCTAssertFalse(result)
+    }
+
+    func testGivenScore195To199WhenCheckingLevelChangeImminentThenReturnsTrue() {
+        // Given
+        let scores = [195, 196, 197, 198, 199]
+
+        // When / Then
+        for score in scores {
+            XCTAssertTrue(GameState.isLevelChangeImminent(score: score), "score \(score) should be imminent")
+        }
+    }
+
+    func testGivenScore200WhenCheckingLevelChangeImminentThenReturnsFalse() {
+        // Given
+        let score = 200
+
+        // When
+        let result = GameState.isLevelChangeImminent(score: score)
+
+        // Then
+        XCTAssertFalse(result)
+    }
+
+    func testGivenCustomWindowPointsWhenCheckingLevelChangeImminentThenUsesWindow() {
+        // Given: window of 10 points (90–99)
+        let windowPoints = 10
+
+        // When / Then
+        XCTAssertFalse(GameState.isLevelChangeImminent(score: 89, windowPoints: windowPoints))
+        XCTAssertTrue(GameState.isLevelChangeImminent(score: 90, windowPoints: windowPoints))
+        XCTAssertTrue(GameState.isLevelChangeImminent(score: 99, windowPoints: windowPoints))
+        XCTAssertFalse(GameState.isLevelChangeImminent(score: 100, windowPoints: windowPoints))
+    }
+}

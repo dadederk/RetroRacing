@@ -180,17 +180,20 @@ private struct AppKitHardwareKeyboardInputView: NSViewRepresentable {
 /// Bridges GameScene callbacks to UI state updates and optional haptics.
 final class GameSceneDelegateImpl: GameSceneDelegate {
     let onScoreUpdate: (Int) -> Void
+    let onLevelChangeImminent: (Bool) -> Void
     let onCollision: () -> Void
     let onPauseStateChange: (Bool) -> Void
     let hapticController: HapticFeedbackController?
 
     init(
         onScoreUpdate: @escaping (Int) -> Void,
+        onLevelChangeImminent: @escaping (Bool) -> Void,
         onCollision: @escaping () -> Void,
         onPauseStateChange: @escaping (Bool) -> Void,
         hapticController: HapticFeedbackController?
     ) {
         self.onScoreUpdate = onScoreUpdate
+        self.onLevelChangeImminent = onLevelChangeImminent
         self.onCollision = onCollision
         self.onPauseStateChange = onPauseStateChange
         self.hapticController = hapticController
@@ -198,6 +201,10 @@ final class GameSceneDelegateImpl: GameSceneDelegate {
 
     func gameScene(_ gameScene: GameScene, didUpdateScore score: Int) {
         onScoreUpdate(score)
+    }
+
+    func gameScene(_ gameScene: GameScene, levelChangeImminent isImminent: Bool) {
+        onLevelChangeImminent(isImminent)
     }
 
     func gameSceneDidDetectCollision(_ gameScene: GameScene) {

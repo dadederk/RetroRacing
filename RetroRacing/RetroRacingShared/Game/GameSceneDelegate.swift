@@ -17,9 +17,12 @@ public protocol GameSceneDelegate: AnyObject {
     func gameScene(_ gameScene: GameScene, didUpdatePauseState isPaused: Bool)
     /// Called when a new personal best is achieved so the UI layer can react (e.g. haptic and messaging).
     func gameScene(_ gameScene: GameScene, didAchieveNewHighScore score: Int)
+    /// Called when the "level change imminent" state changes (e.g. entering or leaving the last few points before level-up).
+    func gameScene(_ gameScene: GameScene, levelChangeImminent isImminent: Bool)
 }
 
 public extension GameSceneDelegate {
     func gameScene(_ gameScene: GameScene, didUpdatePauseState isPaused: Bool) { }
     func gameScene(_ gameScene: GameScene, didAchieveNewHighScore score: Int) { }
+    func gameScene(_ gameScene: GameScene, levelChangeImminent isImminent: Bool) { }
 }
