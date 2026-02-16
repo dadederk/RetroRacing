@@ -24,6 +24,7 @@ public final class GridStateCalculator {
 
     public enum Action {
         case update
+        case updateWithEmptyRow
         case moveCar(direction: Direction)
     }
 
@@ -45,8 +46,12 @@ public final class GridStateCalculator {
             var nextEffects = [Effect]()
             switch action {
             case .update:
-                (nextGridState, nextEffects) = insert(newRandomRowAtIndex: 0, forPreviousGridState: nextGridState)
+                let randomRow = rowWithRandomValues(size: nextGridState.numberOfColumns)
+                (nextGridState, nextEffects) = insert(row: randomRow, at: 0, forPreviousGridState: nextGridState)
                 nextGridState = ensure(requiredNumberOfEmptyCells: 1, atRowIndex: 0, forPreviousGridState: nextGridState)
+            case .updateWithEmptyRow:
+                let emptyRow = rowWithEmptyValues(size: nextGridState.numberOfColumns)
+                (nextGridState, nextEffects) = insert(row: emptyRow, at: 0, forPreviousGridState: nextGridState)
             case .moveCar(direction: let direction):
                 nextGridState = movePlayer(toDirection: direction, forPreviousGridState: nextGridState)
             }
@@ -76,14 +81,13 @@ public final class GridStateCalculator {
         return newGridState
     }
 
-    /// Returns a new grid state by inserting a random row at the specified index and removing the penultimate row. Also computes effects for crashes or scoring.
-    private func insert(newRandomRowAtIndex rowIndex: Int, forPreviousGridState previousGridState: GridState) -> (GridState, [Effect]) {
+    /// Returns a new grid state by inserting the provided row at the specified index and removing the penultimate row. Also computes effects for crashes or scoring.
+    private func insert(row newRow: [GridState.CellState], at rowIndex: Int, forPreviousGridState previousGridState: GridState) -> (GridState, [Effect]) {
         guard rowIndex >= 0 && rowIndex < previousGridState.numberOfRows else { fatalError("Grid row index out of bounds") }
         guard let playerPosition = previousGridState.playerRow().firstIndex(of: .Player) else {
             AppLog.error(AppLog.game, "GridStateCalculator.insert – Player position not found, returning previous grid and no effects")
             return (previousGridState, [])
         }
-        let newRandomRow = rowWithRandomValues(size: previousGridState.numberOfColumns)
         let penultimateRowIndex = previousGridState.numberOfRows - 2
         let crash = previousGridState.grid[penultimateRowIndex][playerPosition] == GridState.CellState.Car
         let points = previousGridState.grid[penultimateRowIndex].reduce(0) { ($1 == .Car) ? ($0 + 1) : $0 }
@@ -91,7 +95,7 @@ public final class GridStateCalculator {
         var newGridState = previousGridState
 
         newGridState.grid.remove(at: penultimateRowIndex)
-        newGridState.grid.insert(newRandomRow, at: rowIndex)
+        newGridState.grid.insert(newRow, at: rowIndex)
 
         if crash {
             effects.append(.crashed)
@@ -131,6 +135,11 @@ public final class GridStateCalculator {
         }
 
         return newArray
+    }
+
+    /// Generates an empty row of the specified size.
+    private func rowWithEmptyValues(size: Int) -> [GridState.CellState] {
+        Array(repeating: .Empty, count: size)
     }
 
     /// Returns a copy of the row with one random non-empty cell set to empty.

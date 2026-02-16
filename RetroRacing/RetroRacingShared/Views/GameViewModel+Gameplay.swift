@@ -30,9 +30,10 @@ extension GameViewModel {
         hud.lives = currentLives
         if currentLives == 0 {
             leaderboardService.submitScore(currentScore)
-            ratingService.checkAndRequestRating(score: currentScore)
-            hud.isNewHighScore = highestScoreStore.updateIfHigher(currentScore)
-            if hud.isNewHighScore {
+            let isNewHighScore = highestScoreStore.updateIfHigher(currentScore)
+            hud.isNewHighScore = isNewHighScore
+            if isNewHighScore {
+                ratingService.recordBestScoreImprovementAndRequestIfEligible()
                 hapticController?.triggerSuccessHaptic()
             }
             hud.gameOverScore = currentScore
@@ -47,6 +48,7 @@ extension GameViewModel {
     func setOverlayPause(isPresented: Bool) {
         isMenuOverlayPresented = isPresented
         guard let scene else { return }
+        scene.setOverlayPauseLock(isPresented)
         if isPresented {
             scene.pauseGameplay()
         } else if pause.isUserPaused == false {

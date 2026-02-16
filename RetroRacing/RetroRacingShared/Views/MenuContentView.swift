@@ -29,13 +29,13 @@ struct MenuContentView: View {
     private var titleView: some View {
         if style.allowsDynamicType {
             Text(GameLocalizedStrings.string("gameName"))
-                .font(fontPreferenceStore.font(size: style.titleFontSize))
+                .font(fontPreferenceStore.font(textStyle: .largeTitle))
                 .dynamicTypeSize(.xSmall ... .xxxLarge)
                 .padding(.bottom, style.titleBottomPadding)
                 .accessibilityAddTraits(.isHeader)
         } else {
             Text(GameLocalizedStrings.string("gameName"))
-                .font(fontPreferenceStore.font(size: style.titleFontSize))
+                .font(fontPreferenceStore.font(fixedSize: style.titleFontSize))
                 .padding(.bottom, style.titleBottomPadding)
                 .accessibilityAddTraits(.isHeader)
         }
@@ -55,7 +55,9 @@ struct MenuContentView: View {
     }
 
     private var buttonFont: Font {
-        fontPreferenceStore.font(size: style.buttonFontSize)
+        style.allowsDynamicType
+            ? fontPreferenceStore.font(textStyle: .headline)
+            : fontPreferenceStore.font(fixedSize: style.buttonFontSize)
     }
 
     private var menuPlayButton: some View {

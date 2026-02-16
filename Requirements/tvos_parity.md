@@ -51,7 +51,7 @@ Shared SwiftUI views must avoid tvOS-unavailable APIs by using compile-time chec
 ## Menu (tvOS)
 
 - Uses shared `MenuView` with `MenuViewStyle.tvOS`.
-- Rate App button is hidden (StoreKit rating is not supported on tvOS).
+- Rate App button is hidden on tvOS.
 - Game Center auth is started on appear; leaderboard button is disabled until authenticated.
 
 ## Game (tvOS)

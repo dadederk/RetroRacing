@@ -70,15 +70,22 @@ public protocol SoundEffectPlayer {
 
 /// Internal worker actor so the public API remains synchronous while playback state stays thread-safe.
 private actor SoundEffectPlayerActor {
-    private var players: [SoundEffect: AudioPlayer] = [:]
+    private struct PlayerPool {
+        var players: [AudioPlayer]
+        var nextIndex: Int = 0
+    }
+
+    private var pools: [SoundEffect: PlayerPool] = [:]
     private var completions: [ObjectIdentifier: (() -> Void)] = [:]
 
     init(bundle: Bundle, playerFactory: (URL) -> AudioPlayer?) {
-        players = Self.loadPlayers(bundle: bundle, playerFactory: playerFactory)
+        pools = Self.loadPools(bundle: bundle, playerFactory: playerFactory)
     }
 
     init(players: [SoundEffect: AudioPlayer]) {
-        self.players = players
+        pools = players.reduce(into: [SoundEffect: PlayerPool]()) { result, entry in
+            result[entry.key] = PlayerPool(players: [entry.value])
+        }
     }
 
     func prepareAndPlay(
@@ -87,7 +94,10 @@ private actor SoundEffectPlayerActor {
         volume: Float,
         completion: (() -> Void)?
     ) {
-        guard let player = players[effect] else { return }
+        guard var pool = pools[effect], !pool.players.isEmpty else { return }
+        let playerIndex = selectPlayerIndex(in: pool)
+        let player = pool.players[playerIndex]
+        completions.removeValue(forKey: player.objectID)
         player.currentTime = 0
         player.volume = volume
         player.delegate = completion == nil ? nil : delegate
@@ -95,6 +105,8 @@ private actor SoundEffectPlayerActor {
             completions[player.objectID] = completion
         }
         player.play()
+        pool.nextIndex = (playerIndex + 1) % pool.players.count
+        pools[effect] = pool
     }
 
     func finish(for player: AVAudioPlayer) -> (() -> Void)? {
@@ -102,13 +114,18 @@ private actor SoundEffectPlayerActor {
     }
 
     func invokeCompletion(for effect: SoundEffect) -> (() -> Void)? {
-        guard let player = players[effect] else { return nil }
-        return completions.removeValue(forKey: player.objectID)
+        guard let pool = pools[effect] else { return nil }
+        for player in pool.players {
+            if let completion = completions.removeValue(forKey: player.objectID) {
+                return completion
+            }
+        }
+        return nil
     }
 
     func stopAll(fadeDuration: TimeInterval, targetVolume: Float) async {
         let duration = max(0, fadeDuration)
-        for player in players.values where player.isPlaying {
+        for player in pools.values.flatMap(\.players) where player.isPlaying {
             completions.removeValue(forKey: ObjectIdentifier(player))
             if duration == 0 {
                 player.stop()
@@ -120,20 +137,48 @@ private actor SoundEffectPlayerActor {
 
     // MARK: - Private helpers
 
-    private static func loadPlayers(bundle: Bundle, playerFactory: (URL) -> AudioPlayer?) -> [SoundEffect: AudioPlayer] {
-        var result: [SoundEffect: AudioPlayer] = [:]
+    private static func loadPools(bundle: Bundle, playerFactory: (URL) -> AudioPlayer?) -> [SoundEffect: PlayerPool] {
+        var result: [SoundEffect: PlayerPool] = [:]
         for effect in SoundEffect.allCases {
             guard let url = bundle.url(forResource: effect.rawValue, withExtension: "m4a", subdirectory: "Resources/Audio")
                     ?? bundle.url(forResource: effect.rawValue, withExtension: "Audio")
                     ?? bundle.url(forResource: effect.rawValue, withExtension: "m4a") else {
                 continue
             }
-            if let player = playerFactory(url) {
+
+            var players = [AudioPlayer]()
+            for _ in 0..<poolSize(for: effect) {
+                guard let player = playerFactory(url) else { continue }
                 player.prepareToPlay()
-                result[effect] = player
+                players.append(player)
+            }
+
+            if !players.isEmpty {
+                result[effect] = PlayerPool(players: players)
             }
         }
         return result
+    }
+
+    private static func poolSize(for effect: SoundEffect) -> Int {
+        switch effect {
+        case .bip:
+            return 4
+        case .start, .fail:
+            return 1
+        }
+    }
+
+    private func selectPlayerIndex(in pool: PlayerPool) -> Int {
+        let count = pool.players.count
+        guard count > 0 else { return 0 }
+        for offset in 0..<count {
+            let index = (pool.nextIndex + offset) % count
+            if pool.players[index].isPlaying == false {
+                return index
+            }
+        }
+        return pool.nextIndex % count
     }
 
     private func fadeOutAndStop(player: AudioPlayer, duration: TimeInterval, targetVolume: Float) async {

@@ -35,8 +35,21 @@ public final class FontPreferenceStore {
         self.currentStyle = style
     }
 
-    /// Returns a SwiftUI font for the current preference at the given size.
+    /// Returns a fixed-size SwiftUI font for the current preference.
+    /// Use for pixel-locked game UI that should not follow Dynamic Type.
+    public func font(fixedSize size: CGFloat) -> Font {
+        AppFontStyle.fixedFont(for: currentStyle, size: size)
+    }
+
+    /// Returns a semantic SwiftUI font for the current preference.
+    /// This follows Dynamic Type for all styles.
+    public func font(textStyle: Font.TextStyle) -> Font {
+        AppFontStyle.semanticFont(for: currentStyle, textStyle: textStyle)
+    }
+
+    /// Backward-compatible alias for fixed-size fonts.
+    @available(*, deprecated, renamed: "font(fixedSize:)")
     public func font(size: CGFloat) -> Font {
-        AppFontStyle.font(for: currentStyle, size: size)
+        font(fixedSize: size)
     }
 }

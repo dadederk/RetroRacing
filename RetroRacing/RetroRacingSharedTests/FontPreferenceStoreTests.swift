@@ -39,4 +39,35 @@ final class FontPreferenceStoreTests: XCTestCase {
         XCTAssertEqual(store.currentStyle, .system)
         XCTAssertFalse(store.isCustomFontAvailable)
     }
+
+    func testGivenSemanticTextStylesWhenRequestingCustomBaseSizesThenExpectedLegacySizesAreUsed() {
+        // Given
+        let expected: [(Font.TextStyle, CGFloat)] = [
+            (.caption2, 11),
+            (.caption, 12),
+            (.subheadline, 15),
+            (.body, 17),
+            (.headline, 17),
+            (.title, 28)
+        ]
+
+        // When
+        let actual = expected.map { style, _ in
+            (style, AppFontStyle.defaultCustomPointSize(for: style))
+        }
+
+        // Then
+        XCTAssertEqual(actual.map(\.1), expected.map(\.1))
+    }
+
+    func testGivenEachFontStyleWhenRequestingSemanticBodyFontThenFontCanBeConstructed() {
+        // Given
+        let styles = AppFontStyle.allCases
+
+        // When
+        let fonts = styles.map { AppFontStyle.semanticFont(for: $0, textStyle: .body) }
+
+        // Then
+        XCTAssertEqual(fonts.count, styles.count)
+    }
 }

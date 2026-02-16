@@ -24,6 +24,29 @@
         }
       }
     },
+    "%lld life remaining" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld vida restant"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld life remaining"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld vida restante"
+          }
+        }
+      }
+    },
     "0%" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -536,19 +559,19 @@
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Obre el diàleg per valorar l’app"
+            "value" : "Obri la pàgina de ressenyes de l’App Store"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Opens the rating dialog to rate the app"
+            "value" : "Opens the App Store review page"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Abre el diálogo para valorar la app"
+            "value" : "Abre la página de reseñas de App Store"
           }
         }
       }
@@ -2120,6 +2143,29 @@
         }
       }
     },
+    "speed_increase_announcement" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hey Ho! La velocitat augmenta!"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hey Ho! Speed increasing!"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¡Hey Ho! ¡Aumenta la velocidad!"
+          }
+        }
+      }
+    },
     "settings" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2139,6 +2185,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ajustes"
+          }
+        }
+      }
+    },
+    "settings_accessibility" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accessibilitat"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accessibility"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accesibilidad"
           }
         }
       }
@@ -2323,6 +2392,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Retroalimentación háptica"
+          }
+        }
+      }
+    },
+    "settings_in_game_announcements" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anuncis durant la partida"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In-game announcements"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anuncios durante la partida"
           }
         }
       }

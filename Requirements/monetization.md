@@ -328,6 +328,8 @@ Sections added:
 2. **Purchases**
    - Unlimited Plays row (when owned):
      - `"settings_premium_active"` (displayed as “Unlimited Plays”) + `"product_unlimited_plays"`.
+     - Row accessibility is combined (`.accessibilityElement(children: .combine)`).
+     - Checkmark icon is decorative and hidden from accessibility (`.accessibilityHidden(true)`).
    - Free users:
      - “Learn About Unlimited Plays” → opens Paywall.
      - “Redeem Code” → opens System offer code redemption UI.
@@ -410,4 +412,3 @@ See plan for full details; key points:
   - messaging
   - pricing experiments (A/B).
 - Extend paywall to show more detailed **value proposition** (themes, future content, etc.).
-

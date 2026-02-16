@@ -23,6 +23,9 @@ struct GameInputOverlay: View {
                 .accessibilityLabel(GameLocalizedStrings.string("move_left"))
                 .accessibilityHint(GameLocalizedStrings.string("move_left_hint"))
                 .accessibilityAddTraits(.isButton)
+                #if os(iOS)
+                .accessibilityDirectTouch(true, options: [.silentOnTouch])
+                #endif
             Color.clear
                 .contentShape(Rectangle())
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -32,6 +35,9 @@ struct GameInputOverlay: View {
                 .accessibilityLabel(GameLocalizedStrings.string("move_right"))
                 .accessibilityHint(GameLocalizedStrings.string("move_right_hint"))
                 .accessibilityAddTraits(.isButton)
+                #if os(iOS)
+                .accessibilityDirectTouch(true, options: [.silentOnTouch])
+                #endif
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         #if !os(tvOS)

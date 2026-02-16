@@ -19,6 +19,10 @@ private enum GridConfiguration {
     static let numberOfColumns = 3
 }
 
+private enum SpeedIncreaseConfiguration {
+    static let emptyRowsAfterSpeedIncrease = 2
+}
+
 /// Input commands for the game. Named to avoid shadowing the GameController framework (physical controllers).
 public protocol RacingGameController {
     func moveLeft()
@@ -42,6 +46,10 @@ public class GameScene: SKScene {
     private var lastGameUpdateTime: TimeInterval = 0
     private var hasConfiguredScene = false
     var lastConfiguredSize: CGSize?
+    private var startUnpauseFallbackTask: Task<Void, Never>?
+    private var crashResolutionFallbackTask: Task<Void, Never>?
+    private var isWaitingForCrashResolution = false
+    private var isOverlayPauseLocked = false
 
     var spritesForGivenState = [SKSpriteNode]()
 
@@ -53,8 +61,9 @@ public class GameScene: SKScene {
     public private(set) var gameState = GameState()
     private var lastPlayerColumn: Int = 1
     private var lastLevelChangeImminent = false
+    private var pendingEmptyRowsAfterSpeedIncrease = 0
 
-    /// Number of points before level-up to show the speed-increasing alert; configurable, defaults to 5.
+    /// Number of points before level-up to show the speed-increasing alert; configurable, defaults to 3.
     public var speedAlertWindowPoints: Int = GameState.defaultSpeedAlertWindowPoints
 
     /// When set, sprite asset names and grid cell color come from the theme; otherwise LCD defaults.
@@ -65,6 +74,11 @@ public class GameScene: SKScene {
     public var imageLoader: (any ImageLoader)?
 
     public weak var gameDelegate: GameSceneDelegate?
+
+    /// Fallback used when audio completion does not fire (e.g. route changes); tests can override.
+    var startPlaybackFallbackDuration: TimeInterval = 2.0
+    /// Fallback used when crash audio completion does not fire (e.g. route changes); tests can override.
+    var crashResolutionFallbackDuration: TimeInterval = 2.0
     
     private func updatePauseState(_ isPaused: Bool) {
         guard gameState.isPaused != isPaused else { return }
@@ -92,6 +106,11 @@ public class GameScene: SKScene {
 
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+    }
+
+    deinit {
+        startUnpauseFallbackTask?.cancel()
+        crashResolutionFallbackTask?.cancel()
     }
 
     /// Creates a new game scene with the given size. Use this for SwiftUI SpriteView when no .sks file is used.
@@ -144,15 +163,19 @@ public class GameScene: SKScene {
         updatePauseState(false)
     }
 
+    /// Locks or unlocks pause state while the menu overlay is visible.
+    public func setOverlayPauseLock(_ isLocked: Bool) {
+        isOverlayPauseLocked = isLocked
+    }
+
     public func resume() {
+        cancelCrashResolutionIfNeeded()
         gridState = GridState(
             numberOfRows: GridConfiguration.numberOfRows,
             numberOfColumns: GridConfiguration.numberOfColumns
         )
-        updatePauseState(true)
-        play(.start) { [weak self] in
-            self?.updatePauseState(false)
-        }
+        pendingEmptyRowsAfterSpeedIncrease = 0
+        playStartThenUnpause()
     }
 
     func setUpScene() {
@@ -191,15 +214,26 @@ public class GameScene: SKScene {
         if dtGameUpdate > dtForGameUpdate {
             lastGameUpdateTime = currentTime
 
+            let updateAction: GridStateCalculator.Action = pendingEmptyRowsAfterSpeedIncrease > 0 ? .updateWithEmptyRow : .update
             var effects: [GridStateCalculator.Effect]
-            (gridState, effects) = gridCalculator.nextGrid(previousGrid: gridState, actions: [.update])
+            (gridState, effects) = gridCalculator.nextGrid(previousGrid: gridState, actions: [updateAction])
+            if pendingEmptyRowsAfterSpeedIncrease > 0 {
+                pendingEmptyRowsAfterSpeedIncrease -= 1
+            }
 
             for effect in effects {
                 switch effect {
                 case .scored(points: let points):
+                    let previousLevel = gameState.level
                     gameState.score += points
                     gameDelegate?.gameScene(self, didUpdateScore: gameState.score)
                     let isImminent = GameState.isLevelChangeImminent(score: gameState.score, windowPoints: speedAlertWindowPoints)
+                    if gameState.level > previousLevel {
+                        pendingEmptyRowsAfterSpeedIncrease = max(
+                            pendingEmptyRowsAfterSpeedIncrease,
+                            SpeedIncreaseConfiguration.emptyRowsAfterSpeedIncrease
+                        )
+                    }
                     if isImminent != lastLevelChangeImminent {
                         lastLevelChangeImminent = isImminent
                         gameDelegate?.gameScene(self, levelChangeImminent: isImminent)
@@ -222,26 +256,33 @@ public class GameScene: SKScene {
         )
         lastPlayerColumn = gridState.playerRow().firstIndex(of: .Player) ?? 1
         gameState = GameState()
+        pendingEmptyRowsAfterSpeedIncrease = 0
         if lastLevelChangeImminent {
             lastLevelChangeImminent = false
             gameDelegate?.gameScene(self, levelChangeImminent: false)
         }
+        cancelCrashResolutionIfNeeded()
         gridStateDidUpdate(gridState, shouldPlayFeedback: false, notifyDelegate: false)
-        updatePauseState(true)
-        play(.start) { [weak self] in
-            self?.updatePauseState(false)
-        }
+        playStartThenUnpause()
     }
 
     func handleCrash() {
+        guard isWaitingForCrashResolution == false else { return }
+        isWaitingForCrashResolution = true
+        startUnpauseFallbackTask?.cancel()
+        startUnpauseFallbackTask = nil
         updatePauseState(true)
         gameState.lives -= 1
         hapticController?.triggerCrashHaptic()
-        play(.fail, completion: nil)
-
-        run(SKAction.wait(forDuration: 2.0)) { [weak self] in
-            guard let self = self else { return }
-            self.gameDelegate?.gameSceneDidDetectCollision(self)
+        play(.fail) { [weak self] in
+            self?.resolveCrashIfNeeded()
+        }
+        crashResolutionFallbackTask?.cancel()
+        crashResolutionFallbackTask = Task { [weak self] in
+            guard let self else { return }
+            try? await Task.sleep(nanoseconds: UInt64(self.crashResolutionFallbackDuration * 1_000_000_000))
+            guard !Task.isCancelled else { return }
+            self.resolveCrashIfNeeded()
         }
     }
 
@@ -267,6 +308,43 @@ public class GameScene: SKScene {
     public func stopAllSounds(fadeDuration: TimeInterval = 0.15) {
         soundPlayer?.stopAll(fadeDuration: fadeDuration)
     }
+
+    private func playStartThenUnpause() {
+        updatePauseState(true)
+        startUnpauseFallbackTask?.cancel()
+        play(.start) { [weak self] in
+            self?.finishStartPlaybackIfNeeded()
+        }
+        startUnpauseFallbackTask = Task { [weak self] in
+            guard let self else { return }
+            try? await Task.sleep(nanoseconds: UInt64(self.startPlaybackFallbackDuration * 1_000_000_000))
+            guard !Task.isCancelled else { return }
+            self.finishStartPlaybackIfNeeded()
+        }
+    }
+
+    private func finishStartPlaybackIfNeeded() {
+        guard gameState.isPaused else { return }
+        guard isOverlayPauseLocked == false else { return }
+        startUnpauseFallbackTask?.cancel()
+        startUnpauseFallbackTask = nil
+        updatePauseState(false)
+    }
+
+    private func resolveCrashIfNeeded() {
+        guard isWaitingForCrashResolution else { return }
+        isWaitingForCrashResolution = false
+        crashResolutionFallbackTask?.cancel()
+        crashResolutionFallbackTask = nil
+        stopAllSounds(fadeDuration: 0.05)
+        gameDelegate?.gameSceneDidDetectCollision(self)
+    }
+
+    private func cancelCrashResolutionIfNeeded() {
+        isWaitingForCrashResolution = false
+        crashResolutionFallbackTask?.cancel()
+        crashResolutionFallbackTask = nil
+    }
 }
 
 extension GameScene: RacingGameController {
@@ -278,6 +356,7 @@ extension GameScene: RacingGameController {
         lastPlayerColumn = gridState.playerRow().firstIndex(of: .Player) ?? lastPlayerColumn
 
         AppLog.info(AppLog.game, "🎮 GameScene.moveLeft from column \(String(describing: previousColumn)) to \(String(describing: lastPlayerColumn))")
+        hapticController?.triggerMoveHaptic()
         gridStateDidUpdate(gridState, shouldPlayFeedback: true, notifyDelegate: false)
     }
 
@@ -289,6 +368,7 @@ extension GameScene: RacingGameController {
         lastPlayerColumn = gridState.playerRow().firstIndex(of: .Player) ?? lastPlayerColumn
 
         AppLog.info(AppLog.game, "🎮 GameScene.moveRight from column \(String(describing: previousColumn)) to \(String(describing: lastPlayerColumn))")
+        hapticController?.triggerMoveHaptic()
         gridStateDidUpdate(gridState, shouldPlayFeedback: true, notifyDelegate: false)
     }
 }
@@ -303,20 +383,16 @@ public protocol GameInputAdapter {
 
 public struct TouchGameInputAdapter: GameInputAdapter {
     private let controller: RacingGameController
-    private let hapticController: HapticFeedbackController?
 
-    public init(controller: RacingGameController, hapticController: HapticFeedbackController?) {
+    public init(controller: RacingGameController, hapticController _: HapticFeedbackController?) {
         self.controller = controller
-        self.hapticController = hapticController
     }
 
     public func handleLeft() {
-        hapticController?.triggerMoveHaptic()
         controller.moveLeft()
     }
 
     public func handleRight() {
-        hapticController?.triggerMoveHaptic()
         controller.moveRight()
     }
 
@@ -328,20 +404,16 @@ public struct TouchGameInputAdapter: GameInputAdapter {
 
 public struct RemoteGameInputAdapter: GameInputAdapter {
     private let controller: RacingGameController
-    private let hapticController: HapticFeedbackController?
 
-    public init(controller: RacingGameController, hapticController: HapticFeedbackController?) {
+    public init(controller: RacingGameController, hapticController _: HapticFeedbackController?) {
         self.controller = controller
-        self.hapticController = hapticController
     }
 
     public func handleLeft() {
-        hapticController?.triggerMoveHaptic()
         controller.moveLeft()
     }
 
     public func handleRight() {
-        hapticController?.triggerMoveHaptic()
         controller.moveRight()
     }
 

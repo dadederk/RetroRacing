@@ -15,13 +15,13 @@ struct ContentView: View {
         NavigationStack {
             VStack(spacing: 16) {
                 Text(GameLocalizedStrings.string("gameName"))
-                    .font(fontPreferenceStore.font(size: 14))
+                    .font(fontPreferenceStore.font(textStyle: .headline))
                 Button {
                     gameID += 1
                     showGame = true
                 } label: {
                     Text(GameLocalizedStrings.string("play"))
-                        .font(fontPreferenceStore.font(size: 12))
+                        .font(fontPreferenceStore.font(textStyle: .body))
                 }
                 .buttonStyle(.glassProminent)
             }
@@ -80,9 +80,4 @@ struct ContentView: View {
 private struct PreviewLeaderboardService: LeaderboardService {
     func submitScore(_ score: Int) {}
     func isAuthenticated() -> Bool { true }
-}
-
-private final class PreviewRatingServiceForSettings: RatingService {
-    func requestRating() {}
-    func checkAndRequestRating(score: Int) {}
 }

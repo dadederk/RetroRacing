@@ -13,7 +13,7 @@ struct SettingsView: View {
     @AppStorage(SoundPreferences.volumeKey) private var sfxVolume: Double = SoundPreferences.defaultVolume
 
     private var fontForLabels: Font {
-        fontPreferenceStore.font(size: 10)
+        fontPreferenceStore.font(textStyle: .body)
     }
 
     var body: some View {

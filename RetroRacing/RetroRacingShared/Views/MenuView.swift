@@ -9,10 +9,6 @@ import SwiftUI
 #if canImport(UIKit) && !os(watchOS)
 import GameKit
 #endif
-#if os(macOS)
-import StoreKit
-import AppKit
-#endif
 
 /// Root menu for launching gameplay, viewing leaderboards, and accessing settings.
 @MainActor
@@ -35,9 +31,7 @@ public struct MenuView: View {
     public let inputAdapterFactory: any GameInputAdapterFactory
     private let onPlayRequest: (() -> Void)?
 
-    #if os(macOS)
-    @Environment(\.requestReview) private var requestReview
-    #endif
+    @Environment(\.openURL) private var openURL
     @Environment(StoreKitService.self) private var storeKit
     @State private var showGame = false
     @State private var showLeaderboard = false
@@ -119,7 +113,6 @@ public struct MenuView: View {
                     supportsHapticFeedback: supportsHapticFeedback,
                     controlsDescriptionKey: controlsDescriptionKey,
                     style: settingsStyle,
-                    ratingService: ratingService,
                     playLimitService: playLimitService
                 )
                 .fontPreferenceStore(fontPreferenceStore)
@@ -215,11 +208,8 @@ public struct MenuView: View {
     }
 
     private func handleRateTap() {
-        #if os(macOS)
-        requestReview()
-        #else
-        ratingService.requestRating()
-        #endif
+        guard let reviewURL = AppStoreReviewURL.writeReview else { return }
+        openURL(reviewURL)
     }
 
     #if canImport(UIKit) && !os(watchOS)

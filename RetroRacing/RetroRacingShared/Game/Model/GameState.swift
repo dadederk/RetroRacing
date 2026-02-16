@@ -12,7 +12,7 @@ public struct GameState {
     /// Points per level; must match the divisor used for `level` in score's didSet.
     public static let levelStep = 100
     /// Default number of points before level-up to show the speed-increasing alert.
-    public static let defaultSpeedAlertWindowPoints = 5
+    public static let defaultSpeedAlertWindowPoints = 3
 
     public private(set) var level = 1
     public var isPaused = false

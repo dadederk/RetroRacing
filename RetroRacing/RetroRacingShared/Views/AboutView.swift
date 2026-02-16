@@ -30,17 +30,11 @@ private struct IdentifiableURL: Identifiable {
 
 /// About screen: app info, rate, social links, giving back, credits, and footer.
 public struct AboutView: View {
-    public let ratingService: RatingService
-
     @Environment(\.openURL) private var openURL
     @Environment(\.fontPreferenceStore) private var fontPreferenceStore
     #if os(iOS)
     @State private var safariURL: IdentifiableURL?
     #endif
-
-    public init(ratingService: RatingService) {
-        self.ratingService = ratingService
-    }
 
     public var body: some View {
         List {
@@ -77,14 +71,14 @@ public struct AboutView: View {
     private var rateSection: some View {
         Section {
             Button {
-                ratingService.requestRating()
+                openAppStoreReviewPage()
             } label: {
                 HStack(spacing: 12) {
                     Image(systemName: "star.bubble.fill")
                         .foregroundStyle(.tint)
                         .accessibilityHidden(true)
                     Text(GameLocalizedStrings.string("about_rate_title"))
-                        .font(fontPreferenceStore?.bodyFont ?? .body)
+                        .font(fontPreferenceStore?.font(textStyle: .body) ?? .body)
                         .foregroundStyle(.primary)
                 }
             }
@@ -112,7 +106,7 @@ public struct AboutView: View {
             }
         } header: {
             Text(GameLocalizedStrings.string("about_connect_header"))
-                .font(fontPreferenceStore?.headlineFont ?? .headline)
+                .font(fontPreferenceStore?.font(textStyle: .headline) ?? .headline)
         }
     }
 
@@ -123,10 +117,10 @@ public struct AboutView: View {
             }
         } header: {
             Text(GameLocalizedStrings.string("about_giving_back_header"))
-                .font(fontPreferenceStore?.headlineFont ?? .headline)
+                .font(fontPreferenceStore?.font(textStyle: .headline) ?? .headline)
         } footer: {
             Text(GameLocalizedStrings.string("about_ammec_footer"))
-                .font(fontPreferenceStore?.subheadlineFont ?? .subheadline)
+                .font(fontPreferenceStore?.font(textStyle: .subheadline) ?? .subheadline)
         }
     }
 
@@ -137,7 +131,7 @@ public struct AboutView: View {
             }
         } header: {
             Text(GameLocalizedStrings.string("about_also_supporting_header"))
-                .font(fontPreferenceStore?.headlineFont ?? .headline)
+                .font(fontPreferenceStore?.font(textStyle: .headline) ?? .headline)
         }
     }
 
@@ -153,7 +147,7 @@ public struct AboutView: View {
             }
             if let url = AboutViewURLs.helm {
                 linkRow(
-                    icon: "shippingbox.fill",
+                    icon: "helm",
                     title: GameLocalizedStrings.string("about_helm_title"),
                     subtitle: GameLocalizedStrings.string("about_helm_subtitle"),
                     url: url
@@ -161,7 +155,7 @@ public struct AboutView: View {
             }
         } header: {
             Text(GameLocalizedStrings.string("about_credits_header"))
-                .font(fontPreferenceStore?.headlineFont ?? .headline)
+                .font(fontPreferenceStore?.font(textStyle: .headline) ?? .headline)
         }
     }
 
@@ -173,7 +167,7 @@ public struct AboutView: View {
                 Text(GameLocalizedStrings.string("about_footer_thanks"))
             }
             .frame(maxWidth: .infinity)
-            .font(fontPreferenceStore?.captionFont ?? .caption)
+            .font(fontPreferenceStore?.font(textStyle: .caption) ?? .caption)
             .foregroundStyle(.secondary)
             .multilineTextAlignment(.center)
             .listRowBackground(Color.clear)
@@ -194,15 +188,15 @@ public struct AboutView: View {
         openURL(url)
         #endif
     }
+
+    private func openAppStoreReviewPage() {
+        guard let reviewURL = AppStoreReviewURL.writeReview else { return }
+        openURL(reviewURL)
+    }
 }
 
 #Preview {
     NavigationStack {
-        AboutView(ratingService: PreviewRatingService())
+        AboutView()
     }
-}
-
-private final class PreviewRatingService: RatingService {
-    func requestRating() {}
-    func checkAndRequestRating(score: Int) {}
 }

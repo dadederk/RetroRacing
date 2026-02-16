@@ -36,6 +36,7 @@ Requirements documents serve as:
 - **testing.md** - Unit test strategy, coverage goals, and testing patterns
 - **theming_system.md** - Visual theme system, monetization, and platform recommendations
 - **input_handling.md** - Control schemes per platform (touch, crown, remote, keyboard, etc.)
+- **rating_system.md** - App rating strategy (manual App Store review URL + automatic StoreKit timing)
 
 ### Planned Features (TBD)
 

@@ -36,31 +36,31 @@ extension View {
 extension FontPreferenceStore {
     /// Returns a font for caption text (small supplementary text).
     public var captionFont: Font {
-        font(size: 12)
+        font(textStyle: .caption)
     }
     
     /// Returns a font for caption2 text (extra small supplementary text).
     public var caption2Font: Font {
-        font(size: 11)
+        font(textStyle: .caption2)
     }
     
     /// Returns a font for subheadline text.
     public var subheadlineFont: Font {
-        font(size: 15)
+        font(textStyle: .subheadline)
     }
     
     /// Returns a font for headline text.
     public var headlineFont: Font {
-        font(size: 17)
+        font(textStyle: .headline)
     }
     
     /// Returns a font for body text.
     public var bodyFont: Font {
-        font(size: 17)
+        font(textStyle: .body)
     }
     
     /// Returns a font for title text.
     public var titleFont: Font {
-        font(size: 28)
+        font(textStyle: .title)
     }
 }

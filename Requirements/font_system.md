@@ -17,14 +17,15 @@ public final class FontPreferenceStore {
     public var currentStyle: AppFontStyle
     public let isCustomFontAvailable: Bool
     
-    public func font(size: CGFloat) -> Font
+    public func font(textStyle: Font.TextStyle) -> Font
+    public func font(fixedSize: CGFloat) -> Font
 }
 ```
 
 **Key Features:**
 - Persists user's font choice in `UserDefaults`
 - Detects if custom font is available on the device
-- Provides convenience methods for semantic font sizes
+- Exposes semantic (`textStyle`) and fixed-size font APIs
 
 ### AppFontStyle Enum
 
@@ -61,7 +62,7 @@ extension View {
 - `bodyFont` - Size 17 (body text)
 - `titleFont` - Size 28 (large titles)
 
-These ensure consistent typography while respecting the user's font preference.
+These map to Dynamic-Type-aware semantic text styles.
 
 ## Implementation Pattern
 
@@ -75,7 +76,7 @@ struct MyView: View {
     
     var body: some View {
         Text("Hello")
-            .font(fontPreferenceStore?.bodyFont ?? .body)
+            .font(fontPreferenceStore?.font(textStyle: .body) ?? .body)
     }
 }
 ```
@@ -85,7 +86,7 @@ struct MyView: View {
 Always provide a fallback when the environment value might be `nil`:
 
 ```swift
-.font(fontPreferenceStore?.captionFont ?? .caption)
+.font(fontPreferenceStore?.font(textStyle: .caption) ?? .caption)
 ```
 
 This ensures views render correctly even if the font preference store hasn't been injected.
@@ -153,6 +154,7 @@ All user-facing text respects the font preference:
 - Buttons
 - HUD elements (score, lives)
 - Pause/resume labels
+- Game HUD/chrome uses `font(fixedSize:)` to preserve pixel-locked styling where required.
 
 ## Testing
 
@@ -162,7 +164,7 @@ Unit tests verify:
 - Initial style defaults to `custom` when no stored value
 - Style changes persist to UserDefaults
 - When custom font unavailable, stored `.custom` falls back to `.system`
-- Font generation returns correct Font objects
+- Semantic custom size mapping matches legacy typography baselines
 
 ### Manual Testing
 
@@ -177,13 +179,9 @@ Unit tests verify:
 
 ### Dynamic Type
 
-Font sizes should respect Dynamic Type where appropriate. For fixed-size game elements (HUD, buttons), use explicit sizes. For flowing text (About screen, Settings), consider supporting Dynamic Type scaling.
-
-**Future Enhancement:**
-```swift
-.font(fontPreferenceStore?.bodyFont ?? .body)
-.dynamicTypeSize(.large ... .xxxLarge)
-```
+- Flowing text uses semantic APIs (`font(textStyle:)`) so system and monospaced styles follow native Dynamic Type behavior.
+- Custom font uses `Font.custom(_:size:relativeTo:)` internally, with a documented base-size mapping per text style (`caption2` 11, `caption` 12, `subheadline` 15, `body/headline` 17, `title` 28, plus standard values for other styles).
+- Pixel-locked gameplay typography (HUD/chrome) uses `font(fixedSize:)`.
 
 ### VoiceOver
 
@@ -236,7 +234,7 @@ Font preference is stored in UserDefaults under key `"selectedFontStyle"`.
 
 ### Font Caching
 
-SwiftUI automatically caches font objects. Creating fonts via `FontPreferenceStore.font(size:)` is lightweight and can be called in view bodies.
+SwiftUI automatically caches font objects. Creating fonts via `FontPreferenceStore.font(textStyle:)` and `FontPreferenceStore.font(fixedSize:)` is lightweight and can be called in view bodies.
 
 ### Memory
 
@@ -252,7 +250,7 @@ If no font preference is stored, defaults to `.custom` (retro font) to match the
 
 Additional fonts can be added by:
 1. Adding new cases to `AppFontStyle`
-2. Updating `font(for:size:)` switch statement
+2. Updating `semanticFont(for:textStyle:)` and `fixedFont(for:size:)` switch statements
 3. Registering fonts in `AppBootstrap`
 4. Adding localized strings for font names
 
@@ -260,7 +258,7 @@ Additional fonts can be added by:
 
 1. **Custom font required** - If "Press Start 2P" fails to load, the app falls back to system fonts gracefully
 2. **No per-view overrides** - Font preference is global; individual views cannot override
-3. **Fixed sizes** - Some UI elements (game HUD) use fixed sizes that don't scale with Dynamic Type
+3. **Fixed-size gameplay typography** - Some UI elements (game HUD/chrome) intentionally use fixed sizes to preserve retro readability
 
 ## References
 

@@ -11,13 +11,12 @@ import Foundation
 public final class StoreReviewService: RatingService {
     private let userDefaults: UserDefaults
     private let ratingProvider: RatingServiceProvider
-    private let minimumScoreThreshold = 200
-    private let minimumGamesPlayedBeforePrompting = 3
+    private let minimumBestScoreImprovementsBeforePrompting = 3
     private let daysBetweenPrompts = 90
 
     private enum Keys {
         static let lastPromptDate = "StoreReview.lastPromptDate"
-        static let gamesPlayed = "StoreReview.gamesPlayed"
+        static var bestScoreImprovementsCurrentVersion: String { "StoreReview.bestScoreImprovements_\(appVersion)" }
         static var hasRatedCurrentVersion: String { "StoreReview.hasRatedVersion_\(appVersion)" }
     }
 
@@ -35,32 +34,33 @@ public final class StoreReviewService: RatingService {
         recordPrompt()
     }
 
-    public func checkAndRequestRating(score: Int) {
-        guard shouldPromptForRating(score: score) else { return }
+    public func recordBestScoreImprovementAndRequestIfEligible() {
+        let improvementCount = incrementBestScoreImprovementCount()
+        guard shouldPromptForRating(bestScoreImprovementCount: improvementCount) else { return }
         requestRating()
-    }
-
-    /// Call when a game session ends to update games-played count.
-    func recordGamePlayed() {
-        let count = userDefaults.integer(forKey: Keys.gamesPlayed) + 1
-        userDefaults.set(count, forKey: Keys.gamesPlayed)
     }
 
     // MARK: - Private Helpers
 
-    private func shouldPromptForRating(score: Int) -> Bool {
+    private func shouldPromptForRating(bestScoreImprovementCount: Int) -> Bool {
         guard !hasRatedCurrentVersion() else { return false }
-        guard hasEnoughGamesPlayed() else { return false }
+        guard hasEnoughBestScoreImprovements(bestScoreImprovementCount) else { return false }
         guard hasEnoughTimePassed() else { return false }
-        return score >= minimumScoreThreshold
+        return true
     }
 
     private func hasRatedCurrentVersion() -> Bool {
         userDefaults.bool(forKey: Keys.hasRatedCurrentVersion)
     }
 
-    private func hasEnoughGamesPlayed() -> Bool {
-        userDefaults.integer(forKey: Keys.gamesPlayed) >= minimumGamesPlayedBeforePrompting
+    private func hasEnoughBestScoreImprovements(_ count: Int) -> Bool {
+        count >= minimumBestScoreImprovementsBeforePrompting
+    }
+
+    private func incrementBestScoreImprovementCount() -> Int {
+        let count = userDefaults.integer(forKey: Keys.bestScoreImprovementsCurrentVersion) + 1
+        userDefaults.set(count, forKey: Keys.bestScoreImprovementsCurrentVersion)
+        return count
     }
 
     private func hasEnoughTimePassed() -> Bool {

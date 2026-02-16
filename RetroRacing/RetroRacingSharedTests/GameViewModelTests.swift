@@ -121,7 +121,7 @@ final class GameViewModelTests: XCTestCase {
 
 private final class MockRatingService: RatingService {
     func requestRating() {}
-    func checkAndRequestRating(score: Int) {}
+    func recordBestScoreImprovementAndRequestIfEligible() {}
 }
 
 private final class MockHighestScoreStore: HighestScoreStore {

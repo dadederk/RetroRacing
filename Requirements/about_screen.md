@@ -21,8 +21,10 @@ The About screen is implemented in `RetroRacingShared/Views/AboutView.swift` and
    - Link to the RetroRacing micro‑site: `https://accessibilityupto11.com/apps/retroracing/`.
 
 2. **Rate**
-   - Button that calls `RatingService.requestRating()`.
-   - Used both as a user‑triggered entry point and a way to align with StoreKit rating prompts.
+   - Button opens the App Store write-review page via:
+     - `https://apps.apple.com/app/id6758641625?action=write-review`
+   - This is a manual fallback because native StoreKit dialogs can stop appearing from repeated user-triggered taps.
+   - The native StoreKit rating prompt is now reserved for automatic mood-based timing in gameplay (see `rating_system.md`).
 
 3. **Let’s connect!**
    - Links to:
@@ -54,11 +56,12 @@ The About screen is implemented in `RetroRacingShared/Views/AboutView.swift` and
 
 - The screen lives in the **shared UI layer** (`RetroRacingShared/Views`) to maximize reuse across iOS, tvOS, and macOS.
 - It depends on:
-  - `RatingService` (protocol) injected via `SettingsView` and ultimately `MenuView`.
   - `GameLocalizedStrings` for all user‑facing text.
+  - `AppStoreReviewURL` for the centralized App Store write-review URL.
 - URL handling:
   - URLs are centralised in a small internal `AboutViewURLs` helper.
   - On iOS, links open in‑app using `SafariView` (SFSafariViewController wrapper).
+  - The **Rate** action intentionally bypasses in-app Safari and uses `openURL` so the system can route to App Store directly.
   - On other platforms, links use `openURL` from the SwiftUI environment.
 
 ## Localization
@@ -78,7 +81,7 @@ Best‑effort accessibility has been applied in line with `/Requirements/accessi
   - Reusable `InfoLinkRow` combines title and subtitle into a single accessibility element.
   - Decorative icons are hidden from VoiceOver.
   - Link rows use link traits rather than button traits where appropriate.
-  - The rate button includes an accessibility hint describing that it opens the rating dialog.
+  - The rate button includes an accessibility hint describing that it opens the App Store review page.
 
 - **Dynamic Type**
   - Text uses system fonts that scale with Dynamic Type.
@@ -92,6 +95,5 @@ Best‑effort accessibility has been applied in line with `/Requirements/accessi
 - Building the **RetroRacingUniversal** target ensures the About screen compiles and links correctly for iOS.
 - Unit tests should cover:
   - That `SettingsView` exposes an About row.
-  - That `AboutView` can be constructed with a mock `RatingService`.
-  - That tapping the Rate button calls `RatingService.requestRating()` (via a mock).
-
+  - That `AboutView` can be constructed without service dependencies.
+  - That the Rate button opens the App Store review URL.

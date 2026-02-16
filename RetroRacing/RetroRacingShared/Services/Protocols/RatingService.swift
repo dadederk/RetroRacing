@@ -9,10 +9,9 @@ import Foundation
 
 /// Interface for requesting StoreKit ratings and gating prompts based on gameplay context.
 public protocol RatingService {
-    /// Request app rating from the user (typically from a button)
+    /// Requests the native in-app StoreKit rating prompt.
     func requestRating()
 
-    /// Check if user qualifies for rating prompt and request if appropriate
-    /// - Parameter score: The user's final score
-    func checkAndRequestRating(score: Int)
+    /// Records a best-score improvement and requests a rating prompt when eligibility criteria are met.
+    func recordBestScoreImprovementAndRequestIfEligible()
 }

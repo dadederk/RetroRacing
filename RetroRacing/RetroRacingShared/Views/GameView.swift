@@ -7,6 +7,9 @@
 
 import SwiftUI
 import SpriteKit
+#if canImport(UIKit) && (os(iOS) || os(tvOS))
+import UIKit
+#endif
 
 /// SwiftUI game screen that hosts the shared SpriteKit scene and routes platform input.
 @MainActor
@@ -43,6 +46,7 @@ public struct GameView: View {
     private let isMenuOverlayPresented: Binding<Bool>?
 
     @AppStorage(SoundPreferences.volumeKey) private var sfxVolume: Double = SoundPreferences.defaultVolume
+    @AppStorage(InGameAnnouncementsPreference.storageKey) private var inGameAnnouncementsEnabled: Bool = InGameAnnouncementsPreference.defaultEnabled
     @State private var model: GameViewModel
     @ScaledMetric(relativeTo: .body) private var directionButtonHeight: CGFloat = 120
     @Environment(\.dismiss) private var dismiss
@@ -162,11 +166,12 @@ public struct GameView: View {
             if showMenuButton {
                 ToolbarItem(placement: Self.menuToolbarPlacement) {
                     Button {
+                        model.setOverlayPause(isPresented: true)
                         onMenuRequest?()
                     } label: {
                         Label(
                             GameLocalizedStrings.string("menu_button"),
-                            systemImage: "arrow.up"
+                            systemImage: "xmark"
                         )
                         .font(pauseButtonFont)
                     }
@@ -225,6 +230,9 @@ public struct GameView: View {
             AppLog.info(AppLog.game, "GameView shouldStartGame changed from \(model.shouldStartGame) to \(newValue)")
             model.shouldStartGame = newValue
         }
+        .onChange(of: model.hud.speedIncreaseImminent) { oldValue, newValue in
+            announceSpeedIncreaseIfNeeded(oldValue: oldValue, newValue: newValue)
+        }
         .onChange(of: isMenuOverlayPresented?.wrappedValue ?? false) { _, isPresented in
             guard isMenuOverlayPresented != nil else { return }
             AppLog.info(AppLog.game, "Menu overlay presented: \(isPresented)")
@@ -248,12 +256,12 @@ public struct GameView: View {
     }
 
     private var pauseButtonFont: Font {
-        fontPreferenceStore?.font(size: style.pauseButtonFontSize)
+        fontPreferenceStore?.font(fixedSize: style.pauseButtonFontSize)
             ?? .custom("PressStart2P-Regular", size: style.pauseButtonFontSize)
     }
 
     private func headerFont(size: CGFloat) -> Font {
-        fontPreferenceStore?.font(size: size) ?? .custom("PressStart2P-Regular", size: size)
+        fontPreferenceStore?.font(fixedSize: size) ?? .custom("PressStart2P-Regular", size: size)
     }
 
     private var showGameOverBinding: Binding<Bool> {
@@ -280,5 +288,16 @@ public struct GameView: View {
             model.flashButton(.right)
         }
         model.inputAdapter?.handleDrag(translation: translation)
+    }
+
+    private func announceSpeedIncreaseIfNeeded(oldValue: Bool, newValue: Bool) {
+        guard oldValue == false, newValue else { return }
+        guard inGameAnnouncementsEnabled else { return }
+        #if canImport(UIKit) && (os(iOS) || os(tvOS))
+        UIAccessibility.post(
+            notification: .announcement,
+            argument: GameLocalizedStrings.string("speed_increase_announcement")
+        )
+        #endif
     }
 }

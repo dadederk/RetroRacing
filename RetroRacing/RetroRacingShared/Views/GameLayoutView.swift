@@ -127,12 +127,14 @@ struct GameLayoutView<GameArea: View>: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: style.lifeIconSize, height: style.lifeIconSize)
+                .accessibilityHidden(true)
             Text(GameLocalizedStrings.format("lives_count", lives))
                 .font(headerFont)
                 .foregroundStyle(.primary)
                 .shadow(color: Color.primary.opacity(0.35), radius: 0.5)
-                .accessibilityLabel(GameLocalizedStrings.format("%lld lives remaining", lives))
         }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(accessibilityLivesLabel)
     }
 
     private func directionButtonImage(isLeft: Bool) -> some View {
@@ -190,7 +192,14 @@ struct GameLayoutView<GameArea: View>: View {
     }
 
     private var combinedSpeedAlertAccessibilityLabel: String {
-        GameLocalizedStrings.string("speed_alert_hey_ho") + " " + GameLocalizedStrings.string("speed_increasing_alert")
+        GameLocalizedStrings.string("speed_increase_announcement")
+    }
+
+    private var accessibilityLivesLabel: String {
+        if lives == 1 {
+            return GameLocalizedStrings.format("%lld life remaining", lives)
+        }
+        return GameLocalizedStrings.format("%lld lives remaining", lives)
     }
 }
 

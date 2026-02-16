@@ -24,13 +24,13 @@ struct PaywallHeaderView: View {
                 .accessibilityHidden(true)
 
             Text(title)
-                .font(fontPreferenceStore?.titleFont ?? .title)
+                .font(fontPreferenceStore?.font(textStyle: .title) ?? .title)
                 .fontWeight(.bold)
                 .multilineTextAlignment(.center)
                 .accessibilityAddTraits(.isHeader)
 
             Text(caption)
-                .font(fontPreferenceStore?.captionFont ?? .caption)
+                .font(fontPreferenceStore?.font(textStyle: .caption) ?? .caption)
                 .foregroundStyle(.primary)
                 .multilineTextAlignment(.center)
         }
@@ -50,9 +50,9 @@ struct PaywallCardLinkLabel: View {
         HStack {
             Text(title)
             Image(systemName: "arrow.up.right")
-                .font(fontPreferenceStore?.captionFont ?? .caption)
+                .font(fontPreferenceStore?.font(textStyle: .caption) ?? .caption)
         }
-        .font(fontPreferenceStore?.subheadlineFont ?? .subheadline)
+        .font(fontPreferenceStore?.font(textStyle: .subheadline) ?? .subheadline)
     }
 }
 
@@ -73,12 +73,12 @@ struct PaywallInfoCard<BodyContent: View, ActionContent: View>: View {
                     .accessibilityHidden(true)
                 Text(title)
             }
-            .font(fontPreferenceStore?.headlineFont ?? .headline)
+            .font(fontPreferenceStore?.font(textStyle: .headline) ?? .headline)
             .accessibilityElement(children: .combine)
             .accessibilityAddTraits(.isHeader)
 
             bodyContent()
-                .font(fontPreferenceStore?.subheadlineFont ?? .subheadline)
+                .font(fontPreferenceStore?.font(textStyle: .subheadline) ?? .subheadline)
                 .foregroundStyle(.primary)
 
             actionContent()
@@ -101,13 +101,13 @@ struct PaywallErrorView: View {
     var body: some View {
         VStack(spacing: 16) {
             Text(message)
-                .font(fontPreferenceStore?.bodyFont ?? .body)
+                .font(fontPreferenceStore?.font(textStyle: .body) ?? .body)
                 .foregroundStyle(.primary)
                 .multilineTextAlignment(.center)
 
             Button(action: retryAction) {
                 Label(GameLocalizedStrings.string("error_retry"), systemImage: "arrow.clockwise")
-                    .font(fontPreferenceStore?.subheadlineFont ?? .subheadline)
+                    .font(fontPreferenceStore?.font(textStyle: .subheadline) ?? .subheadline)
             }
             .buttonStyle(.bordered)
             .tint(.accentColor)
@@ -126,4 +126,3 @@ extension View {
             .overlay(RoundedRectangle(cornerRadius: cornerRadius).strokeBorder(content, lineWidth: lineWidth))
     }
 }
-

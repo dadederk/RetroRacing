@@ -14,43 +14,73 @@ private final class MockRatingServiceProvider: RatingServiceProvider {
 }
 
 final class StoreReviewServiceTests: XCTestCase {
-
-    func testRequestRatingCallsProviderAndRecordsPrompt() {
-        let defaults = UserDefaults(suiteName: "StoreReviewServiceTests.prompt")!
-        let key = "StoreReview.lastPromptDate"
-        defaults.removeObject(forKey: key)
-        defer { defaults.removeObject(forKey: key) }
-
+    func testGivenManualRequestWhenRequestRatingThenProviderCalledAndPromptDateRecorded() {
+        // Given
+        let suiteName = "StoreReviewServiceTests.manualRequest"
+        let defaults = UserDefaults(suiteName: suiteName)!
+        defaults.removePersistentDomain(forName: suiteName)
+        defer { defaults.removePersistentDomain(forName: suiteName) }
         let provider = MockRatingServiceProvider()
         let service = StoreReviewService(userDefaults: defaults, ratingProvider: provider)
 
+        // When
         service.requestRating()
 
+        // Then
         XCTAssertEqual(provider.presentRatingRequestCallCount, 1)
-        XCTAssertNotNil(defaults.object(forKey: key))
+        XCTAssertNotNil(defaults.object(forKey: "StoreReview.lastPromptDate"))
     }
 
-    func testCheckAndRequestRatingDoesNotCallWhenScoreBelowThreshold() {
+    func testGivenTwoBestScoreImprovementsWhenRecordingThenRatingIsNotRequested() {
+        // Given
+        let suiteName = "StoreReviewServiceTests.twoImprovements"
+        let defaults = UserDefaults(suiteName: suiteName)!
+        defaults.removePersistentDomain(forName: suiteName)
+        defer { defaults.removePersistentDomain(forName: suiteName) }
         let provider = MockRatingServiceProvider()
-        let service = StoreReviewService(userDefaults: UserDefaults(suiteName: "StoreReviewServiceTests.threshold")!, ratingProvider: provider)
+        let service = StoreReviewService(userDefaults: defaults, ratingProvider: provider)
 
-        service.checkAndRequestRating(score: 100)
+        // When
+        service.recordBestScoreImprovementAndRequestIfEligible()
+        service.recordBestScoreImprovementAndRequestIfEligible()
 
+        // Then
         XCTAssertEqual(provider.presentRatingRequestCallCount, 0)
     }
 
-    func testRecordGamePlayedIncrementsCount() {
-        let defaults = UserDefaults(suiteName: "StoreReviewServiceTests.gamesPlayed")!
-        let key = "StoreReview.gamesPlayed"
-        defaults.removeObject(forKey: key)
-        defer { defaults.removeObject(forKey: key) }
-
+    func testGivenThreeBestScoreImprovementsWhenRecordingThenRatingIsRequestedOnce() {
+        // Given
+        let suiteName = "StoreReviewServiceTests.threeImprovements"
+        let defaults = UserDefaults(suiteName: suiteName)!
+        defaults.removePersistentDomain(forName: suiteName)
+        defer { defaults.removePersistentDomain(forName: suiteName) }
         let provider = MockRatingServiceProvider()
         let service = StoreReviewService(userDefaults: defaults, ratingProvider: provider)
 
-        service.recordGamePlayed()
-        service.recordGamePlayed()
+        // When
+        service.recordBestScoreImprovementAndRequestIfEligible()
+        service.recordBestScoreImprovementAndRequestIfEligible()
+        service.recordBestScoreImprovementAndRequestIfEligible()
 
-        XCTAssertEqual(defaults.integer(forKey: key), 2)
+        // Then
+        XCTAssertEqual(provider.presentRatingRequestCallCount, 1)
+    }
+
+    func testGivenCurrentVersionAlreadyPromptedWhenRecordingMoreImprovementsThenRatingIsNotRequestedAgain() {
+        // Given
+        let suiteName = "StoreReviewServiceTests.alreadyPrompted"
+        let defaults = UserDefaults(suiteName: suiteName)!
+        defaults.removePersistentDomain(forName: suiteName)
+        defer { defaults.removePersistentDomain(forName: suiteName) }
+        let provider = MockRatingServiceProvider()
+        let service = StoreReviewService(userDefaults: defaults, ratingProvider: provider)
+
+        // When
+        for _ in 0..<6 {
+            service.recordBestScoreImprovementAndRequestIfEligible()
+        }
+
+        // Then
+        XCTAssertEqual(provider.presentRatingRequestCallCount, 1)
     }
 }

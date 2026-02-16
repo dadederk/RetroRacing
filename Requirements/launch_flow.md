@@ -50,6 +50,7 @@ This document describes the session model, how the overlay interacts with gamepl
 
 - `GameView` exposes an optional `onMenuRequest` callback.
 - App entry points can wire this to re-present the menu overlay during gameplay (e.g. via an in-game Menu button).
+- The in-game menu control uses the `xmark` symbol and pauses gameplay immediately on tap, before presentation state changes propagate.
 - When the overlay is presented while a session is running:
   - `GameView` receives an `isMenuOverlayPresented` binding.
   - `GameView` calls `GameViewModel.setOverlayPause(isPresented:)`.
@@ -65,6 +66,7 @@ This document describes the session model, how the overlay interacts with gamepl
   - On **present**: calls `scene.pauseGameplay()`.
   - On **dismiss**: calls `scene.unpauseGameplay()` **only when** `isUserPaused == false`.
   - This avoids unpausing a game that the user explicitly paused before opening the menu.
+- `GameScene` tracks an overlay pause lock; deferred start-audio completion must not clear pause while that lock is active.
 
 ## Platform Behaviour
 
@@ -117,6 +119,6 @@ This document describes the session model, how the overlay interacts with gamepl
   - Play after launch starts a new session.
   - Game Over → Finish returns to the menu and resets the session.
   - Overlay opened during gameplay pauses the scene and resumes correctly when dismissed.
+  - Opening the menu from gameplay pauses immediately (no ongoing background grid ticks, move haptics, or repeated `bip` playback).
   - User-initiated pauses are not overridden by overlay dismissal.
   - VoiceOver focus and announcements behave sensibly when the overlay appears and disappears.
-

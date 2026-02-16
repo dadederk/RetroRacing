@@ -55,7 +55,7 @@ struct WatchGameView: View {
     }
 
     private func headerFont(size: CGFloat = 10) -> Font {
-        fontPreferenceStore?.font(size: size) ?? .custom("PressStart2P-Regular", size: size)
+        fontPreferenceStore?.font(fixedSize: size) ?? .custom("PressStart2P-Regular", size: size)
     }
 
     private static let sharedBundle = Bundle(for: GameScene.self)

@@ -52,13 +52,13 @@ public struct InfoLinkRow: View {
 
                 VStack(alignment: .leading, spacing: dynamicTypeSize.isAccessibilitySize ? 0 : 2) {
                     Text(title)
-                        .font(fontPreferenceStore?.bodyFont ?? .body)
+                        .font(fontPreferenceStore?.font(textStyle: .body) ?? .body)
                         .fontWeight(.medium)
                         .foregroundStyle(.primary)
 
                     if let subtitle {
                         Text(subtitle)
-                            .font(fontPreferenceStore?.captionFont ?? .caption)
+                            .font(fontPreferenceStore?.font(textStyle: .caption) ?? .caption)
                             .foregroundStyle(.secondary)
                             .lineLimit(dynamicTypeSize.isAccessibilitySize ? 6 : 2)
                     }
@@ -115,4 +115,3 @@ public struct InfoLinkRow: View {
         }
     }
 }
-

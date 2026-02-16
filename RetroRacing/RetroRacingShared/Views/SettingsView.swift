@@ -16,8 +16,6 @@ public struct SettingsView: View {
     public let supportsHapticFeedback: Bool
     public let controlsDescriptionKey: String
     public let style: SettingsViewStyle
-    /// Injected for the About screen (rate button). Required so About is reachable from Settings.
-    public let ratingService: RatingService
     /// Optional play limit service for showing remaining rounds.
     public let playLimitService: PlayLimitService?
 
@@ -25,6 +23,7 @@ public struct SettingsView: View {
     @Environment(StoreKitService.self) private var storeKit
     @AppStorage(HapticFeedbackPreference.storageKey) private var hapticFeedbackEnabled: Bool = true
     @AppStorage(SoundPreferences.volumeKey) private var sfxVolume: Double = SoundPreferences.defaultVolume
+    @AppStorage(InGameAnnouncementsPreference.storageKey) private var inGameAnnouncementsEnabled: Bool = InGameAnnouncementsPreference.defaultEnabled
     @State private var isRestoringPurchases = false
     @State private var restoreMessage: String?
     @State private var showingRestoreAlert = false
@@ -36,7 +35,6 @@ public struct SettingsView: View {
         supportsHapticFeedback: Bool,
         controlsDescriptionKey: String,
         style: SettingsViewStyle,
-        ratingService: RatingService,
         playLimitService: PlayLimitService? = nil
     ) {
         self.themeManager = themeManager
@@ -44,11 +42,13 @@ public struct SettingsView: View {
         self.supportsHapticFeedback = supportsHapticFeedback
         self.controlsDescriptionKey = controlsDescriptionKey
         self.style = style
-        self.ratingService = ratingService
         self.playLimitService = playLimitService
     }
     private var fontForLabels: Font {
-        fontPreferenceStore.font(size: style.labelFontSize)
+        fontPreferenceStore.font(textStyle: .body)
+    }
+    private var secondaryFont: Font {
+        fontPreferenceStore.font(textStyle: .caption)
     }
     public var body: some View {
         settingsContent
@@ -182,20 +182,35 @@ public struct SettingsView: View {
                     }
                 }
 
+                #if os(iOS) || os(tvOS)
+                Section {
+                    Toggle(isOn: $inGameAnnouncementsEnabled) {
+                        Text(GameLocalizedStrings.string("settings_in_game_announcements"))
+                            .font(fontForLabels)
+                    }
+                    .tint(.accentColor)
+                } header: {
+                    Text(GameLocalizedStrings.string("settings_accessibility"))
+                        .font(fontForLabels)
+                }
+                #endif
+
                 Section {
                     if storeKit.hasPremiumAccess {
                         HStack {
                             Image(systemName: "checkmark.seal.fill")
                                 .foregroundColor(.accentColor)
+                                .accessibilityHidden(true)
                             VStack(alignment: .leading, spacing: 2) {
                                 Text(GameLocalizedStrings.string("settings_premium_active"))
                                     .font(fontForLabels)
                                 Text(GameLocalizedStrings.string("product_unlimited_plays"))
-                                    .font(fontPreferenceStore.font(size: 12))
+                                    .font(secondaryFont)
                                     .foregroundStyle(.secondary)
                             }
                             Spacer()
                         }
+                        .accessibilityElement(children: .combine)
                     }
 
                     if !storeKit.hasPremiumAccess {
@@ -255,7 +270,7 @@ public struct SettingsView: View {
                 } footer: {
                     if !storeKit.hasPremiumAccess {
                         Text(GameLocalizedStrings.string("settings_restore_footer"))
-                            .font(fontPreferenceStore.font(size: 12))
+                            .font(secondaryFont)
                     }
                 }
 
@@ -274,13 +289,13 @@ public struct SettingsView: View {
                             .font(fontForLabels)
                     } footer: {
                         Text(GameLocalizedStrings.string("debug_simulate_premium_footer"))
-                            .font(fontPreferenceStore.font(size: 12))
+                            .font(secondaryFont)
                     }
                 }
 
                 Section {
                     NavigationLink {
-                        AboutView(ratingService: ratingService)
+                        AboutView()
                     } label: {
                         Label(GameLocalizedStrings.string("about_title"), systemImage: "info.circle")
                             .font(fontForLabels)
@@ -402,12 +417,6 @@ private struct SettingsNavigationTitleStyle: ViewModifier {
         supportsHapticFeedback: true,
         controlsDescriptionKey: "settings_controls_ios",
         style: .universal,
-        ratingService: PreviewRatingServiceForSettings(),
         playLimitService: nil
     )
-}
-
-private final class PreviewRatingServiceForSettings: RatingService {
-    func requestRating() {}
-    func checkAndRequestRating(score: Int) {}
 }

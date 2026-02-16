@@ -30,14 +30,14 @@ struct ProductRow: View {
             HStack(spacing: 12) {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(GameLocalizedStrings.string("product_unlimited_plays"))
-                        .font(fontPreferenceStore?.headlineFont ?? .headline)
+                        .font(fontPreferenceStore?.font(textStyle: .headline) ?? .headline)
                     if state.hasPurchased {
                         Text(GameLocalizedStrings.string("play_limit_unlimited"))
-                            .font(fontPreferenceStore?.subheadlineFont ?? .subheadline)
+                            .font(fontPreferenceStore?.font(textStyle: .subheadline) ?? .subheadline)
                             .foregroundStyle(.secondary)
                     } else {
                         Text(product.description)
-                            .font(fontPreferenceStore?.subheadlineFont ?? .subheadline)
+                            .font(fontPreferenceStore?.font(textStyle: .subheadline) ?? .subheadline)
                             .foregroundStyle(.secondary)
                     }
                 }
@@ -52,7 +52,7 @@ struct ProductRow: View {
                         .foregroundColor(.accentColor)
                 } else {
                     Text(product.displayPrice)
-                        .font(fontPreferenceStore?.subheadlineFont ?? .subheadline)
+                        .font(fontPreferenceStore?.font(textStyle: .subheadline) ?? .subheadline)
                         .foregroundColor(.accentColor)
                 }
             }
@@ -64,4 +64,3 @@ struct ProductRow: View {
         .accessibilityElement(children: .combine)
     }
 }
-

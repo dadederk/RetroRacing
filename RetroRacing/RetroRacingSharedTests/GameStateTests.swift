@@ -9,9 +9,9 @@ import XCTest
 @testable import RetroRacingShared
 
 final class GameStateTests: XCTestCase {
-    func testGivenScoreBelow95WhenCheckingLevelChangeImminentThenReturnsFalse() {
+    func testGivenScoreBelow97WhenCheckingLevelChangeImminentThenReturnsFalse() {
         // Given
-        let scores = [0, 50, 94]
+        let scores = [0, 50, 96]
 
         // When / Then
         for score in scores {
@@ -19,9 +19,9 @@ final class GameStateTests: XCTestCase {
         }
     }
 
-    func testGivenScore95To99WhenCheckingLevelChangeImminentThenReturnsTrue() {
+    func testGivenScore97To99WhenCheckingLevelChangeImminentThenReturnsTrue() {
         // Given
-        let scores = [95, 96, 97, 98, 99]
+        let scores = [97, 98, 99]
 
         // When / Then
         for score in scores {
@@ -40,9 +40,9 @@ final class GameStateTests: XCTestCase {
         XCTAssertFalse(result)
     }
 
-    func testGivenScore195To199WhenCheckingLevelChangeImminentThenReturnsTrue() {
+    func testGivenScore197To199WhenCheckingLevelChangeImminentThenReturnsTrue() {
         // Given
-        let scores = [195, 196, 197, 198, 199]
+        let scores = [197, 198, 199]
 
         // When / Then
         for score in scores {
@@ -70,5 +70,15 @@ final class GameStateTests: XCTestCase {
         XCTAssertTrue(GameState.isLevelChangeImminent(score: 90, windowPoints: windowPoints))
         XCTAssertTrue(GameState.isLevelChangeImminent(score: 99, windowPoints: windowPoints))
         XCTAssertFalse(GameState.isLevelChangeImminent(score: 100, windowPoints: windowPoints))
+    }
+
+    func testGivenDefaultSpeedAlertWindowWhenReadingWindowThenUsesThreePoints() {
+        // Given
+
+        // When
+        let windowPoints = GameState.defaultSpeedAlertWindowPoints
+
+        // Then
+        XCTAssertEqual(windowPoints, 3)
     }
 }

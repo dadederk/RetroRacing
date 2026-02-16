@@ -104,4 +104,46 @@ final class GridStateCalculatorTests: XCTestCase {
         XCTAssertGreaterThan(level1, 0)
         XCTAssertGreaterThan(level5, 0)
     }
+
+    func testGivenUpdateWithEmptyRowWhenAdvancingGridThenTopRowIsEmpty() {
+        // Given
+        var gridState = GridState(numberOfRows: 5, numberOfColumns: 3)
+        gridState.grid = [
+            [.Car, .Car, .Car],
+            [.Car, .Car, .Car],
+            [.Car, .Car, .Car],
+            [.Car, .Empty, .Empty],
+            [.Empty, .Player, .Empty],
+        ]
+        let sut = GridStateCalculator(randomSource: MockRandomSource())
+
+        // When
+        let (newGridState, effects) = sut.nextGrid(previousGrid: gridState, actions: [.updateWithEmptyRow])
+
+        // Then
+        XCTAssertEqual(effects, [.scored(points: 1)])
+        XCTAssertEqual(newGridState.grid[0], [.Empty, .Empty, .Empty])
+        XCTAssertEqual(newGridState.grid[1], [.Car, .Car, .Car])
+    }
+
+    func testGivenUpdateWithEmptyRowWhenAdvancingGridThenExistingRowsAreNotCleared() {
+        // Given
+        var gridState = GridState(numberOfRows: 5, numberOfColumns: 3)
+        gridState.grid = [
+            [.Car, .Empty, .Car],
+            [.Empty, .Car, .Empty],
+            [.Car, .Car, .Empty],
+            [.Empty, .Empty, .Car],
+            [.Empty, .Player, .Empty],
+        ]
+        let expectedShiftedRow = gridState.grid[0]
+        let sut = GridStateCalculator(randomSource: MockRandomSource())
+
+        // When
+        let (newGridState, _) = sut.nextGrid(previousGrid: gridState, actions: [.updateWithEmptyRow])
+
+        // Then
+        XCTAssertEqual(newGridState.grid[0], [.Empty, .Empty, .Empty])
+        XCTAssertEqual(newGridState.grid[1], expectedShiftedRow)
+    }
 }

@@ -67,7 +67,7 @@ public struct PaywallView: View {
                     restorePurchasesButton
 
                     Text(GameLocalizedStrings.string("paywall_unlimited_and_themes"))
-                        .font(fontPreferenceStore?.subheadlineFont ?? .subheadline)
+                        .font(fontPreferenceStore?.font(textStyle: .subheadline) ?? .subheadline)
                         .multilineTextAlignment(.center)
                         .foregroundStyle(.secondary)
 
@@ -103,7 +103,7 @@ public struct PaywallView: View {
 
                     VStack(spacing: 4) {
                         Text(GameLocalizedStrings.string("paywall_footer_one_time"))
-                            .font(fontPreferenceStore?.caption2Font ?? .caption2)
+                            .font(fontPreferenceStore?.font(textStyle: .caption2) ?? .caption2)
                             .foregroundStyle(.primary)
                             .multilineTextAlignment(.center)
                     }
@@ -176,7 +176,7 @@ public struct PaywallView: View {
                         .scaleEffect(0.8)
                 }
                 Text(GameLocalizedStrings.string("restore_purchases"))
-                    .font(fontPreferenceStore?.bodyFont ?? .body)
+                    .font(fontPreferenceStore?.font(textStyle: .body) ?? .body)
             }
         }
         .buttonStyle(.glass)
@@ -295,4 +295,3 @@ public struct PaywallView: View {
         .environment(StoreKitService())
 }
 #endif
-
