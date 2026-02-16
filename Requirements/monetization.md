@@ -29,11 +29,11 @@ The goal is to encourage support without making the free experience feel hostile
 - The day boundary is based on the user’s **current Calendar and time zone** and resets at **00:00 local time**.
 - When the limit is reached:
   - Starting a new game from the menu **shows the paywall**.
-  - Restarting from the game over alert **shows the paywall** instead of restarting.
+  - Restarting from the game-over modal **shows the paywall** instead of restarting.
 
 ### Unlimited Plays (purchase)
 
-- **Product**: `com.retroRacing.unlimitedPlays`
+- **Product**: `com.accessibilityUpTo11.RetroRacing.unlimitedPlays`
 - **Type**: Non‑consumable, one‑time purchase.
 - **Entitlement**:
   - Grants **unlimited plays forever** (no daily limit).
@@ -82,27 +82,29 @@ Responsibilities:
 - Load StoreKit products (currently one non‑consumable).
 - Handle purchases and verify transactions.
 - Refresh current entitlements.
-- Expose `hasPremiumAccess` and `debugPremiumEnabled` for UI & testing.
+- Expose `hasPremiumAccess` and `debugPremiumSimulationMode` for UI & testing.
 
 Key API:
 
-- `public enum ProductID: String { case unlimitedPlays = "com.retroRacing.unlimitedPlays" }`
+- `public enum ProductID: String { case unlimitedPlays = "com.accessibilityUpTo11.RetroRacing.unlimitedPlays" }`
 - `public private(set) var products: [Product]`
 - `public private(set) var purchasedProductIDs: Set<String>`
 - `public var hasPremiumAccess: Bool`
-- `public var debugPremiumEnabled: Bool`
+- `public enum DebugPremiumSimulationMode { case productionDefault, unlimitedPlays, freemium }`
+- `public var debugPremiumSimulationMode: DebugPremiumSimulationMode`
 - `public func loadProducts() async`
 - `public func purchase(_ product: Product) async throws -> Transaction?`
 - `public func restorePurchases() async throws`
 
 `hasPremiumAccess` logic:
 
-- Returns `true` when `debugPremiumEnabled` is `true` (for testing).
-- Otherwise, returns `true` if there is **at least one current entitlement** in `Transaction.currentEntitlements`.
+- `.productionDefault`: returns `true` if there is **at least one current entitlement** in `Transaction.currentEntitlements`.
+- `.unlimitedPlays`: always returns `true` (forces paid behavior for testing).
+- `.freemium`: always returns `false` (forces free behavior for testing).
 
 **Important**: 
-- `debugPremiumEnabled` **defaults to `false`** to ensure App Store reviewers experience the free tier.
-- The Debug section (with the toggle) is **hidden** in Release builds via `BuildConfiguration.shouldShowDebugFeatures`.
+- `debugPremiumSimulationMode` **defaults to `.productionDefault`** so App Store reviewers experience the free tier.
+- The Debug section (with the picker) is **hidden** in Release builds via `BuildConfiguration.shouldShowDebugFeatures`.
 - `StoreKitService.hasPremiumAccess` is the **single source of truth** for premium status. All UI checks (MenuView, GameView, SettingsView) check this property **first** before falling back to `PlayLimitService` checks. This ensures premium users **always** have unlimited plays regardless of `PlayLimitService` state.
 
 ### Build Configuration Helper
@@ -118,7 +120,7 @@ Key API:
 Used to:
 
 - Gate the **Debug** section in Settings.
-- Allow `Simulate Premium Access` in DEBUG/TestFlight builds.
+- Allow debug simulation mode selection in DEBUG/TestFlight builds.
 
 ### App‑Level Injection
 
@@ -222,7 +224,7 @@ onPlay: {
 - Injected dependencies: 
   - `playLimitService: PlayLimitService?`
   - `@Environment(StoreKitService.self) private var storeKit`
-- Game over alert:
+- Game-over modal (`GameOverView` in a `.sheet`):
 
 ```swift
 Button(GameLocalizedStrings.string("restart")) {
@@ -323,11 +325,12 @@ Sections added:
      - Subtitle:
        - `"play_limit_resets_tomorrow"` or
        - `"play_limit_resets_in_hours %lld"`.
+     - Row accessibility is combined (`.accessibilityElement(children: .combine)`).
    - **Note**: This entire section is **hidden** for premium users (via `if let playLimitService, !storeKit.hasPremiumAccess`) since they have unlimited plays.
 
 2. **Purchases**
    - Unlimited Plays row (when owned):
-     - `"settings_premium_active"` (displayed as “Unlimited Plays”) + `"product_unlimited_plays"`.
+     - `"settings_premium_active"` (displayed as “Unlimited Plays”) + `"settings_premium_active_subtitle"` (e.g. “Endless play and choose your favorite theme.”).
      - Row accessibility is combined (`.accessibilityElement(children: .combine)`).
      - Checkmark icon is decorative and hidden from accessibility (`.accessibilityHidden(true)`).
    - Free users:
@@ -338,11 +341,15 @@ Sections added:
      - `"settings_restore_footer"`.
 
 3. **Debug (DEBUG/TestFlight only)**
-   - Toggle: `"debug_simulate_premium"` (displayed as “Simulate Unlimited Plays”) bound to `storeKit.debugPremiumEnabled`.
+   - Picker: `"debug_simulate_premium"` (displayed as “Simulate Unlimited Plays”) bound to `storeKit.debugPremiumSimulationMode`.
+   - Options:
+     - `"debug_simulation_mode_default"` (Default / production behavior).
+     - `"debug_simulation_mode_unlimited"` (forces Unlimited Plays).
+     - `"debug_simulation_mode_freemium"` (forces free-tier behavior).
    - Footer: `"debug_simulate_premium_footer"`.
    - **Note**: This entire section is **hidden** in Release builds (via `BuildConfiguration.shouldShowDebugFeatures`).
 
-An **About** section remains at the bottom with a link to `AboutView`.
+An **About** section appears above Debug, and Debug remains the final section in the list.
 
 ## Localization
 
@@ -389,14 +396,16 @@ Scenarios covered:
   - Paywall is still reachable from Settings but purchase is essentially a no‑op.
 - Debug/TestFlight:
   - Debug section visible in Settings.
-  - “Simulate Premium Access” instantly toggles premium UI and removes limits.
+  - “Default” uses real entitlement state.
+  - “Unlimited Plays” forces premium UI and bypasses limits.
+  - “Freemium” forces free-tier behavior.
 
 ## App Store Connect Setup (Summary)
 
 See plan for full details; key points:
 
 - Create **Non‑Consumable IAP**:
-  - ID: `com.retroRacing.unlimitedPlays`
+  - ID: `com.accessibilityUpTo11.RetroRacing.unlimitedPlays`
   - Name: “Unlimited Plays”
   - Description explains 6 games/day limit and unlimited unlock.
 - Localise display name/description into EN/ES/CA.

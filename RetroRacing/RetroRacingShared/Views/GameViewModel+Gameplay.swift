@@ -16,7 +16,11 @@ extension GameViewModel {
             hud.lives = currentLives
         }
         hud.showGameOver = false
+        hud.gameOverScore = 0
+        hud.gameOverBestScore = 0
+        hud.gameOverPreviousBestScore = nil
         hud.isNewHighScore = false
+        hud.shouldRequestRatingOnGameOverModal = false
         hud.speedIncreaseImminent = false
 
         // Record this restart against the daily play limit, if enabled.
@@ -30,17 +34,32 @@ extension GameViewModel {
         hud.lives = currentLives
         if currentLives == 0 {
             leaderboardService.submitScore(currentScore)
-            let isNewHighScore = highestScoreStore.updateIfHigher(currentScore)
-            hud.isNewHighScore = isNewHighScore
-            if isNewHighScore {
-                ratingService.recordBestScoreImprovementAndRequestIfEligible()
+            let scoreSummary = highestScoreStore.evaluateGameOverScore(currentScore)
+            hud.isNewHighScore = scoreSummary.isNewRecord
+            hud.gameOverScore = scoreSummary.score
+            hud.gameOverBestScore = scoreSummary.bestScore
+            hud.gameOverPreviousBestScore = scoreSummary.previousBestScore
+            hud.shouldRequestRatingOnGameOverModal = scoreSummary.isNewRecord
+            if scoreSummary.isNewRecord {
                 hapticController?.triggerSuccessHaptic()
             }
-            hud.gameOverScore = currentScore
             hud.showGameOver = true
         } else {
             scene.resume()
         }
+    }
+
+    /// Triggers the rating check exactly once when the game-over modal is presented.
+    func handleGameOverModalPresentedIfNeeded() {
+        guard hud.shouldRequestRatingOnGameOverModal else { return }
+        hud.shouldRequestRatingOnGameOverModal = false
+        ratingService.recordBestScoreImprovementAndRequestIfEligible()
+    }
+
+    /// Dismisses game-over presentation and clears one-shot modal state.
+    func dismissGameOverModal() {
+        hud.showGameOver = false
+        hud.shouldRequestRatingOnGameOverModal = false
     }
 
     /// Pauses or resumes gameplay when the menu overlay is presented or dismissed.

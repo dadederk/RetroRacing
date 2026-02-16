@@ -13,7 +13,7 @@
 - `AVSoundEffectPlayer` uses a small pool for `bip` playback so rapid tick/move pulses do not restart the same player and get dropped.
 - `GameScene` uses `SoundEffectPlayer` for all playback; `stopAll(fadeDuration: 0.1–0.2s)` is exposed and called when leaving the game view.
 - Move haptics are triggered inside `GameScene.moveLeft/moveRight` after pause guards so inputs while paused do not vibrate.
-- Crash haptic is triggered in `handleCrash` immediately; collision resolution completes on fail-sound completion with a 2s fallback if completion is missing (e.g. route change), and active crash audio is stopped before handoff.
+- Crash haptic is triggered in `handleCrash` immediately; collision resolution completes on fail-sound completion with an 8s fallback if completion is missing (e.g. route change), so normal flow waits for the full fail clip.
 - Start/resume keeps `gameState.isPaused == true` until `start` sound completion sets it to false; a 2s fallback unpauses if completion is missing.
 - App bootstrap listens to audio session interruption/route/media-reset notifications and re-activates the session.
 - Volume persists via `UserDefaults` key `sfxVolume` (default `0.8`); settings slider writes this, and scenes update volume live.

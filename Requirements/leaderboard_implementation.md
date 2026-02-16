@@ -30,6 +30,7 @@ protocol LeaderboardConfiguration {
 protocol LeaderboardService {
     func submitScore(_ score: Int)
     func isAuthenticated() -> Bool
+    func fetchLocalPlayerBestScore() async -> Int?
 }
 ```
 
@@ -38,6 +39,19 @@ protocol LeaderboardService {
 - **No compiler flags** for platform detection
 - Handles all Game Center authentication and presentation
 - Manages view controller lifecycle and delegation
+- Fetches the local player's all-time best score from the configured leaderboard for local best-score sync
+
+### Best-Score Sync
+
+- `BestScoreSyncService` syncs local best score from Game Center when available:
+  - Calls `leaderboardService.fetchLocalPlayerBestScore()`
+  - Calls `highestScoreStore.syncFromRemote(bestScore:)` when a remote value exists
+- Sync timing:
+  - On app startup (`.task`)
+  - On Game Center authentication state change callbacks
+- Scope:
+  - Leaderboards remain **per platform** (iPhone/iPad/macOS/tvOS/watchOS each keep their own leaderboard IDs)
+  - Best score sync is per active platform leaderboard, not cross-platform-global
 
 ### View Layer (SwiftUI)
 
@@ -140,18 +154,22 @@ struct RetroRacingWatchOSApp: App {
         WindowGroup {
             ContentView(leaderboardService: leaderboardService, ...)
                 .onAppear {
-                    Self.setupGameCenterAuthentication()
+                    setupGameCenterAuthentication {
+                        Task { await bestScoreSyncService.syncIfPossible() }
+                    }
+                    Task { await bestScoreSyncService.syncIfPossible() }
                 }
         }
     }
     
-    private static func setupGameCenterAuthentication() {
+    private func setupGameCenterAuthentication(onAuthStateChanged: @escaping () -> Void) {
         // CRITICAL: watchOS authenticateHandler signature differs from iOS/tvOS/macOS
         // iOS/tvOS/macOS: (UIViewController?, Error?) -> Void
         // watchOS:        (Error?) -> Void (no view controller parameter)
         GKLocalPlayer.local.authenticateHandler = { error in
             if let error = error {
                 AppLog.error(AppLog.game + AppLog.leaderboard, "🏆 watchOS Game Center authentication error: \(error.localizedDescription)")
+                onAuthStateChanged()
                 return
             }
             if GKLocalPlayer.local.isAuthenticated {
@@ -159,6 +177,7 @@ struct RetroRacingWatchOSApp: App {
             } else {
                 AppLog.info(AppLog.game + AppLog.leaderboard, "🏆 watchOS Game Center authentication handler called, but player not authenticated")
             }
+            onAuthStateChanged()
         }
     }
 }
@@ -173,6 +192,7 @@ func handleGameOver() {
 **Key watchOS differences:**
 - **Authentication handler signature**: watchOS only takes `Error?` (no view controller parameter)
 - Authentication setup happens in `onAppear` rather than via `authenticateHandlerSetter` closure
+- Best-score sync is triggered on initial appearance and each auth-state callback
 - No in-app leaderboard UI (users view leaderboards on iPhone/iPad)
 - Settings view displays conditional text based on authentication status
 - Score submission happens automatically on game over

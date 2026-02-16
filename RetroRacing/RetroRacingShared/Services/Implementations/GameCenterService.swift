@@ -60,4 +60,74 @@ public final class GameCenterService: LeaderboardService {
     public func isAuthenticated() -> Bool {
         GKLocalPlayer.local.isAuthenticated
     }
+
+    public func fetchLocalPlayerBestScore() async -> Int? {
+        guard isAuthenticated() else {
+            AppLog.info(
+                AppLog.game + AppLog.leaderboard,
+                "🏆 Skipped remote best sync – player not authenticated (leaderboardID: \(configuration.leaderboardID))"
+            )
+            return nil
+        }
+
+        guard let leaderboard = await loadLeaderboard(id: configuration.leaderboardID) else {
+            return nil
+        }
+
+        return await loadLocalPlayerBestScore(from: leaderboard)
+    }
+
+    private func loadLeaderboard(id: String) async -> GKLeaderboard? {
+        await withCheckedContinuation { continuation in
+            GKLeaderboard.loadLeaderboards(IDs: [id]) { leaderboards, error in
+                if let error {
+                    AppLog.error(
+                        AppLog.game + AppLog.leaderboard,
+                        "🏆 Failed loading leaderboard \(id): \(error.localizedDescription)"
+                    )
+                    continuation.resume(returning: nil)
+                    return
+                }
+
+                guard let leaderboard = leaderboards?.first else {
+                    AppLog.info(
+                        AppLog.game + AppLog.leaderboard,
+                        "🏆 No leaderboard returned for id \(id)"
+                    )
+                    continuation.resume(returning: nil)
+                    return
+                }
+
+                continuation.resume(returning: leaderboard)
+            }
+        }
+    }
+
+    private func loadLocalPlayerBestScore(from leaderboard: GKLeaderboard) async -> Int? {
+        await withCheckedContinuation { continuation in
+            leaderboard.loadEntries(
+                for: .global,
+                timeScope: .allTime,
+                range: NSRange(location: 1, length: 1)
+            ) { localPlayerEntry, _, _, error in
+                if let error {
+                    AppLog.error(
+                        AppLog.game + AppLog.leaderboard,
+                        "🏆 Failed loading local player entry: \(error.localizedDescription)"
+                    )
+                    continuation.resume(returning: nil)
+                    return
+                }
+
+                guard let score = localPlayerEntry?.score else {
+                    AppLog.info(AppLog.game + AppLog.leaderboard, "🏆 Local player has no score entry yet")
+                    continuation.resume(returning: nil)
+                    return
+                }
+
+                AppLog.info(AppLog.game + AppLog.leaderboard, "🏆 Loaded remote best score \(score)")
+                continuation.resume(returning: score)
+            }
+        }
+    }
 }

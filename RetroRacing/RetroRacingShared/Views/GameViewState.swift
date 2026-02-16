@@ -13,7 +13,10 @@ struct HUDState {
     var lives: Int = 3
     var showGameOver: Bool = false
     var gameOverScore: Int = 0
+    var gameOverBestScore: Int = 0
+    var gameOverPreviousBestScore: Int?
     var isNewHighScore: Bool = false
+    var shouldRequestRatingOnGameOverModal = false
     /// True when the delegate reported that a level change is imminent (last few points before level-up).
     var speedIncreaseImminent: Bool = false
 }

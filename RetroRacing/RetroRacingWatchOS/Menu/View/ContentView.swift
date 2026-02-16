@@ -80,4 +80,5 @@ struct ContentView: View {
 private struct PreviewLeaderboardService: LeaderboardService {
     func submitScore(_ score: Int) {}
     func isAuthenticated() -> Bool { true }
+    func fetchLocalPlayerBestScore() async -> Int? { nil }
 }

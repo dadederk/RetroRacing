@@ -4,6 +4,7 @@ import Foundation
 final class MockLeaderboardService: LeaderboardService {
     var submittedScores: [Int] = []
     var authenticated = true
+    var remoteBestScore: Int?
 
     func submitScore(_ score: Int) {
         submittedScores.append(score)
@@ -11,6 +12,10 @@ final class MockLeaderboardService: LeaderboardService {
 
     func isAuthenticated() -> Bool {
         authenticated
+    }
+
+    func fetchLocalPlayerBestScore() async -> Int? {
+        remoteBestScore
     }
 }
 

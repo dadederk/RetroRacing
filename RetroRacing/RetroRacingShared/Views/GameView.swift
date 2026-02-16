@@ -52,6 +52,7 @@ public struct GameView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(StoreKitService.self) private var storeKit
     @State private var isPaywallPresented = false
+    @State private var pendingFinishRequestAfterGameOverDismiss = false
 
     public init(
         leaderboardService: LeaderboardService,
@@ -193,32 +194,17 @@ public struct GameView: View {
                 .opacity(model.pauseButtonDisabled ? 0.4 : 1)
             }
         }
-        .alert(GameLocalizedStrings.string("gameOver"), isPresented: showGameOverBinding) {
-            Button(GameLocalizedStrings.string("restart")) {
-                // Premium users always have unlimited plays
-                if storeKit.hasPremiumAccess {
-                    model.restartGame()
-                } else if let playLimitService, playLimitService.canStartNewGame(on: Date()) {
-                    model.restartGame()
-                } else if playLimitService != nil {
-                    isPaywallPresented = true
-                } else {
-                    model.restartGame()
-                }
-            }
-            Button(GameLocalizedStrings.string("finish")) {
-                if let onFinishRequest {
-                    onFinishRequest()
-                } else {
-                    dismiss()
-                }
-            }
-        } message: {
-            if model.hud.isNewHighScore {
-                Text(GameLocalizedStrings.format("new_high_score_message %lld", model.hud.gameOverScore))
-            } else {
-                Text(GameLocalizedStrings.format("score %lld", model.hud.gameOverScore))
-            }
+        .sheet(isPresented: showGameOverBinding, onDismiss: handleGameOverSheetDismissed) {
+            GameOverView(
+                score: model.hud.gameOverScore,
+                bestScore: model.hud.gameOverBestScore,
+                isNewRecord: model.hud.isNewHighScore,
+                previousBestScore: model.hud.gameOverPreviousBestScore,
+                onRestart: handleRestartFromGameOver,
+                onFinish: handleFinishFromGameOver,
+                onPresented: model.handleGameOverModalPresentedIfNeeded
+            )
+            .fontPreferenceStore(fontPreferenceStore)
         }
         .onDisappear {
             model.tearDown()
@@ -288,6 +274,35 @@ public struct GameView: View {
             model.flashButton(.right)
         }
         model.inputAdapter?.handleDrag(translation: translation)
+    }
+
+    private func handleRestartFromGameOver() {
+        // Premium users always have unlimited plays.
+        if storeKit.hasPremiumAccess {
+            model.restartGame()
+        } else if let playLimitService, playLimitService.canStartNewGame(on: Date()) {
+            model.restartGame()
+        } else if playLimitService != nil {
+            model.dismissGameOverModal()
+            isPaywallPresented = true
+        } else {
+            model.restartGame()
+        }
+    }
+
+    private func handleFinishFromGameOver() {
+        pendingFinishRequestAfterGameOverDismiss = true
+        model.dismissGameOverModal()
+    }
+
+    private func handleGameOverSheetDismissed() {
+        guard pendingFinishRequestAfterGameOverDismiss else { return }
+        pendingFinishRequestAfterGameOverDismiss = false
+        if let onFinishRequest {
+            onFinishRequest()
+        } else {
+            dismiss()
+        }
     }
 
     private func announceSpeedIncreaseIfNeeded(oldValue: Bool, newValue: Bool) {

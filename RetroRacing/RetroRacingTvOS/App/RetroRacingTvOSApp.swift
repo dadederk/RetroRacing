@@ -12,6 +12,7 @@ struct RetroRacingTvOSApp: App {
     private let fontPreferenceStore: FontPreferenceStore
     private let hapticController: HapticFeedbackController
     private let highestScoreStore: HighestScoreStore
+    private let bestScoreSyncService: BestScoreSyncService
     private let playLimitService: PlayLimitService
     private let storeKitService = StoreKitService()
     @State private var isMenuPresented = true
@@ -36,9 +37,12 @@ struct RetroRacingTvOSApp: App {
         let leaderboardConfig = LeaderboardPlatformConfig(
             leaderboardID: leaderboardConfiguration.leaderboardID,
             authenticateHandlerSetter: { presenter in
-                GKLocalPlayer.local.authenticateHandler = { viewController, _ in
-                    guard let viewController = viewController else { return }
-                    presenter.presentAuthenticationUI(viewController)
+                GKLocalPlayer.local.authenticateHandler = { viewController, error in
+                    if let viewController {
+                        presenter.presentAuthenticationUI(viewController)
+                        return
+                    }
+                    NotificationCenter.default.post(name: .GKPlayerAuthenticationDidChangeNotificationName, object: error)
                 }
             }
         )
@@ -49,6 +53,10 @@ struct RetroRacingTvOSApp: App {
         )
         ratingService = StoreReviewService(userDefaults: userDefaults, ratingProvider: RatingServiceProviderTvOS())
         highestScoreStore = UserDefaultsHighestScoreStore(userDefaults: userDefaults)
+        bestScoreSyncService = BestScoreSyncService(
+            leaderboardService: gameCenterService,
+            highestScoreStore: highestScoreStore
+        )
         playLimitService = UserDefaultsPlayLimitService(userDefaults: userDefaults)
 
         BuildConfiguration.initializeTestFlightCheck()
@@ -105,6 +113,12 @@ struct RetroRacingTvOSApp: App {
             .environment(storeKitService)
             .task {
                 await storeKitService.loadProducts()
+                await bestScoreSyncService.syncIfPossible()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .GKPlayerAuthenticationDidChangeNotificationName)) { _ in
+                Task {
+                    await bestScoreSyncService.syncIfPossible()
+                }
             }
         }
     }

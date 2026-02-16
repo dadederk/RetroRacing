@@ -19,6 +19,8 @@ struct WatchGameView: View {
     @State private var isUserPaused: Bool = false
     @State private var showGameOver = false
     @State private var gameOverScore: Int = 0
+    @State private var gameOverBestScore: Int = 0
+    @State private var gameOverPreviousBestScore: Int?
     @State private var isNewHighScore = false
     @State private var delegate: GameSceneDelegateImpl?
     @State private var inputAdapter: GameInputAdapter?
@@ -162,7 +164,10 @@ struct WatchGameView: View {
                             let authenticated = leaderboardService.isAuthenticated()
                             AppLog.info(AppLog.game + AppLog.leaderboard, "🏆 watchOS game over – score \(gameOverScore), Game Center authenticated: \(authenticated)")
                             leaderboardService.submitScore(gameOverScore)
-                            isNewHighScore = highestScoreStore.updateIfHigher(gameOverScore)
+                            let summary = highestScoreStore.evaluateGameOverScore(gameOverScore)
+                            isNewHighScore = summary.isNewRecord
+                            gameOverBestScore = summary.bestScore
+                            gameOverPreviousBestScore = summary.previousBestScore
                             showGameOver = true
                         } else {
                             scene.resume()
@@ -174,23 +179,16 @@ struct WatchGameView: View {
                 scene.gameDelegate = d
             }
         }
-        .alert(GameLocalizedStrings.string("gameOver"), isPresented: $showGameOver) {
-            Button(GameLocalizedStrings.string("restart")) {
-                scene.start()
-                score = scene.gameState.score
-                lives = scene.gameState.lives
-                showGameOver = false
-                isNewHighScore = false
-            }
-            Button(GameLocalizedStrings.string("finish")) {
-                dismiss()
-            }
-        } message: {
-            if isNewHighScore {
-                Text(GameLocalizedStrings.format("new_high_score_message %lld", gameOverScore))
-            } else {
-                Text(GameLocalizedStrings.format("score %lld", gameOverScore))
-            }
+        .sheet(isPresented: $showGameOver) {
+            GameOverView(
+                score: gameOverScore,
+                bestScore: gameOverBestScore,
+                isNewRecord: isNewHighScore,
+                previousBestScore: gameOverPreviousBestScore,
+                onRestart: restartFromGameOver,
+                onFinish: finishFromGameOver
+            )
+            .fontPreferenceStore(fontPreferenceStore)
         }
         .onDisappear {
             scene.stopAllSounds()
@@ -224,6 +222,22 @@ struct WatchGameView: View {
             scene.pauseGameplay()
             isUserPaused = true
         }
+    }
+
+    private func restartFromGameOver() {
+        scene.start()
+        score = scene.gameState.score
+        lives = scene.gameState.lives
+        showGameOver = false
+        gameOverScore = 0
+        gameOverBestScore = 0
+        gameOverPreviousBestScore = nil
+        isNewHighScore = false
+    }
+
+    private func finishFromGameOver() {
+        showGameOver = false
+        dismiss()
     }
 
     private func handleCrownDelta(_ delta: Double) {

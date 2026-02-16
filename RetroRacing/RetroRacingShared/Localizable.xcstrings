@@ -760,25 +760,94 @@
         }
       }
     },
+    "debug_simulation_mode_default" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Per defecte"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Default"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Predeterminado"
+          }
+        }
+      }
+    },
+    "debug_simulation_mode_freemium" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Freemium"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Freemium"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Freemium"
+          }
+        }
+      }
+    },
+    "debug_simulation_mode_unlimited" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partides il·limitades"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unlimited Plays"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Partidas ilimitadas"
+          }
+        }
+      }
+    },
     "debug_simulate_premium_footer" : {
       "extractionState" : "manual",
       "localizations" : {
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Simular partides il·limitades activa partides il·limitades i accés als temes per a proves sense fer una compra real."
+            "value" : "Per defecte usa el comportament de producció. Partides il·limitades força l'accés complet. Freemium simula que no s'ha comprat Partides il·limitades."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Simulate Unlimited Plays enables unlimited plays and theme access for testing without making a purchase."
+            "value" : "Default uses production behavior. Unlimited Plays forces full access. Freemium simulates that Unlimited Plays has not been purchased."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Simular partidas ilimitadas activa partidas ilimitadas y acceso a los temas para probar sin hacer una compra real."
+            "value" : "Predeterminado usa el comportamiento de producción. Partidas ilimitadas fuerza el acceso completo. Freemium simula que no se ha comprado Partidas ilimitadas."
           }
         }
       }
@@ -1055,6 +1124,167 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fin del Juego"
+          }
+        }
+      }
+    },
+    "game_over_best %lld" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Millor: %lld"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Best: %lld"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mejor: %lld"
+          }
+        }
+      }
+    },
+    "game_over_encouragement_subtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La pròxima partida pot ser la teua millor marca."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next round could be your best yet."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La próxima partida puede ser tu mejor marca."
+          }
+        }
+      }
+    },
+    "game_over_encouragement_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ben jugat!"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Well played!"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¡Bien jugado!"
+          }
+        }
+      }
+    },
+    "game_over_new_record_subtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gran partida! Has superat la teua millor puntuació."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Awesome drive! You beat your best score."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¡Gran carrera! Has superado tu mejor puntuación."
+          }
+        }
+      }
+    },
+    "game_over_new_record_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nou rècord!"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New Record!"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¡Nuevo récord!"
+          }
+        }
+      }
+    },
+    "game_over_new_record_value %lld" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nou rècord: %lld"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New record: %lld"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nuevo récord: %lld"
+          }
+        }
+      }
+    },
+    "game_over_previous_best %lld" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Millor anterior: %lld"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Previous best: %lld"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mejor anterior: %lld"
           }
         }
       }
@@ -2530,6 +2760,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Partidas ilimitadas"
+          }
+        }
+      }
+    },
+    "settings_premium_active_subtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Juga sense l\u00edmit i tria el teu tema favorit."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Endless play and choose your favorite theme."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Juega sin l\u00edmite y elige tu tema favorito."
           }
         }
       }

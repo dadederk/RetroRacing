@@ -261,6 +261,7 @@ Each platform has unique input methods. **Handle at the UI layer** (SwiftUI wher
 
 - **`@Observable` not `ObservableObject`**: Use new observation framework
 - **Environment for DI**: Pass services via environment when appropriate
+- **Semantic font consistency**: Shared SwiftUI modals and overlays must use `FontPreferenceStore` semantic fonts from environment (no hardcoded `.title`/`.body` defaults in final UI)
 - **State Management**: `@State` for local, `@Environment` for shared
 - **Minimal `GeometryReader`**: Use `containerRelativeFrame()` when possible
 

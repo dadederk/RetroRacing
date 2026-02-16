@@ -24,6 +24,12 @@ private enum SpeedIncreaseConfiguration {
     static let safetyRowOffsetsBeforeLevelChange: Set<Int> = [2, 3]
 }
 
+private enum AudioFallbackConfiguration {
+    static let startUnpauseSeconds: TimeInterval = 2.0
+    // fail.m4a is ~7.42s; keep fallback above clip length for missing-completion edge cases.
+    static let crashResolutionSeconds: TimeInterval = 8.0
+}
+
 /// Input commands for the game. Named to avoid shadowing the GameController framework (physical controllers).
 public protocol RacingGameController {
     func moveLeft()
@@ -76,9 +82,9 @@ public class GameScene: SKScene {
     public weak var gameDelegate: GameSceneDelegate?
 
     /// Fallback used when audio completion does not fire (e.g. route changes); tests can override.
-    var startPlaybackFallbackDuration: TimeInterval = 2.0
+    var startPlaybackFallbackDuration: TimeInterval = AudioFallbackConfiguration.startUnpauseSeconds
     /// Fallback used when crash audio completion does not fire (e.g. route changes); tests can override.
-    var crashResolutionFallbackDuration: TimeInterval = 2.0
+    var crashResolutionFallbackDuration: TimeInterval = AudioFallbackConfiguration.crashResolutionSeconds
     
     private func updatePauseState(_ isPaused: Bool) {
         guard gameState.isPaused != isPaused else { return }
@@ -344,7 +350,6 @@ public class GameScene: SKScene {
         isWaitingForCrashResolution = false
         crashResolutionFallbackTask?.cancel()
         crashResolutionFallbackTask = nil
-        stopAllSounds(fadeDuration: 0.05)
         gameDelegate?.gameSceneDidDetectCollision(self)
     }
 

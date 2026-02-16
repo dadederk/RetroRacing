@@ -90,6 +90,34 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         XCTAssertTrue(scene.gameState.isPaused)
     }
 
+    func testGivenPendingFailCompletionWhenCompletingFailSoundThenCollisionCallbackFires() {
+        // Given
+        let nonCompletingPlayer = MockSoundEffectPlayer()
+        nonCompletingPlayer.shouldCallCompletion = false
+        let fallbackHaptics = MockHapticFeedbackController()
+        let loader = PlatformFactories.makeImageLoader()
+        let testScene = GameScene.scene(
+            size: CGSize(width: 200, height: 200),
+            theme: nil,
+            imageLoader: loader,
+            soundPlayer: nonCompletingPlayer,
+            hapticController: fallbackHaptics
+        )
+        let fallbackDelegate = MockGameSceneDelegate(haptics: fallbackHaptics)
+        testScene.gameDelegate = fallbackDelegate
+        let testView = SKView(frame: CGRect(origin: .zero, size: CGSize(width: 200, height: 200)))
+        testView.presentScene(testScene)
+
+        // When
+        testScene.handleCrash()
+        XCTAssertEqual(fallbackDelegate.crashes, 0)
+        let didComplete = nonCompletingPlayer.completePending(for: .fail)
+
+        // Then
+        XCTAssertTrue(didComplete)
+        XCTAssertEqual(fallbackDelegate.crashes, 1)
+    }
+
     func testGivenRunningSceneWhenGridTicksThenMoveHapticIsNotTriggered() {
         // Given
 

@@ -31,6 +31,7 @@ struct RetroRacingWatchOSApp: App {
     }()
     private let crownConfiguration = LegacyCrownInputProcessor.Configuration.watchLegacy
     private let leaderboardService: GameCenterService
+    private let bestScoreSyncService: BestScoreSyncService
     private let fontPreferenceStore: FontPreferenceStore
     private let highestScoreStore = UserDefaultsHighestScoreStore(userDefaults: InfrastructureDefaults.userDefaults)
     private let playLimitService = UserDefaultsPlayLimitService(userDefaults: InfrastructureDefaults.userDefaults)
@@ -45,7 +46,14 @@ struct RetroRacingWatchOSApp: App {
                 leaderboardService: leaderboardService
             )
             .onAppear {
-                Self.setupGameCenterAuthentication()
+                setupGameCenterAuthentication {
+                    Task {
+                        await bestScoreSyncService.syncIfPossible()
+                    }
+                }
+                Task {
+                    await bestScoreSyncService.syncIfPossible()
+                }
             }
         }
     }
@@ -64,13 +72,18 @@ struct RetroRacingWatchOSApp: App {
             authenticationPresenter: nil,
             authenticateHandlerSetter: nil
         )
+        bestScoreSyncService = BestScoreSyncService(
+            leaderboardService: leaderboardService,
+            highestScoreStore: highestScoreStore
+        )
     }
     
-    private static func setupGameCenterAuthentication() {
+    private func setupGameCenterAuthentication(onAuthStateChanged: @escaping () -> Void) {
         AppLog.info(AppLog.game + AppLog.leaderboard, "🏆 watchOS setting up Game Center authentication")
         GKLocalPlayer.local.authenticateHandler = { error in
             if let error = error {
                 AppLog.error(AppLog.game + AppLog.leaderboard, "🏆 watchOS Game Center authentication error: \(error.localizedDescription)")
+                onAuthStateChanged()
                 return
             }
             // No error = auth completed (success or silent failure)
@@ -79,6 +92,7 @@ struct RetroRacingWatchOSApp: App {
             } else {
                 AppLog.info(AppLog.game + AppLog.leaderboard, "🏆 watchOS Game Center authentication handler called, but player not authenticated")
             }
+            onAuthStateChanged()
         }
     }
 }

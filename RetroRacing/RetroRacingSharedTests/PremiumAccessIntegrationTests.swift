@@ -37,7 +37,7 @@ final class PremiumAccessIntegrationTests: XCTestCase {
             calendar: calendar,
             maxPlaysPerDay: 6
         )
-        storeKit.debugPremiumEnabled = true
+        storeKit.debugPremiumSimulationMode = .unlimitedPlays
         let now = date(year: 2026, month: 2, day: 10, hour: 15)
         for _ in 0..<6 {
             playLimit.recordGamePlayed(on: now)
@@ -60,7 +60,7 @@ final class PremiumAccessIntegrationTests: XCTestCase {
             calendar: calendar,
             maxPlaysPerDay: 6
         )
-        storeKit.debugPremiumEnabled = false
+        storeKit.debugPremiumSimulationMode = .freemium
         let now = date(year: 2026, month: 2, day: 10, hour: 15)
         
         // When
@@ -75,7 +75,7 @@ final class PremiumAccessIntegrationTests: XCTestCase {
         XCTAssertEqual(playLimit.remainingPlays(on: now), 0)
     }
     
-    func testGivenFreeUserWithExhaustedLimitWhenEnablingDebugPremiumThenUnlimitedAccessIsGranted() {
+    func testGivenFreeUserWithExhaustedLimitWhenSwitchingToUnlimitedSimulationThenUnlimitedAccessIsGranted() {
         // Given
         let storeKit = StoreKitService()
         let playLimit = UserDefaultsPlayLimitService(
@@ -84,7 +84,7 @@ final class PremiumAccessIntegrationTests: XCTestCase {
             maxPlaysPerDay: 6
         )
         let now = date(year: 2026, month: 2, day: 10, hour: 15)
-        storeKit.debugPremiumEnabled = false
+        storeKit.debugPremiumSimulationMode = .freemium
         XCTAssertFalse(storeKit.hasPremiumAccess)
         for _ in 0..<6 {
             playLimit.recordGamePlayed(on: now)
@@ -92,14 +92,14 @@ final class PremiumAccessIntegrationTests: XCTestCase {
         XCTAssertFalse(playLimit.canStartNewGame(on: now))
         
         // When
-        storeKit.debugPremiumEnabled = true
+        storeKit.debugPremiumSimulationMode = .unlimitedPlays
         
         // Then
         XCTAssertTrue(storeKit.hasPremiumAccess)
         XCTAssertFalse(playLimit.canStartNewGame(on: now))
     }
     
-    func testGivenPremiumUserWhenDisablingDebugPremiumThenPlayLimitsAreEnforced() {
+    func testGivenUnlimitedSimulationWhenSwitchingToFreemiumThenPlayLimitsAreEnforced() {
         // Given
         let storeKit = StoreKitService()
         let playLimit = UserDefaultsPlayLimitService(
@@ -108,14 +108,14 @@ final class PremiumAccessIntegrationTests: XCTestCase {
             maxPlaysPerDay: 6
         )
         let now = date(year: 2026, month: 2, day: 10, hour: 15)
-        storeKit.debugPremiumEnabled = true
+        storeKit.debugPremiumSimulationMode = .unlimitedPlays
         XCTAssertTrue(storeKit.hasPremiumAccess)
         for _ in 0..<10 {
             playLimit.recordGamePlayed(on: now)
         }
         
         // When
-        storeKit.debugPremiumEnabled = false
+        storeKit.debugPremiumSimulationMode = .freemium
         
         // Then
         XCTAssertFalse(storeKit.hasPremiumAccess)
@@ -124,12 +124,7 @@ final class PremiumAccessIntegrationTests: XCTestCase {
     func testGivenPremiumUserWhenCheckingSettingsVisibilityThenPlayLimitSectionIsHidden() {
         // Given
         let storeKit = StoreKitService()
-        let playLimit = UserDefaultsPlayLimitService(
-            userDefaults: userDefaults,
-            calendar: calendar,
-            maxPlaysPerDay: 6
-        )
-        storeKit.debugPremiumEnabled = true
+        storeKit.debugPremiumSimulationMode = .unlimitedPlays
         
         // When
         let shouldShowSection = !storeKit.hasPremiumAccess
@@ -142,12 +137,7 @@ final class PremiumAccessIntegrationTests: XCTestCase {
     func testGivenFreeUserWhenCheckingSettingsVisibilityThenPlayLimitSectionIsVisible() {
         // Given
         let storeKit = StoreKitService()
-        let playLimit = UserDefaultsPlayLimitService(
-            userDefaults: userDefaults,
-            calendar: calendar,
-            maxPlaysPerDay: 6
-        )
-        storeKit.debugPremiumEnabled = false
+        storeKit.debugPremiumSimulationMode = .freemium
         
         // When
         let shouldShowSection = !storeKit.hasPremiumAccess

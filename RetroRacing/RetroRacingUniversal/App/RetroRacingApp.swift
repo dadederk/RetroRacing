@@ -31,6 +31,7 @@ struct RetroRacingApp: App {
     private let hapticController: HapticFeedbackController
     private let supportsHapticFeedback: Bool
     private let highestScoreStore: HighestScoreStore
+    private let bestScoreSyncService: BestScoreSyncService
     private let playLimitService: PlayLimitService
     private let storeKitService = StoreKitService()
     private let controlsDescriptionKey: String
@@ -100,6 +101,10 @@ struct RetroRacingApp: App {
         hapticController = hapticsConfig.controllerProvider()
         supportsHapticFeedback = hapticsConfig.supportsHaptics
         highestScoreStore = UserDefaultsHighestScoreStore(userDefaults: userDefaults)
+        bestScoreSyncService = BestScoreSyncService(
+            leaderboardService: gameCenterService,
+            highestScoreStore: highestScoreStore
+        )
 
         BuildConfiguration.initializeTestFlightCheck()
         playLimitService = UserDefaultsPlayLimitService(userDefaults: userDefaults)
@@ -129,6 +134,12 @@ struct RetroRacingApp: App {
                     .environment(storeKitService)
                     .task {
                         await storeKitService.loadProducts()
+                        await bestScoreSyncService.syncIfPossible()
+                    }
+                    .onReceive(NotificationCenter.default.publisher(for: .GKPlayerAuthenticationDidChangeNotificationName)) { _ in
+                        Task {
+                            await bestScoreSyncService.syncIfPossible()
+                        }
                     }
             }
         }

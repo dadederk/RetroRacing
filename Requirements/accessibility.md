@@ -11,6 +11,7 @@ The game **must** respect the user’s Reduce Motion preference:
 - **SpriteKit:** Crash blink animation is replaced with a simple fade when Reduce Motion is enabled (see `GameScene+Effects.swift`). Uses `UIAccessibility.isReduceMotionEnabled` (iOS/tvOS) and `NSAccessibility.isReduceMotionEnabled` (macOS).
 - **SwiftUI:** Prefer `animation(nil)` or shorter/simpler animations when the preference is set; use `@Environment(\.accessibilityReduceMotion)` where available.
 - **General:** Avoid decorative motion that cannot be turned off; keep essential feedback (e.g. score, collision) available without motion.
+- **Game-over celebration:** New-record treatment in the game-over modal should avoid mandatory animation; users with Reduce Motion still receive full record/best-score context.
 
 ## VoiceOver and Labels
 
@@ -20,6 +21,8 @@ The game **must** respect the user’s Reduce Motion preference:
 - **Speed alert announcement:** The speed-increase overlay appears in the last 3 points before each level step (for example, scores 97–99 before 100 and 197–199 before 200). Before each speed increase, gameplay forecasts the next 4 scoring rows and inserts empty rows only at the two lead offsets that map to the two rows directly ahead of the player at the exact speed-up moment (no already-visible cars are removed). When the overlay appears (`showSpeedAlert`), VoiceOver posts an explicit announcement using `speed_increase_announcement` (for example, “Hey Ho! Speed increasing!”). This announcement is skipped when `inGameAnnouncementsEnabled` is disabled in Settings.
 - **Game controls (iOS/universal):** The game screen is split into left and right touch areas. Each half is an accessibility element with label “Move left” / “Move right” and hint “Double-tap to move car left/right”, so VoiceOver users can focus each side and double-tap to move. Settings → Controls describes these and other input methods (swipe, tap half, keyboard).
 - **Direct touch controls (iOS):** Left and right gameplay touch regions are marked with `accessibilityDirectTouch(..., options: [.silentOnTouch])` so taps are handled as direct actions and VoiceOver does not speak each region during rapid gameplay input.
+- **Game-over modal:** `GameOverView` is presented as a non-interactively dismissable sheet (`interactiveDismissDisabled(true)`) with explicit **Restart** and **Finish** actions. Decorative result artwork is hidden from accessibility while score/best labels remain readable by VoiceOver.
+- **Game-over typography:** Modal subtitle, score rows, and actions use `FontPreferenceStore` semantic text styles from environment so Dynamic Type and app font selection are respected.
 
 ## Other Dimensions
 

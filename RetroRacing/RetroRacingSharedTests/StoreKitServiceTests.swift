@@ -11,70 +11,69 @@ import XCTest
 @MainActor
 final class StoreKitServiceTests: XCTestCase {
     
-    func testGivenInitialStateWhenCheckingDefaultsThenDebugIsDisabledAndNoPremium() {
+    func testGivenInitialStateWhenCheckingDefaultsThenSimulationModeIsProductionAndPremiumMatchesEntitlements() {
         // Given
         let service = StoreKitService()
         
         // When
         let hasPremium = service.hasPremiumAccess
+        let expectedPremium = !service.purchasedProductIDs.isEmpty
         
         // Then
-        XCTAssertFalse(service.debugPremiumEnabled)
-        XCTAssertFalse(hasPremium)
+        XCTAssertEqual(service.debugPremiumSimulationMode, .productionDefault)
+        XCTAssertEqual(hasPremium, expectedPremium)
     }
     
-    func testGivenDebugEnabledWhenCheckingPremiumAccessThenReturnsTrue() {
+    func testGivenUnlimitedSimulationModeWhenCheckingPremiumAccessThenReturnsTrue() {
         // Given
         let service = StoreKitService()
-        service.debugPremiumEnabled = true
+        service.debugPremiumSimulationMode = .unlimitedPlays
         
         // When
         let hasPremium = service.hasPremiumAccess
         
         // Then
         XCTAssertTrue(hasPremium)
-        XCTAssertTrue(service.purchasedProductIDs.isEmpty)
     }
     
-    func testGivenDebugDisabledAndNoPurchasesWhenCheckingPremiumAccessThenReturnsFalse() {
+    func testGivenFreemiumSimulationModeWhenCheckingPremiumAccessThenReturnsFalse() {
         // Given
         let service = StoreKitService()
-        service.debugPremiumEnabled = false
+        service.debugPremiumSimulationMode = .freemium
         
         // When
         let hasPremium = service.hasPremiumAccess
         
         // Then
         XCTAssertFalse(hasPremium)
-        XCTAssertTrue(service.purchasedProductIDs.isEmpty)
     }
     
-    func testGivenDebugEnabledWhenTogglingOffThenPremiumAccessIsDenied() {
+    func testGivenUnlimitedSimulationModeWhenSwitchingToProductionThenPremiumAccessMatchesEntitlements() {
         // Given
         let service = StoreKitService()
-        service.debugPremiumEnabled = true
-        XCTAssertTrue(service.debugPremiumEnabled)
+        service.debugPremiumSimulationMode = .unlimitedPlays
         XCTAssertTrue(service.hasPremiumAccess)
         
         // When
-        service.debugPremiumEnabled = false
+        service.debugPremiumSimulationMode = .productionDefault
+        let expectedPremium = !service.purchasedProductIDs.isEmpty
         
         // Then
-        XCTAssertFalse(service.debugPremiumEnabled)
-        XCTAssertFalse(service.hasPremiumAccess)
+        XCTAssertEqual(service.debugPremiumSimulationMode, .productionDefault)
+        XCTAssertEqual(service.hasPremiumAccess, expectedPremium)
     }
     
-    func testGivenDebugEnabledWhenCheckingPremiumAccessThenDebugOverridesEmptyPurchases() {
+    func testGivenProductionSimulationModeWhenCheckingPremiumAccessThenPremiumMatchesEntitlements() {
         // Given
         let service = StoreKitService()
-        service.debugPremiumEnabled = true
+        service.debugPremiumSimulationMode = .productionDefault
         
         // When
         let hasPremium = service.hasPremiumAccess
+        let expectedPremium = !service.purchasedProductIDs.isEmpty
         
         // Then
-        XCTAssertTrue(service.purchasedProductIDs.isEmpty)
-        XCTAssertTrue(hasPremium)
+        XCTAssertEqual(hasPremium, expectedPremium)
     }
     
     func testGivenProductIDEnumWhenAccessingRawValueThenReturnsCorrectBundleIdentifier() {
@@ -98,5 +97,18 @@ final class StoreKitServiceTests: XCTestCase {
         // Then
         XCTAssertEqual(count, 1)
         XCTAssertEqual(allProducts.first, .unlimitedPlays)
+    }
+
+    func testGivenSimulationModeEnumWhenCheckingAllCasesThenReturnsThreeModes() {
+        // Given
+        let allModes = StoreKitService.DebugPremiumSimulationMode.allCases
+
+        // When
+        let count = allModes.count
+
+        // Then
+        XCTAssertEqual(count, 3)
+        XCTAssertEqual(allModes.first, .productionDefault)
+        XCTAssertEqual(allModes.last, .freemium)
     }
 }

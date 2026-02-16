@@ -24,6 +24,12 @@ public final class StoreKitService {
         case unlimitedPlays = "com.accessibilityUpTo11.RetroRacing.unlimitedPlays"
     }
 
+    public enum DebugPremiumSimulationMode: Int, CaseIterable, Sendable {
+        case productionDefault
+        case unlimitedPlays
+        case freemium
+    }
+
     // MARK: - Public state
 
     public private(set) var products: [Product] = []
@@ -31,19 +37,24 @@ public final class StoreKitService {
     public private(set) var isLoadingProducts = false
     public private(set) var loadError: Error?
 
-    /// Debug premium toggle – available in DEBUG and TestFlight builds.
-    /// Defaults to false so App Store reviewers experience the free tier.
-    public var debugPremiumEnabled: Bool = false
+    /// Debug premium simulation mode – available in DEBUG and TestFlight builds.
+    /// Defaults to production behavior so App Store reviewers experience the free tier.
+    public var debugPremiumSimulationMode: DebugPremiumSimulationMode = .productionDefault
 
     /// Returns true when the user has premium access.
     ///
-    /// - When `debugPremiumEnabled` is true, premium is simulated regardless of build configuration.
-    /// - Otherwise, `true` when there is at least one active entitlement.
+    /// - `.productionDefault`: uses the real entitlement state from StoreKit.
+    /// - `.unlimitedPlays`: always returns `true` for testing.
+    /// - `.freemium`: always returns `false` for testing.
     public var hasPremiumAccess: Bool {
-        if debugPremiumEnabled {
+        switch debugPremiumSimulationMode {
+        case .productionDefault:
+            return !purchasedProductIDs.isEmpty
+        case .unlimitedPlays:
             return true
+        case .freemium:
+            return false
         }
-        return !purchasedProductIDs.isEmpty
     }
 
     private var transactionUpdateTask: Task<Void, Never>?
@@ -152,4 +163,3 @@ public final class StoreKitService {
         }
     }
 }
-

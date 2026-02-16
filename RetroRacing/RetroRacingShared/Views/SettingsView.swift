@@ -126,6 +126,7 @@ public struct SettingsView: View {
                                     .foregroundStyle(.secondary)
                             }
                         }
+                        .accessibilityElement(children: .combine)
                     } header: {
                         Text(GameLocalizedStrings.string("play_limit_title"))
                             .font(fontForLabels)
@@ -204,7 +205,7 @@ public struct SettingsView: View {
                             VStack(alignment: .leading, spacing: 2) {
                                 Text(GameLocalizedStrings.string("settings_premium_active"))
                                     .font(fontForLabels)
-                                Text(GameLocalizedStrings.string("product_unlimited_plays"))
+                                Text(GameLocalizedStrings.string("settings_premium_active_subtitle"))
                                     .font(secondaryFont)
                                     .foregroundStyle(.secondary)
                             }
@@ -274,31 +275,39 @@ public struct SettingsView: View {
                     }
                 }
 
-                if BuildConfiguration.shouldShowDebugFeatures {
-                    Section {
-                        Toggle(
-                            GameLocalizedStrings.string("debug_simulate_premium"),
-                            isOn: Binding(
-                                get: { storeKit.debugPremiumEnabled },
-                                set: { storeKit.debugPremiumEnabled = $0 }
-                            )
-                        )
-                        .tint(.accentColor)
-                    } header: {
-                        Text(GameLocalizedStrings.string("debug_section_title"))
-                            .font(fontForLabels)
-                    } footer: {
-                        Text(GameLocalizedStrings.string("debug_simulate_premium_footer"))
-                            .font(secondaryFont)
-                    }
-                }
-
                 Section {
                     NavigationLink {
                         AboutView()
                     } label: {
                         Label(GameLocalizedStrings.string("about_title"), systemImage: "info.circle")
                             .font(fontForLabels)
+                    }
+                }
+
+                if BuildConfiguration.shouldShowDebugFeatures {
+                    Section {
+                        Picker(
+                            selection: Binding(
+                                get: { storeKit.debugPremiumSimulationMode },
+                                set: { storeKit.debugPremiumSimulationMode = $0 }
+                            )
+                        ) {
+                            Text(GameLocalizedStrings.string("debug_simulation_mode_default"))
+                                .tag(StoreKitService.DebugPremiumSimulationMode.productionDefault)
+                            Text(GameLocalizedStrings.string("debug_simulation_mode_unlimited"))
+                                .tag(StoreKitService.DebugPremiumSimulationMode.unlimitedPlays)
+                            Text(GameLocalizedStrings.string("debug_simulation_mode_freemium"))
+                                .tag(StoreKitService.DebugPremiumSimulationMode.freemium)
+                        } label: {
+                            Text(GameLocalizedStrings.string("debug_simulate_premium"))
+                                .font(fontForLabels)
+                        }
+                    } header: {
+                        Text(GameLocalizedStrings.string("debug_section_title"))
+                            .font(fontForLabels)
+                    } footer: {
+                        Text(GameLocalizedStrings.string("debug_simulate_premium_footer"))
+                            .font(secondaryFont)
                     }
                 }
             }

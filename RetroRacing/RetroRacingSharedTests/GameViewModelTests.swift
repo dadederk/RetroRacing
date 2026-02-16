@@ -115,13 +115,58 @@ final class GameViewModelTests: XCTestCase {
         // Then
         // Test passes if no crash occurs
     }
+
+    func testGivenRatingIsPendingWhenGameOverModalPresentedTwiceThenRatingIsRequestedOnce() {
+        // Given
+        viewModel.hud.shouldRequestRatingOnGameOverModal = true
+
+        // When
+        viewModel.handleGameOverModalPresentedIfNeeded()
+        viewModel.handleGameOverModalPresentedIfNeeded()
+
+        // Then
+        XCTAssertEqual(ratingService.recordBestScoreImprovementCallCount, 1)
+        XCTAssertFalse(viewModel.hud.shouldRequestRatingOnGameOverModal)
+    }
+
+    func testGivenRatingIsNotPendingWhenGameOverModalPresentedThenRatingIsNotRequested() {
+        // Given
+        viewModel.hud.shouldRequestRatingOnGameOverModal = false
+
+        // When
+        viewModel.handleGameOverModalPresentedIfNeeded()
+
+        // Then
+        XCTAssertEqual(ratingService.recordBestScoreImprovementCallCount, 0)
+    }
+
+    func testGivenGameOverVisibleWhenDismissGameOverModalThenModalStateCleared() {
+        // Given
+        viewModel.hud.showGameOver = true
+        viewModel.hud.shouldRequestRatingOnGameOverModal = true
+
+        // When
+        viewModel.dismissGameOverModal()
+
+        // Then
+        XCTAssertFalse(viewModel.hud.showGameOver)
+        XCTAssertFalse(viewModel.hud.shouldRequestRatingOnGameOverModal)
+    }
 }
 
 // MARK: - Mock Objects
 
 private final class MockRatingService: RatingService {
-    func requestRating() {}
-    func recordBestScoreImprovementAndRequestIfEligible() {}
+    private(set) var requestRatingCallCount = 0
+    private(set) var recordBestScoreImprovementCallCount = 0
+
+    func requestRating() {
+        requestRatingCallCount += 1
+    }
+
+    func recordBestScoreImprovementAndRequestIfEligible() {
+        recordBestScoreImprovementCallCount += 1
+    }
 }
 
 private final class MockHighestScoreStore: HighestScoreStore {

@@ -25,10 +25,15 @@ This document describes the session model, how the overlay interacts with gamepl
 ### Game Over & Finish
 
 - When the player loses all lives, `GameViewModel.handleCollision` sets `hud.showGameOver = true`.
-- The game-over alert presents **Restart** and **Finish**:
+- A shared game-over modal (`GameOverView`) is presented in a `.sheet` and shows score context:
+  - Uses a single navigation-toolbar title (`Well played`) to provide native heading semantics (no duplicated in-content title).
+  - New record: **Previous best** and **New record** lines.
+  - Not a new record: **Score** and **Best** lines.
+- The game-over modal presents **Restart** and **Finish**:
   - **Restart**: calls `restartGame()` on the existing scene (same session).
   - **Finish**:
-    - Triggers the `onFinishRequest` callback from `GameView` into the app entry point.
+    - First dismisses the game-over sheet.
+    - Only after sheet dismissal completes, triggers the `onFinishRequest` callback from `GameView` into the app entry point.
     - The app entry point:
       - Sets `shouldStartGame = false`.
       - Generates a new `sessionID` to rebuild `GameView` with a fresh session.

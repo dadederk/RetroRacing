@@ -37,8 +37,9 @@ This avoids over-relying on explicit user-triggered StoreKit prompt calls, which
 - When lives reach zero:
   - Score is submitted to leaderboard.
   - Best score is updated through `HighestScoreStore.updateIfHigher`.
-  - If best score improved, call:
-    - `ratingService.recordBestScoreImprovementAndRequestIfEligible()`
+  - If best score improved, set a one-shot flag for game-over presentation.
+- When the game-over modal (`GameOverView`) appears on non-watch platforms:
+  - `ratingService.recordBestScoreImprovementAndRequestIfEligible()` is called once if that one-shot flag is set.
 
 This ties automatic prompt timing to moments where the user is likely satisfied.
 
