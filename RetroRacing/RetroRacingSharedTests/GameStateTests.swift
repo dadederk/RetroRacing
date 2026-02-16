@@ -81,4 +81,40 @@ final class GameStateTests: XCTestCase {
         // Then
         XCTAssertEqual(windowPoints, 3)
     }
+
+    func testGivenVisibleRowsCrossLevelOnFourthUpdateWhenCalculatingOffsetThenReturnsThree() {
+        // Given
+        let score = 96
+        let upcomingRowPoints = [1, 1, 1, 1]
+
+        // When
+        let result = GameState.updatesUntilNextLevelChange(score: score, upcomingRowPoints: upcomingRowPoints)
+
+        // Then
+        XCTAssertEqual(result, 3)
+    }
+
+    func testGivenVisibleRowsCrossLevelOnThirdUpdateWhenCalculatingOffsetThenReturnsTwo() {
+        // Given
+        let score = 97
+        let upcomingRowPoints = [1, 1, 1, 0]
+
+        // When
+        let result = GameState.updatesUntilNextLevelChange(score: score, upcomingRowPoints: upcomingRowPoints)
+
+        // Then
+        XCTAssertEqual(result, 2)
+    }
+
+    func testGivenVisibleRowsDoNotCrossLevelWhenCalculatingOffsetThenReturnsNil() {
+        // Given
+        let score = 97
+        let upcomingRowPoints = [0, 1, 1, 0]
+
+        // When
+        let result = GameState.updatesUntilNextLevelChange(score: score, upcomingRowPoints: upcomingRowPoints)
+
+        // Then
+        XCTAssertNil(result)
+    }
 }

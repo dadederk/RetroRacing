@@ -20,7 +20,8 @@ private enum GridConfiguration {
 }
 
 private enum SpeedIncreaseConfiguration {
-    static let emptyRowsAfterSpeedIncrease = 2
+    static let preLevelForecastRows = 4
+    static let safetyRowOffsetsBeforeLevelChange: Set<Int> = [2, 3]
 }
 
 /// Input commands for the game. Named to avoid shadowing the GameController framework (physical controllers).
@@ -61,7 +62,6 @@ public class GameScene: SKScene {
     public private(set) var gameState = GameState()
     private var lastPlayerColumn: Int = 1
     private var lastLevelChangeImminent = false
-    private var pendingEmptyRowsAfterSpeedIncrease = 0
 
     /// Number of points before level-up to show the speed-increasing alert; configurable, defaults to 3.
     public var speedAlertWindowPoints: Int = GameState.defaultSpeedAlertWindowPoints
@@ -174,7 +174,6 @@ public class GameScene: SKScene {
             numberOfRows: GridConfiguration.numberOfRows,
             numberOfColumns: GridConfiguration.numberOfColumns
         )
-        pendingEmptyRowsAfterSpeedIncrease = 0
         playStartThenUnpause()
     }
 
@@ -214,26 +213,16 @@ public class GameScene: SKScene {
         if dtGameUpdate > dtForGameUpdate {
             lastGameUpdateTime = currentTime
 
-            let updateAction: GridStateCalculator.Action = pendingEmptyRowsAfterSpeedIncrease > 0 ? .updateWithEmptyRow : .update
+            let updateAction: GridStateCalculator.Action = shouldInsertSafetyRowBeforeNextLevel() ? .updateWithEmptyRow : .update
             var effects: [GridStateCalculator.Effect]
             (gridState, effects) = gridCalculator.nextGrid(previousGrid: gridState, actions: [updateAction])
-            if pendingEmptyRowsAfterSpeedIncrease > 0 {
-                pendingEmptyRowsAfterSpeedIncrease -= 1
-            }
 
             for effect in effects {
                 switch effect {
                 case .scored(points: let points):
-                    let previousLevel = gameState.level
                     gameState.score += points
                     gameDelegate?.gameScene(self, didUpdateScore: gameState.score)
                     let isImminent = GameState.isLevelChangeImminent(score: gameState.score, windowPoints: speedAlertWindowPoints)
-                    if gameState.level > previousLevel {
-                        pendingEmptyRowsAfterSpeedIncrease = max(
-                            pendingEmptyRowsAfterSpeedIncrease,
-                            SpeedIncreaseConfiguration.emptyRowsAfterSpeedIncrease
-                        )
-                    }
                     if isImminent != lastLevelChangeImminent {
                         lastLevelChangeImminent = isImminent
                         gameDelegate?.gameScene(self, levelChangeImminent: isImminent)
@@ -256,7 +245,6 @@ public class GameScene: SKScene {
         )
         lastPlayerColumn = gridState.playerRow().firstIndex(of: .Player) ?? 1
         gameState = GameState()
-        pendingEmptyRowsAfterSpeedIncrease = 0
         if lastLevelChangeImminent {
             lastLevelChangeImminent = false
             gameDelegate?.gameScene(self, levelChangeImminent: false)
@@ -283,6 +271,26 @@ public class GameScene: SKScene {
             try? await Task.sleep(nanoseconds: UInt64(self.crashResolutionFallbackDuration * 1_000_000_000))
             guard !Task.isCancelled else { return }
             self.resolveCrashIfNeeded()
+        }
+    }
+
+    private func shouldInsertSafetyRowBeforeNextLevel() -> Bool {
+        let upcomingRowPoints = (1...SpeedIncreaseConfiguration.preLevelForecastRows).map { rowOffset in
+            carsCount(inRow: gridState.playerRowIndex - rowOffset)
+        }
+        guard let levelChangeOffset = GameState.updatesUntilNextLevelChange(
+            score: gameState.score,
+            upcomingRowPoints: upcomingRowPoints
+        ) else {
+            return false
+        }
+        return SpeedIncreaseConfiguration.safetyRowOffsetsBeforeLevelChange.contains(levelChangeOffset)
+    }
+
+    private func carsCount(inRow rowIndex: Int) -> Int {
+        guard rowIndex >= 0 && rowIndex < gridState.numberOfRows else { return 0 }
+        return gridState.grid[rowIndex].reduce(0) { partialResult, cell in
+            (cell == .Car) ? (partialResult + 1) : partialResult
         }
     }
 

@@ -33,4 +33,20 @@ public struct GameState {
         let pointsInCurrentLevel = score % levelStep
         return pointsInCurrentLevel >= threshold
     }
+
+    /// Returns the update offset (0-based) where score reaches the next level boundary using upcoming row points.
+    /// Offset `0` means "current update", `1` means "next update", and so on.
+    public static func updatesUntilNextLevelChange(score: Int, upcomingRowPoints: [Int]) -> Int? {
+        let nextLevelScore = ((score / levelStep) + 1) * levelStep
+        guard score < nextLevelScore else { return nil }
+
+        var projectedScore = score
+        for (offset, points) in upcomingRowPoints.enumerated() {
+            projectedScore += max(0, points)
+            if projectedScore >= nextLevelScore {
+                return offset
+            }
+        }
+        return nil
+    }
 }

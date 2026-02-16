@@ -2471,19 +2471,19 @@
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Més informació sobre partides il·limitades"
+            "value" : "Aconseguix partides il·limitades"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Learn About Unlimited Plays"
+            "value" : "Get Unlimited Plays"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Más información sobre partidas ilimitadas"
+            "value" : "Consigue partidas ilimitadas"
           }
         }
       }

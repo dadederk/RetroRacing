@@ -331,7 +331,7 @@ Sections added:
      - Row accessibility is combined (`.accessibilityElement(children: .combine)`).
      - Checkmark icon is decorative and hidden from accessibility (`.accessibilityHidden(true)`).
    - Free users:
-     - “Learn About Unlimited Plays” → opens Paywall.
+    - “Get Unlimited Plays” → opens Paywall.
      - “Redeem Code” → opens System offer code redemption UI.
      - “Restore Purchases” → invokes `storeKit.restorePurchases()`.
    - Footer:
