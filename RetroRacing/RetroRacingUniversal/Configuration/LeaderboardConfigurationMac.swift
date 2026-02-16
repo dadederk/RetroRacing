@@ -10,5 +10,14 @@ import RetroRacingShared
 
 /// Game Center leaderboard configuration for macOS sandbox.
 struct LeaderboardConfigurationMac: LeaderboardConfiguration {
-    let leaderboardID = "bestmacos001test"
+    func leaderboardID(for difficulty: GameDifficulty) -> String {
+        switch difficulty {
+        case .cruise:
+            return "bestmacos001cruise"
+        case .fast:
+            return "bestmacos001fast"
+        case .rapid:
+            return "bestmacos001test"
+        }
+    }
 }

@@ -169,5 +169,8 @@ public struct GridUpdateTimingConfiguration {
         max(0.05, initialInterval - (log(Double(max(level, 1))) / logDivider))
     }
 
-    public static let defaultTiming = GridUpdateTimingConfiguration(initialInterval: 0.6, logDivider: 4)
+    public static let rapid = GridUpdateTimingConfiguration(initialInterval: 0.6, logDivider: 4)
+    public static let fast = GridUpdateTimingConfiguration(initialInterval: 0.72, logDivider: 4)
+    public static let cruise = GridUpdateTimingConfiguration(initialInterval: 0.84, logDivider: 4)
+    public static let defaultTiming = rapid
 }

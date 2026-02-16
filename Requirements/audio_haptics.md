@@ -14,10 +14,10 @@
 - `GameScene` uses `SoundEffectPlayer` for all playback; `stopAll(fadeDuration: 0.1–0.2s)` is exposed and called when leaving the game view.
 - Move haptics are triggered inside `GameScene.moveLeft/moveRight` after pause guards so inputs while paused do not vibrate.
 - Crash haptic is triggered in `handleCrash` immediately; collision resolution completes on fail-sound completion with an 8s fallback if completion is missing (e.g. route change), so normal flow waits for the full fail clip.
-- Start/resume keeps `gameState.isPaused == true` until `start` sound completion sets it to false; a 2s fallback unpauses if completion is missing.
+- Start/resume keeps `gameState.isPaused == true` until `start` sound completion sets it to false; on post-crash resume the player-car grid is rendered immediately (no lingering crash sprite), and a 2s fallback unpauses if completion is missing.
 - App bootstrap listens to audio session interruption/route/media-reset notifications and re-activates the session.
 - Volume persists via `UserDefaults` key `sfxVolume` (default `0.8`); settings slider writes this, and scenes update volume live.
 - Haptics respect existing toggle (`hapticFeedbackEnabled`); no changes to keys.
 
 ## Testing Expectations
-- Unit tests cover: bip on move and tick; move input while paused does not trigger haptics; fail sound + crash haptic on collision; crash fallback fires once when completion is missing; start/resume pauses until sound completion with fallback; stopAll invoked when game view disappears; volume changes propagate to `SoundEffectPlayer`.
+- Unit tests cover: bip on move and tick; move input while paused does not trigger haptics; fail sound + crash haptic on collision; crash fallback fires once when completion is missing; start/resume pauses until sound completion with fallback and restores player visuals immediately after crash; stopAll invoked when game view disappears; volume changes propagate to `SoundEffectPlayer`.

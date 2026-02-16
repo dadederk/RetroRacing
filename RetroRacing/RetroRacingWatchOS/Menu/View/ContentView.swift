@@ -78,7 +78,7 @@ struct ContentView: View {
 
 /// Preview-only leaderboard service (no-op).
 private struct PreviewLeaderboardService: LeaderboardService {
-    func submitScore(_ score: Int) {}
+    func submitScore(_ score: Int, difficulty: GameDifficulty) {}
     func isAuthenticated() -> Bool { true }
-    func fetchLocalPlayerBestScore() async -> Int? { nil }
+    func fetchLocalPlayerBestScore(for difficulty: GameDifficulty) async -> Int? { nil }
 }

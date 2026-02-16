@@ -30,16 +30,34 @@ public final class StoreKitService {
         case freemium
     }
 
+    enum DebugStorageKeys {
+        static let forceFreemiumPlayLimit = "PlayLimit.debugForceFreemium"
+    }
+
     // MARK: - Public state
 
     public private(set) var products: [Product] = []
     public private(set) var purchasedProductIDs: Set<String> = []
     public private(set) var isLoadingProducts = false
     public private(set) var loadError: Error?
+    private let userDefaults: UserDefaults
+    private let isDebugSimulationEnabled: Bool
 
-    /// Debug premium simulation mode – available in DEBUG and TestFlight builds.
+    /// Debug premium simulation mode – available in DEBUG builds.
     /// Defaults to production behavior so App Store reviewers experience the free tier.
-    public var debugPremiumSimulationMode: DebugPremiumSimulationMode = .productionDefault
+    public var debugPremiumSimulationMode: DebugPremiumSimulationMode = .productionDefault {
+        didSet {
+            guard isDebugSimulationEnabled else {
+                if debugPremiumSimulationMode != .productionDefault {
+                    debugPremiumSimulationMode = .productionDefault
+                    return
+                }
+                syncPlayLimitDebugMode()
+                return
+            }
+            syncPlayLimitDebugMode()
+        }
+    }
 
     /// Returns true when the user has premium access.
     ///
@@ -47,6 +65,10 @@ public final class StoreKitService {
     /// - `.unlimitedPlays`: always returns `true` for testing.
     /// - `.freemium`: always returns `false` for testing.
     public var hasPremiumAccess: Bool {
+        guard isDebugSimulationEnabled else {
+            return !purchasedProductIDs.isEmpty
+        }
+
         switch debugPremiumSimulationMode {
         case .productionDefault:
             return !purchasedProductIDs.isEmpty
@@ -59,7 +81,17 @@ public final class StoreKitService {
 
     private var transactionUpdateTask: Task<Void, Never>?
 
-    public init() {
+    /// - Parameters:
+    ///   - userDefaults: Backing store for debug simulation coordination. Defaults to `InfrastructureDefaults.userDefaults`.
+    ///   - isDebugSimulationEnabled: Enables simulation overrides. Defaults to `BuildConfiguration.isDebug`.
+    public init(
+        userDefaults: UserDefaults = InfrastructureDefaults.userDefaults,
+        isDebugSimulationEnabled: Bool = BuildConfiguration.isDebug
+    ) {
+        self.userDefaults = userDefaults
+        self.isDebugSimulationEnabled = isDebugSimulationEnabled
+        syncPlayLimitDebugMode()
+
         // Start listening for transaction updates immediately
         transactionUpdateTask = Task { [weak self] in
             await self?.observeTransactionUpdates()
@@ -161,5 +193,13 @@ public final class StoreKitService {
             // Finish the transaction
             await transaction.finish()
         }
+    }
+
+    private func syncPlayLimitDebugMode() {
+        let shouldForceFreemium = isDebugSimulationEnabled && debugPremiumSimulationMode == .freemium
+        userDefaults.set(
+            shouldForceFreemium,
+            forKey: DebugStorageKeys.forceFreemiumPlayLimit
+        )
     }
 }

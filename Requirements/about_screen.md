@@ -35,7 +35,7 @@ The About screen is implemented in `RetroRacingShared/Views/AboutView.swift` and
      - LinkedIn – Daniel Devesa
 
 4. **Giving Back**
-   - Highlights AMMEC and explains that a portion of proceeds is donated.
+   - Highlights AMMEC and reuses the same donation copy as the paywall (`paywall_giving_back_body`) so messaging stays consistent.
 
 5. **Also Supporting**
    - Highlights **Swift for Swifts**.
@@ -45,6 +45,14 @@ The About screen is implemented in `RetroRacingShared/Views/AboutView.swift` and
      - **Press Start 2P** by CodeMan38
      - Licensed under SIL Open Font License 1.1
      - Link to the font page on Google Fonts.
+   - Build tooling credit:
+     - **Shipped with Helm!**
+     - A native app for managing App Store Connect.
+     - Link to `https://helm-app.com`.
+   - Conference credit:
+     - **ARCtic Conference**
+     - “For being the coolest conference.”
+     - Link to `https://arcticonference.com`.
 
 7. **Footer**
    - Sentiment and origin:
@@ -67,7 +75,8 @@ The About screen is implemented in `RetroRacingShared/Views/AboutView.swift` and
 ## Localization
 
 - All visible text is localized via `RetroRacingShared/Localizable.xcstrings`.
-- Keys follow the `about_*` naming convention (e.g. `about_title`, `about_app_subtitle`, `about_footer_thanks`).
+- Most keys follow the `about_*` naming convention (e.g. `about_title`, `about_app_subtitle`, `about_footer_thanks`).
+- The Giving Back footer intentionally reuses `paywall_giving_back_body` to keep AMMEC copy aligned between About and Paywall.
 - Supported languages:
   - English (source)
   - Spanish

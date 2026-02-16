@@ -24,15 +24,20 @@ public struct GameOverScoreSummary: Sendable {
 
 public extension HighestScoreStore {
     /// Evaluates and persists a game-over score against the current local best.
-    func evaluateGameOverScore(_ score: Int) -> GameOverScoreSummary {
-        let previousBestScore = currentBest()
-        let isNewRecord = updateIfHigher(score)
-        let bestScore = currentBest()
+    func evaluateGameOverScore(_ score: Int, difficulty: GameDifficulty) -> GameOverScoreSummary {
+        let previousBestScore = currentBest(for: difficulty)
+        let isNewRecord = updateIfHigher(score, for: difficulty)
+        let bestScore = currentBest(for: difficulty)
         return GameOverScoreSummary(
             score: score,
             bestScore: bestScore,
             isNewRecord: isNewRecord,
             previousBestScore: isNewRecord ? previousBestScore : nil
         )
+    }
+
+    /// Convenience overload that evaluates score against the default difficulty.
+    func evaluateGameOverScore(_ score: Int) -> GameOverScoreSummary {
+        evaluateGameOverScore(score, difficulty: .defaultDifficulty)
     }
 }

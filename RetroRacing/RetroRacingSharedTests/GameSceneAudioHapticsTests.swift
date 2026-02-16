@@ -17,6 +17,7 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         let loader = PlatformFactories.makeImageLoader()
         scene = GameScene.scene(
             size: CGSize(width: 200, height: 200),
+            difficulty: .rapid,
             theme: nil,
             imageLoader: loader,
             soundPlayer: soundPlayer,
@@ -90,6 +91,25 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         XCTAssertTrue(scene.gameState.isPaused)
     }
 
+    func testGivenCrashSpriteVisibleWhenResumingThenCrashSpriteIsClearedWhileStartSoundPlays() {
+        // Given
+        var crashGrid = scene.gridState
+        let crashRow = crashGrid.playerRowIndex
+        crashGrid.grid[crashRow] = [.Empty, .Crash, .Empty]
+        scene.gridState = crashGrid
+        scene.gridStateDidUpdate(crashGrid, shouldPlayFeedback: false, notifyDelegate: false)
+        XCTAssertTrue(scene.spritesForGivenState.contains(where: { $0.name == "crash" }))
+        soundPlayer.shouldCallCompletion = false
+
+        // When
+        scene.resume()
+
+        // Then
+        XCTAssertFalse(scene.spritesForGivenState.contains(where: { $0.name == "crash" }))
+        XCTAssertEqual(scene.spritesForGivenState.count, 1)
+        XCTAssertTrue(scene.gameState.isPaused)
+    }
+
     func testGivenPendingFailCompletionWhenCompletingFailSoundThenCollisionCallbackFires() {
         // Given
         let nonCompletingPlayer = MockSoundEffectPlayer()
@@ -98,6 +118,7 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         let loader = PlatformFactories.makeImageLoader()
         let testScene = GameScene.scene(
             size: CGSize(width: 200, height: 200),
+            difficulty: .rapid,
             theme: nil,
             imageLoader: loader,
             soundPlayer: nonCompletingPlayer,
@@ -231,6 +252,7 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         let loader = PlatformFactories.makeImageLoader()
         let testScene = GameScene.scene(
             size: CGSize(width: 200, height: 200),
+            difficulty: .rapid,
             theme: nil,
             imageLoader: loader,
             soundPlayer: nonCompletingPlayer,
@@ -254,6 +276,7 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         let loader = PlatformFactories.makeImageLoader()
         let testScene = GameScene.scene(
             size: CGSize(width: 200, height: 200),
+            difficulty: .rapid,
             theme: nil,
             imageLoader: loader,
             soundPlayer: delayedPlayer,
@@ -280,6 +303,7 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         let loader = PlatformFactories.makeImageLoader()
         let testScene = GameScene.scene(
             size: CGSize(width: 200, height: 200),
+            difficulty: .rapid,
             theme: nil,
             imageLoader: loader,
             soundPlayer: nonCompletingPlayer,

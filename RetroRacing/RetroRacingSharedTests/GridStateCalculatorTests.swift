@@ -146,4 +146,29 @@ final class GridStateCalculatorTests: XCTestCase {
         XCTAssertEqual(newGridState.grid[0], [.Empty, .Empty, .Empty])
         XCTAssertEqual(newGridState.grid[1], expectedShiftedRow)
     }
+
+    func testGivenDifficultyTimingWhenComparingLevelOneIntervalsThenCruiseIsSlowestAndRapidIsFastest() {
+        // Given
+        let cruiseCalculator = GridStateCalculator(
+            randomSource: MockRandomSource(),
+            timingConfiguration: GameDifficulty.cruise.timingConfiguration
+        )
+        let fastCalculator = GridStateCalculator(
+            randomSource: MockRandomSource(),
+            timingConfiguration: GameDifficulty.fast.timingConfiguration
+        )
+        let rapidCalculator = GridStateCalculator(
+            randomSource: MockRandomSource(),
+            timingConfiguration: GameDifficulty.rapid.timingConfiguration
+        )
+
+        // When
+        let cruiseInterval = cruiseCalculator.intervalForLevel(1)
+        let fastInterval = fastCalculator.intervalForLevel(1)
+        let rapidInterval = rapidCalculator.intervalForLevel(1)
+
+        // Then
+        XCTAssertGreaterThan(cruiseInterval, fastInterval)
+        XCTAssertGreaterThan(fastInterval, rapidInterval)
+    }
 }

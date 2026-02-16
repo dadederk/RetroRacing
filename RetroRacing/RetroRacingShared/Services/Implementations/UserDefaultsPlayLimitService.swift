@@ -15,6 +15,7 @@ public final class UserDefaultsPlayLimitService: PlayLimitService {
         static let lastPlayDate = "PlayLimit.lastPlayDate"
         static let todayCount = "PlayLimit.todayCount"
         static let hasUnlimitedAccess = "PlayLimit.hasUnlimitedAccess"
+        static let debugForceFreemium = StoreKitService.DebugStorageKeys.forceFreemiumPlayLimit
     }
 
     private let userDefaults: UserDefaults
@@ -25,11 +26,11 @@ public final class UserDefaultsPlayLimitService: PlayLimitService {
     /// - Parameters:
     ///   - userDefaults: Backing store. Prefer `InfrastructureDefaults.userDefaults`.
     ///   - calendar: Calendar used to determine day boundaries. Defaults to `.current`.
-    ///   - maxPlaysPerDay: Maximum allowed plays per calendar day. Defaults to 6.
+    ///   - maxPlaysPerDay: Maximum allowed plays per calendar day. Defaults to 5.
     public init(
         userDefaults: UserDefaults,
         calendar: Calendar = .current,
-        maxPlaysPerDay: Int = 6
+        maxPlaysPerDay: Int = 5
     ) {
         self.userDefaults = userDefaults
         self.calendar = calendar
@@ -40,13 +41,13 @@ public final class UserDefaultsPlayLimitService: PlayLimitService {
 
     public var hasUnlimitedAccess: Bool {
         queue.sync {
-            userDefaults.bool(forKey: Keys.hasUnlimitedAccess)
+            hasUnlimitedAccessEnabled()
         }
     }
 
     public func canStartNewGame(on date: Date) -> Bool {
         queue.sync {
-            guard !userDefaults.bool(forKey: Keys.hasUnlimitedAccess) else {
+            guard !hasUnlimitedAccessEnabled() else {
                 return true
             }
 
@@ -57,7 +58,7 @@ public final class UserDefaultsPlayLimitService: PlayLimitService {
 
     public func recordGamePlayed(on date: Date) {
         queue.sync {
-            guard !userDefaults.bool(forKey: Keys.hasUnlimitedAccess) else {
+            guard !hasUnlimitedAccessEnabled() else {
                 return
             }
 
@@ -69,7 +70,7 @@ public final class UserDefaultsPlayLimitService: PlayLimitService {
 
     public func remainingPlays(on date: Date) -> Int {
         queue.sync {
-            if userDefaults.bool(forKey: Keys.hasUnlimitedAccess) {
+            if hasUnlimitedAccessEnabled() {
                 return .max
             }
             let state = normalizedState(for: date)
@@ -116,5 +117,9 @@ public final class UserDefaultsPlayLimitService: PlayLimitService {
         userDefaults.set(state.date, forKey: Keys.lastPlayDate)
         userDefaults.set(state.count, forKey: Keys.todayCount)
     }
-}
 
+    private func hasUnlimitedAccessEnabled() -> Bool {
+        let forceFreemium = userDefaults.bool(forKey: Keys.debugForceFreemium)
+        return userDefaults.bool(forKey: Keys.hasUnlimitedAccess) && !forceFreemium
+    }
+}

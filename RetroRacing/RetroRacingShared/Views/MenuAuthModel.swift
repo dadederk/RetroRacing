@@ -32,16 +32,13 @@ final class MenuAuthModel {
 
     private let gameCenterService: GameCenterService
     private let authenticationPresenter: AuthenticationPresenter
-    private let leaderboardConfiguration: LeaderboardConfiguration
 
     init(
         gameCenterService: GameCenterService,
-        authenticationPresenter: AuthenticationPresenter,
-        leaderboardConfiguration: LeaderboardConfiguration
+        authenticationPresenter: AuthenticationPresenter
     ) {
         self.gameCenterService = gameCenterService
         self.authenticationPresenter = authenticationPresenter
-        self.leaderboardConfiguration = leaderboardConfiguration
     }
 
     var isAuthenticated: Bool {
@@ -65,9 +62,9 @@ final class MenuAuthModel {
     }
 
     /// Presents Game Center leaderboard using the modern access point trigger without showing an empty modal.
-    func presentLeaderboard() {
+    func presentLeaderboard(leaderboardID: String) {
         GKAccessPoint.shared.trigger(
-            leaderboardID: leaderboardConfiguration.leaderboardID,
+            leaderboardID: leaderboardID,
             playerScope: .global,
             timeScope: .allTime
         ) {
@@ -124,7 +121,7 @@ final class MenuAuthModel {
     }
     #else
     func configurePresentationHandler() { }
-    func presentLeaderboard() { }
+    func presentLeaderboard(leaderboardID: String) { }
     func startAuthentication(startedByUser: Bool) { }
     func refreshAuthState() { }
     func scheduleAuthTimeout() { }

@@ -14,7 +14,7 @@ public enum BuildConfiguration {
     private static var cachedIsTestFlight: Bool?
 
     /// Returns true if running in a DEBUG build.
-    static var isDebug: Bool {
+    public static var isDebug: Bool {
         #if DEBUG
         return true
         #else

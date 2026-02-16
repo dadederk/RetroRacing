@@ -6,7 +6,7 @@
 **Status**: ✅ **FIXED**
 
 The app was **rejected by App Store review** because reviewers saw the app as if they already had premium access (unlimited plays), preventing them from:
-- Testing the free tier (6 games per day limit)
+- Testing the free tier (5 games per day limit)
 - Testing the purchase flow
 - Seeing the paywall
 
@@ -101,8 +101,8 @@ Added note that `debugPremiumEnabled` defaults to `false` to ensure reviewers ex
 
 ### App Store Reviewers
 - ✅ Will now see the **free tier** by default
-- ✅ Can test the **6-game daily limit**
-- ✅ Can see the **paywall** after 6 games
+- ✅ Can test the **5-game daily limit**
+- ✅ Can see the **paywall** after 5 games
 - ✅ Can test the **purchase flow**
 
 ### Debug/TestFlight Users
@@ -133,14 +133,14 @@ To prevent similar issues in the future:
 - [x] App compiles without errors
 - [ ] Build new release version
 - [ ] Test release build as fresh install
-- [ ] Verify free tier behavior (6 games → paywall)
+- [ ] Verify free tier behavior (5 games → paywall)
 - [ ] Verify purchase flow with sandbox account
 - [ ] Resubmit to App Store
 
 ---
 
 **Version**: 1.0  
-**Last Updated**: 2026-02-11  
+**Last Updated**: 2026-02-16  
 **Fixed By**: AI Agent  
 **Issue**: App Store Rejection (reviewers saw premium access by default)  
 **Solution**: Changed `debugPremiumEnabled` default from `true` to `false`

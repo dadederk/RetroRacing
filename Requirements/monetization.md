@@ -13,7 +13,7 @@ Internal code may still use names like `hasPremiumAccess` for the entitlement; t
 
 RetroRacing uses a **freemium** model with:
 
-- **Free tier**: up to **6 games per calendar day** (resets at local midnight)
+- **Free tier**: up to **5 games per calendar day** (resets at local midnight)
 - **Unlimited Plays**: one‑time purchase (non‑consumable IAP) that removes the daily limit and includes theme choices as an extra
 
 The goal is to encourage support without making the free experience feel hostile. Messaging focuses on **supporting the game** (buying coffee) rather than hard paywalling.
@@ -25,7 +25,7 @@ The goal is to encourage support without making the free experience feel hostile
 - A “game” is counted **per round**:
   - A round starts when a new `GameScene` is created (menu → game).
   - Restarts after game over **also count as new rounds**.
-- Free users can play **6 rounds per calendar day** (`maxPlaysPerDay = 6`).
+- Free users can play **5 rounds per calendar day** (`maxPlaysPerDay = 5`).
 - The day boundary is based on the user’s **current Calendar and time zone** and resets at **00:00 local time**.
 - When the limit is reached:
   - Starting a new game from the menu **shows the paywall**.
@@ -70,8 +70,10 @@ Implementation details:
   - `"PlayLimit.lastPlayDate"`
   - `"PlayLimit.todayCount"`
   - `"PlayLimit.hasUnlimitedAccess"`
+  - `"PlayLimit.debugForceFreemium"` (debug override written by `StoreKitService`)
 - Uses a **serial queue** for thread‑safety.
 - Uses injected `Calendar` (defaults to `.current`) for day boundaries.
+- `hasUnlimitedAccess` and all limit checks (`canStartNewGame`, `recordGamePlayed`, `remainingPlays`) ignore stored unlimited access when `"PlayLimit.debugForceFreemium" == true`.
 
 ### StoreKit Service
 
@@ -106,6 +108,7 @@ Key API:
 - `debugPremiumSimulationMode` **defaults to `.productionDefault`** so App Store reviewers experience the free tier.
 - The Debug section (with the picker) is **hidden** in Release builds via `BuildConfiguration.shouldShowDebugFeatures`.
 - `StoreKitService.hasPremiumAccess` is the **single source of truth** for premium status. All UI checks (MenuView, GameView, SettingsView) check this property **first** before falling back to `PlayLimitService` checks. This ensures premium users **always** have unlimited plays regardless of `PlayLimitService` state.
+- When `debugPremiumSimulationMode == .freemium`, `StoreKitService` writes the debug override key (`"PlayLimit.debugForceFreemium"`) so `PlayLimitService` behaves as unpaid even if the device has previously unlocked unlimited plays.
 
 ### Build Configuration Helper
 
@@ -135,6 +138,7 @@ Used to:
 
 ```swift
 BuildConfiguration.initializeTestFlightCheck()
+storeKitService = StoreKitService(userDefaults: userDefaults)
 playLimitService = UserDefaultsPlayLimitService(userDefaults: userDefaults)
 
 NavigationStack {
@@ -275,6 +279,8 @@ Key elements:
 - **Navigation title**: `"paywall_go_premium"` (displayed as “Unlock Unlimited Plays” / “Partidas ilimitadas” etc.).
 - **Product card** (`ProductRow`):
   - Shows product name (`"product_unlimited_plays"`) and price.
+  - When already owned, subtitle changes to `"purchase_success_message"` to clarify Unlimited Plays is already purchased.
+  - Purchased-state checkmark icon is decorative (hidden from accessibility) so VoiceOver reads only meaningful text.
   - Button triggers StoreKit 2 purchase.
 - **Restore Purchases button**:
   - Shows loading state while restoring.
@@ -321,7 +327,7 @@ Sections added:
 1. **Play Limit** (only visible for **free users**)
    - Title: `"play_limit_title"`
    - Free users:
-     - `"play_limit_remaining %lld"` – “Remaining: X of 6”
+     - `"play_limit_remaining %lld"` – “Remaining: X of 5”
      - Subtitle:
        - `"play_limit_resets_tomorrow"` or
        - `"play_limit_resets_in_hours %lld"`.
@@ -375,7 +381,7 @@ An **About** section appears above Debug, and Debug remains the final section in
 
 Scenarios covered:
 
-- Initial state allows **6 games** in a day, blocks the 7th.
+- Initial state allows **5 games** in a day, blocks the 6th.
 - Counter **resets at midnight** (calendar day change).
 - `unlockUnlimitedAccess()`:
   - `hasUnlimitedAccess == true`
@@ -386,10 +392,10 @@ Scenarios covered:
 ### Manual QA Checklist
 
 - Free user:
-  - Can play up to 6 games in a single day.
-  - 7th attempt from menu → paywall appears.
+  - Can play up to 5 games in a single day.
+  - 6th attempt from menu → paywall appears.
   - Restart after limit reached → paywall appears.
-  - Next day: counter resets and 6 plays are available again.
+  - Next day: counter resets and 5 plays are available again.
 - Premium user:
   - No play limit (unbounded sessions).
   - Settings shows “♾️ Unlimited” + thank‑you message.
@@ -407,7 +413,7 @@ See plan for full details; key points:
 - Create **Non‑Consumable IAP**:
   - ID: `com.accessibilityUpTo11.RetroRacing.unlimitedPlays`
   - Name: “Unlimited Plays”
-  - Description explains 6 games/day limit and unlimited unlock.
+  - Description explains 5 games/day limit and unlimited unlock.
 - Localise display name/description into EN/ES/CA.
 - Provide at least one screenshot showing:
   - The paywall.

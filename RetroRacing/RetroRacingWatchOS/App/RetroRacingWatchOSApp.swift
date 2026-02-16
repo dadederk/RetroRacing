@@ -13,7 +13,18 @@ import WatchKit
 
 /// Game Center leaderboard configuration for watchOS sandbox.
 private struct LeaderboardConfigurationWatchOS: LeaderboardConfiguration {
-    let leaderboardID = "bestwatchos001test"
+    func leaderboardID(for difficulty: GameDifficulty) -> String {
+        switch difficulty {
+        case .cruise:
+            return "bestwatchos001cruise"
+        case .fast:
+            return "bestwatchos00fast"
+        case .rapid:
+            return "bestwatchos001test"
+        @unknown default:
+            return "bestwatchos001test"
+        }
+    }
 }
 
 @main
@@ -74,7 +85,10 @@ struct RetroRacingWatchOSApp: App {
         )
         bestScoreSyncService = BestScoreSyncService(
             leaderboardService: leaderboardService,
-            highestScoreStore: highestScoreStore
+            highestScoreStore: highestScoreStore,
+            difficultyProvider: {
+                GameDifficulty.currentSelection(from: InfrastructureDefaults.userDefaults)
+            }
         )
     }
     

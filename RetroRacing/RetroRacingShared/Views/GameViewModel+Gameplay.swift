@@ -18,6 +18,7 @@ extension GameViewModel {
         hud.showGameOver = false
         hud.gameOverScore = 0
         hud.gameOverBestScore = 0
+        hud.gameOverDifficulty = selectedDifficulty
         hud.gameOverPreviousBestScore = nil
         hud.isNewHighScore = false
         hud.shouldRequestRatingOnGameOverModal = false
@@ -33,11 +34,16 @@ extension GameViewModel {
         let (currentScore, currentLives) = Self.scoreAndLives(from: scene)
         hud.lives = currentLives
         if currentLives == 0 {
-            leaderboardService.submitScore(currentScore)
-            let scoreSummary = highestScoreStore.evaluateGameOverScore(currentScore)
+            let difficultyAtGameOver = selectedDifficulty
+            leaderboardService.submitScore(currentScore, difficulty: difficultyAtGameOver)
+            let scoreSummary = highestScoreStore.evaluateGameOverScore(
+                currentScore,
+                difficulty: difficultyAtGameOver
+            )
             hud.isNewHighScore = scoreSummary.isNewRecord
             hud.gameOverScore = scoreSummary.score
             hud.gameOverBestScore = scoreSummary.bestScore
+            hud.gameOverDifficulty = difficultyAtGameOver
             hud.gameOverPreviousBestScore = scoreSummary.previousBestScore
             hud.shouldRequestRatingOnGameOverModal = scoreSummary.isNewRecord
             if scoreSummary.isNewRecord {

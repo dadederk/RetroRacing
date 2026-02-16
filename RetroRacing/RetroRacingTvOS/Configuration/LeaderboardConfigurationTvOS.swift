@@ -2,5 +2,14 @@ import Foundation
 import RetroRacingShared
 
 struct LeaderboardConfigurationTvOS: LeaderboardConfiguration {
-    let leaderboardID = "besttvos001"
+    func leaderboardID(for difficulty: GameDifficulty) -> String {
+        switch difficulty {
+        case .cruise:
+            return "besttvos001cruise"
+        case .fast:
+            return "besttvos001fast"
+        case .rapid:
+            return "besttvos001"
+        }
+    }
 }

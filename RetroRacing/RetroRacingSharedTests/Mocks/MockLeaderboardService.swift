@@ -3,19 +3,21 @@ import Foundation
 
 final class MockLeaderboardService: LeaderboardService {
     var submittedScores: [Int] = []
+    var submittedDifficulties: [GameDifficulty] = []
     var authenticated = true
-    var remoteBestScore: Int?
+    var remoteBestScoresByDifficulty: [GameDifficulty: Int] = [:]
 
-    func submitScore(_ score: Int) {
+    func submitScore(_ score: Int, difficulty: GameDifficulty) {
         submittedScores.append(score)
+        submittedDifficulties.append(difficulty)
     }
 
     func isAuthenticated() -> Bool {
         authenticated
     }
 
-    func fetchLocalPlayerBestScore() async -> Int? {
-        remoteBestScore
+    func fetchLocalPlayerBestScore(for difficulty: GameDifficulty) async -> Int? {
+        remoteBestScoresByDifficulty[difficulty]
     }
 }
 

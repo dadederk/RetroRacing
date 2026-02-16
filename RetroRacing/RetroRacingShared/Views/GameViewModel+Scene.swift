@@ -38,7 +38,13 @@ extension GameViewModel {
     }
 
     private func createSceneAndDelegate(side: CGFloat, volume: Double) {
-        let newScene = Self.makeScene(side: side, theme: theme, hapticController: hapticController, volume: volume)
+        let newScene = Self.makeScene(
+            side: side,
+            difficulty: selectedDifficulty,
+            theme: theme,
+            hapticController: hapticController,
+            volume: volume
+        )
         scene = newScene
         let newDelegate = makeGameSceneDelegate()
         delegate = newDelegate
@@ -96,6 +102,7 @@ extension GameViewModel {
 
     private static func makeScene(
         side: CGFloat,
+        difficulty: GameDifficulty,
         theme: (any GameTheme)?,
         hapticController: HapticFeedbackController?,
         volume: Double
@@ -105,11 +112,23 @@ extension GameViewModel {
         soundPlayer.setVolume(volume)
         return GameScene.scene(
             size: CGSize(width: side, height: side),
+            difficulty: difficulty,
             theme: theme,
             imageLoader: loader,
             soundPlayer: soundPlayer,
             hapticController: hapticController
         )
+    }
+
+    func updateDifficulty(_ difficulty: GameDifficulty) {
+        selectedDifficulty = difficulty
+        scene?.applyDifficulty(difficulty)
+        if let scene {
+            hud.speedIncreaseImminent = GameState.isLevelChangeImminent(
+                score: scene.gameState.score,
+                windowPoints: scene.speedAlertWindowPoints
+            )
+        }
     }
 
     static func scoreAndLives(from scene: GameScene) -> (score: Int, lives: Int) {

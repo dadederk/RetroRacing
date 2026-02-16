@@ -34,14 +34,21 @@ public final class GameCenterService: LeaderboardService {
         authenticateHandlerSetter?(presenter)
     }
 
-    public func submitScore(_ score: Int) {
+    public func submitScore(_ score: Int, difficulty: GameDifficulty) {
+        let leaderboardID = configuration.leaderboardID(for: difficulty)
+
         guard isAuthenticated() else {
-            AppLog.info(AppLog.game + AppLog.leaderboard, "🏆 Skipped score submit \(score) – player not authenticated (leaderboardID: \(configuration.leaderboardID))")
+            AppLog.info(
+                AppLog.game + AppLog.leaderboard,
+                "🏆 Skipped score submit \(score) – player not authenticated (leaderboardID: \(leaderboardID), speed: \(difficulty.rawValue))"
+            )
             return
         }
 
-        let leaderboardID = configuration.leaderboardID
-        AppLog.info(AppLog.game + AppLog.leaderboard, "🏆 Submitting score \(score) to leaderboard \(leaderboardID)")
+        AppLog.info(
+            AppLog.game + AppLog.leaderboard,
+            "🏆 Submitting score \(score) to leaderboard \(leaderboardID) (speed: \(difficulty.rawValue))"
+        )
 
         GKLeaderboard.submitScore(
             score,
@@ -61,16 +68,18 @@ public final class GameCenterService: LeaderboardService {
         GKLocalPlayer.local.isAuthenticated
     }
 
-    public func fetchLocalPlayerBestScore() async -> Int? {
+    public func fetchLocalPlayerBestScore(for difficulty: GameDifficulty) async -> Int? {
+        let leaderboardID = configuration.leaderboardID(for: difficulty)
+
         guard isAuthenticated() else {
             AppLog.info(
                 AppLog.game + AppLog.leaderboard,
-                "🏆 Skipped remote best sync – player not authenticated (leaderboardID: \(configuration.leaderboardID))"
+                "🏆 Skipped remote best sync – player not authenticated (leaderboardID: \(leaderboardID), speed: \(difficulty.rawValue))"
             )
             return nil
         }
 
-        guard let leaderboard = await loadLeaderboard(id: configuration.leaderboardID) else {
+        guard let leaderboard = await loadLeaderboard(id: leaderboardID) else {
             return nil
         }
 

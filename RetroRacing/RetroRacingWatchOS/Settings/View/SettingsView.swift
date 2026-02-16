@@ -9,6 +9,7 @@ struct SettingsView: View {
     /// When true, show "scores submitted…"; when false, show "sign in to Game Center on iPhone…".
     let isGameCenterAuthenticated: Bool
     @Environment(\.dismiss) private var dismiss
+    @AppStorage(GameDifficulty.storageKey) private var selectedDifficultyRawValue: String = GameDifficulty.defaultDifficulty.rawValue
     @AppStorage(HapticFeedbackPreference.storageKey) private var hapticFeedbackEnabled: Bool = true
     @AppStorage(SoundPreferences.volumeKey) private var sfxVolume: Double = SoundPreferences.defaultVolume
 
@@ -74,6 +75,22 @@ struct SettingsView: View {
                 }
 
                 Section {
+                    Picker(selection: selectedDifficultyBinding) {
+                        ForEach(GameDifficulty.allCases, id: \.self) { difficulty in
+                            Text(GameLocalizedStrings.string(difficulty.localizedNameKey))
+                                .font(fontForLabels)
+                                .tag(difficulty)
+                        }
+                    } label: {
+                        Text(GameLocalizedStrings.string("settings_speed"))
+                            .font(fontForLabels)
+                    }
+                } header: {
+                    Text(GameLocalizedStrings.string("settings_speed"))
+                        .font(fontForLabels)
+                }
+
+                Section {
                     Text(GameLocalizedStrings.string(
                         isGameCenterAuthenticated
                             ? "settings_leaderboard_watch_info"
@@ -121,5 +138,12 @@ struct SettingsView: View {
                 }
             }
         }
+    }
+
+    private var selectedDifficultyBinding: Binding<GameDifficulty> {
+        Binding(
+            get: { GameDifficulty.fromStoredValue(selectedDifficultyRawValue) },
+            set: { selectedDifficultyRawValue = $0.rawValue }
+        )
     }
 }

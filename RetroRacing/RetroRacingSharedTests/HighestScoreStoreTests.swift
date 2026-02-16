@@ -24,30 +24,42 @@ final class HighestScoreStoreTests: XCTestCase {
     }
 
     func testDefaultsToZero() {
-        XCTAssertEqual(store.currentBest(), 0)
+        XCTAssertEqual(store.currentBest(for: .rapid), 0)
+        XCTAssertEqual(store.currentBest(for: .fast), 0)
+        XCTAssertEqual(store.currentBest(for: .cruise), 0)
     }
 
     func testStoresHigherScore() {
-        XCTAssertTrue(store.updateIfHigher(10))
-        XCTAssertEqual(store.currentBest(), 10)
+        XCTAssertTrue(store.updateIfHigher(10, for: .rapid))
+        XCTAssertEqual(store.currentBest(for: .rapid), 10)
     }
 
     func testDoesNotStoreLowerOrEqualScore() {
-        _ = store.updateIfHigher(10)
-        XCTAssertFalse(store.updateIfHigher(9))
-        XCTAssertFalse(store.updateIfHigher(10))
-        XCTAssertEqual(store.currentBest(), 10)
+        _ = store.updateIfHigher(10, for: .rapid)
+        XCTAssertFalse(store.updateIfHigher(9, for: .rapid))
+        XCTAssertFalse(store.updateIfHigher(10, for: .rapid))
+        XCTAssertEqual(store.currentBest(for: .rapid), 10)
     }
 
     func testSyncFromRemoteOverridesWhenHigher() {
-        _ = store.updateIfHigher(15)
-        store.syncFromRemote(bestScore: 20)
-        XCTAssertEqual(store.currentBest(), 20)
+        _ = store.updateIfHigher(15, for: .rapid)
+        store.syncFromRemote(bestScore: 20, for: .rapid)
+        XCTAssertEqual(store.currentBest(for: .rapid), 20)
     }
 
     func testSyncFromRemoteIgnoresWhenLower() {
-        _ = store.updateIfHigher(25)
-        store.syncFromRemote(bestScore: 10)
-        XCTAssertEqual(store.currentBest(), 25)
+        _ = store.updateIfHigher(25, for: .rapid)
+        store.syncFromRemote(bestScore: 10, for: .rapid)
+        XCTAssertEqual(store.currentBest(for: .rapid), 25)
+    }
+
+    func testStoresBestScorePerDifficultyIndependently() {
+        _ = store.updateIfHigher(30, for: .cruise)
+        _ = store.updateIfHigher(90, for: .rapid)
+        _ = store.updateIfHigher(55, for: .fast)
+
+        XCTAssertEqual(store.currentBest(for: .cruise), 30)
+        XCTAssertEqual(store.currentBest(for: .fast), 55)
+        XCTAssertEqual(store.currentBest(for: .rapid), 90)
     }
 }

@@ -21,6 +21,7 @@ public struct SettingsView: View {
 
     @Environment(\.dismiss) private var dismiss
     @Environment(StoreKitService.self) private var storeKit
+    @AppStorage(GameDifficulty.storageKey) private var selectedDifficultyRawValue: String = GameDifficulty.defaultDifficulty.rawValue
     @AppStorage(HapticFeedbackPreference.storageKey) private var hapticFeedbackEnabled: Bool = true
     @AppStorage(SoundPreferences.volumeKey) private var sfxVolume: Double = SoundPreferences.defaultVolume
     @AppStorage(InGameAnnouncementsPreference.storageKey) private var inGameAnnouncementsEnabled: Bool = InGameAnnouncementsPreference.defaultEnabled
@@ -138,6 +139,22 @@ public struct SettingsView: View {
                         .font(fontForLabels)
                 } header: {
                     Text(GameLocalizedStrings.string("settings_controls"))
+                        .font(fontForLabels)
+                }
+
+                Section {
+                    Picker(selection: selectedDifficultyBinding) {
+                        ForEach(GameDifficulty.allCases, id: \.self) { difficulty in
+                            Text(GameLocalizedStrings.string(difficulty.localizedNameKey))
+                                .font(fontForLabels)
+                                .tag(difficulty)
+                        }
+                    } label: {
+                        Text(GameLocalizedStrings.string("settings_speed"))
+                            .font(fontForLabels)
+                    }
+                } header: {
+                    Text(GameLocalizedStrings.string("settings_speed"))
                         .font(fontForLabels)
                 }
 
@@ -337,6 +354,14 @@ public struct SettingsView: View {
     private static let volumeSteps: [Double] = stride(from: 0.0, through: 1.0, by: 0.05).map {
         Double((($0 * 100).rounded()) / 100)
     }
+
+    private var selectedDifficultyBinding: Binding<GameDifficulty> {
+        Binding(
+            get: { GameDifficulty.fromStoredValue(selectedDifficultyRawValue) },
+            set: { selectedDifficultyRawValue = $0.rawValue }
+        )
+    }
+
     private var volumeSelection: Binding<Double> {
         Binding(
             get: { Self.closestVolumeStep(to: sfxVolume) },

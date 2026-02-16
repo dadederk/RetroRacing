@@ -11,26 +11,40 @@ Game Center leaderboard system with dependency injection, zero compiler flags in
 **`LeaderboardConfiguration` Protocol**
 ```swift
 protocol LeaderboardConfiguration {
-    var leaderboardID: String { get }
+    func leaderboardID(for difficulty: GameDifficulty) -> String
 }
 ```
 
-**Platform Implementations (sandbox IDs):**
-- `LeaderboardConfigurationUniversal` (iPhone) → `"bestios001test"`
-- `LeaderboardConfigurationIPad` (iPadOS) → `"bestipad001test"`
-- `LeaderboardConfigurationMac` (macOS) → `"bestmacos001test"`  
-- `LeaderboardConfigurationTvOS` → `"besttvos001"`  
-- `watchOSLeaderboardConfiguration` → `"bestwatchos001test"`
-- `visionOSLeaderboardConfiguration` → `"bestvision001test"` (optional)
+**Platform Implementations (sandbox IDs per speed):**
+- iPhone (`LeaderboardConfigurationUniversal`)
+  - Cruise → `bestios001cruise`
+  - Fast → `bestios001fast`
+  - Rapid → `bestios001test`
+- iPad (`LeaderboardConfigurationIPad`)
+  - Cruise → `bestipad001cruise`
+  - Fast → `bestipad001fast`
+  - Rapid → `bestipad001test`
+- macOS (`LeaderboardConfigurationMac`)
+  - Cruise → `bestmacos001cruise`
+  - Fast → `bestmacos001fast`
+  - Rapid → `bestmacos001test`
+- tvOS (`LeaderboardConfigurationTvOS`)
+  - Cruise → `besttvos001cruise`
+  - Fast → `besttvos001fast`
+  - Rapid → `besttvos001`
+- watchOS (`LeaderboardConfigurationWatchOS`)
+  - Cruise → `bestwatchos001cruise`
+  - Fast → `bestwatchos00fast`
+  - Rapid → `bestwatchos001test`
 
 ### Service Layer
 
 **`LeaderboardService` Protocol**
 ```swift
 protocol LeaderboardService {
-    func submitScore(_ score: Int)
+    func submitScore(_ score: Int, difficulty: GameDifficulty)
     func isAuthenticated() -> Bool
-    func fetchLocalPlayerBestScore() async -> Int?
+    func fetchLocalPlayerBestScore(for difficulty: GameDifficulty) async -> Int?
 }
 ```
 
@@ -39,35 +53,71 @@ protocol LeaderboardService {
 - **No compiler flags** for platform detection
 - Handles all Game Center authentication and presentation
 - Manages view controller lifecycle and delegation
-- Fetches the local player's all-time best score from the configured leaderboard for local best-score sync
+- Fetches and submits against the leaderboard mapped to the selected speed level
 
 ### Best-Score Sync
 
 - `BestScoreSyncService` syncs local best score from Game Center when available:
-  - Calls `leaderboardService.fetchLocalPlayerBestScore()`
-  - Calls `highestScoreStore.syncFromRemote(bestScore:)` when a remote value exists
+  - Resolves the currently selected speed (`selectedDifficulty`)
+  - Calls `leaderboardService.fetchLocalPlayerBestScore(for:)`
+  - Calls `highestScoreStore.syncFromRemote(bestScore:for:)` when a remote value exists
 - Sync timing:
   - On app startup (`.task`)
   - On Game Center authentication state change callbacks
 - Scope:
-  - Leaderboards remain **per platform** (iPhone/iPad/macOS/tvOS/watchOS each keep their own leaderboard IDs)
-  - Best score sync is per active platform leaderboard, not cross-platform-global
+  - Leaderboards remain **per platform + speed** (Cruise/Fast/Rapid for each platform)
+  - Best score sync is per active platform/speed leaderboard, not cross-platform-global
 
 ### View Layer (SwiftUI)
 
 **Platform Integration:**
 - iOS/macOS: `MenuView` (SwiftUI) in main app target; composition root in `RetroRacingApp.swift` injects `GameCenterService` and `LeaderboardConfiguration`.
 - tvOS: `tvOSMenuView` (SwiftUI) in tvOS target; composition root in `RetroRacingTvOSApp.swift`.
-- watchOS: `ContentView` (SwiftUI) as main menu; `RetroRacingWatchOSApp.swift` as composition root. `GameCenterService` is injected with `LeaderboardConfigurationWatchOS`; `WatchGameView` calls `leaderboardService.submitScore(score)` on game over so watch scores appear on the watch leaderboard in App Store Connect. No Leaderboard button on menu; leaderboard info is in Settings.
+- watchOS: `ContentView` (SwiftUI) as main menu; `RetroRacingWatchOSApp.swift` as composition root. `GameCenterService` is injected with `LeaderboardConfigurationWatchOS`; `WatchGameView` calls `leaderboardService.submitScore(score, difficulty:)` on game over so scores land on the selected speed leaderboard. No Leaderboard button on menu; leaderboard info is in Settings.
 - visionOS: TBD
 
 View layer characteristics:
 - Zero GameKit imports in most of the view layer (except the dedicated shared `LeaderboardView` wrapper)
-- Only calls service methods (`leaderboardService.submitScore`, `gameCenterService.isAuthenticated`, etc.)
+- Only calls service methods (`leaderboardService.submitScore(_:difficulty:)`, `gameCenterService.isAuthenticated`, etc.)
 - Leaderboard presentation:
+  - iOS / tvOS / macOS leaderboard button resolves the selected speed and opens that leaderboard ID
   - iOS / tvOS: via `LeaderboardView` using `GKAccessPoint.shared.trigger(leaderboardID:...)` (iOS 26+ / tvOS 26+)
   - macOS: via `LeaderboardView` wrapping `GKGameCenterViewController` in `NSViewControllerRepresentable` so the sheet dismisses cleanly
   - watchOS: no in-app leaderboard UI (Apple does not provide a watch-appropriate leaderboard sheet). Scores are submitted to Game Center via the same `GameCenterService` and `LeaderboardConfiguration` (watch ID `bestwatchos001test`). Users see “Scores are submitted to Game Center. View leaderboards on iPhone or iPad.” in Settings.
+
+## App Store Connect: Create leaderboards
+
+Create one Classic leaderboard in App Store Connect for each **Leaderboard ID** the app uses. The app submits scores to the ID returned by `LeaderboardConfiguration.leaderboardID(for: difficulty)` per platform. IDs are **case-sensitive** and must match exactly.
+
+### Steps
+
+1. **App Store Connect** → [appstoreconnect.apple.com](https://appstoreconnect.apple.com) → **Apps** → your app.
+2. **Game Center** → In the app's sidebar: **Services** → **Game Center** (or **App** → **Game Center**).
+3. **Leaderboards** → Under Game Center, open **Leaderboards**.
+4. **Leaderboard Set (optional)**  
+   Create a **Leaderboard Set** (e.g. "RetroRacing Leaderboards") if you want one entry that groups Cruise / Fast / Rapid. Add leaderboards to the set. Otherwise create **Classic Leaderboards** directly.
+5. **Create each leaderboard**  
+   For each ID below (or each platform × difficulty you ship):
+   - Click **+** / **Add Leaderboard**.
+   - **Type:** Classic.
+   - **Reference Name:** Internal only (e.g. "iOS Cruise", "watchOS Rapid").
+   - **Leaderboard ID:** Copy exactly from the table below (e.g. `bestios001cruise`). Do not change case or spelling.
+   - **Score format:** Integer; submission type **Best** (highest score wins).
+   - **Localization:** Add at least one language; set **Display Name** (e.g. "Cruise", "Fast", "Rapid") and **Score Format** (e.g. "%d Overtakes").
+6. **Version / build**  
+   Ensure the build is attached to a version with **Game Center** enabled and the correct leaderboard set selected (if using a set).
+
+### Leaderboard IDs (must match app config)
+
+| Platform | Cruise | Fast | Rapid |
+| -------- | ------ | ---- | ----- |
+| iPhone | `bestios001cruise` | `bestios001fast` | `bestios001test` |
+| iPad | `bestipad001cruise` | `bestipad001fast` | `bestipad001test` |
+| macOS | `bestmacos001cruise` | `bestmacos001fast` | `bestmacos001test` |
+| tvOS | `besttvos001cruise` | `besttvos001fast` | `besttvos001` |
+| watchOS | `bestwatchos001cruise` | `bestwatchos00fast` | `bestwatchos001test` |
+
+Create only the leaderboards for platforms you ship (e.g. if you ship iPhone + watchOS, create the six IDs for those two rows). If you change an ID in the app's `LeaderboardConfiguration`, create a new leaderboard in App Store Connect with that ID and retire or leave the old one unused.
 
 ## Known Issues
 
@@ -91,18 +141,26 @@ View layer characteristics:
 ```swift
 func testConfigurationReturnsCorrectLeaderboardID() {
     let config = LeaderboardConfigurationUniversal()
-    XCTAssertEqual(config.leaderboardID, "bestios001test")
+    XCTAssertEqual(config.leaderboardID(for: .cruise), "bestios001cruise")
+    XCTAssertEqual(config.leaderboardID(for: .fast), "bestios001fast")
+    XCTAssertEqual(config.leaderboardID(for: .rapid), "bestios001test")
 }
 ```
 
 **Service Tests with Mock Configuration:**
 ```swift
 struct MockLeaderboardConfiguration: LeaderboardConfiguration {
-    let leaderboardID: String
+    func leaderboardID(for difficulty: GameDifficulty) -> String {
+        switch difficulty {
+        case .cruise: return "test_cruise"
+        case .fast: return "test_fast"
+        case .rapid: return "test_rapid"
+        }
+    }
 }
 
 func testServiceUsesInjectedConfiguration() {
-    let mockConfig = MockLeaderboardConfiguration(leaderboardID: "test123")
+    let mockConfig = MockLeaderboardConfiguration()
     let service = GameCenterService(configuration: mockConfig)
     // Test service behavior
 }
@@ -114,7 +172,7 @@ final class MockLeaderboardService: LeaderboardService {
     var submittedScores: [Int] = []
     var authenticated = true
     
-    func submitScore(_ score: Int) {
+    func submitScore(_ score: Int, difficulty: GameDifficulty) {
         submittedScores.append(score)
     }
     
@@ -185,7 +243,7 @@ struct RetroRacingWatchOSApp: App {
 // WatchGameView.swift  
 func handleGameOver() {
     let finalScore = gameScene?.gameState.score ?? 0
-    leaderboardService.submitScore(finalScore)
+    leaderboardService.submitScore(finalScore, difficulty: selectedDifficulty)
 }
 ```
 
@@ -217,7 +275,13 @@ To add a new platform:
 ```swift
 // RetroRacing macOS/Configuration/macOSLeaderboardConfiguration.swift
 struct macOSLeaderboardConfiguration: LeaderboardConfiguration {
-    let leaderboardID = "bestmacos001"
+    func leaderboardID(for difficulty: GameDifficulty) -> String {
+        switch difficulty {
+        case .cruise: return "bestmacos001cruise"
+        case .fast: return "bestmacos001fast"
+        case .rapid: return "bestmacos001test"
+        }
+    }
 }
 ```
 

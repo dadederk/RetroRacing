@@ -14,6 +14,7 @@ struct HUDState {
     var showGameOver: Bool = false
     var gameOverScore: Int = 0
     var gameOverBestScore: Int = 0
+    var gameOverDifficulty: GameDifficulty = .defaultDifficulty
     var gameOverPreviousBestScore: Int?
     var isNewHighScore: Bool = false
     var shouldRequestRatingOnGameOverModal = false

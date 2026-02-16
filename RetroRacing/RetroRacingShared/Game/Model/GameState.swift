@@ -50,3 +50,50 @@ public struct GameState {
         return nil
     }
 }
+
+/// Inclusive speed levels used across settings, gameplay timing, and leaderboards.
+public enum GameDifficulty: String, CaseIterable, Sendable {
+    case cruise
+    case fast
+    case rapid
+
+    public static let storageKey = "selectedDifficulty"
+    public static let defaultDifficulty: GameDifficulty = .rapid
+
+    public var localizedNameKey: String {
+        switch self {
+        case .cruise:
+            return "speed_level_cruise"
+        case .fast:
+            return "speed_level_fast"
+        case .rapid:
+            return "speed_level_rapid"
+        }
+    }
+
+    public var timingConfiguration: GridUpdateTimingConfiguration {
+        switch self {
+        case .cruise:
+            return .cruise
+        case .fast:
+            return .fast
+        case .rapid:
+            return .rapid
+        }
+    }
+
+    public var speedAlertWindowPoints: Int {
+        GameState.defaultSpeedAlertWindowPoints
+    }
+
+    public static func fromStoredValue(_ value: String?) -> GameDifficulty {
+        guard let value, let difficulty = GameDifficulty(rawValue: value) else {
+            return defaultDifficulty
+        }
+        return difficulty
+    }
+
+    public static func currentSelection(from userDefaults: UserDefaults) -> GameDifficulty {
+        fromStoredValue(userDefaults.string(forKey: storageKey))
+    }
+}

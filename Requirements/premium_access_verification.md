@@ -151,7 +151,7 @@ if let playLimitService, !storeKit.hasPremiumAccess {
 **File**: `RetroRacingSharedTests/PlayLimitServiceTests.swift`
 
 ✅ **Test Coverage**:
-- `testInitialState_AllowsSixGamesPerDay()` – Verifies 6-game limit
+- `testGivenInitialStateWhenPlayingFiveGamesThenSixthGameIsBlocked()` – Verifies 5-game limit
 - `testCounterResetsAtMidnight()` – Verifies daily reset logic
 - `testUnlockUnlimitedAccess_DisablesCounting()` – **Verifies unlimited access bypass**
 - `testNextResetDate_IsNextMidnight()` – Verifies reset calculation
@@ -333,13 +333,13 @@ if let playLimitService, !storeKit.hasPremiumAccess {
 1. Launch app in Simulator or physical device
 2. Go to **Settings** → **Debug**
 3. Disable **"Simulate Premium Access"** toggle
-4. Go to Menu and play 6 games (record 6 sessions)
+4. Go to Menu and play 5 games (record 5 sessions)
 5. **Verify**:
-   - ✅ Play Limit section shows "Remaining: 6 of 6" initially
+   - ✅ Play Limit section shows "Remaining: 5 of 5" initially
    - ✅ After each game, remaining count decreases
-   - ✅ After 6 games, tapping "Play" shows paywall
+   - ✅ After 5 games, tapping "Play" shows paywall
    - ✅ After game over, tapping "Restart" shows paywall
-   - ✅ Settings shows "Remaining: 0 of 6" and reset timer
+   - ✅ Settings shows "Remaining: 0 of 5" and reset timer
 
 ### 6.3 Testing IAP Purchase (Sandbox)
 
@@ -352,7 +352,7 @@ Steps:
 1. Launch app on physical device (signed with dev certificate)
 2. Go to **Settings** → **Debug**
 3. Disable **"Simulate Premium Access"** toggle
-4. Exhaust 6 free plays
+4. Exhaust 5 free plays
 5. Tap "Play" → Paywall appears
 6. Tap product row → StoreKit purchase flow
 7. Sign in with **sandbox Apple ID**
@@ -367,7 +367,7 @@ Steps:
 
 1. After purchasing on Device A
 2. Install app on Device B (same Apple ID)
-3. Launch app → see 6-game limit
+3. Launch app → see 5-game limit
 4. Go to **Settings** → **Purchases**
 5. Tap **"Restore Purchases"**
 6. **Verify**:
@@ -405,6 +405,6 @@ Steps:
 
 ---
 
-**Last Updated**: 2026-02-10  
+**Last Updated**: 2026-02-16  
 **Verified By**: AI Agent (Comprehensive Review)  
 **Test Results**: 18/18 tests passing ✅

@@ -32,10 +32,10 @@ final class GameOverScoreSummaryTests: XCTestCase {
 
     func testGivenPreviousBestExistsWhenScoreDoesNotBeatBestThenSummaryShowsCurrentBestWithoutPreviousBestLine() {
         // Given
-        _ = highestScoreStore.updateIfHigher(120)
+        _ = highestScoreStore.updateIfHigher(120, for: .rapid)
 
         // When
-        let summary = highestScoreStore.evaluateGameOverScore(95)
+        let summary = highestScoreStore.evaluateGameOverScore(95, difficulty: .rapid)
 
         // Then
         XCTAssertFalse(summary.isNewRecord)
@@ -46,10 +46,10 @@ final class GameOverScoreSummaryTests: XCTestCase {
 
     func testGivenPreviousBestExistsWhenScoreBeatsBestThenSummaryIncludesPreviousAndNewBest() {
         // Given
-        _ = highestScoreStore.updateIfHigher(120)
+        _ = highestScoreStore.updateIfHigher(120, for: .rapid)
 
         // When
-        let summary = highestScoreStore.evaluateGameOverScore(135)
+        let summary = highestScoreStore.evaluateGameOverScore(135, difficulty: .rapid)
 
         // Then
         XCTAssertTrue(summary.isNewRecord)

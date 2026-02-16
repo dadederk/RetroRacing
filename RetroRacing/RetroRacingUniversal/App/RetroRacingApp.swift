@@ -33,7 +33,7 @@ struct RetroRacingApp: App {
     private let highestScoreStore: HighestScoreStore
     private let bestScoreSyncService: BestScoreSyncService
     private let playLimitService: PlayLimitService
-    private let storeKitService = StoreKitService()
+    private let storeKitService: StoreKitService
     private let controlsDescriptionKey: String
     @State private var isMenuPresented = true
     /// Controls whether gameplay should be allowed to start for the current session.
@@ -47,6 +47,7 @@ struct RetroRacingApp: App {
         AppBootstrap.configureGameCenterAccessPoint()
         let customFontAvailable = AppBootstrap.registerCustomFont()
         let userDefaults = InfrastructureDefaults.userDefaults
+        storeKitService = StoreKitService(userDefaults: userDefaults)
         #if os(macOS)
         leaderboardConfiguration = LeaderboardConfigurationMac()
         controlsDescriptionKey = "settings_controls_macos"
@@ -62,7 +63,9 @@ struct RetroRacingApp: App {
         controlsDescriptionKey = "settings_controls_ios"
         #endif
         let leaderboardPlatformConfig = LeaderboardPlatformConfig(
-            leaderboardID: leaderboardConfiguration.leaderboardID,
+            leaderboardID: leaderboardConfiguration.leaderboardID(
+                for: GameDifficulty.currentSelection(from: userDefaults)
+            ),
             authenticateHandlerSetter: { presenter in
                 GKLocalPlayer.local.authenticateHandler = { viewController, error in
                     if let viewController = viewController {
@@ -103,7 +106,10 @@ struct RetroRacingApp: App {
         highestScoreStore = UserDefaultsHighestScoreStore(userDefaults: userDefaults)
         bestScoreSyncService = BestScoreSyncService(
             leaderboardService: gameCenterService,
-            highestScoreStore: highestScoreStore
+            highestScoreStore: highestScoreStore,
+            difficultyProvider: {
+                GameDifficulty.currentSelection(from: userDefaults)
+            }
         )
 
         BuildConfiguration.initializeTestFlightCheck()

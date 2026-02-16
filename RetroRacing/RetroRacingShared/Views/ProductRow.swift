@@ -32,7 +32,7 @@ struct ProductRow: View {
                     Text(GameLocalizedStrings.string("product_unlimited_plays"))
                         .font(fontPreferenceStore?.font(textStyle: .headline) ?? .headline)
                     if state.hasPurchased {
-                        Text(GameLocalizedStrings.string("play_limit_unlimited"))
+                        Text(GameLocalizedStrings.string("purchase_success_message"))
                             .font(fontPreferenceStore?.font(textStyle: .subheadline) ?? .subheadline)
                             .foregroundStyle(.secondary)
                     } else {
@@ -50,6 +50,8 @@ struct ProductRow: View {
                 } else if state.hasPurchased {
                     Image(systemName: "checkmark.seal.fill")
                         .foregroundColor(.accentColor)
+                        .accessibilityRemoveTraits(.isSelected)
+                        .accessibilityHidden(true)
                 } else {
                     Text(product.displayPrice)
                         .font(fontPreferenceStore?.font(textStyle: .subheadline) ?? .subheadline)

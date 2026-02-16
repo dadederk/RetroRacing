@@ -33,6 +33,7 @@ public struct MenuView: View {
 
     @Environment(\.openURL) private var openURL
     @Environment(StoreKitService.self) private var storeKit
+    @AppStorage(GameDifficulty.storageKey) private var selectedDifficultyRawValue: String = GameDifficulty.defaultDifficulty.rawValue
     @State private var showGame = false
     @State private var showLeaderboard = false
     @State private var showSettings = false
@@ -77,8 +78,7 @@ public struct MenuView: View {
         self.onPlayRequest = onPlayRequest
         _authModel = State(initialValue: MenuAuthModel(
             gameCenterService: gameCenterService,
-            authenticationPresenter: authenticationPresenter,
-            leaderboardConfiguration: leaderboardConfiguration
+            authenticationPresenter: authenticationPresenter
         ))
     }
 
@@ -136,7 +136,7 @@ public struct MenuView: View {
             }
             .modifier(LeaderboardPresentationModifier(
                 isPresented: $showLeaderboard,
-                leaderboardID: leaderboardConfiguration.leaderboardID
+                leaderboardID: leaderboardConfiguration.leaderboardID(for: selectedDifficulty)
             ))
             #if canImport(UIKit) && !os(watchOS)
             .fullScreenCover(item: authVCItem) { item in
@@ -197,7 +197,7 @@ public struct MenuView: View {
         authModel.authError = nil
         #if canImport(UIKit) && !os(watchOS)
         AppLog.info(AppLog.game, "🎮 Menu leaderboard tap - presenting via GKAccessPoint (UIKit)")
-        authModel.presentLeaderboard()
+        authModel.presentLeaderboard(leaderboardID: leaderboardConfiguration.leaderboardID(for: selectedDifficulty))
         #elseif os(macOS)
         AppLog.info(AppLog.game, "🎮 Menu leaderboard tap - presenting in-app macOS leaderboard sheet")
         showLeaderboard = true
@@ -205,6 +205,10 @@ public struct MenuView: View {
         AppLog.info(AppLog.game, "🎮 Menu leaderboard tap - presenting shared LeaderboardView sheet")
         showLeaderboard = true
         #endif
+    }
+
+    private var selectedDifficulty: GameDifficulty {
+        GameDifficulty.fromStoredValue(selectedDifficultyRawValue)
     }
 
     private func handleRateTap() {

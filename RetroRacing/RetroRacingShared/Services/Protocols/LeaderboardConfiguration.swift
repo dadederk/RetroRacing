@@ -8,9 +8,15 @@
 import Foundation
 import SwiftUI
 
-/// Platform-specific identifier for submitting scores to Game Center.
+/// Platform-specific leaderboard identifier mapping by speed level.
 public protocol LeaderboardConfiguration {
-    var leaderboardID: String { get }
+    func leaderboardID(for difficulty: GameDifficulty) -> String
+}
+
+public extension LeaderboardConfiguration {
+    var leaderboardID: String {
+        leaderboardID(for: .defaultDifficulty)
+    }
 }
 
 public struct LeaderboardPlatformConfig {

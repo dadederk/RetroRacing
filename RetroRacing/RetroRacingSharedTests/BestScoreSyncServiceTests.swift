@@ -23,7 +23,8 @@ final class BestScoreSyncServiceTests: XCTestCase {
         leaderboardService = MockLeaderboardService()
         syncService = BestScoreSyncService(
             leaderboardService: leaderboardService,
-            highestScoreStore: highestScoreStore
+            highestScoreStore: highestScoreStore,
+            difficultyProvider: { .rapid }
         )
     }
 
@@ -41,25 +42,25 @@ final class BestScoreSyncServiceTests: XCTestCase {
 
     func testGivenRemoteBestHigherWhenSyncingThenLocalBestIsUpdated() async {
         // Given
-        _ = highestScoreStore.updateIfHigher(40)
-        leaderboardService.remoteBestScore = 75
+        _ = highestScoreStore.updateIfHigher(40, for: .rapid)
+        leaderboardService.remoteBestScoresByDifficulty[.rapid] = 75
 
         // When
         await syncService.syncIfPossible()
 
         // Then
-        XCTAssertEqual(highestScoreStore.currentBest(), 75)
+        XCTAssertEqual(highestScoreStore.currentBest(for: .rapid), 75)
     }
 
     func testGivenRemoteBestUnavailableWhenSyncingThenLocalBestStaysUnchanged() async {
         // Given
-        _ = highestScoreStore.updateIfHigher(40)
-        leaderboardService.remoteBestScore = nil
+        _ = highestScoreStore.updateIfHigher(40, for: .rapid)
+        leaderboardService.remoteBestScoresByDifficulty[.rapid] = nil
 
         // When
         await syncService.syncIfPossible()
 
         // Then
-        XCTAssertEqual(highestScoreStore.currentBest(), 40)
+        XCTAssertEqual(highestScoreStore.currentBest(for: .rapid), 40)
     }
 }

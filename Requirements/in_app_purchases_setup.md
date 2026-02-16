@@ -124,7 +124,7 @@ Include:
 
 ```text
 RetroRacing uses a freemium model:
-- Free users: 6 games per day (resets at midnight).
+- Free users: 5 games per day (resets at midnight).
 - Premium users: Unlimited games forever (one-time purchase).
 
 In-app purchase:
@@ -133,7 +133,7 @@ In-app purchase:
 
 To test Premium:
 1. Launch the app.
-2. Play 6 games to reach the daily limit.
+2. Play 5 games to reach the daily limit.
 3. The paywall will appear.
 4. Use a sandbox account to purchase Unlimited Plays.
 5. After purchase, there is no daily limit and the Theme picker in Settings becomes configurable.
@@ -222,9 +222,9 @@ On device / simulator:
 Recommended tests:
 
 - **Free tier**:
-  - Play 6 games in one day → verify:
-    - 7th attempt shows the paywall.
-    - Daily counter and Settings “Remaining X of 6” update correctly.
+  - Play 5 games in one day → verify:
+    - 6th attempt shows the paywall.
+    - Daily counter and Settings “Remaining X of 5” update correctly.
 - **Purchase**:
   - From paywall, buy Unlimited Plays using a sandbox account:
     - Verify purchase success alert.
@@ -300,4 +300,3 @@ In most modern setups, no additional manual work is needed beyond what Xcode man
 - [ ] App Review notes include clear instructions for testing the IAP.
 
 Once all the above are complete, you’re ready to ship or submit a build with working in‑app purchases for **Unlimited Plays** in RetroRacing.  
-

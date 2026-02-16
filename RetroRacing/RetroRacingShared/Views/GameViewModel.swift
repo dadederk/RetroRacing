@@ -28,6 +28,7 @@ final class GameViewModel {
     let inputAdapterFactory: any GameInputAdapterFactory
     /// Optional play limit service used to record daily plays.
     let playLimitService: PlayLimitService?
+    var selectedDifficulty: GameDifficulty
     var shouldStartGame: Bool
 
     init(
@@ -38,6 +39,7 @@ final class GameViewModel {
         highestScoreStore: HighestScoreStore,
         inputAdapterFactory: any GameInputAdapterFactory,
         playLimitService: PlayLimitService?,
+        selectedDifficulty: GameDifficulty,
         shouldStartGame: Bool
     ) {
         self.leaderboardService = leaderboardService
@@ -47,6 +49,7 @@ final class GameViewModel {
         self.highestScoreStore = highestScoreStore
         self.inputAdapterFactory = inputAdapterFactory
         self.playLimitService = playLimitService
+        self.selectedDifficulty = selectedDifficulty
         self.shouldStartGame = shouldStartGame
     }
 

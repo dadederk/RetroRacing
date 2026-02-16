@@ -8,6 +8,7 @@ struct WatchGameView: View {
     let highestScoreStore: HighestScoreStore
     let crownConfiguration: LegacyCrownInputProcessor.Configuration
     let leaderboardService: LeaderboardService
+    @AppStorage(GameDifficulty.storageKey) private var selectedDifficultyRawValue: String = GameDifficulty.defaultDifficulty.rawValue
     @AppStorage(SoundPreferences.volumeKey) private var sfxVolume: Double = SoundPreferences.defaultVolume
     @State private var scene: GameScene
     @State private var crownValue: Double = 0
@@ -20,6 +21,7 @@ struct WatchGameView: View {
     @State private var showGameOver = false
     @State private var gameOverScore: Int = 0
     @State private var gameOverBestScore: Int = 0
+    @State private var gameOverDifficulty: GameDifficulty = .defaultDifficulty
     @State private var gameOverPreviousBestScore: Int?
     @State private var isNewHighScore = false
     @State private var delegate: GameSceneDelegateImpl?
@@ -43,11 +45,13 @@ struct WatchGameView: View {
         self.highestScoreStore = highestScoreStore
         self.crownConfiguration = crownConfiguration
         self.leaderboardService = leaderboardService
+        let initialDifficulty = GameDifficulty.currentSelection(from: InfrastructureDefaults.userDefaults)
         let size = CGSize(width: 400, height: 300)
         let soundPlayer = PlatformFactories.makeSoundPlayer()
         soundPlayer.setVolume(SoundPreferences.defaultVolume)
         _scene = State(initialValue: GameScene.scene(
             size: size,
+            difficulty: initialDifficulty,
             theme: theme,
             imageLoader: PlatformFactories.makeImageLoader(),
             soundPlayer: soundPlayer,
@@ -147,6 +151,7 @@ struct WatchGameView: View {
         }
         .onAppear {
             AppLog.info(AppLog.game, "🎮 WatchGameView onAppear - setting up scene and crown focus")
+            scene.applyDifficulty(selectedDifficulty)
             scene.setSoundVolume(sfxVolume)
             scene.start()
             score = scene.gameState.score
@@ -163,10 +168,12 @@ struct WatchGameView: View {
                             gameOverScore = scene.gameState.score
                             let authenticated = leaderboardService.isAuthenticated()
                             AppLog.info(AppLog.game + AppLog.leaderboard, "🏆 watchOS game over – score \(gameOverScore), Game Center authenticated: \(authenticated)")
-                            leaderboardService.submitScore(gameOverScore)
-                            let summary = highestScoreStore.evaluateGameOverScore(gameOverScore)
+                            let difficultyAtGameOver = selectedDifficulty
+                            leaderboardService.submitScore(gameOverScore, difficulty: difficultyAtGameOver)
+                            let summary = highestScoreStore.evaluateGameOverScore(gameOverScore, difficulty: difficultyAtGameOver)
                             isNewHighScore = summary.isNewRecord
                             gameOverBestScore = summary.bestScore
+                            gameOverDifficulty = difficultyAtGameOver
                             gameOverPreviousBestScore = summary.previousBestScore
                             showGameOver = true
                         } else {
@@ -183,6 +190,7 @@ struct WatchGameView: View {
             GameOverView(
                 score: gameOverScore,
                 bestScore: gameOverBestScore,
+                difficulty: gameOverDifficulty,
                 isNewRecord: isNewHighScore,
                 previousBestScore: gameOverPreviousBestScore,
                 onRestart: restartFromGameOver,
@@ -197,6 +205,9 @@ struct WatchGameView: View {
         }
         .onChange(of: sfxVolume) { _, newValue in
             scene.setSoundVolume(newValue)
+        }
+        .onChange(of: selectedDifficultyRawValue) { _, _ in
+            scene.applyDifficulty(selectedDifficulty)
         }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
@@ -231,6 +242,7 @@ struct WatchGameView: View {
         showGameOver = false
         gameOverScore = 0
         gameOverBestScore = 0
+        gameOverDifficulty = selectedDifficulty
         gameOverPreviousBestScore = nil
         isNewHighScore = false
     }
@@ -272,6 +284,10 @@ struct WatchGameView: View {
             crownProcessor.markIdle()
             AppLog.info(AppLog.game, "🎮 Watch crown marked idle – rotation re-enabled")
         }
+    }
+
+    private var selectedDifficulty: GameDifficulty {
+        GameDifficulty.fromStoredValue(selectedDifficultyRawValue)
     }
 }
 

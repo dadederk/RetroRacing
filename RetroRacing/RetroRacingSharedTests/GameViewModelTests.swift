@@ -32,6 +32,7 @@ final class GameViewModelTests: XCTestCase {
             highestScoreStore: highestScoreStore,
             inputAdapterFactory: inputAdapterFactory,
             playLimitService: nil,
+            selectedDifficulty: .rapid,
             shouldStartGame: true
         )
     }
@@ -49,7 +50,14 @@ final class GameViewModelTests: XCTestCase {
         // Given
         let imageLoader = MockImageLoader()
         let soundPlayer = MockSoundPlayer()
-        let scene = GameScene(size: CGSize(width: 100, height: 100), theme: nil, imageLoader: imageLoader, soundPlayer: soundPlayer, hapticController: nil)
+        let scene = GameScene(
+            size: CGSize(width: 100, height: 100),
+            theme: nil,
+            imageLoader: imageLoader,
+            soundPlayer: soundPlayer,
+            hapticController: nil,
+            difficulty: .rapid
+        )
         // Unpause the scene so we can test overlay pause behavior
         scene.unpauseGameplay()
         viewModel.scene = scene
@@ -65,7 +73,14 @@ final class GameViewModelTests: XCTestCase {
         // Given
         let imageLoader = MockImageLoader()
         let soundPlayer = MockSoundPlayer()
-        let scene = GameScene(size: CGSize(width: 100, height: 100), theme: nil, imageLoader: imageLoader, soundPlayer: soundPlayer, hapticController: nil)
+        let scene = GameScene(
+            size: CGSize(width: 100, height: 100),
+            theme: nil,
+            imageLoader: imageLoader,
+            soundPlayer: soundPlayer,
+            hapticController: nil,
+            difficulty: .rapid
+        )
         scene.unpauseGameplay()
         viewModel.scene = scene
         viewModel.setOverlayPause(isPresented: true)
@@ -81,7 +96,14 @@ final class GameViewModelTests: XCTestCase {
         // Given
         let imageLoader = MockImageLoader()
         let soundPlayer = MockSoundPlayer()
-        let scene = GameScene(size: CGSize(width: 100, height: 100), theme: nil, imageLoader: imageLoader, soundPlayer: soundPlayer, hapticController: nil)
+        let scene = GameScene(
+            size: CGSize(width: 100, height: 100),
+            theme: nil,
+            imageLoader: imageLoader,
+            soundPlayer: soundPlayer,
+            hapticController: nil,
+            difficulty: .rapid
+        )
         scene.pauseGameplay()
         viewModel.scene = scene
         viewModel.pause.isUserPaused = true
@@ -170,21 +192,23 @@ private final class MockRatingService: RatingService {
 }
 
 private final class MockHighestScoreStore: HighestScoreStore {
-    private(set) var highestScore: Int = 0
-    
-    func currentBest() -> Int {
-        highestScore
+    private(set) var highestScores: [GameDifficulty: Int] = [:]
+
+    func currentBest(for difficulty: GameDifficulty) -> Int {
+        highestScores[difficulty, default: 0]
     }
-    
-    func updateIfHigher(_ score: Int) -> Bool {
-        guard score > highestScore else { return false }
-        highestScore = score
+
+    func updateIfHigher(_ score: Int, for difficulty: GameDifficulty) -> Bool {
+        let existing = highestScores[difficulty, default: 0]
+        guard score > existing else { return false }
+        highestScores[difficulty] = score
         return true
     }
-    
-    func syncFromRemote(bestScore: Int) {
-        if bestScore > highestScore {
-            highestScore = bestScore
+
+    func syncFromRemote(bestScore: Int, for difficulty: GameDifficulty) {
+        let existing = highestScores[difficulty, default: 0]
+        if bestScore > existing {
+            highestScores[difficulty] = bestScore
         }
     }
 }

@@ -10,10 +10,27 @@ import XCTest
 
 @MainActor
 final class StoreKitServiceTests: XCTestCase {
+    private var userDefaults: UserDefaults!
+
+    override func setUp() {
+        super.setUp()
+        userDefaults = UserDefaults(suiteName: "StoreKitServiceTests")!
+        userDefaults.removePersistentDomain(forName: "StoreKitServiceTests")
+    }
+
+    override func tearDown() {
+        userDefaults.removePersistentDomain(forName: "StoreKitServiceTests")
+        userDefaults = nil
+        super.tearDown()
+    }
+
+    private func makeService() -> StoreKitService {
+        StoreKitService(userDefaults: userDefaults)
+    }
     
     func testGivenInitialStateWhenCheckingDefaultsThenSimulationModeIsProductionAndPremiumMatchesEntitlements() {
         // Given
-        let service = StoreKitService()
+        let service = makeService()
         
         // When
         let hasPremium = service.hasPremiumAccess
@@ -26,7 +43,7 @@ final class StoreKitServiceTests: XCTestCase {
     
     func testGivenUnlimitedSimulationModeWhenCheckingPremiumAccessThenReturnsTrue() {
         // Given
-        let service = StoreKitService()
+        let service = makeService()
         service.debugPremiumSimulationMode = .unlimitedPlays
         
         // When
@@ -38,7 +55,7 @@ final class StoreKitServiceTests: XCTestCase {
     
     func testGivenFreemiumSimulationModeWhenCheckingPremiumAccessThenReturnsFalse() {
         // Given
-        let service = StoreKitService()
+        let service = makeService()
         service.debugPremiumSimulationMode = .freemium
         
         // When
@@ -50,7 +67,7 @@ final class StoreKitServiceTests: XCTestCase {
     
     func testGivenUnlimitedSimulationModeWhenSwitchingToProductionThenPremiumAccessMatchesEntitlements() {
         // Given
-        let service = StoreKitService()
+        let service = makeService()
         service.debugPremiumSimulationMode = .unlimitedPlays
         XCTAssertTrue(service.hasPremiumAccess)
         
@@ -65,7 +82,7 @@ final class StoreKitServiceTests: XCTestCase {
     
     func testGivenProductionSimulationModeWhenCheckingPremiumAccessThenPremiumMatchesEntitlements() {
         // Given
-        let service = StoreKitService()
+        let service = makeService()
         service.debugPremiumSimulationMode = .productionDefault
         
         // When
@@ -110,5 +127,28 @@ final class StoreKitServiceTests: XCTestCase {
         XCTAssertEqual(count, 3)
         XCTAssertEqual(allModes.first, .productionDefault)
         XCTAssertEqual(allModes.last, .freemium)
+    }
+
+    func testGivenFreemiumSimulationWhenSyncingPlayLimitOverrideThenDebugKeyIsTrue() {
+        // Given
+        let service = makeService()
+
+        // When
+        service.debugPremiumSimulationMode = .freemium
+
+        // Then
+        XCTAssertTrue(userDefaults.bool(forKey: StoreKitService.DebugStorageKeys.forceFreemiumPlayLimit))
+    }
+
+    func testGivenDefaultSimulationWhenSyncingPlayLimitOverrideThenDebugKeyIsFalse() {
+        // Given
+        let service = makeService()
+        service.debugPremiumSimulationMode = .freemium
+
+        // When
+        service.debugPremiumSimulationMode = .productionDefault
+
+        // Then
+        XCTAssertFalse(userDefaults.bool(forKey: StoreKitService.DebugStorageKeys.forceFreemiumPlayLimit))
     }
 }

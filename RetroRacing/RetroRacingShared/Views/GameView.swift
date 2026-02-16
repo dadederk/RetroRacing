@@ -46,6 +46,7 @@ public struct GameView: View {
     private let isMenuOverlayPresented: Binding<Bool>?
 
     @AppStorage(SoundPreferences.volumeKey) private var sfxVolume: Double = SoundPreferences.defaultVolume
+    @AppStorage(GameDifficulty.storageKey) private var selectedDifficultyRawValue: String = GameDifficulty.defaultDifficulty.rawValue
     @AppStorage(InGameAnnouncementsPreference.storageKey) private var inGameAnnouncementsEnabled: Bool = InGameAnnouncementsPreference.defaultEnabled
     @State private var model: GameViewModel
     @ScaledMetric(relativeTo: .body) private var directionButtonHeight: CGFloat = 120
@@ -85,6 +86,7 @@ public struct GameView: View {
         self.onMenuRequest = onMenuRequest
         self.isMenuOverlayPresented = isMenuOverlayPresented
         AppLog.info(AppLog.game, "GameView init - shouldStartGame: \(shouldStartGame), showMenuButton: \(showMenuButton)")
+        let selectedDifficulty = GameDifficulty.currentSelection(from: InfrastructureDefaults.userDefaults)
         _model = State(initialValue: GameViewModel(
             leaderboardService: leaderboardService,
             ratingService: ratingService,
@@ -93,6 +95,7 @@ public struct GameView: View {
             highestScoreStore: highestScoreStore,
             inputAdapterFactory: inputAdapterFactory,
             playLimitService: playLimitService,
+            selectedDifficulty: selectedDifficulty,
             shouldStartGame: shouldStartGame
         ))
     }
@@ -158,6 +161,7 @@ public struct GameView: View {
         #endif
         .background(gameBackgroundColor)
         .onAppear {
+            model.updateDifficulty(selectedDifficulty)
             if let overlayBinding = isMenuOverlayPresented {
                 AppLog.info(AppLog.game, "GameView onAppear - overlay presented: \(overlayBinding.wrappedValue)")
                 model.setOverlayPause(isPresented: overlayBinding.wrappedValue)
@@ -198,6 +202,7 @@ public struct GameView: View {
             GameOverView(
                 score: model.hud.gameOverScore,
                 bestScore: model.hud.gameOverBestScore,
+                difficulty: model.hud.gameOverDifficulty,
                 isNewRecord: model.hud.isNewHighScore,
                 previousBestScore: model.hud.gameOverPreviousBestScore,
                 onRestart: handleRestartFromGameOver,
@@ -215,6 +220,9 @@ public struct GameView: View {
         .onChange(of: shouldStartGame) { _, newValue in
             AppLog.info(AppLog.game, "GameView shouldStartGame changed from \(model.shouldStartGame) to \(newValue)")
             model.shouldStartGame = newValue
+        }
+        .onChange(of: selectedDifficultyRawValue) { _, _ in
+            model.updateDifficulty(selectedDifficulty)
         }
         .onChange(of: model.hud.speedIncreaseImminent) { oldValue, newValue in
             announceSpeedIncreaseIfNeeded(oldValue: oldValue, newValue: newValue)
@@ -255,6 +263,10 @@ public struct GameView: View {
             get: { model.hud.showGameOver },
             set: { model.hud.showGameOver = $0 }
         )
+    }
+
+    private var selectedDifficulty: GameDifficulty {
+        GameDifficulty.fromStoredValue(selectedDifficultyRawValue)
     }
 
     private func handleLeftTap() {

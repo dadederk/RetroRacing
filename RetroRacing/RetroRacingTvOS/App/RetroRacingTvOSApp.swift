@@ -14,7 +14,7 @@ struct RetroRacingTvOSApp: App {
     private let highestScoreStore: HighestScoreStore
     private let bestScoreSyncService: BestScoreSyncService
     private let playLimitService: PlayLimitService
-    private let storeKitService = StoreKitService()
+    private let storeKitService: StoreKitService
     @State private var isMenuPresented = true
     @State private var sessionID = UUID()
 
@@ -23,6 +23,7 @@ struct RetroRacingTvOSApp: App {
         AppBootstrap.configureGameCenterAccessPoint()
         let customFontAvailable = AppBootstrap.registerCustomFont()
         let userDefaults = InfrastructureDefaults.userDefaults
+        storeKitService = StoreKitService(userDefaults: userDefaults)
         let themeConfig = ThemePlatformConfig(
             defaultThemeID: "lcd",
             availableThemes: [LCDTheme(), PocketTheme()]
@@ -35,7 +36,9 @@ struct RetroRacingTvOSApp: App {
         fontPreferenceStore = FontPreferenceStore(userDefaults: userDefaults, customFontAvailable: customFontAvailable)
         hapticController = RetroRacingTvOSApp.makeHapticsController()
         let leaderboardConfig = LeaderboardPlatformConfig(
-            leaderboardID: leaderboardConfiguration.leaderboardID,
+            leaderboardID: leaderboardConfiguration.leaderboardID(
+                for: GameDifficulty.currentSelection(from: userDefaults)
+            ),
             authenticateHandlerSetter: { presenter in
                 GKLocalPlayer.local.authenticateHandler = { viewController, error in
                     if let viewController {
@@ -55,7 +58,10 @@ struct RetroRacingTvOSApp: App {
         highestScoreStore = UserDefaultsHighestScoreStore(userDefaults: userDefaults)
         bestScoreSyncService = BestScoreSyncService(
             leaderboardService: gameCenterService,
-            highestScoreStore: highestScoreStore
+            highestScoreStore: highestScoreStore,
+            difficultyProvider: {
+                GameDifficulty.currentSelection(from: userDefaults)
+            }
         )
         playLimitService = UserDefaultsPlayLimitService(userDefaults: userDefaults)
 

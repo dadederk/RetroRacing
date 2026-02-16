@@ -11,6 +11,7 @@ import SwiftUI
 public struct GameOverView: View {
     public let score: Int
     public let bestScore: Int
+    public let difficulty: GameDifficulty
     public let isNewRecord: Bool
     public let previousBestScore: Int?
     public let onRestart: () -> Void
@@ -24,6 +25,7 @@ public struct GameOverView: View {
     public init(
         score: Int,
         bestScore: Int,
+        difficulty: GameDifficulty,
         isNewRecord: Bool,
         previousBestScore: Int?,
         onRestart: @escaping () -> Void,
@@ -32,6 +34,7 @@ public struct GameOverView: View {
     ) {
         self.score = score
         self.bestScore = bestScore
+        self.difficulty = difficulty
         self.isNewRecord = isNewRecord
         self.previousBestScore = previousBestScore
         self.onRestart = onRestart
@@ -41,13 +44,16 @@ public struct GameOverView: View {
 
     public var body: some View {
         NavigationStack {
-            VStack(spacing: 18) {
-                heroImage
-                subtitleText
-                scoreRows
-                actionButtons
+            ScrollView {
+                VStack(spacing: 18) {
+                    heroImage
+                    subtitleText
+                    scoreRows
+                    actionButtons
+                }
+                .padding(20)
+                .frame(maxWidth: .infinity, alignment: .top)
             }
-            .padding(20)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .background(.background)
             .navigationTitle(GameLocalizedStrings.string("game_over_encouragement_title"))
@@ -77,6 +83,7 @@ public struct GameOverView: View {
     @ViewBuilder
     private var scoreRows: some View {
         VStack(spacing: 8) {
+            Text(GameLocalizedStrings.format("game_over_speed %@", GameLocalizedStrings.string(difficulty.localizedNameKey)))
             if isNewRecord {
                 Text(
                     GameLocalizedStrings.format(
@@ -123,6 +130,7 @@ public struct GameOverView: View {
     GameOverView(
         score: 210,
         bestScore: 210,
+        difficulty: .rapid,
         isNewRecord: true,
         previousBestScore: 182,
         onRestart: {},
@@ -134,6 +142,7 @@ public struct GameOverView: View {
     GameOverView(
         score: 96,
         bestScore: 210,
+        difficulty: .fast,
         isNewRecord: false,
         previousBestScore: nil,
         onRestart: {},

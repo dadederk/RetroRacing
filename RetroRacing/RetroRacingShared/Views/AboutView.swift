@@ -20,6 +20,7 @@ private enum AboutViewURLs {
     static let swiftForSwifts = URL(string: "https://www.swiftforswifts.org")
     static let pressStartFont = URL(string: "https://fonts.google.com/specimen/Press+Start+2P")
     static let helm = URL(string: "https://helm-app.com")
+    static let arcticConference = URL(string: "https://arcticonference.com")
 }
 
 // MARK: - URL wrapper for sheet presentation
@@ -119,7 +120,7 @@ public struct AboutView: View {
             Text(GameLocalizedStrings.string("about_giving_back_header"))
                 .font(fontPreferenceStore?.font(textStyle: .headline) ?? .headline)
         } footer: {
-            Text(GameLocalizedStrings.string("about_ammec_footer"))
+            Text(.init(GameLocalizedStrings.string("paywall_giving_back_body")))
                 .font(fontPreferenceStore?.font(textStyle: .subheadline) ?? .subheadline)
         }
     }
@@ -150,6 +151,14 @@ public struct AboutView: View {
                     icon: "helm",
                     title: GameLocalizedStrings.string("about_helm_title"),
                     subtitle: GameLocalizedStrings.string("about_helm_subtitle"),
+                    url: url
+                )
+            }
+            if let url = AboutViewURLs.arcticConference {
+                linkRow(
+                    icon: "snowflake",
+                    title: GameLocalizedStrings.string("about_arcticonference_title"),
+                    subtitle: GameLocalizedStrings.string("about_arcticonference_subtitle"),
                     url: url
                 )
             }

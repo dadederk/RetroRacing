@@ -60,12 +60,16 @@ public class GameScene: SKScene {
 
     var spritesForGivenState = [SKSpriteNode]()
 
-    let gridCalculator = GridStateCalculator(randomSource: InfrastructureDefaults.randomSource)
+    private var gridCalculator = GridStateCalculator(
+        randomSource: InfrastructureDefaults.randomSource,
+        timingConfiguration: GameDifficulty.defaultDifficulty.timingConfiguration
+    )
     var gridState = GridState(
         numberOfRows: GridConfiguration.numberOfRows,
         numberOfColumns: GridConfiguration.numberOfColumns
     )
     public private(set) var gameState = GameState()
+    public private(set) var difficulty: GameDifficulty = .defaultDifficulty
     private var lastPlayerColumn: Int = 1
     private var lastLevelChangeImminent = false
 
@@ -97,21 +101,25 @@ public class GameScene: SKScene {
         theme: (any GameTheme)?,
         imageLoader: any ImageLoader,
         soundPlayer: SoundEffectPlayer,
-        hapticController: HapticFeedbackController?
+        hapticController: HapticFeedbackController?,
+        difficulty: GameDifficulty
     ) {
         super.init(size: size)
         self.theme = theme
         self.imageLoader = imageLoader
         self.soundPlayer = soundPlayer
         self.hapticController = hapticController
+        applyDifficulty(difficulty)
     }
 
     public override init(size: CGSize) {
         super.init(size: size)
+        applyDifficulty(.defaultDifficulty)
     }
 
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        applyDifficulty(.defaultDifficulty)
     }
 
     deinit {
@@ -127,6 +135,7 @@ public class GameScene: SKScene {
     ///   - imageLoader: Loader for sprite textures (platform-specific: UIKit vs AppKit).
     public static func scene(
         size: CGSize,
+        difficulty: GameDifficulty,
         theme: (any GameTheme)? = nil,
         imageLoader: some ImageLoader,
         soundPlayer: SoundEffectPlayer = PlatformFactories.makeSoundPlayer(),
@@ -137,7 +146,8 @@ public class GameScene: SKScene {
             theme: theme,
             imageLoader: imageLoader,
             soundPlayer: soundPlayer,
-            hapticController: hapticController
+            hapticController: hapticController,
+            difficulty: difficulty
         )
         scene.anchorPoint = CGPoint(x: 0, y: 0)
         scene.scaleMode = .aspectFit
@@ -147,12 +157,38 @@ public class GameScene: SKScene {
     /// Creates a new game scene. Use programmatic size; .sks loading uses main bundle and is not used from framework.
     /// Caller must set imageLoader before presenting the scene if using this initializer.
     public class func newGameScene(
+        difficulty: GameDifficulty,
         imageLoader: some ImageLoader,
         soundPlayer: SoundEffectPlayer = PlatformFactories.makeSoundPlayer(),
         hapticController: HapticFeedbackController? = nil
     ) -> GameScene {
         let defaultSize = CGSize(width: 800, height: 600)
-        return scene(size: defaultSize, theme: nil, imageLoader: imageLoader, soundPlayer: soundPlayer, hapticController: hapticController)
+        return scene(
+            size: defaultSize,
+            difficulty: difficulty,
+            theme: nil,
+            imageLoader: imageLoader,
+            soundPlayer: soundPlayer,
+            hapticController: hapticController
+        )
+    }
+
+    /// Applies a new speed level without resetting score, lives, or grid state.
+    public func applyDifficulty(_ difficulty: GameDifficulty) {
+        self.difficulty = difficulty
+        speedAlertWindowPoints = difficulty.speedAlertWindowPoints
+        gridCalculator = GridStateCalculator(
+            randomSource: InfrastructureDefaults.randomSource,
+            timingConfiguration: difficulty.timingConfiguration
+        )
+        let isImminent = GameState.isLevelChangeImminent(
+            score: gameState.score,
+            windowPoints: speedAlertWindowPoints
+        )
+        if isImminent != lastLevelChangeImminent {
+            lastLevelChangeImminent = isImminent
+            gameDelegate?.gameScene(self, levelChangeImminent: isImminent)
+        }
     }
 
     public func start() {
@@ -180,6 +216,8 @@ public class GameScene: SKScene {
             numberOfRows: GridConfiguration.numberOfRows,
             numberOfColumns: GridConfiguration.numberOfColumns
         )
+        lastPlayerColumn = gridState.playerRow().firstIndex(of: .Player) ?? lastPlayerColumn
+        gridStateDidUpdate(gridState, shouldPlayFeedback: false, notifyDelegate: false)
         playStartThenUnpause()
     }
 
