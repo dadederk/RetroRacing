@@ -43,7 +43,7 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         super.tearDown()
     }
 
-    func testGivenRunningSceneWhenHandlingLeftInputThenBipAndMoveHapticAreTriggered() {
+    func testGivenRunningSceneWhenHandlingLeftInputThenRetroMoveCueAndMoveHapticAreTriggered() {
         // Given
         let adapter = TouchGameInputAdapter(controller: scene, hapticController: haptics)
 
@@ -51,7 +51,11 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         adapter.handleLeft()
 
         // Then
-        XCTAssertEqual(soundPlayer.playedEffects, [.start, .bip])
+        XCTAssertEqual(soundPlayer.playedEffects, [.start])
+        XCTAssertEqual(laneCuePlayer.moveCalls, 1)
+        XCTAssertEqual(laneCuePlayer.lastMoveColumn, .middle)
+        XCTAssertEqual(laneCuePlayer.lastMoveCueStyle, .laneConfirmation)
+        XCTAssertEqual(laneCuePlayer.lastMode, .cueArpeggio)
         XCTAssertEqual(delegate.gridUpdatesCount, 0, "Move should not notify grid update delegate")
         XCTAssertEqual(haptics.moves, 1)
         XCTAssertEqual(haptics.gridUpdates, 0)
@@ -72,14 +76,17 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         XCTAssertEqual(soundPlayer.playedEffects, baselineEffects)
     }
 
-    func testGivenRunningSceneWhenUpdatingBeyondThresholdThenGridTickBipAndHapticAreTriggered() {
+    func testGivenRunningSceneWhenUpdatingBeyondThresholdThenRetroTickCueAndHapticAreTriggered() {
         // Given
 
         // When
         scene.update(1.0) // dt > initial threshold
 
         // Then
-        XCTAssertTrue(soundPlayer.playedEffects.contains(.bip))
+        XCTAssertFalse(soundPlayer.playedEffects.contains(.bip))
+        XCTAssertEqual(laneCuePlayer.tickCalls, 1)
+        XCTAssertEqual(laneCuePlayer.lastTickSafeColumns, Set(CueColumn.allCases))
+        XCTAssertEqual(laneCuePlayer.lastMode, .cueArpeggio)
         XCTAssertEqual(delegate.gridUpdatesCount, 1)
         XCTAssertEqual(haptics.gridUpdates, 1)
     }
@@ -210,7 +217,8 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         scene.update(1.0) // dt > initial threshold
 
         // Then
-        XCTAssertTrue(soundPlayer.playedEffects.contains(.bip))
+        XCTAssertFalse(soundPlayer.playedEffects.contains(.bip))
+        XCTAssertEqual(laneCuePlayer.tickCalls, 1)
         XCTAssertEqual(haptics.gridUpdates, 1)
         XCTAssertEqual(haptics.moves, 0)
     }

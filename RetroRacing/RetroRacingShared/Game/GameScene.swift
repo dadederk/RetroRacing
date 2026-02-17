@@ -443,7 +443,7 @@ public class GameScene: SKScene {
     func playFeedback(event: AudioFeedbackEvent) {
         switch audioFeedbackMode {
         case .retro:
-            play(.bip)
+            playRetroFeedback(event: event)
         case .cueChord, .cueArpeggio, .cueLanePulses:
             guard let laneCuePlayer else {
                 play(.bip)
@@ -463,6 +463,28 @@ public class GameScene: SKScene {
                     style: laneMoveCueStyle
                 )
             }
+        }
+    }
+
+    private func playRetroFeedback(event: AudioFeedbackEvent) {
+        guard let laneCuePlayer else {
+            play(.bip)
+            return
+        }
+
+        switch event {
+        case .tick:
+            laneCuePlayer.playTickCue(
+                safeColumns: Set(CueColumn.allCases),
+                mode: .cueArpeggio
+            )
+        case .move:
+            laneCuePlayer.playMoveCue(
+                column: .middle,
+                isSafe: true,
+                mode: .cueArpeggio,
+                style: .laneConfirmation
+            )
         }
     }
 

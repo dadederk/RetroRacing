@@ -18,7 +18,7 @@ private struct LeaderboardConfigurationWatchOS: LeaderboardConfiguration {
         case .cruise:
             return "bestwatchos001cruise"
         case .fast:
-            return "bestwatchos00fast"
+            return "bestwatchos001fast"
         case .rapid:
             return "bestwatchos001test"
         @unknown default:
@@ -81,7 +81,8 @@ struct RetroRacingWatchOSApp: App {
         leaderboardService = GameCenterService(
             configuration: configuration,
             authenticationPresenter: nil,
-            authenticateHandlerSetter: nil
+            authenticateHandlerSetter: nil,
+            isDebugBuild: BuildConfiguration.isDebug
         )
         bestScoreSyncService = BestScoreSyncService(
             leaderboardService: leaderboardService,

@@ -49,6 +49,7 @@ public struct GameOverView: View {
                     heroImage
                     subtitleText
                     scoreRows
+                    speedRow
                     actionButtons
                 }
                 .padding(20)
@@ -85,7 +86,6 @@ public struct GameOverView: View {
     @ViewBuilder
     private var scoreRows: some View {
         VStack(spacing: 8) {
-            Text(GameLocalizedStrings.format("game_over_speed %@", GameLocalizedStrings.string(difficulty.localizedNameKey)))
             if isNewRecord {
                 Text(
                     GameLocalizedStrings.format(
@@ -101,6 +101,13 @@ public struct GameOverView: View {
         }
         .font(scoreFont.monospacedDigit())
         .multilineTextAlignment(.center)
+    }
+
+    private var speedRow: some View {
+        Text(GameLocalizedStrings.format("game_over_speed %@", GameLocalizedStrings.string(difficulty.localizedNameKey)))
+            .font(bodyFont)
+            .multilineTextAlignment(.center)
+            .foregroundStyle(.secondary)
     }
 
     private var actionButtons: some View {

@@ -80,7 +80,8 @@ struct RetroRacingApp: App {
         gameCenterService = GameCenterService(
             configuration: leaderboardConfiguration,
             authenticationPresenter: authenticationPresenter,
-            authenticateHandlerSetter: leaderboardPlatformConfig.authenticateHandlerSetter
+            authenticateHandlerSetter: leaderboardPlatformConfig.authenticateHandlerSetter,
+            isDebugBuild: BuildConfiguration.isDebug
         )
         #if canImport(UIKit)
         ratingService = StoreReviewService(userDefaults: userDefaults, ratingProvider: RatingServiceProviderUniversal())

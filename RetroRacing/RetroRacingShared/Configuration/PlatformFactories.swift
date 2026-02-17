@@ -24,7 +24,9 @@ public enum PlatformFactories {
     }
 
     public static func makeSoundPlayer() -> SoundEffectPlayer {
-        AVSoundEffectPlayer(bundle: Bundle(for: GameScene.self))
+        let generatedPlayer = AVGeneratedSoundEffectPlayer()
+        let assetPlayer = AVSoundEffectPlayer(bundle: Bundle(for: GameScene.self))
+        return FallbackSoundEffectPlayer(primary: generatedPlayer, fallback: assetPlayer)
     }
 
     public static func makeLaneCuePlayer() -> LaneCuePlayer {

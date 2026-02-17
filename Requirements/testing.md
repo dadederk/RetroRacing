@@ -23,6 +23,7 @@ For app-level tests (RetroRacingUniversal): `-scheme RetroRacingUniversalTests`
 - Configuration objects
 - Utilities and extensions
 - Accessibility audio behavior (retro vs cue-mode routing, move-cue style routing, conditional-default overrides)
+- Generated SFX behavior (recipe rendering, fail-tail repeat tuning, fallback routing to asset playback)
 - Difficulty timing behavior (clear pacing separation for cruise/fast/rapid and conditional-default wiring)
 
 ### UI Tests (Future)

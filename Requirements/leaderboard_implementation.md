@@ -6,6 +6,8 @@ Game Center leaderboard system with dependency injection, zero compiler flags in
 
 **Scope:** Leaderboards are **per platform** (iOS, iPad, macOS, tvOS, watchOS) and **per level** (Cruise, Fast, Rapid). We do not use separate leaderboards for assistive technologies (e.g. VoiceOver); all users compete on the same per-platform, per-level leaderboards.
 
+**App Store Connect status:** Leaderboards are created for **iPhone, iPad, macOS, watchOS** (three per platform: Cruise, Fast, Rapid). **tvOS** and **visionOS** leaderboards are deferred for a later release; the app still has configuration for those platforms (IDs in code), so when you create those leaderboards in ASC later, no code change is needed.
+
 ## Architecture
 
 ### Configuration Layer
@@ -36,7 +38,7 @@ protocol LeaderboardConfiguration {
   - Rapid → `besttvos001`
 - watchOS (`LeaderboardConfigurationWatchOS`)
   - Cruise → `bestwatchos001cruise`
-  - Fast → `bestwatchos00fast`
+  - Fast → `bestwatchos001fast`
   - Rapid → `bestwatchos001test`
 
 ### Service Layer
@@ -52,10 +54,12 @@ protocol LeaderboardService {
 
 **`GameCenterService` Implementation**
 - Accepts `LeaderboardConfiguration` via initializer
+- Accepts injected build-mode flag (`isDebugBuild`) via initializer
 - **No compiler flags** for platform detection
 - Handles all Game Center authentication and presentation
 - Manages view controller lifecycle and delegation
 - Fetches and submits against the leaderboard mapped to the selected speed level
+- Skips `submitScore(_:difficulty:)` in debug builds so sandbox/development runs do not post scores
 
 ### Best-Score Sync
 
@@ -117,7 +121,7 @@ Create one Classic leaderboard in App Store Connect for each **Leaderboard ID** 
 | iPad | `bestipad001cruise` | `bestipad001fast` | `bestipad001test` |
 | macOS | `bestmacos001cruise` | `bestmacos001fast` | `bestmacos001test` |
 | tvOS | `besttvos001cruise` | `besttvos001fast` | `besttvos001` |
-| watchOS | `bestwatchos001cruise` | `bestwatchos00fast` | `bestwatchos001test` |
+| watchOS | `bestwatchos001cruise` | `bestwatchos001fast` | `bestwatchos001test` |
 
 Create only the leaderboards for platforms you ship (e.g. if you ship iPhone + watchOS, create the six IDs for those two rows). If you change an ID in the app's `LeaderboardConfiguration`, create a new leaderboard in App Store Connect with that ID and retire or leave the old one unused.
 
@@ -134,6 +138,7 @@ Create only the leaderboards for platforms you ship (e.g. if you ship iPhone + w
 ### Debugging score submission
 
 - All leaderboard/Game Center logs use the 🏆 emoji (and `AppLog.leaderboard`). Filter console or logs by `🏆` to see: score submit attempts, “player not authenticated” skips, success, or failure with error message. Useful for diagnosing watch scores not appearing on the leaderboard.
+- Debug builds intentionally log `Skipped score submit ... debug build` and do not post scores to Game Center.
 
 ## Testing Strategy
 

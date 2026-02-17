@@ -16,15 +16,18 @@ public final class GameCenterService: LeaderboardService {
     private let configuration: LeaderboardConfiguration
     private weak var authenticationPresenter: AuthenticationPresenter?
     private let authenticateHandlerSetter: AuthenticateHandlerSetter?
+    private let isDebugBuild: Bool
 
     public init(
         configuration: LeaderboardConfiguration,
         authenticationPresenter: AuthenticationPresenter? = nil,
-        authenticateHandlerSetter: AuthenticateHandlerSetter? = nil
+        authenticateHandlerSetter: AuthenticateHandlerSetter? = nil,
+        isDebugBuild: Bool
     ) {
         self.configuration = configuration
         self.authenticationPresenter = authenticationPresenter
         self.authenticateHandlerSetter = authenticateHandlerSetter
+        self.isDebugBuild = isDebugBuild
     }
 
     /// Call with the object that can present the authentication view controller when Game Center requests it.
@@ -36,6 +39,14 @@ public final class GameCenterService: LeaderboardService {
 
     public func submitScore(_ score: Int, difficulty: GameDifficulty) {
         let leaderboardID = configuration.leaderboardID(for: difficulty)
+
+        guard isScoreSubmissionEnabled else {
+            AppLog.info(
+                AppLog.game + AppLog.leaderboard,
+                "🏆 Skipped score submit \(score) – debug build (leaderboardID: \(leaderboardID), speed: \(difficulty.rawValue))"
+            )
+            return
+        }
 
         guard isAuthenticated() else {
             AppLog.info(
@@ -66,6 +77,10 @@ public final class GameCenterService: LeaderboardService {
 
     public func isAuthenticated() -> Bool {
         GKLocalPlayer.local.isAuthenticated
+    }
+
+    var isScoreSubmissionEnabled: Bool {
+        !isDebugBuild
     }
 
     public func fetchLocalPlayerBestScore(for difficulty: GameDifficulty) async -> Int? {

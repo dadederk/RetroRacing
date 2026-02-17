@@ -52,7 +52,8 @@ struct RetroRacingTvOSApp: App {
         gameCenterService = GameCenterService(
             configuration: leaderboardConfiguration,
             authenticationPresenter: authenticationPresenter,
-            authenticateHandlerSetter: leaderboardConfig.authenticateHandlerSetter
+            authenticateHandlerSetter: leaderboardConfig.authenticateHandlerSetter,
+            isDebugBuild: BuildConfiguration.isDebug
         )
         ratingService = StoreReviewService(userDefaults: userDefaults, ratingProvider: RatingServiceProviderTvOS())
         highestScoreStore = UserDefaultsHighestScoreStore(userDefaults: userDefaults)

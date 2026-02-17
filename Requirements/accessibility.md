@@ -23,7 +23,7 @@ The game **must** respect the user’s Reduce Motion preference:
 - **Game controls (iOS/universal):** The game screen is split into left and right touch areas. Each half is an accessibility element with label “Move left” / “Move right” and hint “Double-tap to move car left/right”, so VoiceOver users can focus each side and double-tap to move. Settings → Controls describes these and other input methods (swipe, tap half, keyboard).
 - **Direct touch controls (iOS):** Left and right gameplay touch regions are marked with `accessibilityDirectTouch(..., options: [.silentOnTouch])` so taps are handled as direct actions and VoiceOver does not speak each region during rapid gameplay input.
 - **Game-over modal:** `GameOverView` is presented as a non-interactively dismissable sheet (`interactiveDismissDisabled(true)`) with explicit **Restart** and **Finish** actions. Content is wrapped in a `ScrollView` so all summary rows and actions remain reachable at large Dynamic Type sizes and in compact landscape layouts. Decorative result artwork is hidden from accessibility while score/best labels remain readable by VoiceOver.
-- **Game-over typography:** Modal subtitle, score rows, and actions use `FontPreferenceStore` semantic text styles from environment so Dynamic Type and app font selection are respected.
+- **Game-over typography:** Modal subtitle and speed label use body semantic typography, while score rows and actions use emphasized semantic styles from `FontPreferenceStore`. The speed label is placed between the score summary and action buttons so hierarchy stays clear at all Dynamic Type sizes.
 
 
 ## Conditional Defaults for Accessibility
