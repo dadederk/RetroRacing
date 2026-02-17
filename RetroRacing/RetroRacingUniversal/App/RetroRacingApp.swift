@@ -11,7 +11,7 @@ import GameKit
 #if canImport(UIKit)
 import UIKit
 #endif
-#if canImport(UIKit) && !os(tvOS)
+#if canImport(UIKit) && !os(tvOS) && !os(watchOS)
 import CoreHaptics
 #endif
 

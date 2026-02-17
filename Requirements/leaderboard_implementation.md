@@ -4,6 +4,8 @@
 
 Game Center leaderboard system with dependency injection, zero compiler flags in services, and maximum code reuse across platforms.
 
+**Scope:** Leaderboards are **per platform** (iOS, iPad, macOS, tvOS, watchOS) and **per level** (Cruise, Fast, Rapid). We do not use separate leaderboards for assistive technologies (e.g. VoiceOver); all users compete on the same per-platform, per-level leaderboards.
+
 ## Architecture
 
 ### Configuration Layer

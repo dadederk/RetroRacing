@@ -57,7 +57,9 @@ public struct GameOverView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .background(.background)
             .navigationTitle(GameLocalizedStrings.string("game_over_encouragement_title"))
+            #if os(iOS) || os(visionOS)
             .navigationBarTitleDisplayMode(.inline)
+            #endif
         }
         .interactiveDismissDisabled(true)
         .onAppear {

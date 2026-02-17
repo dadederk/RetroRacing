@@ -7,7 +7,6 @@
 
 import Foundation
 import SpriteKit
-import AVFoundation
 
 /// Loads sprite textures from bundles while hiding UIKit/AppKit differences from shared game code.
 public protocol ImageLoader {
@@ -116,25 +115,3 @@ public final class AppKitImageLoader: ImageLoader {
     }
 }
 #endif
-
-// MARK: - Infrastructure defaults and factories
-
-/// Central place for allowed process-wide singletons. Use only at composition roots.
-public enum InfrastructureDefaults {
-    public static let userDefaults: UserDefaults = .standard
-    public static let randomSource: RandomSource = SystemRandomSource()
-}
-
-public enum PlatformFactories {
-    public static func makeImageLoader() -> any ImageLoader {
-        #if canImport(AppKit) && !os(iOS)
-        return AppKitImageLoader()
-        #else
-        return UIKitImageLoader()
-        #endif
-    }
-
-    public static func makeSoundPlayer() -> SoundEffectPlayer {
-        AVSoundEffectPlayer(bundle: Bundle(for: GameScene.self))
-    }
-}

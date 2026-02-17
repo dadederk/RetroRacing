@@ -159,18 +159,24 @@ public final class GridStateCalculator {
 public struct GridUpdateTimingConfiguration {
     public let initialInterval: TimeInterval
     public let logDivider: Double
+    public let minimumInterval: TimeInterval
 
-    public init(initialInterval: TimeInterval, logDivider: Double) {
+    public init(
+        initialInterval: TimeInterval,
+        logDivider: Double,
+        minimumInterval: TimeInterval = 0.05
+    ) {
         self.initialInterval = initialInterval
         self.logDivider = logDivider
+        self.minimumInterval = minimumInterval
     }
 
     public func updateInterval(forLevel level: Int) -> TimeInterval {
-        max(0.05, initialInterval - (log(Double(max(level, 1))) / logDivider))
+        max(minimumInterval, initialInterval - (log(Double(max(level, 1))) / logDivider))
     }
 
-    public static let rapid = GridUpdateTimingConfiguration(initialInterval: 0.6, logDivider: 4)
-    public static let fast = GridUpdateTimingConfiguration(initialInterval: 0.72, logDivider: 4)
-    public static let cruise = GridUpdateTimingConfiguration(initialInterval: 0.84, logDivider: 4)
+    public static let rapid = GridUpdateTimingConfiguration(initialInterval: 0.72, logDivider: 5.0, minimumInterval: 0.14)
+    public static let fast = GridUpdateTimingConfiguration(initialInterval: 1.0, logDivider: 5.0, minimumInterval: 0.26)
+    public static let cruise = GridUpdateTimingConfiguration(initialInterval: 1.32, logDivider: 5.0, minimumInterval: 0.42)
     public static let defaultTiming = rapid
 }

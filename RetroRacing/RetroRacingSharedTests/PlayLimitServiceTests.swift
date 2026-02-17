@@ -100,6 +100,29 @@ final class PlayLimitServiceTests: XCTestCase {
         XCTAssertEqual(service.remainingPlays(on: now), 0)
     }
 
+    @MainActor
+    func testGivenUnlimitedAccessWhenFreemiumIsSetButSimulationDisabledThenUnlimitedRemainsEnabled() {
+        // Given
+        let service = UserDefaultsPlayLimitService(userDefaults: userDefaults, calendar: calendar, maxPlaysPerDay: 5)
+        let storeKit = StoreKitService(
+            userDefaults: userDefaults,
+            isDebugSimulationEnabled: false
+        )
+        let now = date(year: 2026, month: 2, day: 10, hour: 9)
+        service.unlockUnlimitedAccess()
+
+        // When
+        storeKit.debugPremiumSimulationMode = .freemium
+        for _ in 0..<20 {
+            service.recordGamePlayed(on: now)
+        }
+
+        // Then
+        XCTAssertTrue(service.hasUnlimitedAccess)
+        XCTAssertTrue(service.canStartNewGame(on: now))
+        XCTAssertEqual(service.remainingPlays(on: now), Int.max)
+    }
+
     func testGivenAfternoonDateWhenRequestingNextResetThenReturnsNextMidnight() {
         // Given
         let service = UserDefaultsPlayLimitService(userDefaults: userDefaults, calendar: calendar, maxPlaysPerDay: 5)

@@ -69,10 +69,15 @@ extension GameScene {
         return CGPoint(x: x, y: y)
     }
 
-    func gridStateDidUpdate(_ gridState: GridState, shouldPlayFeedback: Bool = true, notifyDelegate: Bool = true) {
+    func gridStateDidUpdate(
+        _ gridState: GridState,
+        shouldPlayFeedback: Bool = true,
+        notifyDelegate: Bool = true,
+        feedbackEvent: AudioFeedbackEvent = .tick
+    ) {
         updateGrid(withGridState: gridState)
         if shouldPlayFeedback {
-            play(SoundEffect.bip)
+            playFeedback(event: feedbackEvent)
         }
         if notifyDelegate {
             gameDelegate?.gameSceneDidUpdateGrid(self)

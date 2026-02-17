@@ -2699,19 +2699,19 @@
         "ca": {
           "stringUnit": {
             "state": "translated",
-            "value": "• Toca la part esquerra de la pantalla per moure a l'esquerra.\n• Toca la part dreta de la pantalla per moure a la dreta.\n• Llisca cap a l'esquerra o cap a la dreta per moure.\n• Fes servir el botó de pausa a la cantonada superior dreta per pausar o reprendre la cursa."
+            "value": "• Digital Crown: Gira cap amunt per moure a la dreta, gira cap avall per moure a l'esquerra.\n• Tocar: Toca la part esquerra de la pantalla per moure a l'esquerra, la part dreta per moure a la dreta.\n• Lliscar: Llisca cap a l'esquerra per moure a l'esquerra, llisca cap a la dreta per moure a la dreta."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "• Tap the left side of the screen to move left.\n• Tap the right side of the screen to move right.\n• Swipe left or right on the screen to move.\n• Use the pause button in the top-right corner to pause or resume the race."
+            "value": "• Digital Crown: Rotate up to move right, rotate down to move left.\n• Tap: Tap the left side of the screen to move left, the right side to move right.\n• Swipe: Swipe left to move left, swipe right to move right."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "• Toca la parte izquierda de la pantalla para moverte a la izquierda.\n• Toca la parte derecha de la pantalla para moverte a la derecha.\n• Desliza a la izquierda o derecha en la pantalla para moverte.\n• Usa el botón de pausa en la esquina superior derecha para pausar o reanudar la carrera."
+            "value": "• Digital Crown: Gira hacia arriba para moverte a la derecha, gira hacia abajo para moverte a la izquierda.\n• Tocar: Toca la parte izquierda de la pantalla para moverte a la izquierda, la parte derecha para moverte a la derecha.\n• Deslizar: Desliza a la izquierda para moverte a la izquierda, desliza a la derecha para moverte a la derecha."
           }
         }
       }
@@ -3038,6 +3038,213 @@
         }
       }
     },
+    "settings_audio_feedback_mode": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Mode de retroalimentació d'àudio"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Audio feedback mode"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Modo de retroalimentación de audio"
+          }
+        }
+      }
+    },
+    "settings_audio_feedback_mode_retro": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Àudio retro"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retro audio"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Audio retro"
+          }
+        }
+      }
+    },
+    "settings_audio_feedback_mode_cue_chord": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pistes d'àudio (acord)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Audio cues (chord)"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pistas de audio (acorde)"
+          }
+        }
+      }
+    },
+    "settings_audio_feedback_mode_cue_arpeggio": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pistes d'àudio (arpegi)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Audio cues (arpeggio)"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pistas de audio (arpegio)"
+          }
+        }
+      }
+    },
+    "settings_audio_feedback_mode_cue_lane_pulses": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pistes d'àudio (polsos de carril)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Audio cues (lane pulses)"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pistas de audio (pulsos por carril)"
+          }
+        }
+      }
+    },
+    "settings_lane_move_cue_style": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Àudio en canviar de carril"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lane change cue"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Audio al cambiar de carril"
+          }
+        }
+      }
+    },
+    "settings_lane_move_cue_style_lane_confirmation": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirmació de carril"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lane confirmation"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Confirmación de carril"
+          }
+        }
+      }
+    },
+    "settings_lane_move_cue_style_safety_only": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Èxit"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Success"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Éxito"
+          }
+        }
+      }
+    },
+    "settings_lane_move_cue_style_lane_and_safety": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Carril + èxit"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lane + success"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Carril + éxito"
+          }
+        }
+      }
+    },
     "settings_theme": {
       "extractionState": "manual",
       "localizations": {
@@ -3195,6 +3402,29 @@
           "stringUnit": {
             "state": "translated",
             "value": "Usant Tranquil (predeterminat quan VoiceOver està actiu)"
+          }
+        }
+      }
+    },
+    "settings_audio_feedback_mode_voiceover_default": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Using Audio cues (arpeggio) (default when VoiceOver is on)"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usando Pistas de audio (arpegio) (predeterminado cuando VoiceOver está activo)"
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usant Pistes d'àudio (arpegi) (predeterminat quan VoiceOver està actiu)"
           }
         }
       }

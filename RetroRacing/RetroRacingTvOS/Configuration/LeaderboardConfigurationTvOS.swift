@@ -10,6 +10,8 @@ struct LeaderboardConfigurationTvOS: LeaderboardConfiguration {
             return "besttvos001fast"
         case .rapid:
             return "besttvos001"
+        @unknown default:
+            return "besttvos001"
         }
     }
 }

@@ -33,6 +33,8 @@ final class GameViewModelTests: XCTestCase {
             inputAdapterFactory: inputAdapterFactory,
             playLimitService: nil,
             selectedDifficulty: .rapid,
+            selectedAudioFeedbackMode: .retro,
+            selectedLaneMoveCueStyle: .laneConfirmationAndSafety,
             shouldStartGame: true
         )
     }
@@ -50,12 +52,16 @@ final class GameViewModelTests: XCTestCase {
         // Given
         let imageLoader = MockImageLoader()
         let soundPlayer = MockSoundPlayer()
+        let laneCuePlayer = MockLaneCuePlayerStub()
         let scene = GameScene(
             size: CGSize(width: 100, height: 100),
             theme: nil,
             imageLoader: imageLoader,
             soundPlayer: soundPlayer,
+            laneCuePlayer: laneCuePlayer,
             hapticController: nil,
+            audioFeedbackMode: .retro,
+            laneMoveCueStyle: .laneConfirmationAndSafety,
             difficulty: .rapid
         )
         // Unpause the scene so we can test overlay pause behavior
@@ -73,12 +79,16 @@ final class GameViewModelTests: XCTestCase {
         // Given
         let imageLoader = MockImageLoader()
         let soundPlayer = MockSoundPlayer()
+        let laneCuePlayer = MockLaneCuePlayerStub()
         let scene = GameScene(
             size: CGSize(width: 100, height: 100),
             theme: nil,
             imageLoader: imageLoader,
             soundPlayer: soundPlayer,
+            laneCuePlayer: laneCuePlayer,
             hapticController: nil,
+            audioFeedbackMode: .retro,
+            laneMoveCueStyle: .laneConfirmationAndSafety,
             difficulty: .rapid
         )
         scene.unpauseGameplay()
@@ -96,12 +106,16 @@ final class GameViewModelTests: XCTestCase {
         // Given
         let imageLoader = MockImageLoader()
         let soundPlayer = MockSoundPlayer()
+        let laneCuePlayer = MockLaneCuePlayerStub()
         let scene = GameScene(
             size: CGSize(width: 100, height: 100),
             theme: nil,
             imageLoader: imageLoader,
             soundPlayer: soundPlayer,
+            laneCuePlayer: laneCuePlayer,
             hapticController: nil,
+            audioFeedbackMode: .retro,
+            laneMoveCueStyle: .laneConfirmationAndSafety,
             difficulty: .rapid
         )
         scene.pauseGameplay()
@@ -236,6 +250,13 @@ private final class MockSoundPlayer: SoundEffectPlayer {
         completion?()
     }
     
+    func setVolume(_ volume: Double) {}
+    func stopAll(fadeDuration: TimeInterval) {}
+}
+
+private final class MockLaneCuePlayerStub: LaneCuePlayer {
+    func playTickCue(safeColumns: Set<CueColumn>, mode: AudioFeedbackMode) {}
+    func playMoveCue(column: CueColumn, isSafe: Bool, mode: AudioFeedbackMode, style: LaneMoveCueStyle) {}
     func setVolume(_ volume: Double) {}
     func stopAll(fadeDuration: TimeInterval) {}
 }

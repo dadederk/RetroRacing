@@ -171,4 +171,28 @@ final class ConditionalDefaultTests: XCTestCase {
         conditionalDefault.save(to: userDefaults, key: key)
         XCTAssertEqual(GameDifficulty.currentSelection(from: userDefaults), .rapid)
     }
+
+    func testGivenNoAudioOverrideWhenGettingCurrentSelectionThenReturnsValidSystemDefault() {
+        // Given
+        userDefaults.removeObject(forKey: AudioFeedbackMode.conditionalDefaultStorageKey)
+
+        // When
+        let selection = AudioFeedbackMode.currentSelection(from: userDefaults)
+
+        // Then
+        XCTAssertTrue(AudioFeedbackMode.allCases.contains(selection))
+    }
+
+    func testGivenAudioOverrideWhenGettingCurrentSelectionThenUsesOverride() {
+        // Given
+        var conditionalDefault = ConditionalDefault<AudioFeedbackMode>()
+        conditionalDefault.setUserOverride(.cueLanePulses)
+        conditionalDefault.save(to: userDefaults, key: AudioFeedbackMode.conditionalDefaultStorageKey)
+
+        // When
+        let selection = AudioFeedbackMode.currentSelection(from: userDefaults)
+
+        // Then
+        XCTAssertEqual(selection, .cueLanePulses)
+    }
 }

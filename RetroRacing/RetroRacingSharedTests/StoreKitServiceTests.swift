@@ -10,22 +10,29 @@ import XCTest
 
 @MainActor
 final class StoreKitServiceTests: XCTestCase {
-    private var userDefaults: UserDefaults!
+    private let suiteName = "StoreKitServiceTests"
+    private var userDefaults: UserDefaults = .standard
 
     override func setUp() {
         super.setUp()
-        userDefaults = UserDefaults(suiteName: "StoreKitServiceTests")!
-        userDefaults.removePersistentDomain(forName: "StoreKitServiceTests")
+        guard let suiteDefaults = UserDefaults(suiteName: suiteName) else {
+            XCTFail("Failed to create UserDefaults suite: \(suiteName)")
+            return
+        }
+        userDefaults = suiteDefaults
+        userDefaults.removePersistentDomain(forName: suiteName)
     }
 
     override func tearDown() {
-        userDefaults.removePersistentDomain(forName: "StoreKitServiceTests")
-        userDefaults = nil
+        userDefaults.removePersistentDomain(forName: suiteName)
         super.tearDown()
     }
 
-    private func makeService() -> StoreKitService {
-        StoreKitService(userDefaults: userDefaults)
+    private func makeService(isDebugSimulationEnabled: Bool = true) -> StoreKitService {
+        StoreKitService(
+            userDefaults: userDefaults,
+            isDebugSimulationEnabled: isDebugSimulationEnabled
+        )
     }
     
     func testGivenInitialStateWhenCheckingDefaultsThenSimulationModeIsProductionAndPremiumMatchesEntitlements() {
@@ -150,5 +157,30 @@ final class StoreKitServiceTests: XCTestCase {
 
         // Then
         XCTAssertFalse(userDefaults.bool(forKey: StoreKitService.DebugStorageKeys.forceFreemiumPlayLimit))
+    }
+
+    func testGivenSimulationDisabledWhenSettingFreemiumThenModeResetsToProductionAndDebugKeyIsFalse() {
+        // Given
+        let service = makeService(isDebugSimulationEnabled: false)
+
+        // When
+        service.debugPremiumSimulationMode = .freemium
+
+        // Then
+        XCTAssertEqual(service.debugPremiumSimulationMode, .productionDefault)
+        XCTAssertFalse(userDefaults.bool(forKey: StoreKitService.DebugStorageKeys.forceFreemiumPlayLimit))
+        XCTAssertEqual(service.hasPremiumAccess, !service.purchasedProductIDs.isEmpty)
+    }
+
+    func testGivenSimulationDisabledWhenSettingUnlimitedThenPremiumStillMatchesEntitlements() {
+        // Given
+        let service = makeService(isDebugSimulationEnabled: false)
+
+        // When
+        service.debugPremiumSimulationMode = .unlimitedPlays
+
+        // Then
+        XCTAssertEqual(service.debugPremiumSimulationMode, .productionDefault)
+        XCTAssertEqual(service.hasPremiumAccess, !service.purchasedProductIDs.isEmpty)
     }
 }

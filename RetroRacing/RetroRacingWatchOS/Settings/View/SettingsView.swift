@@ -9,10 +9,12 @@ struct SettingsView: View {
     /// When true, show "scores submitted…"; when false, show "sign in to Game Center on iPhone…".
     let isGameCenterAuthenticated: Bool
     @Environment(\.dismiss) private var dismiss
-    @AppStorage(GameDifficulty.storageKey) private var selectedDifficultyRawValue: String = GameDifficulty.defaultDifficulty.rawValue
+    @AppStorage(LaneMoveCueStyle.storageKey) private var laneMoveCueStyleRawValue: String = LaneMoveCueStyle.defaultStyle.rawValue
     @State private var difficultyConditionalDefault: ConditionalDefault<GameDifficulty> = ConditionalDefault()
+    @State private var audioFeedbackModeConditionalDefault: ConditionalDefault<AudioFeedbackMode> = ConditionalDefault()
     @AppStorage(HapticFeedbackPreference.storageKey) private var hapticFeedbackEnabled: Bool = true
     @AppStorage(SoundPreferences.volumeKey) private var sfxVolume: Double = SoundPreferences.defaultVolume
+    @AppStorage(InGameAnnouncementsPreference.storageKey) private var inGameAnnouncementsEnabled: Bool = InGameAnnouncementsPreference.defaultEnabled
 
     private var fontForLabels: Font {
         fontPreferenceStore.font(textStyle: .body)
@@ -108,6 +110,30 @@ struct SettingsView: View {
                 }
 
                 Section {
+                    Picker(selection: audioFeedbackModeSelection) {
+                        ForEach(AudioFeedbackMode.displayOrder, id: \.self) { mode in
+                            Text(GameLocalizedStrings.string(mode.localizedNameKey))
+                                .font(fontForLabels)
+                                .tag(mode)
+                        }
+                    } label: {
+                        Text(GameLocalizedStrings.string("settings_audio_feedback_mode"))
+                            .font(fontForLabels)
+                    }
+
+                    if audioFeedbackModeConditionalDefault.effectiveValue != .retro {
+                        Picker(selection: laneMoveCueStyleSelection) {
+                            ForEach(LaneMoveCueStyle.allCases, id: \.self) { style in
+                                Text(GameLocalizedStrings.string(style.localizedNameKey))
+                                    .font(fontForLabels)
+                                    .tag(style)
+                            }
+                        } label: {
+                            Text(GameLocalizedStrings.string("settings_lane_move_cue_style"))
+                                .font(fontForLabels)
+                        }
+                    }
+
                     Slider(value: $sfxVolume, in: 0...1, step: 0.05) {
                         Text(GameLocalizedStrings.string("settings_sound_effects_volume"))
                             .font(fontForLabels)
@@ -130,6 +156,17 @@ struct SettingsView: View {
                         .tint(.accentColor)
                     }
                 }
+                
+                Section {
+                    Toggle(isOn: $inGameAnnouncementsEnabled) {
+                        Text(GameLocalizedStrings.string("settings_in_game_announcements"))
+                            .font(fontForLabels)
+                    }
+                    .tint(.accentColor)
+                } header: {
+                    Text(GameLocalizedStrings.string("settings_accessibility"))
+                        .font(fontForLabels)
+                }
             }
             .navigationTitle(GameLocalizedStrings.string("settings"))
             .navigationBarTitleDisplayMode(.inline)
@@ -147,17 +184,14 @@ struct SettingsView: View {
                     from: InfrastructureDefaults.userDefaults,
                     key: GameDifficulty.conditionalDefaultStorageKey
                 )
+                audioFeedbackModeConditionalDefault = ConditionalDefault<AudioFeedbackMode>.load(
+                    from: InfrastructureDefaults.userDefaults,
+                    key: AudioFeedbackMode.conditionalDefaultStorageKey
+                )
             }
         }
     }
 
-    private var selectedDifficultyBinding: Binding<GameDifficulty> {
-        Binding(
-            get: { GameDifficulty.fromStoredValue(selectedDifficultyRawValue) },
-            set: { selectedDifficultyRawValue = $0.rawValue }
-        )
-    }
-    
     private var difficultySelection: Binding<GameDifficulty> {
         Binding(
             get: { difficultyConditionalDefault.effectiveValue },
@@ -168,6 +202,26 @@ struct SettingsView: View {
                     key: GameDifficulty.conditionalDefaultStorageKey
                 )
             }
+        )
+    }
+
+    private var audioFeedbackModeSelection: Binding<AudioFeedbackMode> {
+        Binding(
+            get: { audioFeedbackModeConditionalDefault.effectiveValue },
+            set: { newValue in
+                audioFeedbackModeConditionalDefault.setUserOverride(newValue)
+                audioFeedbackModeConditionalDefault.save(
+                    to: InfrastructureDefaults.userDefaults,
+                    key: AudioFeedbackMode.conditionalDefaultStorageKey
+                )
+            }
+        )
+    }
+
+    private var laneMoveCueStyleSelection: Binding<LaneMoveCueStyle> {
+        Binding(
+            get: { LaneMoveCueStyle.fromStoredValue(laneMoveCueStyleRawValue) },
+            set: { laneMoveCueStyleRawValue = $0.rawValue }
         )
     }
 }

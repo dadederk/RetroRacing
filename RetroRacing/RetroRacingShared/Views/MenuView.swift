@@ -33,7 +33,7 @@ public struct MenuView: View {
 
     @Environment(\.openURL) private var openURL
     @Environment(StoreKitService.self) private var storeKit
-    @AppStorage(GameDifficulty.storageKey) private var selectedDifficultyRawValue: String = GameDifficulty.defaultDifficulty.rawValue
+    @AppStorage(GameDifficulty.conditionalDefaultStorageKey) private var difficultyStorageData: Data = Data()
     @State private var showGame = false
     @State private var showLeaderboard = false
     @State private var showSettings = false
@@ -208,7 +208,8 @@ public struct MenuView: View {
     }
 
     private var selectedDifficulty: GameDifficulty {
-        GameDifficulty.fromStoredValue(selectedDifficultyRawValue)
+        _ = difficultyStorageData
+        return GameDifficulty.currentSelection(from: InfrastructureDefaults.userDefaults)
     }
 
     private func handleRateTap() {

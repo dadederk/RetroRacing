@@ -21,8 +21,9 @@ public struct SettingsView: View {
 
     @Environment(\.dismiss) private var dismiss
     @Environment(StoreKitService.self) private var storeKit
-    @AppStorage(GameDifficulty.storageKey) private var selectedDifficultyRawValue: String = GameDifficulty.defaultDifficulty.rawValue
+    @AppStorage(LaneMoveCueStyle.storageKey) private var laneMoveCueStyleRawValue: String = LaneMoveCueStyle.defaultStyle.rawValue
     @State private var difficultyConditionalDefault: ConditionalDefault<GameDifficulty> = ConditionalDefault()
+    @State private var audioFeedbackModeConditionalDefault: ConditionalDefault<AudioFeedbackMode> = ConditionalDefault()
     @AppStorage(HapticFeedbackPreference.storageKey) private var hapticFeedbackEnabled: Bool = true
     @AppStorage(SoundPreferences.volumeKey) private var sfxVolume: Double = SoundPreferences.defaultVolume
     @AppStorage(InGameAnnouncementsPreference.storageKey) private var inGameAnnouncementsEnabled: Bool = InGameAnnouncementsPreference.defaultEnabled
@@ -61,6 +62,10 @@ public struct SettingsView: View {
                 difficultyConditionalDefault = ConditionalDefault<GameDifficulty>.load(
                     from: InfrastructureDefaults.userDefaults,
                     key: GameDifficulty.conditionalDefaultStorageKey
+                )
+                audioFeedbackModeConditionalDefault = ConditionalDefault<AudioFeedbackMode>.load(
+                    from: InfrastructureDefaults.userDefaults,
+                    key: AudioFeedbackMode.conditionalDefaultStorageKey
                 )
             }
     }
@@ -184,6 +189,48 @@ public struct SettingsView: View {
                 }
 
                 Section {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Picker(selection: audioFeedbackModeSelection) {
+                            ForEach(AudioFeedbackMode.displayOrder, id: \.self) { mode in
+                                Text(GameLocalizedStrings.string(mode.localizedNameKey))
+                                    .font(fontForLabels)
+                                    .tag(mode)
+                            }
+                        } label: {
+                            Text(GameLocalizedStrings.string("settings_audio_feedback_mode"))
+                                .font(fontForLabels)
+                        }
+
+                        if audioFeedbackModeConditionalDefault.isUsingSystemDefault {
+                            #if os(iOS) || os(tvOS) || os(visionOS)
+                            if UIAccessibility.isVoiceOverRunning {
+                                Text(GameLocalizedStrings.string("settings_audio_feedback_mode_voiceover_default"))
+                                    .font(secondaryFont)
+                                    .foregroundStyle(.secondary)
+                            }
+                            #elseif os(macOS)
+                            if NSWorkspace.shared.isVoiceOverEnabled {
+                                Text(GameLocalizedStrings.string("settings_audio_feedback_mode_voiceover_default"))
+                                    .font(secondaryFont)
+                                    .foregroundStyle(.secondary)
+                            }
+                            #endif
+                        }
+
+                        if audioFeedbackModeConditionalDefault.effectiveValue != .retro {
+                            Picker(selection: laneMoveCueStyleSelection) {
+                                ForEach(LaneMoveCueStyle.allCases, id: \.self) { style in
+                                    Text(GameLocalizedStrings.string(style.localizedNameKey))
+                                        .font(fontForLabels)
+                                        .tag(style)
+                                }
+                            } label: {
+                                Text(GameLocalizedStrings.string("settings_lane_move_cue_style"))
+                                    .font(fontForLabels)
+                            }
+                        }
+                    }
+
                     #if os(tvOS)
                     Picker(selection: volumeSelection) {
                         ForEach(Self.volumeSteps, id: \.self) { value in
@@ -380,13 +427,6 @@ public struct SettingsView: View {
         Double((($0 * 100).rounded()) / 100)
     }
 
-    private var selectedDifficultyBinding: Binding<GameDifficulty> {
-        Binding(
-            get: { GameDifficulty.fromStoredValue(selectedDifficultyRawValue) },
-            set: { selectedDifficultyRawValue = $0.rawValue }
-        )
-    }
-    
     private var difficultySelection: Binding<GameDifficulty> {
         Binding(
             get: { difficultyConditionalDefault.effectiveValue },
@@ -397,6 +437,26 @@ public struct SettingsView: View {
                     key: GameDifficulty.conditionalDefaultStorageKey
                 )
             }
+        )
+    }
+
+    private var audioFeedbackModeSelection: Binding<AudioFeedbackMode> {
+        Binding(
+            get: { audioFeedbackModeConditionalDefault.effectiveValue },
+            set: { newValue in
+                audioFeedbackModeConditionalDefault.setUserOverride(newValue)
+                audioFeedbackModeConditionalDefault.save(
+                    to: InfrastructureDefaults.userDefaults,
+                    key: AudioFeedbackMode.conditionalDefaultStorageKey
+                )
+            }
+        )
+    }
+
+    private var laneMoveCueStyleSelection: Binding<LaneMoveCueStyle> {
+        Binding(
+            get: { LaneMoveCueStyle.fromStoredValue(laneMoveCueStyleRawValue) },
+            set: { laneMoveCueStyleRawValue = $0.rawValue }
         )
     }
 

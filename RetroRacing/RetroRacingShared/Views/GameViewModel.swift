@@ -29,6 +29,8 @@ final class GameViewModel {
     /// Optional play limit service used to record daily plays.
     let playLimitService: PlayLimitService?
     var selectedDifficulty: GameDifficulty
+    var selectedAudioFeedbackMode: AudioFeedbackMode
+    var selectedLaneMoveCueStyle: LaneMoveCueStyle
     var shouldStartGame: Bool
 
     init(
@@ -40,6 +42,8 @@ final class GameViewModel {
         inputAdapterFactory: any GameInputAdapterFactory,
         playLimitService: PlayLimitService?,
         selectedDifficulty: GameDifficulty,
+        selectedAudioFeedbackMode: AudioFeedbackMode,
+        selectedLaneMoveCueStyle: LaneMoveCueStyle,
         shouldStartGame: Bool
     ) {
         self.leaderboardService = leaderboardService
@@ -50,6 +54,8 @@ final class GameViewModel {
         self.inputAdapterFactory = inputAdapterFactory
         self.playLimitService = playLimitService
         self.selectedDifficulty = selectedDifficulty
+        self.selectedAudioFeedbackMode = selectedAudioFeedbackMode
+        self.selectedLaneMoveCueStyle = selectedLaneMoveCueStyle
         self.shouldStartGame = shouldStartGame
     }
 

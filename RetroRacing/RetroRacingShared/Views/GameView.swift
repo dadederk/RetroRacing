@@ -46,7 +46,9 @@ public struct GameView: View {
     private let isMenuOverlayPresented: Binding<Bool>?
 
     @AppStorage(SoundPreferences.volumeKey) private var sfxVolume: Double = SoundPreferences.defaultVolume
-    @AppStorage(GameDifficulty.storageKey) private var selectedDifficultyRawValue: String = GameDifficulty.defaultDifficulty.rawValue
+    @AppStorage(GameDifficulty.conditionalDefaultStorageKey) private var difficultyStorageData: Data = Data()
+    @AppStorage(AudioFeedbackMode.conditionalDefaultStorageKey) private var audioFeedbackModeStorageData: Data = Data()
+    @AppStorage(LaneMoveCueStyle.storageKey) private var laneMoveCueStyleRawValue: String = LaneMoveCueStyle.defaultStyle.rawValue
     @AppStorage(InGameAnnouncementsPreference.storageKey) private var inGameAnnouncementsEnabled: Bool = InGameAnnouncementsPreference.defaultEnabled
     @State private var model: GameViewModel
     @ScaledMetric(relativeTo: .body) private var directionButtonHeight: CGFloat = 120
@@ -87,6 +89,8 @@ public struct GameView: View {
         self.isMenuOverlayPresented = isMenuOverlayPresented
         AppLog.info(AppLog.game, "GameView init - shouldStartGame: \(shouldStartGame), showMenuButton: \(showMenuButton)")
         let selectedDifficulty = GameDifficulty.currentSelection(from: InfrastructureDefaults.userDefaults)
+        let selectedAudioFeedbackMode = AudioFeedbackMode.currentSelection(from: InfrastructureDefaults.userDefaults)
+        let selectedLaneMoveCueStyle = LaneMoveCueStyle.currentSelection(from: InfrastructureDefaults.userDefaults)
         _model = State(initialValue: GameViewModel(
             leaderboardService: leaderboardService,
             ratingService: ratingService,
@@ -96,6 +100,8 @@ public struct GameView: View {
             inputAdapterFactory: inputAdapterFactory,
             playLimitService: playLimitService,
             selectedDifficulty: selectedDifficulty,
+            selectedAudioFeedbackMode: selectedAudioFeedbackMode,
+            selectedLaneMoveCueStyle: selectedLaneMoveCueStyle,
             shouldStartGame: shouldStartGame
         ))
     }
@@ -162,6 +168,8 @@ public struct GameView: View {
         .background(gameBackgroundColor)
         .onAppear {
             model.updateDifficulty(selectedDifficulty)
+            model.updateAudioFeedbackMode(selectedAudioFeedbackMode)
+            model.updateLaneMoveCueStyle(selectedLaneMoveCueStyle)
             if let overlayBinding = isMenuOverlayPresented {
                 AppLog.info(AppLog.game, "GameView onAppear - overlay presented: \(overlayBinding.wrappedValue)")
                 model.setOverlayPause(isPresented: overlayBinding.wrappedValue)
@@ -221,8 +229,14 @@ public struct GameView: View {
             AppLog.info(AppLog.game, "GameView shouldStartGame changed from \(model.shouldStartGame) to \(newValue)")
             model.shouldStartGame = newValue
         }
-        .onChange(of: selectedDifficultyRawValue) { _, _ in
+        .onChange(of: difficultyStorageData) { _, _ in
             model.updateDifficulty(selectedDifficulty)
+        }
+        .onChange(of: audioFeedbackModeStorageData) { _, _ in
+            model.updateAudioFeedbackMode(selectedAudioFeedbackMode)
+        }
+        .onChange(of: laneMoveCueStyleRawValue) { _, _ in
+            model.updateLaneMoveCueStyle(selectedLaneMoveCueStyle)
         }
         .onChange(of: model.hud.speedIncreaseImminent) { oldValue, newValue in
             announceSpeedIncreaseIfNeeded(oldValue: oldValue, newValue: newValue)
@@ -242,7 +256,7 @@ public struct GameView: View {
     /// Background color for the game view. Uses a secondary system background where available
     /// so the gameplay screen is visually distinct from the menu.
     private var gameBackgroundColor: Color {
-        #if canImport(UIKit) && !os(watchOS)
+        #if canImport(UIKit) && !os(watchOS) && !os(tvOS)
         return Color(uiColor: .secondarySystemBackground)
         #else
         return .clear
@@ -266,7 +280,15 @@ public struct GameView: View {
     }
 
     private var selectedDifficulty: GameDifficulty {
-        GameDifficulty.fromStoredValue(selectedDifficultyRawValue)
+        GameDifficulty.currentSelection(from: InfrastructureDefaults.userDefaults)
+    }
+
+    private var selectedAudioFeedbackMode: AudioFeedbackMode {
+        AudioFeedbackMode.currentSelection(from: InfrastructureDefaults.userDefaults)
+    }
+
+    private var selectedLaneMoveCueStyle: LaneMoveCueStyle {
+        LaneMoveCueStyle.fromStoredValue(laneMoveCueStyleRawValue)
     }
 
     private func handleLeftTap() {

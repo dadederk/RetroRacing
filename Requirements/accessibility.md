@@ -19,6 +19,7 @@ The game **must** respect the user’s Reduce Motion preference:
 - **SpriteKit nodes:** Game sprites that convey meaning (player car, rival cars, crash) have `accessibilityLabel` set and `isAccessibilityElement = true` (see `GameScene+Effects.addSprite`, labels from `GameLocalizedStrings`: `player_car`, `rival_car`, `crash_sprite`).
 - **Score and lives:** Header labels use `accessibilityLabel` with the same formatted text as the visual (e.g. score, lives remaining) so VoiceOver users get the same information. The helmet icon next to lives is hidden from accessibility and the lives HUD is exposed as a single combined element. Lives VoiceOver copy uses proper singular/plural localization (for example, `1 life remaining` vs `2 lives remaining`).
 - **Speed alert announcement:** The speed-increase overlay appears in the last 3 points before each level step (for example, scores 97–99 before 100 and 197–199 before 200). Before each speed increase, gameplay forecasts the next 4 scoring rows and inserts empty rows only at the two lead offsets that map to the two rows directly ahead of the player at the exact speed-up moment (no already-visible cars are removed). When the overlay appears (`showSpeedAlert`), VoiceOver posts an explicit announcement using `speed_increase_announcement` (for example, “Hey Ho! Speed increasing!”). This announcement is skipped when `inGameAnnouncementsEnabled` is disabled in Settings.
+- **Lane audio cues:** Settings include four audio feedback modes: `Retro audio`, `Audio cues (arpeggio)`, `Audio cues (lane pulses)`, and `Audio cues (chord)`. In cue modes, each grid tick announces safe columns. Move cues are user-selectable as `Lane confirmation`, `Success`, or `Lane + success`. Start/fail sounds remain unchanged.
 - **Game controls (iOS/universal):** The game screen is split into left and right touch areas. Each half is an accessibility element with label “Move left” / “Move right” and hint “Double-tap to move car left/right”, so VoiceOver users can focus each side and double-tap to move. Settings → Controls describes these and other input methods (swipe, tap half, keyboard).
 - **Direct touch controls (iOS):** Left and right gameplay touch regions are marked with `accessibilityDirectTouch(..., options: [.silentOnTouch])` so taps are handled as direct actions and VoiceOver does not speak each region during rapid gameplay input.
 - **Game-over modal:** `GameOverView` is presented as a non-interactively dismissable sheet (`interactiveDismissDisabled(true)`) with explicit **Restart** and **Finish** actions. Content is wrapped in a `ScrollView` so all summary rows and actions remain reachable at large Dynamic Type sizes and in compact landscape layouts. Decorative result artwork is hidden from accessibility while score/best labels remain readable by VoiceOver.
@@ -48,7 +49,7 @@ Each conditional-default setting:
 
 **Implementation:**
 
-- `GameDifficulty` conforms to `ConditionalDefaultValue` with `static var systemDefault: GameDifficulty` that checks `UIAccessibility.isVoiceOverRunning` (iOS/tvOS/watchOS/visionOS) or `NSWorkspace.shared.isVoiceOverEnabled` (macOS).
+- `GameDifficulty` conforms to `ConditionalDefaultValue` with `static var systemDefault: GameDifficulty` that checks `UIAccessibility.isVoiceOverRunning` (iOS/tvOS/visionOS) or `NSWorkspace.shared.isVoiceOverEnabled` (macOS). watchOS currently falls back to `.rapid` because this layer does not source watchOS VoiceOver state.
 - `GameDifficulty.currentSelection(from:)` loads the `ConditionalDefault<GameDifficulty>` and returns `effectiveValue`.
 - `SettingsView` displays a `Picker` bound to `difficultySelection: Binding<GameDifficulty>`, which updates the conditional default and persists it.
 - When the user is using the system default and VoiceOver is running, a secondary label ("Using Cruise (default when VoiceOver is on)") appears below the picker.
@@ -62,7 +63,7 @@ Each conditional-default setting:
 
 ### Future conditional-default settings
 
-- **Lane audio cues:** Default to on when VoiceOver is running (plan item 2.8c).
+- **Audio feedback mode:** Defaults to `Audio cues (arpeggio)` when VoiceOver is running on iOS/tvOS/visionOS/macOS; otherwise defaults to `Retro audio`. watchOS currently keeps `Retro audio` as the system default because this layer does not currently source watchOS VoiceOver state.
 - **Top-down view:** Default to on when large Dynamic Type is active (future feature 7.1).
 
 ## Other Dimensions

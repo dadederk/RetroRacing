@@ -8,8 +8,10 @@ struct WatchGameView: View {
     let highestScoreStore: HighestScoreStore
     let crownConfiguration: LegacyCrownInputProcessor.Configuration
     let leaderboardService: LeaderboardService
-    @AppStorage(GameDifficulty.storageKey) private var selectedDifficultyRawValue: String = GameDifficulty.defaultDifficulty.rawValue
+    @AppStorage(GameDifficulty.conditionalDefaultStorageKey) private var difficultyStorageData: Data = Data()
     @AppStorage(SoundPreferences.volumeKey) private var sfxVolume: Double = SoundPreferences.defaultVolume
+    @AppStorage(AudioFeedbackMode.conditionalDefaultStorageKey) private var audioFeedbackModeStorageData: Data = Data()
+    @AppStorage(LaneMoveCueStyle.storageKey) private var laneMoveCueStyleRawValue: String = LaneMoveCueStyle.defaultStyle.rawValue
     @State private var scene: GameScene
     @State private var crownValue: Double = 0
     @State private var crownProcessor: LegacyCrownInputProcessor
@@ -46,16 +48,23 @@ struct WatchGameView: View {
         self.crownConfiguration = crownConfiguration
         self.leaderboardService = leaderboardService
         let initialDifficulty = GameDifficulty.currentSelection(from: InfrastructureDefaults.userDefaults)
+        let initialAudioFeedbackMode = AudioFeedbackMode.currentSelection(from: InfrastructureDefaults.userDefaults)
+        let initialLaneMoveCueStyle = LaneMoveCueStyle.currentSelection(from: InfrastructureDefaults.userDefaults)
         let size = CGSize(width: 400, height: 300)
         let soundPlayer = PlatformFactories.makeSoundPlayer()
+        let laneCuePlayer = PlatformFactories.makeLaneCuePlayer()
         soundPlayer.setVolume(SoundPreferences.defaultVolume)
+        laneCuePlayer.setVolume(SoundPreferences.defaultVolume)
         _scene = State(initialValue: GameScene.scene(
             size: size,
             difficulty: initialDifficulty,
             theme: theme,
             imageLoader: PlatformFactories.makeImageLoader(),
             soundPlayer: soundPlayer,
-            hapticController: nil
+            laneCuePlayer: laneCuePlayer,
+            hapticController: nil,
+            audioFeedbackMode: initialAudioFeedbackMode,
+            laneMoveCueStyle: initialLaneMoveCueStyle
         ))
         _crownProcessor = State(initialValue: LegacyCrownInputProcessor(configuration: crownConfiguration))
     }
@@ -153,6 +162,8 @@ struct WatchGameView: View {
             AppLog.info(AppLog.game, "🎮 WatchGameView onAppear - setting up scene and crown focus")
             scene.applyDifficulty(selectedDifficulty)
             scene.setSoundVolume(sfxVolume)
+            scene.setAudioFeedbackMode(selectedAudioFeedbackMode)
+            scene.setLaneMoveCueStyle(selectedLaneMoveCueStyle)
             scene.start()
             score = scene.gameState.score
             lives = scene.gameState.lives
@@ -186,7 +197,7 @@ struct WatchGameView: View {
                 scene.gameDelegate = d
             }
         }
-        .sheet(isPresented: $showGameOver) {
+        .sheet(isPresented: $showGameOver, onDismiss: restartFromGameOver) {
             GameOverView(
                 score: gameOverScore,
                 bestScore: gameOverBestScore,
@@ -197,6 +208,7 @@ struct WatchGameView: View {
                 onFinish: finishFromGameOver
             )
             .fontPreferenceStore(fontPreferenceStore)
+            .interactiveDismissDisabled(true)
         }
         .onDisappear {
             scene.stopAllSounds()
@@ -206,8 +218,14 @@ struct WatchGameView: View {
         .onChange(of: sfxVolume) { _, newValue in
             scene.setSoundVolume(newValue)
         }
-        .onChange(of: selectedDifficultyRawValue) { _, _ in
+        .onChange(of: difficultyStorageData) { _, _ in
             scene.applyDifficulty(selectedDifficulty)
+        }
+        .onChange(of: audioFeedbackModeStorageData) { _, _ in
+            scene.setAudioFeedbackMode(selectedAudioFeedbackMode)
+        }
+        .onChange(of: laneMoveCueStyleRawValue) { _, _ in
+            scene.setLaneMoveCueStyle(selectedLaneMoveCueStyle)
         }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
@@ -287,7 +305,15 @@ struct WatchGameView: View {
     }
 
     private var selectedDifficulty: GameDifficulty {
-        GameDifficulty.fromStoredValue(selectedDifficultyRawValue)
+        GameDifficulty.currentSelection(from: InfrastructureDefaults.userDefaults)
+    }
+
+    private var selectedAudioFeedbackMode: AudioFeedbackMode {
+        AudioFeedbackMode.currentSelection(from: InfrastructureDefaults.userDefaults)
+    }
+
+    private var selectedLaneMoveCueStyle: LaneMoveCueStyle {
+        LaneMoveCueStyle.fromStoredValue(laneMoveCueStyleRawValue)
     }
 }
 

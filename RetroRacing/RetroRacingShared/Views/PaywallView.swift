@@ -112,7 +112,9 @@ public struct PaywallView: View {
                 .padding()
             }
             .navigationTitle(GameLocalizedStrings.string("paywall_go_premium"))
+            #if os(iOS) || os(visionOS)
             .navigationBarTitleDisplayMode(.inline)
+            #endif
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(action: { dismiss() }) {

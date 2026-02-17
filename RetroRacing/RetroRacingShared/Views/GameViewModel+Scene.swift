@@ -41,6 +41,8 @@ extension GameViewModel {
         let newScene = Self.makeScene(
             side: side,
             difficulty: selectedDifficulty,
+            audioFeedbackMode: selectedAudioFeedbackMode,
+            laneMoveCueStyle: selectedLaneMoveCueStyle,
             theme: theme,
             hapticController: hapticController,
             volume: volume
@@ -71,6 +73,8 @@ extension GameViewModel {
         gameScene.gameDelegate = newDelegate
         inputAdapter = inputAdapterFactory.makeAdapter(controller: gameScene, hapticController: hapticController)
         gameScene.setSoundVolume(volume)
+        gameScene.setAudioFeedbackMode(selectedAudioFeedbackMode)
+        gameScene.setLaneMoveCueStyle(selectedLaneMoveCueStyle)
         pause.scenePaused = gameScene.gameState.isPaused
         let (currentScore, currentLives) = Self.scoreAndLives(from: gameScene)
         hud.score = currentScore
@@ -103,20 +107,27 @@ extension GameViewModel {
     private static func makeScene(
         side: CGFloat,
         difficulty: GameDifficulty,
+        audioFeedbackMode: AudioFeedbackMode,
+        laneMoveCueStyle: LaneMoveCueStyle,
         theme: (any GameTheme)?,
         hapticController: HapticFeedbackController?,
         volume: Double
     ) -> GameScene {
         let loader = PlatformFactories.makeImageLoader()
         let soundPlayer = PlatformFactories.makeSoundPlayer()
+        let laneCuePlayer = PlatformFactories.makeLaneCuePlayer()
         soundPlayer.setVolume(volume)
+        laneCuePlayer.setVolume(volume)
         return GameScene.scene(
             size: CGSize(width: side, height: side),
             difficulty: difficulty,
             theme: theme,
             imageLoader: loader,
             soundPlayer: soundPlayer,
-            hapticController: hapticController
+            laneCuePlayer: laneCuePlayer,
+            hapticController: hapticController,
+            audioFeedbackMode: audioFeedbackMode,
+            laneMoveCueStyle: laneMoveCueStyle
         )
     }
 
@@ -129,6 +140,16 @@ extension GameViewModel {
                 windowPoints: scene.speedAlertWindowPoints
             )
         }
+    }
+
+    func updateAudioFeedbackMode(_ audioFeedbackMode: AudioFeedbackMode) {
+        selectedAudioFeedbackMode = audioFeedbackMode
+        scene?.setAudioFeedbackMode(audioFeedbackMode)
+    }
+
+    func updateLaneMoveCueStyle(_ laneMoveCueStyle: LaneMoveCueStyle) {
+        selectedLaneMoveCueStyle = laneMoveCueStyle
+        scene?.setLaneMoveCueStyle(laneMoveCueStyle)
     }
 
     static func scoreAndLives(from scene: GameScene) -> (score: Int, lives: Int) {

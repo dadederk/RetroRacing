@@ -26,6 +26,8 @@ struct MockLeaderboardConfiguration: LeaderboardConfiguration {
             return fastLeaderboardID
         case .rapid:
             return rapidLeaderboardID
+        @unknown default:
+            return rapidLeaderboardID
         }
     }
 }

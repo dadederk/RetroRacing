@@ -105,8 +105,9 @@ Key API:
 - `.freemium`: always returns `false` (forces free behavior for testing).
 
 **Important**: 
-- `debugPremiumSimulationMode` **defaults to `.productionDefault`** so App Store reviewers experience the free tier.
-- The Debug section (with the picker) is **hidden** in Release builds via `BuildConfiguration.shouldShowDebugFeatures`.
+- `debugPremiumSimulationMode` **defaults to `.productionDefault`**.
+- Simulation overrides are active only when `StoreKitService` is created with `isDebugSimulationEnabled == true` (default: `BuildConfiguration.isDebug`).
+- The Debug section (with the picker) is **hidden** when `BuildConfiguration.shouldShowDebugFeatures == false`.
 - `StoreKitService.hasPremiumAccess` is the **single source of truth** for premium status. All UI checks (MenuView, GameView, SettingsView) check this property **first** before falling back to `PlayLimitService` checks. This ensures premium users **always** have unlimited plays regardless of `PlayLimitService` state.
 - When `debugPremiumSimulationMode == .freemium`, `StoreKitService` writes the debug override key (`"PlayLimit.debugForceFreemium"`) so `PlayLimitService` behaves as unpaid even if the device has previously unlocked unlimited plays.
 
@@ -114,16 +115,16 @@ Key API:
 
 **File:** `RetroRacingShared/Utilities/BuildConfiguration.swift`
 
-- Detects **DEBUG**, **TestFlight**, and **Release**:
+- Detects **DEBUG** and runtime environment details:
   - `isDebug`: compile‑time.
   - `isTestFlight`: via `AppTransaction.shared` environment (`.sandbox`).
-  - `shouldShowDebugFeatures`: `isDebug || isTestFlight`.
+  - `shouldShowDebugFeatures`: `isDebug`.
 - `initializeTestFlightCheck()` is called early from `RetroRacingApp` and `RetroRacingTvOSApp`.
 
 Used to:
 
 - Gate the **Debug** section in Settings.
-- Allow debug simulation mode selection in DEBUG/TestFlight builds.
+- Allow debug simulation mode selection in DEBUG builds.
 
 ### App‑Level Injection
 
@@ -346,7 +347,7 @@ Sections added:
    - Footer:
      - `"settings_restore_footer"`.
 
-3. **Debug (DEBUG/TestFlight only)**
+3. **Debug (DEBUG only)**
    - Picker: `"debug_simulate_premium"` (displayed as “Simulate Unlimited Plays”) bound to `storeKit.debugPremiumSimulationMode`.
    - Options:
      - `"debug_simulation_mode_default"` (Default / production behavior).
@@ -400,7 +401,7 @@ Scenarios covered:
   - No play limit (unbounded sessions).
   - Settings shows “♾️ Unlimited” + thank‑you message.
   - Paywall is still reachable from Settings but purchase is essentially a no‑op.
-- Debug/TestFlight:
+- Debug:
   - Debug section visible in Settings.
   - “Default” uses real entitlement state.
   - “Unlimited Plays” forces premium UI and bypasses limits.

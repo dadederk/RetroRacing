@@ -5,6 +5,7 @@ import SpriteKit
 @MainActor
 final class GameSceneAudioHapticsTests: XCTestCase {
     private var soundPlayer: MockSoundEffectPlayer!
+    private var laneCuePlayer: MockLaneCuePlayer!
     private var haptics: MockHapticFeedbackController!
     private var scene: GameScene!
     private var delegate: MockGameSceneDelegate!
@@ -13,6 +14,7 @@ final class GameSceneAudioHapticsTests: XCTestCase {
     override func setUp() {
         super.setUp()
         soundPlayer = MockSoundEffectPlayer()
+        laneCuePlayer = MockLaneCuePlayer()
         haptics = MockHapticFeedbackController()
         let loader = PlatformFactories.makeImageLoader()
         scene = GameScene.scene(
@@ -21,7 +23,9 @@ final class GameSceneAudioHapticsTests: XCTestCase {
             theme: nil,
             imageLoader: loader,
             soundPlayer: soundPlayer,
-            hapticController: haptics
+            laneCuePlayer: laneCuePlayer,
+            hapticController: haptics,
+            audioFeedbackMode: .retro
         )
         delegate = MockGameSceneDelegate(haptics: haptics)
         scene.gameDelegate = delegate
@@ -34,6 +38,7 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         delegate = nil
         scene = nil
         haptics = nil
+        laneCuePlayer = nil
         soundPlayer = nil
         super.tearDown()
     }
@@ -77,6 +82,47 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         XCTAssertTrue(soundPlayer.playedEffects.contains(.bip))
         XCTAssertEqual(delegate.gridUpdatesCount, 1)
         XCTAssertEqual(haptics.gridUpdates, 1)
+    }
+
+    func testGivenCueAudioModeWhenUpdatingBeyondThresholdThenTickCueIsTriggeredWithoutBip() {
+        // Given
+        scene.setAudioFeedbackMode(.cueChord)
+
+        // When
+        scene.update(1.0)
+
+        // Then
+        XCTAssertFalse(soundPlayer.playedEffects.contains(.bip))
+        XCTAssertEqual(laneCuePlayer.tickCalls, 1)
+        XCTAssertEqual(laneCuePlayer.moveCalls, 0)
+    }
+
+    func testGivenCueAudioModeWhenHandlingMoveThenMoveCueIsTriggeredWithoutBip() {
+        // Given
+        scene.setAudioFeedbackMode(.cueChord)
+        let adapter = TouchGameInputAdapter(controller: scene, hapticController: haptics)
+
+        // When
+        adapter.handleLeft()
+
+        // Then
+        XCTAssertFalse(soundPlayer.playedEffects.contains(.bip))
+        XCTAssertEqual(laneCuePlayer.tickCalls, 0)
+        XCTAssertEqual(laneCuePlayer.moveCalls, 1)
+    }
+
+    func testGivenSafetyOnlyMoveCueStyleWhenHandlingMoveThenLaneCuePlayerReceivesSafetyOnlyStyle() {
+        // Given
+        scene.setAudioFeedbackMode(.cueLanePulses)
+        scene.setLaneMoveCueStyle(.safetyOnly)
+        let adapter = TouchGameInputAdapter(controller: scene, hapticController: haptics)
+
+        // When
+        adapter.handleRight()
+
+        // Then
+        XCTAssertEqual(laneCuePlayer.moveCalls, 1)
+        XCTAssertEqual(laneCuePlayer.lastMoveCueStyle, .safetyOnly)
     }
 
     func testGivenCollisionWhenHandlingCrashThenFailSoundAndCrashHapticAreTriggered() {
@@ -129,6 +175,7 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         // Given
         let nonCompletingPlayer = MockSoundEffectPlayer()
         nonCompletingPlayer.shouldCallCompletion = false
+        let nonCompletingLaneCuePlayer = MockLaneCuePlayer()
         let fallbackHaptics = MockHapticFeedbackController()
         let loader = PlatformFactories.makeImageLoader()
         let testScene = GameScene.scene(
@@ -137,7 +184,9 @@ final class GameSceneAudioHapticsTests: XCTestCase {
             theme: nil,
             imageLoader: loader,
             soundPlayer: nonCompletingPlayer,
-            hapticController: fallbackHaptics
+            laneCuePlayer: nonCompletingLaneCuePlayer,
+            hapticController: fallbackHaptics,
+            audioFeedbackMode: .retro
         )
         let fallbackDelegate = MockGameSceneDelegate(haptics: fallbackHaptics)
         testScene.gameDelegate = fallbackDelegate
@@ -246,6 +295,18 @@ final class GameSceneAudioHapticsTests: XCTestCase {
 
         // Then
         XCTAssertEqual(soundPlayer.stopAllCalls.last, 0.2)
+        XCTAssertEqual(laneCuePlayer.stopAllCalls.last, 0.2)
+    }
+
+    func testGivenSceneWhenSettingSoundVolumeThenBothAudioPlayersReceiveVolume() {
+        // Given
+
+        // When
+        scene.setSoundVolume(0.35)
+
+        // Then
+        XCTAssertEqual(soundPlayer.lastVolume, 0.35)
+        XCTAssertEqual(laneCuePlayer.lastVolume, 0.35)
     }
 
     func testGivenCrashFlowWhenFailCompletionAndFallbackBothExistThenCollisionCallbackFiresOnce() async {
@@ -264,6 +325,7 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         // Given
         let nonCompletingPlayer = MockSoundEffectPlayer()
         nonCompletingPlayer.shouldCallCompletion = false
+        let nonCompletingLaneCuePlayer = MockLaneCuePlayer()
         let loader = PlatformFactories.makeImageLoader()
         let testScene = GameScene.scene(
             size: CGSize(width: 200, height: 200),
@@ -271,7 +333,9 @@ final class GameSceneAudioHapticsTests: XCTestCase {
             theme: nil,
             imageLoader: loader,
             soundPlayer: nonCompletingPlayer,
-            hapticController: nil
+            laneCuePlayer: nonCompletingLaneCuePlayer,
+            hapticController: nil,
+            audioFeedbackMode: .retro
         )
         testScene.startPlaybackFallbackDuration = 0.05
         let testView = SKView(frame: CGRect(origin: .zero, size: CGSize(width: 200, height: 200)))
@@ -288,6 +352,7 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         // Given
         let delayedPlayer = MockSoundEffectPlayer()
         delayedPlayer.shouldCallCompletion = false
+        let delayedLaneCuePlayer = MockLaneCuePlayer()
         let loader = PlatformFactories.makeImageLoader()
         let testScene = GameScene.scene(
             size: CGSize(width: 200, height: 200),
@@ -295,7 +360,9 @@ final class GameSceneAudioHapticsTests: XCTestCase {
             theme: nil,
             imageLoader: loader,
             soundPlayer: delayedPlayer,
-            hapticController: nil
+            laneCuePlayer: delayedLaneCuePlayer,
+            hapticController: nil,
+            audioFeedbackMode: .retro
         )
         let testView = SKView(frame: CGRect(origin: .zero, size: CGSize(width: 200, height: 200)))
         testView.presentScene(testScene)
@@ -314,6 +381,7 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         // Given
         let nonCompletingPlayer = MockSoundEffectPlayer()
         nonCompletingPlayer.shouldCallCompletion = false
+        let nonCompletingLaneCuePlayer = MockLaneCuePlayer()
         let fallbackHaptics = MockHapticFeedbackController()
         let loader = PlatformFactories.makeImageLoader()
         let testScene = GameScene.scene(
@@ -322,7 +390,9 @@ final class GameSceneAudioHapticsTests: XCTestCase {
             theme: nil,
             imageLoader: loader,
             soundPlayer: nonCompletingPlayer,
-            hapticController: fallbackHaptics
+            laneCuePlayer: nonCompletingLaneCuePlayer,
+            hapticController: fallbackHaptics,
+            audioFeedbackMode: .retro
         )
         testScene.startPlaybackFallbackDuration = 0.01
         testScene.crashResolutionFallbackDuration = 0.05
@@ -387,6 +457,40 @@ final class MockSoundEffectPlayer: SoundEffectPlayer {
         pendingCompletions[effect] = completions
         completion()
         return true
+    }
+}
+
+final class MockLaneCuePlayer: LaneCuePlayer {
+    private(set) var tickCalls = 0
+    private(set) var moveCalls = 0
+    private(set) var lastTickSafeColumns: Set<CueColumn> = []
+    private(set) var lastMoveColumn: CueColumn?
+    private(set) var lastMoveSafeState = true
+    private(set) var lastMode: AudioFeedbackMode = .retro
+    private(set) var lastMoveCueStyle: LaneMoveCueStyle = .defaultStyle
+    private(set) var stopAllCalls: [TimeInterval] = []
+    private(set) var lastVolume: Double?
+
+    func playTickCue(safeColumns: Set<CueColumn>, mode: AudioFeedbackMode) {
+        tickCalls += 1
+        lastTickSafeColumns = safeColumns
+        lastMode = mode
+    }
+
+    func playMoveCue(column: CueColumn, isSafe: Bool, mode: AudioFeedbackMode, style: LaneMoveCueStyle) {
+        moveCalls += 1
+        lastMoveColumn = column
+        lastMoveSafeState = isSafe
+        lastMode = mode
+        lastMoveCueStyle = style
+    }
+
+    func setVolume(_ volume: Double) {
+        lastVolume = volume
+    }
+
+    func stopAll(fadeDuration: TimeInterval) {
+        stopAllCalls.append(fadeDuration)
     }
 }
 

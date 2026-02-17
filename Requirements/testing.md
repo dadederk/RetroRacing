@@ -22,6 +22,8 @@ For app-level tests (RetroRacingUniversal): `-scheme RetroRacingUniversalTests`
 - Services (mocked protocol implementations)
 - Configuration objects
 - Utilities and extensions
+- Accessibility audio behavior (retro vs cue-mode routing, move-cue style routing, conditional-default overrides)
+- Difficulty timing behavior (clear pacing separation for cruise/fast/rapid and conditional-default wiring)
 
 ### UI Tests (Future)
 

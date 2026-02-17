@@ -36,6 +36,11 @@ public protocol RacingGameController {
     func moveRight()
 }
 
+enum AudioFeedbackEvent {
+    case tick
+    case move(destinationColumn: Int)
+}
+
 /// SpriteKit scene that owns shared gameplay flow, grid updates, and sound feedback for RetroRacing.
 public class GameScene: SKScene {
     /// Bundle containing all game assets (sprites, sounds). Assets live only in RetroRacingShared; load from here.
@@ -46,8 +51,12 @@ public class GameScene: SKScene {
 
     /// Injected sound player for all SFX.
     public var soundPlayer: SoundEffectPlayer?
+    /// Injected lane-cue player for accessibility-driven guidance.
+    public var laneCuePlayer: LaneCuePlayer?
     /// Optional haptic controller to fire crash haptics immediately on collision.
     public var hapticController: HapticFeedbackController?
+    public private(set) var audioFeedbackMode: AudioFeedbackMode = .defaultMode
+    public private(set) var laneMoveCueStyle: LaneMoveCueStyle = .defaultStyle
 
     private var initialDtForGameUpdate = 0.6
     private var lastGameUpdateTime: TimeInterval = 0
@@ -101,24 +110,34 @@ public class GameScene: SKScene {
         theme: (any GameTheme)?,
         imageLoader: any ImageLoader,
         soundPlayer: SoundEffectPlayer,
+        laneCuePlayer: LaneCuePlayer?,
         hapticController: HapticFeedbackController?,
+        audioFeedbackMode: AudioFeedbackMode,
+        laneMoveCueStyle: LaneMoveCueStyle,
         difficulty: GameDifficulty
     ) {
         super.init(size: size)
         self.theme = theme
         self.imageLoader = imageLoader
         self.soundPlayer = soundPlayer
+        self.laneCuePlayer = laneCuePlayer
         self.hapticController = hapticController
+        self.audioFeedbackMode = audioFeedbackMode
+        self.laneMoveCueStyle = laneMoveCueStyle
         applyDifficulty(difficulty)
     }
 
     public override init(size: CGSize) {
         super.init(size: size)
+        audioFeedbackMode = .defaultMode
+        laneMoveCueStyle = .defaultStyle
         applyDifficulty(.defaultDifficulty)
     }
 
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        audioFeedbackMode = .defaultMode
+        laneMoveCueStyle = .defaultStyle
         applyDifficulty(.defaultDifficulty)
     }
 
@@ -139,14 +158,20 @@ public class GameScene: SKScene {
         theme: (any GameTheme)? = nil,
         imageLoader: some ImageLoader,
         soundPlayer: SoundEffectPlayer = PlatformFactories.makeSoundPlayer(),
-        hapticController: HapticFeedbackController? = nil
+        laneCuePlayer: LaneCuePlayer? = nil,
+        hapticController: HapticFeedbackController? = nil,
+        audioFeedbackMode: AudioFeedbackMode = .defaultMode,
+        laneMoveCueStyle: LaneMoveCueStyle = .defaultStyle
     ) -> GameScene {
         let scene = GameScene(
             size: size,
             theme: theme,
             imageLoader: imageLoader,
             soundPlayer: soundPlayer,
+            laneCuePlayer: laneCuePlayer,
             hapticController: hapticController,
+            audioFeedbackMode: audioFeedbackMode,
+            laneMoveCueStyle: laneMoveCueStyle,
             difficulty: difficulty
         )
         scene.anchorPoint = CGPoint(x: 0, y: 0)
@@ -160,7 +185,10 @@ public class GameScene: SKScene {
         difficulty: GameDifficulty,
         imageLoader: some ImageLoader,
         soundPlayer: SoundEffectPlayer = PlatformFactories.makeSoundPlayer(),
-        hapticController: HapticFeedbackController? = nil
+        laneCuePlayer: LaneCuePlayer? = nil,
+        hapticController: HapticFeedbackController? = nil,
+        audioFeedbackMode: AudioFeedbackMode = .defaultMode,
+        laneMoveCueStyle: LaneMoveCueStyle = .defaultStyle
     ) -> GameScene {
         let defaultSize = CGSize(width: 800, height: 600)
         return scene(
@@ -169,7 +197,10 @@ public class GameScene: SKScene {
             theme: nil,
             imageLoader: imageLoader,
             soundPlayer: soundPlayer,
-            hapticController: hapticController
+            laneCuePlayer: laneCuePlayer,
+            hapticController: hapticController,
+            audioFeedbackMode: audioFeedbackMode,
+            laneMoveCueStyle: laneMoveCueStyle
         )
     }
 
@@ -355,10 +386,20 @@ public class GameScene: SKScene {
 
     public func setSoundVolume(_ volume: Double) {
         soundPlayer?.setVolume(volume)
+        laneCuePlayer?.setVolume(volume)
     }
 
     public func stopAllSounds(fadeDuration: TimeInterval = 0.15) {
         soundPlayer?.stopAll(fadeDuration: fadeDuration)
+        laneCuePlayer?.stopAll(fadeDuration: fadeDuration)
+    }
+
+    public func setAudioFeedbackMode(_ mode: AudioFeedbackMode) {
+        audioFeedbackMode = mode
+    }
+
+    public func setLaneMoveCueStyle(_ style: LaneMoveCueStyle) {
+        laneMoveCueStyle = style
     }
 
     private func playStartThenUnpause() {
@@ -398,6 +439,64 @@ public class GameScene: SKScene {
         crashResolutionFallbackTask?.cancel()
         crashResolutionFallbackTask = nil
     }
+
+    func playFeedback(event: AudioFeedbackEvent) {
+        switch audioFeedbackMode {
+        case .retro:
+            play(.bip)
+        case .cueChord, .cueArpeggio, .cueLanePulses:
+            guard let laneCuePlayer else {
+                play(.bip)
+                return
+            }
+
+            switch event {
+            case .tick:
+                laneCuePlayer.playTickCue(safeColumns: safeColumnsAheadOfPlayer(), mode: audioFeedbackMode)
+            case .move(let destinationColumn):
+                guard let column = cueColumn(for: destinationColumn) else { return }
+                let isSafe = isSafeDestinationColumn(destinationColumn)
+                laneCuePlayer.playMoveCue(
+                    column: column,
+                    isSafe: isSafe,
+                    mode: audioFeedbackMode,
+                    style: laneMoveCueStyle
+                )
+            }
+        }
+    }
+
+    private func safeColumnsAheadOfPlayer() -> Set<CueColumn> {
+        let candidateRow = gridState.playerRowIndex - 1
+        guard candidateRow >= 0, candidateRow < gridState.numberOfRows else {
+            return Set(CueColumn.allCases)
+        }
+
+        var safeColumns: Set<CueColumn> = []
+        for column in 0..<gridState.numberOfColumns {
+            guard let cueColumn = cueColumn(for: column) else { continue }
+            if gridState.grid[candidateRow][column] != .Car {
+                safeColumns.insert(cueColumn)
+            }
+        }
+        return safeColumns
+    }
+
+    private func isSafeDestinationColumn(_ destinationColumn: Int) -> Bool {
+        let candidateRow = gridState.playerRowIndex - 1
+        guard candidateRow >= 0,
+              candidateRow < gridState.numberOfRows,
+              destinationColumn >= 0,
+              destinationColumn < gridState.numberOfColumns else {
+            return true
+        }
+
+        return gridState.grid[candidateRow][destinationColumn] != .Car
+    }
+
+    private func cueColumn(for column: Int) -> CueColumn? {
+        CueColumn(rawValue: column)
+    }
 }
 
 extension GameScene: RacingGameController {
@@ -410,7 +509,12 @@ extension GameScene: RacingGameController {
 
         AppLog.info(AppLog.game, "🎮 GameScene.moveLeft from column \(String(describing: previousColumn)) to \(String(describing: lastPlayerColumn))")
         hapticController?.triggerMoveHaptic()
-        gridStateDidUpdate(gridState, shouldPlayFeedback: true, notifyDelegate: false)
+        gridStateDidUpdate(
+            gridState,
+            shouldPlayFeedback: true,
+            notifyDelegate: false,
+            feedbackEvent: .move(destinationColumn: lastPlayerColumn)
+        )
     }
 
     public func moveRight() {
@@ -422,7 +526,12 @@ extension GameScene: RacingGameController {
 
         AppLog.info(AppLog.game, "🎮 GameScene.moveRight from column \(String(describing: previousColumn)) to \(String(describing: lastPlayerColumn))")
         hapticController?.triggerMoveHaptic()
-        gridStateDidUpdate(gridState, shouldPlayFeedback: true, notifyDelegate: false)
+        gridStateDidUpdate(
+            gridState,
+            shouldPlayFeedback: true,
+            notifyDelegate: false,
+            feedbackEvent: .move(destinationColumn: lastPlayerColumn)
+        )
     }
 }
 
