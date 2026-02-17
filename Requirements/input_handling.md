@@ -16,10 +16,11 @@ RetroRacing captures platform-specific input at the UI layer and translates it i
 ### watchOS Digital Crown (Legacy Feel)
 
 - **Processor**: `LegacyCrownInputProcessor` in `RetroRacingShared` replicates the old `WKCrownDelegate` behavior.
-- **Threshold**: Rotation is ignored until `abs(delta) > 0.05`.
+- **Threshold**: Crown deltas are accumulated and movement triggers when `abs(accumulatedDelta) > 0.30` (reduces accidental lane changes while still allowing slower turns to register).
 - **Gating**: Only one move per rotation burst. Additional deltas are ignored until the crown is idle.
 - **Idle detection**: SwiftUI has no direct idle callback, so `WatchGameView` uses a debounced reset (`~150ms`) to simulate `crownDidBecomeIdle`.
 - **Delta source**: `digitalCrownRotation` deltas are computed from successive value changes (no manual reset), keeping the stream continuous.
+- **SwiftUI crown sensitivity**: `WatchGameView` uses `.digitalCrownRotation(..., sensitivity: .low, ...)` so larger physical crown turns are required before movement is detected.
 - **Focus**: `WatchGameView` sets focus with `@FocusState` to keep crown input active during play.
 - **Adapter**: Movement uses `CrownGameInputAdapter` to call `moveLeft()` / `moveRight()` on `GameScene`.
 

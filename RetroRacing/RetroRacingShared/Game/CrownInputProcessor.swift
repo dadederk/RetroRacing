@@ -26,6 +26,7 @@ public struct LegacyCrownInputProcessor: Sendable {
 
     private let configuration: Configuration
     private var isRotationAllowed = true
+    private var accumulatedDelta: Double = 0
 
     public init(configuration: Configuration) {
         self.configuration = configuration
@@ -33,13 +34,17 @@ public struct LegacyCrownInputProcessor: Sendable {
 
     public mutating func handleRotationDelta(_ delta: Double) -> CrownInputAction {
         guard isRotationAllowed else { return .none }
-        guard abs(delta) > configuration.rotationThreshold else { return .none }
+        accumulatedDelta += delta
+        guard abs(accumulatedDelta) > configuration.rotationThreshold else { return .none }
 
         isRotationAllowed = false
-        return delta > 0 ? .moveRight : .moveLeft
+        let action: CrownInputAction = accumulatedDelta > 0 ? .moveRight : .moveLeft
+        accumulatedDelta = 0
+        return action
     }
 
     public mutating func markIdle() {
         isRotationAllowed = true
+        accumulatedDelta = 0
     }
 }

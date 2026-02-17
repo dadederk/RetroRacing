@@ -144,7 +144,7 @@ struct WatchGameView: View {
                     from: -100,
                     through: 100,
                     by: 0.1,
-                    sensitivity: .high,
+                    sensitivity: .low,
                     isContinuous: true,
                     isHapticFeedbackEnabled: true
                 )
