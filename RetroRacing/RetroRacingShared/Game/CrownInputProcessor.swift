@@ -21,7 +21,7 @@ public struct LegacyCrownInputProcessor: Sendable {
             self.rotationThreshold = rotationThreshold
         }
 
-        public static let watchLegacy = Configuration(rotationThreshold: 0.05)
+        public static let watchLegacy = Configuration(rotationThreshold: 0.15)
     }
 
     private let configuration: Configuration

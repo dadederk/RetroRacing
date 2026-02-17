@@ -24,6 +24,47 @@ The game **must** respect the user’s Reduce Motion preference:
 - **Game-over modal:** `GameOverView` is presented as a non-interactively dismissable sheet (`interactiveDismissDisabled(true)`) with explicit **Restart** and **Finish** actions. Content is wrapped in a `ScrollView` so all summary rows and actions remain reachable at large Dynamic Type sizes and in compact landscape layouts. Decorative result artwork is hidden from accessibility while score/best labels remain readable by VoiceOver.
 - **Game-over typography:** Modal subtitle, score rows, and actions use `FontPreferenceStore` semantic text styles from environment so Dynamic Type and app font selection are respected.
 
+
+## Conditional Defaults for Accessibility
+
+Some settings provide **system-derived defaults** that adapt to the user's accessibility configuration, while allowing explicit user overrides.
+
+### Pattern
+
+Each conditional-default setting:
+1. **System default:** Computed from current accessibility or system state (e.g., VoiceOver running, Dynamic Type size, Reduce Motion)
+2. **User override:** Optional explicit choice that takes precedence over the system default
+3. **Storage:** Persisted as either "use system default" or "user chose X" via `ConditionalDefault<Value>`
+
+### Infrastructure
+
+- **`ConditionalDefault<Value>`** (`RetroRacingShared/Settings/ConditionalDefault.swift`): Generic storage type for conditional defaults. Implements `ConditionalDefaultValue` protocol requiring a static `systemDefault` computed property.
+- **UserDefaults integration:** `load(from:key:)` and `save(to:key:)` methods for persistence.
+- **Binding support:** SettingsView uses a `Binding` that reads `effectiveValue` and writes via `setUserOverride(_:)`.
+
+### Example: Game Difficulty
+
+**Requirement:** Default to `.cruise` (slowest pace) when VoiceOver is running; otherwise default to `.rapid`. User can explicitly select any difficulty to override.
+
+**Implementation:**
+
+- `GameDifficulty` conforms to `ConditionalDefaultValue` with `static var systemDefault: GameDifficulty` that checks `UIAccessibility.isVoiceOverRunning` (iOS/tvOS/watchOS/visionOS) or `NSWorkspace.shared.isVoiceOverEnabled` (macOS).
+- `GameDifficulty.currentSelection(from:)` loads the `ConditionalDefault<GameDifficulty>` and returns `effectiveValue`.
+- `SettingsView` displays a `Picker` bound to `difficultySelection: Binding<GameDifficulty>`, which updates the conditional default and persists it.
+- When the user is using the system default and VoiceOver is running, a secondary label ("Using Cruise (default when VoiceOver is on)") appears below the picker.
+
+**UI behavior:**
+
+- When no override is stored and VoiceOver is on: picker shows Cruise, with note "Using Cruise (default when VoiceOver is on)".
+- User selects Fast: override is stored, picker shows Fast, no note.
+- User turns VoiceOver off later: picker still shows Fast (override persists).
+- To reset: future UI could offer "Use system default" button; for now, deleting the stored override returns to system default.
+
+### Future conditional-default settings
+
+- **Lane audio cues:** Default to on when VoiceOver is running (plan item 2.8c).
+- **Top-down view:** Default to on when large Dynamic Type is active (future feature 7.1).
+
 ## Other Dimensions
 
 - **Dynamic Type:** Menu and UI text use semantic font APIs (`font(textStyle:)`) so system and monospaced styles track native Dynamic Type; custom retro font follows comparable growth curves via semantic relative sizing. Layouts should adapt at accessibility sizes.

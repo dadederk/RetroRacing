@@ -86,4 +86,51 @@ extension GameScene {
             }
         }
     }
+
+    /// Applies a pulsing animation to the player car sprite during the start sequence.
+    func applyStartPulseToPlayerCar() {
+        let prefersReducedMotion: Bool = {
+            #if os(iOS) || os(tvOS)
+            return UIAccessibility.isReduceMotionEnabled
+            #elseif os(macOS)
+            return NSWorkspace.shared.accessibilityDisplayShouldReduceMotion
+            #else
+            return false
+            #endif
+        }()
+
+        guard !prefersReducedMotion else { return }
+
+        let playerRow = gridState.playerRowIndex
+        let playerColumn = gridState.playerRow().firstIndex(of: .Player) ?? lastPlayerColumn
+
+        for sprite in spritesForGivenState {
+            guard let parent = sprite.parent as? SKShapeNode else { continue }
+            let cellName = nameForCell(column: playerColumn, row: playerRow)
+            if parent.name == cellName {
+                let fadeToSemi = SKAction.fadeAlpha(to: 0.4, duration: 0.3)
+                let fadeToFull = SKAction.fadeAlpha(to: 1.0, duration: 0.3)
+                let pulseOnce = SKAction.sequence([fadeToSemi, fadeToFull])
+                let pulseAnimation = SKAction.repeat(pulseOnce, count: 3)
+                sprite.run(pulseAnimation, withKey: "startPulse")
+                break
+            }
+        }
+    }
+
+    /// Stops the pulsing animation on the player car sprite.
+    func stopStartPulseOnPlayerCar() {
+        let playerRow = gridState.playerRowIndex
+        let playerColumn = gridState.playerRow().firstIndex(of: .Player) ?? lastPlayerColumn
+
+        for sprite in spritesForGivenState {
+            guard let parent = sprite.parent as? SKShapeNode else { continue }
+            let cellName = nameForCell(column: playerColumn, row: playerRow)
+            if parent.name == cellName {
+                sprite.removeAction(forKey: "startPulse")
+                sprite.alpha = 1.0
+                break
+            }
+        }
+    }
 }

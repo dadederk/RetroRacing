@@ -3175,6 +3175,29 @@
           }
         }
       }
+    },
+    "settings_speed_voiceover_default": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Using Cruise (default when VoiceOver is on)"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usando Tranquilo (predeterminado cuando VoiceOver está activo)"
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Usant Tranquil (predeterminat quan VoiceOver està actiu)"
+          }
+        }
+      }
     }
   },
   "version": "1.0"

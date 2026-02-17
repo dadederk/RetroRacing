@@ -18,6 +18,8 @@ struct LeaderboardConfigurationIPad: LeaderboardConfiguration {
             return "bestipad001fast"
         case .rapid:
             return "bestipad001test"
+        @unknown default:
+            return "bestipad001test"
         }
     }
 }

@@ -22,6 +22,7 @@ public struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(StoreKitService.self) private var storeKit
     @AppStorage(GameDifficulty.storageKey) private var selectedDifficultyRawValue: String = GameDifficulty.defaultDifficulty.rawValue
+    @State private var difficultyConditionalDefault: ConditionalDefault<GameDifficulty> = ConditionalDefault()
     @AppStorage(HapticFeedbackPreference.storageKey) private var hapticFeedbackEnabled: Bool = true
     @AppStorage(SoundPreferences.volumeKey) private var sfxVolume: Double = SoundPreferences.defaultVolume
     @AppStorage(InGameAnnouncementsPreference.storageKey) private var inGameAnnouncementsEnabled: Bool = InGameAnnouncementsPreference.defaultEnabled
@@ -56,6 +57,12 @@ public struct SettingsView: View {
             #if os(macOS)
             .frame(minWidth: 420, minHeight: 380)
             #endif
+            .onAppear {
+                difficultyConditionalDefault = ConditionalDefault<GameDifficulty>.load(
+                    from: InfrastructureDefaults.userDefaults,
+                    key: GameDifficulty.conditionalDefaultStorageKey
+                )
+            }
     }
     private var settingsContent: some View {
         NavigationStack {
@@ -143,15 +150,33 @@ public struct SettingsView: View {
                 }
 
                 Section {
-                    Picker(selection: selectedDifficultyBinding) {
-                        ForEach(GameDifficulty.allCases, id: \.self) { difficulty in
-                            Text(GameLocalizedStrings.string(difficulty.localizedNameKey))
+                    VStack(alignment: .leading, spacing: 8) {
+                        Picker(selection: difficultySelection) {
+                            ForEach(GameDifficulty.allCases, id: \.self) { difficulty in
+                                Text(GameLocalizedStrings.string(difficulty.localizedNameKey))
+                                    .font(fontForLabels)
+                                    .tag(difficulty)
+                            }
+                        } label: {
+                            Text(GameLocalizedStrings.string("settings_speed"))
                                 .font(fontForLabels)
-                                .tag(difficulty)
                         }
-                    } label: {
-                        Text(GameLocalizedStrings.string("settings_speed"))
-                            .font(fontForLabels)
+                        
+                        if difficultyConditionalDefault.isUsingSystemDefault {
+                            #if os(iOS) || os(tvOS) || os(visionOS)
+                            if UIAccessibility.isVoiceOverRunning {
+                                Text(GameLocalizedStrings.string("settings_speed_voiceover_default"))
+                                    .font(secondaryFont)
+                                    .foregroundStyle(.secondary)
+                            }
+                            #elseif os(macOS)
+                            if NSWorkspace.shared.isVoiceOverEnabled {
+                                Text(GameLocalizedStrings.string("settings_speed_voiceover_default"))
+                                    .font(secondaryFont)
+                                    .foregroundStyle(.secondary)
+                            }
+                            #endif
+                        }
                     }
                 } header: {
                     Text(GameLocalizedStrings.string("settings_speed"))
@@ -359,6 +384,19 @@ public struct SettingsView: View {
         Binding(
             get: { GameDifficulty.fromStoredValue(selectedDifficultyRawValue) },
             set: { selectedDifficultyRawValue = $0.rawValue }
+        )
+    }
+    
+    private var difficultySelection: Binding<GameDifficulty> {
+        Binding(
+            get: { difficultyConditionalDefault.effectiveValue },
+            set: { newValue in
+                difficultyConditionalDefault.setUserOverride(newValue)
+                difficultyConditionalDefault.save(
+                    to: InfrastructureDefaults.userDefaults,
+                    key: GameDifficulty.conditionalDefaultStorageKey
+                )
+            }
         )
     }
 

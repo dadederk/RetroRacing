@@ -18,6 +18,8 @@ struct LeaderboardConfigurationUniversal: LeaderboardConfiguration {
             return "bestios001fast"
         case .rapid:
             return "bestios001test"
+        @unknown default:
+            return "bestios001test"
         }
     }
 }

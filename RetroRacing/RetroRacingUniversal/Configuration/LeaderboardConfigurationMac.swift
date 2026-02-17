@@ -18,6 +18,8 @@ struct LeaderboardConfigurationMac: LeaderboardConfiguration {
             return "bestmacos001fast"
         case .rapid:
             return "bestmacos001test"
+        @unknown default:
+            return "bestmacos001test"
         }
     }
 }

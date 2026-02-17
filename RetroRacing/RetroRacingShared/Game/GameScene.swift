@@ -70,7 +70,7 @@ public class GameScene: SKScene {
     )
     public private(set) var gameState = GameState()
     public private(set) var difficulty: GameDifficulty = .defaultDifficulty
-    private var lastPlayerColumn: Int = 1
+    var lastPlayerColumn: Int = 1
     private var lastLevelChangeImminent = false
 
     /// Number of points before level-up to show the speed-increasing alert; configurable, defaults to 3.
@@ -364,6 +364,7 @@ public class GameScene: SKScene {
     private func playStartThenUnpause() {
         updatePauseState(true)
         startUnpauseFallbackTask?.cancel()
+        applyStartPulseToPlayerCar()
         play(.start) { [weak self] in
             self?.finishStartPlaybackIfNeeded()
         }
@@ -378,6 +379,7 @@ public class GameScene: SKScene {
     private func finishStartPlaybackIfNeeded() {
         guard gameState.isPaused else { return }
         guard isOverlayPauseLocked == false else { return }
+        stopStartPulseOnPlayerCar()
         startUnpauseFallbackTask?.cancel()
         startUnpauseFallbackTask = nil
         updatePauseState(false)

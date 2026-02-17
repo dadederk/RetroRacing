@@ -6,6 +6,11 @@
 //
 
 import Foundation
+#if os(macOS)
+import AppKit
+#else
+import UIKit
+#endif
 
 /// Mutable gameplay snapshot tracking progression, pause state, and scoring.
 public struct GameState {
@@ -58,7 +63,26 @@ public enum GameDifficulty: String, CaseIterable, Sendable {
     case rapid
 
     public static let storageKey = "selectedDifficulty"
+    public static let conditionalDefaultStorageKey = "selectedDifficulty_conditionalDefault"
     public static let defaultDifficulty: GameDifficulty = .rapid
+    
+    /// System-derived default: .cruise when VoiceOver is running, otherwise .rapid
+    public static var systemDefault: GameDifficulty {
+        #if os(iOS) || os(tvOS) || os(visionOS)
+        if UIAccessibility.isVoiceOverRunning {
+            return .cruise
+        }
+        return .rapid
+        #elseif os(watchOS)
+        // watchOS doesn't have isVoiceOverRunning API; default to .rapid
+        return .rapid
+        #elseif os(macOS)
+        if NSWorkspace.shared.isVoiceOverEnabled {
+            return .cruise
+        }
+        return .rapid
+        #endif
+    }
 
     public var localizedNameKey: String {
         switch self {
@@ -88,12 +112,22 @@ public enum GameDifficulty: String, CaseIterable, Sendable {
 
     public static func fromStoredValue(_ value: String?) -> GameDifficulty {
         guard let value, let difficulty = GameDifficulty(rawValue: value) else {
-            return defaultDifficulty
+            return systemDefault
         }
         return difficulty
     }
 
     public static func currentSelection(from userDefaults: UserDefaults) -> GameDifficulty {
-        fromStoredValue(userDefaults.string(forKey: storageKey))
+        // Check for conditional default first
+        let conditionalDefault = ConditionalDefault<GameDifficulty>.load(
+            from: userDefaults,
+            key: conditionalDefaultStorageKey
+        )
+        return conditionalDefault.effectiveValue
     }
+}
+
+// MARK: - ConditionalDefaultValue conformance
+extension GameDifficulty: ConditionalDefaultValue {
+    // systemDefault is already defined above
 }

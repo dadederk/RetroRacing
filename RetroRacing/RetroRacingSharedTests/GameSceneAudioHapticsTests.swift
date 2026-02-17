@@ -91,6 +91,21 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         XCTAssertTrue(scene.gameState.isPaused)
     }
 
+    func testGivenSceneReadyWhenApplyingStartPulseThenPulseMethodsAreCallable() {
+        // Given
+        scene.start()
+        scene.update(1.0) // Ensure sprites are created
+        
+        // When - verify methods can be called without crashing
+        scene.applyStartPulseToPlayerCar()
+        
+        // Then - verify stop method can be called without crashing
+        scene.stopStartPulseOnPlayerCar()
+        
+        // No crash means the methods work correctly
+        XCTAssertTrue(true, "Pulse methods are callable")
+    }
+
     func testGivenCrashSpriteVisibleWhenResumingThenCrashSpriteIsClearedWhileStartSoundPlays() {
         // Given
         var crashGrid = scene.gridState

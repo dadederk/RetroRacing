@@ -10,6 +10,7 @@ struct SettingsView: View {
     let isGameCenterAuthenticated: Bool
     @Environment(\.dismiss) private var dismiss
     @AppStorage(GameDifficulty.storageKey) private var selectedDifficultyRawValue: String = GameDifficulty.defaultDifficulty.rawValue
+    @State private var difficultyConditionalDefault: ConditionalDefault<GameDifficulty> = ConditionalDefault()
     @AppStorage(HapticFeedbackPreference.storageKey) private var hapticFeedbackEnabled: Bool = true
     @AppStorage(SoundPreferences.volumeKey) private var sfxVolume: Double = SoundPreferences.defaultVolume
 
@@ -75,15 +76,19 @@ struct SettingsView: View {
                 }
 
                 Section {
-                    Picker(selection: selectedDifficultyBinding) {
-                        ForEach(GameDifficulty.allCases, id: \.self) { difficulty in
-                            Text(GameLocalizedStrings.string(difficulty.localizedNameKey))
+                    VStack(alignment: .leading, spacing: 8) {
+                        Picker(selection: difficultySelection) {
+                            ForEach(GameDifficulty.allCases, id: \.self) { difficulty in
+                                Text(GameLocalizedStrings.string(difficulty.localizedNameKey))
+                                    .font(fontForLabels)
+                                    .tag(difficulty)
+                            }
+                        } label: {
+                            Text(GameLocalizedStrings.string("settings_speed"))
                                 .font(fontForLabels)
-                                .tag(difficulty)
                         }
-                    } label: {
-                        Text(GameLocalizedStrings.string("settings_speed"))
-                            .font(fontForLabels)
+                        
+                        // watchOS doesn't have isVoiceOverRunning API, so no conditional note
                     }
                 } header: {
                     Text(GameLocalizedStrings.string("settings_speed"))
@@ -137,6 +142,12 @@ struct SettingsView: View {
                     .buttonStyle(.glass)
                 }
             }
+            .onAppear {
+                difficultyConditionalDefault = ConditionalDefault<GameDifficulty>.load(
+                    from: InfrastructureDefaults.userDefaults,
+                    key: GameDifficulty.conditionalDefaultStorageKey
+                )
+            }
         }
     }
 
@@ -144,6 +155,19 @@ struct SettingsView: View {
         Binding(
             get: { GameDifficulty.fromStoredValue(selectedDifficultyRawValue) },
             set: { selectedDifficultyRawValue = $0.rawValue }
+        )
+    }
+    
+    private var difficultySelection: Binding<GameDifficulty> {
+        Binding(
+            get: { difficultyConditionalDefault.effectiveValue },
+            set: { newValue in
+                difficultyConditionalDefault.setUserOverride(newValue)
+                difficultyConditionalDefault.save(
+                    to: InfrastructureDefaults.userDefaults,
+                    key: GameDifficulty.conditionalDefaultStorageKey
+                )
+            }
         )
     }
 }
