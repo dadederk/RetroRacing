@@ -32,7 +32,7 @@
     - Tick: `playTickCue` with all three columns and `cueArpeggio` mode.
     - Move: `playMoveCue` with middle-lane lane-confirmation tone.
 - `stopAll(fadeDuration: 0.1–0.2s)` is exposed and called when leaving the game view, forwarding to both audio systems.
-- Move haptics are triggered inside `GameScene.moveLeft/moveRight` after pause guards so inputs while paused do not vibrate.
+- Move haptics are triggered inside `GameScene.moveLeft/moveRight` immediately after pause guards (before move/grid work) so inputs while paused do not vibrate and tap feel stays tight.
 - Crash haptic is triggered in `handleCrash` immediately; collision resolution completes on fail-sound completion with an 8s fallback if completion is missing (e.g. route change), so normal flow waits for the active fail cue to finish.
 - Start/resume keeps `gameState.isPaused == true` until `start` sound completion sets it to false; on post-crash resume the player-car grid is rendered immediately (no lingering crash sprite), and a 2s fallback unpauses if completion is missing.
 - App bootstrap listens to audio session interruption/route/media-reset notifications and re-activates the session.

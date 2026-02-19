@@ -524,13 +524,13 @@ public class GameScene: SKScene {
 extension GameScene: RacingGameController {
     public func moveLeft() {
         guard !gameState.isPaused else { return }
+        hapticController?.triggerMoveHaptic()
 
         let previousColumn = lastPlayerColumn
         (gridState, _) = gridCalculator.nextGrid(previousGrid: gridState, actions: [.moveCar(direction: .left)])
         lastPlayerColumn = gridState.playerRow().firstIndex(of: .Player) ?? lastPlayerColumn
 
         AppLog.info(AppLog.game, "🎮 GameScene.moveLeft from column \(String(describing: previousColumn)) to \(String(describing: lastPlayerColumn))")
-        hapticController?.triggerMoveHaptic()
         gridStateDidUpdate(
             gridState,
             shouldPlayFeedback: true,
@@ -541,13 +541,13 @@ extension GameScene: RacingGameController {
 
     public func moveRight() {
         guard !gameState.isPaused else { return }
+        hapticController?.triggerMoveHaptic()
 
         let previousColumn = lastPlayerColumn
         (gridState, _) = gridCalculator.nextGrid(previousGrid: gridState, actions: [.moveCar(direction: .right)])
         lastPlayerColumn = gridState.playerRow().firstIndex(of: .Player) ?? lastPlayerColumn
 
         AppLog.info(AppLog.game, "🎮 GameScene.moveRight from column \(String(describing: previousColumn)) to \(String(describing: lastPlayerColumn))")
-        hapticController?.triggerMoveHaptic()
         gridStateDidUpdate(
             gridState,
             shouldPlayFeedback: true,
