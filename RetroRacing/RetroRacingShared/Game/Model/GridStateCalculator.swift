@@ -177,6 +177,6 @@ public struct GridUpdateTimingConfiguration {
 
     public static let rapid = GridUpdateTimingConfiguration(initialInterval: 0.6, logDivider: 4.0, minimumInterval: 0.05)
     public static let fast = GridUpdateTimingConfiguration(initialInterval: 0.96, logDivider: 4.5, minimumInterval: 0.24)
-    public static let cruise = GridUpdateTimingConfiguration(initialInterval: 1.32, logDivider: 5.0, minimumInterval: 0.42)
+    public static let cruise = GridUpdateTimingConfiguration(initialInterval: 1.44, logDivider: 5.0, minimumInterval: 0.48)
     public static let defaultTiming = rapid
 }

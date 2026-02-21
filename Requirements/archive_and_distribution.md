@@ -64,13 +64,12 @@ If you archive with “My Mac” or a simulator, you will **not** get the watch 
 ### 3.2 Scheme must build the watch target for Archive
 
 - **Product → Scheme → Edit Scheme…** (or ⌘<).
-- Select **Archive** in the left column.
-- Check **Build Configuration** (e.g. Release).
-- Click **Build** (top section) and ensure these targets are **checked**:
+- Select **Build** in the left column (this is where the Targets list lives; it applies to Run, Archive, etc.).
+- Ensure these targets are in the list and **checked** for Archive (and Run):
   - **RetroRacingUniversal**
-  - **RetroRacingWatchOS** ← must be included
+  - **RetroRacingWatchOS** (must be in the list — if missing, click + and add it)
   - **RetroRacingShared** (as dependency)
-- If “Find Implicit Dependencies” is available and enabled, that can pull in the watch target; otherwise ensure **RetroRacingWatchOS** is explicitly checked.
+- If you **do not see RetroRacingWatchOS** in the Targets list (only RetroRacingUniversal entries), click the **+** under the list, select **RetroRacingWatchOS** from the RetroRacing project, click **Add**, and ensure its **Archive** checkbox is checked. Find Implicit Dependencies often does not add the watch target for the scheme.
 - Close the scheme editor and archive again with **Any iOS Device**.
 
 ### 3.3 Verify the archive on disk
@@ -84,14 +83,21 @@ After archiving with **Any iOS Device**:
 5. You should see **RetroRacingUniversal.app** (or an .ipa). Right-click it → **Show Package Contents**.
 6. Inside the app bundle there must be a **Watch** folder, and inside that **RetroRacingWatchOS.app**.
 
-If **Watch/RetroRacingWatchOS.app** is missing, the watch target was not built or not embedded (recheck destination and scheme as above).
+If **Watch/RetroRacingWatchOS.app** is missing, the watch target was built but the Embed Watch Content step did not copy it into the bundle. Try:
+
+1. **Clean and re-archive:** **Product → Clean Build Folder** (⇧⌘K), set destination to **Any iOS Device**, then **Product → Archive** again.
+2. **Build log:** When archiving, open the **Report navigator** (last tab) and select the archive build. Search the log for **"Embed Watch Content"** or **"RetroRacingWatchOS.app"** to see whether the copy step ran and if it reported an error (e.g. file not found).
+3. **Scheme build order:** In **Edit Scheme → Build**, ensure **RetroRacingWatchOS** is in the list and is built **before** RetroRacingUniversal (dependency order should do this; if not, drag Watch above Universal).
+
+**Why the Watch folder can be missing:** The **Embed Watch Content** build file can be filtered with an invalid/over-broad platform expression, so the phase is skipped for iOS archive builds even though the watch target itself is compiled.
 
 ### 3.4 Embed Watch Content build phase
 
 The project is already set up correctly:
 
 - **RetroRacingUniversal** target → **Build Phases** → **Embed Watch Content** copies **RetroRacingWatchOS.app** into `$(CONTENTS_FOLDER_PATH)/Watch`.
-- The copy has **platformFilters = ("!macos")**, so it runs for iOS (and visionOS) but not for macOS. No change needed unless you alter targets.
+- Configure the embedded watch app build file with **`platformFilter = ios`** (not a negated list). This ensures the copy phase runs for iOS archive builds.
+- Keep **RetroRacingWatchOS** as a target dependency of **RetroRacingUniversal** so the watch app is built before embed.
 
 ---
 

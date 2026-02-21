@@ -32,14 +32,15 @@
     - Tick: `playTickCue` with all three columns and `cueArpeggio` mode.
     - Move: `playMoveCue` with middle-lane lane-confirmation tone.
 - `stopAll(fadeDuration: 0.1–0.2s)` is exposed and called when leaving the game view, forwarding to both audio systems.
-- Move haptics are triggered inside `GameScene.moveLeft/moveRight` immediately after pause guards (before move/grid work) so inputs while paused do not vibrate and tap feel stays tight.
+- Move haptics are triggered by touch/remote input adapters immediately when left/right input is handled, before forwarding to `GameScene`.
 - Crash haptic is triggered in `handleCrash` immediately; collision resolution completes on fail-sound completion with an 8s fallback if completion is missing (e.g. route change), so normal flow waits for the active fail cue to finish.
 - Start/resume keeps `gameState.isPaused == true` until `start` sound completion sets it to false; on post-crash resume the player-car grid is rendered immediately (no lingering crash sprite), and a 2s fallback unpauses if completion is missing.
 - App bootstrap listens to audio session interruption/route/media-reset notifications and re-activates the session.
 - Volume persists via `UserDefaults` key `sfxVolume` (default `0.8`); settings slider writes this, and scenes update volume live.
 - Audio feedback mode persists via `ConditionalDefault<AudioFeedbackMode>` (`audioFeedbackMode_conditionalDefault`): VoiceOver-adaptive default (`arpeggio`) with explicit user override.
 - Lane move cue style persists via `UserDefaults` key `laneMoveCueStyle` (default `lane confirmation`).
+- In-game/tutorial preview playback uses `LaneCuePlayer` with the current SFX volume, supports lane-mode preview and safe/fail move-style preview, and must call `stopAll` on dismiss so previews never leak into gameplay.
 - Haptics respect existing toggle (`hapticFeedbackEnabled`); no changes to keys.
 
 ## Testing Expectations
-- Unit tests cover: generated-player completion/volume/stop behavior; recipe modularity (including fail-tail repeat count impact); fallback routing to asset player when generated playback is unavailable; retro tick arpeggio + retro move middle-lane routing; cue-mode routing for tick and move cues; lane move cue style forwarding; move input while paused does not trigger haptics; fail sound + crash haptic on collision; crash fallback fires once when completion is missing; start/resume pauses until sound completion with fallback and restores player visuals immediately after crash; stopAll invoked when game view disappears; volume changes propagate to both `SoundEffectPlayer` and `LaneCuePlayer`; conditional default/override resolution for audio feedback mode.
+- Unit tests cover: generated-player completion/volume/stop behavior; recipe modularity (including fail-tail repeat count impact); fallback routing to asset player when generated playback is unavailable; retro tick arpeggio + retro move middle-lane routing; cue-mode routing for tick and move cues; lane move cue style forwarding; paused move input still triggers adapter haptic while movement audio remains unchanged; fail sound + crash haptic on collision; crash fallback fires once when completion is missing; start/resume pauses until sound completion with fallback and restores player visuals immediately after crash; stopAll invoked when game view disappears; volume changes propagate to both `SoundEffectPlayer` and `LaneCuePlayer`; conditional default/override resolution for audio feedback mode.

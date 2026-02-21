@@ -152,6 +152,111 @@ final class GameViewModelTests: XCTestCase {
         // Test passes if no crash occurs
     }
 
+    func testGivenRunningSceneWhenPresentingAndDismissingManualHelpThenOriginalPauseStateIsRestored() {
+        // Given
+        let imageLoader = MockImageLoader()
+        let soundPlayer = MockSoundPlayer()
+        let laneCuePlayer = MockLaneCuePlayerStub()
+        let scene = GameScene(
+            size: CGSize(width: 100, height: 100),
+            theme: nil,
+            imageLoader: imageLoader,
+            soundPlayer: soundPlayer,
+            laneCuePlayer: laneCuePlayer,
+            hapticController: nil,
+            audioFeedbackMode: .retro,
+            laneMoveCueStyle: .laneConfirmationAndSafety,
+            difficulty: .rapid
+        )
+        scene.unpauseGameplay()
+        viewModel.scene = scene
+        viewModel.pause.scenePaused = false
+        viewModel.pause.isUserPaused = false
+
+        // When
+        let snapshot = viewModel.beginManualHelpPresentation()
+        viewModel.endManualHelpPresentation(using: snapshot)
+
+        // Then
+        XCTAssertFalse(scene.gameState.isPaused)
+        XCTAssertFalse(viewModel.pause.isUserPaused)
+    }
+
+    func testGivenPausedByUserWhenPresentingAndDismissingManualHelpThenPauseStateStaysUserPaused() {
+        // Given
+        let imageLoader = MockImageLoader()
+        let soundPlayer = MockSoundPlayer()
+        let laneCuePlayer = MockLaneCuePlayerStub()
+        let scene = GameScene(
+            size: CGSize(width: 100, height: 100),
+            theme: nil,
+            imageLoader: imageLoader,
+            soundPlayer: soundPlayer,
+            laneCuePlayer: laneCuePlayer,
+            hapticController: nil,
+            audioFeedbackMode: .retro,
+            laneMoveCueStyle: .laneConfirmationAndSafety,
+            difficulty: .rapid
+        )
+        scene.pauseGameplay()
+        viewModel.scene = scene
+        viewModel.pause.scenePaused = true
+        viewModel.pause.isUserPaused = true
+
+        // When
+        let snapshot = viewModel.beginManualHelpPresentation()
+        viewModel.endManualHelpPresentation(using: snapshot)
+
+        // Then
+        XCTAssertTrue(scene.gameState.isPaused)
+        XCTAssertTrue(viewModel.pause.isUserPaused)
+    }
+
+    func testGivenSceneIsRunningWhenTogglingPauseThenSceneBecomesPausedAndUserPauseIsTrue() {
+        // Given
+        let scene = makeScene()
+        scene.unpauseGameplay()
+        viewModel.scene = scene
+
+        // When
+        viewModel.togglePause()
+
+        // Then
+        XCTAssertTrue(scene.gameState.isPaused)
+        XCTAssertTrue(viewModel.pause.isUserPaused)
+    }
+
+    func testGivenSceneIsUserPausedWhenTogglingPauseThenSceneBecomesUnpausedAndUserPauseIsFalse() {
+        // Given
+        let scene = makeScene()
+        scene.pauseGameplay()
+        viewModel.scene = scene
+        viewModel.pause.isUserPaused = true
+
+        // When
+        viewModel.togglePause()
+
+        // Then
+        XCTAssertFalse(scene.gameState.isPaused)
+        XCTAssertFalse(viewModel.pause.isUserPaused)
+    }
+
+    func testGivenPauseButtonIsDisabledWhenTogglingPauseThenPauseStateDoesNotChange() {
+        // Given
+        let scene = makeScene()
+        scene.pauseGameplay()
+        viewModel.scene = scene
+        viewModel.pause.scenePaused = true
+        viewModel.pause.isUserPaused = false
+
+        // When
+        viewModel.togglePause()
+
+        // Then
+        XCTAssertTrue(scene.gameState.isPaused)
+        XCTAssertFalse(viewModel.pause.isUserPaused)
+    }
+
     func testGivenRatingIsPendingWhenGameOverModalPresentedTwiceThenRatingIsRequestedOnce() {
         // Given
         viewModel.hud.shouldRequestRatingOnGameOverModal = true
@@ -187,6 +292,20 @@ final class GameViewModelTests: XCTestCase {
         // Then
         XCTAssertFalse(viewModel.hud.showGameOver)
         XCTAssertFalse(viewModel.hud.shouldRequestRatingOnGameOverModal)
+    }
+
+    private func makeScene() -> GameScene {
+        GameScene(
+            size: CGSize(width: 100, height: 100),
+            theme: nil,
+            imageLoader: MockImageLoader(),
+            soundPlayer: MockSoundPlayer(),
+            laneCuePlayer: MockLaneCuePlayerStub(),
+            hapticController: nil,
+            audioFeedbackMode: .retro,
+            laneMoveCueStyle: .laneConfirmationAndSafety,
+            difficulty: .rapid
+        )
     }
 }
 

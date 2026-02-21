@@ -8,6 +8,11 @@
 import SwiftUI
 
 extension GameViewModel {
+    struct HelpPauseSnapshot {
+        let wasScenePaused: Bool
+        let wasUserPaused: Bool
+    }
+
     func setVolume(_ value: Double) {
         scene?.setSoundVolume(value)
     }
@@ -50,6 +55,45 @@ extension GameViewModel {
         switch side {
         case .left: controls.leftFlashTask = task
         case .right: controls.rightFlashTask = task
+        }
+    }
+
+    func beginManualHelpPresentation() -> HelpPauseSnapshot {
+        let snapshot = HelpPauseSnapshot(
+            wasScenePaused: pause.scenePaused,
+            wasUserPaused: pause.isUserPaused
+        )
+        scene?.setOverlayPauseLock(true)
+        if snapshot.wasScenePaused == false {
+            scene?.pauseGameplay()
+        }
+        return snapshot
+    }
+
+    func beginAutomaticHelpPresentation() -> Bool {
+        guard let scene else { return false }
+        scene.setOverlayPauseLock(true)
+        let shouldResumeOnDismiss = scene.gameState.isPaused == false
+        if shouldResumeOnDismiss {
+            scene.pauseGameplay()
+        }
+        return shouldResumeOnDismiss
+    }
+
+    func endManualHelpPresentation(using snapshot: HelpPauseSnapshot) {
+        scene?.setOverlayPauseLock(false)
+        pause.isUserPaused = snapshot.wasUserPaused
+        if snapshot.wasScenePaused {
+            scene?.pauseGameplay()
+        } else {
+            scene?.unpauseGameplay()
+        }
+    }
+
+    func endAutomaticHelpPresentation(shouldResumeOnDismiss: Bool) {
+        scene?.setOverlayPauseLock(false)
+        if shouldResumeOnDismiss && pause.isUserPaused == false {
+            scene?.unpauseGameplay()
         }
     }
 

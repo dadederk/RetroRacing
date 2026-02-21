@@ -185,6 +185,7 @@ struct RetroRacingApp: App {
             playLimitService: playLimitService,
             style: .universal,
             inputAdapterFactory: TouchInputAdapterFactory(),
+            controlsDescriptionKey: controlsDescriptionKey,
             shouldStartGame: shouldStartGame,
             showMenuButton: true,
             onFinishRequest: handleFinish,

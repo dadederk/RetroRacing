@@ -31,11 +31,11 @@ public enum AudioFeedbackMode: String, CaseIterable, Codable, Sendable {
         .cueChord
     ]
 
-    /// System-derived default: arpeggio cues when VoiceOver is active on supported platforms.
+    /// System-derived default: lane pulses when VoiceOver is active on supported platforms.
     public static var systemDefault: AudioFeedbackMode {
         #if os(iOS) || os(tvOS) || os(visionOS)
         if UIAccessibility.isVoiceOverRunning {
-            return .cueArpeggio
+            return .cueLanePulses
         }
         return .retro
         #elseif os(watchOS)
@@ -43,7 +43,7 @@ public enum AudioFeedbackMode: String, CaseIterable, Codable, Sendable {
         return .retro
         #elseif os(macOS)
         if NSWorkspace.shared.isVoiceOverEnabled {
-            return .cueArpeggio
+            return .cueLanePulses
         }
         return .retro
         #endif
@@ -60,6 +60,10 @@ public enum AudioFeedbackMode: String, CaseIterable, Codable, Sendable {
         case .cueLanePulses:
             return "settings_audio_feedback_mode_cue_lane_pulses"
         }
+    }
+
+    public var supportsAudioCueTutorial: Bool {
+        self != .retro
     }
 
     public static func currentSelection(from userDefaults: UserDefaults) -> AudioFeedbackMode {

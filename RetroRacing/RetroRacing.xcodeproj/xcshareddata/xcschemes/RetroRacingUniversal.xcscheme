@@ -21,6 +21,20 @@
                ReferencedContainer = "container:RetroRacing.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "21DD467E2F2FCA96000C9FFA"
+               BuildableName = "RetroRacingWatchOS.app"
+               BlueprintName = "RetroRacingWatchOS"
+               ReferencedContainer = "container:RetroRacing.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction

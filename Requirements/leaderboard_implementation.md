@@ -6,6 +6,11 @@ Game Center leaderboard system with dependency injection, zero compiler flags in
 
 **Scope:** Leaderboards are **per platform** (iOS, iPad, macOS, tvOS, watchOS) and **per level** (Cruise, Fast, Rapid). We do not use separate leaderboards for assistive technologies (e.g. VoiceOver); all users compete on the same per-platform, per-level leaderboards.
 
+**Speed pacing mapping (current):**
+- `Rapid` (default): baseline game speed (`initialInterval: 0.6`)
+- `Fast`: middle pace between Rapid and Cruise (`initialInterval: 0.96`)
+- `Cruise`: slowest pace (`initialInterval: 1.44`)
+
 **App Store Connect status:** Leaderboards are created for **iPhone, iPad, macOS, watchOS** (three per platform: Cruise, Fast, Rapid). **tvOS** and **visionOS** leaderboards are deferred for a later release; the app still has configuration for those platforms (IDs in code), so when you create those leaderboards in ASC later, no code change is needed.
 
 ## Architecture

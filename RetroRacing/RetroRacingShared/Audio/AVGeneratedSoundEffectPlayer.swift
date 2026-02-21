@@ -159,8 +159,9 @@ public final class AVGeneratedSoundEffectPlayer: SoundEffectPlayer, GeneratedSFX
                 let delay = max(pool.duration, 0)
                 try? await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000))
                 guard Task.isCancelled == false else { return }
+                guard let self else { return }
                 await MainActor.run {
-                    self?.completeIfCurrent(effect: effect, slotIndex: slotIndex, token: token)
+                    self.completeIfCurrent(effect: effect, slotIndex: slotIndex, token: token)
                 }
             }
         }
@@ -312,7 +313,7 @@ public final class AVGeneratedSoundEffectPlayer: SoundEffectPlayer, GeneratedSFX
     }
 
     private func completeIfCurrent(effect: SoundEffect, slotIndex: Int, token: UInt64) {
-        guard var pool = pools[effect], slotIndex < pool.slots.count else { return }
+        guard let pool = pools[effect], slotIndex < pool.slots.count else { return }
         let slot = pool.slots[slotIndex]
         guard slot.token == token else { return }
         slot.completionTask = nil

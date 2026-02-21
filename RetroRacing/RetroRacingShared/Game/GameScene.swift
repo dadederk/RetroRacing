@@ -524,7 +524,6 @@ public class GameScene: SKScene {
 extension GameScene: RacingGameController {
     public func moveLeft() {
         guard !gameState.isPaused else { return }
-        hapticController?.triggerMoveHaptic()
 
         let previousColumn = lastPlayerColumn
         (gridState, _) = gridCalculator.nextGrid(previousGrid: gridState, actions: [.moveCar(direction: .left)])
@@ -541,7 +540,6 @@ extension GameScene: RacingGameController {
 
     public func moveRight() {
         guard !gameState.isPaused else { return }
-        hapticController?.triggerMoveHaptic()
 
         let previousColumn = lastPlayerColumn
         (gridState, _) = gridCalculator.nextGrid(previousGrid: gridState, actions: [.moveCar(direction: .right)])
@@ -567,16 +565,20 @@ public protocol GameInputAdapter {
 
 public struct TouchGameInputAdapter: GameInputAdapter {
     private let controller: RacingGameController
+    private let hapticController: HapticFeedbackController?
 
-    public init(controller: RacingGameController, hapticController _: HapticFeedbackController?) {
+    public init(controller: RacingGameController, hapticController: HapticFeedbackController?) {
         self.controller = controller
+        self.hapticController = hapticController
     }
 
     public func handleLeft() {
+        hapticController?.triggerMoveHaptic()
         controller.moveLeft()
     }
 
     public func handleRight() {
+        hapticController?.triggerMoveHaptic()
         controller.moveRight()
     }
 
@@ -588,16 +590,20 @@ public struct TouchGameInputAdapter: GameInputAdapter {
 
 public struct RemoteGameInputAdapter: GameInputAdapter {
     private let controller: RacingGameController
+    private let hapticController: HapticFeedbackController?
 
-    public init(controller: RacingGameController, hapticController _: HapticFeedbackController?) {
+    public init(controller: RacingGameController, hapticController: HapticFeedbackController?) {
         self.controller = controller
+        self.hapticController = hapticController
     }
 
     public func handleLeft() {
+        hapticController?.triggerMoveHaptic()
         controller.moveLeft()
     }
 
     public func handleRight() {
+        hapticController?.triggerMoveHaptic()
         controller.moveRight()
     }
 

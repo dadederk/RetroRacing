@@ -39,6 +39,7 @@ public struct GameView: View {
     public let playLimitService: PlayLimitService?
     public let style: GameViewStyle
     public let inputAdapterFactory: any GameInputAdapterFactory
+    public let controlsDescriptionKey: String
     private let shouldStartGame: Bool
     private let showMenuButton: Bool
     private let onFinishRequest: (() -> Void)?
@@ -50,12 +51,21 @@ public struct GameView: View {
     @AppStorage(AudioFeedbackMode.conditionalDefaultStorageKey) private var audioFeedbackModeStorageData: Data = Data()
     @AppStorage(LaneMoveCueStyle.storageKey) private var laneMoveCueStyleRawValue: String = LaneMoveCueStyle.defaultStyle.rawValue
     @AppStorage(InGameAnnouncementsPreference.storageKey) private var inGameAnnouncementsEnabled: Bool = InGameAnnouncementsPreference.defaultEnabled
+    @AppStorage(VoiceOverTutorialPreference.hasSeenInGameVoiceOverTutorialKey)
+    private var hasSeenInGameVoiceOverTutorial: Bool = VoiceOverTutorialPreference.defaultHasSeenInGameVoiceOverTutorial
     @State private var model: GameViewModel
     @ScaledMetric(relativeTo: .body) private var directionButtonHeight: CGFloat = 120
     @Environment(\.dismiss) private var dismiss
     @Environment(StoreKitService.self) private var storeKit
     @State private var isPaywallPresented = false
     @State private var pendingFinishRequestAfterGameOverDismiss = false
+    @State private var isInGameHelpPresented = false
+    @State private var helpPresentationContext: HelpPresentationContext?
+
+    private enum HelpPresentationContext {
+        case manual(snapshot: GameViewModel.HelpPauseSnapshot)
+        case automatic(shouldResumeOnDismiss: Bool)
+    }
 
     public init(
         leaderboardService: LeaderboardService,
@@ -67,6 +77,7 @@ public struct GameView: View {
         playLimitService: PlayLimitService?,
         style: GameViewStyle,
         inputAdapterFactory: any GameInputAdapterFactory,
+        controlsDescriptionKey: String,
         shouldStartGame: Bool = true,
         showMenuButton: Bool = false,
         onFinishRequest: (() -> Void)? = nil,
@@ -82,6 +93,7 @@ public struct GameView: View {
         self.playLimitService = playLimitService
         self.style = style
         self.inputAdapterFactory = inputAdapterFactory
+        self.controlsDescriptionKey = controlsDescriptionKey
         self.shouldStartGame = shouldStartGame
         self.showMenuButton = showMenuButton
         self.onFinishRequest = onFinishRequest
@@ -174,7 +186,13 @@ public struct GameView: View {
                 AppLog.info(AppLog.game, "GameView onAppear - overlay presented: \(overlayBinding.wrappedValue)")
                 model.setOverlayPause(isPresented: overlayBinding.wrappedValue)
             }
+            attemptAutoPresentVoiceOverHelpIfNeeded()
         }
+        #if os(iOS) || os(tvOS) || os(visionOS)
+        .accessibilityAction(.magicTap) {
+            model.togglePause()
+        }
+        #endif
         .toolbar {
             if showMenuButton {
                 ToolbarItem(placement: Self.menuToolbarPlacement) {
@@ -191,7 +209,18 @@ public struct GameView: View {
                     .accessibilityLabel(GameLocalizedStrings.string("menu_button"))
                 }
             }
-            ToolbarItem(placement: Self.pauseToolbarPlacement) {
+            ToolbarItemGroup(placement: Self.pauseToolbarPlacement) {
+                Button {
+                    presentManualHelp()
+                } label: {
+                    Label(
+                        GameLocalizedStrings.string("tutorial_help_button"),
+                        systemImage: "questionmark.circle"
+                    )
+                    .font(pauseButtonFont)
+                }
+                .accessibilityLabel(GameLocalizedStrings.string("tutorial_help_button"))
+                
                 Button {
                     model.togglePause()
                 } label: {
@@ -205,6 +234,10 @@ public struct GameView: View {
                 .disabled(model.pauseButtonDisabled)
                 .opacity(model.pauseButtonDisabled ? 0.4 : 1)
             }
+        }
+        .sheet(isPresented: $isInGameHelpPresented, onDismiss: handleInGameHelpDismissed) {
+            InGameHelpView(controlsDescriptionKey: controlsDescriptionKey)
+                .fontPreferenceStore(fontPreferenceStore)
         }
         .sheet(isPresented: showGameOverBinding, onDismiss: handleGameOverSheetDismissed) {
             GameOverView(
@@ -237,6 +270,9 @@ public struct GameView: View {
         }
         .onChange(of: laneMoveCueStyleRawValue) { _, _ in
             model.updateLaneMoveCueStyle(selectedLaneMoveCueStyle)
+        }
+        .onChange(of: model.pause.scenePaused) { _, _ in
+            attemptAutoPresentVoiceOverHelpIfNeeded()
         }
         .onChange(of: model.hud.speedIncreaseImminent) { oldValue, newValue in
             announceSpeedIncreaseIfNeeded(oldValue: oldValue, newValue: newValue)
@@ -289,6 +325,10 @@ public struct GameView: View {
 
     private var selectedLaneMoveCueStyle: LaneMoveCueStyle {
         LaneMoveCueStyle.fromStoredValue(laneMoveCueStyleRawValue)
+    }
+
+    private var hasScene: Bool {
+        model.scene != nil
     }
 
     private func handleLeftTap() {
@@ -348,5 +388,43 @@ public struct GameView: View {
             argument: GameLocalizedStrings.string("speed_increase_announcement")
         )
         #endif
+    }
+
+    private func attemptAutoPresentVoiceOverHelpIfNeeded() {
+        guard InGameHelpPresentationPolicy.shouldAutoPresent(
+            voiceOverRunning: VoiceOverStatus.isVoiceOverRunning,
+            hasSeenTutorial: hasSeenInGameVoiceOverTutorial,
+            shouldStartGame: shouldStartGame,
+            hasScene: hasScene,
+            isScenePaused: model.pause.scenePaused
+        ) else { return }
+        presentAutomaticHelp()
+    }
+
+    private func presentManualHelp() {
+        let snapshot = model.beginManualHelpPresentation()
+        helpPresentationContext = .manual(snapshot: snapshot)
+        if VoiceOverStatus.isVoiceOverRunning {
+            hasSeenInGameVoiceOverTutorial = true
+        }
+        isInGameHelpPresented = true
+    }
+
+    private func presentAutomaticHelp() {
+        let shouldResumeOnDismiss = model.beginAutomaticHelpPresentation()
+        helpPresentationContext = .automatic(shouldResumeOnDismiss: shouldResumeOnDismiss)
+        hasSeenInGameVoiceOverTutorial = true
+        isInGameHelpPresented = true
+    }
+
+    private func handleInGameHelpDismissed() {
+        guard let helpPresentationContext else { return }
+        switch helpPresentationContext {
+        case .manual(let snapshot):
+            model.endManualHelpPresentation(using: snapshot)
+        case .automatic(let shouldResumeOnDismiss):
+            model.endAutomaticHelpPresentation(shouldResumeOnDismiss: shouldResumeOnDismiss)
+        }
+        self.helpPresentationContext = nil
     }
 }

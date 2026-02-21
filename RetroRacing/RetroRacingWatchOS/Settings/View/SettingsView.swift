@@ -15,6 +15,7 @@ struct SettingsView: View {
     @AppStorage(HapticFeedbackPreference.storageKey) private var hapticFeedbackEnabled: Bool = true
     @AppStorage(SoundPreferences.volumeKey) private var sfxVolume: Double = SoundPreferences.defaultVolume
     @AppStorage(InGameAnnouncementsPreference.storageKey) private var inGameAnnouncementsEnabled: Bool = InGameAnnouncementsPreference.defaultEnabled
+    @State private var showingAudioCueTutorial = false
 
     private var fontForLabels: Font {
         fontPreferenceStore.font(textStyle: .body)
@@ -121,7 +122,7 @@ struct SettingsView: View {
                             .font(fontForLabels)
                     }
 
-                    if audioFeedbackModeConditionalDefault.effectiveValue != .retro {
+                    if selectedAudioFeedbackMode.supportsAudioCueTutorial {
                         Picker(selection: laneMoveCueStyleSelection) {
                             ForEach(LaneMoveCueStyle.allCases, id: \.self) { style in
                                 Text(GameLocalizedStrings.string(style.localizedNameKey))
@@ -132,6 +133,16 @@ struct SettingsView: View {
                             Text(GameLocalizedStrings.string("settings_lane_move_cue_style"))
                                 .font(fontForLabels)
                         }
+                    }
+
+                    if selectedAudioFeedbackMode.supportsAudioCueTutorial {
+                        Button {
+                            showingAudioCueTutorial = true
+                        } label: {
+                            Text(GameLocalizedStrings.string("settings_audio_cue_tutorial"))
+                                .font(fontForLabels)
+                        }
+                        .buttonStyle(.borderless)
                     }
 
                     Slider(value: $sfxVolume, in: 0...1, step: 0.05) {
@@ -189,6 +200,26 @@ struct SettingsView: View {
                     key: AudioFeedbackMode.conditionalDefaultStorageKey
                 )
             }
+            .sheet(isPresented: $showingAudioCueTutorial) {
+                NavigationStack {
+                    ScrollView {
+                        AudioCueTutorialContentView()
+                            .padding()
+                    }
+                    .navigationTitle(GameLocalizedStrings.string("settings_audio_cue_tutorial"))
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        ToolbarItem(placement: .cancellationAction) {
+                            Button(GameLocalizedStrings.string("done")) {
+                                showingAudioCueTutorial = false
+                            }
+                            .font(fontForLabels)
+                            .buttonStyle(.glass)
+                        }
+                    }
+                }
+                .fontPreferenceStore(fontPreferenceStore)
+            }
         }
     }
 
@@ -223,5 +254,9 @@ struct SettingsView: View {
             get: { LaneMoveCueStyle.fromStoredValue(laneMoveCueStyleRawValue) },
             set: { laneMoveCueStyleRawValue = $0.rawValue }
         )
+    }
+
+    private var selectedAudioFeedbackMode: AudioFeedbackMode {
+        audioFeedbackModeConditionalDefault.effectiveValue
     }
 }

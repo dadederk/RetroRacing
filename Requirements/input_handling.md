@@ -27,8 +27,11 @@ RetroRacing captures platform-specific input at the UI layer and translates it i
 ### Other Platforms (Summary)
 
 - **iOS/iPadOS**: Touch areas + drag gestures (see `TouchGameInputAdapter`).
+  - Touch-area taps use `onTapGesture` and horizontal swipes use a `DragGesture` threshold (`20pt`) for lane gestures.
+  - VoiceOver Magic Tap maps to the same pause/resume toggle used by the in-game pause control.
 - **tvOS**: Remote swipe input via `RemoteGameInputAdapter`.
 - **macOS/visionOS**: Platform UI handles keyboard/mouse/gaze and forwards to shared controllers.
+- **watchOS**: VoiceOver Magic Tap maps to the same pause/resume toggle used by the header pause control.
 
 ## User Experience
 

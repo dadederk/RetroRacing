@@ -32,6 +32,7 @@ public struct SettingsView: View {
     @State private var showingRestoreAlert = false
     @State private var showingPaywall = false
     @State private var showingOfferCodeRedemption = false
+    @State private var showingAudioCueTutorial = false
     public init(
         themeManager: ThemeManager,
         fontPreferenceStore: FontPreferenceStore,
@@ -217,7 +218,7 @@ public struct SettingsView: View {
                             #endif
                         }
 
-                        if audioFeedbackModeConditionalDefault.effectiveValue != .retro {
+                        if selectedAudioFeedbackMode.supportsAudioCueTutorial {
                             Picker(selection: laneMoveCueStyleSelection) {
                                 ForEach(LaneMoveCueStyle.allCases, id: \.self) { style in
                                     Text(GameLocalizedStrings.string(style.localizedNameKey))
@@ -229,6 +230,16 @@ public struct SettingsView: View {
                                     .font(fontForLabels)
                             }
                         }
+                    }
+
+                    if selectedAudioFeedbackMode.supportsAudioCueTutorial {
+                        Button {
+                            showingAudioCueTutorial = true
+                        } label: {
+                            Text(GameLocalizedStrings.string("settings_audio_cue_tutorial"))
+                                .font(fontForLabels)
+                        }
+                        .buttonStyle(.borderless)
                     }
 
                     #if os(tvOS)
@@ -421,6 +432,25 @@ public struct SettingsView: View {
                 PaywallView(playLimitService: playLimitService)
                     .fontPreferenceStore(fontPreferenceStore)
             }
+            .sheet(isPresented: $showingAudioCueTutorial) {
+                NavigationStack {
+                    ScrollView {
+                        AudioCueTutorialContentView()
+                            .padding()
+                    }
+                    .navigationTitle(GameLocalizedStrings.string("settings_audio_cue_tutorial"))
+                    .modifier(SettingsNavigationTitleStyle())
+                    .toolbar {
+                        ToolbarItem(placement: .cancellationAction) {
+                            Button(GameLocalizedStrings.string("done")) {
+                                showingAudioCueTutorial = false
+                            }
+                            .font(fontForLabels)
+                        }
+                    }
+                }
+                .fontPreferenceStore(fontPreferenceStore)
+            }
         }
     }
     private static let volumeSteps: [Double] = stride(from: 0.0, through: 1.0, by: 0.05).map {
@@ -458,6 +488,10 @@ public struct SettingsView: View {
             get: { LaneMoveCueStyle.fromStoredValue(laneMoveCueStyleRawValue) },
             set: { laneMoveCueStyleRawValue = $0.rawValue }
         )
+    }
+
+    private var selectedAudioFeedbackMode: AudioFeedbackMode {
+        audioFeedbackModeConditionalDefault.effectiveValue
     }
 
     private var volumeSelection: Binding<Double> {

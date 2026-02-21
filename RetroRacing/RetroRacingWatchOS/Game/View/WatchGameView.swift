@@ -12,6 +12,8 @@ struct WatchGameView: View {
     @AppStorage(SoundPreferences.volumeKey) private var sfxVolume: Double = SoundPreferences.defaultVolume
     @AppStorage(AudioFeedbackMode.conditionalDefaultStorageKey) private var audioFeedbackModeStorageData: Data = Data()
     @AppStorage(LaneMoveCueStyle.storageKey) private var laneMoveCueStyleRawValue: String = LaneMoveCueStyle.defaultStyle.rawValue
+    @AppStorage(VoiceOverTutorialPreference.hasSeenInGameVoiceOverTutorialKey)
+    private var hasSeenInGameVoiceOverTutorial: Bool = VoiceOverTutorialPreference.defaultHasSeenInGameVoiceOverTutorial
     @State private var scene: GameScene
     @State private var crownValue: Double = 0
     @State private var crownProcessor: LegacyCrownInputProcessor
@@ -28,8 +30,20 @@ struct WatchGameView: View {
     @State private var isNewHighScore = false
     @State private var delegate: GameSceneDelegateImpl?
     @State private var inputAdapter: GameInputAdapter?
+    @State private var isInGameHelpPresented = false
+    @State private var helpPresentationContext: HelpPresentationContext?
     @FocusState private var isCrownFocused: Bool
     @Environment(\.dismiss) private var dismiss
+
+    private enum HelpPresentationContext {
+        case manual(snapshot: HelpPauseSnapshot)
+        case automatic(shouldResumeOnDismiss: Bool)
+    }
+
+    private struct HelpPauseSnapshot {
+        let wasScenePaused: Bool
+        let wasUserPaused: Bool
+    }
 
     private var pauseButtonDisabled: Bool {
         scenePaused && isUserPaused == false
@@ -196,6 +210,11 @@ struct WatchGameView: View {
                 delegate = d
                 scene.gameDelegate = d
             }
+            attemptAutoPresentVoiceOverHelpIfNeeded()
+        }
+        .sheet(isPresented: $isInGameHelpPresented, onDismiss: handleInGameHelpDismissed) {
+            InGameHelpView(controlsDescriptionKey: "settings_controls_watchos")
+                .fontPreferenceStore(fontPreferenceStore)
         }
         .sheet(isPresented: $showGameOver, onDismiss: restartFromGameOver) {
             GameOverView(
@@ -227,7 +246,19 @@ struct WatchGameView: View {
         .onChange(of: laneMoveCueStyleRawValue) { _, _ in
             scene.setLaneMoveCueStyle(selectedLaneMoveCueStyle)
         }
+        .onChange(of: scenePaused) { _, _ in
+            attemptAutoPresentVoiceOverHelpIfNeeded()
+        }
         .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button {
+                    presentManualHelp()
+                } label: {
+                    Image(systemName: "questionmark.circle")
+                }
+                .accessibilityLabel(GameLocalizedStrings.string("tutorial_help_button"))
+                .buttonStyle(.glass)
+            }
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
                     togglePause()
@@ -239,6 +270,9 @@ struct WatchGameView: View {
                 .opacity(pauseButtonDisabled ? 0.4 : 1)
                 .buttonStyle(.glass)
             }
+        }
+        .accessibilityAction(.magicTap) {
+            togglePause()
         }
     }
 
@@ -268,6 +302,79 @@ struct WatchGameView: View {
     private func finishFromGameOver() {
         showGameOver = false
         dismiss()
+    }
+
+    private func attemptAutoPresentVoiceOverHelpIfNeeded() {
+        guard InGameHelpPresentationPolicy.shouldAutoPresent(
+            voiceOverRunning: VoiceOverStatus.isVoiceOverRunning,
+            hasSeenTutorial: hasSeenInGameVoiceOverTutorial,
+            shouldStartGame: true,
+            hasScene: true,
+            isScenePaused: scenePaused
+        ) else { return }
+        presentAutomaticHelp()
+    }
+
+    private func presentManualHelp() {
+        let snapshot = beginManualHelpPresentation()
+        helpPresentationContext = .manual(snapshot: snapshot)
+        if VoiceOverStatus.isVoiceOverRunning {
+            hasSeenInGameVoiceOverTutorial = true
+        }
+        isInGameHelpPresented = true
+    }
+
+    private func presentAutomaticHelp() {
+        let shouldResumeOnDismiss = beginAutomaticHelpPresentation()
+        helpPresentationContext = .automatic(shouldResumeOnDismiss: shouldResumeOnDismiss)
+        hasSeenInGameVoiceOverTutorial = true
+        isInGameHelpPresented = true
+    }
+
+    private func handleInGameHelpDismissed() {
+        guard let helpPresentationContext else { return }
+        switch helpPresentationContext {
+        case .manual(let snapshot):
+            endManualHelpPresentation(using: snapshot)
+        case .automatic(let shouldResumeOnDismiss):
+            endAutomaticHelpPresentation(shouldResumeOnDismiss: shouldResumeOnDismiss)
+        }
+        self.helpPresentationContext = nil
+    }
+
+    private func beginManualHelpPresentation() -> HelpPauseSnapshot {
+        let snapshot = HelpPauseSnapshot(wasScenePaused: scenePaused, wasUserPaused: isUserPaused)
+        scene.setOverlayPauseLock(true)
+        if snapshot.wasScenePaused == false {
+            scene.pauseGameplay()
+        }
+        return snapshot
+    }
+
+    private func beginAutomaticHelpPresentation() -> Bool {
+        scene.setOverlayPauseLock(true)
+        let shouldResumeOnDismiss = scene.gameState.isPaused == false
+        if shouldResumeOnDismiss {
+            scene.pauseGameplay()
+        }
+        return shouldResumeOnDismiss
+    }
+
+    private func endManualHelpPresentation(using snapshot: HelpPauseSnapshot) {
+        scene.setOverlayPauseLock(false)
+        isUserPaused = snapshot.wasUserPaused
+        if snapshot.wasScenePaused {
+            scene.pauseGameplay()
+        } else {
+            scene.unpauseGameplay()
+        }
+    }
+
+    private func endAutomaticHelpPresentation(shouldResumeOnDismiss: Bool) {
+        scene.setOverlayPauseLock(false)
+        if shouldResumeOnDismiss && isUserPaused == false {
+            scene.unpauseGameplay()
+        }
     }
 
     private func handleCrownDelta(_ delta: Double) {

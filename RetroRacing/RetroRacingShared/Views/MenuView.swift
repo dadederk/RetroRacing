@@ -131,7 +131,8 @@ public struct MenuView: View {
                     highestScoreStore: highestScoreStore,
                     playLimitService: playLimitService,
                     style: gameViewStyle,
-                    inputAdapterFactory: inputAdapterFactory
+                    inputAdapterFactory: inputAdapterFactory,
+                    controlsDescriptionKey: controlsDescriptionKey
                 )
             }
             .modifier(LeaderboardPresentationModifier(

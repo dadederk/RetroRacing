@@ -86,6 +86,7 @@ struct RetroRacingTvOSApp: App {
                     playLimitService: playLimitService,
                     style: .tvOS,
                     inputAdapterFactory: RemoteInputAdapterFactory(),
+                    controlsDescriptionKey: "settings_controls_tvos",
                     showMenuButton: true,
                     onFinishRequest: handleFinish,
                     onMenuRequest: handleMenuRequest,

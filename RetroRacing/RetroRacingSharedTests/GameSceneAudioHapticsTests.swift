@@ -61,7 +61,7 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         XCTAssertEqual(haptics.gridUpdates, 0)
     }
 
-    func testGivenPausedSceneWhenHandlingLeftInputThenMoveHapticAndSoundAreNotTriggered() {
+    func testGivenPausedSceneWhenHandlingLeftInputThenMoveHapticIsTriggeredButSoundIsNot() {
         // Given
         let adapter = TouchGameInputAdapter(controller: scene, hapticController: haptics)
         scene.pauseGameplay()
@@ -72,7 +72,7 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         adapter.handleLeft()
 
         // Then
-        XCTAssertEqual(haptics.moves, baselineMoves)
+        XCTAssertEqual(haptics.moves, baselineMoves + 1)
         XCTAssertEqual(soundPlayer.playedEffects, baselineEffects)
     }
 
