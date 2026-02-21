@@ -252,11 +252,11 @@ struct WatchGameView: View {
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button {
-                    presentManualHelp()
+                    dismiss()
                 } label: {
-                    Image(systemName: "questionmark.circle")
+                    Image(systemName: "xmark")
                 }
-                .accessibilityLabel(GameLocalizedStrings.string("tutorial_help_button"))
+                .accessibilityLabel(GameLocalizedStrings.string("menu_button"))
                 .buttonStyle(.glass)
             }
             ToolbarItem(placement: .topBarTrailing) {

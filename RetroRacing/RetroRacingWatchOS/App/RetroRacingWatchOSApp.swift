@@ -94,10 +94,15 @@ struct RetroRacingWatchOSApp: App {
     }
     
     private func setupGameCenterAuthentication(onAuthStateChanged: @escaping () -> Void) {
+        logGameCenterDiagnostics()
         AppLog.info(AppLog.game + AppLog.leaderboard, "🏆 watchOS setting up Game Center authentication")
         GKLocalPlayer.local.authenticateHandler = { error in
             if let error = error {
-                AppLog.error(AppLog.game + AppLog.leaderboard, "🏆 watchOS Game Center authentication error: \(error.localizedDescription)")
+                let nsError = error as NSError
+                AppLog.error(
+                    AppLog.game + AppLog.leaderboard,
+                    "🏆 watchOS Game Center authentication error: \(error.localizedDescription) (domain: \(nsError.domain), code: \(nsError.code), userInfo: \(nsError.userInfo))"
+                )
                 onAuthStateChanged()
                 return
             }
@@ -109,6 +114,19 @@ struct RetroRacingWatchOSApp: App {
             }
             onAuthStateChanged()
         }
+    }
+
+    private func logGameCenterDiagnostics() {
+        let bundleID = Bundle.main.bundleIdentifier ?? "unknown"
+        let companionBundleID = Bundle.main.object(forInfoDictionaryKey: "WKCompanionAppBundleIdentifier") as? String ?? "missing"
+        let runsIndependently = Bundle.main.object(forInfoDictionaryKey: "WKRunsIndependentlyOfCompanionApp") as? Bool
+        let localPlayer = GKLocalPlayer.local
+        AppLog.info(
+            AppLog.game + AppLog.leaderboard,
+            """
+            🏆 watchOS GC diagnostics bundleID=\(bundleID), companionBundleID=\(companionBundleID), runsIndependently=\(runsIndependently?.description ?? "missing"), debugBuild=\(BuildConfiguration.isDebug), isAuthenticated=\(localPlayer.isAuthenticated), isUnderage=\(localPlayer.isUnderage)
+            """
+        )
     }
 }
 
