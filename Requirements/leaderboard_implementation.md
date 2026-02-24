@@ -88,12 +88,12 @@ protocol LeaderboardService {
 - visionOS: TBD
 
 View layer characteristics:
-- Zero GameKit imports in most of the view layer (except the dedicated shared `LeaderboardView` wrapper)
+- Zero GameKit imports in most of the view layer (exceptions: leaderboard presentation surfaces such as `LeaderboardView` and macOS menu trigger).
 - Only calls service methods (`leaderboardService.submitScore(_:difficulty:)`, `gameCenterService.isAuthenticated`, etc.)
 - Leaderboard presentation:
   - iOS / tvOS / macOS leaderboard button resolves the selected speed and opens that leaderboard ID
   - iOS / tvOS: via `LeaderboardView` using `GKAccessPoint.shared.trigger(leaderboardID:...)` (iOS 26+ / tvOS 26+)
-  - macOS: via `LeaderboardView` wrapping `GKGameCenterViewController` in `NSViewControllerRepresentable` so the sheet dismisses cleanly
+  - macOS: direct `GKAccessPoint.shared.trigger(leaderboardID:...)` call from menu action (no placeholder SwiftUI sheet wrapper)
   - watchOS: no in-app leaderboard UI (Apple does not provide a watch-appropriate leaderboard sheet). Scores are submitted to Game Center via the same `GameCenterService` and `LeaderboardConfiguration` (watch ID `bestwatchos001test`). Users see “Scores are submitted to Game Center. View leaderboards on iPhone or iPad.” in Settings.
 
 ## App Store Connect: Create leaderboards
@@ -134,7 +134,7 @@ Create only the leaderboards for platforms you ship (e.g. if you ship iPhone + w
 
 ### Game Center (iOS 26 / tvOS 26)
 
-**Resolved:** `GKGameCenterViewController` and `GKGameCenterControllerDelegate` were deprecated in iOS 26 / tvOS 26 with replacement **GKAccessPoint**. The app now uses `GKAccessPoint.shared.trigger(leaderboardID:playerScope:timeScope:handler:)` to present the leaderboard on iOS/tvOS (see `LeaderboardView.swift`, `tvOSLeaderboardView.swift`). On macOS, the app uses `GKGameCenterViewController` wrapped in SwiftUI, which remains supported.
+**Resolved:** `GKGameCenterViewController` and `GKGameCenterControllerDelegate` were deprecated in iOS 26 / tvOS 26 with replacement **GKAccessPoint**. The app now uses `GKAccessPoint.shared.trigger(leaderboardID:playerScope:timeScope:handler:)` to present leaderboards on iOS/tvOS and macOS.
 
 ### Localization for Score Units
 

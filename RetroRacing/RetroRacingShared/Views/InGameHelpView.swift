@@ -105,7 +105,7 @@ public struct InGameHelpView: View {
             .navigationTitle(GameLocalizedStrings.string("tutorial_help_title"))
             .modifier(InGameHelpNavigationTitleStyle())
             .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
+                ToolbarItem(placement: Self.doneToolbarPlacement) {
                     Button(GameLocalizedStrings.string("done")) {
                         dismiss()
                     }
@@ -126,6 +126,12 @@ public struct InGameHelpView: View {
             supportsHaptics: supportsHapticFeedback,
             isVoiceOverRunning: VoiceOverStatus.isVoiceOverRunning
         )
+    }
+}
+
+private extension InGameHelpView {
+    static var doneToolbarPlacement: ToolbarItemPlacement {
+        .confirmationAction
     }
 }
 

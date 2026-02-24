@@ -22,6 +22,7 @@ struct GameLayoutView<GameArea: View>: View {
     let inputAdapter: GameInputAdapter?
     let onMoveLeft: () -> Void
     let onMoveRight: () -> Void
+    let onTogglePause: () -> Void
     let onAppearSide: (CGFloat) -> Void
     let onResizeSide: (CGFloat) -> Void
     @ViewBuilder let gameArea: (CGFloat) -> GameArea
@@ -107,6 +108,7 @@ struct GameLayoutView<GameArea: View>: View {
             inputAdapter: inputAdapter,
             onMoveLeft: onMoveLeft,
             onMoveRight: onMoveRight,
+            onTogglePause: onTogglePause,
             onAppearSide: onAppearSide,
             onResizeSide: onResizeSide,
             content: gameArea
@@ -207,6 +209,7 @@ private struct GameAreaContainer<Content: View>: View {
     let inputAdapter: GameInputAdapter?
     let onMoveLeft: () -> Void
     let onMoveRight: () -> Void
+    let onTogglePause: () -> Void
     let onAppearSide: (CGFloat) -> Void
     let onResizeSide: (CGFloat) -> Void
     let content: (CGFloat) -> Content
@@ -224,7 +227,8 @@ private struct GameAreaContainer<Content: View>: View {
                 .modifier(GameAreaKeyboardModifier(
                     inputAdapter: inputAdapter,
                     onMoveLeft: onMoveLeft,
-                    onMoveRight: onMoveRight
+                    onMoveRight: onMoveRight,
+                    onTogglePause: onTogglePause
                 ))
                 .onAppear {
                     setFocusForGameArea()

@@ -136,7 +136,7 @@ struct IdentifiableVC: Identifiable {
 }
 #endif
 
-/// Presents leaderboard: fullScreenCover on iOS/tvOS, sheet on macOS.
+/// Presents leaderboard wrappers where needed (iOS/tvOS).
 struct LeaderboardPresentationModifier: ViewModifier {
     @Binding var isPresented: Bool
     let leaderboardID: String
@@ -149,6 +149,8 @@ struct LeaderboardPresentationModifier: ViewModifier {
                     isPresented = false
                 }
             }
+        #elseif os(macOS)
+        content
         #else
         content
             .sheet(isPresented: $isPresented) {

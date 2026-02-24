@@ -19,6 +19,8 @@ public struct SettingsView: View {
     public let speedWarningFeedbackPreviewPlayer: any SpeedIncreaseWarningFeedbackPlaying
     public let controlsDescriptionKey: String
     public let style: SettingsViewStyle
+    /// When true, gameplay-critical settings (theme and speed) are read-only.
+    public let isGameSessionInProgress: Bool
     /// Optional play limit service for showing remaining rounds.
     public let playLimitService: PlayLimitService?
 
@@ -41,6 +43,7 @@ public struct SettingsView: View {
         speedWarningFeedbackPreviewPlayer: any SpeedIncreaseWarningFeedbackPlaying,
         controlsDescriptionKey: String,
         style: SettingsViewStyle,
+        isGameSessionInProgress: Bool = false,
         playLimitService: PlayLimitService? = nil
     ) {
         self.themeManager = themeManager
@@ -51,6 +54,7 @@ public struct SettingsView: View {
         self.speedWarningFeedbackPreviewPlayer = speedWarningFeedbackPreviewPlayer
         self.controlsDescriptionKey = controlsDescriptionKey
         self.style = style
+        self.isGameSessionInProgress = isGameSessionInProgress
         self.playLimitService = playLimitService
         _preferencesStore = State(initialValue: SettingsPreferencesStore(
             userDefaults: InfrastructureDefaults.userDefaults,
@@ -117,6 +121,7 @@ public struct SettingsView: View {
                             Text(GameLocalizedStrings.string("settings_theme"))
                                 .font(fontForLabels)
                         }
+                        .disabled(isGameSessionInProgress)
                     } else {
                         HStack {
                             Text(GameLocalizedStrings.string("settings_theme"))
@@ -169,6 +174,7 @@ public struct SettingsView: View {
                         Text(GameLocalizedStrings.string("settings_speed"))
                             .font(fontForLabels)
                     }
+                    .disabled(isGameSessionInProgress)
                 } header: {
                     Text(GameLocalizedStrings.string("settings_speed"))
                         .font(fontForLabels)
@@ -399,7 +405,7 @@ public struct SettingsView: View {
             .navigationTitle(GameLocalizedStrings.string("settings"))
             .modifier(SettingsNavigationTitleStyle())
             .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
+                ToolbarItem(placement: Self.doneToolbarPlacement) {
                     Button(GameLocalizedStrings.string("done")) {
                         dismiss()
                     }
@@ -434,7 +440,7 @@ public struct SettingsView: View {
                     .navigationTitle(GameLocalizedStrings.string("settings_audio_cue_tutorial"))
                     .modifier(SettingsNavigationTitleStyle())
                     .toolbar {
-                        ToolbarItem(placement: .cancellationAction) {
+                        ToolbarItem(placement: Self.doneToolbarPlacement) {
                             Button(GameLocalizedStrings.string("done")) {
                                 showingAudioCueTutorial = false
                             }
@@ -462,6 +468,10 @@ public struct SettingsView: View {
         let clamped = min(max(value, 0), 1)
         let rounded = (clamped / step).rounded() * step
         return Double(((rounded * 100).rounded()) / 100)
+    }
+
+    private static var doneToolbarPlacement: ToolbarItemPlacement {
+        .confirmationAction
     }
 
     private func playLimitTitle(for service: PlayLimitService) -> String {

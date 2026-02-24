@@ -16,7 +16,6 @@ struct MenuContentView: View {
     let onPlay: () -> Void
     let onLeaderboard: () -> Void
     let onRate: () -> Void
-    let onSettings: () -> Void
 
     var body: some View {
         VStack(spacing: style.menuSpacing) {
@@ -48,9 +47,6 @@ struct MenuContentView: View {
             if showRateButton {
                 menuRateButton
             }
-            #if os(macOS)
-            menuSettingsButton
-            #endif
         }
     }
 
@@ -97,16 +93,4 @@ struct MenuContentView: View {
         }
         .buttonStyle(.glass)
     }
-
-    #if os(macOS)
-    private var menuSettingsButton: some View {
-        Button {
-            onSettings()
-        } label: {
-            Text(GameLocalizedStrings.string("settings"))
-                .font(buttonFont)
-        }
-        .buttonStyle(.glass)
-    }
-    #endif
 }

@@ -5,7 +5,9 @@
 RetroRacing uses a **game-base + menu-overlay** launch flow on Universal (iOS, iPadOS, macOS) and tvOS:
 
 - The app’s root view is `GameView`.
-- `MenuView` is presented as a **full-screen modal overlay** on top of the game.
+- `MenuView` is presented as an overlay on top of the game:
+  - iOS/iPadOS/tvOS: `.fullScreenCover`
+  - macOS: in-window `ZStack` overlay
 - The SpriteKit scene **does not start** until the menu overlay is dismissed via **Play**.
 
 This document describes the session model, how the overlay interacts with gameplay, and platform expectations.
@@ -18,7 +20,7 @@ This document describes the session model, how the overlay interacts with gamepl
   - Changing `sessionID` forces `GameView` to be rebuilt, creating a fresh `GameScene`.
 - **Start conditions**:
   - Initial launch: `GameView` is created with `shouldStartGame = false`.
-  - `MenuView` is presented in a `.fullScreenCover` on top of `GameView`.
+  - `MenuView` is presented over `GameView` (`.fullScreenCover` on iOS/iPadOS/tvOS, in-window overlay on macOS).
   - When the user taps **Play**, the overlay dismisses and `shouldStartGame` flips to `true`.
   - `GameViewModel.setupSceneIfNeeded` guards on `shouldStartGame`; the SpriteKit scene is created only after the overlay has dismissed.
 
@@ -56,6 +58,7 @@ This document describes the session model, how the overlay interacts with gamepl
 - `GameView` exposes an optional `onMenuRequest` callback.
 - App entry points can wire this to re-present the menu overlay during gameplay (e.g. via an in-game Menu button).
 - The in-game menu control uses the `xmark` symbol and pauses gameplay immediately on tap, before presentation state changes propagate.
+- When gameplay is not active (`shouldStartGame == false`) or an overlay is visible, in-game toolbar controls (`Menu`, `?`, `Pause/Resume`) are disabled.
 - When the overlay is presented while a session is running:
   - `GameView` receives an `isMenuOverlayPresented` binding.
   - `GameView` calls `GameViewModel.setOverlayPause(isPresented:)`.
@@ -75,7 +78,7 @@ This document describes the session model, how the overlay interacts with gamepl
 
 ## Platform Behaviour
 
-### Universal (iOS, iPadOS, macOS)
+### Universal (iOS, iPadOS)
 
 - Root: `GameView` (universal style).
 - Menu: `MenuView` (universal style) in a `.fullScreenCover`.
@@ -86,7 +89,20 @@ This document describes the session model, how the overlay interacts with gamepl
   - Resets to pre-game state (new session) and shows the menu overlay again.
 - Menu button during gameplay:
   - Supported via `onMenuRequest` and `showMenuButton` in `GameView`.
-  - Enabled per-platform from the app entry point (e.g. iPad/macOS only).
+  - Enabled per-platform from the app entry point.
+
+### macOS
+
+- Root: `GameView` (universal style), minimum window size `820x620`.
+- Menu: `MenuView` rendered as an in-window overlay above `GameView` (no menu sheet).
+- Accessibility: while menu overlay is visible, the underlying game is hidden from accessibility and the overlay is marked as modal.
+- Settings: a root-owned settings sheet is available globally through the app command for `⌘,`.
+  - While a gameplay session is active (`shouldStartGame == true`), Theme and Speed controls are read-only.
+  - Theme and Speed become editable again after finishing the run (returning to pre-game menu state).
+- Overlay pause binding combines menu + settings visibility:
+  - Opening either menu or settings pauses gameplay.
+  - Closing settings resumes only when no overlay remains and the player did not explicitly pause.
+- Launch/Play/Finish session behavior matches iOS/iPadOS semantics.
 
 ### tvOS
 
@@ -108,7 +124,8 @@ This document describes the session model, how the overlay interacts with gamepl
 ## Accessibility Considerations
 
 - **Play-only dismiss**:
-  - The menu overlay is non-interactively dismissible; `.interactiveDismissDisabled(true)` ensures users exit via explicit controls.
+  - Menu exit remains Play-driven on all platforms.
+  - On modal platforms (`.fullScreenCover`), `.interactiveDismissDisabled(true)` ensures users exit via explicit controls.
   - VoiceOver should surface the Play button clearly as the way to start the game.
 - **Pause while hidden**:
   - When the menu overlay is visible, gameplay is paused to avoid background activity that users cannot see.
@@ -124,6 +141,7 @@ This document describes the session model, how the overlay interacts with gamepl
   - Play after launch starts a new session.
   - Game Over → Finish returns to the menu and resets the session.
   - Overlay opened during gameplay pauses the scene and resumes correctly when dismissed.
+  - On macOS, opening settings (including via `⌘,`) also pauses and resumes using the same pause rules.
   - Opening the menu from gameplay pauses immediately (no ongoing background grid ticks, move haptics, or repeated `bip` playback).
   - User-initiated pauses are not overridden by overlay dismissal.
   - VoiceOver focus and announcements behave sensibly when the overlay appears and disappears.

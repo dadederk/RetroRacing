@@ -141,6 +141,7 @@ public struct GameView: View {
                     inputAdapter: model.inputAdapter,
                     onMoveLeft: { model.flashButton(.left) },
                     onMoveRight: { model.flashButton(.right) },
+                    onTogglePause: model.togglePause,
                     onAppearSide: { side in
                         AppLog.info(AppLog.game, "GameLayoutView appeared with side: \(side)")
                         model.setupSceneIfNeeded(side: side, volume: selectedSoundEffectsVolume)
@@ -212,6 +213,8 @@ public struct GameView: View {
                         .font(pauseButtonFont)
                     }
                     .accessibilityLabel(GameLocalizedStrings.string("menu_button"))
+                    .disabled(toolbarControlsDisabled)
+                    .opacity(toolbarControlsDisabled ? 0.4 : 1)
                 }
             }
             ToolbarItemGroup(placement: Self.pauseToolbarPlacement) {
@@ -225,6 +228,8 @@ public struct GameView: View {
                     .font(pauseButtonFont)
                 }
                 .accessibilityLabel(GameLocalizedStrings.string("tutorial_help_button"))
+                .disabled(toolbarControlsDisabled)
+                .opacity(toolbarControlsDisabled ? 0.4 : 1)
                 
                 Button {
                     model.togglePause()
@@ -236,8 +241,8 @@ public struct GameView: View {
                     .font(pauseButtonFont)
                 }
                 .accessibilityLabel(GameLocalizedStrings.string(model.pause.isUserPaused ? "resume" : "pause"))
-                .disabled(model.pauseButtonDisabled)
-                .opacity(model.pauseButtonDisabled ? 0.4 : 1)
+                .disabled(model.pauseButtonDisabled || toolbarControlsDisabled)
+                .opacity((model.pauseButtonDisabled || toolbarControlsDisabled) ? 0.4 : 1)
             }
         }
         .sheet(isPresented: $isInGameHelpPresented, onDismiss: handleInGameHelpDismissed) {
@@ -339,6 +344,11 @@ public struct GameView: View {
 
     private var hasScene: Bool {
         model.scene != nil
+    }
+
+    private var toolbarControlsDisabled: Bool {
+        let overlayPresented = isMenuOverlayPresented?.wrappedValue ?? false
+        return shouldStartGame == false || overlayPresented
     }
 
     private func handleLeftTap() {

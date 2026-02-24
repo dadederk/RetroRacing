@@ -156,3 +156,11 @@ The project is already set up correctly:
 - Build and archive iOS using **Any iOS Device** (includes watchOS app).
 - Confirm both builds are attached to the same App Store Connect version.
 - Prepare and verify macOS screenshots and metadata parity with iOS/watch submission content.
+
+### 6.5 macOS command and modal UX checks
+
+- `⌘Q` must close the app from gameplay, menu overlay, settings, and after returning from leaderboard.
+- `⌘,` must open Settings globally (menu and gameplay contexts).
+- macOS menu is an in-window overlay (not a sheet) so users are never left with an empty dismiss-only modal.
+- Settings Done action appears in top-right toolbar placement.
+- Gameplay accepts two-finger horizontal trackpad swipes (one lane move per swipe gesture).

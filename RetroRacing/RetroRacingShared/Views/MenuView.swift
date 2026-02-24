@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-#if canImport(UIKit) && !os(watchOS)
+#if (canImport(UIKit) && !os(watchOS)) || os(macOS)
 import GameKit
 #endif
 
@@ -30,6 +30,7 @@ public struct MenuView: View {
     public let showRateButton: Bool
     public let inputAdapterFactory: any GameInputAdapterFactory
     private let onPlayRequest: (() -> Void)?
+    private let onSettingsRequest: (() -> Void)?
 
     @Environment(\.openURL) private var openURL
     @Environment(StoreKitService.self) private var storeKit
@@ -58,7 +59,8 @@ public struct MenuView: View {
         controlsDescriptionKey: String,
         showRateButton: Bool,
         inputAdapterFactory: any GameInputAdapterFactory,
-        onPlayRequest: (() -> Void)? = nil
+        onPlayRequest: (() -> Void)? = nil,
+        onSettingsRequest: (() -> Void)? = nil
     ) {
         self.leaderboardService = leaderboardService
         self.ratingService = ratingService
@@ -76,6 +78,7 @@ public struct MenuView: View {
         self.showRateButton = showRateButton
         self.inputAdapterFactory = inputAdapterFactory
         self.onPlayRequest = onPlayRequest
+        self.onSettingsRequest = onSettingsRequest
         _authModel = State(initialValue: MenuAuthModel(
             gameCenterService: gameCenterService,
             authenticationPresenter: authenticationPresenter
@@ -96,14 +99,11 @@ public struct MenuView: View {
             .toolbar {
                 ToolbarItem(placement: Self.settingsToolbarPlacement) {
                     Button {
-                        showSettings = true
+                        presentSettings()
                     } label: {
                         Image(systemName: "gearshape")
                     }
                     .accessibilityLabel(GameLocalizedStrings.string("settings"))
-                    #if os(macOS)
-                    .keyboardShortcut(",", modifiers: .command)
-                    #endif
                 }
             }
             .sheet(isPresented: $showSettings) {
@@ -196,8 +196,7 @@ public struct MenuView: View {
                 }
             },
             onLeaderboard: handleLeaderboardTap,
-            onRate: handleRateTap,
-            onSettings: { showSettings = true }
+            onRate: handleRateTap
         )
     }
 
@@ -207,12 +206,27 @@ public struct MenuView: View {
         AppLog.info(AppLog.game, "🎮 Menu leaderboard tap - presenting via GKAccessPoint (UIKit)")
         authModel.presentLeaderboard(leaderboardID: leaderboardConfiguration.leaderboardID(for: selectedDifficulty))
         #elseif os(macOS)
-        AppLog.info(AppLog.game, "🎮 Menu leaderboard tap - presenting in-app macOS leaderboard sheet")
-        showLeaderboard = true
+        let leaderboardID = leaderboardConfiguration.leaderboardID(for: selectedDifficulty)
+        AppLog.info(AppLog.game, "🎮 Menu leaderboard tap - presenting macOS leaderboard via GKAccessPoint")
+        GKAccessPoint.shared.trigger(
+            leaderboardID: leaderboardID,
+            playerScope: .global,
+            timeScope: .allTime
+        ) {
+            AppLog.info(AppLog.game, "🎮 macOS leaderboard presentation completed")
+        }
         #else
         AppLog.info(AppLog.game, "🎮 Menu leaderboard tap - presenting shared LeaderboardView sheet")
         showLeaderboard = true
         #endif
+    }
+
+    private func presentSettings() {
+        if let onSettingsRequest {
+            onSettingsRequest()
+            return
+        }
+        showSettings = true
     }
 
     private var selectedDifficulty: GameDifficulty {

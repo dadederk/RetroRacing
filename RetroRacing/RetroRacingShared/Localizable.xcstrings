@@ -2653,19 +2653,19 @@
         "ca": {
           "stringUnit": {
             "state": "translated",
-            "value": "• Fes servir les tecles de fletxa esquerra i dreta del teclat per moure.\n• Clica a la meitat esquerra o dreta de la pantalla amb el trackpad o el ratolí."
+            "value": "• Fes servir les tecles de fletxa esquerra i dreta del teclat per moure.\n• Prem la barra espaiadora per pausar o reprendre.\n• Llisca amb dos dits cap a l'esquerra o la dreta en el trackpad per moure (es desactiva mentre VoiceOver està actiu).\n• Clica a la meitat esquerra o dreta de la pantalla amb el trackpad o el ratolí."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "• Use the left and right arrow keys on the keyboard to move.\n• Click the left or right half of the screen with the trackpad or mouse."
+            "value": "• Use the left and right arrow keys on the keyboard to move.\n• Press the space bar to pause or resume.\n• Swipe left or right with two fingers on the trackpad to move (disabled while VoiceOver is running).\n• Click the left or right half of the screen with the trackpad or mouse."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "• Usa las teclas de flecha izquierda y derecha del teclado para mover.\n• Haz clic en la mitad izquierda o derecha de la pantalla con el trackpad o el ratón."
+            "value": "• Usa las teclas de flecha izquierda y derecha del teclado para mover.\n• Pulsa la barra espaciadora para pausar o reanudar.\n• Desliza dos dedos a izquierda o derecha en el trackpad para mover (se desactiva mientras VoiceOver está activo).\n• Haz clic en la mitad izquierda o derecha de la pantalla con el trackpad o el ratón."
           }
         }
       }

@@ -36,6 +36,7 @@ struct RetroRacingApp: App {
     private let storeKitService: StoreKitService
     private let controlsDescriptionKey: String
     @State private var isMenuPresented = true
+    @State private var isSettingsPresented = false
     /// Controls whether gameplay should be allowed to start for the current session.
     /// On initial launch and after Finish, this is false so that the SpriteKit
     /// scene is not created until the menu overlay is dismissed via Play.
@@ -155,6 +156,16 @@ struct RetroRacingApp: App {
                     }
             }
         }
+        #if os(macOS)
+        .commands {
+            CommandGroup(replacing: .appSettings) {
+                Button(GameLocalizedStrings.string("settings")) {
+                    handleSettingsRequest()
+                }
+                .keyboardShortcut(",", modifiers: .command)
+            }
+        }
+        #endif
     }
 
     /// Platform-aware root content that composes the shared game view and menu presentation.
@@ -170,12 +181,17 @@ struct RetroRacingApp: App {
         #else
         gameView
             .frame(minWidth: 820, minHeight: 620)
-            .sheet(isPresented: $isMenuPresented, onDismiss: handleMenuDismissed) {
-                menuView
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .ignoresSafeArea()
+            .accessibilityHidden(isMenuPresented)
+            .overlay {
+                if isMenuPresented {
+                    menuOverlayView
+                }
+            }
+            .sheet(isPresented: $isSettingsPresented) {
+                settingsSheetView
             }
             .animation(nil, value: isMenuPresented)
+            .animation(nil, value: isSettingsPresented)
         #endif
     }
 
@@ -197,7 +213,7 @@ struct RetroRacingApp: App {
             showMenuButton: true,
             onFinishRequest: handleFinish,
             onMenuRequest: handleMenuRequest,
-            isMenuOverlayPresented: $isMenuPresented
+            isMenuOverlayPresented: gameOverlayPauseBinding
         )
         .id(sessionID)
         .navigationTitle("")
@@ -205,7 +221,31 @@ struct RetroRacingApp: App {
 
     /// Shared menu view presented on top of the game.
     private var menuView: some View {
-        MenuView(
+        #if os(macOS)
+        return MenuView(
+            leaderboardService: gameCenterService,
+            gameCenterService: gameCenterService,
+            ratingService: ratingService,
+            leaderboardConfiguration: leaderboardConfiguration,
+            authenticationPresenter: authenticationPresenter,
+            themeManager: themeManager,
+            fontPreferenceStore: fontPreferenceStore,
+            hapticController: hapticController,
+            supportsHapticFeedback: supportsHapticFeedback,
+            highestScoreStore: highestScoreStore,
+            playLimitService: playLimitService,
+            style: .universal,
+            settingsStyle: .universal,
+            gameViewStyle: .universal,
+            controlsDescriptionKey: controlsDescriptionKey,
+            showRateButton: true,
+            inputAdapterFactory: TouchInputAdapterFactory(),
+            onPlayRequest: handlePlayRequest,
+            onSettingsRequest: handleSettingsRequest
+        )
+        .interactiveDismissDisabled(true)
+        #else
+        return MenuView(
             leaderboardService: gameCenterService,
             gameCenterService: gameCenterService,
             ratingService: ratingService,
@@ -226,6 +266,51 @@ struct RetroRacingApp: App {
             onPlayRequest: handlePlayRequest
         )
         .interactiveDismissDisabled(true)
+        #endif
+    }
+
+    #if os(macOS)
+    private var menuOverlayView: some View {
+        ZStack {
+            Color.clear
+                .background(.regularMaterial)
+                .ignoresSafeArea()
+            menuView
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
+        .accessibilityElement(children: .contain)
+        .accessibilityAddTraits(.isModal)
+    }
+
+    private var settingsSheetView: some View {
+        let previewDependencies = settingsPreviewDependencyFactory.make(
+            hapticController: hapticController
+        )
+        return SettingsView(
+            themeManager: themeManager,
+            fontPreferenceStore: fontPreferenceStore,
+            supportsHapticFeedback: supportsHapticFeedback,
+            hapticController: hapticController,
+            audioCueTutorialPreviewPlayer: previewDependencies.audioCueTutorialPreviewPlayer,
+            speedWarningFeedbackPreviewPlayer: previewDependencies.speedWarningFeedbackPreviewPlayer,
+            controlsDescriptionKey: controlsDescriptionKey,
+            style: .universal,
+            isGameSessionInProgress: shouldStartGame,
+            playLimitService: playLimitService
+        )
+        .fontPreferenceStore(fontPreferenceStore)
+    }
+    #endif
+
+    private var gameOverlayPauseBinding: Binding<Bool> {
+        #if os(macOS)
+        Binding(
+            get: { isMenuPresented || isSettingsPresented },
+            set: { _ in }
+        )
+        #else
+        $isMenuPresented
+        #endif
     }
 
     private func handlePlayRequest() {
@@ -250,5 +335,22 @@ struct RetroRacingApp: App {
     private func handleMenuRequest() {
         AppLog.info(AppLog.game, "Menu requested during gameplay")
         isMenuPresented = true
+    }
+
+    private func handleSettingsRequest() {
+        isSettingsPresented = true
+    }
+
+    private var settingsPreviewDependencyFactory: SettingsPreviewDependencyFactory {
+        SettingsPreviewDependencyFactory(
+            laneCuePlayerFactory: { PlatformFactories.makeLaneCuePlayer() },
+            announcementPoster: AccessibilityAnnouncementPoster(),
+            announcementTextProvider: {
+                GameLocalizedStrings.string("speed_increase_announcement")
+            },
+            volumeProvider: {
+                SoundEffectsVolumePreference.currentSelection(from: InfrastructureDefaults.userDefaults)
+            }
+        )
     }
 }

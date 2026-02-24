@@ -30,7 +30,17 @@ RetroRacing captures platform-specific input at the UI layer and translates it i
   - Touch-area taps use `onTapGesture` and horizontal swipes use a `DragGesture` threshold (`20pt`) for lane gestures.
   - VoiceOver Magic Tap maps to the same pause/resume toggle used by the in-game pause control.
 - **tvOS**: Remote swipe input via `RemoteGameInputAdapter`.
-- **macOS/visionOS**: Platform UI handles keyboard/mouse/gaze and forwards to shared controllers.
+- **macOS**:
+  - Arrow keys route through `AppKitHardwareKeyboardInputView`.
+  - Space bar toggles pause/resume via the same pause path as the toolbar control.
+  - Two-finger trackpad horizontal swipes map to lane changes via `MacTrackpadSwipeInterpreter`.
+  - Gesture handling rules:
+    - Horizontal-only: `abs(deltaX) > abs(deltaY)` and minimum horizontal threshold.
+    - One lane move per swipe gesture while phase is active.
+    - For phaseless scroll streams, cooldown reset allows one move after inactivity.
+    - Direction is normalized with `isDirectionInvertedFromDevice` so physical swipe left/right always maps to move left/right regardless of natural scrolling.
+    - Swipe handling is disabled while VoiceOver is running to avoid conflicting with assistive gesture controls.
+- **visionOS**: Platform UI handles gaze/gesture input and forwards to shared controllers.
 - **watchOS**: VoiceOver Magic Tap maps to the same pause/resume toggle used by the header pause control.
 
 ### Haptic Routing for Lane Cues
@@ -50,6 +60,7 @@ RetroRacing captures platform-specific input at the UI layer and translates it i
 ## Testing Strategy
 
 - Unit tests for the processor in `RetroRacingSharedTests/CrownInputProcessorTests.swift`.
+- Unit tests for macOS swipe interpretation in `RetroRacingSharedTests/MacTrackpadSwipeInterpreterTests.swift`.
 - Watch UI should be verified manually to ensure the “one move per burst” feel.
 
 ## Known Issues
