@@ -67,11 +67,14 @@ public final class AudioCueTutorialPreviewPlayer {
 public struct AudioCueTutorialContentView: View {
     @AppStorage(SoundEffectsVolumeSetting.conditionalDefaultStorageKey)
     private var soundEffectsVolumeData: Data = Data()
+    @AppStorage(SpeedWarningFeedbackMode.conditionalDefaultStorageKey)
+    private var speedWarningFeedbackModeData: Data = Data()
     private let previewPlayer: AudioCueTutorialPreviewPlayer
     private let speedWarningFeedbackPreviewPlayer: any SpeedIncreaseWarningFeedbackPlaying
     private let supportsHapticFeedback: Bool
     private let hapticController: HapticFeedbackController?
     private let showAudioCueSections: Bool
+    private let showSpeedWarningSectionHeader: Bool
     @State private var selectedAudioFeedbackMode: AudioFeedbackMode = .cueLanePulses
     @State private var selectedLaneMoveCueStyle: LaneMoveCueStyle = .laneConfirmation
     @State private var selectedSpeedWarningFeedbackMode: SpeedWarningFeedbackMode = .none
@@ -83,13 +86,15 @@ public struct AudioCueTutorialContentView: View {
         speedWarningFeedbackPreviewPlayer: any SpeedIncreaseWarningFeedbackPlaying,
         supportsHapticFeedback: Bool,
         hapticController: HapticFeedbackController?,
-        showAudioCueSections: Bool = true
+        showAudioCueSections: Bool = true,
+        showSpeedWarningSectionHeader: Bool = true
     ) {
         self.previewPlayer = previewPlayer
         self.speedWarningFeedbackPreviewPlayer = speedWarningFeedbackPreviewPlayer
         self.supportsHapticFeedback = supportsHapticFeedback
         self.hapticController = hapticController
         self.showAudioCueSections = showAudioCueSections
+        self.showSpeedWarningSectionHeader = showSpeedWarningSectionHeader
     }
 
     /// Three columns at default sizes, one at accessibility sizes to prevent overflow.
@@ -125,7 +130,9 @@ public struct AudioCueTutorialContentView: View {
                 audioFeedbackModeSection
                 laneChangeCueSection
             }
-            speedIncreaseWarningFeedbackSection
+            if shouldShowSpeedWarningSection {
+                speedIncreaseWarningFeedbackSection
+            }
         }
         .onAppear {
             previewPlayer.setVolume(selectedSoundEffectsVolume)
@@ -133,6 +140,9 @@ public struct AudioCueTutorialContentView: View {
         }
         .onChange(of: soundEffectsVolumeData) { _, _ in
             previewPlayer.setVolume(selectedSoundEffectsVolume)
+        }
+        .onChange(of: speedWarningFeedbackModeData) { _, _ in
+            loadCurrentPreferences()
         }
         .onDisappear {
             previewPlayer.stopAll()
@@ -329,10 +339,12 @@ public struct AudioCueTutorialContentView: View {
 
     private var speedIncreaseWarningFeedbackSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text(GameLocalizedStrings.string("tutorial_section_speed_warning_feedback"))
-                .font(sectionHeaderFont)
-                .accessibilityAddTraits(.isHeader)
-                .accessibilityHeading(.h2)
+            if showSpeedWarningSectionHeader {
+                Text(GameLocalizedStrings.string("tutorial_section_speed_warning_feedback"))
+                    .font(sectionHeaderFont)
+                    .accessibilityAddTraits(.isHeader)
+                    .accessibilityHeading(.h2)
+            }
 
             Picker(
                 GameLocalizedStrings.string("tutorial_section_speed_warning_feedback"),
@@ -451,5 +463,18 @@ public struct AudioCueTutorialContentView: View {
 
     private var selectedSoundEffectsVolume: Double {
         SoundEffectsVolumePreference.currentSelection(from: InfrastructureDefaults.userDefaults)
+    }
+
+    private var configuredSpeedWarningFeedbackMode: SpeedWarningFeedbackMode {
+        _ = speedWarningFeedbackModeData
+        return SpeedWarningFeedbackPreference.currentSelection(
+            from: InfrastructureDefaults.userDefaults,
+            supportsHaptics: supportsHapticFeedback,
+            isVoiceOverRunning: VoiceOverStatus.isVoiceOverRunning
+        )
+    }
+
+    private var shouldShowSpeedWarningSection: Bool {
+        configuredSpeedWarningFeedbackMode != .none
     }
 }

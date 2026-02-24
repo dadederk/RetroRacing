@@ -29,6 +29,15 @@ public final class SettingsPreferencesStore {
     public func loadIfNeeded() {
         guard hasLoaded == false else { return }
         hasLoaded = true
+        loadFromStorage()
+    }
+
+    public func reloadFromStorage() {
+        hasLoaded = true
+        loadFromStorage()
+    }
+
+    private func loadFromStorage() {
         difficultyConditionalDefault = ConditionalDefault<GameDifficulty>.load(
             from: userDefaults,
             key: GameDifficulty.conditionalDefaultStorageKey
@@ -117,7 +126,14 @@ public final class SettingsPreferencesStore {
     }
 
     public var shouldEnableSpeedWarningPreview: Bool {
-        selectedSpeedWarningFeedbackMode != .announcement || isVoiceOverRunningProvider()
+        let selectedMode = selectedSpeedWarningFeedbackMode
+        if selectedMode == .none {
+            return false
+        }
+        if selectedMode == .announcement, isVoiceOverRunningProvider() == false {
+            return false
+        }
+        return true
     }
 
     public var availableLaneMoveCueStyles: [LaneMoveCueStyle] {

@@ -59,14 +59,15 @@
 - Settings and tutorial include `Preview warning` for speed increase warning feedback; preview behavior matches gameplay for all four modes.
 - Tutorial apply actions for audio mode, lane cue style, and speed increase warning feedback switch to a disabled `X configured` state when preview selection already matches the stored setting.
 - Settings + watch Settings hide the `Audio cue tutorial` entry when selected audio mode is `Retro audio`.
-- In-game help hides audio-cue tutorial sections when selected audio mode is `Retro audio` (speed-warning tutorial section remains available).
-- Settings disable `Preview warning` only when mode is `VoiceOver announcement` and VoiceOver is currently off.
+- In-game help hides audio-cue tutorial sections when selected audio mode is `Retro audio` and only shows speed-warning tutorial content when the configured speed-warning mode is not `None`.
+- Settings disable `Preview warning` when mode is `None`, and also when mode is `VoiceOver announcement` while VoiceOver is currently off.
 - Haptics respect existing toggle (`hapticFeedbackEnabled`).
 - Platform policy:
   - macOS and tvOS do not expose haptics options.
   - Lane style `Haptics` option is filtered out where haptics are unsupported.
   - Speed increase warning feedback uses `AccessibilityNotification.Announcement` for announcement mode on all platforms.
   - Speed increase warning announcement mode posts with high announcement priority.
+  - Speed increase warning `Haptic` mode triggers two consecutive warning haptic events.
   - Speed increase warning sound uses a dedicated generated cue (`D4-F4-A4`, repeated twice) and does not reuse lane-safe tick cues.
 
 ## Testing Expectations

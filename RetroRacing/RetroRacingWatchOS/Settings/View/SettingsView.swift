@@ -229,7 +229,9 @@ struct SettingsView: View {
                 }
             }
             .onAppear { preferencesStore.loadIfNeeded() }
-            .sheet(isPresented: $showingAudioCueTutorial) {
+            .sheet(isPresented: $showingAudioCueTutorial, onDismiss: {
+                preferencesStore.reloadFromStorage()
+            }) {
                 NavigationStack {
                     ScrollView {
                         AudioCueTutorialContentView(

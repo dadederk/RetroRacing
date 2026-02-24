@@ -55,7 +55,7 @@ The audio tutorial explains and previews:
 
 Visibility rules:
 - When selected audio feedback mode is `Retro audio`, settings hide the **Audio cue tutorial** entry.
-- In-game help hides audio-cue sections while keeping the speed-warning section available.
+- In-game help hides audio-cue sections while keeping speed-warning content available only when configured speed-warning mode is not `None`.
 
 ## Technical Notes
 

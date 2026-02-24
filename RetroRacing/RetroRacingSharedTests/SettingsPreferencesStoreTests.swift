@@ -73,6 +73,18 @@ final class SettingsPreferencesStoreTests: XCTestCase {
         XCTAssertTrue(store.shouldEnableSpeedWarningPreview)
     }
 
+    func testGivenNoneModeWhenCheckingPreviewEnablementThenPreviewIsDisabled() {
+        // Given
+        SpeedWarningFeedbackPreference.setUserOverride(.none, in: userDefaults)
+        let store = makeStore()
+
+        // When
+        store.loadIfNeeded()
+
+        // Then
+        XCTAssertFalse(store.shouldEnableSpeedWarningPreview)
+    }
+
     func testGivenLaneCueStyleWhenSwitchingAudioModesThenLaneCueStyleIsPreserved() {
         // Given
         let store = makeStore()

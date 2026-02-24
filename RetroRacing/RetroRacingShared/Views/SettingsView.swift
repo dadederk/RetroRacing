@@ -417,7 +417,9 @@ public struct SettingsView: View {
                 PaywallView(playLimitService: playLimitService)
                     .fontPreferenceStore(fontPreferenceStore)
             }
-            .sheet(isPresented: $showingAudioCueTutorial) {
+            .sheet(isPresented: $showingAudioCueTutorial, onDismiss: {
+                preferencesStore.reloadFromStorage()
+            }) {
                 NavigationStack {
                     ScrollView {
                         AudioCueTutorialContentView(

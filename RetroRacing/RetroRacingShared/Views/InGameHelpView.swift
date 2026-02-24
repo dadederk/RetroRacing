@@ -19,6 +19,8 @@ public struct InGameHelpView: View {
     @Environment(\.fontPreferenceStore) private var fontPreferenceStore
     @AppStorage(AudioFeedbackMode.conditionalDefaultStorageKey)
     private var audioFeedbackModeData: Data = Data()
+    @AppStorage(SpeedWarningFeedbackMode.conditionalDefaultStorageKey)
+    private var speedWarningFeedbackModeData: Data = Data()
 
     public init(
         controlsDescriptionKey: String,
@@ -80,7 +82,7 @@ public struct InGameHelpView: View {
                                 showAudioCueSections: true
                             )
                         }
-                    } else {
+                    } else if selectedSpeedWarningFeedbackMode != .none {
                         VStack(alignment: .leading, spacing: 8) {
                             Text(GameLocalizedStrings.string("settings_speed_warning_feedback"))
                                 .font(sectionHeaderFont)
@@ -92,7 +94,8 @@ public struct InGameHelpView: View {
                                 speedWarningFeedbackPreviewPlayer: speedWarningFeedbackPreviewPlayer,
                                 supportsHapticFeedback: supportsHapticFeedback,
                                 hapticController: hapticController,
-                                showAudioCueSections: false
+                                showAudioCueSections: false,
+                                showSpeedWarningSectionHeader: false
                             )
                         }
                     }
@@ -114,6 +117,15 @@ public struct InGameHelpView: View {
     private var selectedAudioFeedbackMode: AudioFeedbackMode {
         _ = audioFeedbackModeData
         return AudioFeedbackMode.currentSelection(from: InfrastructureDefaults.userDefaults)
+    }
+
+    private var selectedSpeedWarningFeedbackMode: SpeedWarningFeedbackMode {
+        _ = speedWarningFeedbackModeData
+        return SpeedWarningFeedbackPreference.currentSelection(
+            from: InfrastructureDefaults.userDefaults,
+            supportsHaptics: supportsHapticFeedback,
+            isVoiceOverRunning: VoiceOverStatus.isVoiceOverRunning
+        )
     }
 }
 

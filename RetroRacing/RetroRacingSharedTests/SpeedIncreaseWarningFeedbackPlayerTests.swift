@@ -42,7 +42,7 @@ final class SpeedIncreaseWarningFeedbackPlayerTests: XCTestCase {
         sut.play(mode: .warningHaptic)
 
         // Then
-        XCTAssertEqual(haptics.warningCalls, 1)
+        XCTAssertEqual(haptics.warningCalls, 2)
         XCTAssertTrue(poster.calls.isEmpty)
         XCTAssertEqual(soundPlayCount, 0)
     }

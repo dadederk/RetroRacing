@@ -34,6 +34,7 @@ public struct SpeedIncreaseWarningFeedbackPlayer: SpeedIncreaseWarningFeedbackPl
             )
         case .warningHaptic:
             hapticController?.triggerWarningHaptic()
+            hapticController?.triggerWarningHaptic()
         case .warningSound:
             playWarningSound()
         case .none:
