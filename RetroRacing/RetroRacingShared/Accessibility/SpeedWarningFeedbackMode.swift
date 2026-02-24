@@ -8,10 +8,10 @@ public enum SpeedWarningFeedbackMode: String, CaseIterable, Codable, Sendable {
     case none
 
     public static let conditionalDefaultStorageKey = "speedWarningFeedbackMode_conditionalDefault"
-    public static let defaultMode: SpeedWarningFeedbackMode = .announcement
+    public static let defaultMode: SpeedWarningFeedbackMode = .none
 
     public static var systemDefault: SpeedWarningFeedbackMode {
-        .announcement
+        .none
     }
 
     public var localizedNameKey: String {
@@ -35,11 +35,11 @@ public enum SpeedWarningFeedbackMode: String, CaseIterable, Codable, Sendable {
     }
 
     public static func currentSelection(from userDefaults: UserDefaults) -> SpeedWarningFeedbackMode {
-        let conditionalDefault = ConditionalDefault<SpeedWarningFeedbackMode>.load(
+        SpeedWarningFeedbackPreference.currentSelection(
             from: userDefaults,
-            key: conditionalDefaultStorageKey
+            supportsHaptics: true,
+            isVoiceOverRunning: VoiceOverStatus.isVoiceOverRunning
         )
-        return conditionalDefault.effectiveValue
     }
 }
 

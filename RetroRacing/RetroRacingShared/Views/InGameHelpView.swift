@@ -17,6 +17,8 @@ public struct InGameHelpView: View {
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.fontPreferenceStore) private var fontPreferenceStore
+    @AppStorage(AudioFeedbackMode.conditionalDefaultStorageKey)
+    private var audioFeedbackModeData: Data = Data()
 
     public init(
         controlsDescriptionKey: String,
@@ -63,18 +65,36 @@ public struct InGameHelpView: View {
                         ControlsHelpContentView(controlsDescriptionKey: controlsDescriptionKey, showTitle: false)
                     }
 
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text(GameLocalizedStrings.string("tutorial_audio_title"))
-                            .font(sectionHeaderFont)
-                            .accessibilityAddTraits(.isHeader)
-                            .accessibilityHeading(.h1)
+                    if selectedAudioFeedbackMode.supportsAudioCueTutorial {
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text(GameLocalizedStrings.string("tutorial_audio_title"))
+                                .font(sectionHeaderFont)
+                                .accessibilityAddTraits(.isHeader)
+                                .accessibilityHeading(.h1)
 
-                        AudioCueTutorialContentView(
-                            previewPlayer: audioCueTutorialPreviewPlayer,
-                            speedWarningFeedbackPreviewPlayer: speedWarningFeedbackPreviewPlayer,
-                            supportsHapticFeedback: supportsHapticFeedback,
-                            hapticController: hapticController
-                        )
+                            AudioCueTutorialContentView(
+                                previewPlayer: audioCueTutorialPreviewPlayer,
+                                speedWarningFeedbackPreviewPlayer: speedWarningFeedbackPreviewPlayer,
+                                supportsHapticFeedback: supportsHapticFeedback,
+                                hapticController: hapticController,
+                                showAudioCueSections: true
+                            )
+                        }
+                    } else {
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text(GameLocalizedStrings.string("settings_speed_warning_feedback"))
+                                .font(sectionHeaderFont)
+                                .accessibilityAddTraits(.isHeader)
+                                .accessibilityHeading(.h1)
+
+                            AudioCueTutorialContentView(
+                                previewPlayer: audioCueTutorialPreviewPlayer,
+                                speedWarningFeedbackPreviewPlayer: speedWarningFeedbackPreviewPlayer,
+                                supportsHapticFeedback: supportsHapticFeedback,
+                                hapticController: hapticController,
+                                showAudioCueSections: false
+                            )
+                        }
                     }
                 }
                 .padding()
@@ -89,6 +109,11 @@ public struct InGameHelpView: View {
                 }
             }
         }
+    }
+
+    private var selectedAudioFeedbackMode: AudioFeedbackMode {
+        _ = audioFeedbackModeData
+        return AudioFeedbackMode.currentSelection(from: InfrastructureDefaults.userDefaults)
     }
 }
 

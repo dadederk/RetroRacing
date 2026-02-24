@@ -376,6 +376,7 @@ private final class MockSoundPlayer: SoundEffectPlayer {
 private final class MockLaneCuePlayerStub: LaneCuePlayer {
     func playTickCue(safeColumns: Set<CueColumn>, mode: AudioFeedbackMode) {}
     func playMoveCue(column: CueColumn, isSafe: Bool, mode: AudioFeedbackMode, style: LaneMoveCueStyle) {}
+    func playSpeedWarningCue() {}
     func setVolume(_ volume: Double) {}
     func stopAll(fadeDuration: TimeInterval) {}
 }

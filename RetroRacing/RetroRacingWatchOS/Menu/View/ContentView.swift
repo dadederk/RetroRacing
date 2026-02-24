@@ -51,32 +51,33 @@ struct ContentView: View {
                 let settingsHapticController = WatchHapticFeedbackController(
                     userDefaults: InfrastructureDefaults.userDefaults
                 )
-                let tutorialPreviewPlayer = AudioCueTutorialPreviewPlayer(
-                    laneCuePlayer: PlatformFactories.makeLaneCuePlayer()
-                )
-                let speedWarningPreviewPlayer = SpeedIncreaseWarningFeedbackPlayer(
-                    announcementPoster: AccessibilityAnnouncementPoster(),
-                    hapticController: settingsHapticController,
-                    playWarningSound: {
-                        tutorialPreviewPlayer.playSpeedWarningSound(
-                            volume: SoundEffectsVolumePreference.currentSelection(from: InfrastructureDefaults.userDefaults)
-                        )
-                    },
-                    announcementTextProvider: {
-                        GameLocalizedStrings.string("speed_increase_announcement")
-                    }
+                let previewDependencies = settingsPreviewDependencyFactory.make(
+                    hapticController: settingsHapticController
                 )
                 SettingsView(
                     themeManager: themeManager,
                     fontPreferenceStore: fontPreferenceStore,
                     supportsHapticFeedback: true,
                     hapticController: settingsHapticController,
-                    audioCueTutorialPreviewPlayer: tutorialPreviewPlayer,
-                    speedWarningFeedbackPreviewPlayer: speedWarningPreviewPlayer,
+                    audioCueTutorialPreviewPlayer: previewDependencies.audioCueTutorialPreviewPlayer,
+                    speedWarningFeedbackPreviewPlayer: previewDependencies.speedWarningFeedbackPreviewPlayer,
                     isGameCenterAuthenticated: leaderboardService.isAuthenticated()
                 )
             }
         }
+    }
+
+    private var settingsPreviewDependencyFactory: SettingsPreviewDependencyFactory {
+        SettingsPreviewDependencyFactory(
+            laneCuePlayerFactory: { PlatformFactories.makeLaneCuePlayer() },
+            announcementPoster: AccessibilityAnnouncementPoster(),
+            announcementTextProvider: {
+                GameLocalizedStrings.string("speed_increase_announcement")
+            },
+            volumeProvider: {
+                SoundEffectsVolumePreference.currentSelection(from: InfrastructureDefaults.userDefaults)
+            }
+        )
     }
 }
 

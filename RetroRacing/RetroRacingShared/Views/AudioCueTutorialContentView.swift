@@ -55,10 +55,7 @@ public final class AudioCueTutorialPreviewPlayer {
 
     public func playSpeedWarningSound(volume: Double) {
         laneCuePlayer.setVolume(volume)
-        laneCuePlayer.playTickCue(
-            safeColumns: Set(CueColumn.allCases),
-            mode: .cueArpeggio
-        )
+        laneCuePlayer.playSpeedWarningCue()
     }
 
     public func stopAll() {
@@ -74,9 +71,10 @@ public struct AudioCueTutorialContentView: View {
     private let speedWarningFeedbackPreviewPlayer: any SpeedIncreaseWarningFeedbackPlaying
     private let supportsHapticFeedback: Bool
     private let hapticController: HapticFeedbackController?
+    private let showAudioCueSections: Bool
     @State private var selectedAudioFeedbackMode: AudioFeedbackMode = .cueLanePulses
     @State private var selectedLaneMoveCueStyle: LaneMoveCueStyle = .laneConfirmation
-    @State private var selectedSpeedWarningFeedbackMode: SpeedWarningFeedbackMode = .announcement
+    @State private var selectedSpeedWarningFeedbackMode: SpeedWarningFeedbackMode = .none
     @Environment(\.fontPreferenceStore) private var fontPreferenceStore
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
@@ -84,12 +82,14 @@ public struct AudioCueTutorialContentView: View {
         previewPlayer: AudioCueTutorialPreviewPlayer,
         speedWarningFeedbackPreviewPlayer: any SpeedIncreaseWarningFeedbackPlaying,
         supportsHapticFeedback: Bool,
-        hapticController: HapticFeedbackController?
+        hapticController: HapticFeedbackController?,
+        showAudioCueSections: Bool = true
     ) {
         self.previewPlayer = previewPlayer
         self.speedWarningFeedbackPreviewPlayer = speedWarningFeedbackPreviewPlayer
         self.supportsHapticFeedback = supportsHapticFeedback
         self.hapticController = hapticController
+        self.showAudioCueSections = showAudioCueSections
     }
 
     /// Three columns at default sizes, one at accessibility sizes to prevent overflow.
@@ -121,8 +121,10 @@ public struct AudioCueTutorialContentView: View {
 
     public var body: some View {
         VStack(alignment: .leading, spacing: 24) {
-            audioFeedbackModeSection
-            laneChangeCueSection
+            if showAudioCueSections {
+                audioFeedbackModeSection
+                laneChangeCueSection
+            }
             speedIncreaseWarningFeedbackSection
         }
         .onAppear {
@@ -144,10 +146,14 @@ public struct AudioCueTutorialContentView: View {
         let savedStyle = LaneMoveCueStyle.currentSelection(from: InfrastructureDefaults.userDefaults)
         selectedLaneMoveCueStyle = laneMoveCueStyles.contains(savedStyle) ? savedStyle : .laneConfirmation
 
-        let savedSpeedMode = SpeedWarningFeedbackMode.currentSelection(from: InfrastructureDefaults.userDefaults)
+        let savedSpeedMode = SpeedWarningFeedbackPreference.currentSelection(
+            from: InfrastructureDefaults.userDefaults,
+            supportsHaptics: supportsHapticFeedback,
+            isVoiceOverRunning: VoiceOverStatus.isVoiceOverRunning
+        )
         selectedSpeedWarningFeedbackMode = speedWarningFeedbackModes.contains(savedSpeedMode)
             ? savedSpeedMode
-            : .announcement
+            : .none
     }
 
     // MARK: - Audio feedback mode
@@ -208,14 +214,17 @@ public struct AudioCueTutorialContentView: View {
 
     private var audioFeedbackModeApplyButtonLabel: String {
         let selectedName = GameLocalizedStrings.string(selectedAudioFeedbackMode.localizedNameKey)
-        if isAudioFeedbackModeConfigured {
-            return GameLocalizedStrings.format("tutorial_configured %@", selectedName)
-        }
-        return GameLocalizedStrings.format("tutorial_set %@", selectedName)
+        return TutorialApplyStateResolver.applyButtonLabel(
+            selectedName: selectedName,
+            isConfigured: isAudioFeedbackModeConfigured
+        )
     }
 
     private var isAudioFeedbackModeConfigured: Bool {
-        selectedAudioFeedbackMode == AudioFeedbackMode.currentSelection(from: InfrastructureDefaults.userDefaults)
+        TutorialApplyStateResolver.isConfigured(
+            selectedValue: selectedAudioFeedbackMode,
+            configuredValue: AudioFeedbackMode.currentSelection(from: InfrastructureDefaults.userDefaults)
+        )
     }
 
     // MARK: - Lane change cue
@@ -303,14 +312,17 @@ public struct AudioCueTutorialContentView: View {
 
     private var laneMoveCueStyleApplyButtonLabel: String {
         let selectedName = GameLocalizedStrings.string(selectedLaneMoveCueStyle.localizedNameKey)
-        if isLaneMoveCueStyleConfigured {
-            return GameLocalizedStrings.format("tutorial_configured %@", selectedName)
-        }
-        return GameLocalizedStrings.format("tutorial_set %@", selectedName)
+        return TutorialApplyStateResolver.applyButtonLabel(
+            selectedName: selectedName,
+            isConfigured: isLaneMoveCueStyleConfigured
+        )
     }
 
     private var isLaneMoveCueStyleConfigured: Bool {
-        selectedLaneMoveCueStyle == LaneMoveCueStyle.currentSelection(from: InfrastructureDefaults.userDefaults)
+        TutorialApplyStateResolver.isConfigured(
+            selectedValue: selectedLaneMoveCueStyle,
+            configuredValue: LaneMoveCueStyle.currentSelection(from: InfrastructureDefaults.userDefaults)
+        )
     }
 
     // MARK: - Speed increase warning feedback
@@ -356,28 +368,29 @@ public struct AudioCueTutorialContentView: View {
     }
 
     private func saveSpeedWarningFeedbackMode(_ mode: SpeedWarningFeedbackMode) {
-        var conditional = ConditionalDefault<SpeedWarningFeedbackMode>.load(
-            from: InfrastructureDefaults.userDefaults,
-            key: SpeedWarningFeedbackMode.conditionalDefaultStorageKey
-        )
-        conditional.setUserOverride(mode)
-        conditional.save(
-            to: InfrastructureDefaults.userDefaults,
-            key: SpeedWarningFeedbackMode.conditionalDefaultStorageKey
+        SpeedWarningFeedbackPreference.setUserOverride(
+            mode,
+            in: InfrastructureDefaults.userDefaults
         )
     }
 
     private var speedWarningFeedbackModeApplyButtonLabel: String {
         let selectedName = GameLocalizedStrings.string(selectedSpeedWarningFeedbackMode.localizedNameKey)
-        if isSpeedWarningFeedbackModeConfigured {
-            return GameLocalizedStrings.format("tutorial_configured %@", selectedName)
-        }
-        return GameLocalizedStrings.format("tutorial_set %@", selectedName)
+        return TutorialApplyStateResolver.applyButtonLabel(
+            selectedName: selectedName,
+            isConfigured: isSpeedWarningFeedbackModeConfigured
+        )
     }
 
     private var isSpeedWarningFeedbackModeConfigured: Bool {
-        selectedSpeedWarningFeedbackMode
-            == SpeedWarningFeedbackMode.currentSelection(from: InfrastructureDefaults.userDefaults)
+        TutorialApplyStateResolver.isConfigured(
+            selectedValue: selectedSpeedWarningFeedbackMode,
+            configuredValue: SpeedWarningFeedbackPreference.currentSelection(
+                from: InfrastructureDefaults.userDefaults,
+                supportsHaptics: supportsHapticFeedback,
+                isVoiceOverRunning: VoiceOverStatus.isVoiceOverRunning
+            )
+        )
     }
 
     private func playButton(label: String, action: @escaping () -> Void) -> some View {

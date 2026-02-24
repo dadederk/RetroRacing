@@ -20,8 +20,8 @@ The game **must** respect the user’s Reduce Motion preference:
 - **Score and lives:** Header labels use `accessibilityLabel` with the same formatted text as the visual (e.g. score, lives remaining) so VoiceOver users get the same information. The helmet icon next to lives is hidden from accessibility and the lives HUD is exposed as a single combined element. Lives VoiceOver copy uses proper singular/plural localization (for example, `1 life remaining` vs `2 lives remaining`).
 - **Speed alert feedback:** The speed-increase overlay appears in the last 3 points before each level step (for example, scores 97–99 before 100 and 197–199 before 200). Before each speed increase, gameplay forecasts the next 4 scoring rows and inserts empty rows only at the two lead offsets that map to the two rows directly ahead of the player at the exact speed-up moment (no already-visible cars are removed). Settings expose a selector for speed warning feedback:
   - `VoiceOver announcement`: post `speed_increase_announcement` using `AccessibilityNotification.Announcement`.
-  - `Warning haptic`: trigger warning haptic and skip announcement.
-  - `Warning sound`: play a 3-note ascending chirp generated through the lane-cue synthesis path.
+  - `Haptic`: trigger warning haptic and skip announcement.
+  - `Sound`: play a dedicated warning chirp (`D4-F4-A4`, repeated twice).
   - `None`: do not emit speed warning feedback.
   - Announcement mode uses high announcement priority.
   - Availability: haptics-supported platforms expose all four options; macOS/tvOS expose announcement/sound/none.
@@ -74,7 +74,7 @@ Each conditional-default setting:
 
 - **Audio feedback mode:** Defaults to `Audio cues (lane pulses)` when VoiceOver is running on iOS/tvOS/visionOS/macOS; otherwise defaults to `Retro audio`. watchOS currently keeps `Retro audio` as the system default because this layer does not currently source watchOS VoiceOver state.
 - **Sound effects volume:** Defaults to `100%` when VoiceOver is running; otherwise `80%`. Slider updates create an explicit override that persists across VoiceOver changes.
-- **Speed warning feedback:** Defaults to `VoiceOver announcement` with explicit user override support. Legacy `inGameAnnouncementsEnabled` values are migrated once (`true -> announcement`, `false -> none`).
+- **Speed warning feedback:** Defaults to `None` when VoiceOver is off. With VoiceOver on, defaults to `Haptic` on haptics-supported platforms and `VoiceOver announcement` on non-haptics platforms. Explicit user override always wins. Legacy `inGameAnnouncementsEnabled` values are migrated once (`true -> announcement`, `false -> none`).
 - **Top-down view:** Default to on when large Dynamic Type is active (future feature 7.1).
 
 ## Other Dimensions

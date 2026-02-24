@@ -192,6 +192,17 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         XCTAssertTrue(scene.gameState.isPaused)
     }
 
+    func testGivenSceneWhenPlayingSpeedWarningSoundThenDedicatedLaneCueIsUsed() {
+        // Given
+
+        // When
+        scene.playSpeedIncreaseWarningSound()
+
+        // Then
+        XCTAssertEqual(laneCuePlayer.speedWarningCueCalls, 1)
+        XCTAssertEqual(laneCuePlayer.tickCalls, 0)
+    }
+
     func testGivenSceneReadyWhenApplyingStartPulseThenPulseMethodsAreCallable() {
         // Given
         scene.start()
@@ -519,6 +530,7 @@ final class MockSoundEffectPlayer: SoundEffectPlayer {
 final class MockLaneCuePlayer: LaneCuePlayer {
     private(set) var tickCalls = 0
     private(set) var moveCalls = 0
+    private(set) var speedWarningCueCalls = 0
     private(set) var lastTickSafeColumns: Set<CueColumn> = []
     private(set) var lastMoveColumn: CueColumn?
     private(set) var lastMoveSafeState = true
@@ -543,6 +555,10 @@ final class MockLaneCuePlayer: LaneCuePlayer {
 
     func setVolume(_ volume: Double) {
         lastVolume = volume
+    }
+
+    func playSpeedWarningCue() {
+        speedWarningCueCalls += 1
     }
 
     func stopAll(fadeDuration: TimeInterval) {

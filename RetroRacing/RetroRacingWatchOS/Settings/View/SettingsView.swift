@@ -12,16 +12,35 @@ struct SettingsView: View {
     /// When true, show "scores submitted…"; when false, show "sign in to Game Center on iPhone…".
     let isGameCenterAuthenticated: Bool
     @Environment(\.dismiss) private var dismiss
-    @AppStorage(LaneMoveCueStyle.storageKey) private var laneMoveCueStyleRawValue: String = LaneMoveCueStyle.defaultStyle.rawValue
-    @State private var difficultyConditionalDefault: ConditionalDefault<GameDifficulty> = ConditionalDefault()
-    @State private var audioFeedbackModeConditionalDefault: ConditionalDefault<AudioFeedbackMode> = ConditionalDefault()
-    @State private var speedWarningFeedbackConditionalDefault: ConditionalDefault<SpeedWarningFeedbackMode> = ConditionalDefault()
-    @State private var soundEffectsVolumeConditionalDefault: ConditionalDefault<SoundEffectsVolumeSetting> = ConditionalDefault()
+    @State private var preferencesStore: SettingsPreferencesStore
     @AppStorage(HapticFeedbackPreference.storageKey) private var hapticFeedbackEnabled: Bool = true
     @State private var showingAudioCueTutorial = false
 
     private var fontForLabels: Font {
         fontPreferenceStore.font(textStyle: .body)
+    }
+
+    init(
+        themeManager: ThemeManager,
+        fontPreferenceStore: FontPreferenceStore,
+        supportsHapticFeedback: Bool,
+        hapticController: HapticFeedbackController?,
+        audioCueTutorialPreviewPlayer: AudioCueTutorialPreviewPlayer,
+        speedWarningFeedbackPreviewPlayer: any SpeedIncreaseWarningFeedbackPlaying,
+        isGameCenterAuthenticated: Bool
+    ) {
+        self.themeManager = themeManager
+        self.fontPreferenceStore = fontPreferenceStore
+        self.supportsHapticFeedback = supportsHapticFeedback
+        self.hapticController = hapticController
+        self.audioCueTutorialPreviewPlayer = audioCueTutorialPreviewPlayer
+        self.speedWarningFeedbackPreviewPlayer = speedWarningFeedbackPreviewPlayer
+        self.isGameCenterAuthenticated = isGameCenterAuthenticated
+        _preferencesStore = State(initialValue: SettingsPreferencesStore(
+            userDefaults: InfrastructureDefaults.userDefaults,
+            supportsHaptics: supportsHapticFeedback,
+            isVoiceOverRunningProvider: { VoiceOverStatus.isVoiceOverRunning }
+        ))
     }
 
     var body: some View {
@@ -83,7 +102,7 @@ struct SettingsView: View {
 
                 Section {
                     VStack(alignment: .leading, spacing: 8) {
-                        Picker(selection: difficultySelection) {
+                        Picker(selection: preferencesStore.difficultySelection) {
                             ForEach(GameDifficulty.allCases, id: \.self) { difficulty in
                                 Text(GameLocalizedStrings.string(difficulty.localizedNameKey))
                                     .font(fontForLabels)
@@ -93,8 +112,6 @@ struct SettingsView: View {
                             Text(GameLocalizedStrings.string("settings_speed"))
                                 .font(fontForLabels)
                         }
-                        
-                        // watchOS doesn't have isVoiceOverRunning API, so no conditional note
                     }
                 } header: {
                     Text(GameLocalizedStrings.string("settings_speed"))
@@ -114,7 +131,7 @@ struct SettingsView: View {
                 }
 
                 Section {
-                    Picker(selection: audioFeedbackModeSelection) {
+                    Picker(selection: preferencesStore.audioFeedbackModeSelection) {
                         ForEach(AudioFeedbackMode.displayOrder, id: \.self) { mode in
                             Text(GameLocalizedStrings.string(mode.localizedNameKey))
                                 .font(fontForLabels)
@@ -125,9 +142,9 @@ struct SettingsView: View {
                             .font(fontForLabels)
                     }
 
-                    if selectedAudioFeedbackMode.supportsAudioCueTutorial {
-                        Picker(selection: laneMoveCueStyleSelection) {
-                            ForEach(LaneMoveCueStyle.availableStyles(supportsHaptics: supportsHapticFeedback), id: \.self) { style in
+                    if preferencesStore.shouldShowAudioCueTutorial {
+                        Picker(selection: preferencesStore.laneMoveCueStyleSelection) {
+                            ForEach(preferencesStore.availableLaneMoveCueStyles, id: \.self) { style in
                                 Text(GameLocalizedStrings.string(style.localizedNameKey))
                                     .font(fontForLabels)
                                     .tag(style)
@@ -138,15 +155,17 @@ struct SettingsView: View {
                         }
                     }
 
-                    Button {
-                        showingAudioCueTutorial = true
-                    } label: {
-                        Text(GameLocalizedStrings.string("settings_audio_cue_tutorial"))
-                            .font(fontForLabels)
+                    if preferencesStore.shouldShowAudioCueTutorial {
+                        Button {
+                            showingAudioCueTutorial = true
+                        } label: {
+                            Text(GameLocalizedStrings.string("settings_audio_cue_tutorial"))
+                                .font(fontForLabels)
+                        }
+                        .buttonStyle(.borderless)
                     }
-                    .buttonStyle(.borderless)
 
-                    Slider(value: soundEffectsVolumeSelection, in: 0...1, step: 0.05) {
+                    Slider(value: preferencesStore.soundEffectsVolumeSelection, in: 0...1, step: 0.05) {
                         Text(GameLocalizedStrings.string("settings_sound_effects_volume"))
                             .font(fontForLabels)
                     } minimumValueLabel: {
@@ -171,11 +190,8 @@ struct SettingsView: View {
                 
                 Section {
                     VStack(alignment: .leading, spacing: 8) {
-                        Picker(selection: speedWarningFeedbackSelection) {
-                            ForEach(
-                                SpeedWarningFeedbackMode.availableModes(supportsHaptics: supportsHapticFeedback),
-                                id: \.self
-                            ) { mode in
+                        Picker(selection: preferencesStore.speedWarningFeedbackSelection) {
+                            ForEach(preferencesStore.availableSpeedWarningFeedbackModes, id: \.self) { mode in
                                 Text(GameLocalizedStrings.string(mode.localizedNameKey))
                                     .font(fontForLabels)
                                     .tag(mode)
@@ -187,13 +203,14 @@ struct SettingsView: View {
 
                         Button {
                             speedWarningFeedbackPreviewPlayer.play(
-                                mode: speedWarningFeedbackConditionalDefault.effectiveValue
+                                mode: preferencesStore.selectedSpeedWarningFeedbackMode
                             )
                         } label: {
                             Text(GameLocalizedStrings.string("settings_speed_warning_feedback_preview_warning"))
                                 .font(fontForLabels)
                         }
                         .buttonStyle(.borderless)
+                        .disabled(preferencesStore.shouldEnableSpeedWarningPreview == false)
                     }
                 } header: {
                     Text(GameLocalizedStrings.string("settings_accessibility"))
@@ -211,24 +228,7 @@ struct SettingsView: View {
                     .buttonStyle(.glass)
                 }
             }
-            .onAppear {
-                difficultyConditionalDefault = ConditionalDefault<GameDifficulty>.load(
-                    from: InfrastructureDefaults.userDefaults,
-                    key: GameDifficulty.conditionalDefaultStorageKey
-                )
-                audioFeedbackModeConditionalDefault = ConditionalDefault<AudioFeedbackMode>.load(
-                    from: InfrastructureDefaults.userDefaults,
-                    key: AudioFeedbackMode.conditionalDefaultStorageKey
-                )
-                speedWarningFeedbackConditionalDefault = ConditionalDefault<SpeedWarningFeedbackMode>.load(
-                    from: InfrastructureDefaults.userDefaults,
-                    key: SpeedWarningFeedbackMode.conditionalDefaultStorageKey
-                )
-                soundEffectsVolumeConditionalDefault = ConditionalDefault<SoundEffectsVolumeSetting>.load(
-                    from: InfrastructureDefaults.userDefaults,
-                    key: SoundEffectsVolumeSetting.conditionalDefaultStorageKey
-                )
-            }
+            .onAppear { preferencesStore.loadIfNeeded() }
             .sheet(isPresented: $showingAudioCueTutorial) {
                 NavigationStack {
                     ScrollView {
@@ -236,7 +236,8 @@ struct SettingsView: View {
                             previewPlayer: audioCueTutorialPreviewPlayer,
                             speedWarningFeedbackPreviewPlayer: speedWarningFeedbackPreviewPlayer,
                             supportsHapticFeedback: supportsHapticFeedback,
-                            hapticController: hapticController
+                            hapticController: hapticController,
+                            showAudioCueSections: true
                         )
                             .padding()
                     }
@@ -257,74 +258,4 @@ struct SettingsView: View {
         }
     }
 
-    private var difficultySelection: Binding<GameDifficulty> {
-        Binding(
-            get: { difficultyConditionalDefault.effectiveValue },
-            set: { newValue in
-                difficultyConditionalDefault.setUserOverride(newValue)
-                difficultyConditionalDefault.save(
-                    to: InfrastructureDefaults.userDefaults,
-                    key: GameDifficulty.conditionalDefaultStorageKey
-                )
-            }
-        )
-    }
-
-    private var audioFeedbackModeSelection: Binding<AudioFeedbackMode> {
-        Binding(
-            get: { audioFeedbackModeConditionalDefault.effectiveValue },
-            set: { newValue in
-                audioFeedbackModeConditionalDefault.setUserOverride(newValue)
-                audioFeedbackModeConditionalDefault.save(
-                    to: InfrastructureDefaults.userDefaults,
-                    key: AudioFeedbackMode.conditionalDefaultStorageKey
-                )
-            }
-        )
-    }
-
-    private var laneMoveCueStyleSelection: Binding<LaneMoveCueStyle> {
-        Binding(
-            get: {
-                let selected = LaneMoveCueStyle.fromStoredValue(laneMoveCueStyleRawValue)
-                if supportsHapticFeedback == false && selected == .haptics {
-                    return .defaultStyle
-                }
-                return selected
-            },
-            set: { laneMoveCueStyleRawValue = $0.rawValue }
-        )
-    }
-
-    private var selectedAudioFeedbackMode: AudioFeedbackMode {
-        audioFeedbackModeConditionalDefault.effectiveValue
-    }
-
-    private var speedWarningFeedbackSelection: Binding<SpeedWarningFeedbackMode> {
-        Binding(
-            get: { speedWarningFeedbackConditionalDefault.effectiveValue },
-            set: { newValue in
-                speedWarningFeedbackConditionalDefault.setUserOverride(newValue)
-                speedWarningFeedbackConditionalDefault.save(
-                    to: InfrastructureDefaults.userDefaults,
-                    key: SpeedWarningFeedbackMode.conditionalDefaultStorageKey
-                )
-            }
-        )
-    }
-
-    private var soundEffectsVolumeSelection: Binding<Double> {
-        Binding(
-            get: { soundEffectsVolumeConditionalDefault.effectiveValue.value },
-            set: { newValue in
-                soundEffectsVolumeConditionalDefault.setUserOverride(
-                    SoundEffectsVolumeSetting(value: newValue)
-                )
-                soundEffectsVolumeConditionalDefault.save(
-                    to: InfrastructureDefaults.userDefaults,
-                    key: SoundEffectsVolumeSetting.conditionalDefaultStorageKey
-                )
-            }
-        )
-    }
 }

@@ -26,11 +26,13 @@ If local signing blocks simulator/macOS verification, run with `CODE_SIGNING_ALL
 - Utilities and extensions
 - Accessibility audio behavior (retro vs cue-mode routing, move-cue style routing, conditional-default overrides)
 - Accessibility speed warning feedback mode behavior (announcement vs warning haptic vs warning sound vs none)
+- Speed warning default resolver matrix (VoiceOver/capability aware) and override precedence
 - Accessibility announcement utility routing (`AccessibilityNotification.Announcement`, high-priority speed warning)
 - Settings migration coverage (`inGameAnnouncementsEnabled` -> speed warning selector, `sfxVolume` -> conditional default)
 - Generated SFX behavior (recipe rendering, fail-tail repeat tuning, fallback routing to asset playback)
 - Difficulty timing behavior (clear pacing separation for cruise/fast/rapid and conditional-default wiring)
 - Platform filtering (hide haptics-only options on unsupported platforms)
+- Settings/tutorial state behavior (audio tutorial visibility in retro, speed preview disable for announcement+VoiceOver off, configured-state apply labels)
 
 ### UI Tests (Future)
 

@@ -4332,19 +4332,19 @@
         "ca": {
           "stringUnit": {
             "state": "translated",
-            "value": "Hàptica d'avís"
+            "value": "Hàptica"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Warning haptic"
+            "value": "Haptic"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Háptica de aviso"
+            "value": "Háptica"
           }
         }
       }
@@ -4355,19 +4355,19 @@
         "ca": {
           "stringUnit": {
             "state": "translated",
-            "value": "So d'avís"
+            "value": "So"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Warning sound"
+            "value": "Sound"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Sonido de aviso"
+            "value": "Sonido"
           }
         }
       }

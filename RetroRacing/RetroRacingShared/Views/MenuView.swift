@@ -107,30 +107,16 @@ public struct MenuView: View {
                 }
             }
             .sheet(isPresented: $showSettings) {
-                let tutorialPreviewPlayer = AudioCueTutorialPreviewPlayer(
-                    laneCuePlayer: PlatformFactories.makeLaneCuePlayer()
-                )
-                let speedWarningPreviewPlayer = SpeedIncreaseWarningFeedbackPlayer(
-                    announcementPoster: AccessibilityAnnouncementPoster(),
-                    hapticController: hapticController,
-                    playWarningSound: {
-                        tutorialPreviewPlayer.playSpeedWarningSound(
-                            volume: SoundEffectsVolumePreference.currentSelection(
-                                from: InfrastructureDefaults.userDefaults
-                            )
-                        )
-                    },
-                    announcementTextProvider: {
-                        GameLocalizedStrings.string("speed_increase_announcement")
-                    }
+                let previewDependencies = settingsPreviewDependencyFactory.make(
+                    hapticController: hapticController
                 )
                 SettingsView(
                     themeManager: themeManager,
                     fontPreferenceStore: fontPreferenceStore,
                     supportsHapticFeedback: supportsHapticFeedback,
                     hapticController: hapticController,
-                    audioCueTutorialPreviewPlayer: tutorialPreviewPlayer,
-                    speedWarningFeedbackPreviewPlayer: speedWarningPreviewPlayer,
+                    audioCueTutorialPreviewPlayer: previewDependencies.audioCueTutorialPreviewPlayer,
+                    speedWarningFeedbackPreviewPlayer: previewDependencies.speedWarningFeedbackPreviewPlayer,
                     controlsDescriptionKey: controlsDescriptionKey,
                     style: settingsStyle,
                     playLimitService: playLimitService
@@ -147,6 +133,7 @@ public struct MenuView: View {
                     ratingService: ratingService,
                     theme: themeManager.currentTheme,
                     hapticController: hapticController,
+                    supportsHapticFeedback: supportsHapticFeedback,
                     fontPreferenceStore: fontPreferenceStore,
                     highestScoreStore: highestScoreStore,
                     playLimitService: playLimitService,
@@ -231,6 +218,19 @@ public struct MenuView: View {
     private var selectedDifficulty: GameDifficulty {
         _ = difficultyStorageData
         return GameDifficulty.currentSelection(from: InfrastructureDefaults.userDefaults)
+    }
+
+    private var settingsPreviewDependencyFactory: SettingsPreviewDependencyFactory {
+        SettingsPreviewDependencyFactory(
+            laneCuePlayerFactory: { PlatformFactories.makeLaneCuePlayer() },
+            announcementPoster: AccessibilityAnnouncementPoster(),
+            announcementTextProvider: {
+                GameLocalizedStrings.string("speed_increase_announcement")
+            },
+            volumeProvider: {
+                SoundEffectsVolumePreference.currentSelection(from: InfrastructureDefaults.userDefaults)
+            }
+        )
     }
 
     private func handleRateTap() {

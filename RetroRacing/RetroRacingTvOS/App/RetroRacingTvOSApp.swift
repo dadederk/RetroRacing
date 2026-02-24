@@ -85,6 +85,7 @@ struct RetroRacingTvOSApp: App {
                     ratingService: ratingService,
                     theme: themeManager.currentTheme,
                     hapticController: hapticController,
+                    supportsHapticFeedback: false,
                     fontPreferenceStore: fontPreferenceStore,
                     highestScoreStore: highestScoreStore,
                     playLimitService: playLimitService,

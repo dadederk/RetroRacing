@@ -46,6 +46,16 @@ The audio tutorial explains and previews:
   - `Success`
   - `Lane + success`
 - Move style previews include both **Safe** and **Fail** actions.
+- Speed increase warning feedback:
+  - `VoiceOver announcement`
+  - `Haptic` (when supported)
+  - `Sound`
+  - `None`
+  - Includes `Preview warning` and apply/configured-state behavior.
+
+Visibility rules:
+- When selected audio feedback mode is `Retro audio`, settings hide the **Audio cue tutorial** entry.
+- In-game help hides audio-cue sections while keeping the speed-warning section available.
 
 ## Technical Notes
 

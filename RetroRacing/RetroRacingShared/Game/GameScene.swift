@@ -404,11 +404,7 @@ public class GameScene: SKScene {
 
     /// Plays the speed-warning chirp (three ascending lane notes).
     public func playSpeedIncreaseWarningSound() {
-        guard let laneCuePlayer else { return }
-        laneCuePlayer.playTickCue(
-            safeColumns: Set(CueColumn.allCases),
-            mode: .cueArpeggio
-        )
+        laneCuePlayer?.playSpeedWarningCue()
     }
 
     private func playStartThenUnpause() {

@@ -14,7 +14,7 @@
   - SFX volume slider (0–100%).
   - Audio feedback mode selector (display order: `Retro`, `Audio cues (lane pulses)`, `Audio cues (arpeggio)`, `Audio cues (chord)`).
   - Lane-change cue style selector (`Lane confirmation`, `Success`, `Lane + success`, `Haptics`).
-  - Speed increase warning feedback selector (`VoiceOver announcement`, `Warning haptic`, `Warning sound`, `None`).
+  - Speed increase warning feedback selector (`VoiceOver announcement`, `Haptic`, `Sound`, `None`).
 
 ## Implementation Rules
 - Shared audio abstraction `SoundEffectPlayer`; injected into `GameScene` (no defaults in initializers).
@@ -43,7 +43,11 @@
   - VoiceOver ON system default: `1.0`
   - VoiceOver OFF system default: `0.8`
   - User slider changes store explicit override and always win after migration.
-- Speed warning feedback persistence uses `ConditionalDefault<SpeedWarningFeedbackMode>` (`speedWarningFeedbackMode_conditionalDefault`) with system default `announcement`.
+- Speed warning feedback persistence uses `ConditionalDefault<SpeedWarningFeedbackMode>` (`speedWarningFeedbackMode_conditionalDefault`) resolved through `SpeedWarningFeedbackPreference`:
+  - VoiceOver OFF default: `none`
+  - VoiceOver ON + haptics supported default: `warningHaptic`
+  - VoiceOver ON + haptics unsupported default: `announcement`
+  - User override always wins.
 - Migration (`SettingsPreferenceMigration`):
   - Legacy `inGameAnnouncementsEnabled == true` -> `announcement`
   - Legacy `false` -> `none`
@@ -54,13 +58,16 @@
 - In-game/tutorial preview playback uses `LaneCuePlayer` with the current SFX volume and must call `stopAll` on dismiss so previews never leak into gameplay.
 - Settings and tutorial include `Preview warning` for speed increase warning feedback; preview behavior matches gameplay for all four modes.
 - Tutorial apply actions for audio mode, lane cue style, and speed increase warning feedback switch to a disabled `X configured` state when preview selection already matches the stored setting.
+- Settings + watch Settings hide the `Audio cue tutorial` entry when selected audio mode is `Retro audio`.
+- In-game help hides audio-cue tutorial sections when selected audio mode is `Retro audio` (speed-warning tutorial section remains available).
+- Settings disable `Preview warning` only when mode is `VoiceOver announcement` and VoiceOver is currently off.
 - Haptics respect existing toggle (`hapticFeedbackEnabled`).
 - Platform policy:
   - macOS and tvOS do not expose haptics options.
   - Lane style `Haptics` option is filtered out where haptics are unsupported.
   - Speed increase warning feedback uses `AccessibilityNotification.Announcement` for announcement mode on all platforms.
   - Speed increase warning announcement mode posts with high announcement priority.
-  - Speed increase warning sound uses a generated 3-note ascending chirp via lane-cue synthesis (`.cueArpeggio` with all lanes safe).
+  - Speed increase warning sound uses a dedicated generated cue (`D4-F4-A4`, repeated twice) and does not reuse lane-safe tick cues.
 
 ## Testing Expectations
 - Unit tests cover: generated-player completion/volume/stop behavior; recipe modularity (including fail-tail repeat count impact); fallback routing to asset player when generated playback is unavailable; retro tick arpeggio + retro move middle-lane routing; cue-mode routing for tick and move cues; lane move cue style forwarding (including `Haptics` safe/unsafe behavior); paused move input behavior; fail sound + crash haptic on collision; crash fallback fires once when completion is missing; start/resume pauses until sound completion with fallback and restores player visuals immediately after crash; stopAll invoked when game view disappears; volume changes propagate to both `SoundEffectPlayer` and `LaneCuePlayer`; conditional-default/override resolution and migration for audio/speed warning settings.

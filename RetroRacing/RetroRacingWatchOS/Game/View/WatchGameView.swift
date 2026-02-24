@@ -449,7 +449,11 @@ struct WatchGameView: View {
 
     private func handleSpeedWarningFeedback(oldValue: Bool, newValue: Bool) {
         guard oldValue == false, newValue else { return }
-        let selectedMode = SpeedWarningFeedbackMode.currentSelection(from: InfrastructureDefaults.userDefaults)
+        let selectedMode = SpeedWarningFeedbackPreference.currentSelection(
+            from: InfrastructureDefaults.userDefaults,
+            supportsHaptics: true,
+            isVoiceOverRunning: VoiceOverStatus.isVoiceOverRunning
+        )
         makeSpeedWarningFeedbackPlayer {
             scene.playSpeedIncreaseWarningSound()
         }
@@ -458,19 +462,30 @@ struct WatchGameView: View {
 
     @ViewBuilder
     private func makeInGameHelpView() -> some View {
-        let tutorialPreviewPlayer = AudioCueTutorialPreviewPlayer(
-            laneCuePlayer: PlatformFactories.makeLaneCuePlayer()
+        let previewDependencies = settingsPreviewDependencyFactory.make(
+            hapticController: watchHapticController
         )
         InGameHelpView(
             controlsDescriptionKey: "settings_controls_watchos",
             supportsHapticFeedback: true,
             hapticController: watchHapticController,
-            audioCueTutorialPreviewPlayer: tutorialPreviewPlayer,
-            speedWarningFeedbackPreviewPlayer: makeSpeedWarningFeedbackPlayer {
-                tutorialPreviewPlayer.playSpeedWarningSound(volume: selectedSoundEffectsVolume)
-            }
+            audioCueTutorialPreviewPlayer: previewDependencies.audioCueTutorialPreviewPlayer,
+            speedWarningFeedbackPreviewPlayer: previewDependencies.speedWarningFeedbackPreviewPlayer
         )
         .fontPreferenceStore(fontPreferenceStore)
+    }
+
+    private var settingsPreviewDependencyFactory: SettingsPreviewDependencyFactory {
+        SettingsPreviewDependencyFactory(
+            laneCuePlayerFactory: { PlatformFactories.makeLaneCuePlayer() },
+            announcementPoster: AccessibilityAnnouncementPoster(),
+            announcementTextProvider: {
+                GameLocalizedStrings.string("speed_increase_announcement")
+            },
+            volumeProvider: {
+                selectedSoundEffectsVolume
+            }
+        )
     }
 
     private func makeSpeedWarningFeedbackPlayer(

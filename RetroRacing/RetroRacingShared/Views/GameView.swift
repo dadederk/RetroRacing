@@ -34,6 +34,7 @@ public struct GameView: View {
     public let ratingService: RatingService
     public let theme: (any GameTheme)?
     public let hapticController: HapticFeedbackController?
+    public let supportsHapticFeedback: Bool
     public let fontPreferenceStore: FontPreferenceStore?
     public let highestScoreStore: HighestScoreStore
     public let playLimitService: PlayLimitService?
@@ -74,6 +75,7 @@ public struct GameView: View {
         ratingService: RatingService,
         theme: (any GameTheme)?,
         hapticController: HapticFeedbackController?,
+        supportsHapticFeedback: Bool,
         fontPreferenceStore: FontPreferenceStore?,
         highestScoreStore: HighestScoreStore,
         playLimitService: PlayLimitService?,
@@ -90,6 +92,7 @@ public struct GameView: View {
         self.ratingService = ratingService
         self.theme = theme
         self.hapticController = hapticController
+        self.supportsHapticFeedback = supportsHapticFeedback
         self.fontPreferenceStore = fontPreferenceStore
         self.highestScoreStore = highestScoreStore
         self.playLimitService = playLimitService
@@ -388,7 +391,11 @@ public struct GameView: View {
 
     private func announceSpeedIncreaseIfNeeded(oldValue: Bool, newValue: Bool) {
         guard oldValue == false, newValue else { return }
-        let selectedMode = SpeedWarningFeedbackMode.currentSelection(from: InfrastructureDefaults.userDefaults)
+        let selectedMode = SpeedWarningFeedbackPreference.currentSelection(
+            from: InfrastructureDefaults.userDefaults,
+            supportsHaptics: supportsHapticFeedback,
+            isVoiceOverRunning: VoiceOverStatus.isVoiceOverRunning
+        )
         makeSpeedWarningFeedbackPlayer {
             model.scene?.playSpeedIncreaseWarningSound()
         }
@@ -439,19 +446,30 @@ public struct GameView: View {
 
     @ViewBuilder
     private func makeInGameHelpView() -> some View {
-        let tutorialPreviewPlayer = AudioCueTutorialPreviewPlayer(
-            laneCuePlayer: PlatformFactories.makeLaneCuePlayer()
+        let previewDependencies = settingsPreviewDependencyFactory.make(
+            hapticController: hapticController
         )
         InGameHelpView(
             controlsDescriptionKey: controlsDescriptionKey,
-            supportsHapticFeedback: hapticController != nil,
+            supportsHapticFeedback: supportsHapticFeedback,
             hapticController: hapticController,
-            audioCueTutorialPreviewPlayer: tutorialPreviewPlayer,
-            speedWarningFeedbackPreviewPlayer: makeSpeedWarningFeedbackPlayer {
-                tutorialPreviewPlayer.playSpeedWarningSound(volume: selectedSoundEffectsVolume)
-            }
+            audioCueTutorialPreviewPlayer: previewDependencies.audioCueTutorialPreviewPlayer,
+            speedWarningFeedbackPreviewPlayer: previewDependencies.speedWarningFeedbackPreviewPlayer
         )
         .fontPreferenceStore(fontPreferenceStore)
+    }
+
+    private var settingsPreviewDependencyFactory: SettingsPreviewDependencyFactory {
+        SettingsPreviewDependencyFactory(
+            laneCuePlayerFactory: { PlatformFactories.makeLaneCuePlayer() },
+            announcementPoster: AccessibilityAnnouncementPoster(),
+            announcementTextProvider: {
+                GameLocalizedStrings.string("speed_increase_announcement")
+            },
+            volumeProvider: {
+                selectedSoundEffectsVolume
+            }
+        )
     }
 
     private func makeSpeedWarningFeedbackPlayer(

@@ -102,6 +102,7 @@ public protocol LaneCuePlayer {
         mode: AudioFeedbackMode,
         style: LaneMoveCueStyle
     )
+    func playSpeedWarningCue()
     func setVolume(_ volume: Double)
     func stopAll(fadeDuration: TimeInterval)
 }
@@ -112,6 +113,15 @@ private enum CueWaveform {
 }
 
 public final class AVLaneCuePlayer: LaneCuePlayer {
+    private enum SpeedWarningCueConstants {
+        static let noteFrequencies: [Double] = [293.665, 349.228, 440.0]
+        static let noteDuration: TimeInterval = 0.04
+        static let intraNoteGapDuration: TimeInterval = 0.006
+        static let interRepeatGapDuration: TimeInterval = 0.02
+        static let repeatCount = 2
+        static let amplitude = 0.22
+    }
+
     private let engine = AVAudioEngine()
     private let tickPlayer = AVAudioPlayerNode()
     private let movePlayer = AVAudioPlayerNode()
@@ -122,6 +132,7 @@ public final class AVLaneCuePlayer: LaneCuePlayer {
     private var laneMoveBuffers: [CueColumn: AVAudioPCMBuffer] = [:]
     private var safetyMoveBuffers: [Bool: AVAudioPCMBuffer] = [:]
     private var combinedMoveBuffers: [Bool: [CueColumn: AVAudioPCMBuffer]] = [:]
+    private var speedWarningBuffer: AVAudioPCMBuffer?
     private var volume: Float = Float(SoundPreferences.defaultVolume)
     private var fadeTask: Task<Void, Never>?
 
@@ -177,6 +188,11 @@ public final class AVLaneCuePlayer: LaneCuePlayer {
         }
         guard let buffer else { return }
         play(buffer: buffer, on: movePlayer)
+    }
+
+    public func playSpeedWarningCue() {
+        guard let speedWarningBuffer else { return }
+        play(buffer: speedWarningBuffer, on: tickPlayer)
     }
 
     public func setVolume(_ volume: Double) {
@@ -288,6 +304,69 @@ public final class AVLaneCuePlayer: LaneCuePlayer {
         }
         combinedMoveBuffers[true] = safeCombinedBuffers
         combinedMoveBuffers[false] = unsafeCombinedBuffers
+        speedWarningBuffer = makeSpeedWarningBuffer()
+    }
+
+    private func makeSpeedWarningBuffer() -> AVAudioPCMBuffer? {
+        guard let format else { return nil }
+
+        let noteBuffers: [AVAudioPCMBuffer] = SpeedWarningCueConstants.noteFrequencies.compactMap { frequency in
+            makeToneBuffer(
+                frequency: frequency,
+                duration: SpeedWarningCueConstants.noteDuration,
+                waveform: .triangle,
+                amplitude: SpeedWarningCueConstants.amplitude
+            )
+        }
+        guard noteBuffers.count == SpeedWarningCueConstants.noteFrequencies.count else {
+            return nil
+        }
+
+        let noteSamples = noteBuffers.map { Int($0.frameLength) }
+        let intraNoteGapSamples = max(0, Int(SpeedWarningCueConstants.intraNoteGapDuration * format.sampleRate))
+        let interRepeatGapSamples = max(0, Int(SpeedWarningCueConstants.interRepeatGapDuration * format.sampleRate))
+        let notesPerRepeat = noteBuffers.count
+        let repeatCount = max(1, SpeedWarningCueConstants.repeatCount)
+        let samplesPerRepeat = noteSamples.reduce(0, +) + intraNoteGapSamples * max(0, notesPerRepeat - 1)
+        let totalSamples = (samplesPerRepeat * repeatCount)
+            + (interRepeatGapSamples * max(0, repeatCount - 1))
+
+        guard totalSamples > 0,
+              let combinedBuffer = AVAudioPCMBuffer(
+                pcmFormat: format,
+                frameCapacity: AVAudioFrameCount(totalSamples)
+              ),
+              let destination = combinedBuffer.floatChannelData?[0] else {
+            return nil
+        }
+        combinedBuffer.frameLength = AVAudioFrameCount(totalSamples)
+        for sampleIndex in 0..<totalSamples {
+            destination[sampleIndex] = 0
+        }
+
+        var writeIndex = 0
+        for repeatIndex in 0..<repeatCount {
+            for (noteIndex, noteBuffer) in noteBuffers.enumerated() {
+                guard let noteChannel = noteBuffer.floatChannelData?[0] else { continue }
+                let currentNoteSamples = Int(noteBuffer.frameLength)
+                for sampleIndex in 0..<currentNoteSamples {
+                    destination[writeIndex + sampleIndex] = noteChannel[sampleIndex]
+                }
+                writeIndex += currentNoteSamples
+
+                let isLastNoteInRepeat = noteIndex == (notesPerRepeat - 1)
+                if isLastNoteInRepeat == false {
+                    writeIndex += intraNoteGapSamples
+                }
+            }
+
+            let isLastRepeat = repeatIndex == (repeatCount - 1)
+            if isLastRepeat == false {
+                writeIndex += interRepeatGapSamples
+            }
+        }
+
+        return combinedBuffer
     }
 
     private func makeTickBuffer(mode: AudioFeedbackMode, safeMask: UInt8) -> AVAudioPCMBuffer? {
