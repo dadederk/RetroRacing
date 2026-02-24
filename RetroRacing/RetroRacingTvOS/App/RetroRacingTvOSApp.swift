@@ -23,6 +23,10 @@ struct RetroRacingTvOSApp: App {
         AppBootstrap.configureGameCenterAccessPoint()
         let customFontAvailable = AppBootstrap.registerCustomFont()
         let userDefaults = InfrastructureDefaults.userDefaults
+        SettingsPreferenceMigration.runIfNeeded(
+            userDefaults: userDefaults,
+            supportsHaptics: false
+        )
         storeKitService = StoreKitService(userDefaults: userDefaults)
         let themeConfig = ThemePlatformConfig(
             defaultThemeID: "lcd",

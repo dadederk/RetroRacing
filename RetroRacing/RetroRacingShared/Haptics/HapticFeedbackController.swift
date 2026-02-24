@@ -17,6 +17,8 @@ public protocol HapticFeedbackController {
     func triggerMoveHaptic()
     /// Trigger success haptic (e.g. on new personal best).
     func triggerSuccessHaptic()
+    /// Trigger warning haptic (e.g. before speed increases).
+    func triggerWarningHaptic()
 }
 
 /// No-op implementation for platforms that do not use haptics (e.g. tvOS, macOS).
@@ -26,4 +28,5 @@ public struct NoOpHapticFeedbackController: HapticFeedbackController {
     public func triggerGridUpdateHaptic() {}
     public func triggerMoveHaptic() {}
     public func triggerSuccessHaptic() {}
+    public func triggerWarningHaptic() {}
 }

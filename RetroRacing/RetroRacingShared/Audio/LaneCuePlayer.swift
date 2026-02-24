@@ -172,6 +172,8 @@ public final class AVLaneCuePlayer: LaneCuePlayer {
             buffer = safetyMoveBuffers[isSafe]
         case .laneConfirmationAndSafety:
             buffer = combinedMoveBuffers[isSafe]?[column]
+        case .haptics:
+            buffer = nil
         }
         guard let buffer else { return }
         play(buffer: buffer, on: movePlayer)

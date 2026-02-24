@@ -1,4 +1,4 @@
-# Audio & Haptics Requirements (2026-02-15)
+# Audio & Haptics Requirements (2026-02-24)
 
 ## Goals
 - Consistent pulse feedback:
@@ -6,11 +6,15 @@
     - Grid tick plays an arpeggio using the three-lane safe pattern.
     - Left/right move plays a distinct lane-confirmation pulse using the middle-lane timbre.
     - Light impact haptic still fires on every left/right move and every grid tick.
-  - Cue modes (`chord`, `arpeggio`, `lane pulses`): replace `bip` with generated lane cues; haptic behavior remains unchanged.
+  - Cue modes (`chord`, `arpeggio`, `lane pulses`): replace `bip` with generated lane cues.
 - Crash feedback: play `fail` sound and trigger error haptic immediately on collision; crash sprite flashes while the sound plays.
 - Safe start: game remains paused while `start` sound plays (initial launch and post-crash resume), then unpauses automatically at completion.
 - Exiting the game stops any playing sounds with a very short fade-out.
-- User control: single master SFX volume slider (0–100%, default 80%), audio feedback mode selector, and lane-change cue style selector (`lane confirmation`, `success`, `lane + success`) in Settings on all platforms.
+- User control in Settings:
+  - SFX volume slider (0–100%).
+  - Audio feedback mode selector (display order: `Retro`, `Audio cues (lane pulses)`, `Audio cues (arpeggio)`, `Audio cues (chord)`).
+  - Lane-change cue style selector (`Lane confirmation`, `Success`, `Lane + success`, `Haptics`).
+  - Speed increase warning feedback selector (`VoiceOver announcement`, `Warning haptic`, `Warning sound`, `None`).
 
 ## Implementation Rules
 - Shared audio abstraction `SoundEffectPlayer`; injected into `GameScene` (no defaults in initializers).
@@ -28,19 +32,35 @@
     - `Lane confirmation`: destination lane only.
     - `Success`: safe/unsafe indicator only.
     - `Lane + success`: destination lane followed by safe/unsafe indicator as two quick notes.
-  - Retro mode uses:
-    - Tick: `playTickCue` with all three columns and `cueArpeggio` mode.
-    - Move: `playMoveCue` with middle-lane lane-confirmation tone.
-- `stopAll(fadeDuration: 0.1–0.2s)` is exposed and called when leaving the game view, forwarding to both audio systems.
-- Move haptics are triggered by touch/remote input adapters immediately when left/right input is handled, before forwarding to `GameScene`.
-- Crash haptic is triggered in `handleCrash` immediately; collision resolution completes on fail-sound completion with an 8s fallback if completion is missing (e.g. route change), so normal flow waits for the active fail cue to finish.
+    - `Haptics`: no lane audio move cue; trigger success haptic for safe destination and regular move haptic for unsafe destination.
+- Move haptics:
+  - Default path: triggered by touch/remote adapters immediately when left/right input is handled.
+  - Exception: when cue mode is active and lane style is `Haptics`, adapters suppress immediate move haptic and `GameScene` emits safe/unsafe-specific haptic.
+- Crash haptic is triggered in `handleCrash` immediately; collision resolution completes on fail-sound completion with an 8s fallback if completion is missing.
 - Start/resume keeps `gameState.isPaused == true` until `start` sound completion sets it to false; on post-crash resume the player-car grid is rendered immediately (no lingering crash sprite), and a 2s fallback unpauses if completion is missing.
 - App bootstrap listens to audio session interruption/route/media-reset notifications and re-activates the session.
-- Volume persists via `UserDefaults` key `sfxVolume` (default `0.8`); settings slider writes this, and scenes update volume live.
-- Audio feedback mode persists via `ConditionalDefault<AudioFeedbackMode>` (`audioFeedbackMode_conditionalDefault`): VoiceOver-adaptive default (`arpeggio`) with explicit user override.
-- Lane move cue style persists via `UserDefaults` key `laneMoveCueStyle` (default `lane confirmation`).
-- In-game/tutorial preview playback uses `LaneCuePlayer` with the current SFX volume, supports lane-mode preview and safe/fail move-style preview, and must call `stopAll` on dismiss so previews never leak into gameplay.
-- Haptics respect existing toggle (`hapticFeedbackEnabled`); no changes to keys.
+- SFX volume persistence uses `ConditionalDefault<SoundEffectsVolumeSetting>` (`sfxVolume_conditionalDefault`):
+  - VoiceOver ON system default: `1.0`
+  - VoiceOver OFF system default: `0.8`
+  - User slider changes store explicit override and always win after migration.
+- Speed warning feedback persistence uses `ConditionalDefault<SpeedWarningFeedbackMode>` (`speedWarningFeedbackMode_conditionalDefault`) with system default `announcement`.
+- Migration (`SettingsPreferenceMigration`):
+  - Legacy `inGameAnnouncementsEnabled == true` -> `announcement`
+  - Legacy `false` -> `none`
+  - Legacy `sfxVolume` seeds conditional default override
+  - Runs once via migration marker key.
+- Audio feedback mode persists via `ConditionalDefault<AudioFeedbackMode>` (`audioFeedbackMode_conditionalDefault`): VoiceOver-adaptive default is `lane pulses` where VoiceOver status is available.
+- Lane move cue style persists via `UserDefaults` key `laneMoveCueStyle`.
+- In-game/tutorial preview playback uses `LaneCuePlayer` with the current SFX volume and must call `stopAll` on dismiss so previews never leak into gameplay.
+- Settings and tutorial include `Preview warning` for speed increase warning feedback; preview behavior matches gameplay for all four modes.
+- Tutorial apply actions for audio mode, lane cue style, and speed increase warning feedback switch to a disabled `X configured` state when preview selection already matches the stored setting.
+- Haptics respect existing toggle (`hapticFeedbackEnabled`).
+- Platform policy:
+  - macOS and tvOS do not expose haptics options.
+  - Lane style `Haptics` option is filtered out where haptics are unsupported.
+  - Speed increase warning feedback uses `AccessibilityNotification.Announcement` for announcement mode on all platforms.
+  - Speed increase warning announcement mode posts with high announcement priority.
+  - Speed increase warning sound uses a generated 3-note ascending chirp via lane-cue synthesis (`.cueArpeggio` with all lanes safe).
 
 ## Testing Expectations
-- Unit tests cover: generated-player completion/volume/stop behavior; recipe modularity (including fail-tail repeat count impact); fallback routing to asset player when generated playback is unavailable; retro tick arpeggio + retro move middle-lane routing; cue-mode routing for tick and move cues; lane move cue style forwarding; paused move input still triggers adapter haptic while movement audio remains unchanged; fail sound + crash haptic on collision; crash fallback fires once when completion is missing; start/resume pauses until sound completion with fallback and restores player visuals immediately after crash; stopAll invoked when game view disappears; volume changes propagate to both `SoundEffectPlayer` and `LaneCuePlayer`; conditional default/override resolution for audio feedback mode.
+- Unit tests cover: generated-player completion/volume/stop behavior; recipe modularity (including fail-tail repeat count impact); fallback routing to asset player when generated playback is unavailable; retro tick arpeggio + retro move middle-lane routing; cue-mode routing for tick and move cues; lane move cue style forwarding (including `Haptics` safe/unsafe behavior); paused move input behavior; fail sound + crash haptic on collision; crash fallback fires once when completion is missing; start/resume pauses until sound completion with fallback and restores player visuals immediately after crash; stopAll invoked when game view disappears; volume changes propagate to both `SoundEffectPlayer` and `LaneCuePlayer`; conditional-default/override resolution and migration for audio/speed warning settings.

@@ -3636,6 +3636,29 @@
         }
       }
     },
+    "tutorial_audio_move_style_description_haptics": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reproduix vibració d'èxit si el carril és segur i vibració de moviment si no ho és."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plays a success haptic for a safe lane and a move haptic for an unsafe lane."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reproduce háptica de éxito si el carril es seguro y háptica de movimiento si no lo es."
+          }
+        }
+      }
+    },
     "tutorial_audio_play_preview": {
       "extractionState": "manual",
       "localizations": {
@@ -3701,6 +3724,29 @@
           "stringUnit": {
             "state": "translated",
             "value": "Seguro"
+          }
+        }
+      }
+    },
+    "tutorial_audio_preview_safe_lane": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Carril segur"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Safe lane"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Carril seguro"
           }
         }
       }
@@ -3839,6 +3885,121 @@
           "stringUnit": {
             "state": "translated",
             "value": "Pista de cambio de carril"
+          }
+        }
+      }
+    },
+    "tutorial_section_speed_warning_feedback": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retroalimentació de l'avís d'augment de velocitat"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Speed increase warning feedback"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retroalimentación del aviso de aumento de velocidad"
+          }
+        }
+      }
+    },
+    "tutorial_speed_warning_description_announcement": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anuncia l'augment de velocitat amb VoiceOver."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Announces the speed increase with VoiceOver."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anuncia el aumento de velocidad con VoiceOver."
+          }
+        }
+      }
+    },
+    "tutorial_speed_warning_description_haptic": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reproduix una vibració d'avís abans de l'augment de velocitat."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plays a warning haptic before the speed increase."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reproduce una vibración de aviso antes del aumento de velocidad."
+          }
+        }
+      }
+    },
+    "tutorial_speed_warning_description_none": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No reproduix cap avís d'augment de velocitat."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Does not play any speed-increase warning."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No reproduce ningún aviso de aumento de velocidad."
+          }
+        }
+      }
+    },
+    "tutorial_speed_warning_description_sound": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reproduix un xiulet curt de tres notes ascendents."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Plays a short three-note ascending warning chirp."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Reproduce un aviso corto de tres notas ascendentes."
           }
         }
       }
@@ -4027,6 +4188,52 @@
         }
       }
     },
+    "tutorial_audio_preview_unsafe_lane": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Carril no segur"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unsafe lane"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Carril no seguro"
+          }
+        }
+      }
+    },
+    "tutorial_configured %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ configurat"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ configured"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ configurado"
+          }
+        }
+      }
+    },
     "tutorial_set %@": {
       "extractionState": "manual",
       "localizations": {
@@ -4069,6 +4276,167 @@
           "stringUnit": {
             "state": "translated",
             "value": "RetroRacing es un juego de carreras con 3 carriles. Muévete a la izquierda o a la derecha entre las tres posiciones. Reproduciremos sonidos para indicar qué carriles son seguros, y tendrás que moverte rápido a un carril seguro para adelantar coches y evitar chocar."
+          }
+        }
+      }
+    },
+    "settings_speed_warning_feedback": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retroalimentació de l'avís d'augment de velocitat"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Speed increase warning feedback"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retroalimentación del aviso de aumento de velocidad"
+          }
+        }
+      }
+    },
+    "settings_speed_warning_feedback_announcement": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anunci de VoiceOver"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "VoiceOver announcement"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anuncio de VoiceOver"
+          }
+        }
+      }
+    },
+    "settings_speed_warning_feedback_warning_haptic": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hàptica d'avís"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Warning haptic"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Háptica de aviso"
+          }
+        }
+      }
+    },
+    "settings_speed_warning_feedback_warning_sound": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "So d'avís"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Warning sound"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sonido de aviso"
+          }
+        }
+      }
+    },
+    "settings_speed_warning_feedback_none": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cap"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "None"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ninguno"
+          }
+        }
+      }
+    },
+    "settings_speed_warning_feedback_preview_warning": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Previsualitzar avís"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Preview warning"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vista previa del aviso"
+          }
+        }
+      }
+    },
+    "settings_lane_move_cue_style_haptics": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Hàptica"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Haptics"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Háptica"
           }
         }
       }

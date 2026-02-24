@@ -41,9 +41,11 @@ final class MockHapticFeedbackController: HapticFeedbackController {
     private(set) var gridUpdates = 0
     private(set) var moves = 0
     private(set) var successes = 0
+    private(set) var warnings = 0
 
     func triggerCrashHaptic() { crashes += 1 }
     func triggerGridUpdateHaptic() { gridUpdates += 1 }
     func triggerMoveHaptic() { moves += 1 }
     func triggerSuccessHaptic() { successes += 1 }
+    func triggerWarningHaptic() { warnings += 1 }
 }

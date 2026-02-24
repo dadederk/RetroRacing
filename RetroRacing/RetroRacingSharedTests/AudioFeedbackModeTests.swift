@@ -9,6 +9,14 @@ import XCTest
 @testable import RetroRacingShared
 
 final class AudioFeedbackModeTests: XCTestCase {
+    func testGivenDisplayOrderWhenReadingModesThenLanePulsesIsPrioritizedAfterRetro() {
+        // Given / When
+        let order = AudioFeedbackMode.displayOrder
+
+        // Then
+        XCTAssertEqual(order, [.retro, .cueLanePulses, .cueArpeggio, .cueChord])
+    }
+
     func testGivenRetroModeWhenCheckingTutorialSupportThenSupportIsDisabled() {
         // Given
 

@@ -12,6 +12,7 @@ public enum LaneMoveCueStyle: String, CaseIterable, Codable, Sendable {
     case laneConfirmation
     case safetyOnly
     case laneConfirmationAndSafety
+    case haptics
 
     public static let storageKey = "laneMoveCueStyle"
     public static let defaultStyle: LaneMoveCueStyle = .laneConfirmation
@@ -24,7 +25,20 @@ public enum LaneMoveCueStyle: String, CaseIterable, Codable, Sendable {
             return "settings_lane_move_cue_style_safety_only"
         case .laneConfirmationAndSafety:
             return "settings_lane_move_cue_style_lane_and_safety"
+        case .haptics:
+            return "settings_lane_move_cue_style_haptics"
         }
+    }
+
+    public static func availableStyles(supportsHaptics: Bool) -> [LaneMoveCueStyle] {
+        if supportsHaptics {
+            return allCases
+        }
+        return allCases.filter { $0 != .haptics }
+    }
+
+    public static func tutorialStyles(supportsHaptics: Bool) -> [LaneMoveCueStyle] {
+        availableStyles(supportsHaptics: supportsHaptics)
     }
 
     public static func fromStoredValue(_ value: String?) -> LaneMoveCueStyle {
@@ -36,6 +50,11 @@ public enum LaneMoveCueStyle: String, CaseIterable, Codable, Sendable {
     }
 
     public static func currentSelection(from userDefaults: UserDefaults) -> LaneMoveCueStyle {
-        fromStoredValue(userDefaults.string(forKey: storageKey))
+        let selectedStyle = fromStoredValue(userDefaults.string(forKey: storageKey))
+        #if os(macOS) || os(tvOS)
+        return selectedStyle == .haptics ? .defaultStyle : selectedStyle
+        #else
+        return selectedStyle
+        #endif
     }
 }

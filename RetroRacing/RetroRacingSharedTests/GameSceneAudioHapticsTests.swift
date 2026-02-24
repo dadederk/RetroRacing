@@ -132,6 +132,54 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         XCTAssertEqual(laneCuePlayer.lastMoveCueStyle, .safetyOnly)
     }
 
+    func testGivenCueModeWithHapticsStyleWhenMovingToSafeLaneThenSuccessHapticPlaysWithoutMoveCueAudio() {
+        // Given
+        scene.unpauseGameplay()
+        scene.setAudioFeedbackMode(.cueLanePulses)
+        scene.setLaneMoveCueStyle(.haptics)
+        scene.gridState.grid = [
+            [.Empty, .Empty, .Empty],
+            [.Empty, .Empty, .Empty],
+            [.Empty, .Empty, .Empty],
+            [.Car, .Car, .Empty],
+            [.Empty, .Player, .Empty]
+        ]
+        scene.lastPlayerColumn = 1
+        let adapter = TouchGameInputAdapter(controller: scene, hapticController: haptics)
+
+        // When
+        adapter.handleRight()
+
+        // Then
+        XCTAssertEqual(haptics.successes, 1)
+        XCTAssertEqual(haptics.moves, 0)
+        XCTAssertEqual(laneCuePlayer.moveCalls, 0)
+    }
+
+    func testGivenCueModeWithHapticsStyleWhenMovingToUnsafeLaneThenMoveHapticPlaysWithoutMoveCueAudio() {
+        // Given
+        scene.unpauseGameplay()
+        scene.setAudioFeedbackMode(.cueLanePulses)
+        scene.setLaneMoveCueStyle(.haptics)
+        scene.gridState.grid = [
+            [.Empty, .Empty, .Empty],
+            [.Empty, .Empty, .Empty],
+            [.Empty, .Empty, .Empty],
+            [.Empty, .Empty, .Car],
+            [.Empty, .Player, .Empty]
+        ]
+        scene.lastPlayerColumn = 1
+        let adapter = TouchGameInputAdapter(controller: scene, hapticController: haptics)
+
+        // When
+        adapter.handleRight()
+
+        // Then
+        XCTAssertEqual(haptics.successes, 0)
+        XCTAssertEqual(haptics.moves, 1)
+        XCTAssertEqual(laneCuePlayer.moveCalls, 0)
+    }
+
     func testGivenCollisionWhenHandlingCrashThenFailSoundAndCrashHapticAreTriggered() {
         // Given
 

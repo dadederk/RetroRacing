@@ -10,22 +10,30 @@ import SwiftUI
 /// In-game help modal with controls and audio cue tutorial.
 public struct InGameHelpView: View {
     public let controlsDescriptionKey: String
+    public let supportsHapticFeedback: Bool
+    public let hapticController: HapticFeedbackController?
+    public let audioCueTutorialPreviewPlayer: AudioCueTutorialPreviewPlayer
+    public let speedWarningFeedbackPreviewPlayer: any SpeedIncreaseWarningFeedbackPlaying
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.fontPreferenceStore) private var fontPreferenceStore
-    /// Observed to reactively show/hide the audio tutorial when the mode is changed from within it.
-    @AppStorage(AudioFeedbackMode.conditionalDefaultStorageKey) private var audioFeedbackModeData: Data = Data()
 
-    public init(controlsDescriptionKey: String) {
+    public init(
+        controlsDescriptionKey: String,
+        supportsHapticFeedback: Bool,
+        hapticController: HapticFeedbackController?,
+        audioCueTutorialPreviewPlayer: AudioCueTutorialPreviewPlayer,
+        speedWarningFeedbackPreviewPlayer: any SpeedIncreaseWarningFeedbackPlaying
+    ) {
         self.controlsDescriptionKey = controlsDescriptionKey
+        self.supportsHapticFeedback = supportsHapticFeedback
+        self.hapticController = hapticController
+        self.audioCueTutorialPreviewPlayer = audioCueTutorialPreviewPlayer
+        self.speedWarningFeedbackPreviewPlayer = speedWarningFeedbackPreviewPlayer
     }
 
     private var sectionHeaderFont: Font {
         (fontPreferenceStore?.font(textStyle: .title3) ?? .title3).weight(.semibold)
-    }
-
-    private var isAudioCueTutorialVisible: Bool {
-        AudioFeedbackMode.currentSelection(from: InfrastructureDefaults.userDefaults).supportsAudioCueTutorial
     }
 
     public var body: some View {
@@ -55,21 +63,24 @@ public struct InGameHelpView: View {
                         ControlsHelpContentView(controlsDescriptionKey: controlsDescriptionKey, showTitle: false)
                     }
 
-                    if isAudioCueTutorialVisible {
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text(GameLocalizedStrings.string("tutorial_audio_title"))
-                                .font(sectionHeaderFont)
-                                .accessibilityAddTraits(.isHeader)
-                                .accessibilityHeading(.h1)
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text(GameLocalizedStrings.string("tutorial_audio_title"))
+                            .font(sectionHeaderFont)
+                            .accessibilityAddTraits(.isHeader)
+                            .accessibilityHeading(.h1)
 
-                            AudioCueTutorialContentView()
-                        }
+                        AudioCueTutorialContentView(
+                            previewPlayer: audioCueTutorialPreviewPlayer,
+                            speedWarningFeedbackPreviewPlayer: speedWarningFeedbackPreviewPlayer,
+                            supportsHapticFeedback: supportsHapticFeedback,
+                            hapticController: hapticController
+                        )
                     }
                 }
                 .padding()
             }
             .navigationTitle(GameLocalizedStrings.string("tutorial_help_title"))
-            .navigationBarTitleDisplayMode(.inline)
+            .modifier(InGameHelpNavigationTitleStyle())
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(GameLocalizedStrings.string("done")) {
@@ -80,3 +91,17 @@ public struct InGameHelpView: View {
         }
     }
 }
+
+#if os(macOS)
+private struct InGameHelpNavigationTitleStyle: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+    }
+}
+#else
+private struct InGameHelpNavigationTitleStyle: ViewModifier {
+    func body(content: Content) -> some View {
+        content.navigationBarTitleDisplayMode(.inline)
+    }
+}
+#endif

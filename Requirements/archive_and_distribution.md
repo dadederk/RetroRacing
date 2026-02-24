@@ -121,3 +121,38 @@ The project is already set up correctly:
 - For the **app version**, enable **iOS**, **macOS**, and **Apple Watch** in the Platforms section if your app supports them.
 - For **Apple Watch**, you can enable “Supports Running Without iOS App Installation” if the watch app is standalone; otherwise leave it off for a companion app.
 - The **iOS** build you upload (from the iOS archive) is what provides the watch app; you do **not** upload a separate “watchOS” build.
+
+---
+
+## 6. macOS Release Readiness (Phase 3)
+
+### 6.1 Window policy
+
+- macOS gameplay windows enforce a **minimum size only**:
+  - `minWidth = 820`
+  - `minHeight = 620`
+- No maximum window size is enforced.
+- Layouts must remain adaptive above the minimum.
+
+### 6.2 Platform wording and feature visibility
+
+- macOS settings should not present haptics-specific options/messages.
+- Lane move cue style option `Haptics` must be hidden on platforms without haptic support (including macOS).
+
+### 6.3 VoiceOver validation checklist (manual QA before archive)
+
+- Validate VoiceOver flow and focus order for:
+  - Main menu
+  - Gameplay controls
+  - Settings
+  - In-game help
+  - Game-over modal
+- Labels should be clear and stable; focus order should follow visual/logical order.
+- Fix blocking VoiceOver defects before archiving.
+
+### 6.4 Admin checklist for platform submission
+
+- Build and archive macOS using **Any Mac**.
+- Build and archive iOS using **Any iOS Device** (includes watchOS app).
+- Confirm both builds are attached to the same App Store Connect version.
+- Prepare and verify macOS screenshots and metadata parity with iOS/watch submission content.

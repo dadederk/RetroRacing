@@ -47,6 +47,11 @@ struct RetroRacingApp: App {
         AppBootstrap.configureGameCenterAccessPoint()
         let customFontAvailable = AppBootstrap.registerCustomFont()
         let userDefaults = InfrastructureDefaults.userDefaults
+        let supportsHaptics = Self.deviceSupportsHapticFeedback()
+        SettingsPreferenceMigration.runIfNeeded(
+            userDefaults: userDefaults,
+            supportsHaptics: supportsHaptics
+        )
         storeKitService = StoreKitService(userDefaults: userDefaults)
         #if os(macOS)
         leaderboardConfiguration = LeaderboardConfigurationMac()
@@ -99,7 +104,7 @@ struct RetroRacingApp: App {
         )
         fontPreferenceStore = FontPreferenceStore(userDefaults: userDefaults, customFontAvailable: customFontAvailable)
         let hapticsConfig = HapticsPlatformConfig(
-            supportsHaptics: Self.deviceSupportsHapticFeedback(),
+            supportsHaptics: supportsHaptics,
             controllerProvider: { Self.makeHapticsController(userDefaults: userDefaults) }
         )
         hapticController = hapticsConfig.controllerProvider()
@@ -164,6 +169,7 @@ struct RetroRacingApp: App {
             .animation(nil, value: isMenuPresented)
         #else
         gameView
+            .frame(minWidth: 820, minHeight: 620)
             .sheet(isPresented: $isMenuPresented, onDismiss: handleMenuDismissed) {
                 menuView
                     .frame(maxWidth: .infinity, maxHeight: .infinity)

@@ -26,8 +26,8 @@ public enum AudioFeedbackMode: String, CaseIterable, Codable, Sendable {
     /// Ordered list for settings pickers: keep chord last because it is the hardest pattern.
     public static let displayOrder: [AudioFeedbackMode] = [
         .retro,
-        .cueArpeggio,
         .cueLanePulses,
+        .cueArpeggio,
         .cueChord
     ]
 

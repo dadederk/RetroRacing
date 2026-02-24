@@ -18,9 +18,15 @@ The game **must** respect the user’s Reduce Motion preference:
 - **UI (SwiftUI):** All interactive elements and important text use `accessibilityLabel`; use `accessibilityHint` only when it adds meaningful context beyond the label.
 - **SpriteKit nodes:** Game sprites that convey meaning (player car, rival cars, crash) have `accessibilityLabel` set and `isAccessibilityElement = true` (see `GameScene+Effects.addSprite`, labels from `GameLocalizedStrings`: `player_car`, `rival_car`, `crash_sprite`).
 - **Score and lives:** Header labels use `accessibilityLabel` with the same formatted text as the visual (e.g. score, lives remaining) so VoiceOver users get the same information. The helmet icon next to lives is hidden from accessibility and the lives HUD is exposed as a single combined element. Lives VoiceOver copy uses proper singular/plural localization (for example, `1 life remaining` vs `2 lives remaining`).
-- **Speed alert announcement:** The speed-increase overlay appears in the last 3 points before each level step (for example, scores 97–99 before 100 and 197–199 before 200). Before each speed increase, gameplay forecasts the next 4 scoring rows and inserts empty rows only at the two lead offsets that map to the two rows directly ahead of the player at the exact speed-up moment (no already-visible cars are removed). When the overlay appears (`showSpeedAlert`), VoiceOver posts an explicit announcement using `speed_increase_announcement` (for example, “Hey Ho! Speed increasing!”). This announcement is skipped when `inGameAnnouncementsEnabled` is disabled in Settings.
-- **Lane audio cues:** Settings include four audio feedback modes: `Retro audio`, `Audio cues (arpeggio)`, `Audio cues (lane pulses)`, and `Audio cues (chord)`. In cue modes, each grid tick announces safe columns. Move cues are user-selectable as `Lane confirmation`, `Success`, or `Lane + success`. Start/fail sounds remain unchanged.
-- **In-game help button:** Gameplay toolbars include a `?` help action (shared platforms and watchOS). It opens a help modal with controls guidance and audio cue tutorial content so users can learn without returning to Settings.
+- **Speed alert feedback:** The speed-increase overlay appears in the last 3 points before each level step (for example, scores 97–99 before 100 and 197–199 before 200). Before each speed increase, gameplay forecasts the next 4 scoring rows and inserts empty rows only at the two lead offsets that map to the two rows directly ahead of the player at the exact speed-up moment (no already-visible cars are removed). Settings expose a selector for speed warning feedback:
+  - `VoiceOver announcement`: post `speed_increase_announcement` using `AccessibilityNotification.Announcement`.
+  - `Warning haptic`: trigger warning haptic and skip announcement.
+  - `Warning sound`: play a 3-note ascending chirp generated through the lane-cue synthesis path.
+  - `None`: do not emit speed warning feedback.
+  - Announcement mode uses high announcement priority.
+  - Availability: haptics-supported platforms expose all four options; macOS/tvOS expose announcement/sound/none.
+- **Lane audio cues:** Settings include four audio feedback modes in display order: `Retro audio`, `Audio cues (lane pulses)`, `Audio cues (arpeggio)`, and `Audio cues (chord)`. In cue modes, each grid tick announces safe columns. Move cues are user-selectable as `Lane confirmation`, `Success`, `Lane + success`, or `Haptics` (safe destination -> success haptic, unsafe destination -> move haptic, no move audio cue). Start/fail sounds remain unchanged.
+- **In-game help button:** Gameplay toolbars include a `?` help action (shared platforms and watchOS). It opens a help modal with controls guidance and tutorial content (audio cues, lane cue previews including safe/unsafe haptics where supported, and speed increase warning feedback previews) so users can learn without returning to Settings.
 - **VoiceOver first-run tutorial:** When VoiceOver is running, the in-game help modal is auto-presented once on the first active gameplay session. This behavior is persisted per device profile and can still be overridden by opening help manually.
 - **VoiceOver tutorial copy:** The help modal includes explicit VoiceOver guidance that explains the 3-lane model, left/right movement, lane-safety sounds, and the need to move quickly to avoid crashes.
 - **Game controls (iOS/universal):** The game screen is split into left and right touch areas. Each half is an accessibility element with label “Move left” / “Move right” and hint “Double-tap to move car left/right”, so VoiceOver users can focus each side and double-tap to move. Settings → Controls describes these and other input methods (swipe, tap half, keyboard).
@@ -55,18 +61,20 @@ Each conditional-default setting:
 - `GameDifficulty` conforms to `ConditionalDefaultValue` with `static var systemDefault: GameDifficulty` that checks `UIAccessibility.isVoiceOverRunning` (iOS/tvOS/visionOS) or `NSWorkspace.shared.isVoiceOverEnabled` (macOS). watchOS currently falls back to `.rapid` because this layer does not source watchOS VoiceOver state.
 - `GameDifficulty.currentSelection(from:)` loads the `ConditionalDefault<GameDifficulty>` and returns `effectiveValue`.
 - `SettingsView` displays a `Picker` bound to `difficultySelection: Binding<GameDifficulty>`, which updates the conditional default and persists it.
-- When the user is using the system default and VoiceOver is running, a secondary label ("Using Cruise (default when VoiceOver is on)") appears below the picker.
+- Settings no longer show helper rows describing VoiceOver defaults; defaults are implicit unless the user overrides.
 
 **UI behavior:**
 
-- When no override is stored and VoiceOver is on: picker shows Cruise, with note "Using Cruise (default when VoiceOver is on)".
-- User selects Fast: override is stored, picker shows Fast, no note.
+- When no override is stored and VoiceOver is on: picker shows Cruise.
+- User selects Fast: override is stored, picker shows Fast.
 - User turns VoiceOver off later: picker still shows Fast (override persists).
 - To reset: future UI could offer "Use system default" button; for now, deleting the stored override returns to system default.
 
 ### Future conditional-default settings
 
-- **Audio feedback mode:** Defaults to `Audio cues (arpeggio)` when VoiceOver is running on iOS/tvOS/visionOS/macOS; otherwise defaults to `Retro audio`. watchOS currently keeps `Retro audio` as the system default because this layer does not currently source watchOS VoiceOver state.
+- **Audio feedback mode:** Defaults to `Audio cues (lane pulses)` when VoiceOver is running on iOS/tvOS/visionOS/macOS; otherwise defaults to `Retro audio`. watchOS currently keeps `Retro audio` as the system default because this layer does not currently source watchOS VoiceOver state.
+- **Sound effects volume:** Defaults to `100%` when VoiceOver is running; otherwise `80%`. Slider updates create an explicit override that persists across VoiceOver changes.
+- **Speed warning feedback:** Defaults to `VoiceOver announcement` with explicit user override support. Legacy `inGameAnnouncementsEnabled` values are migrated once (`true -> announcement`, `false -> none`).
 - **Top-down view:** Default to on when large Dynamic Type is active (future feature 7.1).
 
 ## Other Dimensions

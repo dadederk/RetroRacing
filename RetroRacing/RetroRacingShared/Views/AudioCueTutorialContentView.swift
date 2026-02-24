@@ -28,23 +28,23 @@ private let laneAndSafetyCombinations: [(column: CueColumn, isSafe: Bool, safety
 ]
 
 @MainActor
-final class AudioCueTutorialPreviewPlayer {
+public final class AudioCueTutorialPreviewPlayer {
     private let laneCuePlayer: LaneCuePlayer
 
-    init(laneCuePlayer: LaneCuePlayer = PlatformFactories.makeLaneCuePlayer()) {
+    public init(laneCuePlayer: LaneCuePlayer) {
         self.laneCuePlayer = laneCuePlayer
     }
 
-    func setVolume(_ volume: Double) {
+    public func setVolume(_ volume: Double) {
         laneCuePlayer.setVolume(volume)
     }
 
-    func playLaneModePreview(_ mode: AudioFeedbackMode, safeColumns: Set<CueColumn>) {
+    public func playLaneModePreview(_ mode: AudioFeedbackMode, safeColumns: Set<CueColumn>) {
         guard mode != .retro else { return }
         laneCuePlayer.playTickCue(safeColumns: safeColumns, mode: mode)
     }
 
-    func playMoveStylePreview(column: CueColumn, isSafe: Bool, style: LaneMoveCueStyle) {
+    public func playMoveStylePreview(column: CueColumn, isSafe: Bool, style: LaneMoveCueStyle) {
         laneCuePlayer.playMoveCue(
             column: column,
             isSafe: isSafe,
@@ -53,21 +53,44 @@ final class AudioCueTutorialPreviewPlayer {
         )
     }
 
-    func stopAll() {
+    public func playSpeedWarningSound(volume: Double) {
+        laneCuePlayer.setVolume(volume)
+        laneCuePlayer.playTickCue(
+            safeColumns: Set(CueColumn.allCases),
+            mode: .cueArpeggio
+        )
+    }
+
+    public func stopAll() {
         laneCuePlayer.stopAll(fadeDuration: 0.1)
     }
 }
 
 /// Interactive tutorial for lane cue modes and move cue styles.
 public struct AudioCueTutorialContentView: View {
-    @AppStorage(SoundPreferences.volumeKey) private var sfxVolume: Double = SoundPreferences.defaultVolume
-    @State private var previewPlayer = AudioCueTutorialPreviewPlayer()
+    @AppStorage(SoundEffectsVolumeSetting.conditionalDefaultStorageKey)
+    private var soundEffectsVolumeData: Data = Data()
+    private let previewPlayer: AudioCueTutorialPreviewPlayer
+    private let speedWarningFeedbackPreviewPlayer: any SpeedIncreaseWarningFeedbackPlaying
+    private let supportsHapticFeedback: Bool
+    private let hapticController: HapticFeedbackController?
     @State private var selectedAudioFeedbackMode: AudioFeedbackMode = .cueLanePulses
     @State private var selectedLaneMoveCueStyle: LaneMoveCueStyle = .laneConfirmation
+    @State private var selectedSpeedWarningFeedbackMode: SpeedWarningFeedbackMode = .announcement
     @Environment(\.fontPreferenceStore) private var fontPreferenceStore
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
-    public init() {}
+    public init(
+        previewPlayer: AudioCueTutorialPreviewPlayer,
+        speedWarningFeedbackPreviewPlayer: any SpeedIncreaseWarningFeedbackPlaying,
+        supportsHapticFeedback: Bool,
+        hapticController: HapticFeedbackController?
+    ) {
+        self.previewPlayer = previewPlayer
+        self.speedWarningFeedbackPreviewPlayer = speedWarningFeedbackPreviewPlayer
+        self.supportsHapticFeedback = supportsHapticFeedback
+        self.hapticController = hapticController
+    }
 
     /// Three columns at default sizes, one at accessibility sizes to prevent overflow.
     private var gridColumns: [GridItem] {
@@ -88,17 +111,26 @@ public struct AudioCueTutorialContentView: View {
         fontPreferenceStore?.font(textStyle: .headline) ?? .headline
     }
 
+    private var laneMoveCueStyles: [LaneMoveCueStyle] {
+        LaneMoveCueStyle.tutorialStyles(supportsHaptics: supportsHapticFeedback)
+    }
+
+    private var speedWarningFeedbackModes: [SpeedWarningFeedbackMode] {
+        SpeedWarningFeedbackMode.availableModes(supportsHaptics: supportsHapticFeedback)
+    }
+
     public var body: some View {
         VStack(alignment: .leading, spacing: 24) {
             audioFeedbackModeSection
             laneChangeCueSection
+            speedIncreaseWarningFeedbackSection
         }
         .onAppear {
-            previewPlayer.setVolume(sfxVolume)
+            previewPlayer.setVolume(selectedSoundEffectsVolume)
             loadCurrentPreferences()
         }
-        .onChange(of: sfxVolume) { _, newValue in
-            previewPlayer.setVolume(newValue)
+        .onChange(of: soundEffectsVolumeData) { _, _ in
+            previewPlayer.setVolume(selectedSoundEffectsVolume)
         }
         .onDisappear {
             previewPlayer.stopAll()
@@ -108,7 +140,14 @@ public struct AudioCueTutorialContentView: View {
     private func loadCurrentPreferences() {
         let savedMode = AudioFeedbackMode.currentSelection(from: InfrastructureDefaults.userDefaults)
         selectedAudioFeedbackMode = savedMode == .retro ? .cueLanePulses : savedMode
-        selectedLaneMoveCueStyle = LaneMoveCueStyle.currentSelection(from: InfrastructureDefaults.userDefaults)
+
+        let savedStyle = LaneMoveCueStyle.currentSelection(from: InfrastructureDefaults.userDefaults)
+        selectedLaneMoveCueStyle = laneMoveCueStyles.contains(savedStyle) ? savedStyle : .laneConfirmation
+
+        let savedSpeedMode = SpeedWarningFeedbackMode.currentSelection(from: InfrastructureDefaults.userDefaults)
+        selectedSpeedWarningFeedbackMode = speedWarningFeedbackModes.contains(savedSpeedMode)
+            ? savedSpeedMode
+            : .announcement
     }
 
     // MARK: - Audio feedback mode
@@ -149,11 +188,12 @@ public struct AudioCueTutorialContentView: View {
                 previewPlayer.playLaneModePreview(selectedAudioFeedbackMode, safeColumns: [.left, .middle, .right])
             }
 
-            Button(GameLocalizedStrings.format("tutorial_set %@", GameLocalizedStrings.string(selectedAudioFeedbackMode.localizedNameKey))) {
+            Button(audioFeedbackModeApplyButtonLabel) {
                 saveAudioFeedbackMode(selectedAudioFeedbackMode)
             }
             .font(captionFont)
             .buttonStyle(.glassProminent)
+            .disabled(isAudioFeedbackModeConfigured)
         }
     }
 
@@ -166,6 +206,18 @@ public struct AudioCueTutorialContentView: View {
         conditional.save(to: InfrastructureDefaults.userDefaults, key: AudioFeedbackMode.conditionalDefaultStorageKey)
     }
 
+    private var audioFeedbackModeApplyButtonLabel: String {
+        let selectedName = GameLocalizedStrings.string(selectedAudioFeedbackMode.localizedNameKey)
+        if isAudioFeedbackModeConfigured {
+            return GameLocalizedStrings.format("tutorial_configured %@", selectedName)
+        }
+        return GameLocalizedStrings.format("tutorial_set %@", selectedName)
+    }
+
+    private var isAudioFeedbackModeConfigured: Bool {
+        selectedAudioFeedbackMode == AudioFeedbackMode.currentSelection(from: InfrastructureDefaults.userDefaults)
+    }
+
     // MARK: - Lane change cue
 
     private var laneChangeCueSection: some View {
@@ -176,7 +228,7 @@ public struct AudioCueTutorialContentView: View {
                 .accessibilityHeading(.h2)
 
             Picker(GameLocalizedStrings.string("tutorial_section_lane_change_cue"), selection: $selectedLaneMoveCueStyle) {
-                ForEach(LaneMoveCueStyle.allCases, id: \.self) { style in
+                ForEach(laneMoveCueStyles, id: \.self) { style in
                     Text(GameLocalizedStrings.string(style.localizedNameKey)).tag(style)
                 }
             }
@@ -194,7 +246,7 @@ public struct AudioCueTutorialContentView: View {
 
             laneChangeCueButtons(for: selectedLaneMoveCueStyle)
 
-            Button(GameLocalizedStrings.format("tutorial_set %@", GameLocalizedStrings.string(selectedLaneMoveCueStyle.localizedNameKey))) {
+            Button(laneMoveCueStyleApplyButtonLabel) {
                 InfrastructureDefaults.userDefaults.set(
                     selectedLaneMoveCueStyle.rawValue,
                     forKey: LaneMoveCueStyle.storageKey
@@ -202,6 +254,7 @@ public struct AudioCueTutorialContentView: View {
             }
             .font(captionFont)
             .buttonStyle(.glassProminent)
+            .disabled(isLaneMoveCueStyleConfigured)
         }
     }
 
@@ -236,7 +289,95 @@ public struct AudioCueTutorialContentView: View {
                     }
                 }
             }
+        case .haptics:
+            LazyVGrid(columns: gridColumns, spacing: 8) {
+                playButton(label: GameLocalizedStrings.string("tutorial_audio_preview_safe_lane")) {
+                    hapticController?.triggerSuccessHaptic()
+                }
+                playButton(label: GameLocalizedStrings.string("tutorial_audio_preview_unsafe_lane")) {
+                    hapticController?.triggerMoveHaptic()
+                }
+            }
         }
+    }
+
+    private var laneMoveCueStyleApplyButtonLabel: String {
+        let selectedName = GameLocalizedStrings.string(selectedLaneMoveCueStyle.localizedNameKey)
+        if isLaneMoveCueStyleConfigured {
+            return GameLocalizedStrings.format("tutorial_configured %@", selectedName)
+        }
+        return GameLocalizedStrings.format("tutorial_set %@", selectedName)
+    }
+
+    private var isLaneMoveCueStyleConfigured: Bool {
+        selectedLaneMoveCueStyle == LaneMoveCueStyle.currentSelection(from: InfrastructureDefaults.userDefaults)
+    }
+
+    // MARK: - Speed increase warning feedback
+
+    private var speedIncreaseWarningFeedbackSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text(GameLocalizedStrings.string("tutorial_section_speed_warning_feedback"))
+                .font(sectionHeaderFont)
+                .accessibilityAddTraits(.isHeader)
+                .accessibilityHeading(.h2)
+
+            Picker(
+                GameLocalizedStrings.string("tutorial_section_speed_warning_feedback"),
+                selection: $selectedSpeedWarningFeedbackMode
+            ) {
+                ForEach(speedWarningFeedbackModes, id: \.self) { mode in
+                    Text(GameLocalizedStrings.string(mode.localizedNameKey)).tag(mode)
+                }
+            }
+            #if os(watchOS)
+            .pickerStyle(.inline)
+            #else
+            .pickerStyle(.menu)
+            .labelsHidden()
+            #endif
+
+            Text(GameLocalizedStrings.string(speedWarningDescriptionKey(for: selectedSpeedWarningFeedbackMode)))
+                .font(captionFont)
+                .foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
+
+            playButton(label: GameLocalizedStrings.string("settings_speed_warning_feedback_preview_warning")) {
+                speedWarningFeedbackPreviewPlayer.play(mode: selectedSpeedWarningFeedbackMode)
+            }
+
+            Button(speedWarningFeedbackModeApplyButtonLabel) {
+                saveSpeedWarningFeedbackMode(selectedSpeedWarningFeedbackMode)
+            }
+            .font(captionFont)
+            .buttonStyle(.glassProminent)
+            .disabled(isSpeedWarningFeedbackModeConfigured)
+        }
+    }
+
+    private func saveSpeedWarningFeedbackMode(_ mode: SpeedWarningFeedbackMode) {
+        var conditional = ConditionalDefault<SpeedWarningFeedbackMode>.load(
+            from: InfrastructureDefaults.userDefaults,
+            key: SpeedWarningFeedbackMode.conditionalDefaultStorageKey
+        )
+        conditional.setUserOverride(mode)
+        conditional.save(
+            to: InfrastructureDefaults.userDefaults,
+            key: SpeedWarningFeedbackMode.conditionalDefaultStorageKey
+        )
+    }
+
+    private var speedWarningFeedbackModeApplyButtonLabel: String {
+        let selectedName = GameLocalizedStrings.string(selectedSpeedWarningFeedbackMode.localizedNameKey)
+        if isSpeedWarningFeedbackModeConfigured {
+            return GameLocalizedStrings.format("tutorial_configured %@", selectedName)
+        }
+        return GameLocalizedStrings.format("tutorial_set %@", selectedName)
+    }
+
+    private var isSpeedWarningFeedbackModeConfigured: Bool {
+        selectedSpeedWarningFeedbackMode
+            == SpeedWarningFeedbackMode.currentSelection(from: InfrastructureDefaults.userDefaults)
     }
 
     private func playButton(label: String, action: @escaping () -> Void) -> some View {
@@ -277,6 +418,25 @@ public struct AudioCueTutorialContentView: View {
             return "tutorial_audio_move_style_description_safety_only"
         case .laneConfirmationAndSafety:
             return "tutorial_audio_move_style_description_lane_and_safety"
+        case .haptics:
+            return "tutorial_audio_move_style_description_haptics"
         }
+    }
+
+    private func speedWarningDescriptionKey(for mode: SpeedWarningFeedbackMode) -> String {
+        switch mode {
+        case .announcement:
+            return "tutorial_speed_warning_description_announcement"
+        case .warningHaptic:
+            return "tutorial_speed_warning_description_haptic"
+        case .warningSound:
+            return "tutorial_speed_warning_description_sound"
+        case .none:
+            return "tutorial_speed_warning_description_none"
+        }
+    }
+
+    private var selectedSoundEffectsVolume: Double {
+        SoundEffectsVolumePreference.currentSelection(from: InfrastructureDefaults.userDefaults)
     }
 }

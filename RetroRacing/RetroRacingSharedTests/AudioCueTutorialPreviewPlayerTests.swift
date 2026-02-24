@@ -54,11 +54,26 @@ final class AudioCueTutorialPreviewPlayerTests: XCTestCase {
         // Then
         XCTAssertEqual(laneCuePlayer.stopAllCalls.count, 1)
     }
+
+    func testGivenSpeedWarningSoundWhenPlayingThenArpeggioTickUsesAllLanes() {
+        // Given
+        let laneCuePlayer = MockTutorialLaneCuePlayer()
+        let sut = AudioCueTutorialPreviewPlayer(laneCuePlayer: laneCuePlayer)
+
+        // When
+        sut.playSpeedWarningSound(volume: 0.65)
+
+        // Then
+        XCTAssertEqual(laneCuePlayer.lastSetVolume, 0.65, accuracy: 0.0001)
+        XCTAssertEqual(laneCuePlayer.lastTickMode, .cueArpeggio)
+        XCTAssertEqual(laneCuePlayer.lastTickSafeColumns, Set(CueColumn.allCases))
+    }
 }
 
 private final class MockTutorialLaneCuePlayer: LaneCuePlayer {
     private(set) var lastTickSafeColumns: Set<CueColumn> = []
     private(set) var lastTickMode: AudioFeedbackMode?
+    private(set) var lastSetVolume: Double?
     private(set) var moveCalls: [(column: CueColumn, style: LaneMoveCueStyle, isSafe: Bool)] = []
     private(set) var stopAllCalls: [TimeInterval] = []
 
@@ -71,7 +86,9 @@ private final class MockTutorialLaneCuePlayer: LaneCuePlayer {
         moveCalls.append((column: column, style: style, isSafe: isSafe))
     }
 
-    func setVolume(_ volume: Double) {}
+    func setVolume(_ volume: Double) {
+        lastSetVolume = volume
+    }
 
     func stopAll(fadeDuration: TimeInterval) {
         stopAllCalls.append(fadeDuration)

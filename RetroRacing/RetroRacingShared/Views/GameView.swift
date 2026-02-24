@@ -46,11 +46,13 @@ public struct GameView: View {
     private let onMenuRequest: (() -> Void)?
     private let isMenuOverlayPresented: Binding<Bool>?
 
-    @AppStorage(SoundPreferences.volumeKey) private var sfxVolume: Double = SoundPreferences.defaultVolume
+    @AppStorage(SoundEffectsVolumeSetting.conditionalDefaultStorageKey)
+    private var soundEffectsVolumeData: Data = Data()
     @AppStorage(GameDifficulty.conditionalDefaultStorageKey) private var difficultyStorageData: Data = Data()
     @AppStorage(AudioFeedbackMode.conditionalDefaultStorageKey) private var audioFeedbackModeStorageData: Data = Data()
     @AppStorage(LaneMoveCueStyle.storageKey) private var laneMoveCueStyleRawValue: String = LaneMoveCueStyle.defaultStyle.rawValue
-    @AppStorage(InGameAnnouncementsPreference.storageKey) private var inGameAnnouncementsEnabled: Bool = InGameAnnouncementsPreference.defaultEnabled
+    @AppStorage(SpeedWarningFeedbackMode.conditionalDefaultStorageKey)
+    private var speedWarningFeedbackModeData: Data = Data()
     @AppStorage(VoiceOverTutorialPreference.hasSeenInGameVoiceOverTutorialKey)
     private var hasSeenInGameVoiceOverTutorial: Bool = VoiceOverTutorialPreference.defaultHasSeenInGameVoiceOverTutorial
     @State private var model: GameViewModel
@@ -138,7 +140,7 @@ public struct GameView: View {
                     onMoveRight: { model.flashButton(.right) },
                     onAppearSide: { side in
                         AppLog.info(AppLog.game, "GameLayoutView appeared with side: \(side)")
-                        model.setupSceneIfNeeded(side: side, volume: sfxVolume)
+                        model.setupSceneIfNeeded(side: side, volume: selectedSoundEffectsVolume)
                     },
                     onResizeSide: { side in
                         model.updateSceneSizeIfNeeded(side: side)
@@ -236,8 +238,7 @@ public struct GameView: View {
             }
         }
         .sheet(isPresented: $isInGameHelpPresented, onDismiss: handleInGameHelpDismissed) {
-            InGameHelpView(controlsDescriptionKey: controlsDescriptionKey)
-                .fontPreferenceStore(fontPreferenceStore)
+            makeInGameHelpView()
         }
         .sheet(isPresented: showGameOverBinding, onDismiss: handleGameOverSheetDismissed) {
             GameOverView(
@@ -255,8 +256,8 @@ public struct GameView: View {
         .onDisappear {
             model.tearDown()
         }
-        .onChange(of: sfxVolume) { _, newValue in
-            model.setVolume(newValue)
+        .onChange(of: soundEffectsVolumeData) { _, _ in
+            model.setVolume(selectedSoundEffectsVolume)
         }
         .onChange(of: shouldStartGame) { _, newValue in
             AppLog.info(AppLog.game, "GameView shouldStartGame changed from \(model.shouldStartGame) to \(newValue)")
@@ -270,6 +271,11 @@ public struct GameView: View {
         }
         .onChange(of: laneMoveCueStyleRawValue) { _, _ in
             model.updateLaneMoveCueStyle(selectedLaneMoveCueStyle)
+        }
+        .onChange(of: speedWarningFeedbackModeData) { _, _ in
+            if model.hud.speedIncreaseImminent {
+                announceSpeedIncreaseIfNeeded(oldValue: false, newValue: true)
+            }
         }
         .onChange(of: model.pause.scenePaused) { _, _ in
             attemptAutoPresentVoiceOverHelpIfNeeded()
@@ -324,7 +330,8 @@ public struct GameView: View {
     }
 
     private var selectedLaneMoveCueStyle: LaneMoveCueStyle {
-        LaneMoveCueStyle.fromStoredValue(laneMoveCueStyleRawValue)
+        _ = laneMoveCueStyleRawValue
+        return LaneMoveCueStyle.currentSelection(from: InfrastructureDefaults.userDefaults)
     }
 
     private var hasScene: Bool {
@@ -381,13 +388,11 @@ public struct GameView: View {
 
     private func announceSpeedIncreaseIfNeeded(oldValue: Bool, newValue: Bool) {
         guard oldValue == false, newValue else { return }
-        guard inGameAnnouncementsEnabled else { return }
-        #if canImport(UIKit) && (os(iOS) || os(tvOS))
-        UIAccessibility.post(
-            notification: .announcement,
-            argument: GameLocalizedStrings.string("speed_increase_announcement")
-        )
-        #endif
+        let selectedMode = SpeedWarningFeedbackMode.currentSelection(from: InfrastructureDefaults.userDefaults)
+        makeSpeedWarningFeedbackPlayer {
+            model.scene?.playSpeedIncreaseWarningSound()
+        }
+        .play(mode: selectedMode)
     }
 
     private func attemptAutoPresentVoiceOverHelpIfNeeded() {
@@ -426,5 +431,39 @@ public struct GameView: View {
             model.endAutomaticHelpPresentation(shouldResumeOnDismiss: shouldResumeOnDismiss)
         }
         self.helpPresentationContext = nil
+    }
+
+    private var selectedSoundEffectsVolume: Double {
+        SoundEffectsVolumePreference.currentSelection(from: InfrastructureDefaults.userDefaults)
+    }
+
+    @ViewBuilder
+    private func makeInGameHelpView() -> some View {
+        let tutorialPreviewPlayer = AudioCueTutorialPreviewPlayer(
+            laneCuePlayer: PlatformFactories.makeLaneCuePlayer()
+        )
+        InGameHelpView(
+            controlsDescriptionKey: controlsDescriptionKey,
+            supportsHapticFeedback: hapticController != nil,
+            hapticController: hapticController,
+            audioCueTutorialPreviewPlayer: tutorialPreviewPlayer,
+            speedWarningFeedbackPreviewPlayer: makeSpeedWarningFeedbackPlayer {
+                tutorialPreviewPlayer.playSpeedWarningSound(volume: selectedSoundEffectsVolume)
+            }
+        )
+        .fontPreferenceStore(fontPreferenceStore)
+    }
+
+    private func makeSpeedWarningFeedbackPlayer(
+        playWarningSound: @escaping @MainActor @Sendable () -> Void
+    ) -> SpeedIncreaseWarningFeedbackPlayer {
+        SpeedIncreaseWarningFeedbackPlayer(
+            announcementPoster: AccessibilityAnnouncementPoster(),
+            hapticController: hapticController,
+            playWarningSound: playWarningSound,
+            announcementTextProvider: {
+                GameLocalizedStrings.string("speed_increase_announcement")
+            }
+        )
     }
 }

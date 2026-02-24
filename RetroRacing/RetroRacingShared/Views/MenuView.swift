@@ -107,10 +107,30 @@ public struct MenuView: View {
                 }
             }
             .sheet(isPresented: $showSettings) {
+                let tutorialPreviewPlayer = AudioCueTutorialPreviewPlayer(
+                    laneCuePlayer: PlatformFactories.makeLaneCuePlayer()
+                )
+                let speedWarningPreviewPlayer = SpeedIncreaseWarningFeedbackPlayer(
+                    announcementPoster: AccessibilityAnnouncementPoster(),
+                    hapticController: hapticController,
+                    playWarningSound: {
+                        tutorialPreviewPlayer.playSpeedWarningSound(
+                            volume: SoundEffectsVolumePreference.currentSelection(
+                                from: InfrastructureDefaults.userDefaults
+                            )
+                        )
+                    },
+                    announcementTextProvider: {
+                        GameLocalizedStrings.string("speed_increase_announcement")
+                    }
+                )
                 SettingsView(
                     themeManager: themeManager,
                     fontPreferenceStore: fontPreferenceStore,
                     supportsHapticFeedback: supportsHapticFeedback,
+                    hapticController: hapticController,
+                    audioCueTutorialPreviewPlayer: tutorialPreviewPlayer,
+                    speedWarningFeedbackPreviewPlayer: speedWarningPreviewPlayer,
                     controlsDescriptionKey: controlsDescriptionKey,
                     style: settingsStyle,
                     playLimitService: playLimitService

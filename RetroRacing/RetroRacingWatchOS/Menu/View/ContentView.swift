@@ -48,10 +48,31 @@ struct ContentView: View {
                 }
             }
             .sheet(isPresented: $showSettings) {
+                let settingsHapticController = WatchHapticFeedbackController(
+                    userDefaults: InfrastructureDefaults.userDefaults
+                )
+                let tutorialPreviewPlayer = AudioCueTutorialPreviewPlayer(
+                    laneCuePlayer: PlatformFactories.makeLaneCuePlayer()
+                )
+                let speedWarningPreviewPlayer = SpeedIncreaseWarningFeedbackPlayer(
+                    announcementPoster: AccessibilityAnnouncementPoster(),
+                    hapticController: settingsHapticController,
+                    playWarningSound: {
+                        tutorialPreviewPlayer.playSpeedWarningSound(
+                            volume: SoundEffectsVolumePreference.currentSelection(from: InfrastructureDefaults.userDefaults)
+                        )
+                    },
+                    announcementTextProvider: {
+                        GameLocalizedStrings.string("speed_increase_announcement")
+                    }
+                )
                 SettingsView(
                     themeManager: themeManager,
                     fontPreferenceStore: fontPreferenceStore,
                     supportsHapticFeedback: true,
+                    hapticController: settingsHapticController,
+                    audioCueTutorialPreviewPlayer: tutorialPreviewPlayer,
+                    speedWarningFeedbackPreviewPlayer: speedWarningPreviewPlayer,
                     isGameCenterAuthenticated: leaderboardService.isAuthenticated()
                 )
             }

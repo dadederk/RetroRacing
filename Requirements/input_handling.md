@@ -33,6 +33,14 @@ RetroRacing captures platform-specific input at the UI layer and translates it i
 - **macOS/visionOS**: Platform UI handles keyboard/mouse/gaze and forwards to shared controllers.
 - **watchOS**: VoiceOver Magic Tap maps to the same pause/resume toggle used by the header pause control.
 
+### Haptic Routing for Lane Cues
+
+- For normal move feedback, `TouchGameInputAdapter` and `RemoteGameInputAdapter` trigger move haptic immediately when left/right input is handled.
+- When cue audio mode is active and lane move cue style is `Haptics`, adapters suppress immediate move haptic and let `GameScene` decide the haptic:
+  - Safe destination lane: success haptic.
+  - Unsafe destination lane: regular move haptic.
+- This keeps haptic meaning aligned with lane safety without duplicating haptics.
+
 ## User Experience
 
 - **watchOS**: A single lane move per crown “turn,” matching the classic feel.

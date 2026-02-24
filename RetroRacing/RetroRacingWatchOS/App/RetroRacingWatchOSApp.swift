@@ -70,6 +70,10 @@ struct RetroRacingWatchOSApp: App {
     }
 
     init() {
+        SettingsPreferenceMigration.runIfNeeded(
+            userDefaults: InfrastructureDefaults.userDefaults,
+            supportsHaptics: true
+        )
         let customFontAvailable = FontRegistrar.registerPressStart2P(additionalBundles: [Bundle.main])
         fontPreferenceStore = FontPreferenceStore(
             userDefaults: InfrastructureDefaults.userDefaults,

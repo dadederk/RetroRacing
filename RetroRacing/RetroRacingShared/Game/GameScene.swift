@@ -402,6 +402,15 @@ public class GameScene: SKScene {
         laneMoveCueStyle = style
     }
 
+    /// Plays the speed-warning chirp (three ascending lane notes).
+    public func playSpeedIncreaseWarningSound() {
+        guard let laneCuePlayer else { return }
+        laneCuePlayer.playTickCue(
+            safeColumns: Set(CueColumn.allCases),
+            mode: .cueArpeggio
+        )
+    }
+
     private func playStartThenUnpause() {
         updatePauseState(true)
         startUnpauseFallbackTask?.cancel()
@@ -454,6 +463,15 @@ public class GameScene: SKScene {
             case .tick:
                 laneCuePlayer.playTickCue(safeColumns: safeColumnsAheadOfPlayer(), mode: audioFeedbackMode)
             case .move(let destinationColumn):
+                if laneMoveCueStyle == .haptics {
+                    let isSafe = isSafeDestinationColumn(destinationColumn)
+                    if isSafe {
+                        hapticController?.triggerSuccessHaptic()
+                    } else {
+                        hapticController?.triggerMoveHaptic()
+                    }
+                    return
+                }
                 guard let column = cueColumn(for: destinationColumn) else { return }
                 let isSafe = isSafeDestinationColumn(destinationColumn)
                 laneCuePlayer.playMoveCue(
@@ -573,18 +591,28 @@ public struct TouchGameInputAdapter: GameInputAdapter {
     }
 
     public func handleLeft() {
-        hapticController?.triggerMoveHaptic()
+        if shouldUseSceneManagedMoveHaptics == false {
+            hapticController?.triggerMoveHaptic()
+        }
         controller.moveLeft()
     }
 
     public func handleRight() {
-        hapticController?.triggerMoveHaptic()
+        if shouldUseSceneManagedMoveHaptics == false {
+            hapticController?.triggerMoveHaptic()
+        }
         controller.moveRight()
     }
 
     public func handleDrag(translation: CGSize) {
         guard translation.width != 0 else { return }
         translation.width < 0 ? handleLeft() : handleRight()
+    }
+
+    private var shouldUseSceneManagedMoveHaptics: Bool {
+        guard let scene = controller as? GameScene else { return false }
+        guard scene.audioFeedbackMode != .retro else { return false }
+        return scene.laneMoveCueStyle == .haptics
     }
 }
 
@@ -598,18 +626,28 @@ public struct RemoteGameInputAdapter: GameInputAdapter {
     }
 
     public func handleLeft() {
-        hapticController?.triggerMoveHaptic()
+        if shouldUseSceneManagedMoveHaptics == false {
+            hapticController?.triggerMoveHaptic()
+        }
         controller.moveLeft()
     }
 
     public func handleRight() {
-        hapticController?.triggerMoveHaptic()
+        if shouldUseSceneManagedMoveHaptics == false {
+            hapticController?.triggerMoveHaptic()
+        }
         controller.moveRight()
     }
 
     public func handleDrag(translation: CGSize) {
         guard translation.width != 0 else { return }
         translation.width < 0 ? handleLeft() : handleRight()
+    }
+
+    private var shouldUseSceneManagedMoveHaptics: Bool {
+        guard let scene = controller as? GameScene else { return false }
+        guard scene.audioFeedbackMode != .retro else { return false }
+        return scene.laneMoveCueStyle == .haptics
     }
 }
 

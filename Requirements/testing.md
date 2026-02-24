@@ -13,9 +13,11 @@ RetroRacing follows a **unit-test-first** approach with comprehensive coverage o
 **Build flags:** All schemes compile with `SWIFT_DEFAULT_ACTOR_ISOLATION=MainActor` and `SWIFT_STRICT_CONCURRENCY=targeted`. Keep tests green under these flags; raise to `complete` once warnings are zero.
 
 ```bash
-cd RetroRacing && xcrun xcodebuild test -scheme RetroRacingSharedTests -destination "platform=iOS Simulator,name=iPhone 17 Pro"
+cd RetroRacing && xcrun xcodebuild test -scheme RetroRacingUniversal -destination "platform=iOS Simulator,name=iPhone 17 Pro" -only-testing:RetroRacingSharedTests
+cd RetroRacing && xcrun xcodebuild test -scheme RetroRacingUniversal -destination "platform=iOS Simulator,name=iPhone 17 Pro" -only-testing:RetroRacingUniversalTests
+cd RetroRacing && xcrun xcodebuild build -scheme RetroRacingUniversal -destination "platform=macOS"
 ```
-For app-level tests (RetroRacingUniversal): `-scheme RetroRacingUniversalTests`
+If local signing blocks simulator/macOS verification, run with `CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO` for CI-like compile/test validation.
 
 **Focus Areas:**
 - Game logic (`GridStateCalculator`, `GameState`, `GridState`)
@@ -23,8 +25,12 @@ For app-level tests (RetroRacingUniversal): `-scheme RetroRacingUniversalTests`
 - Configuration objects
 - Utilities and extensions
 - Accessibility audio behavior (retro vs cue-mode routing, move-cue style routing, conditional-default overrides)
+- Accessibility speed warning feedback mode behavior (announcement vs warning haptic vs warning sound vs none)
+- Accessibility announcement utility routing (`AccessibilityNotification.Announcement`, high-priority speed warning)
+- Settings migration coverage (`inGameAnnouncementsEnabled` -> speed warning selector, `sfxVolume` -> conditional default)
 - Generated SFX behavior (recipe rendering, fail-tail repeat tuning, fallback routing to asset playback)
 - Difficulty timing behavior (clear pacing separation for cruise/fast/rapid and conditional-default wiring)
+- Platform filtering (hide haptics-only options on unsupported platforms)
 
 ### UI Tests (Future)
 

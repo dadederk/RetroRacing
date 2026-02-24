@@ -1,6 +1,9 @@
 import SwiftUI
 import SpriteKit
 import RetroRacingShared
+#if canImport(WatchKit)
+import WatchKit
+#endif
 
 struct WatchGameView: View {
     let theme: any GameTheme
@@ -9,8 +12,11 @@ struct WatchGameView: View {
     let crownConfiguration: LegacyCrownInputProcessor.Configuration
     let leaderboardService: LeaderboardService
     @AppStorage(GameDifficulty.conditionalDefaultStorageKey) private var difficultyStorageData: Data = Data()
-    @AppStorage(SoundPreferences.volumeKey) private var sfxVolume: Double = SoundPreferences.defaultVolume
+    @AppStorage(SoundEffectsVolumeSetting.conditionalDefaultStorageKey)
+    private var soundEffectsVolumeData: Data = Data()
     @AppStorage(AudioFeedbackMode.conditionalDefaultStorageKey) private var audioFeedbackModeStorageData: Data = Data()
+    @AppStorage(SpeedWarningFeedbackMode.conditionalDefaultStorageKey)
+    private var speedWarningFeedbackModeData: Data = Data()
     @AppStorage(LaneMoveCueStyle.storageKey) private var laneMoveCueStyleRawValue: String = LaneMoveCueStyle.defaultStyle.rawValue
     @AppStorage(VoiceOverTutorialPreference.hasSeenInGameVoiceOverTutorialKey)
     private var hasSeenInGameVoiceOverTutorial: Bool = VoiceOverTutorialPreference.defaultHasSeenInGameVoiceOverTutorial
@@ -28,8 +34,10 @@ struct WatchGameView: View {
     @State private var gameOverDifficulty: GameDifficulty = .defaultDifficulty
     @State private var gameOverPreviousBestScore: Int?
     @State private var isNewHighScore = false
+    @State private var speedIncreaseImminent = false
     @State private var delegate: GameSceneDelegateImpl?
     @State private var inputAdapter: GameInputAdapter?
+    @State private var watchHapticController: HapticFeedbackController
     @State private var isInGameHelpPresented = false
     @State private var helpPresentationContext: HelpPresentationContext?
     @FocusState private var isCrownFocused: Bool
@@ -64,11 +72,13 @@ struct WatchGameView: View {
         let initialDifficulty = GameDifficulty.currentSelection(from: InfrastructureDefaults.userDefaults)
         let initialAudioFeedbackMode = AudioFeedbackMode.currentSelection(from: InfrastructureDefaults.userDefaults)
         let initialLaneMoveCueStyle = LaneMoveCueStyle.currentSelection(from: InfrastructureDefaults.userDefaults)
+        let hapticController = WatchHapticFeedbackController(userDefaults: InfrastructureDefaults.userDefaults)
         let size = CGSize(width: 400, height: 300)
         let soundPlayer = PlatformFactories.makeSoundPlayer()
         let laneCuePlayer = PlatformFactories.makeLaneCuePlayer()
-        soundPlayer.setVolume(SoundPreferences.defaultVolume)
-        laneCuePlayer.setVolume(SoundPreferences.defaultVolume)
+        let initialVolume = SoundEffectsVolumePreference.currentSelection(from: InfrastructureDefaults.userDefaults)
+        soundPlayer.setVolume(initialVolume)
+        laneCuePlayer.setVolume(initialVolume)
         _scene = State(initialValue: GameScene.scene(
             size: size,
             difficulty: initialDifficulty,
@@ -76,10 +86,11 @@ struct WatchGameView: View {
             imageLoader: PlatformFactories.makeImageLoader(),
             soundPlayer: soundPlayer,
             laneCuePlayer: laneCuePlayer,
-            hapticController: nil,
+            hapticController: hapticController,
             audioFeedbackMode: initialAudioFeedbackMode,
             laneMoveCueStyle: initialLaneMoveCueStyle
         ))
+        _watchHapticController = State(initialValue: hapticController)
         _crownProcessor = State(initialValue: LegacyCrownInputProcessor(configuration: crownConfiguration))
     }
 
@@ -175,7 +186,7 @@ struct WatchGameView: View {
         .onAppear {
             AppLog.info(AppLog.game, "🎮 WatchGameView onAppear - setting up scene and crown focus")
             scene.applyDifficulty(selectedDifficulty)
-            scene.setSoundVolume(sfxVolume)
+            scene.setSoundVolume(selectedSoundEffectsVolume)
             scene.setAudioFeedbackMode(selectedAudioFeedbackMode)
             scene.setLaneMoveCueStyle(selectedLaneMoveCueStyle)
             scene.start()
@@ -205,6 +216,7 @@ struct WatchGameView: View {
                             scene.resume()
                         }
                     },
+                    onLevelChangeImminent: { speedIncreaseImminent = $0 },
                     onPauseStateChange: { scenePaused = $0 }
                 )
                 delegate = d
@@ -213,8 +225,7 @@ struct WatchGameView: View {
             attemptAutoPresentVoiceOverHelpIfNeeded()
         }
         .sheet(isPresented: $isInGameHelpPresented, onDismiss: handleInGameHelpDismissed) {
-            InGameHelpView(controlsDescriptionKey: "settings_controls_watchos")
-                .fontPreferenceStore(fontPreferenceStore)
+            makeInGameHelpView()
         }
         .sheet(isPresented: $showGameOver, onDismiss: restartFromGameOver) {
             GameOverView(
@@ -234,8 +245,8 @@ struct WatchGameView: View {
             crownIdleTask?.cancel()
             crownIdleTask = nil
         }
-        .onChange(of: sfxVolume) { _, newValue in
-            scene.setSoundVolume(newValue)
+        .onChange(of: soundEffectsVolumeData) { _, _ in
+            scene.setSoundVolume(selectedSoundEffectsVolume)
         }
         .onChange(of: difficultyStorageData) { _, _ in
             scene.applyDifficulty(selectedDifficulty)
@@ -243,11 +254,19 @@ struct WatchGameView: View {
         .onChange(of: audioFeedbackModeStorageData) { _, _ in
             scene.setAudioFeedbackMode(selectedAudioFeedbackMode)
         }
+        .onChange(of: speedWarningFeedbackModeData) { _, _ in
+            if speedIncreaseImminent {
+                handleSpeedWarningFeedback(oldValue: false, newValue: true)
+            }
+        }
         .onChange(of: laneMoveCueStyleRawValue) { _, _ in
             scene.setLaneMoveCueStyle(selectedLaneMoveCueStyle)
         }
         .onChange(of: scenePaused) { _, _ in
             attemptAutoPresentVoiceOverHelpIfNeeded()
+        }
+        .onChange(of: speedIncreaseImminent) { oldValue, newValue in
+            handleSpeedWarningFeedback(oldValue: oldValue, newValue: newValue)
         }
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
@@ -420,18 +439,69 @@ struct WatchGameView: View {
     }
 
     private var selectedLaneMoveCueStyle: LaneMoveCueStyle {
-        LaneMoveCueStyle.fromStoredValue(laneMoveCueStyleRawValue)
+        _ = laneMoveCueStyleRawValue
+        return LaneMoveCueStyle.currentSelection(from: InfrastructureDefaults.userDefaults)
+    }
+
+    private var selectedSoundEffectsVolume: Double {
+        SoundEffectsVolumePreference.currentSelection(from: InfrastructureDefaults.userDefaults)
+    }
+
+    private func handleSpeedWarningFeedback(oldValue: Bool, newValue: Bool) {
+        guard oldValue == false, newValue else { return }
+        let selectedMode = SpeedWarningFeedbackMode.currentSelection(from: InfrastructureDefaults.userDefaults)
+        makeSpeedWarningFeedbackPlayer {
+            scene.playSpeedIncreaseWarningSound()
+        }
+        .play(mode: selectedMode)
+    }
+
+    @ViewBuilder
+    private func makeInGameHelpView() -> some View {
+        let tutorialPreviewPlayer = AudioCueTutorialPreviewPlayer(
+            laneCuePlayer: PlatformFactories.makeLaneCuePlayer()
+        )
+        InGameHelpView(
+            controlsDescriptionKey: "settings_controls_watchos",
+            supportsHapticFeedback: true,
+            hapticController: watchHapticController,
+            audioCueTutorialPreviewPlayer: tutorialPreviewPlayer,
+            speedWarningFeedbackPreviewPlayer: makeSpeedWarningFeedbackPlayer {
+                tutorialPreviewPlayer.playSpeedWarningSound(volume: selectedSoundEffectsVolume)
+            }
+        )
+        .fontPreferenceStore(fontPreferenceStore)
+    }
+
+    private func makeSpeedWarningFeedbackPlayer(
+        playWarningSound: @escaping @MainActor @Sendable () -> Void
+    ) -> SpeedIncreaseWarningFeedbackPlayer {
+        SpeedIncreaseWarningFeedbackPlayer(
+            announcementPoster: AccessibilityAnnouncementPoster(),
+            hapticController: watchHapticController,
+            playWarningSound: playWarningSound,
+            announcementTextProvider: {
+                GameLocalizedStrings.string("speed_increase_announcement")
+            }
+        )
     }
 }
 
 private final class GameSceneDelegateImpl: GameSceneDelegate {
     let onScoreUpdate: (Int) -> Void
     let onCollision: () -> Void
+    let onLevelChangeImminent: (Bool) -> Void
     let onPauseStateChange: (Bool) -> Void
 
-    init(onScoreUpdate: @escaping (Int) -> Void, onCollision: @escaping () -> Void, onPauseStateChange: @escaping (Bool) -> Void = { _ in }) {
+    init(
+        onScoreUpdate: @escaping (Int) -> Void,
+        onCollision: @escaping () -> Void,
+        onLevelChangeImminent: @escaping (Bool) -> Void = { _ in },
+        onPauseStateChange: @escaping (Bool) -> Void = { _ in }
+    ) {
         self.onScoreUpdate = onScoreUpdate
         self.onCollision = onCollision
+        self.onLevelChangeImminent = onLevelChangeImminent
         self.onPauseStateChange = onPauseStateChange
     }
 
@@ -451,5 +521,9 @@ private final class GameSceneDelegateImpl: GameSceneDelegate {
 
     func gameScene(_ gameScene: GameScene, didAchieveNewHighScore score: Int) {
         // Watch high score handled in the view; no-op.
+    }
+
+    func gameScene(_ gameScene: GameScene, levelChangeImminent isImminent: Bool) {
+        onLevelChangeImminent(isImminent)
     }
 }
