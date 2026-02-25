@@ -259,29 +259,33 @@ public struct SettingsView: View {
                 }
 
                 Section {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Picker(selection: preferencesStore.speedWarningFeedbackSelection) {
-                            ForEach(preferencesStore.availableSpeedWarningFeedbackModes, id: \.self) { mode in
-                                Text(GameLocalizedStrings.string(mode.localizedNameKey))
-                                    .font(fontForLabels)
-                                    .tag(mode)
-                            }
-                        } label: {
-                            Text(GameLocalizedStrings.string("settings_speed_warning_feedback"))
+                    Picker(selection: preferencesStore.speedWarningFeedbackSelection) {
+                        ForEach(preferencesStore.availableSpeedWarningFeedbackModes, id: \.self) { mode in
+                            Text(GameLocalizedStrings.string(mode.localizedNameKey))
                                 .font(fontForLabels)
+                                .tag(mode)
                         }
-
-                        Button {
-                            speedWarningFeedbackPreviewPlayer.play(
-                                mode: preferencesStore.selectedSpeedWarningFeedbackMode
-                            )
-                        } label: {
-                            Text(GameLocalizedStrings.string("settings_speed_warning_feedback_preview_warning"))
-                                .font(fontForLabels)
-                        }
-                        .buttonStyle(.borderless)
-                        .disabled(preferencesStore.shouldEnableSpeedWarningPreview == false)
+                    } label: {
+                        Text(GameLocalizedStrings.string("settings_speed_warning_feedback"))
+                            .font(fontForLabels)
                     }
+
+                    Button {
+                        speedWarningFeedbackPreviewPlayer.play(
+                            mode: preferencesStore.selectedSpeedWarningFeedbackMode
+                        )
+                    } label: {
+                        Text(GameLocalizedStrings.string("settings_speed_warning_feedback_preview_warning"))
+                            .font(fontForLabels)
+                    }
+                    .buttonStyle(.borderless)
+                    .disabled(preferencesStore.shouldEnableSpeedWarningPreview == false)
+
+                    Toggle(isOn: preferencesStore.bigCarsSelection) {
+                        Text(GameLocalizedStrings.string("settings_big_cars"))
+                            .font(fontForLabels)
+                    }
+                    .tint(.accentColor)
                 } header: {
                     Text(GameLocalizedStrings.string("settings_accessibility"))
                         .font(fontForLabels)

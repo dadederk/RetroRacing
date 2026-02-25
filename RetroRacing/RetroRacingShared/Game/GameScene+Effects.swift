@@ -29,7 +29,14 @@ extension GameScene {
         return imageLoader.loadTexture(imageNamed: name, bundle: Self.sharedBundle)
     }
 
-    func addSprite(_ sprite: SKSpriteNode, toCell cell: SKShapeNode, row: Int, column: Int, accessibilityLabel: String? = nil) {
+    func addSprite(
+        _ sprite: SKSpriteNode,
+        toCell cell: SKShapeNode,
+        row: Int,
+        column: Int,
+        accessibilityLabel: String? = nil,
+        usesPlayerScale: Bool = false
+    ) {
         #if !os(watchOS)
         if let accessibilityLabel = accessibilityLabel {
             sprite.accessibilityLabel = accessibilityLabel
@@ -37,7 +44,12 @@ extension GameScene {
         }
         #endif
         let cellSize = cell.frame.size
-        let sizeFactor = CGFloat(gridState.numberOfRows - (gridState.numberOfRows - row - 1)) / CGFloat(gridState.numberOfRows)
+        let sizeFactor: CGFloat
+        if usesPlayerScale {
+            sizeFactor = 1.0
+        } else {
+            sizeFactor = CGFloat(gridState.numberOfRows - (gridState.numberOfRows - row - 1)) / CGFloat(gridState.numberOfRows)
+        }
         let spriteSize = CGSize(width: cellSize.width * sizeFactor, height: cellSize.height * sizeFactor)
 
         var horizontalTranslationFactor: CGFloat = 0.0

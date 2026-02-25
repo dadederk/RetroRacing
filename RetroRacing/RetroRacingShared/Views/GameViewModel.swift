@@ -31,6 +31,7 @@ final class GameViewModel {
     var selectedDifficulty: GameDifficulty
     var selectedAudioFeedbackMode: AudioFeedbackMode
     var selectedLaneMoveCueStyle: LaneMoveCueStyle
+    var selectedBigRivalCarsEnabled: Bool
     var shouldStartGame: Bool
 
     init(
@@ -44,6 +45,7 @@ final class GameViewModel {
         selectedDifficulty: GameDifficulty,
         selectedAudioFeedbackMode: AudioFeedbackMode,
         selectedLaneMoveCueStyle: LaneMoveCueStyle,
+        selectedBigRivalCarsEnabled: Bool,
         shouldStartGame: Bool
     ) {
         self.leaderboardService = leaderboardService
@@ -56,6 +58,7 @@ final class GameViewModel {
         self.selectedDifficulty = selectedDifficulty
         self.selectedAudioFeedbackMode = selectedAudioFeedbackMode
         self.selectedLaneMoveCueStyle = selectedLaneMoveCueStyle
+        self.selectedBigRivalCarsEnabled = selectedBigRivalCarsEnabled
         self.shouldStartGame = shouldStartGame
     }
 

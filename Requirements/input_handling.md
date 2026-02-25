@@ -28,6 +28,8 @@ RetroRacing captures platform-specific input at the UI layer and translates it i
 
 - **iOS/iPadOS**: Touch areas + drag gestures (see `TouchGameInputAdapter`).
   - Touch-area taps use `onTapGesture` and horizontal swipes use a `DragGesture` threshold (`20pt`) for lane gestures.
+  - Voice Control aliases on touch regions are ordered as `Left`, `Move left` and `Right`, `Move right` to support short commands like “Tap left/right”.
+  - HUD status labels and SpriteKit grid/cars are non-interactive in Voice Control so command targeting stays limited to gameplay controls.
   - VoiceOver Magic Tap maps to the same pause/resume toggle used by the in-game pause control.
 - **tvOS**: Remote swipe input via `RemoteGameInputAdapter`.
 - **macOS**:

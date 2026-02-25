@@ -57,6 +57,7 @@ public class GameScene: SKScene {
     public var hapticController: HapticFeedbackController?
     public private(set) var audioFeedbackMode: AudioFeedbackMode = .defaultMode
     public private(set) var laneMoveCueStyle: LaneMoveCueStyle = .defaultStyle
+    public private(set) var bigRivalCarsEnabled = false
 
     private var initialDtForGameUpdate = 0.6
     private var lastGameUpdateTime: TimeInterval = 0
@@ -114,7 +115,8 @@ public class GameScene: SKScene {
         hapticController: HapticFeedbackController?,
         audioFeedbackMode: AudioFeedbackMode,
         laneMoveCueStyle: LaneMoveCueStyle,
-        difficulty: GameDifficulty
+        difficulty: GameDifficulty,
+        bigRivalCarsEnabled: Bool = false
     ) {
         super.init(size: size)
         self.theme = theme
@@ -124,6 +126,7 @@ public class GameScene: SKScene {
         self.hapticController = hapticController
         self.audioFeedbackMode = audioFeedbackMode
         self.laneMoveCueStyle = laneMoveCueStyle
+        self.bigRivalCarsEnabled = bigRivalCarsEnabled
         applyDifficulty(difficulty)
     }
 
@@ -161,7 +164,8 @@ public class GameScene: SKScene {
         laneCuePlayer: LaneCuePlayer? = nil,
         hapticController: HapticFeedbackController? = nil,
         audioFeedbackMode: AudioFeedbackMode = .defaultMode,
-        laneMoveCueStyle: LaneMoveCueStyle = .defaultStyle
+        laneMoveCueStyle: LaneMoveCueStyle = .defaultStyle,
+        bigRivalCarsEnabled: Bool = false
     ) -> GameScene {
         let scene = GameScene(
             size: size,
@@ -172,7 +176,8 @@ public class GameScene: SKScene {
             hapticController: hapticController,
             audioFeedbackMode: audioFeedbackMode,
             laneMoveCueStyle: laneMoveCueStyle,
-            difficulty: difficulty
+            difficulty: difficulty,
+            bigRivalCarsEnabled: bigRivalCarsEnabled
         )
         scene.anchorPoint = CGPoint(x: 0, y: 0)
         scene.scaleMode = .aspectFit
@@ -188,7 +193,8 @@ public class GameScene: SKScene {
         laneCuePlayer: LaneCuePlayer? = nil,
         hapticController: HapticFeedbackController? = nil,
         audioFeedbackMode: AudioFeedbackMode = .defaultMode,
-        laneMoveCueStyle: LaneMoveCueStyle = .defaultStyle
+        laneMoveCueStyle: LaneMoveCueStyle = .defaultStyle,
+        bigRivalCarsEnabled: Bool = false
     ) -> GameScene {
         let defaultSize = CGSize(width: 800, height: 600)
         return scene(
@@ -200,7 +206,8 @@ public class GameScene: SKScene {
             laneCuePlayer: laneCuePlayer,
             hapticController: hapticController,
             audioFeedbackMode: audioFeedbackMode,
-            laneMoveCueStyle: laneMoveCueStyle
+            laneMoveCueStyle: laneMoveCueStyle,
+            bigRivalCarsEnabled: bigRivalCarsEnabled
         )
     }
 
@@ -400,6 +407,17 @@ public class GameScene: SKScene {
 
     public func setLaneMoveCueStyle(_ style: LaneMoveCueStyle) {
         laneMoveCueStyle = style
+    }
+
+    public func setBigRivalCarsEnabled(_ enabled: Bool) {
+        guard bigRivalCarsEnabled != enabled else { return }
+        bigRivalCarsEnabled = enabled
+        guard hasConfiguredScene else { return }
+        gridStateDidUpdate(
+            gridState,
+            shouldPlayFeedback: false,
+            notifyDelegate: false
+        )
     }
 
     /// Plays the speed-warning chirp (three ascending lane notes).

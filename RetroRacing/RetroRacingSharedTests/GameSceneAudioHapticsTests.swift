@@ -331,6 +331,54 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         XCTAssertEqual(scene.size, CGSize(width: 300, height: 300))
     }
 
+    func testGivenBigCarsDisabledWhenRenderingRivalThenRivalUsesPerspectiveScale() {
+        // Given
+        scene.setBigRivalCarsEnabled(false)
+        scene.gridState.grid = [
+            [.Car, .Empty, .Empty],
+            [.Empty, .Empty, .Empty],
+            [.Empty, .Empty, .Empty],
+            [.Empty, .Empty, .Empty],
+            [.Empty, .Player, .Empty]
+        ]
+
+        // When
+        scene.gridStateDidUpdate(scene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
+        let rivalSize = spriteSize(column: 0, row: 0)
+        let playerSize = spriteSize(column: 1, row: 4)
+
+        // Then
+        guard let rivalSize, let playerSize else {
+            XCTFail("Expected rival and player sprites to be rendered")
+            return
+        }
+        XCTAssertLessThan(rivalSize.width, playerSize.width)
+    }
+
+    func testGivenBigCarsEnabledWhenRenderingRivalThenRivalMatchesPlayerScale() {
+        // Given
+        scene.setBigRivalCarsEnabled(true)
+        scene.gridState.grid = [
+            [.Car, .Empty, .Empty],
+            [.Empty, .Empty, .Empty],
+            [.Empty, .Empty, .Empty],
+            [.Empty, .Empty, .Empty],
+            [.Empty, .Player, .Empty]
+        ]
+
+        // When
+        scene.gridStateDidUpdate(scene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
+        let rivalSize = spriteSize(column: 0, row: 0)
+        let playerSize = spriteSize(column: 1, row: 4)
+
+        // Then
+        guard let rivalSize, let playerSize else {
+            XCTFail("Expected rival and player sprites to be rendered")
+            return
+        }
+        XCTAssertGreaterThanOrEqual(rivalSize.width, playerSize.width)
+    }
+
     func testGivenRunningSceneWhenPausingGameplayThenDelegateReceivesPausedState() {
         // Given
 
@@ -486,6 +534,11 @@ final class GameSceneAudioHapticsTests: XCTestCase {
             try? await Task.sleep(for: .milliseconds(10))
         }
         return scene.gameState.isPaused == false
+    }
+
+    private func spriteSize(column: Int, row: Int) -> CGSize? {
+        let cell = scene.gridCell(column: column, row: row)
+        return cell.children.compactMap { $0 as? SKSpriteNode }.first?.frame.size
     }
 }
 

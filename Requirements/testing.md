@@ -28,6 +28,10 @@ If local signing blocks simulator/macOS verification, run with `CODE_SIGNING_ALL
 - Accessibility speed warning feedback mode behavior (announcement vs warning haptic vs warning sound vs none)
 - Speed warning default resolver matrix (VoiceOver/capability aware) and override precedence
 - Accessibility announcement utility routing (`AccessibilityNotification.Announcement`, high-priority speed warning)
+- Paused VoiceOver grid accessibility descriptors (row-major order and occupant/coordinate labels)
+- VoiceOver/Voice Control scope in gameplay (score/lives exposed as read-only status, cars/HUD not treated as interactive controls)
+- Portrait Dynamic Type HUD reflow (adaptive score/lives stack and non-overlapping directional controls)
+- Big Cars conditional-default behavior and rival-car sprite scaling mode
 - Settings migration coverage (`inGameAnnouncementsEnabled` -> speed warning selector, `sfxVolume` -> conditional default)
 - Generated SFX behavior (recipe rendering, fail-tail repeat tuning, fallback routing to asset playback)
 - Difficulty timing behavior (clear pacing separation for cruise/fast/rapid and conditional-default wiring)

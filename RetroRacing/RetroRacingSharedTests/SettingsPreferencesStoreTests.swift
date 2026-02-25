@@ -1,4 +1,5 @@
 import XCTest
+import SwiftUI
 @testable import RetroRacingShared
 
 @MainActor
@@ -97,6 +98,32 @@ final class SettingsPreferencesStoreTests: XCTestCase {
 
         // Then
         XCTAssertEqual(store.selectedLaneMoveCueStyle, .laneConfirmationAndSafety)
+    }
+
+    func testGivenBigCarsDisabledWhenSettingOverrideThenSelectionPersists() {
+        // Given
+        let store = makeStore()
+        store.loadIfNeeded()
+
+        // When
+        store.setBigCarsEnabled(true)
+        let reloadedStore = makeStore()
+        reloadedStore.loadIfNeeded()
+
+        // Then
+        XCTAssertTrue(reloadedStore.selectedBigCarsEnabled)
+    }
+
+    func testGivenBigCarsBindingWhenSettingTrueThenStoreUsesOverride() {
+        // Given
+        let store = makeStore()
+        store.loadIfNeeded()
+
+        // When
+        store.bigCarsSelection.wrappedValue = true
+
+        // Then
+        XCTAssertTrue(store.selectedBigCarsEnabled)
     }
 
     func testGivenSelectedAndConfiguredValuesWhenResolvingTutorialApplyStateThenConfiguredLabelIsReturned() {

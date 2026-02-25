@@ -13,6 +13,7 @@ public final class SettingsPreferencesStore {
     private var audioFeedbackModeConditionalDefault: ConditionalDefault<AudioFeedbackMode> = ConditionalDefault()
     private var speedWarningFeedbackConditionalDefault: ConditionalDefault<SpeedWarningFeedbackMode> = ConditionalDefault()
     private var soundEffectsVolumeConditionalDefault: ConditionalDefault<SoundEffectsVolumeSetting> = ConditionalDefault()
+    private var bigCarsConditionalDefault: ConditionalDefault<BigCarsSetting> = ConditionalDefault()
     private var laneMoveCueStyleRawValue: String = LaneMoveCueStyle.defaultStyle.rawValue
     private var hasLoaded = false
 
@@ -54,6 +55,10 @@ public final class SettingsPreferencesStore {
             from: userDefaults,
             key: SoundEffectsVolumeSetting.conditionalDefaultStorageKey
         )
+        bigCarsConditionalDefault = ConditionalDefault<BigCarsSetting>.load(
+            from: userDefaults,
+            key: BigCarsSetting.conditionalDefaultStorageKey
+        )
         laneMoveCueStyleRawValue = userDefaults.string(forKey: LaneMoveCueStyle.storageKey)
             ?? LaneMoveCueStyle.defaultStyle.rawValue
     }
@@ -93,6 +98,13 @@ public final class SettingsPreferencesStore {
         )
     }
 
+    public var bigCarsSelection: Binding<Bool> {
+        Binding(
+            get: { self.selectedBigCarsEnabled },
+            set: { self.setBigCarsEnabled($0) }
+        )
+    }
+
     public var selectedDifficulty: GameDifficulty {
         difficultyConditionalDefault.effectiveValue
     }
@@ -119,6 +131,10 @@ public final class SettingsPreferencesStore {
 
     public var selectedSoundEffectsVolume: Double {
         soundEffectsVolumeConditionalDefault.effectiveValue.value
+    }
+
+    public var selectedBigCarsEnabled: Bool {
+        bigCarsConditionalDefault.effectiveValue.isEnabled
     }
 
     public var shouldShowAudioCueTutorial: Bool {
@@ -180,6 +196,16 @@ public final class SettingsPreferencesStore {
         soundEffectsVolumeConditionalDefault.save(
             to: userDefaults,
             key: SoundEffectsVolumeSetting.conditionalDefaultStorageKey
+        )
+    }
+
+    public func setBigCarsEnabled(_ isEnabled: Bool) {
+        bigCarsConditionalDefault.setUserOverride(
+            BigCarsSetting(isEnabled: isEnabled)
+        )
+        bigCarsConditionalDefault.save(
+            to: userDefaults,
+            key: BigCarsSetting.conditionalDefaultStorageKey
         )
     }
 }

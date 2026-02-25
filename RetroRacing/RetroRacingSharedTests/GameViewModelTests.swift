@@ -35,6 +35,7 @@ final class GameViewModelTests: XCTestCase {
             selectedDifficulty: .rapid,
             selectedAudioFeedbackMode: .retro,
             selectedLaneMoveCueStyle: .laneConfirmationAndSafety,
+            selectedBigRivalCarsEnabled: false,
             shouldStartGame: true
         )
     }

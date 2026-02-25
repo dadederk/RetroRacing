@@ -52,12 +52,13 @@ public struct GameView: View {
     @AppStorage(GameDifficulty.conditionalDefaultStorageKey) private var difficultyStorageData: Data = Data()
     @AppStorage(AudioFeedbackMode.conditionalDefaultStorageKey) private var audioFeedbackModeStorageData: Data = Data()
     @AppStorage(LaneMoveCueStyle.storageKey) private var laneMoveCueStyleRawValue: String = LaneMoveCueStyle.defaultStyle.rawValue
+    @AppStorage(BigCarsSetting.conditionalDefaultStorageKey) private var bigCarsData: Data = Data()
     @AppStorage(SpeedWarningFeedbackMode.conditionalDefaultStorageKey)
     private var speedWarningFeedbackModeData: Data = Data()
     @AppStorage(VoiceOverTutorialPreference.hasSeenInGameVoiceOverTutorialKey)
     private var hasSeenInGameVoiceOverTutorial: Bool = VoiceOverTutorialPreference.defaultHasSeenInGameVoiceOverTutorial
     @State private var model: GameViewModel
-    @ScaledMetric(relativeTo: .body) private var directionButtonHeight: CGFloat = 120
+    @ScaledMetric(relativeTo: .largeTitle) private var directionButtonHeight: CGFloat = 120
     @Environment(\.dismiss) private var dismiss
     @Environment(StoreKitService.self) private var storeKit
     @State private var isPaywallPresented = false
@@ -108,6 +109,7 @@ public struct GameView: View {
         let selectedDifficulty = GameDifficulty.currentSelection(from: InfrastructureDefaults.userDefaults)
         let selectedAudioFeedbackMode = AudioFeedbackMode.currentSelection(from: InfrastructureDefaults.userDefaults)
         let selectedLaneMoveCueStyle = LaneMoveCueStyle.currentSelection(from: InfrastructureDefaults.userDefaults)
+        let selectedBigRivalCarsEnabled = BigCarsPreference.currentSelection(from: InfrastructureDefaults.userDefaults)
         _model = State(initialValue: GameViewModel(
             leaderboardService: leaderboardService,
             ratingService: ratingService,
@@ -119,6 +121,7 @@ public struct GameView: View {
             selectedDifficulty: selectedDifficulty,
             selectedAudioFeedbackMode: selectedAudioFeedbackMode,
             selectedLaneMoveCueStyle: selectedLaneMoveCueStyle,
+            selectedBigRivalCarsEnabled: selectedBigRivalCarsEnabled,
             shouldStartGame: shouldStartGame
         ))
     }
@@ -134,6 +137,7 @@ public struct GameView: View {
                     showSpeedAlert: model.hud.speedIncreaseImminent,
                     lifeAssetName: theme?.lifeSprite() ?? "life",
                     bundle: Self.sharedBundle,
+                    hideHUDFromAccessibility: false,
                     leftButtonDown: model.controls.leftButtonDown,
                     rightButtonDown: model.controls.rightButtonDown,
                     directionButtonHeight: directionButtonHeight,
@@ -151,7 +155,15 @@ public struct GameView: View {
                     },
                     gameArea: { _ in
                         if let scene = model.scene {
-                            SpriteView(scene: scene)
+                            ZStack {
+                                SpriteView(scene: scene)
+                                    .allowsHitTesting(false)
+                                    .accessibilityHidden(true)
+                                    .accessibilityRespondsToUserInteraction(false)
+                                if isPausedGridExplorationMode {
+                                    PausedGridAccessibilityOverlay(gridState: scene.gridState)
+                                }
+                            }
                         } else {
                             Color(red: 202/255, green: 220/255, blue: 159/255)
                         }
@@ -160,7 +172,9 @@ public struct GameView: View {
                 GameInputOverlay(
                     onLeftTap: handleLeftTap,
                     onRightTap: handleRightTap,
-                    onDrag: handleDrag
+                    onDrag: handleDrag,
+                    isInputEnabled: !isPausedGridExplorationMode,
+                    isAccessibilityEnabled: !isPausedGridExplorationMode
                 )
             }
         }
@@ -188,6 +202,7 @@ public struct GameView: View {
             model.updateDifficulty(selectedDifficulty)
             model.updateAudioFeedbackMode(selectedAudioFeedbackMode)
             model.updateLaneMoveCueStyle(selectedLaneMoveCueStyle)
+            model.updateBigRivalCarsEnabled(selectedBigRivalCarsEnabled)
             if let overlayBinding = isMenuOverlayPresented {
                 AppLog.info(AppLog.game, "GameView onAppear - overlay presented: \(overlayBinding.wrappedValue)")
                 model.setOverlayPause(isPresented: overlayBinding.wrappedValue)
@@ -213,6 +228,7 @@ public struct GameView: View {
                         .font(pauseButtonFont)
                     }
                     .accessibilityLabel(GameLocalizedStrings.string("menu_button"))
+                    .accessibilityHidden(shouldHideGameplayChromeFromAccessibility)
                     .disabled(toolbarControlsDisabled)
                     .opacity(toolbarControlsDisabled ? 0.4 : 1)
                 }
@@ -228,6 +244,7 @@ public struct GameView: View {
                     .font(pauseButtonFont)
                 }
                 .accessibilityLabel(GameLocalizedStrings.string("tutorial_help_button"))
+                .accessibilityHidden(shouldHideGameplayChromeFromAccessibility)
                 .disabled(toolbarControlsDisabled)
                 .opacity(toolbarControlsDisabled ? 0.4 : 1)
                 
@@ -241,6 +258,7 @@ public struct GameView: View {
                     .font(pauseButtonFont)
                 }
                 .accessibilityLabel(GameLocalizedStrings.string(model.pause.isUserPaused ? "resume" : "pause"))
+                .accessibilityHidden(shouldHideGameplayChromeFromAccessibility)
                 .disabled(model.pauseButtonDisabled || toolbarControlsDisabled)
                 .opacity((model.pauseButtonDisabled || toolbarControlsDisabled) ? 0.4 : 1)
             }
@@ -279,6 +297,9 @@ public struct GameView: View {
         }
         .onChange(of: laneMoveCueStyleRawValue) { _, _ in
             model.updateLaneMoveCueStyle(selectedLaneMoveCueStyle)
+        }
+        .onChange(of: bigCarsData) { _, _ in
+            model.updateBigRivalCarsEnabled(selectedBigRivalCarsEnabled)
         }
         .onChange(of: speedWarningFeedbackModeData) { _, _ in
             if model.hud.speedIncreaseImminent {
@@ -342,8 +363,24 @@ public struct GameView: View {
         return LaneMoveCueStyle.currentSelection(from: InfrastructureDefaults.userDefaults)
     }
 
+    private var selectedBigRivalCarsEnabled: Bool {
+        BigCarsPreference.currentSelection(from: InfrastructureDefaults.userDefaults)
+    }
+
     private var hasScene: Bool {
         model.scene != nil
+    }
+
+    private var isVoiceOverRunning: Bool {
+        VoiceOverStatus.isVoiceOverRunning
+    }
+
+    private var shouldHideGameplayChromeFromAccessibility: Bool {
+        isVoiceOverRunning
+    }
+
+    private var isPausedGridExplorationMode: Bool {
+        isVoiceOverRunning && model.pause.scenePaused
     }
 
     private var toolbarControlsDisabled: Bool {

@@ -15,6 +15,7 @@ struct GameLayoutView<GameArea: View>: View {
     let showSpeedAlert: Bool
     let lifeAssetName: String
     let bundle: Bundle
+    let hideHUDFromAccessibility: Bool
     let leftButtonDown: Bool
     let rightButtonDown: Bool
     let directionButtonHeight: CGFloat
@@ -31,7 +32,9 @@ struct GameLayoutView<GameArea: View>: View {
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Environment(\.verticalSizeClass) private var verticalSizeClass
     #endif
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @ScaledMetric(relativeTo: .body) private var speedAlertIconMinHeight: CGFloat = 56
+    @ScaledMetric(relativeTo: .body) private var lifeIconScale: CGFloat = 1.0
 
     var body: some View {
         ZStack(alignment: .bottomLeading) {
@@ -60,20 +63,37 @@ struct GameLayoutView<GameArea: View>: View {
     }
 
     private var portraitLayout: some View {
-        ZStack(alignment: .top) {
-            VStack(spacing: 0) {
-                Spacer()
-                gameAreaWithFullScreenTouch
-                directionButtonsRow
-                Spacer()
-            }
-            HStack {
-                headerScoreLabel
-                Spacer()
-                headerLivesView
-            }
-            .padding(style.headerPadding)
+        VStack(spacing: 8) {
+            portraitHeader
+
+            gameAreaWithFullScreenTouch
+                .frame(maxWidth: .infinity)
+                .layoutPriority(1)
+
+            directionButtonsArea
         }
+    }
+
+    private var portraitHeader: some View {
+        Group {
+            if shouldUseVerticalPortraitHeader {
+                AdaptiveStack {
+                    headerScoreLabel
+                    headerLivesView
+                }
+            } else {
+                HStack {
+                    headerScoreLabel
+                    Spacer()
+                    headerLivesView
+                }
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.horizontal, style.headerPadding)
+        .padding(.top, style.headerPadding)
+        .padding(.bottom, 4)
+        .allowsHitTesting(false)
     }
 
     private var landscapeLayout: some View {
@@ -120,7 +140,13 @@ struct GameLayoutView<GameArea: View>: View {
             .font(headerFont)
             .foregroundStyle(.primary)
             .shadow(color: Color.primary.opacity(0.35), radius: 0.5)
+            .lineLimit(nil)
+            .fixedSize(horizontal: false, vertical: true)
+            .multilineTextAlignment(.leading)
             .accessibilityLabel(GameLocalizedStrings.format("score %lld", score))
+            .accessibilityAddTraits(.isStaticText)
+            .accessibilityRespondsToUserInteraction(false)
+            .accessibilityHidden(hideHUDFromAccessibility)
     }
 
     private var headerLivesView: some View {
@@ -128,7 +154,10 @@ struct GameLayoutView<GameArea: View>: View {
             Image(lifeAssetName, bundle: bundle)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(width: style.lifeIconSize, height: style.lifeIconSize)
+                .frame(
+                    width: style.lifeIconSize * lifeIconScale,
+                    height: style.lifeIconSize * lifeIconScale
+                )
                 .accessibilityHidden(true)
             Text(GameLocalizedStrings.format("lives_count", lives))
                 .font(headerFont)
@@ -137,6 +166,9 @@ struct GameLayoutView<GameArea: View>: View {
         }
         .accessibilityElement(children: .combine)
         .accessibilityLabel(accessibilityLivesLabel)
+        .accessibilityAddTraits(.isStaticText)
+        .accessibilityRespondsToUserInteraction(false)
+        .accessibilityHidden(hideHUDFromAccessibility)
     }
 
     private func directionButtonImage(isLeft: Bool) -> some View {
@@ -145,16 +177,27 @@ struct GameLayoutView<GameArea: View>: View {
         return Image(name, bundle: bundle)
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .frame(maxWidth: .infinity, maxHeight: directionButtonHeight)
+            .frame(maxWidth: .infinity, maxHeight: directionButtonHeight, alignment: .center)
             .allowsHitTesting(false)
             .accessibilityHidden(true)
     }
 
+    private var directionButtonsArea: some View {
+        directionButtonsRow
+            .frame(
+                maxWidth: .infinity,
+                minHeight: directionButtonHeight,
+                maxHeight: .infinity,
+                alignment: .center
+            )
+    }
+
     private var directionButtonsRow: some View {
-        HStack(spacing: 0) {
+        HStack(alignment: .center, spacing: 0) {
             directionButtonImage(isLeft: true)
             directionButtonImage(isLeft: false)
         }
+        .frame(height: directionButtonHeight, alignment: .center)
     }
 
     private var speedAlertView: some View {
@@ -176,6 +219,8 @@ struct GameLayoutView<GameArea: View>: View {
         .padding(12)
         .accessibilityElement(children: .combine)
         .accessibilityLabel(combinedSpeedAlertAccessibilityLabel)
+        .accessibilityRespondsToUserInteraction(false)
+        .accessibilityHidden(hideHUDFromAccessibility)
     }
 
     private var speedAlertImage: some View {
@@ -195,6 +240,10 @@ struct GameLayoutView<GameArea: View>: View {
 
     private var combinedSpeedAlertAccessibilityLabel: String {
         GameLocalizedStrings.string("speed_increase_announcement")
+    }
+
+    private var shouldUseVerticalPortraitHeader: Bool {
+        dynamicTypeSize.isAccessibilitySize || dynamicTypeSize >= .xxLarge
     }
 
     private var accessibilityLivesLabel: String {

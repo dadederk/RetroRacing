@@ -118,7 +118,15 @@ extension GameScene {
                 let cell = gridCell(column: column, row: row)
 
                 switch cellState {
-                case .Car: addSprite(spriteNode(imageNamed: theme?.rivalCarSprite() ?? "rivalsCar-LCD"), toCell: cell, row: row, column: column, accessibilityLabel: GameLocalizedStrings.string("rival_car"))
+                case .Car:
+                    addSprite(
+                        spriteNode(imageNamed: theme?.rivalCarSprite() ?? "rivalsCar-LCD"),
+                        toCell: cell,
+                        row: row,
+                        column: column,
+                        accessibilityLabel: GameLocalizedStrings.string("rival_car"),
+                        usesPlayerScale: bigRivalCarsEnabled
+                    )
                 case .Player: addSprite(spriteNode(imageNamed: theme?.playerCarSprite() ?? "playersCar-LCD"), toCell: cell, row: row, column: column, accessibilityLabel: GameLocalizedStrings.string("player_car"))
                 case .Crash:
                     let crashSprite = spriteNode(imageNamed: theme?.crashSprite() ?? "crash-LCD")

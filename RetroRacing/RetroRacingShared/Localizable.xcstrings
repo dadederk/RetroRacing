@@ -1358,6 +1358,29 @@
         }
       }
     },
+    "grid_cell_label %@ (%lld, %lld)": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ (%lld, %lld)"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ (%lld, %lld)"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ (%lld, %lld)"
+          }
+        }
+      }
+    },
     "leaderboard": {
       "extractionState": "manual",
       "localizations": {
@@ -1515,6 +1538,29 @@
           "stringUnit": {
             "state": "translated",
             "value": "Doble toque para mover el coche a la derecha"
+          }
+        }
+      }
+    },
+    "no_car": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cap cotxe"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No car"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sin coche"
           }
         }
       }
@@ -2574,6 +2620,29 @@
           "stringUnit": {
             "state": "translated",
             "value": "Accesibilidad"
+          }
+        }
+      }
+    },
+    "settings_big_cars": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cotxes grans"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Big Cars"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Coches grandes"
           }
         }
       }
