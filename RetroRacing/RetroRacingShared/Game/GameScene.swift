@@ -595,30 +595,25 @@ public protocol GameInputAdapter {
     func handleDrag(translation: CGSize)
 }
 
-public struct TouchGameInputAdapter: GameInputAdapter {
-    private let controller: RacingGameController
-    private let hapticController: HapticFeedbackController?
+private struct DirectionalGameInputAdapterCore {
+    let controller: RacingGameController
+    let hapticController: HapticFeedbackController?
 
-    public init(controller: RacingGameController, hapticController: HapticFeedbackController?) {
-        self.controller = controller
-        self.hapticController = hapticController
-    }
-
-    public func handleLeft() {
+    func handleLeft() {
         if shouldUseSceneManagedMoveHaptics == false {
             hapticController?.triggerMoveHaptic()
         }
         controller.moveLeft()
     }
 
-    public func handleRight() {
+    func handleRight() {
         if shouldUseSceneManagedMoveHaptics == false {
             hapticController?.triggerMoveHaptic()
         }
         controller.moveRight()
     }
 
-    public func handleDrag(translation: CGSize) {
+    func handleDrag(translation: CGSize) {
         guard translation.width != 0 else { return }
         translation.width < 0 ? handleLeft() : handleRight()
     }
@@ -630,38 +625,49 @@ public struct TouchGameInputAdapter: GameInputAdapter {
     }
 }
 
-public struct RemoteGameInputAdapter: GameInputAdapter {
-    private let controller: RacingGameController
-    private let hapticController: HapticFeedbackController?
+public struct TouchGameInputAdapter: GameInputAdapter {
+    private let core: DirectionalGameInputAdapterCore
 
     public init(controller: RacingGameController, hapticController: HapticFeedbackController?) {
-        self.controller = controller
-        self.hapticController = hapticController
+        self.core = DirectionalGameInputAdapterCore(
+            controller: controller,
+            hapticController: hapticController
+        )
     }
 
     public func handleLeft() {
-        if shouldUseSceneManagedMoveHaptics == false {
-            hapticController?.triggerMoveHaptic()
-        }
-        controller.moveLeft()
+        core.handleLeft()
     }
 
     public func handleRight() {
-        if shouldUseSceneManagedMoveHaptics == false {
-            hapticController?.triggerMoveHaptic()
-        }
-        controller.moveRight()
+        core.handleRight()
     }
 
     public func handleDrag(translation: CGSize) {
-        guard translation.width != 0 else { return }
-        translation.width < 0 ? handleLeft() : handleRight()
+        core.handleDrag(translation: translation)
+    }
+}
+
+public struct RemoteGameInputAdapter: GameInputAdapter {
+    private let core: DirectionalGameInputAdapterCore
+
+    public init(controller: RacingGameController, hapticController: HapticFeedbackController?) {
+        self.core = DirectionalGameInputAdapterCore(
+            controller: controller,
+            hapticController: hapticController
+        )
     }
 
-    private var shouldUseSceneManagedMoveHaptics: Bool {
-        guard let scene = controller as? GameScene else { return false }
-        guard scene.audioFeedbackMode != .retro else { return false }
-        return scene.laneMoveCueStyle == .haptics
+    public func handleLeft() {
+        core.handleLeft()
+    }
+
+    public func handleRight() {
+        core.handleRight()
+    }
+
+    public func handleDrag(translation: CGSize) {
+        core.handleDrag(translation: translation)
     }
 }
 

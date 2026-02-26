@@ -7,8 +7,10 @@
 
 import SwiftUI
 import Observation
-#if canImport(UIKit) && !os(watchOS)
+#if canImport(GameKit) && !os(watchOS)
 import GameKit
+#endif
+#if canImport(UIKit) && !os(watchOS)
 import UIKit
 #endif
 
@@ -24,10 +26,10 @@ final class MenuAuthModel {
 
     var authState: AuthState = .idle
     var authError: String?
+    private var authTimeoutTask: Task<Void, Never>?
 
     #if canImport(UIKit) && !os(watchOS)
     var authViewControllerToPresent: UIViewController?
-    private var authTimeoutTask: Task<Void, Never>?
     #endif
 
     private let gameCenterService: GameCenterService
@@ -60,7 +62,11 @@ final class MenuAuthModel {
             self?.authViewControllerToPresent = viewController
         }
     }
+    #else
+    func configurePresentationHandler() { }
+    #endif
 
+    #if canImport(GameKit) && !os(watchOS)
     /// Presents Game Center leaderboard using the modern access point trigger without showing an empty modal.
     func presentLeaderboard(leaderboardID: String) {
         GKAccessPoint.shared.trigger(
@@ -120,7 +126,6 @@ final class MenuAuthModel {
         authTimeoutTask = nil
     }
     #else
-    func configurePresentationHandler() { }
     func presentLeaderboard(leaderboardID: String) { }
     func startAuthentication(startedByUser: Bool) { }
     func refreshAuthState() { }

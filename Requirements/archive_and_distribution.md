@@ -29,6 +29,13 @@ You then upload **both** archives to the same app version in App Store Connect.
 4. **Distribute App** → App Store Connect → upload. This adds the **Mac** build to your app version.
 5. In App Store Connect, the same version will then show both an **iOS** build (from the iOS archive) and a **Mac** build (from this archive).
 
+**Required Info.plist key for Mac uploads:**
+
+- App Store Connect rejects Mac archives that do not define `LSApplicationCategoryType`.
+- Configure `RetroRacingUniversal` to generate this key for macOS builds:
+  - `"INFOPLIST_KEY_LSApplicationCategoryType[sdk=macosx*]" = "public.app-category.games"`
+- Keep it SDK-scoped to `macosx*` so iOS/watchOS payloads remain unchanged.
+
 So: **one archive per platform**. To have both iOS+watchOS and macOS, you do **two archives** and **two uploads** (or add the second build to the same version).
 
 ---

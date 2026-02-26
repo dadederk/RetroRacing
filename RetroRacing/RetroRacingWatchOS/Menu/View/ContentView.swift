@@ -5,7 +5,6 @@ struct ContentView: View {
     let themeManager: ThemeManager
     let fontPreferenceStore: FontPreferenceStore
     let highestScoreStore: HighestScoreStore
-    let crownConfiguration: LegacyCrownInputProcessor.Configuration
     let leaderboardService: LeaderboardService
     @State private var showGame = false
     @State private var gameID = 0
@@ -31,7 +30,6 @@ struct ContentView: View {
                     theme: themeManager.currentTheme,
                     fontPreferenceStore: fontPreferenceStore,
                     highestScoreStore: highestScoreStore,
-                    crownConfiguration: crownConfiguration,
                     leaderboardService: leaderboardService
                 )
                 .id(gameID)
@@ -93,7 +91,6 @@ struct ContentView: View {
             customFontAvailable: true
         ),
         highestScoreStore: UserDefaultsHighestScoreStore(userDefaults: InfrastructureDefaults.userDefaults),
-        crownConfiguration: .watchLegacy,
         leaderboardService: PreviewLeaderboardService()
     )
 }

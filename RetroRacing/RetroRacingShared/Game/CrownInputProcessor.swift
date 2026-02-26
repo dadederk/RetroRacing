@@ -13,7 +13,7 @@ public enum CrownInputAction: Equatable, Sendable {
     case moveRight
 }
 
-public struct LegacyCrownInputProcessor: Sendable {
+public struct CrownInputProcessor: Sendable {
     public struct Configuration: Sendable {
         public let rotationThreshold: Double
 
@@ -48,3 +48,6 @@ public struct LegacyCrownInputProcessor: Sendable {
         accumulatedDelta = 0
     }
 }
+
+@available(*, deprecated, renamed: "CrownInputProcessor")
+public typealias LegacyCrownInputProcessor = CrownInputProcessor

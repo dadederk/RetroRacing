@@ -9,7 +9,6 @@ struct WatchGameView: View {
     let theme: any GameTheme
     let fontPreferenceStore: FontPreferenceStore?
     let highestScoreStore: HighestScoreStore
-    let crownConfiguration: LegacyCrownInputProcessor.Configuration
     let leaderboardService: LeaderboardService
     @AppStorage(GameDifficulty.conditionalDefaultStorageKey) private var difficultyStorageData: Data = Data()
     @AppStorage(SoundEffectsVolumeSetting.conditionalDefaultStorageKey)
@@ -22,7 +21,7 @@ struct WatchGameView: View {
     private var hasSeenInGameVoiceOverTutorial: Bool = VoiceOverTutorialPreference.defaultHasSeenInGameVoiceOverTutorial
     @State private var scene: GameScene
     @State private var crownValue: Double = 0
-    @State private var crownProcessor: LegacyCrownInputProcessor
+    @State private var crownProcessor: CrownInputProcessor
     @State private var crownIdleTask: Task<Void, Never>?
     @State private var score: Int = 0
     @State private var lives: Int = 3
@@ -61,13 +60,11 @@ struct WatchGameView: View {
         theme: any GameTheme,
         fontPreferenceStore: FontPreferenceStore? = nil,
         highestScoreStore: HighestScoreStore,
-        crownConfiguration: LegacyCrownInputProcessor.Configuration,
         leaderboardService: LeaderboardService
     ) {
         self.theme = theme
         self.fontPreferenceStore = fontPreferenceStore
         self.highestScoreStore = highestScoreStore
-        self.crownConfiguration = crownConfiguration
         self.leaderboardService = leaderboardService
         let initialDifficulty = GameDifficulty.currentSelection(from: InfrastructureDefaults.userDefaults)
         let initialAudioFeedbackMode = AudioFeedbackMode.currentSelection(from: InfrastructureDefaults.userDefaults)
@@ -91,7 +88,7 @@ struct WatchGameView: View {
             laneMoveCueStyle: initialLaneMoveCueStyle
         ))
         _watchHapticController = State(initialValue: hapticController)
-        _crownProcessor = State(initialValue: LegacyCrownInputProcessor(configuration: crownConfiguration))
+        _crownProcessor = State(initialValue: CrownInputProcessor(configuration: .watchLegacy))
     }
 
     private func headerFont(size: CGFloat = 10) -> Font {

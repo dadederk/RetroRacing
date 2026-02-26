@@ -13,9 +13,9 @@ RetroRacing captures platform-specific input at the UI layer and translates it i
 
 ## Implementation Details
 
-### watchOS Digital Crown (Legacy Feel)
+### watchOS Digital Crown
 
-- **Processor**: `LegacyCrownInputProcessor` in `RetroRacingShared` replicates the old `WKCrownDelegate` behavior.
+- **Processor**: `CrownInputProcessor` in `RetroRacingShared` encapsulates crown delta accumulation and burst-gating behavior (legacy-compatible threshold profile via `.watchLegacy`).
 - **Threshold**: Crown deltas are accumulated and movement triggers when `abs(accumulatedDelta) > 0.30` (reduces accidental lane changes while still allowing slower turns to register).
 - **Gating**: Only one move per rotation burst. Additional deltas are ignored until the crown is idle.
 - **Idle detection**: SwiftUI has no direct idle callback, so `WatchGameView` uses a debounced reset (`~150ms`) to simulate `crownDidBecomeIdle`.
@@ -47,7 +47,7 @@ RetroRacing captures platform-specific input at the UI layer and translates it i
 
 ### Haptic Routing for Lane Cues
 
-- For normal move feedback, `TouchGameInputAdapter` and `RemoteGameInputAdapter` trigger move haptic immediately when left/right input is handled.
+- For normal move feedback, `TouchGameInputAdapter` and `RemoteGameInputAdapter` route through the same directional-input core and trigger move haptic immediately when left/right input is handled.
 - When cue audio mode is active and lane move cue style is `Haptics`, adapters suppress immediate move haptic and let `GameScene` decide the haptic:
   - Safe destination lane: success haptic.
   - Unsafe destination lane: regular move haptic.

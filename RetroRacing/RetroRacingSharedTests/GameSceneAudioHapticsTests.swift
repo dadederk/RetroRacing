@@ -61,6 +61,22 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         XCTAssertEqual(haptics.gridUpdates, 0)
     }
 
+    func testGivenRunningSceneWhenRemoteHandlingLeftInputThenRetroMoveCueAndMoveHapticAreTriggered() {
+        // Given
+        let adapter = RemoteGameInputAdapter(controller: scene, hapticController: haptics)
+
+        // When
+        adapter.handleLeft()
+
+        // Then
+        XCTAssertEqual(soundPlayer.playedEffects, [.start])
+        XCTAssertEqual(laneCuePlayer.moveCalls, 1)
+        XCTAssertEqual(laneCuePlayer.lastMoveColumn, .middle)
+        XCTAssertEqual(laneCuePlayer.lastMoveCueStyle, .laneConfirmation)
+        XCTAssertEqual(laneCuePlayer.lastMode, .cueArpeggio)
+        XCTAssertEqual(haptics.moves, 1)
+    }
+
     func testGivenPausedSceneWhenHandlingLeftInputThenMoveHapticIsTriggeredButSoundIsNot() {
         // Given
         let adapter = TouchGameInputAdapter(controller: scene, hapticController: haptics)
@@ -146,6 +162,30 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         ]
         scene.lastPlayerColumn = 1
         let adapter = TouchGameInputAdapter(controller: scene, hapticController: haptics)
+
+        // When
+        adapter.handleRight()
+
+        // Then
+        XCTAssertEqual(haptics.successes, 1)
+        XCTAssertEqual(haptics.moves, 0)
+        XCTAssertEqual(laneCuePlayer.moveCalls, 0)
+    }
+
+    func testGivenCueModeWithHapticsStyleWhenRemoteMovingToSafeLaneThenSuccessHapticPlaysWithoutMoveCueAudio() {
+        // Given
+        scene.unpauseGameplay()
+        scene.setAudioFeedbackMode(.cueLanePulses)
+        scene.setLaneMoveCueStyle(.haptics)
+        scene.gridState.grid = [
+            [.Empty, .Empty, .Empty],
+            [.Empty, .Empty, .Empty],
+            [.Empty, .Empty, .Empty],
+            [.Car, .Car, .Empty],
+            [.Empty, .Player, .Empty]
+        ]
+        scene.lastPlayerColumn = 1
+        let adapter = RemoteGameInputAdapter(controller: scene, hapticController: haptics)
 
         // When
         adapter.handleRight()

@@ -71,6 +71,21 @@ public final class GameCenterService: LeaderboardService {
                 AppLog.error(AppLog.game + AppLog.leaderboard, "🏆 Failed to submit score \(score) to \(leaderboardID): \(error.localizedDescription)")
             } else {
                 AppLog.info(AppLog.game + AppLog.leaderboard, "🏆 Successfully submitted score \(score) to \(leaderboardID)")
+                Task { [weak self] in
+                    guard let self else { return }
+                    let verifiedBest = await self.fetchLocalPlayerBestScore(for: difficulty)
+                    if let verifiedBest {
+                        AppLog.info(
+                            AppLog.game + AppLog.leaderboard,
+                            "🏆 Verified remote best after submit on \(leaderboardID): \(verifiedBest) (submitted: \(score))"
+                        )
+                    } else {
+                        AppLog.info(
+                            AppLog.game + AppLog.leaderboard,
+                            "🏆 Could not verify remote best after submit on \(leaderboardID)"
+                        )
+                    }
+                }
             }
         }
     }
@@ -80,7 +95,8 @@ public final class GameCenterService: LeaderboardService {
     }
 
     var isScoreSubmissionEnabled: Bool {
-        !isDebugBuild
+        return true
+//        !isDebugBuild
     }
 
     public func fetchLocalPlayerBestScore(for difficulty: GameDifficulty) async -> Int? {
@@ -121,6 +137,12 @@ public final class GameCenterService: LeaderboardService {
                     continuation.resume(returning: nil)
                     return
                 }
+
+                let metadata = "releaseState=\(leaderboard.releaseState.rawValue), isHidden=\(leaderboard.isHidden), activityIdentifier=\(leaderboard.activityIdentifier)"
+                AppLog.info(
+                    AppLog.game + AppLog.leaderboard,
+                    "🏆 Loaded leaderboard metadata for \(id): \(metadata)"
+                )
 
                 continuation.resume(returning: leaderboard)
             }

@@ -90,6 +90,7 @@ protocol LeaderboardService {
 View layer characteristics:
 - Zero GameKit imports in most of the view layer (exceptions: leaderboard presentation surfaces such as `LeaderboardView` and macOS menu trigger).
 - Only calls service methods (`leaderboardService.submitScore(_:difficulty:)`, `gameCenterService.isAuthenticated`, etc.)
+- `MenuAuthModel.startAuthentication(startedByUser:)` runs on macOS as well (not only UIKit platforms) so `GKLocalPlayer.authenticateHandler` is registered and shared score submit/best-sync paths can observe authenticated state.
 - Leaderboard presentation:
   - iOS / tvOS / macOS leaderboard button resolves the selected speed and opens that leaderboard ID
   - iOS / tvOS: via `LeaderboardView` using `GKAccessPoint.shared.trigger(leaderboardID:...)` (iOS 26+ / tvOS 26+)
@@ -143,6 +144,8 @@ Create only the leaderboards for platforms you ship (e.g. if you ship iPhone + w
 ### Debugging score submission
 
 - All leaderboard/Game Center logs use the 🏆 emoji (and `AppLog.leaderboard`). Filter console or logs by `🏆` to see: score submit attempts, “player not authenticated” skips, success, or failure with error message. Useful for diagnosing watch scores not appearing on the leaderboard.
+- On successful submit, `GameCenterService` performs a read-after-write verification (`fetchLocalPlayerBestScore(for:)`) and logs the verified remote best value when available.
+- Leaderboard load logs now include metadata (`releaseState`, `isHidden`, `activityIdentifier`) to diagnose App Store Connect visibility/configuration mismatches.
 - Debug builds intentionally log `Skipped score submit ... debug build` and do not post scores to Game Center.
 
 ## Testing Strategy
@@ -262,7 +265,8 @@ func handleGameOver() {
 **Key watchOS differences:**
 - **Authentication handler signature**: watchOS only takes `Error?` (no view controller parameter)
 - Authentication setup happens in `onAppear` rather than via `authenticateHandlerSetter` closure
-- Best-score sync is triggered on initial appearance and each auth-state callback
+- Best-score sync is triggered from auth-state callbacks and `GKPlayerAuthenticationDidChangeNotificationName` updates so late auth transitions still refresh local best.
+- On `GKErrorGameUnrecognized` (code 15), watchOS performs bounded retry attempts with delay before giving up, because this error can occur transiently at launch.
 - No in-app leaderboard UI (users view leaderboards on iPhone/iPad)
 - Settings view displays conditional text based on authentication status
 - Score submission happens automatically on game over

@@ -158,7 +158,7 @@ public struct MenuView: View {
             authModel.configurePresentationHandler()
             authModel.startAuthentication(startedByUser: false)
         }
-        #if canImport(UIKit) && !os(watchOS)
+        #if (canImport(UIKit) && !os(watchOS)) || os(macOS)
         .onReceive(NotificationCenter.default.publisher(for: .GKPlayerAuthenticationDidChangeNotificationName)) { _ in
             authModel.refreshAuthState()
         }

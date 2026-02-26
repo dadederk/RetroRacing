@@ -4,7 +4,7 @@ import XCTest
 final class CrownInputProcessorTests: XCTestCase {
     func testGivenAccumulatedRotationBelowThresholdWhenHandlingDeltaThenNoMoveIsTriggered() {
         // Given
-        var processor = LegacyCrownInputProcessor(configuration: .watchLegacy)
+        var processor = CrownInputProcessor(configuration: .watchLegacy)
 
         // When
         let first = processor.handleRotationDelta(0.10)
@@ -19,7 +19,7 @@ final class CrownInputProcessorTests: XCTestCase {
 
     func testGivenAccumulatedRotationCrossesThresholdWhenHandlingDeltaThenMoveMatchesRotationDirection() {
         // Given
-        var processor = LegacyCrownInputProcessor(configuration: .watchLegacy)
+        var processor = CrownInputProcessor(configuration: .watchLegacy)
 
         // When
         let first = processor.handleRotationDelta(0.10)
@@ -41,7 +41,7 @@ final class CrownInputProcessorTests: XCTestCase {
 
     func testGivenRotationAlreadyTriggeredWhenHandlingAdditionalDeltaThenMoveIsIgnoredUntilIdle() {
         // Given
-        var processor = LegacyCrownInputProcessor(configuration: .watchLegacy)
+        var processor = CrownInputProcessor(configuration: .watchLegacy)
 
         // When
         let first = processor.handleRotationDelta(0.31)
@@ -57,7 +57,7 @@ final class CrownInputProcessorTests: XCTestCase {
 
     func testGivenPartialAccumulationWhenProcessorBecomesIdleThenAccumulationResets() {
         // Given
-        var processor = LegacyCrownInputProcessor(configuration: .watchLegacy)
+        var processor = CrownInputProcessor(configuration: .watchLegacy)
 
         // When
         let first = processor.handleRotationDelta(0.20)

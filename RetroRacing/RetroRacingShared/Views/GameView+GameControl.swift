@@ -204,7 +204,7 @@ private struct AppKitHardwareKeyboardInputView: NSViewRepresentable {
                 super.scrollWheel(with: event)
                 return
             }
-            guard event.momentumPhase == .none else {
+            guard event.momentumPhase.isEmpty else {
                 return
             }
 
