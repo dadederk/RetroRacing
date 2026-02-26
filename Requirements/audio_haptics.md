@@ -1,4 +1,4 @@
-# Audio & Haptics Requirements (2026-02-24)
+# Audio & Haptics Requirements (2026-02-25)
 
 ## Goals
 - Consistent pulse feedback:
@@ -21,10 +21,9 @@
 - Primary runtime SFX path uses `AVGeneratedSoundEffectPlayer` (generated PCM for `start`, `bip`, `fail`) with a modular `GeneratedSFXProfile`/recipe model.
 - Generated SFX recipes are composed from ordered segments (`intro`, `body`, optional repeated `tailPattern`) so tuning is code-only constant edits.
 - `GeneratedSFXProfile.failTailRepeatCount` is the one-line fail-tail repetition knob; default is baseline minus one repeat to shorten fail feedback.
-- Fallback runtime path uses `FallbackSoundEffectPlayer` + bundled-asset `AVSoundEffectPlayer` for resilience when generated playback is unavailable.
 - Shared cue abstraction `LaneCuePlayer` with AVFoundation implementation `AVLaneCuePlayer`; injected into `GameScene` and backed by generated PCM buffers (no prerecorded cue assets required).
-- Sound IDs remain `start`, `bip`, `fail`; `.m4a` assets remain in the shared bundle as fallback only.
-- Generated + asset players both use a small `bip` pool so rapid tick/move pulses do not restart and get dropped.
+- Sound IDs remain `start`, `bip`, `fail`; all three effects are generated at runtime.
+- Generated SFX uses a small `bip` pool so rapid tick/move pulses do not restart and get dropped.
 - `GameScene` uses `SoundEffectPlayer` for start/fail. Tick/move guidance uses `LaneCuePlayer` in cue modes and also in retro mode for distinct tick/move timbres.
 - Cue mode behavior:
   - Tick cue: announce currently safe columns in the row directly ahead of the player.
@@ -71,4 +70,4 @@
   - Speed increase warning sound uses a dedicated generated cue (`D4-F4-A4`, repeated twice) and does not reuse lane-safe tick cues.
 
 ## Testing Expectations
-- Unit tests cover: generated-player completion/volume/stop behavior; recipe modularity (including fail-tail repeat count impact); fallback routing to asset player when generated playback is unavailable; retro tick arpeggio + retro move middle-lane routing; cue-mode routing for tick and move cues; lane move cue style forwarding (including `Haptics` safe/unsafe behavior); paused move input behavior; fail sound + crash haptic on collision; crash fallback fires once when completion is missing; start/resume pauses until sound completion with fallback and restores player visuals immediately after crash; stopAll invoked when game view disappears; volume changes propagate to both `SoundEffectPlayer` and `LaneCuePlayer`; conditional-default/override resolution and migration for audio/speed warning settings.
+- Unit tests cover: generated-player completion/volume/stop behavior; recipe modularity (including fail-tail repeat count impact); retro tick arpeggio + retro move middle-lane routing; cue-mode routing for tick and move cues; lane move cue style forwarding (including `Haptics` safe/unsafe behavior); paused move input behavior; fail sound + crash haptic on collision; crash fallback fires once when completion is missing; start/resume pauses until sound completion with fallback and restores player visuals immediately after crash; stopAll invoked when game view disappears; volume changes propagate to both `SoundEffectPlayer` and `LaneCuePlayer`; conditional-default/override resolution and migration for audio/speed warning settings.

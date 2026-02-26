@@ -1,10 +1,6 @@
 import Foundation
 import AVFoundation
 
-protocol GeneratedSFXAvailabilityProviding: SoundEffectPlayer {
-    func canPlay(_ effect: SoundEffect) -> Bool
-}
-
 private final class GeneratedSFXPlaybackSlot {
     let node: AVAudioPlayerNode
     var token: UInt64 = 0
@@ -106,7 +102,7 @@ enum GeneratedSFXRenderer {
 }
 
 /// Generated SoundEffectPlayer backed by AVAudioEngine and precomputed PCM buffers.
-public final class AVGeneratedSoundEffectPlayer: SoundEffectPlayer, GeneratedSFXAvailabilityProviding {
+public final class AVGeneratedSoundEffectPlayer: SoundEffectPlayer {
     private let engine = AVAudioEngine()
     private let format: AVAudioFormat?
     private let profile: GeneratedSFXProfile
@@ -128,13 +124,8 @@ public final class AVGeneratedSoundEffectPlayer: SoundEffectPlayer, GeneratedSFX
         cancelAllCompletionTasks()
     }
 
-    public func canPlay(_ effect: SoundEffect) -> Bool {
-        guard availableEffects.contains(effect) else { return false }
-        return startEngineIfNeeded()
-    }
-
     public func play(_ effect: SoundEffect, completion: (() -> Void)?) {
-        guard canPlay(effect), var pool = pools[effect], pool.slots.isEmpty == false else {
+        guard isPlaybackReady(for: effect), var pool = pools[effect], pool.slots.isEmpty == false else {
             return
         }
 
@@ -296,6 +287,11 @@ public final class AVGeneratedSoundEffectPlayer: SoundEffectPlayer, GeneratedSFX
             }
         }
         return pool.nextIndex % count
+    }
+
+    private func isPlaybackReady(for effect: SoundEffect) -> Bool {
+        guard availableEffects.contains(effect) else { return false }
+        return startEngineIfNeeded()
     }
 
     @discardableResult

@@ -33,7 +33,7 @@ If local signing blocks simulator/macOS verification, run with `CODE_SIGNING_ALL
 - Portrait Dynamic Type HUD reflow (adaptive score/lives stack and non-overlapping directional controls)
 - Big Cars conditional-default behavior and rival-car sprite scaling mode
 - Settings migration coverage (`inGameAnnouncementsEnabled` -> speed warning selector, `sfxVolume` -> conditional default)
-- Generated SFX behavior (recipe rendering, fail-tail repeat tuning, fallback routing to asset playback)
+- Generated SFX behavior (recipe rendering, fail-tail repeat tuning, playback completion/fade behavior)
 - Difficulty timing behavior (clear pacing separation for cruise/fast/rapid and conditional-default wiring)
 - Platform filtering (hide haptics-only options on unsupported platforms)
 - Settings/tutorial state behavior (audio tutorial visibility in retro, speed preview disable for announcement+VoiceOver off, configured-state apply labels)

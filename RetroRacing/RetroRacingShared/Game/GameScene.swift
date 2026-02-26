@@ -26,7 +26,7 @@ private enum SpeedIncreaseConfiguration {
 
 private enum AudioFallbackConfiguration {
     static let startUnpauseSeconds: TimeInterval = 2.0
-    // fail.m4a is ~7.42s; keep fallback above clip length for missing-completion edge cases.
+    // Keep above fail-sound duration for missing-completion edge cases.
     static let crashResolutionSeconds: TimeInterval = 8.0
 }
 
