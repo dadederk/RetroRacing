@@ -2,6 +2,8 @@ import SwiftUI
 import RetroRacingShared
 
 struct SettingsView: View {
+    private static let inlineVolumeControlMinimumWidth: CGFloat = 220
+
     let themeManager: ThemeManager
     let fontPreferenceStore: FontPreferenceStore
     /// Injected by app; watchOS has Taptic Engine, so true.
@@ -53,10 +55,13 @@ struct SettingsView: View {
                             set: { fontPreferenceStore.currentStyle = $0 }
                         )) {
                             Text(GameLocalizedStrings.string("font_style_custom"))
+                                .font(fontForLabels)
                                 .tag(AppFontStyle.custom)
                             Text(GameLocalizedStrings.string("font_style_system"))
+                                .font(fontForLabels)
                                 .tag(AppFontStyle.system)
                             Text(GameLocalizedStrings.string("font_style_system_monospaced"))
+                                .font(fontForLabels)
                                 .tag(AppFontStyle.systemMonospaced)
                         } label: {
                             Text(GameLocalizedStrings.string("settings_font"))
@@ -165,14 +170,7 @@ struct SettingsView: View {
                         .buttonStyle(.borderless)
                     }
 
-                    Slider(value: preferencesStore.soundEffectsVolumeSelection, in: 0...1, step: 0.05) {
-                        Text(GameLocalizedStrings.string("settings_sound_effects_volume"))
-                            .font(fontForLabels)
-                    } minimumValueLabel: {
-                        Text(GameLocalizedStrings.string("0%")).font(fontForLabels)
-                    } maximumValueLabel: {
-                        Text(GameLocalizedStrings.string("100%")).font(fontForLabels)
-                    }
+                    volumeControl
                 } header: {
                     Text(GameLocalizedStrings.string("settings_sound"))
                         .font(fontForLabels)
@@ -260,4 +258,42 @@ struct SettingsView: View {
         }
     }
 
+    @ViewBuilder
+    private var volumeControl: some View {
+        ViewThatFits(in: .horizontal) {
+            inlineVolumeControl
+                .frame(minWidth: Self.inlineVolumeControlMinimumWidth)
+
+            compactVolumeControl
+        }
+    }
+
+    private var inlineVolumeControl: some View {
+        Slider(value: preferencesStore.soundEffectsVolumeSelection, in: 0...1, step: 0.05) {
+            Text(GameLocalizedStrings.string("settings_sound_effects_volume"))
+                .font(fontForLabels)
+        } minimumValueLabel: {
+            Text(GameLocalizedStrings.string("0%"))
+                .font(fontForLabels)
+        } maximumValueLabel: {
+            Text(GameLocalizedStrings.string("100%"))
+                .font(fontForLabels)
+        }
+    }
+
+    private var compactVolumeControl: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Slider(value: preferencesStore.soundEffectsVolumeSelection, in: 0...1, step: 0.05) {
+                Text(GameLocalizedStrings.string("settings_sound_effects_volume"))
+                    .font(fontForLabels)
+            }
+            HStack {
+                Text(GameLocalizedStrings.string("0%"))
+                    .font(fontForLabels)
+                Spacer()
+                Text(GameLocalizedStrings.string("100%"))
+                    .font(fontForLabels)
+            }
+        }
+    }
 }

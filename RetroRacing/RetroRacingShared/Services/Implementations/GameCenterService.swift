@@ -73,18 +73,11 @@ public final class GameCenterService: LeaderboardService {
                 AppLog.info(AppLog.game + AppLog.leaderboard, "🏆 Successfully submitted score \(score) to \(leaderboardID)")
                 Task { [weak self] in
                     guard let self else { return }
-                    let verifiedBest = await self.fetchLocalPlayerBestScore(for: difficulty)
-                    if let verifiedBest {
-                        AppLog.info(
-                            AppLog.game + AppLog.leaderboard,
-                            "🏆 Verified remote best after submit on \(leaderboardID): \(verifiedBest) (submitted: \(score))"
-                        )
-                    } else {
-                        AppLog.info(
-                            AppLog.game + AppLog.leaderboard,
-                            "🏆 Could not verify remote best after submit on \(leaderboardID)"
-                        )
-                    }
+                    await self.verifyRemoteBestAfterSubmit(
+                        submittedScore: score,
+                        difficulty: difficulty,
+                        leaderboardID: leaderboardID
+                    )
                 }
             }
         }
@@ -95,8 +88,7 @@ public final class GameCenterService: LeaderboardService {
     }
 
     var isScoreSubmissionEnabled: Bool {
-        return true
-//        !isDebugBuild
+        !isDebugBuild
     }
 
     public func fetchLocalPlayerBestScore(for difficulty: GameDifficulty) async -> Int? {
@@ -121,9 +113,10 @@ public final class GameCenterService: LeaderboardService {
         await withCheckedContinuation { continuation in
             GKLeaderboard.loadLeaderboards(IDs: [id]) { leaderboards, error in
                 if let error {
+                    let nsError = error as NSError
                     AppLog.error(
                         AppLog.game + AppLog.leaderboard,
-                        "🏆 Failed loading leaderboard \(id): \(error.localizedDescription)"
+                        "🏆 Failed loading leaderboard \(id): \(error.localizedDescription) (domain: \(nsError.domain), code: \(nsError.code), userInfo: \(nsError.userInfo))"
                     )
                     continuation.resume(returning: nil)
                     return
@@ -157,9 +150,10 @@ public final class GameCenterService: LeaderboardService {
                 range: NSRange(location: 1, length: 1)
             ) { localPlayerEntry, _, _, error in
                 if let error {
+                    let nsError = error as NSError
                     AppLog.error(
                         AppLog.game + AppLog.leaderboard,
-                        "🏆 Failed loading local player entry: \(error.localizedDescription)"
+                        "🏆 Failed loading local player entry: \(error.localizedDescription) (domain: \(nsError.domain), code: \(nsError.code), userInfo: \(nsError.userInfo))"
                     )
                     continuation.resume(returning: nil)
                     return
@@ -175,5 +169,31 @@ public final class GameCenterService: LeaderboardService {
                 continuation.resume(returning: score)
             }
         }
+    }
+
+    private func verifyRemoteBestAfterSubmit(
+        submittedScore: Int,
+        difficulty: GameDifficulty,
+        leaderboardID: String
+    ) async {
+        for attempt in 1...3 {
+            if attempt > 1 {
+                try? await Task.sleep(for: .seconds(2))
+            }
+
+            let verifiedBest = await fetchLocalPlayerBestScore(for: difficulty)
+            if let verifiedBest {
+                AppLog.info(
+                    AppLog.game + AppLog.leaderboard,
+                    "🏆 Verified remote best after submit on \(leaderboardID): \(verifiedBest) (submitted: \(submittedScore), attempt: \(attempt))"
+                )
+                return
+            }
+        }
+
+        AppLog.info(
+            AppLog.game + AppLog.leaderboard,
+            "🏆 Could not verify remote best after submit on \(leaderboardID) after 3 attempts"
+        )
     }
 }

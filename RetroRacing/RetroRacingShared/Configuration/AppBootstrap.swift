@@ -32,6 +32,20 @@ public enum AppBootstrap {
         } catch {
             // Non-fatal; sound may still work in simulator
         }
+        #elseif os(watchOS)
+        do {
+            try activateWatchAudioSession()
+            let session = AVAudioSession.sharedInstance()
+            let routeDescription = session.currentRoute.outputs
+                .map { "\($0.portType.rawValue):\($0.portName)" }
+                .joined(separator: ",")
+            AppLog.info(
+                AppLog.sound,
+                "🔊 watchOS audio session activated (outputVolume=\(session.outputVolume), route=[\(routeDescription)])"
+            )
+        } catch {
+            AppLog.error(AppLog.sound, "🔊 watchOS audio session activation failed: \(error.localizedDescription)")
+        }
         #endif
     }
 
@@ -46,6 +60,15 @@ public enum AppBootstrap {
     fileprivate static func activateAudioSession() throws {
         let session = AVAudioSession.sharedInstance()
         try session.setCategory(.playback, mode: .default, options: [.mixWithOthers])
+        try session.setActive(true)
+    }
+    #endif
+
+    #if os(watchOS)
+    fileprivate static func activateWatchAudioSession() throws {
+        let session = AVAudioSession.sharedInstance()
+        // Prefer exclusive playback on watchOS to avoid mixed/ducked output unexpectedly muting short SFX.
+        try session.setCategory(.playback, mode: .default, options: [])
         try session.setActive(true)
     }
     #endif

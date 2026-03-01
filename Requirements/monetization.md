@@ -287,11 +287,18 @@ Key elements:
   - Shows loading state while restoring.
   - Disabled during purchase or restore operations.
   - Matches Settings → Purchases functionality.
+- **Redeem Code button** (where platform supports offer-code redemption):
+  - iOS: uses `.offerCodeRedemption(...)`.
+  - macOS: uses `AppStore.presentOfferCodeRedeemSheet(from:)` with an embedded host `NSViewController`.
+  - Hidden on platforms without the offer-code UI.
 - **Benefits text**:
   - `"paywall_unlimited_and_themes"` – unlimited plays first, theme choice as an extra.
   - Positioned below restore button, styled as secondary text.
 - **Info cards** (`PaywallInfoCard`):
   - Giving Back – explains that a percentage goes to accessibility/inclusion.
+  - Giving Back includes a **Learn More** action:
+    - iOS: opens AMMEC in-app (`SafariView`).
+    - macOS/tvOS/watchOS/visionOS: opens AMMEC with system URL handling (`openURL`).
   - Want to Stay Free? – explains daily reset and “See you tomorrow!” message.
 - **Footer**: `"paywall_footer_one_time"` – one‑time purchase, no subscription, unlocks unlimited plays forever.
 
@@ -342,7 +349,9 @@ Sections added:
      - Checkmark icon is decorative and hidden from accessibility (`.accessibilityHidden(true)`).
    - Free users:
     - “Get Unlimited Plays” → opens Paywall.
-     - “Redeem Code” → opens System offer code redemption UI.
+     - “Redeem Code”:
+       - iOS: uses SwiftUI `.offerCodeRedemption(...)`.
+       - macOS: uses StoreKit `AppStore.presentOfferCodeRedeemSheet(from:)` with an embedded host `NSViewController`.
      - “Restore Purchases” → invokes `storeKit.restorePurchases()`.
    - Footer:
      - `"settings_restore_footer"`.

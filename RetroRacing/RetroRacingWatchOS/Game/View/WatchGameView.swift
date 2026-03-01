@@ -1,6 +1,9 @@
 import SwiftUI
 import SpriteKit
 import RetroRacingShared
+#if canImport(AVFoundation)
+import AVFoundation
+#endif
 #if canImport(WatchKit)
 import WatchKit
 #endif
@@ -39,12 +42,19 @@ struct WatchGameView: View {
     @State private var watchHapticController: HapticFeedbackController
     @State private var isInGameHelpPresented = false
     @State private var helpPresentationContext: HelpPresentationContext?
+    @State private var pendingGameOverDismissAction: GameOverDismissAction = .none
     @FocusState private var isCrownFocused: Bool
     @Environment(\.dismiss) private var dismiss
 
     private enum HelpPresentationContext {
         case manual(snapshot: HelpPauseSnapshot)
         case automatic(shouldResumeOnDismiss: Bool)
+    }
+
+    private enum GameOverDismissAction {
+        case none
+        case restart
+        case finish
     }
 
     private struct HelpPauseSnapshot {
@@ -102,7 +112,7 @@ struct WatchGameView: View {
     var body: some View {
         VStack(spacing: 4) {
             HStack {
-                Text(GameLocalizedStrings.format("score %lld", score))
+                Text(GameLocalizedStrings.format("score %lld", Int64(score)))
                     .font(headerFont(size: 10))
                     .lineLimit(1)
                     .minimumScaleFactor(0.7)
@@ -113,7 +123,7 @@ struct WatchGameView: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 16, height: 16)
-                    Text(GameLocalizedStrings.format("lives_count", lives))
+                    Text(GameLocalizedStrings.format("lives_count", Int64(lives)))
                         .font(headerFont(size: 10))
                         .lineLimit(1)
                         .minimumScaleFactor(0.7)
@@ -168,7 +178,7 @@ struct WatchGameView: View {
                     by: 0.1,
                     sensitivity: .low,
                     isContinuous: true,
-                    isHapticFeedbackEnabled: true
+                    isHapticFeedbackEnabled: false
                 )
                 .onChange(of: isCrownFocused) { _, newValue in
                     AppLog.info(AppLog.game, "🎮 Watch crown focus changed: \(newValue)")
@@ -182,15 +192,17 @@ struct WatchGameView: View {
         }
         .onAppear {
             AppLog.info(AppLog.game, "🎮 WatchGameView onAppear - setting up scene and crown focus")
+            AppBootstrap.configureAudioSession()
             scene.applyDifficulty(selectedDifficulty)
             scene.setSoundVolume(selectedSoundEffectsVolume)
             scene.setAudioFeedbackMode(selectedAudioFeedbackMode)
             scene.setLaneMoveCueStyle(selectedLaneMoveCueStyle)
+            logWatchAudioConfiguration()
             scene.start()
             score = scene.gameState.score
             lives = scene.gameState.lives
             scenePaused = scene.gameState.isPaused
-            inputAdapter = CrownGameInputAdapter(controller: scene)
+            inputAdapter = CrownGameInputAdapter(controller: scene, hapticController: watchHapticController)
             isCrownFocused = true
             if delegate == nil {
                 let d = GameSceneDelegateImpl(
@@ -214,7 +226,8 @@ struct WatchGameView: View {
                         }
                     },
                     onLevelChangeImminent: { speedIncreaseImminent = $0 },
-                    onPauseStateChange: { scenePaused = $0 }
+                    onPauseStateChange: { scenePaused = $0 },
+                    hapticController: watchHapticController
                 )
                 delegate = d
                 scene.gameDelegate = d
@@ -224,15 +237,15 @@ struct WatchGameView: View {
         .sheet(isPresented: $isInGameHelpPresented, onDismiss: handleInGameHelpDismissed) {
             makeInGameHelpView()
         }
-        .sheet(isPresented: $showGameOver, onDismiss: restartFromGameOver) {
+        .sheet(isPresented: $showGameOver, onDismiss: handleGameOverSheetDismissed) {
             GameOverView(
                 score: gameOverScore,
                 bestScore: gameOverBestScore,
                 difficulty: gameOverDifficulty,
                 isNewRecord: isNewHighScore,
                 previousBestScore: gameOverPreviousBestScore,
-                onRestart: restartFromGameOver,
-                onFinish: finishFromGameOver
+                onRestart: requestRestartFromGameOver,
+                onFinish: requestFinishFromGameOver
             )
             .fontPreferenceStore(fontPreferenceStore)
             .interactiveDismissDisabled(true)
@@ -303,11 +316,32 @@ struct WatchGameView: View {
         }
     }
 
+    private func requestRestartFromGameOver() {
+        pendingGameOverDismissAction = .restart
+        showGameOver = false
+    }
+
+    private func requestFinishFromGameOver() {
+        pendingGameOverDismissAction = .finish
+        showGameOver = false
+    }
+
+    private func handleGameOverSheetDismissed() {
+        switch pendingGameOverDismissAction {
+        case .restart:
+            restartFromGameOver()
+        case .finish:
+            finishFromGameOver()
+        case .none:
+            break
+        }
+        pendingGameOverDismissAction = .none
+    }
+
     private func restartFromGameOver() {
         scene.start()
         score = scene.gameState.score
         lives = scene.gameState.lives
-        showGameOver = false
         gameOverScore = 0
         gameOverBestScore = 0
         gameOverDifficulty = selectedDifficulty
@@ -316,7 +350,17 @@ struct WatchGameView: View {
     }
 
     private func finishFromGameOver() {
-        showGameOver = false
+        // Ensure gameplay cannot continue in the background after returning to menu.
+        scene.setOverlayPauseLock(true)
+        scene.pauseGameplay()
+        scene.stopAllSounds(fadeDuration: 0)
+        isUserPaused = false
+        gameOverScore = 0
+        gameOverBestScore = 0
+        gameOverDifficulty = selectedDifficulty
+        gameOverPreviousBestScore = nil
+        isNewHighScore = false
+        speedIncreaseImminent = false
         dismiss()
     }
 
@@ -457,6 +501,26 @@ struct WatchGameView: View {
         .play(mode: selectedMode)
     }
 
+    private func logWatchAudioConfiguration() {
+        #if canImport(AVFoundation)
+        let session = AVAudioSession.sharedInstance()
+        let routeDescription = session.currentRoute.outputs
+            .map { "\($0.portType.rawValue):\($0.portName)" }
+            .joined(separator: ",")
+        AppLog.info(
+            AppLog.sound,
+            """
+            🔊 watch game audio mode=\(selectedAudioFeedbackMode.rawValue) volume=\(selectedSoundEffectsVolume) outputVolume=\(session.outputVolume) route=[\(routeDescription)]
+            """
+        )
+        #else
+        AppLog.info(
+            AppLog.sound,
+            "🔊 watch game audio mode=\(selectedAudioFeedbackMode.rawValue) volume=\(selectedSoundEffectsVolume)"
+        )
+        #endif
+    }
+
     @ViewBuilder
     private func makeInGameHelpView() -> some View {
         let previewDependencies = settingsPreviewDependencyFactory.make(
@@ -504,17 +568,20 @@ private final class GameSceneDelegateImpl: GameSceneDelegate {
     let onCollision: () -> Void
     let onLevelChangeImminent: (Bool) -> Void
     let onPauseStateChange: (Bool) -> Void
+    let hapticController: HapticFeedbackController?
 
     init(
         onScoreUpdate: @escaping (Int) -> Void,
         onCollision: @escaping () -> Void,
         onLevelChangeImminent: @escaping (Bool) -> Void = { _ in },
-        onPauseStateChange: @escaping (Bool) -> Void = { _ in }
+        onPauseStateChange: @escaping (Bool) -> Void = { _ in },
+        hapticController: HapticFeedbackController?
     ) {
         self.onScoreUpdate = onScoreUpdate
         self.onCollision = onCollision
         self.onLevelChangeImminent = onLevelChangeImminent
         self.onPauseStateChange = onPauseStateChange
+        self.hapticController = hapticController
     }
 
     func gameScene(_ gameScene: GameScene, didUpdateScore score: Int) {
@@ -525,7 +592,9 @@ private final class GameSceneDelegateImpl: GameSceneDelegate {
         onCollision()
     }
 
-    func gameSceneDidUpdateGrid(_ gameScene: GameScene) {}
+    func gameSceneDidUpdateGrid(_ gameScene: GameScene) {
+        hapticController?.triggerGridUpdateHaptic()
+    }
 
     func gameScene(_ gameScene: GameScene, didUpdatePauseState isPaused: Bool) {
         onPauseStateChange(isPaused)

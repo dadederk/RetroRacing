@@ -18,7 +18,7 @@ The About screen is implemented in `RetroRacingShared/Views/AboutView.swift` and
 
 1. **App Information**
    - Title and subtitle introducing RetroRacing.
-   - Link to the RetroRacing micro‑site: `https://accessibilityupto11.com/apps/retroracing/`.
+   - Link to the RetroRapid micro‑site: `https://accessibilityupto11.com/apps/retrorapid/`.
 
 2. **Rate**
    - Button opens the App Store write-review page via:
@@ -36,6 +36,7 @@ The About screen is implemented in `RetroRacingShared/Views/AboutView.swift` and
 
 4. **Giving Back**
    - Highlights AMMEC and reuses the same donation copy as the paywall (`paywall_giving_back_body`) so messaging stays consistent.
+   - Uses AMMEC URL `https://www.ammec.org/` from the shared `ExternalLinks` source of truth.
 
 5. **Also Supporting**
    - Highlights **Swift for Swifts**.
@@ -67,7 +68,8 @@ The About screen is implemented in `RetroRacingShared/Views/AboutView.swift` and
   - `GameLocalizedStrings` for all user‑facing text.
   - `AppStoreReviewURL` for the centralized App Store write-review URL.
 - URL handling:
-  - URLs are centralised in a small internal `AboutViewURLs` helper.
+  - Cross-screen canonical URLs (for example app site and AMMEC) are centralized in `ExternalLinks`.
+  - `AboutViewURLs` composes per-screen links and references shared constants from `ExternalLinks`.
   - On iOS, links open in‑app using `SafariView` (SFSafariViewController wrapper).
   - The **Rate** action intentionally bypasses in-app Safari and uses `openURL` so the system can route to App Store directly.
   - On other platforms, links use `openURL` from the SwiftUI environment.

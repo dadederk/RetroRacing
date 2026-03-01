@@ -295,7 +295,7 @@ struct RetroRacingApp: App {
             speedWarningFeedbackPreviewPlayer: previewDependencies.speedWarningFeedbackPreviewPlayer,
             controlsDescriptionKey: controlsDescriptionKey,
             style: .universal,
-            isGameSessionInProgress: shouldStartGame,
+            isGameSessionInProgress: shouldStartGame && !isMenuPresented,
             playLimitService: playLimitService
         )
         .fontPreferenceStore(fontPreferenceStore)

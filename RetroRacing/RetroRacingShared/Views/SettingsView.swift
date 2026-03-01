@@ -7,6 +7,9 @@
 
 import SwiftUI
 import StoreKit
+#if os(macOS)
+import AppKit
+#endif
 
 /// Settings surface for themes, fonts, audio, optional haptics, purchases, debug, and About.
 public struct SettingsView: View {
@@ -34,6 +37,10 @@ public struct SettingsView: View {
     @State private var showingPaywall = false
     @State private var showingOfferCodeRedemption = false
     @State private var showingAudioCueTutorial = false
+    #if os(macOS)
+    @State private var offerCodeRedemptionHostController: NSViewController?
+    @State private var isRedeemingOfferCode = false
+    #endif
     public init(
         themeManager: ThemeManager,
         fontPreferenceStore: FontPreferenceStore,
@@ -87,10 +94,13 @@ public struct SettingsView: View {
                             set: { fontPreferenceStore.currentStyle = $0 }
                         )) {
                             Text(GameLocalizedStrings.string("font_style_custom"))
+                                .font(fontForLabels)
                                 .tag(AppFontStyle.custom)
                             Text(GameLocalizedStrings.string("font_style_system"))
+                                .font(fontForLabels)
                                 .tag(AppFontStyle.system)
                             Text(GameLocalizedStrings.string("font_style_system_monospaced"))
+                                .font(fontForLabels)
                                 .tag(AppFontStyle.systemMonospaced)
                         } label: {
                             Text(GameLocalizedStrings.string("settings_font"))
@@ -341,6 +351,25 @@ public struct SettingsView: View {
                                 Task { await storeKit.refreshPurchasedProducts() }
                             }
                         }
+                        #elseif os(macOS)
+                        Button {
+                            Task { await redeemOfferCode() }
+                        } label: {
+                            HStack {
+                                if isRedeemingOfferCode {
+                                    ProgressView()
+                                        .progressViewStyle(.circular)
+                                } else {
+                                    Image(systemName: "giftcard")
+                                        .foregroundColor(.accentColor)
+                                }
+                                Text(GameLocalizedStrings.string("redeem_code"))
+                                    .font(fontForLabels)
+                                    .foregroundColor(.accentColor)
+                                Spacer()
+                            }
+                        }
+                        .disabled(isRedeemingOfferCode)
                         #endif
 
                         Button {
@@ -356,18 +385,31 @@ public struct SettingsView: View {
                                 }
                                 Text(GameLocalizedStrings.string("restore_purchases"))
                                     .font(fontForLabels)
+                                    .foregroundColor(.accentColor)
+                                Spacer()
                             }
                         }
                         .disabled(isRestoringPurchases)
                     }
+
+                    #if os(macOS)
+                    if !storeKit.hasPremiumAccess {
+                        inlineSectionFooterRow(text: GameLocalizedStrings.string("settings_restore_footer"))
+                    }
+                    #endif
                 } header: {
                     Text(GameLocalizedStrings.string("settings_purchases_title"))
                         .font(fontForLabels)
                 } footer: {
+                    #if os(macOS)
+                    EmptyView()
+                    #else
                     if !storeKit.hasPremiumAccess {
                         Text(GameLocalizedStrings.string("settings_restore_footer"))
                             .font(secondaryFont)
+                            .modifier(SettingsFooterTextStyle())
                     }
+                    #endif
                 }
 
                 Section {
@@ -388,21 +430,33 @@ public struct SettingsView: View {
                             )
                         ) {
                             Text(GameLocalizedStrings.string("debug_simulation_mode_default"))
+                                .font(fontForLabels)
                                 .tag(StoreKitService.DebugPremiumSimulationMode.productionDefault)
                             Text(GameLocalizedStrings.string("debug_simulation_mode_unlimited"))
+                                .font(fontForLabels)
                                 .tag(StoreKitService.DebugPremiumSimulationMode.unlimitedPlays)
                             Text(GameLocalizedStrings.string("debug_simulation_mode_freemium"))
+                                .font(fontForLabels)
                                 .tag(StoreKitService.DebugPremiumSimulationMode.freemium)
                         } label: {
                             Text(GameLocalizedStrings.string("debug_simulate_premium"))
                                 .font(fontForLabels)
                         }
+
+                        #if os(macOS)
+                        inlineSectionFooterRow(text: GameLocalizedStrings.string("debug_simulate_premium_footer"))
+                        #endif
                     } header: {
                         Text(GameLocalizedStrings.string("debug_section_title"))
                             .font(fontForLabels)
                     } footer: {
+                        #if os(macOS)
+                        EmptyView()
+                        #else
                         Text(GameLocalizedStrings.string("debug_simulate_premium_footer"))
                             .font(secondaryFont)
+                            .modifier(SettingsFooterTextStyle())
+                        #endif
                     }
                 }
             }
@@ -454,6 +508,12 @@ public struct SettingsView: View {
                 }
                 .fontPreferenceStore(fontPreferenceStore)
             }
+            #if os(macOS)
+            .background {
+                OfferCodeRedemptionHostView(controller: $offerCodeRedemptionHostController)
+                    .frame(width: 0, height: 0)
+            }
+            #endif
         }
     }
     private static let volumeSteps: [Double] = stride(from: 0.0, through: 1.0, by: 0.05).map {
@@ -472,6 +532,14 @@ public struct SettingsView: View {
         let clamped = min(max(value, 0), 1)
         let rounded = (clamped / step).rounded() * step
         return Double(((rounded * 100).rounded()) / 100)
+    }
+
+    @ViewBuilder
+    private func inlineSectionFooterRow(text: String) -> some View {
+        Text(text)
+            .font(secondaryFont)
+            .modifier(SettingsFooterTextStyle())
+            .foregroundStyle(.secondary)
     }
 
     private static var doneToolbarPlacement: ToolbarItemPlacement {
@@ -524,6 +592,26 @@ public struct SettingsView: View {
 
         isRestoringPurchases = false
     }
+
+    #if os(macOS)
+    @MainActor
+    private func redeemOfferCode() async {
+        guard let offerCodeRedemptionHostController else {
+            AppLog.error(AppLog.game, "Offer-code redemption host controller is unavailable on macOS")
+            return
+        }
+
+        isRedeemingOfferCode = true
+        defer { isRedeemingOfferCode = false }
+
+        do {
+            try await AppStore.presentOfferCodeRedeemSheet(from: offerCodeRedemptionHostController)
+            await storeKit.refreshPurchasedProducts()
+        } catch {
+            AppLog.error(AppLog.game, "Offer-code redemption failed: \(error.localizedDescription)")
+        }
+    }
+    #endif
 }
 
 #if os(iOS)
@@ -539,6 +627,19 @@ private struct SettingsNavigationTitleStyle: ViewModifier {
     }
 }
 #endif
+
+private struct SettingsFooterTextStyle: ViewModifier {
+    func body(content: Content) -> some View {
+        #if os(macOS)
+        content
+            .lineLimit(nil)
+            .fixedSize(horizontal: false, vertical: true)
+            .frame(maxWidth: .infinity, alignment: .leading)
+        #else
+        content
+        #endif
+    }
+}
 #Preview {
     let previewTutorialPlayer = AudioCueTutorialPreviewPlayer(
         laneCuePlayer: PlatformFactories.makeLaneCuePlayer()

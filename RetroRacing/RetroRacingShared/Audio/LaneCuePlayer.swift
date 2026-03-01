@@ -152,8 +152,6 @@ public final class AVLaneCuePlayer: LaneCuePlayer {
 
         precomputeBuffers()
         startEngineIfNeeded()
-        tickPlayer.play()
-        movePlayer.play()
     }
 
     deinit {
@@ -656,10 +654,10 @@ public final class AVLaneCuePlayer: LaneCuePlayer {
         movePlayer.volume = volume
         startEngineIfNeeded()
         node.stop()
+        node.scheduleBuffer(buffer, at: nil, options: [.interrupts], completionHandler: nil)
         if !node.isPlaying {
             node.play()
         }
-        node.scheduleBuffer(buffer, at: nil, options: [.interrupts], completionHandler: nil)
     }
 
     private func startEngineIfNeeded() {

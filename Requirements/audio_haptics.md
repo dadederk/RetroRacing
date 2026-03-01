@@ -33,11 +33,16 @@
     - `Lane + success`: destination lane followed by safe/unsafe indicator as two quick notes.
     - `Haptics`: no lane audio move cue; trigger success haptic for safe destination and regular move haptic for unsafe destination.
 - Move haptics:
-  - Default path: triggered by touch/remote adapters immediately when left/right input is handled.
+  - Default path: triggered by touch/remote/crown adapters immediately when left/right input is handled.
   - Exception: when cue mode is active and lane style is `Haptics`, adapters suppress immediate move haptic and `GameScene` emits safe/unsafe-specific haptic.
+- watchOS crown input refines move-haptic timing: default move haptic fires only when a crown action actually changes lane (no haptic on boundary no-op turns).
+- watchOS Settings volume control uses `ViewThatFits` with an inline slider+labels layout for wide widths and a stacked slider+label-row fallback for narrower widths.
 - Crash haptic is triggered in `handleCrash` immediately; collision resolution completes on fail-sound completion with an 8s fallback if completion is missing.
 - Start/resume keeps `gameState.isPaused == true` until `start` sound completion sets it to false; on post-crash resume the player-car grid is rendered immediately (no lingering crash sprite), and a 2s fallback unpauses if completion is missing.
 - App bootstrap listens to audio session interruption/route/media-reset notifications and re-activates the session.
+- watchOS also configures and activates an AVAudioSession at app startup so generated SFX/lane cues have an active playback session.
+- watchOS gameplay re-activates the audio session on `WatchGameView` appear before starting the scene, so returning from overlays/menu restores sound output reliably.
+- watchOS audio session uses `.playback` without mix options to prioritize in-app SFX audibility.
 - SFX volume persistence uses `ConditionalDefault<SoundEffectsVolumeSetting>` (`sfxVolume_conditionalDefault`):
   - VoiceOver ON system default: `1.0`
   - VoiceOver OFF system default: `0.8`

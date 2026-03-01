@@ -215,7 +215,7 @@ public struct GameView: View {
         }
         #endif
         .toolbar {
-            if showMenuButton {
+            if showMenuButton && shouldShowMenuToolbarButton {
                 ToolbarItem(placement: Self.menuToolbarPlacement) {
                     Button {
                         model.setOverlayPause(isPresented: true)
@@ -261,6 +261,21 @@ public struct GameView: View {
                 .accessibilityHidden(shouldHideGameplayChromeFromAccessibility)
                 .disabled(model.pauseButtonDisabled || toolbarControlsDisabled)
                 .opacity((model.pauseButtonDisabled || toolbarControlsDisabled) ? 0.4 : 1)
+
+                #if os(macOS)
+                if shouldShowDisabledSettingsToolbarButton {
+                    Button(action: {}) {
+                        Label(
+                            GameLocalizedStrings.string("settings"),
+                            systemImage: "gearshape"
+                        )
+                        .font(pauseButtonFont)
+                    }
+                    .accessibilityLabel(GameLocalizedStrings.string("settings"))
+                    .disabled(true)
+                    .opacity(0.4)
+                }
+                #endif
             }
         }
         .sheet(isPresented: $isInGameHelpPresented, onDismiss: handleInGameHelpDismissed) {
@@ -387,6 +402,18 @@ public struct GameView: View {
         let overlayPresented = isMenuOverlayPresented?.wrappedValue ?? false
         return shouldStartGame == false || overlayPresented
     }
+
+    private var shouldShowMenuToolbarButton: Bool {
+        let overlayPresented = isMenuOverlayPresented?.wrappedValue ?? false
+        return overlayPresented == false
+    }
+
+    #if os(macOS)
+    private var shouldShowDisabledSettingsToolbarButton: Bool {
+        let overlayPresented = isMenuOverlayPresented?.wrappedValue ?? false
+        return showMenuButton && overlayPresented == false
+    }
+    #endif
 
     private func handleLeftTap() {
         model.flashButton(.left)

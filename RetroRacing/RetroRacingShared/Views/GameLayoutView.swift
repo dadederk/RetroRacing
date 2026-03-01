@@ -136,14 +136,14 @@ struct GameLayoutView<GameArea: View>: View {
     }
 
     private var headerScoreLabel: some View {
-        Text(GameLocalizedStrings.format("score %lld", score))
+        Text(GameLocalizedStrings.format("score %lld", Int64(score)))
             .font(headerFont)
             .foregroundStyle(.primary)
             .shadow(color: Color.primary.opacity(0.35), radius: 0.5)
             .lineLimit(nil)
             .fixedSize(horizontal: false, vertical: true)
             .multilineTextAlignment(.leading)
-            .accessibilityLabel(GameLocalizedStrings.format("score %lld", score))
+            .accessibilityLabel(GameLocalizedStrings.format("score %lld", Int64(score)))
             .accessibilityAddTraits(.isStaticText)
             .accessibilityRespondsToUserInteraction(false)
             .accessibilityHidden(hideHUDFromAccessibility)
@@ -159,7 +159,7 @@ struct GameLayoutView<GameArea: View>: View {
                     height: style.lifeIconSize * lifeIconScale
                 )
                 .accessibilityHidden(true)
-            Text(GameLocalizedStrings.format("lives_count", lives))
+            Text(GameLocalizedStrings.format("lives_count", Int64(lives)))
                 .font(headerFont)
                 .foregroundStyle(.primary)
                 .shadow(color: Color.primary.opacity(0.35), radius: 0.5)
@@ -248,9 +248,9 @@ struct GameLayoutView<GameArea: View>: View {
 
     private var accessibilityLivesLabel: String {
         if lives == 1 {
-            return GameLocalizedStrings.format("%lld life remaining", lives)
+            return GameLocalizedStrings.format("%lld life remaining", Int64(lives))
         }
-        return GameLocalizedStrings.format("%lld lives remaining", lives)
+        return GameLocalizedStrings.format("%lld lives remaining", Int64(lives))
     }
 }
 

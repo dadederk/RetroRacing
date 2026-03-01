@@ -10,13 +10,13 @@ import SwiftUI
 // MARK: - URLs
 
 private enum AboutViewURLs {
-    static let app = URL(string: "https://accessibilityupto11.com/apps/retroracing/")
+    static let app = ExternalLinks.appSite
     static let blog = URL(string: "https://accessibilityupto11.com/")
     static let twitter = URL(string: "https://twitter.com/dadederk")
     static let mastodon = URL(string: "https://iosdev.space/@dadederk")
     static let bluesky = URL(string: "https://bsky.app/profile/dadederk.bsky.social")
     static let linkedin = URL(string: "https://www.linkedin.com/in/danieldevesa/")
-    static let ammec = URL(string: "https://www.ammec.es/")
+    static let ammec = ExternalLinks.ammec
     static let swiftForSwifts = URL(string: "https://www.swiftforswifts.org")
     static let pressStartFont = URL(string: "https://fonts.google.com/specimen/Press+Start+2P")
     static let helm = URL(string: "https://helm-app.com")

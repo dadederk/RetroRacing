@@ -177,7 +177,9 @@ public struct AudioCueTutorialContentView: View {
 
             Picker(GameLocalizedStrings.string("tutorial_section_audio_feedback_mode"), selection: $selectedAudioFeedbackMode) {
                 ForEach(AudioFeedbackMode.displayOrder.filter { $0 != .retro }, id: \.self) { mode in
-                    Text(GameLocalizedStrings.string(mode.localizedNameKey)).tag(mode)
+                    Text(GameLocalizedStrings.string(mode.localizedNameKey))
+                        .font(bodyFont)
+                        .tag(mode)
                 }
             }
             #if os(watchOS)
@@ -248,7 +250,9 @@ public struct AudioCueTutorialContentView: View {
 
             Picker(GameLocalizedStrings.string("tutorial_section_lane_change_cue"), selection: $selectedLaneMoveCueStyle) {
                 ForEach(laneMoveCueStyles, id: \.self) { style in
-                    Text(GameLocalizedStrings.string(style.localizedNameKey)).tag(style)
+                    Text(GameLocalizedStrings.string(style.localizedNameKey))
+                        .font(bodyFont)
+                        .tag(style)
                 }
             }
             #if os(watchOS)
@@ -351,7 +355,9 @@ public struct AudioCueTutorialContentView: View {
                 selection: $selectedSpeedWarningFeedbackMode
             ) {
                 ForEach(speedWarningFeedbackModes, id: \.self) { mode in
-                    Text(GameLocalizedStrings.string(mode.localizedNameKey)).tag(mode)
+                    Text(GameLocalizedStrings.string(mode.localizedNameKey))
+                        .font(bodyFont)
+                        .tag(mode)
                 }
             }
             #if os(watchOS)

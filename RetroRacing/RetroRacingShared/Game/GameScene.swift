@@ -673,20 +673,61 @@ public struct RemoteGameInputAdapter: GameInputAdapter {
 
 public struct CrownGameInputAdapter: GameInputAdapter {
     private let controller: RacingGameController
+    private let hapticController: HapticFeedbackController?
 
-    public init(controller: RacingGameController) {
+    public init(controller: RacingGameController, hapticController: HapticFeedbackController?) {
         self.controller = controller
+        self.hapticController = hapticController
     }
 
     public func handleLeft() {
-        AppLog.info(AppLog.game, "🎮 CrownGameInputAdapter.handleLeft forwarding to controller")
-        controller.moveLeft()
+        guard let scene = controller as? GameScene else {
+            controller.moveLeft()
+            return
+        }
+        let didMove = moveLeftAndDetectLaneChange(in: scene)
+        if didMove, shouldUseSceneManagedMoveHaptics(in: scene) == false {
+            hapticController?.triggerMoveHaptic()
+        }
     }
 
     public func handleRight() {
-        AppLog.info(AppLog.game, "🎮 CrownGameInputAdapter.handleRight forwarding to controller")
-        controller.moveRight()
+        guard let scene = controller as? GameScene else {
+            controller.moveRight()
+            return
+        }
+        let didMove = moveRightAndDetectLaneChange(in: scene)
+        if didMove, shouldUseSceneManagedMoveHaptics(in: scene) == false {
+            hapticController?.triggerMoveHaptic()
+        }
     }
 
     public func handleDrag(translation: CGSize) { }
+
+    private func moveLeftAndDetectLaneChange(in scene: GameScene) -> Bool {
+        let previousColumn = scene.lastPlayerColumn
+        scene.moveLeft()
+        let didMove = scene.lastPlayerColumn != previousColumn
+        AppLog.info(
+            AppLog.game,
+            "🎮 CrownGameInputAdapter.handleLeft lane change: \(didMove) (\(previousColumn) -> \(scene.lastPlayerColumn))"
+        )
+        return didMove
+    }
+
+    private func moveRightAndDetectLaneChange(in scene: GameScene) -> Bool {
+        let previousColumn = scene.lastPlayerColumn
+        scene.moveRight()
+        let didMove = scene.lastPlayerColumn != previousColumn
+        AppLog.info(
+            AppLog.game,
+            "🎮 CrownGameInputAdapter.handleRight lane change: \(didMove) (\(previousColumn) -> \(scene.lastPlayerColumn))"
+        )
+        return didMove
+    }
+
+    private func shouldUseSceneManagedMoveHaptics(in scene: GameScene) -> Bool {
+        guard scene.audioFeedbackMode != .retro else { return false }
+        return scene.laneMoveCueStyle == .haptics
+    }
 }

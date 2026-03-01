@@ -109,6 +109,7 @@ public struct InGameHelpView: View {
                     Button(GameLocalizedStrings.string("done")) {
                         dismiss()
                     }
+                    .font(fontPreferenceStore?.font(textStyle: .body) ?? .body)
                 }
             }
         }

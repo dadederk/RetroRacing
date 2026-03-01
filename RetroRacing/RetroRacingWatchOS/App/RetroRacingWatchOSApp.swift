@@ -79,6 +79,7 @@ struct RetroRacingWatchOSApp: App {
     }
 
     init() {
+        AppBootstrap.configureAudioSession()
         SettingsPreferenceMigration.runIfNeeded(
             userDefaults: InfrastructureDefaults.userDefaults,
             supportsHaptics: true
@@ -147,6 +148,10 @@ struct RetroRacingWatchOSApp: App {
         AppLog.info(
             AppLog.game + AppLog.leaderboard,
             "🏆 watchOS scheduling Game Center auth retry \(authenticationRetryCount)/\(Self.maxAuthenticationRetries) after GKErrorGameUnrecognized"
+        )
+        AppLog.info(
+            AppLog.game + AppLog.leaderboard,
+            "🏆 GKErrorGameUnrecognized – watchOS bundle ID not matched to a Game Center profile. Check WKRunsIndependentlyOfCompanionApp setting and App Store Connect Game Center config."
         )
         return true
     }

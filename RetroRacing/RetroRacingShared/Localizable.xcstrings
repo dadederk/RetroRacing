@@ -2722,19 +2722,19 @@
         "ca": {
           "stringUnit": {
             "state": "translated",
-            "value": "• Fes servir les tecles de fletxa esquerra i dreta del teclat per moure.\n• Prem la barra espaiadora per pausar o reprendre.\n• Llisca amb dos dits cap a l'esquerra o la dreta en el trackpad per moure (es desactiva mentre VoiceOver està actiu).\n• Clica a la meitat esquerra o dreta de la pantalla amb el trackpad o el ratolí."
+            "value": "• Fes servir les tecles de fletxa esquerra i dreta del teclat per moure.\n• Clica a la meitat esquerra o dreta de la finestra amb el trackpad o el ratolí.\n• Prem la barra espaiadora per pausar o reprendre."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "• Use the left and right arrow keys on the keyboard to move.\n• Press the space bar to pause or resume.\n• Swipe left or right with two fingers on the trackpad to move (disabled while VoiceOver is running).\n• Click the left or right half of the screen with the trackpad or mouse."
+            "value": "• Use the left and right arrow keys on the keyboard to move.\n• Click the left or right half of the window with the trackpad or mouse.\n• Press the space bar to pause or resume."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "• Usa las teclas de flecha izquierda y derecha del teclado para mover.\n• Pulsa la barra espaciadora para pausar o reanudar.\n• Desliza dos dedos a izquierda o derecha en el trackpad para mover (se desactiva mientras VoiceOver está activo).\n• Haz clic en la mitad izquierda o derecha de la pantalla con el trackpad o el ratón."
+            "value": "• Usa las teclas de flecha izquierda y derecha del teclado para mover.\n• Haz clic en la mitad izquierda o derecha de la ventana con el trackpad o el ratón.\n• Pulsa la barra espaciadora para pausar o reanudar."
           }
         }
       }
@@ -2768,19 +2768,19 @@
         "ca": {
           "stringUnit": {
             "state": "translated",
-            "value": "• Digital Crown: Gira cap amunt per moure a la dreta, gira cap avall per moure a l'esquerra.\n• Tocar: Toca la part esquerra de la pantalla per moure a l'esquerra, la part dreta per moure a la dreta.\n• Lliscar: Llisca cap a l'esquerra per moure a l'esquerra, llisca cap a la dreta per moure a la dreta."
+            "value": "• Gira la Digital Crown cap amunt per moure't a la dreta i cap avall per moure't a l'esquerra.\n• Toca la part esquerra de la pantalla per moure't a l'esquerra i la dreta per moure't a la dreta.\n• Llisca cap a l'esquerra per moure't a l'esquerra i cap a la dreta per moure't a la dreta."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "• Digital Crown: Rotate up to move right, rotate down to move left.\n• Tap: Tap the left side of the screen to move left, the right side to move right.\n• Swipe: Swipe left to move left, swipe right to move right."
+            "value": "• Rotate the Digital Crown up to move right and down to move left.\n• Tap the left side of the screen to move left and the right side to move right.\n• Swipe left to move left and right to move right."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "• Digital Crown: Gira hacia arriba para moverte a la derecha, gira hacia abajo para moverte a la izquierda.\n• Tocar: Toca la parte izquierda de la pantalla para moverte a la izquierda, la parte derecha para moverte a la derecha.\n• Deslizar: Desliza a la izquierda para moverte a la izquierda, desliza a la derecha para moverte a la derecha."
+            "value": "• Gira la Digital Crown hacia arriba para moverte a la derecha y hacia abajo para moverte a la izquierda.\n• Toca la parte izquierda de la pantalla para moverte a la izquierda y la derecha para moverte a la derecha.\n• Desliza a la izquierda para moverte a la izquierda y a la derecha para moverte a la derecha."
           }
         }
       }
@@ -2860,19 +2860,19 @@
         "ca": {
           "stringUnit": {
             "state": "translated",
-            "value": "Les puntuacions s'envien a Game Center. Consulta les classificacions a l'iPhone o l'iPad."
+            "value": "Les puntuacions s'envien a Game Center."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Scores are submitted to Game Center. View leaderboards on iPhone or iPad."
+            "value": "Scores are submitted to Game Center."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Las puntuaciones se envían a Game Center. Consulta las clasificaciones en iPhone o iPad."
+            "value": "Las puntuaciones se envían a Game Center."
           }
         }
       }

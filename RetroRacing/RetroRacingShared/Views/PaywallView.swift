@@ -8,6 +8,9 @@
 
 import SwiftUI
 import StoreKit
+#if os(macOS)
+import AppKit
+#endif
 
 public struct PaywallPreviewData {
     var isLoadingProducts: Bool = false
@@ -17,6 +20,7 @@ public struct PaywallPreviewData {
 
 public struct PaywallView: View {
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.openURL) private var openURL
     @Environment(StoreKitService.self) private var storeKit
     @Environment(\.fontPreferenceStore) private var fontPreferenceStore
 
@@ -32,6 +36,11 @@ public struct PaywallView: View {
     @State private var isRestoringPurchases = false
     @State private var restoreMessage: String?
     @State private var showingRestoreAlert = false
+    @State private var showingOfferCodeRedemption = false
+    #if os(macOS)
+    @State private var offerCodeRedemptionHostController: NSViewController?
+    @State private var isRedeemingOfferCode = false
+    #endif
 
     private let previewData: PaywallPreviewData?
 
@@ -64,7 +73,7 @@ public struct PaywallView: View {
 
                     productsSection
 
-                    restorePurchasesButton
+                    purchaseActions
 
                     Text(GameLocalizedStrings.string("paywall_unlimited_and_themes"))
                         .font(fontPreferenceStore?.font(textStyle: .subheadline) ?? .subheadline)
@@ -87,7 +96,15 @@ public struct PaywallView: View {
                         .accessibilityRemoveTraits(.isButton)
                         .accessibilityAddTraits(.isLink)
                         #else
-                        EmptyView()
+                        Button {
+                            if let url = ExternalLinks.ammec {
+                                openURL(url)
+                            }
+                        } label: {
+                            PaywallCardLinkLabel(title: GameLocalizedStrings.string("paywall_learn_more"))
+                        }
+                        .accessibilityRemoveTraits(.isButton)
+                        .accessibilityAddTraits(.isLink)
                         #endif
                     }
 
@@ -146,12 +163,18 @@ public struct PaywallView: View {
             }
             .sheet(isPresented: $showingCharitySafari) {
                 #if os(iOS)
-                if let url = URL(string: "https://www.ammec.org/") {
+                if let url = ExternalLinks.ammec {
                     SafariView(url: url)
                         .ignoresSafeArea()
                 }
                 #endif
             }
+            #if os(macOS)
+            .background {
+                OfferCodeRedemptionHostView(controller: $offerCodeRedemptionHostController)
+                    .frame(width: 0, height: 0)
+            }
+            #endif
             .onAppear {
                 if isPreviewMode { return }
                 if !hasLoadedProducts && !storeKit.isLoadingProducts {
@@ -167,6 +190,54 @@ public struct PaywallView: View {
     // MARK: - Sections
 
     @ViewBuilder
+    private var purchaseActions: some View {
+        VStack(spacing: 12) {
+            redeemCodeButton
+            restorePurchasesButton
+        }
+    }
+
+    @ViewBuilder
+    private var redeemCodeButton: some View {
+        #if os(iOS)
+        Button {
+            showingOfferCodeRedemption = true
+        } label: {
+            Label(GameLocalizedStrings.string("redeem_code"), systemImage: "giftcard")
+                .font(fontPreferenceStore?.font(textStyle: .body) ?? .body)
+        }
+        .buttonStyle(.glass)
+        .disabled(isPurchasing || isRestoringPurchases)
+        .offerCodeRedemption(isPresented: $showingOfferCodeRedemption) { result in
+            if case .success = result {
+                Task { await storeKit.refreshPurchasedProducts() }
+            }
+        }
+        #elseif os(macOS)
+        Button {
+            Task { await redeemOfferCode() }
+        } label: {
+            HStack {
+                if isRedeemingOfferCode {
+                    ProgressView()
+                        .progressViewStyle(.circular)
+                        .scaleEffect(0.8)
+                } else {
+                    Image(systemName: "giftcard")
+                }
+                Text(GameLocalizedStrings.string("redeem_code"))
+                    .font(fontPreferenceStore?.font(textStyle: .body) ?? .body)
+            }
+        }
+        .buttonStyle(.glass)
+        .disabled(isPurchasing || isRestoringPurchases || isRedeemingOfferCode)
+        .opacity((isPurchasing || isRestoringPurchases || isRedeemingOfferCode) ? 0.6 : 1.0)
+        #else
+        EmptyView()
+        #endif
+    }
+
+    @ViewBuilder
     private var restorePurchasesButton: some View {
         Button {
             Task { await restorePurchases() }
@@ -176,14 +247,24 @@ public struct PaywallView: View {
                     ProgressView()
                         .progressViewStyle(.circular)
                         .scaleEffect(0.8)
+                } else {
+                    Image(systemName: "arrow.clockwise.circle")
                 }
                 Text(GameLocalizedStrings.string("restore_purchases"))
                     .font(fontPreferenceStore?.font(textStyle: .body) ?? .body)
             }
         }
         .buttonStyle(.glass)
-        .disabled(isRestoringPurchases || isPurchasing)
-        .opacity((isRestoringPurchases || isPurchasing) ? 0.6 : 1.0)
+        .disabled(isPurchaseActionBusy)
+        .opacity(isPurchaseActionBusy ? 0.6 : 1.0)
+    }
+
+    private var isPurchaseActionBusy: Bool {
+        #if os(macOS)
+        return isRestoringPurchases || isPurchasing || isRedeemingOfferCode
+        #else
+        return isRestoringPurchases || isPurchasing
+        #endif
     }
 
     @ViewBuilder
@@ -289,6 +370,28 @@ public struct PaywallView: View {
 
         isRestoringPurchases = false
     }
+
+    #if os(macOS)
+    @MainActor
+    private func redeemOfferCode() async {
+        guard let offerCodeRedemptionHostController else {
+            purchaseError = GameLocalizedStrings.string("error_product_not_available")
+            showingError = true
+            return
+        }
+
+        isRedeemingOfferCode = true
+        defer { isRedeemingOfferCode = false }
+
+        do {
+            try await AppStore.presentOfferCodeRedeemSheet(from: offerCodeRedemptionHostController)
+            await storeKit.refreshPurchasedProducts()
+        } catch {
+            purchaseError = error.localizedDescription
+            showingError = true
+        }
+    }
+    #endif
 }
 
 #if DEBUG

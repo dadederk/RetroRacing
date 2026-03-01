@@ -90,13 +90,13 @@ public struct GameOverView: View {
                 Text(
                     GameLocalizedStrings.format(
                         "game_over_previous_best %lld",
-                        previousBestScore ?? 0
+                        Int64(previousBestScore ?? 0)
                     )
                 )
-                Text(GameLocalizedStrings.format("game_over_new_record_value %lld", bestScore))
+                Text(GameLocalizedStrings.format("game_over_new_record_value %lld", Int64(bestScore)))
             } else {
-                Text(GameLocalizedStrings.format("score %lld", score))
-                Text(GameLocalizedStrings.format("game_over_best %lld", bestScore))
+                Text(GameLocalizedStrings.format("score %lld", Int64(score)))
+                Text(GameLocalizedStrings.format("game_over_best %lld", Int64(bestScore)))
             }
         }
         .font(scoreFont.monospacedDigit())
@@ -112,12 +112,17 @@ public struct GameOverView: View {
 
     private var actionButtons: some View {
         VStack(spacing: 10) {
-            Button(GameLocalizedStrings.string("restart"), action: onRestart)
-                .font(buttonFont)
-                .buttonStyle(.glassProminent)
-            Button(GameLocalizedStrings.string("finish"), action: onFinish)
-                .font(buttonFont)
-                .buttonStyle(.glass)
+            Button(action: onRestart) {
+                Text(GameLocalizedStrings.string("restart"))
+                    .font(buttonFont)
+            }
+            .buttonStyle(.glassProminent)
+
+            Button(action: onFinish) {
+                Text(GameLocalizedStrings.string("finish"))
+                    .font(buttonFont)
+            }
+            .buttonStyle(.glass)
         }
         .padding(.top, 4)
     }

@@ -144,9 +144,13 @@ Create only the leaderboards for platforms you ship (e.g. if you ship iPhone + w
 ### Debugging score submission
 
 - All leaderboard/Game Center logs use the 🏆 emoji (and `AppLog.leaderboard`). Filter console or logs by `🏆` to see: score submit attempts, “player not authenticated” skips, success, or failure with error message. Useful for diagnosing watch scores not appearing on the leaderboard.
-- On successful submit, `GameCenterService` performs a read-after-write verification (`fetchLocalPlayerBestScore(for:)`) and logs the verified remote best value when available.
+- On successful submit, `GameCenterService` performs a read-after-write verification (`fetchLocalPlayerBestScore(for:)`) with bounded retry attempts and logs the verified remote best value when available.
 - Leaderboard load logs now include metadata (`releaseState`, `isHidden`, `activityIdentifier`) to diagnose App Store Connect visibility/configuration mismatches.
-- Debug builds intentionally log `Skipped score submit ... debug build` and do not post scores to Game Center.
+- Leaderboard/load-entry failures include `NSError` domain/code/userInfo in logs for precise GameKit error diagnosis (e.g. `GKErrorGameUnrecognized`, `GKErrorNotAuthenticated`).
+- Debug builds (direct Xcode runs) intentionally log `Skipped score submit ... debug build` and do not post scores to Game Center. The `isDebugBuild` guard in `GameCenterService.isScoreSubmissionEnabled` enforces this.
+- `GKLeaderboard.submitScore` uses an **offline-first cache strategy**: it queues the score locally and fires the completion handler with `nil` error immediately — before the score reaches the server. A `"Successfully submitted"` log does **not** guarantee the score reached Game Center. The read-back verification step (`verifyRemoteBestAfterSubmit`) is the signal of server-side success. If it consistently fails with `GKErrorNotAuthenticated` (code 6), the app-level Game Center session is invalid and the score likely never persisted.
+- **watchOS: `GKErrorGameUnrecognized` (code 15)**: If you see this error on watchOS in any environment (dev, TestFlight, App Store), the watchOS app's bundle ID is not being matched to a valid Game Center profile. Possible causes: (1) `WKRunsIndependentlyOfCompanionApp = YES` causes Game Center to look for a standalone profile that doesn't exist for this bundle ID; (2) the App Store Connect Game Center configuration is in the wrong app entry relative to the watchOS submission structure; (3) the companion iOS app's Game Center session needs to be active first. Test by temporarily setting `WKRunsIndependentlyOfCompanionApp = NO` — if `GKErrorGameUnrecognized` disappears, the standalone/companion mismatch is the cause.
+- `GKLocalPlayer.local.isAuthenticated` returning `true` does not imply the app-level Game Center session is valid. It reflects the player's cached auth state. Game Center API calls (`loadLeaderboards`, `submitScore`) may still fail if the app is unrecognised.
 
 ## Testing Strategy
 

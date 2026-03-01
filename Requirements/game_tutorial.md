@@ -12,6 +12,12 @@ RetroRacing provides in-game help so players can learn controls and audio cues w
   - Audio cue tutorial with interactive previews.
 - Settings shows an **Audio cue tutorial** row only when audio feedback mode is not `Retro audio`.
 
+## Controls Copy Notes
+
+- watchOS controls copy uses direct action guidance without redundant prefixes (for example, no `Tap:` / `Digital Crown:` labels).
+- macOS controls copy currently omits the two-finger trackpad swipe guidance while that interaction is parked.
+- macOS click guidance refers to the game **window** (not screen), and the play/pause keyboard tip is listed after movement controls.
+
 ## VoiceOver First-Run Behavior
 
 - If VoiceOver is running and the user has not seen the tutorial before, gameplay auto-presents the help modal once.

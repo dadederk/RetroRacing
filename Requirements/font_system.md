@@ -137,6 +137,8 @@ All user-facing text respects the font preference:
 - Section headers
 - Picker options
 - Toggle labels
+- Done/actions buttons in Settings and nested tutorial sheets
+- On macOS, long Settings helper/footer copy is rendered as inline section rows (instead of native `Section` footers) to avoid footer height clipping while preserving configured font usage.
 
 ### About Screen
 - Footer text
@@ -155,6 +157,13 @@ All user-facing text respects the font preference:
 - HUD elements (score, lives)
 - Pause/resume labels
 - Game HUD/chrome uses `font(fixedSize:)` to preserve pixel-locked styling where required.
+- Game-over content rows and action buttons use semantic fonts from `FontPreferenceStore`.
+- Game-over action labels (`Restart`, `Finish`) apply semantic fonts directly on `Text` labels so custom button styles do not override configured typography.
+
+### macOS Navigation Title Exception
+
+- On macOS, native window/navigation titles remain system-rendered to preserve platform conventions.
+- The configured app font still applies to actionable/control text (buttons, picker labels/options, section content, and tutorial option buttons).
 
 ## Testing
 
