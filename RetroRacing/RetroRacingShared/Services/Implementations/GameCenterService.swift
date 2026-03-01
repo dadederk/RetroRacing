@@ -17,17 +17,20 @@ public final class GameCenterService: LeaderboardService {
     private weak var authenticationPresenter: AuthenticationPresenter?
     private let authenticateHandlerSetter: AuthenticateHandlerSetter?
     private let isDebugBuild: Bool
+    private let allowDebugScoreSubmission: Bool
 
     public init(
         configuration: LeaderboardConfiguration,
         authenticationPresenter: AuthenticationPresenter? = nil,
         authenticateHandlerSetter: AuthenticateHandlerSetter? = nil,
-        isDebugBuild: Bool
+        isDebugBuild: Bool,
+        allowDebugScoreSubmission: Bool
     ) {
         self.configuration = configuration
         self.authenticationPresenter = authenticationPresenter
         self.authenticateHandlerSetter = authenticateHandlerSetter
         self.isDebugBuild = isDebugBuild
+        self.allowDebugScoreSubmission = allowDebugScoreSubmission
     }
 
     /// Call with the object that can present the authentication view controller when Game Center requests it.
@@ -88,7 +91,7 @@ public final class GameCenterService: LeaderboardService {
     }
 
     var isScoreSubmissionEnabled: Bool {
-        !isDebugBuild
+        allowDebugScoreSubmission || !isDebugBuild
     }
 
     public func fetchLocalPlayerBestScore(for difficulty: GameDifficulty) async -> Int? {

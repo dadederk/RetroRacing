@@ -302,7 +302,9 @@ public final class AVGeneratedSoundEffectPlayer: SoundEffectPlayer {
             try engine.start()
             return true
         } catch {
-            engineHealthy = false
+            // Engine start can fail transiently (e.g. session interruptions). Keep retrying on later play calls.
+            engine.stop()
+            engine.reset()
             AppLog.error(AppLog.sound, "🔊 Generated SFX engine failed to start: \(error.localizedDescription)")
             return false
         }

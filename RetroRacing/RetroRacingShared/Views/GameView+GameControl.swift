@@ -24,19 +24,35 @@ struct GameAreaKeyboardModifier: ViewModifier {
     let inputAdapter: GameInputAdapter?
     var onMoveLeft: (() -> Void)?
     var onMoveRight: (() -> Void)?
+    var onKeyboardInput: (() -> Void)?
+    var onSwipeInput: (() -> Void)?
     var onTogglePause: (() -> Void)?
 
     func body(content: Content) -> some View {
         content
             .background(
                 HardwareKeyboardInputView(
-                    onLeft: {
+                    onKeyboardLeft: {
                         AppLog.info(AppLog.game, "🎮 Hardware keyboard left arrow received (bridge)")
+                        onKeyboardInput?()
                         onMoveLeft?()
                         inputAdapter?.handleLeft()
                     },
-                    onRight: {
+                    onKeyboardRight: {
                         AppLog.info(AppLog.game, "🎮 Hardware keyboard right arrow received (bridge)")
+                        onKeyboardInput?()
+                        onMoveRight?()
+                        inputAdapter?.handleRight()
+                    },
+                    onSwipeLeft: {
+                        AppLog.info(AppLog.game, "🎮 Trackpad swipe left received (bridge)")
+                        onSwipeInput?()
+                        onMoveLeft?()
+                        inputAdapter?.handleLeft()
+                    },
+                    onSwipeRight: {
+                        AppLog.info(AppLog.game, "🎮 Trackpad swipe right received (bridge)")
+                        onSwipeInput?()
                         onMoveRight?()
                         inputAdapter?.handleRight()
                     },
@@ -53,6 +69,8 @@ struct GameAreaKeyboardModifier: ViewModifier {
     let inputAdapter: GameInputAdapter?
     var onMoveLeft: (() -> Void)?
     var onMoveRight: (() -> Void)?
+    var onKeyboardInput: (() -> Void)?
+    var onSwipeInput: (() -> Void)?
     var onTogglePause: (() -> Void)?
 
     func body(content: Content) -> some View {
@@ -66,15 +84,27 @@ struct GameAreaKeyboardModifier: ViewModifier {
 #if os(macOS) || os(iOS)
 /// SwiftUI wrapper that hosts the platform-specific hardware keyboard bridge view.
 struct HardwareKeyboardInputView: View {
-    var onLeft: () -> Void
-    var onRight: () -> Void
+    var onKeyboardLeft: () -> Void
+    var onKeyboardRight: () -> Void
+    var onSwipeLeft: () -> Void
+    var onSwipeRight: () -> Void
     var onPauseToggle: () -> Void
 
     var body: some View {
         #if canImport(UIKit) && os(iOS)
-        UIKitHardwareKeyboardInputView(onLeft: onLeft, onRight: onRight, onPauseToggle: onPauseToggle)
+        UIKitHardwareKeyboardInputView(
+            onKeyboardLeft: onKeyboardLeft,
+            onKeyboardRight: onKeyboardRight,
+            onPauseToggle: onPauseToggle
+        )
         #elseif os(macOS)
-        AppKitHardwareKeyboardInputView(onLeft: onLeft, onRight: onRight, onPauseToggle: onPauseToggle)
+        AppKitHardwareKeyboardInputView(
+            onKeyboardLeft: onKeyboardLeft,
+            onKeyboardRight: onKeyboardRight,
+            onSwipeLeft: onSwipeLeft,
+            onSwipeRight: onSwipeRight,
+            onPauseToggle: onPauseToggle
+        )
         #endif
     }
 }
@@ -82,15 +112,15 @@ struct HardwareKeyboardInputView: View {
 #if canImport(UIKit) && os(iOS)
 /// Invisible UIView that becomes first responder and listens for hardware arrow key commands (iOS).
 private struct UIKitHardwareKeyboardInputView: UIViewRepresentable {
-    var onLeft: () -> Void
-    var onRight: () -> Void
+    var onKeyboardLeft: () -> Void
+    var onKeyboardRight: () -> Void
     var onPauseToggle: () -> Void
 
     func makeUIView(context: Context) -> KeyInputView {
         let view = KeyInputView()
         view.backgroundColor = .clear
-        view.onLeft = onLeft
-        view.onRight = onRight
+        view.onKeyboardLeft = onKeyboardLeft
+        view.onKeyboardRight = onKeyboardRight
         view.onPauseToggle = onPauseToggle
         DispatchQueue.main.async {
             let became = view.becomeFirstResponder()
@@ -100,8 +130,8 @@ private struct UIKitHardwareKeyboardInputView: UIViewRepresentable {
     }
 
     func updateUIView(_ uiView: KeyInputView, context: Context) {
-        uiView.onLeft = onLeft
-        uiView.onRight = onRight
+        uiView.onKeyboardLeft = onKeyboardLeft
+        uiView.onKeyboardRight = onKeyboardRight
         uiView.onPauseToggle = onPauseToggle
         DispatchQueue.main.async {
             let became = uiView.becomeFirstResponder()
@@ -110,8 +140,8 @@ private struct UIKitHardwareKeyboardInputView: UIViewRepresentable {
     }
 
     final class KeyInputView: UIView {
-        var onLeft: (() -> Void)?
-        var onRight: (() -> Void)?
+        var onKeyboardLeft: (() -> Void)?
+        var onKeyboardRight: (() -> Void)?
         var onPauseToggle: (() -> Void)?
 
         override var canBecomeFirstResponder: Bool { true }
@@ -126,12 +156,12 @@ private struct UIKitHardwareKeyboardInputView: UIViewRepresentable {
 
         @objc private func handleLeft() {
             AppLog.info(AppLog.game, "🎮 UIKeyCommand left arrow received (UIKit view)")
-            onLeft?()
+            onKeyboardLeft?()
         }
 
         @objc private func handleRight() {
             AppLog.info(AppLog.game, "🎮 UIKeyCommand right arrow received (UIKit view)")
-            onRight?()
+            onKeyboardRight?()
         }
 
         @objc private func handleSpace() {
@@ -145,14 +175,18 @@ private struct UIKitHardwareKeyboardInputView: UIViewRepresentable {
 #if os(macOS)
 /// Invisible NSView that becomes first responder and listens for hardware arrow key events (macOS).
 private struct AppKitHardwareKeyboardInputView: NSViewRepresentable {
-    var onLeft: () -> Void
-    var onRight: () -> Void
+    var onKeyboardLeft: () -> Void
+    var onKeyboardRight: () -> Void
+    var onSwipeLeft: () -> Void
+    var onSwipeRight: () -> Void
     var onPauseToggle: () -> Void
 
     func makeNSView(context: Context) -> KeyInputView {
         let view = KeyInputView()
-        view.onLeft = onLeft
-        view.onRight = onRight
+        view.onKeyboardLeft = onKeyboardLeft
+        view.onKeyboardRight = onKeyboardRight
+        view.onSwipeLeft = onSwipeLeft
+        view.onSwipeRight = onSwipeRight
         view.onPauseToggle = onPauseToggle
         DispatchQueue.main.async {
             let became = view.window?.makeFirstResponder(view) ?? view.becomeFirstResponder()
@@ -162,8 +196,10 @@ private struct AppKitHardwareKeyboardInputView: NSViewRepresentable {
     }
 
     func updateNSView(_ nsView: KeyInputView, context: Context) {
-        nsView.onLeft = onLeft
-        nsView.onRight = onRight
+        nsView.onKeyboardLeft = onKeyboardLeft
+        nsView.onKeyboardRight = onKeyboardRight
+        nsView.onSwipeLeft = onSwipeLeft
+        nsView.onSwipeRight = onSwipeRight
         nsView.onPauseToggle = onPauseToggle
         DispatchQueue.main.async {
             let became = nsView.window?.makeFirstResponder(nsView) ?? nsView.becomeFirstResponder()
@@ -172,8 +208,10 @@ private struct AppKitHardwareKeyboardInputView: NSViewRepresentable {
     }
 
     final class KeyInputView: NSView {
-        var onLeft: (() -> Void)?
-        var onRight: (() -> Void)?
+        var onKeyboardLeft: (() -> Void)?
+        var onKeyboardRight: (() -> Void)?
+        var onSwipeLeft: (() -> Void)?
+        var onSwipeRight: (() -> Void)?
         var onPauseToggle: (() -> Void)?
         private var swipeInterpreter = MacTrackpadSwipeInterpreter()
 
@@ -183,10 +221,10 @@ private struct AppKitHardwareKeyboardInputView: NSViewRepresentable {
             switch event.keyCode {
             case 123: // left arrow
                 AppLog.info(AppLog.game, "🎮 keyDown left arrow received (AppKit view)")
-                onLeft?()
+                onKeyboardLeft?()
             case 124: // right arrow
                 AppLog.info(AppLog.game, "🎮 keyDown right arrow received (AppKit view)")
-                onRight?()
+                onKeyboardRight?()
             case 49: // space bar
                 AppLog.info(AppLog.game, "🎮 keyDown space bar received (AppKit view)")
                 onPauseToggle?()
@@ -219,10 +257,10 @@ private struct AppKitHardwareKeyboardInputView: NSViewRepresentable {
             switch action {
             case .moveLeft:
                 AppLog.info(AppLog.game, "🎮 macOS trackpad swipe left received")
-                onLeft?()
+                onSwipeLeft?()
             case .moveRight:
                 AppLog.info(AppLog.game, "🎮 macOS trackpad swipe right received")
-                onRight?()
+                onSwipeRight?()
             case nil:
                 super.scrollWheel(with: event)
             }

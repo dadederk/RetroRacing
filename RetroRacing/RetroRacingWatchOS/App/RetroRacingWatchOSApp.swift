@@ -11,22 +11,6 @@ import GameKit
 import WatchKit
 #endif
 
-/// Game Center leaderboard configuration for watchOS sandbox.
-private struct LeaderboardConfigurationWatchOS: LeaderboardConfiguration {
-    func leaderboardID(for difficulty: GameDifficulty) -> String {
-        switch difficulty {
-        case .cruise:
-            return "bestwatchos001cruise"
-        case .fast:
-            return "bestwatchos001fast"
-        case .rapid:
-            return "bestwatchos001test"
-        @unknown default:
-            return "bestwatchos001test"
-        }
-    }
-}
-
 @main
 struct RetroRacingWatchOSApp: App {
     private static let maxAuthenticationRetries = 3
@@ -47,7 +31,9 @@ struct RetroRacingWatchOSApp: App {
     private let bestScoreSyncService: BestScoreSyncService
     private let fontPreferenceStore: FontPreferenceStore
     private let highestScoreStore = UserDefaultsHighestScoreStore(userDefaults: InfrastructureDefaults.userDefaults)
+    private let challengeProgressService: ChallengeProgressService
     private let playLimitService = UserDefaultsPlayLimitService(userDefaults: InfrastructureDefaults.userDefaults)
+    private let watchBestScoreRelaySender: WatchBestScoreRelaySender
     @State private var authenticationRetryCount = 0
 
     var body: some Scene {
@@ -56,7 +42,9 @@ struct RetroRacingWatchOSApp: App {
                 themeManager: themeManager,
                 fontPreferenceStore: fontPreferenceStore,
                 highestScoreStore: highestScoreStore,
-                leaderboardService: leaderboardService
+                challengeProgressService: challengeProgressService,
+                leaderboardService: leaderboardService,
+                watchBestScoreRelaySender: watchBestScoreRelaySender
             )
             .onAppear {
                 setupGameCenterAuthentication {
@@ -96,7 +84,8 @@ struct RetroRacingWatchOSApp: App {
             configuration: configuration,
             authenticationPresenter: nil,
             authenticateHandlerSetter: nil,
-            isDebugBuild: BuildConfiguration.isDebug
+            isDebugBuild: BuildConfiguration.isDebug,
+            allowDebugScoreSubmission: true
         )
         bestScoreSyncService = BestScoreSyncService(
             leaderboardService: leaderboardService,
@@ -105,6 +94,15 @@ struct RetroRacingWatchOSApp: App {
                 GameDifficulty.currentSelection(from: InfrastructureDefaults.userDefaults)
             }
         )
+        challengeProgressService = LocalChallengeProgressService(
+            store: UserDefaultsChallengeProgressStore(userDefaults: InfrastructureDefaults.userDefaults),
+            highestScoreStore: highestScoreStore,
+            reporter: NoOpChallengeProgressReporter()
+        )
+        challengeProgressService.performInitialBackfillIfNeeded()
+        let relaySender = WatchConnectivityBestScoreRelaySender()
+        relaySender.activateIfPossible()
+        watchBestScoreRelaySender = relaySender
     }
     
     private func setupGameCenterAuthentication(onAuthStateChanged: @escaping () -> Void) {

@@ -42,7 +42,10 @@
 - App bootstrap listens to audio session interruption/route/media-reset notifications and re-activates the session.
 - watchOS also configures and activates an AVAudioSession at app startup so generated SFX/lane cues have an active playback session.
 - watchOS gameplay re-activates the audio session on `WatchGameView` appear before starting the scene, so returning from overlays/menu restores sound output reliably.
+- watchOS gameplay also re-activates the audio session when scene phase returns to `active` so post-interruption foregrounding restores sound without requiring a relaunch.
 - watchOS audio session uses `.playback` without mix options to prioritize in-app SFX audibility.
+- watchOS audio-session lifecycle now observes interruption/route/media-reset notifications and re-activates the session in all three cases.
+- Generated SFX engine start failures are treated as recoverable; transient startup failures no longer permanently disable subsequent SFX playback attempts.
 - SFX volume persistence uses `ConditionalDefault<SoundEffectsVolumeSetting>` (`sfxVolume_conditionalDefault`):
   - VoiceOver ON system default: `1.0`
   - VoiceOver OFF system default: `0.8`
@@ -72,6 +75,9 @@
   - Speed increase warning feedback uses `AccessibilityNotification.Announcement` for announcement mode on all platforms.
   - Speed increase warning announcement mode posts with high announcement priority.
   - Speed increase warning `Haptic` mode triggers two consecutive warning haptic events.
+  - watchOS tick/move/crash/success haptics are dispatched immediately on the main thread to keep feedback aligned with gameplay timing.
+  - watchOS warning haptics keep a short internal spacing so the two warning pulses remain distinct.
+  - watchOS move-complete uses a directional pulse while preserving crash/success/warning semantics.
   - Speed increase warning sound uses a dedicated generated cue (`D4-F4-A4`, repeated twice) and does not reuse lane-safe tick cues.
 
 ## Testing Expectations

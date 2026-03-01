@@ -33,6 +33,7 @@ Requirements documents serve as:
 ### Core Features
 
 - **leaderboard_implementation.md** - Game Center integration with protocol-based architecture
+- **achievements.md** - Local challenge infrastructure and retroactive achievement preparation
 - **testing.md** - Unit test strategy, coverage goals, and testing patterns
 - **theming_system.md** - Visual theme system, monetization, and platform recommendations
 - **input_handling.md** - Control schemes per platform (touch, crown, remote, keyboard, etc.)
@@ -44,7 +45,6 @@ Requirements documents serve as:
 - **accessibility.md** - Platform-specific accessibility requirements and patterns
 - **settings.md** - User customization options and preferences
 - **audio_system.md** - Sound effects, music, and audio feedback
-- **achievements.md** - Game Center achievements and progression
 - **analytics.md** - Privacy-respecting analytics and crash reporting
 - **onboarding.md** - First-run experience and tutorial
 

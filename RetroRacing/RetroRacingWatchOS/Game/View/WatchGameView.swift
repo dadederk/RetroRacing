@@ -12,7 +12,9 @@ struct WatchGameView: View {
     let theme: any GameTheme
     let fontPreferenceStore: FontPreferenceStore?
     let highestScoreStore: HighestScoreStore
+    let challengeProgressService: ChallengeProgressService
     let leaderboardService: LeaderboardService
+    let watchBestScoreRelaySender: WatchBestScoreRelaySender
     @AppStorage(GameDifficulty.conditionalDefaultStorageKey) private var difficultyStorageData: Data = Data()
     @AppStorage(SoundEffectsVolumeSetting.conditionalDefaultStorageKey)
     private var soundEffectsVolumeData: Data = Data()
@@ -37,6 +39,7 @@ struct WatchGameView: View {
     @State private var gameOverPreviousBestScore: Int?
     @State private var isNewHighScore = false
     @State private var speedIncreaseImminent = false
+    @State private var runInputTelemetry = RunInputTelemetry()
     @State private var delegate: GameSceneDelegateImpl?
     @State private var inputAdapter: GameInputAdapter?
     @State private var watchHapticController: HapticFeedbackController
@@ -45,6 +48,7 @@ struct WatchGameView: View {
     @State private var pendingGameOverDismissAction: GameOverDismissAction = .none
     @FocusState private var isCrownFocused: Bool
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.scenePhase) private var scenePhase
 
     private enum HelpPresentationContext {
         case manual(snapshot: HelpPauseSnapshot)
@@ -70,12 +74,16 @@ struct WatchGameView: View {
         theme: any GameTheme,
         fontPreferenceStore: FontPreferenceStore? = nil,
         highestScoreStore: HighestScoreStore,
-        leaderboardService: LeaderboardService
+        challengeProgressService: ChallengeProgressService,
+        leaderboardService: LeaderboardService,
+        watchBestScoreRelaySender: WatchBestScoreRelaySender
     ) {
         self.theme = theme
         self.fontPreferenceStore = fontPreferenceStore
         self.highestScoreStore = highestScoreStore
+        self.challengeProgressService = challengeProgressService
         self.leaderboardService = leaderboardService
+        self.watchBestScoreRelaySender = watchBestScoreRelaySender
         let initialDifficulty = GameDifficulty.currentSelection(from: InfrastructureDefaults.userDefaults)
         let initialAudioFeedbackMode = AudioFeedbackMode.currentSelection(from: InfrastructureDefaults.userDefaults)
         let initialLaneMoveCueStyle = LaneMoveCueStyle.currentSelection(from: InfrastructureDefaults.userDefaults)
@@ -138,6 +146,7 @@ struct WatchGameView: View {
                     Color.clear
                         .contentShape(Rectangle())
                         .onTapGesture(coordinateSpace: .local) { location in
+                            recordControlInput(.tap)
                             if location.x < geo.size.width / 2 {
                                 AppLog.info(AppLog.game, "🎮 Watch tap on left half (x: \(location.x), width: \(geo.size.width))")
                                 inputAdapter?.handleLeft()
@@ -153,6 +162,7 @@ struct WatchGameView: View {
                             DragGesture(minimumDistance: 20)
                                 .onEnded { value in
                                     guard value.translation.width != 0 else { return }
+                                    recordControlInput(.swipe)
                                     let direction = value.translation.width < 0 ? "left" : "right"
                                     AppLog.info(
                                         AppLog.game,
@@ -199,6 +209,7 @@ struct WatchGameView: View {
             scene.setLaneMoveCueStyle(selectedLaneMoveCueStyle)
             logWatchAudioConfiguration()
             scene.start()
+            resetRunInputTelemetry()
             score = scene.gameState.score
             lives = scene.gameState.lives
             scenePaused = scene.gameState.isPaused
@@ -206,20 +217,37 @@ struct WatchGameView: View {
             isCrownFocused = true
             if delegate == nil {
                 let d = GameSceneDelegateImpl(
-                    onScoreUpdate: { score = $0 },
+                    onScoreUpdate: {
+                        score = $0
+                        recordVoiceOverControlIfNeeded()
+                    },
                     onCollision: {
                         lives = scene.gameState.lives
                         if scene.gameState.lives == 0 {
+                            recordVoiceOverControlIfNeeded()
                             gameOverScore = scene.gameState.score
                             let authenticated = leaderboardService.isAuthenticated()
                             AppLog.info(AppLog.game + AppLog.leaderboard, "🏆 watchOS game over – score \(gameOverScore), Game Center authenticated: \(authenticated)")
                             let difficultyAtGameOver = selectedDifficulty
                             leaderboardService.submitScore(gameOverScore, difficulty: difficultyAtGameOver)
+                            _ = challengeProgressService.recordCompletedRun(
+                                CompletedRunChallengeData(
+                                    overtakes: gameOverScore,
+                                    usedControls: runInputTelemetry.usedInputs
+                                )
+                            )
                             let summary = highestScoreStore.evaluateGameOverScore(gameOverScore, difficulty: difficultyAtGameOver)
                             isNewHighScore = summary.isNewRecord
                             gameOverBestScore = summary.bestScore
                             gameOverDifficulty = difficultyAtGameOver
                             gameOverPreviousBestScore = summary.previousBestScore
+                            if summary.isNewRecord {
+                                AppLog.info(
+                                    AppLog.game + AppLog.leaderboard,
+                                    "🏆 watchOS relaying new local best \(summary.bestScore) for speed \(difficultyAtGameOver.rawValue) to companion"
+                                )
+                                watchBestScoreRelaySender.relayBestScore(summary.bestScore, difficulty: difficultyAtGameOver)
+                            }
                             showGameOver = true
                         } else {
                             scene.resume()
@@ -254,6 +282,14 @@ struct WatchGameView: View {
             scene.stopAllSounds()
             crownIdleTask?.cancel()
             crownIdleTask = nil
+        }
+        .onChange(of: scenePhase) { _, newValue in
+            guard newValue == .active else { return }
+            AppBootstrap.configureAudioSession()
+            scene.setSoundVolume(selectedSoundEffectsVolume)
+            scene.setAudioFeedbackMode(selectedAudioFeedbackMode)
+            scene.setLaneMoveCueStyle(selectedLaneMoveCueStyle)
+            logWatchAudioConfiguration()
         }
         .onChange(of: soundEffectsVolumeData) { _, _ in
             scene.setSoundVolume(selectedSoundEffectsVolume)
@@ -340,6 +376,7 @@ struct WatchGameView: View {
 
     private func restartFromGameOver() {
         scene.start()
+        resetRunInputTelemetry()
         score = scene.gameState.score
         lives = scene.gameState.lives
         gameOverScore = 0
@@ -443,10 +480,12 @@ struct WatchGameView: View {
 
         switch action {
         case .moveLeft:
+            recordControlInput(.digitalCrown)
             AppLog.info(AppLog.game, "🎮 Watch crown triggering moveLeft via adapter")
             inputAdapter?.handleLeft()
             scheduleCrownIdleReset()
         case .moveRight:
+            recordControlInput(.digitalCrown)
             AppLog.info(AppLog.game, "🎮 Watch crown triggering moveRight via adapter")
             inputAdapter?.handleRight()
             scheduleCrownIdleReset()
@@ -488,6 +527,21 @@ struct WatchGameView: View {
         SoundEffectsVolumePreference.currentSelection(from: InfrastructureDefaults.userDefaults)
     }
 
+    private func recordControlInput(_ input: ChallengeControlInput) {
+        runInputTelemetry.record(input)
+        recordVoiceOverControlIfNeeded()
+    }
+
+    private func recordVoiceOverControlIfNeeded() {
+        guard VoiceOverStatus.isVoiceOverRunning else { return }
+        runInputTelemetry.record(.voiceOver)
+    }
+
+    private func resetRunInputTelemetry() {
+        runInputTelemetry.reset()
+        recordVoiceOverControlIfNeeded()
+    }
+
     private func handleSpeedWarningFeedback(oldValue: Bool, newValue: Bool) {
         guard oldValue == false, newValue else { return }
         let selectedMode = SpeedWarningFeedbackPreference.currentSelection(
@@ -510,7 +564,7 @@ struct WatchGameView: View {
         AppLog.info(
             AppLog.sound,
             """
-            🔊 watch game audio mode=\(selectedAudioFeedbackMode.rawValue) volume=\(selectedSoundEffectsVolume) outputVolume=\(session.outputVolume) route=[\(routeDescription)]
+            🔊 watch game audio mode=\(selectedAudioFeedbackMode.rawValue) volume=\(selectedSoundEffectsVolume) outputVolume=\(session.outputVolume) (watchOS may report 0.0) route=[\(routeDescription)]
             """
         )
         #else

@@ -25,6 +25,7 @@ final class GameViewModel {
     let theme: (any GameTheme)?
     let hapticController: HapticFeedbackController?
     let highestScoreStore: HighestScoreStore
+    let challengeProgressService: ChallengeProgressService
     let inputAdapterFactory: any GameInputAdapterFactory
     /// Optional play limit service used to record daily plays.
     let playLimitService: PlayLimitService?
@@ -33,6 +34,7 @@ final class GameViewModel {
     var selectedLaneMoveCueStyle: LaneMoveCueStyle
     var selectedBigRivalCarsEnabled: Bool
     var shouldStartGame: Bool
+    var runInputTelemetry = RunInputTelemetry()
 
     init(
         leaderboardService: LeaderboardService,
@@ -40,6 +42,7 @@ final class GameViewModel {
         theme: (any GameTheme)?,
         hapticController: HapticFeedbackController?,
         highestScoreStore: HighestScoreStore,
+        challengeProgressService: ChallengeProgressService,
         inputAdapterFactory: any GameInputAdapterFactory,
         playLimitService: PlayLimitService?,
         selectedDifficulty: GameDifficulty,
@@ -53,6 +56,7 @@ final class GameViewModel {
         self.theme = theme
         self.hapticController = hapticController
         self.highestScoreStore = highestScoreStore
+        self.challengeProgressService = challengeProgressService
         self.inputAdapterFactory = inputAdapterFactory
         self.playLimitService = playLimitService
         self.selectedDifficulty = selectedDifficulty

@@ -10,6 +10,7 @@ import Foundation
 extension GameViewModel {
     func restartGame() {
         scene?.start()
+        resetRunInputTelemetry()
         if let scene {
             let (currentScore, currentLives) = Self.scoreAndLives(from: scene)
             hud.score = currentScore
@@ -34,8 +35,15 @@ extension GameViewModel {
         let (currentScore, currentLives) = Self.scoreAndLives(from: scene)
         hud.lives = currentLives
         if currentLives == 0 {
+            recordVoiceOverControlIfNeeded()
             let difficultyAtGameOver = selectedDifficulty
             leaderboardService.submitScore(currentScore, difficulty: difficultyAtGameOver)
+            _ = challengeProgressService.recordCompletedRun(
+                CompletedRunChallengeData(
+                    overtakes: currentScore,
+                    usedControls: runInputTelemetry.usedInputs
+                )
+            )
             let scoreSummary = highestScoreStore.evaluateGameOverScore(
                 currentScore,
                 difficulty: difficultyAtGameOver
@@ -53,6 +61,21 @@ extension GameViewModel {
         } else {
             scene.resume()
         }
+    }
+
+    func recordControlInput(_ input: ChallengeControlInput) {
+        runInputTelemetry.record(input)
+        recordVoiceOverControlIfNeeded()
+    }
+
+    func recordVoiceOverControlIfNeeded() {
+        guard VoiceOverStatus.isVoiceOverRunning else { return }
+        runInputTelemetry.record(.voiceOver)
+    }
+
+    func resetRunInputTelemetry() {
+        runInputTelemetry.reset()
+        recordVoiceOverControlIfNeeded()
     }
 
     /// Triggers the rating check exactly once when the game-over modal is presented.

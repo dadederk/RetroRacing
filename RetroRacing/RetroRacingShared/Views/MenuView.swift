@@ -22,6 +22,7 @@ public struct MenuView: View {
     /// Injected by app; when false, haptic setting is hidden (device has no haptics).
     public let supportsHapticFeedback: Bool
     public let highestScoreStore: HighestScoreStore
+    public let challengeProgressService: ChallengeProgressService
     public let playLimitService: PlayLimitService?
     public let style: MenuViewStyle
     public let settingsStyle: SettingsViewStyle
@@ -52,6 +53,7 @@ public struct MenuView: View {
         hapticController: HapticFeedbackController,
         supportsHapticFeedback: Bool,
         highestScoreStore: HighestScoreStore,
+        challengeProgressService: ChallengeProgressService,
         playLimitService: PlayLimitService?,
         style: MenuViewStyle,
         settingsStyle: SettingsViewStyle,
@@ -70,6 +72,7 @@ public struct MenuView: View {
         self.hapticController = hapticController
         self.supportsHapticFeedback = supportsHapticFeedback
         self.highestScoreStore = highestScoreStore
+        self.challengeProgressService = challengeProgressService
         self.playLimitService = playLimitService
         self.style = style
         self.settingsStyle = settingsStyle
@@ -136,6 +139,7 @@ public struct MenuView: View {
                     supportsHapticFeedback: supportsHapticFeedback,
                     fontPreferenceStore: fontPreferenceStore,
                     highestScoreStore: highestScoreStore,
+                    challengeProgressService: challengeProgressService,
                     playLimitService: playLimitService,
                     style: gameViewStyle,
                     inputAdapterFactory: inputAdapterFactory,

@@ -38,6 +38,7 @@ extension GameViewModel {
     }
 
     private func createSceneAndDelegate(side: CGFloat, volume: Double) {
+        resetRunInputTelemetry()
         let newScene = Self.makeScene(
             side: side,
             difficulty: selectedDifficulty,
@@ -94,7 +95,11 @@ extension GameViewModel {
 
     private func makeGameSceneDelegate() -> GameSceneDelegateImpl {
         GameSceneDelegateImpl(
-            onScoreUpdate: { [weak self] in self?.hud.score = $0 },
+            onScoreUpdate: { [weak self] score in
+                guard let self else { return }
+                self.hud.score = score
+                self.recordVoiceOverControlIfNeeded()
+            },
             onLevelChangeImminent: { [weak self] in self?.hud.speedIncreaseImminent = $0 },
             onCollision: { [weak self] in self?.handleCollision() },
             onPauseStateChange: { [weak self] newPaused in

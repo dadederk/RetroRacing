@@ -37,6 +37,8 @@ If local signing blocks simulator/macOS verification, run with `CODE_SIGNING_ALL
 - Difficulty timing behavior (clear pacing separation for cruise/fast/rapid and conditional-default wiring)
 - Platform filtering (hide haptics-only options on unsupported platforms)
 - Settings/tutorial state behavior (audio tutorial visibility in retro, speed preview disable for announcement+VoiceOver off, configured-state apply labels)
+- Leaderboard fallback relay behavior (watch best-score relay payload parsing, per-speed max guard store, single-shot ingestion flush verification)
+- Challenges infrastructure behavior (one-time max/sum backfill, completed-run updates, and control telemetry unlocks)
 
 ### UI Tests (Future)
 

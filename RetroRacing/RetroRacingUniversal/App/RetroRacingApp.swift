@@ -18,6 +18,8 @@ import CoreHaptics
 /// App entry point assembling shared services and presenting the universal menu scene.
 @main
 struct RetroRacingApp: App {
+    @Environment(\.scenePhase) private var scenePhase
+
     private let leaderboardConfiguration: LeaderboardConfiguration
     #if canImport(UIKit)
     private let authenticationPresenter = AuthenticationPresenterUniversal()
@@ -31,7 +33,11 @@ struct RetroRacingApp: App {
     private let hapticController: HapticFeedbackController
     private let supportsHapticFeedback: Bool
     private let highestScoreStore: HighestScoreStore
+    private let challengeProgressService: ChallengeProgressService
     private let bestScoreSyncService: BestScoreSyncService
+    private let watchRelayIngestionService: WatchRelayedBestScoreIngestionService?
+    /// Retained so WCSession delegate callbacks remain active.
+    private let watchRelayReceiver: WatchBestScoreRelayReceiver?
     private let playLimitService: PlayLimitService
     private let storeKitService: StoreKitService
     private let controlsDescriptionKey: String
@@ -87,7 +93,8 @@ struct RetroRacingApp: App {
             configuration: leaderboardConfiguration,
             authenticationPresenter: authenticationPresenter,
             authenticateHandlerSetter: leaderboardPlatformConfig.authenticateHandlerSetter,
-            isDebugBuild: BuildConfiguration.isDebug
+            isDebugBuild: BuildConfiguration.isDebug,
+            allowDebugScoreSubmission: true
         )
         #if canImport(UIKit)
         ratingService = StoreReviewService(userDefaults: userDefaults, ratingProvider: RatingServiceProviderUniversal())
@@ -111,6 +118,12 @@ struct RetroRacingApp: App {
         hapticController = hapticsConfig.controllerProvider()
         supportsHapticFeedback = hapticsConfig.supportsHaptics
         highestScoreStore = UserDefaultsHighestScoreStore(userDefaults: userDefaults)
+        challengeProgressService = LocalChallengeProgressService(
+            store: UserDefaultsChallengeProgressStore(userDefaults: userDefaults),
+            highestScoreStore: highestScoreStore,
+            reporter: NoOpChallengeProgressReporter()
+        )
+        challengeProgressService.performInitialBackfillIfNeeded()
         bestScoreSyncService = BestScoreSyncService(
             leaderboardService: gameCenterService,
             highestScoreStore: highestScoreStore,
@@ -118,6 +131,30 @@ struct RetroRacingApp: App {
                 GameDifficulty.currentSelection(from: userDefaults)
             }
         )
+        #if os(iOS)
+        let watchRelayLeaderboardService = GameCenterService(
+            configuration: LeaderboardConfigurationWatchOS(),
+            authenticationPresenter: nil,
+            authenticateHandlerSetter: nil,
+            isDebugBuild: BuildConfiguration.isDebug,
+            allowDebugScoreSubmission: true
+        )
+        let watchRelayPendingStore = UserDefaultsRelayedWatchBestScoreStore(
+            userDefaults: userDefaults,
+            keyPrefix: "watchRelayPendingBestScore"
+        )
+        let relayIngestionService = WatchRelayedBestScoreIngestionService(
+            leaderboardService: watchRelayLeaderboardService,
+            pendingStore: watchRelayPendingStore
+        )
+        watchRelayIngestionService = relayIngestionService
+        let relayReceiver = WatchBestScoreRelayReceiver(ingestionService: relayIngestionService)
+        relayReceiver.activate()
+        watchRelayReceiver = relayReceiver
+        #else
+        watchRelayIngestionService = nil
+        watchRelayReceiver = nil
+        #endif
 
         BuildConfiguration.initializeTestFlightCheck()
         playLimitService = UserDefaultsPlayLimitService(userDefaults: userDefaults)
@@ -148,10 +185,18 @@ struct RetroRacingApp: App {
                     .task {
                         await storeKitService.loadProducts()
                         await bestScoreSyncService.syncIfPossible()
+                        await watchRelayIngestionService?.flushPendingIfPossible(trigger: .appLifecycle)
                     }
                     .onReceive(NotificationCenter.default.publisher(for: .GKPlayerAuthenticationDidChangeNotificationName)) { _ in
                         Task {
                             await bestScoreSyncService.syncIfPossible()
+                            await watchRelayIngestionService?.flushPendingIfPossible(trigger: .gameCenterAuthChanged)
+                        }
+                    }
+                    .onChange(of: scenePhase) { _, newValue in
+                        guard newValue == .active else { return }
+                        Task {
+                            await watchRelayIngestionService?.flushPendingIfPossible(trigger: .appLifecycle)
                         }
                     }
             }
@@ -205,6 +250,7 @@ struct RetroRacingApp: App {
             supportsHapticFeedback: supportsHapticFeedback,
             fontPreferenceStore: fontPreferenceStore,
             highestScoreStore: highestScoreStore,
+            challengeProgressService: challengeProgressService,
             playLimitService: playLimitService,
             style: .universal,
             inputAdapterFactory: TouchInputAdapterFactory(),
@@ -233,6 +279,7 @@ struct RetroRacingApp: App {
             hapticController: hapticController,
             supportsHapticFeedback: supportsHapticFeedback,
             highestScoreStore: highestScoreStore,
+            challengeProgressService: challengeProgressService,
             playLimitService: playLimitService,
             style: .universal,
             settingsStyle: .universal,
@@ -256,6 +303,7 @@ struct RetroRacingApp: App {
             hapticController: hapticController,
             supportsHapticFeedback: supportsHapticFeedback,
             highestScoreStore: highestScoreStore,
+            challengeProgressService: challengeProgressService,
             playLimitService: playLimitService,
             style: .universal,
             settingsStyle: .universal,

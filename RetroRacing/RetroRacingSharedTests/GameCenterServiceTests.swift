@@ -17,7 +17,7 @@ final class GameCenterServiceTests: XCTestCase {
         )
 
         // When
-        _ = GameCenterService(configuration: mockConfig, isDebugBuild: false)
+        _ = GameCenterService(configuration: mockConfig, isDebugBuild: false, allowDebugScoreSubmission: false)
 
         // Then
         XCTAssertEqual(mockConfig.leaderboardID(for: .cruise), "test_cruise_001")
@@ -30,7 +30,7 @@ final class GameCenterServiceTests: XCTestCase {
         let mockConfig = MockLeaderboardConfiguration(leaderboardID: "test123")
 
         // When
-        _ = GameCenterService(configuration: mockConfig, isDebugBuild: false).isAuthenticated()
+        _ = GameCenterService(configuration: mockConfig, isDebugBuild: false, allowDebugScoreSubmission: false).isAuthenticated()
 
         // Then
         // In test/simulator, typically not authenticated; just ensure no crash.
@@ -39,7 +39,7 @@ final class GameCenterServiceTests: XCTestCase {
     func testSubmitScoreWhenNotAuthenticatedDoesNotCrash() {
         // Given
         let mockConfig = MockLeaderboardConfiguration(leaderboardID: "test123")
-        let service = GameCenterService(configuration: mockConfig, isDebugBuild: false)
+        let service = GameCenterService(configuration: mockConfig, isDebugBuild: false, allowDebugScoreSubmission: false)
 
         // When
         service.submitScore(100, difficulty: .rapid)
@@ -52,7 +52,8 @@ final class GameCenterServiceTests: XCTestCase {
         // Given
         let service = GameCenterService(
             configuration: MockLeaderboardConfiguration(leaderboardID: "test123"),
-            isDebugBuild: true
+            isDebugBuild: true,
+            allowDebugScoreSubmission: false
         )
 
         // When
@@ -66,7 +67,23 @@ final class GameCenterServiceTests: XCTestCase {
         // Given
         let service = GameCenterService(
             configuration: MockLeaderboardConfiguration(leaderboardID: "test123"),
-            isDebugBuild: false
+            isDebugBuild: false,
+            allowDebugScoreSubmission: false
+        )
+
+        // When
+        let isScoreSubmissionEnabled = service.isScoreSubmissionEnabled
+
+        // Then
+        XCTAssertTrue(isScoreSubmissionEnabled)
+    }
+
+    func testGivenDebugBuildAndDebugOverrideWhenCheckingScoreSubmissionEligibilityThenSubmissionIsEnabled() {
+        // Given
+        let service = GameCenterService(
+            configuration: MockLeaderboardConfiguration(leaderboardID: "test123"),
+            isDebugBuild: true,
+            allowDebugScoreSubmission: true
         )
 
         // When

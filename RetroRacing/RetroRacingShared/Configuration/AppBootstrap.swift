@@ -14,6 +14,9 @@ public enum AppBootstrap {
     #if canImport(UIKit) && !os(watchOS)
     private static let audioSessionObserver = AudioSessionObserver()
     #endif
+    #if os(watchOS)
+    private static let watchAudioSessionObserver = WatchAudioSessionObserver()
+    #endif
 
     /// Configures access point location but keeps it hidden; the app presents Game Center explicitly.
     public static func configureGameCenterAccessPoint() {
@@ -35,13 +38,14 @@ public enum AppBootstrap {
         #elseif os(watchOS)
         do {
             try activateWatchAudioSession()
+            watchAudioSessionObserver.startObserving()
             let session = AVAudioSession.sharedInstance()
             let routeDescription = session.currentRoute.outputs
                 .map { "\($0.portType.rawValue):\($0.portName)" }
                 .joined(separator: ",")
             AppLog.info(
                 AppLog.sound,
-                "🔊 watchOS audio session activated (outputVolume=\(session.outputVolume), route=[\(routeDescription)])"
+                "🔊 watchOS audio session activated (outputVolume=\(session.outputVolume), route=[\(routeDescription)]; watchOS often reports 0.0)"
             )
         } catch {
             AppLog.error(AppLog.sound, "🔊 watchOS audio session activation failed: \(error.localizedDescription)")
@@ -129,6 +133,81 @@ private final class AudioSessionObserver: NSObject {
 
     deinit {
         NotificationCenter.default.removeObserver(self)
+    }
+}
+#endif
+
+#if os(watchOS)
+private final class WatchAudioSessionObserver {
+    private var isObserving = false
+    private var observerTokens: [NSObjectProtocol] = []
+
+    func startObserving() {
+        guard isObserving == false else { return }
+        isObserving = true
+
+        let center = NotificationCenter.default
+        observerTokens.append(
+            center.addObserver(
+                forName: AVAudioSession.interruptionNotification,
+                object: nil,
+                queue: .main
+            ) { [weak self] notification in
+                self?.handleInterruption(notification)
+            }
+        )
+        observerTokens.append(
+            center.addObserver(
+                forName: AVAudioSession.routeChangeNotification,
+                object: nil,
+                queue: .main
+            ) { [weak self] _ in
+                self?.reactivateAudioSession(reason: "route change")
+            }
+        )
+        observerTokens.append(
+            center.addObserver(
+                forName: AVAudioSession.mediaServicesWereResetNotification,
+                object: nil,
+                queue: .main
+            ) { [weak self] _ in
+                self?.reactivateAudioSession(reason: "media services reset")
+            }
+        )
+    }
+
+    private func handleInterruption(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let rawType = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
+              let type = AVAudioSession.InterruptionType(rawValue: rawType) else { return }
+        guard type == .ended else { return }
+        reactivateAudioSession(reason: "interruption ended")
+    }
+
+    private func reactivateAudioSession(reason: String) {
+        do {
+            try AppBootstrap.activateWatchAudioSession()
+            let session = AVAudioSession.sharedInstance()
+            let routeDescription = session.currentRoute.outputs
+                .map { "\($0.portType.rawValue):\($0.portName)" }
+                .joined(separator: ",")
+            AppLog.info(
+                AppLog.sound,
+                "🔊 Re-activated watchOS audio session after \(reason) (outputVolume=\(session.outputVolume), route=[\(routeDescription)]; watchOS often reports 0.0)"
+            )
+        } catch {
+            AppLog.error(
+                AppLog.sound,
+                "🔊 Failed to reactivate watchOS audio session after \(reason): \(error.localizedDescription)"
+            )
+        }
+    }
+
+    deinit {
+        let center = NotificationCenter.default
+        for token in observerTokens {
+            center.removeObserver(token)
+        }
     }
 }
 #endif

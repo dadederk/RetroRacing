@@ -24,6 +24,11 @@ protocol LeaderboardConfiguration {
 }
 ```
 
+**Single source of truth:**
+- `LeaderboardIDCatalog` (shared) owns all platform + speed leaderboard IDs.
+- Platform-specific configurations delegate to this catalog to avoid drift between targets.
+- `LeaderboardConfigurationWatchOS` now lives in shared code so watch app and iPhone relay use identical watch leaderboard mapping.
+
 **Platform Implementations (sandbox IDs per speed):**
 - iPhone (`LeaderboardConfigurationUniversal`)
   - Cruise → `bestios001cruise`
@@ -60,11 +65,23 @@ protocol LeaderboardService {
 **`GameCenterService` Implementation**
 - Accepts `LeaderboardConfiguration` via initializer
 - Accepts injected build-mode flag (`isDebugBuild`) via initializer
+- Accepts optional debug-submit override (`allowDebugScoreSubmission`) for sandbox diagnostics
 - **No compiler flags** for platform detection
 - Handles all Game Center authentication and presentation
 - Manages view controller lifecycle and delegation
 - Fetches and submits against the leaderboard mapped to the selected speed level
-- Skips `submitScore(_:difficulty:)` in debug builds so sandbox/development runs do not post scores
+- By default skips `submitScore(_:difficulty:)` in debug builds; this can be explicitly overridden at composition root for diagnostics
+
+### watchOS fallback relay (companion iPhone)
+
+- watchOS keeps direct `GameCenterService.submitScore` on game over.
+- When a game-over score becomes a **new local best**, watchOS also relays that best score to iPhone via `WatchConnectivity.transferUserInfo`.
+- iPhone ingests relayed scores, keeps one **pending max per speed**, and submits to the **watchOS leaderboard IDs** via `GameCenterService(configuration: LeaderboardConfigurationWatchOS())`.
+- Verification is **single-shot per trigger** (no timer loops):
+  - trigger: relay received
+  - trigger: app lifecycle active/launch
+  - trigger: Game Center auth state change
+- If verification cannot confirm remote persistence, pending best remains for a later natural trigger.
 
 ### Best-Score Sync
 
@@ -85,6 +102,7 @@ protocol LeaderboardService {
 - iOS/macOS: `MenuView` (SwiftUI) in main app target; composition root in `RetroRacingApp.swift` injects `GameCenterService` and `LeaderboardConfiguration`.
 - tvOS: `tvOSMenuView` (SwiftUI) in tvOS target; composition root in `RetroRacingTvOSApp.swift`.
 - watchOS: `ContentView` (SwiftUI) as main menu; `RetroRacingWatchOSApp.swift` as composition root. `GameCenterService` is injected with `LeaderboardConfigurationWatchOS`; `WatchGameView` calls `leaderboardService.submitScore(score, difficulty:)` on game over so scores land on the selected speed leaderboard. No Leaderboard button on menu; leaderboard info is in Settings.
+- watchOS fallback sender (`WatchBestScoreRelaySender`) is injected from composition root and called only when local best improves; it does not replace direct watch submit.
 - visionOS: TBD
 
 View layer characteristics:
@@ -148,6 +166,7 @@ Create only the leaderboards for platforms you ship (e.g. if you ship iPhone + w
 - Leaderboard load logs now include metadata (`releaseState`, `isHidden`, `activityIdentifier`) to diagnose App Store Connect visibility/configuration mismatches.
 - Leaderboard/load-entry failures include `NSError` domain/code/userInfo in logs for precise GameKit error diagnosis (e.g. `GKErrorGameUnrecognized`, `GKErrorNotAuthenticated`).
 - Debug builds (direct Xcode runs) intentionally log `Skipped score submit ... debug build` and do not post scores to Game Center. The `isDebugBuild` guard in `GameCenterService.isScoreSubmissionEnabled` enforces this.
+- For current watch/iPhone fallback diagnostics, composition roots set `allowDebugScoreSubmission = true` temporarily; revert to default (`false`) when diagnostics end.
 - `GKLeaderboard.submitScore` uses an **offline-first cache strategy**: it queues the score locally and fires the completion handler with `nil` error immediately — before the score reaches the server. A `"Successfully submitted"` log does **not** guarantee the score reached Game Center. The read-back verification step (`verifyRemoteBestAfterSubmit`) is the signal of server-side success. If it consistently fails with `GKErrorNotAuthenticated` (code 6), the app-level Game Center session is invalid and the score likely never persisted.
 - **watchOS: `GKErrorGameUnrecognized` (code 15)**: If you see this error on watchOS in any environment (dev, TestFlight, App Store), the watchOS app's bundle ID is not being matched to a valid Game Center profile. Possible causes: (1) `WKRunsIndependentlyOfCompanionApp = YES` causes Game Center to look for a standalone profile that doesn't exist for this bundle ID; (2) the App Store Connect Game Center configuration is in the wrong app entry relative to the watchOS submission structure; (3) the companion iOS app's Game Center session needs to be active first. Test by temporarily setting `WKRunsIndependentlyOfCompanionApp = NO` — if `GKErrorGameUnrecognized` disappears, the standalone/companion mismatch is the cause.
 - `GKLocalPlayer.local.isAuthenticated` returning `true` does not imply the app-level Game Center session is valid. It reflects the player's cached auth state. Game Center API calls (`loadLeaderboards`, `submitScore`) may still fail if the app is unrecognised.
@@ -216,6 +235,7 @@ watchOS uses Game Center but has critical platform-specific differences:
 @main
 struct RetroRacingWatchOSApp: App {
     private let leaderboardService: GameCenterService
+    private let watchBestScoreRelaySender: WatchBestScoreRelaySender
     
     init() {
         // Initialize service with no authentication presenter (watchOS has no UI for this)
@@ -223,8 +243,11 @@ struct RetroRacingWatchOSApp: App {
         leaderboardService = GameCenterService(
             configuration: configuration,
             authenticationPresenter: nil,
-            authenticateHandlerSetter: nil
+            authenticateHandlerSetter: nil,
+            isDebugBuild: BuildConfiguration.isDebug,
+            allowDebugScoreSubmission: true
         )
+        watchBestScoreRelaySender = WatchConnectivityBestScoreRelaySender()
     }
     
     var body: some Scene {
@@ -263,6 +286,9 @@ struct RetroRacingWatchOSApp: App {
 func handleGameOver() {
     let finalScore = gameScene?.gameState.score ?? 0
     leaderboardService.submitScore(finalScore, difficulty: selectedDifficulty)
+    if finalScore > localBest {
+        watchBestScoreRelaySender.relayBestScore(finalScore, difficulty: selectedDifficulty)
+    }
 }
 ```
 
@@ -274,6 +300,7 @@ func handleGameOver() {
 - No in-app leaderboard UI (users view leaderboards on iPhone/iPad)
 - Settings view displays conditional text based on authentication status
 - Score submission happens automatically on game over
+- Companion fallback relay is best-score-only and event-driven (no timer retries)
 
 **Debugging score submission:**
 

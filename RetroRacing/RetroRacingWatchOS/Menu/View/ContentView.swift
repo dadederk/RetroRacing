@@ -5,7 +5,9 @@ struct ContentView: View {
     let themeManager: ThemeManager
     let fontPreferenceStore: FontPreferenceStore
     let highestScoreStore: HighestScoreStore
+    let challengeProgressService: ChallengeProgressService
     let leaderboardService: LeaderboardService
+    let watchBestScoreRelaySender: WatchBestScoreRelaySender
     @State private var showGame = false
     @State private var gameID = 0
     @State private var showSettings = false
@@ -30,7 +32,9 @@ struct ContentView: View {
                     theme: themeManager.currentTheme,
                     fontPreferenceStore: fontPreferenceStore,
                     highestScoreStore: highestScoreStore,
-                    leaderboardService: leaderboardService
+                    challengeProgressService: challengeProgressService,
+                    leaderboardService: leaderboardService,
+                    watchBestScoreRelaySender: watchBestScoreRelaySender
                 )
                 .id(gameID)
             }
@@ -91,7 +95,13 @@ struct ContentView: View {
             customFontAvailable: true
         ),
         highestScoreStore: UserDefaultsHighestScoreStore(userDefaults: InfrastructureDefaults.userDefaults),
-        leaderboardService: PreviewLeaderboardService()
+        challengeProgressService: LocalChallengeProgressService(
+            store: UserDefaultsChallengeProgressStore(userDefaults: InfrastructureDefaults.userDefaults),
+            highestScoreStore: UserDefaultsHighestScoreStore(userDefaults: InfrastructureDefaults.userDefaults),
+            reporter: NoOpChallengeProgressReporter()
+        ),
+        leaderboardService: PreviewLeaderboardService(),
+        watchBestScoreRelaySender: NoOpWatchBestScoreRelaySender()
     )
 }
 

@@ -37,6 +37,7 @@ public struct GameView: View {
     public let supportsHapticFeedback: Bool
     public let fontPreferenceStore: FontPreferenceStore?
     public let highestScoreStore: HighestScoreStore
+    public let challengeProgressService: ChallengeProgressService
     public let playLimitService: PlayLimitService?
     public let style: GameViewStyle
     public let inputAdapterFactory: any GameInputAdapterFactory
@@ -79,6 +80,7 @@ public struct GameView: View {
         supportsHapticFeedback: Bool,
         fontPreferenceStore: FontPreferenceStore?,
         highestScoreStore: HighestScoreStore,
+        challengeProgressService: ChallengeProgressService,
         playLimitService: PlayLimitService?,
         style: GameViewStyle,
         inputAdapterFactory: any GameInputAdapterFactory,
@@ -96,6 +98,7 @@ public struct GameView: View {
         self.supportsHapticFeedback = supportsHapticFeedback
         self.fontPreferenceStore = fontPreferenceStore
         self.highestScoreStore = highestScoreStore
+        self.challengeProgressService = challengeProgressService
         self.playLimitService = playLimitService
         self.style = style
         self.inputAdapterFactory = inputAdapterFactory
@@ -116,6 +119,7 @@ public struct GameView: View {
             theme: theme,
             hapticController: hapticController,
             highestScoreStore: highestScoreStore,
+            challengeProgressService: challengeProgressService,
             inputAdapterFactory: inputAdapterFactory,
             playLimitService: playLimitService,
             selectedDifficulty: selectedDifficulty,
@@ -145,6 +149,8 @@ public struct GameView: View {
                     inputAdapter: model.inputAdapter,
                     onMoveLeft: { model.flashButton(.left) },
                     onMoveRight: { model.flashButton(.right) },
+                    onKeyboardInput: { model.recordControlInput(.keyboard) },
+                    onSwipeInput: { model.recordControlInput(.swipe) },
                     onTogglePause: model.togglePause,
                     onAppearSide: { side in
                         AppLog.info(AppLog.game, "GameLayoutView appeared with side: \(side)")
@@ -184,9 +190,9 @@ public struct GameView: View {
         .onMoveCommand { direction in
             switch direction {
             case .left:
-                handleLeftTap()
+                handleDirectionalMoveLeft(recordControlInput: nil)
             case .right:
-                handleRightTap()
+                handleDirectionalMoveRight(recordControlInput: nil)
             default:
                 break
             }
@@ -203,6 +209,7 @@ public struct GameView: View {
             model.updateAudioFeedbackMode(selectedAudioFeedbackMode)
             model.updateLaneMoveCueStyle(selectedLaneMoveCueStyle)
             model.updateBigRivalCarsEnabled(selectedBigRivalCarsEnabled)
+            model.recordVoiceOverControlIfNeeded()
             if let overlayBinding = isMenuOverlayPresented {
                 AppLog.info(AppLog.game, "GameView onAppear - overlay presented: \(overlayBinding.wrappedValue)")
                 model.setOverlayPause(isPresented: overlayBinding.wrappedValue)
@@ -416,22 +423,37 @@ public struct GameView: View {
     #endif
 
     private func handleLeftTap() {
-        model.flashButton(.left)
-        model.inputAdapter?.handleLeft()
+        handleDirectionalMoveLeft(recordControlInput: .tap)
     }
 
     private func handleRightTap() {
-        model.flashButton(.right)
-        model.inputAdapter?.handleRight()
+        handleDirectionalMoveRight(recordControlInput: .tap)
     }
 
     private func handleDrag(translation: CGSize) {
+        model.recordControlInput(.swipe)
         if translation.width < 0 {
             model.flashButton(.left)
         } else {
             model.flashButton(.right)
         }
         model.inputAdapter?.handleDrag(translation: translation)
+    }
+
+    private func handleDirectionalMoveLeft(recordControlInput: ChallengeControlInput?) {
+        if let recordControlInput {
+            model.recordControlInput(recordControlInput)
+        }
+        model.flashButton(.left)
+        model.inputAdapter?.handleLeft()
+    }
+
+    private func handleDirectionalMoveRight(recordControlInput: ChallengeControlInput?) {
+        if let recordControlInput {
+            model.recordControlInput(recordControlInput)
+        }
+        model.flashButton(.right)
+        model.inputAdapter?.handleRight()
     }
 
     private func handleRestartFromGameOver() {

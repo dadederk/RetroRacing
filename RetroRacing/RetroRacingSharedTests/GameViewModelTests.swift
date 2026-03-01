@@ -15,6 +15,7 @@ final class GameViewModelTests: XCTestCase {
     private var leaderboardService: MockLeaderboardService!
     private var ratingService: MockRatingService!
     private var highestScoreStore: MockHighestScoreStore!
+    private var challengeProgressService: MockChallengeProgressService!
     private var inputAdapterFactory: MockInputAdapterFactory!
     private var viewModel: GameViewModel!
     
@@ -23,6 +24,7 @@ final class GameViewModelTests: XCTestCase {
         leaderboardService = MockLeaderboardService()
         ratingService = MockRatingService()
         highestScoreStore = MockHighestScoreStore()
+        challengeProgressService = MockChallengeProgressService()
         inputAdapterFactory = MockInputAdapterFactory()
         viewModel = GameViewModel(
             leaderboardService: leaderboardService,
@@ -30,6 +32,7 @@ final class GameViewModelTests: XCTestCase {
             theme: nil,
             hapticController: nil,
             highestScoreStore: highestScoreStore,
+            challengeProgressService: challengeProgressService,
             inputAdapterFactory: inputAdapterFactory,
             playLimitService: nil,
             selectedDifficulty: .rapid,
@@ -44,6 +47,7 @@ final class GameViewModelTests: XCTestCase {
         viewModel = nil
         inputAdapterFactory = nil
         highestScoreStore = nil
+        challengeProgressService = nil
         ratingService = nil
         leaderboardService = nil
         super.tearDown()
@@ -295,6 +299,40 @@ final class GameViewModelTests: XCTestCase {
         XCTAssertFalse(viewModel.hud.shouldRequestRatingOnGameOverModal)
     }
 
+    func testGivenRunTelemetryWhenRestartGameThenTapTelemetryIsCleared() {
+        // Given
+        let scene = makeScene()
+        scene.createGrid()
+        viewModel.scene = scene
+        viewModel.recordControlInput(.tap)
+
+        // When
+        viewModel.restartGame()
+
+        // Then
+        XCTAssertFalse(viewModel.runInputTelemetry.usedInputs.contains(.tap))
+    }
+
+    func testGivenGameOverWhenHandlingCollisionThenChallengeProgressRecordsCompletedRun() {
+        // Given
+        let scene = makeScene()
+        scene.handleCrash()
+        scene.handleCrash()
+        scene.handleCrash()
+        viewModel.scene = scene
+        viewModel.recordControlInput(.tap)
+        let expectedOvertakes = scene.gameState.score
+        XCTAssertEqual(scene.gameState.lives, 0)
+
+        // When
+        viewModel.handleCollision()
+
+        // Then
+        XCTAssertEqual(challengeProgressService.recordedRuns.count, 1)
+        XCTAssertEqual(challengeProgressService.recordedRuns.first?.overtakes, expectedOvertakes)
+        XCTAssertTrue(challengeProgressService.recordedRuns.first?.usedControls.contains(.tap) ?? false)
+    }
+
     private func makeScene() -> GameScene {
         GameScene(
             size: CGSize(width: 100, height: 100),
@@ -380,4 +418,27 @@ private final class MockLaneCuePlayerStub: LaneCuePlayer {
     func playSpeedWarningCue() {}
     func setVolume(_ volume: Double) {}
     func stopAll(fadeDuration: TimeInterval) {}
+}
+
+private final class MockChallengeProgressService: ChallengeProgressService {
+    private(set) var backfillCallCount = 0
+    private(set) var recordedRuns: [CompletedRunChallengeData] = []
+    var snapshot = ChallengeProgressSnapshot.empty
+
+    func performInitialBackfillIfNeeded() {
+        backfillCallCount += 1
+    }
+
+    @discardableResult
+    func recordCompletedRun(_ run: CompletedRunChallengeData) -> ChallengeProgressUpdate {
+        recordedRuns.append(run)
+        snapshot.bestRunOvertakes = max(snapshot.bestRunOvertakes, run.overtakes)
+        snapshot.cumulativeOvertakes += max(0, run.overtakes)
+        snapshot.lifetimeUsedControls.formUnion(run.usedControls)
+        return ChallengeProgressUpdate(snapshot: snapshot, newlyAchievedChallengeIDs: [])
+    }
+
+    func currentProgress() -> ChallengeProgressSnapshot {
+        snapshot
+    }
 }

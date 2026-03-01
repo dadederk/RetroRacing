@@ -23,6 +23,8 @@ struct GameLayoutView<GameArea: View>: View {
     let inputAdapter: GameInputAdapter?
     let onMoveLeft: () -> Void
     let onMoveRight: () -> Void
+    let onKeyboardInput: () -> Void
+    let onSwipeInput: () -> Void
     let onTogglePause: () -> Void
     let onAppearSide: (CGFloat) -> Void
     let onResizeSide: (CGFloat) -> Void
@@ -128,6 +130,8 @@ struct GameLayoutView<GameArea: View>: View {
             inputAdapter: inputAdapter,
             onMoveLeft: onMoveLeft,
             onMoveRight: onMoveRight,
+            onKeyboardInput: onKeyboardInput,
+            onSwipeInput: onSwipeInput,
             onTogglePause: onTogglePause,
             onAppearSide: onAppearSide,
             onResizeSide: onResizeSide,
@@ -258,6 +262,8 @@ private struct GameAreaContainer<Content: View>: View {
     let inputAdapter: GameInputAdapter?
     let onMoveLeft: () -> Void
     let onMoveRight: () -> Void
+    let onKeyboardInput: () -> Void
+    let onSwipeInput: () -> Void
     let onTogglePause: () -> Void
     let onAppearSide: (CGFloat) -> Void
     let onResizeSide: (CGFloat) -> Void
@@ -277,6 +283,8 @@ private struct GameAreaContainer<Content: View>: View {
                     inputAdapter: inputAdapter,
                     onMoveLeft: onMoveLeft,
                     onMoveRight: onMoveRight,
+                    onKeyboardInput: onKeyboardInput,
+                    onSwipeInput: onSwipeInput,
                     onTogglePause: onTogglePause
                 ))
                 .onAppear {

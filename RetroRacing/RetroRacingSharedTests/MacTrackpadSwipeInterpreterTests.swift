@@ -2,7 +2,7 @@
 //  MacTrackpadSwipeInterpreterTests.swift
 //  RetroRacingSharedTests
 //
-//  Created by Codex on 24/02/2026.
+//  Created by Dani Devesa on 24/02/2026.
 //
 
 import XCTest

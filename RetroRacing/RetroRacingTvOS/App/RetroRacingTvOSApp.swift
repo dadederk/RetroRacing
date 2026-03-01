@@ -12,6 +12,7 @@ struct RetroRacingTvOSApp: App {
     private let fontPreferenceStore: FontPreferenceStore
     private let hapticController: HapticFeedbackController
     private let highestScoreStore: HighestScoreStore
+    private let challengeProgressService: ChallengeProgressService
     private let bestScoreSyncService: BestScoreSyncService
     private let playLimitService: PlayLimitService
     private let storeKitService: StoreKitService
@@ -57,10 +58,17 @@ struct RetroRacingTvOSApp: App {
             configuration: leaderboardConfiguration,
             authenticationPresenter: authenticationPresenter,
             authenticateHandlerSetter: leaderboardConfig.authenticateHandlerSetter,
-            isDebugBuild: BuildConfiguration.isDebug
+            isDebugBuild: BuildConfiguration.isDebug,
+            allowDebugScoreSubmission: false
         )
         ratingService = StoreReviewService(userDefaults: userDefaults, ratingProvider: RatingServiceProviderTvOS())
         highestScoreStore = UserDefaultsHighestScoreStore(userDefaults: userDefaults)
+        challengeProgressService = LocalChallengeProgressService(
+            store: UserDefaultsChallengeProgressStore(userDefaults: userDefaults),
+            highestScoreStore: highestScoreStore,
+            reporter: NoOpChallengeProgressReporter()
+        )
+        challengeProgressService.performInitialBackfillIfNeeded()
         bestScoreSyncService = BestScoreSyncService(
             leaderboardService: gameCenterService,
             highestScoreStore: highestScoreStore,
@@ -88,6 +96,7 @@ struct RetroRacingTvOSApp: App {
                     supportsHapticFeedback: false,
                     fontPreferenceStore: fontPreferenceStore,
                     highestScoreStore: highestScoreStore,
+                    challengeProgressService: challengeProgressService,
                     playLimitService: playLimitService,
                     style: .tvOS,
                     inputAdapterFactory: RemoteInputAdapterFactory(),
@@ -110,6 +119,7 @@ struct RetroRacingTvOSApp: App {
                         hapticController: hapticController,
                         supportsHapticFeedback: false,
                         highestScoreStore: highestScoreStore,
+                        challengeProgressService: challengeProgressService,
                         playLimitService: playLimitService,
                         style: .tvOS,
                         settingsStyle: .tvOS,
