@@ -19,6 +19,7 @@ AI Agent development guidelines for RetroRacing — A cross-platform retro racin
 7. **NEVER** use `#if os()` flags in service layer — use configuration injection
 8. **NEVER** duplicate logic between platforms — refactor to shared module
 9. **NEVER** force unwrap optionals — use safe unwrapping patterns
+10. **ALWAYS** use standard file headers for new Swift source files with `Created by Dani Devesa`
 
 ### Clarity & Readability ✅
 

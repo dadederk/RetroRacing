@@ -38,6 +38,7 @@ Requirements documents serve as:
 - **theming_system.md** - Visual theme system, monetization, and platform recommendations
 - **input_handling.md** - Control schemes per platform (touch, crown, remote, keyboard, etc.)
 - **rating_system.md** - App rating strategy (manual App Store review URL + automatic StoreKit timing)
+- **road_markers.md** - Perspective road marker rendering, Big Cars visual override, and contrast rules
 
 ### Planned Features (TBD)
 

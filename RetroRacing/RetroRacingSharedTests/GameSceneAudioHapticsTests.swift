@@ -480,6 +480,99 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         XCTAssertGreaterThanOrEqual(rivalSize.width, playerSize.width)
     }
 
+    func testGivenRoadDashPhaseWhenTickAdvancesThenEmptyRowCyclesEveryFiveTicks() {
+        // Given
+        scene.unpauseGameplay()
+        var emptyRows: [Int] = []
+
+        // When
+        for tick in 1...5 {
+            scene.update(TimeInterval(tick))
+            emptyRows.append(scene.roadDashEmptyRowIndex)
+        }
+
+        // Then
+        XCTAssertEqual(emptyRows, [0, 1, 2, 3, 4])
+    }
+
+    func testGivenLaneMoveWhenRenderingThenRoadDashPhaseDoesNotChange() {
+        // Given
+        scene.unpauseGameplay()
+        scene.update(1.0)
+        let baselinePhase = scene.roadDashPhase
+        let adapter = TouchGameInputAdapter(controller: scene, hapticController: haptics)
+
+        // When
+        adapter.handleLeft()
+
+        // Then
+        XCTAssertEqual(scene.roadDashPhase, baselinePhase)
+    }
+
+    func testGivenBigCarsDisabledWhenRenderingThenDashedRoadLinesAreVisibleAndVerticalSeparatorsAreHidden() {
+        // Given
+        scene.setBigRivalCarsEnabled(false)
+
+        // When
+        scene.gridStateDidUpdate(scene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
+
+        // Then
+        XCTAssertGreaterThan(lineOverlayCount(named: "road_dash_line"), 0)
+        XCTAssertEqual(lineOverlayCount(named: "vertical_grid_line"), 0)
+    }
+
+    func testGivenBigCarsEnabledWhenRenderingThenDashedRoadLinesAreHiddenAndVerticalSeparatorsAreVisible() {
+        // Given
+        scene.setBigRivalCarsEnabled(true)
+
+        // When
+        scene.gridStateDidUpdate(scene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
+
+        // Then
+        XCTAssertEqual(lineOverlayCount(named: "road_dash_line"), 0)
+        XCTAssertEqual(lineOverlayCount(named: "vertical_grid_line"), 2)
+    }
+
+    func testGivenBigCarsEnabledWhenRenderingThenHorizontalGridLinesAreNotDrawn() {
+        // Given
+        scene.setBigRivalCarsEnabled(true)
+
+        // When
+        scene.gridStateDidUpdate(scene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
+
+        // Then
+        XCTAssertTrue(allGridCells().allSatisfy { $0.lineWidth == 0 })
+        XCTAssertEqual(lineOverlayCount(named: "vertical_grid_line"), 2)
+    }
+
+    func testGivenDashedRoadLinesWhenComparingTopAndBottomSpacingThenTopRowsAreMoreConverged() {
+        // Given
+        scene.setBigRivalCarsEnabled(false)
+        scene.roadDashPhase = 2
+
+        // When
+        scene.gridStateDidUpdate(scene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
+
+        // Then
+        let rowsByY = dashedLineRowsByY()
+        guard let bottomRow = rowsByY.first,
+              let topRow = rowsByY.last else {
+            XCTFail("Expected dashed road lines in at least two rows")
+            return
+        }
+        XCTAssertEqual(bottomRow.count, 4)
+        XCTAssertEqual(topRow.count, 4)
+
+        let bottomInnerDistance = bottomRow[2] - bottomRow[1]
+        let topInnerDistance = topRow[2] - topRow[1]
+        XCTAssertLessThan(topInnerDistance, bottomInnerDistance)
+        XCTAssertLessThan(bottomInnerDistance, scene.sizeForCell().width)
+
+        let bottomOuterDistance = bottomRow[3] - bottomRow[0]
+        let topOuterDistance = topRow[3] - topRow[0]
+        XCTAssertLessThan(topOuterDistance, bottomOuterDistance)
+    }
+
     func testGivenRunningSceneWhenPausingGameplayThenDelegateReceivesPausedState() {
         // Given
 
@@ -640,6 +733,34 @@ final class GameSceneAudioHapticsTests: XCTestCase {
     private func spriteSize(column: Int, row: Int) -> CGSize? {
         let cell = scene.gridCell(column: column, row: row)
         return cell.children.compactMap { $0 as? SKSpriteNode }.first?.frame.size
+    }
+
+    private func lineOverlayCount(named name: String) -> Int {
+        scene.lineOverlayNodes.filter { $0.name == name }.count
+    }
+
+    private func allGridCells() -> [SKShapeNode] {
+        var cells: [SKShapeNode] = []
+        for row in 0..<scene.gridState.numberOfRows {
+            for column in 0..<scene.gridState.numberOfColumns {
+                cells.append(scene.gridCell(column: column, row: row))
+            }
+        }
+        return cells
+    }
+
+    private func dashedLineRowsByY() -> [[CGFloat]] {
+        let dashedLines = scene.lineOverlayNodes.compactMap { node -> CGPoint? in
+            guard node.name == "road_dash_line" else { return nil }
+            return node.position
+        }
+        var grouped: [Int: [CGFloat]] = [:]
+        for point in dashedLines {
+            grouped[Int(point.y.rounded()), default: []].append(point.x)
+        }
+        return grouped.keys.sorted().compactMap { key in
+            grouped[key]?.sorted()
+        }
     }
 }
 

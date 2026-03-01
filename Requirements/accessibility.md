@@ -81,6 +81,7 @@ Each conditional-default setting:
 - **Sound effects volume:** Defaults to `100%` when VoiceOver is running; otherwise `80%`. Slider updates create an explicit override that persists across VoiceOver changes.
 - **Speed warning feedback:** Defaults to `None` when VoiceOver is off. With VoiceOver on, defaults to `Haptic` on haptics-supported platforms and `VoiceOver announcement` on non-haptics platforms. Explicit user override always wins. Legacy `inGameAnnouncementsEnabled` values are migrated once (`true -> announcement`, `false -> none`).
 - **Big Cars:** Defaults to `on` when accessibility Dynamic Type sizes are active, otherwise `off`. Settings expose a simple toggle under Accessibility; first user change becomes the stored override.
+  - Visual rendering rule: when Big Cars is enabled, perspective dashed road marks are hidden and only vertical lane separators are shown; horizontal separators remain hidden.
 - **Top-down view:** Default to on when large Dynamic Type is active (future feature 7.1).
 
 ## Other Dimensions

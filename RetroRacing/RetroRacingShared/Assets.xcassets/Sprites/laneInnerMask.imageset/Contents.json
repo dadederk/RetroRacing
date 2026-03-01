@@ -1,0 +1,20 @@
+{
+  "images" : [
+    {
+      "filename" : "laneInnerMask.png",
+      "idiom" : "universal"
+    },
+    {
+      "filename" : "laneInnerMask 1.png",
+      "idiom" : "watch"
+    },
+    {
+      "filename" : "laneInnerMask 2.png",
+      "idiom" : "tv"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

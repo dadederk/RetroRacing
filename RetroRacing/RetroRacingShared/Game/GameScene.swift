@@ -41,6 +41,11 @@ enum AudioFeedbackEvent {
     case move(destinationColumn: Int)
 }
 
+enum LineMode {
+    case dashedRoad
+    case verticalGridOnly
+}
+
 /// SpriteKit scene that owns shared gameplay flow, grid updates, and sound feedback for RetroRacing.
 public class GameScene: SKScene {
     /// Bundle containing all game assets (sprites, sounds). Assets live only in RetroRacingShared; load from here.
@@ -69,6 +74,8 @@ public class GameScene: SKScene {
     private var isOverlayPauseLocked = false
 
     var spritesForGivenState = [SKSpriteNode]()
+    var lineOverlayNodes = [SKNode]()
+    var roadDashPhase = 0
 
     private var gridCalculator = GridStateCalculator(
         randomSource: InfrastructureDefaults.randomSource,
@@ -82,6 +89,9 @@ public class GameScene: SKScene {
     public private(set) var difficulty: GameDifficulty = .defaultDifficulty
     var lastPlayerColumn: Int = 1
     private var lastLevelChangeImminent = false
+    var lineMode: LineMode {
+        bigRivalCarsEnabled ? .verticalGridOnly : .dashedRoad
+    }
 
     /// Number of points before level-up to show the speed-increasing alert; configurable, defaults to 3.
     public var speedAlertWindowPoints: Int = GameState.defaultSpeedAlertWindowPoints
@@ -250,6 +260,7 @@ public class GameScene: SKScene {
 
     public func resume() {
         cancelCrashResolutionIfNeeded()
+        roadDashPhase = 0
         gridState = GridState(
             numberOfRows: GridConfiguration.numberOfRows,
             numberOfColumns: GridConfiguration.numberOfColumns
@@ -298,6 +309,7 @@ public class GameScene: SKScene {
             let updateAction: GridStateCalculator.Action = shouldInsertSafetyRowBeforeNextLevel() ? .updateWithEmptyRow : .update
             var effects: [GridStateCalculator.Effect]
             (gridState, effects) = gridCalculator.nextGrid(previousGrid: gridState, actions: [updateAction])
+            advanceRoadDashPhase(for: updateAction)
 
             for effect in effects {
                 switch effect {
@@ -321,6 +333,7 @@ public class GameScene: SKScene {
 
     private func initialiseGame() {
         lastGameUpdateTime = 0
+        roadDashPhase = 0
         gridState = GridState(
             numberOfRows: GridConfiguration.numberOfRows,
             numberOfColumns: GridConfiguration.numberOfColumns
@@ -367,6 +380,15 @@ public class GameScene: SKScene {
             return false
         }
         return SpeedIncreaseConfiguration.safetyRowOffsetsBeforeLevelChange.contains(levelChangeOffset)
+    }
+
+    private func advanceRoadDashPhase(for action: GridStateCalculator.Action) {
+        switch action {
+        case .update, .updateWithEmptyRow:
+            roadDashPhase = (roadDashPhase + 1) % GridConfiguration.numberOfRows
+        case .moveCar:
+            break
+        }
     }
 
     private func carsCount(inRow rowIndex: Int) -> Int {
