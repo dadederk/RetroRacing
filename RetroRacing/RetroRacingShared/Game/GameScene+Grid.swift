@@ -246,9 +246,18 @@ extension GameScene {
     }
 
     private func lapMarkerRowsForRendering() -> [Int] {
+        // When the first safety row has just entered at the top of the screen
+        // (second not yet inserted), synthesize a virtual row above screen so
+        // the strip can partially appear as it enters from the top.
+        if safetyMarkerRows == [0] {
+            return [-1, 0]
+        }
         guard safetyMarkerRows.count == 2 else { return [] }
+        // Allow one row beyond each visible edge so the strip can partially
+        // appear/disappear at the screen boundaries.
+        let extendedRange = (-1...gridState.numberOfRows)
         let validRows = safetyMarkerRows
-            .filter { (0..<gridState.numberOfRows).contains($0) }
+            .filter { extendedRange.contains($0) }
             .sorted()
         guard validRows.count == 2 else { return [] }
         return validRows
@@ -264,10 +273,12 @@ extension GameScene {
             return nil
         }
 
-        let topBoundaryY = gridCell(column: 1, row: topRow).frame.minY
-        let bottomBoundaryY = gridCell(column: 1, row: bottomRow).frame.maxY
+        // Use analytically computed frames so virtual rows (outside 0..<numberOfRows)
+        // don't trigger a fatalError in gridCell(column:row:).
+        let topBoundaryY = virtualCellFrame(column: 1, row: topRow).minY
+        let bottomBoundaryY = virtualCellFrame(column: 1, row: bottomRow).maxY
         let centerY = (topBoundaryY + bottomBoundaryY) / 2
-        let cellHeight = gridCell(column: 1, row: bottomRow).frame.height
+        let cellHeight = sizeForCell().height
         let stripPerspectiveFactor = lapStripPerspectiveFactor(topRow: topRow, bottomRow: bottomRow)
         let stripHeight = cellHeight * RoadLineConfiguration.lapStripHeightFactor * stripPerspectiveFactor
         let interpolatedBounds = ((topBounds.lowerBound + bottomBounds.lowerBound) / 2)...((topBounds.upperBound + bottomBounds.upperBound) / 2)
@@ -372,17 +383,28 @@ extension GameScene {
     }
 
     private func lapRoadInteriorBounds(forRow row: Int) -> ClosedRange<CGFloat>? {
-        let leftCell = gridCell(column: 0, row: row)
-        let rightCell = gridCell(column: 2, row: row)
-        let dashSize = roadLineSize(forRow: row, cellSize: leftCell.frame.size)
-        let leftDashMinX = leftCell.frame.maxX - dashSize.width
-        let rightDashMaxX = rightCell.frame.minX + dashSize.width
+        // Use analytically computed frames so virtual rows (outside 0..<numberOfRows)
+        // don't trigger a fatalError in gridCell(column:row:).
+        let cellSize = sizeForCell()
+        let leftCellMaxX = virtualCellFrame(column: 0, row: row).maxX
+        let rightCellMinX = virtualCellFrame(column: 2, row: row).minX
+        let dashSize = roadLineSize(forRow: row, cellSize: cellSize)
+        let leftDashMinX = leftCellMaxX - dashSize.width
+        let rightDashMaxX = rightCellMinX + dashSize.width
         let inset = max(1, dashSize.width * RoadLineConfiguration.lapInteriorInsetRatio)
 
         let leftInteriorX = leftDashMinX + (dashSize.width * RoadLineConfiguration.outerMaskMidlineCenterRatio) + inset
         let rightInteriorX = rightDashMaxX - (dashSize.width * RoadLineConfiguration.outerMaskMidlineCenterRatio) - inset
         guard rightInteriorX > leftInteriorX else { return nil }
         return leftInteriorX...rightInteriorX
+    }
+
+    /// Computes the frame for a cell at the given column and row index analytically,
+    /// supporting virtual rows outside the visible grid (e.g. row -1 or numberOfRows).
+    private func virtualCellFrame(column: Int, row: Int) -> CGRect {
+        let cellSize = sizeForCell()
+        let origin = positionForCellIn(column: column, row: row, size: cellSize)
+        return CGRect(origin: origin, size: cellSize)
     }
 
     private func roadLineSize(forRow row: Int, cellSize: CGSize) -> CGSize {
