@@ -10,16 +10,27 @@ import SpriteKit
 private enum RoadLineConfiguration {
     static let innerMaskAssetName = "laneInnerMask"
     static let outerMaskAssetName = "laneOuterMask"
+    static let lapStripMaskAssetName = "lapStripMask"
     static let dashedLineNodeName = "road_dash_line"
     static let verticalSeparatorNodeName = "vertical_grid_line"
+    static let lapMarkerNodeName = "lap_marker_line"
     static let lineZPosition: CGFloat = 1.5
     static let minimumContrast: Double = 4.5
     static let innerLineSpreadFactor: CGFloat = 0.6
+    // Mid-height horizontal center of the generated outer mask shape.
+    static let outerMaskMidlineCenterRatio: CGFloat = 0.195
+    static let lapInteriorInsetRatio: CGFloat = 0.03
+    static let lapStripHeightFactor: CGFloat = 0.42
+}
+
+private enum CarPerspectiveConfiguration {
+    static let sideLaneConvergenceFactor: CGFloat = 0.5
 }
 
 private enum HorizontalRoadAnchor {
     case leftEdge
     case rightEdge
+    case center
     case centerLeftPerspective
     case centerRightPerspective
 }
@@ -152,16 +163,18 @@ extension GameScene {
 
     private func renderLineOverlays() {
         switch lineMode {
-        case .dashedRoad:
+        case .detailedRoad:
             renderDashedRoadLines()
-        case .verticalGridOnly:
+            renderLapMarkers()
+        case .verticalOnly:
             renderVerticalSeparators()
         }
     }
 
     private func renderDashedRoadLines() {
         let tintColor = roadLineColor()
-        for row in 0..<gridState.numberOfRows where row != roadDashEmptyRowIndex {
+        let suppressedRows = lapSuppressedRowsForDashes()
+        for row in 0..<gridState.numberOfRows where row != roadDashEmptyRowIndex && !suppressedRows.contains(row) {
             let leftCell = gridCell(column: 0, row: row)
             addRoadDashMask(
                 named: RoadLineConfiguration.outerMaskAssetName,
@@ -223,6 +236,88 @@ extension GameScene {
         }
     }
 
+    private func renderLapMarkers() {
+        guard let layout = lapStripLayoutForRendering() else {
+            return
+        }
+
+        let tintColor = roadLineColor()
+        addLapMarker(layout: layout, tintColor: tintColor)
+    }
+
+    private func lapMarkerRowsForRendering() -> [Int] {
+        guard safetyMarkerRows.count == 2 else { return [] }
+        let validRows = safetyMarkerRows
+            .filter { (0..<gridState.numberOfRows).contains($0) }
+            .sorted()
+        guard validRows.count == 2 else { return [] }
+        return validRows
+    }
+
+    private func lapStripLayoutForRendering() -> (interiorBounds: ClosedRange<CGFloat>, centerY: CGFloat, stripHeight: CGFloat)? {
+        let rows = lapMarkerRowsForRendering()
+        guard rows.count == 2,
+              let topRow = rows.first,
+              let bottomRow = rows.last,
+              let topBounds = lapRoadInteriorBounds(forRow: topRow),
+              let bottomBounds = lapRoadInteriorBounds(forRow: bottomRow) else {
+            return nil
+        }
+
+        let topBoundaryY = gridCell(column: 1, row: topRow).frame.minY
+        let bottomBoundaryY = gridCell(column: 1, row: bottomRow).frame.maxY
+        let centerY = (topBoundaryY + bottomBoundaryY) / 2
+        let cellHeight = gridCell(column: 1, row: bottomRow).frame.height
+        let stripPerspectiveFactor = lapStripPerspectiveFactor(topRow: topRow, bottomRow: bottomRow)
+        let stripHeight = cellHeight * RoadLineConfiguration.lapStripHeightFactor * stripPerspectiveFactor
+        let interpolatedBounds = ((topBounds.lowerBound + bottomBounds.lowerBound) / 2)...((topBounds.upperBound + bottomBounds.upperBound) / 2)
+        return (interpolatedBounds, centerY, stripHeight)
+    }
+
+    private func lapStripPerspectiveFactor(topRow: Int, bottomRow: Int) -> CGFloat {
+        let averageRow = (CGFloat(topRow) + CGFloat(bottomRow)) / 2
+        return (averageRow + 1) / CGFloat(gridState.numberOfRows)
+    }
+
+    private func lapSuppressedRowsForDashes() -> Set<Int> {
+        var rows = Set(lapMarkerRowsForRendering())
+        if let layout = lapStripLayoutForRendering(),
+           let nearestRow = closestRowIndex(toSceneY: layout.centerY) {
+            rows.insert(nearestRow)
+        }
+        return rows
+    }
+
+    private func closestRowIndex(toSceneY y: CGFloat) -> Int? {
+        guard gridState.numberOfRows > 0 else { return nil }
+        var bestRow = 0
+        var bestDistance = CGFloat.greatestFiniteMagnitude
+        for row in 0..<gridState.numberOfRows {
+            let centerY = gridCell(column: 1, row: row).frame.midY
+            let distance = abs(centerY - y)
+            if distance < bestDistance {
+                bestDistance = distance
+                bestRow = row
+            }
+        }
+        return bestRow
+    }
+
+    private func addLapMarker(layout: (interiorBounds: ClosedRange<CGFloat>, centerY: CGFloat, stripHeight: CGFloat), tintColor: SKColor) {
+        let stripWidth = layout.interiorBounds.upperBound - layout.interiorBounds.lowerBound
+        let stripSize = CGSize(width: stripWidth, height: layout.stripHeight)
+        let centerX = (layout.interiorBounds.lowerBound + layout.interiorBounds.upperBound) / 2
+
+        addLapMask(
+            named: RoadLineConfiguration.lapStripMaskAssetName,
+            position: CGPoint(x: centerX, y: layout.centerY),
+            size: stripSize,
+            mirroredHorizontally: false,
+            mirroredVertically: false,
+            tintColor: tintColor
+        )
+    }
+
     private func addRoadDashMask(
         named assetName: String,
         toCell cell: SKShapeNode,
@@ -251,6 +346,45 @@ extension GameScene {
         addChild(sprite)
     }
 
+    private func addLapMask(
+        named assetName: String,
+        position: CGPoint,
+        size: CGSize,
+        mirroredHorizontally: Bool,
+        mirroredVertically: Bool,
+        tintColor: SKColor
+    ) {
+        let sprite = spriteNode(imageNamed: assetName)
+        sprite.name = RoadLineConfiguration.lapMarkerNodeName
+        sprite.position = position
+        sprite.size = size
+        if mirroredHorizontally {
+            sprite.xScale = -abs(sprite.xScale)
+        }
+        if mirroredVertically {
+            sprite.yScale = -abs(sprite.yScale)
+        }
+        sprite.color = tintColor
+        sprite.colorBlendFactor = 1
+        sprite.zPosition = RoadLineConfiguration.lineZPosition
+        lineOverlayNodes.append(sprite)
+        addChild(sprite)
+    }
+
+    private func lapRoadInteriorBounds(forRow row: Int) -> ClosedRange<CGFloat>? {
+        let leftCell = gridCell(column: 0, row: row)
+        let rightCell = gridCell(column: 2, row: row)
+        let dashSize = roadLineSize(forRow: row, cellSize: leftCell.frame.size)
+        let leftDashMinX = leftCell.frame.maxX - dashSize.width
+        let rightDashMaxX = rightCell.frame.minX + dashSize.width
+        let inset = max(1, dashSize.width * RoadLineConfiguration.lapInteriorInsetRatio)
+
+        let leftInteriorX = leftDashMinX + (dashSize.width * RoadLineConfiguration.outerMaskMidlineCenterRatio) + inset
+        let rightInteriorX = rightDashMaxX - (dashSize.width * RoadLineConfiguration.outerMaskMidlineCenterRatio) - inset
+        guard rightInteriorX > leftInteriorX else { return nil }
+        return leftInteriorX...rightInteriorX
+    }
+
     private func roadLineSize(forRow row: Int, cellSize: CGSize) -> CGSize {
         let sizeFactor = CGFloat(row + 1) / CGFloat(gridState.numberOfRows)
         return CGSize(
@@ -269,6 +403,8 @@ extension GameScene {
             frame.minX + (spriteWidth / 2)
         case .rightEdge:
             frame.maxX - (spriteWidth / 2)
+        case .center:
+            frame.midX
         case .centerLeftPerspective:
             frame.midX - ((spriteWidth * RoadLineConfiguration.innerLineSpreadFactor) / 2)
         case .centerRightPerspective:
@@ -297,7 +433,8 @@ extension GameScene {
                         row: row,
                         column: column,
                         accessibilityLabel: GameLocalizedStrings.string("rival_car"),
-                        usesPlayerScale: bigRivalCarsEnabled
+                        usesPlayerScale: bigRivalCarsEnabled,
+                        sideLaneConvergenceFactor: bigRivalCarsEnabled ? 0 : CarPerspectiveConfiguration.sideLaneConvergenceFactor
                     )
                 case .Player:
                     addSprite(
@@ -315,7 +452,8 @@ extension GameScene {
                         toCell: cell,
                         row: row,
                         column: column,
-                        accessibilityLabel: GameLocalizedStrings.string("crash_sprite")
+                        accessibilityLabel: GameLocalizedStrings.string("crash_sprite"),
+                        sideLaneConvergenceFactor: bigRivalCarsEnabled ? 0 : CarPerspectiveConfiguration.sideLaneConvergenceFactor
                     )
                 case .Empty:
                     break

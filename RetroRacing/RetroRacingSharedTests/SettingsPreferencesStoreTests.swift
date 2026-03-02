@@ -126,6 +126,31 @@ final class SettingsPreferencesStoreTests: XCTestCase {
         XCTAssertTrue(store.selectedBigCarsEnabled)
     }
 
+    func testGivenRoadVisualStyleNotStoredWhenLoadingThenDefaultIsDetailedRoad() {
+        // Given
+        let store = makeStore()
+
+        // When
+        store.loadIfNeeded()
+
+        // Then
+        XCTAssertEqual(store.selectedRoadVisualStyle, .detailedRoad)
+    }
+
+    func testGivenRoadVisualStyleSelectionWhenSettingSimplifiedThenSelectionPersists() {
+        // Given
+        let store = makeStore()
+        store.loadIfNeeded()
+
+        // When
+        store.setRoadVisualStyle(.simplifiedGrid)
+        let reloadedStore = makeStore()
+        reloadedStore.loadIfNeeded()
+
+        // Then
+        XCTAssertEqual(reloadedStore.selectedRoadVisualStyle, .simplifiedGrid)
+    }
+
     func testGivenSelectedAndConfiguredValuesWhenResolvingTutorialApplyStateThenConfiguredLabelIsReturned() {
         // Given
 

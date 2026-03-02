@@ -2647,6 +2647,75 @@
         }
       }
     },
+    "settings_road_visual_style": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Estil de carretera"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Road Style"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Estilo de carretera"
+          }
+        }
+      }
+    },
+    "settings_road_visual_style_detailed": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Carretera detallada"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Detailed Road"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Carretera detallada"
+          }
+        }
+      }
+    },
+    "settings_road_visual_style_simplified": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Graella simplificada"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Simplified Grid"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cuadr\u00edcula simplificada"
+          }
+        }
+      }
+    },
     "settings_coming_soon": {
       "extractionState": "manual",
       "localizations": {

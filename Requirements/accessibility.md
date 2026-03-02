@@ -82,6 +82,10 @@ Each conditional-default setting:
 - **Speed warning feedback:** Defaults to `None` when VoiceOver is off. With VoiceOver on, defaults to `Haptic` on haptics-supported platforms and `VoiceOver announcement` on non-haptics platforms. Explicit user override always wins. Legacy `inGameAnnouncementsEnabled` values are migrated once (`true -> announcement`, `false -> none`).
 - **Big Cars:** Defaults to `on` when accessibility Dynamic Type sizes are active, otherwise `off`. Settings expose a simple toggle under Accessibility; first user change becomes the stored override.
   - Visual rendering rule: when Big Cars is enabled, perspective dashed road marks are hidden and only vertical lane separators are shown; horizontal separators remain hidden.
+- **Road visual style:** Accessibility settings expose `Detailed Road` and `Simplified Grid` options. Default is `Detailed Road` unless the user explicitly changes it.
+  - `Simplified Grid` renders vertical separators only (no dashed/lap markers, no horizontal lines).
+  - `Detailed Road` renders dashed perspective road markers and safety-window lap markers.
+  - Big Cars always takes precedence and forces vertical-only rendering regardless of road visual style.
 - **Top-down view:** Default to on when large Dynamic Type is active (future feature 7.1).
 
 ## Other Dimensions

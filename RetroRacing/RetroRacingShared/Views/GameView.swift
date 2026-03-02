@@ -54,6 +54,7 @@ public struct GameView: View {
     @AppStorage(AudioFeedbackMode.conditionalDefaultStorageKey) private var audioFeedbackModeStorageData: Data = Data()
     @AppStorage(LaneMoveCueStyle.storageKey) private var laneMoveCueStyleRawValue: String = LaneMoveCueStyle.defaultStyle.rawValue
     @AppStorage(BigCarsSetting.conditionalDefaultStorageKey) private var bigCarsData: Data = Data()
+    @AppStorage(RoadVisualStyle.storageKey) private var roadVisualStyleRawValue: String = RoadVisualStyle.defaultStyle.rawValue
     @AppStorage(SpeedWarningFeedbackMode.conditionalDefaultStorageKey)
     private var speedWarningFeedbackModeData: Data = Data()
     @AppStorage(VoiceOverTutorialPreference.hasSeenInGameVoiceOverTutorialKey)
@@ -113,6 +114,7 @@ public struct GameView: View {
         let selectedAudioFeedbackMode = AudioFeedbackMode.currentSelection(from: InfrastructureDefaults.userDefaults)
         let selectedLaneMoveCueStyle = LaneMoveCueStyle.currentSelection(from: InfrastructureDefaults.userDefaults)
         let selectedBigRivalCarsEnabled = BigCarsPreference.currentSelection(from: InfrastructureDefaults.userDefaults)
+        let selectedRoadVisualStyle = RoadVisualStyle.currentSelection(from: InfrastructureDefaults.userDefaults)
         _model = State(initialValue: GameViewModel(
             leaderboardService: leaderboardService,
             ratingService: ratingService,
@@ -126,6 +128,7 @@ public struct GameView: View {
             selectedAudioFeedbackMode: selectedAudioFeedbackMode,
             selectedLaneMoveCueStyle: selectedLaneMoveCueStyle,
             selectedBigRivalCarsEnabled: selectedBigRivalCarsEnabled,
+            selectedRoadVisualStyle: selectedRoadVisualStyle,
             shouldStartGame: shouldStartGame
         ))
     }
@@ -209,6 +212,7 @@ public struct GameView: View {
             model.updateAudioFeedbackMode(selectedAudioFeedbackMode)
             model.updateLaneMoveCueStyle(selectedLaneMoveCueStyle)
             model.updateBigRivalCarsEnabled(selectedBigRivalCarsEnabled)
+            model.updateRoadVisualStyle(selectedRoadVisualStyle)
             model.recordVoiceOverControlIfNeeded()
             if let overlayBinding = isMenuOverlayPresented {
                 AppLog.info(AppLog.game, "GameView onAppear - overlay presented: \(overlayBinding.wrappedValue)")
@@ -323,6 +327,9 @@ public struct GameView: View {
         .onChange(of: bigCarsData) { _, _ in
             model.updateBigRivalCarsEnabled(selectedBigRivalCarsEnabled)
         }
+        .onChange(of: roadVisualStyleRawValue) { _, _ in
+            model.updateRoadVisualStyle(selectedRoadVisualStyle)
+        }
         .onChange(of: speedWarningFeedbackModeData) { _, _ in
             if model.hud.speedIncreaseImminent {
                 announceSpeedIncreaseIfNeeded(oldValue: false, newValue: true)
@@ -387,6 +394,11 @@ public struct GameView: View {
 
     private var selectedBigRivalCarsEnabled: Bool {
         BigCarsPreference.currentSelection(from: InfrastructureDefaults.userDefaults)
+    }
+
+    private var selectedRoadVisualStyle: RoadVisualStyle {
+        _ = roadVisualStyleRawValue
+        return RoadVisualStyle.currentSelection(from: InfrastructureDefaults.userDefaults)
     }
 
     private var hasScene: Bool {

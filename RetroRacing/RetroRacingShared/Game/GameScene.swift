@@ -42,8 +42,8 @@ enum AudioFeedbackEvent {
 }
 
 enum LineMode {
-    case dashedRoad
-    case verticalGridOnly
+    case detailedRoad
+    case verticalOnly
 }
 
 /// SpriteKit scene that owns shared gameplay flow, grid updates, and sound feedback for RetroRacing.
@@ -63,6 +63,7 @@ public class GameScene: SKScene {
     public private(set) var audioFeedbackMode: AudioFeedbackMode = .defaultMode
     public private(set) var laneMoveCueStyle: LaneMoveCueStyle = .defaultStyle
     public private(set) var bigRivalCarsEnabled = false
+    public private(set) var roadVisualStyle: RoadVisualStyle = .defaultStyle
 
     private var initialDtForGameUpdate = 0.6
     private var lastGameUpdateTime: TimeInterval = 0
@@ -76,6 +77,7 @@ public class GameScene: SKScene {
     var spritesForGivenState = [SKSpriteNode]()
     var lineOverlayNodes = [SKNode]()
     var roadDashPhase = 0
+    var safetyMarkerRows = [Int]()
 
     private var gridCalculator = GridStateCalculator(
         randomSource: InfrastructureDefaults.randomSource,
@@ -90,7 +92,13 @@ public class GameScene: SKScene {
     var lastPlayerColumn: Int = 1
     private var lastLevelChangeImminent = false
     var lineMode: LineMode {
-        bigRivalCarsEnabled ? .verticalGridOnly : .dashedRoad
+        if bigRivalCarsEnabled {
+            return .verticalOnly
+        }
+        if roadVisualStyle == .simplifiedGrid {
+            return .verticalOnly
+        }
+        return .detailedRoad
     }
 
     /// Number of points before level-up to show the speed-increasing alert; configurable, defaults to 3.
@@ -126,7 +134,8 @@ public class GameScene: SKScene {
         audioFeedbackMode: AudioFeedbackMode,
         laneMoveCueStyle: LaneMoveCueStyle,
         difficulty: GameDifficulty,
-        bigRivalCarsEnabled: Bool = false
+        bigRivalCarsEnabled: Bool = false,
+        roadVisualStyle: RoadVisualStyle = .defaultStyle
     ) {
         super.init(size: size)
         self.theme = theme
@@ -137,6 +146,7 @@ public class GameScene: SKScene {
         self.audioFeedbackMode = audioFeedbackMode
         self.laneMoveCueStyle = laneMoveCueStyle
         self.bigRivalCarsEnabled = bigRivalCarsEnabled
+        self.roadVisualStyle = roadVisualStyle
         applyDifficulty(difficulty)
     }
 
@@ -175,7 +185,8 @@ public class GameScene: SKScene {
         hapticController: HapticFeedbackController? = nil,
         audioFeedbackMode: AudioFeedbackMode = .defaultMode,
         laneMoveCueStyle: LaneMoveCueStyle = .defaultStyle,
-        bigRivalCarsEnabled: Bool = false
+        bigRivalCarsEnabled: Bool = false,
+        roadVisualStyle: RoadVisualStyle = .defaultStyle
     ) -> GameScene {
         let scene = GameScene(
             size: size,
@@ -187,7 +198,8 @@ public class GameScene: SKScene {
             audioFeedbackMode: audioFeedbackMode,
             laneMoveCueStyle: laneMoveCueStyle,
             difficulty: difficulty,
-            bigRivalCarsEnabled: bigRivalCarsEnabled
+            bigRivalCarsEnabled: bigRivalCarsEnabled,
+            roadVisualStyle: roadVisualStyle
         )
         scene.anchorPoint = CGPoint(x: 0, y: 0)
         scene.scaleMode = .aspectFit
@@ -204,7 +216,8 @@ public class GameScene: SKScene {
         hapticController: HapticFeedbackController? = nil,
         audioFeedbackMode: AudioFeedbackMode = .defaultMode,
         laneMoveCueStyle: LaneMoveCueStyle = .defaultStyle,
-        bigRivalCarsEnabled: Bool = false
+        bigRivalCarsEnabled: Bool = false,
+        roadVisualStyle: RoadVisualStyle = .defaultStyle
     ) -> GameScene {
         let defaultSize = CGSize(width: 800, height: 600)
         return scene(
@@ -217,7 +230,8 @@ public class GameScene: SKScene {
             hapticController: hapticController,
             audioFeedbackMode: audioFeedbackMode,
             laneMoveCueStyle: laneMoveCueStyle,
-            bigRivalCarsEnabled: bigRivalCarsEnabled
+            bigRivalCarsEnabled: bigRivalCarsEnabled,
+            roadVisualStyle: roadVisualStyle
         )
     }
 
@@ -261,6 +275,7 @@ public class GameScene: SKScene {
     public func resume() {
         cancelCrashResolutionIfNeeded()
         roadDashPhase = 0
+        safetyMarkerRows.removeAll()
         gridState = GridState(
             numberOfRows: GridConfiguration.numberOfRows,
             numberOfColumns: GridConfiguration.numberOfColumns
@@ -310,6 +325,7 @@ public class GameScene: SKScene {
             var effects: [GridStateCalculator.Effect]
             (gridState, effects) = gridCalculator.nextGrid(previousGrid: gridState, actions: [updateAction])
             advanceRoadDashPhase(for: updateAction)
+            updateSafetyMarkerRows(for: updateAction)
 
             for effect in effects {
                 switch effect {
@@ -334,6 +350,7 @@ public class GameScene: SKScene {
     private func initialiseGame() {
         lastGameUpdateTime = 0
         roadDashPhase = 0
+        safetyMarkerRows.removeAll()
         gridState = GridState(
             numberOfRows: GridConfiguration.numberOfRows,
             numberOfColumns: GridConfiguration.numberOfColumns
@@ -391,6 +408,28 @@ public class GameScene: SKScene {
         }
     }
 
+    private func updateSafetyMarkerRows(for action: GridStateCalculator.Action) {
+        switch action {
+        case .update:
+            safetyMarkerRows = safetyMarkerRows
+                .compactMap { row -> Int? in
+                    guard row <= (GridConfiguration.numberOfRows - 3) else { return nil }
+                    return row + 1
+                }
+            safetyMarkerRows = Array(safetyMarkerRows.prefix(2))
+        case .updateWithEmptyRow:
+            safetyMarkerRows = safetyMarkerRows
+                .compactMap { row -> Int? in
+                    guard row <= (GridConfiguration.numberOfRows - 3) else { return nil }
+                    return row + 1
+                }
+            safetyMarkerRows.insert(0, at: 0)
+            safetyMarkerRows = Array(safetyMarkerRows.prefix(2))
+        case .moveCar:
+            break
+        }
+    }
+
     private func carsCount(inRow rowIndex: Int) -> Int {
         guard rowIndex >= 0 && rowIndex < gridState.numberOfRows else { return 0 }
         return gridState.grid[rowIndex].reduce(0) { partialResult, cell in
@@ -434,6 +473,17 @@ public class GameScene: SKScene {
     public func setBigRivalCarsEnabled(_ enabled: Bool) {
         guard bigRivalCarsEnabled != enabled else { return }
         bigRivalCarsEnabled = enabled
+        guard hasConfiguredScene else { return }
+        gridStateDidUpdate(
+            gridState,
+            shouldPlayFeedback: false,
+            notifyDelegate: false
+        )
+    }
+
+    public func setRoadVisualStyle(_ style: RoadVisualStyle) {
+        guard roadVisualStyle != style else { return }
+        roadVisualStyle = style
         guard hasConfiguredScene else { return }
         gridStateDidUpdate(
             gridState,

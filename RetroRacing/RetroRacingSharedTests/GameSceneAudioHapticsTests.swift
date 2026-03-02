@@ -512,6 +512,7 @@ final class GameSceneAudioHapticsTests: XCTestCase {
     func testGivenBigCarsDisabledWhenRenderingThenDashedRoadLinesAreVisibleAndVerticalSeparatorsAreHidden() {
         // Given
         scene.setBigRivalCarsEnabled(false)
+        scene.setRoadVisualStyle(.detailedRoad)
 
         // When
         scene.gridStateDidUpdate(scene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
@@ -524,6 +525,7 @@ final class GameSceneAudioHapticsTests: XCTestCase {
     func testGivenBigCarsEnabledWhenRenderingThenDashedRoadLinesAreHiddenAndVerticalSeparatorsAreVisible() {
         // Given
         scene.setBigRivalCarsEnabled(true)
+        scene.setRoadVisualStyle(.detailedRoad)
 
         // When
         scene.gridStateDidUpdate(scene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
@@ -536,6 +538,7 @@ final class GameSceneAudioHapticsTests: XCTestCase {
     func testGivenBigCarsEnabledWhenRenderingThenHorizontalGridLinesAreNotDrawn() {
         // Given
         scene.setBigRivalCarsEnabled(true)
+        scene.setRoadVisualStyle(.detailedRoad)
 
         // When
         scene.gridStateDidUpdate(scene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
@@ -548,6 +551,7 @@ final class GameSceneAudioHapticsTests: XCTestCase {
     func testGivenDashedRoadLinesWhenComparingTopAndBottomSpacingThenTopRowsAreMoreConverged() {
         // Given
         scene.setBigRivalCarsEnabled(false)
+        scene.setRoadVisualStyle(.detailedRoad)
         scene.roadDashPhase = 2
 
         // When
@@ -571,6 +575,271 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         let bottomOuterDistance = bottomRow[3] - bottomRow[0]
         let topOuterDistance = topRow[3] - topRow[0]
         XCTAssertLessThan(topOuterDistance, bottomOuterDistance)
+    }
+
+    func testGivenDashedRoadLinesWhenComparingInclinationThenOuterLinesConvergeMoreThanInnerLines() {
+        // Given
+        scene.setBigRivalCarsEnabled(false)
+        scene.setRoadVisualStyle(.detailedRoad)
+        scene.roadDashPhase = 2
+
+        // When
+        scene.gridStateDidUpdate(scene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
+
+        // Then
+        let rowsByY = dashedLineRowsByY()
+        guard let bottomRow = rowsByY.first,
+              let topRow = rowsByY.last else {
+            XCTFail("Expected dashed road lines in at least two rows")
+            return
+        }
+
+        let leftOuterDrift = abs(bottomRow[0] - topRow[0])
+        let leftInnerDrift = abs(bottomRow[1] - topRow[1])
+        XCTAssertGreaterThan(leftOuterDrift, leftInnerDrift)
+
+        let rightOuterDrift = abs(bottomRow[3] - topRow[3])
+        let rightInnerDrift = abs(bottomRow[2] - topRow[2])
+        XCTAssertGreaterThan(rightOuterDrift, rightInnerDrift)
+    }
+
+    func testGivenBigCarsOffWhenRoadStyleSimplifiedWhenRenderingThenVerticalSeparatorsVisibleAndDetailedMarkersHidden() {
+        // Given
+        scene.setBigRivalCarsEnabled(false)
+        scene.setRoadVisualStyle(.simplifiedGrid)
+        scene.safetyMarkerRows = [1, 3]
+
+        // When
+        scene.gridStateDidUpdate(scene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
+
+        // Then
+        XCTAssertEqual(lineOverlayCount(named: "vertical_grid_line"), 2)
+        XCTAssertEqual(lineOverlayCount(named: "road_dash_line"), 0)
+        XCTAssertEqual(lineOverlayCount(named: "lap_marker_line"), 0)
+    }
+
+    func testGivenBigCarsOnWhenRoadStyleDetailedWhenRenderingThenVerticalOnlyModeOverridesDetailedMarkers() {
+        // Given
+        scene.setBigRivalCarsEnabled(true)
+        scene.setRoadVisualStyle(.detailedRoad)
+        scene.safetyMarkerRows = [1, 3]
+
+        // When
+        scene.gridStateDidUpdate(scene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
+
+        // Then
+        XCTAssertEqual(lineOverlayCount(named: "vertical_grid_line"), 2)
+        XCTAssertEqual(lineOverlayCount(named: "road_dash_line"), 0)
+        XCTAssertEqual(lineOverlayCount(named: "lap_marker_line"), 0)
+    }
+
+    func testGivenDetailedRoadSafetyWindowWhenRenderingThenLapMarkersAppearOnSingleRow() {
+        // Given
+        scene.setBigRivalCarsEnabled(false)
+        scene.setRoadVisualStyle(.detailedRoad)
+        scene.safetyMarkerRows = [1, 3]
+
+        // When
+        scene.gridStateDidUpdate(scene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
+
+        // Then
+        XCTAssertEqual(lineOverlayCount(named: "lap_marker_line"), 1)
+        let rowsByY = lapMarkerRowsByY()
+        XCTAssertEqual(rowsByY.count, 1)
+        XCTAssertEqual(rowsByY.first?.count, 1)
+    }
+
+    func testGivenDetailedRoadSafetyWindowWhenRenderingThenLapOutlineIsBakedInAssetWithoutSeparateOverlayNode() {
+        // Given
+        scene.setBigRivalCarsEnabled(false)
+        scene.setRoadVisualStyle(.detailedRoad)
+        scene.safetyMarkerRows = [1, 3]
+
+        // When
+        scene.gridStateDidUpdate(scene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
+
+        // Then
+        XCTAssertEqual(lineOverlayCount(named: "lap_marker_outline"), 0)
+    }
+
+    func testGivenDetailedRoadSafetyWindowWhenRenderingThenDashedRowsDoNotOverlapLapRows() {
+        // Given
+        scene.setBigRivalCarsEnabled(false)
+        scene.setRoadVisualStyle(.detailedRoad)
+        scene.safetyMarkerRows = [1, 3]
+
+        // When
+        scene.gridStateDidUpdate(scene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
+
+        // Then
+        let dashedRowY = Set(scene.lineOverlayNodes.compactMap { node -> Int? in
+            guard node.name == "road_dash_line" else { return nil }
+            return Int(node.position.y.rounded())
+        })
+        let lapRowY = Set(scene.lineOverlayNodes.compactMap { node -> Int? in
+            guard node.name == "lap_marker_line" else { return nil }
+            return Int(node.position.y.rounded())
+        })
+        XCTAssertTrue(dashedRowY.isDisjoint(with: lapRowY))
+    }
+
+    func testGivenDetailedRoadSafetyWindowWhenRenderingThenLapMarkersAreNotVerticallyMirrored() {
+        // Given
+        scene.setBigRivalCarsEnabled(false)
+        scene.setRoadVisualStyle(.detailedRoad)
+        scene.safetyMarkerRows = [1, 3]
+
+        // When
+        scene.gridStateDidUpdate(scene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
+
+        // Then
+        let lapMarkers = scene.lineOverlayNodes.compactMap { node -> SKSpriteNode? in
+            guard node.name == "lap_marker_line" else { return nil }
+            return node as? SKSpriteNode
+        }
+        XCTAssertEqual(lapMarkers.count, 1)
+        XCTAssertTrue(lapMarkers.allSatisfy { $0.yScale > 0 })
+    }
+
+    func testGivenDetailedRoadSafetyWindowWhenRenderingThenLapMarkerSpansRoadInterior() {
+        // Given
+        scene.setBigRivalCarsEnabled(false)
+        scene.setRoadVisualStyle(.detailedRoad)
+        scene.safetyMarkerRows = [1, 3]
+
+        // When
+        scene.gridStateDidUpdate(scene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
+
+        // Then
+        let lapMarkers = scene.lineOverlayNodes.compactMap { node -> SKSpriteNode? in
+            guard node.name == "lap_marker_line" else { return nil }
+            return node as? SKSpriteNode
+        }
+        guard let lapMarker = lapMarkers.first else {
+            XCTFail("Expected one lap marker strip")
+            return
+        }
+        let expectedBoundsRow1 = expectedLapInteriorBounds(forRow: 1)
+        let expectedBoundsRow3 = expectedLapInteriorBounds(forRow: 3)
+        let expectedMinX = (expectedBoundsRow1.lowerBound + expectedBoundsRow3.lowerBound) / 2
+        let expectedMaxX = (expectedBoundsRow1.upperBound + expectedBoundsRow3.upperBound) / 2
+        XCTAssertEqual(lapMarker.frame.minX, expectedMinX, accuracy: 1.25)
+        XCTAssertEqual(lapMarker.frame.maxX, expectedMaxX, accuracy: 1.25)
+    }
+
+    func testGivenDetailedRoadSafetyWindowWhenRenderingThenLapMarkerIsCenteredBetweenSafetyRows() {
+        // Given
+        scene.setBigRivalCarsEnabled(false)
+        scene.setRoadVisualStyle(.detailedRoad)
+        scene.safetyMarkerRows = [0, 1]
+
+        // When
+        scene.gridStateDidUpdate(scene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
+
+        // Then
+        let lapMarkers = scene.lineOverlayNodes.compactMap { node -> SKSpriteNode? in
+            guard node.name == "lap_marker_line" else { return nil }
+            return node as? SKSpriteNode
+        }
+        guard lapMarkers.count == 1 else {
+            XCTFail("Expected lap marker rows")
+            return
+        }
+        let expectedY = (scene.gridCell(column: 1, row: 0).frame.minY + scene.gridCell(column: 1, row: 1).frame.maxY) / 2
+        XCTAssertTrue(lapMarkers.allSatisfy { abs($0.position.y - expectedY) < 0.75 })
+    }
+
+    func testGivenDetailedRoadSafetyWindowWhenRenderingThenLapMarkerHeightScalesWithSafetyRowDepth() {
+        // Given
+        scene.setBigRivalCarsEnabled(false)
+        scene.setRoadVisualStyle(.detailedRoad)
+        scene.safetyMarkerRows = [1, 3]
+
+        // When
+        scene.gridStateDidUpdate(scene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
+
+        // Then
+        let lapMarkers = scene.lineOverlayNodes.compactMap { node -> SKSpriteNode? in
+            guard node.name == "lap_marker_line" else { return nil }
+            return node as? SKSpriteNode
+        }
+        guard let lapMarker = lapMarkers.first else {
+            XCTFail("Expected one lap marker strip")
+            return
+        }
+        let expectedHeight = expectedLapHeight(topRow: 1, bottomRow: 3)
+        XCTAssertEqual(lapMarker.frame.height, expectedHeight, accuracy: 0.75)
+    }
+
+    func testGivenDetailedRoadSafetyWindowWhenRowsAreHigherThenLapMarkerHeightIsSmaller() {
+        // Given
+        scene.setBigRivalCarsEnabled(false)
+        scene.setRoadVisualStyle(.detailedRoad)
+
+        // When
+        scene.safetyMarkerRows = [0, 1]
+        scene.gridStateDidUpdate(scene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
+        let topHeight = lapMarkerRowsByY().first?.first?.frame.height
+
+        scene.safetyMarkerRows = [2, 3]
+        scene.gridStateDidUpdate(scene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
+        let lowerHeight = lapMarkerRowsByY().first?.first?.frame.height
+
+        // Then
+        guard let topHeight, let lowerHeight else {
+            XCTFail("Expected lap marker strip in both renders")
+            return
+        }
+        XCTAssertLessThan(topHeight, lowerHeight)
+    }
+
+    func testGivenRivalCarsOnSideLanesWhenRenderingThenTopRowRivalsAreCloserToCenterThanLowerRows() {
+        // Given
+        scene.setBigRivalCarsEnabled(false)
+        scene.gridState.grid = [
+            [.Car, .Empty, .Empty],
+            [.Empty, .Empty, .Empty],
+            [.Empty, .Empty, .Empty],
+            [.Car, .Empty, .Empty],
+            [.Empty, .Player, .Empty]
+        ]
+
+        // When
+        scene.gridStateDidUpdate(scene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
+        let centerX = scene.size.width / 2
+        let topRivalX = spriteSceneX(column: 0, row: 0)
+        let lowerRivalX = spriteSceneX(column: 0, row: 3)
+
+        // Then
+        guard let topRivalX, let lowerRivalX else {
+            XCTFail("Expected rival sprites in both rows")
+            return
+        }
+        XCTAssertLessThan(abs(topRivalX - centerX), abs(lowerRivalX - centerX))
+    }
+
+    func testGivenPlayerCarOnSideLaneWhenRenderingThenNoAdditionalConvergenceIsApplied() {
+        // Given
+        scene.setBigRivalCarsEnabled(false)
+        scene.gridState.grid = [
+            [.Empty, .Empty, .Empty],
+            [.Empty, .Empty, .Empty],
+            [.Empty, .Empty, .Empty],
+            [.Empty, .Empty, .Empty],
+            [.Player, .Empty, .Empty]
+        ]
+
+        // When
+        scene.gridStateDidUpdate(scene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
+        let playerX = spriteSceneX(column: 0, row: 4)
+        let expectedX = scene.gridCell(column: 0, row: 4).frame.midX
+
+        // Then
+        guard let playerX else {
+            XCTFail("Expected player sprite in left lane")
+            return
+        }
+        XCTAssertEqual(playerX, expectedX, accuracy: 0.01)
     }
 
     func testGivenRunningSceneWhenPausingGameplayThenDelegateReceivesPausedState() {
@@ -761,6 +1030,49 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         return grouped.keys.sorted().compactMap { key in
             grouped[key]?.sorted()
         }
+    }
+
+    private func lapMarkerRowsByY() -> [[SKSpriteNode]] {
+        let lapMarkers = scene.lineOverlayNodes.compactMap { node -> SKSpriteNode? in
+            guard node.name == "lap_marker_line" else { return nil }
+            return node as? SKSpriteNode
+        }
+        var grouped: [Int: [SKSpriteNode]] = [:]
+        for marker in lapMarkers {
+            grouped[Int(marker.position.y.rounded()), default: []].append(marker)
+        }
+        return grouped.keys.sorted().compactMap { key in
+            grouped[key]?.sorted(by: { $0.position.x < $1.position.x })
+        }
+    }
+
+    private func spriteSceneX(column: Int, row: Int) -> CGFloat? {
+        let cell = scene.gridCell(column: column, row: row)
+        guard let sprite = cell.children.compactMap({ $0 as? SKSpriteNode }).first else {
+            return nil
+        }
+        return cell.convert(sprite.position, to: scene).x
+    }
+
+    private func expectedLapInteriorBounds(forRow row: Int) -> ClosedRange<CGFloat> {
+        let cellSize = scene.sizeForCell()
+        let sizeFactor = CGFloat(row + 1) / CGFloat(scene.gridState.numberOfRows)
+        let dashWidth = cellSize.width * sizeFactor
+        let inset = max(1, dashWidth * 0.03)
+
+        let leftCell = scene.gridCell(column: 0, row: row)
+        let rightCell = scene.gridCell(column: 2, row: row)
+        let leftDashMinX = leftCell.frame.maxX - dashWidth
+        let rightDashMaxX = rightCell.frame.minX + dashWidth
+        let leftInteriorX = leftDashMinX + (dashWidth * 0.195) + inset
+        let rightInteriorX = rightDashMaxX - (dashWidth * 0.195) - inset
+        return leftInteriorX...rightInteriorX
+    }
+
+    private func expectedLapHeight(topRow: Int, bottomRow: Int) -> CGFloat {
+        let averageRow = (CGFloat(topRow) + CGFloat(bottomRow)) / 2
+        let perspectiveFactor = (averageRow + 1) / CGFloat(scene.gridState.numberOfRows)
+        return scene.sizeForCell().height * 0.42 * perspectiveFactor
     }
 }
 

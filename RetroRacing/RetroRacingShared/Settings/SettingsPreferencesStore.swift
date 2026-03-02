@@ -15,6 +15,7 @@ public final class SettingsPreferencesStore {
     private var soundEffectsVolumeConditionalDefault: ConditionalDefault<SoundEffectsVolumeSetting> = ConditionalDefault()
     private var bigCarsConditionalDefault: ConditionalDefault<BigCarsSetting> = ConditionalDefault()
     private var laneMoveCueStyleRawValue: String = LaneMoveCueStyle.defaultStyle.rawValue
+    private var roadVisualStyleRawValue: String = RoadVisualStyle.defaultStyle.rawValue
     private var hasLoaded = false
 
     public init(
@@ -61,6 +62,8 @@ public final class SettingsPreferencesStore {
         )
         laneMoveCueStyleRawValue = userDefaults.string(forKey: LaneMoveCueStyle.storageKey)
             ?? LaneMoveCueStyle.defaultStyle.rawValue
+        roadVisualStyleRawValue = userDefaults.string(forKey: RoadVisualStyle.storageKey)
+            ?? RoadVisualStyle.defaultStyle.rawValue
     }
 
     public var difficultySelection: Binding<GameDifficulty> {
@@ -88,6 +91,13 @@ public final class SettingsPreferencesStore {
         Binding(
             get: { self.selectedSpeedWarningFeedbackMode },
             set: { self.setSpeedWarningFeedbackMode($0) }
+        )
+    }
+
+    public var roadVisualStyleSelection: Binding<RoadVisualStyle> {
+        Binding(
+            get: { self.selectedRoadVisualStyle },
+            set: { self.setRoadVisualStyle($0) }
         )
     }
 
@@ -135,6 +145,10 @@ public final class SettingsPreferencesStore {
 
     public var selectedBigCarsEnabled: Bool {
         bigCarsConditionalDefault.effectiveValue.isEnabled
+    }
+
+    public var selectedRoadVisualStyle: RoadVisualStyle {
+        RoadVisualStyle.fromStoredValue(roadVisualStyleRawValue)
     }
 
     public var shouldShowAudioCueTutorial: Bool {
@@ -207,5 +221,10 @@ public final class SettingsPreferencesStore {
             to: userDefaults,
             key: BigCarsSetting.conditionalDefaultStorageKey
         )
+    }
+
+    public func setRoadVisualStyle(_ style: RoadVisualStyle) {
+        roadVisualStyleRawValue = style.rawValue
+        userDefaults.set(style.rawValue, forKey: RoadVisualStyle.storageKey)
     }
 }

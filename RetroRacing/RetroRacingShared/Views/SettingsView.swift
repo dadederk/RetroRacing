@@ -291,6 +291,17 @@ public struct SettingsView: View {
                     .buttonStyle(.borderless)
                     .disabled(preferencesStore.shouldEnableSpeedWarningPreview == false)
 
+                    Picker(selection: preferencesStore.roadVisualStyleSelection) {
+                        ForEach(RoadVisualStyle.allCases, id: \.self) { style in
+                            Text(GameLocalizedStrings.string(style.localizedNameKey))
+                                .font(fontForLabels)
+                                .tag(style)
+                        }
+                    } label: {
+                        Text(GameLocalizedStrings.string("settings_road_visual_style"))
+                            .font(fontForLabels)
+                    }
+
                     Toggle(isOn: preferencesStore.bigCarsSelection) {
                         Text(GameLocalizedStrings.string("settings_big_cars"))
                             .font(fontForLabels)

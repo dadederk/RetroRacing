@@ -45,6 +45,7 @@ extension GameViewModel {
             audioFeedbackMode: selectedAudioFeedbackMode,
             laneMoveCueStyle: selectedLaneMoveCueStyle,
             bigRivalCarsEnabled: selectedBigRivalCarsEnabled,
+            roadVisualStyle: selectedRoadVisualStyle,
             theme: theme,
             hapticController: hapticController,
             volume: volume
@@ -78,6 +79,7 @@ extension GameViewModel {
         gameScene.setAudioFeedbackMode(selectedAudioFeedbackMode)
         gameScene.setLaneMoveCueStyle(selectedLaneMoveCueStyle)
         gameScene.setBigRivalCarsEnabled(selectedBigRivalCarsEnabled)
+        gameScene.setRoadVisualStyle(selectedRoadVisualStyle)
         pause.scenePaused = gameScene.gameState.isPaused
         let (currentScore, currentLives) = Self.scoreAndLives(from: gameScene)
         hud.score = currentScore
@@ -117,6 +119,7 @@ extension GameViewModel {
         audioFeedbackMode: AudioFeedbackMode,
         laneMoveCueStyle: LaneMoveCueStyle,
         bigRivalCarsEnabled: Bool,
+        roadVisualStyle: RoadVisualStyle,
         theme: (any GameTheme)?,
         hapticController: HapticFeedbackController?,
         volume: Double
@@ -136,7 +139,8 @@ extension GameViewModel {
             hapticController: hapticController,
             audioFeedbackMode: audioFeedbackMode,
             laneMoveCueStyle: laneMoveCueStyle,
-            bigRivalCarsEnabled: bigRivalCarsEnabled
+            bigRivalCarsEnabled: bigRivalCarsEnabled,
+            roadVisualStyle: roadVisualStyle
         )
     }
 
@@ -164,6 +168,11 @@ extension GameViewModel {
     func updateBigRivalCarsEnabled(_ enabled: Bool) {
         selectedBigRivalCarsEnabled = enabled
         scene?.setBigRivalCarsEnabled(enabled)
+    }
+
+    func updateRoadVisualStyle(_ style: RoadVisualStyle) {
+        selectedRoadVisualStyle = style
+        scene?.setRoadVisualStyle(style)
     }
 
     static func scoreAndLives(from scene: GameScene) -> (score: Int, lives: Int) {

@@ -35,7 +35,8 @@ extension GameScene {
         row: Int,
         column: Int,
         accessibilityLabel: String? = nil,
-        usesPlayerScale: Bool = false
+        usesPlayerScale: Bool = false,
+        sideLaneConvergenceFactor: CGFloat = 0
     ) {
         #if !os(watchOS)
         if let accessibilityLabel = accessibilityLabel {
@@ -53,11 +54,15 @@ extension GameScene {
         let spriteSize = CGSize(width: cellSize.width * sizeFactor, height: cellSize.height * sizeFactor)
 
         var horizontalTranslationFactor: CGFloat = 0.0
+        let gap = cellSize.width - spriteSize.width
+        let depthDenominator = max(CGFloat(gridState.playerRowIndex), 1)
+        let depth = CGFloat(gridState.playerRowIndex - row) / depthDenominator
+        let convergenceMultiplier = 1 + (depth * sideLaneConvergenceFactor)
 
         if column < (gridState.numberOfColumns / 2) {
-            horizontalTranslationFactor = (cellSize.width - spriteSize.width)
+            horizontalTranslationFactor = gap * convergenceMultiplier
         } else if column > (gridState.numberOfColumns / 2) {
-            horizontalTranslationFactor = -(cellSize.width - spriteSize.width)
+            horizontalTranslationFactor = -(gap * convergenceMultiplier)
         }
 
         let cellOriginInLocal = cell.frame.origin
