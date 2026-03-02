@@ -16,6 +16,7 @@ public final class SettingsPreferencesStore {
     private var bigCarsConditionalDefault: ConditionalDefault<BigCarsSetting> = ConditionalDefault()
     private var laneMoveCueStyleRawValue: String = LaneMoveCueStyle.defaultStyle.rawValue
     private var roadVisualStyleRawValue: String = RoadVisualStyle.defaultStyle.rawValue
+    private var controllerBindingProfileData: Data = Data()
     private var hasLoaded = false
 
     public init(
@@ -64,6 +65,7 @@ public final class SettingsPreferencesStore {
             ?? LaneMoveCueStyle.defaultStyle.rawValue
         roadVisualStyleRawValue = userDefaults.string(forKey: RoadVisualStyle.storageKey)
             ?? RoadVisualStyle.defaultStyle.rawValue
+        controllerBindingProfileData = userDefaults.data(forKey: GameControllerBindingPreference.storageKey) ?? Data()
     }
 
     public var difficultySelection: Binding<GameDifficulty> {
@@ -115,6 +117,27 @@ public final class SettingsPreferencesStore {
         )
     }
 
+    public var controllerLeftButtonSelection: Binding<GameControllerRemapButton> {
+        Binding(
+            get: { self.selectedControllerBindingProfile.leftButton },
+            set: { self.setControllerBindingProfile(self.selectedControllerBindingProfile.settingLeft($0)) }
+        )
+    }
+
+    public var controllerRightButtonSelection: Binding<GameControllerRemapButton> {
+        Binding(
+            get: { self.selectedControllerBindingProfile.rightButton },
+            set: { self.setControllerBindingProfile(self.selectedControllerBindingProfile.settingRight($0)) }
+        )
+    }
+
+    public var controllerPauseButtonSelection: Binding<GameControllerRemapButton> {
+        Binding(
+            get: { self.selectedControllerBindingProfile.pauseButton },
+            set: { self.setControllerBindingProfile(self.selectedControllerBindingProfile.settingPause($0)) }
+        )
+    }
+
     public var selectedDifficulty: GameDifficulty {
         difficultyConditionalDefault.effectiveValue
     }
@@ -149,6 +172,19 @@ public final class SettingsPreferencesStore {
 
     public var selectedRoadVisualStyle: RoadVisualStyle {
         RoadVisualStyle.fromStoredValue(roadVisualStyleRawValue)
+    }
+
+    public var selectedControllerBindingProfile: GameControllerBindingProfile {
+        guard
+            !controllerBindingProfileData.isEmpty,
+            let profile = try? JSONDecoder().decode(
+                GameControllerBindingProfile.self,
+                from: controllerBindingProfileData
+            )
+        else {
+            return .default
+        }
+        return profile
     }
 
     public var shouldShowAudioCueTutorial: Bool {
@@ -226,5 +262,10 @@ public final class SettingsPreferencesStore {
     public func setRoadVisualStyle(_ style: RoadVisualStyle) {
         roadVisualStyleRawValue = style.rawValue
         userDefaults.set(style.rawValue, forKey: RoadVisualStyle.storageKey)
+    }
+
+    public func setControllerBindingProfile(_ profile: GameControllerBindingProfile) {
+        GameControllerBindingPreference.setProfile(profile, in: userDefaults)
+        controllerBindingProfileData = (try? JSONEncoder().encode(profile)) ?? Data()
     }
 }

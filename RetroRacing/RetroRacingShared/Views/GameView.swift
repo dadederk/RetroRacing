@@ -41,11 +41,13 @@ public struct GameView: View {
     public let playLimitService: PlayLimitService?
     public let style: GameViewStyle
     public let inputAdapterFactory: any GameInputAdapterFactory
+    public let controllerInputSource: any GameControllerInputSource
     public let controlsDescriptionKey: String
     private let shouldStartGame: Bool
     private let showMenuButton: Bool
     private let onFinishRequest: (() -> Void)?
     private let onMenuRequest: (() -> Void)?
+    private let onPlayRequest: (() -> Void)?
     private let isMenuOverlayPresented: Binding<Bool>?
 
     @AppStorage(SoundEffectsVolumeSetting.conditionalDefaultStorageKey)
@@ -85,11 +87,13 @@ public struct GameView: View {
         playLimitService: PlayLimitService?,
         style: GameViewStyle,
         inputAdapterFactory: any GameInputAdapterFactory,
+        controllerInputSource: any GameControllerInputSource,
         controlsDescriptionKey: String,
         shouldStartGame: Bool = true,
         showMenuButton: Bool = false,
         onFinishRequest: (() -> Void)? = nil,
         onMenuRequest: (() -> Void)? = nil,
+        onPlayRequest: (() -> Void)? = nil,
         isMenuOverlayPresented: Binding<Bool>? = nil
     ) {
         self.leaderboardService = leaderboardService
@@ -103,11 +107,13 @@ public struct GameView: View {
         self.playLimitService = playLimitService
         self.style = style
         self.inputAdapterFactory = inputAdapterFactory
+        self.controllerInputSource = controllerInputSource
         self.controlsDescriptionKey = controlsDescriptionKey
         self.shouldStartGame = shouldStartGame
         self.showMenuButton = showMenuButton
         self.onFinishRequest = onFinishRequest
         self.onMenuRequest = onMenuRequest
+        self.onPlayRequest = onPlayRequest
         self.isMenuOverlayPresented = isMenuOverlayPresented
         AppLog.info(AppLog.game, "GameView init - shouldStartGame: \(shouldStartGame), showMenuButton: \(showMenuButton)")
         let selectedDifficulty = GameDifficulty.currentSelection(from: InfrastructureDefaults.userDefaults)
@@ -219,6 +225,7 @@ public struct GameView: View {
                 model.setOverlayPause(isPresented: overlayBinding.wrappedValue)
             }
             attemptAutoPresentVoiceOverHelpIfNeeded()
+            startControllerInput()
         }
         #if os(iOS) || os(tvOS) || os(visionOS)
         .accessibilityAction(.magicTap) {
@@ -306,6 +313,7 @@ public struct GameView: View {
             .fontPreferenceStore(fontPreferenceStore)
         }
         .onDisappear {
+            controllerInputSource.stop()
             model.tearDown()
         }
         .onChange(of: soundEffectsVolumeData) { _, _ in
@@ -433,6 +441,43 @@ public struct GameView: View {
         return showMenuButton && overlayPresented == false
     }
     #endif
+
+    private func startControllerInput() {
+        let capturedModel = model
+        let menuOverlayBinding = isMenuOverlayPresented
+        let playRequest = onPlayRequest
+        AppLog.info(AppLog.game, "Starting controller input in GameView")
+        controllerInputSource.start { @MainActor action in
+            let route = GameControllerActionRouter.route(
+                action: action,
+                isMenuOverlayVisible: menuOverlayBinding?.wrappedValue ?? false
+            )
+            AppLog.info(
+                AppLog.game,
+                "Controller action routed: action=\(action), route=\(route), overlayVisible=\(menuOverlayBinding?.wrappedValue ?? false), hasScene=\(capturedModel.scene != nil), hasInputAdapter=\(capturedModel.inputAdapter != nil)"
+            )
+            switch route {
+            case .moveLeft:
+                capturedModel.flashButton(.left)
+                guard let inputAdapter = capturedModel.inputAdapter else {
+                    AppLog.error(AppLog.game, "Controller moveLeft ignored because inputAdapter is nil")
+                    return
+                }
+                inputAdapter.handleLeft()
+            case .moveRight:
+                capturedModel.flashButton(.right)
+                guard let inputAdapter = capturedModel.inputAdapter else {
+                    AppLog.error(AppLog.game, "Controller moveRight ignored because inputAdapter is nil")
+                    return
+                }
+                inputAdapter.handleRight()
+            case .togglePause:
+                capturedModel.togglePause()
+            case .requestPlay:
+                playRequest?()
+            }
+        }
+    }
 
     private func handleLeftTap() {
         handleDirectionalMoveLeft(recordControlInput: .tap)

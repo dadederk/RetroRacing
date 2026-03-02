@@ -24,6 +24,16 @@ RetroRacing captures platform-specific input at the UI layer and translates it i
 - **Focus**: `WatchGameView` sets focus with `@FocusState` to keep crown input active during play.
 - **Adapter**: Movement uses `CrownGameInputAdapter` to call `moveLeft()` / `moveRight()` on `GameScene`.
 
+### Physical Game Controllers (iOS, macOS, tvOS)
+
+See [controller_input.md](controller_input.md) for full details. Summary:
+- `GameControllerInputSource` protocol injected into `GameView` at the composition root.
+- `SystemGameControllerInputSource` backed by Apple's `GCController` APIs.
+- D-pad and left stick trigger moves by default on iOS/macOS; not captured on tvOS (handled by `.onMoveCommand`).
+- Start/Menu triggers pause on iOS/macOS; not captured on tvOS (handled by `.onPlayPauseCommand`).
+- Players can remap A/B/X/Y/shoulders/triggers to any of three actions in Settings.
+- Bindings stored in `UserDefaults`, read on every press — no caching required.
+
 ### Other Platforms (Summary)
 
 - **iOS/iPadOS**: Touch areas + drag gestures (see `TouchGameInputAdapter`).
@@ -72,5 +82,6 @@ RetroRacing captures platform-specific input at the UI layer and translates it i
 
 ## References
 
+- [controller_input.md](controller_input.md)
 - [accessibility.md](accessibility.md)
 - [testing.md](testing.md)

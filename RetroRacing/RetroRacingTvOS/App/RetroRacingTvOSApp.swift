@@ -1,6 +1,7 @@
 import SwiftUI
 import RetroRacingShared
 import GameKit
+import GameController
 
 @main
 struct RetroRacingTvOSApp: App {
@@ -16,6 +17,7 @@ struct RetroRacingTvOSApp: App {
     private let bestScoreSyncService: BestScoreSyncService
     private let playLimitService: PlayLimitService
     private let storeKitService: StoreKitService
+    private let controllerInputSource: SystemGameControllerInputSource
     @State private var isMenuPresented = true
     @State private var sessionID = UUID()
 
@@ -79,6 +81,10 @@ struct RetroRacingTvOSApp: App {
         playLimitService = UserDefaultsPlayLimitService(userDefaults: userDefaults)
 
         BuildConfiguration.initializeTestFlightCheck()
+        controllerInputSource = SystemGameControllerInputSource(
+            platformConfig: .tvOS,
+            userDefaults: userDefaults
+        )
     }
 
     private static func makeHapticsController() -> HapticFeedbackController {
@@ -100,10 +106,12 @@ struct RetroRacingTvOSApp: App {
                     playLimitService: playLimitService,
                     style: .tvOS,
                     inputAdapterFactory: RemoteInputAdapterFactory(),
+                    controllerInputSource: controllerInputSource,
                     controlsDescriptionKey: "settings_controls_tvos",
                     showMenuButton: true,
                     onFinishRequest: handleFinish,
                     onMenuRequest: handleMenuRequest,
+                    onPlayRequest: handleControllerPlayRequest,
                     isMenuOverlayPresented: $isMenuPresented
                 )
                 .id(sessionID)
@@ -149,6 +157,12 @@ struct RetroRacingTvOSApp: App {
     private func handlePlayRequest() {
         AppLog.info(AppLog.game, "Play requested - starting new session and dismissing menu")
         sessionID = UUID()
+        isMenuPresented = false
+    }
+
+    private func handleControllerPlayRequest() {
+        // Controller Start/Menu pressed while menu is visible — dismiss without resetting session.
+        AppLog.info(AppLog.game, "Controller play requested - resuming session and dismissing menu")
         isMenuPresented = false
     }
 

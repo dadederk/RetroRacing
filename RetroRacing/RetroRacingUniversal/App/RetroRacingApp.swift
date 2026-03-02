@@ -14,6 +14,7 @@ import UIKit
 #if canImport(UIKit) && !os(tvOS) && !os(watchOS)
 import CoreHaptics
 #endif
+import GameController
 
 /// App entry point assembling shared services and presenting the universal menu scene.
 @main
@@ -40,6 +41,7 @@ struct RetroRacingApp: App {
     private let watchRelayReceiver: WatchBestScoreRelayReceiver?
     private let playLimitService: PlayLimitService
     private let storeKitService: StoreKitService
+    private let controllerInputSource: SystemGameControllerInputSource
     private let controlsDescriptionKey: String
     @State private var isMenuPresented = true
     @State private var isSettingsPresented = false
@@ -158,6 +160,10 @@ struct RetroRacingApp: App {
 
         BuildConfiguration.initializeTestFlightCheck()
         playLimitService = UserDefaultsPlayLimitService(userDefaults: userDefaults)
+        controllerInputSource = SystemGameControllerInputSource(
+            platformConfig: .standard,
+            userDefaults: userDefaults
+        )
     }
 
     /// Returns true when the device has haptic hardware. Used to show/hide haptic setting (configuration injection).
@@ -254,11 +260,13 @@ struct RetroRacingApp: App {
             playLimitService: playLimitService,
             style: .universal,
             inputAdapterFactory: TouchInputAdapterFactory(),
+            controllerInputSource: controllerInputSource,
             controlsDescriptionKey: controlsDescriptionKey,
             shouldStartGame: shouldStartGame,
             showMenuButton: true,
             onFinishRequest: handleFinish,
             onMenuRequest: handleMenuRequest,
+            onPlayRequest: handlePlayRequest,
             isMenuOverlayPresented: gameOverlayPauseBinding
         )
         .id(sessionID)

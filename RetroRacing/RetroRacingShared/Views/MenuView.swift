@@ -143,6 +143,7 @@ public struct MenuView: View {
                     playLimitService: playLimitService,
                     style: gameViewStyle,
                     inputAdapterFactory: inputAdapterFactory,
+                    controllerInputSource: NoOpGameControllerInputSource(),
                     controlsDescriptionKey: controlsDescriptionKey
                 )
             }
