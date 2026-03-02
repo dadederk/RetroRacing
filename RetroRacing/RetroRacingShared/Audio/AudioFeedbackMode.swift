@@ -6,11 +6,6 @@
 //
 
 import Foundation
-#if os(macOS)
-import AppKit
-#else
-import UIKit
-#endif
 
 /// User-selectable audio feedback behavior for gameplay guidance.
 public enum AudioFeedbackMode: String, CaseIterable, Codable, Sendable {
@@ -31,22 +26,14 @@ public enum AudioFeedbackMode: String, CaseIterable, Codable, Sendable {
         .cueChord
     ]
 
-    /// System-derived default: lane pulses when VoiceOver is active on supported platforms.
+    /// System-derived default from VoiceOver state.
+    public static func systemDefault(isVoiceOverRunning: Bool) -> AudioFeedbackMode {
+        isVoiceOverRunning ? .cueLanePulses : .retro
+    }
+
+    /// System-derived default from the current platform's VoiceOver status.
     public static var systemDefault: AudioFeedbackMode {
-        #if os(iOS) || os(tvOS) || os(visionOS)
-        if UIAccessibility.isVoiceOverRunning {
-            return .cueLanePulses
-        }
-        return .retro
-        #elseif os(watchOS)
-        // watchOS VoiceOver state is not currently sourced here; keep retro as the default.
-        return .retro
-        #elseif os(macOS)
-        if NSWorkspace.shared.isVoiceOverEnabled {
-            return .cueLanePulses
-        }
-        return .retro
-        #endif
+        systemDefault(isVoiceOverRunning: VoiceOverStatus.isVoiceOverRunning)
     }
 
     public var localizedNameKey: String {

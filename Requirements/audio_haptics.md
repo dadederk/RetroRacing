@@ -10,6 +10,7 @@
 - Crash feedback: play `fail` sound and trigger error haptic immediately on collision; crash sprite flashes while the sound plays.
 - Safe start: game remains paused while `start` sound plays (initial launch and post-crash resume), then unpauses automatically at completion.
 - Exiting the game stops any playing sounds with a very short fade-out.
+- Cross-platform parity policy: iPhone/watchOS and other targets keep independent local settings (no cross-device sync), but audio-related option availability and event-to-sound semantics stay aligned where platform capabilities allow.
 - User control in Settings:
   - SFX volume slider (0–100%).
   - Audio feedback mode selector (display order: `Retro`, `Audio cues (lane pulses)`, `Audio cues (arpeggio)`, `Audio cues (chord)`).
@@ -25,6 +26,7 @@
 - Sound IDs remain `start`, `bip`, `fail`; all three effects are generated at runtime.
 - Generated SFX uses a small `bip` pool so rapid tick/move pulses do not restart and get dropped.
 - `GameScene` uses `SoundEffectPlayer` for start/fail. Tick/move guidance uses `LaneCuePlayer` in cue modes and also in retro mode for distinct tick/move timbres.
+- Lane-guidance semantics never fall back to `bip`; if lane cues are unavailable, tick/move guidance cues are skipped and move keeps haptic feedback only.
 - Cue mode behavior:
   - Tick cue: announce currently safe columns in the row directly ahead of the player.
   - Move cue style:
@@ -60,7 +62,7 @@
   - Legacy `false` -> `none`
   - Legacy `sfxVolume` seeds conditional default override
   - Runs once via migration marker key.
-- Audio feedback mode persists via `ConditionalDefault<AudioFeedbackMode>` (`audioFeedbackMode_conditionalDefault`): VoiceOver-adaptive default is `lane pulses` where VoiceOver status is available.
+- Audio feedback mode persists via `ConditionalDefault<AudioFeedbackMode>` (`audioFeedbackMode_conditionalDefault`): VoiceOver-adaptive default is `lane pulses` on all platforms (including watchOS via shared `VoiceOverStatus`), otherwise `retro`.
 - Lane move cue style persists via `UserDefaults` key `laneMoveCueStyle`.
 - In-game/tutorial preview playback uses `LaneCuePlayer` with the current SFX volume and must call `stopAll` on dismiss so previews never leak into gameplay.
 - Settings and tutorial include `Preview warning` for speed increase warning feedback; preview behavior matches gameplay for all four modes.
@@ -77,7 +79,7 @@
   - Speed increase warning `Haptic` mode triggers two consecutive warning haptic events.
   - watchOS tick/move/crash/success haptics are dispatched immediately on the main thread to keep feedback aligned with gameplay timing.
   - watchOS warning haptics keep a short internal spacing so the two warning pulses remain distinct.
-  - watchOS move-complete uses a directional pulse while preserving crash/success/warning semantics.
+  - watchOS mirrors iOS haptic intent semantics using native system patterns: tick maps to light-impact equivalent (`click`), move-complete maps to medium-impact equivalent (`start`), and crash/success/warning keep failure/success/notification semantics.
   - Speed increase warning sound uses a dedicated generated cue (`D4-F4-A4`, repeated twice) and does not reuse lane-safe tick cues.
 
 ## Testing Expectations

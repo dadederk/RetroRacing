@@ -6,11 +6,6 @@
 //
 
 import Foundation
-#if os(macOS)
-import AppKit
-#else
-import UIKit
-#endif
 
 /// Mutable gameplay snapshot tracking progression, pause state, and scoring.
 public struct GameState {
@@ -66,22 +61,14 @@ public enum GameDifficulty: String, CaseIterable, Sendable {
     public static let conditionalDefaultStorageKey = "selectedDifficulty_conditionalDefault"
     public static let defaultDifficulty: GameDifficulty = .rapid
     
-    /// System-derived default: .cruise when VoiceOver is running, otherwise .rapid
+    /// System-derived default from VoiceOver state.
+    public static func systemDefault(isVoiceOverRunning: Bool) -> GameDifficulty {
+        isVoiceOverRunning ? .cruise : .rapid
+    }
+
+    /// System-derived default from the current platform's VoiceOver status.
     public static var systemDefault: GameDifficulty {
-        #if os(iOS) || os(tvOS) || os(visionOS)
-        if UIAccessibility.isVoiceOverRunning {
-            return .cruise
-        }
-        return .rapid
-        #elseif os(watchOS)
-        // watchOS doesn't have isVoiceOverRunning API; default to .rapid
-        return .rapid
-        #elseif os(macOS)
-        if NSWorkspace.shared.isVoiceOverEnabled {
-            return .cruise
-        }
-        return .rapid
-        #endif
+        systemDefault(isVoiceOverRunning: VoiceOverStatus.isVoiceOverRunning)
     }
 
     public var localizedNameKey: String {

@@ -93,6 +93,108 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         XCTAssertEqual(haptics.moves, 1)
     }
 
+    func testGivenRetroModeWithoutLaneCuePlayerWhenHandlingMoveThenBipFallbackIsNotUsed() {
+        // Given
+        let fallbackSoundPlayer = MockSoundEffectPlayer()
+        let fallbackHaptics = MockHapticFeedbackController()
+        let loader = PlatformFactories.makeImageLoader()
+        let fallbackScene = GameScene.scene(
+            size: CGSize(width: 200, height: 200),
+            difficulty: .rapid,
+            theme: nil,
+            imageLoader: loader,
+            soundPlayer: fallbackSoundPlayer,
+            laneCuePlayer: nil,
+            hapticController: fallbackHaptics,
+            audioFeedbackMode: .retro
+        )
+        let fallbackView = SKView(frame: CGRect(origin: .zero, size: CGSize(width: 200, height: 200)))
+        fallbackView.presentScene(fallbackScene)
+        let adapter = TouchGameInputAdapter(controller: fallbackScene, hapticController: fallbackHaptics)
+        let baselineEffects = fallbackSoundPlayer.playedEffects
+
+        // When
+        adapter.handleLeft()
+
+        // Then
+        XCTAssertEqual(fallbackSoundPlayer.playedEffects, baselineEffects)
+        XCTAssertEqual(fallbackHaptics.moves, 1)
+    }
+
+    func testGivenCueModeWithoutLaneCuePlayerWhenHandlingMoveThenBipFallbackIsNotUsed() {
+        // Given
+        let fallbackSoundPlayer = MockSoundEffectPlayer()
+        let fallbackHaptics = MockHapticFeedbackController()
+        let loader = PlatformFactories.makeImageLoader()
+        let fallbackScene = GameScene.scene(
+            size: CGSize(width: 200, height: 200),
+            difficulty: .rapid,
+            theme: nil,
+            imageLoader: loader,
+            soundPlayer: fallbackSoundPlayer,
+            laneCuePlayer: nil,
+            hapticController: fallbackHaptics,
+            audioFeedbackMode: .cueArpeggio
+        )
+        let fallbackView = SKView(frame: CGRect(origin: .zero, size: CGSize(width: 200, height: 200)))
+        fallbackView.presentScene(fallbackScene)
+        let adapter = TouchGameInputAdapter(controller: fallbackScene, hapticController: fallbackHaptics)
+        let baselineEffects = fallbackSoundPlayer.playedEffects
+
+        // When
+        adapter.handleLeft()
+
+        // Then
+        XCTAssertEqual(fallbackSoundPlayer.playedEffects, baselineEffects)
+        XCTAssertEqual(fallbackHaptics.moves, 1)
+    }
+
+    func testGivenCueModeWithoutLaneCuePlayerWhenPlayingTickThenNoFallbackSoundIsUsed() {
+        // Given
+        let fallbackSoundPlayer = MockSoundEffectPlayer()
+        let loader = PlatformFactories.makeImageLoader()
+        let fallbackScene = GameScene.scene(
+            size: CGSize(width: 200, height: 200),
+            difficulty: .rapid,
+            theme: nil,
+            imageLoader: loader,
+            soundPlayer: fallbackSoundPlayer,
+            laneCuePlayer: nil,
+            hapticController: nil,
+            audioFeedbackMode: .cueArpeggio
+        )
+        let baselineEffects = fallbackSoundPlayer.playedEffects
+
+        // When
+        fallbackScene.playFeedback(event: .tick)
+
+        // Then
+        XCTAssertEqual(fallbackSoundPlayer.playedEffects, baselineEffects)
+    }
+
+    func testGivenRetroModeWithoutLaneCuePlayerWhenPlayingTickThenNoFallbackSoundIsUsed() {
+        // Given
+        let fallbackSoundPlayer = MockSoundEffectPlayer()
+        let loader = PlatformFactories.makeImageLoader()
+        let fallbackScene = GameScene.scene(
+            size: CGSize(width: 200, height: 200),
+            difficulty: .rapid,
+            theme: nil,
+            imageLoader: loader,
+            soundPlayer: fallbackSoundPlayer,
+            laneCuePlayer: nil,
+            hapticController: nil,
+            audioFeedbackMode: .retro
+        )
+        let baselineEffects = fallbackSoundPlayer.playedEffects
+
+        // When
+        fallbackScene.playFeedback(event: .tick)
+
+        // Then
+        XCTAssertEqual(fallbackSoundPlayer.playedEffects, baselineEffects)
+    }
+
     func testGivenRunningSceneAtLeftBoundaryWhenCrownHandlingLeftInputThenMoveHapticIsNotTriggered() {
         // Given
         scene.unpauseGameplay()
@@ -157,6 +259,28 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         XCTAssertEqual(laneCuePlayer.moveCalls, 0)
     }
 
+    func testGivenCueLanePulsesModeWhenPlayingTickFeedbackThenSafeColumnsAheadAreForwarded() {
+        // Given
+        scene.setAudioFeedbackMode(.cueLanePulses)
+        scene.gridState.grid = [
+            [.Empty, .Empty, .Empty],
+            [.Empty, .Empty, .Empty],
+            [.Empty, .Empty, .Empty],
+            [.Car, .Empty, .Car],
+            [.Empty, .Player, .Empty]
+        ]
+        let baselineEffects = soundPlayer.playedEffects
+
+        // When
+        scene.playFeedback(event: .tick)
+
+        // Then
+        XCTAssertEqual(laneCuePlayer.tickCalls, 1)
+        XCTAssertEqual(laneCuePlayer.lastMode, .cueLanePulses)
+        XCTAssertEqual(laneCuePlayer.lastTickSafeColumns, Set([.middle]))
+        XCTAssertEqual(soundPlayer.playedEffects, baselineEffects)
+    }
+
     func testGivenCueAudioModeWhenHandlingMoveThenMoveCueIsTriggeredWithoutBip() {
         // Given
         scene.setAudioFeedbackMode(.cueChord)
@@ -169,6 +293,29 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         XCTAssertFalse(soundPlayer.playedEffects.contains(.bip))
         XCTAssertEqual(laneCuePlayer.tickCalls, 0)
         XCTAssertEqual(laneCuePlayer.moveCalls, 1)
+    }
+
+    func testGivenCueArpeggioModeWhenPlayingMoveFeedbackThenMoveCueUsesSelectedModeAndLaneStyle() {
+        // Given
+        scene.setAudioFeedbackMode(.cueArpeggio)
+        scene.setLaneMoveCueStyle(.laneConfirmationAndSafety)
+        scene.gridState.grid = [
+            [.Empty, .Empty, .Empty],
+            [.Empty, .Empty, .Empty],
+            [.Empty, .Empty, .Empty],
+            [.Empty, .Empty, .Car],
+            [.Empty, .Player, .Empty]
+        ]
+
+        // When
+        scene.playFeedback(event: .move(destinationColumn: 2))
+
+        // Then
+        XCTAssertEqual(laneCuePlayer.moveCalls, 1)
+        XCTAssertEqual(laneCuePlayer.lastMode, .cueArpeggio)
+        XCTAssertEqual(laneCuePlayer.lastMoveColumn, .right)
+        XCTAssertFalse(laneCuePlayer.lastMoveSafeState)
+        XCTAssertEqual(laneCuePlayer.lastMoveCueStyle, .laneConfirmationAndSafety)
     }
 
     func testGivenSafetyOnlyMoveCueStyleWhenHandlingMoveThenLaneCuePlayerReceivesSafetyOnlyStyle() {
@@ -293,8 +440,25 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         XCTAssertTrue(scene.gameState.isPaused)
     }
 
+    func testGivenCueModeWhenHandlingCrashThenFailSoundMappingStaysUnchanged() {
+        // Given
+        scene.setAudioFeedbackMode(.cueChord)
+        let baselineTickCalls = laneCuePlayer.tickCalls
+        let baselineMoveCalls = laneCuePlayer.moveCalls
+
+        // When
+        scene.handleCrash()
+
+        // Then
+        XCTAssertEqual(soundPlayer.playedEffects.last, .fail)
+        XCTAssertEqual(haptics.crashes, 1)
+        XCTAssertEqual(laneCuePlayer.tickCalls, baselineTickCalls)
+        XCTAssertEqual(laneCuePlayer.moveCalls, baselineMoveCalls)
+    }
+
     func testGivenSceneWhenPlayingSpeedWarningSoundThenDedicatedLaneCueIsUsed() {
         // Given
+        let baselineEffects = soundPlayer.playedEffects
 
         // When
         scene.playSpeedIncreaseWarningSound()
@@ -302,6 +466,7 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         // Then
         XCTAssertEqual(laneCuePlayer.speedWarningCueCalls, 1)
         XCTAssertEqual(laneCuePlayer.tickCalls, 0)
+        XCTAssertEqual(soundPlayer.playedEffects, baselineEffects)
     }
 
     func testGivenSceneReadyWhenApplyingStartPulseThenPulseMethodsAreCallable() {

@@ -411,22 +411,23 @@ public class GameScene: SKScene {
     private func updateSafetyMarkerRows(for action: GridStateCalculator.Action) {
         switch action {
         case .update:
-            safetyMarkerRows = safetyMarkerRows
-                .compactMap { row -> Int? in
-                    guard row <= (GridConfiguration.numberOfRows - 3) else { return nil }
-                    return row + 1
-                }
+            safetyMarkerRows = shiftedSafetyMarkerRows()
             safetyMarkerRows = Array(safetyMarkerRows.prefix(2))
         case .updateWithEmptyRow:
-            safetyMarkerRows = safetyMarkerRows
-                .compactMap { row -> Int? in
-                    guard row <= (GridConfiguration.numberOfRows - 3) else { return nil }
-                    return row + 1
-                }
+            safetyMarkerRows = shiftedSafetyMarkerRows()
             safetyMarkerRows.insert(0, at: 0)
             safetyMarkerRows = Array(safetyMarkerRows.prefix(2))
         case .moveCar:
             break
+        }
+    }
+
+    /// Moves tracked safety rows one step toward the player and keeps one off-screen
+    /// sentinel row so lap markers can visually exit the screen without popping.
+    private func shiftedSafetyMarkerRows() -> [Int] {
+        safetyMarkerRows.compactMap { row -> Int? in
+            guard row <= (GridConfiguration.numberOfRows - 1) else { return nil }
+            return row + 1
         }
     }
 
@@ -541,7 +542,6 @@ public class GameScene: SKScene {
             playRetroFeedback(event: event)
         case .cueChord, .cueArpeggio, .cueLanePulses:
             guard let laneCuePlayer else {
-                play(.bip)
                 return
             }
 
@@ -571,18 +571,12 @@ public class GameScene: SKScene {
     }
 
     private func playRetroFeedback(event: AudioFeedbackEvent) {
-        guard let laneCuePlayer else {
-            play(.bip)
-            return
-        }
-
         switch event {
         case .tick:
-            laneCuePlayer.playTickCue(
-                safeColumns: Set(CueColumn.allCases),
-                mode: .cueArpeggio
-            )
+            guard let laneCuePlayer else { return }
+            laneCuePlayer.playTickCue(safeColumns: Set(CueColumn.allCases), mode: .cueArpeggio)
         case .move:
+            guard let laneCuePlayer else { return }
             laneCuePlayer.playMoveCue(
                 column: .middle,
                 isSafe: true,

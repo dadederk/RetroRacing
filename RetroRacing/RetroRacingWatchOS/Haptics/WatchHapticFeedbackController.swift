@@ -4,6 +4,15 @@ import RetroRacingShared
 
 /// watchOS implementation backed by the Taptic Engine.
 final class WatchHapticFeedbackController: HapticFeedbackController {
+    /// Shared haptic intent semantics aligned with iOS usage.
+    private enum IOSHapticIntent {
+        case lightImpact
+        case mediumImpact
+        case errorNotification
+        case successNotification
+        case warningNotification
+    }
+
     private enum ScheduledHaptic {
         case crash
         case gridTick
@@ -12,16 +21,36 @@ final class WatchHapticFeedbackController: HapticFeedbackController {
         case warning
 
         var pattern: WKHapticType {
+            pattern(for: intent)
+        }
+
+        /// Keep watchOS behavior tied to iOS intent semantics, using native watch patterns.
+        private var intent: IOSHapticIntent {
             switch self {
             case .crash:
-                return .failure
+                return .errorNotification
             case .gridTick:
-                return .click
+                return .lightImpact
             case .move:
-                return .directionUp
+                return .mediumImpact
             case .success:
-                return .success
+                return .successNotification
             case .warning:
+                return .warningNotification
+            }
+        }
+
+        private func pattern(for intent: IOSHapticIntent) -> WKHapticType {
+            switch intent {
+            case .lightImpact:
+                return .click
+            case .mediumImpact:
+                return .start
+            case .errorNotification:
+                return .failure
+            case .successNotification:
+                return .success
+            case .warningNotification:
                 return .notification
             }
         }

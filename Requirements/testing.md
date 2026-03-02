@@ -25,6 +25,8 @@ If local signing blocks simulator/macOS verification, run with `CODE_SIGNING_ALL
 - Configuration objects
 - Utilities and extensions
 - Accessibility audio behavior (retro vs cue-mode routing, move-cue style routing, conditional-default overrides)
+- Cross-platform conditional-default parity for audio mode and difficulty (VoiceOver on/off matrix)
+- Audio event semantics parity checks (tick/move/start/fail/speed-warning mapping) across selected feedback modes
 - Accessibility speed warning feedback mode behavior (announcement vs warning haptic vs warning sound vs none)
 - Speed warning default resolver matrix (VoiceOver/capability aware) and override precedence
 - Accessibility announcement utility routing (`AccessibilityNotification.Announcement`, high-priority speed warning)

@@ -63,7 +63,7 @@ Each conditional-default setting:
 
 **Implementation:**
 
-- `GameDifficulty` conforms to `ConditionalDefaultValue` with `static var systemDefault: GameDifficulty` that checks `UIAccessibility.isVoiceOverRunning` (iOS/tvOS/visionOS) or `NSWorkspace.shared.isVoiceOverEnabled` (macOS). watchOS currently falls back to `.rapid` because this layer does not source watchOS VoiceOver state.
+- `GameDifficulty` conforms to `ConditionalDefaultValue` with `static var systemDefault: GameDifficulty` resolved through shared `VoiceOverStatus.isVoiceOverRunning` across all platforms (including watchOS).
 - `GameDifficulty.currentSelection(from:)` loads the `ConditionalDefault<GameDifficulty>` and returns `effectiveValue`.
 - `SettingsView` displays a `Picker` bound to `difficultySelection: Binding<GameDifficulty>`, which updates the conditional default and persists it.
 - Settings no longer show helper rows describing VoiceOver defaults; defaults are implicit unless the user overrides.
@@ -77,7 +77,7 @@ Each conditional-default setting:
 
 ### Future conditional-default settings
 
-- **Audio feedback mode:** Defaults to `Audio cues (lane pulses)` when VoiceOver is running on iOS/tvOS/visionOS/macOS; otherwise defaults to `Retro audio`. watchOS currently keeps `Retro audio` as the system default because this layer does not currently source watchOS VoiceOver state.
+- **Audio feedback mode:** Defaults to `Audio cues (lane pulses)` when VoiceOver is running on all supported platforms (including watchOS); otherwise defaults to `Retro audio`.
 - **Sound effects volume:** Defaults to `100%` when VoiceOver is running; otherwise `80%`. Slider updates create an explicit override that persists across VoiceOver changes.
 - **Speed warning feedback:** Defaults to `None` when VoiceOver is off. With VoiceOver on, defaults to `Haptic` on haptics-supported platforms and `VoiceOver announcement` on non-haptics platforms. Explicit user override always wins. Legacy `inGameAnnouncementsEnabled` values are migrated once (`true -> announcement`, `false -> none`).
 - **Big Cars:** Defaults to `on` when accessibility Dynamic Type sizes are active, otherwise `off`. Settings expose a simple toggle under Accessibility; first user change becomes the stored override.

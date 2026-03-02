@@ -36,4 +36,24 @@ final class AudioFeedbackModeTests: XCTestCase {
         // Then
         XCTAssertTrue(supportsTutorial)
     }
+
+    func testGivenVoiceOverRunningWhenResolvingSystemDefaultThenLanePulsesIsUsed() {
+        // Given
+
+        // When
+        let mode = AudioFeedbackMode.systemDefault(isVoiceOverRunning: true)
+
+        // Then
+        XCTAssertEqual(mode, .cueLanePulses)
+    }
+
+    func testGivenVoiceOverNotRunningWhenResolvingSystemDefaultThenRetroIsUsed() {
+        // Given
+
+        // When
+        let mode = AudioFeedbackMode.systemDefault(isVoiceOverRunning: false)
+
+        // Then
+        XCTAssertEqual(mode, .retro)
+    }
 }

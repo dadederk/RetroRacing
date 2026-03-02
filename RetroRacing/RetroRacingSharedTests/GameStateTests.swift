@@ -117,4 +117,24 @@ final class GameStateTests: XCTestCase {
         // Then
         XCTAssertNil(result)
     }
+
+    func testGivenVoiceOverRunningWhenResolvingDifficultySystemDefaultThenCruiseIsUsed() {
+        // Given
+
+        // When
+        let difficulty = GameDifficulty.systemDefault(isVoiceOverRunning: true)
+
+        // Then
+        XCTAssertEqual(difficulty, .cruise)
+    }
+
+    func testGivenVoiceOverNotRunningWhenResolvingDifficultySystemDefaultThenRapidIsUsed() {
+        // Given
+
+        // When
+        let difficulty = GameDifficulty.systemDefault(isVoiceOverRunning: false)
+
+        // Then
+        XCTAssertEqual(difficulty, .rapid)
+    }
 }
