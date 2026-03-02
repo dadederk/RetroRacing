@@ -22,6 +22,8 @@ struct WatchGameView: View {
     @AppStorage(SpeedWarningFeedbackMode.conditionalDefaultStorageKey)
     private var speedWarningFeedbackModeData: Data = Data()
     @AppStorage(LaneMoveCueStyle.storageKey) private var laneMoveCueStyleRawValue: String = LaneMoveCueStyle.defaultStyle.rawValue
+    @AppStorage(BigCarsSetting.conditionalDefaultStorageKey) private var bigCarsData: Data = Data()
+    @AppStorage(RoadVisualStyle.storageKey) private var roadVisualStyleRawValue: String = RoadVisualStyle.defaultStyle.rawValue
     @AppStorage(VoiceOverTutorialPreference.hasSeenInGameVoiceOverTutorialKey)
     private var hasSeenInGameVoiceOverTutorial: Bool = VoiceOverTutorialPreference.defaultHasSeenInGameVoiceOverTutorial
     @State private var scene: GameScene
@@ -87,6 +89,8 @@ struct WatchGameView: View {
         let initialDifficulty = GameDifficulty.currentSelection(from: InfrastructureDefaults.userDefaults)
         let initialAudioFeedbackMode = AudioFeedbackMode.currentSelection(from: InfrastructureDefaults.userDefaults)
         let initialLaneMoveCueStyle = LaneMoveCueStyle.currentSelection(from: InfrastructureDefaults.userDefaults)
+        let initialBigCarsEnabled = BigCarsPreference.currentSelection(from: InfrastructureDefaults.userDefaults)
+        let initialRoadVisualStyle = RoadVisualStyle.currentSelection(from: InfrastructureDefaults.userDefaults)
         let hapticController = WatchHapticFeedbackController(userDefaults: InfrastructureDefaults.userDefaults)
         let size = CGSize(width: 400, height: 300)
         let soundPlayer = PlatformFactories.makeSoundPlayer()
@@ -103,7 +107,9 @@ struct WatchGameView: View {
             laneCuePlayer: laneCuePlayer,
             hapticController: hapticController,
             audioFeedbackMode: initialAudioFeedbackMode,
-            laneMoveCueStyle: initialLaneMoveCueStyle
+            laneMoveCueStyle: initialLaneMoveCueStyle,
+            bigRivalCarsEnabled: initialBigCarsEnabled,
+            roadVisualStyle: initialRoadVisualStyle
         ))
         _watchHapticController = State(initialValue: hapticController)
         _crownProcessor = State(initialValue: CrownInputProcessor(configuration: .watchLegacy))
@@ -207,6 +213,8 @@ struct WatchGameView: View {
             scene.setSoundVolume(selectedSoundEffectsVolume)
             scene.setAudioFeedbackMode(selectedAudioFeedbackMode)
             scene.setLaneMoveCueStyle(selectedLaneMoveCueStyle)
+            scene.setBigRivalCarsEnabled(selectedBigRivalCarsEnabled)
+            scene.setRoadVisualStyle(selectedRoadVisualStyle)
             logWatchAudioConfiguration()
             scene.start()
             resetRunInputTelemetry()
@@ -289,6 +297,8 @@ struct WatchGameView: View {
             scene.setSoundVolume(selectedSoundEffectsVolume)
             scene.setAudioFeedbackMode(selectedAudioFeedbackMode)
             scene.setLaneMoveCueStyle(selectedLaneMoveCueStyle)
+            scene.setBigRivalCarsEnabled(selectedBigRivalCarsEnabled)
+            scene.setRoadVisualStyle(selectedRoadVisualStyle)
             logWatchAudioConfiguration()
         }
         .onChange(of: soundEffectsVolumeData) { _, _ in
@@ -307,6 +317,12 @@ struct WatchGameView: View {
         }
         .onChange(of: laneMoveCueStyleRawValue) { _, _ in
             scene.setLaneMoveCueStyle(selectedLaneMoveCueStyle)
+        }
+        .onChange(of: bigCarsData) { _, _ in
+            scene.setBigRivalCarsEnabled(selectedBigRivalCarsEnabled)
+        }
+        .onChange(of: roadVisualStyleRawValue) { _, _ in
+            scene.setRoadVisualStyle(selectedRoadVisualStyle)
         }
         .onChange(of: scenePaused) { _, _ in
             attemptAutoPresentVoiceOverHelpIfNeeded()
@@ -521,6 +537,15 @@ struct WatchGameView: View {
     private var selectedLaneMoveCueStyle: LaneMoveCueStyle {
         _ = laneMoveCueStyleRawValue
         return LaneMoveCueStyle.currentSelection(from: InfrastructureDefaults.userDefaults)
+    }
+
+    private var selectedBigRivalCarsEnabled: Bool {
+        BigCarsPreference.currentSelection(from: InfrastructureDefaults.userDefaults)
+    }
+
+    private var selectedRoadVisualStyle: RoadVisualStyle {
+        _ = roadVisualStyleRawValue
+        return RoadVisualStyle.currentSelection(from: InfrastructureDefaults.userDefaults)
     }
 
     private var selectedSoundEffectsVolume: Double {

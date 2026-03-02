@@ -61,6 +61,17 @@ final class SettingsPreferenceMigrationTests: XCTestCase {
         XCTAssertEqual(SoundEffectsVolumePreference.currentSelection(from: userDefaults), 0.35, accuracy: 0.0001)
     }
 
+    func testGivenLegacyAudioModeWhenRunningMigrationThenConditionalAudioModePreservesExistingValue() {
+        // Given
+        userDefaults.set(AudioFeedbackMode.cueLanePulses.rawValue, forKey: AudioFeedbackMode.storageKey)
+
+        // When
+        SettingsPreferenceMigration.runIfNeeded(userDefaults: userDefaults, supportsHaptics: false)
+
+        // Then
+        XCTAssertEqual(AudioFeedbackMode.currentSelection(from: userDefaults), .cueLanePulses)
+    }
+
     func testGivenConditionalVolumeAlreadyStoredWhenRunningMigrationThenStoredOverrideIsPreserved() {
         // Given
         var conditionalDefault = ConditionalDefault<SoundEffectsVolumeSetting>()
@@ -87,6 +98,20 @@ final class SettingsPreferenceMigrationTests: XCTestCase {
 
         // Then
         XCTAssertEqual(SpeedWarningFeedbackMode.currentSelection(from: userDefaults), .announcement)
+    }
+
+    func testGivenConditionalAudioModeAlreadyStoredWhenRunningMigrationThenStoredOverrideIsPreserved() {
+        // Given
+        var conditionalDefault = ConditionalDefault<AudioFeedbackMode>()
+        conditionalDefault.setUserOverride(.cueArpeggio)
+        conditionalDefault.save(to: userDefaults, key: AudioFeedbackMode.conditionalDefaultStorageKey)
+        userDefaults.set(AudioFeedbackMode.retro.rawValue, forKey: AudioFeedbackMode.storageKey)
+
+        // When
+        SettingsPreferenceMigration.runIfNeeded(userDefaults: userDefaults, supportsHaptics: true)
+
+        // Then
+        XCTAssertEqual(AudioFeedbackMode.currentSelection(from: userDefaults), .cueArpeggio)
     }
 
     func testGivenVoiceOverStateWhenResolvingSfxSystemDefaultThenExpectedVolumeIsReturned() {

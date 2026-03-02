@@ -35,8 +35,15 @@ public final class UIKitImageLoader: ImageLoader {
             return cached
         }
         // Prefer asset catalog (playersCar, rivalsCar, crash) — url(forResource:...) does not find .xcassets images.
-        // UIImage(named:in:compatibleWith:) is unavailable on watchOS, so we only use it on iOS/tvOS.
-        #if !os(watchOS)
+        #if os(watchOS)
+        // On watchOS, use UIKit's available name-based lookup.
+        if let image = UIImage(named: name) {
+            AppLog.log(AppLog.assets, "texture '\(name)' loaded from asset catalog (watchOS main UIImage)")
+            let texture = SKTexture(image: image)
+            textureCache.store(texture, forKey: name)
+            return texture
+        }
+        #else
         if let image = UIImage(named: name, in: bundle, compatibleWith: nil) {
             AppLog.log(AppLog.assets, "texture '\(name)' loaded from asset catalog")
             let texture = SKTexture(image: image)

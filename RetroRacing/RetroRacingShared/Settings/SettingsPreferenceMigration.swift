@@ -2,13 +2,14 @@ import Foundation
 
 /// One-time migrations from legacy settings keys to conditional-default storage.
 public enum SettingsPreferenceMigration {
-    private static let migrationVersionKey = "settingsPreferenceMigration_v1_completed"
+    private static let migrationVersionKey = "settingsPreferenceMigration_v2_completed"
 
     public static func runIfNeeded(userDefaults: UserDefaults, supportsHaptics: Bool) {
         guard userDefaults.bool(forKey: migrationVersionKey) == false else { return }
         _ = supportsHaptics
         migrateSpeedWarningFeedbackModeIfNeeded(userDefaults: userDefaults)
         migrateSoundEffectsVolumeIfNeeded(userDefaults: userDefaults)
+        migrateAudioFeedbackModeIfNeeded(userDefaults: userDefaults)
         userDefaults.set(true, forKey: migrationVersionKey)
     }
 
@@ -35,5 +36,18 @@ public enum SettingsPreferenceMigration {
 
         let legacyVolume = userDefaults.double(forKey: SoundPreferences.volumeKey)
         SoundEffectsVolumePreference.setUserOverride(legacyVolume, in: userDefaults)
+    }
+
+    private static func migrateAudioFeedbackModeIfNeeded(userDefaults: UserDefaults) {
+        guard userDefaults.data(forKey: AudioFeedbackMode.conditionalDefaultStorageKey) == nil else { return }
+        guard let rawValue = userDefaults.string(forKey: AudioFeedbackMode.storageKey),
+              let mode = AudioFeedbackMode(rawValue: rawValue) else { return }
+
+        var conditionalDefault = ConditionalDefault<AudioFeedbackMode>()
+        conditionalDefault.setUserOverride(mode)
+        conditionalDefault.save(
+            to: userDefaults,
+            key: AudioFeedbackMode.conditionalDefaultStorageKey
+        )
     }
 }

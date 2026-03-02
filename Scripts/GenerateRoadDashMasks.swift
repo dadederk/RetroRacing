@@ -27,6 +27,8 @@ struct RenderSize {
 
 let spritesDirectory = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
     .appendingPathComponent("RetroRacing/RetroRacingShared/Assets.xcassets/Sprites")
+let fallbackSpritesDirectory = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
+    .appendingPathComponent("RetroRacing/RetroRacingShared/Resources/Sprites")
 
 let descriptors: [MaskDescriptor] = [
     MaskDescriptor(
@@ -211,6 +213,11 @@ func contentsJSON(universal: String, watch: String, tv: String) -> String {
 }
 
 do {
+    try FileManager.default.createDirectory(
+        at: fallbackSpritesDirectory,
+        withIntermediateDirectories: true
+    )
+
     for descriptor in descriptors {
         let imagesetDirectory = spritesDirectory.appendingPathComponent(descriptor.imagesetName)
         try FileManager.default.createDirectory(
@@ -239,6 +246,10 @@ do {
         try write(
             data: tvImage,
             to: imagesetDirectory.appendingPathComponent(descriptor.tvFilename)
+        )
+        try write(
+            data: universalImage,
+            to: fallbackSpritesDirectory.appendingPathComponent(descriptor.universalFilename)
         )
 
         let json = contentsJSON(
