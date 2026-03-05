@@ -12,6 +12,12 @@ import UIKit
 import AppKit
 #endif
 
+private enum SpritePerspectiveConfiguration {
+    static let farRowScale: CGFloat = 0.31
+    static let depthExponent: CGFloat = 2.0
+    static let linearDepthBlend: CGFloat = 0.45
+}
+
 /// Visual and accessibility effects applied to sprites within GameScene.
 extension GameScene {
 
@@ -36,6 +42,7 @@ extension GameScene {
         column: Int,
         accessibilityLabel: String? = nil,
         usesPlayerScale: Bool = false,
+        laneCenterSceneX: CGFloat? = nil,
         sideLaneConvergenceFactor: CGFloat = 0
     ) {
         #if !os(watchOS)
@@ -45,29 +52,26 @@ extension GameScene {
         }
         #endif
         let cellSize = cell.frame.size
-        let sizeFactor: CGFloat
-        if usesPlayerScale {
-            sizeFactor = 1.0
-        } else {
-            sizeFactor = CGFloat(gridState.numberOfRows - (gridState.numberOfRows - row - 1)) / CGFloat(gridState.numberOfRows)
-        }
+        let sizeFactor = spritePerspectiveScaleFactor(row: row, usesPlayerScale: usesPlayerScale)
         let spriteSize = CGSize(width: cellSize.width * sizeFactor, height: cellSize.height * sizeFactor)
 
         var horizontalTranslationFactor: CGFloat = 0.0
         let gap = cellSize.width - spriteSize.width
-        let depthDenominator = max(CGFloat(gridState.playerRowIndex), 1)
-        let depth = CGFloat(gridState.playerRowIndex - row) / depthDenominator
-        let convergenceMultiplier = 1 + (depth * sideLaneConvergenceFactor)
-
-        if column < (gridState.numberOfColumns / 2) {
-            horizontalTranslationFactor = gap * convergenceMultiplier
-        } else if column > (gridState.numberOfColumns / 2) {
-            horizontalTranslationFactor = -(gap * convergenceMultiplier)
+        if sideLaneConvergenceFactor > 0 {
+            let depthDenominator = max(CGFloat(gridState.playerRowIndex), 1)
+            let depth = CGFloat(gridState.playerRowIndex - row) / depthDenominator
+            let convergenceOffset = (gap * 0.5) * depth * sideLaneConvergenceFactor
+            if column < (gridState.numberOfColumns / 2) {
+                horizontalTranslationFactor = convergenceOffset
+            } else if column > (gridState.numberOfColumns / 2) {
+                horizontalTranslationFactor = -convergenceOffset
+            }
         }
 
         let cellOriginInLocal = cell.frame.origin
+        let laneCenterX = laneCenterSceneX ?? (cellOriginInLocal.x + (cellSize.width / 2))
         let spritePosInCell = CGPoint(
-            x: cellOriginInLocal.x + (cellSize.width + horizontalTranslationFactor) / 2.0,
+            x: laneCenterX + horizontalTranslationFactor,
             y: cellOriginInLocal.y + cellSize.height / 2.0
         )
         sprite.position = spritePosInCell
@@ -102,6 +106,23 @@ extension GameScene {
                 sprite.run(blinkThreeTimes)
             }
         }
+    }
+
+    private func spritePerspectiveScaleFactor(row: Int, usesPlayerScale: Bool) -> CGFloat {
+        if usesPlayerScale {
+            return 1
+        }
+        guard gridState.numberOfRows > 1 else {
+            return 1
+        }
+
+        let clampedRow = max(0, min(row, gridState.numberOfRows - 1))
+        let normalizedDepth = CGFloat(clampedRow) / CGFloat(gridState.numberOfRows - 1)
+        let curvedDepth = CGFloat(pow(Double(normalizedDepth), Double(SpritePerspectiveConfiguration.depthExponent)))
+        let easedDepth = (SpritePerspectiveConfiguration.linearDepthBlend * normalizedDepth)
+            + ((1 - SpritePerspectiveConfiguration.linearDepthBlend) * curvedDepth)
+        return SpritePerspectiveConfiguration.farRowScale
+            + ((1 - SpritePerspectiveConfiguration.farRowScale) * easedDepth)
     }
 
     /// Applies a pulsing animation to the player car sprite during the start sequence.

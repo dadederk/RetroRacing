@@ -1029,7 +1029,7 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         // When
         scene.gridStateDidUpdate(scene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
         let playerX = spriteSceneX(column: 0, row: 4)
-        let expectedX = scene.gridCell(column: 0, row: 4).frame.midX
+        let expectedX = expectedLaneCenterX(column: 0, row: 4)
 
         // Then
         guard let playerX else {
@@ -1260,18 +1260,38 @@ final class GameSceneAudioHapticsTests: XCTestCase {
     }
 
     private func expectedLapInteriorBounds(forRow row: Int) -> ClosedRange<CGFloat> {
-        let cellSize = scene.sizeForCell()
-        let sizeFactor = CGFloat(row + 1) / CGFloat(scene.gridState.numberOfRows)
-        let dashWidth = cellSize.width * sizeFactor
-        let inset = max(1, dashWidth * 0.03)
-
-        let leftCell = scene.gridCell(column: 0, row: row)
-        let rightCell = scene.gridCell(column: 2, row: row)
-        let leftDashMinX = leftCell.frame.maxX - dashWidth
-        let rightDashMaxX = rightCell.frame.minX + dashWidth
-        let leftInteriorX = leftDashMinX + (dashWidth * 0.195) + inset
-        let rightInteriorX = rightDashMaxX - (dashWidth * 0.195) - inset
+        let bounds = expectedRoadBounds(forRow: row)
+        let laneWidth = (bounds.upperBound - bounds.lowerBound) / CGFloat(scene.gridState.numberOfColumns)
+        let inset = max(0.0, laneWidth * 0.0)
+        let expansion = expectedLaneLineWidth(forRow: row) * 0.85
+        let leftInteriorX = max(0, bounds.lowerBound + inset - expansion)
+        let rightInteriorX = min(scene.size.width, bounds.upperBound - inset + expansion)
         return leftInteriorX...rightInteriorX
+    }
+
+    private func expectedLaneCenterX(column: Int, row: Int) -> CGFloat {
+        let bounds = expectedRoadBounds(forRow: row)
+        let laneWidth = (bounds.upperBound - bounds.lowerBound) / CGFloat(scene.gridState.numberOfColumns)
+        return bounds.lowerBound + (laneWidth * (CGFloat(column) + 0.5))
+    }
+
+    private func expectedRoadBounds(forRow row: Int) -> ClosedRange<CGFloat> {
+        let y = scene.gridCell(column: 1, row: row).frame.midY
+        let depthFromTop = max(0, min(1, (scene.size.height - y) / scene.size.height))
+        let widthRatio = 0.38 + ((0.94 - 0.38) * depthFromTop)
+        let roadWidth = scene.size.width * widthRatio
+        let halfRoadWidth = roadWidth / 2
+        let centerX = scene.size.width / 2
+        return (centerX - halfRoadWidth)...(centerX + halfRoadWidth)
+    }
+
+    private func expectedLaneLineWidth(forRow row: Int) -> CGFloat {
+        let y = scene.gridCell(column: 1, row: row).frame.midY
+        let depthFromTop = max(0, min(1, (scene.size.height - y) / scene.size.height))
+        let widthFactor = 0.043 + ((0.078 - 0.043) * depthFromTop)
+        let bounds = expectedRoadBounds(forRow: row)
+        let laneWidth = (bounds.upperBound - bounds.lowerBound) / CGFloat(scene.gridState.numberOfColumns)
+        return max(1.25, laneWidth * widthFactor)
     }
 
     private func expectedLapHeight(topRow: Int, bottomRow: Int) -> CGFloat {
