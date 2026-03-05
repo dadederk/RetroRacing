@@ -32,4 +32,5 @@ public enum ChallengeIdentifier: String, CaseIterable, Codable, Sendable {
     case controlKeyboard = "ach.control.keyboard"
     case controlVoiceOver = "ach.control.voiceover"
     case controlDigitalCrown = "ach.control.crown"
+    case controlGameController = "ach.control.gamecontroller"
 }

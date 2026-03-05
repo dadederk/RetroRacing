@@ -11,7 +11,7 @@ import XCTest
 final class ChallengeCatalogTests: XCTestCase {
     func testGivenCatalogWhenEnumeratingDefinitionsThenContainsExpectedCount() {
         // Given
-        let expectedCount = 18
+        let expectedCount = 19
 
         // When
         let definitions = ChallengeCatalog.definitions
@@ -66,7 +66,7 @@ final class ChallengeCatalogTests: XCTestCase {
         let snapshot = ChallengeProgressSnapshot(
             bestRunOvertakes: 0,
             cumulativeOvertakes: 0,
-            lifetimeUsedControls: [.digitalCrown],
+            lifetimeUsedControls: [.digitalCrown, .gameController],
             achievedChallengeIDs: []
         )
 
@@ -75,6 +75,7 @@ final class ChallengeCatalogTests: XCTestCase {
 
         // Then
         XCTAssertTrue(achieved.contains(.controlDigitalCrown))
+        XCTAssertTrue(achieved.contains(.controlGameController))
         XCTAssertFalse(achieved.contains(.controlTap))
     }
 }

@@ -2768,19 +2768,19 @@
         "ca": {
           "stringUnit": {
             "state": "translated",
-            "value": "• Llisca cap a l'esquerra o la dreta per moure.\n• Toca la meitat esquerra o dreta de la pantalla.\n• Fes servir les tecles de fletxa esquerra i dreta amb un teclat connectat.\n• Amb un comandament, el D-pad i el stick esquerre mouen per defecte."
+            "value": "• Llisca cap a l'esquerra o la dreta per moure.\n• Toca la meitat esquerra o dreta de la pantalla.\n• Fes servir les tecles de fletxa esquerra i dreta amb un teclat connectat.\n• Amb un comandament, el D-pad i el stick esquerre mouen per defecte; pots remapejar botons en Comandament."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "• Swipe left or right to move.\n• Tap the left or right half of the screen.\n• Use the left and right arrow keys when a keyboard is connected.\n• With a controller, the D-pad and left stick move by default."
+            "value": "• Swipe left or right to move.\n• Tap the left or right half of the screen.\n• Use the left and right arrow keys when a keyboard is connected.\n• With a controller, the D-pad and left stick move by default; you can remap buttons in Controller settings."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "• Desliza a la izquierda o derecha para mover.\n• Toca la mitad izquierda o derecha de la pantalla.\n• Usa las teclas de flecha con un teclado conectado.\n• Con un mando, el D-pad y el stick izquierdo mueven por defecto."
+            "value": "• Desliza a la izquierda o derecha para mover.\n• Toca la mitad izquierda o derecha de la pantalla.\n• Usa las teclas de flecha con un teclado conectado.\n• Con un mando, el D-pad y el stick izquierdo mueven por defecto; puedes remapear botones en los ajustes de Mando."
           }
         }
       }
@@ -2791,19 +2791,19 @@
         "ca": {
           "stringUnit": {
             "state": "translated",
-            "value": "• Fes servir les tecles de fletxa esquerra i dreta del teclat per moure.\n• Clica a la meitat esquerra o dreta de la finestra amb el trackpad o el ratolí.\n• Prem la barra espaiadora per pausar o reprendre.\n• Amb un comandament, el D-pad i el stick esquerre mouen per defecte."
+            "value": "• Fes servir les tecles de fletxa esquerra i dreta del teclat per moure.\n• Clica a la meitat esquerra o dreta de la finestra amb el trackpad o el ratolí.\n• Prem la barra espaiadora per pausar o reprendre.\n• Amb un comandament, el D-pad i el stick esquerre mouen per defecte; pots remapejar botons en Comandament."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "• Use the left and right arrow keys on the keyboard to move.\n• Click the left or right half of the window with the trackpad or mouse.\n• Press the space bar to pause or resume.\n• With a controller, the D-pad and left stick move by default."
+            "value": "• Use the left and right arrow keys on the keyboard to move.\n• Click the left or right half of the window with the trackpad or mouse.\n• Press the space bar to pause or resume.\n• With a controller, the D-pad and left stick move by default; you can remap buttons in Controller settings."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "• Usa las teclas de flecha izquierda y derecha del teclado para mover.\n• Haz clic en la mitad izquierda o derecha de la ventana con el trackpad o el ratón.\n• Pulsa la barra espaciadora para pausar o reanudar.\n• Con un mando, el D-pad y el stick izquierdo mueven por defecto."
+            "value": "• Usa las teclas de flecha izquierda y derecha del teclado para mover.\n• Haz clic en la mitad izquierda o derecha de la ventana con el trackpad o el ratón.\n• Pulsa la barra espaciadora para pausar o reanudar.\n• Con un mando, el D-pad y el stick izquierdo mueven por defecto; puedes remapear botones en los ajustes de Mando."
           }
         }
       }
@@ -2814,19 +2814,19 @@
         "ca": {
           "stringUnit": {
             "state": "translated",
-            "value": "• Llisca a l'esquerra o a la dreta amb el control remot Siri per moure.\n• Fes clic al botó de reproducció per confirmar.\n• Amb un comandament, pots assignar botons addicionals a les opcions de Comandament."
+            "value": "• Llisca a l'esquerra o a la dreta amb el control remot Siri per moure.\n• Fes clic al botó de reproducció per confirmar.\n• Amb un comandament, pots remapejar botons en les opcions de Comandament."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "• Swipe left or right on the Siri Remote to move.\n• Press the play button to select.\n• With a controller, you can assign extra buttons in the Controller settings."
+            "value": "• Swipe left or right on the Siri Remote to move.\n• Press the play button to select.\n• With a controller, you can remap button bindings in Controller settings."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "• Desliza a la izquierda o derecha con el mando Siri para mover.\n• Pulsa el botón de reproducción para seleccionar.\n• Con un mando, puedes asignar botones extra en los ajustes de Mando."
+            "value": "• Desliza a la izquierda o derecha con el mando Siri para mover.\n• Pulsa el botón de reproducción para seleccionar.\n• Con un mando, puedes remapear botones en los ajustes de Mando."
           }
         }
       }
@@ -4953,19 +4953,19 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "The left stick always moves left/right as a backup. Arrow keys remain active on Mac. Use the pickers above to reassign any button."
+            "value": "Remapped buttons replace the default D-pad/Menu bindings for those actions. The left stick remains a left/right backup. Arrow keys remain active on Mac."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "El stick izquierdo siempre mueve izquierda/derecha como respaldo. Las teclas de flecha siguen activas en Mac. Usa los selectores de arriba para reasignar cualquier botón."
+            "value": "Los botones remapeados sustituyen las asignaciones predeterminadas de D-pad/Menú para esas acciones. El stick izquierdo sigue como respaldo izquierda/derecha. Las teclas de flecha siguen activas en Mac."
           }
         },
         "ca": {
           "stringUnit": {
             "state": "translated",
-            "value": "El stick esquerre sempre mou esquerra/dreta com a suport. Les tecles de fletxa continuen actives al Mac. Usa els selectors de dalt per reassignar qualsevol botó."
+            "value": "Els botons remapejats substituïxen les assignacions predeterminades de D-pad/Menú per a eixes accions. El stick esquerre continua com a suport esquerra/dreta. Les tecles de fletxa continuen actives al Mac."
           }
         }
       }

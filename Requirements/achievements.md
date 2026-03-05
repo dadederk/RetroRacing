@@ -45,6 +45,7 @@ Unlocked when used at least once in a completed run:
 3. Keyboard
 4. VoiceOver (VoiceOver ON at any point during completed run)
 5. Digital Crown
+6. Game Controller
 
 ## Architecture
 

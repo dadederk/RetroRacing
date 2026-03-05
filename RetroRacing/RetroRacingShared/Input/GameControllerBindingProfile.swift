@@ -8,7 +8,7 @@
 import Foundation
 
 /// An action that can be assigned to a remappable controller button.
-public enum GameControllerRemapAction: Sendable {
+public enum GameControllerRemapAction: Equatable, Sendable {
     case moveLeft
     case moveRight
     case pauseResume

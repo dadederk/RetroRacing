@@ -77,7 +77,7 @@ final class ChallengeProgressServiceTests: XCTestCase {
         // Given
         let run = CompletedRunChallengeData(
             overtakes: 1_200,
-            usedControls: [.tap, .voiceOver]
+            usedControls: [.tap, .voiceOver, .gameController]
         )
 
         // When
@@ -92,6 +92,7 @@ final class ChallengeProgressServiceTests: XCTestCase {
         XCTAssertTrue(update.newlyAchievedChallengeIDs.contains(.totalOvertakes1k))
         XCTAssertTrue(update.newlyAchievedChallengeIDs.contains(.controlTap))
         XCTAssertTrue(update.newlyAchievedChallengeIDs.contains(.controlVoiceOver))
+        XCTAssertTrue(update.newlyAchievedChallengeIDs.contains(.controlGameController))
     }
 
     func testGivenExistingProgressHigherThanBackfillWhenPerformingBackfillThenDoesNotRegress() {

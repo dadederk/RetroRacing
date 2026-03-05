@@ -17,7 +17,8 @@ import Foundation
 /// - Connects to already-attached controllers on `start()` and subscribes to
 ///   future connect/disconnect notifications.
 /// - D-pad left/right and menu button route through the binding profile stored
-///   in `UserDefaults`, so remapping in Settings takes effect immediately.
+///   in `UserDefaults`. These are replaceable defaults, so remapping in Settings
+///   changes which physical buttons trigger move/pause actions immediately.
 /// - Left stick always moves left/right regardless of the profile (analog backup).
 ///   Stick uses threshold (0.5) with hysteresis (resets below 0.2) to prevent lane spam.
 /// - Face buttons and shoulder/trigger buttons also route through the binding profile.

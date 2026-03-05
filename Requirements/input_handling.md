@@ -32,6 +32,8 @@ See [controller_input.md](controller_input.md) for full details. Summary:
 - D-pad and left stick trigger moves by default on iOS/macOS; not captured on tvOS (handled by `.onMoveCommand`).
 - Start/Menu triggers pause on iOS/macOS; not captured on tvOS (handled by `.onPlayPauseCommand`).
 - Players can remap A/B/X/Y/shoulders/triggers to any of three actions in Settings.
+- Remapped controller buttons replace D-pad/Menu bindings for those actions; left stick remains a directional fallback on iOS/macOS.
+- Directional controller actions are ignored while menu/settings/help overlays are visible.
 - Bindings stored in `UserDefaults`, read on every press — no caching required.
 
 ### Other Platforms (Summary)

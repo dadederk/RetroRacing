@@ -21,7 +21,7 @@ This document describes the session model, how the overlay interacts with gamepl
 - **Start conditions**:
   - Initial launch: `GameView` is created with `shouldStartGame = false`.
   - `MenuView` is presented over `GameView` (`.fullScreenCover` on iOS/iPadOS/tvOS, in-window overlay on macOS).
-  - When the user taps **Play**, the overlay dismisses and `shouldStartGame` flips to `true`.
+  - When the user taps **Play**, the app always generates a new `sessionID`, sets `shouldStartGame = true`, and dismisses the overlay.
   - `GameViewModel.setupSceneIfNeeded` guards on `shouldStartGame`; the SpriteKit scene is created only after the overlay has dismissed.
 
 ### Game Over & Finish
@@ -48,9 +48,10 @@ This document describes the session model, how the overlay interacts with gamepl
 - `isMenuPresented = true`, `shouldStartGame = false`.
 - `GameView` is visible under the overlay but **no scene is created** yet.
 - Tapping Play triggers:
-  - `shouldStartGame = true` is set **before** dismissing the overlay.
+  - A new `sessionID` is generated for a fresh run.
+  - `shouldStartGame = true` is set.
   - `isMenuPresented = false` dismisses the menu.
-  - `GameView` rebuilds with `shouldStartGame = true`.
+  - `GameView` rebuilds with the new `sessionID` and `shouldStartGame = true`.
   - `GameViewModel.setupSceneIfNeeded` creates the scene on the next layout pass.
 
 ### Opening Menu from Gameplay (optional)
@@ -58,6 +59,7 @@ This document describes the session model, how the overlay interacts with gamepl
 - `GameView` exposes an optional `onMenuRequest` callback.
 - App entry points can wire this to re-present the menu overlay during gameplay (e.g. via an in-game Menu button).
 - The in-game menu control uses the `xmark` symbol and pauses gameplay immediately on tap, before presentation state changes propagate.
+- Tapping **Play** from this overlay starts a new run from the beginning (the prior session is not resumed).
 - When gameplay is not active (`shouldStartGame == false`) or an overlay is visible, in-game toolbar controls (`Menu`, `?`, `Pause/Resume`) are disabled.
 - When the overlay is presented while a session is running:
   - `GameView` receives an `isMenuOverlayPresented` binding.
@@ -84,7 +86,7 @@ This document describes the session model, how the overlay interacts with gamepl
 - Menu: `MenuView` (universal style) in a `.fullScreenCover`.
 - Launch:
   - Always starts with menu overlay visible.
-  - Play dismisses the overlay and starts gameplay.
+  - Play dismisses the overlay and starts a fresh gameplay session.
 - Finish:
   - Resets to pre-game state (new session) and shows the menu overlay again.
 - Menu button during gameplay:
@@ -139,6 +141,7 @@ This document describes the session model, how the overlay interacts with gamepl
 - Verify:
   - Initial launch shows the menu overlay and does not start gameplay until Play.
   - Play after launch starts a new session.
+  - Play from the menu while a run exists starts a new session instead of resuming the previous one.
   - Game Over → Finish returns to the menu and resets the session.
   - Overlay opened during gameplay pauses the scene and resumes correctly when dismissed.
   - On macOS, opening settings (including via `⌘,`) also pauses and resumes using the same pause rules.

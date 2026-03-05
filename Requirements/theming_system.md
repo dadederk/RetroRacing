@@ -74,7 +74,8 @@ Default theme on iOS, tvOS, macOS, visionOS. Pastel beige grid to differentiate 
 **Visual Style:**
 - Background: Light green
 - Grid cell fill: Pastel beige (RGB ~245/235/210)
-- Grid lines: Soft beige, slightly darker than cell fill (RGB ~224/213/185)
+- Grid lines: Warm gray-beige (`#8C8679`)
+- Grid lines (Increase Contrast): deeper gray-beige (`#6E6A5F`)
 - Sprites: `playersCar-LCD`, `rivalsCar-LCD`, `crash-LCD`
 
 **Platforms:** iOS, tvOS, macOS, visionOS (default)
@@ -86,7 +87,8 @@ Retro monochrome green handheld console aesthetic. Default on watchOS.
 **Visual Style:**
 - Background: Light green (`#C8DC82`) to improve contrast with cars
 - Grid cell fill: Mid-light green (`#AFC566`)
-- Grid lines: Subtle darker green (`#8FA152`) close to the playfield tone
+- Grid lines: muted olive (`#5F6A36`)
+- Grid lines (Increase Contrast): deeper olive (`#464E28`)
 - Sprites: `playersCar-GameBoy`, `rivalsCar-GameBoy`, `crash-GameBoy`
 
 **Platforms:** All; **default on watchOS** (see Platform defaults below).
@@ -260,7 +262,7 @@ When `UIAccessibility.isDarkerSystemColorsEnabled` or similar:
 - Increase contrast between background and sprites
 - Use bold outlines on sprites
 - Override theme colors for readability
-- Road lane marks are tinted from each theme’s `gridCellColor` using a contrast resolver that guarantees `>= 4.5:1` contrast ratio against the road fill.
+- Road lane marks and lap strip tint use theme-provided high-contrast variants (Pocket `#464E28`, LCD `#6E6A5F`) when Increase Contrast is enabled.
 
 ```swift
 func playerCarColor() -> Color {

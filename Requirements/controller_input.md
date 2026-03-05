@@ -2,7 +2,7 @@
 
 ## Overview
 
-RetroRacing supports physical game controllers (MFI, Xbox, PlayStation) via Apple's `GameController` framework on iOS, iPadOS, macOS, and tvOS. Controller input is additive — existing controls (touch, keyboard, Siri Remote, trackpad) remain fully active alongside controller input.
+RetroRacing supports physical game controllers (MFI, Xbox, PlayStation) via Apple's `GameController` framework on iOS, iPadOS, macOS, and tvOS.
 
 Platforms in scope: iOS, iPadOS, macOS, tvOS.  
 Platforms out of scope: watchOS (no GCController support), visionOS (stub).
@@ -34,7 +34,8 @@ Rules:
 - One button cannot be assigned to multiple actions. Assigning a button that is already in use clears the previous assignment (last-assigned wins).
 - Bindings are global — one profile applies to all connected controllers.
 - There is no per-device mapping in v1.
-- Remaps are additive. Default controls are never disabled.
+- Remaps replace D-pad and Menu bindings. Reassigning these actions changes which physical buttons trigger them.
+- Left stick on iOS/macOS remains a directional backup regardless of remapping.
 
 ---
 
@@ -71,15 +72,15 @@ Pure function that maps `(GameControllerAction, isMenuOverlayVisible: Bool)` to 
 
 | Action | Menu hidden | Menu visible |
 |--------|------------|--------------|
-| `.moveLeft` | `.moveLeft` | `.moveLeft` |
-| `.moveRight` | `.moveRight` | `.moveRight` |
+| `.moveLeft` | `.moveLeft` | `.ignored` |
+| `.moveRight` | `.moveRight` | `.ignored` |
 | `.pauseResume` | `.togglePause` | `.requestPlay` |
 
 ### Data model: `GameControllerBindingProfile`
 
-- `leftExtraButton: GameControllerRemapButton`
-- `rightExtraButton: GameControllerRemapButton`
-- `pauseExtraButton: GameControllerRemapButton`
+- `leftButton: GameControllerRemapButton`
+- `rightButton: GameControllerRemapButton`
+- `pauseButton: GameControllerRemapButton`
 - `Codable`, `Equatable`, `Sendable`
 - Mutation via `settingLeft(_:)`, `settingRight(_:)`, `settingPause(_:)` — each returns a new profile with conflicts resolved.
 
@@ -104,6 +105,7 @@ onPlayRequest: (() -> Void)?
 - On `onAppear`: `controllerInputSource.start(handler:)` is called with a closure that routes actions via `GameControllerActionRouter`.
 - On `onDisappear`: `controllerInputSource.stop()` is called before `model.tearDown()`.
 - `onPlayRequest` is called when `.requestPlay` is routed (Start/Menu while menu overlay is visible).
+- Every routed controller action (`moveLeft`, `moveRight`, `togglePause`, `requestPlay`) records `ChallengeControlInput.gameController` in per-run telemetry for local challenge progress.
 
 ---
 
@@ -125,7 +127,7 @@ onPlayRequest: (() -> Void)?
 
 ## Settings UI
 
-`SettingsView` shows a **Controller** section between the Controls description and the Speed section. It contains three `Picker` rows (Move Left, Move Right, Pause/Resume), each offering all `GameControllerRemapButton` cases. A footer explains the additive behaviour.
+`SettingsView` shows a **Controller** section directly below the **Accessibility** section. It contains three `Picker` rows (Move Left, Move Right, Pause/Resume), each offering all `GameControllerRemapButton` cases. A footer explains that remapped buttons replace D-pad/Menu bindings while keeping keyboard controls unaffected.
 
 `SettingsPreferencesStore` exposes:
 - `controllerLeftButtonSelection: Binding<GameControllerRemapButton>`
@@ -146,7 +148,7 @@ New string keys (English / Spanish / Catalan):
 | `settings_controller_move_left` | Picker label |
 | `settings_controller_move_right` | Picker label |
 | `settings_controller_pause_resume` | Picker label |
-| `settings_controller_footnote` | Additive behaviour note |
+| `settings_controller_footnote` | Remap behavior note |
 | `controller_button_none` | "None" option |
 | `controller_button_a` … `controller_button_menu` | Button names |
 
@@ -159,7 +161,7 @@ Controls description strings (`settings_controls_ios`, `settings_controls_macos`
 Unit tests cover:
 - `GameControllerBindingProfileTests` — defaults, setters, conflict resolution, Codable round-trip.
 - `GameControllerBindingPreferenceTests` — persist/load round-trip, default fallback, corrupt data.
-- `GameControllerActionRouterTests` — all routing combinations (directional + state-independent; pause with menu visible/hidden).
+- `GameControllerActionRouterTests` — all routing combinations (directional ignored while overlay is visible; pause with menu visible/hidden).
 
 Manual validation required (hardware gate):
 - iOS + Xbox Adaptive Controller: D-pad, Start, remapped A/B.
@@ -173,4 +175,3 @@ Manual validation required (hardware gate):
 - Per-device binding profiles.
 - watchOS game controller support (watchOS 7+ has limited GCController but Apple Watch is not commonly used with physical controllers).
 - visionOS controller support.
-- Challenge-system achievements for controller-specific inputs.

@@ -370,10 +370,21 @@ struct RetroRacingApp: App {
     }
 
     private func handlePlayRequest() {
-        AppLog.info(AppLog.game, "Play requested - starting new session and dismissing menu")
-        shouldStartGame = true
-        sessionID = UUID()
-        isMenuPresented = false
+        let previousSessionID = sessionID
+        let nextState = MenuSessionTransitionPolicy.stateAfterPlayRequest(
+            from: MenuSessionState(
+                shouldStartGame: shouldStartGame,
+                isMenuPresented: isMenuPresented,
+                sessionID: sessionID
+            )
+        )
+        shouldStartGame = nextState.shouldStartGame
+        isMenuPresented = nextState.isMenuPresented
+        sessionID = nextState.sessionID
+        AppLog.info(
+            AppLog.game,
+            "Play requested - starting fresh session and dismissing menu (\(previousSessionID) -> \(sessionID))"
+        )
     }
 
     private func handleMenuDismissed() {
@@ -381,11 +392,21 @@ struct RetroRacingApp: App {
     }
 
     private func handleFinish() {
-        AppLog.info(AppLog.game, "Finish requested - showing menu")
-        // Reset to a fresh pre-game state: new session and gated start.
-        sessionID = UUID()
-        shouldStartGame = false
-        isMenuPresented = true
+        let previousSessionID = sessionID
+        let nextState = MenuSessionTransitionPolicy.stateAfterFinishRequest(
+            from: MenuSessionState(
+                shouldStartGame: shouldStartGame,
+                isMenuPresented: isMenuPresented,
+                sessionID: sessionID
+            )
+        )
+        shouldStartGame = nextState.shouldStartGame
+        isMenuPresented = nextState.isMenuPresented
+        sessionID = nextState.sessionID
+        AppLog.info(
+            AppLog.game,
+            "Finish requested - returning to menu with new pre-game session (\(previousSessionID) -> \(sessionID))"
+        )
     }
 
     private func handleMenuRequest() {

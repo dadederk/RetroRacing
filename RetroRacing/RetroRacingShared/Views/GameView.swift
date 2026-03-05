@@ -446,18 +446,23 @@ public struct GameView: View {
         let capturedModel = model
         let menuOverlayBinding = isMenuOverlayPresented
         let playRequest = onPlayRequest
+        let isHelpPresentedProvider = { isInGameHelpPresented }
         AppLog.info(AppLog.game, "Starting controller input in GameView")
         controllerInputSource.start { @MainActor action in
+            let isOverlayVisible = (menuOverlayBinding?.wrappedValue ?? false) || isHelpPresentedProvider()
             let route = GameControllerActionRouter.route(
                 action: action,
-                isMenuOverlayVisible: menuOverlayBinding?.wrappedValue ?? false
+                isMenuOverlayVisible: isOverlayVisible
             )
             AppLog.info(
                 AppLog.game,
-                "Controller action routed: action=\(action), route=\(route), overlayVisible=\(menuOverlayBinding?.wrappedValue ?? false), hasScene=\(capturedModel.scene != nil), hasInputAdapter=\(capturedModel.inputAdapter != nil)"
+                "Controller action routed: action=\(action), route=\(route), overlayVisible=\(isOverlayVisible), hasScene=\(capturedModel.scene != nil), hasInputAdapter=\(capturedModel.inputAdapter != nil)"
             )
             switch route {
+            case .ignored:
+                return
             case .moveLeft:
+                capturedModel.recordControlInput(.gameController)
                 capturedModel.flashButton(.left)
                 guard let inputAdapter = capturedModel.inputAdapter else {
                     AppLog.error(AppLog.game, "Controller moveLeft ignored because inputAdapter is nil")
@@ -465,6 +470,7 @@ public struct GameView: View {
                 }
                 inputAdapter.handleLeft()
             case .moveRight:
+                capturedModel.recordControlInput(.gameController)
                 capturedModel.flashButton(.right)
                 guard let inputAdapter = capturedModel.inputAdapter else {
                     AppLog.error(AppLog.game, "Controller moveRight ignored because inputAdapter is nil")
@@ -472,8 +478,10 @@ public struct GameView: View {
                 }
                 inputAdapter.handleRight()
             case .togglePause:
+                capturedModel.recordControlInput(.gameController)
                 capturedModel.togglePause()
             case .requestPlay:
+                capturedModel.recordControlInput(.gameController)
                 playRequest?()
             }
         }

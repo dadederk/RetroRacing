@@ -29,7 +29,8 @@ public enum ChallengeCatalog {
         ChallengeDefinition(identifier: .controlSwipe, requirement: .lifetimeControlUsed(.swipe)),
         ChallengeDefinition(identifier: .controlKeyboard, requirement: .lifetimeControlUsed(.keyboard)),
         ChallengeDefinition(identifier: .controlVoiceOver, requirement: .lifetimeControlUsed(.voiceOver)),
-        ChallengeDefinition(identifier: .controlDigitalCrown, requirement: .lifetimeControlUsed(.digitalCrown))
+        ChallengeDefinition(identifier: .controlDigitalCrown, requirement: .lifetimeControlUsed(.digitalCrown)),
+        ChallengeDefinition(identifier: .controlGameController, requirement: .lifetimeControlUsed(.gameController))
     ]
 
     public static func achievedChallenges(for snapshot: ChallengeProgressSnapshot) -> Set<ChallengeIdentifier> {

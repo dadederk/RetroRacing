@@ -23,7 +23,14 @@ public struct PocketTheme: GameTheme {
 
     /// Grid lines stay close to the playfield tone while still reading as separators.
     public func gridLineColor() -> Color {
-        Color(red: 143 / 255, green: 161 / 255, blue: 82 / 255)
+        roadLineColor(isIncreaseContrastEnabled: false)
+    }
+
+    public func roadLineColor(isIncreaseContrastEnabled: Bool) -> Color {
+        if isIncreaseContrastEnabled {
+            return Color(red: 70 / 255, green: 78 / 255, blue: 40 / 255)
+        }
+        return Color(red: 95 / 255, green: 106 / 255, blue: 54 / 255)
     }
 
     public func playerCarColor() -> Color {

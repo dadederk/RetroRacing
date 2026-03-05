@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		210D69C32F3BFEA000EDECA3 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 210D69C22F3BFEA000EDECA3 /* StoreKit.framework */; };
 		210D69C52F3BFEAB00EDECA3 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 210D69C42F3BFEAB00EDECA3 /* StoreKit.framework */; };
-		21CE00022F3C0000000000A2 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21CE00012F3C0000000000A1 /* GameController.framework */; platformFilters = (ios, maccatalyst, macos, tvos, visionos); };
+		21CE00022F3C0000000000A2 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21CE00012F3C0000000000A1 /* GameController.framework */; platformFilters = (ios, maccatalyst, macos, tvos, visionos, ); };
 		21DD469F2F2FCA97000C9FFA /* RetroRacingWatchOS.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 21DD467F2F2FCA96000C9FFA /* RetroRacingWatchOS.app */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		21DD46E02F2FCAD9000C9FFA /* RealityKitContent in Frameworks */ = {isa = PBXBuildFile; productRef = 21DD46DF2F2FCAD9000C9FFA /* RealityKitContent */; };
 		21DD47092F2FCB02000C9FFA /* RetroRacingShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21DD46FE2F2FCB02000C9FFA /* RetroRacingShared.framework */; };
@@ -168,8 +168,24 @@
 		21DD46EC2F2FCADA000C9FFA /* RetroRacingVisionOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RetroRacingVisionOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		21DD46FE2F2FCB02000C9FFA /* RetroRacingShared.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RetroRacingShared.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		21DD47082F2FCB02000C9FFA /* RetroRacingSharedTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RetroRacingSharedTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		21DD47202F2FCB10000C9FFA /* RetroRacing.icon */ = {isa = PBXFileReference; lastKnownFileType = folder; path = RetroRacing.icon; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		21472B0D2F57A8700002E56A /* Exceptions for "RetroRacingShared" folder in "RetroRacingUniversal" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Assets/RetroRapid.icon,
+			);
+			target = 21DD46402F2FC956000C9FFA /* RetroRacingUniversal */;
+		};
+		21472B0E2F57A8700002E56A /* Exceptions for "RetroRacingShared" folder in "RetroRacingWatchOS" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Assets/RetroRapid.icon,
+			);
+			target = 21DD467E2F2FCA96000C9FFA /* RetroRacingWatchOS */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		21DD46432F2FC956000C9FFA /* RetroRacingUniversal */ = {
@@ -229,6 +245,10 @@
 		};
 		21DD46FF2F2FCB02000C9FFA /* RetroRacingShared */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				21472B0D2F57A8700002E56A /* Exceptions for "RetroRacingShared" folder in "RetroRacingUniversal" target */,
+				21472B0E2F57A8700002E56A /* Exceptions for "RetroRacingShared" folder in "RetroRacingWatchOS" target */,
+			);
 			path = RetroRacingShared;
 			sourceTree = "<group>";
 		};
@@ -355,7 +375,6 @@
 		21DD46382F2FC956000C9FFA = {
 			isa = PBXGroup;
 			children = (
-				21DD47212F2FCB10000C9FFA /* Icon */,
 				21DD46432F2FC956000C9FFA /* RetroRacingUniversal */,
 				21DD46532F2FC957000C9FFA /* RetroRacingUniversalTests */,
 				21DD465D2F2FC957000C9FFA /* RetroRacingUniversalUITests */,
@@ -401,14 +420,6 @@
 				21DD46DE2F2FCAD9000C9FFA /* RealityKitContent */,
 			);
 			path = Packages;
-			sourceTree = "<group>";
-		};
-		21DD47212F2FCB10000C9FFA /* Icon */ = {
-			isa = PBXGroup;
-			children = (
-				21DD47202F2FCB10000C9FFA /* RetroRacing.icon */,
-			);
-			path = Icon;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1194,7 +1205,7 @@
 		21DD46652F2FC957000C9FFA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = RetroRapid;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = RetroRacingUniversal/RetroRacingUniversal.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
@@ -1255,7 +1266,7 @@
 		21DD46662F2FC957000C9FFA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = RetroRapid;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = RetroRacingUniversal/RetroRacingUniversal.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
@@ -1418,7 +1429,7 @@
 		21DD46A12F2FCA97000C9FFA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = RetroRapid;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = RetroRacingWatchOS/RetroRacingWatchOS.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
@@ -1456,7 +1467,7 @@
 		21DD46A22F2FCA97000C9FFA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = RetroRapid;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = RetroRacingWatchOS/RetroRacingWatchOS.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";

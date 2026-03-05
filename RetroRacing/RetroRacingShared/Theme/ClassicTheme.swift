@@ -22,7 +22,14 @@ public struct LCDTheme: GameTheme {
 
     /// Slightly darker beige than the cell fill for softer LCD lane separation.
     public func gridLineColor() -> Color {
-        Color(red: 224 / 255, green: 213 / 255, blue: 185 / 255)
+        roadLineColor(isIncreaseContrastEnabled: false)
+    }
+
+    public func roadLineColor(isIncreaseContrastEnabled: Bool) -> Color {
+        if isIncreaseContrastEnabled {
+            return Color(red: 110 / 255, green: 106 / 255, blue: 95 / 255)
+        }
+        return Color(red: 140 / 255, green: 134 / 255, blue: 121 / 255)
     }
     /// Pastel beige grid to differentiate from Game Boy.
     public func gridCellColor() -> Color {

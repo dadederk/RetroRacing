@@ -16,6 +16,8 @@ public protocol GameTheme {
 
     func backgroundColor(for state: GameState) -> Color
     func gridLineColor() -> Color
+    /// Road/lap line tint color. Uses high-contrast variant when Increase Contrast is enabled.
+    func roadLineColor(isIncreaseContrastEnabled: Bool) -> Color
     /// Grid cell fill color. Convert to SKColor in scene via `color.skColor`.
     func gridCellColor() -> Color
     func playerCarColor() -> Color
@@ -41,6 +43,9 @@ extension GameTheme {
     /// Default grid cell color (pastel beige).
     public func gridCellColor() -> Color {
         Color(red: 202 / 255, green: 220 / 255, blue: 159 / 255)
+    }
+    public func roadLineColor(isIncreaseContrastEnabled: Bool) -> Color {
+        gridLineColor()
     }
     public func playerCarSprite() -> String? { nil }
     public func rivalCarSprite() -> String? { nil }

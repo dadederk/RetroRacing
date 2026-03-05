@@ -314,6 +314,20 @@ final class GameViewModelTests: XCTestCase {
         XCTAssertFalse(viewModel.runInputTelemetry.usedInputs.contains(.tap))
     }
 
+    func testGivenGameControllerTelemetryWhenRestartGameThenControllerTelemetryIsCleared() {
+        // Given
+        let scene = makeScene()
+        scene.createGrid()
+        viewModel.scene = scene
+        viewModel.recordControlInput(.gameController)
+
+        // When
+        viewModel.restartGame()
+
+        // Then
+        XCTAssertFalse(viewModel.runInputTelemetry.usedInputs.contains(.gameController))
+    }
+
     func testGivenGameOverWhenHandlingCollisionThenChallengeProgressRecordsCompletedRun() {
         // Given
         let scene = makeScene()
@@ -332,6 +346,24 @@ final class GameViewModelTests: XCTestCase {
         XCTAssertEqual(challengeProgressService.recordedRuns.count, 1)
         XCTAssertEqual(challengeProgressService.recordedRuns.first?.overtakes, expectedOvertakes)
         XCTAssertTrue(challengeProgressService.recordedRuns.first?.usedControls.contains(.tap) ?? false)
+    }
+
+    func testGivenGameOverWhenHandlingCollisionAfterControllerInputThenChallengeProgressIncludesControllerUsage() {
+        // Given
+        let scene = makeScene()
+        scene.handleCrash()
+        scene.handleCrash()
+        scene.handleCrash()
+        viewModel.scene = scene
+        viewModel.recordControlInput(.gameController)
+        XCTAssertEqual(scene.gameState.lives, 0)
+
+        // When
+        viewModel.handleCollision()
+
+        // Then
+        XCTAssertEqual(challengeProgressService.recordedRuns.count, 1)
+        XCTAssertTrue(challengeProgressService.recordedRuns.first?.usedControls.contains(.gameController) ?? false)
     }
 
     private func makeScene() -> GameScene {

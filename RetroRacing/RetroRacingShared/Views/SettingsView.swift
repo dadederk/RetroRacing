@@ -174,50 +174,6 @@ public struct SettingsView: View {
                 }
 
                 Section {
-                    Picker(selection: preferencesStore.controllerLeftButtonSelection) {
-                        ForEach(GameControllerRemapButton.allCases, id: \.self) { button in
-                            Text(GameLocalizedStrings.string(button.localizedNameKey))
-                                .font(fontForLabels)
-                                .tag(button)
-                        }
-                    } label: {
-                        Text(GameLocalizedStrings.string("settings_controller_move_left"))
-                            .font(fontForLabels)
-                    }
-                    Picker(selection: preferencesStore.controllerRightButtonSelection) {
-                        ForEach(GameControllerRemapButton.allCases, id: \.self) { button in
-                            Text(GameLocalizedStrings.string(button.localizedNameKey))
-                                .font(fontForLabels)
-                                .tag(button)
-                        }
-                    } label: {
-                        Text(GameLocalizedStrings.string("settings_controller_move_right"))
-                            .font(fontForLabels)
-                    }
-                    Picker(selection: preferencesStore.controllerPauseButtonSelection) {
-                        ForEach(GameControllerRemapButton.allCases, id: \.self) { button in
-                            Text(GameLocalizedStrings.string(button.localizedNameKey))
-                                .font(fontForLabels)
-                                .tag(button)
-                        }
-                    } label: {
-                        Text(GameLocalizedStrings.string("settings_controller_pause_resume"))
-                            .font(fontForLabels)
-                    }
-                } header: {
-                    Text(GameLocalizedStrings.string("settings_controller"))
-                        .font(fontForLabels)
-                } footer: {
-                    #if os(macOS)
-                    inlineSectionFooterRow(text: GameLocalizedStrings.string("settings_controller_footnote"))
-                    #else
-                    Text(GameLocalizedStrings.string("settings_controller_footnote"))
-                        .font(secondaryFont)
-                        .modifier(SettingsFooterTextStyle())
-                    #endif
-                }
-
-                Section {
                     Picker(selection: preferencesStore.difficultySelection) {
                         ForEach(GameDifficulty.allCases, id: \.self) { difficulty in
                             Text(GameLocalizedStrings.string(difficulty.localizedNameKey))
@@ -354,6 +310,50 @@ public struct SettingsView: View {
                 } header: {
                     Text(GameLocalizedStrings.string("settings_accessibility"))
                         .font(fontForLabels)
+                }
+
+                Section {
+                    Picker(selection: preferencesStore.controllerLeftButtonSelection) {
+                        ForEach(GameControllerRemapButton.allCases, id: \.self) { button in
+                            Text(GameLocalizedStrings.string(button.localizedNameKey))
+                                .font(fontForLabels)
+                                .tag(button)
+                        }
+                    } label: {
+                        Text(GameLocalizedStrings.string("settings_controller_move_left"))
+                            .font(fontForLabels)
+                    }
+                    Picker(selection: preferencesStore.controllerRightButtonSelection) {
+                        ForEach(GameControllerRemapButton.allCases, id: \.self) { button in
+                            Text(GameLocalizedStrings.string(button.localizedNameKey))
+                                .font(fontForLabels)
+                                .tag(button)
+                        }
+                    } label: {
+                        Text(GameLocalizedStrings.string("settings_controller_move_right"))
+                            .font(fontForLabels)
+                    }
+                    Picker(selection: preferencesStore.controllerPauseButtonSelection) {
+                        ForEach(GameControllerRemapButton.allCases, id: \.self) { button in
+                            Text(GameLocalizedStrings.string(button.localizedNameKey))
+                                .font(fontForLabels)
+                                .tag(button)
+                        }
+                    } label: {
+                        Text(GameLocalizedStrings.string("settings_controller_pause_resume"))
+                            .font(fontForLabels)
+                    }
+                } header: {
+                    Text(GameLocalizedStrings.string("settings_controller"))
+                        .font(fontForLabels)
+                } footer: {
+                    #if os(macOS)
+                    inlineSectionFooterRow(text: GameLocalizedStrings.string("settings_controller_footnote"))
+                    #else
+                    Text(GameLocalizedStrings.string("settings_controller_footnote"))
+                        .font(secondaryFont)
+                        .modifier(SettingsFooterTextStyle())
+                    #endif
                 }
 
                 Section {

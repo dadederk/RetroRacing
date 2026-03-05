@@ -6,6 +6,11 @@
 //
 
 import SpriteKit
+#if os(iOS) || os(tvOS) || os(visionOS)
+import UIKit
+#elseif os(macOS)
+import AppKit
+#endif
 
 private enum RoadLineConfiguration {
     static let innerMaskAssetName = "laneInnerMask"
@@ -435,10 +440,25 @@ extension GameScene {
     }
 
     private func roadLineColor() -> SKColor {
-        ContrastColorResolver.minimumDarkerColor(
-            against: gridCellFillColor(),
-            minimumContrast: RoadLineConfiguration.minimumContrast
-        )
+        guard let theme else {
+            return ContrastColorResolver.minimumDarkerColor(
+                against: gridCellFillColor(),
+                minimumContrast: RoadLineConfiguration.minimumContrast
+            )
+        }
+
+        let increaseContrastEnabled = isSystemIncreaseContrastEnabled()
+        return theme.roadLineColor(isIncreaseContrastEnabled: increaseContrastEnabled).skColor
+    }
+
+    private func isSystemIncreaseContrastEnabled() -> Bool {
+        #if os(iOS) || os(tvOS) || os(visionOS)
+        UIAccessibility.isDarkerSystemColorsEnabled
+        #elseif os(macOS)
+        NSWorkspace.shared.accessibilityDisplayShouldIncreaseContrast
+        #else
+        false
+        #endif
     }
 
     private func renderCarSprites(gridState: GridState) {

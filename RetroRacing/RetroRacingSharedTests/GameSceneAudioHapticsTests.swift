@@ -848,6 +848,38 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         XCTAssertTrue(dashedRowY.isDisjoint(with: lapRowY))
     }
 
+    func testGivenDetailedRoadWhenLapStripApproachesPlayerRowThenStripPersistsUntilOffscreenAndDashesReturnAfterExit() {
+        // Given
+        scene.setBigRivalCarsEnabled(false)
+        scene.setRoadVisualStyle(.detailedRoad)
+        scene.roadDashPhase = 1
+        let playerRow = scene.gridState.playerRowIndex
+
+        // When
+        scene.safetyMarkerRows = [3, 4]
+        scene.gridStateDidUpdate(scene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
+        let lapCountAtVisibleBottom = lineOverlayCount(named: "lap_marker_line")
+        let dashedCountAtPlayerRowWithVisibleLap = dashedLineCount(inRow: playerRow)
+
+        scene.safetyMarkerRows = [4, 5]
+        scene.gridStateDidUpdate(scene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
+        let lapCountAtBottomTransition = lineOverlayCount(named: "lap_marker_line")
+        let dashedCountAtPlayerRowDuringTransition = dashedLineCount(inRow: playerRow)
+
+        scene.safetyMarkerRows = [5, 6]
+        scene.gridStateDidUpdate(scene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
+        let lapCountAfterExit = lineOverlayCount(named: "lap_marker_line")
+        let dashedCountAtPlayerRowAfterExit = dashedLineCount(inRow: playerRow)
+
+        // Then
+        XCTAssertEqual(lapCountAtVisibleBottom, 1)
+        XCTAssertEqual(lapCountAtBottomTransition, 1)
+        XCTAssertEqual(lapCountAfterExit, 0)
+        XCTAssertEqual(dashedCountAtPlayerRowWithVisibleLap, 0)
+        XCTAssertEqual(dashedCountAtPlayerRowDuringTransition, 0)
+        XCTAssertGreaterThan(dashedCountAtPlayerRowAfterExit, 0)
+    }
+
     func testGivenDetailedRoadSafetyWindowWhenRenderingThenLapMarkersAreNotVerticallyMirrored() {
         // Given
         scene.setBigRivalCarsEnabled(false)
@@ -1195,6 +1227,14 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         return grouped.keys.sorted().compactMap { key in
             grouped[key]?.sorted()
         }
+    }
+
+    private func dashedLineCount(inRow row: Int) -> Int {
+        let targetY = Int(scene.gridCell(column: 1, row: row).frame.midY.rounded())
+        return scene.lineOverlayNodes.filter { node in
+            guard node.name == "road_dash_line" else { return false }
+            return Int(node.position.y.rounded()) == targetY
+        }.count
     }
 
     private func lapMarkerRowsByY() -> [[SKSpriteNode]] {

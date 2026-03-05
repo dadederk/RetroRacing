@@ -105,13 +105,18 @@ func renderMask(_ descriptor: MaskDescriptor, size: RenderSize) -> Data? {
     NSBezierPath(rect: NSRect(x: 0, y: 0, width: width, height: height)).fill()
 
     if descriptor.isLapMask {
-        let topY = height * 0.95
-        let bottomY = height * 0.05
-        let leftTopT: CGFloat = 0.06
-        let rightTopT: CGFloat = 0.94
+        let topY = height * 0.94
+        let bottomY = height * 0.06
+        // Keep a tiny bottom inset so the baked border stays inside texture bounds
+        // and avoids clipped corner pixels at runtime.
+        let leftBottomT: CGFloat = 0.008
+        let rightBottomT: CGFloat = 0.992
+        // Use a gentler taper so the strip sides better match road-line convergence.
+        let leftTopT: CGFloat = 0.024
+        let rightTopT: CGFloat = 0.976
         let path = NSBezierPath()
-        path.move(to: NSPoint(x: width * 0.0, y: bottomY))
-        path.line(to: NSPoint(x: width * 1.0, y: bottomY))
+        path.move(to: NSPoint(x: width * leftBottomT, y: bottomY))
+        path.line(to: NSPoint(x: width * rightBottomT, y: bottomY))
         path.line(to: NSPoint(x: width * rightTopT, y: topY))
         path.line(to: NSPoint(x: width * leftTopT, y: topY))
         path.close()
@@ -154,7 +159,7 @@ func renderMask(_ descriptor: MaskDescriptor, size: RenderSize) -> Data? {
         }
         NSGraphicsContext.restoreGraphicsState()
 
-        path.lineWidth = max(2, height * 0.09)
+        path.lineWidth = max(2, height * 0.08)
         path.lineJoinStyle = .round
         path.lineCapStyle = .round
         NSColor.white.setStroke()

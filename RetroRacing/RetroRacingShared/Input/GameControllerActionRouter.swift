@@ -8,7 +8,8 @@
 import Foundation
 
 /// The outcome of routing a `GameControllerAction` in the current game state.
-public enum GameControllerRouteResult: Sendable {
+public enum GameControllerRouteResult: Equatable, Sendable {
+    case ignored
     case moveLeft
     case moveRight
     case togglePause
@@ -29,13 +30,22 @@ public enum GameControllerActionRouter {
         action: GameControllerAction,
         isMenuOverlayVisible: Bool
     ) -> GameControllerRouteResult {
+        if isMenuOverlayVisible {
+            switch action {
+            case .pauseResume:
+                return .requestPlay
+            case .moveLeft, .moveRight:
+                return .ignored
+            }
+        }
+
         switch action {
         case .moveLeft:
             return .moveLeft
         case .moveRight:
             return .moveRight
         case .pauseResume:
-            return isMenuOverlayVisible ? .requestPlay : .togglePause
+            return .togglePause
         }
     }
 }

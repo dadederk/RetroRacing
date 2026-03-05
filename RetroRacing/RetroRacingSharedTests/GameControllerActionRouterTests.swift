@@ -10,7 +10,7 @@ import XCTest
 
 final class GameControllerActionRouterTests: XCTestCase {
 
-    // MARK: - Directional routing (state-independent)
+    // MARK: - Directional routing (state-dependent)
 
     func testGivenMoveLeftActionWhenMenuHiddenThenMoveLeftIsReturned() {
         // Given / When
@@ -20,12 +20,12 @@ final class GameControllerActionRouterTests: XCTestCase {
         XCTAssertEqual(result, .moveLeft)
     }
 
-    func testGivenMoveLeftActionWhenMenuVisibleThenMoveLeftIsReturned() {
+    func testGivenMoveLeftActionWhenMenuVisibleThenIgnoredIsReturned() {
         // Given / When
         let result = GameControllerActionRouter.route(action: .moveLeft, isMenuOverlayVisible: true)
 
         // Then
-        XCTAssertEqual(result, .moveLeft, "Directional actions are not affected by menu state")
+        XCTAssertEqual(result, .ignored, "Directional actions should be ignored while overlays are visible")
     }
 
     func testGivenMoveRightActionWhenMenuHiddenThenMoveRightIsReturned() {
@@ -36,12 +36,12 @@ final class GameControllerActionRouterTests: XCTestCase {
         XCTAssertEqual(result, .moveRight)
     }
 
-    func testGivenMoveRightActionWhenMenuVisibleThenMoveRightIsReturned() {
+    func testGivenMoveRightActionWhenMenuVisibleThenIgnoredIsReturned() {
         // Given / When
         let result = GameControllerActionRouter.route(action: .moveRight, isMenuOverlayVisible: true)
 
         // Then
-        XCTAssertEqual(result, .moveRight, "Directional actions are not affected by menu state")
+        XCTAssertEqual(result, .ignored, "Directional actions should be ignored while overlays are visible")
     }
 
     // MARK: - Pause/Resume routing (state-dependent)

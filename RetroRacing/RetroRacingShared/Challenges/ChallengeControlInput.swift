@@ -14,4 +14,5 @@ public enum ChallengeControlInput: String, CaseIterable, Codable, Sendable {
     case keyboard
     case voiceOver
     case digitalCrown
+    case gameController
 }
