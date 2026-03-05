@@ -111,9 +111,9 @@ func renderMask(_ descriptor: MaskDescriptor, size: RenderSize) -> Data? {
         // and avoids clipped corner pixels at runtime.
         let leftBottomT: CGFloat = 0.012
         let rightBottomT: CGFloat = 0.988
-        // Use a stronger taper so lap-strip side inclination matches tightened road perspective.
-        let leftTopT: CGFloat = 0.055
-        let rightTopT: CGFloat = 0.945
+        // Keep strong perspective but avoid over-tilting the strip sides.
+        let leftTopT: CGFloat = 0.045
+        let rightTopT: CGFloat = 0.955
         let path = NSBezierPath()
         path.move(to: NSPoint(x: width * leftBottomT, y: bottomY))
         path.line(to: NSPoint(x: width * rightBottomT, y: bottomY))
