@@ -51,10 +51,15 @@ The generator writes flat fallback PNGs to `RetroRacingShared/Resources/Sprites`
 
 ### Vertical-Only (`Big Cars On` OR `Road Style = Simplified Grid`)
 
-- Dashed road masks are hidden.
-- Lap markers are hidden.
-- Only two vertical separators are rendered between the three columns.
-- Horizontal separators stay hidden.
+- `Big Cars On`:
+  - Perspective road/lap markers are hidden.
+  - Two vertical lane separators are rendered as flat, non-perspective dashed segments (4 rows visible, 1 row empty via `roadDashPhase` cadence).
+  - Separator tint uses the same `roadLineColor()` path as detailed mode.
+  - Horizontal separators stay hidden.
+- `Road Style = Simplified Grid` (`Big Cars Off`):
+  - Perspective road/lap markers are hidden.
+  - Two continuous vertical separators are rendered.
+  - Horizontal separators stay hidden.
 
 ## Dash Cadence
 
@@ -79,6 +84,8 @@ The generator writes flat fallback PNGs to `RetroRacingShared/Resources/Sprites`
   - player, rival, and crash sprites anchor to those lane centers to keep cars visually centered in their lanes
   - no baseline side-lane convergence offset is applied; optional convergence is additive-only when explicitly enabled
   - rival/crash scale uses a blended depth curve (top row floor `0.31`, linear blend `0.45`, quadratic exponent `2.0`) so the top row stays small while row-to-row separation remains visible near the horizon
+- Big Cars sizing:
+  - player, rival, and crash all use the same fixed cell-fill box (`0.9`) with lane-centered placement and no perspective scaling, so Dynamic Type users get uniform, high-legibility targets.
 
 ## Lap Marker Timing
 
@@ -104,6 +111,7 @@ The generator writes flat fallback PNGs to `RetroRacingShared/Resources/Sprites`
   - Dash phase cycling across 5 ticks
   - Lane moves do not advance dash phase
   - Big Cars mode overrides road style and uses vertical-only separators
+  - Big Cars mode uses flat dashed separators (non-perspective), while Simplified Grid uses continuous vertical separators
   - Simplified Grid mode uses vertical-only separators
   - Detailed Road mode shows dashed road markers
   - Lap markers appear only in the two-row safety window as a single strip centered between the two tracked safety rows

@@ -170,7 +170,11 @@ extension GameScene {
             renderDashedRoadLines()
             renderLapMarkers()
         case .verticalOnly:
-            renderVerticalSeparators()
+            if bigRivalCarsEnabled {
+                renderFlatDashedSeparatorsForBigCars()
+            } else {
+                renderVerticalSeparators()
+            }
         }
     }
 
@@ -256,6 +260,36 @@ extension GameScene {
             separator.zPosition = RoadLineConfiguration.lineZPosition
             lineOverlayNodes.append(separator)
             addChild(separator)
+        }
+    }
+
+    private func renderFlatDashedSeparatorsForBigCars() {
+        let tintColor = roadLineColor()
+        let cellSize = sizeForCell()
+        let lineWidth = max(1.5, cellSize.width * 0.04)
+
+        for row in 0..<gridState.numberOfRows where row != roadDashEmptyRowIndex {
+            let rowFrame = gridCell(column: 1, row: row).frame
+            let rowCenterY = rowFrame.midY
+            let segmentHeight = rowFrame.height * 0.84
+            let topY = segmentHeight / 2
+            let bottomY = -segmentHeight / 2
+
+            for separatorIndex in 1..<gridState.numberOfColumns {
+                let separatorX = CGFloat(separatorIndex) * cellSize.width
+                let path = CGMutablePath()
+                path.move(to: CGPoint(x: 0, y: bottomY))
+                path.addLine(to: CGPoint(x: 0, y: topY))
+
+                let separator = SKShapeNode(path: path)
+                separator.name = RoadLineConfiguration.dashedLineNodeName
+                separator.position = CGPoint(x: separatorX, y: rowCenterY)
+                separator.strokeColor = tintColor
+                separator.lineWidth = lineWidth
+                separator.zPosition = RoadLineConfiguration.lineZPosition
+                lineOverlayNodes.append(separator)
+                addChild(separator)
+            }
         }
     }
 
@@ -477,6 +511,7 @@ extension GameScene {
             for column in 0..<gridState.numberOfColumns {
                 let cellState = gridState.grid[row][column]
                 let cell = gridCell(column: column, row: row)
+                let laneCenter = bigRivalCarsEnabled ? nil : laneCenterX(forColumn: column, row: row)
 
                 switch cellState {
                 case .Car:
@@ -487,7 +522,7 @@ extension GameScene {
                         column: column,
                         accessibilityLabel: GameLocalizedStrings.string("rival_car"),
                         usesPlayerScale: bigRivalCarsEnabled,
-                        laneCenterSceneX: laneCenterX(forColumn: column, row: row),
+                        laneCenterSceneX: laneCenter,
                         sideLaneConvergenceFactor: bigRivalCarsEnabled ? 0 : CarPerspectiveConfiguration.sideLaneConvergenceFactor
                     )
                 case .Player:
@@ -497,7 +532,8 @@ extension GameScene {
                         row: row,
                         column: column,
                         accessibilityLabel: GameLocalizedStrings.string("player_car"),
-                        laneCenterSceneX: laneCenterX(forColumn: column, row: row)
+                        usesPlayerScale: bigRivalCarsEnabled,
+                        laneCenterSceneX: laneCenter
                     )
                 case .Crash:
                     let crashSprite = spriteNode(imageNamed: theme?.crashSprite() ?? "crash-LCD")
@@ -508,7 +544,8 @@ extension GameScene {
                         row: row,
                         column: column,
                         accessibilityLabel: GameLocalizedStrings.string("crash_sprite"),
-                        laneCenterSceneX: laneCenterX(forColumn: column, row: row),
+                        usesPlayerScale: bigRivalCarsEnabled,
+                        laneCenterSceneX: laneCenter,
                         sideLaneConvergenceFactor: bigRivalCarsEnabled ? 0 : CarPerspectiveConfiguration.sideLaneConvergenceFactor
                     )
                 case .Empty:

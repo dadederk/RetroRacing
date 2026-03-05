@@ -16,6 +16,7 @@ private enum SpritePerspectiveConfiguration {
     static let farRowScale: CGFloat = 0.31
     static let depthExponent: CGFloat = 2.0
     static let linearDepthBlend: CGFloat = 0.45
+    static let bigCarsCellFillScale: CGFloat = 0.9
 }
 
 /// Visual and accessibility effects applied to sprites within GameScene.
@@ -75,7 +76,12 @@ extension GameScene {
             y: cellOriginInLocal.y + cellSize.height / 2.0
         )
         sprite.position = spritePosInCell
-        sprite.aspectFitToSize(spriteSize)
+        if usesPlayerScale {
+            // Big Cars mode prioritizes equal, high-legibility targets across player/rival/crash.
+            sprite.size = spriteSize
+        } else {
+            sprite.aspectFitToSize(spriteSize)
+        }
         sprite.zPosition = 2
         spritesForGivenState.append(sprite)
         cell.addChild(sprite)
@@ -110,7 +116,7 @@ extension GameScene {
 
     private func spritePerspectiveScaleFactor(row: Int, usesPlayerScale: Bool) -> CGFloat {
         if usesPlayerScale {
-            return 1
+            return SpritePerspectiveConfiguration.bigCarsCellFillScale
         }
         guard gridState.numberOfRows > 1 else {
             return 1

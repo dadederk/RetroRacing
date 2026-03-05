@@ -642,7 +642,35 @@ final class GameSceneAudioHapticsTests: XCTestCase {
             XCTFail("Expected rival and player sprites to be rendered")
             return
         }
-        XCTAssertGreaterThanOrEqual(rivalSize.width, playerSize.width)
+        XCTAssertEqual(rivalSize.width, playerSize.width, accuracy: 0.01)
+        XCTAssertEqual(rivalSize.height, playerSize.height, accuracy: 0.01)
+    }
+
+    func testGivenBigCarsEnabledWhenRenderingRivalsAcrossRowsThenRivalSizeIsUniformAndPadded() {
+        // Given
+        scene.setBigRivalCarsEnabled(true)
+        scene.gridState.grid = [
+            [.Car, .Empty, .Empty],
+            [.Empty, .Empty, .Empty],
+            [.Empty, .Empty, .Empty],
+            [.Car, .Empty, .Empty],
+            [.Empty, .Player, .Empty]
+        ]
+
+        // When
+        scene.gridStateDidUpdate(scene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
+        let topRivalSize = spriteSize(column: 0, row: 0)
+        let lowerRivalSize = spriteSize(column: 0, row: 3)
+        let cellWidth = scene.gridCell(column: 0, row: 0).frame.width
+
+        // Then
+        guard let topRivalSize, let lowerRivalSize else {
+            XCTFail("Expected rival sprites in both rows")
+            return
+        }
+        XCTAssertEqual(topRivalSize.width, lowerRivalSize.width, accuracy: 0.01)
+        XCTAssertLessThan(topRivalSize.width, cellWidth)
+        XCTAssertGreaterThan(topRivalSize.width, cellWidth * 0.75)
     }
 
     func testGivenRoadDashPhaseWhenTickAdvancesThenEmptyRowCyclesEveryFiveTicks() {
@@ -687,7 +715,7 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         XCTAssertEqual(lineOverlayCount(named: "vertical_grid_line"), 0)
     }
 
-    func testGivenBigCarsEnabledWhenRenderingThenDashedRoadLinesAreHiddenAndVerticalSeparatorsAreVisible() {
+    func testGivenBigCarsEnabledWhenRenderingThenFlatDashedSeparatorsAreVisibleAndContinuousSeparatorsAreHidden() {
         // Given
         scene.setBigRivalCarsEnabled(true)
         scene.setRoadVisualStyle(.detailedRoad)
@@ -696,8 +724,8 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         scene.gridStateDidUpdate(scene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
 
         // Then
-        XCTAssertEqual(lineOverlayCount(named: "road_dash_line"), 0)
-        XCTAssertEqual(lineOverlayCount(named: "vertical_grid_line"), 2)
+        XCTAssertGreaterThan(lineOverlayCount(named: "road_dash_line"), 0)
+        XCTAssertEqual(lineOverlayCount(named: "vertical_grid_line"), 0)
     }
 
     func testGivenBigCarsEnabledWhenRenderingThenHorizontalGridLinesAreNotDrawn() {
@@ -710,7 +738,8 @@ final class GameSceneAudioHapticsTests: XCTestCase {
 
         // Then
         XCTAssertTrue(allGridCells().allSatisfy { $0.lineWidth == 0 })
-        XCTAssertEqual(lineOverlayCount(named: "vertical_grid_line"), 2)
+        XCTAssertGreaterThan(lineOverlayCount(named: "road_dash_line"), 0)
+        XCTAssertEqual(lineOverlayCount(named: "vertical_grid_line"), 0)
     }
 
     func testGivenDashedRoadLinesWhenComparingTopAndBottomSpacingThenTopRowsAreMoreConverged() {
@@ -793,8 +822,8 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         scene.gridStateDidUpdate(scene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
 
         // Then
-        XCTAssertEqual(lineOverlayCount(named: "vertical_grid_line"), 2)
-        XCTAssertEqual(lineOverlayCount(named: "road_dash_line"), 0)
+        XCTAssertEqual(lineOverlayCount(named: "vertical_grid_line"), 0)
+        XCTAssertGreaterThan(lineOverlayCount(named: "road_dash_line"), 0)
         XCTAssertEqual(lineOverlayCount(named: "lap_marker_line"), 0)
     }
 
