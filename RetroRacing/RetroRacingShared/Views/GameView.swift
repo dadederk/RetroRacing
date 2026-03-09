@@ -154,7 +154,7 @@ public struct GameView: View {
                     leftButtonDown: model.controls.leftButtonDown,
                     rightButtonDown: model.controls.rightButtonDown,
                     directionButtonHeight: directionButtonHeight,
-                    headerFont: headerFont(size: style.hudFontSize),
+                    headerFont: headerFont(textStyle: style.hudTextStyle),
                     inputAdapter: model.inputAdapter,
                     onMoveLeft: { model.flashButton(.left) },
                     onMoveRight: { model.flashButton(.right) },
@@ -376,8 +376,8 @@ public struct GameView: View {
             ?? .custom("PressStart2P-Regular", size: style.pauseButtonFontSize)
     }
 
-    private func headerFont(size: CGFloat) -> Font {
-        fontPreferenceStore?.font(fixedSize: size) ?? .custom("PressStart2P-Regular", size: size)
+    private func headerFont(textStyle: Font.TextStyle) -> Font {
+        fontPreferenceStore?.font(textStyle: textStyle) ?? .system(textStyle, design: .default)
     }
 
     private var showGameOverBinding: Binding<Bool> {

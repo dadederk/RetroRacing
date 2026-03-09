@@ -40,7 +40,7 @@ struct GameLayoutView<GameArea: View>: View {
 
     var body: some View {
         ZStack(alignment: .bottomLeading) {
-            if useLandscapeLayout(containerSize: containerSize) {
+            if usesLandscapeLayout {
                 landscapeLayout
             } else {
                 portraitLayout
@@ -144,8 +144,10 @@ struct GameLayoutView<GameArea: View>: View {
             .font(headerFont)
             .foregroundStyle(.primary)
             .shadow(color: Color.primary.opacity(0.35), radius: 0.5)
-            .lineLimit(nil)
-            .fixedSize(horizontal: false, vertical: true)
+            .lineLimit(usesLandscapeLayout ? nil : 1)
+            .minimumScaleFactor(usesLandscapeLayout ? 1.0 : 0.75)
+            .allowsTightening(!usesLandscapeLayout)
+            .fixedSize(horizontal: false, vertical: usesLandscapeLayout)
             .multilineTextAlignment(.leading)
             .accessibilityLabel(GameLocalizedStrings.format("score %lld", Int64(score)))
             .accessibilityAddTraits(.isStaticText)
@@ -206,7 +208,7 @@ struct GameLayoutView<GameArea: View>: View {
 
     private var speedAlertView: some View {
         Group {
-            if useLandscapeLayout(containerSize: containerSize) {
+            if usesLandscapeLayout {
                 VStack(alignment: .leading, spacing: 8) {
                     speedAlertImage
                     speedAlertText
@@ -248,6 +250,10 @@ struct GameLayoutView<GameArea: View>: View {
 
     private var shouldUseVerticalPortraitHeader: Bool {
         dynamicTypeSize.isAccessibilitySize || dynamicTypeSize >= .xxLarge
+    }
+
+    private var usesLandscapeLayout: Bool {
+        useLandscapeLayout(containerSize: containerSize)
     }
 
     private var accessibilityLivesLabel: String {

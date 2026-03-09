@@ -70,4 +70,26 @@ final class FontPreferenceStoreTests: XCTestCase {
         // Then
         XCTAssertEqual(fonts.count, styles.count)
     }
+
+    func testGivenUniversalGameViewStyleWhenReadingHUDTextStyleThenSubheadlineIsUsed() {
+        // Given
+        let style = GameViewStyle.universal
+
+        // When
+        let hudTextStyle = style.hudTextStyle
+
+        // Then
+        XCTAssertEqual(hudTextStyle, .subheadline)
+    }
+
+    func testGivenTvOSGameViewStyleWhenReadingHUDTextStyleThenTitleIsUsed() {
+        // Given
+        let style = GameViewStyle.tvOS
+
+        // When
+        let hudTextStyle = style.hudTextStyle
+
+        // Then
+        XCTAssertEqual(hudTextStyle, .title)
+    }
 }

@@ -91,7 +91,7 @@ Each conditional-default setting:
 
 ## Other Dimensions
 
-- **Dynamic Type:** Menu and UI text use semantic font APIs (`font(textStyle:)`) so system and monospaced styles track native Dynamic Type; custom retro font follows comparable growth curves via semantic relative sizing. Portrait gameplay layout stacks score/lives above the game area and directional controls below to avoid overlap at large sizes, and the lives helmet icon scales with Dynamic Type.
+- **Dynamic Type:** Menu and UI text use semantic font APIs (`font(textStyle:)`) so system and monospaced styles track native Dynamic Type; custom retro font follows comparable growth curves via semantic relative sizing. Gameplay score/lives headers also use semantic styles so they scale automatically in all font modes. In portrait, score is constrained to one line and can downscale modestly to avoid header reflow jumps at larger sizes. Portrait gameplay layout stacks score/lives above the game area and directional controls below to avoid overlap at large sizes, and the lives helmet icon scales with Dynamic Type.
 - **High Contrast:** Theme system and requirements (see `theming_system.md`) should support increased contrast where needed.
 - **Platform:** Follow platform HIG and accessibility APIs (iOS/tvOS/watchOS/macOS/visionOS) for focus, gestures, and system settings.
 - **Orientation / window changes:** SpriteKit scenes must persist across rotations and size class changes without restarting gameplay. Resize the existing scene to the new square dimension and redraw the current grid state; do not recreate the scene or reset score/lives during rotation. Scenes should keep their existing `GameState` (score, lives, grid) when re-presented after a rotation.

@@ -156,7 +156,8 @@ All user-facing text respects the font preference:
 - Buttons
 - HUD elements (score, lives)
 - Pause/resume labels
-- Game HUD/chrome uses `font(fixedSize:)` to preserve pixel-locked styling where required.
+- Score/lives HUD labels use semantic styles (`font(textStyle:)`) so Dynamic Type scales correctly for all font styles.
+- Portrait score label is limited to one line and can reduce size slightly to keep header layout stable.
 - Game-over content rows and action buttons use semantic fonts from `FontPreferenceStore`.
 - Game-over action labels (`Restart`, `Finish`) apply semantic fonts directly on `Text` labels so custom button styles do not override configured typography.
 
@@ -190,7 +191,7 @@ Unit tests verify:
 
 - Flowing text uses semantic APIs (`font(textStyle:)`) so system and monospaced styles follow native Dynamic Type behavior.
 - Custom font uses `Font.custom(_:size:relativeTo:)` internally, with a documented base-size mapping per text style (`caption2` 11, `caption` 12, `subheadline` 15, `body/headline` 17, `title` 28, plus standard values for other styles).
-- Pixel-locked gameplay typography (HUD/chrome) uses `font(fixedSize:)`.
+- Gameplay status text (including score/lives) uses semantic styles so size changes are automatic.
 
 ### VoiceOver
 
@@ -267,7 +268,7 @@ Additional fonts can be added by:
 
 1. **Custom font required** - If "Press Start 2P" fails to load, the app falls back to system fonts gracefully
 2. **No per-view overrides** - Font preference is global; individual views cannot override
-3. **Fixed-size gameplay typography** - Some UI elements (game HUD/chrome) intentionally use fixed sizes to preserve retro readability
+3. **No per-view overrides for semantic scale rules** - Typography policy is global through `FontPreferenceStore`
 
 ## References
 
