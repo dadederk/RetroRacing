@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "skills": {
+    "ios-accessibility": {
+      "source": "dadederk/iOS-Accessibility-Agent-Skill",
+      "sourceType": "github",
+      "computedHash": "d945096b4cf7e46d28b4cdadb6d6b96c6ebf36311212977519d48d3e98e99b35"
+    }
+  }
+}
