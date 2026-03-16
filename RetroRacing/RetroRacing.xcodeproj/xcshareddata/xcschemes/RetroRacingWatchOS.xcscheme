@@ -30,7 +30,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "21DD46402F2FC956000C9FFA"
-               BuildableName = "RetroRacingUniversal.app"
+               BuildableName = "RetroRapid!.app"
                BlueprintName = "RetroRacingUniversal"
                ReferencedContainer = "container:RetroRacing.xcodeproj">
             </BuildableReference>

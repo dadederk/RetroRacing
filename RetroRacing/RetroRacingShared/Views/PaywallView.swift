@@ -141,21 +141,21 @@ public struct PaywallView: View {
                 }
             }
             .alert(GameLocalizedStrings.string("purchase_success_title"), isPresented: $showingSuccess) {
-                Button("OK") {
+                Button(GameLocalizedStrings.string("ok")) {
                     dismiss()
                 }
             } message: {
                 Text(GameLocalizedStrings.string("purchase_success_message"))
             }
             .alert(GameLocalizedStrings.string("purchase_error_title"), isPresented: $showingError) {
-                Button("OK", role: .cancel) {}
+                Button(GameLocalizedStrings.string("ok"), role: .cancel) {}
             } message: {
                 if let message = purchaseError {
                     Text(message)
                 }
             }
             .alert(GameLocalizedStrings.string("restore_purchases"), isPresented: $showingRestoreAlert) {
-                Button("OK", role: .cancel) {}
+                Button(GameLocalizedStrings.string("ok"), role: .cancel) {}
             } message: {
                 if let message = restoreMessage {
                     Text(message)

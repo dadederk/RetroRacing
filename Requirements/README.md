@@ -40,6 +40,7 @@ Requirements documents serve as:
 - **controller_input.md** - Physical game controller support (GCController, remapping, platform configs)
 - **rating_system.md** - App rating strategy (manual App Store review URL + automatic StoreKit timing)
 - **road_markers.md** - Road style modes, perspective markers, safety-window lap markers, Big Cars override, and contrast rules
+- **localization.md** - String Catalog strategy and required locales (Spanish + Catalan with Valencian wording)
 
 ### Planned Features (TBD)
 

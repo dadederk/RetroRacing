@@ -4401,19 +4401,19 @@
         "ca": {
           "stringUnit": {
             "state": "translated",
-            "value": "RetroRacing és un joc de carreres amb 3 carrils. Mou-te a l'esquerra o a la dreta entre les tres posicions. Et reproduirem sons per indicar quins carrils són segurs, i hauràs de moure't ràpid a un carril segur per avançar cotxes i evitar xocar."
+            "value": "RetroRapid! és un joc de carreres amb 3 carrils. Mou-te a l'esquerra o a la dreta entre les tres posicions. Et reproduirem sons per indicar quins carrils són segurs, i hauràs de moure't ràpid a un carril segur per avançar cotxes i evitar xocar."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "RetroRacing is a 3-lane racing game. Move left or right between the three positions. We play sounds to indicate which lanes are safe, and you must quickly move into a safe lane to overtake cars and avoid crashing."
+            "value": "RetroRapid! is a 3-lane racing game. Move left or right between the three positions. We play sounds to indicate which lanes are safe, and you must quickly move into a safe lane to overtake cars and avoid crashing."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "RetroRacing es un juego de carreras con 3 carriles. Muévete a la izquierda o a la derecha entre las tres posiciones. Reproduciremos sonidos para indicar qué carriles son seguros, y tendrás que moverte rápido a un carril seguro para adelantar coches y evitar chocar."
+            "value": "RetroRapid! es un juego de carreras con 3 carriles. Muévete a la izquierda o a la derecha entre las tres posiciones. Reproduciremos sonidos para indicar qué carriles son seguros, y tendrás que moverte rápido a un carril seguro para adelantar coches y evitar chocar."
           }
         }
       }

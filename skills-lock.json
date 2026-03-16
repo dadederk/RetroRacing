@@ -1,6 +1,11 @@
 {
   "version": 1,
   "skills": {
+    "app-store-aso": {
+      "source": "timbroddin/app-store-aso-skill",
+      "sourceType": "github",
+      "computedHash": "b4a4caa5c28a5fdf7eeae14f3123201dab9dafee9fff48bbaea8a8fbf374585c"
+    },
     "ios-accessibility": {
       "source": "dadederk/iOS-Accessibility-Agent-Skill",
       "sourceType": "github",

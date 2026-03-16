@@ -122,10 +122,7 @@ private struct UIKitHardwareKeyboardInputView: UIViewRepresentable {
         view.onKeyboardLeft = onKeyboardLeft
         view.onKeyboardRight = onKeyboardRight
         view.onPauseToggle = onPauseToggle
-        DispatchQueue.main.async {
-            let became = view.becomeFirstResponder()
-            AppLog.info(AppLog.game, "🎮 UIKitHardwareKeyboardInputView becomeFirstResponder (make) = \(became)")
-        }
+        view.requestFirstResponder(reason: "make")
         return view
     }
 
@@ -133,10 +130,7 @@ private struct UIKitHardwareKeyboardInputView: UIViewRepresentable {
         uiView.onKeyboardLeft = onKeyboardLeft
         uiView.onKeyboardRight = onKeyboardRight
         uiView.onPauseToggle = onPauseToggle
-        DispatchQueue.main.async {
-            let became = uiView.becomeFirstResponder()
-            AppLog.info(AppLog.game, "🎮 UIKitHardwareKeyboardInputView becomeFirstResponder (update) = \(became)")
-        }
+        uiView.requestFirstResponder(reason: "update")
     }
 
     final class KeyInputView: UIView {
@@ -146,12 +140,45 @@ private struct UIKitHardwareKeyboardInputView: UIViewRepresentable {
 
         override var canBecomeFirstResponder: Bool { true }
 
+        override func didMoveToWindow() {
+            super.didMoveToWindow()
+            requestFirstResponder(reason: "didMoveToWindow")
+        }
+
+        override func didMoveToSuperview() {
+            super.didMoveToSuperview()
+            requestFirstResponder(reason: "didMoveToSuperview")
+        }
+
         override var keyCommands: [UIKeyCommand]? {
-            [
-                UIKeyCommand(input: UIKeyCommand.inputLeftArrow, modifierFlags: [], action: #selector(handleLeft)),
-                UIKeyCommand(input: UIKeyCommand.inputRightArrow, modifierFlags: [], action: #selector(handleRight)),
-                UIKeyCommand(input: " ", modifierFlags: [], action: #selector(handleSpace))
-            ]
+            let left = UIKeyCommand(
+                input: UIKeyCommand.inputLeftArrow,
+                modifierFlags: [],
+                action: #selector(handleLeft)
+            )
+            let right = UIKeyCommand(
+                input: UIKeyCommand.inputRightArrow,
+                modifierFlags: [],
+                action: #selector(handleRight)
+            )
+            let space = UIKeyCommand(input: " ", modifierFlags: [], action: #selector(handleSpace))
+            if #available(iOS 15.0, *) {
+                left.wantsPriorityOverSystemBehavior = true
+                right.wantsPriorityOverSystemBehavior = true
+                space.wantsPriorityOverSystemBehavior = true
+            }
+            return [left, right, space]
+        }
+
+        func requestFirstResponder(reason: String) {
+            DispatchQueue.main.async { [weak self] in
+                guard let self, self.window != nil else { return }
+                let became = self.becomeFirstResponder()
+                AppLog.info(
+                    AppLog.game,
+                    "🎮 UIKitHardwareKeyboardInputView becomeFirstResponder (\(reason)) = \(became)"
+                )
+            }
         }
 
         @objc private func handleLeft() {

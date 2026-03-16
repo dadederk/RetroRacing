@@ -36,6 +36,13 @@ You then upload **both** archives to the same app version in App Store Connect.
   - `"INFOPLIST_KEY_LSApplicationCategoryType[sdk=macosx*]" = "public.app-category.games"`
 - Keep it SDK-scoped to `macosx*` so iOS/watchOS payloads remain unchanged.
 
+**App name parity for macOS (Guideline 2.3.8):**
+
+- If App Review reports that the installed Mac app name does not match the App Store name, set a macOS-only product name override in `RetroRacingUniversal`:
+  - `"PRODUCT_NAME[sdk=macosx*]" = "RetroRapid!"`
+- Keep the base `PRODUCT_NAME = "$(TARGET_NAME)"` unchanged so iOS/iPadOS packaging and test host paths are not affected.
+- Keep `PRODUCT_BUNDLE_IDENTIFIER` unchanged to preserve upgrade continuity.
+
 So: **one archive per platform**. To have both iOS+watchOS and macOS, you do **two archives** and **two uploads** (or add the second build to the same version).
 
 ---
