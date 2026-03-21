@@ -21,6 +21,7 @@ RetroRacing captures platform-specific input at the UI layer and translates it i
 - **Idle detection**: SwiftUI has no direct idle callback, so `WatchGameView` uses a debounced reset (`~150ms`) to simulate `crownDidBecomeIdle`.
 - **Delta source**: `digitalCrownRotation` deltas are computed from successive value changes (no manual reset), keeping the stream continuous.
 - **SwiftUI crown sensitivity**: `WatchGameView` uses `.digitalCrownRotation(..., sensitivity: .low, ...)` so larger physical crown turns are required before movement is detected.
+- **Crown haptic cadence**: `WatchGameView` keeps `.digitalCrownRotation(..., isHapticFeedbackEnabled: true, ...)` enabled so rotation provides immediate tactile feedback while steering.
 - **Focus**: `WatchGameView` sets focus with `@FocusState` to keep crown input active during play.
 - **Adapter**: Movement uses `CrownGameInputAdapter` to call `moveLeft()` / `moveRight()` on `GameScene`.
 

@@ -194,7 +194,7 @@ struct WatchGameView: View {
                     by: 0.1,
                     sensitivity: .low,
                     isContinuous: true,
-                    isHapticFeedbackEnabled: false
+                    isHapticFeedbackEnabled: true
                 )
                 .onChange(of: isCrownFocused) { _, newValue in
                     AppLog.info(AppLog.game, "🎮 Watch crown focus changed: \(newValue)")

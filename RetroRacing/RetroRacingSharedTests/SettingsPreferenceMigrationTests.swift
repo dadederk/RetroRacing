@@ -17,7 +17,7 @@ final class SettingsPreferenceMigrationTests: XCTestCase {
         super.tearDown()
     }
 
-    func testGivenAnnouncementsEnabledWhenRunningMigrationThenSpeedWarningModeBecomesAnnouncement() {
+    func testGivenAnnouncementsEnabledWhenRunningMigrationThenSpeedWarningModeUsesSystemDefault() {
         // Given
         userDefaults.set(true, forKey: InGameAnnouncementsPreference.storageKey)
 
@@ -25,7 +25,22 @@ final class SettingsPreferenceMigrationTests: XCTestCase {
         SettingsPreferenceMigration.runIfNeeded(userDefaults: userDefaults, supportsHaptics: true)
 
         // Then
-        XCTAssertEqual(SpeedWarningFeedbackMode.currentSelection(from: userDefaults), .announcement)
+        XCTAssertEqual(
+            SpeedWarningFeedbackPreference.currentSelection(
+                from: userDefaults,
+                supportsHaptics: true,
+                isVoiceOverRunning: false
+            ),
+            .none
+        )
+        XCTAssertEqual(
+            SpeedWarningFeedbackPreference.currentSelection(
+                from: userDefaults,
+                supportsHaptics: true,
+                isVoiceOverRunning: true
+            ),
+            .warningHaptic
+        )
     }
 
     func testGivenAnnouncementsDisabledAndHapticsSupportedWhenRunningMigrationThenSpeedWarningModeBecomesNone() {

@@ -58,8 +58,8 @@
   - VoiceOver ON + haptics unsupported default: `announcement`
   - User override always wins.
 - Migration (`SettingsPreferenceMigration`):
-  - Legacy `inGameAnnouncementsEnabled == true` -> `announcement`
-  - Legacy `false` -> `none`
+  - Legacy `inGameAnnouncementsEnabled == true` -> keep system default (no migrated override)
+  - Legacy `false` -> `none` (explicit migrated override)
   - Legacy `sfxVolume` seeds conditional default override
   - Runs once via migration marker key.
 - Audio feedback mode persists via `ConditionalDefault<AudioFeedbackMode>` (`audioFeedbackMode_conditionalDefault`): VoiceOver-adaptive default is `lane pulses` on all platforms (including watchOS via shared `VoiceOverStatus`), otherwise `retro`.

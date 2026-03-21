@@ -79,7 +79,7 @@ Each conditional-default setting:
 
 - **Audio feedback mode:** Defaults to `Audio cues (lane pulses)` when VoiceOver is running on all supported platforms (including watchOS); otherwise defaults to `Retro audio`.
 - **Sound effects volume:** Defaults to `100%` when VoiceOver is running; otherwise `80%`. Slider updates create an explicit override that persists across VoiceOver changes.
-- **Speed warning feedback:** Defaults to `None` when VoiceOver is off. With VoiceOver on, defaults to `Haptic` on haptics-supported platforms and `VoiceOver announcement` on non-haptics platforms. Explicit user override always wins. Legacy `inGameAnnouncementsEnabled` values are migrated once (`true -> announcement`, `false -> none`).
+- **Speed warning feedback:** Defaults to `None` when VoiceOver is off. With VoiceOver on, defaults to `Haptic` on haptics-supported platforms and `VoiceOver announcement` on non-haptics platforms. Explicit user override always wins. Legacy `inGameAnnouncementsEnabled` values are migrated once (`true -> keep system default`, `false -> none`).
 - **Big Cars:** Defaults to `on` when accessibility Dynamic Type sizes are active, otherwise `off`. Settings expose a simple toggle under Accessibility; first user change becomes the stored override.
   - Visual rendering rule: when Big Cars is enabled, perspective road/lap markers are hidden and two vertical separators are shown as flat dashed segments (non-perspective, 4-on/1-off cadence); horizontal separators remain hidden.
   - Sprite sizing rule: player/rival/crash render at the same fixed in-cell size with padding so targets are uniform and easier to track.
