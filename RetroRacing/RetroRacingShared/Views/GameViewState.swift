@@ -27,6 +27,11 @@ struct PauseState {
     var scenePaused: Bool = false     // reflects scene state (crash/start pauses)
     var isUserPaused: Bool = false    // user-requested pause state
 
+    /// True only when the current pause comes from an explicit user pause request.
+    var isExplicitUserPauseActive: Bool {
+        scenePaused && isUserPaused
+    }
+
     var pauseButtonDisabled: Bool {
         scenePaused && isUserPaused == false
     }

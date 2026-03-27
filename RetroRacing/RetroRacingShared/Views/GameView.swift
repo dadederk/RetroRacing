@@ -422,7 +422,7 @@ public struct GameView: View {
     }
 
     private var isPausedGridExplorationMode: Bool {
-        isVoiceOverRunning && model.pause.scenePaused
+        isVoiceOverRunning && model.pause.isExplicitUserPauseActive
     }
 
     private var toolbarControlsDisabled: Bool {
