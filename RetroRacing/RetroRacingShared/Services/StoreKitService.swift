@@ -34,6 +34,14 @@ public final class StoreKitService {
         static let forceFreemiumPlayLimit = "PlayLimit.debugForceFreemium"
     }
 
+    public enum PurchaseFlowError: LocalizedError, Sendable {
+        case unsupportedPlatform
+
+        public var errorDescription: String? {
+            "Purchases are not supported on this platform."
+        }
+    }
+
     // MARK: - Public state
 
     public private(set) var products: [Product] = []
@@ -120,6 +128,9 @@ public final class StoreKitService {
 
     @discardableResult
     public func purchase(_ product: Product) async throws -> Transaction? {
+        #if os(visionOS)
+        throw PurchaseFlowError.unsupportedPlatform
+        #else
         let result = try await product.purchase()
 
         switch result {
@@ -135,15 +146,20 @@ public final class StoreKitService {
         @unknown default:
             return nil
         }
+        #endif
     }
 
     // MARK: - Restore / refresh
 
     public func restorePurchases() async throws {
+        #if os(visionOS)
+        throw PurchaseFlowError.unsupportedPlatform
+        #else
         // In StoreKit 2, restoring is equivalent to re-reading current entitlements.
         // This is invoked explicitly from the UI for user feedback.
         try await AppStore.sync()
         await updatePurchasedProducts()
+        #endif
     }
 
     public func refreshPurchasedProducts() async {

@@ -57,6 +57,7 @@ public struct GameView: View {
     @AppStorage(LaneMoveCueStyle.storageKey) private var laneMoveCueStyleRawValue: String = LaneMoveCueStyle.defaultStyle.rawValue
     @AppStorage(BigCarsSetting.conditionalDefaultStorageKey) private var bigCarsData: Data = Data()
     @AppStorage(RoadVisualStyle.storageKey) private var roadVisualStyleRawValue: String = RoadVisualStyle.defaultStyle.rawValue
+    @AppStorage(DirectTouchSetting.conditionalDefaultStorageKey) private var directTouchData: Data = Data()
     @AppStorage(SpeedWarningFeedbackMode.conditionalDefaultStorageKey)
     private var speedWarningFeedbackModeData: Data = Data()
     @AppStorage(VoiceOverTutorialPreference.hasSeenInGameVoiceOverTutorialKey)
@@ -189,7 +190,8 @@ public struct GameView: View {
                     onRightTap: handleRightTap,
                     onDrag: handleDrag,
                     isInputEnabled: !isPausedGridExplorationMode,
-                    isAccessibilityEnabled: !isPausedGridExplorationMode
+                    isAccessibilityEnabled: !isPausedGridExplorationMode,
+                    isDirectTouchEnabled: selectedDirectTouchEnabled
                 )
             }
         }
@@ -407,6 +409,11 @@ public struct GameView: View {
     private var selectedRoadVisualStyle: RoadVisualStyle {
         _ = roadVisualStyleRawValue
         return RoadVisualStyle.currentSelection(from: InfrastructureDefaults.userDefaults)
+    }
+
+    private var selectedDirectTouchEnabled: Bool {
+        _ = directTouchData
+        return DirectTouchPreference.currentSelection(from: InfrastructureDefaults.userDefaults)
     }
 
     private var hasScene: Bool {

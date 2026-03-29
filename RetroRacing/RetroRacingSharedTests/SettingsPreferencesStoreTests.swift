@@ -151,6 +151,20 @@ final class SettingsPreferencesStoreTests: XCTestCase {
         XCTAssertEqual(reloadedStore.selectedRoadVisualStyle, .simplifiedGrid)
     }
 
+    func testGivenDirectTouchBindingWhenSettingFalseThenSelectionPersists() {
+        // Given
+        let store = makeStore()
+        store.loadIfNeeded()
+
+        // When
+        store.directTouchSelection.wrappedValue = false
+        let reloadedStore = makeStore()
+        reloadedStore.loadIfNeeded()
+
+        // Then
+        XCTAssertFalse(reloadedStore.selectedDirectTouchEnabled)
+    }
+
     func testGivenSelectedAndConfiguredValuesWhenResolvingTutorialApplyStateThenConfiguredLabelIsReturned() {
         // Given
 

@@ -34,9 +34,15 @@ The game **must** respect the user’s Reduce Motion preference:
   - Focus order is deterministic row-major: `(0,0)`, `(0,1)`, `(0,2)`, `(1,0)` ... to the bottom-right cell.
   - Cell announcements use the localized occupant plus coordinates: `No car (row, col)`, `Rival car (row, col)`, `Player car (row, col)`, `Crash (row, col)`.
 - **Implicit pauses keep direct touch active:** Crash/start/help/menu-overlay pauses should not switch to paused-grid exploration; this avoids disruptive VoiceOver focus jumps during non-user pause transitions.
-- **Direct touch controls (iOS):** Left and right gameplay touch regions are marked with `accessibilityDirectTouch(..., options: [.silentOnTouch])` while active input is enabled.
+- **Direct touch controls (iOS/iPadOS, macOS, tvOS, watchOS):** Gameplay touch regions use `accessibilityDirectTouch(..., options: [.silentOnTouch])` while active input is enabled.
+  - Settings expose a `Direct Touch` toggle under Accessibility.
+  - Default behavior is enabled via conditional-default storage.
+  - User overrides persist per device profile and are applied immediately.
 - **Voice Control aliases (universal shared view):** Left/right gameplay controls include input labels in this order: `Left`, `Move left` and `Right`, `Move right`, so short commands like “Tap left/right” are recognized.
 - **Voice Control interaction scope:** HUD status text (score/lives/speed alert) and SpriteKit grid/cars are non-interactive for Voice Control. Only gameplay controls and explicit buttons should respond to Voice Control tap actions.
+- **Settings rows (theme + sound volume):**
+  - Universal (non-premium) Theme row is exposed as a single combined accessibility element (`Theme`, current value such as `Pocket`/`LCD`).
+  - Sound-effects volume hides decorative edge labels (`0%`, `100%`) from accessibility and exposes one adjustable slider element with the current percentage value (Universal + watchOS).
 - **Game-over modal:** `GameOverView` is presented as a non-interactively dismissable sheet (`interactiveDismissDisabled(true)`) with explicit **Restart** and **Finish** actions. Content is wrapped in a `ScrollView` so all summary rows and actions remain reachable at large Dynamic Type sizes and in compact landscape layouts. Decorative result artwork is hidden from accessibility while score/best labels remain readable by VoiceOver.
 - **Game-over typography:** Modal subtitle and speed label use body semantic typography, while score rows and actions use emphasized semantic styles from `FontPreferenceStore`. The speed label is placed between the score summary and action buttons so hierarchy stays clear at all Dynamic Type sizes.
 
@@ -88,6 +94,7 @@ Each conditional-default setting:
   - `Simplified Grid` renders vertical separators only (no dashed/lap markers, no horizontal lines).
   - `Detailed Road` renders dashed perspective road markers and safety-window lap markers.
   - Big Cars always takes precedence and forces vertical-only rendering regardless of road visual style.
+- **Direct Touch:** Defaults to `on` on every platform where the setting is shown. The first user change stores an explicit override under conditional-default storage.
 - **Top-down view:** Default to on when large Dynamic Type is active (future feature 7.1).
 
 ## Other Dimensions

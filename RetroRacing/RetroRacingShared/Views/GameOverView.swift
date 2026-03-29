@@ -116,13 +116,13 @@ public struct GameOverView: View {
                 Text(GameLocalizedStrings.string("restart"))
                     .font(buttonFont)
             }
-            .buttonStyle(.glassProminent)
+            .retroRacingPrimaryButtonStyle()
 
             Button(action: onFinish) {
                 Text(GameLocalizedStrings.string("finish"))
                     .font(buttonFont)
             }
-            .buttonStyle(.glass)
+            .retroRacingSecondaryButtonStyle()
         }
         .padding(.top, 4)
     }

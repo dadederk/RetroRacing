@@ -24,6 +24,7 @@ struct WatchGameView: View {
     @AppStorage(LaneMoveCueStyle.storageKey) private var laneMoveCueStyleRawValue: String = LaneMoveCueStyle.defaultStyle.rawValue
     @AppStorage(BigCarsSetting.conditionalDefaultStorageKey) private var bigCarsData: Data = Data()
     @AppStorage(RoadVisualStyle.storageKey) private var roadVisualStyleRawValue: String = RoadVisualStyle.defaultStyle.rawValue
+    @AppStorage(DirectTouchSetting.conditionalDefaultStorageKey) private var directTouchData: Data = Data()
     @AppStorage(VoiceOverTutorialPreference.hasSeenInGameVoiceOverTutorialKey)
     private var hasSeenInGameVoiceOverTutorial: Bool = VoiceOverTutorialPreference.defaultHasSeenInGameVoiceOverTutorial
     @State private var scene: GameScene
@@ -184,6 +185,7 @@ struct WatchGameView: View {
                                     isCrownFocused = true
                                 }
                         )
+                        .accessibilityDirectTouch(selectedDirectTouchEnabled, options: [.silentOnTouch])
                 }
                 .focusable()
                 .focused($isCrownFocused)
@@ -550,6 +552,11 @@ struct WatchGameView: View {
 
     private var selectedSoundEffectsVolume: Double {
         SoundEffectsVolumePreference.currentSelection(from: InfrastructureDefaults.userDefaults)
+    }
+
+    private var selectedDirectTouchEnabled: Bool {
+        _ = directTouchData
+        return DirectTouchPreference.currentSelection(from: InfrastructureDefaults.userDefaults)
     }
 
     private func recordControlInput(_ input: ChallengeControlInput) {

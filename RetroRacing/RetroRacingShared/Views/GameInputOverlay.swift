@@ -13,6 +13,7 @@ struct GameInputOverlay: View {
     let onDrag: (CGSize) -> Void
     let isInputEnabled: Bool
     let isAccessibilityEnabled: Bool
+    let isDirectTouchEnabled: Bool
 
     var body: some View {
         HStack(spacing: 0) {
@@ -30,9 +31,7 @@ struct GameInputOverlay: View {
                 ])
                 .accessibilityAddTraits(.isButton)
                 .accessibilityHidden(!isAccessibilityEnabled)
-                #if os(iOS)
-                .accessibilityDirectTouch(true, options: [.silentOnTouch])
-                #endif
+                .accessibilityDirectTouch(isDirectTouchEnabled, options: [.silentOnTouch])
             Color.clear
                 .contentShape(Rectangle())
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -47,9 +46,7 @@ struct GameInputOverlay: View {
                 ])
                 .accessibilityAddTraits(.isButton)
                 .accessibilityHidden(!isAccessibilityEnabled)
-                #if os(iOS)
-                .accessibilityDirectTouch(true, options: [.silentOnTouch])
-                #endif
+                .accessibilityDirectTouch(isDirectTouchEnabled, options: [.silentOnTouch])
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .allowsHitTesting(isInputEnabled)

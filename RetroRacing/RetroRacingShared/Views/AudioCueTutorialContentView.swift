@@ -210,7 +210,7 @@ public struct AudioCueTutorialContentView: View {
                 saveAudioFeedbackMode(selectedAudioFeedbackMode)
             }
             .font(captionFont)
-            .buttonStyle(.glassProminent)
+            .retroRacingPrimaryButtonStyle()
             .disabled(isAudioFeedbackModeConfigured)
         }
     }
@@ -276,7 +276,7 @@ public struct AudioCueTutorialContentView: View {
                 )
             }
             .font(captionFont)
-            .buttonStyle(.glassProminent)
+            .retroRacingPrimaryButtonStyle()
             .disabled(isLaneMoveCueStyleConfigured)
         }
     }
@@ -380,7 +380,7 @@ public struct AudioCueTutorialContentView: View {
                 saveSpeedWarningFeedbackMode(selectedSpeedWarningFeedbackMode)
             }
             .font(captionFont)
-            .buttonStyle(.glassProminent)
+            .retroRacingPrimaryButtonStyle()
             .disabled(isSpeedWarningFeedbackModeConfigured)
         }
     }
@@ -417,7 +417,7 @@ public struct AudioCueTutorialContentView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
         }
         .font(bodyFont)
-        .buttonStyle(.glass)
+        .retroRacingSecondaryButtonStyle()
         .accessibilityLabel(label)
         .accessibilityAddTraits([.playsSound, .startsMediaSession])
     }

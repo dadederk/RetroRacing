@@ -14,6 +14,7 @@ public final class SettingsPreferencesStore {
     private var speedWarningFeedbackConditionalDefault: ConditionalDefault<SpeedWarningFeedbackMode> = ConditionalDefault()
     private var soundEffectsVolumeConditionalDefault: ConditionalDefault<SoundEffectsVolumeSetting> = ConditionalDefault()
     private var bigCarsConditionalDefault: ConditionalDefault<BigCarsSetting> = ConditionalDefault()
+    private var directTouchConditionalDefault: ConditionalDefault<DirectTouchSetting> = ConditionalDefault()
     private var laneMoveCueStyleRawValue: String = LaneMoveCueStyle.defaultStyle.rawValue
     private var roadVisualStyleRawValue: String = RoadVisualStyle.defaultStyle.rawValue
     private var controllerBindingProfileData: Data = Data()
@@ -60,6 +61,10 @@ public final class SettingsPreferencesStore {
         bigCarsConditionalDefault = ConditionalDefault<BigCarsSetting>.load(
             from: userDefaults,
             key: BigCarsSetting.conditionalDefaultStorageKey
+        )
+        directTouchConditionalDefault = ConditionalDefault<DirectTouchSetting>.load(
+            from: userDefaults,
+            key: DirectTouchSetting.conditionalDefaultStorageKey
         )
         laneMoveCueStyleRawValue = userDefaults.string(forKey: LaneMoveCueStyle.storageKey)
             ?? LaneMoveCueStyle.defaultStyle.rawValue
@@ -114,6 +119,13 @@ public final class SettingsPreferencesStore {
         Binding(
             get: { self.selectedBigCarsEnabled },
             set: { self.setBigCarsEnabled($0) }
+        )
+    }
+
+    public var directTouchSelection: Binding<Bool> {
+        Binding(
+            get: { self.selectedDirectTouchEnabled },
+            set: { self.setDirectTouchEnabled($0) }
         )
     }
 
@@ -172,6 +184,10 @@ public final class SettingsPreferencesStore {
 
     public var selectedRoadVisualStyle: RoadVisualStyle {
         RoadVisualStyle.fromStoredValue(roadVisualStyleRawValue)
+    }
+
+    public var selectedDirectTouchEnabled: Bool {
+        directTouchConditionalDefault.effectiveValue.isEnabled
     }
 
     public var selectedControllerBindingProfile: GameControllerBindingProfile {
@@ -256,6 +272,16 @@ public final class SettingsPreferencesStore {
         bigCarsConditionalDefault.save(
             to: userDefaults,
             key: BigCarsSetting.conditionalDefaultStorageKey
+        )
+    }
+
+    public func setDirectTouchEnabled(_ isEnabled: Bool) {
+        directTouchConditionalDefault.setUserOverride(
+            DirectTouchSetting(isEnabled: isEnabled)
+        )
+        directTouchConditionalDefault.save(
+            to: userDefaults,
+            key: DirectTouchSetting.conditionalDefaultStorageKey
         )
     }
 

@@ -9,9 +9,9 @@
 /* Begin PBXBuildFile section */
 		210D69C32F3BFEA000EDECA3 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 210D69C22F3BFEA000EDECA3 /* StoreKit.framework */; };
 		210D69C52F3BFEAB00EDECA3 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 210D69C42F3BFEAB00EDECA3 /* StoreKit.framework */; };
+		21472B102F57A8700002E56A /* RetroRacingShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21DD46FE2F2FCB02000C9FFA /* RetroRacingShared.framework */; };
 		21CE00022F3C0000000000A2 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21CE00012F3C0000000000A1 /* GameController.framework */; platformFilters = (ios, maccatalyst, macos, tvos, visionos, ); };
 		21DD469F2F2FCA97000C9FFA /* RetroRacingWatchOS.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 21DD467F2F2FCA96000C9FFA /* RetroRacingWatchOS.app */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		21DD46E02F2FCAD9000C9FFA /* RealityKitContent in Frameworks */ = {isa = PBXBuildFile; productRef = 21DD46DF2F2FCAD9000C9FFA /* RealityKitContent */; };
 		21DD47092F2FCB02000C9FFA /* RetroRacingShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21DD46FE2F2FCB02000C9FFA /* RetroRacingShared.framework */; };
 		21DD47132F2FCB02000C9FFA /* RetroRacingShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21DD46FE2F2FCB02000C9FFA /* RetroRacingShared.framework */; };
 		21DD47142F2FCB02000C9FFA /* RetroRacingShared.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 21DD46FE2F2FCB02000C9FFA /* RetroRacingShared.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -164,7 +164,6 @@
 		21DD46BC2F2FCAB0000C9FFA /* RetroRacingTvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RetroRacingTvOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		21DD46C62F2FCAB0000C9FFA /* RetroRacingTvOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RetroRacingTvOSUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		21DD46DB2F2FCAD9000C9FFA /* RetroRacingVisionOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RetroRacingVisionOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		21DD46DE2F2FCAD9000C9FFA /* RealityKitContent */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = RealityKitContent; sourceTree = "<group>"; };
 		21DD46EC2F2FCADA000C9FFA /* RetroRacingVisionOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RetroRacingVisionOSTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		21DD46FE2F2FCB02000C9FFA /* RetroRacingShared.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RetroRacingShared.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		21DD47082F2FCB02000C9FFA /* RetroRacingSharedTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RetroRacingSharedTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -184,6 +183,13 @@
 				Assets/RetroRapid.icon,
 			);
 			target = 21DD467E2F2FCA96000C9FFA /* RetroRacingWatchOS */;
+		};
+		21472B0F2F57A8700002E56A /* Exceptions for "RetroRacingVisionOS" folder in "RetroRacingVisionOS" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 21DD46DA2F2FCAD9000C9FFA /* RetroRacingVisionOS */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -235,6 +241,9 @@
 		};
 		21DD46DC2F2FCAD9000C9FFA /* RetroRacingVisionOS */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				21472B0F2F57A8700002E56A /* Exceptions for "RetroRacingVisionOS" folder in "RetroRacingVisionOS" target */,
+			);
 			path = RetroRacingVisionOS;
 			sourceTree = "<group>";
 		};
@@ -332,7 +341,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				21DD46E02F2FCAD9000C9FFA /* RealityKitContent in Frameworks */,
+				21472B102F57A8700002E56A /* RetroRacingShared.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -417,7 +426,6 @@
 		21DD46DD2F2FCAD9000C9FFA /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				21DD46DE2F2FCAD9000C9FFA /* RealityKitContent */,
 			);
 			path = Packages;
 			sourceTree = "<group>";
@@ -657,13 +665,13 @@
 			buildRules = (
 			);
 			dependencies = (
+				21472B112F57A8700002E56A /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				21DD46DC2F2FCAD9000C9FFA /* RetroRacingVisionOS */,
 			);
 			name = RetroRacingVisionOS;
 			packageProductDependencies = (
-				21DD46DF2F2FCAD9000C9FFA /* RealityKitContent */,
 			);
 			productName = RetroRacingVisionOS;
 			productReference = 21DD46DB2F2FCAD9000C9FFA /* RetroRacingVisionOS.app */;
@@ -1020,6 +1028,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		21472B112F57A8700002E56A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 21DD46FD2F2FCB02000C9FFA /* RetroRacingShared */;
+			targetProxy = 21DD47112F2FCB02000C9FFA /* PBXContainerItemProxy */;
+		};
 		21DD46522F2FC957000C9FFA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 21DD46402F2FC956000C9FFA /* RetroRacingUniversal */;
@@ -2163,12 +2176,6 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCSwiftPackageProductDependency section */
-		21DD46DF2F2FCAD9000C9FFA /* RealityKitContent */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = RealityKitContent;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 21DD46392F2FC956000C9FFA /* Project object */;
 }

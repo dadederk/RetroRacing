@@ -2647,6 +2647,29 @@
         }
       }
     },
+    "settings_direct_touch": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Toc directe"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Direct Touch"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Toque directo"
+          }
+        }
+      }
+    },
     "settings_road_visual_style": {
       "extractionState": "manual",
       "localizations": {

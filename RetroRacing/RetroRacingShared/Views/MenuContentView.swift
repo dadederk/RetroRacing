@@ -63,7 +63,7 @@ struct MenuContentView: View {
             Text(GameLocalizedStrings.string("play"))
                 .font(buttonFont)
         }
-        .buttonStyle(.glassProminent)
+        .retroRacingPrimaryButtonStyle()
     }
 
     private var menuLeaderboardButton: some View {
@@ -74,7 +74,7 @@ struct MenuContentView: View {
             Text(GameLocalizedStrings.string("leaderboard"))
                 .font(buttonFont)
         }
-        .buttonStyle(.glass)
+        .retroRacingSecondaryButtonStyle()
         .disabled(!isLeaderboardEnabled)
         .alert(authError ?? "", isPresented: Binding(
             get: { authError != nil },
@@ -91,6 +91,6 @@ struct MenuContentView: View {
             Text(GameLocalizedStrings.string("rateApp"))
                 .font(buttonFont)
         }
-        .buttonStyle(.glass)
+        .retroRacingSecondaryButtonStyle()
     }
 }

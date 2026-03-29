@@ -136,7 +136,7 @@ private extension InGameHelpView {
     }
 }
 
-#if os(macOS)
+#if os(macOS) || os(tvOS)
 private struct InGameHelpNavigationTitleStyle: ViewModifier {
     func body(content: Content) -> some View {
         content

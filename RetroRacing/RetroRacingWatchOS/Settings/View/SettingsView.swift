@@ -209,6 +209,12 @@ struct SettingsView: View {
                         }
                         .buttonStyle(.borderless)
                         .disabled(preferencesStore.shouldEnableSpeedWarningPreview == false)
+
+                        Toggle(isOn: preferencesStore.directTouchSelection) {
+                            Text(GameLocalizedStrings.string("settings_direct_touch"))
+                                .font(fontForLabels)
+                        }
+                        .tint(.accentColor)
                     }
                 } header: {
                     Text(GameLocalizedStrings.string("settings_accessibility"))
@@ -275,10 +281,14 @@ struct SettingsView: View {
         } minimumValueLabel: {
             Text(GameLocalizedStrings.string("0%"))
                 .font(fontForLabels)
+                .accessibilityHidden(true)
         } maximumValueLabel: {
             Text(GameLocalizedStrings.string("100%"))
                 .font(fontForLabels)
+                .accessibilityHidden(true)
         }
+        .accessibilityLabel(Text(GameLocalizedStrings.string("settings_sound_effects_volume")))
+        .accessibilityValue(Text(soundEffectsVolumeAccessibilityValue))
     }
 
     private var compactVolumeControl: some View {
@@ -287,13 +297,24 @@ struct SettingsView: View {
                 Text(GameLocalizedStrings.string("settings_sound_effects_volume"))
                     .font(fontForLabels)
             }
+            .accessibilityLabel(Text(GameLocalizedStrings.string("settings_sound_effects_volume")))
+            .accessibilityValue(Text(soundEffectsVolumeAccessibilityValue))
             HStack {
                 Text(GameLocalizedStrings.string("0%"))
                     .font(fontForLabels)
+                    .accessibilityHidden(true)
                 Spacer()
                 Text(GameLocalizedStrings.string("100%"))
                     .font(fontForLabels)
+                    .accessibilityHidden(true)
             }
+            .accessibilityElement(children: .ignore)
         }
+    }
+
+    private var soundEffectsVolumeAccessibilityValue: String {
+        let clampedValue = min(max(preferencesStore.soundEffectsVolumeSelection.wrappedValue, 0), 1)
+        let percent = Int64((clampedValue * 100).rounded())
+        return GameLocalizedStrings.format("settings_percentage_value", percent)
     }
 }

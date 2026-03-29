@@ -32,6 +32,7 @@ If local signing blocks simulator/macOS verification, run with `CODE_SIGNING_ALL
 - Accessibility announcement utility routing (`AccessibilityNotification.Announcement`, high-priority speed warning)
 - Paused VoiceOver grid accessibility descriptors (row-major order and occupant/coordinate labels)
 - VoiceOver/Voice Control scope in gameplay (score/lives exposed as read-only status, cars/HUD not treated as interactive controls)
+- Direct Touch conditional-default behavior (default-on resolution, persisted override resolution, and settings-store binding updates)
 - Portrait Dynamic Type HUD reflow (adaptive score/lives stack and non-overlapping directional controls)
 - Big Cars conditional-default behavior and rival-car sprite scaling mode
 - Settings migration coverage (`inGameAnnouncementsEnabled` -> speed warning selector, `sfxVolume` -> conditional default)

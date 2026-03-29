@@ -141,6 +141,9 @@ public struct SettingsView: View {
                                 .font(fontForLabels)
                                 .foregroundStyle(.secondary)
                         }
+                        .accessibilityElement(children: .ignore)
+                        .accessibilityLabel(Text(GameLocalizedStrings.string("settings_theme")))
+                        .accessibilityValue(Text(themeManager.currentTheme.name))
                     }
                 } header: {
                     Text(GameLocalizedStrings.string("settings_theme"))
@@ -245,10 +248,14 @@ public struct SettingsView: View {
                     } minimumValueLabel: {
                         Text(GameLocalizedStrings.string("0%"))
                             .font(fontForLabels)
+                            .accessibilityHidden(true)
                     } maximumValueLabel: {
                         Text(GameLocalizedStrings.string("100%"))
                             .font(fontForLabels)
+                            .accessibilityHidden(true)
                     }
+                    .accessibilityLabel(Text(GameLocalizedStrings.string("settings_sound_effects_volume")))
+                    .accessibilityValue(Text(soundEffectsVolumeAccessibilityValue))
                     #endif
                 } header: {
                     Text(GameLocalizedStrings.string("settings_sound"))
@@ -304,6 +311,12 @@ public struct SettingsView: View {
 
                     Toggle(isOn: preferencesStore.bigCarsSelection) {
                         Text(GameLocalizedStrings.string("settings_big_cars"))
+                            .font(fontForLabels)
+                    }
+                    .tint(.accentColor)
+
+                    Toggle(isOn: preferencesStore.directTouchSelection) {
+                        Text(GameLocalizedStrings.string("settings_direct_touch"))
                             .font(fontForLabels)
                     }
                     .tint(.accentColor)
@@ -587,6 +600,13 @@ public struct SettingsView: View {
         let clamped = min(max(value, 0), 1)
         let rounded = (clamped / step).rounded() * step
         return Double(((rounded * 100).rounded()) / 100)
+    }
+
+    private var soundEffectsVolumeAccessibilityValue: String {
+        let percent = Int64((Self.closestVolumeStep(
+            to: preferencesStore.soundEffectsVolumeSelection.wrappedValue
+        ) * 100).rounded())
+        return GameLocalizedStrings.format("settings_percentage_value", percent)
     }
 
     @ViewBuilder

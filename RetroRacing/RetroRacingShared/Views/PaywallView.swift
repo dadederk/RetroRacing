@@ -206,7 +206,7 @@ public struct PaywallView: View {
             Label(GameLocalizedStrings.string("redeem_code"), systemImage: "giftcard")
                 .font(fontPreferenceStore?.font(textStyle: .body) ?? .body)
         }
-        .buttonStyle(.glass)
+        .retroRacingSecondaryButtonStyle()
         .disabled(isPurchasing || isRestoringPurchases)
         .offerCodeRedemption(isPresented: $showingOfferCodeRedemption) { result in
             if case .success = result {
@@ -229,7 +229,7 @@ public struct PaywallView: View {
                     .font(fontPreferenceStore?.font(textStyle: .body) ?? .body)
             }
         }
-        .buttonStyle(.glass)
+        .retroRacingSecondaryButtonStyle()
         .disabled(isPurchasing || isRestoringPurchases || isRedeemingOfferCode)
         .opacity((isPurchasing || isRestoringPurchases || isRedeemingOfferCode) ? 0.6 : 1.0)
         #else
@@ -254,7 +254,7 @@ public struct PaywallView: View {
                     .font(fontPreferenceStore?.font(textStyle: .body) ?? .body)
             }
         }
-        .buttonStyle(.glass)
+        .retroRacingSecondaryButtonStyle()
         .disabled(isPurchaseActionBusy)
         .opacity(isPurchaseActionBusy ? 0.6 : 1.0)
     }

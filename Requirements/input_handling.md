@@ -41,6 +41,7 @@ See [controller_input.md](controller_input.md) for full details. Summary:
 
 - **iOS/iPadOS**: Touch areas + drag gestures (see `TouchGameInputAdapter`).
   - Touch-area taps use `onTapGesture` and horizontal swipes use a `DragGesture` threshold (`20pt`) for lane gestures.
+  - Accessibility settings include a `Direct Touch` toggle backed by conditional-default storage (`on` by default). Gameplay touch regions apply `.accessibilityDirectTouch(..., options: [.silentOnTouch])` only when this setting is enabled.
   - Hardware keyboard arrows (`Left` / `Right`) and space (`Pause/Resume`) route through the shared UIKit keyboard bridge. The bridge re-requests first responder on view/window moves and marks key commands as `wantsPriorityOverSystemBehavior` so iPad keyboard input remains active after focus/layout changes.
   - Voice Control aliases on touch regions are ordered as `Left`, `Move left` and `Right`, `Move right` to support short commands like “Tap left/right”.
   - HUD status labels and SpriteKit grid/cars are non-interactive in Voice Control so command targeting stays limited to gameplay controls.
@@ -57,7 +58,9 @@ See [controller_input.md](controller_input.md) for full details. Summary:
     - Direction is normalized with `isDirectionInvertedFromDevice` so physical swipe left/right always maps to move left/right regardless of natural scrolling.
     - Swipe handling is disabled while VoiceOver is running to avoid conflicting with assistive gesture controls.
 - **visionOS**: Platform UI handles gaze/gesture input and forwards to shared controllers.
-- **watchOS**: VoiceOver Magic Tap maps to the same pause/resume toggle used by the header pause control.
+- **watchOS**:
+  - VoiceOver Magic Tap maps to the same pause/resume toggle used by the header pause control.
+  - Gameplay touch overlay also respects the `Direct Touch` accessibility setting (`on` by default, persisted user override).
 
 ### Haptic Routing for Lane Cues
 
