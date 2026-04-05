@@ -73,9 +73,15 @@ public class GameScene: SKScene {
     private var crashResolutionFallbackTask: Task<Void, Never>?
     private var isWaitingForCrashResolution = false
     private var isOverlayPauseLocked = false
+    private var showsDebugFrameStats = false
+    #if !os(watchOS)
+    private weak var hostingView: SKView?
+    #endif
 
     var spritesForGivenState = [SKSpriteNode]()
     var lineOverlayNodes = [SKNode]()
+    var friendMilestoneOverlayNodes = [SKNode]()
+    var cachedFriendAvatarTextures = [String: SKTexture]()
     var roadDashPhase = 0
     var safetyMarkerRows = [Int]()
 
@@ -89,6 +95,8 @@ public class GameScene: SKScene {
     )
     public private(set) var gameState = GameState()
     public private(set) var difficulty: GameDifficulty = .defaultDifficulty
+    public private(set) var upcomingFriendMilestones = [UpcomingFriendMilestone]()
+    public var upcomingFriendMilestone: UpcomingFriendMilestone? { upcomingFriendMilestones.first }
     var lastPlayerColumn: Int = 1
     private var lastLevelChangeImminent = false
     var lineMode: LineMode {
@@ -308,6 +316,8 @@ public class GameScene: SKScene {
     }
 #else
     public override func didMove(to view: SKView) {
+        hostingView = view
+        applyDebugFrameStatsIfNeeded()
         setUpScene()
     }
 #endif
@@ -493,9 +503,41 @@ public class GameScene: SKScene {
         )
     }
 
+    /// Enables or disables SpriteKit frame diagnostics in the hosting `SKView`.
+    public func setDebugFrameStatsEnabled(_ isEnabled: Bool) {
+        let didChange = showsDebugFrameStats != isEnabled
+        showsDebugFrameStats = isEnabled
+        if didChange {
+            AppLog.info(AppLog.game, "SpriteKit frame diagnostics enabled: \(isEnabled)")
+        }
+        applyDebugFrameStatsIfNeeded()
+    }
+
+    public func setUpcomingFriendMilestone(_ milestone: UpcomingFriendMilestone?) {
+        setUpcomingFriendMilestones(milestone.map { [$0] } ?? [])
+    }
+
+    public func setUpcomingFriendMilestones(_ milestones: [UpcomingFriendMilestone]) {
+        guard upcomingFriendMilestones != milestones else { return }
+        upcomingFriendMilestones = milestones
+        gridStateDidUpdate(
+            gridState,
+            shouldPlayFeedback: false,
+            notifyDelegate: false
+        )
+    }
+
     /// Plays the speed-warning chirp (three ascending lane notes).
     public func playSpeedIncreaseWarningSound() {
         laneCuePlayer?.playSpeedWarningCue()
+    }
+
+    private func applyDebugFrameStatsIfNeeded() {
+        #if !os(watchOS)
+        guard let hostingView else { return }
+        hostingView.showsFPS = showsDebugFrameStats
+        hostingView.showsNodeCount = showsDebugFrameStats
+        #endif
     }
 
     private func playStartThenUnpause() {

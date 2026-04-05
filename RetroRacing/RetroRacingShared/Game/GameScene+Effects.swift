@@ -131,6 +131,10 @@ extension GameScene {
             + ((1 - SpritePerspectiveConfiguration.farRowScale) * easedDepth)
     }
 
+    func spriteScaleFactorForRow(row: Int, usesPlayerScale: Bool) -> CGFloat {
+        spritePerspectiveScaleFactor(row: row, usesPlayerScale: usesPlayerScale)
+    }
+
     /// Applies a pulsing animation to the player car sprite during the start sequence.
     func applyStartPulseToPlayerCar() {
         let prefersReducedMotion: Bool = {

@@ -100,6 +100,7 @@ extension GameViewModel {
     func tearDown() {
         controls.cancelFlashTasks()
         scene?.stopAllSounds()
+        currentUpcomingFriendMilestone = nil
         scene = nil
         delegate = nil
         inputAdapter = nil

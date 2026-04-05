@@ -58,6 +58,7 @@ struct RetroRacingTvOSApp: App {
         )
         gameCenterService = GameCenterService(
             configuration: leaderboardConfiguration,
+            friendSnapshotService: GameCenterFriendSnapshotService(avatarCache: GameCenterAvatarCache()),
             authenticationPresenter: authenticationPresenter,
             authenticateHandlerSetter: leaderboardConfig.authenticateHandlerSetter,
             isDebugBuild: BuildConfiguration.isDebug,
@@ -68,9 +69,10 @@ struct RetroRacingTvOSApp: App {
         challengeProgressService = LocalChallengeProgressService(
             store: UserDefaultsChallengeProgressStore(userDefaults: userDefaults),
             highestScoreStore: highestScoreStore,
-            reporter: NoOpChallengeProgressReporter()
+            reporter: GameCenterChallengeProgressReporter()
         )
         challengeProgressService.performInitialBackfillIfNeeded()
+        challengeProgressService.replayAchievedChallenges()
         bestScoreSyncService = BestScoreSyncService(
             leaderboardService: gameCenterService,
             highestScoreStore: highestScoreStore,
@@ -149,6 +151,7 @@ struct RetroRacingTvOSApp: App {
             .onReceive(NotificationCenter.default.publisher(for: .GKPlayerAuthenticationDidChangeNotificationName)) { _ in
                 Task {
                     await bestScoreSyncService.syncIfPossible()
+                    challengeProgressService.replayAchievedChallenges()
                 }
             }
         }

@@ -41,7 +41,13 @@ If local signing blocks simulator/macOS verification, run with `CODE_SIGNING_ALL
 - Platform filtering (hide haptics-only options on unsupported platforms)
 - Settings/tutorial state behavior (audio tutorial visibility in retro, speed preview disable for announcement+VoiceOver off, configured-state apply labels)
 - Leaderboard fallback relay behavior (watch best-score relay payload parsing, per-speed max guard store, single-shot ingestion flush verification)
-- Challenges infrastructure behavior (one-time max/sum backfill, completed-run updates, and control telemetry unlocks)
+- Friend leaderboard snapshot behavior (unauthenticated path, normalization/filtering/deduping, and remote-best baseline retention)
+- Social milestone gameplay behavior (up to two upcoming marker progression and game-over next-ahead / overtaken-friends summaries)
+- VoiceOver friend-overtake announcement behavior (off-by-default preference, singular vs multiple announcement payloads, and one-shot consumption semantics)
+- Challenges infrastructure behavior (one-time max/sum backfill, completed-run updates, control telemetry unlocks, GAAD week window evaluation, replay sync of achieved IDs, and game-over unlock-modal state wiring)
+- Debug challenge QA behavior (forced challenge picker injects local game-over unlock UI state without changing reported challenge submissions)
+- Game-over/challenge share behavior (content-only snapshot without action chrome, 4:3 output geometry, and light/dark rendering parity)
+- SpriteKit diagnostics wiring (`showsFPS`/`showsNodeCount`) toggle propagation from debug settings to active scenes via built-in SKView diagnostics, including reapplying flags when the same debug state is sent again
 
 ### UI Tests (Future)
 

@@ -59,11 +59,13 @@ protocol LeaderboardService {
     func submitScore(_ score: Int, difficulty: GameDifficulty)
     func isAuthenticated() -> Bool
     func fetchLocalPlayerBestScore(for difficulty: GameDifficulty) async -> Int?
+    func fetchFriendLeaderboardSnapshot(for difficulty: GameDifficulty) async -> FriendLeaderboardSnapshot?
 }
 ```
 
 **`GameCenterService` Implementation**
 - Accepts `LeaderboardConfiguration` via initializer
+- Accepts `GameCenterFriendSnapshotServicing` via initializer (friend pagination + avatar hydration lives in `GameCenterFriendSnapshotService`)
 - Accepts injected build-mode flag (`isDebugBuild`) via initializer
 - Accepts optional debug-submit override (`allowDebugScoreSubmission`) for sandbox diagnostics
 - **No compiler flags** for platform detection
@@ -71,12 +73,13 @@ protocol LeaderboardService {
 - Manages view controller lifecycle and delegation
 - Fetches and submits against the leaderboard mapped to the selected speed level
 - By default skips `submitScore(_:difficulty:)` in debug builds; this can be explicitly overridden at composition root for diagnostics
+- Supports friend snapshot fetch (`friends` scope, all-time) for social milestone UI.
 
 ### watchOS fallback relay (companion iPhone)
 
 - watchOS keeps direct `GameCenterService.submitScore` on game over.
 - When a game-over score becomes a **new local best**, watchOS also relays that best score to iPhone via `WatchConnectivity.transferUserInfo`.
-- iPhone ingests relayed scores, keeps one **pending max per speed**, and submits to the **watchOS leaderboard IDs** via `GameCenterService(configuration: LeaderboardConfigurationWatchOS())`.
+- iPhone ingests relayed scores, keeps one **pending max per speed**, and submits to the **watchOS leaderboard IDs** via `GameCenterService(configuration: LeaderboardConfigurationWatchOS(), friendSnapshotService: GameCenterFriendSnapshotService(avatarCache: GameCenterAvatarCache()), ...)`.
 - Verification is **single-shot per trigger** (no timer loops):
   - trigger: relay received
   - trigger: app lifecycle active/launch
@@ -95,6 +98,19 @@ protocol LeaderboardService {
 - Scope:
   - Leaderboards remain **per platform + speed** (Cruise/Fast/Rapid for each platform)
   - Best score sync is per active platform/speed leaderboard, not cross-platform-global
+
+### Friend social milestones (Universal + tvOS)
+
+- Live gameplay can show up to two upcoming friend-score markers at a time (avatar badges above mapped rival cars).
+- `GameOverView` can show:
+  - next friend ahead
+  - friends overtaken in that run
+- Baseline for game-over comparisons:
+  - remote Game Center best when available
+  - fallback to local best otherwise
+- In-race marker milestone selection uses current run score (not baseline), so friend markers can appear every run.
+- Social UI is hidden if friend data is unavailable (unauthenticated, fetch failure, or empty friend set).
+- watchOS is intentionally out of scope for v1.
 
 ### View Layer (SwiftUI)
 
@@ -199,7 +215,14 @@ struct MockLeaderboardConfiguration: LeaderboardConfiguration {
 
 func testServiceUsesInjectedConfiguration() {
     let mockConfig = MockLeaderboardConfiguration()
-    let service = GameCenterService(configuration: mockConfig)
+    let service = GameCenterService(
+        configuration: mockConfig,
+        friendSnapshotService: GameCenterFriendSnapshotService(avatarCache: GameCenterAvatarCache()),
+        authenticationPresenter: nil,
+        authenticateHandlerSetter: nil,
+        isDebugBuild: false,
+        allowDebugScoreSubmission: false
+    )
     // Test service behavior
 }
 ```
@@ -242,6 +265,7 @@ struct RetroRacingWatchOSApp: App {
         let configuration = LeaderboardConfigurationWatchOS()
         leaderboardService = GameCenterService(
             configuration: configuration,
+            friendSnapshotService: GameCenterFriendSnapshotService(avatarCache: GameCenterAvatarCache()),
             authenticationPresenter: nil,
             authenticateHandlerSetter: nil,
             isDebugBuild: BuildConfiguration.isDebug,
@@ -336,7 +360,14 @@ struct macOSLeaderboardConfiguration: LeaderboardConfiguration {
 ```swift
 // In app entry (e.g. RetroRacingApp or platform App struct):
 let config = macOSLeaderboardConfiguration()
-let service = GameCenterService(configuration: config)
+let service = GameCenterService(
+    configuration: config,
+    friendSnapshotService: GameCenterFriendSnapshotService(avatarCache: GameCenterAvatarCache()),
+    authenticationPresenter: nil,
+    authenticateHandlerSetter: nil,
+    isDebugBuild: false,
+    allowDebugScoreSubmission: false
+)
 MenuView(
     leaderboardService: service,
     gameCenterService: service,

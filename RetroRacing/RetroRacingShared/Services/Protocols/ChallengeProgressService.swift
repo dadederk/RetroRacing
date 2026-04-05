@@ -11,10 +11,19 @@ import Foundation
 public struct CompletedRunChallengeData: Sendable, Equatable {
     public let overtakes: Int
     public let usedControls: Set<ChallengeControlInput>
+    public let completedAt: Date
+    public let activeAssistiveTechnologies: Set<ChallengeAssistiveTechnology>
 
-    public init(overtakes: Int, usedControls: Set<ChallengeControlInput>) {
+    public init(
+        overtakes: Int,
+        usedControls: Set<ChallengeControlInput>,
+        completedAt: Date = Date(),
+        activeAssistiveTechnologies: Set<ChallengeAssistiveTechnology> = []
+    ) {
         self.overtakes = overtakes
         self.usedControls = usedControls
+        self.completedAt = completedAt
+        self.activeAssistiveTechnologies = activeAssistiveTechnologies
     }
 }
 
@@ -36,5 +45,6 @@ public protocol ChallengeProgressService {
     func performInitialBackfillIfNeeded()
     @discardableResult
     func recordCompletedRun(_ run: CompletedRunChallengeData) -> ChallengeProgressUpdate
+    func replayAchievedChallenges()
     func currentProgress() -> ChallengeProgressSnapshot
 }

@@ -50,6 +50,7 @@ struct RetroRacingWatchOSApp: App {
                 setupGameCenterAuthentication {
                     Task {
                         await bestScoreSyncService.syncIfPossible()
+                        challengeProgressService.replayAchievedChallenges()
                     }
                 }
             }
@@ -61,6 +62,7 @@ struct RetroRacingWatchOSApp: App {
                 )
                 Task {
                     await bestScoreSyncService.syncIfPossible()
+                    challengeProgressService.replayAchievedChallenges()
                 }
             }
         }
@@ -82,6 +84,7 @@ struct RetroRacingWatchOSApp: App {
         let configuration = LeaderboardConfigurationWatchOS()
         leaderboardService = GameCenterService(
             configuration: configuration,
+            friendSnapshotService: GameCenterFriendSnapshotService(avatarCache: GameCenterAvatarCache()),
             authenticationPresenter: nil,
             authenticateHandlerSetter: nil,
             isDebugBuild: BuildConfiguration.isDebug,
@@ -97,9 +100,10 @@ struct RetroRacingWatchOSApp: App {
         challengeProgressService = LocalChallengeProgressService(
             store: UserDefaultsChallengeProgressStore(userDefaults: InfrastructureDefaults.userDefaults),
             highestScoreStore: highestScoreStore,
-            reporter: NoOpChallengeProgressReporter()
+            reporter: GameCenterChallengeProgressReporter()
         )
         challengeProgressService.performInitialBackfillIfNeeded()
+        challengeProgressService.replayAchievedChallenges()
         let relaySender = WatchConnectivityBestScoreRelaySender()
         relaySender.activateIfPossible()
         watchBestScoreRelaySender = relaySender

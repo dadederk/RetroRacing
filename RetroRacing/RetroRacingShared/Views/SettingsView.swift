@@ -26,11 +26,17 @@ public struct SettingsView: View {
     public let isGameSessionInProgress: Bool
     /// Optional play limit service for showing remaining rounds.
     public let playLimitService: PlayLimitService?
+    public let challengeProgressService: ChallengeProgressService
 
     @Environment(\.dismiss) private var dismiss
     @Environment(StoreKitService.self) private var storeKit
     @State private var preferencesStore: SettingsPreferencesStore
     @AppStorage(HapticFeedbackPreference.storageKey) private var hapticFeedbackEnabled: Bool = true
+    @AppStorage(FriendOvertakeVoiceOverAnnouncementPreference.storageKey)
+    private var friendOvertakeVoiceOverAnnouncementEnabled: Bool = FriendOvertakeVoiceOverAnnouncementPreference.defaultEnabled
+    @AppStorage(DebugGameplayStorageKeys.forcedChallengeIdentifier)
+    private var debugForcedChallengeIdentifierRawValue: String = DebugGameplayStorageKeys.noForcedChallengeIdentifier
+    @AppStorage(DebugGameplayStorageKeys.showSpriteKitFrameStats) private var debugShowSpriteKitFrameStats: Bool = false
     @State private var isRestoringPurchases = false
     @State private var restoreMessage: String?
     @State private var showingRestoreAlert = false
@@ -50,6 +56,7 @@ public struct SettingsView: View {
         speedWarningFeedbackPreviewPlayer: any SpeedIncreaseWarningFeedbackPlaying,
         controlsDescriptionKey: String,
         style: SettingsViewStyle,
+        challengeProgressService: ChallengeProgressService,
         isGameSessionInProgress: Bool = false,
         playLimitService: PlayLimitService? = nil
     ) {
@@ -61,6 +68,7 @@ public struct SettingsView: View {
         self.speedWarningFeedbackPreviewPlayer = speedWarningFeedbackPreviewPlayer
         self.controlsDescriptionKey = controlsDescriptionKey
         self.style = style
+        self.challengeProgressService = challengeProgressService
         self.isGameSessionInProgress = isGameSessionInProgress
         self.playLimitService = playLimitService
         _preferencesStore = State(initialValue: SettingsPreferencesStore(
@@ -320,6 +328,12 @@ public struct SettingsView: View {
                             .font(fontForLabels)
                     }
                     .tint(.accentColor)
+
+                    Toggle(isOn: $friendOvertakeVoiceOverAnnouncementEnabled) {
+                        Text(GameLocalizedStrings.string("settings_voiceover_friend_overtake_announcements"))
+                            .font(fontForLabels)
+                    }
+                    .tint(.accentColor)
                 } header: {
                     Text(GameLocalizedStrings.string("settings_accessibility"))
                         .font(fontForLabels)
@@ -514,6 +528,40 @@ public struct SettingsView: View {
                         #if os(macOS)
                         inlineSectionFooterRow(text: GameLocalizedStrings.string("debug_simulate_premium_footer"))
                         #endif
+
+                        Picker(selection: $debugForcedChallengeIdentifierRawValue) {
+                            Text(GameLocalizedStrings.string("debug_force_challenge_none"))
+                                .font(fontForLabels)
+                                .tag(DebugGameplayStorageKeys.noForcedChallengeIdentifier)
+                            ForEach(debugChallengePickerOptions, id: \.rawValue) { challengeIdentifier in
+                                Text(challengeIdentifier.localizedTitle)
+                                    .font(fontForLabels)
+                                    .tag(challengeIdentifier.rawValue)
+                            }
+                        } label: {
+                            Text(GameLocalizedStrings.string("debug_force_challenge_picker_title"))
+                                .font(fontForLabels)
+                        }
+
+                        Text(GameLocalizedStrings.string("debug_force_challenge_picker_footer"))
+                            .font(secondaryFont)
+                            .foregroundStyle(.secondary)
+
+                        Toggle(isOn: $debugShowSpriteKitFrameStats) {
+                            Text(GameLocalizedStrings.string("debug_show_spritekit_frame_stats"))
+                                .font(fontForLabels)
+                        }
+                        .tint(.accentColor)
+
+                        Text(GameLocalizedStrings.string("debug_gaad_panel_title"))
+                            .font(fontForLabels)
+
+                        GAADChallengeDebugPanel(
+                            challengeProgressService: challengeProgressService,
+                            qualificationMode: .voiceOverAndSwitchControl,
+                            primaryFont: fontForLabels,
+                            secondaryFont: secondaryFont
+                        )
                     } header: {
                         Text(GameLocalizedStrings.string("debug_section_title"))
                             .font(fontForLabels)
@@ -607,6 +655,12 @@ public struct SettingsView: View {
             to: preferencesStore.soundEffectsVolumeSelection.wrappedValue
         ) * 100).rounded())
         return GameLocalizedStrings.format("settings_percentage_value", percent)
+    }
+
+    private var debugChallengePickerOptions: [ChallengeIdentifier] {
+        ChallengeIdentifier.allCases.sorted { lhs, rhs in
+            lhs.rawValue < rhs.rawValue
+        }
     }
 
     @ViewBuilder
@@ -747,6 +801,11 @@ private struct SettingsFooterTextStyle: ViewModifier {
         speedWarningFeedbackPreviewPlayer: previewSpeedWarningPlayer,
         controlsDescriptionKey: "settings_controls_ios",
         style: .universal,
+        challengeProgressService: LocalChallengeProgressService(
+            store: UserDefaultsChallengeProgressStore(userDefaults: InfrastructureDefaults.userDefaults),
+            highestScoreStore: UserDefaultsHighestScoreStore(userDefaults: InfrastructureDefaults.userDefaults),
+            reporter: NoOpChallengeProgressReporter()
+        ),
         playLimitService: nil
     )
 }

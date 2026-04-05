@@ -125,6 +125,11 @@ extension GameScene {
             lineOverlay.removeFromParent()
         }
         lineOverlayNodes.removeAll()
+
+        for overlay in friendMilestoneOverlayNodes {
+            overlay.removeFromParent()
+        }
+        friendMilestoneOverlayNodes.removeAll()
     }
 
     /// Resizes the scene when the hosting view changes (rotation, split view) without restarting gameplay.
@@ -142,6 +147,7 @@ extension GameScene {
         removeAllChildren()
         spritesForGivenState.removeAll()
         lineOverlayNodes.removeAll()
+        friendMilestoneOverlayNodes.removeAll()
         createGrid()
         gridStateDidUpdate(gridState, shouldPlayFeedback: false)
     }
@@ -151,6 +157,7 @@ extension GameScene {
         styleGridCells()
         renderLineOverlays()
         renderCarSprites(gridState: gridState)
+        renderUpcomingFriendMilestoneMarkers()
     }
 
     private func styleGridCells() {
@@ -484,7 +491,7 @@ extension GameScene {
         return max(1.25, laneWidth * widthFactor)
     }
 
-    private func roadLineColor() -> SKColor {
+    func roadLineColor() -> SKColor {
         guard let theme else {
             return ContrastColorResolver.minimumDarkerColor(
                 against: gridCellFillColor(),
@@ -554,4 +561,5 @@ extension GameScene {
             }
         }
     }
+
 }

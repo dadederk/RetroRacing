@@ -14,23 +14,36 @@ public typealias AuthenticateHandlerSetter = (AuthenticationPresenter) -> Void
 /// Game Center-backed leaderboard service handling authentication wiring and score submission.
 public final class GameCenterService: LeaderboardService {
     private let configuration: LeaderboardConfiguration
+    private let friendSnapshotService: GameCenterFriendSnapshotServicing
     private weak var authenticationPresenter: AuthenticationPresenter?
     private let authenticateHandlerSetter: AuthenticateHandlerSetter?
     private let isDebugBuild: Bool
     private let allowDebugScoreSubmission: Bool
+    private let isAuthenticatedProvider: () -> Bool
+
+    static func normalizedFriendSnapshot(
+        remoteBestScore: Int?,
+        entries: [FriendLeaderboardEntry]
+    ) -> FriendLeaderboardSnapshot? {
+        FriendLeaderboardSnapshot.normalized(remoteBestScore: remoteBestScore, friendEntries: entries)
+    }
 
     public init(
         configuration: LeaderboardConfiguration,
+        friendSnapshotService: GameCenterFriendSnapshotServicing,
         authenticationPresenter: AuthenticationPresenter? = nil,
         authenticateHandlerSetter: AuthenticateHandlerSetter? = nil,
         isDebugBuild: Bool,
-        allowDebugScoreSubmission: Bool
+        allowDebugScoreSubmission: Bool,
+        isAuthenticatedProvider: @escaping () -> Bool = { GKLocalPlayer.local.isAuthenticated }
     ) {
         self.configuration = configuration
+        self.friendSnapshotService = friendSnapshotService
         self.authenticationPresenter = authenticationPresenter
         self.authenticateHandlerSetter = authenticateHandlerSetter
         self.isDebugBuild = isDebugBuild
         self.allowDebugScoreSubmission = allowDebugScoreSubmission
+        self.isAuthenticatedProvider = isAuthenticatedProvider
     }
 
     /// Call with the object that can present the authentication view controller when Game Center requests it.
@@ -87,7 +100,7 @@ public final class GameCenterService: LeaderboardService {
     }
 
     public func isAuthenticated() -> Bool {
-        GKLocalPlayer.local.isAuthenticated
+        isAuthenticatedProvider()
     }
 
     var isScoreSubmissionEnabled: Bool {
@@ -110,6 +123,40 @@ public final class GameCenterService: LeaderboardService {
         }
 
         return await loadLocalPlayerBestScore(from: leaderboard)
+    }
+
+    public func fetchFriendLeaderboardSnapshot(for difficulty: GameDifficulty) async -> FriendLeaderboardSnapshot? {
+        let leaderboardID = configuration.leaderboardID(for: difficulty)
+
+        guard isAuthenticated() else {
+            AppLog.info(
+                AppLog.game + AppLog.leaderboard,
+                "🏆 Skipped friend leaderboard snapshot – player not authenticated (leaderboardID: \(leaderboardID), speed: \(difficulty.rawValue))"
+            )
+            return nil
+        }
+
+        guard let leaderboard = await loadLeaderboard(id: leaderboardID) else {
+            return nil
+        }
+
+        let remoteBestScore = await loadLocalPlayerBestScore(from: leaderboard)
+        guard let snapshot = await friendSnapshotService.fetchFriendSnapshot(
+            from: leaderboard,
+            remoteBestScore: remoteBestScore
+        ) else {
+            AppLog.info(
+                AppLog.game + AppLog.leaderboard,
+                "🏆 Friend leaderboard snapshot unavailable – no valid friend entries (leaderboardID: \(leaderboardID), speed: \(difficulty.rawValue))"
+            )
+            return nil
+        }
+
+        AppLog.info(
+            AppLog.game + AppLog.leaderboard,
+            "🏆 Loaded friend snapshot with \(snapshot.friendEntries.count) entries (remote best: \(snapshot.remoteBestScore.map(String.init) ?? "nil"), speed: \(difficulty.rawValue))"
+        )
+        return snapshot
     }
 
     private func loadLeaderboard(id: String) async -> GKLeaderboard? {
@@ -198,5 +245,52 @@ public final class GameCenterService: LeaderboardService {
             AppLog.game + AppLog.leaderboard,
             "🏆 Could not verify remote best after submit on \(leaderboardID) after 3 attempts"
         )
+    }
+}
+
+/// Game Center-backed challenge reporter used once ASC achievements are configured.
+public struct GameCenterChallengeProgressReporter: ChallengeProgressReporter {
+    private let isAuthenticatedProvider: () -> Bool
+
+    public init(
+        isAuthenticatedProvider: @escaping () -> Bool = { GKLocalPlayer.local.isAuthenticated }
+    ) {
+        self.isAuthenticatedProvider = isAuthenticatedProvider
+    }
+
+    public func reportAchievedChallenges(_ challengeIDs: Set<ChallengeIdentifier>) {
+        guard challengeIDs.isEmpty == false else { return }
+
+        guard isAuthenticatedProvider() else {
+            AppLog.info(
+                AppLog.game + AppLog.challenge + AppLog.leaderboard,
+                "🏅 Skipped challenge report – player not authenticated"
+            )
+            return
+        }
+
+        let achievements = challengeIDs.map { challengeID in
+            let achievement = GKAchievement(identifier: challengeID.rawValue)
+            achievement.percentComplete = 100
+            achievement.showsCompletionBanner = true
+            return achievement
+        }
+
+        GKAchievement.report(achievements) { error in
+            if let error {
+                let nsError = error as NSError
+                AppLog.error(
+                    AppLog.game + AppLog.challenge + AppLog.leaderboard,
+                    "🏅 Failed reporting challenges: \(error.localizedDescription) (domain: \(nsError.domain), code: \(nsError.code), userInfo: \(nsError.userInfo))"
+                )
+                return
+            }
+
+            let ids = challengeIDs.map(\.rawValue).sorted().joined(separator: ", ")
+            AppLog.info(
+                AppLog.game + AppLog.challenge + AppLog.leaderboard,
+                "🏅 Reported achieved challenges to Game Center: \(ids)"
+            )
+        }
     }
 }

@@ -26,3 +26,31 @@ public enum VoiceOverStatus {
         #endif
     }
 }
+
+/// Shared Switch Control status helper for challenge telemetry.
+/// watchOS currently does not expose an equivalent public runtime status API.
+public enum SwitchControlStatus {
+    public static var isSwitchControlRunning: Bool {
+        #if os(watchOS)
+        false
+        #elseif os(macOS)
+        NSWorkspace.shared.isSwitchControlEnabled
+        #else
+        UIAccessibility.isSwitchControlRunning
+        #endif
+    }
+}
+
+/// Shared assistive-technology status used by GAAD challenge telemetry.
+public enum AssistiveTechnologyStatus {
+    public static var activeTechnologies: Set<ChallengeAssistiveTechnology> {
+        var technologies = Set<ChallengeAssistiveTechnology>()
+        if VoiceOverStatus.isVoiceOverRunning {
+            technologies.insert(.voiceOver)
+        }
+        if SwitchControlStatus.isSwitchControlRunning {
+            technologies.insert(.switchControl)
+        }
+        return technologies
+    }
+}

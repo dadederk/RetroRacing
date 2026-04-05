@@ -93,6 +93,9 @@ struct RetroRacingApp: App {
         )
         gameCenterService = GameCenterService(
             configuration: leaderboardConfiguration,
+            friendSnapshotService: GameCenterFriendSnapshotService(
+                avatarCache: GameCenterAvatarCache()
+            ),
             authenticationPresenter: authenticationPresenter,
             authenticateHandlerSetter: leaderboardPlatformConfig.authenticateHandlerSetter,
             isDebugBuild: BuildConfiguration.isDebug,
@@ -123,9 +126,10 @@ struct RetroRacingApp: App {
         challengeProgressService = LocalChallengeProgressService(
             store: UserDefaultsChallengeProgressStore(userDefaults: userDefaults),
             highestScoreStore: highestScoreStore,
-            reporter: NoOpChallengeProgressReporter()
+            reporter: GameCenterChallengeProgressReporter()
         )
         challengeProgressService.performInitialBackfillIfNeeded()
+        challengeProgressService.replayAchievedChallenges()
         bestScoreSyncService = BestScoreSyncService(
             leaderboardService: gameCenterService,
             highestScoreStore: highestScoreStore,
@@ -136,6 +140,9 @@ struct RetroRacingApp: App {
         #if os(iOS)
         let watchRelayLeaderboardService = GameCenterService(
             configuration: LeaderboardConfigurationWatchOS(),
+            friendSnapshotService: GameCenterFriendSnapshotService(
+                avatarCache: GameCenterAvatarCache()
+            ),
             authenticationPresenter: nil,
             authenticateHandlerSetter: nil,
             isDebugBuild: BuildConfiguration.isDebug,
@@ -197,6 +204,7 @@ struct RetroRacingApp: App {
                         Task {
                             await bestScoreSyncService.syncIfPossible()
                             await watchRelayIngestionService?.flushPendingIfPossible(trigger: .gameCenterAuthChanged)
+                            challengeProgressService.replayAchievedChallenges()
                         }
                     }
                     .onChange(of: scenePhase) { _, newValue in
@@ -351,6 +359,7 @@ struct RetroRacingApp: App {
             speedWarningFeedbackPreviewPlayer: previewDependencies.speedWarningFeedbackPreviewPlayer,
             controlsDescriptionKey: controlsDescriptionKey,
             style: .universal,
+            challengeProgressService: challengeProgressService,
             isGameSessionInProgress: shouldStartGame && !isMenuPresented,
             playLimitService: playLimitService
         )

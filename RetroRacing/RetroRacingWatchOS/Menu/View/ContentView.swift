@@ -63,7 +63,8 @@ struct ContentView: View {
                     hapticController: settingsHapticController,
                     audioCueTutorialPreviewPlayer: previewDependencies.audioCueTutorialPreviewPlayer,
                     speedWarningFeedbackPreviewPlayer: previewDependencies.speedWarningFeedbackPreviewPlayer,
-                    isGameCenterAuthenticated: leaderboardService.isAuthenticated()
+                    isGameCenterAuthenticated: leaderboardService.isAuthenticated(),
+                    challengeProgressService: challengeProgressService
                 )
             }
         }

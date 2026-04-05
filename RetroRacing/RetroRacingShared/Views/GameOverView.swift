@@ -14,13 +14,32 @@ public struct GameOverView: View {
     public let difficulty: GameDifficulty
     public let isNewRecord: Bool
     public let previousBestScore: Int?
+    public let nextFriendAhead: GameOverFriendAheadSummary?
+    public let overtakenFriends: [GameOverOvertakenFriendSummary]
+    public let newlyAchievedChallengeIDs: [ChallengeIdentifier]
     public let onRestart: () -> Void
     public let onFinish: () -> Void
     public let onPresented: (() -> Void)?
 
-    @Environment(\.fontPreferenceStore) private var fontPreferenceStore
+    @Environment(\.fontPreferenceStore) var fontPreferenceStore
+    @Environment(\.colorScheme) var colorScheme
+    @State var isChallengeModalPresented = false
+    #if !os(watchOS)
+    @State var gameOverShareImageURL: URL?
+    #endif
 
-    private static let sharedBundle = Bundle(for: GameScene.self)
+    static let sharedBundle = Bundle(for: GameScene.self)
+    #if !os(watchOS)
+    static let shareImageFileName = "retroracing-game-over-share.png"
+
+    static var shareToolbarPlacement: ToolbarItemPlacement {
+        #if os(macOS)
+        .primaryAction
+        #else
+        .topBarTrailing
+        #endif
+    }
+    #endif
 
     public init(
         score: Int,
@@ -28,6 +47,9 @@ public struct GameOverView: View {
         difficulty: GameDifficulty,
         isNewRecord: Bool,
         previousBestScore: Int?,
+        nextFriendAhead: GameOverFriendAheadSummary? = nil,
+        overtakenFriends: [GameOverOvertakenFriendSummary] = [],
+        newlyAchievedChallengeIDs: [ChallengeIdentifier] = [],
         onRestart: @escaping () -> Void,
         onFinish: @escaping () -> Void,
         onPresented: (() -> Void)? = nil
@@ -37,6 +59,9 @@ public struct GameOverView: View {
         self.difficulty = difficulty
         self.isNewRecord = isNewRecord
         self.previousBestScore = previousBestScore
+        self.nextFriendAhead = nextFriendAhead
+        self.overtakenFriends = overtakenFriends
+        self.newlyAchievedChallengeIDs = newlyAchievedChallengeIDs
         self.onRestart = onRestart
         self.onFinish = onFinish
         self.onPresented = onPresented
@@ -45,15 +70,7 @@ public struct GameOverView: View {
     public var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(spacing: 18) {
-                    heroImage
-                    subtitleText
-                    scoreRows
-                    speedRow
-                    actionButtons
-                }
-                .padding(20)
-                .frame(maxWidth: .infinity, alignment: .top)
+                gameOverMainContent
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .background(.background)
@@ -61,82 +78,33 @@ public struct GameOverView: View {
             #if os(iOS) || os(visionOS)
             .navigationBarTitleDisplayMode(.inline)
             #endif
+            #if !os(watchOS)
+            .toolbar {
+                ToolbarItem(placement: Self.shareToolbarPlacement) {
+                    shareToolbarItem
+                }
+            }
+            #endif
         }
         .interactiveDismissDisabled(true)
+        .sheet(isPresented: $isChallengeModalPresented) {
+            ChallengeUnlockView(
+                challengeIDs: newlyAchievedChallengeIDs,
+                onDone: { isChallengeModalPresented = false }
+            )
+        }
         .onAppear {
             onPresented?()
+            isChallengeModalPresented = newlyAchievedChallengeIDs.isEmpty == false
+            #if !os(watchOS)
+            refreshShareImage()
+            #endif
         }
-    }
-
-    private var heroImage: some View {
-        Image(isNewRecord ? "NewRecord" : "Finished", bundle: Self.sharedBundle)
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .frame(maxWidth: 220)
-            .accessibilityHidden(true)
-    }
-
-    private var subtitleText: some View {
-        Text(GameLocalizedStrings.string(isNewRecord ? "game_over_new_record_subtitle" : "game_over_encouragement_subtitle"))
-            .font(bodyFont)
-            .multilineTextAlignment(.center)
-            .foregroundStyle(.secondary)
-    }
-
-    @ViewBuilder
-    private var scoreRows: some View {
-        VStack(spacing: 8) {
-            if isNewRecord {
-                Text(
-                    GameLocalizedStrings.format(
-                        "game_over_previous_best %lld",
-                        Int64(previousBestScore ?? 0)
-                    )
-                )
-                Text(GameLocalizedStrings.format("game_over_new_record_value %lld", Int64(bestScore)))
-            } else {
-                Text(GameLocalizedStrings.format("score %lld", Int64(score)))
-                Text(GameLocalizedStrings.format("game_over_best %lld", Int64(bestScore)))
-            }
+        #if !os(watchOS)
+        .onChange(of: colorScheme) { _, _ in
+            refreshShareImage()
         }
-        .font(scoreFont.monospacedDigit())
-        .multilineTextAlignment(.center)
-    }
-
-    private var speedRow: some View {
-        Text(GameLocalizedStrings.format("game_over_speed %@", GameLocalizedStrings.string(difficulty.localizedNameKey)))
-            .font(bodyFont)
-            .multilineTextAlignment(.center)
-            .foregroundStyle(.secondary)
-    }
-
-    private var actionButtons: some View {
-        VStack(spacing: 10) {
-            Button(action: onRestart) {
-                Text(GameLocalizedStrings.string("restart"))
-                    .font(buttonFont)
-            }
-            .retroRacingPrimaryButtonStyle()
-
-            Button(action: onFinish) {
-                Text(GameLocalizedStrings.string("finish"))
-                    .font(buttonFont)
-            }
-            .retroRacingSecondaryButtonStyle()
-        }
-        .padding(.top, 4)
-    }
-
-    private var bodyFont: Font {
-        fontPreferenceStore?.font(textStyle: .body) ?? .body
-    }
-
-    private var scoreFont: Font {
-        fontPreferenceStore?.font(textStyle: .headline) ?? .headline
-    }
-
-    private var buttonFont: Font {
-        fontPreferenceStore?.font(textStyle: .headline) ?? .headline
+        #endif
     }
 }
 
@@ -147,6 +115,20 @@ public struct GameOverView: View {
         difficulty: .rapid,
         isNewRecord: true,
         previousBestScore: 182,
+        nextFriendAhead: GameOverFriendAheadSummary(
+            playerID: "friend-2",
+            displayName: "Rita",
+            score: 240,
+            avatarPNGData: nil
+        ),
+        overtakenFriends: [
+            GameOverOvertakenFriendSummary(
+                playerID: "friend-1",
+                displayName: "Alex",
+                score: 200,
+                avatarPNGData: nil
+            )
+        ],
         onRestart: {},
         onFinish: {}
     )

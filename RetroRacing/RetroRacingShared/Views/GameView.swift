@@ -62,6 +62,10 @@ public struct GameView: View {
     private var speedWarningFeedbackModeData: Data = Data()
     @AppStorage(VoiceOverTutorialPreference.hasSeenInGameVoiceOverTutorialKey)
     private var hasSeenInGameVoiceOverTutorial: Bool = VoiceOverTutorialPreference.defaultHasSeenInGameVoiceOverTutorial
+    @AppStorage(DebugGameplayStorageKeys.forcedChallengeIdentifier)
+    private var debugForcedChallengeIdentifierRawValue: String = DebugGameplayStorageKeys.noForcedChallengeIdentifier
+    @AppStorage(DebugGameplayStorageKeys.showSpriteKitFrameStats)
+    private var debugShowSpriteKitFrameStats: Bool = false
     @State private var model: GameViewModel
     @ScaledMetric(relativeTo: .largeTitle) private var directionButtonHeight: CGFloat = 120
     @Environment(\.dismiss) private var dismiss
@@ -170,19 +174,7 @@ public struct GameView: View {
                         model.updateSceneSizeIfNeeded(side: side)
                     },
                     gameArea: { _ in
-                        if let scene = model.scene {
-                            ZStack {
-                                SpriteView(scene: scene)
-                                    .allowsHitTesting(false)
-                                    .accessibilityHidden(true)
-                                    .accessibilityRespondsToUserInteraction(false)
-                                if isPausedGridExplorationMode {
-                                    PausedGridAccessibilityOverlay(gridState: scene.gridState)
-                                }
-                            }
-                        } else {
-                            Color(red: 202/255, green: 220/255, blue: 159/255)
-                        }
+                        gameAreaContent
                     }
                 )
                 GameInputOverlay(
@@ -221,6 +213,8 @@ public struct GameView: View {
             model.updateLaneMoveCueStyle(selectedLaneMoveCueStyle)
             model.updateBigRivalCarsEnabled(selectedBigRivalCarsEnabled)
             model.updateRoadVisualStyle(selectedRoadVisualStyle)
+            model.setDebugForcedChallengeIdentifier(selectedDebugForcedChallengeIdentifier)
+            model.updateDebugSpriteKitFrameStatsVisibility(shouldShowDebugSpriteKitFrameStats)
             model.recordVoiceOverControlIfNeeded()
             if let overlayBinding = isMenuOverlayPresented {
                 AppLog.info(AppLog.game, "GameView onAppear - overlay presented: \(overlayBinding.wrappedValue)")
@@ -308,6 +302,9 @@ public struct GameView: View {
                 difficulty: model.hud.gameOverDifficulty,
                 isNewRecord: model.hud.isNewHighScore,
                 previousBestScore: model.hud.gameOverPreviousBestScore,
+                nextFriendAhead: model.hud.gameOverNextFriendAhead,
+                overtakenFriends: model.hud.gameOverOvertakenFriends,
+                newlyAchievedChallengeIDs: model.hud.gameOverNewlyAchievedChallengeIDs,
                 onRestart: handleRestartFromGameOver,
                 onFinish: handleFinishFromGameOver,
                 onPresented: model.handleGameOverModalPresentedIfNeeded
@@ -344,6 +341,12 @@ public struct GameView: View {
             if model.hud.speedIncreaseImminent {
                 announceSpeedIncreaseIfNeeded(oldValue: false, newValue: true)
             }
+        }
+        .onChange(of: debugForcedChallengeIdentifierRawValue) { _, _ in
+            model.setDebugForcedChallengeIdentifier(selectedDebugForcedChallengeIdentifier)
+        }
+        .onChange(of: debugShowSpriteKitFrameStats) { _, _ in
+            model.updateDebugSpriteKitFrameStatsVisibility(shouldShowDebugSpriteKitFrameStats)
         }
         .onChange(of: model.pause.scenePaused) { _, _ in
             attemptAutoPresentVoiceOverHelpIfNeeded()
@@ -389,6 +392,28 @@ public struct GameView: View {
         )
     }
 
+    @ViewBuilder
+    private var gameAreaContent: some View {
+        if let scene = model.scene {
+            ZStack {
+                spriteSceneView(for: scene)
+                    .allowsHitTesting(false)
+                    .accessibilityHidden(true)
+                    .accessibilityRespondsToUserInteraction(false)
+                if isPausedGridExplorationMode {
+                    PausedGridAccessibilityOverlay(gridState: scene.gridState)
+                }
+            }
+        } else {
+            Color(red: 202/255, green: 220/255, blue: 159/255)
+        }
+    }
+
+    @ViewBuilder
+    private func spriteSceneView(for scene: GameScene) -> some View {
+        SpriteView(scene: scene)
+    }
+
     private var selectedDifficulty: GameDifficulty {
         GameDifficulty.currentSelection(from: InfrastructureDefaults.userDefaults)
     }
@@ -414,6 +439,15 @@ public struct GameView: View {
     private var selectedDirectTouchEnabled: Bool {
         _ = directTouchData
         return DirectTouchPreference.currentSelection(from: InfrastructureDefaults.userDefaults)
+    }
+
+    private var selectedDebugForcedChallengeIdentifier: ChallengeIdentifier? {
+        guard BuildConfiguration.shouldShowDebugFeatures else { return nil }
+        return ChallengeIdentifier.resolvedFromStoredRawValue(debugForcedChallengeIdentifierRawValue)
+    }
+
+    private var shouldShowDebugSpriteKitFrameStats: Bool {
+        BuildConfiguration.shouldShowDebugFeatures && debugShowSpriteKitFrameStats
     }
 
     private var hasScene: Bool {

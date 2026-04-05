@@ -291,6 +291,7 @@ final class GameViewModelTests: XCTestCase {
         // Given
         viewModel.hud.showGameOver = true
         viewModel.hud.shouldRequestRatingOnGameOverModal = true
+        viewModel.hud.gameOverNewlyAchievedChallengeIDs = [.controlTap]
 
         // When
         viewModel.dismissGameOverModal()
@@ -298,6 +299,7 @@ final class GameViewModelTests: XCTestCase {
         // Then
         XCTAssertFalse(viewModel.hud.showGameOver)
         XCTAssertFalse(viewModel.hud.shouldRequestRatingOnGameOverModal)
+        XCTAssertTrue(viewModel.hud.gameOverNewlyAchievedChallengeIDs.isEmpty)
     }
 
     func testGivenRunTelemetryWhenRestartGameThenTapTelemetryIsCleared() {
@@ -364,6 +366,245 @@ final class GameViewModelTests: XCTestCase {
         // Then
         XCTAssertEqual(challengeProgressService.recordedRuns.count, 1)
         XCTAssertTrue(challengeProgressService.recordedRuns.first?.usedControls.contains(.gameController) ?? false)
+    }
+
+    func testGivenGameOverWhenHandlingCollisionAfterSwitchControlTelemetryThenChallengeProgressIncludesAssistiveTelemetry() {
+        // Given
+        let scene = makeScene()
+        scene.handleCrash()
+        scene.handleCrash()
+        scene.handleCrash()
+        viewModel.scene = scene
+        viewModel.runInputTelemetry.recordAssistiveTechnology(.switchControl)
+        XCTAssertEqual(scene.gameState.lives, 0)
+
+        // When
+        viewModel.handleCollision()
+
+        // Then
+        XCTAssertEqual(challengeProgressService.recordedRuns.count, 1)
+        XCTAssertTrue(challengeProgressService.recordedRuns.first?.activeAssistiveTechnologies.contains(.switchControl) ?? false)
+    }
+
+    func testGivenGameOverWithNewAchievementsWhenHandlingCollisionThenGameOverStateStoresNewChallengeIDs() {
+        // Given
+        let scene = makeScene()
+        scene.handleCrash()
+        scene.handleCrash()
+        scene.handleCrash()
+        viewModel.scene = scene
+        challengeProgressService.newlyAchievedChallengeIDsToReturn = [.eventGAADAssistive, .controlTap]
+        XCTAssertEqual(scene.gameState.lives, 0)
+
+        // When
+        viewModel.handleCollision()
+
+        // Then
+        XCTAssertEqual(
+            viewModel.hud.gameOverNewlyAchievedChallengeIDs,
+            [.controlTap, .eventGAADAssistive]
+        )
+    }
+
+    func testGivenDebugForcedChallengeWhenHandlingCollisionThenForcedChallengeAppearsInGameOverList() {
+        // Given
+        let scene = makeScene()
+        scene.handleCrash()
+        scene.handleCrash()
+        scene.handleCrash()
+        viewModel.scene = scene
+        viewModel.setDebugForcedChallengeIdentifier(.controlGameController)
+        XCTAssertEqual(scene.gameState.lives, 0)
+
+        // When
+        viewModel.handleCollision()
+
+        // Then
+        XCTAssertEqual(viewModel.hud.gameOverNewlyAchievedChallengeIDs, [.controlGameController])
+    }
+
+    func testGivenDebugForcedChallengeAlreadyInNewAchievementsWhenHandlingCollisionThenChallengeIsNotDuplicated() {
+        // Given
+        let scene = makeScene()
+        scene.handleCrash()
+        scene.handleCrash()
+        scene.handleCrash()
+        viewModel.scene = scene
+        viewModel.setDebugForcedChallengeIdentifier(.controlGameController)
+        challengeProgressService.newlyAchievedChallengeIDsToReturn = [.controlGameController]
+        XCTAssertEqual(scene.gameState.lives, 0)
+
+        // When
+        viewModel.handleCollision()
+
+        // Then
+        XCTAssertEqual(viewModel.hud.gameOverNewlyAchievedChallengeIDs, [.controlGameController])
+    }
+
+    func testGivenRemoteBestInFriendSnapshotWhenRefreshingMilestonesThenBaselineUsesRemoteBest() async {
+        // Given
+        leaderboardService.friendSnapshotsByDifficulty[.rapid] = FriendLeaderboardSnapshot(
+            remoteBestScore: 120,
+            friendEntries: [
+                FriendLeaderboardEntry(playerID: "p1", displayName: "Alex", score: 130)
+            ]
+        )
+        _ = highestScoreStore.updateIfHigher(80, for: .rapid)
+
+        // When
+        await viewModel.refreshFriendMilestonesForCurrentRun()
+
+        // Then
+        XCTAssertEqual(viewModel.runBaselineBestScore, 120)
+    }
+
+    func testGivenMissingRemoteBestWhenRefreshingMilestonesThenBaselineFallsBackToLocalBest() async {
+        // Given
+        leaderboardService.friendSnapshotsByDifficulty[.rapid] = FriendLeaderboardSnapshot(
+            remoteBestScore: nil,
+            friendEntries: [
+                FriendLeaderboardEntry(playerID: "p1", displayName: "Alex", score: 130)
+            ]
+        )
+        _ = highestScoreStore.updateIfHigher(90, for: .rapid)
+
+        // When
+        await viewModel.refreshFriendMilestonesForCurrentRun()
+
+        // Then
+        XCTAssertEqual(viewModel.runBaselineBestScore, 90)
+    }
+
+    func testGivenOlderDifficultyRefreshCompletesAfterNewerRefreshWhenRefreshingMilestonesThenStaleResultIsIgnored() async {
+        // Given
+        leaderboardService.friendSnapshotsByDifficulty[.rapid] = FriendLeaderboardSnapshot(
+            remoteBestScore: 120,
+            friendEntries: [
+                FriendLeaderboardEntry(playerID: "p1", displayName: "Alex", score: 130)
+            ]
+        )
+        leaderboardService.friendSnapshotsByDifficulty[.cruise] = FriendLeaderboardSnapshot(
+            remoteBestScore: 260,
+            friendEntries: [
+                FriendLeaderboardEntry(playerID: "p2", displayName: "Rita", score: 280)
+            ]
+        )
+        leaderboardService.friendSnapshotDelayByDifficultyNanoseconds[.rapid] = 250_000_000
+        viewModel.selectedDifficulty = .rapid
+
+        // When
+        let olderRefresh = Task {
+            await viewModel.refreshFriendMilestonesForCurrentRun()
+        }
+        viewModel.selectedDifficulty = .cruise
+        await viewModel.refreshFriendMilestonesForCurrentRun()
+        _ = await olderRefresh.result
+
+        // Then
+        XCTAssertEqual(viewModel.runBaselineBestScore, 260)
+        XCTAssertEqual(viewModel.friendSnapshot?.remoteBestScore, 260)
+    }
+
+    func testGivenFriendMilestonesWhenScoreAdvancesThenUpcomingMilestoneProgresses() async {
+        // Given
+        leaderboardService.friendSnapshotsByDifficulty[.rapid] = FriendLeaderboardSnapshot(
+            remoteBestScore: 100,
+            friendEntries: [
+                FriendLeaderboardEntry(playerID: "p1", displayName: "Alex", score: 110),
+                FriendLeaderboardEntry(playerID: "p2", displayName: "Rita", score: 130)
+            ]
+        )
+        await viewModel.refreshFriendMilestonesForCurrentRun()
+
+        // When
+        viewModel.updateFriendProgress(forScore: 115)
+
+        // Then
+        XCTAssertEqual(viewModel.currentUpcomingFriendMilestone?.targetScore, 130)
+    }
+
+    func testGivenNewlyOvertakenFriendWhenUpdatingProgressThenPendingAnnouncementUsesFriendName() {
+        // Given
+        viewModel.friendSnapshot = FriendLeaderboardSnapshot(
+            remoteBestScore: 90,
+            friendEntries: [
+                FriendLeaderboardEntry(playerID: "p1", displayName: "Alex", score: 100)
+            ]
+        )
+        viewModel.runBaselineBestScore = 90
+        viewModel.overtakenFriendPlayerIDs = []
+
+        // When
+        viewModel.updateFriendProgress(forScore: 100)
+        let announcement = viewModel.consumePendingFriendOvertakeAnnouncement()
+
+        // Then
+        XCTAssertEqual(
+            announcement,
+            GameLocalizedStrings.format("friend_overtake_announcement %@", "Alex")
+        )
+        XCTAssertNil(viewModel.consumePendingFriendOvertakeAnnouncement())
+    }
+
+    func testGivenMultipleNewlyOvertakenFriendsWhenUpdatingProgressThenPendingAnnouncementUsesCount() {
+        // Given
+        viewModel.friendSnapshot = FriendLeaderboardSnapshot(
+            remoteBestScore: 100,
+            friendEntries: [
+                FriendLeaderboardEntry(playerID: "p1", displayName: "Alex", score: 101),
+                FriendLeaderboardEntry(playerID: "p2", displayName: "Rita", score: 102)
+            ]
+        )
+        viewModel.runBaselineBestScore = 100
+        viewModel.overtakenFriendPlayerIDs = []
+
+        // When
+        viewModel.updateFriendProgress(forScore: 102)
+        let announcement = viewModel.consumePendingFriendOvertakeAnnouncement()
+
+        // Then
+        XCTAssertEqual(
+            announcement,
+            GameLocalizedStrings.format("friend_overtake_announcement_multiple %lld", Int64(2))
+        )
+    }
+
+    func testGivenBaselineHigherThanFriendScoreWhenRefreshingMilestonesThenInRunUpcomingFriendStillAppears() async {
+        // Given
+        leaderboardService.friendSnapshotsByDifficulty[.rapid] = FriendLeaderboardSnapshot(
+            remoteBestScore: 200,
+            friendEntries: [
+                FriendLeaderboardEntry(playerID: "p1", displayName: "Alex", score: 136),
+                FriendLeaderboardEntry(playerID: "p2", displayName: "Rita", score: 220)
+            ]
+        )
+
+        // When
+        await viewModel.refreshFriendMilestonesForCurrentRun()
+        viewModel.updateFriendProgress(forScore: 130)
+
+        // Then
+        XCTAssertEqual(viewModel.currentUpcomingFriendMilestone?.targetScore, 136)
+    }
+
+    func testGivenFriendMilestonesWhenApplyingGameOverSummariesThenNextAheadAndOvertakenAreComputed() async {
+        // Given
+        leaderboardService.friendSnapshotsByDifficulty[.rapid] = FriendLeaderboardSnapshot(
+            remoteBestScore: 100,
+            friendEntries: [
+                FriendLeaderboardEntry(playerID: "p1", displayName: "Alex", score: 110),
+                FriendLeaderboardEntry(playerID: "p2", displayName: "Rita", score: 120),
+                FriendLeaderboardEntry(playerID: "p3", displayName: "Marta", score: 150)
+            ]
+        )
+        await viewModel.refreshFriendMilestonesForCurrentRun()
+
+        // When
+        viewModel.applyFriendGameOverSummaries(finalScore: 125)
+
+        // Then
+        XCTAssertEqual(viewModel.hud.gameOverNextFriendAhead?.playerID, "p3")
+        XCTAssertEqual(viewModel.hud.gameOverOvertakenFriends.map(\.playerID), ["p1", "p2"])
     }
 
     private func makeScene() -> GameScene {
@@ -457,6 +698,7 @@ private final class MockChallengeProgressService: ChallengeProgressService {
     private(set) var backfillCallCount = 0
     private(set) var recordedRuns: [CompletedRunChallengeData] = []
     var snapshot = ChallengeProgressSnapshot.empty
+    var newlyAchievedChallengeIDsToReturn = Set<ChallengeIdentifier>()
 
     func performInitialBackfillIfNeeded() {
         backfillCallCount += 1
@@ -468,8 +710,13 @@ private final class MockChallengeProgressService: ChallengeProgressService {
         snapshot.bestRunOvertakes = max(snapshot.bestRunOvertakes, run.overtakes)
         snapshot.cumulativeOvertakes += max(0, run.overtakes)
         snapshot.lifetimeUsedControls.formUnion(run.usedControls)
-        return ChallengeProgressUpdate(snapshot: snapshot, newlyAchievedChallengeIDs: [])
+        return ChallengeProgressUpdate(
+            snapshot: snapshot,
+            newlyAchievedChallengeIDs: newlyAchievedChallengeIDsToReturn
+        )
     }
+
+    func replayAchievedChallenges() {}
 
     func currentProgress() -> ChallengeProgressSnapshot {
         snapshot

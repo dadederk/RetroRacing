@@ -55,6 +55,7 @@ extension GameViewModel {
         delegate = newDelegate
         newScene.gameDelegate = newDelegate
         inputAdapter = inputAdapterFactory.makeAdapter(controller: newScene, hapticController: hapticController)
+        newScene.setDebugFrameStatsEnabled(debugShowsSpriteKitFrameStats)
         pause.scenePaused = newScene.gameState.isPaused
         let (currentScore, currentLives) = Self.scoreAndLives(from: newScene)
         hud.score = currentScore
@@ -68,6 +69,11 @@ extension GameViewModel {
             AppLog.info(AppLog.game, "🔄 Created scene while menu overlay is presented – pausing gameplay")
             newScene.pauseGameplay()
         }
+
+        Task { [weak self] in
+            guard let self else { return }
+            await refreshFriendMilestonesForCurrentRun()
+        }
     }
 
     private func attachDelegate(to gameScene: GameScene, volume: Double) {
@@ -80,11 +86,13 @@ extension GameViewModel {
         gameScene.setLaneMoveCueStyle(selectedLaneMoveCueStyle)
         gameScene.setBigRivalCarsEnabled(selectedBigRivalCarsEnabled)
         gameScene.setRoadVisualStyle(selectedRoadVisualStyle)
+        gameScene.setDebugFrameStatsEnabled(debugShowsSpriteKitFrameStats)
         pause.scenePaused = gameScene.gameState.isPaused
         let (currentScore, currentLives) = Self.scoreAndLives(from: gameScene)
         hud.score = currentScore
         hud.lives = currentLives
         hud.speedIncreaseImminent = GameState.isLevelChangeImminent(score: currentScore, windowPoints: gameScene.speedAlertWindowPoints)
+        updateFriendProgress(forScore: currentScore)
     }
 
     private func syncScoreAndLives(from gameScene: GameScene) {
@@ -93,6 +101,7 @@ extension GameViewModel {
         hud.lives = currentLives
         hud.speedIncreaseImminent = GameState.isLevelChangeImminent(score: currentScore, windowPoints: gameScene.speedAlertWindowPoints)
         pause.scenePaused = gameScene.gameState.isPaused
+        updateFriendProgress(forScore: currentScore)
     }
 
     private func makeGameSceneDelegate() -> GameSceneDelegateImpl {
@@ -100,6 +109,7 @@ extension GameViewModel {
             onScoreUpdate: { [weak self] score in
                 guard let self else { return }
                 self.hud.score = score
+                self.updateFriendProgress(forScore: score)
                 self.recordVoiceOverControlIfNeeded()
             },
             onLevelChangeImminent: { [weak self] in self?.hud.speedIncreaseImminent = $0 },
@@ -153,6 +163,10 @@ extension GameViewModel {
                 windowPoints: scene.speedAlertWindowPoints
             )
         }
+        Task { [weak self] in
+            guard let self else { return }
+            await refreshFriendMilestonesForCurrentRun()
+        }
     }
 
     func updateAudioFeedbackMode(_ audioFeedbackMode: AudioFeedbackMode) {
@@ -173,6 +187,11 @@ extension GameViewModel {
     func updateRoadVisualStyle(_ style: RoadVisualStyle) {
         selectedRoadVisualStyle = style
         scene?.setRoadVisualStyle(style)
+    }
+
+    func updateDebugSpriteKitFrameStatsVisibility(_ isEnabled: Bool) {
+        debugShowsSpriteKitFrameStats = isEnabled
+        scene?.setDebugFrameStatsEnabled(isEnabled)
     }
 
     static func scoreAndLives(from scene: GameScene) -> (score: Int, lives: Int) {

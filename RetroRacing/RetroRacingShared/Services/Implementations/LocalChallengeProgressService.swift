@@ -60,10 +60,14 @@ public final class LocalChallengeProgressService: ChallengeProgressService {
         var snapshot = store.load()
         let previousAchievements = snapshot.achievedChallengeIDs
         let overtakes = max(0, run.overtakes)
+        let hadGAADAssistiveRun = snapshot.gaadAssistiveRunCompleted ?? false
+        let isGAADAssistiveRun = !run.activeAssistiveTechnologies.isEmpty
+            && ChallengeCatalog.isDateInGAADWeek(run.completedAt)
 
         snapshot.bestRunOvertakes = max(snapshot.bestRunOvertakes, overtakes)
         snapshot.cumulativeOvertakes += overtakes
         snapshot.lifetimeUsedControls.formUnion(run.usedControls)
+        snapshot.gaadAssistiveRunCompleted = hadGAADAssistiveRun || isGAADAssistiveRun
         snapshot.achievedChallengeIDs.formUnion(ChallengeCatalog.achievedChallenges(for: snapshot))
         store.save(snapshot)
 
@@ -73,7 +77,9 @@ public final class LocalChallengeProgressService: ChallengeProgressService {
             AppLog.game + AppLog.challenge,
             """
             🏅 Recorded completed run overtakes=\(overtakes), controls=\(serializedControls(run.usedControls)), \
-            cumulative=\(snapshot.cumulativeOvertakes), bestRun=\(snapshot.bestRunOvertakes), newlyAchieved=\(newlyAchieved.count)
+            assistive=\(serializedAssistiveTechnologies(run.activeAssistiveTechnologies)), \
+            gaadAssistiveRun=\(isGAADAssistiveRun), cumulative=\(snapshot.cumulativeOvertakes), \
+            bestRun=\(snapshot.bestRunOvertakes), newlyAchieved=\(newlyAchieved.count)
             """
         )
 
@@ -87,7 +93,23 @@ public final class LocalChallengeProgressService: ChallengeProgressService {
         store.load()
     }
 
+    public func replayAchievedChallenges() {
+        let snapshot = store.load()
+        guard snapshot.achievedChallengeIDs.isEmpty == false else { return }
+        reporter.reportAchievedChallenges(snapshot.achievedChallengeIDs)
+        AppLog.info(
+            AppLog.game + AppLog.challenge,
+            "🏅 Replayed achieved challenges count=\(snapshot.achievedChallengeIDs.count)"
+        )
+    }
+
     private func serializedControls(_ controls: Set<ChallengeControlInput>) -> String {
         controls.map(\.rawValue).sorted().joined(separator: ",")
+    }
+
+    private func serializedAssistiveTechnologies(
+        _ technologies: Set<ChallengeAssistiveTechnology>
+    ) -> String {
+        technologies.map(\.rawValue).sorted().joined(separator: ",")
     }
 }

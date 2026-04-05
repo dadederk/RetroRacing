@@ -21,13 +21,25 @@ extension GameViewModel {
         hud.gameOverBestScore = 0
         hud.gameOverDifficulty = selectedDifficulty
         hud.gameOverPreviousBestScore = nil
+        hud.gameOverNextFriendAhead = nil
+        hud.gameOverOvertakenFriends = []
+        hud.gameOverNewlyAchievedChallengeIDs = []
         hud.isNewHighScore = false
         hud.shouldRequestRatingOnGameOverModal = false
         hud.speedIncreaseImminent = false
+        overtakenFriendPlayerIDs.removeAll()
+        currentUpcomingFriendMilestone = nil
+        pendingFriendOvertakeAnnouncement = nil
+        scene?.setUpcomingFriendMilestones([])
 
         // Record this restart against the daily play limit, if enabled.
         // This ensures each "round" (start or restart) counts toward the limit.
         playLimitService?.recordGamePlayed(on: Date())
+
+        Task { [weak self] in
+            guard let self else { return }
+            await refreshFriendMilestonesForCurrentRun()
+        }
     }
 
     func handleCollision() {
@@ -38,12 +50,22 @@ extension GameViewModel {
             recordVoiceOverControlIfNeeded()
             let difficultyAtGameOver = selectedDifficulty
             leaderboardService.submitScore(currentScore, difficulty: difficultyAtGameOver)
-            _ = challengeProgressService.recordCompletedRun(
+            let challengeUpdate = challengeProgressService.recordCompletedRun(
                 CompletedRunChallengeData(
                     overtakes: currentScore,
-                    usedControls: runInputTelemetry.usedInputs
+                    usedControls: runInputTelemetry.usedInputs,
+                    completedAt: Date(),
+                    activeAssistiveTechnologies: runInputTelemetry.usedAssistiveTechnologies
                 )
             )
+            var newlyAchievedChallengeIDs = challengeUpdate.newlyAchievedChallengeIDs
+                .sorted { $0.rawValue < $1.rawValue }
+            if let debugForcedChallengeIdentifier,
+               newlyAchievedChallengeIDs.contains(debugForcedChallengeIdentifier) == false {
+                newlyAchievedChallengeIDs.append(debugForcedChallengeIdentifier)
+                newlyAchievedChallengeIDs.sort { $0.rawValue < $1.rawValue }
+            }
+            hud.gameOverNewlyAchievedChallengeIDs = newlyAchievedChallengeIDs
             let scoreSummary = highestScoreStore.evaluateGameOverScore(
                 currentScore,
                 difficulty: difficultyAtGameOver
@@ -57,25 +79,43 @@ extension GameViewModel {
             if scoreSummary.isNewRecord {
                 hapticController?.triggerSuccessHaptic()
             }
+            applyFriendGameOverSummaries(finalScore: currentScore)
             hud.showGameOver = true
         } else {
             scene.resume()
         }
     }
 
+    func setDebugForcedChallengeIdentifier(_ challengeIdentifier: ChallengeIdentifier?) {
+        guard BuildConfiguration.shouldShowDebugFeatures else {
+            debugForcedChallengeIdentifier = nil
+            return
+        }
+        debugForcedChallengeIdentifier = challengeIdentifier
+    }
+
     func recordControlInput(_ input: ChallengeControlInput) {
         runInputTelemetry.record(input)
-        recordVoiceOverControlIfNeeded()
+        recordActiveAssistiveTechnologiesIfNeeded()
     }
 
     func recordVoiceOverControlIfNeeded() {
-        guard VoiceOverStatus.isVoiceOverRunning else { return }
-        runInputTelemetry.record(.voiceOver)
+        recordActiveAssistiveTechnologiesIfNeeded()
     }
 
     func resetRunInputTelemetry() {
         runInputTelemetry.reset()
-        recordVoiceOverControlIfNeeded()
+        recordActiveAssistiveTechnologiesIfNeeded()
+    }
+
+    private func recordActiveAssistiveTechnologiesIfNeeded() {
+        let activeTechnologies = AssistiveTechnologyStatus.activeTechnologies
+        for technology in activeTechnologies {
+            runInputTelemetry.recordAssistiveTechnology(technology)
+        }
+        if activeTechnologies.contains(.voiceOver) {
+            runInputTelemetry.record(.voiceOver)
+        }
     }
 
     /// Triggers the rating check exactly once when the game-over modal is presented.
@@ -89,6 +129,9 @@ extension GameViewModel {
     func dismissGameOverModal() {
         hud.showGameOver = false
         hud.shouldRequestRatingOnGameOverModal = false
+        hud.gameOverNextFriendAhead = nil
+        hud.gameOverOvertakenFriends = []
+        hud.gameOverNewlyAchievedChallengeIDs = []
     }
 
     /// Pauses or resumes gameplay when the menu overlay is presented or dismissed.

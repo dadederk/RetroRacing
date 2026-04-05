@@ -117,6 +117,137 @@ final class ChallengeProgressServiceTests: XCTestCase {
         XCTAssertEqual(snapshot.cumulativeOvertakes, 15_000)
         XCTAssertTrue(snapshot.lifetimeUsedControls.contains(.swipe))
     }
+
+    func testGivenGAADWeekAssistiveRunWhenRecordingThenGAADChallengeIsAchieved() {
+        // Given
+        let run = CompletedRunChallengeData(
+            overtakes: 120,
+            usedControls: [.tap],
+            completedAt: makeUTCDate(year: 2026, month: 5, day: 21, hour: 12, minute: 0, second: 0),
+            activeAssistiveTechnologies: [.switchControl]
+        )
+
+        // When
+        let update = service.recordCompletedRun(run)
+
+        // Then
+        XCTAssertEqual(update.snapshot.gaadAssistiveRunCompleted, true)
+        XCTAssertTrue(update.snapshot.achievedChallengeIDs.contains(.eventGAADAssistive))
+        XCTAssertTrue(update.newlyAchievedChallengeIDs.contains(.eventGAADAssistive))
+    }
+
+    func testGivenGAADWeekWithoutAssistiveRunWhenRecordingThenGAADChallengeIsNotAchieved() {
+        // Given
+        let run = CompletedRunChallengeData(
+            overtakes: 120,
+            usedControls: [.tap],
+            completedAt: makeUTCDate(year: 2026, month: 5, day: 22, hour: 9, minute: 0, second: 0),
+            activeAssistiveTechnologies: []
+        )
+
+        // When
+        let update = service.recordCompletedRun(run)
+
+        // Then
+        XCTAssertNotEqual(update.snapshot.gaadAssistiveRunCompleted, true)
+        XCTAssertFalse(update.snapshot.achievedChallengeIDs.contains(.eventGAADAssistive))
+        XCTAssertFalse(update.newlyAchievedChallengeIDs.contains(.eventGAADAssistive))
+    }
+
+    func testGivenAssistiveRunOutsideGAADWeekWhenRecordingThenGAADChallengeIsNotAchieved() {
+        // Given
+        let run = CompletedRunChallengeData(
+            overtakes: 120,
+            usedControls: [.tap],
+            completedAt: makeUTCDate(year: 2026, month: 6, day: 1, hour: 10, minute: 0, second: 0),
+            activeAssistiveTechnologies: [.voiceOver]
+        )
+
+        // When
+        let update = service.recordCompletedRun(run)
+
+        // Then
+        XCTAssertNotEqual(update.snapshot.gaadAssistiveRunCompleted, true)
+        XCTAssertFalse(update.snapshot.achievedChallengeIDs.contains(.eventGAADAssistive))
+        XCTAssertFalse(update.newlyAchievedChallengeIDs.contains(.eventGAADAssistive))
+    }
+
+    func testGivenGAADChallengeAlreadyCompletedWhenRecordingNonEligibleRunThenCompletionFlagStaysTrue() {
+        // Given
+        store.snapshot = ChallengeProgressSnapshot(
+            bestRunOvertakes: 0,
+            cumulativeOvertakes: 0,
+            lifetimeUsedControls: [],
+            gaadAssistiveRunCompleted: true,
+            achievedChallengeIDs: [.eventGAADAssistive],
+            backfillVersion: 1
+        )
+        let run = CompletedRunChallengeData(
+            overtakes: 50,
+            usedControls: [.tap],
+            completedAt: makeUTCDate(year: 2026, month: 7, day: 1, hour: 10, minute: 0, second: 0),
+            activeAssistiveTechnologies: []
+        )
+
+        // When
+        let update = service.recordCompletedRun(run)
+
+        // Then
+        XCTAssertEqual(update.snapshot.gaadAssistiveRunCompleted, true)
+        XCTAssertTrue(update.snapshot.achievedChallengeIDs.contains(.eventGAADAssistive))
+    }
+
+    func testGivenAchievedChallengesWhenReplayingThenReporterReceivesAllAchievedIDs() {
+        // Given
+        store.snapshot = ChallengeProgressSnapshot(
+            bestRunOvertakes: 0,
+            cumulativeOvertakes: 0,
+            lifetimeUsedControls: [],
+            gaadAssistiveRunCompleted: true,
+            achievedChallengeIDs: [.controlTap, .eventGAADAssistive],
+            backfillVersion: 1
+        )
+
+        // When
+        service.replayAchievedChallenges()
+
+        // Then
+        XCTAssertEqual(reporter.reported.count, 1)
+        XCTAssertEqual(reporter.reported.first, Set([.controlTap, .eventGAADAssistive]))
+    }
+
+    func testGivenNoAchievedChallengesWhenReplayingThenReporterIsNotCalled() {
+        // Given
+        store.snapshot = .empty
+
+        // When
+        service.replayAchievedChallenges()
+
+        // Then
+        XCTAssertTrue(reporter.reported.isEmpty)
+    }
+
+    private func makeUTCDate(
+        year: Int,
+        month: Int,
+        day: Int,
+        hour: Int,
+        minute: Int,
+        second: Int
+    ) -> Date {
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = TimeZone(secondsFromGMT: 0) ?? TimeZone.current
+        return calendar.date(
+            from: DateComponents(
+                year: year,
+                month: month,
+                day: day,
+                hour: hour,
+                minute: minute,
+                second: second
+            )
+        ) ?? .distantPast
+    }
 }
 
 private final class MockHighestScoreStore: HighestScoreStore {

@@ -14,6 +14,9 @@ public protocol LeaderboardService {
     /// Returns the authenticated local player's all-time best score for the leaderboard mapped to the given speed.
     /// Returns `nil` when unavailable (for example unauthenticated, offline, or no entry yet).
     func fetchLocalPlayerBestScore(for difficulty: GameDifficulty) async -> Int?
+    /// Returns local-player best and friend leaderboard rows for the selected speed.
+    /// Returns `nil` when unavailable (for example unauthenticated, offline, or no friend entries).
+    func fetchFriendLeaderboardSnapshot(for difficulty: GameDifficulty) async -> FriendLeaderboardSnapshot?
 }
 
 public extension LeaderboardService {
@@ -23,5 +26,9 @@ public extension LeaderboardService {
 
     func fetchLocalPlayerBestScore() async -> Int? {
         await fetchLocalPlayerBestScore(for: .defaultDifficulty)
+    }
+
+    func fetchFriendLeaderboardSnapshot(for difficulty: GameDifficulty) async -> FriendLeaderboardSnapshot? {
+        nil
     }
 }

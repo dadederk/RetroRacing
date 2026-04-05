@@ -243,7 +243,9 @@ struct WatchGameView: View {
                             _ = challengeProgressService.recordCompletedRun(
                                 CompletedRunChallengeData(
                                     overtakes: gameOverScore,
-                                    usedControls: runInputTelemetry.usedInputs
+                                    usedControls: runInputTelemetry.usedInputs,
+                                    completedAt: Date(),
+                                    activeAssistiveTechnologies: runInputTelemetry.usedAssistiveTechnologies
                                 )
                             )
                             let summary = highestScoreStore.evaluateGameOverScore(gameOverScore, difficulty: difficultyAtGameOver)
@@ -561,17 +563,26 @@ struct WatchGameView: View {
 
     private func recordControlInput(_ input: ChallengeControlInput) {
         runInputTelemetry.record(input)
-        recordVoiceOverControlIfNeeded()
+        recordActiveAssistiveTechnologiesIfNeeded()
     }
 
     private func recordVoiceOverControlIfNeeded() {
-        guard VoiceOverStatus.isVoiceOverRunning else { return }
-        runInputTelemetry.record(.voiceOver)
+        recordActiveAssistiveTechnologiesIfNeeded()
     }
 
     private func resetRunInputTelemetry() {
         runInputTelemetry.reset()
-        recordVoiceOverControlIfNeeded()
+        recordActiveAssistiveTechnologiesIfNeeded()
+    }
+
+    private func recordActiveAssistiveTechnologiesIfNeeded() {
+        let activeTechnologies = AssistiveTechnologyStatus.activeTechnologies
+        for technology in activeTechnologies {
+            runInputTelemetry.recordAssistiveTechnology(technology)
+        }
+        if activeTechnologies.contains(.voiceOver) {
+            runInputTelemetry.record(.voiceOver)
+        }
     }
 
     private func handleSpeedWarningFeedback(oldValue: Bool, newValue: Bool) {

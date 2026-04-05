@@ -36,6 +36,13 @@ final class GameViewModel {
     var selectedRoadVisualStyle: RoadVisualStyle
     var shouldStartGame: Bool
     var runInputTelemetry = RunInputTelemetry()
+    var friendSnapshot: FriendLeaderboardSnapshot?
+    var runBaselineBestScore: Int = 0
+    var overtakenFriendPlayerIDs = Set<String>()
+    var currentUpcomingFriendMilestone: UpcomingFriendMilestone?
+    var pendingFriendOvertakeAnnouncement: String?
+    var debugForcedChallengeIdentifier: ChallengeIdentifier?
+    var debugShowsSpriteKitFrameStats = false
 
     init(
         leaderboardService: LeaderboardService,

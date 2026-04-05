@@ -6,6 +6,8 @@ final class MockLeaderboardService: LeaderboardService {
     var submittedDifficulties: [GameDifficulty] = []
     var authenticated = true
     var remoteBestScoresByDifficulty: [GameDifficulty: Int] = [:]
+    var friendSnapshotsByDifficulty: [GameDifficulty: FriendLeaderboardSnapshot] = [:]
+    var friendSnapshotDelayByDifficultyNanoseconds: [GameDifficulty: UInt64] = [:]
 
     func submitScore(_ score: Int, difficulty: GameDifficulty) {
         submittedScores.append(score)
@@ -18,6 +20,13 @@ final class MockLeaderboardService: LeaderboardService {
 
     func fetchLocalPlayerBestScore(for difficulty: GameDifficulty) async -> Int? {
         remoteBestScoresByDifficulty[difficulty]
+    }
+
+    func fetchFriendLeaderboardSnapshot(for difficulty: GameDifficulty) async -> FriendLeaderboardSnapshot? {
+        if let delay = friendSnapshotDelayByDifficultyNanoseconds[difficulty], delay > 0 {
+            try? await Task.sleep(nanoseconds: delay)
+        }
+        return friendSnapshotsByDifficulty[difficulty]
     }
 }
 

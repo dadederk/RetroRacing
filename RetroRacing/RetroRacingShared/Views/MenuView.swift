@@ -122,6 +122,7 @@ public struct MenuView: View {
                     speedWarningFeedbackPreviewPlayer: previewDependencies.speedWarningFeedbackPreviewPlayer,
                     controlsDescriptionKey: controlsDescriptionKey,
                     style: settingsStyle,
+                    challengeProgressService: challengeProgressService,
                     playLimitService: playLimitService
                 )
                 .fontPreferenceStore(fontPreferenceStore)

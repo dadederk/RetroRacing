@@ -17,6 +17,7 @@ The game **must** respect the user’s Reduce Motion preference:
 
 - **UI (SwiftUI):** All interactive elements and important text use `accessibilityLabel`; use `accessibilityHint` only when it adds meaningful context beyond the label.
 - **SpriteKit nodes:** Game sprites that convey meaning (player car, rival cars, crash) have `accessibilityLabel` set and `isAccessibilityElement = true` (see `GameScene+Effects.addSprite`, labels from `GameLocalizedStrings`: `player_car`, `rival_car`, `crash_sprite`).
+- **Friend milestone marker:** When social milestones are available, up to two in-race avatar markers expose VoiceOver labels with friend name and target score.
 - **Score and lives:** Header labels use `accessibilityLabel` with the same formatted text as the visual (e.g. score, lives remaining) so VoiceOver users get the same information. The helmet icon next to lives is hidden from accessibility and the lives HUD is exposed as a single combined element. Lives VoiceOver copy uses proper singular/plural localization (for example, `1 life remaining` vs `2 lives remaining`).
 - **Speed alert feedback:** The speed-increase overlay appears in the last 3 points before each level step (for example, scores 97–99 before 100 and 197–199 before 200). Before each speed increase, gameplay forecasts the next 4 scoring rows and inserts empty rows only at the two lead offsets that map to the two rows directly ahead of the player at the exact speed-up moment (no already-visible cars are removed). Settings expose a selector for speed warning feedback:
   - `VoiceOver announcement`: post `speed_increase_announcement` using `AccessibilityNotification.Announcement`.
@@ -44,7 +45,11 @@ The game **must** respect the user’s Reduce Motion preference:
   - Universal (non-premium) Theme row is exposed as a single combined accessibility element (`Theme`, current value such as `Pocket`/`LCD`).
   - Sound-effects volume hides decorative edge labels (`0%`, `100%`) from accessibility and exposes one adjustable slider element with the current percentage value (Universal + watchOS).
 - **Game-over modal:** `GameOverView` is presented as a non-interactively dismissable sheet (`interactiveDismissDisabled(true)`) with explicit **Restart** and **Finish** actions. Content is wrapped in a `ScrollView` so all summary rows and actions remain reachable at large Dynamic Type sizes and in compact landscape layouts. Decorative result artwork is hidden from accessibility while score/best labels remain readable by VoiceOver.
+- **Game-over social recap:** Optional social rows (`next friend ahead`, `friends overtaken this run`) are text-first and included in the same scrollable accessibility order as score and speed.
+- **Game-over challenge unlock modal:** When new challenges are unlocked at game over, a second regular modal sheet is presented above the game-over sheet with dismissal controlled by explicit action.
 - **Game-over typography:** Modal subtitle and speed label use body semantic typography, while score rows and actions use emphasized semantic styles from `FontPreferenceStore`. The speed label is placed between the score summary and action buttons so hierarchy stays clear at all Dynamic Type sizes.
+- **Game-over sharing action:** A top-right `Share` toolbar action is exposed with a semantic label on both game-over and challenge sheets. Shared images are rendered from content only (excluding toolbars and action buttons) so accessibility users share the same informational context.
+- **Friend overtake announcement toggle:** Accessibility settings include `Announce friend overtakes` (off by default). When enabled and VoiceOver is running, the game posts an announcement each time the current run overtakes one or more Game Center friend scores.
 
 
 ## Conditional Defaults for Accessibility
