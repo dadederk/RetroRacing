@@ -22,7 +22,7 @@ extension GameOverView {
                 Label(GameLocalizedStrings.string("share_action"), systemImage: "square.and.arrow.up")
                     .font(bodyFont)
             }
-            .disabled(true)
+            .accessibilityLabel(GameLocalizedStrings.string("share_action"))
         }
     }
 

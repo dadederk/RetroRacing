@@ -275,7 +275,11 @@ Each platform has unique input methods. **Handle at the UI layer** (SwiftUI wher
 
 ## Code Organization
 
-### Keep Files Under 200 Lines
+### Keep Files Around 200 Lines (Guideline)
+
+Treat ~200 lines as a **maintainability guideline**, not a hard limit. Favor clear decomposition and separation of concerns, but use judgment when a slightly longer file is still cohesive and easier to understand.
+
+When evaluating this guideline, count **production code only**. Do **not** count SwiftUI preview blocks (`#Preview`) or preview-only helper code.
 
 Break complex views/services into smaller, focused pieces:
 
@@ -575,7 +579,7 @@ private func updateGrid() {
 4. Conditional statements in core code for platform differences — use protocols
 5. Calculating the same thing multiple times — single source of truth
 6. Skipping tests — they must pass
-7. Views over 200 lines — split into smaller pieces
+7. Large view files with mixed responsibilities — split into smaller pieces (use the ~200-line guideline; exclude preview code from this count)
 8. `ObservableObject` — use `@Observable` instead
 9. Custom solutions when native APIs exist — use Apple frameworks first
 

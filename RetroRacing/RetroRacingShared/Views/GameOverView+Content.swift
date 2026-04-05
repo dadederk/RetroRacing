@@ -71,14 +71,11 @@ extension GameOverView {
                     Text(GameLocalizedStrings.string("game_over_next_friend_ahead_title"))
                         .font(bodyFont)
                         .foregroundStyle(.secondary)
-                    Text(
-                        GameLocalizedStrings.format(
-                            "game_over_friend_score %@ %lld",
-                            nextFriendAhead.displayName,
-                            Int64(nextFriendAhead.score)
-                        )
+                    socialFriendScoreRow(
+                        displayName: nextFriendAhead.displayName,
+                        score: nextFriendAhead.score,
+                        avatarPNGData: nextFriendAhead.avatarPNGData
                     )
-                    .font(scoreFont.monospacedDigit())
                 }
 
                 if overtakenFriends.isEmpty == false {
@@ -87,14 +84,11 @@ extension GameOverView {
                         .foregroundStyle(.secondary)
 
                     ForEach(Array(overtakenFriends.prefix(3))) { friend in
-                        Text(
-                            GameLocalizedStrings.format(
-                                "game_over_friend_score %@ %lld",
-                                friend.displayName,
-                                Int64(friend.score)
-                            )
+                        socialFriendScoreRow(
+                            displayName: friend.displayName,
+                            score: friend.score,
+                            avatarPNGData: friend.avatarPNGData
                         )
-                        .font(scoreFont.monospacedDigit())
                     }
 
                     let hiddenCount = overtakenFriends.count - 3

@@ -23,7 +23,7 @@ struct ChallengeUnlockView: View {
 
     static var shareToolbarPlacement: ToolbarItemPlacement {
         #if os(macOS)
-        .primaryAction
+        .automatic
         #else
         .topBarTrailing
         #endif
@@ -49,6 +49,9 @@ struct ChallengeUnlockView: View {
             }
             #endif
         }
+        #if os(macOS)
+        .frame(minWidth: 520, minHeight: 640)
+        #endif
         #if !os(watchOS)
         .onAppear(perform: refreshShareImage)
         .onChange(of: colorScheme) { _, _ in

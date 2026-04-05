@@ -34,7 +34,7 @@ public struct GameOverView: View {
 
     static var shareToolbarPlacement: ToolbarItemPlacement {
         #if os(macOS)
-        .primaryAction
+        .automatic
         #else
         .topBarTrailing
         #endif
@@ -86,6 +86,9 @@ public struct GameOverView: View {
             }
             #endif
         }
+        #if os(macOS)
+        .frame(minWidth: 520, minHeight: 640)
+        #endif
         .interactiveDismissDisabled(true)
         .sheet(isPresented: $isChallengeModalPresented) {
             ChallengeUnlockView(

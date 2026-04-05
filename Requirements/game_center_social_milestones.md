@@ -79,8 +79,9 @@ func fetchFriendLeaderboardSnapshot(for difficulty: GameDifficulty) async -> Fri
 `GameOverView`:
 
 1. Optional social section below speed row.
-2. Displays next friend ahead (single row).
-3. Displays overtaken friends list capped to 3 plus `+N more`.
+2. Displays next friend ahead (single row with avatar + score).
+3. Displays overtaken friends list capped to 3 plus `+N more` (each row with avatar + score).
+4. Social score rows expose a combined accessibility element (avatar hidden from accessibility, single row announcement with friend name + score).
 
 ## Accessibility
 

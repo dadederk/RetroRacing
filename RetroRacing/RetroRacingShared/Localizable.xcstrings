@@ -5545,6 +5545,29 @@
         }
       }
     },
+    "challenge_modal_other_challenges": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Other challenges"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Otros retos"
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Altres reptes"
+          }
+        }
+      }
+    },
     "challenge_modal_more %lld": {
       "extractionState": "manual",
       "localizations": {

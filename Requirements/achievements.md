@@ -135,12 +135,15 @@ Backfill is idempotent:
 1. When a completed run unlocks one or more new challenges, `GameOverView` presents `ChallengeUnlockView` as a regular sheet stacked above the game-over sheet.
 2. The challenge sheet lists up to 3 newly unlocked challenge titles and shows a `+N more` summary when needed.
 3. Challenge artwork uses challenge-asset resolution by challenge identifier with `ChallengeDefault` as fallback.
-4. Both game-over and challenge sheets expose a top-right Share action that exports content-only PNG snapshots (no action buttons/toolbars) in a 4:3 social format.
-5. Share rendering adapts to the current light/dark color scheme.
-6. This unlock-modal behavior is available on Universal platforms, including macOS.
-7. Share snapshots use a single integrated layout (no inner rounded card container).
-8. Share snapshots include the localized game name at the top, styled with the app font pipeline in `.largeTitle` and `.primary`, matching menu branding.
-9. The challenge unlock sheet supports pull-down interactive dismissal.
+4. The challenge sheet includes:
+   - primary `Done` action
+   - secondary `Other challenges` action that opens the Game Center challenges surface via `GKAccessPoint` on iOS/macOS
+5. Both game-over and challenge sheets expose a top-right Share action that exports content-only PNG snapshots (no action buttons/toolbars) in a 4:3 social format (including macOS).
+6. Share rendering adapts to the current light/dark color scheme.
+7. This unlock-modal behavior is available on Universal platforms, including macOS.
+8. Share snapshots use a single integrated layout (no inner rounded card container).
+9. Share snapshots include the localized game name at the top, styled with the app font pipeline in `.largeTitle` and `.primary`, matching menu branding.
+10. The challenge unlock sheet supports pull-down interactive dismissal.
 
 ## Debug QA Panel
 
