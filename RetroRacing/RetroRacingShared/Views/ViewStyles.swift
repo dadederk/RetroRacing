@@ -44,6 +44,9 @@ public struct MenuViewStyle {
         allowsDynamicType: true
     )
 
+    /// Top padding for the title, matching the total gap between title and buttons (titleBottomPadding + menuSpacing).
+    public var titleTopPadding: CGFloat { titleBottomPadding + menuSpacing }
+
     public static let tvOS = MenuViewStyle(
         titleFontSize: 42,
         titleBottomPadding: 60,

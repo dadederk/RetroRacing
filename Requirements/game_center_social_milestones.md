@@ -88,6 +88,7 @@ func fetchFriendLeaderboardSnapshot(for difficulty: GameDifficulty) async -> Fri
 1. In-race marker has VoiceOver label describing upcoming friend score.
 2. No essential information relies on animation.
 3. Game-over social rows use semantic fonts from `FontPreferenceStore` and remain text-first.
+4. At accessibility Dynamic Type sizes, game-over social rows stack avatar above score text for legibility while preserving a single combined accessibility announcement per row.
 
 ## Testing Strategy
 

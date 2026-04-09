@@ -12,16 +12,18 @@ import SwiftUI
 struct PaywallHeaderView: View {
     let icon: String
     let title: String
-    let caption: String
-    
+    var caption: String? = nil
+    var profileImageName: String? = nil
+    var profileImageAccessibilityLabel: String? = nil
+
     @Environment(\.fontPreferenceStore) private var fontPreferenceStore
+    @ScaledMetric(relativeTo: .largeTitle) private var profileImageSize: CGFloat = 60
+
+    private let sharedBundle = Bundle(for: GameScene.self)
 
     var body: some View {
         VStack(spacing: 12) {
-            Image(systemName: icon)
-                .font(.system(size: 50))
-                .foregroundStyle(.tint)
-                .accessibilityHidden(true)
+            headerIcon
 
             Text(title)
                 .font(fontPreferenceStore?.font(textStyle: .title) ?? .title)
@@ -29,12 +31,31 @@ struct PaywallHeaderView: View {
                 .multilineTextAlignment(.center)
                 .accessibilityAddTraits(.isHeader)
 
-            Text(caption)
-                .font(fontPreferenceStore?.font(textStyle: .caption) ?? .caption)
-                .foregroundStyle(.primary)
-                .multilineTextAlignment(.center)
+            if let caption {
+                Text(caption)
+                    .font(fontPreferenceStore?.font(textStyle: .caption) ?? .caption)
+                    .foregroundStyle(.primary)
+                    .multilineTextAlignment(.center)
+            }
         }
-        .padding(.top)
+    }
+
+    @ViewBuilder
+    private var headerIcon: some View {
+        if let profileImageName {
+            Image(profileImageName, bundle: sharedBundle)
+                .resizable()
+                .scaledToFit()
+                .frame(width: profileImageSize, height: profileImageSize)
+                .clipShape(Circle())
+                .accessibilityLabel(profileImageAccessibilityLabel.map(Text.init) ?? Text(verbatim: ""))
+                .accessibilityHidden(profileImageAccessibilityLabel == nil)
+        } else {
+            Image(systemName: icon)
+                .font(.system(size: 50))
+                .foregroundStyle(.tint)
+                .accessibilityHidden(true)
+        }
     }
 }
 

@@ -25,6 +25,7 @@ public struct PaywallView: View {
     @Environment(\.fontPreferenceStore) private var fontPreferenceStore
 
     private let playLimitService: PlayLimitService?
+    private let isLimitReached: Bool
     private let onPurchaseCompleted: (() -> Void)?
 
     @State private var isPurchasing = false
@@ -49,14 +50,17 @@ public struct PaywallView: View {
     /// - Parameters:
     ///   - playLimitService: Optional. When provided, `unlockUnlimitedAccess()` is
     ///     called after a successful purchase.
+    ///   - isLimitReached: When `true`, shows the daily limit notice and the "Want to Stay Free?" card.
     ///   - onPurchaseCompleted: Optional callback for higher-level coordination.
     ///   - previewData: Optional static data for SwiftUI previews.
     public init(
         playLimitService: PlayLimitService? = nil,
+        isLimitReached: Bool = false,
         onPurchaseCompleted: (() -> Void)? = nil,
         previewData: PaywallPreviewData? = nil
     ) {
         self.playLimitService = playLimitService
+        self.isLimitReached = isLimitReached
         self.onPurchaseCompleted = onPurchaseCompleted
         self.previewData = previewData
     }
@@ -68,8 +72,18 @@ public struct PaywallView: View {
                     PaywallHeaderView(
                         icon: "gamecontroller.fill",
                         title: GameLocalizedStrings.string("paywall_title"),
-                        caption: GameLocalizedStrings.string("paywall_caption_coffee")
+                        caption: isLimitReached ? nil : GameLocalizedStrings.string("paywall_caption_coffee"),
+                        profileImageName: isLimitReached ? nil : "profilePicRetroRapid",
+                        profileImageAccessibilityLabel: isLimitReached ? nil : GameLocalizedStrings.string("paywall_avatar_accessibility_label")
                     )
+
+                    if isLimitReached {
+                        Text(GameLocalizedStrings.string("paywall_limit_notice"))
+                            .font(fontPreferenceStore?.font(textStyle: .subheadline) ?? .subheadline)
+                            .multilineTextAlignment(.center)
+                            .foregroundStyle(.primary)
+                            .padding(.horizontal)
+                    }
 
                     productsSection
 
@@ -108,14 +122,16 @@ public struct PaywallView: View {
                         #endif
                     }
 
-                    // Want to Stay Free?
-                    PaywallInfoCard(
-                        title: GameLocalizedStrings.string("paywall_stay_free_title"),
-                        icon: "info.circle"
-                    ) {
-                        Text(GameLocalizedStrings.string("paywall_stay_free_body"))
-                    } actionContent: {
-                        EmptyView()
+                    // Want to Stay Free? Only shown when the user actually hit the daily limit.
+                    if isLimitReached {
+                        PaywallInfoCard(
+                            title: GameLocalizedStrings.string("paywall_stay_free_title"),
+                            icon: "info.circle"
+                        ) {
+                            Text(GameLocalizedStrings.string("paywall_stay_free_body"))
+                        } actionContent: {
+                            EmptyView()
+                        }
                     }
 
                     VStack(spacing: 4) {

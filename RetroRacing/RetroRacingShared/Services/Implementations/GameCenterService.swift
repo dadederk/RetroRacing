@@ -12,7 +12,14 @@ import GameKit
 public typealias AuthenticateHandlerSetter = (AuthenticationPresenter) -> Void
 
 /// Game Center-backed leaderboard service handling authentication wiring and score submission.
-public final class GameCenterService: LeaderboardService {
+///
+/// `@unchecked Sendable` is safe here because every stored property is either:
+/// - immutable (`let`) — `configuration`, `friendSnapshotService`, `isDebugBuild`,
+///   `allowDebugScoreSubmission`, `isAuthenticatedProvider`, `authenticateHandlerSetter`; or
+/// - a `weak var` (`authenticationPresenter`) that is set exactly once at the composition
+///   root before any concurrent access, always on the main actor.
+/// No mutable state is shared across isolation boundaries after initialization.
+public final class GameCenterService: LeaderboardService, @unchecked Sendable {
     private let configuration: LeaderboardConfiguration
     private let friendSnapshotService: GameCenterFriendSnapshotServicing
     private weak var authenticationPresenter: AuthenticationPresenter?

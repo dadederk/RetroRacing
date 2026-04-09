@@ -360,7 +360,7 @@ public struct GameView: View {
             model.setOverlayPause(isPresented: isPresented)
         }
         .sheet(isPresented: $isPaywallPresented) {
-            PaywallView(playLimitService: playLimitService)
+            PaywallView(playLimitService: playLimitService, isLimitReached: true)
                 .fontPreferenceStore(fontPreferenceStore)
         }
         .fontPreferenceStore(fontPreferenceStore)

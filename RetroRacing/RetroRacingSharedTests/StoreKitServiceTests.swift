@@ -183,4 +183,65 @@ final class StoreKitServiceTests: XCTestCase {
         XCTAssertEqual(service.debugPremiumSimulationMode, .productionDefault)
         XCTAssertEqual(service.hasPremiumAccess, !service.purchasedProductIDs.isEmpty)
     }
+
+    // MARK: - hasPurchased simulation tests
+
+    func testGivenFreemiumSimulationModeWhenCheckingHasPurchasedForUnlimitedPlaysThenReturnsFalse() {
+        // Given
+        let service = makeService()
+        service.debugPremiumSimulationMode = .freemium
+
+        // When
+        let result = service.hasPurchased(StoreKitService.ProductID.unlimitedPlays.rawValue)
+
+        // Then
+        XCTAssertFalse(result)
+    }
+
+    func testGivenUnlimitedSimulationModeWhenCheckingHasPurchasedForUnlimitedPlaysThenReturnsTrue() {
+        // Given
+        let service = makeService()
+        service.debugPremiumSimulationMode = .unlimitedPlays
+
+        // When
+        let result = service.hasPurchased(StoreKitService.ProductID.unlimitedPlays.rawValue)
+
+        // Then
+        XCTAssertTrue(result)
+    }
+
+    func testGivenUnlimitedSimulationModeWhenCheckingHasPurchasedForUnknownProductThenReturnsFalse() {
+        // Given
+        let service = makeService()
+        service.debugPremiumSimulationMode = .unlimitedPlays
+
+        // When
+        let result = service.hasPurchased("com.some.other.product")
+
+        // Then
+        XCTAssertFalse(result)
+    }
+
+    func testGivenProductionDefaultModeWithNoEntitlementsWhenCheckingHasPurchasedThenReturnsFalse() {
+        // Given
+        let service = makeService()
+        service.debugPremiumSimulationMode = .productionDefault
+
+        // When
+        let result = service.hasPurchased(StoreKitService.ProductID.unlimitedPlays.rawValue)
+
+        // Then – purchasedProductIDs is empty in the test environment (no real transactions)
+        XCTAssertFalse(result)
+    }
+
+    func testGivenSimulationDisabledWhenCheckingHasPurchasedThenReturnsRealEntitlementState() {
+        // Given
+        let service = makeService(isDebugSimulationEnabled: false)
+
+        // When
+        let result = service.hasPurchased(StoreKitService.ProductID.unlimitedPlays.rawValue)
+
+        // Then – simulation is off so result matches purchasedProductIDs (empty in test env)
+        XCTAssertEqual(result, service.purchasedProductIDs.contains(StoreKitService.ProductID.unlimitedPlays.rawValue))
+    }
 }

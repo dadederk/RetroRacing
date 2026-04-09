@@ -15,7 +15,9 @@ extension GameOverView {
             scoreRows
             speedRow
             socialRows
-            actionButtons
+            if !usesBottomActionBar {
+                actionButtons
+            }
         }
         .padding(20)
         .frame(maxWidth: .infinity, alignment: .top)
@@ -109,6 +111,19 @@ extension GameOverView {
     }
 
     var actionButtons: some View {
+        actionButtonsContent
+            .padding(.top, 4)
+    }
+
+    #if os(iOS) || os(visionOS)
+    var bottomActionBar: some View {
+        BottomActionBar {
+            actionButtonsContent
+        }
+    }
+    #endif
+
+    private var actionButtonsContent: some View {
         VStack(spacing: 10) {
             Button(action: onRestart) {
                 Text(GameLocalizedStrings.string("restart"))
@@ -122,7 +137,6 @@ extension GameOverView {
             }
             .retroRacingSecondaryButtonStyle()
         }
-        .padding(.top, 4)
     }
 
     var bodyFont: Font {

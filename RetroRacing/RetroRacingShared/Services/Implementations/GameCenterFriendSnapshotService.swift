@@ -9,15 +9,20 @@ import Foundation
 import GameKit
 
 public final class GameCenterFriendSnapshotService: GameCenterFriendSnapshotServicing {
-    private enum Configuration {
+    private enum Limits {
         static let pageSize = 100
         static let maxPages = 5
         static let avatarHydrationCount = 24
     }
 
     let avatarCache: any GameCenterAvatarCaching
+    private let configuration: GameCenterFriendSnapshotConfiguration
 
-    public init(avatarCache: any GameCenterAvatarCaching) {
+    public init(
+        configuration: GameCenterFriendSnapshotConfiguration,
+        avatarCache: any GameCenterAvatarCaching
+    ) {
+        self.configuration = configuration
         self.avatarCache = avatarCache
     }
 
@@ -30,22 +35,30 @@ public final class GameCenterFriendSnapshotService: GameCenterFriendSnapshotServ
     }
 
     private func loadRawFriendEntries(from leaderboard: GKLeaderboard) async -> [GameCenterRawFriendEntry] {
+        guard configuration.friendLeaderboardEnabled else { return [] }
+        #if !os(watchOS)
         var allEntries = [GameCenterRawFriendEntry]()
         var location = 1
 
-        for _ in 0..<Configuration.maxPages {
-            let pageRange = NSRange(location: location, length: Configuration.pageSize)
+        for _ in 0..<Limits.maxPages {
+            let pageRange = NSRange(location: location, length: Limits.pageSize)
             let pageEntries = await loadRawFriendEntriesPage(from: leaderboard, range: pageRange)
             guard pageEntries.isEmpty == false else { break }
             allEntries.append(contentsOf: pageEntries)
 
-            if pageEntries.count < Configuration.pageSize {
+            if pageEntries.count < Limits.pageSize {
                 break
             }
             location += pageEntries.count
         }
 
         return allEntries
+        #else
+        // Unreachable at runtime: the guard above returns [] when friendLeaderboardEnabled
+        // is false (the only value used on watchOS). Required for compilation because
+        // loadRawFriendEntriesPage uses symbols that don't exist on watchOS.
+        return []
+        #endif
     }
 
     private func buildFriendSnapshot(
@@ -56,7 +69,7 @@ public final class GameCenterFriendSnapshotService: GameCenterFriendSnapshotServ
         var entries = [FriendLeaderboardEntry]()
 
         for rawEntry in rawFriendEntries {
-            let playerID = Self.playerIdentifier(for: rawEntry.player)
+            let playerID = playerIdentifier(for: rawEntry.player)
             playerByID[playerID] = rawEntry.player
             let cachedAvatar = await avatarCache.data(for: playerID)
             entries.append(
@@ -77,7 +90,7 @@ public final class GameCenterFriendSnapshotService: GameCenterFriendSnapshotServ
         }
 
         let candidateIDs = snapshot.friendEntries
-            .prefix(Configuration.avatarHydrationCount)
+            .prefix(Limits.avatarHydrationCount)
             .map(\.playerID)
 
         for candidateID in candidateIDs {
@@ -97,6 +110,11 @@ public final class GameCenterFriendSnapshotService: GameCenterFriendSnapshotServ
         return snapshot
     }
 
+    private func playerIdentifier(for player: GKPlayer) -> String {
+        configuration.playerIdentifier(player)
+    }
+
+    #if !os(watchOS)
     private func loadRawFriendEntriesPage(from leaderboard: GKLeaderboard, range: NSRange) async -> [GameCenterRawFriendEntry] {
         await withCheckedContinuation { continuation in
             leaderboard.loadEntries(
@@ -116,7 +134,7 @@ public final class GameCenterFriendSnapshotService: GameCenterFriendSnapshotServ
 
                 let mapped = (entries ?? []).compactMap { entry -> GameCenterRawFriendEntry? in
                     let player = entry.player
-                    let playerID = Self.playerIdentifier(for: player)
+                    let playerID = self.playerIdentifier(for: player)
                     guard playerID.isEmpty == false else { return nil }
                     let score = Int(entry.score)
                     guard score > 0 else { return nil }
@@ -126,35 +144,24 @@ public final class GameCenterFriendSnapshotService: GameCenterFriendSnapshotServ
             }
         }
     }
+    #endif
 
     private func loadAvatarData(for player: GKPlayer) async -> Data? {
-#if os(watchOS)
-        // watchOS v1 scope: no social avatar hydration.
-        return nil
-#else
-        let playerID = Self.playerIdentifier(for: player)
+        guard configuration.avatarHydrationEnabled else { return nil }
+        let playerID = playerIdentifier(for: player)
         if let cached = await avatarCache.data(for: playerID) {
             return cached
         }
-
+        // GKPlayer.loadPhoto is unavailable on watchOS; avatarHydrationEnabled guards
+        // against reaching this point, and the #if ensures it compiles on watchOS too.
+        #if !os(watchOS)
         guard #available(iOS 14.0, tvOS 14.0, macOS 11.0, *) else {
             return nil
         }
-
         return await loadAvatarDataIfAvailable(for: player, playerID: playerID)
-#endif
-    }
-
-    private static func playerIdentifier(for player: GKPlayer) -> String {
-#if os(watchOS)
-        // watchOS does not expose gamePlayerID/teamPlayerID.
-        return player.displayName
-#else
-        guard #available(iOS 12.4, tvOS 12.4, macOS 10.14.6, *) else {
-            return player.displayName
-        }
-        return player.gamePlayerID
-#endif
+        #else
+        return nil
+        #endif
     }
 
 }

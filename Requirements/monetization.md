@@ -97,6 +97,7 @@ Key API:
 - `public func loadProducts() async`
 - `public func purchase(_ product: Product) async throws -> Transaction?`
 - `public func restorePurchases() async throws`
+- `public func hasPurchased(_ productID: String) -> Bool`
 
 `hasPremiumAccess` logic:
 
@@ -110,6 +111,7 @@ Key API:
 - The Debug section (with the picker) is **hidden** when `BuildConfiguration.shouldShowDebugFeatures == false`.
 - `StoreKitService.hasPremiumAccess` is the **single source of truth** for premium status. All UI checks (MenuView, GameView, SettingsView) check this property **first** before falling back to `PlayLimitService` checks. This ensures premium users **always** have unlimited plays regardless of `PlayLimitService` state.
 - When `debugPremiumSimulationMode == .freemium`, `StoreKitService` writes the debug override key (`"PlayLimit.debugForceFreemium"`) so `PlayLimitService` behaves as unpaid even if the device has previously unlocked unlimited plays.
+- `hasPurchased(_:)` **also respects `debugPremiumSimulationMode`**: it returns `false` in `.freemium` mode and `true` for the unlimited plays product in `.unlimitedPlays` mode. This ensures UI elements (e.g. `ProductRow` in the paywall) that use `hasPurchased` stay consistent with `hasPremiumAccess` under all debug states.
 
 ### Build Configuration Helper
 
@@ -222,6 +224,21 @@ onPlay: {
 - **Premium users** (via `storeKit.hasPremiumAccess`) **always bypass** the play limit check.
 - **Free users** are checked against the daily limit; if reached, the **paywall sheet** is presented.
 
+### Menu – Support CTA
+
+**File:** `RetroRacingShared/Views/MenuView.swift` + `RetroRacingShared/Views/MenuContentView.swift`
+
+- Universal menu includes an engagement block after **Play** and **Leaderboard**:
+  - Prompt: `"menu_engagement_prompt"` (for example, “Enjoying RetroRapid!?”)
+  - Rate action: `"menu_rate_game"` (opens App Store write-review URL)
+  - Support action: `"menu_support_game"` (opens paywall sheet)
+- Support CTA visibility:
+  - **Hidden by default** until entitlement status is refreshed for the current menu session.
+  - **Shown** when `showRateButton == true`, entitlement has been resolved, and `storeKit.hasPremiumAccess == false`.
+  - **Hidden** when Unlimited Plays is already active.
+  - Layout stability: support CTA keeps a reserved button slot in the menu stack so text/buttons do not jump when the entitlement result arrives.
+- tvOS keeps `showRateButton = false`, so this engagement block is not shown there.
+
 ### Game – Restart Button
 
 **File:** `RetroRacingShared/Views/GameView.swift`
@@ -271,36 +288,47 @@ playLimitService?.recordGamePlayed(on: Date())
 
 **File:** `RetroRacingShared/Views/PaywallView.swift`
 
+The paywall has two distinct modes driven by the `isLimitReached: Bool` parameter:
+
+**Voluntary mode** (`isLimitReached: false`): opened via "Back development" in the menu or from Settings. Leads with a personal profile picture and introduction to create human connection.
+
+**Limit-triggered mode** (`isLimitReached: true`): opened automatically when the daily play limit is reached. More focused — skips the personal intro in favour of a playful on-brand limit notice.
+
+`MenuView` uses a `PaywallTrigger` enum with `.sheet(item:)` to drive presentation cleanly:
+
+```swift
+enum PaywallTrigger: Identifiable {
+    case limitReached
+    case voluntary
+    var id: Self { self }
+}
+```
+
+`GameView` always passes `isLimitReached: true` directly.
+
 Key elements:
 
 - **Header** (`PaywallHeaderView`):
-  - Icon: `gamecontroller.fill`
-  - Title: `"paywall_title"` (“Unlock Unlimited Games”)
-  - Caption `"paywall_caption_coffee"` (coffee/support copy; mentions unlocking Unlimited Plays).
-- **Navigation title**: `"paywall_go_premium"` (displayed as “Unlock Unlimited Plays” / “Partidas ilimitadas” etc.).
+  - **Voluntary**: profile picture (`profilePicRetroRapid`, 60pt base with `@ScaledMetric(relativeTo: .largeTitle)`, `.clipShape(Circle())`), localized accessibility label (`"paywall_avatar_accessibility_label"`). Caption: `"paywall_caption_coffee"` ("Hi! I'm Dani. Consider unlocking...coffee...new features I hope you'll love.")
+  - **Limit-triggered**: `gamecontroller.fill` SF Symbol (decorative, hidden from VoiceOver). No caption.
+  - Title (`"paywall_title"`): "Get Unlimited Plays" — shown in both modes.
+- **Navigation title** (`"paywall_go_premium"`): "Go Unlimited".
+- **Limit notice** (limit-triggered only): `"paywall_limit_notice"` — "Pit stop! You've used up all your plays for today. Want to keep going? One coffee for me, unlimited plays for you!" Shown between header and product row.
 - **Product card** (`ProductRow`):
   - Shows product name (`"product_unlimited_plays"`) and price.
-  - When already owned, subtitle changes to `"purchase_success_message"` to clarify Unlimited Plays is already purchased.
-  - Purchased-state checkmark icon is decorative (hidden from accessibility) so VoiceOver reads only meaningful text.
+  - When already owned, subtitle changes to `"purchase_success_message"`.
+  - Purchased-state checkmark icon is decorative (hidden from accessibility).
   - Button triggers StoreKit 2 purchase.
-- **Restore Purchases button**:
-  - Shows loading state while restoring.
-  - Disabled during purchase or restore operations.
-  - Matches Settings → Purchases functionality.
+- **Restore Purchases button**: shows loading state; disabled during purchase or restore.
 - **Redeem Code button** (where platform supports offer-code redemption):
   - iOS: uses `.offerCodeRedemption(...)`.
-  - macOS: uses `AppStore.presentOfferCodeRedeemSheet(from:)` with an embedded host `NSViewController`.
+  - macOS: uses `AppStore.presentOfferCodeRedeemSheet(from:)`.
   - Hidden on platforms without the offer-code UI.
-- **Benefits text**:
-  - `"paywall_unlimited_and_themes"` – unlimited plays first, theme choice as an extra.
-  - Positioned below restore button, styled as secondary text.
+- **Benefits text** (`"paywall_unlimited_and_themes"`): "Unlimited plays forever. Choose from available visual themes. Back development." Positioned below restore button.
 - **Info cards** (`PaywallInfoCard`):
-  - Giving Back – explains that a percentage goes to accessibility/inclusion.
-  - Giving Back includes a **Learn More** action:
-    - iOS: opens AMMEC in-app (`SafariView`).
-    - macOS/tvOS/watchOS/visionOS: opens AMMEC with system URL handling (`openURL`).
-  - Want to Stay Free? – explains daily reset and “See you tomorrow!” message.
-- **Footer**: `"paywall_footer_one_time"` – one‑time purchase, no subscription, unlocks unlimited plays forever.
+  - **Giving Back** (always shown): AMMEC donation explanation with Learn More link (in-app SafariView on iOS, `openURL` elsewhere).
+  - **Want to Stay Free?** (limit-triggered only): daily reset explanation — "No problem! Your daily limit resets at midnight. Just wait a bit to enjoy the game again. See you tomorrow!"
+- **Footer** (`"paywall_footer_one_time"`): one-time purchase, no subscription, unlocks unlimited plays forever.
 
 Purchase handling:
 
@@ -331,6 +359,11 @@ if storeKit.hasPremiumAccess {
 **File:** `RetroRacingShared/Views/SettingsView.swift`
 
 Sections added:
+
+0. **Theme**
+   - When Unlimited Plays is not active, the Theme section footer shows:
+     - `"settings_theme_unlock_footnote"` (soft prompt to unlock Unlimited Plays from Purchases).
+   - Non-premium Theme row remains a single combined accessibility element (`Theme`, current value).
 
 1. **Play Limit** (only visible for **free users**)
    - Title: `"play_limit_title"`

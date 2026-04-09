@@ -10,6 +10,12 @@ import SwiftUI
 import GameKit
 #endif
 
+enum PaywallTrigger: Identifiable {
+    case limitReached
+    case voluntary
+    var id: Self { self }
+}
+
 /// Root menu for launching gameplay, viewing leaderboards, and accessing settings.
 @MainActor
 public struct MenuView: View {
@@ -39,7 +45,8 @@ public struct MenuView: View {
     @State private var showGame = false
     @State private var showLeaderboard = false
     @State private var showSettings = false
-    @State private var showPaywall = false
+    @State private var paywallTrigger: PaywallTrigger? = nil
+    @State private var hasResolvedSupportEntitlement = false
     @State private var authModel: MenuAuthModel
 
     public init(
@@ -90,14 +97,7 @@ public struct MenuView: View {
 
     public var body: some View {
         NavigationStack {
-            Group {
-                if let padding = style.contentPadding {
-                    menuContent
-                        .padding(padding)
-                } else {
-                    menuContent
-                }
-            }
+            menuContentContainer
             .fontPreferenceStore(fontPreferenceStore)
             .toolbar {
                 ToolbarItem(placement: Self.settingsToolbarPlacement) {
@@ -127,8 +127,8 @@ public struct MenuView: View {
                 )
                 .fontPreferenceStore(fontPreferenceStore)
             }
-            .sheet(isPresented: $showPaywall) {
-                PaywallView(playLimitService: playLimitService)
+            .sheet(item: $paywallTrigger) { trigger in
+                PaywallView(playLimitService: playLimitService, isLimitReached: trigger == .limitReached)
                     .fontPreferenceStore(fontPreferenceStore)
             }
             .navigationDestination(isPresented: $showGame) {
@@ -164,6 +164,9 @@ public struct MenuView: View {
             authModel.configurePresentationHandler()
             authModel.startAuthentication(startedByUser: false)
         }
+        .task {
+            await resolveSupportEntitlementIfNeeded()
+        }
         #if (canImport(UIKit) && !os(watchOS)) || os(macOS)
         .onReceive(NotificationCenter.default.publisher(for: .GKPlayerAuthenticationDidChangeNotificationName)) { _ in
             authModel.refreshAuthState()
@@ -174,11 +177,36 @@ public struct MenuView: View {
         }
     }
 
+    @ViewBuilder
+    private var menuContentContainer: some View {
+        if style.allowsDynamicType {
+            ScrollView {
+                paddedMenuContent
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding(.vertical, 8)
+            }
+            .scrollIndicators(.hidden)
+        } else {
+            paddedMenuContent
+        }
+    }
+
+    @ViewBuilder
+    private var paddedMenuContent: some View {
+        if let padding = style.contentPadding {
+            menuContent
+                .padding(padding)
+        } else {
+            menuContent
+        }
+    }
+
     private var menuContent: some View {
         MenuContentView(
             style: style,
             fontPreferenceStore: fontPreferenceStore,
             showRateButton: showRateButton,
+            showSupportButton: shouldShowSupportButton,
             isLeaderboardEnabled: authModel.isAuthenticated,
             authError: Binding(
                 get: { authModel.authError },
@@ -194,7 +222,7 @@ public struct MenuView: View {
                     }
                 } else if let service = playLimitService,
                           service.canStartNewGame(on: Date()) == false {
-                    showPaywall = true
+                    paywallTrigger = .limitReached
                 } else if let onPlayRequest {
                     onPlayRequest()
                 } else {
@@ -202,7 +230,8 @@ public struct MenuView: View {
                 }
             },
             onLeaderboard: handleLeaderboardTap,
-            onRate: handleRateTap
+            onRate: handleRateTap,
+            onSupport: handleSupportTap
         )
     }
 
@@ -256,6 +285,20 @@ public struct MenuView: View {
     private func handleRateTap() {
         guard let reviewURL = AppStoreReviewURL.writeReview else { return }
         openURL(reviewURL)
+    }
+
+    private var shouldShowSupportButton: Bool {
+        showRateButton && hasResolvedSupportEntitlement && !storeKit.hasPremiumAccess
+    }
+
+    private func resolveSupportEntitlementIfNeeded() async {
+        guard hasResolvedSupportEntitlement == false else { return }
+        await storeKit.refreshPurchasedProducts()
+        hasResolvedSupportEntitlement = true
+    }
+
+    private func handleSupportTap() {
+        paywallTrigger = .voluntary
     }
 
     #if canImport(UIKit) && !os(watchOS)

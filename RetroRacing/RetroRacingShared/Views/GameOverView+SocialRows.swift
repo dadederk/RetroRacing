@@ -18,7 +18,11 @@ extension GameOverView {
         score: Int,
         avatarPNGData: Data?
     ) -> some View {
-        HStack(spacing: 8) {
+        let layout: AnyLayout = dynamicTypeSize.isAccessibilitySize
+            ? AnyLayout(VStackLayout(spacing: 6))
+            : AnyLayout(HStackLayout(spacing: 8))
+
+        return layout {
             socialFriendAvatar(avatarPNGData: avatarPNGData, displayName: displayName)
             Text(GameLocalizedStrings.format("game_over_friend_score %@ %lld", displayName, Int64(score)))
                 .font(scoreFont.monospacedDigit())
@@ -44,7 +48,7 @@ extension GameOverView {
                     }
             }
         }
-        .frame(width: 24, height: 24)
+        .frame(width: avatarSize, height: avatarSize)
         .clipShape(Circle())
         .accessibilityHidden(true)
     }

@@ -17,8 +17,9 @@ struct ProductRow: View {
     let product: Product
     let state: ProductRowState
     let onPurchase: () async -> Void
-    
+
     @Environment(\.fontPreferenceStore) private var fontPreferenceStore
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     var body: some View {
         Button {
@@ -27,7 +28,11 @@ struct ProductRow: View {
                 await onPurchase()
             }
         } label: {
-            HStack(spacing: 12) {
+            let layout: AnyLayout = dynamicTypeSize.isAccessibilitySize
+                ? AnyLayout(VStackLayout(alignment: .leading, spacing: 12))
+                : AnyLayout(HStackLayout(spacing: 12))
+
+            layout {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(GameLocalizedStrings.string("product_unlimited_plays"))
                         .font(fontPreferenceStore?.font(textStyle: .headline) ?? .headline)
@@ -41,22 +46,9 @@ struct ProductRow: View {
                             .foregroundStyle(.secondary)
                     }
                 }
+                .frame(maxWidth: .infinity, alignment: .leading)
 
-                Spacer()
-
-                if state.isPurchasing {
-                    ProgressView()
-                        .progressViewStyle(.circular)
-                } else if state.hasPurchased {
-                    Image(systemName: "checkmark.seal.fill")
-                        .foregroundColor(.accentColor)
-                        .accessibilityRemoveTraits(.isSelected)
-                        .accessibilityHidden(true)
-                } else {
-                    Text(product.displayPrice)
-                        .font(fontPreferenceStore?.font(textStyle: .subheadline) ?? .subheadline)
-                        .foregroundColor(.accentColor)
-                }
+                trailingContent
             }
             .padding()
             .background(.thinMaterial)
@@ -64,5 +56,22 @@ struct ProductRow: View {
         }
         .buttonStyle(.plain)
         .accessibilityElement(children: .combine)
+    }
+
+    @ViewBuilder
+    private var trailingContent: some View {
+        if state.isPurchasing {
+            ProgressView()
+                .progressViewStyle(.circular)
+        } else if state.hasPurchased {
+            Image(systemName: "checkmark.seal.fill")
+                .foregroundStyle(Color.accentColor)
+                .accessibilityRemoveTraits(.isSelected)
+                .accessibilityHidden(true)
+        } else {
+            Text(product.displayPrice)
+                .font(fontPreferenceStore?.font(textStyle: .subheadline) ?? .subheadline)
+                .foregroundStyle(Color.accentColor)
+        }
     }
 }

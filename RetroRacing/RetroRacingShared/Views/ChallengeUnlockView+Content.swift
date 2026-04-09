@@ -25,7 +25,9 @@ extension ChallengeUnlockView {
                 .foregroundStyle(.secondary)
 
             challengeUnlockedRows
-            challengeActionButtons
+            if !usesBottomActionBar {
+                challengeActionButtons
+            }
         }
         .padding(20)
         .frame(maxWidth: .infinity, alignment: .top)
@@ -50,6 +52,19 @@ extension ChallengeUnlockView {
     }
 
     var challengeActionButtons: some View {
+        challengeActionButtonsContent
+            .padding(.top, 2)
+    }
+
+    #if os(iOS) || os(visionOS)
+    var bottomActionBar: some View {
+        BottomActionBar {
+            challengeActionButtonsContent
+        }
+    }
+    #endif
+
+    private var challengeActionButtonsContent: some View {
         VStack(spacing: 10) {
             Button(action: onDone) {
                 Text(GameLocalizedStrings.string("done"))
@@ -65,7 +80,6 @@ extension ChallengeUnlockView {
                 .retroRacingSecondaryButtonStyle()
             }
         }
-        .padding(.top, 2)
     }
 
     func challengeArtwork(maxWidth: CGFloat) -> some View {
@@ -107,6 +121,6 @@ extension ChallengeUnlockView {
     }
 
     var buttonFont: Font {
-        fontPreferenceStore?.font(textStyle: .headline) ?? .headline
+        fontPreferenceStore?.font(textStyle: .body) ?? .body
     }
 }

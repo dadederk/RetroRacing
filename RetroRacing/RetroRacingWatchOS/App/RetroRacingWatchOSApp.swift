@@ -84,7 +84,10 @@ struct RetroRacingWatchOSApp: App {
         let configuration = LeaderboardConfigurationWatchOS()
         leaderboardService = GameCenterService(
             configuration: configuration,
-            friendSnapshotService: GameCenterFriendSnapshotService(avatarCache: GameCenterAvatarCache()),
+            friendSnapshotService: GameCenterFriendSnapshotService(
+                configuration: .watchOS,
+                avatarCache: GameCenterAvatarCache()
+            ),
             authenticationPresenter: nil,
             authenticateHandlerSetter: nil,
             isDebugBuild: BuildConfiguration.isDebug,

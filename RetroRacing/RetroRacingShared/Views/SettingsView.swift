@@ -156,6 +156,12 @@ public struct SettingsView: View {
                 } header: {
                     Text(GameLocalizedStrings.string("settings_theme"))
                         .font(fontForLabels)
+                } footer: {
+                    if !storeKit.hasPremiumAccess {
+                        Text(GameLocalizedStrings.string("settings_theme_unlock_footnote"))
+                            .font(secondaryFont)
+                            .modifier(SettingsFooterTextStyle())
+                    }
                 }
 
                 if let playLimitService, !storeKit.hasPremiumAccess {
@@ -587,7 +593,7 @@ public struct SettingsView: View {
                 }
             }
             .alert(GameLocalizedStrings.string("restore_purchases"), isPresented: $showingRestoreAlert) {
-                Button("OK", role: .cancel) {}
+                Button(GameLocalizedStrings.string("ok"), role: .cancel) {}
             } message: {
                 if let restoreMessage {
                     Text(restoreMessage)

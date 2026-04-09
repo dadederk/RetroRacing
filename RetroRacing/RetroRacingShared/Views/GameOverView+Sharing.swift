@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-#if !os(watchOS)
+#if !os(watchOS) && !os(tvOS)
 extension GameOverView {
     @ViewBuilder
     var shareToolbarItem: some View {

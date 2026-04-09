@@ -16,7 +16,7 @@ This avoids over-relying on explicit user-triggered StoreKit prompt calls, which
 - Shared URL source: `RetroRacing/RetroRacingShared/Utilities/AppStoreReviewURL.swift`
   - `AppStoreReviewURL.writeReview`
   - `https://apps.apple.com/app/id6758641625?action=write-review`
-- Menu button (`MenuView`) opens the URL via `openURL`.
+- Universal menu engagement CTA (`MenuView` key: `menu_rate_game`, label: "Rate it") opens the URL via `openURL`.
 - About screen button (`AboutView`) opens the same URL via `openURL`.
 
 ### Automatic StoreKit Prompt
@@ -51,9 +51,21 @@ This ties automatic prompt timing to moments where the user is likely satisfied.
 - `StoreReview.bestScoreImprovements_<appVersion>`
 - `StoreReview.hasRatedVersion_<appVersion>`
 
+## Menu Engagement Block
+
+The menu shows an engagement section below the Play and Leaderboard buttons when `showRateButton == true`:
+
+- **Prompt text** varies by context:
+  - Free user (support button visible): `"menu_engagement_prompt"` — "Enjoying the game? You can help RetroRapid!"
+  - Paid user (support button hidden): `"menu_engagement_prompt_rate_only"` — "Enjoying the game?"
+- **Rate button** (`"menu_rate_game"`): "Rate it" — opens App Store write-review URL.
+- **Support button** (`"menu_support_game"`): "Back development" — opens paywall. Hidden for users who already own Unlimited Plays.
+
+The two-prompt approach avoids asking paid users to "help" the game when they have already done so.
+
 ## tvOS Notes
 
-- tvOS keeps `showRateButton = false` in menu parity flow.
+- tvOS keeps `showRateButton = false` in menu parity flow, so the universal menu engagement CTA block is hidden.
 - tvOS `RatingServiceProviderTvOS` remains a no-op for native in-app review.
 
 ## Testing Strategy

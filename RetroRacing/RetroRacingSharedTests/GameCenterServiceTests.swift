@@ -8,7 +8,7 @@ import XCTest
 
 final class GameCenterServiceTests: XCTestCase {
 
-    func testConfigurationReturnsInjectedLeaderboardID() {
+    func testGivenMockConfigurationWhenAccessingLeaderboardIDsThenReturnsInjectedValues() {
         // Given
         let mockConfig = MockLeaderboardConfiguration(
             cruiseLeaderboardID: "test_cruise_001",
@@ -19,7 +19,7 @@ final class GameCenterServiceTests: XCTestCase {
         // When
         _ = GameCenterService(
             configuration: mockConfig,
-            friendSnapshotService: GameCenterFriendSnapshotService(avatarCache: GameCenterAvatarCache()),
+            friendSnapshotService: GameCenterFriendSnapshotService(configuration: .standard, avatarCache: GameCenterAvatarCache()),
             isDebugBuild: false,
             allowDebugScoreSubmission: false
         )
@@ -30,14 +30,14 @@ final class GameCenterServiceTests: XCTestCase {
         XCTAssertEqual(mockConfig.leaderboardID(for: .rapid), "test_rapid_001")
     }
 
-    func testServiceCreatedWithMockConfigurationDoesNotCrash() {
+    func testGivenMockConfigurationWhenCreatingServiceThenIsAuthenticatedCheckDoesNotCrash() {
         // Given
         let mockConfig = MockLeaderboardConfiguration(leaderboardID: "test123")
 
         // When
         _ = GameCenterService(
             configuration: mockConfig,
-            friendSnapshotService: GameCenterFriendSnapshotService(avatarCache: GameCenterAvatarCache()),
+            friendSnapshotService: GameCenterFriendSnapshotService(configuration: .standard, avatarCache: GameCenterAvatarCache()),
             isDebugBuild: false,
             allowDebugScoreSubmission: false
         ).isAuthenticated()
@@ -46,12 +46,12 @@ final class GameCenterServiceTests: XCTestCase {
         // In test/simulator, typically not authenticated; just ensure no crash.
     }
 
-    func testSubmitScoreWhenNotAuthenticatedDoesNotCrash() {
+    func testGivenNotAuthenticatedWhenSubmittingScoreThenDoesNotCrash() {
         // Given
         let mockConfig = MockLeaderboardConfiguration(leaderboardID: "test123")
         let service = GameCenterService(
             configuration: mockConfig,
-            friendSnapshotService: GameCenterFriendSnapshotService(avatarCache: GameCenterAvatarCache()),
+            friendSnapshotService: GameCenterFriendSnapshotService(configuration: .standard, avatarCache: GameCenterAvatarCache()),
             isDebugBuild: false,
             allowDebugScoreSubmission: false
         )
@@ -67,7 +67,7 @@ final class GameCenterServiceTests: XCTestCase {
         // Given
         let service = GameCenterService(
             configuration: MockLeaderboardConfiguration(leaderboardID: "test123"),
-            friendSnapshotService: GameCenterFriendSnapshotService(avatarCache: GameCenterAvatarCache()),
+            friendSnapshotService: GameCenterFriendSnapshotService(configuration: .standard, avatarCache: GameCenterAvatarCache()),
             isDebugBuild: true,
             allowDebugScoreSubmission: false
         )
@@ -83,7 +83,7 @@ final class GameCenterServiceTests: XCTestCase {
         // Given
         let service = GameCenterService(
             configuration: MockLeaderboardConfiguration(leaderboardID: "test123"),
-            friendSnapshotService: GameCenterFriendSnapshotService(avatarCache: GameCenterAvatarCache()),
+            friendSnapshotService: GameCenterFriendSnapshotService(configuration: .standard, avatarCache: GameCenterAvatarCache()),
             isDebugBuild: false,
             allowDebugScoreSubmission: false
         )
@@ -99,7 +99,7 @@ final class GameCenterServiceTests: XCTestCase {
         // Given
         let service = GameCenterService(
             configuration: MockLeaderboardConfiguration(leaderboardID: "test123"),
-            friendSnapshotService: GameCenterFriendSnapshotService(avatarCache: GameCenterAvatarCache()),
+            friendSnapshotService: GameCenterFriendSnapshotService(configuration: .standard, avatarCache: GameCenterAvatarCache()),
             isDebugBuild: true,
             allowDebugScoreSubmission: true
         )
@@ -115,7 +115,7 @@ final class GameCenterServiceTests: XCTestCase {
         // Given
         let service = GameCenterService(
             configuration: MockLeaderboardConfiguration(leaderboardID: "test123"),
-            friendSnapshotService: GameCenterFriendSnapshotService(avatarCache: GameCenterAvatarCache()),
+            friendSnapshotService: GameCenterFriendSnapshotService(configuration: .standard, avatarCache: GameCenterAvatarCache()),
             isDebugBuild: false,
             allowDebugScoreSubmission: false,
             isAuthenticatedProvider: { false }

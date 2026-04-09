@@ -138,6 +138,7 @@ Backfill is idempotent:
 4. The challenge sheet includes:
    - primary `Done` action
    - secondary `Other challenges` action that opens the Game Center challenges surface via `GKAccessPoint` on iOS/macOS
+   - on iOS/iPadOS/visionOS, actions are rendered in a bottom overlay action bar that ignores bottom safe area, uses a concentric rounded shape, and applies iOS glass effect with platform fallback
 5. Both game-over and challenge sheets expose a top-right Share action that exports content-only PNG snapshots (no action buttons/toolbars) in a 4:3 social format (including macOS).
 6. Share rendering adapts to the current light/dark color scheme.
 7. This unlock-modal behavior is available on Universal platforms, including macOS.

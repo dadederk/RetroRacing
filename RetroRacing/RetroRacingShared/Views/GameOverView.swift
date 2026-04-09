@@ -23,13 +23,16 @@ public struct GameOverView: View {
 
     @Environment(\.fontPreferenceStore) var fontPreferenceStore
     @Environment(\.colorScheme) var colorScheme
-    @State var isChallengeModalPresented = false
-    #if !os(watchOS)
+    @Environment(\.dynamicTypeSize) var dynamicTypeSize
+    @ScaledMetric(relativeTo: .body) var avatarSize: CGFloat = 24
+    @State private var isChallengeModalPresented = false
+    #if !os(watchOS) && !os(tvOS)
+    // Internal (not private) so GameOverView+Sharing.swift can read and write it across files.
     @State var gameOverShareImageURL: URL?
     #endif
 
     static let sharedBundle = Bundle(for: GameScene.self)
-    #if !os(watchOS)
+    #if !os(watchOS) && !os(tvOS)
     static let shareImageFileName = "retroracing-game-over-share.png"
 
     static var shareToolbarPlacement: ToolbarItemPlacement {
@@ -72,13 +75,19 @@ public struct GameOverView: View {
             ScrollView {
                 gameOverMainContent
             }
+            #if os(iOS) || os(visionOS)
+            .safeAreaInset(edge: .bottom, spacing: 0) {
+                bottomActionBar
+            }
+            .ignoresSafeArea(edges: .bottom)
+            #endif
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .background(.background)
             .navigationTitle(GameLocalizedStrings.string("game_over_encouragement_title"))
             #if os(iOS) || os(visionOS)
             .navigationBarTitleDisplayMode(.inline)
             #endif
-            #if !os(watchOS)
+            #if !os(watchOS) && !os(tvOS)
             .toolbar {
                 ToolbarItem(placement: Self.shareToolbarPlacement) {
                     shareToolbarItem
@@ -99,11 +108,11 @@ public struct GameOverView: View {
         .onAppear {
             onPresented?()
             isChallengeModalPresented = newlyAchievedChallengeIDs.isEmpty == false
-            #if !os(watchOS)
+            #if !os(watchOS) && !os(tvOS)
             refreshShareImage()
             #endif
         }
-        #if !os(watchOS)
+        #if !os(watchOS) && !os(tvOS)
         .onChange(of: colorScheme) { _, _ in
             refreshShareImage()
         }

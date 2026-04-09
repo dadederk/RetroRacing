@@ -58,6 +58,11 @@ The shared catalog is the primary source because shared UI and game surfaces are
   - `en`
   - `es`
   - `ca` (with Valencian Meridional phrasing)
+- Engagement/paywall UX keys for the current menu/settings flow include:
+  - `menu_engagement_prompt`
+  - `menu_rate_game`
+  - `menu_support_game`
+  - `settings_theme_unlock_footnote`
 - After localization changes:
   - run shared and universal unit tests
   - verify no missing translations in String Catalog entries

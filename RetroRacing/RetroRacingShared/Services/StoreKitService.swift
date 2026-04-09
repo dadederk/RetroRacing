@@ -168,8 +168,24 @@ public final class StoreKitService {
 
     // MARK: - Helpers
 
+    /// Returns whether the given product ID has been purchased.
+    ///
+    /// Respects `debugPremiumSimulationMode` the same way `hasPremiumAccess` does,
+    /// so freemium mode returns `false` and unlimited-plays mode returns `true`
+    /// for the unlimited plays product regardless of real entitlement state.
     public func hasPurchased(_ productID: String) -> Bool {
-        purchasedProductIDs.contains(productID)
+        guard isDebugSimulationEnabled else {
+            return purchasedProductIDs.contains(productID)
+        }
+
+        switch debugPremiumSimulationMode {
+        case .productionDefault:
+            return purchasedProductIDs.contains(productID)
+        case .unlimitedPlays:
+            return productID == ProductID.unlimitedPlays.rawValue
+        case .freemium:
+            return false
+        }
     }
 
     // MARK: - Private

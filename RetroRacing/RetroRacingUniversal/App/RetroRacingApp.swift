@@ -94,6 +94,7 @@ struct RetroRacingApp: App {
         gameCenterService = GameCenterService(
             configuration: leaderboardConfiguration,
             friendSnapshotService: GameCenterFriendSnapshotService(
+                configuration: .standard,
                 avatarCache: GameCenterAvatarCache()
             ),
             authenticationPresenter: authenticationPresenter,
@@ -141,6 +142,7 @@ struct RetroRacingApp: App {
         let watchRelayLeaderboardService = GameCenterService(
             configuration: LeaderboardConfigurationWatchOS(),
             friendSnapshotService: GameCenterFriendSnapshotService(
+                configuration: .standard,
                 avatarCache: GameCenterAvatarCache()
             ),
             authenticationPresenter: nil,
@@ -190,6 +192,20 @@ struct RetroRacingApp: App {
         #endif
     }
 
+    @discardableResult
+    private func handleUniversalLink(_ url: URL, source: String) -> Bool {
+        let normalizedPath = url.path.trimmingCharacters(in: CharacterSet(charactersIn: "/"))
+        let isRetroRapidOpenLink = url.host == "accessibilityupto11.com" && normalizedPath == "apps/retrorapid/open"
+
+        if isRetroRapidOpenLink {
+            AppLog.info(AppLog.game, "Universal link handled via \(source): \(url.absoluteString)")
+            return true
+        }
+
+        AppLog.info(AppLog.game, "Ignored non-RetroRapid universal link via \(source): \(url.absoluteString)")
+        return false
+    }
+
     var body: some Scene {
         WindowGroup {
             NavigationStack {
@@ -199,6 +215,13 @@ struct RetroRacingApp: App {
                         await storeKitService.loadProducts()
                         await bestScoreSyncService.syncIfPossible()
                         await watchRelayIngestionService?.flushPendingIfPossible(trigger: .appLifecycle)
+                    }
+                    .onContinueUserActivity(NSUserActivityTypeBrowsingWeb) { userActivity in
+                        guard let url = userActivity.webpageURL else { return }
+                        handleUniversalLink(url, source: "SwiftUI.onContinueUserActivity")
+                    }
+                    .onOpenURL { url in
+                        handleUniversalLink(url, source: "SwiftUI.onOpenURL")
                     }
                     .onReceive(NotificationCenter.default.publisher(for: .GKPlayerAuthenticationDidChangeNotificationName)) { _ in
                         Task {

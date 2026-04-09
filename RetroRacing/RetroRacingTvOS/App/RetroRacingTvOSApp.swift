@@ -58,7 +58,10 @@ struct RetroRacingTvOSApp: App {
         )
         gameCenterService = GameCenterService(
             configuration: leaderboardConfiguration,
-            friendSnapshotService: GameCenterFriendSnapshotService(avatarCache: GameCenterAvatarCache()),
+            friendSnapshotService: GameCenterFriendSnapshotService(
+                configuration: .standard,
+                avatarCache: GameCenterAvatarCache()
+            ),
             authenticationPresenter: authenticationPresenter,
             authenticateHandlerSetter: leaderboardConfig.authenticateHandlerSetter,
             isDebugBuild: BuildConfiguration.isDebug,
