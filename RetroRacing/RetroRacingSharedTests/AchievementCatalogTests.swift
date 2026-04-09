@@ -1,5 +1,5 @@
 //
-//  ChallengeCatalogTests.swift
+//  AchievementCatalogTests.swift
 //  RetroRacingSharedTests
 //
 //  Created by Dani Devesa on 01/03/2026.
@@ -8,49 +8,51 @@
 import XCTest
 @testable import RetroRacingShared
 
-final class ChallengeCatalogTests: XCTestCase {
+final class AchievementCatalogTests: XCTestCase {
     func testGivenCatalogWhenEnumeratingDefinitionsThenContainsExpectedCount() {
         // Given
-        let expectedCount = 20
+        let expectedCount = 22
 
         // When
-        let definitions = ChallengeCatalog.definitions
+        let definitions = AchievementCatalog.definitions
 
         // Then
         XCTAssertEqual(definitions.count, expectedCount)
     }
 
-    func testGivenBestRunThresholdWhenEvaluatingAchievementsThenIncludesReachedRunChallenges() {
+    func testGivenBestRunThresholdWhenEvaluatingAchievementsThenIncludesReachedRunAchievements() {
         // Given
-        let snapshot = ChallengeProgressSnapshot(
+        let snapshot = AchievementProgressSnapshot(
             bestRunOvertakes: 600,
             cumulativeOvertakes: 0,
             lifetimeUsedControls: [],
-            achievedChallengeIDs: []
+            achievedAchievementIDs: []
         )
 
         // When
-        let achieved = ChallengeCatalog.achievedChallenges(for: snapshot)
+        let achieved = AchievementCatalog.achievedAchievements(for: snapshot)
 
         // Then
         XCTAssertTrue(achieved.contains(.runOvertakes100))
         XCTAssertTrue(achieved.contains(.runOvertakes200))
+        XCTAssertTrue(achieved.contains(.runOvertakes300))
+        XCTAssertTrue(achieved.contains(.runOvertakes400))
         XCTAssertTrue(achieved.contains(.runOvertakes500))
         XCTAssertTrue(achieved.contains(.runOvertakes600))
         XCTAssertFalse(achieved.contains(.runOvertakes700))
     }
 
-    func testGivenCumulativeThresholdWhenEvaluatingAchievementsThenIncludesReachedTotalChallenges() {
+    func testGivenCumulativeThresholdWhenEvaluatingAchievementsThenIncludesReachedTotalAchievements() {
         // Given
-        let snapshot = ChallengeProgressSnapshot(
+        let snapshot = AchievementProgressSnapshot(
             bestRunOvertakes: 0,
             cumulativeOvertakes: 50_000,
             lifetimeUsedControls: [],
-            achievedChallengeIDs: []
+            achievedAchievementIDs: []
         )
 
         // When
-        let achieved = ChallengeCatalog.achievedChallenges(for: snapshot)
+        let achieved = AchievementCatalog.achievedAchievements(for: snapshot)
 
         // Then
         XCTAssertTrue(achieved.contains(.totalOvertakes1k))
@@ -61,17 +63,17 @@ final class ChallengeCatalogTests: XCTestCase {
         XCTAssertFalse(achieved.contains(.totalOvertakes100k))
     }
 
-    func testGivenLifetimeControlUsageWhenEvaluatingAchievementsThenIncludesControlChallenge() {
+    func testGivenLifetimeControlUsageWhenEvaluatingAchievementsThenIncludesControlAchievement() {
         // Given
-        let snapshot = ChallengeProgressSnapshot(
+        let snapshot = AchievementProgressSnapshot(
             bestRunOvertakes: 0,
             cumulativeOvertakes: 0,
             lifetimeUsedControls: [.digitalCrown, .gameController],
-            achievedChallengeIDs: []
+            achievedAchievementIDs: []
         )
 
         // When
-        let achieved = ChallengeCatalog.achievedChallenges(for: snapshot)
+        let achieved = AchievementCatalog.achievedAchievements(for: snapshot)
 
         // Then
         XCTAssertTrue(achieved.contains(.controlDigitalCrown))
@@ -79,18 +81,18 @@ final class ChallengeCatalogTests: XCTestCase {
         XCTAssertFalse(achieved.contains(.controlTap))
     }
 
-    func testGivenGAADCompletionFlagWhenEvaluatingAchievementsThenIncludesGAADChallenge() {
+    func testGivenGAADCompletionFlagWhenEvaluatingAchievementsThenIncludesGAADAchievement() {
         // Given
-        let snapshot = ChallengeProgressSnapshot(
+        let snapshot = AchievementProgressSnapshot(
             bestRunOvertakes: 0,
             cumulativeOvertakes: 0,
             lifetimeUsedControls: [],
             gaadAssistiveRunCompleted: true,
-            achievedChallengeIDs: []
+            achievedAchievementIDs: []
         )
 
         // When
-        let achieved = ChallengeCatalog.achievedChallenges(for: snapshot)
+        let achieved = AchievementCatalog.achievedAchievements(for: snapshot)
 
         // Then
         XCTAssertTrue(achieved.contains(.eventGAADAssistive))
@@ -102,9 +104,9 @@ final class ChallengeCatalogTests: XCTestCase {
         calendar.timeZone = TimeZone(secondsFromGMT: 0) ?? TimeZone.current
 
         // When
-        let gaad2024 = ChallengeCatalog.thirdThursdayOfMay(in: 2024, calendar: calendar)
-        let gaad2025 = ChallengeCatalog.thirdThursdayOfMay(in: 2025, calendar: calendar)
-        let gaad2026 = ChallengeCatalog.thirdThursdayOfMay(in: 2026, calendar: calendar)
+        let gaad2024 = AchievementCatalog.thirdThursdayOfMay(in: 2024, calendar: calendar)
+        let gaad2025 = AchievementCatalog.thirdThursdayOfMay(in: 2025, calendar: calendar)
+        let gaad2026 = AchievementCatalog.thirdThursdayOfMay(in: 2026, calendar: calendar)
 
         // Then
         XCTAssertEqual(calendar.component(.day, from: gaad2024 ?? .distantPast), 16)
@@ -118,7 +120,7 @@ final class ChallengeCatalogTests: XCTestCase {
         calendar.timeZone = TimeZone(secondsFromGMT: 0) ?? TimeZone.current
 
         // When
-        let interval = ChallengeCatalog.gaadWeekDateInterval(forYear: 2026, calendar: calendar)
+        let interval = AchievementCatalog.gaadWeekDateInterval(forYear: 2026, calendar: calendar)
         let start = interval?.start
         let endExclusive = interval?.end
 
@@ -143,10 +145,10 @@ final class ChallengeCatalogTests: XCTestCase {
         let afterWindow = calendar.date(from: DateComponents(year: 2026, month: 5, day: 25, hour: 0, minute: 0, second: 0))
 
         // When
-        let isBeforeInside = ChallengeCatalog.isDateInGAADWeek(beforeWindow ?? .distantPast, calendar: calendar)
-        let isStartInside = ChallengeCatalog.isDateInGAADWeek(windowStart ?? .distantPast, calendar: calendar)
-        let isEndInside = ChallengeCatalog.isDateInGAADWeek(windowEnd ?? .distantPast, calendar: calendar)
-        let isAfterInside = ChallengeCatalog.isDateInGAADWeek(afterWindow ?? .distantPast, calendar: calendar)
+        let isBeforeInside = AchievementCatalog.isDateInGAADWeek(beforeWindow ?? .distantPast, calendar: calendar)
+        let isStartInside = AchievementCatalog.isDateInGAADWeek(windowStart ?? .distantPast, calendar: calendar)
+        let isEndInside = AchievementCatalog.isDateInGAADWeek(windowEnd ?? .distantPast, calendar: calendar)
+        let isAfterInside = AchievementCatalog.isDateInGAADWeek(afterWindow ?? .distantPast, calendar: calendar)
 
         // Then
         XCTAssertFalse(isBeforeInside)

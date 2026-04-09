@@ -1,5 +1,5 @@
 //
-//  UserDefaultsChallengeProgressStoreTests.swift
+//  UserDefaultsAchievementProgressStoreTests.swift
 //  RetroRacingSharedTests
 //
 //  Created by Dani Devesa on 01/03/2026.
@@ -8,16 +8,16 @@
 import XCTest
 @testable import RetroRacingShared
 
-final class UserDefaultsChallengeProgressStoreTests: XCTestCase {
+final class UserDefaultsAchievementProgressStoreTests: XCTestCase {
     private var userDefaults: UserDefaults!
     private var suiteName: String!
-    private var store: UserDefaultsChallengeProgressStore!
+    private var store: UserDefaultsAchievementProgressStore!
 
     override func setUp() {
         super.setUp()
-        suiteName = "test.challengeprogressstore.\(UUID().uuidString)"
+        suiteName = "test.achievementprogressstore.\(UUID().uuidString)"
         userDefaults = UserDefaults(suiteName: suiteName)
-        store = UserDefaultsChallengeProgressStore(userDefaults: userDefaults)
+        store = UserDefaultsAchievementProgressStore(userDefaults: userDefaults)
     }
 
     override func tearDown() {
@@ -43,11 +43,11 @@ final class UserDefaultsChallengeProgressStoreTests: XCTestCase {
 
     func testGivenSnapshotWhenSavingThenLoadReturnsSavedSnapshot() {
         // Given
-        let snapshot = ChallengeProgressSnapshot(
+        let snapshot = AchievementProgressSnapshot(
             bestRunOvertakes: 420,
             cumulativeOvertakes: 1_337,
             lifetimeUsedControls: [.tap, .voiceOver],
-            achievedChallengeIDs: [.runOvertakes100, .controlTap],
+            achievedAchievementIDs: [.runOvertakes100, .controlTap],
             backfillVersion: 1
         )
 

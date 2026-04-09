@@ -18,7 +18,7 @@ struct HUDState {
     var gameOverPreviousBestScore: Int?
     var gameOverNextFriendAhead: GameOverFriendAheadSummary?
     var gameOverOvertakenFriends = [GameOverOvertakenFriendSummary]()
-    var gameOverNewlyAchievedChallengeIDs = [ChallengeIdentifier]()
+    var gameOverNewlyAchievedAchievementIDs = [AchievementIdentifier]()
     var isNewHighScore: Bool = false
     var shouldRequestRatingOnGameOverModal = false
     /// True when the delegate reported that a level change is imminent (last few points before level-up).

@@ -13,7 +13,9 @@ struct RetroRacingTvOSApp: App {
     private let fontPreferenceStore: FontPreferenceStore
     private let hapticController: HapticFeedbackController
     private let highestScoreStore: HighestScoreStore
-    private let challengeProgressService: ChallengeProgressService
+    private let achievementProgressService: AchievementProgressService
+    private let achievementMetadataService: any AchievementMetadataService
+    private let pendingLeaderboardScoreStore: any PendingLeaderboardScoreStore
     private let bestScoreSyncService: BestScoreSyncService
     private let playLimitService: PlayLimitService
     private let storeKitService: StoreKitService
@@ -56,6 +58,7 @@ struct RetroRacingTvOSApp: App {
                 }
             }
         )
+        pendingLeaderboardScoreStore = UserDefaultsPendingLeaderboardScoreStore(userDefaults: userDefaults)
         gameCenterService = GameCenterService(
             configuration: leaderboardConfiguration,
             friendSnapshotService: GameCenterFriendSnapshotService(
@@ -65,17 +68,19 @@ struct RetroRacingTvOSApp: App {
             authenticationPresenter: authenticationPresenter,
             authenticateHandlerSetter: leaderboardConfig.authenticateHandlerSetter,
             isDebugBuild: BuildConfiguration.isDebug,
-            allowDebugScoreSubmission: false
+            allowDebugScoreSubmission: false,
+            pendingScoreStore: pendingLeaderboardScoreStore
         )
         ratingService = StoreReviewService(userDefaults: userDefaults, ratingProvider: RatingServiceProviderTvOS())
         highestScoreStore = UserDefaultsHighestScoreStore(userDefaults: userDefaults)
-        challengeProgressService = LocalChallengeProgressService(
-            store: UserDefaultsChallengeProgressStore(userDefaults: userDefaults),
+        achievementProgressService = LocalAchievementProgressService(
+            store: UserDefaultsAchievementProgressStore(userDefaults: userDefaults),
             highestScoreStore: highestScoreStore,
-            reporter: GameCenterChallengeProgressReporter()
+            reporter: GameCenterAchievementProgressReporter()
         )
-        challengeProgressService.performInitialBackfillIfNeeded()
-        challengeProgressService.replayAchievedChallenges()
+        achievementProgressService.performInitialBackfillIfNeeded()
+        achievementProgressService.replayAchievedAchievements()
+        achievementMetadataService = GameCenterAchievementMetadataService()
         bestScoreSyncService = BestScoreSyncService(
             leaderboardService: gameCenterService,
             highestScoreStore: highestScoreStore,
@@ -107,7 +112,7 @@ struct RetroRacingTvOSApp: App {
                     supportsHapticFeedback: false,
                     fontPreferenceStore: fontPreferenceStore,
                     highestScoreStore: highestScoreStore,
-                    challengeProgressService: challengeProgressService,
+                    achievementProgressService: achievementProgressService,
                     playLimitService: playLimitService,
                     style: .tvOS,
                     inputAdapterFactory: RemoteInputAdapterFactory(),
@@ -132,7 +137,7 @@ struct RetroRacingTvOSApp: App {
                         hapticController: hapticController,
                         supportsHapticFeedback: false,
                         highestScoreStore: highestScoreStore,
-                        challengeProgressService: challengeProgressService,
+                        achievementProgressService: achievementProgressService,
                         playLimitService: playLimitService,
                         style: .tvOS,
                         settingsStyle: .tvOS,
@@ -147,6 +152,7 @@ struct RetroRacingTvOSApp: App {
                 .animation(nil, value: isMenuPresented)
             }
             .environment(storeKitService)
+            .achievementMetadataService(achievementMetadataService)
             .task {
                 await storeKitService.loadProducts()
                 await bestScoreSyncService.syncIfPossible()
@@ -154,7 +160,9 @@ struct RetroRacingTvOSApp: App {
             .onReceive(NotificationCenter.default.publisher(for: .GKPlayerAuthenticationDidChangeNotificationName)) { _ in
                 Task {
                     await bestScoreSyncService.syncIfPossible()
-                    challengeProgressService.replayAchievedChallenges()
+                    achievementProgressService.replayAchievedAchievements()
+                    gameCenterService.flushPendingScoresIfPossible()
+                    await achievementMetadataService.invalidate()
                 }
             }
         }

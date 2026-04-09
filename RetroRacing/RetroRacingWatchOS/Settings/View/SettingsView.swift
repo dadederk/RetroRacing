@@ -13,7 +13,7 @@ struct SettingsView: View {
     let speedWarningFeedbackPreviewPlayer: any SpeedIncreaseWarningFeedbackPlaying
     /// When true, show "scores submitted…"; when false, show "sign in to Game Center on iPhone…".
     let isGameCenterAuthenticated: Bool
-    let challengeProgressService: ChallengeProgressService
+    let achievementProgressService: AchievementProgressService
     @Environment(\.dismiss) private var dismiss
     @State private var preferencesStore: SettingsPreferencesStore
     @AppStorage(HapticFeedbackPreference.storageKey) private var hapticFeedbackEnabled: Bool = true
@@ -31,7 +31,7 @@ struct SettingsView: View {
         audioCueTutorialPreviewPlayer: AudioCueTutorialPreviewPlayer,
         speedWarningFeedbackPreviewPlayer: any SpeedIncreaseWarningFeedbackPlaying,
         isGameCenterAuthenticated: Bool,
-        challengeProgressService: ChallengeProgressService
+        achievementProgressService: AchievementProgressService
     ) {
         self.themeManager = themeManager
         self.fontPreferenceStore = fontPreferenceStore
@@ -40,7 +40,7 @@ struct SettingsView: View {
         self.audioCueTutorialPreviewPlayer = audioCueTutorialPreviewPlayer
         self.speedWarningFeedbackPreviewPlayer = speedWarningFeedbackPreviewPlayer
         self.isGameCenterAuthenticated = isGameCenterAuthenticated
-        self.challengeProgressService = challengeProgressService
+        self.achievementProgressService = achievementProgressService
         _preferencesStore = State(initialValue: SettingsPreferencesStore(
             userDefaults: InfrastructureDefaults.userDefaults,
             supportsHaptics: supportsHapticFeedback,
@@ -226,8 +226,8 @@ struct SettingsView: View {
 
                 if BuildConfiguration.shouldShowDebugFeatures {
                     Section {
-                        GAADChallengeDebugPanel(
-                            challengeProgressService: challengeProgressService,
+                        GAADAchievementDebugPanel(
+                            achievementProgressService: achievementProgressService,
                             qualificationMode: .voiceOverOnly,
                             primaryFont: fontForLabels,
                             secondaryFont: fontPreferenceStore.font(textStyle: .caption)

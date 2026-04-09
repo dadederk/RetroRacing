@@ -1,5 +1,5 @@
 //
-//  ChallengeArtworkCatalog.swift
+//  AchievementArtworkCatalog.swift
 //  RetroRacingShared
 //
 //  Created by Dani Devesa on 04/04/2026.
@@ -13,20 +13,20 @@ import UIKit
 import AppKit
 #endif
 
-enum ChallengeArtworkCatalog {
-    static let fallbackAssetName = "ChallengeDefault"
+enum AchievementArtworkCatalog {
+    static let fallbackAssetName = "AchievementDefault"
 
     static func assetName(
-        for challengeID: ChallengeIdentifier?,
+        for achievementID: AchievementIdentifier?,
         bundle: Bundle = Bundle(for: GameScene.self)
     ) -> String {
-        guard let challengeID else { return fallbackAssetName }
+        guard let achievementID else { return fallbackAssetName }
 
         let candidates: [String] = [
-            challengeID.rawValue,
-            challengeID.rawValue.replacingOccurrences(of: ".", with: "_"),
-            challengeID.rawValue.replacingOccurrences(of: ".", with: "-"),
-            "Challenge_\(challengeID.rawValue)",
+            achievementID.rawValue,
+            achievementID.rawValue.replacingOccurrences(of: ".", with: "_"),
+            achievementID.rawValue.replacingOccurrences(of: ".", with: "-"),
+            "Achievement_\(achievementID.rawValue)",
             fallbackAssetName
         ]
 

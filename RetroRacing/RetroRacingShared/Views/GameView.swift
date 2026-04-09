@@ -37,7 +37,7 @@ public struct GameView: View {
     public let supportsHapticFeedback: Bool
     public let fontPreferenceStore: FontPreferenceStore?
     public let highestScoreStore: HighestScoreStore
-    public let challengeProgressService: ChallengeProgressService
+    public let achievementProgressService: AchievementProgressService
     public let playLimitService: PlayLimitService?
     public let style: GameViewStyle
     public let inputAdapterFactory: any GameInputAdapterFactory
@@ -62,8 +62,8 @@ public struct GameView: View {
     private var speedWarningFeedbackModeData: Data = Data()
     @AppStorage(VoiceOverTutorialPreference.hasSeenInGameVoiceOverTutorialKey)
     private var hasSeenInGameVoiceOverTutorial: Bool = VoiceOverTutorialPreference.defaultHasSeenInGameVoiceOverTutorial
-    @AppStorage(DebugGameplayStorageKeys.forcedChallengeIdentifier)
-    private var debugForcedChallengeIdentifierRawValue: String = DebugGameplayStorageKeys.noForcedChallengeIdentifier
+    @AppStorage(DebugGameplayStorageKeys.forcedAchievementIdentifier)
+    private var debugForcedAchievementIdentifierRawValue: String = DebugGameplayStorageKeys.noForcedAchievementIdentifier
     @AppStorage(DebugGameplayStorageKeys.showSpriteKitFrameStats)
     private var debugShowSpriteKitFrameStats: Bool = false
     @State private var model: GameViewModel
@@ -88,7 +88,7 @@ public struct GameView: View {
         supportsHapticFeedback: Bool,
         fontPreferenceStore: FontPreferenceStore?,
         highestScoreStore: HighestScoreStore,
-        challengeProgressService: ChallengeProgressService,
+        achievementProgressService: AchievementProgressService,
         playLimitService: PlayLimitService?,
         style: GameViewStyle,
         inputAdapterFactory: any GameInputAdapterFactory,
@@ -108,7 +108,7 @@ public struct GameView: View {
         self.supportsHapticFeedback = supportsHapticFeedback
         self.fontPreferenceStore = fontPreferenceStore
         self.highestScoreStore = highestScoreStore
-        self.challengeProgressService = challengeProgressService
+        self.achievementProgressService = achievementProgressService
         self.playLimitService = playLimitService
         self.style = style
         self.inputAdapterFactory = inputAdapterFactory
@@ -132,7 +132,7 @@ public struct GameView: View {
             theme: theme,
             hapticController: hapticController,
             highestScoreStore: highestScoreStore,
-            challengeProgressService: challengeProgressService,
+            achievementProgressService: achievementProgressService,
             inputAdapterFactory: inputAdapterFactory,
             playLimitService: playLimitService,
             selectedDifficulty: selectedDifficulty,
@@ -213,7 +213,7 @@ public struct GameView: View {
             model.updateLaneMoveCueStyle(selectedLaneMoveCueStyle)
             model.updateBigRivalCarsEnabled(selectedBigRivalCarsEnabled)
             model.updateRoadVisualStyle(selectedRoadVisualStyle)
-            model.setDebugForcedChallengeIdentifier(selectedDebugForcedChallengeIdentifier)
+            model.setDebugForcedAchievementIdentifier(selectedDebugForcedAchievementIdentifier)
             model.updateDebugSpriteKitFrameStatsVisibility(shouldShowDebugSpriteKitFrameStats)
             model.recordVoiceOverControlIfNeeded()
             if let overlayBinding = isMenuOverlayPresented {
@@ -304,7 +304,7 @@ public struct GameView: View {
                 previousBestScore: model.hud.gameOverPreviousBestScore,
                 nextFriendAhead: model.hud.gameOverNextFriendAhead,
                 overtakenFriends: model.hud.gameOverOvertakenFriends,
-                newlyAchievedChallengeIDs: model.hud.gameOverNewlyAchievedChallengeIDs,
+                newlyAchievedAchievementIDs: model.hud.gameOverNewlyAchievedAchievementIDs,
                 onRestart: handleRestartFromGameOver,
                 onFinish: handleFinishFromGameOver,
                 onPresented: model.handleGameOverModalPresentedIfNeeded
@@ -342,8 +342,8 @@ public struct GameView: View {
                 announceSpeedIncreaseIfNeeded(oldValue: false, newValue: true)
             }
         }
-        .onChange(of: debugForcedChallengeIdentifierRawValue) { _, _ in
-            model.setDebugForcedChallengeIdentifier(selectedDebugForcedChallengeIdentifier)
+        .onChange(of: debugForcedAchievementIdentifierRawValue) { _, _ in
+            model.setDebugForcedAchievementIdentifier(selectedDebugForcedAchievementIdentifier)
         }
         .onChange(of: debugShowSpriteKitFrameStats) { _, _ in
             model.updateDebugSpriteKitFrameStatsVisibility(shouldShowDebugSpriteKitFrameStats)
@@ -441,9 +441,9 @@ public struct GameView: View {
         return DirectTouchPreference.currentSelection(from: InfrastructureDefaults.userDefaults)
     }
 
-    private var selectedDebugForcedChallengeIdentifier: ChallengeIdentifier? {
+    private var selectedDebugForcedAchievementIdentifier: AchievementIdentifier? {
         guard BuildConfiguration.shouldShowDebugFeatures else { return nil }
-        return ChallengeIdentifier.resolvedFromStoredRawValue(debugForcedChallengeIdentifierRawValue)
+        return AchievementIdentifier.resolvedFromStoredRawValue(debugForcedAchievementIdentifierRawValue)
     }
 
     private var shouldShowDebugSpriteKitFrameStats: Bool {
@@ -546,7 +546,7 @@ public struct GameView: View {
         model.inputAdapter?.handleDrag(translation: translation)
     }
 
-    private func handleDirectionalMoveLeft(recordControlInput: ChallengeControlInput?) {
+    private func handleDirectionalMoveLeft(recordControlInput: AchievementControlInput?) {
         if let recordControlInput {
             model.recordControlInput(recordControlInput)
         }
@@ -554,7 +554,7 @@ public struct GameView: View {
         model.inputAdapter?.handleLeft()
     }
 
-    private func handleDirectionalMoveRight(recordControlInput: ChallengeControlInput?) {
+    private func handleDirectionalMoveRight(recordControlInput: AchievementControlInput?) {
         if let recordControlInput {
             model.recordControlInput(recordControlInput)
         }

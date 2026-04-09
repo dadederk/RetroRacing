@@ -1,5 +1,5 @@
 //
-//  ChallengeProgressServiceTests.swift
+//  AchievementProgressServiceTests.swift
 //  RetroRacingSharedTests
 //
 //  Created by Dani Devesa on 01/03/2026.
@@ -8,18 +8,18 @@
 import XCTest
 @testable import RetroRacingShared
 
-final class ChallengeProgressServiceTests: XCTestCase {
+final class AchievementProgressServiceTests: XCTestCase {
     private var highestScoreStore: MockHighestScoreStore!
-    private var store: MockChallengeProgressStore!
-    private var reporter: MockChallengeProgressReporter!
-    private var service: LocalChallengeProgressService!
+    private var store: MockAchievementProgressStore!
+    private var reporter: MockAchievementProgressReporter!
+    private var service: LocalAchievementProgressService!
 
     override func setUp() {
         super.setUp()
         highestScoreStore = MockHighestScoreStore()
-        store = MockChallengeProgressStore()
-        reporter = MockChallengeProgressReporter()
-        service = LocalChallengeProgressService(
+        store = MockAchievementProgressStore()
+        reporter = MockAchievementProgressReporter()
+        service = LocalAchievementProgressService(
             store: store,
             highestScoreStore: highestScoreStore,
             reporter: reporter
@@ -48,17 +48,17 @@ final class ChallengeProgressServiceTests: XCTestCase {
         XCTAssertEqual(snapshot.bestRunOvertakes, 400)
         XCTAssertEqual(snapshot.cumulativeOvertakes, 750)
         XCTAssertEqual(snapshot.backfillVersion, 1)
-        XCTAssertTrue(snapshot.achievedChallengeIDs.contains(.runOvertakes100))
-        XCTAssertTrue(snapshot.achievedChallengeIDs.contains(.runOvertakes200))
+        XCTAssertTrue(snapshot.achievedAchievementIDs.contains(.runOvertakes100))
+        XCTAssertTrue(snapshot.achievedAchievementIDs.contains(.runOvertakes200))
     }
 
     func testGivenBackfillAlreadyAppliedWhenPerformingBackfillThenSnapshotRemainsUnchanged() {
         // Given
-        store.snapshot = ChallengeProgressSnapshot(
+        store.snapshot = AchievementProgressSnapshot(
             bestRunOvertakes: 900,
             cumulativeOvertakes: 10_000,
             lifetimeUsedControls: [],
-            achievedChallengeIDs: [.runOvertakes800],
+            achievedAchievementIDs: [.runOvertakes800],
             backfillVersion: 1
         )
         _ = highestScoreStore.updateIfHigher(100, for: .rapid)
@@ -75,7 +75,7 @@ final class ChallengeProgressServiceTests: XCTestCase {
 
     func testGivenCompletedRunWhenRecordingThenUpdatesSnapshotAndReportsNewAchievements() {
         // Given
-        let run = CompletedRunChallengeData(
+        let run = CompletedRunAchievementData(
             overtakes: 1_200,
             usedControls: [.tap, .voiceOver, .gameController]
         )
@@ -88,20 +88,20 @@ final class ChallengeProgressServiceTests: XCTestCase {
         XCTAssertEqual(update.snapshot.cumulativeOvertakes, 1_200)
         XCTAssertTrue(update.snapshot.lifetimeUsedControls.contains(.tap))
         XCTAssertTrue(update.snapshot.lifetimeUsedControls.contains(.voiceOver))
-        XCTAssertTrue(update.newlyAchievedChallengeIDs.contains(.runOvertakes800))
-        XCTAssertTrue(update.newlyAchievedChallengeIDs.contains(.totalOvertakes1k))
-        XCTAssertTrue(update.newlyAchievedChallengeIDs.contains(.controlTap))
-        XCTAssertTrue(update.newlyAchievedChallengeIDs.contains(.controlVoiceOver))
-        XCTAssertTrue(update.newlyAchievedChallengeIDs.contains(.controlGameController))
+        XCTAssertTrue(update.newlyAchievedAchievementIDs.contains(.runOvertakes800))
+        XCTAssertTrue(update.newlyAchievedAchievementIDs.contains(.totalOvertakes1k))
+        XCTAssertTrue(update.newlyAchievedAchievementIDs.contains(.controlTap))
+        XCTAssertTrue(update.newlyAchievedAchievementIDs.contains(.controlVoiceOver))
+        XCTAssertTrue(update.newlyAchievedAchievementIDs.contains(.controlGameController))
     }
 
     func testGivenExistingProgressHigherThanBackfillWhenPerformingBackfillThenDoesNotRegress() {
         // Given
-        store.snapshot = ChallengeProgressSnapshot(
+        store.snapshot = AchievementProgressSnapshot(
             bestRunOvertakes: 3_000,
             cumulativeOvertakes: 15_000,
             lifetimeUsedControls: [.swipe],
-            achievedChallengeIDs: [.totalOvertakes10k],
+            achievedAchievementIDs: [.totalOvertakes10k],
             backfillVersion: nil
         )
         _ = highestScoreStore.updateIfHigher(100, for: .cruise)
@@ -118,9 +118,9 @@ final class ChallengeProgressServiceTests: XCTestCase {
         XCTAssertTrue(snapshot.lifetimeUsedControls.contains(.swipe))
     }
 
-    func testGivenGAADWeekAssistiveRunWhenRecordingThenGAADChallengeIsAchieved() {
+    func testGivenGAADWeekAssistiveRunWhenRecordingThenGAADAchievementIsAchieved() {
         // Given
-        let run = CompletedRunChallengeData(
+        let run = CompletedRunAchievementData(
             overtakes: 120,
             usedControls: [.tap],
             completedAt: makeUTCDate(year: 2026, month: 5, day: 21, hour: 12, minute: 0, second: 0),
@@ -132,13 +132,13 @@ final class ChallengeProgressServiceTests: XCTestCase {
 
         // Then
         XCTAssertEqual(update.snapshot.gaadAssistiveRunCompleted, true)
-        XCTAssertTrue(update.snapshot.achievedChallengeIDs.contains(.eventGAADAssistive))
-        XCTAssertTrue(update.newlyAchievedChallengeIDs.contains(.eventGAADAssistive))
+        XCTAssertTrue(update.snapshot.achievedAchievementIDs.contains(.eventGAADAssistive))
+        XCTAssertTrue(update.newlyAchievedAchievementIDs.contains(.eventGAADAssistive))
     }
 
-    func testGivenGAADWeekWithoutAssistiveRunWhenRecordingThenGAADChallengeIsNotAchieved() {
+    func testGivenGAADWeekWithoutAssistiveRunWhenRecordingThenGAADAchievementIsNotAchieved() {
         // Given
-        let run = CompletedRunChallengeData(
+        let run = CompletedRunAchievementData(
             overtakes: 120,
             usedControls: [.tap],
             completedAt: makeUTCDate(year: 2026, month: 5, day: 22, hour: 9, minute: 0, second: 0),
@@ -150,13 +150,13 @@ final class ChallengeProgressServiceTests: XCTestCase {
 
         // Then
         XCTAssertNotEqual(update.snapshot.gaadAssistiveRunCompleted, true)
-        XCTAssertFalse(update.snapshot.achievedChallengeIDs.contains(.eventGAADAssistive))
-        XCTAssertFalse(update.newlyAchievedChallengeIDs.contains(.eventGAADAssistive))
+        XCTAssertFalse(update.snapshot.achievedAchievementIDs.contains(.eventGAADAssistive))
+        XCTAssertFalse(update.newlyAchievedAchievementIDs.contains(.eventGAADAssistive))
     }
 
-    func testGivenAssistiveRunOutsideGAADWeekWhenRecordingThenGAADChallengeIsNotAchieved() {
+    func testGivenAssistiveRunOutsideGAADWeekWhenRecordingThenGAADAchievementIsNotAchieved() {
         // Given
-        let run = CompletedRunChallengeData(
+        let run = CompletedRunAchievementData(
             overtakes: 120,
             usedControls: [.tap],
             completedAt: makeUTCDate(year: 2026, month: 6, day: 1, hour: 10, minute: 0, second: 0),
@@ -168,21 +168,21 @@ final class ChallengeProgressServiceTests: XCTestCase {
 
         // Then
         XCTAssertNotEqual(update.snapshot.gaadAssistiveRunCompleted, true)
-        XCTAssertFalse(update.snapshot.achievedChallengeIDs.contains(.eventGAADAssistive))
-        XCTAssertFalse(update.newlyAchievedChallengeIDs.contains(.eventGAADAssistive))
+        XCTAssertFalse(update.snapshot.achievedAchievementIDs.contains(.eventGAADAssistive))
+        XCTAssertFalse(update.newlyAchievedAchievementIDs.contains(.eventGAADAssistive))
     }
 
-    func testGivenGAADChallengeAlreadyCompletedWhenRecordingNonEligibleRunThenCompletionFlagStaysTrue() {
+    func testGivenGAADAchievementAlreadyCompletedWhenRecordingNonEligibleRunThenCompletionFlagStaysTrue() {
         // Given
-        store.snapshot = ChallengeProgressSnapshot(
+        store.snapshot = AchievementProgressSnapshot(
             bestRunOvertakes: 0,
             cumulativeOvertakes: 0,
             lifetimeUsedControls: [],
             gaadAssistiveRunCompleted: true,
-            achievedChallengeIDs: [.eventGAADAssistive],
+            achievedAchievementIDs: [.eventGAADAssistive],
             backfillVersion: 1
         )
-        let run = CompletedRunChallengeData(
+        let run = CompletedRunAchievementData(
             overtakes: 50,
             usedControls: [.tap],
             completedAt: makeUTCDate(year: 2026, month: 7, day: 1, hour: 10, minute: 0, second: 0),
@@ -194,34 +194,34 @@ final class ChallengeProgressServiceTests: XCTestCase {
 
         // Then
         XCTAssertEqual(update.snapshot.gaadAssistiveRunCompleted, true)
-        XCTAssertTrue(update.snapshot.achievedChallengeIDs.contains(.eventGAADAssistive))
+        XCTAssertTrue(update.snapshot.achievedAchievementIDs.contains(.eventGAADAssistive))
     }
 
-    func testGivenAchievedChallengesWhenReplayingThenReporterReceivesAllAchievedIDs() {
+    func testGivenAchievedAchievementsWhenReplayingThenReporterReceivesAllAchievedIDs() {
         // Given
-        store.snapshot = ChallengeProgressSnapshot(
+        store.snapshot = AchievementProgressSnapshot(
             bestRunOvertakes: 0,
             cumulativeOvertakes: 0,
             lifetimeUsedControls: [],
             gaadAssistiveRunCompleted: true,
-            achievedChallengeIDs: [.controlTap, .eventGAADAssistive],
+            achievedAchievementIDs: [.controlTap, .eventGAADAssistive],
             backfillVersion: 1
         )
 
         // When
-        service.replayAchievedChallenges()
+        service.replayAchievedAchievements()
 
         // Then
         XCTAssertEqual(reporter.reported.count, 1)
         XCTAssertEqual(reporter.reported.first, Set([.controlTap, .eventGAADAssistive]))
     }
 
-    func testGivenNoAchievedChallengesWhenReplayingThenReporterIsNotCalled() {
+    func testGivenNoAchievedAchievementsWhenReplayingThenReporterIsNotCalled() {
         // Given
         store.snapshot = .empty
 
         // When
-        service.replayAchievedChallenges()
+        service.replayAchievedAchievements()
 
         // Then
         XCTAssertTrue(reporter.reported.isEmpty)
@@ -273,23 +273,23 @@ private final class MockHighestScoreStore: HighestScoreStore {
     }
 }
 
-private final class MockChallengeProgressStore: ChallengeProgressStore {
-    var snapshot = ChallengeProgressSnapshot.empty
+private final class MockAchievementProgressStore: AchievementProgressStore {
+    var snapshot = AchievementProgressSnapshot.empty
 
-    func load() -> ChallengeProgressSnapshot {
+    func load() -> AchievementProgressSnapshot {
         snapshot
     }
 
-    func save(_ snapshot: ChallengeProgressSnapshot) {
+    func save(_ snapshot: AchievementProgressSnapshot) {
         self.snapshot = snapshot
     }
 }
 
-private final class MockChallengeProgressReporter: ChallengeProgressReporter {
-    private(set) var reported: [Set<ChallengeIdentifier>] = []
+private final class MockAchievementProgressReporter: AchievementProgressReporter {
+    private(set) var reported: [Set<AchievementIdentifier>] = []
 
-    func reportAchievedChallenges(_ challengeIDs: Set<ChallengeIdentifier>) {
-        guard challengeIDs.isEmpty == false else { return }
-        reported.append(challengeIDs)
+    func reportAchievedAchievements(_ achievementIDs: Set<AchievementIdentifier>) {
+        guard achievementIDs.isEmpty == false else { return }
+        reported.append(achievementIDs)
     }
 }

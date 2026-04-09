@@ -34,7 +34,9 @@ struct RetroRacingApp: App {
     private let hapticController: HapticFeedbackController
     private let supportsHapticFeedback: Bool
     private let highestScoreStore: HighestScoreStore
-    private let challengeProgressService: ChallengeProgressService
+    private let achievementProgressService: AchievementProgressService
+    private let achievementMetadataService: any AchievementMetadataService
+    private let pendingLeaderboardScoreStore: any PendingLeaderboardScoreStore
     private let bestScoreSyncService: BestScoreSyncService
     private let watchRelayIngestionService: WatchRelayedBestScoreIngestionService?
     /// Retained so WCSession delegate callbacks remain active.
@@ -62,6 +64,7 @@ struct RetroRacingApp: App {
             supportsHaptics: supportsHaptics
         )
         storeKitService = StoreKitService(userDefaults: userDefaults)
+        pendingLeaderboardScoreStore = UserDefaultsPendingLeaderboardScoreStore(userDefaults: userDefaults)
         #if os(macOS)
         leaderboardConfiguration = LeaderboardConfigurationMac()
         controlsDescriptionKey = "settings_controls_macos"
@@ -100,7 +103,8 @@ struct RetroRacingApp: App {
             authenticationPresenter: authenticationPresenter,
             authenticateHandlerSetter: leaderboardPlatformConfig.authenticateHandlerSetter,
             isDebugBuild: BuildConfiguration.isDebug,
-            allowDebugScoreSubmission: true
+            allowDebugScoreSubmission: true,
+            pendingScoreStore: pendingLeaderboardScoreStore
         )
         #if canImport(UIKit)
         ratingService = StoreReviewService(userDefaults: userDefaults, ratingProvider: RatingServiceProviderUniversal())
@@ -124,13 +128,14 @@ struct RetroRacingApp: App {
         hapticController = hapticsConfig.controllerProvider()
         supportsHapticFeedback = hapticsConfig.supportsHaptics
         highestScoreStore = UserDefaultsHighestScoreStore(userDefaults: userDefaults)
-        challengeProgressService = LocalChallengeProgressService(
-            store: UserDefaultsChallengeProgressStore(userDefaults: userDefaults),
+        achievementProgressService = LocalAchievementProgressService(
+            store: UserDefaultsAchievementProgressStore(userDefaults: userDefaults),
             highestScoreStore: highestScoreStore,
-            reporter: GameCenterChallengeProgressReporter()
+            reporter: GameCenterAchievementProgressReporter()
         )
-        challengeProgressService.performInitialBackfillIfNeeded()
-        challengeProgressService.replayAchievedChallenges()
+        achievementProgressService.performInitialBackfillIfNeeded()
+        achievementProgressService.replayAchievedAchievements()
+        achievementMetadataService = GameCenterAchievementMetadataService()
         bestScoreSyncService = BestScoreSyncService(
             leaderboardService: gameCenterService,
             highestScoreStore: highestScoreStore,
@@ -211,6 +216,7 @@ struct RetroRacingApp: App {
             NavigationStack {
                 rootView
                     .environment(storeKitService)
+                    .achievementMetadataService(achievementMetadataService)
                     .task {
                         await storeKitService.loadProducts()
                         await bestScoreSyncService.syncIfPossible()
@@ -227,7 +233,9 @@ struct RetroRacingApp: App {
                         Task {
                             await bestScoreSyncService.syncIfPossible()
                             await watchRelayIngestionService?.flushPendingIfPossible(trigger: .gameCenterAuthChanged)
-                            challengeProgressService.replayAchievedChallenges()
+                            achievementProgressService.replayAchievedAchievements()
+                            gameCenterService.flushPendingScoresIfPossible()
+                            await achievementMetadataService.invalidate()
                         }
                     }
                     .onChange(of: scenePhase) { _, newValue in
@@ -287,7 +295,7 @@ struct RetroRacingApp: App {
             supportsHapticFeedback: supportsHapticFeedback,
             fontPreferenceStore: fontPreferenceStore,
             highestScoreStore: highestScoreStore,
-            challengeProgressService: challengeProgressService,
+            achievementProgressService: achievementProgressService,
             playLimitService: playLimitService,
             style: .universal,
             inputAdapterFactory: TouchInputAdapterFactory(),
@@ -318,7 +326,7 @@ struct RetroRacingApp: App {
             hapticController: hapticController,
             supportsHapticFeedback: supportsHapticFeedback,
             highestScoreStore: highestScoreStore,
-            challengeProgressService: challengeProgressService,
+            achievementProgressService: achievementProgressService,
             playLimitService: playLimitService,
             style: .universal,
             settingsStyle: .universal,
@@ -342,7 +350,7 @@ struct RetroRacingApp: App {
             hapticController: hapticController,
             supportsHapticFeedback: supportsHapticFeedback,
             highestScoreStore: highestScoreStore,
-            challengeProgressService: challengeProgressService,
+            achievementProgressService: achievementProgressService,
             playLimitService: playLimitService,
             style: .universal,
             settingsStyle: .universal,
@@ -382,7 +390,7 @@ struct RetroRacingApp: App {
             speedWarningFeedbackPreviewPlayer: previewDependencies.speedWarningFeedbackPreviewPlayer,
             controlsDescriptionKey: controlsDescriptionKey,
             style: .universal,
-            challengeProgressService: challengeProgressService,
+            achievementProgressService: achievementProgressService,
             isGameSessionInProgress: shouldStartGame && !isMenuPresented,
             playLimitService: playLimitService
         )

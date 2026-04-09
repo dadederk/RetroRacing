@@ -34,8 +34,8 @@ Requirements documents serve as:
 
 - **leaderboard_implementation.md** - Game Center integration with protocol-based architecture
 - **game_center_social_milestones.md** - Friend-score milestones in gameplay and game-over social recap
-- **achievements.md** - Challenge catalog, GAAD event logic, and Game Center achievement reporting/replay
-- **challenges_rollout_checklist.md** - Per-bundle App Store Connect and Developer Portal rollout checklist for challenges
+- **achievements.md** - Achievement catalog, GAAD event logic, and Game Center achievement reporting/replay
+- **achievements_rollout_checklist.md** - Per-bundle App Store Connect and Developer Portal rollout checklist for achievements
 - **accessibility.md** - Platform-specific accessibility requirements and patterns
 - **testing.md** - Unit test strategy, coverage goals, and testing patterns
 - **theming_system.md** - Visual theme system, monetization, and platform recommendations

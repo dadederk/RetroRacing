@@ -26,7 +26,7 @@ public struct SettingsView: View {
     public let isGameSessionInProgress: Bool
     /// Optional play limit service for showing remaining rounds.
     public let playLimitService: PlayLimitService?
-    public let challengeProgressService: ChallengeProgressService
+    public let achievementProgressService: AchievementProgressService
 
     @Environment(\.dismiss) private var dismiss
     @Environment(StoreKitService.self) private var storeKit
@@ -34,8 +34,8 @@ public struct SettingsView: View {
     @AppStorage(HapticFeedbackPreference.storageKey) private var hapticFeedbackEnabled: Bool = true
     @AppStorage(FriendOvertakeVoiceOverAnnouncementPreference.storageKey)
     private var friendOvertakeVoiceOverAnnouncementEnabled: Bool = FriendOvertakeVoiceOverAnnouncementPreference.defaultEnabled
-    @AppStorage(DebugGameplayStorageKeys.forcedChallengeIdentifier)
-    private var debugForcedChallengeIdentifierRawValue: String = DebugGameplayStorageKeys.noForcedChallengeIdentifier
+    @AppStorage(DebugGameplayStorageKeys.forcedAchievementIdentifier)
+    private var debugForcedAchievementIdentifierRawValue: String = DebugGameplayStorageKeys.noForcedAchievementIdentifier
     @AppStorage(DebugGameplayStorageKeys.showSpriteKitFrameStats) private var debugShowSpriteKitFrameStats: Bool = false
     @State private var isRestoringPurchases = false
     @State private var restoreMessage: String?
@@ -56,7 +56,7 @@ public struct SettingsView: View {
         speedWarningFeedbackPreviewPlayer: any SpeedIncreaseWarningFeedbackPlaying,
         controlsDescriptionKey: String,
         style: SettingsViewStyle,
-        challengeProgressService: ChallengeProgressService,
+        achievementProgressService: AchievementProgressService,
         isGameSessionInProgress: Bool = false,
         playLimitService: PlayLimitService? = nil
     ) {
@@ -68,7 +68,7 @@ public struct SettingsView: View {
         self.speedWarningFeedbackPreviewPlayer = speedWarningFeedbackPreviewPlayer
         self.controlsDescriptionKey = controlsDescriptionKey
         self.style = style
-        self.challengeProgressService = challengeProgressService
+        self.achievementProgressService = achievementProgressService
         self.isGameSessionInProgress = isGameSessionInProgress
         self.playLimitService = playLimitService
         _preferencesStore = State(initialValue: SettingsPreferencesStore(
@@ -535,21 +535,21 @@ public struct SettingsView: View {
                         inlineSectionFooterRow(text: GameLocalizedStrings.string("debug_simulate_premium_footer"))
                         #endif
 
-                        Picker(selection: $debugForcedChallengeIdentifierRawValue) {
-                            Text(GameLocalizedStrings.string("debug_force_challenge_none"))
+                        Picker(selection: $debugForcedAchievementIdentifierRawValue) {
+                            Text(GameLocalizedStrings.string("debug_force_achievement_none"))
                                 .font(fontForLabels)
-                                .tag(DebugGameplayStorageKeys.noForcedChallengeIdentifier)
-                            ForEach(debugChallengePickerOptions, id: \.rawValue) { challengeIdentifier in
-                                Text(challengeIdentifier.localizedTitle)
+                                .tag(DebugGameplayStorageKeys.noForcedAchievementIdentifier)
+                            ForEach(debugAchievementPickerOptions, id: \.rawValue) { achievementIdentifier in
+                                Text(achievementIdentifier.localizedTitle)
                                     .font(fontForLabels)
-                                    .tag(challengeIdentifier.rawValue)
+                                    .tag(achievementIdentifier.rawValue)
                             }
                         } label: {
-                            Text(GameLocalizedStrings.string("debug_force_challenge_picker_title"))
+                            Text(GameLocalizedStrings.string("debug_force_achievement_picker_title"))
                                 .font(fontForLabels)
                         }
 
-                        Text(GameLocalizedStrings.string("debug_force_challenge_picker_footer"))
+                        Text(GameLocalizedStrings.string("debug_force_achievement_picker_footer"))
                             .font(secondaryFont)
                             .foregroundStyle(.secondary)
 
@@ -562,8 +562,8 @@ public struct SettingsView: View {
                         Text(GameLocalizedStrings.string("debug_gaad_panel_title"))
                             .font(fontForLabels)
 
-                        GAADChallengeDebugPanel(
-                            challengeProgressService: challengeProgressService,
+                        GAADAchievementDebugPanel(
+                            achievementProgressService: achievementProgressService,
                             qualificationMode: .voiceOverAndSwitchControl,
                             primaryFont: fontForLabels,
                             secondaryFont: secondaryFont
@@ -663,8 +663,8 @@ public struct SettingsView: View {
         return GameLocalizedStrings.format("settings_percentage_value", percent)
     }
 
-    private var debugChallengePickerOptions: [ChallengeIdentifier] {
-        ChallengeIdentifier.allCases.sorted { lhs, rhs in
+    private var debugAchievementPickerOptions: [AchievementIdentifier] {
+        AchievementIdentifier.allCases.sorted { lhs, rhs in
             lhs.rawValue < rhs.rawValue
         }
     }
@@ -807,10 +807,10 @@ private struct SettingsFooterTextStyle: ViewModifier {
         speedWarningFeedbackPreviewPlayer: previewSpeedWarningPlayer,
         controlsDescriptionKey: "settings_controls_ios",
         style: .universal,
-        challengeProgressService: LocalChallengeProgressService(
-            store: UserDefaultsChallengeProgressStore(userDefaults: InfrastructureDefaults.userDefaults),
+        achievementProgressService: LocalAchievementProgressService(
+            store: UserDefaultsAchievementProgressStore(userDefaults: InfrastructureDefaults.userDefaults),
             highestScoreStore: UserDefaultsHighestScoreStore(userDefaults: InfrastructureDefaults.userDefaults),
-            reporter: NoOpChallengeProgressReporter()
+            reporter: NoOpAchievementProgressReporter()
         ),
         playLimitService: nil
     )

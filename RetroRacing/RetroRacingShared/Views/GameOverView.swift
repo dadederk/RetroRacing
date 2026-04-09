@@ -16,7 +16,7 @@ public struct GameOverView: View {
     public let previousBestScore: Int?
     public let nextFriendAhead: GameOverFriendAheadSummary?
     public let overtakenFriends: [GameOverOvertakenFriendSummary]
-    public let newlyAchievedChallengeIDs: [ChallengeIdentifier]
+    public let newlyAchievedAchievementIDs: [AchievementIdentifier]
     public let onRestart: () -> Void
     public let onFinish: () -> Void
     public let onPresented: (() -> Void)?
@@ -25,7 +25,7 @@ public struct GameOverView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dynamicTypeSize) var dynamicTypeSize
     @ScaledMetric(relativeTo: .body) var avatarSize: CGFloat = 24
-    @State private var isChallengeModalPresented = false
+    @State private var isAchievementModalPresented = false
     #if !os(watchOS) && !os(tvOS)
     // Internal (not private) so GameOverView+Sharing.swift can read and write it across files.
     @State var gameOverShareImageURL: URL?
@@ -52,7 +52,7 @@ public struct GameOverView: View {
         previousBestScore: Int?,
         nextFriendAhead: GameOverFriendAheadSummary? = nil,
         overtakenFriends: [GameOverOvertakenFriendSummary] = [],
-        newlyAchievedChallengeIDs: [ChallengeIdentifier] = [],
+        newlyAchievedAchievementIDs: [AchievementIdentifier] = [],
         onRestart: @escaping () -> Void,
         onFinish: @escaping () -> Void,
         onPresented: (() -> Void)? = nil
@@ -64,7 +64,7 @@ public struct GameOverView: View {
         self.previousBestScore = previousBestScore
         self.nextFriendAhead = nextFriendAhead
         self.overtakenFriends = overtakenFriends
-        self.newlyAchievedChallengeIDs = newlyAchievedChallengeIDs
+        self.newlyAchievedAchievementIDs = newlyAchievedAchievementIDs
         self.onRestart = onRestart
         self.onFinish = onFinish
         self.onPresented = onPresented
@@ -99,15 +99,15 @@ public struct GameOverView: View {
         .frame(minWidth: 520, minHeight: 640)
         #endif
         .interactiveDismissDisabled(true)
-        .sheet(isPresented: $isChallengeModalPresented) {
-            ChallengeUnlockView(
-                challengeIDs: newlyAchievedChallengeIDs,
-                onDone: { isChallengeModalPresented = false }
+        .sheet(isPresented: $isAchievementModalPresented) {
+            AchievementUnlockView(
+                achievementIDs: newlyAchievedAchievementIDs,
+                onDone: { isAchievementModalPresented = false }
             )
         }
         .onAppear {
             onPresented?()
-            isChallengeModalPresented = newlyAchievedChallengeIDs.isEmpty == false
+            isAchievementModalPresented = newlyAchievedAchievementIDs.isEmpty == false
             #if !os(watchOS) && !os(tvOS)
             refreshShareImage()
             #endif

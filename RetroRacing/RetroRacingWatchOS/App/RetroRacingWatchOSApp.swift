@@ -31,7 +31,9 @@ struct RetroRacingWatchOSApp: App {
     private let bestScoreSyncService: BestScoreSyncService
     private let fontPreferenceStore: FontPreferenceStore
     private let highestScoreStore = UserDefaultsHighestScoreStore(userDefaults: InfrastructureDefaults.userDefaults)
-    private let challengeProgressService: ChallengeProgressService
+    private let achievementProgressService: AchievementProgressService
+    private let achievementMetadataService: any AchievementMetadataService
+    private let pendingLeaderboardScoreStore: any PendingLeaderboardScoreStore
     private let playLimitService = UserDefaultsPlayLimitService(userDefaults: InfrastructureDefaults.userDefaults)
     private let watchBestScoreRelaySender: WatchBestScoreRelaySender
     @State private var authenticationRetryCount = 0
@@ -42,15 +44,18 @@ struct RetroRacingWatchOSApp: App {
                 themeManager: themeManager,
                 fontPreferenceStore: fontPreferenceStore,
                 highestScoreStore: highestScoreStore,
-                challengeProgressService: challengeProgressService,
+                achievementProgressService: achievementProgressService,
                 leaderboardService: leaderboardService,
                 watchBestScoreRelaySender: watchBestScoreRelaySender
             )
+            .achievementMetadataService(achievementMetadataService)
             .onAppear {
                 setupGameCenterAuthentication {
                     Task {
                         await bestScoreSyncService.syncIfPossible()
-                        challengeProgressService.replayAchievedChallenges()
+                        achievementProgressService.replayAchievedAchievements()
+                        leaderboardService.flushPendingScoresIfPossible()
+                        await achievementMetadataService.invalidate()
                     }
                 }
             }
@@ -62,7 +67,9 @@ struct RetroRacingWatchOSApp: App {
                 )
                 Task {
                     await bestScoreSyncService.syncIfPossible()
-                    challengeProgressService.replayAchievedChallenges()
+                    achievementProgressService.replayAchievedAchievements()
+                    leaderboardService.flushPendingScoresIfPossible()
+                    await achievementMetadataService.invalidate()
                 }
             }
         }
@@ -82,6 +89,8 @@ struct RetroRacingWatchOSApp: App {
         
         // Initialize Game Center service for watchOS
         let configuration = LeaderboardConfigurationWatchOS()
+        let pendingStore = UserDefaultsPendingLeaderboardScoreStore(userDefaults: InfrastructureDefaults.userDefaults)
+        pendingLeaderboardScoreStore = pendingStore
         leaderboardService = GameCenterService(
             configuration: configuration,
             friendSnapshotService: GameCenterFriendSnapshotService(
@@ -91,7 +100,8 @@ struct RetroRacingWatchOSApp: App {
             authenticationPresenter: nil,
             authenticateHandlerSetter: nil,
             isDebugBuild: BuildConfiguration.isDebug,
-            allowDebugScoreSubmission: true
+            allowDebugScoreSubmission: false,
+            pendingScoreStore: pendingStore
         )
         bestScoreSyncService = BestScoreSyncService(
             leaderboardService: leaderboardService,
@@ -100,13 +110,14 @@ struct RetroRacingWatchOSApp: App {
                 GameDifficulty.currentSelection(from: InfrastructureDefaults.userDefaults)
             }
         )
-        challengeProgressService = LocalChallengeProgressService(
-            store: UserDefaultsChallengeProgressStore(userDefaults: InfrastructureDefaults.userDefaults),
+        achievementProgressService = LocalAchievementProgressService(
+            store: UserDefaultsAchievementProgressStore(userDefaults: InfrastructureDefaults.userDefaults),
             highestScoreStore: highestScoreStore,
-            reporter: GameCenterChallengeProgressReporter()
+            reporter: GameCenterAchievementProgressReporter()
         )
-        challengeProgressService.performInitialBackfillIfNeeded()
-        challengeProgressService.replayAchievedChallenges()
+        achievementProgressService.performInitialBackfillIfNeeded()
+        achievementProgressService.replayAchievedAchievements()
+        achievementMetadataService = GameCenterAchievementMetadataService()
         let relaySender = WatchConnectivityBestScoreRelaySender()
         relaySender.activateIfPossible()
         watchBestScoreRelaySender = relaySender

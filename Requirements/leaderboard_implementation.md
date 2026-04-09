@@ -86,6 +86,20 @@ protocol LeaderboardService {
   - trigger: Game Center auth state change
 - If verification cannot confirm remote persistence, pending best remains for a later natural trigger.
 
+### Pending score queue (offline / unauthenticated)
+
+When `submitScore` is called while the player is not authenticated, the score is stored as a
+pending best in `PendingLeaderboardScoreStore` (backed by `UserDefaultsPendingLeaderboardScoreStore`).
+Only the best pending score per difficulty is retained.
+
+`GameCenterService.flushPendingScoresIfPossible()` submits all pending scores to Game Center
+once authenticated. It is called in the same auth-change and lifecycle handlers as
+`replayAchievedAchievements()`.
+
+If `verifyRemoteBestAfterSubmit` fails all three verification attempts (submitted score cannot
+be read back from Game Center), the score is also re-queued as pending so a future trigger
+can retry it.
+
 ### Best-Score Sync
 
 - `BestScoreSyncService` syncs local best score from Game Center when available:
@@ -269,7 +283,7 @@ struct RetroRacingWatchOSApp: App {
             authenticationPresenter: nil,
             authenticateHandlerSetter: nil,
             isDebugBuild: BuildConfiguration.isDebug,
-            allowDebugScoreSubmission: true
+            allowDebugScoreSubmission: false
         )
         watchBestScoreRelaySender = WatchConnectivityBestScoreRelaySender()
     }

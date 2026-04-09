@@ -27,7 +27,7 @@ public enum VoiceOverStatus {
     }
 }
 
-/// Shared Switch Control status helper for challenge telemetry.
+/// Shared Switch Control status helper for achievement telemetry.
 /// watchOS currently does not expose an equivalent public runtime status API.
 public enum SwitchControlStatus {
     public static var isSwitchControlRunning: Bool {
@@ -41,10 +41,10 @@ public enum SwitchControlStatus {
     }
 }
 
-/// Shared assistive-technology status used by GAAD challenge telemetry.
+/// Shared assistive-technology status used by GAAD achievement telemetry.
 public enum AssistiveTechnologyStatus {
-    public static var activeTechnologies: Set<ChallengeAssistiveTechnology> {
-        var technologies = Set<ChallengeAssistiveTechnology>()
+    public static var activeTechnologies: Set<AchievementAssistiveTechnology> {
+        var technologies = Set<AchievementAssistiveTechnology>()
         if VoiceOverStatus.isVoiceOverRunning {
             technologies.insert(.voiceOver)
         }

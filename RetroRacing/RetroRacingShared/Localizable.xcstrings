@@ -691,7 +691,7 @@
         }
       }
     },
-    "challenge_control_name_crown" : {
+    "achievement_control_name_crown" : {
       "extractionState" : "manual",
       "localizations" : {
         "ca" : {
@@ -714,7 +714,7 @@
         }
       }
     },
-    "challenge_control_name_gamecontroller" : {
+    "achievement_control_name_gamecontroller" : {
       "extractionState" : "manual",
       "localizations" : {
         "ca" : {
@@ -737,7 +737,7 @@
         }
       }
     },
-    "challenge_control_name_keyboard" : {
+    "achievement_control_name_keyboard" : {
       "extractionState" : "manual",
       "localizations" : {
         "ca" : {
@@ -760,7 +760,7 @@
         }
       }
     },
-    "challenge_control_name_swipe" : {
+    "achievement_control_name_swipe" : {
       "extractionState" : "manual",
       "localizations" : {
         "ca" : {
@@ -783,7 +783,7 @@
         }
       }
     },
-    "challenge_control_name_tap" : {
+    "achievement_control_name_tap" : {
       "extractionState" : "manual",
       "localizations" : {
         "ca" : {
@@ -806,7 +806,7 @@
         }
       }
     },
-    "challenge_control_name_voiceover" : {
+    "achievement_control_name_voiceover" : {
       "extractionState" : "manual",
       "localizations" : {
         "ca" : {
@@ -829,53 +829,53 @@
         }
       }
     },
-    "challenge_modal_more %lld" : {
+    "achievement_modal_more %lld" : {
       "extractionState" : "manual",
       "localizations" : {
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "+%lld reptes més"
+            "value" : "+%lld assoliments més"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "+%lld more challenges"
+            "value" : "+%lld more achievements"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "+%lld retos más"
+            "value" : "+%lld logros más"
           }
         }
       }
     },
-    "challenge_modal_other_challenges" : {
+    "achievement_modal_other_achievements" : {
       "extractionState" : "manual",
       "localizations" : {
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Altres reptes"
+            "value" : "Altres assoliments"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Other challenges"
+            "value" : "Other achievements"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Otros retos"
+            "value" : "Otros logros"
           }
         }
       }
     },
-    "challenge_modal_subtitle" : {
+    "achievement_modal_subtitle" : {
       "extractionState" : "manual",
       "localizations" : {
         "ca" : {
@@ -898,30 +898,30 @@
         }
       }
     },
-    "challenge_modal_title" : {
+    "achievement_modal_title" : {
       "extractionState" : "manual",
       "localizations" : {
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Repte completat!"
+            "value" : "Assoliment completat!"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Challenge Completed!"
+            "value" : "Achievement Completed!"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "¡Reto completado!"
+            "value" : "¡Logro completado!"
           }
         }
       }
     },
-    "challenge_title_control %@" : {
+    "achievement_title_control %@" : {
       "extractionState" : "manual",
       "localizations" : {
         "ca" : {
@@ -944,7 +944,7 @@
         }
       }
     },
-    "challenge_title_event_gaad" : {
+    "achievement_title_event_gaad" : {
       "extractionState" : "manual",
       "localizations" : {
         "ca" : {
@@ -967,7 +967,7 @@
         }
       }
     },
-    "challenge_title_run_overtakes %lld" : {
+    "achievement_title_run_overtakes %lld" : {
       "extractionState" : "manual",
       "localizations" : {
         "ca" : {
@@ -990,7 +990,7 @@
         }
       }
     },
-    "challenge_title_total_overtakes %lld" : {
+    "achievement_title_total_overtakes %lld" : {
       "extractionState" : "manual",
       "localizations" : {
         "ca" : {
@@ -1404,71 +1404,71 @@
         }
       }
     },
-    "debug_force_challenge_none" : {
+    "debug_force_achievement_none" : {
       "extractionState" : "manual",
       "localizations" : {
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cap repte forçat"
+            "value" : "Cap assoliment forçat"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No forced challenge"
+            "value" : "No forced achievement"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ningún reto forzado"
+            "value" : "Ningún logro forzado"
           }
         }
       }
     },
-    "debug_force_challenge_picker_footer" : {
+    "debug_force_achievement_picker_footer" : {
       "extractionState" : "manual",
       "localizations" : {
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Força que el repte seleccionat aparega en la interfície de Joc Finalitzat sense enviar-lo."
+            "value" : "Força que l'assoliment seleccionat aparega en la interfície de Joc Finalitzat sense enviar-lo."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Forces the selected challenge to appear in Game Over UI without reporting it."
+            "value" : "Forces the selected achievement to appear in Game Over UI without reporting it."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fuerza que el reto seleccionado aparezca en la interfaz de Fin de partida sin enviarlo."
+            "value" : "Fuerza que el logro seleccionado aparezca en la interfaz de Fin de partida sin enviarlo."
           }
         }
       }
     },
-    "debug_force_challenge_picker_title" : {
+    "debug_force_achievement_picker_title" : {
       "extractionState" : "manual",
       "localizations" : {
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Forçar desbloqueig de repte"
+            "value" : "Forçar desbloqueig d'assoliment"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Force challenge unlock"
+            "value" : "Force achievement unlock"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Forzar desbloqueo de reto"
+            "value" : "Forzar desbloqueo de logro"
           }
         }
       }
@@ -1640,19 +1640,19 @@
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "QA repte GAAD"
+            "value" : "QA assoliment GAAD"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "GAAD Challenge QA"
+            "value" : "GAAD Achievement QA"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "QA reto GAAD"
+            "value" : "QA logro GAAD"
           }
         }
       }
@@ -3193,7 +3193,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Parada en boxes! Has agotado todas tus partidas de hoy. ¿Quieres seguir? ¡Un café para mí, partidas ilimitadas para ti!"
+            "value" : "¡Parada en boxes! Has agotado todas tus partidas de hoy. ¿Quieres seguir? ¡Un café para mí, partidas ilimitadas para ti!"
           }
         }
       }
@@ -4837,7 +4837,7 @@
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Usant Tranquil (predeterminat quan VoiceOver està actiu)"
+            "value" : "Usant Creuer (predeterminat quan VoiceOver està actiu)"
           }
         },
         "en" : {
@@ -4849,7 +4849,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Usando Tranquilo (predeterminado cuando VoiceOver está activo)"
+            "value" : "Usando Crucero (predeterminado cuando VoiceOver está activo)"
           }
         }
       }
@@ -5918,7 +5918,7 @@
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mode de feedback d'àudio"
+            "value" : "Mode de retroalimentació d'àudio"
           }
         },
         "en" : {
@@ -5930,7 +5930,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Modo de feedback de audio"
+            "value" : "Modo de retroalimentación de audio"
           }
         }
       }

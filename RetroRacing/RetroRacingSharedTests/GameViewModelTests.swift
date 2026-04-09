@@ -15,7 +15,7 @@ final class GameViewModelTests: XCTestCase {
     private var leaderboardService: MockLeaderboardService!
     private var ratingService: MockRatingService!
     private var highestScoreStore: MockHighestScoreStore!
-    private var challengeProgressService: MockChallengeProgressService!
+    private var achievementProgressService: MockAchievementProgressService!
     private var inputAdapterFactory: MockInputAdapterFactory!
     private var viewModel: GameViewModel!
     
@@ -24,7 +24,7 @@ final class GameViewModelTests: XCTestCase {
         leaderboardService = MockLeaderboardService()
         ratingService = MockRatingService()
         highestScoreStore = MockHighestScoreStore()
-        challengeProgressService = MockChallengeProgressService()
+        achievementProgressService = MockAchievementProgressService()
         inputAdapterFactory = MockInputAdapterFactory()
         viewModel = GameViewModel(
             leaderboardService: leaderboardService,
@@ -32,7 +32,7 @@ final class GameViewModelTests: XCTestCase {
             theme: nil,
             hapticController: nil,
             highestScoreStore: highestScoreStore,
-            challengeProgressService: challengeProgressService,
+            achievementProgressService: achievementProgressService,
             inputAdapterFactory: inputAdapterFactory,
             playLimitService: nil,
             selectedDifficulty: .rapid,
@@ -48,7 +48,7 @@ final class GameViewModelTests: XCTestCase {
         viewModel = nil
         inputAdapterFactory = nil
         highestScoreStore = nil
-        challengeProgressService = nil
+        achievementProgressService = nil
         ratingService = nil
         leaderboardService = nil
         super.tearDown()
@@ -291,7 +291,7 @@ final class GameViewModelTests: XCTestCase {
         // Given
         viewModel.hud.showGameOver = true
         viewModel.hud.shouldRequestRatingOnGameOverModal = true
-        viewModel.hud.gameOverNewlyAchievedChallengeIDs = [.controlTap]
+        viewModel.hud.gameOverNewlyAchievedAchievementIDs = [.controlTap]
 
         // When
         viewModel.dismissGameOverModal()
@@ -299,7 +299,7 @@ final class GameViewModelTests: XCTestCase {
         // Then
         XCTAssertFalse(viewModel.hud.showGameOver)
         XCTAssertFalse(viewModel.hud.shouldRequestRatingOnGameOverModal)
-        XCTAssertTrue(viewModel.hud.gameOverNewlyAchievedChallengeIDs.isEmpty)
+        XCTAssertTrue(viewModel.hud.gameOverNewlyAchievedAchievementIDs.isEmpty)
     }
 
     func testGivenRunTelemetryWhenRestartGameThenTapTelemetryIsCleared() {
@@ -330,7 +330,7 @@ final class GameViewModelTests: XCTestCase {
         XCTAssertFalse(viewModel.runInputTelemetry.usedInputs.contains(.gameController))
     }
 
-    func testGivenGameOverWhenHandlingCollisionThenChallengeProgressRecordsCompletedRun() {
+    func testGivenGameOverWhenHandlingCollisionThenAchievementProgressRecordsCompletedRun() {
         // Given
         let scene = makeScene()
         scene.handleCrash()
@@ -345,12 +345,12 @@ final class GameViewModelTests: XCTestCase {
         viewModel.handleCollision()
 
         // Then
-        XCTAssertEqual(challengeProgressService.recordedRuns.count, 1)
-        XCTAssertEqual(challengeProgressService.recordedRuns.first?.overtakes, expectedOvertakes)
-        XCTAssertTrue(challengeProgressService.recordedRuns.first?.usedControls.contains(.tap) ?? false)
+        XCTAssertEqual(achievementProgressService.recordedRuns.count, 1)
+        XCTAssertEqual(achievementProgressService.recordedRuns.first?.overtakes, expectedOvertakes)
+        XCTAssertTrue(achievementProgressService.recordedRuns.first?.usedControls.contains(.tap) ?? false)
     }
 
-    func testGivenGameOverWhenHandlingCollisionAfterControllerInputThenChallengeProgressIncludesControllerUsage() {
+    func testGivenGameOverWhenHandlingCollisionAfterControllerInputThenAchievementProgressIncludesControllerUsage() {
         // Given
         let scene = makeScene()
         scene.handleCrash()
@@ -364,11 +364,11 @@ final class GameViewModelTests: XCTestCase {
         viewModel.handleCollision()
 
         // Then
-        XCTAssertEqual(challengeProgressService.recordedRuns.count, 1)
-        XCTAssertTrue(challengeProgressService.recordedRuns.first?.usedControls.contains(.gameController) ?? false)
+        XCTAssertEqual(achievementProgressService.recordedRuns.count, 1)
+        XCTAssertTrue(achievementProgressService.recordedRuns.first?.usedControls.contains(.gameController) ?? false)
     }
 
-    func testGivenGameOverWhenHandlingCollisionAfterSwitchControlTelemetryThenChallengeProgressIncludesAssistiveTelemetry() {
+    func testGivenGameOverWhenHandlingCollisionAfterSwitchControlTelemetryThenAchievementProgressIncludesAssistiveTelemetry() {
         // Given
         let scene = makeScene()
         scene.handleCrash()
@@ -382,18 +382,18 @@ final class GameViewModelTests: XCTestCase {
         viewModel.handleCollision()
 
         // Then
-        XCTAssertEqual(challengeProgressService.recordedRuns.count, 1)
-        XCTAssertTrue(challengeProgressService.recordedRuns.first?.activeAssistiveTechnologies.contains(.switchControl) ?? false)
+        XCTAssertEqual(achievementProgressService.recordedRuns.count, 1)
+        XCTAssertTrue(achievementProgressService.recordedRuns.first?.activeAssistiveTechnologies.contains(.switchControl) ?? false)
     }
 
-    func testGivenGameOverWithNewAchievementsWhenHandlingCollisionThenGameOverStateStoresNewChallengeIDs() {
+    func testGivenGameOverWithNewAchievementsWhenHandlingCollisionThenGameOverStateStoresNewAchievementIDs() {
         // Given
         let scene = makeScene()
         scene.handleCrash()
         scene.handleCrash()
         scene.handleCrash()
         viewModel.scene = scene
-        challengeProgressService.newlyAchievedChallengeIDsToReturn = [.eventGAADAssistive, .controlTap]
+        achievementProgressService.newlyAchievedAchievementIDsToReturn = [.eventGAADAssistive, .controlTap]
         XCTAssertEqual(scene.gameState.lives, 0)
 
         // When
@@ -401,44 +401,44 @@ final class GameViewModelTests: XCTestCase {
 
         // Then
         XCTAssertEqual(
-            viewModel.hud.gameOverNewlyAchievedChallengeIDs,
+            viewModel.hud.gameOverNewlyAchievedAchievementIDs,
             [.controlTap, .eventGAADAssistive]
         )
     }
 
-    func testGivenDebugForcedChallengeWhenHandlingCollisionThenForcedChallengeAppearsInGameOverList() {
+    func testGivenDebugForcedAchievementWhenHandlingCollisionThenForcedAchievementAppearsInGameOverList() {
         // Given
         let scene = makeScene()
         scene.handleCrash()
         scene.handleCrash()
         scene.handleCrash()
         viewModel.scene = scene
-        viewModel.setDebugForcedChallengeIdentifier(.controlGameController)
+        viewModel.setDebugForcedAchievementIdentifier(.controlGameController)
         XCTAssertEqual(scene.gameState.lives, 0)
 
         // When
         viewModel.handleCollision()
 
         // Then
-        XCTAssertEqual(viewModel.hud.gameOverNewlyAchievedChallengeIDs, [.controlGameController])
+        XCTAssertEqual(viewModel.hud.gameOverNewlyAchievedAchievementIDs, [.controlGameController])
     }
 
-    func testGivenDebugForcedChallengeAlreadyInNewAchievementsWhenHandlingCollisionThenChallengeIsNotDuplicated() {
+    func testGivenDebugForcedAchievementAlreadyInNewAchievementsWhenHandlingCollisionThenAchievementIsNotDuplicated() {
         // Given
         let scene = makeScene()
         scene.handleCrash()
         scene.handleCrash()
         scene.handleCrash()
         viewModel.scene = scene
-        viewModel.setDebugForcedChallengeIdentifier(.controlGameController)
-        challengeProgressService.newlyAchievedChallengeIDsToReturn = [.controlGameController]
+        viewModel.setDebugForcedAchievementIdentifier(.controlGameController)
+        achievementProgressService.newlyAchievedAchievementIDsToReturn = [.controlGameController]
         XCTAssertEqual(scene.gameState.lives, 0)
 
         // When
         viewModel.handleCollision()
 
         // Then
-        XCTAssertEqual(viewModel.hud.gameOverNewlyAchievedChallengeIDs, [.controlGameController])
+        XCTAssertEqual(viewModel.hud.gameOverNewlyAchievedAchievementIDs, [.controlGameController])
     }
 
     func testGivenRemoteBestInFriendSnapshotWhenRefreshingMilestonesThenBaselineUsesRemoteBest() async {
@@ -694,31 +694,31 @@ private final class MockLaneCuePlayerStub: LaneCuePlayer {
     func stopAll(fadeDuration: TimeInterval) {}
 }
 
-private final class MockChallengeProgressService: ChallengeProgressService {
+private final class MockAchievementProgressService: AchievementProgressService {
     private(set) var backfillCallCount = 0
-    private(set) var recordedRuns: [CompletedRunChallengeData] = []
-    var snapshot = ChallengeProgressSnapshot.empty
-    var newlyAchievedChallengeIDsToReturn = Set<ChallengeIdentifier>()
+    private(set) var recordedRuns: [CompletedRunAchievementData] = []
+    var snapshot = AchievementProgressSnapshot.empty
+    var newlyAchievedAchievementIDsToReturn = Set<AchievementIdentifier>()
 
     func performInitialBackfillIfNeeded() {
         backfillCallCount += 1
     }
 
     @discardableResult
-    func recordCompletedRun(_ run: CompletedRunChallengeData) -> ChallengeProgressUpdate {
+    func recordCompletedRun(_ run: CompletedRunAchievementData) -> AchievementProgressUpdate {
         recordedRuns.append(run)
         snapshot.bestRunOvertakes = max(snapshot.bestRunOvertakes, run.overtakes)
         snapshot.cumulativeOvertakes += max(0, run.overtakes)
         snapshot.lifetimeUsedControls.formUnion(run.usedControls)
-        return ChallengeProgressUpdate(
+        return AchievementProgressUpdate(
             snapshot: snapshot,
-            newlyAchievedChallengeIDs: newlyAchievedChallengeIDsToReturn
+            newlyAchievedAchievementIDs: newlyAchievedAchievementIDsToReturn
         )
     }
 
-    func replayAchievedChallenges() {}
+    func replayAchievedAchievements() {}
 
-    func currentProgress() -> ChallengeProgressSnapshot {
+    func currentProgress() -> AchievementProgressSnapshot {
         snapshot
     }
 }

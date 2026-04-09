@@ -15,7 +15,9 @@ public typealias AuthenticateHandlerSetter = (AuthenticationPresenter) -> Void
 ///
 /// `@unchecked Sendable` is safe here because every stored property is either:
 /// - immutable (`let`) — `configuration`, `friendSnapshotService`, `isDebugBuild`,
-///   `allowDebugScoreSubmission`, `isAuthenticatedProvider`, `authenticateHandlerSetter`; or
+///   `allowDebugScoreSubmission`, `isAuthenticatedProvider`, `authenticateHandlerSetter`,
+///   `pendingScoreStore`; or
+/// - protected by `leaderboardCacheLock` (`leaderboardCache`); or
 /// - a `weak var` (`authenticationPresenter`) that is set exactly once at the composition
 ///   root before any concurrent access, always on the main actor.
 /// No mutable state is shared across isolation boundaries after initialization.
@@ -27,6 +29,10 @@ public final class GameCenterService: LeaderboardService, @unchecked Sendable {
     private let isDebugBuild: Bool
     private let allowDebugScoreSubmission: Bool
     private let isAuthenticatedProvider: () -> Bool
+    private let pendingScoreStore: (any PendingLeaderboardScoreStore)?
+
+    private let leaderboardCacheLock = NSLock()
+    private var leaderboardCache = [String: GKLeaderboard]()
 
     static func normalizedFriendSnapshot(
         remoteBestScore: Int?,
@@ -42,7 +48,8 @@ public final class GameCenterService: LeaderboardService, @unchecked Sendable {
         authenticateHandlerSetter: AuthenticateHandlerSetter? = nil,
         isDebugBuild: Bool,
         allowDebugScoreSubmission: Bool,
-        isAuthenticatedProvider: @escaping () -> Bool = { GKLocalPlayer.local.isAuthenticated }
+        isAuthenticatedProvider: @escaping () -> Bool = { GKLocalPlayer.local.isAuthenticated },
+        pendingScoreStore: (any PendingLeaderboardScoreStore)? = nil
     ) {
         self.configuration = configuration
         self.friendSnapshotService = friendSnapshotService
@@ -51,6 +58,7 @@ public final class GameCenterService: LeaderboardService, @unchecked Sendable {
         self.isDebugBuild = isDebugBuild
         self.allowDebugScoreSubmission = allowDebugScoreSubmission
         self.isAuthenticatedProvider = isAuthenticatedProvider
+        self.pendingScoreStore = pendingScoreStore
     }
 
     /// Call with the object that can present the authentication view controller when Game Center requests it.
@@ -72,37 +80,36 @@ public final class GameCenterService: LeaderboardService, @unchecked Sendable {
         }
 
         guard isAuthenticated() else {
+            let improved = pendingScoreStore?.updatePendingBestScoreIfHigher(score, for: difficulty) ?? false
             AppLog.info(
                 AppLog.game + AppLog.leaderboard,
-                "🏆 Skipped score submit \(score) – player not authenticated (leaderboardID: \(leaderboardID), speed: \(difficulty.rawValue))"
+                "🏆 Skipped score submit \(score) – player not authenticated; queued as pending (improved: \(improved), leaderboardID: \(leaderboardID), speed: \(difficulty.rawValue))"
             )
             return
         }
 
-        AppLog.info(
-            AppLog.game + AppLog.leaderboard,
-            "🏆 Submitting score \(score) to leaderboard \(leaderboardID) (speed: \(difficulty.rawValue))"
-        )
+        submitScoreToGameCenter(score, leaderboardID: leaderboardID, difficulty: difficulty)
+    }
 
-        GKLeaderboard.submitScore(
-            score,
-            context: 0,
-            player: GKLocalPlayer.local,
-            leaderboardIDs: [leaderboardID]
-        ) { error in
-            if let error = error {
-                AppLog.error(AppLog.game + AppLog.leaderboard, "🏆 Failed to submit score \(score) to \(leaderboardID): \(error.localizedDescription)")
-            } else {
-                AppLog.info(AppLog.game + AppLog.leaderboard, "🏆 Successfully submitted score \(score) to \(leaderboardID)")
-                Task { [weak self] in
-                    guard let self else { return }
-                    await self.verifyRemoteBestAfterSubmit(
-                        submittedScore: score,
-                        difficulty: difficulty,
-                        leaderboardID: leaderboardID
-                    )
-                }
-            }
+    /// Submits any scores that were queued while the player was not authenticated.
+    /// Call this after a Game Center authentication state change and on app-lifecycle transitions.
+    public func flushPendingScoresIfPossible() {
+        guard isScoreSubmissionEnabled, isAuthenticated() else { return }
+        guard let pendingScoreStore else { return }
+
+        let pending = pendingScoreStore.pendingDifficulties()
+        guard pending.isEmpty == false else { return }
+
+        for difficulty in pending {
+            guard let score = pendingScoreStore.bestPendingScore(for: difficulty) else { continue }
+            // Clear before submitting so a concurrent flush cannot double-submit.
+            pendingScoreStore.clearPendingBestScore(for: difficulty)
+            let leaderboardID = configuration.leaderboardID(for: difficulty)
+            AppLog.info(
+                AppLog.game + AppLog.leaderboard,
+                "🏆 Flushing pending score \(score) to leaderboard \(leaderboardID) (speed: \(difficulty.rawValue))"
+            )
+            submitScoreToGameCenter(score, leaderboardID: leaderboardID, difficulty: difficulty)
         }
     }
 
@@ -166,9 +173,47 @@ public final class GameCenterService: LeaderboardService, @unchecked Sendable {
         return snapshot
     }
 
+    // MARK: - Private submission
+
+    private func submitScoreToGameCenter(_ score: Int, leaderboardID: String, difficulty: GameDifficulty) {
+        AppLog.info(
+            AppLog.game + AppLog.leaderboard,
+            "🏆 Submitting score \(score) to leaderboard \(leaderboardID) (speed: \(difficulty.rawValue))"
+        )
+
+        GKLeaderboard.submitScore(
+            score,
+            context: 0,
+            player: GKLocalPlayer.local,
+            leaderboardIDs: [leaderboardID]
+        ) { error in
+            if let error = error {
+                AppLog.error(AppLog.game + AppLog.leaderboard, "🏆 Failed to submit score \(score) to \(leaderboardID): \(error.localizedDescription)")
+            } else {
+                AppLog.info(AppLog.game + AppLog.leaderboard, "🏆 Successfully submitted score \(score) to \(leaderboardID)")
+                Task { [weak self] in
+                    guard let self else { return }
+                    await self.verifyRemoteBestAfterSubmit(
+                        submittedScore: score,
+                        difficulty: difficulty,
+                        leaderboardID: leaderboardID
+                    )
+                }
+            }
+        }
+    }
+
+    // MARK: - Private leaderboard loading
+
+    /// Returns a cached `GKLeaderboard` for `id` when available, otherwise fetches and caches it.
     private func loadLeaderboard(id: String) async -> GKLeaderboard? {
-        await withCheckedContinuation { continuation in
-            GKLeaderboard.loadLeaderboards(IDs: [id]) { leaderboards, error in
+        let cached = leaderboardCacheLock.withLock { leaderboardCache[id] }
+        if let cached {
+            return cached
+        }
+
+        return await withCheckedContinuation { continuation in
+            GKLeaderboard.loadLeaderboards(IDs: [id]) { [weak self] leaderboards, error in
                 if let error {
                     let nsError = error as NSError
                     AppLog.error(
@@ -194,6 +239,9 @@ public final class GameCenterService: LeaderboardService, @unchecked Sendable {
                     "🏆 Loaded leaderboard metadata for \(id): \(metadata)"
                 )
 
+                self?.leaderboardCacheLock.withLock {
+                    self?.leaderboardCache[id] = leaderboard
+                }
                 continuation.resume(returning: leaderboard)
             }
         }
@@ -248,56 +296,13 @@ public final class GameCenterService: LeaderboardService, @unchecked Sendable {
             }
         }
 
+        // All three verification attempts failed — treat the submission as unconfirmed and
+        // re-queue as pending so the next auth-change or lifecycle trigger retries it.
+        let improved = pendingScoreStore?.updatePendingBestScoreIfHigher(submittedScore, for: difficulty) ?? false
         AppLog.info(
             AppLog.game + AppLog.leaderboard,
-            "🏆 Could not verify remote best after submit on \(leaderboardID) after 3 attempts"
+            "🏆 Could not verify remote best after submit on \(leaderboardID) after 3 attempts – re-queued as pending (improved: \(improved))"
         )
     }
 }
 
-/// Game Center-backed challenge reporter used once ASC achievements are configured.
-public struct GameCenterChallengeProgressReporter: ChallengeProgressReporter {
-    private let isAuthenticatedProvider: () -> Bool
-
-    public init(
-        isAuthenticatedProvider: @escaping () -> Bool = { GKLocalPlayer.local.isAuthenticated }
-    ) {
-        self.isAuthenticatedProvider = isAuthenticatedProvider
-    }
-
-    public func reportAchievedChallenges(_ challengeIDs: Set<ChallengeIdentifier>) {
-        guard challengeIDs.isEmpty == false else { return }
-
-        guard isAuthenticatedProvider() else {
-            AppLog.info(
-                AppLog.game + AppLog.challenge + AppLog.leaderboard,
-                "🏅 Skipped challenge report – player not authenticated"
-            )
-            return
-        }
-
-        let achievements = challengeIDs.map { challengeID in
-            let achievement = GKAchievement(identifier: challengeID.rawValue)
-            achievement.percentComplete = 100
-            achievement.showsCompletionBanner = true
-            return achievement
-        }
-
-        GKAchievement.report(achievements) { error in
-            if let error {
-                let nsError = error as NSError
-                AppLog.error(
-                    AppLog.game + AppLog.challenge + AppLog.leaderboard,
-                    "🏅 Failed reporting challenges: \(error.localizedDescription) (domain: \(nsError.domain), code: \(nsError.code), userInfo: \(nsError.userInfo))"
-                )
-                return
-            }
-
-            let ids = challengeIDs.map(\.rawValue).sorted().joined(separator: ", ")
-            AppLog.info(
-                AppLog.game + AppLog.challenge + AppLog.leaderboard,
-                "🏅 Reported achieved challenges to Game Center: \(ids)"
-            )
-        }
-    }
-}

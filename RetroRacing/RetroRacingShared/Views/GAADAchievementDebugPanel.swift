@@ -1,5 +1,5 @@
 //
-//  GAADChallengeDebugPanel.swift
+//  GAADAchievementDebugPanel.swift
 //  RetroRacingShared
 //
 //  Created by Dani Devesa on 03/04/2026.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public enum GAADChallengeQualificationMode: Sendable {
+public enum GAADAchievementQualificationMode: Sendable {
     case voiceOverAndSwitchControl
     case voiceOverOnly
 
@@ -21,21 +21,21 @@ public enum GAADChallengeQualificationMode: Sendable {
     }
 }
 
-/// Debug-only QA panel for validating GAAD challenge eligibility behavior.
+/// Debug-only QA panel for validating GAAD achievement eligibility behavior.
 @MainActor
-public struct GAADChallengeDebugPanel: View {
-    private let challengeProgressService: ChallengeProgressService
-    private let qualificationMode: GAADChallengeQualificationMode
+public struct GAADAchievementDebugPanel: View {
+    private let achievementProgressService: AchievementProgressService
+    private let qualificationMode: GAADAchievementQualificationMode
     private let primaryFont: Font
     private let secondaryFont: Font
 
     public init(
-        challengeProgressService: ChallengeProgressService,
-        qualificationMode: GAADChallengeQualificationMode,
+        achievementProgressService: AchievementProgressService,
+        qualificationMode: GAADAchievementQualificationMode,
         primaryFont: Font,
         secondaryFont: Font
     ) {
-        self.challengeProgressService = challengeProgressService
+        self.achievementProgressService = achievementProgressService
         self.qualificationMode = qualificationMode
         self.primaryFont = primaryFont
         self.secondaryFont = secondaryFont
@@ -92,20 +92,20 @@ public struct GAADChallengeDebugPanel: View {
         }
     }
 
-    private func debugSnapshot(at now: Date) -> GAADChallengeDebugSnapshot {
+    private func debugSnapshot(at now: Date) -> GAADAchievementDebugSnapshot {
         let calendar = Calendar.autoupdatingCurrent
         let year = calendar.component(.year, from: now)
-        let window = ChallengeCatalog.gaadWeekDateInterval(forYear: year, calendar: calendar)
-        let isInGAADWeek = ChallengeCatalog.isDateInGAADWeek(now, calendar: calendar)
+        let window = AchievementCatalog.gaadWeekDateInterval(forYear: year, calendar: calendar)
+        let isInGAADWeek = AchievementCatalog.isDateInGAADWeek(now, calendar: calendar)
         let activeAssistiveTechnologies = filteredAssistiveTechnologies(
             AssistiveTechnologyStatus.activeTechnologies
         )
         let qualifiesIfCompletedNow = isInGAADWeek && activeAssistiveTechnologies.isEmpty == false
-        let progress = challengeProgressService.currentProgress()
+        let progress = achievementProgressService.currentProgress()
         let gaadCompletionSignalLatched = progress.gaadAssistiveRunCompleted ?? false
-        let gaadAchievementAchieved = progress.achievedChallengeIDs.contains(.eventGAADAssistive)
+        let gaadAchievementAchieved = progress.achievedAchievementIDs.contains(.eventGAADAssistive)
 
-        return GAADChallengeDebugSnapshot(
+        return GAADAchievementDebugSnapshot(
             now: now,
             window: window,
             isInGAADWeek: isInGAADWeek,
@@ -117,8 +117,8 @@ public struct GAADChallengeDebugPanel: View {
     }
 
     private func filteredAssistiveTechnologies(
-        _ technologies: Set<ChallengeAssistiveTechnology>
-    ) -> Set<ChallengeAssistiveTechnology> {
+        _ technologies: Set<AchievementAssistiveTechnology>
+    ) -> Set<AchievementAssistiveTechnology> {
         switch qualificationMode {
         case .voiceOverAndSwitchControl:
             return technologies
@@ -140,7 +140,7 @@ public struct GAADChallengeDebugPanel: View {
         return "\(formattedDateTime(interval.start)) - \(formattedDateTime(endInclusive))"
     }
 
-    private func assistiveTechnologiesValue(_ technologies: Set<ChallengeAssistiveTechnology>) -> String {
+    private func assistiveTechnologiesValue(_ technologies: Set<AchievementAssistiveTechnology>) -> String {
         guard technologies.isEmpty == false else {
             return GameLocalizedStrings.string("debug_gaad_assistive_none")
         }
@@ -162,11 +162,11 @@ public struct GAADChallengeDebugPanel: View {
     }
 }
 
-private struct GAADChallengeDebugSnapshot: Sendable {
+private struct GAADAchievementDebugSnapshot: Sendable {
     let now: Date
     let window: DateInterval?
     let isInGAADWeek: Bool
-    let activeAssistiveTechnologies: Set<ChallengeAssistiveTechnology>
+    let activeAssistiveTechnologies: Set<AchievementAssistiveTechnology>
     let qualifiesIfCompletedNow: Bool
     let gaadCompletionSignalLatched: Bool
     let gaadAchievementAchieved: Bool

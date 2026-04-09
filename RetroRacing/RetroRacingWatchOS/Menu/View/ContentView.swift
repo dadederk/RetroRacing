@@ -5,7 +5,7 @@ struct ContentView: View {
     let themeManager: ThemeManager
     let fontPreferenceStore: FontPreferenceStore
     let highestScoreStore: HighestScoreStore
-    let challengeProgressService: ChallengeProgressService
+    let achievementProgressService: AchievementProgressService
     let leaderboardService: LeaderboardService
     let watchBestScoreRelaySender: WatchBestScoreRelaySender
     @State private var showGame = false
@@ -32,7 +32,7 @@ struct ContentView: View {
                     theme: themeManager.currentTheme,
                     fontPreferenceStore: fontPreferenceStore,
                     highestScoreStore: highestScoreStore,
-                    challengeProgressService: challengeProgressService,
+                    achievementProgressService: achievementProgressService,
                     leaderboardService: leaderboardService,
                     watchBestScoreRelaySender: watchBestScoreRelaySender
                 )
@@ -64,7 +64,7 @@ struct ContentView: View {
                     audioCueTutorialPreviewPlayer: previewDependencies.audioCueTutorialPreviewPlayer,
                     speedWarningFeedbackPreviewPlayer: previewDependencies.speedWarningFeedbackPreviewPlayer,
                     isGameCenterAuthenticated: leaderboardService.isAuthenticated(),
-                    challengeProgressService: challengeProgressService
+                    achievementProgressService: achievementProgressService
                 )
             }
         }
@@ -96,10 +96,10 @@ struct ContentView: View {
             customFontAvailable: true
         ),
         highestScoreStore: UserDefaultsHighestScoreStore(userDefaults: InfrastructureDefaults.userDefaults),
-        challengeProgressService: LocalChallengeProgressService(
-            store: UserDefaultsChallengeProgressStore(userDefaults: InfrastructureDefaults.userDefaults),
+        achievementProgressService: LocalAchievementProgressService(
+            store: UserDefaultsAchievementProgressStore(userDefaults: InfrastructureDefaults.userDefaults),
             highestScoreStore: UserDefaultsHighestScoreStore(userDefaults: InfrastructureDefaults.userDefaults),
-            reporter: NoOpChallengeProgressReporter()
+            reporter: NoOpAchievementProgressReporter()
         ),
         leaderboardService: PreviewLeaderboardService(),
         watchBestScoreRelaySender: NoOpWatchBestScoreRelaySender()

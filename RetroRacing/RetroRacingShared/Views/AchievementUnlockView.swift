@@ -1,5 +1,5 @@
 //
-//  ChallengeUnlockView.swift
+//  AchievementUnlockView.swift
 //  RetroRacingShared
 //
 //  Created by Dani Devesa on 04/04/2026.
@@ -7,20 +7,23 @@
 
 import SwiftUI
 
-struct ChallengeUnlockView: View {
-    let challengeIDs: [ChallengeIdentifier]
+struct AchievementUnlockView: View {
+    let achievementIDs: [AchievementIdentifier]
     let onDone: () -> Void
 
     @Environment(\.fontPreferenceStore) var fontPreferenceStore
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.achievementMetadataService) var metadataService
+    // Internal (not private) so AchievementUnlockView+Content.swift can read it across files.
+    @State var gcMetadata: [String: AchievementMetadata] = [:]
     #if !os(watchOS) && !os(tvOS)
-    // Internal (not private) so ChallengeUnlockView+Sharing.swift can read and write it across files.
+    // Internal (not private) so AchievementUnlockView+Sharing.swift can read and write it across files.
     @State var shareImageURL: URL?
     #endif
 
     static let sharedBundle = Bundle(for: GameScene.self)
     #if !os(watchOS) && !os(tvOS)
-    static let shareImageFileName = "retroracing-challenge-share.png"
+    static let shareImageFileName = "retroracing-achievement-share.png"
 
     static var shareToolbarPlacement: ToolbarItemPlacement {
         #if os(macOS)
@@ -34,7 +37,7 @@ struct ChallengeUnlockView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                challengeMainContent
+                achievementMainContent
             }
             #if os(iOS) || os(visionOS)
             .safeAreaInset(edge: .bottom, spacing: 0) {
@@ -44,7 +47,7 @@ struct ChallengeUnlockView: View {
             #endif
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .background(.background)
-            .navigationTitle(GameLocalizedStrings.string("challenge_modal_title"))
+            .navigationTitle(GameLocalizedStrings.string("achievement_modal_title"))
             #if os(iOS) || os(visionOS)
             .navigationBarTitleDisplayMode(.inline)
             #endif
@@ -65,5 +68,9 @@ struct ChallengeUnlockView: View {
             refreshShareImage()
         }
         #endif
+        .task {
+            guard let metadataService else { return }
+            gcMetadata = await metadataService.fetchAllMetadata()
+        }
     }
 }

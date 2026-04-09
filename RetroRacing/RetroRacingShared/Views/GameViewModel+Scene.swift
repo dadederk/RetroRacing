@@ -38,7 +38,7 @@ extension GameViewModel {
     }
 
     private func createSceneAndDelegate(side: CGFloat, volume: Double) {
-        resetRunInputTelemetry()
+        resetRunAchievementTelemetry()
         let newScene = Self.makeScene(
             side: side,
             difficulty: selectedDifficulty,

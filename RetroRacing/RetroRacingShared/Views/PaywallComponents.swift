@@ -17,7 +17,7 @@ struct PaywallHeaderView: View {
     var profileImageAccessibilityLabel: String? = nil
 
     @Environment(\.fontPreferenceStore) private var fontPreferenceStore
-    @ScaledMetric(relativeTo: .largeTitle) private var profileImageSize: CGFloat = 60
+    @ScaledMetric(relativeTo: .largeTitle) private var profileImageSize: CGFloat = 80
 
     private let sharedBundle = Bundle(for: GameScene.self)
 

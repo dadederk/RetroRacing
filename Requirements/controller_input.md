@@ -105,7 +105,7 @@ onPlayRequest: (() -> Void)?
 - On `onAppear`: `controllerInputSource.start(handler:)` is called with a closure that routes actions via `GameControllerActionRouter`.
 - On `onDisappear`: `controllerInputSource.stop()` is called before `model.tearDown()`.
 - `onPlayRequest` is called when `.requestPlay` is routed (Start/Menu while menu overlay is visible).
-- Every routed controller action (`moveLeft`, `moveRight`, `togglePause`, `requestPlay`) records `ChallengeControlInput.gameController` in per-run telemetry for local challenge progress.
+- Every routed controller action (`moveLeft`, `moveRight`, `togglePause`, `requestPlay`) records `AchievementControlInput.gameController` in per-run telemetry for local achievement progress.
 
 ---
 

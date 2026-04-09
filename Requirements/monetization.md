@@ -309,7 +309,7 @@ enum PaywallTrigger: Identifiable {
 Key elements:
 
 - **Header** (`PaywallHeaderView`):
-  - **Voluntary**: profile picture (`profilePicRetroRapid`, 60pt base with `@ScaledMetric(relativeTo: .largeTitle)`, `.clipShape(Circle())`), localized accessibility label (`"paywall_avatar_accessibility_label"`). Caption: `"paywall_caption_coffee"` ("Hi! I'm Dani. Consider unlocking...coffee...new features I hope you'll love.")
+  - **Voluntary**: profile picture (`profilePicRetroRapid`, 80pt base with `@ScaledMetric(relativeTo: .largeTitle)`, `.clipShape(Circle())`), localized accessibility label (`"paywall_avatar_accessibility_label"`). Caption: `"paywall_caption_coffee"` ("Hi! I'm Dani. Consider unlocking...coffee...new features I hope you'll love.")
   - **Limit-triggered**: `gamecontroller.fill` SF Symbol (decorative, hidden from VoiceOver). No caption.
   - Title (`"paywall_title"`): "Get Unlimited Plays" — shown in both modes.
 - **Navigation title** (`"paywall_go_premium"`): "Go Unlimited".

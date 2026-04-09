@@ -25,7 +25,7 @@ final class GameViewModel {
     let theme: (any GameTheme)?
     let hapticController: HapticFeedbackController?
     let highestScoreStore: HighestScoreStore
-    let challengeProgressService: ChallengeProgressService
+    let achievementProgressService: AchievementProgressService
     let inputAdapterFactory: any GameInputAdapterFactory
     /// Optional play limit service used to record daily plays.
     let playLimitService: PlayLimitService?
@@ -35,13 +35,13 @@ final class GameViewModel {
     var selectedBigRivalCarsEnabled: Bool
     var selectedRoadVisualStyle: RoadVisualStyle
     var shouldStartGame: Bool
-    var runInputTelemetry = RunInputTelemetry()
+    var runInputTelemetry = RunAchievementTelemetry()
     var friendSnapshot: FriendLeaderboardSnapshot?
     var runBaselineBestScore: Int = 0
     var overtakenFriendPlayerIDs = Set<String>()
     var currentUpcomingFriendMilestone: UpcomingFriendMilestone?
     var pendingFriendOvertakeAnnouncement: String?
-    var debugForcedChallengeIdentifier: ChallengeIdentifier?
+    var debugForcedAchievementIdentifier: AchievementIdentifier?
     var debugShowsSpriteKitFrameStats = false
 
     init(
@@ -50,7 +50,7 @@ final class GameViewModel {
         theme: (any GameTheme)?,
         hapticController: HapticFeedbackController?,
         highestScoreStore: HighestScoreStore,
-        challengeProgressService: ChallengeProgressService,
+        achievementProgressService: AchievementProgressService,
         inputAdapterFactory: any GameInputAdapterFactory,
         playLimitService: PlayLimitService?,
         selectedDifficulty: GameDifficulty,
@@ -65,7 +65,7 @@ final class GameViewModel {
         self.theme = theme
         self.hapticController = hapticController
         self.highestScoreStore = highestScoreStore
-        self.challengeProgressService = challengeProgressService
+        self.achievementProgressService = achievementProgressService
         self.inputAdapterFactory = inputAdapterFactory
         self.playLimitService = playLimitService
         self.selectedDifficulty = selectedDifficulty

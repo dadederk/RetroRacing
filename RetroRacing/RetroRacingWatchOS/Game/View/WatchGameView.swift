@@ -12,7 +12,7 @@ struct WatchGameView: View {
     let theme: any GameTheme
     let fontPreferenceStore: FontPreferenceStore?
     let highestScoreStore: HighestScoreStore
-    let challengeProgressService: ChallengeProgressService
+    let achievementProgressService: AchievementProgressService
     let leaderboardService: LeaderboardService
     let watchBestScoreRelaySender: WatchBestScoreRelaySender
     @AppStorage(GameDifficulty.conditionalDefaultStorageKey) private var difficultyStorageData: Data = Data()
@@ -42,7 +42,7 @@ struct WatchGameView: View {
     @State private var gameOverPreviousBestScore: Int?
     @State private var isNewHighScore = false
     @State private var speedIncreaseImminent = false
-    @State private var runInputTelemetry = RunInputTelemetry()
+    @State private var runInputTelemetry = RunAchievementTelemetry()
     @State private var delegate: GameSceneDelegateImpl?
     @State private var inputAdapter: GameInputAdapter?
     @State private var watchHapticController: HapticFeedbackController
@@ -77,14 +77,14 @@ struct WatchGameView: View {
         theme: any GameTheme,
         fontPreferenceStore: FontPreferenceStore? = nil,
         highestScoreStore: HighestScoreStore,
-        challengeProgressService: ChallengeProgressService,
+        achievementProgressService: AchievementProgressService,
         leaderboardService: LeaderboardService,
         watchBestScoreRelaySender: WatchBestScoreRelaySender
     ) {
         self.theme = theme
         self.fontPreferenceStore = fontPreferenceStore
         self.highestScoreStore = highestScoreStore
-        self.challengeProgressService = challengeProgressService
+        self.achievementProgressService = achievementProgressService
         self.leaderboardService = leaderboardService
         self.watchBestScoreRelaySender = watchBestScoreRelaySender
         let initialDifficulty = GameDifficulty.currentSelection(from: InfrastructureDefaults.userDefaults)
@@ -219,7 +219,7 @@ struct WatchGameView: View {
             scene.setRoadVisualStyle(selectedRoadVisualStyle)
             logWatchAudioConfiguration()
             scene.start()
-            resetRunInputTelemetry()
+            resetRunAchievementTelemetry()
             score = scene.gameState.score
             lives = scene.gameState.lives
             scenePaused = scene.gameState.isPaused
@@ -240,8 +240,8 @@ struct WatchGameView: View {
                             AppLog.info(AppLog.game + AppLog.leaderboard, "🏆 watchOS game over – score \(gameOverScore), Game Center authenticated: \(authenticated)")
                             let difficultyAtGameOver = selectedDifficulty
                             leaderboardService.submitScore(gameOverScore, difficulty: difficultyAtGameOver)
-                            _ = challengeProgressService.recordCompletedRun(
-                                CompletedRunChallengeData(
+                            _ = achievementProgressService.recordCompletedRun(
+                                CompletedRunAchievementData(
                                     overtakes: gameOverScore,
                                     usedControls: runInputTelemetry.usedInputs,
                                     completedAt: Date(),
@@ -396,7 +396,7 @@ struct WatchGameView: View {
 
     private func restartFromGameOver() {
         scene.start()
-        resetRunInputTelemetry()
+        resetRunAchievementTelemetry()
         score = scene.gameState.score
         lives = scene.gameState.lives
         gameOverScore = 0
@@ -561,7 +561,7 @@ struct WatchGameView: View {
         return DirectTouchPreference.currentSelection(from: InfrastructureDefaults.userDefaults)
     }
 
-    private func recordControlInput(_ input: ChallengeControlInput) {
+    private func recordControlInput(_ input: AchievementControlInput) {
         runInputTelemetry.record(input)
         recordActiveAssistiveTechnologiesIfNeeded()
     }
@@ -570,7 +570,7 @@ struct WatchGameView: View {
         recordActiveAssistiveTechnologiesIfNeeded()
     }
 
-    private func resetRunInputTelemetry() {
+    private func resetRunAchievementTelemetry() {
         runInputTelemetry.reset()
         recordActiveAssistiveTechnologiesIfNeeded()
     }

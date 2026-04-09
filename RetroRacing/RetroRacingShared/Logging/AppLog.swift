@@ -18,8 +18,8 @@ public enum AppLog {
     public static let game = "🎮"
     /// Leaderboard / Game Center (filter logs with 🏆 to debug score submission).
     public static let leaderboard = "🏆"
-    /// Challenges / achievements progress (filter logs with 🏅).
-    public static let challenge = "🏅"
+    /// Achievements and progress reporting (filter logs with 🏅).
+    public static let achievement = "🏅"
 
     private static let logger = Logger(
         subsystem: Bundle.main.bundleIdentifier ?? "com.retroracing",

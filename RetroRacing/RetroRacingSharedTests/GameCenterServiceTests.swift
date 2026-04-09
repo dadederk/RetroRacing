@@ -128,12 +128,12 @@ final class GameCenterServiceTests: XCTestCase {
         XCTAssertNil(snapshot)
     }
 
-    func testGivenReporterWhenNoChallengesThenReportingDoesNothing() {
+    func testGivenReporterWhenNoAchievementsThenReportingDoesNothing() {
         // Given
-        let reporter = GameCenterChallengeProgressReporter(isAuthenticatedProvider: { true })
+        let reporter = GameCenterAchievementProgressReporter(isAuthenticatedProvider: { true })
 
         // When
-        reporter.reportAchievedChallenges([])
+        reporter.reportAchievedAchievements([])
 
         // Then
         // No crash and no Game Center call attempted.
@@ -141,10 +141,10 @@ final class GameCenterServiceTests: XCTestCase {
 
     func testGivenReporterWhenNotAuthenticatedThenReportingDoesNotCrash() {
         // Given
-        let reporter = GameCenterChallengeProgressReporter(isAuthenticatedProvider: { false })
+        let reporter = GameCenterAchievementProgressReporter(isAuthenticatedProvider: { false })
 
         // When
-        reporter.reportAchievedChallenges([.controlTap, .eventGAADAssistive])
+        reporter.reportAchievedAchievements([.controlTap, .eventGAADAssistive])
 
         // Then
         // No crash and reporting is skipped.

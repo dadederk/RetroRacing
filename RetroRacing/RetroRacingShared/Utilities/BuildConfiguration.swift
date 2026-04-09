@@ -65,7 +65,7 @@ public enum BuildConfiguration {
 
 /// Shared debug-only storage keys for gameplay QA tooling.
 public enum DebugGameplayStorageKeys {
-    public static let forcedChallengeIdentifier = "debugGameplay.forcedChallengeIdentifier"
-    public static let noForcedChallengeIdentifier = ""
+    public static let forcedAchievementIdentifier = "debugGameplay.forcedAchievementIdentifier"
+    public static let noForcedAchievementIdentifier = ""
     public static let showSpriteKitFrameStats = "debugGameplay.showSpriteKitFrameStats"
 }

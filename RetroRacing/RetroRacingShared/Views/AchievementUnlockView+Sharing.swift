@@ -1,5 +1,5 @@
 //
-//  ChallengeUnlockView+Sharing.swift
+//  AchievementUnlockView+Sharing.swift
 //  RetroRacingShared
 //
 //  Created by Dani Devesa on 04/04/2026.
@@ -8,7 +8,7 @@
 import SwiftUI
 
 #if !os(watchOS) && !os(tvOS)
-extension ChallengeUnlockView {
+extension AchievementUnlockView {
     @ViewBuilder
     var shareToolbarItem: some View {
         if let shareImageURL {
@@ -30,7 +30,7 @@ extension ChallengeUnlockView {
         ShareCardCanvas(colorScheme: colorScheme) {
             VStack(spacing: 28) {
                 ShareCardGameTitle(font: fontPreferenceStore?.font(textStyle: .largeTitle) ?? .largeTitle)
-                challengeShareCard
+                achievementShareCard
             }
             .padding(.horizontal, 40)
             .padding(.vertical, 40)
@@ -39,20 +39,20 @@ extension ChallengeUnlockView {
         .frame(width: 1200, height: 900)
     }
 
-    var challengeShareCard: some View {
+    var achievementShareCard: some View {
         VStack(spacing: 16) {
-            challengeArtwork(maxWidth: 460)
+            achievementArtwork(maxWidth: 460)
 
-            Text(GameLocalizedStrings.string("challenge_modal_title"))
+            Text(GameLocalizedStrings.string("achievement_modal_title"))
                 .font(scoreFont)
                 .multilineTextAlignment(.center)
 
-            Text(GameLocalizedStrings.string("challenge_modal_subtitle"))
+            Text(primaryAchievementSubtitle)
                 .font(bodyFont)
                 .multilineTextAlignment(.center)
                 .foregroundStyle(.secondary)
 
-            challengeUnlockedRows
+            achievementUnlockedRows
         }
         .padding(.horizontal, 8)
         .frame(maxWidth: .infinity, alignment: .top)

@@ -10,7 +10,7 @@ import Foundation
 extension GameViewModel {
     func restartGame() {
         scene?.start()
-        resetRunInputTelemetry()
+        resetRunAchievementTelemetry()
         if let scene {
             let (currentScore, currentLives) = Self.scoreAndLives(from: scene)
             hud.score = currentScore
@@ -23,7 +23,7 @@ extension GameViewModel {
         hud.gameOverPreviousBestScore = nil
         hud.gameOverNextFriendAhead = nil
         hud.gameOverOvertakenFriends = []
-        hud.gameOverNewlyAchievedChallengeIDs = []
+        hud.gameOverNewlyAchievedAchievementIDs = []
         hud.isNewHighScore = false
         hud.shouldRequestRatingOnGameOverModal = false
         hud.speedIncreaseImminent = false
@@ -50,22 +50,22 @@ extension GameViewModel {
             recordVoiceOverControlIfNeeded()
             let difficultyAtGameOver = selectedDifficulty
             leaderboardService.submitScore(currentScore, difficulty: difficultyAtGameOver)
-            let challengeUpdate = challengeProgressService.recordCompletedRun(
-                CompletedRunChallengeData(
+            let achievementUpdate = achievementProgressService.recordCompletedRun(
+                CompletedRunAchievementData(
                     overtakes: currentScore,
                     usedControls: runInputTelemetry.usedInputs,
                     completedAt: Date(),
                     activeAssistiveTechnologies: runInputTelemetry.usedAssistiveTechnologies
                 )
             )
-            var newlyAchievedChallengeIDs = challengeUpdate.newlyAchievedChallengeIDs
+            var newlyAchievedAchievementIDs = achievementUpdate.newlyAchievedAchievementIDs
                 .sorted { $0.rawValue < $1.rawValue }
-            if let debugForcedChallengeIdentifier,
-               newlyAchievedChallengeIDs.contains(debugForcedChallengeIdentifier) == false {
-                newlyAchievedChallengeIDs.append(debugForcedChallengeIdentifier)
-                newlyAchievedChallengeIDs.sort { $0.rawValue < $1.rawValue }
+            if let debugForcedAchievementIdentifier,
+               newlyAchievedAchievementIDs.contains(debugForcedAchievementIdentifier) == false {
+                newlyAchievedAchievementIDs.append(debugForcedAchievementIdentifier)
+                newlyAchievedAchievementIDs.sort { $0.rawValue < $1.rawValue }
             }
-            hud.gameOverNewlyAchievedChallengeIDs = newlyAchievedChallengeIDs
+            hud.gameOverNewlyAchievedAchievementIDs = newlyAchievedAchievementIDs
             let scoreSummary = highestScoreStore.evaluateGameOverScore(
                 currentScore,
                 difficulty: difficultyAtGameOver
@@ -86,15 +86,15 @@ extension GameViewModel {
         }
     }
 
-    func setDebugForcedChallengeIdentifier(_ challengeIdentifier: ChallengeIdentifier?) {
+    func setDebugForcedAchievementIdentifier(_ achievementIdentifier: AchievementIdentifier?) {
         guard BuildConfiguration.shouldShowDebugFeatures else {
-            debugForcedChallengeIdentifier = nil
+            debugForcedAchievementIdentifier = nil
             return
         }
-        debugForcedChallengeIdentifier = challengeIdentifier
+        debugForcedAchievementIdentifier = achievementIdentifier
     }
 
-    func recordControlInput(_ input: ChallengeControlInput) {
+    func recordControlInput(_ input: AchievementControlInput) {
         runInputTelemetry.record(input)
         recordActiveAssistiveTechnologiesIfNeeded()
     }
@@ -103,7 +103,7 @@ extension GameViewModel {
         recordActiveAssistiveTechnologiesIfNeeded()
     }
 
-    func resetRunInputTelemetry() {
+    func resetRunAchievementTelemetry() {
         runInputTelemetry.reset()
         recordActiveAssistiveTechnologiesIfNeeded()
     }
@@ -131,7 +131,7 @@ extension GameViewModel {
         hud.shouldRequestRatingOnGameOverModal = false
         hud.gameOverNextFriendAhead = nil
         hud.gameOverOvertakenFriends = []
-        hud.gameOverNewlyAchievedChallengeIDs = []
+        hud.gameOverNewlyAchievedAchievementIDs = []
     }
 
     /// Pauses or resumes gameplay when the menu overlay is presented or dismissed.
