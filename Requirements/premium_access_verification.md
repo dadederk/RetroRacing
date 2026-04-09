@@ -151,7 +151,8 @@ if let playLimitService, !storeKit.hasPremiumAccess {
 **File**: `RetroRacingSharedTests/PlayLimitServiceTests.swift`
 
 ✅ **Test Coverage**:
-- `testGivenInitialStateWhenPlayingFiveGamesThenSixthGameIsBlocked()` – Verifies 5-game limit
+- `testGivenFirstDayWhenPlayingEightGamesThenNinthGameIsBlocked()` – Verifies 8-game first-day limit
+- `testGivenSecondDayWhenPlayingFourGamesThenFifthGameIsBlocked()` – Verifies 4-game regular-day limit
 - `testCounterResetsAtMidnight()` – Verifies daily reset logic
 - `testUnlockUnlimitedAccess_DisablesCounting()` – **Verifies unlimited access bypass**
 - `testNextResetDate_IsNextMidnight()` – Verifies reset calculation
@@ -188,7 +189,7 @@ if let playLimitService, !storeKit.hasPremiumAccess {
 
 **Test Results**: ✅ All passed
 
-**Total Tests**: 18 tests covering premium access behavior
+**Total Tests**: 20+ tests covering premium access behavior
 **Pass Rate**: 100%
 
 ---
@@ -201,7 +202,7 @@ if let playLimitService, !storeKit.hasPremiumAccess {
 |------|--------|----------|
 | ✅ Read requirement files before implementing | **PASS** | All code references `Requirements/monetization.md` |
 | ✅ Ensure app compiles without errors | **PASS** | All targets build successfully |
-| ✅ Run unit tests after changes | **PASS** | 18 tests pass covering premium logic |
+| ✅ Run unit tests after changes | **PASS** | 20+ tests pass covering premium logic |
 | ✅ Update/create requirement docs | **PASS** | `monetization.md` and `premium_access_verification.md` created |
 | ✅ Use protocol-based dependency injection | **PASS** | `PlayLimitService`, `StoreKitService` are protocols/injected |
 | ✅ Maximize code reuse (shared logic) | **PASS** | All logic in `RetroRacingShared/` |
@@ -227,7 +228,7 @@ if let playLimitService, !storeKit.hasPremiumAccess {
 | ✅ Unit tests for services | **PASS** | `StoreKitServiceTests` (7 tests) |
 | ✅ Integration tests | **PASS** | `PremiumAccessIntegrationTests` (7 tests) |
 | ✅ Test with mock implementations | **PASS** | Tests use isolated `UserDefaults` suite |
-| ✅ Tests must pass before committing | **PASS** | All 18 tests pass |
+| ✅ Tests must pass before committing | **PASS** | All tests pass |
 
 ### 3.4 Code Quality
 
@@ -333,13 +334,13 @@ if let playLimitService, !storeKit.hasPremiumAccess {
 1. Launch app in Simulator or physical device
 2. Go to **Settings** → **Debug**
 3. Disable **"Simulate Premium Access"** toggle
-4. Go to Menu and play 5 games (record 5 sessions)
+4. Go to Menu and play 8 games on first day (or 4 games on a regular day)
 5. **Verify**:
-   - ✅ Play Limit section shows "Remaining: 5 of 5" initially
+   - ✅ Play Limit section shows "Remaining: 8 of 8" on first day ("Remaining: 4 of 4" on day 2+)
    - ✅ After each game, remaining count decreases
-   - ✅ After 5 games, tapping "Play" shows paywall
+   - ✅ After 8 games (first day) or 4 games (day 2+), tapping "Play" shows paywall
    - ✅ After game over, tapping "Restart" shows paywall
-   - ✅ Settings shows "Remaining: 0 of 5" and reset timer
+   - ✅ Settings shows "Remaining: 0 of 8" (first day) or "Remaining: 0 of 4" (day 2+) and reset timer
 
 ### 6.3 Testing IAP Purchase (Sandbox)
 
@@ -352,7 +353,7 @@ Steps:
 1. Launch app on physical device (signed with dev certificate)
 2. Go to **Settings** → **Debug**
 3. Disable **"Simulate Premium Access"** toggle
-4. Exhaust 5 free plays
+4. Exhaust free plays (8 on first day, 4 on day 2+)
 5. Tap "Play" → Paywall appears
 6. Tap product row → StoreKit purchase flow
 7. Sign in with **sandbox Apple ID**
@@ -367,7 +368,7 @@ Steps:
 
 1. After purchasing on Device A
 2. Install app on Device B (same Apple ID)
-3. Launch app → see 5-game limit
+3. Launch app → see free play limit (8 on first install day, 4 from day 2)
 4. Go to **Settings** → **Purchases**
 5. Tap **"Restore Purchases"**
 6. **Verify**:
@@ -386,7 +387,7 @@ Steps:
 - ✅ Premium users **always** have unlimited plays
 - ✅ `StoreKitService.hasPremiumAccess` is the **single source of truth**
 - ✅ All UI checks premium status **before** checking play limits
-- ✅ 18 tests cover all critical paths and edge cases
+- ✅ 20+ tests cover all critical paths and edge cases, including first-day bonus
 - ✅ 100% AGENTS.md compliance
 - ✅ Requirements fully documented
 - ✅ Manual testing instructions provided

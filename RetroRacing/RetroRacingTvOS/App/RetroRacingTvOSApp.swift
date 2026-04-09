@@ -18,6 +18,7 @@ struct RetroRacingTvOSApp: App {
     private let pendingLeaderboardScoreStore: any PendingLeaderboardScoreStore
     private let bestScoreSyncService: BestScoreSyncService
     private let playLimitService: PlayLimitService
+    private let specialEventService: SpecialEventService
     private let storeKitService: StoreKitService
     private let controllerInputSource: SystemGameControllerInputSource
     @State private var isMenuPresented = true
@@ -89,12 +90,17 @@ struct RetroRacingTvOSApp: App {
             }
         )
         playLimitService = UserDefaultsPlayLimitService(userDefaults: userDefaults)
+        specialEventService = Self.makeMiamiGrandPrixEventService()
 
         BuildConfiguration.initializeTestFlightCheck()
         controllerInputSource = SystemGameControllerInputSource(
             platformConfig: .tvOS,
             userDefaults: userDefaults
         )
+    }
+
+    private static func makeMiamiGrandPrixEventService() -> SpecialEventService {
+        DateRangeSpecialEventService.miamiGrandPrix2026
     }
 
     private static func makeHapticsController() -> HapticFeedbackController {
@@ -114,6 +120,7 @@ struct RetroRacingTvOSApp: App {
                     highestScoreStore: highestScoreStore,
                     achievementProgressService: achievementProgressService,
                     playLimitService: playLimitService,
+                    specialEventService: specialEventService,
                     style: .tvOS,
                     inputAdapterFactory: RemoteInputAdapterFactory(),
                     controllerInputSource: controllerInputSource,
@@ -139,6 +146,7 @@ struct RetroRacingTvOSApp: App {
                         highestScoreStore: highestScoreStore,
                         achievementProgressService: achievementProgressService,
                         playLimitService: playLimitService,
+                        specialEventService: specialEventService,
                         style: .tvOS,
                         settingsStyle: .tvOS,
                         gameViewStyle: .tvOS,

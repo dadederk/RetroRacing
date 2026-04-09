@@ -15,16 +15,15 @@ extension AchievementUnlockView {
         VStack(spacing: 18) {
             achievementArtwork(maxWidth: 250)
 
-            Text(GameLocalizedStrings.string("achievement_modal_title"))
+            Text(achievementTitle)
                 .font(scoreFont)
                 .multilineTextAlignment(.center)
 
-            Text(primaryAchievementSubtitle)
+            Text(achievementDescription)
                 .font(bodyFont)
                 .multilineTextAlignment(.center)
                 .foregroundStyle(.secondary)
 
-            achievementUnlockedRows
             if !usesBottomActionBar {
                 achievementActionButtons
             }
@@ -33,33 +32,19 @@ extension AchievementUnlockView {
         .frame(maxWidth: .infinity, alignment: .top)
     }
 
-    /// Uses the Game Center achieved description for the first unlocked achievement when available,
+    /// Uses the Game Center title when available, falling back to the local computed title.
+    var achievementTitle: String {
+        gcMetadata[achievementID.rawValue]?.title ?? achievementID.localizedTitle
+    }
+
+    /// Uses the Game Center achieved description when available,
     /// falling back to the generic modal subtitle if GC metadata has not loaded yet.
-    var primaryAchievementSubtitle: String {
-        if let first = achievementIDs.first,
-           let description = gcMetadata[first.rawValue]?.achievedDescription,
+    var achievementDescription: String {
+        if let description = gcMetadata[achievementID.rawValue]?.achievedDescription,
            description.isEmpty == false {
             return description
         }
         return GameLocalizedStrings.string("achievement_modal_subtitle")
-    }
-
-    var achievementUnlockedRows: some View {
-        VStack(spacing: 6) {
-            ForEach(Array(achievementIDs.prefix(3)), id: \.rawValue) { achievementID in
-                Text(gcMetadata[achievementID.rawValue]?.title ?? achievementID.localizedTitle)
-                    .font(bodyFont)
-                    .multilineTextAlignment(.center)
-            }
-
-            let hiddenCount = achievementIDs.count - 3
-            if hiddenCount > 0 {
-                Text(GameLocalizedStrings.format("achievement_modal_more %lld", Int64(hiddenCount)))
-                    .font(bodyFont)
-                    .foregroundStyle(.secondary)
-                    .multilineTextAlignment(.center)
-            }
-        }
     }
 
     var achievementActionButtons: some View {
@@ -102,7 +87,7 @@ extension AchievementUnlockView {
     }
 
     var achievementArtworkAssetName: String {
-        AchievementArtworkCatalog.assetName(for: achievementIDs.first, bundle: Self.sharedBundle)
+        AchievementArtworkCatalog.assetName(for: achievementID, bundle: Self.sharedBundle)
     }
 
     var canOpenGameCenterAchievements: Bool {

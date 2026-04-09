@@ -35,11 +35,12 @@ final class PremiumAccessIntegrationTests: XCTestCase {
         let playLimit = UserDefaultsPlayLimitService(
             userDefaults: userDefaults,
             calendar: calendar,
-            maxPlaysPerDay: 5
+            maxPlaysPerDay: 4,
+            firstDayMaxPlays: 4
         )
         storeKit.debugPremiumSimulationMode = .unlimitedPlays
         let now = date(year: 2026, month: 2, day: 10, hour: 15)
-        for _ in 0..<5 {
+        for _ in 0..<4 {
             playLimit.recordGamePlayed(on: now)
         }
         XCTAssertFalse(playLimit.canStartNewGame(on: now))
@@ -52,23 +53,24 @@ final class PremiumAccessIntegrationTests: XCTestCase {
         XCTAssertEqual(playLimit.remainingPlays(on: now), 0)
     }
     
-    func testGivenFreeUserWhenPlayingFiveGamesThenSixthGameIsBlocked() {
+    func testGivenFreeUserWhenPlayingFourGamesThenFifthGameIsBlocked() {
         // Given
         let storeKit = StoreKitService(userDefaults: userDefaults)
         let playLimit = UserDefaultsPlayLimitService(
             userDefaults: userDefaults,
             calendar: calendar,
-            maxPlaysPerDay: 5
+            maxPlaysPerDay: 4,
+            firstDayMaxPlays: 4
         )
         storeKit.debugPremiumSimulationMode = .freemium
         let now = date(year: 2026, month: 2, day: 10, hour: 15)
-        
+
         // When
-        for i in 0..<5 {
-            XCTAssertTrue(playLimit.canStartNewGame(on: now), "Game \(i+1) should be allowed")
+        for i in 0..<4 {
+            XCTAssertTrue(playLimit.canStartNewGame(on: now), "Game \(i + 1) should be allowed")
             playLimit.recordGamePlayed(on: now)
         }
-        
+
         // Then
         XCTAssertFalse(storeKit.hasPremiumAccess)
         XCTAssertFalse(playLimit.canStartNewGame(on: now))
@@ -81,12 +83,13 @@ final class PremiumAccessIntegrationTests: XCTestCase {
         let playLimit = UserDefaultsPlayLimitService(
             userDefaults: userDefaults,
             calendar: calendar,
-            maxPlaysPerDay: 5
+            maxPlaysPerDay: 4,
+            firstDayMaxPlays: 4
         )
         let now = date(year: 2026, month: 2, day: 10, hour: 15)
         storeKit.debugPremiumSimulationMode = .freemium
         XCTAssertFalse(storeKit.hasPremiumAccess)
-        for _ in 0..<5 {
+        for _ in 0..<4 {
             playLimit.recordGamePlayed(on: now)
         }
         XCTAssertFalse(playLimit.canStartNewGame(on: now))
@@ -100,29 +103,30 @@ final class PremiumAccessIntegrationTests: XCTestCase {
     }
     
     func testGivenUnlimitedSimulationWhenSwitchingToFreemiumThenPlayLimitsUseFreeTierState() {
-        // Given
+        // Given — firstDayMaxPlays: 4 so the remaining count is predictable after the switch
         let storeKit = StoreKitService(userDefaults: userDefaults)
         let playLimit = UserDefaultsPlayLimitService(
             userDefaults: userDefaults,
             calendar: calendar,
-            maxPlaysPerDay: 5
+            maxPlaysPerDay: 4,
+            firstDayMaxPlays: 4
         )
         let now = date(year: 2026, month: 2, day: 10, hour: 15)
         playLimit.unlockUnlimitedAccess()
         storeKit.debugPremiumSimulationMode = .unlimitedPlays
         XCTAssertTrue(storeKit.hasPremiumAccess)
-        for _ in 0..<5 {
+        for _ in 0..<4 {
             playLimit.recordGamePlayed(on: now)
         }
-        
+
         // When
         storeKit.debugPremiumSimulationMode = .freemium
-        
+
         // Then
         XCTAssertFalse(storeKit.hasPremiumAccess)
         XCTAssertFalse(playLimit.hasUnlimitedAccess)
         XCTAssertTrue(playLimit.canStartNewGame(on: now))
-        XCTAssertEqual(playLimit.remainingPlays(on: now), 5)
+        XCTAssertEqual(playLimit.remainingPlays(on: now), 4)
     }
     
     func testGivenPremiumUserWhenCheckingSettingsVisibilityThenPlayLimitSectionIsHidden() {
@@ -156,7 +160,8 @@ final class PremiumAccessIntegrationTests: XCTestCase {
         let playLimit = UserDefaultsPlayLimitService(
             userDefaults: userDefaults,
             calendar: calendar,
-            maxPlaysPerDay: 5
+            maxPlaysPerDay: 4,
+            firstDayMaxPlays: 4
         )
         let now = date(year: 2026, month: 2, day: 10, hour: 15)
         playLimit.unlockUnlimitedAccess()

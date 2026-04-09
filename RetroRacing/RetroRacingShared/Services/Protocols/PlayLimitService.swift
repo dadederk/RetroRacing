@@ -27,6 +27,16 @@ public protocol PlayLimitService {
     /// Implementations should return `Int.max` when `hasUnlimitedAccess` is `true`.
     func remainingPlays(on date: Date) -> Int
 
+    /// Returns the maximum plays allowed on the given date.
+    /// Higher on the first play day (welcome bonus), regular limit thereafter.
+    /// Implementations should return `Int.max` when `hasUnlimitedAccess` is `true`.
+    func maxPlays(on date: Date) -> Int
+
+    /// Returns `true` when `date` falls on the first calendar day on which
+    /// the user ever played (i.e. the welcome-bonus day).
+    /// Returns `false` when no game has been recorded yet, since there is no first day to compare against.
+    func isFirstPlayDay(on date: Date) -> Bool
+
     /// Returns the next date at which the daily counter will reset.
     func nextResetDate(after date: Date) -> Date
 

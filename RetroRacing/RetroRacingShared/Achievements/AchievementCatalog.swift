@@ -37,10 +37,30 @@ public enum AchievementCatalog {
         AchievementDefinition(identifier: .eventGAADAssistive, requirement: .gaadAssistiveRunCompleted)
     ]
 
+    /// Evaluates achievements against the full historical snapshot.
+    /// Used by the initial backfill to retroactively award everything the player has earned.
     public static func achievedAchievements(for snapshot: AchievementProgressSnapshot) -> Set<AchievementIdentifier> {
         var achieved = Set<AchievementIdentifier>()
 
         for definition in definitions where isSatisfied(definition.requirement, by: snapshot) {
+            achieved.insert(definition.identifier)
+        }
+
+        return achieved
+    }
+
+    /// Evaluates achievements that a single completed run can unlock.
+    /// Streak thresholds are checked against `runOvertakes` (this run only),
+    /// not the stored historical best, so a modest run cannot inherit badges
+    /// from an earlier high-score run.
+    /// All other requirements (cumulative, control, event) evaluate against the full snapshot.
+    public static func achievedAchievementsForRun(
+        runOvertakes: Int,
+        snapshot: AchievementProgressSnapshot
+    ) -> Set<AchievementIdentifier> {
+        var achieved = Set<AchievementIdentifier>()
+
+        for definition in definitions where isSatisfiedByRun(definition.requirement, runOvertakes: runOvertakes, snapshot: snapshot) {
             achieved.insert(definition.identifier)
         }
 
@@ -54,6 +74,23 @@ public enum AchievementCatalog {
         switch requirement {
         case .bestRunOvertakesAtLeast(let threshold):
             return snapshot.bestRunOvertakes >= threshold
+        case .cumulativeOvertakesAtLeast(let threshold):
+            return snapshot.cumulativeOvertakes >= threshold
+        case .lifetimeControlUsed(let input):
+            return snapshot.lifetimeUsedControls.contains(input)
+        case .gaadAssistiveRunCompleted:
+            return snapshot.gaadAssistiveRunCompleted ?? false
+        }
+    }
+
+    private static func isSatisfiedByRun(
+        _ requirement: AchievementRequirement,
+        runOvertakes: Int,
+        snapshot: AchievementProgressSnapshot
+    ) -> Bool {
+        switch requirement {
+        case .bestRunOvertakesAtLeast(let threshold):
+            return runOvertakes >= threshold
         case .cumulativeOvertakesAtLeast(let threshold):
             return snapshot.cumulativeOvertakes >= threshold
         case .lifetimeControlUsed(let input):

@@ -13,7 +13,7 @@ Internal code may still use names like `hasPremiumAccess` for the entitlement; t
 
 RetroRacing uses a **freemium** model with:
 
-- **Free tier**: up to **5 games per calendar day** (resets at local midnight)
+- **Free tier**: up to **8 games on the first play day** (welcome bonus), then **4 games per calendar day** from day 2 onward (resets at local midnight). Reinstalling the app resets the bonus.
 - **Unlimited Plays**: one‑time purchase (non‑consumable IAP) that removes the daily limit and includes theme choices as an extra
 
 The goal is to encourage support without making the free experience feel hostile. Messaging focuses on **supporting the game** (buying coffee) rather than hard paywalling.
@@ -25,7 +25,7 @@ The goal is to encourage support without making the free experience feel hostile
 - A “game” is counted **per round**:
   - A round starts when a new `GameScene` is created (menu → game).
   - Restarts after game over **also count as new rounds**.
-- Free users can play **5 rounds per calendar day** (`maxPlaysPerDay = 5`).
+- Free users can play **8 rounds on their first play day** (`firstDayMaxPlays = 8`) and **4 rounds per calendar day** from day 2 onward (`maxPlaysPerDay = 4`). "First play day" is the calendar day on which `recordGamePlayed` is first called (stored as `PlayLimit.firstPlayDate`). Reinstalling the app clears UserDefaults, resetting the bonus.
 - The day boundary is based on the user’s **current Calendar and time zone** and resets at **00:00 local time**.
 - When the limit is reached:
   - Starting a new game from the menu **shows the paywall**.
@@ -61,6 +61,8 @@ Key API:
 - `func canStartNewGame(on date: Date) -> Bool`
 - `func recordGamePlayed(on date: Date)`
 - `func remainingPlays(on date: Date) -> Int`
+- `func maxPlays(on date: Date) -> Int` — returns `Int.max` for unlimited users; `firstDayMaxPlays` on the first play day; `maxPlaysPerDay` thereafter.
+- `func isFirstPlayDay(on date: Date) -> Bool` — `true` when `date` is the calendar day on which the first game was ever recorded.
 - `func nextResetDate(after date: Date) -> Date`
 - `func unlockUnlimitedAccess()`
 
@@ -70,8 +72,9 @@ Implementation details:
   - `"PlayLimit.lastPlayDate"`
   - `"PlayLimit.todayCount"`
   - `"PlayLimit.hasUnlimitedAccess"`
+  - `"PlayLimit.firstPlayDate"` (set on the first `recordGamePlayed` call; cleared on reinstall)
   - `"PlayLimit.debugForceFreemium"` (debug override written by `StoreKitService`)
-- Uses a **serial queue** for thread‑safety.
+- Thread-safety is provided by the project's `SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor` build setting (no `DispatchQueue` required).
 - Uses injected `Calendar` (defaults to `.current`) for day boundaries.
 - `hasUnlimitedAccess` and all limit checks (`canStartNewGame`, `recordGamePlayed`, `remainingPlays`) ignore stored unlimited access when `"PlayLimit.debugForceFreemium" == true`.
 
@@ -424,7 +427,9 @@ An **About** section appears above Debug, and Debug remains the final section in
 
 Scenarios covered:
 
-- Initial state allows **5 games** in a day, blocks the 6th.
+- Initial state (first play day) allows **8 games**, blocks the 9th.
+- Day 2 onward allows **4 games**, blocks the 5th.
+- First play day is detected via `PlayLimit.firstPlayDate` (set on first `recordGamePlayed` call).
 - Counter **resets at midnight** (calendar day change).
 - `unlockUnlimitedAccess()`:
   - `hasUnlimitedAccess == true`
@@ -435,10 +440,10 @@ Scenarios covered:
 ### Manual QA Checklist
 
 - Free user:
-  - Can play up to 5 games in a single day.
-  - 6th attempt from menu → paywall appears.
+  - First play day: can play up to 8 games. 9th attempt from menu → paywall appears.
+  - Day 2+: can play up to 4 games. 5th attempt from menu → paywall appears.
   - Restart after limit reached → paywall appears.
-  - Next day: counter resets and 5 plays are available again.
+  - Next day: counter resets and 4 plays are available.
 - Premium user:
   - No play limit (unbounded sessions).
   - Settings shows “♾️ Unlimited” + thank‑you message.
@@ -456,7 +461,7 @@ See plan for full details; key points:
 - Create **Non‑Consumable IAP**:
   - ID: `com.accessibilityUpTo11.RetroRacing.unlimitedPlays`
   - Name: “Unlimited Plays”
-  - Description explains 5 games/day limit and unlimited unlock.
+  - Description explains the daily limit (8 on first day, 4 from day 2) and unlimited unlock.
 - Localise display name/description into EN/ES/CA.
 - Provide at least one screenshot showing:
   - The paywall.

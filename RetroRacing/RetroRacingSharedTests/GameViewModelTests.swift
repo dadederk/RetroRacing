@@ -35,6 +35,7 @@ final class GameViewModelTests: XCTestCase {
             achievementProgressService: achievementProgressService,
             inputAdapterFactory: inputAdapterFactory,
             playLimitService: nil,
+            specialEventService: nil,
             selectedDifficulty: .rapid,
             selectedAudioFeedbackMode: .retro,
             selectedLaneMoveCueStyle: .laneConfirmationAndSafety,

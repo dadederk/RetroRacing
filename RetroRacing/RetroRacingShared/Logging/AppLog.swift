@@ -20,6 +20,8 @@ public enum AppLog {
     public static let leaderboard = "🏆"
     /// Achievements and progress reporting (filter logs with 🏅).
     public static let achievement = "🏅"
+    /// Monetization — play limits, paywall, IAP unlocks (filter logs with 💰).
+    public static let monetization = "💰"
 
     private static let logger = Logger(
         subsystem: Bundle.main.bundleIdentifier ?? "com.retroracing",

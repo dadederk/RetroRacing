@@ -26,6 +26,8 @@ public struct SettingsView: View {
     public let isGameSessionInProgress: Bool
     /// Optional play limit service for showing remaining rounds.
     public let playLimitService: PlayLimitService?
+    /// Optional special-event service for showing the event banner in place of the play limit.
+    public let specialEventService: SpecialEventService?
     public let achievementProgressService: AchievementProgressService
 
     @Environment(\.dismiss) private var dismiss
@@ -58,7 +60,8 @@ public struct SettingsView: View {
         style: SettingsViewStyle,
         achievementProgressService: AchievementProgressService,
         isGameSessionInProgress: Bool = false,
-        playLimitService: PlayLimitService? = nil
+        playLimitService: PlayLimitService? = nil,
+        specialEventService: SpecialEventService? = nil
     ) {
         self.themeManager = themeManager
         self.fontPreferenceStore = fontPreferenceStore
@@ -71,6 +74,7 @@ public struct SettingsView: View {
         self.achievementProgressService = achievementProgressService
         self.isGameSessionInProgress = isGameSessionInProgress
         self.playLimitService = playLimitService
+        self.specialEventService = specialEventService
         _preferencesStore = State(initialValue: SettingsPreferencesStore(
             userDefaults: InfrastructureDefaults.userDefaults,
             supportsHaptics: supportsHapticFeedback,
@@ -165,20 +169,37 @@ public struct SettingsView: View {
                 }
 
                 if let playLimitService, !storeKit.hasPremiumAccess {
+                    let now = Date()
+                    let activeEventInfo = specialEventService?.eventInfo(on: now)
+
                     Section {
                         VStack(alignment: .leading, spacing: 4) {
-                            Text(playLimitTitle(for: playLimitService))
-                                .font(fontForLabels)
-                            if let subtitle = playLimitSubtitle(for: playLimitService) {
-                                Text(subtitle)
+                            if let eventInfo = activeEventInfo {
+                                Text(GameLocalizedStrings.string("event_play_unlimited_title"))
+                                    .font(fontForLabels)
+                                Text(eventSubtitle(for: eventInfo))
                                     .font(fontForLabels)
                                     .foregroundStyle(.secondary)
+                            } else {
+                                Text(playLimitTitle(for: playLimitService))
+                                    .font(fontForLabels)
+                                if let subtitle = playLimitSubtitle(for: playLimitService) {
+                                    Text(subtitle)
+                                        .font(fontForLabels)
+                                        .foregroundStyle(.secondary)
+                                }
                             }
                         }
                         .accessibilityElement(children: .combine)
                     } header: {
                         Text(GameLocalizedStrings.string("play_limit_title"))
                             .font(fontForLabels)
+                    } footer: {
+                        if activeEventInfo == nil {
+                            Text(playLimitFooter(for: playLimitService))
+                                .font(secondaryFont)
+                                .modifier(SettingsFooterTextStyle())
+                        }
                     }
                 }
 
@@ -681,13 +702,25 @@ public struct SettingsView: View {
         .confirmationAction
     }
 
+    private func eventSubtitle(for info: SpecialEventInfo) -> String {
+        let endString = info.inclusiveEndDate.formatted(date: .long, time: .omitted)
+        return GameLocalizedStrings.format("event_play_unlimited_subtitle %@ %@", endString, info.name)
+    }
+
     private func playLimitTitle(for service: PlayLimitService) -> String {
         if service.hasUnlimitedAccess {
             return GameLocalizedStrings.string("play_limit_unlimited")
         }
 
-        let remaining = service.remainingPlays(on: Date())
-        return GameLocalizedStrings.format("play_limit_remaining %lld", Int64(remaining))
+        let now = Date()
+        let remaining = service.remainingPlays(on: now)
+        let total = service.maxPlays(on: now)
+        return GameLocalizedStrings.format("play_limit_remaining %lld %lld", Int64(remaining), Int64(total))
+    }
+
+    private func playLimitFooter(for service: PlayLimitService) -> String {
+        let key = service.isFirstPlayDay(on: Date()) ? "play_limit_section_footer_first_day" : "play_limit_section_footer"
+        return GameLocalizedStrings.string(key)
     }
 
     private func playLimitSubtitle(for service: PlayLimitService) -> String? {
@@ -697,11 +730,15 @@ public struct SettingsView: View {
 
         let now = Date()
         let resetDate = service.nextResetDate(after: now)
-        let components = Calendar.current.dateComponents([.hour], from: now, to: resetDate)
-        let hours = max(0, components.hour ?? 0)
+        let components = Calendar.current.dateComponents([.hour, .minute], from: now, to: resetDate)
+        let rawHours = max(0, components.hour ?? 0)
+        let hasRemainingMinutes = (components.minute ?? 0) > 0
+        let hours = hasRemainingMinutes ? rawHours + 1 : rawHours
 
         if hours >= 24 {
             return GameLocalizedStrings.string("play_limit_resets_tomorrow")
+        } else if hours == 1 {
+            return GameLocalizedStrings.string("play_limit_resets_in_one_hour")
         } else {
             return GameLocalizedStrings.format("play_limit_resets_in_hours %lld", Int64(hours))
         }

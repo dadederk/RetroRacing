@@ -50,6 +50,10 @@ public enum AchievementIdentifier: String, CaseIterable, Sendable {
     }
 }
 
+extension AchievementIdentifier: Identifiable {
+    public var id: String { rawValue }
+}
+
 extension AchievementIdentifier: Codable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()

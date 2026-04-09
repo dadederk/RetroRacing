@@ -216,6 +216,29 @@ final class AchievementProgressServiceTests: XCTestCase {
         XCTAssertEqual(reporter.reported.first, Set([.controlTap, .eventGAADAssistive]))
     }
 
+    func testGivenHighStoredBestWhenRecordingLowerRunThenOnlyThresholdsCrossedThisRunAreNewlyAchieved() {
+        // Given — stored best is 299 but the run achievements were never awarded yet
+        store.snapshot = AchievementProgressSnapshot(
+            bestRunOvertakes: 299,
+            cumulativeOvertakes: 1_500,
+            lifetimeUsedControls: [],
+            achievedAchievementIDs: [],
+            backfillVersion: 1
+        )
+        let run = CompletedRunAchievementData(
+            overtakes: 125,
+            usedControls: [.tap]
+        )
+
+        // When
+        let update = service.recordCompletedRun(run)
+
+        // Then — 125 only crosses the 100 threshold; the stored 299 must not grant the 200 badge
+        XCTAssertTrue(update.newlyAchievedAchievementIDs.contains(.runOvertakes100))
+        XCTAssertFalse(update.newlyAchievedAchievementIDs.contains(.runOvertakes200))
+        XCTAssertEqual(update.snapshot.bestRunOvertakes, 299)
+    }
+
     func testGivenNoAchievedAchievementsWhenReplayingThenReporterIsNotCalled() {
         // Given
         store.snapshot = .empty

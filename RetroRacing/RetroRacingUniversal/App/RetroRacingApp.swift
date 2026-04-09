@@ -42,6 +42,7 @@ struct RetroRacingApp: App {
     /// Retained so WCSession delegate callbacks remain active.
     private let watchRelayReceiver: WatchBestScoreRelayReceiver?
     private let playLimitService: PlayLimitService
+    private let specialEventService: SpecialEventService
     private let storeKitService: StoreKitService
     private let controllerInputSource: SystemGameControllerInputSource
     private let controlsDescriptionKey: String
@@ -174,10 +175,15 @@ struct RetroRacingApp: App {
 
         BuildConfiguration.initializeTestFlightCheck()
         playLimitService = UserDefaultsPlayLimitService(userDefaults: userDefaults)
+        specialEventService = Self.makeMiamiGrandPrixEventService()
         controllerInputSource = SystemGameControllerInputSource(
             platformConfig: .standard,
             userDefaults: userDefaults
         )
+    }
+
+    private static func makeMiamiGrandPrixEventService() -> SpecialEventService {
+        DateRangeSpecialEventService.miamiGrandPrix2026
     }
 
     /// Returns true when the device has haptic hardware. Used to show/hide haptic setting (configuration injection).
@@ -297,6 +303,7 @@ struct RetroRacingApp: App {
             highestScoreStore: highestScoreStore,
             achievementProgressService: achievementProgressService,
             playLimitService: playLimitService,
+            specialEventService: specialEventService,
             style: .universal,
             inputAdapterFactory: TouchInputAdapterFactory(),
             controllerInputSource: controllerInputSource,
@@ -328,6 +335,7 @@ struct RetroRacingApp: App {
             highestScoreStore: highestScoreStore,
             achievementProgressService: achievementProgressService,
             playLimitService: playLimitService,
+            specialEventService: specialEventService,
             style: .universal,
             settingsStyle: .universal,
             gameViewStyle: .universal,
@@ -352,6 +360,7 @@ struct RetroRacingApp: App {
             highestScoreStore: highestScoreStore,
             achievementProgressService: achievementProgressService,
             playLimitService: playLimitService,
+            specialEventService: specialEventService,
             style: .universal,
             settingsStyle: .universal,
             gameViewStyle: .universal,
@@ -382,19 +391,20 @@ struct RetroRacingApp: App {
             hapticController: hapticController
         )
         return SettingsView(
-            themeManager: themeManager,
-            fontPreferenceStore: fontPreferenceStore,
-            supportsHapticFeedback: supportsHapticFeedback,
-            hapticController: hapticController,
-            audioCueTutorialPreviewPlayer: previewDependencies.audioCueTutorialPreviewPlayer,
-            speedWarningFeedbackPreviewPlayer: previewDependencies.speedWarningFeedbackPreviewPlayer,
-            controlsDescriptionKey: controlsDescriptionKey,
-            style: .universal,
-            achievementProgressService: achievementProgressService,
-            isGameSessionInProgress: shouldStartGame && !isMenuPresented,
-            playLimitService: playLimitService
-        )
-        .fontPreferenceStore(fontPreferenceStore)
+                themeManager: themeManager,
+                fontPreferenceStore: fontPreferenceStore,
+                supportsHapticFeedback: supportsHapticFeedback,
+                hapticController: hapticController,
+                audioCueTutorialPreviewPlayer: previewDependencies.audioCueTutorialPreviewPlayer,
+                speedWarningFeedbackPreviewPlayer: previewDependencies.speedWarningFeedbackPreviewPlayer,
+                controlsDescriptionKey: controlsDescriptionKey,
+                style: .universal,
+                achievementProgressService: achievementProgressService,
+                isGameSessionInProgress: shouldStartGame && !isMenuPresented,
+                playLimitService: playLimitService,
+                specialEventService: specialEventService
+            )
+            .fontPreferenceStore(fontPreferenceStore)
     }
     #endif
 

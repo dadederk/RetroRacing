@@ -20,6 +20,59 @@ final class AchievementCatalogTests: XCTestCase {
         XCTAssertEqual(definitions.count, expectedCount)
     }
 
+    func testGivenRunOvertakesWhenEvaluatingForRunThenOnlyIncludesThresholdsCrossedThisRun() {
+        // Given
+        let snapshot = AchievementProgressSnapshot(
+            bestRunOvertakes: 0,
+            cumulativeOvertakes: 0,
+            lifetimeUsedControls: [],
+            achievedAchievementIDs: []
+        )
+
+        // When — run scored 250, so only 100 and 200 thresholds are crossed
+        let achieved = AchievementCatalog.achievedAchievementsForRun(runOvertakes: 250, snapshot: snapshot)
+
+        // Then
+        XCTAssertTrue(achieved.contains(.runOvertakes100))
+        XCTAssertTrue(achieved.contains(.runOvertakes200))
+        XCTAssertFalse(achieved.contains(.runOvertakes300))
+        XCTAssertFalse(achieved.contains(.runOvertakes400))
+    }
+
+    func testGivenHighStoredBestButLowerRunScoreWhenEvaluatingForRunThenOnlyIncludesCurrentRunThresholds() {
+        // Given — historical best is 299 but the current run only scored 125
+        let snapshot = AchievementProgressSnapshot(
+            bestRunOvertakes: 299,
+            cumulativeOvertakes: 5_000,
+            lifetimeUsedControls: [],
+            achievedAchievementIDs: []
+        )
+
+        // When
+        let achieved = AchievementCatalog.achievedAchievementsForRun(runOvertakes: 125, snapshot: snapshot)
+
+        // Then — 125 crosses 100 but NOT 200; stored best of 299 must not leak into the award
+        XCTAssertTrue(achieved.contains(.runOvertakes100))
+        XCTAssertFalse(achieved.contains(.runOvertakes200))
+    }
+
+    func testGivenRunOvertakesWhenEvaluatingForRunThenCumulativeAchievementsUseSnapshotNotRunScore() {
+        // Given — snapshot already has 1_100 cumulative; run adds 50 → total 1_150
+        let snapshot = AchievementProgressSnapshot(
+            bestRunOvertakes: 0,
+            cumulativeOvertakes: 1_100,
+            lifetimeUsedControls: [],
+            achievedAchievementIDs: []
+        )
+
+        // When — a modest 50-overtake run, but cumulative in the snapshot crosses 1k
+        let achieved = AchievementCatalog.achievedAchievementsForRun(runOvertakes: 50, snapshot: snapshot)
+
+        // Then — cumulative is evaluated against the snapshot (already ≥ 1k), not the run score
+        XCTAssertTrue(achieved.contains(.totalOvertakes1k))
+        XCTAssertFalse(achieved.contains(.runOvertakes100))
+    }
+
     func testGivenBestRunThresholdWhenEvaluatingAchievementsThenIncludesReachedRunAchievements() {
         // Given
         let snapshot = AchievementProgressSnapshot(

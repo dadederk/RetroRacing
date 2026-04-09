@@ -30,6 +30,7 @@ public struct MenuView: View {
     public let highestScoreStore: HighestScoreStore
     public let achievementProgressService: AchievementProgressService
     public let playLimitService: PlayLimitService?
+    public let specialEventService: SpecialEventService?
     public let style: MenuViewStyle
     public let settingsStyle: SettingsViewStyle
     public let gameViewStyle: GameViewStyle
@@ -62,6 +63,7 @@ public struct MenuView: View {
         highestScoreStore: HighestScoreStore,
         achievementProgressService: AchievementProgressService,
         playLimitService: PlayLimitService?,
+        specialEventService: SpecialEventService? = nil,
         style: MenuViewStyle,
         settingsStyle: SettingsViewStyle,
         gameViewStyle: GameViewStyle,
@@ -81,6 +83,7 @@ public struct MenuView: View {
         self.highestScoreStore = highestScoreStore
         self.achievementProgressService = achievementProgressService
         self.playLimitService = playLimitService
+        self.specialEventService = specialEventService
         self.style = style
         self.settingsStyle = settingsStyle
         self.gameViewStyle = gameViewStyle
@@ -123,7 +126,8 @@ public struct MenuView: View {
                     controlsDescriptionKey: controlsDescriptionKey,
                     style: settingsStyle,
                     achievementProgressService: achievementProgressService,
-                    playLimitService: playLimitService
+                    playLimitService: playLimitService,
+                    specialEventService: specialEventService
                 )
                 .fontPreferenceStore(fontPreferenceStore)
             }
@@ -142,6 +146,7 @@ public struct MenuView: View {
                     highestScoreStore: highestScoreStore,
                     achievementProgressService: achievementProgressService,
                     playLimitService: playLimitService,
+                    specialEventService: specialEventService,
                     style: gameViewStyle,
                     inputAdapterFactory: inputAdapterFactory,
                     controllerInputSource: NoOpGameControllerInputSource(),
@@ -213,15 +218,23 @@ public struct MenuView: View {
                 set: { authModel.authError = $0 }
             ),
             onPlay: {
-                // Premium users always have unlimited plays
+                let now = Date()
+                // Premium users always have unlimited plays.
                 if storeKit.hasPremiumAccess {
                     if let onPlayRequest {
                         onPlayRequest()
                     } else {
                         showGame = true
                     }
+                // Special events grant temporary unlimited play to everyone.
+                } else if specialEventService?.isEventActive(on: now) == true {
+                    if let onPlayRequest {
+                        onPlayRequest()
+                    } else {
+                        showGame = true
+                    }
                 } else if let service = playLimitService,
-                          service.canStartNewGame(on: Date()) == false {
+                          service.canStartNewGame(on: now) == false {
                     paywallTrigger = .limitReached
                 } else if let onPlayRequest {
                     onPlayRequest()

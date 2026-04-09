@@ -39,6 +39,7 @@ public struct GameView: View {
     public let highestScoreStore: HighestScoreStore
     public let achievementProgressService: AchievementProgressService
     public let playLimitService: PlayLimitService?
+    public let specialEventService: SpecialEventService?
     public let style: GameViewStyle
     public let inputAdapterFactory: any GameInputAdapterFactory
     public let controllerInputSource: any GameControllerInputSource
@@ -90,6 +91,7 @@ public struct GameView: View {
         highestScoreStore: HighestScoreStore,
         achievementProgressService: AchievementProgressService,
         playLimitService: PlayLimitService?,
+        specialEventService: SpecialEventService? = nil,
         style: GameViewStyle,
         inputAdapterFactory: any GameInputAdapterFactory,
         controllerInputSource: any GameControllerInputSource,
@@ -110,6 +112,7 @@ public struct GameView: View {
         self.highestScoreStore = highestScoreStore
         self.achievementProgressService = achievementProgressService
         self.playLimitService = playLimitService
+        self.specialEventService = specialEventService
         self.style = style
         self.inputAdapterFactory = inputAdapterFactory
         self.controllerInputSource = controllerInputSource
@@ -135,6 +138,7 @@ public struct GameView: View {
             achievementProgressService: achievementProgressService,
             inputAdapterFactory: inputAdapterFactory,
             playLimitService: playLimitService,
+            specialEventService: specialEventService,
             selectedDifficulty: selectedDifficulty,
             selectedAudioFeedbackMode: selectedAudioFeedbackMode,
             selectedLaneMoveCueStyle: selectedLaneMoveCueStyle,
@@ -563,10 +567,14 @@ public struct GameView: View {
     }
 
     private func handleRestartFromGameOver() {
+        let now = Date()
         // Premium users always have unlimited plays.
         if storeKit.hasPremiumAccess {
             model.restartGame()
-        } else if let playLimitService, playLimitService.canStartNewGame(on: Date()) {
+        // Special events grant temporary unlimited play to everyone.
+        } else if specialEventService?.isEventActive(on: now) == true {
+            model.restartGame()
+        } else if let playLimitService, playLimitService.canStartNewGame(on: now) {
             model.restartGame()
         } else if playLimitService != nil {
             model.dismissGameOverModal()

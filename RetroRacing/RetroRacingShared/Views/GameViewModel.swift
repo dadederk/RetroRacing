@@ -29,6 +29,8 @@ final class GameViewModel {
     let inputAdapterFactory: any GameInputAdapterFactory
     /// Optional play limit service used to record daily plays.
     let playLimitService: PlayLimitService?
+    /// Optional special-event service. When an event is active, play recording is skipped.
+    let specialEventService: SpecialEventService?
     var selectedDifficulty: GameDifficulty
     var selectedAudioFeedbackMode: AudioFeedbackMode
     var selectedLaneMoveCueStyle: LaneMoveCueStyle
@@ -53,6 +55,7 @@ final class GameViewModel {
         achievementProgressService: AchievementProgressService,
         inputAdapterFactory: any GameInputAdapterFactory,
         playLimitService: PlayLimitService?,
+        specialEventService: SpecialEventService?,
         selectedDifficulty: GameDifficulty,
         selectedAudioFeedbackMode: AudioFeedbackMode,
         selectedLaneMoveCueStyle: LaneMoveCueStyle,
@@ -68,6 +71,7 @@ final class GameViewModel {
         self.achievementProgressService = achievementProgressService
         self.inputAdapterFactory = inputAdapterFactory
         self.playLimitService = playLimitService
+        self.specialEventService = specialEventService
         self.selectedDifficulty = selectedDifficulty
         self.selectedAudioFeedbackMode = selectedAudioFeedbackMode
         self.selectedLaneMoveCueStyle = selectedLaneMoveCueStyle

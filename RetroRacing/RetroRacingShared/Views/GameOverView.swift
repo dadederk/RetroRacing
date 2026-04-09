@@ -25,7 +25,8 @@ public struct GameOverView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dynamicTypeSize) var dynamicTypeSize
     @ScaledMetric(relativeTo: .body) var avatarSize: CGFloat = 24
-    @State private var isAchievementModalPresented = false
+    @State private var pendingAchievementIDs: [AchievementIdentifier] = []
+    @State private var presentedAchievementID: AchievementIdentifier?
     #if !os(watchOS) && !os(tvOS)
     // Internal (not private) so GameOverView+Sharing.swift can read and write it across files.
     @State var gameOverShareImageURL: URL?
@@ -99,15 +100,16 @@ public struct GameOverView: View {
         .frame(minWidth: 520, minHeight: 640)
         #endif
         .interactiveDismissDisabled(true)
-        .sheet(isPresented: $isAchievementModalPresented) {
+        .sheet(item: $presentedAchievementID) { achievementID in
             AchievementUnlockView(
-                achievementIDs: newlyAchievedAchievementIDs,
-                onDone: { isAchievementModalPresented = false }
+                achievementID: achievementID,
+                onDone: advanceToNextAchievement
             )
         }
         .onAppear {
             onPresented?()
-            isAchievementModalPresented = newlyAchievedAchievementIDs.isEmpty == false
+            pendingAchievementIDs = Array(newlyAchievedAchievementIDs.dropFirst())
+            presentedAchievementID = newlyAchievedAchievementIDs.first
             #if !os(watchOS) && !os(tvOS)
             refreshShareImage()
             #endif
@@ -117,6 +119,14 @@ public struct GameOverView: View {
             refreshShareImage()
         }
         #endif
+    }
+
+    private func advanceToNextAchievement() {
+        if pendingAchievementIDs.isEmpty {
+            presentedAchievementID = nil
+        } else {
+            presentedAchievementID = pendingAchievementIDs.removeFirst()
+        }
     }
 }
 
@@ -153,6 +163,19 @@ public struct GameOverView: View {
         difficulty: .fast,
         isNewRecord: false,
         previousBestScore: nil,
+        onRestart: {},
+        onFinish: {}
+    )
+}
+
+#Preview("Three achievements") {
+    GameOverView(
+        score: 340,
+        bestScore: 340,
+        difficulty: .rapid,
+        isNewRecord: true,
+        previousBestScore: 210,
+        newlyAchievedAchievementIDs: [.runOvertakes100, .runOvertakes200, .runOvertakes300],
         onRestart: {},
         onFinish: {}
     )

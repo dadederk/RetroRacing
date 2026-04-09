@@ -61,8 +61,12 @@ extension GameViewModel {
         hud.score = currentScore
         hud.lives = currentLives
 
-        // Record this session against the daily play limit, if enabled.
-        playLimitService?.recordGamePlayed(on: Date())
+        // Record this session against the daily play limit, unless a special event
+        // grants unlimited play — event plays don't count against the daily quota.
+        let now = Date()
+        if specialEventService?.isEventActive(on: now) != true {
+            playLimitService?.recordGamePlayed(on: now)
+        }
 
         // Respect current overlay state: if the menu is on top, keep gameplay paused
         if isMenuOverlayPresented {

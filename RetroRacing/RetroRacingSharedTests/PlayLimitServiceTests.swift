@@ -28,14 +28,16 @@ final class PlayLimitServiceTests: XCTestCase {
         super.tearDown()
     }
 
-    func testGivenInitialStateWhenPlayingFiveGamesThenSixthGameIsBlocked() {
+    // MARK: - First-day bonus
+
+    func testGivenFirstDayWhenPlayingEightGamesThenNinthGameIsBlocked() {
         // Given
-        let service = UserDefaultsPlayLimitService(userDefaults: userDefaults, calendar: calendar, maxPlaysPerDay: 5)
+        let service = UserDefaultsPlayLimitService(userDefaults: userDefaults, calendar: calendar)
         let now = date(year: 2026, month: 2, day: 10, hour: 10)
 
         // When
-        for i in 0..<5 {
-            XCTAssertTrue(service.canStartNewGame(on: now), "Game \(i) should be allowed")
+        for i in 0..<8 {
+            XCTAssertTrue(service.canStartNewGame(on: now), "Game \(i + 1) should be allowed on first day")
             service.recordGamePlayed(on: now)
         }
 
@@ -44,12 +46,82 @@ final class PlayLimitServiceTests: XCTestCase {
         XCTAssertEqual(service.remainingPlays(on: now), 0)
     }
 
-    func testGivenFiveGamesPlayedWhenMidnightPassesThenCounterResetsToFive() {
+    func testGivenFirstDayWhenCheckingMaxPlaysThenReturnsEight() {
         // Given
-        let service = UserDefaultsPlayLimitService(userDefaults: userDefaults, calendar: calendar, maxPlaysPerDay: 5)
+        let service = UserDefaultsPlayLimitService(userDefaults: userDefaults, calendar: calendar)
+        let now = date(year: 2026, month: 2, day: 10, hour: 10)
+
+        // When
+        service.recordGamePlayed(on: now)
+
+        // Then
+        XCTAssertEqual(service.maxPlays(on: now), 8)
+    }
+
+    func testGivenFirstDayWhenCheckingIsFirstPlayDayThenReturnsTrue() {
+        // Given
+        let service = UserDefaultsPlayLimitService(userDefaults: userDefaults, calendar: calendar)
+        let now = date(year: 2026, month: 2, day: 10, hour: 10)
+        service.recordGamePlayed(on: now)
+
+        // When / Then
+        XCTAssertTrue(service.isFirstPlayDay(on: now))
+    }
+
+    func testGivenSecondDayWhenCheckingIsFirstPlayDayThenReturnsFalse() {
+        // Given
+        let service = UserDefaultsPlayLimitService(userDefaults: userDefaults, calendar: calendar)
+        let day1 = date(year: 2026, month: 2, day: 10, hour: 10)
+        let day2 = date(year: 2026, month: 2, day: 11, hour: 10)
+        service.recordGamePlayed(on: day1)
+
+        // When / Then
+        XCTAssertFalse(service.isFirstPlayDay(on: day2))
+    }
+
+    func testGivenNoGamesPlayedWhenCheckingIsFirstPlayDayThenReturnsFalse() {
+        // Given
+        let service = UserDefaultsPlayLimitService(userDefaults: userDefaults, calendar: calendar)
+        let now = date(year: 2026, month: 2, day: 10, hour: 10)
+
+        // When / Then — no firstPlayDate recorded yet
+        XCTAssertFalse(service.isFirstPlayDay(on: now))
+    }
+
+    func testGivenSecondDayWhenCheckingMaxPlaysThenReturnsFour() {
+        // Given
+        let service = UserDefaultsPlayLimitService(userDefaults: userDefaults, calendar: calendar)
+        let day1 = date(year: 2026, month: 2, day: 10, hour: 10)
+        let day2 = date(year: 2026, month: 2, day: 11, hour: 10)
+        service.recordGamePlayed(on: day1)
+
+        // When / Then
+        XCTAssertEqual(service.maxPlays(on: day2), 4)
+    }
+
+    func testGivenSecondDayWhenPlayingFourGamesThenFifthGameIsBlocked() {
+        // Given
+        let service = UserDefaultsPlayLimitService(userDefaults: userDefaults, calendar: calendar)
         let day1 = date(year: 2026, month: 2, day: 10, hour: 23)
-        for _ in 0..<5 {
-            XCTAssertTrue(service.canStartNewGame(on: day1))
+        let day2 = date(year: 2026, month: 2, day: 11, hour: 9)
+        service.recordGamePlayed(on: day1)
+
+        // When
+        for i in 0..<4 {
+            XCTAssertTrue(service.canStartNewGame(on: day2), "Game \(i + 1) should be allowed on day 2")
+            service.recordGamePlayed(on: day2)
+        }
+
+        // Then
+        XCTAssertFalse(service.canStartNewGame(on: day2))
+        XCTAssertEqual(service.remainingPlays(on: day2), 0)
+    }
+
+    func testGivenFirstDayExhaustedWhenMidnightPassesThenCounterResetsToFour() {
+        // Given
+        let service = UserDefaultsPlayLimitService(userDefaults: userDefaults, calendar: calendar)
+        let day1 = date(year: 2026, month: 2, day: 10, hour: 23)
+        for _ in 0..<8 {
             service.recordGamePlayed(on: day1)
         }
         XCTAssertFalse(service.canStartNewGame(on: day1))
@@ -59,12 +131,15 @@ final class PlayLimitServiceTests: XCTestCase {
 
         // Then
         XCTAssertTrue(service.canStartNewGame(on: day2))
-        XCTAssertEqual(service.remainingPlays(on: day2), 5)
+        XCTAssertEqual(service.remainingPlays(on: day2), 4)
+        XCTAssertEqual(service.maxPlays(on: day2), 4)
     }
+
+    // MARK: - Unlimited access
 
     func testGivenUnlimitedAccessWhenPlayingManyGamesThenAllGamesAreAllowed() {
         // Given
-        let service = UserDefaultsPlayLimitService(userDefaults: userDefaults, calendar: calendar, maxPlaysPerDay: 5)
+        let service = UserDefaultsPlayLimitService(userDefaults: userDefaults, calendar: calendar)
         let now = date(year: 2026, month: 2, day: 10, hour: 9)
         service.unlockUnlimitedAccess()
 
@@ -77,19 +152,25 @@ final class PlayLimitServiceTests: XCTestCase {
         // Then
         XCTAssertTrue(service.hasUnlimitedAccess)
         XCTAssertEqual(service.remainingPlays(on: now), Int.max)
+        XCTAssertEqual(service.maxPlays(on: now), Int.max)
     }
 
     @MainActor
     func testGivenUnlimitedAccessWhenFreemiumSimulationEnabledThenDailyLimitIsEnforced() {
-        // Given
-        let service = UserDefaultsPlayLimitService(userDefaults: userDefaults, calendar: calendar, maxPlaysPerDay: 5)
+        // Given — use firstDayMaxPlays: 4 so the flat-limit behavior is predictable
+        let service = UserDefaultsPlayLimitService(
+            userDefaults: userDefaults,
+            calendar: calendar,
+            maxPlaysPerDay: 4,
+            firstDayMaxPlays: 4
+        )
         let storeKit = StoreKitService(userDefaults: userDefaults)
         let now = date(year: 2026, month: 2, day: 10, hour: 9)
         service.unlockUnlimitedAccess()
         storeKit.debugPremiumSimulationMode = .freemium
 
         // When
-        for _ in 0..<5 {
+        for _ in 0..<4 {
             XCTAssertTrue(service.canStartNewGame(on: now))
             service.recordGamePlayed(on: now)
         }
@@ -103,7 +184,7 @@ final class PlayLimitServiceTests: XCTestCase {
     @MainActor
     func testGivenUnlimitedAccessWhenFreemiumIsSetButSimulationDisabledThenUnlimitedRemainsEnabled() {
         // Given
-        let service = UserDefaultsPlayLimitService(userDefaults: userDefaults, calendar: calendar, maxPlaysPerDay: 5)
+        let service = UserDefaultsPlayLimitService(userDefaults: userDefaults, calendar: calendar)
         let storeKit = StoreKitService(
             userDefaults: userDefaults,
             isDebugSimulationEnabled: false
@@ -123,9 +204,11 @@ final class PlayLimitServiceTests: XCTestCase {
         XCTAssertEqual(service.remainingPlays(on: now), Int.max)
     }
 
+    // MARK: - Reset date
+
     func testGivenAfternoonDateWhenRequestingNextResetThenReturnsNextMidnight() {
         // Given
-        let service = UserDefaultsPlayLimitService(userDefaults: userDefaults, calendar: calendar, maxPlaysPerDay: 5)
+        let service = UserDefaultsPlayLimitService(userDefaults: userDefaults, calendar: calendar)
         let now = date(year: 2026, month: 2, day: 10, hour: 15, minute: 30)
 
         // When

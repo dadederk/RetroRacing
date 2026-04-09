@@ -47,12 +47,14 @@ extension AchievementUnlockView {
                 .font(scoreFont)
                 .multilineTextAlignment(.center)
 
-            Text(primaryAchievementSubtitle)
+            Text(achievementTitle)
+                .font(bodyFont)
+                .multilineTextAlignment(.center)
+
+            Text(achievementDescription)
                 .font(bodyFont)
                 .multilineTextAlignment(.center)
                 .foregroundStyle(.secondary)
-
-            achievementUnlockedRows
         }
         .padding(.horizontal, 8)
         .frame(maxWidth: .infinity, alignment: .top)

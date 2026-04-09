@@ -97,13 +97,14 @@ final class DebugSimulationProductionIsolationTests: XCTestCase {
         let playLimit = UserDefaultsPlayLimitService(
             userDefaults: userDefaults,
             calendar: calendar,
-            maxPlaysPerDay: 5
+            maxPlaysPerDay: 4,
+            firstDayMaxPlays: 4
         )
         let now = date(year: 2026, month: 2, day: 16, hour: 10)
-        
+
         // When - Grant real unlimited access
         playLimit.unlockUnlimitedAccess()
-        
+
         // Then - Should have unlimited access regardless of simulation attempts
         service.debugPremiumSimulationMode = .freemium
         XCTAssertTrue(playLimit.hasUnlimitedAccess)
@@ -171,18 +172,19 @@ final class DebugSimulationProductionIsolationTests: XCTestCase {
         let playLimit = UserDefaultsPlayLimitService(
             userDefaults: userDefaults,
             calendar: calendar,
-            maxPlaysPerDay: 5
+            maxPlaysPerDay: 4,
+            firstDayMaxPlays: 4
         )
         let now = date(year: 2026, month: 2, day: 16, hour: 10)
-        
+
         // When - User has real unlimited access but simulation forces freemium
         playLimit.unlockUnlimitedAccess()
         service.debugPremiumSimulationMode = .freemium
-        
+
         // Then - Play limit should be enforced (freemium override takes precedence)
         XCTAssertFalse(playLimit.hasUnlimitedAccess)
         XCTAssertTrue(playLimit.canStartNewGame(on: now))
-        XCTAssertEqual(playLimit.remainingPlays(on: now), 5)
+        XCTAssertEqual(playLimit.remainingPlays(on: now), 4)
     }
     
     func testGivenDebugBuildWithProductionDefaultWhenUserHasRealUnlimitedAccessThenUnlimitedPlayIsAvailable() {
@@ -194,14 +196,15 @@ final class DebugSimulationProductionIsolationTests: XCTestCase {
         let playLimit = UserDefaultsPlayLimitService(
             userDefaults: userDefaults,
             calendar: calendar,
-            maxPlaysPerDay: 5
+            maxPlaysPerDay: 4,
+            firstDayMaxPlays: 4
         )
         let now = date(year: 2026, month: 2, day: 16, hour: 10)
-        
+
         // When - User has real unlimited access and simulation is set to production default
         playLimit.unlockUnlimitedAccess()
         service.debugPremiumSimulationMode = .productionDefault
-        
+
         // Then - Unlimited play should be available
         XCTAssertTrue(playLimit.hasUnlimitedAccess)
         XCTAssertTrue(playLimit.canStartNewGame(on: now))
@@ -217,14 +220,15 @@ final class DebugSimulationProductionIsolationTests: XCTestCase {
         let playLimit = UserDefaultsPlayLimitService(
             userDefaults: userDefaults,
             calendar: calendar,
-            maxPlaysPerDay: 5
+            maxPlaysPerDay: 4,
+            firstDayMaxPlays: 4
         )
         let now = date(year: 2026, month: 2, day: 16, hour: 10)
-        
+
         // When - User has real unlimited access and we attempt to force freemium (should fail)
         playLimit.unlockUnlimitedAccess()
         service.debugPremiumSimulationMode = .freemium
-        
+
         // Then - Unlimited play should still be available (production ignores simulation)
         XCTAssertTrue(playLimit.hasUnlimitedAccess)
         XCTAssertTrue(playLimit.canStartNewGame(on: now))

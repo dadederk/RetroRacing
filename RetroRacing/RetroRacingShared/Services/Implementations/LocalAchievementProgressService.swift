@@ -68,7 +68,9 @@ public final class LocalAchievementProgressService: AchievementProgressService {
         snapshot.cumulativeOvertakes += overtakes
         snapshot.lifetimeUsedControls.formUnion(run.usedControls)
         snapshot.gaadAssistiveRunCompleted = hadGAADAssistiveRun || isGAADAssistiveRun
-        snapshot.achievedAchievementIDs.formUnion(AchievementCatalog.achievedAchievements(for: snapshot))
+        snapshot.achievedAchievementIDs.formUnion(
+            AchievementCatalog.achievedAchievementsForRun(runOvertakes: overtakes, snapshot: snapshot)
+        )
         store.save(snapshot)
 
         let newlyAchieved = snapshot.achievedAchievementIDs.subtracting(previousAchievements)

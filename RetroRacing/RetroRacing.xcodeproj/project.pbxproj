@@ -394,7 +394,6 @@
 				21DD46BF2F2FCAB0000C9FFA /* RetroRacingTvOSTests */,
 				21DD46C92F2FCAB0000C9FFA /* RetroRacingTvOSUITests */,
 				21DD46DC2F2FCAD9000C9FFA /* RetroRacingVisionOS */,
-				21DD46DD2F2FCAD9000C9FFA /* Packages */,
 				21DD46EF2F2FCADA000C9FFA /* RetroRacingVisionOSTests */,
 				21DD46FF2F2FCB02000C9FFA /* RetroRacingShared */,
 				21DD470E2F2FCB02000C9FFA /* RetroRacingSharedTests */,
@@ -421,13 +420,6 @@
 				21DD47082F2FCB02000C9FFA /* RetroRacingSharedTests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		21DD46DD2F2FCAD9000C9FFA /* Packages */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Packages;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

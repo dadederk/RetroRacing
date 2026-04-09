@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AchievementUnlockView: View {
-    let achievementIDs: [AchievementIdentifier]
+    let achievementID: AchievementIdentifier
     let onDone: () -> Void
 
     @Environment(\.fontPreferenceStore) var fontPreferenceStore
@@ -73,4 +73,18 @@ struct AchievementUnlockView: View {
             gcMetadata = await metadataService.fetchAllMetadata()
         }
     }
+}
+
+#Preview("Streak achievement") {
+    AchievementUnlockView(
+        achievementID: .runOvertakes100,
+        onDone: {}
+    )
+}
+
+#Preview("Control achievement") {
+    AchievementUnlockView(
+        achievementID: .controlVoiceOver,
+        onDone: {}
+    )
 }
