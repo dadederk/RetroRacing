@@ -3273,19 +3273,19 @@
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cap problema! El teu límit diari es reinicia a mitjanit. Només cal esperar una miqueta per a tornar a gaudir del joc. Fins demà!"
+            "value" : "Cap problema! El teu límit diari es reinicia a mitjanit. Només cal esperar una miqueta per a tornar a gaudir del joc. O continua jugant tot el que vulgues al teu Apple Watch! Fins demà!"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No problem! Your daily limit resets at midnight. Just wait a bit to enjoy the game again. See you tomorrow!"
+            "value" : "No problem! Your daily limit resets at midnight. Just wait a bit to enjoy the game again. Or keep playing as much as you want on your Apple Watch! See you tomorrow!"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "¡Sin problema! Tu límite diario se reinicia a medianoche. Solo tienes que esperar un poco para volver a disfrutar del juego. ¡Hasta mañana!"
+            "value" : "¡Sin problema! Tu límite diario se reinicia a medianoche. Solo tienes que esperar un poco para volver a disfrutar del juego. ¡O juega todo lo que quieras en tu Apple Watch! ¡Hasta mañana!"
           }
         }
       }
