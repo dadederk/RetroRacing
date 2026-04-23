@@ -74,7 +74,11 @@ final class MenuAuthModel {
             playerScope: .global,
             timeScope: .allTime
         ) {
-            AppLog.info(AppLog.game, "GC access point handler finished; refreshing auth state")
+            AppLog.debug(
+                AppLog.leaderboard + AppLog.lifecycle,
+                "ACCESS_POINT_TRIGGER",
+                outcome: .completed
+            )
             self.refreshAuthState()
         }
     }
@@ -84,9 +88,19 @@ final class MenuAuthModel {
         guard authState != .authenticated else { return }
         authState = .authenticating
         if startedByUser {
-            AppLog.info(AppLog.game, "🔐 Starting Game Center authentication from leaderboard tap")
+            AppLog.info(
+                AppLog.leaderboard + AppLog.lifecycle,
+                "AUTH_REQUEST",
+                outcome: .requested,
+                fields: [.string("trigger", "leaderboard_tap")]
+            )
         } else {
-            AppLog.info(AppLog.game, "🔐 Starting Game Center authentication on appear")
+            AppLog.info(
+                AppLog.leaderboard + AppLog.lifecycle,
+                "AUTH_REQUEST",
+                outcome: .requested,
+                fields: [.string("trigger", "view_appear")]
+            )
         }
         gameCenterService.authenticate(presenter: authenticationPresenter)
         scheduleAuthTimeout()
@@ -96,13 +110,22 @@ final class MenuAuthModel {
         if GKLocalPlayer.local.isAuthenticated {
             authState = .authenticated
             authError = nil
-            AppLog.info(AppLog.game, "✅ Game Center authenticated")
+            AppLog.info(
+                AppLog.leaderboard + AppLog.lifecycle,
+                "AUTH_STATE_REFRESH",
+                outcome: .succeeded
+            )
         } else {
             authState = .idle
             if GKLocalPlayer.local.isUnderage {
                 authError = GameLocalizedStrings.string("Game Center is unavailable for this account.")
                 authState = .failed
-                AppLog.error(AppLog.game, "🚫 Game Center unavailable: underage account")
+                AppLog.warning(
+                    AppLog.leaderboard + AppLog.lifecycle,
+                    "AUTH_STATE_REFRESH",
+                    outcome: .blocked,
+                    fields: [.reason("underage_account")]
+                )
             }
         }
     }
@@ -115,7 +138,12 @@ final class MenuAuthModel {
             if authState == .authenticating {
                 refreshAuthState()
                 guard authState == .authenticating else { return }
-                AppLog.error(AppLog.game, "⌛️ Game Center auth timed out; resetting state")
+                AppLog.warning(
+                    AppLog.leaderboard + AppLog.lifecycle,
+                    "AUTH_REQUEST",
+                    outcome: .failed,
+                    fields: [.reason("timeout")]
+                )
                 authState = .idle
             }
         }

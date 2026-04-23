@@ -32,13 +32,24 @@ public final class WatchRelayedBestScoreIngestionService {
         let updated = pendingStore.updatePendingBestScoreIfHigher(score, for: difficulty)
         if updated {
             AppLog.info(
-                AppLog.game + AppLog.leaderboard,
-                "🏆 Stored relayed watch best score \(score) for speed \(difficulty.rawValue)"
+                AppLog.leaderboard + AppLog.lifecycle,
+                "WATCH_RELAY_INGEST",
+                outcome: .succeeded,
+                fields: [
+                    .int("score", score),
+                    .string("speed", difficulty.rawValue)
+                ]
             )
         } else {
             AppLog.info(
-                AppLog.game + AppLog.leaderboard,
-                "🏆 Ignored relayed watch score \(score) for speed \(difficulty.rawValue) (pending max already higher/equal)"
+                AppLog.leaderboard + AppLog.lifecycle,
+                "WATCH_RELAY_INGEST",
+                outcome: .ignored,
+                fields: [
+                    .reason("pending_score_already_higher_or_equal"),
+                    .int("score", score),
+                    .string("speed", difficulty.rawValue)
+                ]
             )
         }
         return updated
@@ -51,8 +62,13 @@ public final class WatchRelayedBestScoreIngestionService {
 
         guard leaderboardService.isAuthenticated() else {
             AppLog.info(
-                AppLog.game + AppLog.leaderboard,
-                "🏆 Skipped relayed watch score flush (\(trigger.rawValue)) – iPhone player not authenticated"
+                AppLog.leaderboard + AppLog.lifecycle,
+                "WATCH_RELAY_FLUSH",
+                outcome: .blocked,
+                fields: [
+                    .reason("player_not_authenticated"),
+                    .string("trigger", trigger.rawValue)
+                ]
             )
             return
         }
@@ -63,15 +79,27 @@ public final class WatchRelayedBestScoreIngestionService {
             }
 
             AppLog.info(
-                AppLog.game + AppLog.leaderboard,
-                "🏆 Flushing relayed watch best \(pendingScore) for speed \(difficulty.rawValue) (\(trigger.rawValue))"
+                AppLog.leaderboard + AppLog.lifecycle,
+                "WATCH_RELAY_FLUSH",
+                outcome: .started,
+                fields: [
+                    .int("pendingScore", pendingScore),
+                    .string("speed", difficulty.rawValue),
+                    .string("trigger", trigger.rawValue)
+                ]
             )
             leaderboardService.submitScore(pendingScore, difficulty: difficulty)
 
             guard let remoteBestScore = await leaderboardService.fetchLocalPlayerBestScore(for: difficulty) else {
                 AppLog.info(
-                    AppLog.game + AppLog.leaderboard,
-                    "🏆 Relayed watch best verification unavailable for speed \(difficulty.rawValue); keeping pending"
+                    AppLog.leaderboard + AppLog.lifecycle,
+                    "WATCH_RELAY_FLUSH",
+                    outcome: .deferred,
+                    fields: [
+                        .reason("remote_best_unavailable"),
+                        .int("pendingScore", pendingScore),
+                        .string("speed", difficulty.rawValue)
+                    ]
                 )
                 continue
             }
@@ -79,13 +107,26 @@ public final class WatchRelayedBestScoreIngestionService {
             if remoteBestScore >= pendingScore {
                 pendingStore.clearPendingBestScore(for: difficulty)
                 AppLog.info(
-                    AppLog.game + AppLog.leaderboard,
-                    "🏆 Verified relayed watch best \(pendingScore) for speed \(difficulty.rawValue); cleared pending"
+                    AppLog.leaderboard + AppLog.lifecycle,
+                    "WATCH_RELAY_FLUSH",
+                    outcome: .succeeded,
+                    fields: [
+                        .int("pendingScore", pendingScore),
+                        .int("remoteBest", remoteBestScore),
+                        .string("speed", difficulty.rawValue)
+                    ]
                 )
             } else {
-                AppLog.info(
-                    AppLog.game + AppLog.leaderboard,
-                    "🏆 Relayed watch best \(pendingScore) not yet reflected remotely (remote: \(remoteBestScore)); keeping pending"
+                AppLog.warning(
+                    AppLog.leaderboard + AppLog.lifecycle,
+                    "WATCH_RELAY_FLUSH",
+                    outcome: .deferred,
+                    fields: [
+                        .reason("remote_best_lower_than_pending"),
+                        .int("pendingScore", pendingScore),
+                        .int("remoteBest", remoteBestScore),
+                        .string("speed", difficulty.rawValue)
+                    ]
                 )
             }
         }

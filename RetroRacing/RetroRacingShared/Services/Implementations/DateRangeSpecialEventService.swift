@@ -47,12 +47,13 @@ public struct DateRangeSpecialEventService: SpecialEventService {
 public extension DateRangeSpecialEventService {
     /// Pre-built service for the Miami Grand Prix 2026 weekend (May 1–3 UTC).
     ///
-    /// Using UTC epoch timestamps avoids `Optional` calendar arithmetic for well-known dates.
+    /// The UTC date-component helper keeps the config readable and avoids hard-to-audit
+    /// epoch literals when scheduling future events.
     /// `static let` stores the value once (lazy, thread-safe) — appropriate for immutable config.
     static let miamiGrandPrix2026 = DateRangeSpecialEventService(
         name: "Miami Grand Prix",
-        startDate: Date(timeIntervalSince1970: 1_746_057_600),   // 2026-05-01 00:00 UTC
-        inclusiveEndDate: Date(timeIntervalSince1970: 1_746_230_400) // 2026-05-03 00:00 UTC
+        startDate: Self.utcDate(year: 2026, month: 5, day: 1),
+        inclusiveEndDate: Self.utcDate(year: 2026, month: 5, day: 3)
     )
 }
 
@@ -65,4 +66,24 @@ private extension Calendar {
         cal.timeZone = .gmt   // TimeZone.gmt: iOS 16+, project targets iOS 26+
         return cal
     }()
+}
+
+private extension DateRangeSpecialEventService {
+    static func utcDate(year: Int, month: Int, day: Int) -> Date {
+        let components = DateComponents(
+            calendar: .utc,
+            timeZone: .gmt,
+            year: year,
+            month: month,
+            day: day,
+            hour: 0,
+            minute: 0,
+            second: 0
+        )
+        guard let date = components.date else {
+            assertionFailure("Invalid UTC event date components: \(year)-\(month)-\(day)")
+            return .distantPast
+        }
+        return date
+    }
 }

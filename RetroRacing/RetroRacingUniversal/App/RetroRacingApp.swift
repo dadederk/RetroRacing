@@ -209,11 +209,28 @@ struct RetroRacingApp: App {
         let isRetroRapidOpenLink = url.host == "accessibilityupto11.com" && normalizedPath == "apps/retrorapid/open"
 
         if isRetroRapidOpenLink {
-            AppLog.info(AppLog.game, "Universal link handled via \(source): \(url.absoluteString)")
+            AppLog.info(
+                AppLog.lifecycle + AppLog.game,
+                "UNIVERSAL_LINK",
+                outcome: .succeeded,
+                fields: [
+                    .string("source", source),
+                    .string("url", AppLog.redactedURL(url))
+                ]
+            )
             return true
         }
 
-        AppLog.info(AppLog.game, "Ignored non-RetroRapid universal link via \(source): \(url.absoluteString)")
+        AppLog.info(
+            AppLog.lifecycle + AppLog.game,
+            "UNIVERSAL_LINK",
+            outcome: .ignored,
+            fields: [
+                .reason("unsupported_path"),
+                .string("source", source),
+                .string("url", AppLog.redactedURL(url))
+            ]
+        )
         return false
     }
 
@@ -432,13 +449,18 @@ struct RetroRacingApp: App {
         isMenuPresented = nextState.isMenuPresented
         sessionID = nextState.sessionID
         AppLog.info(
-            AppLog.game,
-            "Play requested - starting fresh session and dismissing menu (\(previousSessionID) -> \(sessionID))"
+            AppLog.lifecycle + AppLog.game,
+            "SESSION_PLAY_REQUEST",
+            outcome: .requested,
+            fields: [
+                .string("fromSession", AppLog.shortID(previousSessionID)),
+                .string("toSession", AppLog.shortID(sessionID))
+            ]
         )
     }
 
     private func handleMenuDismissed() {
-        AppLog.info(AppLog.game, "Menu dismissed")
+        AppLog.info(AppLog.lifecycle + AppLog.game, "MENU_DISMISS", outcome: .completed)
     }
 
     private func handleFinish() {
@@ -454,13 +476,18 @@ struct RetroRacingApp: App {
         isMenuPresented = nextState.isMenuPresented
         sessionID = nextState.sessionID
         AppLog.info(
-            AppLog.game,
-            "Finish requested - returning to menu with new pre-game session (\(previousSessionID) -> \(sessionID))"
+            AppLog.lifecycle + AppLog.game,
+            "SESSION_FINISH_REQUEST",
+            outcome: .requested,
+            fields: [
+                .string("fromSession", AppLog.shortID(previousSessionID)),
+                .string("toSession", AppLog.shortID(sessionID))
+            ]
         )
     }
 
     private func handleMenuRequest() {
-        AppLog.info(AppLog.game, "Menu requested during gameplay")
+        AppLog.info(AppLog.lifecycle + AppLog.game, "MENU_REQUEST", outcome: .requested)
         isMenuPresented = true
     }
 

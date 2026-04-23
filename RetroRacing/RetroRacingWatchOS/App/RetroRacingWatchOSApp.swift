@@ -62,8 +62,12 @@ struct RetroRacingWatchOSApp: App {
             .onReceive(NotificationCenter.default.publisher(for: .GKPlayerAuthenticationDidChangeNotificationName)) { _ in
                 let isAuthenticated = GKLocalPlayer.local.isAuthenticated
                 AppLog.info(
-                    AppLog.game + AppLog.leaderboard,
-                    "🏆 watchOS Game Center auth state changed via notification (isAuthenticated: \(isAuthenticated))"
+                    AppLog.leaderboard + AppLog.lifecycle,
+                    "AUTH_STATE_CHANGED",
+                    outcome: .completed,
+                    fields: [
+                        .bool("isAuthenticated", isAuthenticated)
+                    ]
                 )
                 Task {
                     await bestScoreSyncService.syncIfPossible()
@@ -125,7 +129,11 @@ struct RetroRacingWatchOSApp: App {
     
     private func setupGameCenterAuthentication(onAuthStateChanged: @escaping () -> Void) {
         logGameCenterDiagnostics()
-        AppLog.info(AppLog.game + AppLog.leaderboard, "🏆 watchOS setting up Game Center authentication")
+        AppLog.info(
+            AppLog.leaderboard + AppLog.lifecycle,
+            "AUTH_SETUP",
+            outcome: .started
+        )
         GKLocalPlayer.local.authenticateHandler = { error in
             if let error = error {
                 let nsError = error as NSError
@@ -133,8 +141,12 @@ struct RetroRacingWatchOSApp: App {
                     scheduleAuthenticationRetry(onAuthStateChanged: onAuthStateChanged)
                 }
                 AppLog.error(
-                    AppLog.game + AppLog.leaderboard,
-                    "🏆 watchOS Game Center authentication error: \(error.localizedDescription) (domain: \(nsError.domain), code: \(nsError.code), userInfo: \(nsError.userInfo))"
+                    AppLog.leaderboard + AppLog.lifecycle,
+                    "AUTH_RESULT",
+                    outcome: .failed,
+                    fields: [
+                        .reason("gamekit_error")
+                    ] + AppLog.Field.error(error)
                 )
                 onAuthStateChanged()
                 return
@@ -142,9 +154,23 @@ struct RetroRacingWatchOSApp: App {
             // No error = auth completed (success or silent failure)
             if GKLocalPlayer.local.isAuthenticated {
                 authenticationRetryCount = 0
-                AppLog.info(AppLog.game + AppLog.leaderboard, "🏆 watchOS Game Center authenticated successfully - player: \(GKLocalPlayer.local.displayName)")
+                AppLog.info(
+                    AppLog.leaderboard + AppLog.lifecycle,
+                    "AUTH_RESULT",
+                    outcome: .succeeded,
+                    fields: [
+                        .string("player", AppLog.redactedPlayer(GKLocalPlayer.local.displayName))
+                    ]
+                )
             } else {
-                AppLog.info(AppLog.game + AppLog.leaderboard, "🏆 watchOS Game Center authentication handler called, but player not authenticated")
+                AppLog.info(
+                    AppLog.leaderboard + AppLog.lifecycle,
+                    "AUTH_RESULT",
+                    outcome: .blocked,
+                    fields: [
+                        .reason("player_not_authenticated")
+                    ]
+                )
             }
             onAuthStateChanged()
         }
@@ -154,20 +180,27 @@ struct RetroRacingWatchOSApp: App {
         guard error.domain == GKErrorDomain else { return false }
         guard error.code == GKError.Code.gameUnrecognized.rawValue else { return false }
         guard authenticationRetryCount < Self.maxAuthenticationRetries else {
-            AppLog.error(
-                AppLog.game + AppLog.leaderboard,
-                "🏆 watchOS authentication retries exhausted for GKErrorGameUnrecognized"
+            AppLog.warning(
+                AppLog.leaderboard + AppLog.lifecycle,
+                "AUTH_RETRY",
+                outcome: .failed,
+                fields: [
+                    .reason("retry_limit_reached"),
+                    .int("maxRetries", Self.maxAuthenticationRetries)
+                ]
             )
             return false
         }
         authenticationRetryCount += 1
         AppLog.info(
-            AppLog.game + AppLog.leaderboard,
-            "🏆 watchOS scheduling Game Center auth retry \(authenticationRetryCount)/\(Self.maxAuthenticationRetries) after GKErrorGameUnrecognized"
-        )
-        AppLog.info(
-            AppLog.game + AppLog.leaderboard,
-            "🏆 GKErrorGameUnrecognized – watchOS bundle ID not matched to a Game Center profile. Check WKRunsIndependentlyOfCompanionApp setting and App Store Connect Game Center config."
+            AppLog.leaderboard + AppLog.lifecycle,
+            "AUTH_RETRY",
+            outcome: .deferred,
+            fields: [
+                .reason("game_unrecognized"),
+                .int("attempt", authenticationRetryCount),
+                .int("maxRetries", Self.maxAuthenticationRetries)
+            ]
         )
         return true
     }
@@ -188,10 +221,17 @@ struct RetroRacingWatchOSApp: App {
         let runsIndependently = Bundle.main.object(forInfoDictionaryKey: "WKRunsIndependentlyOfCompanionApp") as? Bool
         let localPlayer = GKLocalPlayer.local
         AppLog.info(
-            AppLog.game + AppLog.leaderboard,
-            """
-            🏆 watchOS GC diagnostics bundleID=\(bundleID), companionBundleID=\(companionBundleID), runsIndependently=\(runsIndependently?.description ?? "missing"), debugBuild=\(BuildConfiguration.isDebug), isAuthenticated=\(localPlayer.isAuthenticated), isUnderage=\(localPlayer.isUnderage)
-            """
+            AppLog.leaderboard + AppLog.lifecycle,
+            "GC_DIAGNOSTICS",
+            outcome: .completed,
+            fields: [
+                .string("bundleID", bundleID),
+                .string("companionBundleID", companionBundleID),
+                .string("runsIndependently", runsIndependently?.description ?? "missing"),
+                .bool("debugBuild", BuildConfiguration.isDebug),
+                .bool("isAuthenticated", localPlayer.isAuthenticated),
+                .bool("isUnderage", localPlayer.isUnderage)
+            ]
         )
     }
 }

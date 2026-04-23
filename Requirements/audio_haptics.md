@@ -48,6 +48,11 @@
 - watchOS audio session uses `.playback` without mix options to prioritize in-app SFX audibility.
 - watchOS audio-session lifecycle now observes interruption/route/media-reset notifications and re-activates the session in all three cases.
 - Generated SFX engine start failures are treated as recoverable; transient startup failures no longer permanently disable subsequent SFX playback attempts.
+- `AVGeneratedSoundEffectPlayer` and `AVLaneCuePlayer` now require a live engine preflight immediately before node playback; when preflight fails, playback is skipped instead of calling `AVAudioPlayerNode.play()` in an unsafe state.
+- `AVGeneratedSoundEffectPlayer` fail-open rule: when playback is skipped, completion callbacks still execute asynchronously on the main queue so gameplay flows (start-unpause / crash resolution) do not stall.
+- Both generated-SFX and lane-cue players observe audio-session lifecycle events (interruption end, route change, media-services reset) plus `AVAudioEngineConfigurationChange`; they mark the audio graph dirty and lazily rebuild/restart on the next playback request.
+- Audio-player state mutations (play/schedule/stop/volume/fade) are serialized onto the main thread to avoid races between fade tasks and playback scheduling.
+- Audio playback internals are decomposed into focused shared helpers (`GeneratedSFXPlaybackGraph`, `LaneCuePlaybackGraph`, `LaneCueBufferFactory`) so player types remain orchestration-focused while preserving fail-open behavior.
 - SFX volume persistence uses `ConditionalDefault<SoundEffectsVolumeSetting>` (`sfxVolume_conditionalDefault`):
   - VoiceOver ON system default: `1.0`
   - VoiceOver OFF system default: `0.8`

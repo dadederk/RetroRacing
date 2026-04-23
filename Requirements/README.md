@@ -41,6 +41,7 @@ Requirements documents serve as:
 - **theming_system.md** - Visual theme system, monetization, and platform recommendations
 - **input_handling.md** - Control schemes per platform (touch, crown, remote, keyboard, etc.)
 - **controller_input.md** - Physical game controller support (GCController, remapping, platform configs)
+- **logging.md** - Canonical structured logging contract (grammar, domains, levels, redaction, bug capture)
 - **rating_system.md** - App rating strategy (manual App Store review URL + automatic StoreKit timing)
 - **road_markers.md** - Road style modes, perspective markers, safety-window lap markers, Big Cars override, and contrast rules
 - **localization.md** - String Catalog strategy and required locales (Spanish + Catalan with Valencian wording)

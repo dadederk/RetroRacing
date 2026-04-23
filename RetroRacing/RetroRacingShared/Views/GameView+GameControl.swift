@@ -33,31 +33,71 @@ struct GameAreaKeyboardModifier: ViewModifier {
             .background(
                 HardwareKeyboardInputView(
                     onKeyboardLeft: {
-                        AppLog.info(AppLog.game, "🎮 Hardware keyboard left arrow received (bridge)")
+                        AppLog.debug(
+                            AppLog.input + AppLog.game,
+                            "KEYBOARD_INPUT_RECEIVED",
+                            outcome: .completed,
+                            fields: [
+                                .string("source", "hardware_bridge"),
+                                .string("key", "left_arrow")
+                            ]
+                        )
                         onKeyboardInput?()
                         onMoveLeft?()
                         inputAdapter?.handleLeft()
                     },
                     onKeyboardRight: {
-                        AppLog.info(AppLog.game, "🎮 Hardware keyboard right arrow received (bridge)")
+                        AppLog.debug(
+                            AppLog.input + AppLog.game,
+                            "KEYBOARD_INPUT_RECEIVED",
+                            outcome: .completed,
+                            fields: [
+                                .string("source", "hardware_bridge"),
+                                .string("key", "right_arrow")
+                            ]
+                        )
                         onKeyboardInput?()
                         onMoveRight?()
                         inputAdapter?.handleRight()
                     },
                     onSwipeLeft: {
-                        AppLog.info(AppLog.game, "🎮 Trackpad swipe left received (bridge)")
+                        AppLog.debug(
+                            AppLog.input + AppLog.game,
+                            "TRACKPAD_SWIPE_RECEIVED",
+                            outcome: .completed,
+                            fields: [
+                                .string("source", "hardware_bridge"),
+                                .string("direction", "left")
+                            ]
+                        )
                         onSwipeInput?()
                         onMoveLeft?()
                         inputAdapter?.handleLeft()
                     },
                     onSwipeRight: {
-                        AppLog.info(AppLog.game, "🎮 Trackpad swipe right received (bridge)")
+                        AppLog.debug(
+                            AppLog.input + AppLog.game,
+                            "TRACKPAD_SWIPE_RECEIVED",
+                            outcome: .completed,
+                            fields: [
+                                .string("source", "hardware_bridge"),
+                                .string("direction", "right")
+                            ]
+                        )
                         onSwipeInput?()
                         onMoveRight?()
                         inputAdapter?.handleRight()
                     },
                     onPauseToggle: {
-                        AppLog.info(AppLog.game, "🎮 Hardware keyboard space bar received (bridge)")
+                        AppLog.debug(
+                            AppLog.input + AppLog.game,
+                            "KEYBOARD_INPUT_RECEIVED",
+                            outcome: .completed,
+                            fields: [
+                                .string("source", "hardware_bridge"),
+                                .string("key", "space_bar")
+                            ]
+                        )
                         onTogglePause?()
                     }
                 )
@@ -174,25 +214,56 @@ private struct UIKitHardwareKeyboardInputView: UIViewRepresentable {
             DispatchQueue.main.async { [weak self] in
                 guard let self, self.window != nil else { return }
                 let became = self.becomeFirstResponder()
-                AppLog.info(
-                    AppLog.game,
-                    "🎮 UIKitHardwareKeyboardInputView becomeFirstResponder (\(reason)) = \(became)"
+                AppLog.debug(
+                    AppLog.input + AppLog.game,
+                    "FIRST_RESPONDER_REQUEST",
+                    outcome: .completed,
+                    fields: [
+                        .string("platform", "ios"),
+                        .string("surface", "uikit_keyboard_input_view"),
+                        .string("trigger", reason),
+                        .bool("becameFirstResponder", became)
+                    ]
                 )
             }
         }
 
         @objc private func handleLeft() {
-            AppLog.info(AppLog.game, "🎮 UIKeyCommand left arrow received (UIKit view)")
+            AppLog.debug(
+                AppLog.input + AppLog.game,
+                "KEYBOARD_INPUT_RECEIVED",
+                outcome: .completed,
+                fields: [
+                    .string("source", "uikit_key_command"),
+                    .string("key", "left_arrow")
+                ]
+            )
             onKeyboardLeft?()
         }
 
         @objc private func handleRight() {
-            AppLog.info(AppLog.game, "🎮 UIKeyCommand right arrow received (UIKit view)")
+            AppLog.debug(
+                AppLog.input + AppLog.game,
+                "KEYBOARD_INPUT_RECEIVED",
+                outcome: .completed,
+                fields: [
+                    .string("source", "uikit_key_command"),
+                    .string("key", "right_arrow")
+                ]
+            )
             onKeyboardRight?()
         }
 
         @objc private func handleSpace() {
-            AppLog.info(AppLog.game, "🎮 UIKeyCommand space bar received (UIKit view)")
+            AppLog.debug(
+                AppLog.input + AppLog.game,
+                "KEYBOARD_INPUT_RECEIVED",
+                outcome: .completed,
+                fields: [
+                    .string("source", "uikit_key_command"),
+                    .string("key", "space_bar")
+                ]
+            )
             onPauseToggle?()
         }
     }
@@ -217,7 +288,17 @@ private struct AppKitHardwareKeyboardInputView: NSViewRepresentable {
         view.onPauseToggle = onPauseToggle
         DispatchQueue.main.async {
             let became = view.window?.makeFirstResponder(view) ?? view.becomeFirstResponder()
-            AppLog.info(AppLog.game, "🎮 AppKitHardwareKeyboardInputView becomeFirstResponder (make) = \(became)")
+            AppLog.debug(
+                AppLog.input + AppLog.game,
+                "FIRST_RESPONDER_REQUEST",
+                outcome: .completed,
+                fields: [
+                    .string("platform", "macos"),
+                    .string("surface", "appkit_keyboard_input_view"),
+                    .string("trigger", "make"),
+                    .bool("becameFirstResponder", became)
+                ]
+            )
         }
         return view
     }
@@ -230,7 +311,17 @@ private struct AppKitHardwareKeyboardInputView: NSViewRepresentable {
         nsView.onPauseToggle = onPauseToggle
         DispatchQueue.main.async {
             let became = nsView.window?.makeFirstResponder(nsView) ?? nsView.becomeFirstResponder()
-            AppLog.info(AppLog.game, "🎮 AppKitHardwareKeyboardInputView becomeFirstResponder (update) = \(became)")
+            AppLog.debug(
+                AppLog.input + AppLog.game,
+                "FIRST_RESPONDER_REQUEST",
+                outcome: .completed,
+                fields: [
+                    .string("platform", "macos"),
+                    .string("surface", "appkit_keyboard_input_view"),
+                    .string("trigger", "update"),
+                    .bool("becameFirstResponder", became)
+                ]
+            )
         }
     }
 
@@ -247,13 +338,37 @@ private struct AppKitHardwareKeyboardInputView: NSViewRepresentable {
         override func keyDown(with event: NSEvent) {
             switch event.keyCode {
             case 123: // left arrow
-                AppLog.info(AppLog.game, "🎮 keyDown left arrow received (AppKit view)")
+                AppLog.debug(
+                    AppLog.input + AppLog.game,
+                    "KEYBOARD_INPUT_RECEIVED",
+                    outcome: .completed,
+                    fields: [
+                        .string("source", "appkit_key_down"),
+                        .string("key", "left_arrow")
+                    ]
+                )
                 onKeyboardLeft?()
             case 124: // right arrow
-                AppLog.info(AppLog.game, "🎮 keyDown right arrow received (AppKit view)")
+                AppLog.debug(
+                    AppLog.input + AppLog.game,
+                    "KEYBOARD_INPUT_RECEIVED",
+                    outcome: .completed,
+                    fields: [
+                        .string("source", "appkit_key_down"),
+                        .string("key", "right_arrow")
+                    ]
+                )
                 onKeyboardRight?()
             case 49: // space bar
-                AppLog.info(AppLog.game, "🎮 keyDown space bar received (AppKit view)")
+                AppLog.debug(
+                    AppLog.input + AppLog.game,
+                    "KEYBOARD_INPUT_RECEIVED",
+                    outcome: .completed,
+                    fields: [
+                        .string("source", "appkit_key_down"),
+                        .string("key", "space_bar")
+                    ]
+                )
                 onPauseToggle?()
             default:
                 super.keyDown(with: event)
@@ -283,10 +398,26 @@ private struct AppKitHardwareKeyboardInputView: NSViewRepresentable {
             )
             switch action {
             case .moveLeft:
-                AppLog.info(AppLog.game, "🎮 macOS trackpad swipe left received")
+                AppLog.debug(
+                    AppLog.input + AppLog.game,
+                    "TRACKPAD_SWIPE_RECEIVED",
+                    outcome: .completed,
+                    fields: [
+                        .string("source", "appkit_scroll_wheel"),
+                        .string("direction", "left")
+                    ]
+                )
                 onSwipeLeft?()
             case .moveRight:
-                AppLog.info(AppLog.game, "🎮 macOS trackpad swipe right received")
+                AppLog.debug(
+                    AppLog.input + AppLog.game,
+                    "TRACKPAD_SWIPE_RECEIVED",
+                    outcome: .completed,
+                    fields: [
+                        .string("source", "appkit_scroll_wheel"),
+                        .string("direction", "right")
+                    ]
+                )
                 onSwipeRight?()
             case nil:
                 super.scrollWheel(with: event)

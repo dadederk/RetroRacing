@@ -251,20 +251,20 @@ public struct MenuView: View {
     private func handleLeaderboardTap() {
         authModel.authError = nil
         #if canImport(UIKit) && !os(watchOS)
-        AppLog.info(AppLog.game, "🎮 Menu leaderboard tap - presenting via GKAccessPoint (UIKit)")
+        AppLog.info(AppLog.leaderboard + AppLog.game, "LEADERBOARD_PRESENT", outcome: .requested, fields: [.string("surface", "uikit_access_point")])
         authModel.presentLeaderboard(leaderboardID: leaderboardConfiguration.leaderboardID(for: selectedDifficulty))
         #elseif os(macOS)
         let leaderboardID = leaderboardConfiguration.leaderboardID(for: selectedDifficulty)
-        AppLog.info(AppLog.game, "🎮 Menu leaderboard tap - presenting macOS leaderboard via GKAccessPoint")
+        AppLog.info(AppLog.leaderboard + AppLog.game, "LEADERBOARD_PRESENT", outcome: .requested, fields: [.string("surface", "macos_access_point")])
         GKAccessPoint.shared.trigger(
             leaderboardID: leaderboardID,
             playerScope: .global,
             timeScope: .allTime
         ) {
-            AppLog.info(AppLog.game, "🎮 macOS leaderboard presentation completed")
+            AppLog.info(AppLog.leaderboard + AppLog.game, "LEADERBOARD_PRESENT", outcome: .completed, fields: [.string("surface", "macos_access_point")])
         }
         #else
-        AppLog.info(AppLog.game, "🎮 Menu leaderboard tap - presenting shared LeaderboardView sheet")
+        AppLog.info(AppLog.leaderboard + AppLog.game, "LEADERBOARD_PRESENT", outcome: .requested, fields: [.string("surface", "shared_sheet")])
         showLeaderboard = true
         #endif
     }
@@ -300,8 +300,20 @@ public struct MenuView: View {
         openURL(reviewURL)
     }
 
+    static func shouldShowSupportButtonPolicy(
+        showRateButton: Bool,
+        hasResolvedSupportEntitlement: Bool,
+        hasPremiumAccess: Bool
+    ) -> Bool {
+        showRateButton && hasResolvedSupportEntitlement && !hasPremiumAccess
+    }
+
     private var shouldShowSupportButton: Bool {
-        showRateButton && hasResolvedSupportEntitlement && !storeKit.hasPremiumAccess
+        return Self.shouldShowSupportButtonPolicy(
+            showRateButton: showRateButton,
+            hasResolvedSupportEntitlement: hasResolvedSupportEntitlement,
+            hasPremiumAccess: storeKit.hasPremiumAccess
+        )
     }
 
     private func resolveSupportEntitlementIfNeeded() async {

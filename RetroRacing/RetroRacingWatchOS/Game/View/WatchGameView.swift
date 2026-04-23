@@ -155,14 +155,37 @@ struct WatchGameView: View {
                         .onTapGesture(coordinateSpace: .local) { location in
                             recordControlInput(.tap)
                             if location.x < geo.size.width / 2 {
-                                AppLog.info(AppLog.game, "🎮 Watch tap on left half (x: \(location.x), width: \(geo.size.width))")
+                                AppLog.debug(
+                                    AppLog.input + AppLog.game,
+                                    "WATCH_TAP_INPUT",
+                                    outcome: .completed,
+                                    fields: [
+                                        .string("direction", "left"),
+                                        .double("x", location.x),
+                                        .double("width", geo.size.width)
+                                    ]
+                                )
                                 inputAdapter?.handleLeft()
                             } else {
-                                AppLog.info(AppLog.game, "🎮 Watch tap on right half (x: \(location.x), width: \(geo.size.width))")
+                                AppLog.debug(
+                                    AppLog.input + AppLog.game,
+                                    "WATCH_TAP_INPUT",
+                                    outcome: .completed,
+                                    fields: [
+                                        .string("direction", "right"),
+                                        .double("x", location.x),
+                                        .double("width", geo.size.width)
+                                    ]
+                                )
                                 inputAdapter?.handleRight()
                             }
                             // Ensure the crown stays focused after a tap interaction.
-                            AppLog.info(AppLog.game, "🎮 Watch tap reasserting crown focus")
+                            AppLog.debug(
+                                AppLog.input + AppLog.game,
+                                "WATCH_CROWN_FOCUS_REQUEST",
+                                outcome: .requested,
+                                fields: [.string("trigger", "tap")]
+                            )
                             isCrownFocused = true
                         }
                         .gesture(
@@ -171,9 +194,14 @@ struct WatchGameView: View {
                                     guard value.translation.width != 0 else { return }
                                     recordControlInput(.swipe)
                                     let direction = value.translation.width < 0 ? "left" : "right"
-                                    AppLog.info(
-                                        AppLog.game,
-                                        "🎮 Watch swipe \(direction) with translation: \(value.translation.width)"
+                                    AppLog.debug(
+                                        AppLog.input + AppLog.game,
+                                        "WATCH_SWIPE_INPUT",
+                                        outcome: .completed,
+                                        fields: [
+                                            .string("direction", direction),
+                                            .double("translationX", value.translation.width)
+                                        ]
                                     )
                                     if value.translation.width < 0 {
                                         inputAdapter?.handleLeft()
@@ -181,7 +209,12 @@ struct WatchGameView: View {
                                         inputAdapter?.handleRight()
                                     }
                                     // Ensure the crown stays focused after a swipe interaction.
-                                    AppLog.info(AppLog.game, "🎮 Watch swipe reasserting crown focus")
+                                    AppLog.debug(
+                                        AppLog.input + AppLog.game,
+                                        "WATCH_CROWN_FOCUS_REQUEST",
+                                        outcome: .requested,
+                                        fields: [.string("trigger", "swipe")]
+                                    )
                                     isCrownFocused = true
                                 }
                         )
@@ -199,17 +232,35 @@ struct WatchGameView: View {
                     isHapticFeedbackEnabled: true
                 )
                 .onChange(of: isCrownFocused) { _, newValue in
-                    AppLog.info(AppLog.game, "🎮 Watch crown focus changed: \(newValue)")
+                    AppLog.debug(
+                        AppLog.input + AppLog.game,
+                        "WATCH_CROWN_FOCUS_CHANGED",
+                        outcome: .completed,
+                        fields: [.bool("isFocused", newValue)]
+                    )
                 }
                 .onChange(of: crownValue, initial: false) { oldValue, newValue in
                     let delta = newValue - oldValue
-                    AppLog.info(AppLog.game, "🎮 Watch crown value changed: old=\(oldValue), new=\(newValue), delta=\(delta)")
+                    AppLog.debug(
+                        AppLog.input + AppLog.game,
+                        "WATCH_CROWN_VALUE_CHANGED",
+                        outcome: .completed,
+                        fields: [
+                            .double("oldValue", oldValue),
+                            .double("newValue", newValue),
+                            .double("delta", delta)
+                        ]
+                    )
                     handleCrownDelta(delta)
                 }
             }
         }
         .onAppear {
-            AppLog.info(AppLog.game, "🎮 WatchGameView onAppear - setting up scene and crown focus")
+            AppLog.info(
+                AppLog.lifecycle + AppLog.game,
+                "WATCH_GAME_VIEW_APPEAR",
+                outcome: .completed
+            )
             AppBootstrap.configureAudioSession()
             scene.applyDifficulty(selectedDifficulty)
             scene.setSoundVolume(selectedSoundEffectsVolume)
@@ -237,7 +288,15 @@ struct WatchGameView: View {
                             recordVoiceOverControlIfNeeded()
                             gameOverScore = scene.gameState.score
                             let authenticated = leaderboardService.isAuthenticated()
-                            AppLog.info(AppLog.game + AppLog.leaderboard, "🏆 watchOS game over – score \(gameOverScore), Game Center authenticated: \(authenticated)")
+                            AppLog.info(
+                                AppLog.leaderboard + AppLog.game,
+                                "WATCH_GAME_OVER_SUBMIT",
+                                outcome: .requested,
+                                fields: [
+                                    .int("score", gameOverScore),
+                                    .bool("authenticated", authenticated)
+                                ]
+                            )
                             let difficultyAtGameOver = selectedDifficulty
                             leaderboardService.submitScore(gameOverScore, difficulty: difficultyAtGameOver)
                             _ = achievementProgressService.recordCompletedRun(
@@ -255,8 +314,13 @@ struct WatchGameView: View {
                             gameOverPreviousBestScore = summary.previousBestScore
                             if summary.isNewRecord {
                                 AppLog.info(
-                                    AppLog.game + AppLog.leaderboard,
-                                    "🏆 watchOS relaying new local best \(summary.bestScore) for speed \(difficultyAtGameOver.rawValue) to companion"
+                                    AppLog.leaderboard + AppLog.lifecycle,
+                                    "WATCH_BEST_SCORE_RELAY",
+                                    outcome: .requested,
+                                    fields: [
+                                        .int("bestScore", summary.bestScore),
+                                        .string("difficulty", difficultyAtGameOver.rawValue)
+                                    ]
                                 )
                                 watchBestScoreRelaySender.relayBestScore(summary.bestScore, difficulty: difficultyAtGameOver)
                             }
@@ -496,37 +560,76 @@ struct WatchGameView: View {
 
     private func handleCrownDelta(_ delta: Double) {
         let action = crownProcessor.handleRotationDelta(delta)
-        AppLog.info(AppLog.game, "🎮 Watch crown delta \(delta) produced action: \(String(describing: action))")
+        AppLog.debug(
+            AppLog.input + AppLog.game,
+            "WATCH_CROWN_ACTION_RESOLVED",
+            outcome: .completed,
+            fields: [
+                .double("delta", delta),
+                .string("action", String(describing: action))
+            ]
+        )
 
         switch action {
         case .moveLeft:
             recordControlInput(.digitalCrown)
-            AppLog.info(AppLog.game, "🎮 Watch crown triggering moveLeft via adapter")
+            AppLog.debug(
+                AppLog.input + AppLog.game,
+                "WATCH_CROWN_MOVE_TRIGGER",
+                outcome: .requested,
+                fields: [.string("direction", "left")]
+            )
             inputAdapter?.handleLeft()
             scheduleCrownIdleReset()
         case .moveRight:
             recordControlInput(.digitalCrown)
-            AppLog.info(AppLog.game, "🎮 Watch crown triggering moveRight via adapter")
+            AppLog.debug(
+                AppLog.input + AppLog.game,
+                "WATCH_CROWN_MOVE_TRIGGER",
+                outcome: .requested,
+                fields: [.string("direction", "right")]
+            )
             inputAdapter?.handleRight()
             scheduleCrownIdleReset()
         case .none:
             break
         @unknown default:
-            AppLog.error(AppLog.game, "🎮 Watch crown received unknown CrownInputAction: \(String(describing: action))")
+            AppLog.warning(
+                AppLog.input + AppLog.game,
+                "WATCH_CROWN_ACTION_RESOLVED",
+                outcome: .blocked,
+                fields: [
+                    .reason("unknown_action"),
+                    .string("action", String(describing: action))
+                ]
+            )
         }
     }
 
     private func scheduleCrownIdleReset() {
         crownIdleTask?.cancel()
         crownIdleTask = Task { @MainActor in
-            AppLog.info(AppLog.game, "🎮 Watch crown scheduling idle reset after \(Self.crownIdleResetDelay)")
+            AppLog.debug(
+                AppLog.input + AppLog.game,
+                "WATCH_CROWN_IDLE_RESET",
+                outcome: .started,
+                fields: [.string("delay", "\(Self.crownIdleResetDelay)")]
+            )
             try? await Task.sleep(for: Self.crownIdleResetDelay)
             guard Task.isCancelled == false else {
-                AppLog.info(AppLog.game, "🎮 Watch crown idle reset task cancelled")
+                AppLog.debug(
+                    AppLog.input + AppLog.game,
+                    "WATCH_CROWN_IDLE_RESET",
+                    outcome: .cancelled
+                )
                 return
             }
             crownProcessor.markIdle()
-            AppLog.info(AppLog.game, "🎮 Watch crown marked idle – rotation re-enabled")
+            AppLog.debug(
+                AppLog.input + AppLog.game,
+                "WATCH_CROWN_IDLE_RESET",
+                outcome: .completed
+            )
         }
     }
 
@@ -606,14 +709,24 @@ struct WatchGameView: View {
             .joined(separator: ",")
         AppLog.info(
             AppLog.sound,
-            """
-            🔊 watch game audio mode=\(selectedAudioFeedbackMode.rawValue) volume=\(selectedSoundEffectsVolume) outputVolume=\(session.outputVolume) (watchOS may report 0.0) route=[\(routeDescription)]
-            """
+            "WATCH_AUDIO_CONFIGURATION",
+            outcome: .completed,
+            fields: [
+                .string("audioMode", selectedAudioFeedbackMode.rawValue),
+                .double("volume", selectedSoundEffectsVolume),
+                .double("outputVolume", Double(session.outputVolume)),
+                .string("route", routeDescription)
+            ]
         )
         #else
         AppLog.info(
             AppLog.sound,
-            "🔊 watch game audio mode=\(selectedAudioFeedbackMode.rawValue) volume=\(selectedSoundEffectsVolume)"
+            "WATCH_AUDIO_CONFIGURATION",
+            outcome: .completed,
+            fields: [
+                .string("audioMode", selectedAudioFeedbackMode.rawValue),
+                .double("volume", selectedSoundEffectsVolume)
+            ]
         )
         #endif
     }

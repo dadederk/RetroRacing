@@ -177,23 +177,39 @@ struct RetroRacingTvOSApp: App {
     }
 
     private func handlePlayRequest() {
-        AppLog.info(AppLog.game, "Play requested - starting new session and dismissing menu")
+        let previousSession = sessionID
         sessionID = UUID()
+        AppLog.info(
+            AppLog.lifecycle + AppLog.game,
+            "SESSION_PLAY_REQUEST",
+            outcome: .requested,
+            fields: [
+                .string("fromSession", AppLog.shortID(previousSession)),
+                .string("toSession", AppLog.shortID(sessionID))
+            ]
+        )
         isMenuPresented = false
     }
 
     private func handleControllerPlayRequest() {
         // Controller Start/Menu pressed while menu is visible — dismiss without resetting session.
-        AppLog.info(AppLog.game, "Controller play requested - resuming session and dismissing menu")
+        AppLog.info(
+            AppLog.lifecycle + AppLog.input,
+            "SESSION_PLAY_REQUEST",
+            outcome: .requested,
+            fields: [
+                .string("trigger", "controller_start")
+            ]
+        )
         isMenuPresented = false
     }
 
     private func handleMenuDismissed() {
-        AppLog.info(AppLog.game, "Menu dismissed")
+        AppLog.info(AppLog.lifecycle + AppLog.game, "MENU_DISMISS", outcome: .completed)
     }
 
     private func handleFinish() {
-        AppLog.info(AppLog.game, "Finish requested - showing menu")
+        AppLog.info(AppLog.lifecycle + AppLog.game, "SESSION_FINISH_REQUEST", outcome: .requested)
         isMenuPresented = true
     }
 

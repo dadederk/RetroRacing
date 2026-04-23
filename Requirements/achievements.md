@@ -268,7 +268,11 @@ Debug builds expose a GAAD achievement QA panel in Settings:
 
 ## Logging
 
-Achievement logs use `AppLog.achievement` with emoji prefix `🏅` for easy console filtering.
+Achievement logs follow the canonical contract in [logging.md](logging.md):
+- Primary domain: `ACHIEVEMENT` (`🏅`), optionally paired with `LEADERBOARD` (`🏆`) for Game Center reporting paths.
+- Structured shape: `<emoji> <DOMAIN> <EVENT_NAME>: outcome=<state> key=value ...`
+- Use `reason=` on blocked/failed/skipped paths.
+- Use redaction helpers for sensitive metadata (never raw player names or full URLs).
 
 ## App Store Connect Setup (Manual)
 

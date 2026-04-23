@@ -102,7 +102,11 @@ extension AchievementUnlockView {
         #if canImport(GameKit) && (os(iOS) || os(macOS))
         if #available(iOS 26.0, macOS 26.0, *) {
             GKAccessPoint.shared.trigger(state: .achievements) {
-                AppLog.info(AppLog.game + AppLog.achievement + AppLog.leaderboard, "🏅 Opened Game Center achievements from achievement modal")
+                AppLog.info(
+                    AppLog.achievement + AppLog.leaderboard,
+                    "ACHIEVEMENT_MODAL_OPEN_GAME_CENTER",
+                    outcome: .requested
+                )
             }
         }
         #endif

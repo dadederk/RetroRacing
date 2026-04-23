@@ -55,16 +55,20 @@ public actor GameCenterAchievementMetadataService: AchievementMetadataService {
         fetchTask?.cancel()
         fetchTask = nil
         AppLog.info(
-            AppLog.game + AppLog.achievement + AppLog.leaderboard,
-            "🏅 Achievement metadata cache invalidated"
+            AppLog.achievement + AppLog.leaderboard,
+            "ACHIEVEMENT_METADATA_CACHE",
+            outcome: .completed,
+            fields: [.reason("invalidated")]
         )
     }
 
     private func loadFromGameCenter() async -> [String: AchievementMetadata] {
         guard isAuthenticatedProvider() else {
             AppLog.info(
-                AppLog.game + AppLog.achievement + AppLog.leaderboard,
-                "🏅 Skipped achievement metadata fetch – player not authenticated"
+                AppLog.achievement + AppLog.leaderboard,
+                "ACHIEVEMENT_METADATA_LOAD",
+                outcome: .blocked,
+                fields: [.reason("player_not_authenticated")]
             )
             return [:]
         }
@@ -72,10 +76,11 @@ public actor GameCenterAchievementMetadataService: AchievementMetadataService {
         return await withCheckedContinuation { continuation in
             GKAchievementDescription.loadAchievementDescriptions { descriptions, error in
                 if let error {
-                    let nsError = error as NSError
                     AppLog.error(
-                        AppLog.game + AppLog.achievement + AppLog.leaderboard,
-                        "🏅 Failed loading achievement descriptions: \(error.localizedDescription) (domain: \(nsError.domain), code: \(nsError.code))"
+                        AppLog.achievement + AppLog.leaderboard,
+                        "ACHIEVEMENT_METADATA_LOAD",
+                        outcome: .failed,
+                        fields: [.reason("gamekit_error")] + AppLog.Field.error(error)
                     )
                     continuation.resume(returning: [:])
                     return
@@ -83,8 +88,10 @@ public actor GameCenterAchievementMetadataService: AchievementMetadataService {
 
                 guard let descriptions else {
                     AppLog.info(
-                        AppLog.game + AppLog.achievement + AppLog.leaderboard,
-                        "🏅 Achievement descriptions returned nil"
+                        AppLog.achievement + AppLog.leaderboard,
+                        "ACHIEVEMENT_METADATA_LOAD",
+                        outcome: .skipped,
+                        fields: [.reason("descriptions_nil")]
                     )
                     continuation.resume(returning: [:])
                     return
@@ -100,8 +107,10 @@ public actor GameCenterAchievementMetadataService: AchievementMetadataService {
                 }
 
                 AppLog.info(
-                    AppLog.game + AppLog.achievement + AppLog.leaderboard,
-                    "🏅 Loaded \(result.count) achievement descriptions from Game Center"
+                    AppLog.achievement + AppLog.leaderboard,
+                    "ACHIEVEMENT_METADATA_LOAD",
+                    outcome: .succeeded,
+                    fields: [.int("count", result.count)]
                 )
                 continuation.resume(returning: result)
             }

@@ -1214,6 +1214,68 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         XCTAssertEqual(fallbackDelegate.crashes, 1)
     }
 
+    func testGivenLaneCueEngineStartFailureWhenUpdatingThenGridProgressContinuesWithoutCrash() {
+        // Given
+        let fallbackSoundPlayer = MockSoundEffectPlayer()
+        let failingLaneCuePlayer = AVLaneCuePlayer()
+        failingLaneCuePlayer._testForceStartEngineFailure = true
+        let fallbackHaptics = MockHapticFeedbackController()
+        let loader = PlatformFactories.makeImageLoader()
+        let testScene = GameScene.scene(
+            size: CGSize(width: 200, height: 200),
+            difficulty: .rapid,
+            theme: nil,
+            imageLoader: loader,
+            soundPlayer: fallbackSoundPlayer,
+            laneCuePlayer: failingLaneCuePlayer,
+            hapticController: fallbackHaptics,
+            audioFeedbackMode: .cueLanePulses
+        )
+        let fallbackDelegate = MockGameSceneDelegate(haptics: fallbackHaptics)
+        testScene.gameDelegate = fallbackDelegate
+        let testView = SKView(frame: CGRect(origin: .zero, size: CGSize(width: 200, height: 200)))
+        testView.presentScene(testScene)
+
+        // When
+        testScene.update(1.0)
+
+        // Then
+        XCTAssertEqual(fallbackDelegate.gridUpdatesCount, 1)
+        XCTAssertGreaterThan(failingLaneCuePlayer._testPlaybackSkippedCount, 0)
+    }
+
+    func testGivenUnavailableGeneratedAudioWhenResumingThenSceneUnpausesWithoutWaitingFallback() async {
+        // Given
+        let failingSoundPlayer = AVGeneratedSoundEffectPlayer()
+        failingSoundPlayer._testForceStartEngineFailure = true
+        let laneCuePlayer = MockLaneCuePlayer()
+        let fallbackHaptics = MockHapticFeedbackController()
+        let loader = PlatformFactories.makeImageLoader()
+        let testScene = GameScene.scene(
+            size: CGSize(width: 200, height: 200),
+            difficulty: .rapid,
+            theme: nil,
+            imageLoader: loader,
+            soundPlayer: failingSoundPlayer,
+            laneCuePlayer: laneCuePlayer,
+            hapticController: fallbackHaptics,
+            audioFeedbackMode: .retro
+        )
+        testScene.startPlaybackFallbackDuration = 1.5
+        let testView = SKView(frame: CGRect(origin: .zero, size: CGSize(width: 200, height: 200)))
+        testView.presentScene(testScene)
+        try? await Task.sleep(for: .milliseconds(40))
+        testScene.pauseGameplay()
+
+        // When
+        testScene.resume()
+        let unpausedQuickly = await waitUntilUnpaused(testScene, timeout: .milliseconds(250))
+
+        // Then
+        XCTAssertTrue(unpausedQuickly)
+        XCTAssertGreaterThan(failingSoundPlayer._testPlaybackSkippedCount, 0)
+    }
+
     private func waitUntilUnpaused(_ scene: GameScene, timeout: Duration = .milliseconds(500)) async -> Bool {
         let start = ContinuousClock.now
         while ContinuousClock.now - start < timeout {

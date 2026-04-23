@@ -554,7 +554,7 @@ private func updateGrid() {
 - **Inject dependencies explicitly**: No defaults in init parameters
 - **Test with mocks**: Protocol-based design enables easy testing
 - **Handle errors gracefully**: Log, report to user, don't crash
-- **Log with emoji prefixes**: Use `AppLog` (🖼️ assets, 🔊 sound, 🔤 font, 🌐 localization, 🎨 theme, 🎮 game); concatenate when a log touches multiple features (e.g. `AppLog.assets + AppLog.sound`) so logs are easy to filter and visualise
+- **Log with structured `AppLog` events**: Use canonical shape `<emoji> <DOMAIN> <EVENT_NAME>: outcome=<state> key=value ...`; domains include 🖼️ assets, 🔊 sound, 🔤 font, 🌐 localization, 🎨 theme, 🎮 game, 🏆 leaderboard, 🏅 achievement, 💰 monetization, 🎛️ input, ♿ accessibility, 📱 lifecycle, 🛒 store, ⭐ rating. Concatenate two domains only when a log truly crosses boundaries (e.g. `AppLog.leaderboard + AppLog.lifecycle`).
 - **Respect user preferences**: Accessibility, motion, sound
 - **Document non-obvious code**: Explain "why", not "what"
 - **Run tests after changes**: Unit tests must always pass

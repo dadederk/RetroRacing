@@ -23,8 +23,10 @@ public struct GameCenterAchievementProgressReporter: AchievementProgressReporter
 
         guard isAuthenticatedProvider() else {
             AppLog.info(
-                AppLog.game + AppLog.achievement + AppLog.leaderboard,
-                "🏅 Skipped achievement report – player not authenticated"
+                AppLog.achievement + AppLog.leaderboard,
+                "ACHIEVEMENT_REPORT",
+                outcome: .blocked,
+                fields: [.reason("player_not_authenticated")]
             )
             return
         }
@@ -41,14 +43,20 @@ public struct GameCenterAchievementProgressReporter: AchievementProgressReporter
                 try await GKAchievement.report(achievements)
                 let ids = achievementIDs.map(\.rawValue).sorted().joined(separator: ", ")
                 AppLog.info(
-                    AppLog.game + AppLog.achievement + AppLog.leaderboard,
-                    "🏅 Reported achieved achievements to Game Center: \(ids)"
+                    AppLog.achievement + AppLog.leaderboard,
+                    "ACHIEVEMENT_REPORT",
+                    outcome: .succeeded,
+                    fields: [
+                        .int("count", achievementIDs.count),
+                        .string("ids", ids)
+                    ]
                 )
             } catch {
-                let nsError = error as NSError
                 AppLog.error(
-                    AppLog.game + AppLog.achievement + AppLog.leaderboard,
-                    "🏅 Failed reporting achievements: \(error.localizedDescription) (domain: \(nsError.domain), code: \(nsError.code))"
+                    AppLog.achievement + AppLog.leaderboard,
+                    "ACHIEVEMENT_REPORT",
+                    outcome: .failed,
+                    fields: [.reason("gamekit_error")] + AppLog.Field.error(error)
                 )
             }
         }

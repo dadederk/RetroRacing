@@ -308,14 +308,23 @@ private struct GameAreaContainer<Content: View>: View {
         .focusable()
         .focused($isFocused)
         .onChange(of: isFocused) { _, newValue in
-            AppLog.info(AppLog.game, "🎮 GameAreaContainer focus changed: \(newValue)")
+            AppLog.debug(
+                AppLog.input + AppLog.game,
+                "GAME_AREA_FOCUS_CHANGED",
+                outcome: .completed,
+                fields: [.bool("isFocused", newValue)]
+            )
         }
         #endif
     }
 
     #if os(macOS) || os(iOS)
     private func setFocusForGameArea() {
-        AppLog.info(AppLog.game, "🎮 Setting focus for GameAreaContainer")
+        AppLog.debug(
+            AppLog.input + AppLog.game,
+            "GAME_AREA_FOCUS_SET",
+            outcome: .requested
+        )
         isFocused = true
     }
     #else

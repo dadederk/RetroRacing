@@ -64,7 +64,15 @@ public final class GridStateCalculator {
     /// Returns a new grid state by moving the player in the specified direction within the last row, if possible.
     private func movePlayer(toDirection direction: Direction, forPreviousGridState previousGridState: GridState) -> GridState {
         guard let playerPosition = previousGridState.playerRow().firstIndex(of: .Player) else {
-            AppLog.error(AppLog.game, "GridStateCalculator.movePlayer – Player position not found, returning previous grid unchanged")
+            AppLog.critical(
+                AppLog.game,
+                "PLAYER_POSITION_RESOLUTION",
+                outcome: .failed,
+                fields: [
+                    .reason("player_row_missing"),
+                    .string("operation", "move_player")
+                ]
+            )
             return previousGridState
         }
         var newGridState = previousGridState
@@ -85,7 +93,15 @@ public final class GridStateCalculator {
     private func insert(row newRow: [GridState.CellState], at rowIndex: Int, forPreviousGridState previousGridState: GridState) -> (GridState, [Effect]) {
         guard rowIndex >= 0 && rowIndex < previousGridState.numberOfRows else { fatalError("Grid row index out of bounds") }
         guard let playerPosition = previousGridState.playerRow().firstIndex(of: .Player) else {
-            AppLog.error(AppLog.game, "GridStateCalculator.insert – Player position not found, returning previous grid and no effects")
+            AppLog.critical(
+                AppLog.game,
+                "PLAYER_POSITION_RESOLUTION",
+                outcome: .failed,
+                fields: [
+                    .reason("player_row_missing"),
+                    .string("operation", "insert_row")
+                ]
+            )
             return (previousGridState, [])
         }
         let penultimateRowIndex = previousGridState.numberOfRows - 2

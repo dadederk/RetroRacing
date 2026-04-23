@@ -35,7 +35,12 @@ public final class UserDefaultsAchievementProgressStore: AchievementProgressStor
 
     public func save(_ snapshot: AchievementProgressSnapshot) {
         guard let data = try? JSONEncoder().encode(snapshot) else {
-            AppLog.error(AppLog.game + AppLog.achievement, "🏅 Failed to encode achievement snapshot for persistence")
+            AppLog.error(
+                AppLog.achievement + AppLog.game,
+                "ACHIEVEMENT_SNAPSHOT_SAVE",
+                outcome: .failed,
+                fields: [.reason("encoding_failed")]
+            )
             return
         }
         userDefaults.set(data, forKey: key)

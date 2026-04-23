@@ -123,10 +123,13 @@ public final class GameCenterFriendSnapshotService: GameCenterFriendSnapshotServ
                 range: range
             ) { _, entries, _, error in
                 if let error {
-                    let nsError = error as NSError
                     AppLog.error(
-                        AppLog.game + AppLog.leaderboard,
-                        "🏆 Failed loading friend entries: \(error.localizedDescription) (domain: \(nsError.domain), code: \(nsError.code), userInfo: \(nsError.userInfo))"
+                        AppLog.leaderboard + AppLog.game,
+                        "FRIEND_ENTRIES_LOAD",
+                        outcome: .failed,
+                        fields: [
+                            .reason("gamekit_error")
+                        ] + AppLog.Field.error(error)
                     )
                     continuation.resume(returning: [])
                     return

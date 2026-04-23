@@ -48,28 +48,51 @@ public final class SystemGameControllerInputSource: GameControllerInputSource {
             attachToConnectedControllers()
             observeControllerConnections()
             AppLog.info(
-                AppLog.game,
-                "SystemGameControllerInputSource started — capturesDirectional=\(platformConfig.capturesDirectionalInput), capturesMenu=\(platformConfig.capturesMenuButton), activeSubscriptions=\(activeSubscriptions)"
+                AppLog.input + AppLog.game,
+                "CONTROLLER_INPUT_SOURCE",
+                outcome: .started,
+                fields: [
+                    .bool("capturesDirectional", platformConfig.capturesDirectionalInput),
+                    .bool("capturesMenu", platformConfig.capturesMenuButton),
+                    .int("activeSubscriptions", activeSubscriptions)
+                ]
             )
         } else {
-            AppLog.info(
-                AppLog.game,
-                "SystemGameControllerInputSource handler replaced while already active — activeSubscriptions=\(activeSubscriptions)"
+            AppLog.debug(
+                AppLog.input + AppLog.game,
+                "CONTROLLER_INPUT_SOURCE",
+                outcome: .completed,
+                fields: [
+                    .reason("handler_replaced_while_active"),
+                    .int("activeSubscriptions", activeSubscriptions)
+                ]
             )
         }
     }
 
     public func stop() {
         guard activeSubscriptions > 0 else {
-            AppLog.info(AppLog.game, "SystemGameControllerInputSource stop ignored (already inactive)")
+            AppLog.debug(
+                AppLog.input + AppLog.game,
+                "CONTROLLER_INPUT_SOURCE",
+                outcome: .ignored,
+                fields: [
+                    .reason("already_inactive")
+                ]
+            )
             return
         }
 
         activeSubscriptions -= 1
         guard activeSubscriptions == 0 else {
-            AppLog.info(
-                AppLog.game,
-                "SystemGameControllerInputSource stop deferred — other subscribers still active (activeSubscriptions=\(activeSubscriptions))"
+            AppLog.debug(
+                AppLog.input + AppLog.game,
+                "CONTROLLER_INPUT_SOURCE",
+                outcome: .deferred,
+                fields: [
+                    .reason("other_subscribers_active"),
+                    .int("activeSubscriptions", activeSubscriptions)
+                ]
             )
             return
         }
@@ -77,7 +100,11 @@ public final class SystemGameControllerInputSource: GameControllerInputSource {
         removeConnectionObservers()
         actionHandler = nil
         stickState = [:]
-        AppLog.info(AppLog.game, "SystemGameControllerInputSource stopped")
+        AppLog.info(
+            AppLog.input + AppLog.game,
+            "CONTROLLER_INPUT_SOURCE",
+            outcome: .completed
+        )
     }
 
     // MARK: - Setup
@@ -108,7 +135,14 @@ public final class SystemGameControllerInputSource: GameControllerInputSource {
             guard let controller = notification.object as? GCController else { return }
             Task { @MainActor [weak self] in
                 self?.stickState.removeValue(forKey: ObjectIdentifier(controller))
-                AppLog.info(AppLog.game, "Controller disconnected: \(controller.vendorName ?? "unknown")")
+                AppLog.debug(
+                    AppLog.input + AppLog.game,
+                    "CONTROLLER_DISCONNECTED",
+                    outcome: .completed,
+                    fields: [
+                        .string("vendor", controller.vendorName ?? "unknown")
+                    ]
+                )
             }
         }
     }
@@ -124,11 +158,26 @@ public final class SystemGameControllerInputSource: GameControllerInputSource {
 
     private func attachInputHandlers(to controller: GCController) {
         guard let gamepad = controller.extendedGamepad else {
-            AppLog.info(AppLog.game, "Controller has no extended gamepad, skipping: \(controller.vendorName ?? "unknown")")
+            AppLog.debug(
+                AppLog.input + AppLog.game,
+                "CONTROLLER_ATTACH",
+                outcome: .skipped,
+                fields: [
+                    .reason("no_extended_gamepad"),
+                    .string("vendor", controller.vendorName ?? "unknown")
+                ]
+            )
             return
         }
         stickState[ObjectIdentifier(controller)] = StickHysteresisState()
-        AppLog.info(AppLog.game, "Attaching input handlers to: \(controller.vendorName ?? "unknown")")
+        AppLog.info(
+            AppLog.input + AppLog.game,
+            "CONTROLLER_ATTACH",
+            outcome: .started,
+            fields: [
+                .string("vendor", controller.vendorName ?? "unknown")
+            ]
+        )
 
         attachStickHandler(gamepad: gamepad, controllerID: ObjectIdentifier(controller))
         attachProfileDrivenHandlers(gamepad: gamepad)
@@ -201,7 +250,15 @@ public final class SystemGameControllerInputSource: GameControllerInputSource {
     private func emitProfileAction(for button: GameControllerRemapButton) {
         let profile = GameControllerBindingPreference.currentProfile(from: userDefaults)
         guard let remapAction = profile.action(for: button) else {
-            AppLog.info(AppLog.game, "Button \(button.rawValue) pressed but not mapped in profile — ignoring")
+            AppLog.debug(
+                AppLog.input + AppLog.game,
+                "CONTROLLER_BUTTON_PRESS",
+                outcome: .ignored,
+                fields: [
+                    .reason("button_not_mapped"),
+                    .string("button", button.rawValue)
+                ]
+            )
             return
         }
         emit(GameControllerAction(remapAction))
@@ -209,13 +266,25 @@ public final class SystemGameControllerInputSource: GameControllerInputSource {
 
     private func emit(_ action: GameControllerAction) {
         guard let actionHandler else {
-            AppLog.error(
-                AppLog.game,
-                "Controller action dropped because no action handler is registered: \(action)"
+            AppLog.warning(
+                AppLog.input + AppLog.game,
+                "CONTROLLER_ACTION_EMIT",
+                outcome: .failed,
+                fields: [
+                    .reason("missing_handler"),
+                    .string("action", String(describing: action))
+                ]
             )
             return
         }
-        AppLog.info(AppLog.game, "Controller action emitted: \(action)")
+        AppLog.debug(
+            AppLog.input + AppLog.game,
+            "CONTROLLER_ACTION_EMIT",
+            outcome: .succeeded,
+            fields: [
+                .string("action", String(describing: action))
+            ]
+        )
         actionHandler(action)
     }
 }

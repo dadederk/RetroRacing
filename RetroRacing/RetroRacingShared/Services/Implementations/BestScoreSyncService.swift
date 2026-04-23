@@ -26,13 +26,26 @@ public final class BestScoreSyncService {
     public func syncIfPossible() async {
         let difficulty = difficultyProvider()
         guard let remoteBestScore = await leaderboardService.fetchLocalPlayerBestScore(for: difficulty) else {
-            AppLog.info(AppLog.game + AppLog.leaderboard, "🏆 Remote best score unavailable; keeping local best")
+            AppLog.info(
+                AppLog.leaderboard + AppLog.game,
+                "BEST_SCORE_SYNC",
+                outcome: .skipped,
+                fields: [
+                    .reason("remote_best_unavailable"),
+                    .string("speed", difficulty.rawValue)
+                ]
+            )
             return
         }
         highestScoreStore.syncFromRemote(bestScore: remoteBestScore, for: difficulty)
         AppLog.info(
-            AppLog.game + AppLog.leaderboard,
-            "🏆 Synced local best score from Game Center: \(remoteBestScore) for speed \(difficulty.rawValue)"
+            AppLog.leaderboard + AppLog.game,
+            "BEST_SCORE_SYNC",
+            outcome: .succeeded,
+            fields: [
+                .int("remoteBest", remoteBestScore),
+                .string("speed", difficulty.rawValue)
+            ]
         )
     }
 }

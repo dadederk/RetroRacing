@@ -60,20 +60,37 @@ public final class UserDefaultsPlayLimitService: PlayLimitService {
 
         if userDefaults.object(forKey: Keys.firstPlayDate) == nil {
             userDefaults.set(date, forKey: Keys.firstPlayDate)
-            AppLog.info(AppLog.monetization, "First play day recorded — welcome bonus active")
+            AppLog.info(
+                AppLog.monetization,
+                "PLAY_LIMIT_FIRST_DAY",
+                outcome: .completed
+            )
         }
 
         var state = normalizedState(for: date)
         let limit = effectiveLimit(for: date)
 
         if state.count >= limit {
-            AppLog.info(AppLog.monetization, "Daily limit (\(limit)) already reached — record ignored")
+            AppLog.info(
+                AppLog.monetization,
+                "PLAY_LIMIT_RECORD",
+                outcome: .ignored,
+                fields: [.reason("daily_limit_reached"), .int("limit", limit)]
+            )
             return
         }
 
         state.count = min(state.count + 1, limit)
         persist(state: state)
-        AppLog.info(AppLog.monetization, "Game recorded — \(state.count)/\(limit) plays used today")
+        AppLog.info(
+            AppLog.monetization,
+            "PLAY_LIMIT_RECORD",
+            outcome: .completed,
+            fields: [
+                .int("count", state.count),
+                .int("limit", limit)
+            ]
+        )
     }
 
     public func remainingPlays(on date: Date) -> Int {
@@ -102,7 +119,11 @@ public final class UserDefaultsPlayLimitService: PlayLimitService {
 
     public func unlockUnlimitedAccess() {
         userDefaults.set(true, forKey: Keys.hasUnlimitedAccess)
-        AppLog.info(AppLog.monetization, "Unlimited access unlocked")
+        AppLog.info(
+            AppLog.monetization,
+            "PLAY_LIMIT_UNLOCK",
+            outcome: .succeeded
+        )
     }
 
     // MARK: - Private helpers

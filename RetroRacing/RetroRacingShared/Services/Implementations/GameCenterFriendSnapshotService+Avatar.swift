@@ -20,10 +20,14 @@ extension GameCenterFriendSnapshotService {
         let data: Data? = await withCheckedContinuation { continuation in
             player.loadPhoto(for: .normal, withCompletionHandler: { photo, error in
                 if let error {
-                    let nsError = error as NSError
                     AppLog.error(
-                        AppLog.game + AppLog.leaderboard,
-                        "🏆 Failed loading friend avatar for \(playerID): \(error.localizedDescription) (domain: \(nsError.domain), code: \(nsError.code), userInfo: \(nsError.userInfo))"
+                        AppLog.leaderboard + AppLog.game,
+                        "FRIEND_AVATAR_LOAD",
+                        outcome: .failed,
+                        fields: [
+                            .reason("gamekit_error"),
+                            .string("playerID", AppLog.redactedPlayer(playerID))
+                        ] + AppLog.Field.error(error)
                     )
                     continuation.resume(returning: nil)
                     return

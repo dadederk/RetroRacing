@@ -45,10 +45,24 @@ public enum AppBootstrap {
                 .joined(separator: ",")
             AppLog.info(
                 AppLog.sound,
-                "🔊 watchOS audio session activated (outputVolume=\(session.outputVolume), route=[\(routeDescription)]; watchOS often reports 0.0)"
+                "AUDIO_SESSION_ACTIVATION",
+                outcome: .succeeded,
+                fields: [
+                    .string("platform", "watchos"),
+                    .double("outputVolume", Double(session.outputVolume)),
+                    .string("route", routeDescription)
+                ]
             )
         } catch {
-            AppLog.error(AppLog.sound, "🔊 watchOS audio session activation failed: \(error.localizedDescription)")
+            AppLog.error(
+                AppLog.sound,
+                "AUDIO_SESSION_ACTIVATION",
+                outcome: .failed,
+                fields: [
+                    .reason("activation_failed"),
+                    .string("platform", "watchos")
+                ] + AppLog.Field.error(error)
+            )
         }
         #endif
     }
@@ -125,9 +139,22 @@ private final class AudioSessionObserver: NSObject {
     private func reactivateAudioSession(reason: String) {
         do {
             try AppBootstrap.activateAudioSession()
-            AppLog.info(AppLog.sound, "🔊 Re-activated audio session after \(reason)")
+            AppLog.info(
+                AppLog.sound,
+                "AUDIO_SESSION_REACTIVATION",
+                outcome: .succeeded,
+                fields: [.string("trigger", reason)]
+            )
         } catch {
-            AppLog.error(AppLog.sound, "🔊 Failed to reactivate audio session after \(reason): \(error.localizedDescription)")
+            AppLog.error(
+                AppLog.sound,
+                "AUDIO_SESSION_REACTIVATION",
+                outcome: .failed,
+                fields: [
+                    .reason("reactivation_failed"),
+                    .string("trigger", reason)
+                ] + AppLog.Field.error(error)
+            )
         }
     }
 
@@ -193,12 +220,25 @@ private final class WatchAudioSessionObserver {
                 .joined(separator: ",")
             AppLog.info(
                 AppLog.sound,
-                "🔊 Re-activated watchOS audio session after \(reason) (outputVolume=\(session.outputVolume), route=[\(routeDescription)]; watchOS often reports 0.0)"
+                "AUDIO_SESSION_REACTIVATION",
+                outcome: .succeeded,
+                fields: [
+                    .string("platform", "watchos"),
+                    .string("trigger", reason),
+                    .double("outputVolume", Double(session.outputVolume)),
+                    .string("route", routeDescription)
+                ]
             )
         } catch {
             AppLog.error(
                 AppLog.sound,
-                "🔊 Failed to reactivate watchOS audio session after \(reason): \(error.localizedDescription)"
+                "AUDIO_SESSION_REACTIVATION",
+                outcome: .failed,
+                fields: [
+                    .reason("reactivation_failed"),
+                    .string("platform", "watchos"),
+                    .string("trigger", reason)
+                ] + AppLog.Field.error(error)
             )
         }
     }

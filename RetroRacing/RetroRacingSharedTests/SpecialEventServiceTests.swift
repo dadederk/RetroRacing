@@ -157,4 +157,28 @@ final class SpecialEventServiceTests: XCTestCase {
         // When / Then — event not active means recording should proceed normally
         XCTAssertFalse(service.isEventActive(on: afterEvent))
     }
+
+    // MARK: - Static event configuration regression
+
+    func testGivenMiamiGrandPrix2026FactoryWhenCheckingDateWithin2026WindowThenReturnsActive() throws {
+        // Given
+        let during2026Window = try XCTUnwrap(calendar.date(from: DateComponents(year: 2026, month: 5, day: 2, hour: 12, minute: 0)))
+
+        // When
+        let isActive = DateRangeSpecialEventService.miamiGrandPrix2026.isEventActive(on: during2026Window)
+
+        // Then
+        XCTAssertTrue(isActive)
+    }
+
+    func testGivenMiamiGrandPrix2026FactoryWhenCheckingEquivalent2025DateThenReturnsInactive() throws {
+        // Given
+        let during2025Window = try XCTUnwrap(calendar.date(from: DateComponents(year: 2025, month: 5, day: 2, hour: 12, minute: 0)))
+
+        // When
+        let isActive = DateRangeSpecialEventService.miamiGrandPrix2026.isEventActive(on: during2025Window)
+
+        // Then
+        XCTAssertFalse(isActive)
+    }
 }

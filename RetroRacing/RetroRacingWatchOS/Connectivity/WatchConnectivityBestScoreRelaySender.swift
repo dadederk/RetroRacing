@@ -28,7 +28,14 @@ final class WatchConnectivityBestScoreRelaySender: NSObject, WatchBestScoreRelay
 
     func activateIfPossible() {
         guard let session else {
-            AppLog.info(AppLog.game + AppLog.leaderboard, "🏆 watchOS score relay unavailable: WCSession not supported")
+            AppLog.info(
+                AppLog.leaderboard + AppLog.lifecycle,
+                "WATCH_RELAY_SENDER_ACTIVATE",
+                outcome: .skipped,
+                fields: [
+                    .reason("wc_session_not_supported")
+                ]
+            )
             return
         }
         guard session.activationState != .activated else { return }
@@ -37,7 +44,16 @@ final class WatchConnectivityBestScoreRelaySender: NSObject, WatchBestScoreRelay
 
     func relayBestScore(_ score: Int, difficulty: GameDifficulty) {
         guard let session else {
-            AppLog.info(AppLog.game + AppLog.leaderboard, "🏆 watchOS score relay skipped: WCSession unsupported")
+            AppLog.info(
+                AppLog.leaderboard + AppLog.lifecycle,
+                "WATCH_RELAY_SCORE_QUEUE",
+                outcome: .skipped,
+                fields: [
+                    .reason("wc_session_not_supported"),
+                    .int("score", score),
+                    .string("speed", difficulty.rawValue)
+                ]
+            )
             return
         }
 
@@ -48,8 +64,13 @@ final class WatchConnectivityBestScoreRelaySender: NSObject, WatchBestScoreRelay
         let payload = WatchBestScoreRelayPayload(score: score, difficulty: difficulty)
         session.transferUserInfo(payload.userInfo)
         AppLog.info(
-            AppLog.game + AppLog.leaderboard,
-            "🏆 watchOS queued relayed best \(score) for speed \(difficulty.rawValue) via WatchConnectivity"
+            AppLog.leaderboard + AppLog.lifecycle,
+            "WATCH_RELAY_SCORE_QUEUE",
+            outcome: .requested,
+            fields: [
+                .int("score", score),
+                .string("speed", difficulty.rawValue)
+            ]
         )
     }
 }
@@ -62,15 +83,23 @@ extension WatchConnectivityBestScoreRelaySender: WCSessionDelegate {
     ) {
         if let error {
             AppLog.error(
-                AppLog.game + AppLog.leaderboard,
-                "🏆 watchOS score relay session activation failed: \(error.localizedDescription)"
+                AppLog.leaderboard + AppLog.lifecycle,
+                "WATCH_RELAY_SENDER_ACTIVATE",
+                outcome: .failed,
+                fields: [
+                    .reason("activation_failed")
+                ] + AppLog.Field.error(error)
             )
             return
         }
 
         AppLog.info(
-            AppLog.game + AppLog.leaderboard,
-            "🏆 watchOS score relay session activated (state: \(activationState.rawValue))"
+            AppLog.leaderboard + AppLog.lifecycle,
+            "WATCH_RELAY_SENDER_ACTIVATE",
+            outcome: .succeeded,
+            fields: [
+                .int("activationState", activationState.rawValue)
+            ]
         )
     }
 }

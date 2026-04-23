@@ -93,7 +93,7 @@ public struct GAADAchievementDebugPanel: View {
     }
 
     private func debugSnapshot(at now: Date) -> GAADAchievementDebugSnapshot {
-        let calendar = Calendar.autoupdatingCurrent
+        let calendar = AchievementCatalog.gaadReferenceCalendar
         let year = calendar.component(.year, from: now)
         let window = AchievementCatalog.gaadWeekDateInterval(forYear: year, calendar: calendar)
         let isInGAADWeek = AchievementCatalog.isDateInGAADWeek(now, calendar: calendar)
@@ -135,7 +135,7 @@ public struct GAADAchievementDebugPanel: View {
         guard let interval else {
             return GameLocalizedStrings.string("debug_gaad_window_unavailable")
         }
-        let calendar = Calendar.autoupdatingCurrent
+        let calendar = AchievementCatalog.gaadReferenceCalendar
         let endInclusive = calendar.date(byAdding: .second, value: -1, to: interval.end) ?? interval.end
         return "\(formattedDateTime(interval.start)) - \(formattedDateTime(endInclusive))"
     }

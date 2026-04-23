@@ -2100,19 +2100,19 @@
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Il·limitat fins al %@, per a %@"
+            "value" : "Il·limitat fins al %@, per a %@ 🏎"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Unlimited until %@, celebrating %@"
+            "value" : "Unlimited until %@, celebrating %@ 🏎"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ilimitado hasta el %@, celebrando %@"
+            "value" : "Ilimitado hasta el %@, celebrando %@ 🏎"
           }
         }
       }
@@ -2123,19 +2123,19 @@
         "ca" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "🏎 Partides Il·limitades"
+            "value" : "Partides Il·limitades"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "🏎 Unlimited Plays"
+            "value" : "Unlimited Plays"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "🏎 Partidas Ilimitadas"
+            "value" : "Partidas Ilimitadas"
           }
         }
       }

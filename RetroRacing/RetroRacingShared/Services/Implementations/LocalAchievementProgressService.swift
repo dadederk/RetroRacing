@@ -30,7 +30,12 @@ public final class LocalAchievementProgressService: AchievementProgressService {
     public func performInitialBackfillIfNeeded() {
         var snapshot = store.load()
         guard snapshot.backfillVersion != Backfill.currentVersion else {
-            AppLog.info(AppLog.game + AppLog.achievement, "🏅 Achievement backfill already applied (v\(Backfill.currentVersion))")
+            AppLog.info(
+                AppLog.achievement + AppLog.game,
+                "ACHIEVEMENT_BACKFILL",
+                outcome: .skipped,
+                fields: [.reason("already_applied"), .int("version", Backfill.currentVersion)]
+            )
             return
         }
 
@@ -50,8 +55,15 @@ public final class LocalAchievementProgressService: AchievementProgressService {
         let newlyAchieved = snapshot.achievedAchievementIDs.subtracting(previousAchievements)
         reporter.reportAchievedAchievements(newlyAchieved)
         AppLog.info(
-            AppLog.game + AppLog.achievement,
-            "🏅 Achievement backfill applied (v\(Backfill.currentVersion)) maxBest=\(maxBest) sumBest=\(sumBest) newlyAchieved=\(newlyAchieved.count)"
+            AppLog.achievement + AppLog.game,
+            "ACHIEVEMENT_BACKFILL",
+            outcome: .succeeded,
+            fields: [
+                .int("version", Backfill.currentVersion),
+                .int("maxBest", maxBest),
+                .int("sumBest", sumBest),
+                .int("newlyAchieved", newlyAchieved.count)
+            ]
         )
     }
 
@@ -76,13 +88,18 @@ public final class LocalAchievementProgressService: AchievementProgressService {
         let newlyAchieved = snapshot.achievedAchievementIDs.subtracting(previousAchievements)
         reporter.reportAchievedAchievements(newlyAchieved)
         AppLog.info(
-            AppLog.game + AppLog.achievement,
-            """
-            🏅 Recorded completed run overtakes=\(overtakes), controls=\(serializedControls(run.usedControls)), \
-            assistive=\(serializedAssistiveTechnologies(run.activeAssistiveTechnologies)), \
-            gaadAssistiveRun=\(isGAADAssistiveRun), cumulative=\(snapshot.cumulativeOvertakes), \
-            bestRun=\(snapshot.bestRunOvertakes), newlyAchieved=\(newlyAchieved.count)
-            """
+            AppLog.achievement + AppLog.game,
+            "ACHIEVEMENT_RUN_RECORD",
+            outcome: .completed,
+            fields: [
+                .int("overtakes", overtakes),
+                .string("controls", serializedControls(run.usedControls)),
+                .string("assistive", serializedAssistiveTechnologies(run.activeAssistiveTechnologies)),
+                .bool("isGAADAssistiveRun", isGAADAssistiveRun),
+                .int("cumulative", snapshot.cumulativeOvertakes),
+                .int("bestRun", snapshot.bestRunOvertakes),
+                .int("newlyAchieved", newlyAchieved.count)
+            ]
         )
 
         return AchievementProgressUpdate(
@@ -100,8 +117,10 @@ public final class LocalAchievementProgressService: AchievementProgressService {
         guard snapshot.achievedAchievementIDs.isEmpty == false else { return }
         reporter.reportAchievedAchievements(snapshot.achievedAchievementIDs)
         AppLog.info(
-            AppLog.game + AppLog.achievement,
-            "🏅 Replayed achieved achievements count=\(snapshot.achievedAchievementIDs.count)"
+            AppLog.achievement + AppLog.game,
+            "ACHIEVEMENT_REPLAY",
+            outcome: .completed,
+            fields: [.int("count", snapshot.achievedAchievementIDs.count)]
         )
     }
 

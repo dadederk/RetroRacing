@@ -102,7 +102,7 @@ public enum AchievementCatalog {
 
     /// Returns `true` when `date` falls in the Monday-Sunday week containing GAAD for that year.
     /// GAAD is defined as the third Thursday of May.
-    static func isDateInGAADWeek(_ date: Date, calendar: Calendar = .autoupdatingCurrent) -> Bool {
+    static func isDateInGAADWeek(_ date: Date, calendar: Calendar = gaadReferenceCalendar) -> Bool {
         let year = calendar.component(.year, from: date)
         guard let week = gaadWeekDateInterval(forYear: year, calendar: calendar) else {
             return false
@@ -111,7 +111,7 @@ public enum AchievementCatalog {
         return date >= week.start && date < week.end
     }
 
-    static func gaadWeekDateInterval(forYear year: Int, calendar: Calendar = .autoupdatingCurrent) -> DateInterval? {
+    static func gaadWeekDateInterval(forYear year: Int, calendar: Calendar = gaadReferenceCalendar) -> DateInterval? {
         guard let gaadDate = thirdThursdayOfMay(in: year, calendar: calendar) else {
             return nil
         }
@@ -126,7 +126,7 @@ public enum AchievementCatalog {
         return DateInterval(start: weekStart, end: weekEnd)
     }
 
-    static func thirdThursdayOfMay(in year: Int, calendar: Calendar = .autoupdatingCurrent) -> Date? {
+    static func thirdThursdayOfMay(in year: Int, calendar: Calendar = gaadReferenceCalendar) -> Date? {
         guard let mayFirst = calendar.date(from: DateComponents(year: year, month: 5, day: 1)) else {
             return nil
         }
@@ -135,5 +135,14 @@ public enum AchievementCatalog {
         let offsetToFirstThursday = (thursdayWeekday - firstWeekday + 7) % 7
         let thirdThursdayDay = 1 + offsetToFirstThursday + 14
         return calendar.date(from: DateComponents(year: year, month: 5, day: thirdThursdayDay))
+    }
+
+    /// Canonical calendar for GAAD calculations: Gregorian dates interpreted in
+    /// the user's current local time zone.
+    static var gaadReferenceCalendar: Calendar {
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.locale = .autoupdatingCurrent
+        calendar.timeZone = .autoupdatingCurrent
+        return calendar
     }
 }

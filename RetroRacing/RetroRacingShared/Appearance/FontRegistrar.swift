@@ -32,15 +32,37 @@ public enum FontRegistrar {
         for url in urls where (try? url.checkResourceIsReachable()) == true {
             var error: Unmanaged<CFError>?
             if CTFontManagerRegisterFontsForURL(url as CFURL, .process, &error) {
-                AppLog.log(AppLog.font, "font registered from \(url.lastPathComponent)")
+                AppLog.info(
+                    AppLog.font,
+                    "FONT_REGISTER",
+                    outcome: .succeeded,
+                    fields: [
+                        .string("file", url.lastPathComponent)
+                    ]
+                )
                 return true
             }
             if let error = error?.takeRetainedValue() {
-                AppLog.error(AppLog.font, "font registration error: \(error.localizedDescription)")
+                AppLog.error(
+                    AppLog.font,
+                    "FONT_REGISTER",
+                    outcome: .failed,
+                    fields: [
+                        .reason("registration_error")
+                    ] + AppLog.Field.error(error)
+                )
             }
         }
 
-        AppLog.error(AppLog.font, "font '\(fontFileName)' NOT registered (no reachable URL)")
+        AppLog.error(
+            AppLog.font,
+            "FONT_REGISTER",
+            outcome: .failed,
+            fields: [
+                .reason("font_file_unreachable"),
+                .string("fontFileName", fontFileName)
+            ]
+        )
         return false
     }
 }

@@ -60,7 +60,21 @@ extension GameScene {
         let origin = positionForCellIn(column: column, row: row, size: cellSize)
         let frame = CGRect(origin: origin, size: cellSize)
         if row == 0 && column == 0 {
-            AppLog.log(AppLog.assets, "createGrid scene.size=\(size) cellSize=\(cellSize) firstCell origin=\(origin) frame=\(frame)")
+            AppLog.debug(
+                AppLog.assets + AppLog.game,
+                "GRID_CREATE",
+                outcome: .started,
+                fields: [
+                    .double("sceneWidth", size.width),
+                    .double("sceneHeight", size.height),
+                    .double("cellWidth", cellSize.width),
+                    .double("cellHeight", cellSize.height),
+                    .double("originX", origin.x),
+                    .double("originY", origin.y),
+                    .double("frameWidth", frame.width),
+                    .double("frameHeight", frame.height)
+                ]
+            )
         }
         let cell = SKShapeNode(rect: frame)
         cell.name = nameForCell(column: column, row: row)

@@ -13,21 +13,35 @@ extension GameViewModel {
     /// Scene creation is gated by `shouldStartGame` so that initial launch and
     /// post-Finish flows do not start gameplay while the menu overlay is visible.
     func setupSceneIfNeeded(side: CGFloat, volume: Double) {
-        AppLog.info(AppLog.game, "setupSceneIfNeeded called - shouldStartGame: \(shouldStartGame), side: \(side), scene exists: \(scene != nil)")
+        AppLog.debug(
+            AppLog.game + AppLog.lifecycle,
+            "SCENE_SETUP_IF_NEEDED",
+            outcome: .requested,
+            fields: [
+                .bool("shouldStartGame", shouldStartGame),
+                .double("side", side),
+                .bool("sceneExists", scene != nil)
+            ]
+        )
         guard side > 0 else { return }
 
         if scene == nil {
             guard shouldStartGame else {
-                AppLog.info(AppLog.game, "⏸️ Not creating scene yet because shouldStartGame is false")
+                AppLog.debug(
+                    AppLog.game + AppLog.lifecycle,
+                    "SCENE_CREATE",
+                    outcome: .deferred,
+                    fields: [.reason("should_start_game_false")]
+                )
                 return
             }
-            AppLog.info(AppLog.game, "✅ Creating new scene with side: \(side)")
+            AppLog.info(AppLog.game + AppLog.lifecycle, "SCENE_CREATE", outcome: .started, fields: [.double("side", side)])
             createSceneAndDelegate(side: side, volume: volume)
         } else if let gameScene = scene, delegate == nil {
-            AppLog.info(AppLog.game, "✅ Attaching delegate to existing scene")
+            AppLog.info(AppLog.game + AppLog.lifecycle, "SCENE_DELEGATE_ATTACH", outcome: .started)
             attachDelegate(to: gameScene, volume: volume)
         } else if let gameScene = scene {
-            AppLog.info(AppLog.game, "✅ Syncing score and lives from scene")
+            AppLog.debug(AppLog.game + AppLog.lifecycle, "SCENE_SYNC_HUD", outcome: .requested)
             syncScoreAndLives(from: gameScene)
         }
     }
@@ -70,7 +84,12 @@ extension GameViewModel {
 
         // Respect current overlay state: if the menu is on top, keep gameplay paused
         if isMenuOverlayPresented {
-            AppLog.info(AppLog.game, "🔄 Created scene while menu overlay is presented – pausing gameplay")
+            AppLog.info(
+                AppLog.game + AppLog.lifecycle,
+                "SCENE_CREATE",
+                outcome: .completed,
+                fields: [.reason("menu_overlay_presented_paused")]
+            )
             newScene.pauseGameplay()
         }
 

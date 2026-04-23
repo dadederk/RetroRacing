@@ -294,7 +294,16 @@ public class GameScene: SKScene {
     }
 
     func setUpScene() {
-        AppLog.log(AppLog.game + AppLog.assets, "setUpScene bundle=\(Self.sharedBundle.bundleURL.path) size=\(size)")
+        AppLog.debug(
+            AppLog.assets + AppLog.game,
+            "SCENE_SETUP",
+            outcome: .started,
+            fields: [
+                .string("bundlePath", AppLog.redactedPath(Self.sharedBundle.bundleURL.path)),
+                .double("width", size.width),
+                .double("height", size.height)
+            ]
+        )
 
         if hasConfiguredScene {
             resizeScene(to: size)
@@ -304,7 +313,15 @@ public class GameScene: SKScene {
             anchorPoint = CGPoint(x: 0, y: 0)
             scaleMode = .aspectFit
             backgroundColor = gameBackgroundColor
-            AppLog.log(AppLog.game + AppLog.assets, "setUpScene initial anchorPoint=\(anchorPoint)")
+            AppLog.debug(
+                AppLog.assets + AppLog.game,
+                "SCENE_SETUP_ANCHOR",
+                outcome: .completed,
+                fields: [
+                    .double("anchorX", anchorPoint.x),
+                    .double("anchorY", anchorPoint.y)
+                ]
+            )
             createGrid()
             initialiseGame()
         }
@@ -508,7 +525,14 @@ public class GameScene: SKScene {
         let didChange = showsDebugFrameStats != isEnabled
         showsDebugFrameStats = isEnabled
         if didChange {
-            AppLog.info(AppLog.game, "SpriteKit frame diagnostics enabled: \(isEnabled)")
+            AppLog.info(
+                AppLog.game,
+                "SPRITEKIT_FRAME_DIAGNOSTICS",
+                outcome: .completed,
+                fields: [
+                    .bool("enabled", isEnabled)
+                ]
+            )
         }
         applyDebugFrameStatsIfNeeded()
     }
@@ -669,7 +693,15 @@ extension GameScene: RacingGameController {
         (gridState, _) = gridCalculator.nextGrid(previousGrid: gridState, actions: [.moveCar(direction: .left)])
         lastPlayerColumn = gridState.playerRow().firstIndex(of: .Player) ?? lastPlayerColumn
 
-        AppLog.info(AppLog.game, "🎮 GameScene.moveLeft from column \(String(describing: previousColumn)) to \(String(describing: lastPlayerColumn))")
+        AppLog.debug(
+            AppLog.input + AppLog.game,
+            "MOVE_LEFT",
+            outcome: .completed,
+            fields: [
+                .int("from", previousColumn),
+                .int("to", lastPlayerColumn)
+            ]
+        )
         gridStateDidUpdate(
             gridState,
             shouldPlayFeedback: true,
@@ -685,7 +717,15 @@ extension GameScene: RacingGameController {
         (gridState, _) = gridCalculator.nextGrid(previousGrid: gridState, actions: [.moveCar(direction: .right)])
         lastPlayerColumn = gridState.playerRow().firstIndex(of: .Player) ?? lastPlayerColumn
 
-        AppLog.info(AppLog.game, "🎮 GameScene.moveRight from column \(String(describing: previousColumn)) to \(String(describing: lastPlayerColumn))")
+        AppLog.debug(
+            AppLog.input + AppLog.game,
+            "MOVE_RIGHT",
+            outcome: .completed,
+            fields: [
+                .int("from", previousColumn),
+                .int("to", lastPlayerColumn)
+            ]
+        )
         gridStateDidUpdate(
             gridState,
             shouldPlayFeedback: true,
@@ -816,9 +856,15 @@ public struct CrownGameInputAdapter: GameInputAdapter {
         let previousColumn = scene.lastPlayerColumn
         scene.moveLeft()
         let didMove = scene.lastPlayerColumn != previousColumn
-        AppLog.info(
-            AppLog.game,
-            "🎮 CrownGameInputAdapter.handleLeft lane change: \(didMove) (\(previousColumn) -> \(scene.lastPlayerColumn))"
+        AppLog.debug(
+            AppLog.input + AppLog.game,
+            "CROWN_ADAPTER_MOVE_LEFT",
+            outcome: .completed,
+            fields: [
+                .bool("didMove", didMove),
+                .int("from", previousColumn),
+                .int("to", scene.lastPlayerColumn)
+            ]
         )
         return didMove
     }
@@ -827,9 +873,15 @@ public struct CrownGameInputAdapter: GameInputAdapter {
         let previousColumn = scene.lastPlayerColumn
         scene.moveRight()
         let didMove = scene.lastPlayerColumn != previousColumn
-        AppLog.info(
-            AppLog.game,
-            "🎮 CrownGameInputAdapter.handleRight lane change: \(didMove) (\(previousColumn) -> \(scene.lastPlayerColumn))"
+        AppLog.debug(
+            AppLog.input + AppLog.game,
+            "CROWN_ADAPTER_MOVE_RIGHT",
+            outcome: .completed,
+            fields: [
+                .bool("didMove", didMove),
+                .int("from", previousColumn),
+                .int("to", scene.lastPlayerColumn)
+            ]
         )
         return didMove
     }

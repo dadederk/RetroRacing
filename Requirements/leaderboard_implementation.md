@@ -191,11 +191,11 @@ Create only the leaderboards for platforms you ship (e.g. if you ship iPhone + w
 
 ### Debugging score submission
 
-- All leaderboard/Game Center logs use the 🏆 emoji (and `AppLog.leaderboard`). Filter console or logs by `🏆` to see: score submit attempts, “player not authenticated” skips, success, or failure with error message. Useful for diagnosing watch scores not appearing on the leaderboard.
-- On successful submit, `GameCenterService` performs a read-after-write verification (`fetchLocalPlayerBestScore(for:)`) with bounded retry attempts and logs the verified remote best value when available.
-- Leaderboard load logs now include metadata (`releaseState`, `isHidden`, `activityIdentifier`) to diagnose App Store Connect visibility/configuration mismatches.
-- Leaderboard/load-entry failures include `NSError` domain/code/userInfo in logs for precise GameKit error diagnosis (e.g. `GKErrorGameUnrecognized`, `GKErrorNotAuthenticated`).
-- Debug builds (direct Xcode runs) intentionally log `Skipped score submit ... debug build` and do not post scores to Game Center. The `isDebugBuild` guard in `GameCenterService.isScoreSubmissionEnabled` enforces this.
+- Leaderboard/Game Center logs follow the canonical contract in [logging.md](logging.md), with primary domain `LEADERBOARD` (`🏆`) and structured `outcome` + key/value fields.
+- On successful submit, `GameCenterService` performs read-after-write verification (`fetchLocalPlayerBestScore(for:)`) with bounded retry attempts and logs `SCORE_VERIFY_REMOTE_BEST`.
+- Leaderboard load diagnostics include structured metadata fields (`releaseState`, `isHidden`, `activityIdentifier`) to diagnose App Store Connect visibility/configuration mismatches.
+- Failure diagnostics use structured error fields (`errorDomain`, `errorCode`, `errorDescription`) instead of raw `userInfo` dumps.
+- Debug builds (direct Xcode runs) emit `SCORE_SUBMIT outcome=skipped reason=debug_build` and do not post scores unless explicitly allowed. The `isDebugBuild` guard in `GameCenterService.isScoreSubmissionEnabled` enforces this.
 - For current watch/iPhone fallback diagnostics, composition roots set `allowDebugScoreSubmission = true` temporarily; revert to default (`false`) when diagnostics end.
 - `GKLeaderboard.submitScore` uses an **offline-first cache strategy**: it queues the score locally and fires the completion handler with `nil` error immediately — before the score reaches the server. A `"Successfully submitted"` log does **not** guarantee the score reached Game Center. The read-back verification step (`verifyRemoteBestAfterSubmit`) is the signal of server-side success. If it consistently fails with `GKErrorNotAuthenticated` (code 6), the app-level Game Center session is invalid and the score likely never persisted.
 - **watchOS: `GKErrorGameUnrecognized` (code 15)**: If you see this error on watchOS in any environment (dev, TestFlight, App Store), the watchOS app's bundle ID is not being matched to a valid Game Center profile. Possible causes: (1) `WKRunsIndependentlyOfCompanionApp = YES` causes Game Center to look for a standalone profile that doesn't exist for this bundle ID; (2) the App Store Connect Game Center configuration is in the wrong app entry relative to the watchOS submission structure; (3) the companion iOS app's Game Center session needs to be active first. Test by temporarily setting `WKRunsIndependentlyOfCompanionApp = NO` — if `GKErrorGameUnrecognized` disappears, the standalone/companion mismatch is the cause.
@@ -306,14 +306,29 @@ struct RetroRacingWatchOSApp: App {
         // watchOS:        (Error?) -> Void (no view controller parameter)
         GKLocalPlayer.local.authenticateHandler = { error in
             if let error = error {
-                AppLog.error(AppLog.game + AppLog.leaderboard, "🏆 watchOS Game Center authentication error: \(error.localizedDescription)")
+                AppLog.error(
+                    AppLog.leaderboard + AppLog.lifecycle,
+                    "AUTH_RESULT",
+                    outcome: .failed,
+                    fields: [.reason("gamekit_error")] + AppLog.Field.error(error)
+                )
                 onAuthStateChanged()
                 return
             }
             if GKLocalPlayer.local.isAuthenticated {
-                AppLog.info(AppLog.game + AppLog.leaderboard, "🏆 watchOS Game Center authenticated successfully - player: \(GKLocalPlayer.local.displayName)")
+                AppLog.info(
+                    AppLog.leaderboard + AppLog.lifecycle,
+                    "AUTH_RESULT",
+                    outcome: .succeeded,
+                    fields: [.string("player", AppLog.redactedPlayer(GKLocalPlayer.local.displayName))]
+                )
             } else {
-                AppLog.info(AppLog.game + AppLog.leaderboard, "🏆 watchOS Game Center authentication handler called, but player not authenticated")
+                AppLog.info(
+                    AppLog.leaderboard + AppLog.lifecycle,
+                    "AUTH_RESULT",
+                    outcome: .blocked,
+                    fields: [.reason("player_not_authenticated")]
+                )
             }
             onAuthStateChanged()
         }

@@ -30,7 +30,15 @@ extension GameScene {
     /// Loads texture via injected imageLoader so shared code has no UIKit/AppKit conditionals.
     func texture(imageNamed name: String) -> SKTexture {
         guard let imageLoader else {
-            AppLog.error(AppLog.assets, "texture '\(name)' skipped: imageLoader not set yet (scene not fully initialized)")
+            AppLog.warning(
+                AppLog.assets + AppLog.game,
+                "TEXTURE_LOAD",
+                outcome: .skipped,
+                fields: [
+                    .reason("image_loader_missing"),
+                    .string("assetName", name)
+                ]
+            )
             return SKTexture()
         }
         return imageLoader.loadTexture(imageNamed: name, bundle: Self.sharedBundle)
@@ -88,7 +96,24 @@ extension GameScene {
 
         let texSize = sprite.texture?.size() ?? .zero
         if row == 0 && column == 0 && spritesForGivenState.count <= 1 {
-            AppLog.log(AppLog.assets, "addSprite row=\(row) col=\(column) cellSize=\(cellSize) spriteSize=\(spriteSize) posInCell=\(spritePosInCell) textureSize=\(texSize) sprite.frame=\(sprite.frame) scale=\(sprite.xScale)")
+            AppLog.debug(
+                AppLog.assets + AppLog.game,
+                "SPRITE_ADD",
+                outcome: .completed,
+                fields: [
+                    .int("row", row),
+                    .int("column", column),
+                    .double("cellWidth", cellSize.width),
+                    .double("cellHeight", cellSize.height),
+                    .double("spriteWidth", spriteSize.width),
+                    .double("spriteHeight", spriteSize.height),
+                    .double("positionX", spritePosInCell.x),
+                    .double("positionY", spritePosInCell.y),
+                    .double("textureWidth", texSize.width),
+                    .double("textureHeight", texSize.height),
+                    .double("scale", sprite.xScale)
+                ]
+            )
         }
 
         if sprite.name == "crash" {

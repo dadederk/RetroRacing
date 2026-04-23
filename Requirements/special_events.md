@@ -24,7 +24,7 @@ Events are used for:
 
 - During an active event, **all users** (free and paid) can play unlimited games.
 - Event plays are **not counted** against the user's daily play quota. When the event ends, daily limits resume from their normal state for that calendar day (which is typically a fresh day since events end at midnight UTC).
-- The "Buy Unlimited Plays" support CTA in the menu is **hidden during events** — it's not the right moment to prompt a purchase when play is already unlimited.
+- The "Buy Unlimited Plays" support CTA in the menu remains **visible during events** so users can still support development whenever they want.
 - The paywall is **never shown** during an active event.
 - The **premium purchase remains independent**: users who purchase Unlimited Plays during or after an event retain their permanent entitlement.
 
@@ -67,12 +67,13 @@ public struct SpecialEventInfo {
 - `isEventActive(on:)` returns `true` when the given date falls within the active window.
 - `eventInfo(on:)` returns `SpecialEventInfo` when active, `nil` otherwise.
 - Uses UTC boundaries so all users worldwide experience the same event window.
+- Static event factories use explicit UTC date components (`year`, `month`, `day`) rather than raw epoch literals to reduce year-mismatch risk.
 
 ### Play Recording Bypass
 
-**File:** `RetroRacingShared/Views/GameViewModel+Scene.swift`
+**Files:** `RetroRacingShared/Views/GameViewModel+Scene.swift`, `RetroRacingShared/Views/GameViewModel+Gameplay.swift`
 
-When a new game session is created, `recordGamePlayed` is skipped during an active event:
+When a new game session is created **or restarted after game over**, `recordGamePlayed` is skipped during an active event:
 
 ```swift
 let now = Date()
@@ -87,8 +88,9 @@ if specialEventService?.isEventActive(on: now) != true {
 
 The **Play Limit** section is shown for free users. During an active event, the section content is replaced with an event banner:
 
-- **Title:** "🏎 Unlimited Plays"
-- **Subtitle:** "Unlimited until [end date], celebrating [event name]"
+- **Title:** "Unlimited Plays"
+- **Subtitle:** "Unlimited until [end date], celebrating [event name] 🏎"
+- The subtitle end date is formatted using a UTC/Gregorian reference so it always reflects the event's canonical May 1–3 window.
 - The daily limit footer is hidden during the event.
 
 After the event, the section reverts to showing remaining plays and reset time.
@@ -114,8 +116,8 @@ GameViewModel(specialEventService: specialEventService, ...)
 
 | Key | English |
 |-----|---------|
-| `event_play_unlimited_title` | "🏎 Unlimited Plays" |
-| `event_play_unlimited_subtitle %@ %@` | "Unlimited until %@, celebrating %@" |
+| `event_play_unlimited_title` | "Unlimited Plays" |
+| `event_play_unlimited_subtitle %@ %@` | "Unlimited until %@, celebrating %@ 🏎" |
 
 Localized into English, Spanish (es), and Catalan (ca).
 
@@ -165,6 +167,7 @@ Scenarios covered:
 - Date after event → `isEventActive` returns `false`
 - `eventInfo` returns info with correct name and `inclusiveEndDate` during event
 - `eventInfo` returns `nil` when event is inactive
+- Static `miamiGrandPrix2026` factory is active on May 2, 2026 and inactive on May 2, 2025 (regression guard for year drift)
 
 ### Manual QA Checklist
 
@@ -174,8 +177,8 @@ To test the event locally, temporarily set the device date to May 2, 2026 (or ad
 - [ ] Play button works without limit
 - [ ] Paywall never appears
 - [ ] Restart after game over works without limit
-- [ ] Settings → Play Limit section shows "🏎 Unlimited Plays" banner with event subtitle
-- [ ] "Support" / "Back development" CTA is hidden in menu
+- [ ] Settings → Play Limit section shows "Unlimited Plays" banner with event subtitle ending in 🏎
+- [ ] "Support" / "Back development" CTA remains visible in menu
 - [ ] Plays are not counted (remaining plays same after gaming session)
 
 **Premium user during event:**

@@ -702,8 +702,29 @@ public struct SettingsView: View {
         .confirmationAction
     }
 
+    private static var eventDateDisplayCalendar: Calendar {
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.locale = .autoupdatingCurrent
+        calendar.timeZone = eventDateDisplayTimeZone
+        return calendar
+    }
+
+    private static var eventDateDisplayTimeZone: TimeZone {
+        TimeZone(secondsFromGMT: 0) ?? .autoupdatingCurrent
+    }
+
+    private static func formattedEventEndDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.calendar = eventDateDisplayCalendar
+        formatter.timeZone = eventDateDisplayTimeZone
+        formatter.locale = .autoupdatingCurrent
+        formatter.dateStyle = .long
+        formatter.timeStyle = .none
+        return formatter.string(from: date)
+    }
+
     private func eventSubtitle(for info: SpecialEventInfo) -> String {
-        let endString = info.inclusiveEndDate.formatted(date: .long, time: .omitted)
+        let endString = Self.formattedEventEndDate(info.inclusiveEndDate)
         return GameLocalizedStrings.format("event_play_unlimited_subtitle %@ %@", endString, info.name)
     }
 
@@ -769,7 +790,12 @@ public struct SettingsView: View {
     @MainActor
     private func redeemOfferCode() async {
         guard let offerCodeRedemptionHostController else {
-            AppLog.error(AppLog.game, "Offer-code redemption host controller is unavailable on macOS")
+            AppLog.error(
+                AppLog.store + AppLog.lifecycle,
+                "OFFER_CODE_REDEEM",
+                outcome: .failed,
+                fields: [.reason("host_controller_unavailable")]
+            )
             return
         }
 
@@ -780,7 +806,12 @@ public struct SettingsView: View {
             try await AppStore.presentOfferCodeRedeemSheet(from: offerCodeRedemptionHostController)
             await storeKit.refreshPurchasedProducts()
         } catch {
-            AppLog.error(AppLog.game, "Offer-code redemption failed: \(error.localizedDescription)")
+            AppLog.error(
+                AppLog.store + AppLog.lifecycle,
+                "OFFER_CODE_REDEEM",
+                outcome: .failed,
+                fields: [.reason("redeem_sheet_failed")] + AppLog.Field.error(error)
+            )
         }
     }
     #endif

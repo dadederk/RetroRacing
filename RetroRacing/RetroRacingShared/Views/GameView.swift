@@ -123,7 +123,15 @@ public struct GameView: View {
         self.onMenuRequest = onMenuRequest
         self.onPlayRequest = onPlayRequest
         self.isMenuOverlayPresented = isMenuOverlayPresented
-        AppLog.info(AppLog.game, "GameView init - shouldStartGame: \(shouldStartGame), showMenuButton: \(showMenuButton)")
+        AppLog.info(
+            AppLog.lifecycle + AppLog.game,
+            "GAME_VIEW_INIT",
+            outcome: .completed,
+            fields: [
+                .bool("shouldStartGame", shouldStartGame),
+                .bool("showMenuButton", showMenuButton)
+            ]
+        )
         let selectedDifficulty = GameDifficulty.currentSelection(from: InfrastructureDefaults.userDefaults)
         let selectedAudioFeedbackMode = AudioFeedbackMode.currentSelection(from: InfrastructureDefaults.userDefaults)
         let selectedLaneMoveCueStyle = LaneMoveCueStyle.currentSelection(from: InfrastructureDefaults.userDefaults)
@@ -171,7 +179,12 @@ public struct GameView: View {
                     onSwipeInput: { model.recordControlInput(.swipe) },
                     onTogglePause: model.togglePause,
                     onAppearSide: { side in
-                        AppLog.info(AppLog.game, "GameLayoutView appeared with side: \(side)")
+                        AppLog.info(
+                            AppLog.lifecycle + AppLog.game,
+                            "GAME_LAYOUT_APPEAR",
+                            outcome: .completed,
+                            fields: [.double("side", side)]
+                        )
                         model.setupSceneIfNeeded(side: side, volume: selectedSoundEffectsVolume)
                     },
                     onResizeSide: { side in
@@ -221,7 +234,12 @@ public struct GameView: View {
             model.updateDebugSpriteKitFrameStatsVisibility(shouldShowDebugSpriteKitFrameStats)
             model.recordVoiceOverControlIfNeeded()
             if let overlayBinding = isMenuOverlayPresented {
-                AppLog.info(AppLog.game, "GameView onAppear - overlay presented: \(overlayBinding.wrappedValue)")
+                AppLog.info(
+                    AppLog.lifecycle + AppLog.game,
+                    "GAME_OVERLAY_STATE_SYNC",
+                    outcome: .completed,
+                    fields: [.bool("isPresented", overlayBinding.wrappedValue)]
+                )
                 model.setOverlayPause(isPresented: overlayBinding.wrappedValue)
             }
             attemptAutoPresentVoiceOverHelpIfNeeded()
@@ -323,7 +341,15 @@ public struct GameView: View {
             model.setVolume(selectedSoundEffectsVolume)
         }
         .onChange(of: shouldStartGame) { _, newValue in
-            AppLog.info(AppLog.game, "GameView shouldStartGame changed from \(model.shouldStartGame) to \(newValue)")
+            AppLog.info(
+                AppLog.lifecycle + AppLog.game,
+                "GAME_START_FLAG_CHANGED",
+                outcome: .completed,
+                fields: [
+                    .bool("previousValue", model.shouldStartGame),
+                    .bool("newValue", newValue)
+                ]
+            )
             model.shouldStartGame = newValue
         }
         .onChange(of: difficultyStorageData) { _, _ in
@@ -360,7 +386,12 @@ public struct GameView: View {
         }
         .onChange(of: isMenuOverlayPresented?.wrappedValue ?? false) { _, isPresented in
             guard isMenuOverlayPresented != nil else { return }
-            AppLog.info(AppLog.game, "Menu overlay presented: \(isPresented)")
+            AppLog.info(
+                AppLog.lifecycle + AppLog.game,
+                "GAME_OVERLAY_STATE_CHANGED",
+                outcome: .completed,
+                fields: [.bool("isPresented", isPresented)]
+            )
             model.setOverlayPause(isPresented: isPresented)
         }
         .sheet(isPresented: $isPaywallPresented) {
@@ -492,16 +523,28 @@ public struct GameView: View {
         let menuOverlayBinding = isMenuOverlayPresented
         let playRequest = onPlayRequest
         let isHelpPresentedProvider = { isInGameHelpPresented }
-        AppLog.info(AppLog.game, "Starting controller input in GameView")
+        AppLog.info(
+            AppLog.input + AppLog.game,
+            "CONTROLLER_INPUT_LISTENER",
+            outcome: .started
+        )
         controllerInputSource.start { @MainActor action in
             let isOverlayVisible = (menuOverlayBinding?.wrappedValue ?? false) || isHelpPresentedProvider()
             let route = GameControllerActionRouter.route(
                 action: action,
                 isMenuOverlayVisible: isOverlayVisible
             )
-            AppLog.info(
-                AppLog.game,
-                "Controller action routed: action=\(action), route=\(route), overlayVisible=\(isOverlayVisible), hasScene=\(capturedModel.scene != nil), hasInputAdapter=\(capturedModel.inputAdapter != nil)"
+            AppLog.debug(
+                AppLog.input + AppLog.game,
+                "CONTROLLER_ACTION_ROUTED",
+                outcome: .completed,
+                fields: [
+                    .string("action", "\(action)"),
+                    .string("route", "\(route)"),
+                    .bool("overlayVisible", isOverlayVisible),
+                    .bool("hasScene", capturedModel.scene != nil),
+                    .bool("hasInputAdapter", capturedModel.inputAdapter != nil)
+                ]
             )
             switch route {
             case .ignored:
@@ -510,7 +553,12 @@ public struct GameView: View {
                 capturedModel.recordControlInput(.gameController)
                 capturedModel.flashButton(.left)
                 guard let inputAdapter = capturedModel.inputAdapter else {
-                    AppLog.error(AppLog.game, "Controller moveLeft ignored because inputAdapter is nil")
+                    AppLog.warning(
+                        AppLog.input + AppLog.game,
+                        "CONTROLLER_MOVE_LEFT",
+                        outcome: .blocked,
+                        fields: [.reason("missing_input_adapter")]
+                    )
                     return
                 }
                 inputAdapter.handleLeft()
@@ -518,7 +566,12 @@ public struct GameView: View {
                 capturedModel.recordControlInput(.gameController)
                 capturedModel.flashButton(.right)
                 guard let inputAdapter = capturedModel.inputAdapter else {
-                    AppLog.error(AppLog.game, "Controller moveRight ignored because inputAdapter is nil")
+                    AppLog.warning(
+                        AppLog.input + AppLog.game,
+                        "CONTROLLER_MOVE_RIGHT",
+                        outcome: .blocked,
+                        fields: [.reason("missing_input_adapter")]
+                    )
                     return
                 }
                 inputAdapter.handleRight()

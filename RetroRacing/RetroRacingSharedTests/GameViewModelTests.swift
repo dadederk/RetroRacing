@@ -331,6 +331,72 @@ final class GameViewModelTests: XCTestCase {
         XCTAssertFalse(viewModel.runInputTelemetry.usedInputs.contains(.gameController))
     }
 
+    func testGivenActiveSpecialEventWhenRestartingGameThenPlayLimitIsNotRecorded() {
+        // Given
+        let playLimitService = MockPlayLimitServiceForGameViewModel()
+        let specialEventService = MockSpecialEventServiceForGameViewModel(isActive: true)
+        let viewModel = makeViewModel(
+            playLimitService: playLimitService,
+            specialEventService: specialEventService
+        )
+
+        // When
+        viewModel.restartGame()
+
+        // Then
+        XCTAssertEqual(playLimitService.recordGamePlayedCallCount, 0)
+    }
+
+    func testGivenInactiveSpecialEventWhenRestartingGameThenPlayLimitIsRecorded() {
+        // Given
+        let playLimitService = MockPlayLimitServiceForGameViewModel()
+        let specialEventService = MockSpecialEventServiceForGameViewModel(isActive: false)
+        let viewModel = makeViewModel(
+            playLimitService: playLimitService,
+            specialEventService: specialEventService
+        )
+
+        // When
+        viewModel.restartGame()
+
+        // Then
+        XCTAssertEqual(playLimitService.recordGamePlayedCallCount, 1)
+    }
+
+    func testGivenActiveEventWhenEvaluatingSupportButtonPolicyThenSupportButtonIsShown() {
+        // Given
+        let showRateButton = true
+        let hasResolvedSupportEntitlement = true
+        let hasPremiumAccess = false
+
+        // When
+        let shouldShowButton = MenuView.shouldShowSupportButtonPolicy(
+            showRateButton: showRateButton,
+            hasResolvedSupportEntitlement: hasResolvedSupportEntitlement,
+            hasPremiumAccess: hasPremiumAccess
+        )
+
+        // Then
+        XCTAssertTrue(shouldShowButton)
+    }
+
+    func testGivenEligibleFreeUserWithoutEventWhenEvaluatingSupportButtonPolicyThenSupportButtonIsShown() {
+        // Given
+        let showRateButton = true
+        let hasResolvedSupportEntitlement = true
+        let hasPremiumAccess = false
+
+        // When
+        let shouldShowButton = MenuView.shouldShowSupportButtonPolicy(
+            showRateButton: showRateButton,
+            hasResolvedSupportEntitlement: hasResolvedSupportEntitlement,
+            hasPremiumAccess: hasPremiumAccess
+        )
+
+        // Then
+        XCTAssertTrue(shouldShowButton)
+    }
+
     func testGivenGameOverWhenHandlingCollisionThenAchievementProgressRecordsCompletedRun() {
         // Given
         let scene = makeScene()
@@ -621,6 +687,29 @@ final class GameViewModelTests: XCTestCase {
             difficulty: .rapid
         )
     }
+
+    private func makeViewModel(
+        playLimitService: PlayLimitService?,
+        specialEventService: SpecialEventService?
+    ) -> GameViewModel {
+        GameViewModel(
+            leaderboardService: leaderboardService,
+            ratingService: ratingService,
+            theme: nil,
+            hapticController: nil,
+            highestScoreStore: highestScoreStore,
+            achievementProgressService: achievementProgressService,
+            inputAdapterFactory: inputAdapterFactory,
+            playLimitService: playLimitService,
+            specialEventService: specialEventService,
+            selectedDifficulty: .rapid,
+            selectedAudioFeedbackMode: .retro,
+            selectedLaneMoveCueStyle: .laneConfirmationAndSafety,
+            selectedBigRivalCarsEnabled: false,
+            selectedRoadVisualStyle: .detailedRoad,
+            shouldStartGame: true
+        )
+    }
 }
 
 // MARK: - Mock Objects
@@ -721,5 +810,55 @@ private final class MockAchievementProgressService: AchievementProgressService {
 
     func currentProgress() -> AchievementProgressSnapshot {
         snapshot
+    }
+}
+
+private final class MockPlayLimitServiceForGameViewModel: PlayLimitService {
+    private(set) var recordGamePlayedCallCount = 0
+    private(set) var hasUnlimitedAccess = false
+
+    func canStartNewGame(on date: Date) -> Bool {
+        true
+    }
+
+    func recordGamePlayed(on date: Date) {
+        recordGamePlayedCallCount += 1
+    }
+
+    func remainingPlays(on date: Date) -> Int {
+        3
+    }
+
+    func maxPlays(on date: Date) -> Int {
+        3
+    }
+
+    func isFirstPlayDay(on date: Date) -> Bool {
+        false
+    }
+
+    func nextResetDate(after date: Date) -> Date {
+        date.addingTimeInterval(3600)
+    }
+
+    func unlockUnlimitedAccess() {
+        hasUnlimitedAccess = true
+    }
+}
+
+private struct MockSpecialEventServiceForGameViewModel: SpecialEventService {
+    let isActive: Bool
+
+    func isEventActive(on date: Date) -> Bool {
+        isActive
+    }
+
+    func eventInfo(on date: Date) -> SpecialEventInfo? {
+        guard isActive else { return nil }
+        return SpecialEventInfo(
+            name: "Test Event",
+            startDate: date,
+            inclusiveEndDate: date
+        )
     }
 }

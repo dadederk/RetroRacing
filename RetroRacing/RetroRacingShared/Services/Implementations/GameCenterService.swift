@@ -73,8 +73,15 @@ public final class GameCenterService: LeaderboardService, @unchecked Sendable {
 
         guard isScoreSubmissionEnabled else {
             AppLog.info(
-                AppLog.game + AppLog.leaderboard,
-                "🏆 Skipped score submit \(score) – debug build (leaderboardID: \(leaderboardID), speed: \(difficulty.rawValue))"
+                AppLog.leaderboard + AppLog.game,
+                "SCORE_SUBMIT",
+                outcome: .skipped,
+                fields: [
+                    .reason("debug_build"),
+                    .int("score", score),
+                    .string("leaderboardID", leaderboardID),
+                    .string("speed", difficulty.rawValue)
+                ]
             )
             return
         }
@@ -82,8 +89,16 @@ public final class GameCenterService: LeaderboardService, @unchecked Sendable {
         guard isAuthenticated() else {
             let improved = pendingScoreStore?.updatePendingBestScoreIfHigher(score, for: difficulty) ?? false
             AppLog.info(
-                AppLog.game + AppLog.leaderboard,
-                "🏆 Skipped score submit \(score) – player not authenticated; queued as pending (improved: \(improved), leaderboardID: \(leaderboardID), speed: \(difficulty.rawValue))"
+                AppLog.leaderboard + AppLog.game,
+                "SCORE_SUBMIT",
+                outcome: .blocked,
+                fields: [
+                    .reason("player_not_authenticated"),
+                    .int("score", score),
+                    .bool("pendingImproved", improved),
+                    .string("leaderboardID", leaderboardID),
+                    .string("speed", difficulty.rawValue)
+                ]
             )
             return
         }
@@ -106,8 +121,14 @@ public final class GameCenterService: LeaderboardService, @unchecked Sendable {
             pendingScoreStore.clearPendingBestScore(for: difficulty)
             let leaderboardID = configuration.leaderboardID(for: difficulty)
             AppLog.info(
-                AppLog.game + AppLog.leaderboard,
-                "🏆 Flushing pending score \(score) to leaderboard \(leaderboardID) (speed: \(difficulty.rawValue))"
+                AppLog.leaderboard + AppLog.game,
+                "PENDING_SCORE_FLUSH",
+                outcome: .started,
+                fields: [
+                    .int("score", score),
+                    .string("leaderboardID", leaderboardID),
+                    .string("speed", difficulty.rawValue)
+                ]
             )
             submitScoreToGameCenter(score, leaderboardID: leaderboardID, difficulty: difficulty)
         }
@@ -126,8 +147,14 @@ public final class GameCenterService: LeaderboardService, @unchecked Sendable {
 
         guard isAuthenticated() else {
             AppLog.info(
-                AppLog.game + AppLog.leaderboard,
-                "🏆 Skipped remote best sync – player not authenticated (leaderboardID: \(leaderboardID), speed: \(difficulty.rawValue))"
+                AppLog.leaderboard + AppLog.game,
+                "REMOTE_BEST_SYNC",
+                outcome: .blocked,
+                fields: [
+                    .reason("player_not_authenticated"),
+                    .string("leaderboardID", leaderboardID),
+                    .string("speed", difficulty.rawValue)
+                ]
             )
             return nil
         }
@@ -144,8 +171,14 @@ public final class GameCenterService: LeaderboardService, @unchecked Sendable {
 
         guard isAuthenticated() else {
             AppLog.info(
-                AppLog.game + AppLog.leaderboard,
-                "🏆 Skipped friend leaderboard snapshot – player not authenticated (leaderboardID: \(leaderboardID), speed: \(difficulty.rawValue))"
+                AppLog.leaderboard + AppLog.game,
+                "FRIEND_SNAPSHOT_LOAD",
+                outcome: .blocked,
+                fields: [
+                    .reason("player_not_authenticated"),
+                    .string("leaderboardID", leaderboardID),
+                    .string("speed", difficulty.rawValue)
+                ]
             )
             return nil
         }
@@ -160,15 +193,27 @@ public final class GameCenterService: LeaderboardService, @unchecked Sendable {
             remoteBestScore: remoteBestScore
         ) else {
             AppLog.info(
-                AppLog.game + AppLog.leaderboard,
-                "🏆 Friend leaderboard snapshot unavailable – no valid friend entries (leaderboardID: \(leaderboardID), speed: \(difficulty.rawValue))"
+                AppLog.leaderboard + AppLog.game,
+                "FRIEND_SNAPSHOT_LOAD",
+                outcome: .skipped,
+                fields: [
+                    .reason("no_valid_friend_entries"),
+                    .string("leaderboardID", leaderboardID),
+                    .string("speed", difficulty.rawValue)
+                ]
             )
             return nil
         }
 
         AppLog.info(
-            AppLog.game + AppLog.leaderboard,
-            "🏆 Loaded friend snapshot with \(snapshot.friendEntries.count) entries (remote best: \(snapshot.remoteBestScore.map(String.init) ?? "nil"), speed: \(difficulty.rawValue))"
+            AppLog.leaderboard + AppLog.game,
+            "FRIEND_SNAPSHOT_LOAD",
+            outcome: .succeeded,
+            fields: [
+                .int("entryCount", snapshot.friendEntries.count),
+                .string("remoteBest", snapshot.remoteBestScore.map(String.init) ?? "nil"),
+                .string("speed", difficulty.rawValue)
+            ]
         )
         return snapshot
     }
@@ -177,8 +222,14 @@ public final class GameCenterService: LeaderboardService, @unchecked Sendable {
 
     private func submitScoreToGameCenter(_ score: Int, leaderboardID: String, difficulty: GameDifficulty) {
         AppLog.info(
-            AppLog.game + AppLog.leaderboard,
-            "🏆 Submitting score \(score) to leaderboard \(leaderboardID) (speed: \(difficulty.rawValue))"
+            AppLog.leaderboard + AppLog.game,
+            "SCORE_SUBMIT",
+            outcome: .requested,
+            fields: [
+                .int("score", score),
+                .string("leaderboardID", leaderboardID),
+                .string("speed", difficulty.rawValue)
+            ]
         )
 
         GKLeaderboard.submitScore(
@@ -188,9 +239,28 @@ public final class GameCenterService: LeaderboardService, @unchecked Sendable {
             leaderboardIDs: [leaderboardID]
         ) { error in
             if let error = error {
-                AppLog.error(AppLog.game + AppLog.leaderboard, "🏆 Failed to submit score \(score) to \(leaderboardID): \(error.localizedDescription)")
+                AppLog.error(
+                    AppLog.leaderboard + AppLog.game,
+                    "SCORE_SUBMIT",
+                    outcome: .failed,
+                    fields: [
+                        .reason("gamekit_error"),
+                        .int("score", score),
+                        .string("leaderboardID", leaderboardID),
+                        .string("speed", difficulty.rawValue)
+                    ] + AppLog.Field.error(error)
+                )
             } else {
-                AppLog.info(AppLog.game + AppLog.leaderboard, "🏆 Successfully submitted score \(score) to \(leaderboardID)")
+                AppLog.info(
+                    AppLog.leaderboard + AppLog.game,
+                    "SCORE_SUBMIT",
+                    outcome: .succeeded,
+                    fields: [
+                        .int("score", score),
+                        .string("leaderboardID", leaderboardID),
+                        .string("speed", difficulty.rawValue)
+                    ]
+                )
                 Task { [weak self] in
                     guard let self else { return }
                     await self.verifyRemoteBestAfterSubmit(
@@ -212,13 +282,17 @@ public final class GameCenterService: LeaderboardService, @unchecked Sendable {
             return cached
         }
 
-        return await withCheckedContinuation { continuation in
+        return await withCheckedContinuation { (continuation: CheckedContinuation<GKLeaderboard?, Never>) in
             GKLeaderboard.loadLeaderboards(IDs: [id]) { [weak self] leaderboards, error in
                 if let error {
-                    let nsError = error as NSError
                     AppLog.error(
-                        AppLog.game + AppLog.leaderboard,
-                        "🏆 Failed loading leaderboard \(id): \(error.localizedDescription) (domain: \(nsError.domain), code: \(nsError.code), userInfo: \(nsError.userInfo))"
+                        AppLog.leaderboard + AppLog.game,
+                        "LEADERBOARD_LOAD",
+                        outcome: .failed,
+                        fields: [
+                            .reason("gamekit_error"),
+                            .string("leaderboardID", id)
+                        ] + AppLog.Field.error(error)
                     )
                     continuation.resume(returning: nil)
                     return
@@ -226,17 +300,28 @@ public final class GameCenterService: LeaderboardService, @unchecked Sendable {
 
                 guard let leaderboard = leaderboards?.first else {
                     AppLog.info(
-                        AppLog.game + AppLog.leaderboard,
-                        "🏆 No leaderboard returned for id \(id)"
+                        AppLog.leaderboard + AppLog.game,
+                        "LEADERBOARD_LOAD",
+                        outcome: .skipped,
+                        fields: [
+                            .reason("leaderboard_not_returned"),
+                            .string("leaderboardID", id)
+                        ]
                     )
                     continuation.resume(returning: nil)
                     return
                 }
 
-                let metadata = "releaseState=\(leaderboard.releaseState.rawValue), isHidden=\(leaderboard.isHidden), activityIdentifier=\(leaderboard.activityIdentifier)"
                 AppLog.info(
-                    AppLog.game + AppLog.leaderboard,
-                    "🏆 Loaded leaderboard metadata for \(id): \(metadata)"
+                    AppLog.leaderboard + AppLog.game,
+                    "LEADERBOARD_LOAD",
+                    outcome: .succeeded,
+                    fields: [
+                        .string("leaderboardID", id),
+                        .string("releaseState", String(leaderboard.releaseState.rawValue)),
+                        .bool("isHidden", leaderboard.isHidden),
+                        .string("activityIdentifier", leaderboard.activityIdentifier)
+                    ]
                 )
 
                 self?.leaderboardCacheLock.withLock {
@@ -248,29 +333,46 @@ public final class GameCenterService: LeaderboardService, @unchecked Sendable {
     }
 
     private func loadLocalPlayerBestScore(from leaderboard: GKLeaderboard) async -> Int? {
-        await withCheckedContinuation { continuation in
+        await withCheckedContinuation { (continuation: CheckedContinuation<Int?, Never>) in
             leaderboard.loadEntries(
                 for: .global,
                 timeScope: .allTime,
                 range: NSRange(location: 1, length: 1)
             ) { localPlayerEntry, _, _, error in
                 if let error {
-                    let nsError = error as NSError
                     AppLog.error(
-                        AppLog.game + AppLog.leaderboard,
-                        "🏆 Failed loading local player entry: \(error.localizedDescription) (domain: \(nsError.domain), code: \(nsError.code), userInfo: \(nsError.userInfo))"
+                        AppLog.leaderboard + AppLog.game,
+                        "LOCAL_PLAYER_ENTRY_LOAD",
+                        outcome: .failed,
+                        fields: [
+                            .reason("gamekit_error")
+                        ] + AppLog.Field.error(error)
                     )
                     continuation.resume(returning: nil)
                     return
                 }
 
                 guard let score = localPlayerEntry?.score else {
-                    AppLog.info(AppLog.game + AppLog.leaderboard, "🏆 Local player has no score entry yet")
+                    AppLog.info(
+                        AppLog.leaderboard + AppLog.game,
+                        "LOCAL_PLAYER_ENTRY_LOAD",
+                        outcome: .skipped,
+                        fields: [
+                            .reason("no_local_score_entry")
+                        ]
+                    )
                     continuation.resume(returning: nil)
                     return
                 }
 
-                AppLog.info(AppLog.game + AppLog.leaderboard, "🏆 Loaded remote best score \(score)")
+                AppLog.info(
+                    AppLog.leaderboard + AppLog.game,
+                    "LOCAL_PLAYER_ENTRY_LOAD",
+                    outcome: .succeeded,
+                    fields: [
+                        .int64("score", Int64(score))
+                    ]
+                )
                 continuation.resume(returning: score)
             }
         }
@@ -289,8 +391,16 @@ public final class GameCenterService: LeaderboardService, @unchecked Sendable {
             let verifiedBest = await fetchLocalPlayerBestScore(for: difficulty)
             if let verifiedBest {
                 AppLog.info(
-                    AppLog.game + AppLog.leaderboard,
-                    "🏆 Verified remote best after submit on \(leaderboardID): \(verifiedBest) (submitted: \(submittedScore), attempt: \(attempt))"
+                    AppLog.leaderboard + AppLog.game,
+                    "SCORE_VERIFY_REMOTE_BEST",
+                    outcome: .succeeded,
+                    fields: [
+                        .string("leaderboardID", leaderboardID),
+                        .int("verifiedBest", verifiedBest),
+                        .int("submittedScore", submittedScore),
+                        .int("attempt", attempt),
+                        .string("speed", difficulty.rawValue)
+                    ]
                 )
                 return
             }
@@ -299,10 +409,17 @@ public final class GameCenterService: LeaderboardService, @unchecked Sendable {
         // All three verification attempts failed — treat the submission as unconfirmed and
         // re-queue as pending so the next auth-change or lifecycle trigger retries it.
         let improved = pendingScoreStore?.updatePendingBestScoreIfHigher(submittedScore, for: difficulty) ?? false
-        AppLog.info(
-            AppLog.game + AppLog.leaderboard,
-            "🏆 Could not verify remote best after submit on \(leaderboardID) after 3 attempts – re-queued as pending (improved: \(improved))"
+        AppLog.warning(
+            AppLog.leaderboard + AppLog.game,
+            "SCORE_VERIFY_REMOTE_BEST",
+            outcome: .failed,
+            fields: [
+                .reason("remote_best_unavailable"),
+                .string("leaderboardID", leaderboardID),
+                .int("submittedScore", submittedScore),
+                .bool("pendingImproved", improved),
+                .string("speed", difficulty.rawValue)
+            ]
         )
     }
 }
-

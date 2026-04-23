@@ -29,7 +29,14 @@ final class WatchBestScoreRelayReceiver: NSObject {
 
     func activate() {
         guard let session else {
-            AppLog.info(AppLog.game + AppLog.leaderboard, "🏆 iPhone watch relay receiver unavailable: WCSession not supported")
+            AppLog.info(
+                AppLog.leaderboard + AppLog.lifecycle,
+                "WATCH_RELAY_RECEIVER_ACTIVATE",
+                outcome: .skipped,
+                fields: [
+                    .reason("wc_session_not_supported")
+                ]
+            )
             return
         }
         session.activate()
@@ -44,15 +51,23 @@ extension WatchBestScoreRelayReceiver: WCSessionDelegate {
     ) {
         if let error {
             AppLog.error(
-                AppLog.game + AppLog.leaderboard,
-                "🏆 iPhone watch relay receiver activation failed: \(error.localizedDescription)"
+                AppLog.leaderboard + AppLog.lifecycle,
+                "WATCH_RELAY_RECEIVER_ACTIVATE",
+                outcome: .failed,
+                fields: [
+                    .reason("activation_failed")
+                ] + AppLog.Field.error(error)
             )
             return
         }
 
         AppLog.info(
-            AppLog.game + AppLog.leaderboard,
-            "🏆 iPhone watch relay receiver activated (state: \(activationState.rawValue))"
+            AppLog.leaderboard + AppLog.lifecycle,
+            "WATCH_RELAY_RECEIVER_ACTIVATE",
+            outcome: .succeeded,
+            fields: [
+                .int("activationState", activationState.rawValue)
+            ]
         )
     }
 
@@ -65,19 +80,39 @@ extension WatchBestScoreRelayReceiver: WCSessionDelegate {
     func session(_ session: WCSession, didReceiveUserInfo userInfo: [String: Any]) {
         guard let payload = WatchBestScoreRelayPayload.from(userInfo: userInfo) else {
             AppLog.error(
-                AppLog.game + AppLog.leaderboard,
-                "🏆 iPhone watch relay receiver dropped invalid payload: \(userInfo)"
+                AppLog.leaderboard + AppLog.lifecycle,
+                "WATCH_RELAY_PAYLOAD_RECEIVE",
+                outcome: .failed,
+                fields: [
+                    .reason("invalid_payload"),
+                    .int("keyCount", userInfo.count)
+                ]
             )
             return
         }
 
         guard let difficulty = payload.difficulty else {
             AppLog.error(
-                AppLog.game + AppLog.leaderboard,
-                "🏆 iPhone watch relay receiver dropped payload with invalid difficulty: \(payload.difficultyRawValue)"
+                AppLog.leaderboard + AppLog.lifecycle,
+                "WATCH_RELAY_PAYLOAD_RECEIVE",
+                outcome: .failed,
+                fields: [
+                    .reason("invalid_difficulty"),
+                    .string("difficulty", payload.difficultyRawValue)
+                ]
             )
             return
         }
+
+        AppLog.debug(
+            AppLog.leaderboard + AppLog.lifecycle,
+            "WATCH_RELAY_PAYLOAD_RECEIVE",
+            outcome: .succeeded,
+            fields: [
+                .int("score", payload.score),
+                .string("difficulty", difficulty.rawValue)
+            ]
+        )
 
         _ = ingestionService.ingest(score: payload.score, difficulty: difficulty)
         Task {

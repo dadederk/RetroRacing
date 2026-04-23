@@ -32,9 +32,12 @@ extension GameViewModel {
         pendingFriendOvertakeAnnouncement = nil
         scene?.setUpcomingFriendMilestones([])
 
-        // Record this restart against the daily play limit, if enabled.
-        // This ensures each "round" (start or restart) counts toward the limit.
-        playLimitService?.recordGamePlayed(on: Date())
+        // Record this restart against the daily play limit, unless a special event
+        // is active (event rounds should never consume free-tier daily plays).
+        let now = Date()
+        if specialEventService?.isEventActive(on: now) != true {
+            playLimitService?.recordGamePlayed(on: now)
+        }
 
         Task { [weak self] in
             guard let self else { return }
