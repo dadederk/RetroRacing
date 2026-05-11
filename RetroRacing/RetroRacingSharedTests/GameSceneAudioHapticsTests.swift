@@ -1102,6 +1102,28 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         XCTAssertEqual(laneCuePlayer.stopAllCalls.last, 0.2)
     }
 
+    func testGivenRunningSceneWhenEndingGameplaySessionThenUpdatesNoLongerTriggerFeedback() {
+        // Given
+        scene.unpauseGameplay()
+        scene.update(1.0)
+        let gridUpdates = delegate.gridUpdatesCount
+        let hapticUpdates = haptics.gridUpdates
+        let tickCalls = laneCuePlayer.tickCalls
+
+        // When
+        scene.endGameplaySession(fadeDuration: 0)
+        scene.update(3.0)
+
+        // Then
+        XCTAssertTrue(scene.gameState.isPaused)
+        XCTAssertTrue(scene.isPaused)
+        XCTAssertEqual(soundPlayer.stopAllCalls.last, 0)
+        XCTAssertEqual(laneCuePlayer.stopAllCalls.last, 0)
+        XCTAssertEqual(delegate.gridUpdatesCount, gridUpdates)
+        XCTAssertEqual(haptics.gridUpdates, hapticUpdates)
+        XCTAssertEqual(laneCuePlayer.tickCalls, tickCalls)
+    }
+
     func testGivenSceneWhenSettingSoundVolumeThenBothAudioPlayersReceiveVolume() {
         // Given
 
@@ -1179,6 +1201,109 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         // Then
         XCTAssertTrue(didComplete)
         XCTAssertTrue(testScene.gameState.isPaused)
+    }
+
+    func testGivenPendingStartCompletionWhenEndingGameplaySessionThenStartCompletionDoesNotUnpause() {
+        // Given
+        let delayedPlayer = MockSoundEffectPlayer()
+        delayedPlayer.shouldCallCompletion = false
+        let delayedLaneCuePlayer = MockLaneCuePlayer()
+        let loader = PlatformFactories.makeImageLoader()
+        let testScene = GameScene.scene(
+            size: CGSize(width: 200, height: 200),
+            difficulty: .rapid,
+            theme: nil,
+            imageLoader: loader,
+            soundPlayer: delayedPlayer,
+            laneCuePlayer: delayedLaneCuePlayer,
+            hapticController: nil,
+            audioFeedbackMode: .retro
+        )
+        let testView = SKView(frame: CGRect(origin: .zero, size: CGSize(width: 200, height: 200)))
+        testView.presentScene(testScene)
+        testScene.endGameplaySession(fadeDuration: 0)
+
+        // When
+        let didComplete = delayedPlayer.completePending(for: .start)
+
+        // Then
+        XCTAssertTrue(didComplete)
+        XCTAssertTrue(testScene.gameState.isPaused)
+        XCTAssertTrue(testScene.isPaused)
+        XCTAssertEqual(delayedPlayer.stopAllCalls.last, 0)
+        XCTAssertEqual(delayedLaneCuePlayer.stopAllCalls.last, 0)
+    }
+
+    func testGivenPendingCrashResolutionWhenEndingGameplaySessionThenCollisionCallbackIsCancelled() async {
+        // Given
+        let nonCompletingPlayer = MockSoundEffectPlayer()
+        nonCompletingPlayer.shouldCallCompletion = false
+        let nonCompletingLaneCuePlayer = MockLaneCuePlayer()
+        let fallbackHaptics = MockHapticFeedbackController()
+        let loader = PlatformFactories.makeImageLoader()
+        let testScene = GameScene.scene(
+            size: CGSize(width: 200, height: 200),
+            difficulty: .rapid,
+            theme: nil,
+            imageLoader: loader,
+            soundPlayer: nonCompletingPlayer,
+            laneCuePlayer: nonCompletingLaneCuePlayer,
+            hapticController: fallbackHaptics,
+            audioFeedbackMode: .retro
+        )
+        testScene.crashResolutionFallbackDuration = 0.05
+        let fallbackDelegate = MockGameSceneDelegate(haptics: fallbackHaptics)
+        testScene.gameDelegate = fallbackDelegate
+        let testView = SKView(frame: CGRect(origin: .zero, size: CGSize(width: 200, height: 200)))
+        testView.presentScene(testScene)
+        testScene.handleCrash()
+
+        // When
+        testScene.endGameplaySession(fadeDuration: 0)
+        try? await Task.sleep(for: .milliseconds(120))
+
+        // Then
+        XCTAssertTrue(testScene.gameState.isPaused)
+        XCTAssertTrue(testScene.isPaused)
+        XCTAssertEqual(nonCompletingPlayer.stopAllCalls.last, 0)
+        XCTAssertEqual(nonCompletingLaneCuePlayer.stopAllCalls.last, 0)
+        XCTAssertEqual(fallbackDelegate.crashes, 0)
+    }
+
+    func testGivenPendingFailCompletionWhenEndingGameplaySessionThenCollisionCallbackIsCancelled() {
+        // Given
+        let nonCompletingPlayer = MockSoundEffectPlayer()
+        nonCompletingPlayer.shouldCallCompletion = false
+        let nonCompletingLaneCuePlayer = MockLaneCuePlayer()
+        let fallbackHaptics = MockHapticFeedbackController()
+        let loader = PlatformFactories.makeImageLoader()
+        let testScene = GameScene.scene(
+            size: CGSize(width: 200, height: 200),
+            difficulty: .rapid,
+            theme: nil,
+            imageLoader: loader,
+            soundPlayer: nonCompletingPlayer,
+            laneCuePlayer: nonCompletingLaneCuePlayer,
+            hapticController: fallbackHaptics,
+            audioFeedbackMode: .retro
+        )
+        let fallbackDelegate = MockGameSceneDelegate(haptics: fallbackHaptics)
+        testScene.gameDelegate = fallbackDelegate
+        let testView = SKView(frame: CGRect(origin: .zero, size: CGSize(width: 200, height: 200)))
+        testView.presentScene(testScene)
+        testScene.handleCrash()
+        testScene.endGameplaySession(fadeDuration: 0)
+
+        // When
+        let didComplete = nonCompletingPlayer.completePending(for: .fail)
+
+        // Then
+        XCTAssertTrue(didComplete)
+        XCTAssertTrue(testScene.gameState.isPaused)
+        XCTAssertTrue(testScene.isPaused)
+        XCTAssertEqual(nonCompletingPlayer.stopAllCalls.last, 0)
+        XCTAssertEqual(nonCompletingLaneCuePlayer.stopAllCalls.last, 0)
+        XCTAssertEqual(fallbackDelegate.crashes, 0)
     }
 
     func testGivenMissingCrashCompletionWhenFallbackExpiresThenCollisionCallbackIsNotified() async {

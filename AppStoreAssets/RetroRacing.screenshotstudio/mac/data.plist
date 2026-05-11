@@ -35,6 +35,43 @@
 			<string>#0091FF</string>
 			<key>hideDeviceFrame</key>
 			<false/>
+			<key>magnifier</key>
+			<dict>
+				<key>centerUnitX</key>
+				<real>0.5</real>
+				<key>centerUnitY</key>
+				<real>0.5</real>
+				<key>circularDiameterUnit</key>
+				<real>0.32</real>
+				<key>isEnabled</key>
+				<false/>
+				<key>lensBorderColor</key>
+				<string>#FFFFFF</string>
+				<key>lensBorderWidthPoints</key>
+				<real>4</real>
+				<key>lensDropShadowColor</key>
+				<string>#00000059</string>
+				<key>lensDropShadowEnabled</key>
+				<false/>
+				<key>lensDropShadowRadiusPoints</key>
+				<real>8</real>
+				<key>lensDropShadowXOffsetPoints</key>
+				<real>0</real>
+				<key>lensDropShadowYOffsetPoints</key>
+				<real>4</real>
+				<key>lensShape</key>
+				<string>circle</string>
+				<key>rectCornerRadiusUnit</key>
+				<real>0.12</real>
+				<key>rectHeightUnit</key>
+				<real>0.45</real>
+				<key>rectWidthUnit</key>
+				<real>0.5</real>
+				<key>scaleFactor</key>
+				<real>1.5</real>
+				<key>snapPosition</key>
+				<string>center</string>
+			</dict>
 			<key>overrideColor</key>
 			<false/>
 			<key>overrideDevicePosition</key>
@@ -129,6 +166,43 @@
 			<string>#0091FF</string>
 			<key>hideDeviceFrame</key>
 			<false/>
+			<key>magnifier</key>
+			<dict>
+				<key>centerUnitX</key>
+				<real>0.5</real>
+				<key>centerUnitY</key>
+				<real>0.5</real>
+				<key>circularDiameterUnit</key>
+				<real>0.32</real>
+				<key>isEnabled</key>
+				<false/>
+				<key>lensBorderColor</key>
+				<string>#FFFFFF</string>
+				<key>lensBorderWidthPoints</key>
+				<real>4</real>
+				<key>lensDropShadowColor</key>
+				<string>#00000059</string>
+				<key>lensDropShadowEnabled</key>
+				<false/>
+				<key>lensDropShadowRadiusPoints</key>
+				<real>8</real>
+				<key>lensDropShadowXOffsetPoints</key>
+				<real>0</real>
+				<key>lensDropShadowYOffsetPoints</key>
+				<real>4</real>
+				<key>lensShape</key>
+				<string>circle</string>
+				<key>rectCornerRadiusUnit</key>
+				<real>0.12</real>
+				<key>rectHeightUnit</key>
+				<real>0.45</real>
+				<key>rectWidthUnit</key>
+				<real>0.5</real>
+				<key>scaleFactor</key>
+				<real>1.5</real>
+				<key>snapPosition</key>
+				<string>center</string>
+			</dict>
 			<key>overrideColor</key>
 			<false/>
 			<key>overrideDevicePosition</key>
@@ -223,6 +297,43 @@
 			<string>#0091FF</string>
 			<key>hideDeviceFrame</key>
 			<false/>
+			<key>magnifier</key>
+			<dict>
+				<key>centerUnitX</key>
+				<real>0.5</real>
+				<key>centerUnitY</key>
+				<real>0.5</real>
+				<key>circularDiameterUnit</key>
+				<real>0.32</real>
+				<key>isEnabled</key>
+				<false/>
+				<key>lensBorderColor</key>
+				<string>#FFFFFF</string>
+				<key>lensBorderWidthPoints</key>
+				<real>4</real>
+				<key>lensDropShadowColor</key>
+				<string>#00000059</string>
+				<key>lensDropShadowEnabled</key>
+				<false/>
+				<key>lensDropShadowRadiusPoints</key>
+				<real>8</real>
+				<key>lensDropShadowXOffsetPoints</key>
+				<real>0</real>
+				<key>lensDropShadowYOffsetPoints</key>
+				<real>4</real>
+				<key>lensShape</key>
+				<string>circle</string>
+				<key>rectCornerRadiusUnit</key>
+				<real>0.12</real>
+				<key>rectHeightUnit</key>
+				<real>0.45</real>
+				<key>rectWidthUnit</key>
+				<real>0.5</real>
+				<key>scaleFactor</key>
+				<real>1.5</real>
+				<key>snapPosition</key>
+				<string>center</string>
+			</dict>
 			<key>overrideColor</key>
 			<false/>
 			<key>overrideDevicePosition</key>
@@ -317,6 +428,43 @@
 			<string>#0091FF</string>
 			<key>hideDeviceFrame</key>
 			<false/>
+			<key>magnifier</key>
+			<dict>
+				<key>centerUnitX</key>
+				<real>0.5</real>
+				<key>centerUnitY</key>
+				<real>0.5</real>
+				<key>circularDiameterUnit</key>
+				<real>0.32</real>
+				<key>isEnabled</key>
+				<false/>
+				<key>lensBorderColor</key>
+				<string>#FFFFFF</string>
+				<key>lensBorderWidthPoints</key>
+				<real>4</real>
+				<key>lensDropShadowColor</key>
+				<string>#00000059</string>
+				<key>lensDropShadowEnabled</key>
+				<false/>
+				<key>lensDropShadowRadiusPoints</key>
+				<real>8</real>
+				<key>lensDropShadowXOffsetPoints</key>
+				<real>0</real>
+				<key>lensDropShadowYOffsetPoints</key>
+				<real>4</real>
+				<key>lensShape</key>
+				<string>circle</string>
+				<key>rectCornerRadiusUnit</key>
+				<real>0.12</real>
+				<key>rectHeightUnit</key>
+				<real>0.45</real>
+				<key>rectWidthUnit</key>
+				<real>0.5</real>
+				<key>scaleFactor</key>
+				<real>1.5</real>
+				<key>snapPosition</key>
+				<string>center</string>
+			</dict>
 			<key>overrideColor</key>
 			<false/>
 			<key>overrideDevicePosition</key>
@@ -411,6 +559,43 @@
 			<string>#0091FF</string>
 			<key>hideDeviceFrame</key>
 			<false/>
+			<key>magnifier</key>
+			<dict>
+				<key>centerUnitX</key>
+				<real>0.5</real>
+				<key>centerUnitY</key>
+				<real>0.5</real>
+				<key>circularDiameterUnit</key>
+				<real>0.32</real>
+				<key>isEnabled</key>
+				<false/>
+				<key>lensBorderColor</key>
+				<string>#FFFFFF</string>
+				<key>lensBorderWidthPoints</key>
+				<real>4</real>
+				<key>lensDropShadowColor</key>
+				<string>#00000059</string>
+				<key>lensDropShadowEnabled</key>
+				<false/>
+				<key>lensDropShadowRadiusPoints</key>
+				<real>8</real>
+				<key>lensDropShadowXOffsetPoints</key>
+				<real>0</real>
+				<key>lensDropShadowYOffsetPoints</key>
+				<real>4</real>
+				<key>lensShape</key>
+				<string>circle</string>
+				<key>rectCornerRadiusUnit</key>
+				<real>0.12</real>
+				<key>rectHeightUnit</key>
+				<real>0.45</real>
+				<key>rectWidthUnit</key>
+				<real>0.5</real>
+				<key>scaleFactor</key>
+				<real>1.5</real>
+				<key>snapPosition</key>
+				<string>center</string>
+			</dict>
 			<key>overrideColor</key>
 			<false/>
 			<key>overrideDevicePosition</key>

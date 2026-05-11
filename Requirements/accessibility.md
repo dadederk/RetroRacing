@@ -126,6 +126,7 @@ Each conditional-default setting:
 ## Pause/Resume Control (Universal, watchOS, tvOS)
 
 - Navigation toolbar includes a top-trailing pause/resume button; it must remain accessible with clear labels (`pause` / `resume` strings).
+- watchOS live-menu exit uses the same explicit, accessible menu button but ends the active gameplay session before returning to the menu so gameplay, haptics, and pending crash/start callbacks cannot continue behind the menu.
 - The `?` tutorial action pauses gameplay while presented and restores state appropriately on dismiss (manual open restores prior state; auto VoiceOver open resumes only when it introduced the pause).
 - Button toggles gameplay without resetting grid or score; grid/haptics stay paused while in that state.
 - Keep hints minimal—label alone should be sufficient; rely on localization entries for VoiceOver output.

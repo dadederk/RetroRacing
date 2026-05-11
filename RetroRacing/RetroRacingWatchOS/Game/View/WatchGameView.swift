@@ -49,6 +49,7 @@ struct WatchGameView: View {
     @State private var isInGameHelpPresented = false
     @State private var helpPresentationContext: HelpPresentationContext?
     @State private var pendingGameOverDismissAction: GameOverDismissAction = .none
+    @State private var hasEndedGameplaySession = false
     @FocusState private var isCrownFocused: Bool
     @Environment(\.dismiss) private var dismiss
     @Environment(\.scenePhase) private var scenePhase
@@ -355,7 +356,9 @@ struct WatchGameView: View {
             .interactiveDismissDisabled(true)
         }
         .onDisappear {
-            scene.stopAllSounds()
+            if hasEndedGameplaySession == false {
+                scene.stopAllSounds()
+            }
             crownIdleTask?.cancel()
             crownIdleTask = nil
         }
@@ -401,7 +404,7 @@ struct WatchGameView: View {
         .toolbar {
             ToolbarItem(placement: .topBarLeading) {
                 Button {
-                    dismiss()
+                    returnToMenu()
                 } label: {
                     Image(systemName: "xmark")
                 }
@@ -420,6 +423,7 @@ struct WatchGameView: View {
                 .buttonStyle(.glass)
             }
         }
+        .navigationBarBackButtonHidden(true)
         .accessibilityAction(.magicTap) {
             togglePause()
         }
@@ -471,11 +475,7 @@ struct WatchGameView: View {
     }
 
     private func finishFromGameOver() {
-        // Ensure gameplay cannot continue in the background after returning to menu.
-        scene.setOverlayPauseLock(true)
-        scene.pauseGameplay()
-        scene.stopAllSounds(fadeDuration: 0)
-        isUserPaused = false
+        endGameplaySessionBeforeLeaving()
         gameOverScore = 0
         gameOverBestScore = 0
         gameOverDifficulty = selectedDifficulty
@@ -483,6 +483,25 @@ struct WatchGameView: View {
         isNewHighScore = false
         speedIncreaseImminent = false
         dismiss()
+    }
+
+    private func returnToMenu() {
+        endGameplaySessionBeforeLeaving()
+        dismiss()
+    }
+
+    private func endGameplaySessionBeforeLeaving() {
+        guard hasEndedGameplaySession == false else { return }
+        hasEndedGameplaySession = true
+        scene.endGameplaySession(fadeDuration: 0)
+        scenePaused = scene.gameState.isPaused
+        isUserPaused = false
+        speedIncreaseImminent = false
+        inputAdapter = nil
+        scene.gameDelegate = nil
+        delegate = nil
+        crownIdleTask?.cancel()
+        crownIdleTask = nil
     }
 
     private func attemptAutoPresentVoiceOverHelpIfNeeded() {
@@ -689,6 +708,7 @@ struct WatchGameView: View {
     }
 
     private func handleSpeedWarningFeedback(oldValue: Bool, newValue: Bool) {
+        guard hasEndedGameplaySession == false else { return }
         guard oldValue == false, newValue else { return }
         let selectedMode = SpeedWarningFeedbackPreference.currentSelection(
             from: InfrastructureDefaults.userDefaults,

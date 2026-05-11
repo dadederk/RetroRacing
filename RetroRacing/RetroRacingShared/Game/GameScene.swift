@@ -280,6 +280,17 @@ public class GameScene: SKScene {
         isOverlayPauseLocked = isLocked
     }
 
+    /// Stops gameplay permanently for a view/session dismissal.
+    public func endGameplaySession(fadeDuration: TimeInterval) {
+        isOverlayPauseLocked = true
+        updatePauseState(true)
+        isPaused = true
+        cancelStartPlaybackIfNeeded()
+        cancelCrashResolutionIfNeeded()
+        stopStartPulseOnPlayerCar()
+        stopAllSounds(fadeDuration: fadeDuration)
+    }
+
     public func resume() {
         cancelCrashResolutionIfNeeded()
         roadDashPhase = 0
@@ -565,8 +576,9 @@ public class GameScene: SKScene {
     }
 
     private func playStartThenUnpause() {
+        isPaused = false
         updatePauseState(true)
-        startUnpauseFallbackTask?.cancel()
+        cancelStartPlaybackIfNeeded()
         applyStartPulseToPlayerCar()
         play(.start) { [weak self] in
             self?.finishStartPlaybackIfNeeded()
@@ -583,8 +595,7 @@ public class GameScene: SKScene {
         guard gameState.isPaused else { return }
         guard isOverlayPauseLocked == false else { return }
         stopStartPulseOnPlayerCar()
-        startUnpauseFallbackTask?.cancel()
-        startUnpauseFallbackTask = nil
+        cancelStartPlaybackIfNeeded()
         updatePauseState(false)
     }
 
@@ -600,6 +611,11 @@ public class GameScene: SKScene {
         isWaitingForCrashResolution = false
         crashResolutionFallbackTask?.cancel()
         crashResolutionFallbackTask = nil
+    }
+
+    private func cancelStartPlaybackIfNeeded() {
+        startUnpauseFallbackTask?.cancel()
+        startUnpauseFallbackTask = nil
     }
 
     func playFeedback(event: AudioFeedbackEvent) {
