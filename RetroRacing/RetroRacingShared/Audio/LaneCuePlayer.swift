@@ -117,6 +117,11 @@ public final class AVLaneCuePlayer: LaneCuePlayer {
         set { graph.testForceStartEngineFailure = newValue }
     }
 
+    var _testForcePlayerStartReadinessFailure: Bool {
+        get { graph.testForcePlayerStartReadinessFailure }
+        set { graph.testForcePlayerStartReadinessFailure = newValue }
+    }
+
     public init(sampleRate: Double = 44_100, profile: LaneCueProfile = .defaultPleasant) {
         let format = AVAudioFormat(standardFormatWithSampleRate: sampleRate, channels: 1)
         self.buffers = LaneCueBufferFactory(format: format, profile: profile).makeBuffers()

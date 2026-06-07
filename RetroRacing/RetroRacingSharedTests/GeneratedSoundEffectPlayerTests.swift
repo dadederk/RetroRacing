@@ -83,6 +83,25 @@ final class GeneratedSoundEffectPlayerTests: XCTestCase {
         XCTAssertGreaterThan(sut._testEngineRestartFailureCount, 0)
     }
 
+    func testGivenPlayerStartReadinessFailureWhenPlayingWithCompletionThenCompletionStillFiresOnce() async {
+        // Given
+        let sut = AVGeneratedSoundEffectPlayer()
+        sut._testForcePlayerStartReadinessFailure = true
+        let completionCalled = expectation(description: "completion called")
+        var callCount = 0
+
+        // When
+        sut.play(.start) {
+            callCount += 1
+            completionCalled.fulfill()
+        }
+
+        // Then
+        await fulfillment(of: [completionCalled], timeout: 1.0)
+        XCTAssertEqual(callCount, 1)
+        XCTAssertGreaterThan(sut._testPlaybackSkippedCount, 0)
+    }
+
     func testGivenGraphMarkedDirtyWhenPlayingThenGraphRebuildIsAttemptedAndCompletionStillFires() async {
         // Given
         let sut = AVGeneratedSoundEffectPlayer()

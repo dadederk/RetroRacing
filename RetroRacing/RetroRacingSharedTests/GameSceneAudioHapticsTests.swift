@@ -1369,6 +1369,36 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         XCTAssertGreaterThan(failingLaneCuePlayer._testPlaybackSkippedCount, 0)
     }
 
+    func testGivenLaneCuePlayerStartReadinessFailureWhenUpdatingThenGridProgressContinuesWithoutCrash() {
+        // Given
+        let fallbackSoundPlayer = MockSoundEffectPlayer()
+        let failingLaneCuePlayer = AVLaneCuePlayer()
+        failingLaneCuePlayer._testForcePlayerStartReadinessFailure = true
+        let fallbackHaptics = MockHapticFeedbackController()
+        let loader = PlatformFactories.makeImageLoader()
+        let testScene = GameScene.scene(
+            size: CGSize(width: 200, height: 200),
+            difficulty: .rapid,
+            theme: nil,
+            imageLoader: loader,
+            soundPlayer: fallbackSoundPlayer,
+            laneCuePlayer: failingLaneCuePlayer,
+            hapticController: fallbackHaptics,
+            audioFeedbackMode: .cueLanePulses
+        )
+        let fallbackDelegate = MockGameSceneDelegate(haptics: fallbackHaptics)
+        testScene.gameDelegate = fallbackDelegate
+        let testView = SKView(frame: CGRect(origin: .zero, size: CGSize(width: 200, height: 200)))
+        testView.presentScene(testScene)
+
+        // When
+        testScene.update(1.0)
+
+        // Then
+        XCTAssertEqual(fallbackDelegate.gridUpdatesCount, 1)
+        XCTAssertGreaterThan(failingLaneCuePlayer._testPlaybackSkippedCount, 0)
+    }
+
     func testGivenUnavailableGeneratedAudioWhenResumingThenSceneUnpausesWithoutWaitingFallback() async {
         // Given
         let failingSoundPlayer = AVGeneratedSoundEffectPlayer()

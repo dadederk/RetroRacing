@@ -32,6 +32,7 @@ final class LaneCuePlaybackGraph {
     private var engineObserverToken: NSObjectProtocol?
 
     var testForceStartEngineFailure = false
+    var testForcePlayerStartReadinessFailure = false
 
     init(format: AVAudioFormat?, initialVolume: Float) {
         self.format = format
@@ -67,17 +68,14 @@ final class LaneCuePlaybackGraph {
             return
         }
         let node = playerNode(for: role)
-        guard node.engine === engine else {
-            markGraphDirty(reason: "node detached before \(context)")
-            markPlaybackSkipped(reason: "node detached before \(context)")
-            return
-        }
-
         node.stop()
         node.scheduleBuffer(buffer, at: nil, options: [.interrupts], completionHandler: nil)
-        guard engine.isRunning else {
-            markGraphDirty(reason: "engine stopped before \(context)")
-            markPlaybackSkipped(reason: "engine stopped before \(context)")
+        let readiness = playerStartReadiness(node: node, context: context)
+        guard readiness.isReady else {
+            if readiness.reason != "app_not_active" {
+                markGraphDirty(reason: "\(readiness.reason) before \(context)")
+            }
+            markPlaybackSkipped(reason: "\(readiness.reason) before \(context)")
             node.stop()
             return
         }
@@ -147,6 +145,7 @@ final class LaneCuePlaybackGraph {
     @discardableResult
     private func ensureEngineReady(context: String) -> Bool {
         guard engineHealthy else { return false }
+        guard AudioPlaybackReadiness.prepareSessionForEngineStart(context: context) else { return false }
 
         if needsGraphRebuild {
             rebuildGraph(reason: "pending dirty graph before \(context)")
@@ -180,6 +179,10 @@ final class LaneCuePlaybackGraph {
                     userInfo: [NSLocalizedDescriptionKey: "Forced engine start failure"]
                 )
             }
+            guard AudioPlaybackReadiness.prepareSessionForEngineStart(context: context) else {
+                return false
+            }
+            engine.prepare()
             try engine.start()
             engineRestartSuccessCount += 1
             AppLog.info(
@@ -215,6 +218,20 @@ final class LaneCuePlaybackGraph {
     private func stopImmediately() {
         tickPlayer.stop()
         movePlayer.stop()
+    }
+
+    private func playerStartReadiness(
+        node: AVAudioPlayerNode,
+        context: String
+    ) -> AudioPlaybackReadinessResult {
+        if testForcePlayerStartReadinessFailure {
+            return .unavailable("forced_player_start_readiness_failure")
+        }
+        return AudioPlaybackReadiness.playerNodeCanStart(
+            engine: engine,
+            node: node,
+            context: context
+        )
     }
 
     private func configureAudioGraph(format: AVAudioFormat) {

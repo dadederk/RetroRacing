@@ -11,6 +11,11 @@ public final class AVGeneratedSoundEffectPlayer: SoundEffectPlayer {
         set { graph.testForceStartEngineFailure = newValue }
     }
 
+    var _testForcePlayerStartReadinessFailure: Bool {
+        get { graph.testForcePlayerStartReadinessFailure }
+        set { graph.testForcePlayerStartReadinessFailure = newValue }
+    }
+
     public init(sampleRate: Double = 44_100, profile: GeneratedSFXProfile = .defaultProfile) {
         self.graph = GeneratedSFXPlaybackGraph(
             sampleRate: sampleRate,

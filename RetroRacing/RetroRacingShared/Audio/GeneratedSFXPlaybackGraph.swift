@@ -128,6 +128,7 @@ final class GeneratedSFXPlaybackGraph {
     private var engineObserverToken: NSObjectProtocol?
 
     var testForceStartEngineFailure = false
+    var testForcePlayerStartReadinessFailure = false
 
     init(sampleRate: Double, profile: GeneratedSFXProfile, initialVolume: Float) {
         self.profile = profile
@@ -162,9 +163,12 @@ final class GeneratedSFXPlaybackGraph {
         slot.node.stop()
         slot.node.volume = volume
         slot.node.scheduleBuffer(pool.buffer, at: nil, options: [.interrupts], completionHandler: nil)
-        guard engine.isRunning, slot.node.engine === engine else {
-            markGraphDirty(reason: "player node detached before play for \(effect.rawValue)")
-            markPlaybackSkipped(effect: effect, reason: "engine not running or node detached before play")
+        let readiness = playerStartReadiness(node: slot.node, context: "play \(effect.rawValue)")
+        guard readiness.isReady else {
+            if readiness.reason != "app_not_active" {
+                markGraphDirty(reason: "\(readiness.reason) before play for \(effect.rawValue)")
+            }
+            markPlaybackSkipped(effect: effect, reason: "\(readiness.reason) before play")
             slot.node.stop()
             pool.nextIndex = (slotIndex + 1) % pool.slots.count
             pools[effect] = pool
@@ -362,6 +366,7 @@ final class GeneratedSFXPlaybackGraph {
     @discardableResult
     private func ensureEngineReady(context: String) -> Bool {
         guard engineHealthy else { return false }
+        guard AudioPlaybackReadiness.prepareSessionForEngineStart(context: context) else { return false }
 
         if needsGraphRebuild {
             rebuildGraph(reason: "pending dirty graph before \(context)")
@@ -395,6 +400,10 @@ final class GeneratedSFXPlaybackGraph {
                     userInfo: [NSLocalizedDescriptionKey: "Forced engine start failure"]
                 )
             }
+            guard AudioPlaybackReadiness.prepareSessionForEngineStart(context: context) else {
+                return false
+            }
+            engine.prepare()
             try engine.start()
             engineRestartSuccessCount += 1
             AppLog.info(
@@ -435,7 +444,10 @@ final class GeneratedSFXPlaybackGraph {
         let completion = slot.completion
         slot.completion = nil
         pools[effect] = pool
-        completion?()
+        guard let completion else { return }
+        DispatchQueue.main.async {
+            completion()
+        }
     }
 
     private func stopImmediately() {
@@ -480,6 +492,20 @@ final class GeneratedSFXPlaybackGraph {
         DispatchQueue.main.async {
             completion()
         }
+    }
+
+    private func playerStartReadiness(
+        node: AVAudioPlayerNode,
+        context: String
+    ) -> AudioPlaybackReadinessResult {
+        if testForcePlayerStartReadinessFailure {
+            return .unavailable("forced_player_start_readiness_failure")
+        }
+        return AudioPlaybackReadiness.playerNodeCanStart(
+            engine: engine,
+            node: node,
+            context: context
+        )
     }
 
     private func markPlaybackSkipped(effect: SoundEffect, reason: String) {
