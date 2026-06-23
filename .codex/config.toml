@@ -1,0 +1,3 @@
+[mcp_servers.cupertino]
+command = "/opt/homebrew/bin/cupertino"
+args = ["serve", "--no-reap"]
