@@ -11,17 +11,11 @@ Goal: Increase App Store conversion and monetization while keeping RetroRapid! p
 - Accessibility is a core differentiator, but for broad discovery we should lead with the **game fantasy first**, then accessibility.
 - Game Center is useful for retention/fun, but not a top-of-funnel differentiator.
 
-## 2) Where `RetroRacing` Still Appears User-Facing
+## 2) User-Facing Brand Status
 
-This is the concrete user-facing occurrence still found in the app copy:
+As of 2026-06-24, user-facing app copy in `Localizable.xcstrings`, display names, screenshot captions, and About/paywall strings use **RetroRapid!**. The remaining `RetroRacing` references in the repo are internal (module names, bundle IDs, achievement prefixes, repo paths).
 
-1. `tutorial_voiceover_intro` string values still say `RetroRacing` (EN/ES/CA).
-   - File: `RetroRacing/RetroRacingShared/Localizable.xcstrings`
-   - Current lines: ~4404, ~4410, ~4416
-   - Action: Replace product name in those three values with `RetroRapid!`.
-   - Rationale: VoiceOver onboarding is a key accessibility touchpoint; naming inconsistency here undermines trust and polish.
-
-Non-user-facing references to `RetroRacing` (bundle identifiers, module names, repo paths) can remain unless/ until a technical rebrand is planned.
+Non-user-facing references to `RetroRacing` (bundle identifiers, module names, repo paths) can remain unless/until a technical rebrand is planned.
 
 ## 3) Highest-Impact Actions With Rationale
 

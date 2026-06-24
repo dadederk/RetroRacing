@@ -1,6 +1,19 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "!" : {
+
+    },
+    "%@%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@%2$@"
+          }
+        }
+      }
+    },
     "%lld life remaining" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2071,29 +2084,6 @@
         }
       }
     },
-    "finish" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ca" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Acabar"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Finish"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Finalizar"
-          }
-        }
-      }
-    },
     "event_play_unlimited_subtitle %@ %@" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2136,6 +2126,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Partidas Ilimitadas"
+          }
+        }
+      }
+    },
+    "finish" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Acabar"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finish"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finalizar"
           }
         }
       }
@@ -2761,29 +2774,6 @@
         }
       }
     },
-    "menu_engagement_prompt_rate_only" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ca" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Gaudixes del joc?"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enjoying the game?"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "¿Disfrutando el juego?"
-          }
-        }
-      }
-    },
     "menu_engagement_prompt" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2803,6 +2793,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "¿Disfrutando el juego? ¡Ayuda a RetroRapid!"
+          }
+        }
+      }
+    },
+    "menu_engagement_prompt_rate_only" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gaudixes del joc?"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enjoying the game?"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Disfrutando el juego?"
           }
         }
       }
@@ -3221,29 +3234,6 @@
         }
       }
     },
-    "paywall_limit_notice" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ca" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Parada als boxes! Has esgotat totes les partides d'avui. Torna demà per a més partides gratuïtes. O fes-te il·limitat: un cafè per a mi, partides il·limitades per a tu!"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Pit stop! You've used up all your plays for today. Come back tomorrow for more free plays. Or go unlimited: One coffee for me, unlimited plays for you!"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "¡Parada en boxes! Has agotado todas tus partidas de hoy. Vuelve mañana para más partidas gratuitas. ¿O hazte ilimitado? Un café para mí, partidas ilimitadas para ti."
-          }
-        }
-      }
-    },
     "paywall_learn_more" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3263,6 +3253,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Más información"
+          }
+        }
+      }
+    },
+    "paywall_limit_notice" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parada als boxes! Has esgotat totes les partides d'avui. Torna demà per a més partides gratuïtes. O fes-te il·limitat: un cafè per a mi, partides il·limitades per a tu!"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pit stop! You've used up all your plays for today. Come back tomorrow for more free plays. Or go unlimited: One coffee for me, unlimited plays for you!"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¡Parada en boxes! Has agotado todas tus partidas de hoy. Vuelve mañana para más partidas gratuitas. ¿O hazte ilimitado? Un café para mí, partidas ilimitadas para ti."
           }
         }
       }
@@ -3405,52 +3418,6 @@
         }
       }
     },
-    "play_limit_section_footer" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ca" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "4 partides gratuïtes cada dia."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "4 free plays every day."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "4 partidas gratuitas al día."
-          }
-        }
-      }
-    },
-    "play_limit_section_footer_first_day" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ca" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "4 partides gratuïtes cada dia. Però benvingut! 8 partides gratuïtes en el teu primer dia!"
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "4 free plays every day. But welcome! 8 free plays on your first day!"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "4 partidas gratuitas al día. ¡Pero bienvenido! ¡8 partidas gratuitas en tu primer día!"
-          }
-        }
-      }
-    },
     "play_limit_resets_in_hours %lld" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3516,6 +3483,52 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Se reinicia mañana a las 00:00"
+          }
+        }
+      }
+    },
+    "play_limit_section_footer" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "4 partides gratuïtes cada dia."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "4 free plays every day."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "4 partidas gratuitas al día."
+          }
+        }
+      }
+    },
+    "play_limit_section_footer_first_day" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ca" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "4 partides gratuïtes cada dia. Però benvingut! 8 partides gratuïtes en el teu primer dia!"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "4 free plays every day. But welcome! 8 free plays on your first day!"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "4 partidas gratuitas al día. ¡Pero bienvenido! ¡8 partidas gratuitas en tu primer día!"
           }
         }
       }

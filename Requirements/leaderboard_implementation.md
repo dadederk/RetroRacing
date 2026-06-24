@@ -155,7 +155,7 @@ Create one Classic leaderboard in App Store Connect for each **Leaderboard ID** 
 2. **Game Center** → In the app's sidebar: **Services** → **Game Center** (or **App** → **Game Center**).
 3. **Leaderboards** → Under Game Center, open **Leaderboards**.
 4. **Leaderboard Set (optional)**  
-   Create a **Leaderboard Set** (e.g. "RetroRacing Leaderboards") if you want one entry that groups Cruise / Fast / Rapid. Add leaderboards to the set. Otherwise create **Classic Leaderboards** directly.
+   Create a **Leaderboard Set** (e.g. "RetroRapid! Leaderboards") if you want one entry that groups Cruise / Fast / Rapid. Add leaderboards to the set. Otherwise create **Classic Leaderboards** directly.
 5. **Create each leaderboard**  
    For each ID below (or each platform × difficulty you ship):
    - Click **+** / **Add Leaderboard**.

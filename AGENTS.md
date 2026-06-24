@@ -1,6 +1,6 @@
 # AGENTS.md
 
-AI Agent development guidelines for RetroRacing — A cross-platform retro racing game for all Apple platforms.
+AI Agent development guidelines for **RetroRacing** (repo/project name). The user-facing product brand is **RetroRapid!**.
 
 ## Quick Start
 
@@ -20,6 +20,19 @@ AI Agent development guidelines for RetroRacing — A cross-platform retro racin
 8. **NEVER** duplicate logic between platforms — refactor to shared module
 9. **NEVER** force unwrap optionals — use safe unwrapping patterns
 10. **ALWAYS** use standard file headers for new Swift source files with `Created by Dani Devesa`
+
+### Brand Mark
+
+User-facing product name is **RetroRapid!** (repo/project folder remains `RetroRacing`).
+
+| Context | Treatment |
+|---|---|
+| Nav titles, settings labels, about links | `RetroRapid!` — use `BrandMark.text`, `BrandMark.phrase`, or `BrandMark.fullName` |
+| Mid-sentence UI when easy (e.g. "Rate RetroRapid!") | Keep the brand mark; italicize `!` via `BrandMark.phrase`; keep trailing punctuation |
+| Flowing copy and long localized paragraphs | Often `RetroRapid` without `!` for readability |
+| Repo name, bundle IDs, internal types | No `!` unless user-facing |
+
+Implementation: `RetroRacingShared/Utilities/BrandMark.swift`.
 
 ### Clarity & Readability ✅
 

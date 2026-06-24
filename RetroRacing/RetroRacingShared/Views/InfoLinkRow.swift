@@ -103,13 +103,13 @@ public struct InfoLinkRow: View {
         List {
             InfoLinkRow(
                 iconSystemName: "globe",
-                title: "RetroRacing!",
+                title: "RetroRapid!",
                 subtitle: "App information, tips, and help"
             ) {}
 
             InfoLinkRow(
                 iconSystemName: "star.bubble.fill",
-                title: "Rate RetroRacing!",
+                title: "Rate RetroRapid!",
                 subtitle: "Opens the rating dialog to rate the app"
             ) {}
         }

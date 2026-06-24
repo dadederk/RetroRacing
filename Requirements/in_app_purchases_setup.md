@@ -81,17 +81,17 @@ For each supported language (at least EN, ES, CA):
 - **English (US)**
   - Display Name: `Unlimited Plays`
   - Description:  
-    `Unlock unlimited games every day and support RetroRacing development!`
+    `Unlock unlimited games every day and support RetroRapid! development!`
 
 - **Spanish (Spain)**
   - Display Name: `Partidas Ilimitadas`
   - Description:  
-    `¡Desbloquea partidas ilimitadas cada día y apoya el desarrollo de RetroRacing!`
+    `¡Desbloquea partidas ilimitadas cada día y apoya el desarrollo de RetroRapid!`
 
 - **Catalan (Valencià)**
   - Display Name: `Partides Il·limitades`
   - Description:  
-    `Desbloqueja partides il·limitades cada dia i dóna suport al desenvolupament de RetroRacing!`
+    `Desbloqueja partides il·limitades cada dia i dóna suport al desenvolupament de RetroRapid!`
 
 **Recommendations:**
 
@@ -123,7 +123,7 @@ When you submit an app version that includes this IAP, in the **App Review Notes
 Include:
 
 ```text
-RetroRacing uses a freemium model:
+RetroRapid! uses a freemium model:
 - Free users: 5 games per day (resets at midnight).
 - Premium users: Unlimited games forever (one-time purchase).
 
