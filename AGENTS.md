@@ -20,6 +20,7 @@ AI Agent development guidelines for **RetroRacing** (repo/project name). The use
 8. **NEVER** duplicate logic between platforms — refactor to shared module
 9. **NEVER** force unwrap optionals — use safe unwrapping patterns
 10. **ALWAYS** use standard file headers for new Swift source files with `Created by Dani Devesa`
+11. **Route App Store listing and ASO work** through `Plans/INDEX.md`; do not hardcode store doc paths in `AGENTS.md`
 
 ### Brand Mark
 
@@ -596,11 +597,29 @@ private func updateGrid() {
 8. `ObservableObject` — use `@Observable` instead
 9. Custom solutions when native APIs exist — use Apple frameworks first
 
+## Documentation Routing
+
+Do not duplicate task routing tables in this file. Use the index or hub for each tree:
+
+| Kind | Path | Use for |
+|---|---|---|
+| — | `Requirements/` | Shipped in-app behavior (read relevant contract files) |
+| INDEX | `Plans/INDEX.md` | Roadmap, themed plans, App Store task routing |
+| README | `AppStore/README.md` | Listing copy, ASO, screenshots, rollout |
+| README | `Plans/aso/README.md` | ASO campaigns and featuring playbooks |
+| — | `Docs/` | Working drafts only (see `Docs/README.md`) |
+
+### Naming conventions
+
+- **Top-level doc trees:** PascalCase (`Requirements`, `Plans`, `AppStore`, `Docs`).
+- **Sub-routers and catalogs:** lowercase (`appendices`, `aso`, `docs`).
+- **Hub files:** `INDEX.md` for plan routers; `README.md` for operational hubs (`AppStore`, `Plans/aso`).
+- **Themed reference docs:** numbered kebab-case under `AppStore/docs/` (e.g. `01-limits-and-sources.md`).
+- **Legacy monoliths** at a tree root redirect to the hub; do not edit them as canonical source.
+
 ## File Locations Reference
 
 - **Requirements**: `/Requirements/` directory (detailed specs for each feature)
-- **App Store & ASO docs**: [AppStoreAssets/README.md](AppStoreAssets/README.md) — themed docs with agent quick-start; canonical metadata in `AppStoreAssets/docs/`
-- **ASO growth plans**: [Plans/aso/README.md](Plans/aso/README.md) — campaign playbooks (GAAD, pricing); superseded packs marked explicitly
 - **Shared Code**: `RetroRacing/RetroRacing Shared/`
 - **Services**: `RetroRacing/RetroRacing Shared/Services/`
 - **Platform UIs**: `RetroRacing/RetroRacing [Platform]/`

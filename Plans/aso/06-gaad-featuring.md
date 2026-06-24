@@ -6,7 +6,7 @@ Last updated: 2026-03-14 (campaign); brand status refreshed 2026-06-24
 
 **Doc ownership:** Form answers and long-form nomination text → [GAAD nomination draft](../../Docs/GAADYS_2026_RETRORAPID_NOMINATION_DRAFT.md). This file → campaign playbook (timing, KPIs, screenshot alignment). Submitted copy archive → [09-featuring-nominations-submitted.md](09-featuring-nominations-submitted.md).
 
-**See also:** [Submitted nominations archive & voice guide](09-featuring-nominations-submitted.md) · [GAAD nomination draft](../../Docs/GAADYS_2026_RETRORAPID_NOMINATION_DRAFT.md) · [Screenshots](../../AppStoreAssets/docs/06-screenshots.md)
+**See also:** [Submitted nominations archive & voice guide](09-featuring-nominations-submitted.md) · [GAAD nomination draft](../../Docs/GAADYS_2026_RETRORAPID_NOMINATION_DRAFT.md) · [Screenshots](../../AppStore/docs/06-screenshots.md)
 
 
 ---

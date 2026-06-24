@@ -3,7 +3,7 @@
 Part of [ASO & growth plans](README.md). Index: [retrorapid_aso_growth_plan.md](../retrorapid_aso_growth_plan.md).
 
 Last updated: 2026-03-14 (campaign); brand status refreshed 2026-06-24
-**See also:** [Current 90-day plan](../../AppStoreAssets/docs/11-execution-90-day.md)
+**See also:** [Current 90-day plan](../../AppStore/docs/11-execution-90-day.md)
 
 
 ---

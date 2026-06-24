@@ -3,7 +3,7 @@
 Part of [ASO & growth plans](README.md). Index: [retrorapid_aso_growth_plan.md](../retrorapid_aso_growth_plan.md).
 
 Last updated: 2026-03-14 (campaign); brand status refreshed 2026-06-24
-**See also:** [Full expansion strategy](../../AppStoreAssets/docs/08-locale-expansion.md)
+**See also:** [Full expansion strategy](../../AppStore/docs/08-locale-expansion.md)
 
 
 ---
@@ -34,4 +34,4 @@ Rationale:
 - Additional scale opportunities after Wave 1 validation.
 - Chinese variants are high-upside but need stricter QA and localization quality control.
 
-> **Canonical expansion tiers:** see [Country & Language Expansion](../../AppStoreAssets/docs/08-locale-expansion.md).
+> **Canonical expansion tiers:** see [Country & Language Expansion](../../AppStore/docs/08-locale-expansion.md).

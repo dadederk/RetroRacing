@@ -6,7 +6,7 @@ Last updated: 2026-06-24
 
 **Doc ownership:** Submitted nomination copy and voice patterns → **this file** (archive). New GAAD form answers → [GAAD nomination draft](../../Docs/GAADYS_2026_RETRORAPID_NOMINATION_DRAFT.md). Campaign timing and KPIs → [06-gaad-featuring.md](06-gaad-featuring.md).
 
-**See also:** [GAAD campaign playbook](06-gaad-featuring.md) · [GAAD nomination draft](../../Docs/GAADYS_2026_RETRORAPID_NOMINATION_DRAFT.md) · [Release-note voice](../../AppStoreAssets/docs/07-release-notes-voice.md) · [Metadata strategy](../../AppStoreAssets/docs/04-metadata-strategy.md)
+**See also:** [GAAD campaign playbook](06-gaad-featuring.md) · [GAAD nomination draft](../../Docs/GAADYS_2026_RETRORAPID_NOMINATION_DRAFT.md) · [Release-note voice](../../AppStore/docs/07-release-notes-voice.md) · [Metadata strategy](../../AppStore/docs/04-metadata-strategy.md)
 
 ---
 
@@ -297,4 +297,4 @@ Pull accurate details from these docs when writing new nominations:
 | Lane audio (C/E/G), Direct Touch, VoiceOver | [Requirements/accessibility.md](../../Requirements/accessibility.md) |
 | Game Center friend markers, challenges | [Requirements/achievements.md](../../Requirements/achievements.md), [leaderboard_implementation.md](../../Requirements/leaderboard_implementation.md) |
 | GAAD achievement / challenge window | [Requirements/achievements.md](../../Requirements/achievements.md), [GAAD nomination draft](../../Docs/GAADYS_2026_RETRORAPID_NOMINATION_DRAFT.md) |
-| Public App Store positioning | [05-metadata-copy.md](../../AppStoreAssets/docs/05-metadata-copy.md) |
+| Public App Store positioning | [05-metadata-copy.md](../../AppStore/docs/05-metadata-copy.md) |

@@ -3,7 +3,7 @@
 Part of [ASO & growth plans](README.md). Index: [retrorapid_aso_growth_plan.md](../retrorapid_aso_growth_plan.md).
 
 Last updated: 2026-03-14 (campaign); brand status refreshed 2026-06-24
-**See also:** [Current staged copy](../../AppStoreAssets/docs/05-metadata-copy.md) · [Current strategy](../../AppStoreAssets/docs/04-metadata-strategy.md)
+**See also:** [Current staged copy](../../AppStore/docs/05-metadata-copy.md) · [Current strategy](../../AppStore/docs/04-metadata-strategy.md)
 
 
 ---

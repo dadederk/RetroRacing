@@ -20,6 +20,6 @@
 
 ## Canonical current metadata
 
-Use [AppStoreAssets/docs/](../AppStoreAssets/README.md) for staged v1.5 copy and rollout status — not the superseded March 2026 pack in `aso/03-metadata-v1-superseded.md`.
+Use [AppStore/docs/](../AppStore/README.md) for staged v1.5 copy and rollout status — not the superseded March 2026 pack in `aso/03-metadata-v1-superseded.md`.
 
 Original plan date: 2026-03-14 · Hub refresh: 2026-06-24
