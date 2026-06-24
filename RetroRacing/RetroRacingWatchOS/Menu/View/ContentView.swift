@@ -11,6 +11,7 @@ struct ContentView: View {
     @State private var showGame = false
     @State private var gameID = 0
     @State private var showSettings = false
+    @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
         NavigationStack {
@@ -67,6 +68,12 @@ struct ContentView: View {
                     achievementProgressService: achievementProgressService
                 )
             }
+        }
+        .onAppear {
+            WatchApplicationActivity.update(scenePhase: scenePhase)
+        }
+        .onChange(of: scenePhase) { _, newPhase in
+            WatchApplicationActivity.update(scenePhase: newPhase)
         }
     }
 

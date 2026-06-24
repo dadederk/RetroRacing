@@ -121,7 +121,7 @@ final class WatchHapticFeedbackController: HapticFeedbackController {
     private func dispatchHapticOnMain(_ pattern: WKHapticType) {
         DispatchQueue.main.async { [weak self] in
             guard let self, self.isHapticsEnabled else { return }
-            guard WKExtension.shared().applicationState == .active else { return }
+            guard WatchApplicationActivity.isActive else { return }
             WKInterfaceDevice.current().play(pattern)
         }
     }

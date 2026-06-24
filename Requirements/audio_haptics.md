@@ -42,6 +42,7 @@
 - Crash haptic is triggered in `handleCrash` immediately; collision resolution completes on fail-sound completion with an 8s fallback if completion is missing.
 - Start/resume keeps `gameState.isPaused == true` until `start` sound completion sets it to false; on post-crash resume the player-car grid is rendered immediately (no lingering crash sprite), and a 2s fallback unpauses if completion is missing.
 - App bootstrap listens to audio session interruption/route/media-reset notifications and re-activates the session.
+- Audio-session activation is nonblocking: use the asynchronous activation API where available, with a detached legacy fallback for iOS/tvOS/visionOS 26 so activation never blocks the main actor.
 - watchOS also configures and activates an AVAudioSession at app startup so generated SFX/lane cues have an active playback session.
 - watchOS gameplay re-activates the audio session on `WatchGameView` appear before starting the scene, so returning from overlays/menu restores sound output reliably.
 - watchOS gameplay also re-activates the audio session when scene phase returns to `active` so post-interruption foregrounding restores sound without requiring a relaunch.

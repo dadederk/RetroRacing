@@ -9,19 +9,21 @@ import SwiftUI
 /// | Nav titles, settings labels, about links | `RetroRapid!` via `text`, `phrase`, or `fullName` |
 /// | Mid-sentence UI when easy (e.g. "Rate RetroRapid!") | Use `phrase`; italicize `!`; keep trailing punctuation |
 /// | Flowing copy and long localized paragraphs | Often `RetroRapid` without `!` for readability |
-/// | Repo/project name (`RetroRacing`), bundle IDs, App Store metadata fields | No `!` unless the store listing itself uses the brand mark |
+/// | App Store listing name (`RetroRapid: Arcade Racer`), bundle IDs | No `!` |
 enum BrandMark {
     static let baseName = "RetroRapid"
     static let fullName = "\(baseName)!"
 
     /// Standalone product name with an italic brand mark.
     static var text: Text {
-        Text(baseName) + Text("!").italic()
+        Text("\(Text(verbatim: baseName))\(Text(verbatim: "!").italic())")
     }
 
     /// Product name embedded in UI copy, e.g. `phrase(prefix: "Rate ")` → "Rate RetroRapid!".
     static func phrase(prefix: String = "", suffix: String = "") -> Text {
-        Text("\(prefix)\(baseName)") + Text("!").italic() + Text(suffix)
+        Text(
+            "\(Text(verbatim: "\(prefix)\(baseName)"))\(Text(verbatim: "!").italic())\(Text(verbatim: suffix))"
+        )
     }
 
     /// App-page style section heading: "Why RetroRapid!?"

@@ -237,7 +237,8 @@ public final class GameCenterService: LeaderboardService, @unchecked Sendable {
             context: 0,
             player: GKLocalPlayer.local,
             leaderboardIDs: [leaderboardID]
-        ) { error in
+        ) { [weak self] error in
+            guard let self else { return }
             if let error = error {
                 AppLog.error(
                     AppLog.leaderboard + AppLog.game,
@@ -261,8 +262,7 @@ public final class GameCenterService: LeaderboardService, @unchecked Sendable {
                         .string("speed", difficulty.rawValue)
                     ]
                 )
-                Task { [weak self] in
-                    guard let self else { return }
+                Task {
                     await self.verifyRemoteBestAfterSubmit(
                         submittedScore: score,
                         difficulty: difficulty,

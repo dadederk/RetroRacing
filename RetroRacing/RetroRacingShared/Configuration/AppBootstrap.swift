@@ -17,6 +17,9 @@ public enum AppBootstrap {
     #if os(watchOS)
     private static let watchAudioSessionObserver = WatchAudioSessionObserver()
     #endif
+    #if canImport(UIKit) || os(watchOS)
+    private static var audioSessionActivationTask: Task<Void, Never>?
+    #endif
 
     /// Configures access point location but keeps it hidden; the app presents Game Center explicitly.
     public static func configureGameCenterAccessPoint() {
@@ -29,41 +32,19 @@ public enum AppBootstrap {
     /// Configures audio session so game sounds play on device.
     public static func configureAudioSession() {
         #if canImport(UIKit) && !os(watchOS)
-        do {
-            try activateAudioSession()
-            audioSessionObserver.startObserving()
-        } catch {
-            // Non-fatal; sound may still work in simulator
-        }
+        audioSessionObserver.startObserving()
+        requestAudioSessionActivation()
         #elseif os(watchOS)
-        do {
-            try activateWatchAudioSession()
-            watchAudioSessionObserver.startObserving()
-            let session = AVAudioSession.sharedInstance()
-            let routeDescription = session.currentRoute.outputs
-                .map { "\($0.portType.rawValue):\($0.portName)" }
-                .joined(separator: ",")
-            AppLog.info(
-                AppLog.sound,
-                "AUDIO_SESSION_ACTIVATION",
-                outcome: .succeeded,
-                fields: [
-                    .string("platform", "watchos"),
-                    .double("outputVolume", Double(session.outputVolume)),
-                    .string("route", routeDescription)
-                ]
-            )
-        } catch {
-            AppLog.error(
-                AppLog.sound,
-                "AUDIO_SESSION_ACTIVATION",
-                outcome: .failed,
-                fields: [
-                    .reason("activation_failed"),
-                    .string("platform", "watchos")
-                ] + AppLog.Field.error(error)
-            )
-        }
+        watchAudioSessionObserver.startObserving()
+        requestAudioSessionActivation()
+        #endif
+    }
+
+    /// Configures the audio session and waits for the current activation attempt to finish.
+    public static func configureAudioSessionAndWait() async {
+        configureAudioSession()
+        #if canImport(UIKit) || os(watchOS)
+        await audioSessionActivationTask?.value
         #endif
     }
 
@@ -75,19 +56,112 @@ public enum AppBootstrap {
     }
 
     #if canImport(UIKit) && !os(watchOS)
-    fileprivate static func activateAudioSession() throws {
+    fileprivate static func activateAudioSession() async throws {
         let session = AVAudioSession.sharedInstance()
         try session.setCategory(.playback, mode: .default, options: [.mixWithOthers])
-        try session.setActive(true)
+        try await AVAudioSessionActivation.activate(session)
     }
     #endif
 
     #if os(watchOS)
-    fileprivate static func activateWatchAudioSession() throws {
+    fileprivate static func activateWatchAudioSession() async throws {
         let session = AVAudioSession.sharedInstance()
         // Prefer exclusive playback on watchOS to avoid mixed/ducked output unexpectedly muting short SFX.
         try session.setCategory(.playback, mode: .default, options: [])
-        try session.setActive(true)
+        try await AVAudioSessionActivation.activate(session)
+    }
+    #endif
+
+    #if canImport(UIKit) || os(watchOS)
+    fileprivate static func requestAudioSessionActivation(trigger: String? = nil) {
+        guard audioSessionActivationTask == nil else { return }
+
+        audioSessionActivationTask = Task {
+            defer { audioSessionActivationTask = nil }
+
+            do {
+                #if os(watchOS)
+                try await activateWatchAudioSession()
+                #else
+                try await activateAudioSession()
+                #endif
+                logAudioSessionActivation(outcome: .succeeded, trigger: trigger)
+            } catch {
+                logAudioSessionActivation(outcome: .failed, trigger: trigger, error: error)
+            }
+        }
+    }
+
+    private static func logAudioSessionActivation(
+        outcome: AppLog.Outcome,
+        trigger: String?,
+        error: Error? = nil
+    ) {
+        var fields: [AppLog.Field] = [
+            .string("platform", audioSessionPlatformName)
+        ]
+        if let trigger {
+            fields.append(.string("trigger", trigger))
+        }
+
+        #if os(watchOS)
+        if outcome == .succeeded {
+            let session = AVAudioSession.sharedInstance()
+            let routeDescription = session.currentRoute.outputs
+                .map { "\($0.portType.rawValue):\($0.portName)" }
+                .joined(separator: ",")
+            fields.append(.double("outputVolume", Double(session.outputVolume)))
+            fields.append(.string("route", routeDescription))
+        }
+        #endif
+
+        if let error {
+            fields.append(.reason("activation_failed"))
+            fields.append(contentsOf: AppLog.Field.error(error))
+            if trigger == nil {
+                AppLog.error(
+                    AppLog.sound,
+                    "AUDIO_SESSION_ACTIVATION",
+                    outcome: outcome,
+                    fields: fields
+                )
+            } else {
+                AppLog.error(
+                    AppLog.sound,
+                    "AUDIO_SESSION_REACTIVATION",
+                    outcome: outcome,
+                    fields: fields
+                )
+            }
+        } else {
+            if trigger == nil {
+                AppLog.info(
+                    AppLog.sound,
+                    "AUDIO_SESSION_ACTIVATION",
+                    outcome: outcome,
+                    fields: fields
+                )
+            } else {
+                AppLog.info(
+                    AppLog.sound,
+                    "AUDIO_SESSION_REACTIVATION",
+                    outcome: outcome,
+                    fields: fields
+                )
+            }
+        }
+    }
+
+    private static var audioSessionPlatformName: String {
+        #if os(watchOS)
+        "watchos"
+        #elseif os(tvOS)
+        "tvos"
+        #elseif os(visionOS)
+        "visionos"
+        #else
+        "ios"
+        #endif
     }
     #endif
 }
@@ -137,25 +211,7 @@ private final class AudioSessionObserver: NSObject {
     }
 
     private func reactivateAudioSession(reason: String) {
-        do {
-            try AppBootstrap.activateAudioSession()
-            AppLog.info(
-                AppLog.sound,
-                "AUDIO_SESSION_REACTIVATION",
-                outcome: .succeeded,
-                fields: [.string("trigger", reason)]
-            )
-        } catch {
-            AppLog.error(
-                AppLog.sound,
-                "AUDIO_SESSION_REACTIVATION",
-                outcome: .failed,
-                fields: [
-                    .reason("reactivation_failed"),
-                    .string("trigger", reason)
-                ] + AppLog.Field.error(error)
-            )
-        }
+        AppBootstrap.requestAudioSessionActivation(trigger: reason)
     }
 
     deinit {
@@ -212,35 +268,7 @@ private final class WatchAudioSessionObserver {
     }
 
     private func reactivateAudioSession(reason: String) {
-        do {
-            try AppBootstrap.activateWatchAudioSession()
-            let session = AVAudioSession.sharedInstance()
-            let routeDescription = session.currentRoute.outputs
-                .map { "\($0.portType.rawValue):\($0.portName)" }
-                .joined(separator: ",")
-            AppLog.info(
-                AppLog.sound,
-                "AUDIO_SESSION_REACTIVATION",
-                outcome: .succeeded,
-                fields: [
-                    .string("platform", "watchos"),
-                    .string("trigger", reason),
-                    .double("outputVolume", Double(session.outputVolume)),
-                    .string("route", routeDescription)
-                ]
-            )
-        } catch {
-            AppLog.error(
-                AppLog.sound,
-                "AUDIO_SESSION_REACTIVATION",
-                outcome: .failed,
-                fields: [
-                    .reason("reactivation_failed"),
-                    .string("platform", "watchos"),
-                    .string("trigger", reason)
-                ] + AppLog.Field.error(error)
-            )
-        }
+        AppBootstrap.requestAudioSessionActivation(trigger: reason)
     }
 
     deinit {

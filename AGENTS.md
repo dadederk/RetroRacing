@@ -30,7 +30,7 @@ User-facing product name is **RetroRapid!** (repo/project folder remains `RetroR
 | Nav titles, settings labels, about links | `RetroRapid!` — use `BrandMark.text`, `BrandMark.phrase`, or `BrandMark.fullName` |
 | Mid-sentence UI when easy (e.g. "Rate RetroRapid!") | Keep the brand mark; italicize `!` via `BrandMark.phrase`; keep trailing punctuation |
 | Flowing copy and long localized paragraphs | Often `RetroRapid` without `!` for readability |
-| Repo name, bundle IDs, internal types | No `!` unless user-facing |
+| App Store listing name (`RetroRapid: Arcade Racer`), bundle IDs, internal types | No `!` — use `:` after the brand, matching Xarra and Mestre |
 
 Implementation: `RetroRacingShared/Utilities/BrandMark.swift`.
 
@@ -599,6 +599,8 @@ private func updateGrid() {
 ## File Locations Reference
 
 - **Requirements**: `/Requirements/` directory (detailed specs for each feature)
+- **App Store & ASO docs**: [AppStoreAssets/README.md](AppStoreAssets/README.md) — themed docs with agent quick-start; canonical metadata in `AppStoreAssets/docs/`
+- **ASO growth plans**: [Plans/aso/README.md](Plans/aso/README.md) — campaign playbooks (GAAD, pricing); superseded packs marked explicitly
 - **Shared Code**: `RetroRacing/RetroRacing Shared/`
 - **Services**: `RetroRacing/RetroRacing Shared/Services/`
 - **Platform UIs**: `RetroRacing/RetroRacing [Platform]/`

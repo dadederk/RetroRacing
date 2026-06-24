@@ -82,7 +82,7 @@ enum AudioPlaybackReadiness {
     private static func activateSessionIfNeeded(context: String) -> Bool {
         #if !os(macOS)
         do {
-            try AVAudioSession.sharedInstance().setActive(true)
+            try AVAudioSessionActivation.activateBlocking()
             return true
         } catch {
             AppLog.warning(

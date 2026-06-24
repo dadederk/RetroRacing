@@ -8,6 +8,9 @@ All user-facing copy must be localizable and sourced from shared localization as
 ## Supported Languages
 
 - English: `en` (development/source language)
+- English (UK): `en-GB` — British spelling where it differs (`favourite`, `colour`, `centre`, `customise`)
+- English (Australia): `en-AU` — same British spelling conventions as `en-GB` for in-app copy
+- English (Canada): `en-CA` — US spelling conventions for in-app copy (matches `en` strings)
 - Spanish (Spain): `es`
 - Catalan: `ca` (translations written in Valencian Meridional style)
 
@@ -37,7 +40,7 @@ The shared catalog is the primary source because shared UI and game surfaces are
 
 - The universal app target uses `Config/RetroRacingUniversalInfo.plist` as an overlay while keeping generated Info.plist enabled.
 - Keep `CFBundleAllowMixedLocalizations = true` so localized resources from embedded/shared bundles are resolved correctly.
-- Keep `CFBundleLocalizations = [en, es, ca]` aligned with project-supported regions.
+- Keep `CFBundleLocalizations = [en, en-GB, en-AU, en-CA, es, ca]` aligned with project-supported regions.
 
 ## Valencian Variant Guidelines
 
@@ -56,6 +59,8 @@ The shared catalog is the primary source because shared UI and game surfaces are
 
 - When adding a new key, provide translations in:
   - `en`
+  - `en-GB` and `en-AU` (British spelling variants where applicable; otherwise copy `en`)
+  - `en-CA` (copy `en` unless Canadian wording is required)
   - `es`
   - `ca` (with Valencian Meridional phrasing)
 - Engagement/paywall UX keys for the current menu/settings flow include:

@@ -31,6 +31,7 @@ struct WatchGameView: View {
     @State private var crownValue: Double = 0
     @State private var crownProcessor: CrownInputProcessor
     @State private var crownIdleTask: Task<Void, Never>?
+    @State private var audioSessionStartTask: Task<Void, Never>?
     @State private var score: Int = 0
     @State private var lives: Int = 3
     @State private var scenePaused: Bool = false
@@ -262,7 +263,6 @@ struct WatchGameView: View {
                 "WATCH_GAME_VIEW_APPEAR",
                 outcome: .completed
             )
-            AppBootstrap.configureAudioSession()
             scene.applyDifficulty(selectedDifficulty)
             scene.setSoundVolume(selectedSoundEffectsVolume)
             scene.setAudioFeedbackMode(selectedAudioFeedbackMode)
@@ -270,7 +270,6 @@ struct WatchGameView: View {
             scene.setBigRivalCarsEnabled(selectedBigRivalCarsEnabled)
             scene.setRoadVisualStyle(selectedRoadVisualStyle)
             logWatchAudioConfiguration()
-            scene.start()
             resetRunAchievementTelemetry()
             score = scene.gameState.score
             lives = scene.gameState.lives
@@ -337,7 +336,13 @@ struct WatchGameView: View {
                 delegate = d
                 scene.gameDelegate = d
             }
-            attemptAutoPresentVoiceOverHelpIfNeeded()
+            audioSessionStartTask?.cancel()
+            audioSessionStartTask = Task { @MainActor in
+                await AppBootstrap.configureAudioSessionAndWait()
+                guard Task.isCancelled == false else { return }
+                scene.start()
+                attemptAutoPresentVoiceOverHelpIfNeeded()
+            }
         }
         .sheet(isPresented: $isInGameHelpPresented, onDismiss: handleInGameHelpDismissed) {
             makeInGameHelpView()
@@ -361,6 +366,8 @@ struct WatchGameView: View {
             }
             crownIdleTask?.cancel()
             crownIdleTask = nil
+            audioSessionStartTask?.cancel()
+            audioSessionStartTask = nil
         }
         .onChange(of: scenePhase) { _, newValue in
             guard newValue == .active else { return }
