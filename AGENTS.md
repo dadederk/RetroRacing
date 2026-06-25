@@ -40,6 +40,26 @@ Project-specific rules stay in **retrorapid-conventions**; vendored skills remai
 
 **Skills installation:** Vendored upstream skills live in `.agents/skills/` — install/update with `npx skills add` / `npx skills update`. Project conventions live in `.cursor/skills/` at the repo root. Cursor: [Enabling Skills](https://docs.cursor.com/skills). Codex and Claude Code in-repo: `.agents/skills/`. Antigravity: `.agent/skills` symlink → `.agents/skills`.
 
+### MCP Servers
+
+Repo config: [`.cursor/mcp.json`](.cursor/mcp.json) (Cursor) and [`.codex/config.toml`](.codex/config.toml) (Codex). Requires Homebrew `cupertino` at `/opt/homebrew/bin/cupertino` and `npx` for XcodeBuildMCP.
+
+| MCP | Use when |
+|---|---|
+| `cupertino` | Apple documentation search, symbol lookup, WWDC and framework references |
+| `XcodeBuildMCP` | Build, run, test, destination selection, simulator/device interaction, UI inspection, logs |
+
+**XcodeBuildMCP session defaults** — call `session-set-defaults` before build/run tools:
+
+| Field | Value |
+|---|---|
+| `projectPath` | `RetroRacing/RetroRacing.xcodeproj` |
+| `scheme` | `RetroRacingUniversal` (shipping iOS/iPadOS/macOS), `RetroRacingShared` (shared logic tests) |
+| Default iOS destination | `platform=iOS Simulator,name=iPhone 17 Pro` |
+| Default macOS destination | `platform=macOS` |
+
+Other schemes (`RetroRacingWatchOS`, `RetroRacingTvOS`, `RetroRacingVisionOS`) only when the task targets those platforms. Prefer `swift run --package-path Scripts run-tests` and Validation commands for routine checks; use XcodeBuildMCP for interactive simulator UI work.
+
 ### Brand Mark
 
 User-facing product name is **RetroRapid!** (repo/project folder remains `RetroRacing`).
@@ -770,7 +790,7 @@ Document implementation decisions, edge cases discovered, testing results.
 
 ---
 
-**Version**: 1.5  
+**Version**: 1.6  
 **Last Updated**: 2026-06-25  
-**Changelog**: Added agent skills table and `retrorapid-conventions` skill; trimmed duplicate accessibility examples in favor of ios-accessibility overlay.  
+**Changelog**: Added MCP server table and XcodeBuildMCP session defaults; aligned repo `.cursor/mcp.json` and `.codex/config.toml`.  
 **References**: Apple HIG, Swift 6.2 docs, Xarra AGENTS.md, Requirements/concurrency.md

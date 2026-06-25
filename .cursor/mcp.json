@@ -3,6 +3,10 @@
     "cupertino": {
       "command": "/opt/homebrew/bin/cupertino",
       "args": ["serve"]
+    },
+    "XcodeBuildMCP": {
+      "command": "npx",
+      "args": ["-y", "xcodebuildmcp@latest", "mcp"]
     }
   }
 }

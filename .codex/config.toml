@@ -1,3 +1,16 @@
 [mcp_servers.cupertino]
 command = "/opt/homebrew/bin/cupertino"
 args = ["serve", "--no-reap"]
+
+[mcp_servers.cupertino.tools.search]
+approval_mode = "approve"
+
+[mcp_servers.cupertino.tools.read_document]
+approval_mode = "approve"
+
+[mcp_servers.cupertino.tools.search_symbols]
+approval_mode = "approve"
+
+[mcp_servers.XcodeBuildMCP]
+command = "npx"
+args = ["-y", "xcodebuildmcp@latest", "mcp"]
