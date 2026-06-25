@@ -172,7 +172,7 @@ See `Requirements/testing.md`.
 
 ## Brand Mark
 
-User-facing name is **RetroRapid!** App Store listing and bundle IDs omit `!`. Implementation: `RetroRacingShared/Utilities/BrandMark.swift`.
+User-facing name is **RetroRapid!** Installed app display name is **RetroRapid!** (`CFBundleDisplayName`). App Store listing and bundle IDs omit `!`. Implementation: `RetroRacingShared/Utilities/BrandMark.swift`.
 
 ---
 

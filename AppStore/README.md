@@ -67,6 +67,16 @@ Legacy redirect: [RETRORAPID_APP_STORE_REFERENCE.md](RETRORAPID_APP_STORE_REFERE
 
 Add dated Appfigures/Krankie snapshots under `docs/appendices/` when captured (e.g. `appfigures-snapshot-2026-06.md`). Keep strategy decisions in `04-metadata-strategy.md`; park raw export tables in appendices.
 
+## Brand naming
+
+| Context | Treatment |
+|---|---|
+| Installed app display name | `RetroRapid!` |
+| App Store listing name | `RetroRapid: …` (no `!`) |
+| Bundle IDs, targets, modules, repo paths | `RetroRacing` / `RetroRapid` (technical, no `!`) |
+
+See [`../AGENTS.md`](../AGENTS.md) Brand Mark section and `RetroRacingShared/Utilities/BrandMark.swift`.
+
 ## Related repo docs
 
 - [Localization requirements](../Requirements/localization.md)

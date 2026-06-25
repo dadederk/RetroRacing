@@ -116,6 +116,7 @@ User-facing product name is **RetroRapid!** (repo/project folder remains `RetroR
 
 | Context | Treatment |
 |---|---|
+| Installed app display name | `RetroRapid!` |
 | Nav titles, settings labels, about links | `RetroRapid!` — use `BrandMark.text`, `BrandMark.phrase`, or `BrandMark.fullName` |
 | Mid-sentence UI when easy (e.g. "Rate RetroRapid!") | Keep the brand mark; italicize `!` via `BrandMark.phrase`; keep trailing punctuation |
 | Flowing copy and long localized paragraphs | Often `RetroRapid` without `!` for readability |

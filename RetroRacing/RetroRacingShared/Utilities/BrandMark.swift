@@ -6,6 +6,7 @@ import SwiftUI
 ///
 /// | Context | Treatment |
 /// |---|---|
+/// | Installed app display name (`CFBundleDisplayName`) | `RetroRapid!` |
 /// | Nav titles, settings labels, about links | `RetroRapid!` via `text`, `phrase`, or `fullName` |
 /// | Mid-sentence UI when easy (e.g. "Rate RetroRapid!") | Use `phrase`; italicize `!`; keep trailing punctuation |
 /// | Flowing copy and long localized paragraphs | Often `RetroRapid` without `!` for readability |
