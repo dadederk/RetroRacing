@@ -2,7 +2,10 @@
 
 Part of [App Store docs hub](../README.md). Index: [RETRORAPID_APP_STORE_REFERENCE.md](../RETRORAPID_APP_STORE_REFERENCE.md).
 
-Last updated: 2026-06-24
+Last updated: 2026-06-25
+
+**Status:** `READY` strategy; keyword demand validation remains a submission `BLOCKED` item.
+
 **See also:** [Metadata copy (staged)](05-metadata-copy.md) · [Screenshots](06-screenshots.md) · [Locale expansion](08-locale-expansion.md)
 
 
@@ -50,7 +53,7 @@ Avoid repeating the same indexed term across name, subtitle, and keywords. These
 
 Source: [AppTweak — cross-localization on the App Store](https://www.apptweak.com/en/aso-blog/how-to-benefit-from-cross-localization-on-the-app-store).
 
-RetroRapid currently ships metadata for **en-US**, **en-GB**, **en-AU**, **en-CA**, **es-ES**, **ca**, and **es-MX**. Apple indexes **multiple locales per territory**, so keyword fields should be planned as a set, not isolated lists.
+The v1.5 draft catalog includes **en-US**, **en-GB**, **en-AU**, **en-CA**, **es-ES**, **ca**, and **es-MX**. Apple indexes **multiple locales per territory**, so keyword fields should be planned as a set, not isolated lists.
 
 | Territory | Primary locale | Also indexes (relevant to us) | Subtitle + keyword strategy |
 |---|---|---|---|

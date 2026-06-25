@@ -312,6 +312,16 @@ GameViewController+Delegates.swift // 60 lines - delegate conformances
 - **Comments explain WHY, not WHAT**: `// Using SpriteKit for hardware acceleration` not `// Start game`
 - Only comment when reasoning isn't obvious from code
 
+### Script Engineering
+
+- **Prefer Swift for repository automation and operational scripts.** Use another language only when a required ecosystem or tool makes Swift impractical, and document the reason.
+- **Scripts should read like recipes.** Keep the executable entry point as a short sequence of clearly named operations.
+- **Use short, single-purpose functions with descriptive names.** Move parsing, validation, rendering, and external-process details behind intention-revealing APIs.
+- **Share script logic instead of copying it.** Use a small Swift package or shared Swift source when multiple commands need the same models or behavior.
+- **Design external mutations explicitly.** Provide validation and dry-run modes before scripts update App Store Connect, files, or other external state.
+- **Keep scripts testable.** Separate deterministic transformations from filesystem and process execution, and add focused Swift tests for the deterministic parts.
+- **Apply the standard Swift file header** with `Created by Dani Devesa` to new script source files.
+
 ### File Organization Pattern
 
 ```swift

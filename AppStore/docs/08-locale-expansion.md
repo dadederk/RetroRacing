@@ -2,7 +2,10 @@
 
 Part of [App Store docs hub](../README.md). Index: [RETRORAPID_APP_STORE_REFERENCE.md](../RETRORAPID_APP_STORE_REFERENCE.md).
 
-Last updated: 2026-06-24
+Last updated: 2026-06-25
+
+**Status:** current storefront coverage is `LIVE`; v1.5 regional metadata is `DRAFT_APPLIED`; new full-app locales are `PLANNED`.
+
 **See also:** [Cross-localization](04-metadata-strategy.md#cross-localization-strategy) · [Localization requirements](../../Requirements/localization.md)
 
 
@@ -16,8 +19,8 @@ Current supported app languages are English (`en`, `en-GB`, `en-AU`, `en-CA`), S
 
 | Priority | Locale / market | Why it is interesting | Preparation notes |
 |---|---|---|---|
-| P0 | `en-US`, `en-GB`, `en-AU`, `en-CA`, `es-ES`, `ca` | **Shipped** for metadata and app strings. UK ratings remain strong. | Split English keyword fields per cross-localization rules. Re-export screenshots for all English variants. Compare UK/AU/CA conversion separately in ASC. |
-| P0 | `es-MX` | **Shipped** for metadata. Mexico/LatAm cross-indexes with en-US. | Validate ranks for `carro`, `rebasar`, `internet`, and `control`. |
+| P0 | `en-US`, `en-GB`, `en-AU`, `en-CA`, `es-ES`, `ca` | App strings and existing storefront coverage are `LIVE`; v1.5 regional metadata fields are `DRAFT_APPLIED`. UK ratings remain strong. | Re-export remaining localized screenshots. Compare UK/AU/CA conversion separately in ASC. |
+| P0 | `es-MX` | v1.5 metadata is `DRAFT_APPLIED`; full app localization and rendered screenshots are `PLANNED`. Mexico/LatAm cross-indexes with en-US. | Validate ranks for `carro`, `rebasar`, `internet`, and `control` before submission. |
 | P1 | `de-DE` | Large European App Store market; racing and arcade terms are direct enough to localize well. | Requires full app strings and screenshots. Check `arcade rennen`, `retro rennen`, `verkehr`, `reaktion`, `watch spiel`, and accessibility terms. |
 | P1 | `ja` | Strong game market and good fit for compact arcade gameplay. | Needs professional localization and screenshot typography QA. Avoid literal machine translation of racing/retro terms. |
 | P1 | `pt-BR` | Large audience and useful next step after Spanish. | Prepare Brazilian Portuguese specifically, not generic Portuguese. Validate monetization/pricing expectations. |

@@ -4,14 +4,15 @@ Campaign context, historical decisions, and specialized playbooks. **Canonical s
 
 Legacy monolith: [retrorapid_aso_growth_plan.md](../retrorapid_aso_growth_plan.md) (redirects here).
 
-Last updated: 2026-06-24
+Last updated: 2026-06-25
 
 ## Agent quick-start
 
 | If you need to… | Read |
 |---|---|
+| Canonical staged metadata source | [AppStore/metadata/retrorapid-v1.5.json](../../AppStore/metadata/retrorapid-v1.5.json) |
 | Current **live** metadata in App Store Connect | [AppStore/docs/02-listing-snapshot.md](../../AppStore/docs/02-listing-snapshot.md) |
-| Current **staged** metadata to apply | [AppStore/docs/05-metadata-copy.md](../../AppStore/docs/05-metadata-copy.md) |
+| Generated **staged** metadata to review or copy | [AppStore/docs/05-metadata-copy.md](../../AppStore/docs/05-metadata-copy.md) |
 | Why metadata is shaped this way | [AppStore/docs/04-metadata-strategy.md](../../AppStore/docs/04-metadata-strategy.md) |
 | Screenshot storyboard (current order) | [AppStore/docs/06-screenshots.md](../../AppStore/docs/06-screenshots.md) |
 | ES/CA text for every screenshot slide | [02-screenshot-localization-copy.md](02-screenshot-localization-copy.md) |
@@ -38,8 +39,9 @@ Last updated: 2026-06-24
 
 | Topic | Canonical location |
 |---|---|
-| Live name/subtitle/keywords/description | [docs/02-listing-snapshot.md](../../AppStore/docs/02-listing-snapshot.md) |
-| Staged name/subtitle/keywords/description | [docs/05-metadata-copy.md](../../AppStore/docs/05-metadata-copy.md) |
+| Live public facts, name/subtitle/keywords | [docs/02-listing-snapshot.md](../../AppStore/docs/02-listing-snapshot.md) |
+| Canonical staged metadata | [metadata/retrorapid-v1.5.json](../../AppStore/metadata/retrorapid-v1.5.json) |
+| Generated staged copy | [docs/05-metadata-copy.md](../../AppStore/docs/05-metadata-copy.md) |
 | Cross-localization & keyword strategy | [docs/04-metadata-strategy.md](../../AppStore/docs/04-metadata-strategy.md) |
 | Helm rollout & submission blockers | [docs/03-submission-quality-gate.md](../../AppStore/docs/03-submission-quality-gate.md) |
 | 90-day execution checklist | [docs/11-execution-90-day.md](../../AppStore/docs/11-execution-90-day.md) |

@@ -2,7 +2,10 @@
 
 Part of [App Store docs hub](../README.md). Index: [RETRORAPID_APP_STORE_REFERENCE.md](../RETRORAPID_APP_STORE_REFERENCE.md).
 
-Last updated: 2026-06-24
+Last updated: 2026-06-25
+
+**Status:** `LIVE` snapshot. This file archives public listing facts plus live name, subtitle, and keyword fields; it is not the source for staged descriptions.
+
 **See also:** [Metadata strategy](04-metadata-strategy.md) · [Submission gate](03-submission-quality-gate.md)
 
 

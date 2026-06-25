@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "release": {
+    "version": "1.5",
+    "lastUpdated": "2026-06-25",
+    "submissionStatus": "BLOCKED",
+    "fieldStatuses": {
+      "name": "BLOCKED",
+      "subtitle": "BLOCKED",
+      "keywords": "DRAFT_APPLIED",
+      "promotionalText": "DRAFT_APPLIED",
+      "description": "DRAFT_APPLIED",
+      "whatsNew": "DRAFT_APPLIED"
+    }
+  },
+  "limits": {
+    "nameCharacters": 30,
+    "subtitleCharacters": 30,
+    "promotionalTextCharacters": 170,
+    "descriptionCharacters": 4000,
+    "keywordBytes": 100,
+    "whatsNewCharacters": 4000
+  },
+  "localeOrder": [
+    "en-US",
+    "en-GB",
+    "en-AU",
+    "en-CA",
+    "es-ES",
+    "ca",
+    "es-MX"
+  ],
+  "sharedCopy": {
+    "english": {
+      "promotionalText": "Dodge traffic and chase high scores in quick retro races, with Game Center, Apple Watch support, and accessibility-first controls.",
+      "description": "RetroRapid! is a fast 3-lane arcade racer built for quick sessions and high-score chasing.\n\nDodge traffic and survive as speed keeps rising. Controls are easy to learn and hard to master, so every run becomes a reflex challenge.\n\nWhy players keep coming back:\n- Quick, one-more-run arcade gameplay\n- Game Center leaderboards, achievements, and friend markers\n- Play on iPhone, iPad, Mac, and Apple Watch\n- Touch, swipe, keyboard, Digital Crown, and supported game controllers\n- VoiceOver, audio cues, haptics, larger text, high contrast, and Reduce Motion support\n- Works offline for quick races anytime\n- Play free every day, or unlock Unlimited Plays once; no subscription\n- No data collection\n\nCrash, restart, and beat your best.",
+      "whatsNew": "This update sharpens RetroRapid! with bug fixes and racing polish. The Game Center update is still the star: earn achievements, chase friends on the track, and share clean snapshots of your best runs. Thanks for racing with us."
+    }
+  },
+  "locales": {
+    "en-US": {
+      "label": "English (US)",
+      "copyGroup": "english",
+      "name": "RetroRapid: Arcade Racer",
+      "subtitle": "Dodge Traffic Across 3 Lanes",
+      "keywords": "car,high,score,overtake,reflex,offline,voiceover,haptics,controller,leaderboard,handheld,lcd,endless"
+    },
+    "en-GB": {
+      "label": "English (UK)",
+      "copyGroup": "english",
+      "name": "RetroRapid: Arcade Racer",
+      "subtitle": "Dodge Traffic Across 3 Lanes",
+      "keywords": "endless,accessible,swift,highway,skill,vintage,drive,watch,game,nostalgia,pixel,boost,classic,reflex"
+    },
+    "en-AU": {
+      "label": "English (Australia)",
+      "copyGroup": "english",
+      "name": "RetroRapid: Arcade Racer",
+      "subtitle": "Overtake Rivals. Beat Records",
+      "keywords": "chase,mobile,quick,offline,voiceover,haptic,controller,handheld,lcd,leaderboard,high,score,ipad,mac"
+    },
+    "en-CA": {
+      "label": "English (Canada)",
+      "copyGroup": "english",
+      "name": "RetroRapid: Arcade Racer",
+      "subtitle": "Chase Records in Quick Races",
+      "keywords": "scoreboard,watch,game,classic,pixel,vintage,boost,nostalgia,ipad,mobile,haptic,lane,mac,drive,swift"
+    },
+    "es-ES": {
+      "label": "Spanish (Spain)",
+      "name": "RetroRapid: Carreras Arcade",
+      "subtitle": "Esquiva tráfico en 3 carriles",
+      "keywords": "coche,record,adelantar,reflejos,clasico,mando,ranking,infinito,puntuacion,conexion,voiceover,logros",
+      "promotionalText": "Esquiva tráfico y supera tu récord en carreras retro rápidas, con Game Center, Apple Watch y controles accesibles.",
+      "description": "RetroRapid! es un arcade de carreras de 3 carriles pensado para partidas rápidas y para perseguir tu mejor puntuación.\n\nEsquiva tráfico y aguanta cuando la velocidad sube. Los controles son fáciles de aprender y difíciles de dominar, así que cada partida pone a prueba tus reflejos.\n\nPor qué engancha:\n- Jugabilidad arcade rápida de \"una más\"\n- Clasificaciones, logros y marcadores de amigos de Game Center\n- Juega en iPhone, iPad, Mac y Apple Watch\n- Toque, deslizamiento, teclado, Digital Crown y mandos compatibles\n- VoiceOver, pistas de audio, hápticos, texto más grande, alto contraste y reducción de movimiento\n- Juega sin conexión para partidas rápidas en cualquier momento\n- Juega gratis cada día o desbloquea Partidas ilimitadas con una sola compra; sin suscripción\n- No se recopilan datos\n\nChoca, reinicia y supera tu marca.",
+      "whatsNew": "Esta actualización hace que RetroRapid! sea más estable y fiable. Game Center sigue siendo la estrella: logros, amigos en la pista y capturas limpias para compartir tus mejores partidas. Gracias por correr con nosotros."
+    },
+    "ca": {
+      "label": "Catalan (Valencian)",
+      "name": "RetroRapid: Carreres Arcade",
+      "subtitle": "Esquiva trànsit en 3 carrils",
+      "keywords": "cotxe,avancaments,reflexos,comandament,lcd,accessibilitat,joc,reloj,puntuacio,connexio,velocitat,mac",
+      "promotionalText": "Esquiva trànsit i supera el teu rècord en carreres retro ràpides, amb Game Center, Apple Watch i controls accessibles.",
+      "description": "RetroRapid! és un arcade de carreres de 3 carrils pensat per a partides ràpides i per a perseguir la teua millor puntuació.\n\nEsquiva trànsit i resistix quan la velocitat puja. Els controls són fàcils d'aprendre i difícils de dominar, aixina que cada partida posa a prova els teus reflexos.\n\nPer què enganxa:\n- Jugabilitat arcade ràpida de \"una més\"\n- Classificacions, assoliments i marcadors d'amistats de Game Center\n- Juga en iPhone, iPad, Mac i Apple Watch\n- Toc, lliscament, teclat, Digital Crown i comandaments compatibles\n- VoiceOver, pistes d'àudio, hàptics, text més gran, alt contrast i reducció de moviment\n- Juga sense connexió per a partides ràpides en qualsevol moment\n- Juga gratis cada dia o desbloqueja Partides il·limitades amb una sola compra; sense subscripció\n- No es recopilen dades\n\nXoca, reinicia i supera la teua marca.",
+      "whatsNew": "Esta actualització fa que RetroRapid! siga més estable i fiable. Game Center continua sent l'estrela: assoliments, amistats en la pista i captures netes per a compartir les teues millors partides. Gràcies per córrer amb nosaltres."
+    },
+    "es-MX": {
+      "label": "Spanish (Mexico)",
+      "name": "RetroRapid: Carreras Arcade",
+      "subtitle": "Esquiva carros en 3 carriles",
+      "keywords": "rebasar,reflejos,record,control,ranking,clasico,infinito,puntuacion,reloj,internet,trafico,logros",
+      "promotionalText": "Esquiva carros y supera tu récord en carreras retro rápidas, con Game Center, Apple Watch y controles accesibles.",
+      "description": "RetroRapid! es un arcade de carreras de 3 carriles pensado para partidas rápidas y para perseguir tu mejor récord.\n\nEsquiva carros y rebasa cuando la velocidad sube. Los controles son fáciles de aprender y difíciles de dominar, así que cada partida pone a prueba tus reflejos.\n\nPor qué engancha:\n- Jugabilidad arcade rápida de \"una más\"\n- Clasificaciones, logros y marcadores de amigos de Game Center\n- Juega en iPhone, iPad, Mac y Apple Watch\n- Toque, deslizamiento, teclado, Digital Crown y controles compatibles\n- VoiceOver, pistas de audio, hápticos, texto más grande, alto contraste y reducción de movimiento\n- Juega sin internet para partidas rápidas en cualquier momento\n- Juega gratis cada día o desbloquea Partidas ilimitadas con una sola compra; sin suscripción\n- No se recopilan datos\n\nChoca, reinicia y supera tu récord.",
+      "whatsNew": "Esta actualización hace que RetroRapid! sea más estable y fiable. Game Center sigue siendo la estrella: logros, amigos en la pista y capturas limpias para compartir tus mejores partidas. Gracias por correr con nosotros."
+    }
+  },
+  "platformDrafts": {
+    "iOS": {
+      "versionId": "af16a599-2c7b-4ccb-90bd-9aaa9b8d1e1e",
+      "localizationIds": {
+        "en-US": "232e55bc-5bbb-43b0-95b9-d877c10a44a8",
+        "en-GB": "56d24d0e-2c28-4a6d-a659-8f0803af1405",
+        "en-AU": "d809f973-7f44-463f-8ae6-a5e7e931a1e5",
+        "en-CA": "6911ddd4-89d8-4628-8be0-c47f7d658a3b",
+        "es-ES": "47a0349f-5c5e-4fa8-be97-b94148583211",
+        "ca": "2cd5433c-858b-4385-8628-f702e2a0015f",
+        "es-MX": "1bc0a5d0-bdcc-4255-8c05-95405c3c2919"
+      }
+    },
+    "macOS": {
+      "versionId": "cb14d6f6-5e4e-4088-b6d0-c3e883850398",
+      "localizationIds": {
+        "en-US": "1d3832e5-947d-4e8a-9819-2478b0342e04",
+        "en-GB": "b4ac4ead-2da5-4ce1-87c4-b88bbaae000e",
+        "en-AU": "78af339a-8f05-4545-b046-de606f8332c4",
+        "en-CA": "114533d9-3138-4b72-9914-a0bb4817926f",
+        "es-ES": "b64f919a-3b44-4e77-b9b7-8a79a3f02a94",
+        "ca": "f01d2437-0653-49af-b3b3-6e5e80c50d7e",
+        "es-MX": "110854bd-e0e9-44b4-b49c-7d2c4d9f306e"
+      }
+    }
+  }
+}

@@ -1,6 +1,6 @@
 # RetroRapid! App Store Docs
 
-Last updated: 2026-06-24
+Last updated: 2026-06-25
 
 Themed documentation for App Store copy, ASO, screenshots, rollout, and execution.
 
@@ -12,9 +12,10 @@ Legacy redirect: [RETRORAPID_APP_STORE_REFERENCE.md](RETRORAPID_APP_STORE_REFERE
 
 | If you need to… | Read |
 |---|---|
-| Apply staged metadata to App Store Connect | [03-submission-quality-gate.md](docs/03-submission-quality-gate.md) + `scripts/apply_retrorapid_metadata.py` |
-| Copy/paste **live** name, subtitle, keywords, description | [02-listing-snapshot.md](docs/02-listing-snapshot.md) |
-| Copy/paste **staged** metadata (next pass) | [05-metadata-copy.md](docs/05-metadata-copy.md) |
+| Edit the canonical v1.5 metadata | [`metadata/retrorapid-v1.5.json`](metadata/retrorapid-v1.5.json), then run `swift run --package-path AppStore/scripts generate-metadata-docs` |
+| Apply staged metadata to App Store Connect | [03-submission-quality-gate.md](docs/03-submission-quality-gate.md) + [scripts/README.md](scripts/README.md) |
+| Review **live** public facts, name, subtitle, and keywords | [02-listing-snapshot.md](docs/02-listing-snapshot.md) |
+| Copy/paste generated **staged** metadata | [05-metadata-copy.md](docs/05-metadata-copy.md) |
 | Understand ASO rationale, cross-localization, keyword rules | [04-metadata-strategy.md](docs/04-metadata-strategy.md) |
 | Deep-dive Appfigures / Krankie keyword tables | [appendices/README.md](docs/appendices/README.md) (add dated snapshots when captured) |
 | Update ScreenshotStudio captions or storyboard order | [06-screenshots.md](docs/06-screenshots.md) + [ES/CA slide tables](../Plans/aso/02-screenshot-localization-copy.md) |
@@ -75,18 +76,32 @@ Add dated Appfigures/Krankie snapshots under `docs/appendices/` when captured (e
 
 ## Scripts & assets
 
-- `scripts/apply_retrorapid_metadata.py` — push staged fields to ASC 1.5 drafts via Helm (`--keywords-only` for keyword-only sync)
-- `scripts/split_app_store_docs.py` — regenerate themed files from monolith (if ever needed)
+- `metadata/retrorapid-v1.5.json` — canonical source for staged metadata, draft IDs, limits, and field status
+- `scripts/` — Swift package for generating/validating docs and applying canonical metadata via Helm; see [scripts/README.md](scripts/README.md)
 - `RetroRacing.screenshotstudio/` — Screenshot Studio project
+
+## Active status vocabulary
+
+| Status | Meaning |
+|---|---|
+| `LIVE` | Publicly available in the App Store |
+| `DRAFT_APPLIED` | Written to an editable App Store Connect draft, not submitted |
+| `READY` | Validated and approved for the next workflow step |
+| `BLOCKED` | Cannot proceed until the named issue is resolved |
+| `PLANNED` | Intended work that has not been applied |
+
+Historical material uses **Historical** or **Superseded** and is never an active submission source.
 
 ## Canonical vs historical
 
 | Source | Status |
 |---|---|
-| `docs/02-listing-snapshot.md` | **Live** metadata currently in App Store Connect (v1.4.2 as of 2026-06-24) |
-| `docs/04-metadata-strategy.md` + `docs/05-metadata-copy.md` | **Staged** metadata candidate for v1.5 |
+| `docs/02-listing-snapshot.md` | `LIVE` metadata currently in App Store Connect (v1.4.2 snapshot from 2026-06-24) |
+| `metadata/retrorapid-v1.5.json` | Canonical v1.5 candidate; version fields are `DRAFT_APPLIED`, name/subtitle are `BLOCKED` |
+| `docs/05-metadata-copy.md` + `docs/12-validation-results.md` | Generated human-readable views of the canonical catalog |
+| `docs/04-metadata-strategy.md` | Current rationale and keyword strategy |
 | `docs/07-release-notes-voice.md` | Voice guide + shipped What's New archive |
 | `Plans/aso/03-metadata-v1-superseded.md` | Historical March 2026 pack — do not apply |
-| `docs/11-execution-90-day.md` | **Current** execution checklist |
+| `docs/11-execution-90-day.md` | Current execution checklist |
 | `Plans/aso/05-operational-checklist-60-day.md` | Historical — superseded by 90-day plan |
 | `docs/appendices/` | Dated keyword-research snapshots (add when Appfigures/Krankie baselines are captured) |

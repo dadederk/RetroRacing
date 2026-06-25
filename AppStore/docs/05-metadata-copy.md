@@ -1,14 +1,18 @@
 # Staged Metadata Copy
 
-Part of [App Store docs hub](../README.md). Index: [RETRORAPID_APP_STORE_REFERENCE.md](../RETRORAPID_APP_STORE_REFERENCE.md).
+Part of [App Store docs hub](../README.md).
 
-Last updated: 2026-06-24 (English subtitle cross-localization split)
-**See also:** [Strategy](04-metadata-strategy.md) · [Validation](12-validation-results.md) · [Apply script](../scripts/apply_retrorapid_metadata.py)
+Last updated: 2026-06-25
 
+**Status:** version-localized fields are `DRAFT_APPLIED`; shared name/subtitle fields are `BLOCKED`.
+
+**Canonical source:** [metadata/retrorapid-v1.5.json](../metadata/retrorapid-v1.5.json). Do not edit generated copy directly.
+
+**See also:** [Strategy](04-metadata-strategy.md) · [Validation](12-validation-results.md) · [Apply script](../scripts/README.md)
 
 ---
 
-### Localized Metadata
+## Localized Metadata
 
 | Locale | App name | Name count | Subtitle | Subtitle count | Keywords | Keyword bytes |
 |---|---|---:|---|---:|---|---:|
@@ -22,18 +26,14 @@ Last updated: 2026-06-24 (English subtitle cross-localization split)
 
 Notes:
 
-- **App Store names use `RetroRapid:` not `RetroRapid!`**, matching Xarra (`Xarra: Read, Listen, Focus`) and Mestre (`Mestre: Screen Video Recorder`). The installed app name and in-app UI keep `RetroRapid!` via `BrandMark`.
-- Colon avoids tying discovery to punctuation. Users typically search `RetroRapid` without `!`; Apple's search is generally punctuation-tolerant, but `:` is the portfolio convention and reads as a category separator on the store.
-- Subtitles explain the actual mechanic in one readable phrase: dodge traffic across three lanes.
-- Apple Watch moves out of the subtitle and into promotional text, platform-specific screenshots, and description. This keeps the main listing broadly appealing while preserving Watch as a differentiator.
-- Hidden keywords deliberately omit terms already spent in visible metadata: `arcade`, `racer/racing`, `retro` (already in `RetroRapid`), `dodge/esquiva`, `traffic/tráfico/trànsit`, `carro/carros`, and `lane/carril`.
-- **English cross-localization:** subtitles and keywords are split across locales that index together — **en-GB** + **en-AU** (UK/Australia) and **en-CA** + **en-US** (Canada). Do not repeat subtitle tokens or keyword tokens across paired locales.
-- `en-GB` keeps the traffic-dodge mechanic subtitle; `en-AU` uses high-score/overtake wording. `en-US` keeps the mechanic subtitle; `en-CA` uses records/quick-races wording.
-- `high,score` uses separate English tokens so App Store search can combine them into `high score` within the same locale.
-- Dropped glued offline tokens (`sinconexion`, `sininternet`, `sensexarxa`). Use **`conexion`** (es-ES) and **`internet`** (es-MX) as separate keyword tokens instead; write full phrases such as *sin conexión* / *sin internet* in description and promo copy.
-- Spanish (Mexico) uses **`carros`** in the subtitle and promo, and **`rebasar` / `control` / `internet` / `trafico` / `logros`** in hidden keywords — not **`carro`** (subtitle already uses `carros`).
-- The Catalan field has spare capacity again after removing weak glued offline tokens. Revalidate UTF-8 bytes after any edit.
-### Promotional Text
+- App Store names use `RetroRapid:` while the installed app and in-app UI retain `RetroRapid!` through `BrandMark`.
+- Subtitles explain the actual mechanic in readable language; hidden keywords cover supporting search intents.
+- Apple Watch remains in promotional text, screenshots, and descriptions instead of the subtitle.
+- English cross-localization splits subtitles and keywords across `en-GB`/`en-AU` and `en-CA`/`en-US`.
+- Spanish offline intent uses `conexion` in `es-ES` and `internet` in `es-MX`; full phrases remain in visible descriptions.
+- Re-run the generator after any catalog edit; UTF-8 keyword bytes are validated automatically.
+
+## Promotional Text
 
 | Locale | Promotional text | Count |
 |---|---|---:|
@@ -42,9 +42,9 @@ Notes:
 | ca | `Esquiva trànsit i supera el teu rècord en carreres retro ràpides, amb Game Center, Apple Watch i controls accessibles.` | 118/170 |
 | es-MX | `Esquiva carros y supera tu récord en carreras retro rápidas, con Game Center, Apple Watch y controles accesibles.` | 113/170 |
 
-### Description Candidate
+## Description Candidate
 
-#### en-US / en-GB / en-AU / en-CA
+### en-US / en-GB / en-AU / en-CA
 
 ```text
 RetroRapid! is a fast 3-lane arcade racer built for quick sessions and high-score chasing.
@@ -64,9 +64,9 @@ Why players keep coming back:
 Crash, restart, and beat your best.
 ```
 
-Count: 748/4000 characters.
+Count: 732/4000 characters.
 
-#### es-ES
+### es-ES
 
 ```text
 RetroRapid! es un arcade de carreras de 3 carriles pensado para partidas rápidas y para perseguir tu mejor puntuación.
@@ -86,9 +86,9 @@ Por qué engancha:
 Choca, reinicia y supera tu marca.
 ```
 
-Count: 836/4000 characters.
+Count: 834/4000 characters.
 
-#### ca
+### ca
 
 ```text
 RetroRapid! és un arcade de carreres de 3 carrils pensat per a partides ràpides i per a perseguir la teua millor puntuació.
@@ -108,9 +108,9 @@ Per què enganxa:
 Xoca, reinicia i supera la teua marca.
 ```
 
-Count: 778/4000 characters.
+Count: 843/4000 characters.
 
-#### es-MX
+### es-MX
 
 ```text
 RetroRapid! es un arcade de carreras de 3 carriles pensado para partidas rápidas y para perseguir tu mejor récord.
@@ -130,13 +130,13 @@ Por qué engancha:
 Choca, reinicia y supera tu récord.
 ```
 
-Count: 834/4000 characters. Applied to iOS and macOS 1.5 **es-MX** drafts.
+Count: 832/4000 characters.
 
-### What's New Candidate
+## What's New Candidate
 
-Use this shape for the next bug-fix/polish release if there is no larger feature to lead with. It fixes the live brand mismatch and keeps Game Center value visible without over-explaining.
+Use this shape for the next bug-fix or polish release if there is no larger feature to lead with.
 
-#### en-US / en-GB / en-AU / en-CA
+### en-US / en-GB / en-AU / en-CA
 
 ```text
 This update sharpens RetroRapid! with bug fixes and racing polish. The Game Center update is still the star: earn achievements, chase friends on the track, and share clean snapshots of your best runs. Thanks for racing with us.
@@ -144,7 +144,7 @@ This update sharpens RetroRapid! with bug fixes and racing polish. The Game Cent
 
 Count: 227/4000 characters.
 
-#### es-ES
+### es-ES / es-MX
 
 ```text
 Esta actualización hace que RetroRapid! sea más estable y fiable. Game Center sigue siendo la estrella: logros, amigos en la pista y capturas limpias para compartir tus mejores partidas. Gracias por correr con nosotros.
@@ -152,18 +152,12 @@ Esta actualización hace que RetroRapid! sea más estable y fiable. Game Center 
 
 Count: 219/4000 characters.
 
-#### es-MX
-
-```text
-Esta actualización hace que RetroRapid! sea más estable y fiable. Game Center sigue siendo la estrella: logros, amigos en la pista y capturas limpias para compartir tus mejores partidas. Gracias por correr con nosotros.
-```
-
-Count: 219/4000 characters.
-
-#### ca
+### ca
 
 ```text
 Esta actualització fa que RetroRapid! siga més estable i fiable. Game Center continua sent l'estrela: assoliments, amistats en la pista i captures netes per a compartir les teues millors partides. Gràcies per córrer amb nosaltres.
 ```
 
 Count: 230/4000 characters.
+
+_Generated by `swift run --package-path AppStore/scripts generate-metadata-docs`._

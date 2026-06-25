@@ -4,6 +4,8 @@
 
 **→ [App Store docs hub (start here)](README.md)**
 
+Canonical staged metadata lives in [`metadata/retrorapid-v1.5.json`](metadata/retrorapid-v1.5.json); docs 05 and 12 are generated views.
+
 ## Quick links
 
 | Theme | Doc |
@@ -29,4 +31,4 @@
 - [Localization requirements](../Requirements/localization.md)
 - [Xarra App Store reference](../../Xarra/AppStore/README.md)
 
-Last updated: 2026-06-24
+Last updated: 2026-06-25

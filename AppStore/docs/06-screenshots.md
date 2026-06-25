@@ -2,7 +2,10 @@
 
 Part of [App Store docs hub](../README.md). Index: [RETRORAPID_APP_STORE_REFERENCE.md](../RETRORAPID_APP_STORE_REFERENCE.md).
 
-Last updated: 2026-06-24
+Last updated: 2026-06-25
+
+**Status:** source copy is `READY`; remaining localized rendering and ASC uploads are `PLANNED`. The Apple Watch sequence is `BLOCKED` pending final selection.
+
 **See also:** [ES/CA slide copy](../../Plans/aso/02-screenshot-localization-copy.md) · [PPO](09-product-page-optimization.md)
 
 
@@ -46,9 +49,9 @@ Source `data.plist` entries now match the recommended storyboard below for all E
 | 6 | `Choose Your Retro Aesthetic` | `Switch from pocket-console green to LCD handheld style, and make every run feel properly retro.` | Themes |
 | 7 | `Customize Your Experience` | `Tune controls, haptics, volume, visual style, and feedback so RetroRapid! fits your play style.` | Personalization (`Customise` on en-GB/en-AU) |
 
-### Recommended Screenshot Storyboard
+### Approved Screenshot Storyboard
 
-Use this as the next source-copy pass for iPhone, iPad, and Mac. Localize all slides before export.
+This is the approved source story for iPhone, iPad, and Mac. Keep all localized exports aligned with this order.
 
 | # | Title | Body | Purpose |
 |---:|---|---|---|
