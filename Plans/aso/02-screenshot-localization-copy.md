@@ -3,7 +3,7 @@
 Part of [ASO & growth plans](README.md). Index: [retrorapid_aso_growth_plan.md](../retrorapid_aso_growth_plan.md).
 
 Last updated: 2026-06-24
-**See also:** [Current storyboard](../../AppStore/docs/06-screenshots.md) · Sync script: `Scripts/SyncScreenshotStudioLocalizations.swift`
+**See also:** [Current storyboard](../../AppStore/docs/06-screenshots.md) · Sync command: `swift run --package-path Scripts sync-screenshot-studio-localizations`
 
 
 ---

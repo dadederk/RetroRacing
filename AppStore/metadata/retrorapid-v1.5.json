@@ -94,6 +94,13 @@
       "whatsNew": "Esta actualización hace que RetroRapid! sea más estable y fiable. Game Center sigue siendo la estrella: logros, amigos en la pista y capturas limpias para compartir tus mejores partidas. Gracias por correr con nosotros."
     }
   },
+  "allowedShortKeywords": [],
+  "screenshotProfiles": {
+    "iphone": 7,
+    "ipad": 7,
+    "mac": 7,
+    "appleWatch": 7
+  },
   "platformDrafts": {
     "iOS": {
       "versionId": "af16a599-2c7b-4ccb-90bd-9aaa9b8d1e1e",

@@ -4,7 +4,7 @@ Part of [App Store docs hub](../README.md). Index: [RETRORAPID_APP_STORE_REFEREN
 
 Last updated: 2026-06-25
 
-**See also:** [Metadata copy](05-metadata-copy.md) · [Live listing](02-listing-snapshot.md) · [90-day plan](11-execution-90-day.md) · [Swift scripts](../scripts/README.md)
+**See also:** [Metadata copy](05-metadata-copy.md) · [Live listing](02-listing-snapshot.md) · [90-day plan](11-execution-90-day.md) · [Swift scripts](../../Scripts/README.md)
 
 ---
 
@@ -34,7 +34,7 @@ Ready to submit when:
 
 Helm CLI path: `/Applications/Helm.app/Contents/Helpers/helm-asc`
 
-Repeatable Swift command: `apply-retrorapid-metadata` in the `AppStore/scripts` package.
+Repeatable Swift command: `apply-retrorapid-metadata` in the root `Scripts` package.
 
 On 2026-06-24, `helm-asc` / the apply script updated the editable **1.5** drafts for **iOS** and **macOS** across **en-US**, **en-GB**, **en-AU**, **en-CA**, **es-ES**, **ca**, and **es-MX**. Nothing was submitted to App Review.
 
@@ -52,11 +52,11 @@ On 2026-06-24, `helm-asc` / the apply script updated the editable **1.5** drafts
 | **Name + subtitle** | `BLOCKED` | ASC still returns HTTP 409 for shared App Information updates. Set manually in App Store Connect before submission. |
 
 ```bash
-swift run --package-path AppStore/scripts generate-metadata-docs --check
-swift run --package-path AppStore/scripts apply-retrorapid-metadata --dry-run
-swift run --package-path AppStore/scripts apply-retrorapid-metadata
-swift run --package-path AppStore/scripts apply-retrorapid-metadata --keywords-only
-swift run --package-path AppStore/scripts apply-retrorapid-metadata --include-app-info
+swift run --package-path Scripts generate-metadata-docs --check
+swift run --package-path Scripts apply-retrorapid-metadata --dry-run
+swift run --package-path Scripts apply-retrorapid-metadata
+swift run --package-path Scripts apply-retrorapid-metadata --keywords-only
+swift run --package-path Scripts apply-retrorapid-metadata --include-app-info
 ```
 
 The Swift tool reads `AppStore/metadata/retrorapid-v1.5.json` and validates it before calling Helm. By default it applies only version-localization fields. Use `--keywords-only` for a keyword-only sync, `--dry-run` for a non-mutating preflight, and `--include-app-info` only when intentionally retrying the currently blocked shared name/subtitle fields.
@@ -65,8 +65,8 @@ The Swift tool reads `AppStore/metadata/retrorapid-v1.5.json` and validates it b
 
 When the API blocks shared App Info (HTTP 409 on name/subtitle), apply fields manually:
 
-1. Run `swift run --package-path AppStore/scripts generate-metadata-docs --check`.
-2. Run `swift run --package-path AppStore/scripts apply-retrorapid-metadata --dry-run`, then apply the version-localization fields.
+1. Run `swift run --package-path Scripts generate-metadata-docs --check`.
+2. Run `swift run --package-path Scripts apply-retrorapid-metadata --dry-run`, then apply the version-localization fields.
 3. In App Store Connect → App Information, set **name** and **subtitle** per locale from `05-metadata-copy.md`.
 4. Re-open the version draft and confirm keywords, promo, description, and What's New match the generated pack.
 5. Upload the regenerated Screenshot Studio exports (`06-screenshots.md`).

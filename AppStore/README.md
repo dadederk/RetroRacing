@@ -12,8 +12,8 @@ Legacy redirect: [RETRORAPID_APP_STORE_REFERENCE.md](RETRORAPID_APP_STORE_REFERE
 
 | If you need to… | Read |
 |---|---|
-| Edit the canonical v1.5 metadata | [`metadata/retrorapid-v1.5.json`](metadata/retrorapid-v1.5.json), then run `swift run --package-path AppStore/scripts generate-metadata-docs` |
-| Apply staged metadata to App Store Connect | [03-submission-quality-gate.md](docs/03-submission-quality-gate.md) + [scripts/README.md](scripts/README.md) |
+| Edit the canonical v1.5 metadata | [`metadata/retrorapid-v1.5.json`](metadata/retrorapid-v1.5.json), then run `swift run --package-path Scripts generate-metadata-docs` |
+| Apply staged metadata to App Store Connect | [03-submission-quality-gate.md](docs/03-submission-quality-gate.md) + [Scripts/README.md](../Scripts/README.md) |
 | Review **live** public facts, name, subtitle, and keywords | [02-listing-snapshot.md](docs/02-listing-snapshot.md) |
 | Copy/paste generated **staged** metadata | [05-metadata-copy.md](docs/05-metadata-copy.md) |
 | Understand ASO rationale, cross-localization, keyword rules | [04-metadata-strategy.md](docs/04-metadata-strategy.md) |
@@ -77,8 +77,8 @@ Add dated Appfigures/Krankie snapshots under `docs/appendices/` when captured (e
 ## Scripts & assets
 
 - `metadata/retrorapid-v1.5.json` — canonical source for staged metadata, draft IDs, limits, and field status
-- `scripts/` — Swift package for generating/validating docs and applying canonical metadata via Helm; see [scripts/README.md](scripts/README.md)
-- `RetroRacing.screenshotstudio/` — Screenshot Studio project
+- Repository automation lives at repo-root [`Scripts/`](../Scripts/) (Swift package for generating/validating docs and applying canonical metadata via Helm); see [Scripts/README.md](../Scripts/README.md)
+- `RetroRapid.screenshotstudio/` — Screenshot Studio project (see [Legacy technical names](#legacy-technical-names))
 
 ## Active status vocabulary
 
@@ -105,3 +105,15 @@ Historical material uses **Historical** or **Superseded** and is never an active
 | `docs/11-execution-90-day.md` | Current execution checklist |
 | `Plans/aso/05-operational-checklist-60-day.md` | Historical — superseded by 90-day plan |
 | `docs/appendices/` | Dated keyword-research snapshots (add when Appfigures/Krankie baselines are captured) |
+
+## Legacy technical names
+
+Some repository assets retain the **RetroRacing** technical prefix from early development:
+
+| Asset | Location | Notes |
+|---|---|---|
+| Shipped app icon | `RetroRacingShared/Assets/RetroRapid.icon` | Canonical Xcode asset; wired in the project |
+| Screenshot Studio | `AppStore/RetroRapid.screenshotstudio/` | Renamed from `RetroRacing.screenshotstudio` |
+| Archived icon source | `Icon/_archive/RetroRacing.icon/` | Legacy design source; not referenced by Xcode |
+
+Do not rename Xcode project references without a dedicated migration pass.

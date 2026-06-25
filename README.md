@@ -1,6 +1,19 @@
-# RetroRacing
+# RetroRapid!
 
-Retro-style racing game for **watchOS**, **iOS**, **iPadOS**, **tvOS**, **macOS**, and **visionOS**. Built with SwiftUI, SpriteKit, and Game Center.
+**RetroRapid!** is a retro-style arcade racing game for Apple platforms. The repository and Xcode project use the technical name **RetroRacing**; the user-facing brand is **RetroRapid!**.
+
+Built with SwiftUI, SpriteKit, and Game Center.
+
+## Platform matrix
+
+| Platform | Xcode target | Public App Store |
+|---|---|---|
+| iPhone / iPad / macOS | **RetroRacingUniversal** | Shipping |
+| Apple Watch | **RetroRacingWatchOS** | Shipping |
+| tvOS | **RetroRacingTvOS** | Built, not publicly listed |
+| visionOS | **RetroRacingVisionOS** | Public placeholder ("Coming Soon") |
+
+See [`AppStore/docs/02-listing-snapshot.md`](AppStore/docs/02-listing-snapshot.md) for live listing facts.
 
 ## Project structure
 
@@ -11,18 +24,18 @@ Retro-style racing game for **watchOS**, **iOS**, **iPadOS**, **tvOS**, **macOS*
 - **RetroRacingShared** — Shared framework: game logic (SpriteKit), themes, services (leaderboard, rating, auth), models. Used by all app targets.
 - **RetroRacingSharedTests** — Unit tests for shared logic (sibling of `RetroRacingShared/` in the repo).
 
-Test and UI test targets are **siblings** of each app folder (e.g. `RetroRacingUniversalTests/`, `RetroRacingUniversalUITests/` next to `RetroRacingUniversal/`). See `Requirements/folder_structure.md` for the full layout.
+Test and UI test targets are **siblings** of each app folder (e.g. `RetroRacingUniversalTests/`, `RetroRacingUniversalUITests/` next to `RetroRacingUniversal/`). See [`Requirements/folder_structure.md`](Requirements/folder_structure.md) for the full layout.
 Legacy folders (`RetroRacing/RetroRacing*` old pilot layouts) have been removed; the pbxproj points only to the canonical structure above.
 
 ## Requirements
 
-- Xcode 16+
+- Xcode 26+
 - Deployment: iOS 26+, watchOS 26+, tvOS 26+, macOS 26+, visionOS 26+
 
 ## Behaviour & Flow
 
-- Launch and menu flow is documented in `Requirements/launch_flow.md` (game-base + full-screen menu overlay on Universal and tvOS).
-- Accessibility requirements, including reduce motion, VoiceOver, and navigation expectations, are documented in `Requirements/accessibility.md`.
+- Launch and menu flow is documented in [`Requirements/launch_flow.md`](Requirements/launch_flow.md) (game-base + full-screen menu overlay on Universal and tvOS).
+- Accessibility requirements, including reduce motion, VoiceOver, and navigation expectations, are documented in [`Requirements/accessibility.md`](Requirements/accessibility.md).
 
 ## Build and run
 
@@ -32,8 +45,11 @@ Legacy folders (`RetroRacing/RetroRacing*` old pilot layouts) have been removed;
 
 ## Run tests
 
-In Xcode: choose a test scheme (e.g. **RetroRacingSharedTests**, **RetroRacingUniversalTests**) and run tests (⌘U). From the command line, use `xcrun xcodebuild test` with the desired scheme and destination (e.g. `-scheme RetroRacingSharedTests -destination "platform=iOS Simulator,name=iPhone 16"`).
+In Xcode: choose the **RetroRacingUniversal** scheme and run tests (⌘U).
+From the command line, use `swift run --package-path Scripts run-tests`; add
+`--dry-run` to inspect the resolved commands or `--destination <value>` to
+select another simulator.
 
 ## Guidelines for contributors
 
-Read **AGENTS.md** and the docs in **Requirements/** before changing behaviour or architecture.
+Read **AGENTS.md** and route feature work through [`Requirements/INDEX.md`](Requirements/INDEX.md) before changing behaviour or architecture.

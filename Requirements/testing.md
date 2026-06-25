@@ -13,10 +13,14 @@ RetroRacing follows a **unit-test-first** approach with comprehensive coverage o
 **Build flags:** All schemes compile with `SWIFT_DEFAULT_ACTOR_ISOLATION=MainActor` and `SWIFT_STRICT_CONCURRENCY=targeted`. Keep tests green under these flags; raise to `complete` once warnings are zero.
 
 ```bash
-cd RetroRacing && xcrun xcodebuild test -scheme RetroRacingUniversal -destination "platform=iOS Simulator,name=iPhone 17 Pro" -only-testing:RetroRacingSharedTests
-cd RetroRacing && xcrun xcodebuild test -scheme RetroRacingUniversal -destination "platform=iOS Simulator,name=iPhone 17 Pro" -only-testing:RetroRacingUniversalTests
+swift run --package-path Scripts run-tests --dry-run
+swift run --package-path Scripts run-tests
 cd RetroRacing && xcrun xcodebuild build -scheme RetroRacingUniversal -destination "platform=macOS"
 ```
+The test recipe resolves the `RetroRacingUniversal` scheme and runs
+`RetroRacingSharedTests` followed by `RetroRacingUniversalTests`. Override the
+simulator with `--destination <xcodebuild-destination>` when needed.
+
 If local signing blocks simulator/macOS verification, run with `CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO` for CI-like compile/test validation.
 
 **Focus Areas:**

@@ -12,7 +12,7 @@ Last updated: 2026-03-14 (campaign); brand status refreshed 2026-06-24
 
 - RetroRapid microsite: https://accessibilityupto11.com/apps/retrorapid/
 - RetroRapid App Store listing: https://apps.apple.com/us/app/retrorapid/id6758641625
-- ScreenshotStudio source project: `/Users/dadederk/Documents/RetroRacing.screenshotstudio`
+- ScreenshotStudio source project: `AppStore/RetroRapid.screenshotstudio/`
 - Apple App Store localizations reference: https://developer.apple.com/help/app-store-connect/reference/app-store-localizations
 - Apple Getting Featured overview: https://developer.apple.com/app-store/getting-featured/
 - Apple nomination workflow: https://developer.apple.com/help/app-store-connect/manage-featuring-nominations/nominate-your-app-for-featuring/

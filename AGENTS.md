@@ -10,17 +10,18 @@ AI Agent development guidelines for **RetroRacing** (repo/project name). The use
 
 ### Critical Rules ⚠️
 
-1. **ALWAYS** read requirement files in `/Requirements/` before implementing features
+1. **ALWAYS** read requirement files via `Requirements/INDEX.md` before implementing features
 2. **ALWAYS** ensure the app compiles — the app must ALWAYS compile without errors
 3. **ALWAYS** run unit tests after code changes — unit tests must pass
 4. **ALWAYS** update/create requirement docs after changing features
 5. **ALWAYS** use protocol-based dependency injection — no default instantiations in init
-6. **ALWAYS** maximize code reuse — shared logic goes in `RetroRacing Shared/`
+6. **ALWAYS** maximize code reuse — shared logic goes in `RetroRacingShared/`
 7. **NEVER** use `#if os()` flags in service layer — use configuration injection
 8. **NEVER** duplicate logic between platforms — refactor to shared module
 9. **NEVER** force unwrap optionals — use safe unwrapping patterns
 10. **ALWAYS** use standard file headers for new Swift source files with `Created by Dani Devesa`
 11. **Route App Store listing and ASO work** through `Plans/INDEX.md`; do not hardcode store doc paths in `AGENTS.md`
+12. **Route repository automation and script work** through `Scripts/README.md` and `Scripts/CONVENTIONS.md`; do not duplicate script conventions in `AGENTS.md`
 
 ### Brand Mark
 
@@ -51,17 +52,29 @@ RetroRacing is a retro-style racing game built for **all Apple platforms** with 
 - **User customization**: Rich settings, multiple control schemes, visual themes
 - **Modern Swift**: Swift 6+, latest Apple APIs, strict concurrency
 
+### Public shipping vs implemented targets
+
+All six platform targets are implemented in Xcode. Public App Store shipping differs:
+
+| Platform | Target | Public status |
+|---|---|---|
+| iPhone / iPad / macOS | `RetroRacingUniversal` | Shipping |
+| Apple Watch | `RetroRacingWatchOS` | Shipping |
+| tvOS | `RetroRacingTvOS` | Built, not publicly listed |
+| visionOS | `RetroRacingVisionOS` | Public placeholder ("Coming Soon") |
+
+Do not treat tvOS or visionOS as equal shipping promises in metadata, screenshots, or user-facing copy. See `AppStore/docs/02-listing-snapshot.md` and `AppStore/docs/06-screenshots.md`.
+
 ### Requirements Documentation 📋
 
-**IMPORTANT**: Before implementing any feature, read the relevant requirement files in `/Requirements/`:
+**IMPORTANT**: Before implementing any feature, route through `Requirements/INDEX.md` and read the relevant contract files. Key examples:
 
 - **leaderboard_implementation.md** - Game Center integration architecture
 - **testing.md** - Testing strategy and requirements
 - **theming_system.md** - Visual theme system and monetization
-- **[Future]** game_logic.md - Core game mechanics and rules
 - **accessibility.md** - Accessibility requirements per platform (Reduce Motion, VoiceOver, SpriteKit labels)
-- **[Future]** input_handling.md - Control schemes per platform
-- **[Future]** settings.md** - User customization options
+- **input_handling.md** - Control schemes per platform
+- **controller_input.md** - Physical game controller support
 
 These files contain detailed specifications, edge cases, and design decisions. **Always consult them before starting work on a feature.**
 
@@ -75,27 +88,28 @@ These files contain detailed specifications, edge cases, and design decisions. *
 
 ```
 RetroRacing/
-├── RetroRacing Shared/     # Cross-platform game logic
-│   ├── GameScene.swift     # SpriteKit game scene
-│   ├── GameState.swift     # Game state model
-│   ├── GridState.swift     # Grid logic
+├── RetroRacingShared/        # Cross-platform game logic
+│   ├── GameScene.swift       # SpriteKit game scene
+│   ├── GameState.swift       # Game state model
+│   ├── GridState.swift       # Grid logic
 │   ├── GridStateCalculator.swift
-│   ├── Services/           # Protocol-based services
+│   ├── Services/             # Protocol-based services
 │   │   ├── LeaderboardService.swift
 │   │   ├── GameCenterService.swift
 │   │   ├── RatingService.swift
 │   │   └── StoreReviewService.swift
-│   └── Extensions/         # Shared utilities
-├── RetroRacing iOS/        # iOS-specific UI (SwiftUI)
-│   ├── Views/ (GameView, MenuView, LeaderboardView)
+│   └── Extensions/           # Shared utilities
+├── RetroRacingUniversal/     # iOS, iPadOS, macOS UI (SwiftUI)
+│   ├── Menu/View/ (MenuView)
+│   ├── Game/View/ (GameView)
 │   └── Configuration/
 │       └── LeaderboardConfigurationUniversal.swift
-├── RetroRacing watchOS/    # watchOS-specific UI (SwiftUI)
-│   ├── WatchGameView, ContentView
-│   └── MenuView
-├── RetroRacing tvOS/       # tvOS-specific UI (SwiftUI)
-├── RetroRacing macOS/      # macOS-specific UI (AppKit/SwiftUI)
-└── RetroRacing visionOS/   # visionOS-specific UI (SwiftUI)
+├── RetroRacingWatchOS/       # watchOS UI (SwiftUI)
+│   ├── Game/View/WatchGameView.swift
+│   └── Menu/View/ContentView.swift
+├── RetroRacingTvOS/          # tvOS UI (SwiftUI)
+├── RetroRacingVisionOS/      # visionOS UI (SwiftUI)
+└── Scripts/                  # Repository automation (Swift package)
 ```
 
 ### Key Principles
@@ -104,7 +118,7 @@ RetroRacing/
 - **Protocol-Driven Design**: Abstract platform differences behind protocols
 - **Configuration Injection**: Platform differences via configuration objects
 - **Dependency Injection**: All dependencies passed explicitly, no defaults in init
-- **Maximum Code Reuse**: Share everything possible in `RetroRacing Shared/`
+- **Maximum Code Reuse**: Share everything possible in `RetroRacingShared/`
 - **Platform-Specific UI Only**: UI layer handles platform differences, logic is shared
 - **Accessibility First**: Every feature should aim for best-effort accessibility on every platform
 
@@ -312,16 +326,6 @@ GameViewController+Delegates.swift // 60 lines - delegate conformances
 - **Comments explain WHY, not WHAT**: `// Using SpriteKit for hardware acceleration` not `// Start game`
 - Only comment when reasoning isn't obvious from code
 
-### Script Engineering
-
-- **Prefer Swift for repository automation and operational scripts.** Use another language only when a required ecosystem or tool makes Swift impractical, and document the reason.
-- **Scripts should read like recipes.** Keep the executable entry point as a short sequence of clearly named operations.
-- **Use short, single-purpose functions with descriptive names.** Move parsing, validation, rendering, and external-process details behind intention-revealing APIs.
-- **Share script logic instead of copying it.** Use a small Swift package or shared Swift source when multiple commands need the same models or behavior.
-- **Design external mutations explicitly.** Provide validation and dry-run modes before scripts update App Store Connect, files, or other external state.
-- **Keep scripts testable.** Separate deterministic transformations from filesystem and process execution, and add focused Swift tests for the deterministic parts.
-- **Apply the standard Swift file header** with `Created by Dani Devesa` to new script source files.
-
 ### File Organization Pattern
 
 ```swift
@@ -442,12 +446,12 @@ class GameScene: SKScene {
 
 **Shared logic and services** (game logic, GameCenterService, mocks):
 ```bash
-cd RetroRacing && xcrun xcodebuild test -scheme RetroRacingSharedTests -destination "platform=iOS Simulator,name=iPhone 17 Pro"
+swift run --package-path Scripts run-tests
 ```
 
 **App-level tests** (RetroRacingUniversal target):
 ```bash
-cd RetroRacing && xcrun xcodebuild test -scheme RetroRacingUniversalTests -destination "platform=iOS Simulator,name=iPhone 17 Pro"
+swift run --package-path Scripts run-tests
 ```
 
 **Focus Areas:**
@@ -613,10 +617,12 @@ Do not duplicate task routing tables in this file. Use the index or hub for each
 
 | Kind | Path | Use for |
 |---|---|---|
-| — | `Requirements/` | Shipped in-app behavior (read relevant contract files) |
+| — | `Requirements/INDEX.md` | Shipped in-app behavior (task routing + contract files) |
 | INDEX | `Plans/INDEX.md` | Roadmap, themed plans, App Store task routing |
 | README | `AppStore/README.md` | Listing copy, ASO, screenshots, rollout |
 | README | `Plans/aso/README.md` | ASO campaigns and featuring playbooks |
+| README | `Scripts/README.md` | Script commands, recipes, mutation safety |
+| — | `Scripts/CONVENTIONS.md` | Script engineering standards and package layout |
 | — | `Docs/` | Working drafts only (see `Docs/README.md`) |
 
 ### Naming conventions
@@ -629,20 +635,21 @@ Do not duplicate task routing tables in this file. Use the index or hub for each
 
 ## File Locations Reference
 
-- **Requirements**: `/Requirements/` directory (detailed specs for each feature)
-- **Shared Code**: `RetroRacing/RetroRacing Shared/`
-- **Services**: `RetroRacing/RetroRacing Shared/Services/`
-- **Platform UIs**: `RetroRacing/RetroRacing [Platform]/`
-- **Tests**: `RetroRacing/RetroRacingUniversalTests/`, `RetroRacing/RetroRacingSharedTests/`
-- **Localization**: `RetroRacing/RetroRacing Shared/Localizable.xcstrings`
+- **Requirements**: `Requirements/INDEX.md` (task routing to contract files)
+- **Scripts**: `Scripts/README.md` (commands); `Scripts/CONVENTIONS.md` (engineering standards)
+- **Shared Code**: `RetroRacing/RetroRacingShared/`
+- **Services**: `RetroRacing/RetroRacingShared/Services/`
+- **Platform UIs**: `RetroRacingUniversal/`, `RetroRacingWatchOS/`, `RetroRacingTvOS/`, `RetroRacingVisionOS/`
+- **Tests**: `RetroRacingUniversalTests/`, `RetroRacingSharedTests/`
+- **Localization**: `RetroRacing/RetroRacingShared/Localizable.xcstrings`
 
 ## Getting Started Checklist
 
 When working on this project:
 
-1. ✅ **Read the relevant requirement files** in `/Requirements/` FIRST
+1. ✅ **Read the relevant requirement files** via `Requirements/INDEX.md` FIRST
    - These contain detailed specs, edge cases, and design decisions
-2. ✅ Check if code can be shared — put in `RetroRacing Shared/` if platform-agnostic
+2. ✅ Check if code can be shared — put in `RetroRacingShared/` if platform-agnostic
 3. ✅ Follow architecture principles above
 4. ✅ Ensure best-effort accessibility and adaptability
 5. ✅ Write unit tests for new functionality
@@ -679,7 +686,7 @@ Create `/Requirements/power_ups.md` with:
 ### 2. Define Shared Logic
 
 ```swift
-// RetroRacing Shared/PowerUp.swift
+// RetroRacingShared/PowerUp.swift
 enum PowerUpType {
     case speedBoost
     case shield
@@ -767,6 +774,7 @@ Document implementation decisions, edge cases discovered, testing results.
 
 ---
 
-**Version**: 1.1  
-**Last Updated**: 2026-02-03  
+**Version**: 1.4  
+**Last Updated**: 2026-06-25  
+**Changelog**: Routed script engineering conventions to `Scripts/CONVENTIONS.md`; kept a thin router in Critical Rules and Documentation Routing.  
 **References**: Apple HIG, Swift 6.2 docs, Xarra AGENTS.md, Requirements/concurrency.md

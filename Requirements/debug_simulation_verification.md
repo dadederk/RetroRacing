@@ -176,29 +176,30 @@ Key Tests:
   - Security considerations
   - Edge cases and troubleshooting
 
-- `Scripts/verify_debug_isolation.sh`
-  - Automated verification script
-  - Checks compile-time guards
-  - Checks runtime guards
-  - Runs test suite
-  - Verifies no debug leaks
+- `Scripts/run-tests` (via `swift run --package-path Scripts run-tests`)
+  - Runs the debug isolation test suite before release
+  - Replaces the removed `verify_debug_isolation.sh` shell script
 
 ## Automated Verification
 
-Created `Scripts/verify_debug_isolation.sh` that:
-1. ✅ Verifies BuildConfiguration uses `#if DEBUG`
-2. ✅ Verifies StoreKitService has runtime guards
-3. ✅ Verifies SettingsView guards debug UI
-4. ✅ Runs all isolation tests
-5. ✅ Checks for potential debug code leaks
+Run the consolidated test runner with the isolation test filter:
 
-**Result**: All checks passed ✅
+```bash
+swift run --package-path Scripts run-tests \
+  --only-testing RetroRacingSharedTests/DebugSimulationProductionIsolationTests
+```
+
+This runs all 14 `DebugSimulationProductionIsolationTests` cases that verify:
+1. BuildConfiguration compile-time guards (`#if DEBUG`)
+2. StoreKitService runtime guards
+3. SettingsView debug UI guards
+4. Play limit integration in both debug and production paths
 
 ## Pre-Release Checklist
 
 Before submitting to App Store:
 
-- [x] Automated verification script passes
+- [x] Automated isolation test suite passes (`run-tests --only-testing ...DebugSimulationProductionIsolationTests`)
 - [x] All unit tests pass (14/14 isolation tests + existing tests)
 - [x] Debug section not visible in Release configuration
 - [x] StoreKitService reverts simulation mode in production
@@ -244,11 +245,11 @@ The debug simulation system is **safe to ship** because:
 2. **Comprehensive testing**: 14 tests verify both scenarios
 3. **Zero production impact**: Debug code completely removed from release builds
 4. **Well-documented**: Clear architecture and usage documentation
-5. **Automated verification**: Script confirms safety before releases
+5. **Automated verification**: `run-tests --only-testing` filter confirms safety before releases
 
 ### Ongoing Maintenance
 
-1. Run `Scripts/verify_debug_isolation.sh` before each App Store submission
+1. Run `swift run --package-path Scripts run-tests --only-testing RetroRacingSharedTests/DebugSimulationProductionIsolationTests` before each App Store submission
 2. Keep test suite up to date as features evolve
 3. Document any new debug features in Requirements/debug_simulation.md
 4. Review this document quarterly to ensure mitigations remain effective
@@ -267,8 +268,8 @@ The debug simulation system is **safe to ship** because:
 
 ### Run Automated Verification
 ```bash
-cd /Users/dadederk/Developer/RetroRacing
-./Scripts/verify_debug_isolation.sh
+swift run --package-path Scripts run-tests \
+  --only-testing RetroRacingSharedTests/DebugSimulationProductionIsolationTests
 ```
 
 ### Run Tests Manually

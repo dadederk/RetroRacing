@@ -15,12 +15,12 @@ Last updated: 2026-06-25
 
 Screenshot Studio project:
 
-- [Project root](../RetroRacing.screenshotstudio/)
-- [iPhone source copy](../RetroRacing.screenshotstudio/iphone/data.plist)
-- [iPad source copy](../RetroRacing.screenshotstudio/ipad/data.plist)
-- [Mac source copy](../RetroRacing.screenshotstudio/mac/data.plist)
-- [Apple Watch source copy](../RetroRacing.screenshotstudio/appleWatch/data.plist)
-- [Project settings](../RetroRacing.screenshotstudio/project.plist)
+- [Project root](../RetroRapid.screenshotstudio/)
+- [iPhone source copy](../RetroRapid.screenshotstudio/iphone/data.plist)
+- [iPad source copy](../RetroRapid.screenshotstudio/ipad/data.plist)
+- [Mac source copy](../RetroRapid.screenshotstudio/mac/data.plist)
+- [Apple Watch source copy](../RetroRapid.screenshotstudio/appleWatch/data.plist)
+- [Project settings](../RetroRapid.screenshotstudio/project.plist)
 
 Current source state on 2026-06-24:
 
@@ -32,8 +32,9 @@ Current source state on 2026-06-24:
 - iPhone has English-variant JPEG exports; `es-ES`, `es-MX`, and `ca` JPEGs must be re-exported from Screenshot Studio.
 - iPad has locale manifests but no rendered exports yet.
 - Apple Watch stays **sequence-first**: English locales keep the hook overlay on slide 1; `es-ES`, `es-MX`, and `ca` use empty overlay text.
-- Re-sync copy and manifests after edits: `swift Scripts/SyncScreenshotStudioLocalizations.swift` (from repo root)
-- ScreenshotStudio still has Apple TV and Apple Vision selected in project settings. Apple TV should be parked unless tvOS is actively shipping. Apple Vision needs a product decision because the public App Store listing shows compatibility.
+- Re-sync copy and manifests after edits: `swift run --package-path Scripts sync-screenshot-studio-localizations`
+- Verify copy, manifests, and shared locale images without writing: `swift run --package-path Scripts sync-screenshot-studio-localizations --check`
+- Screenshot Studio `selectedPlatforms` should match shipping platforms only (iPhone, iPad, Mac, Apple Watch). Park Apple TV and Apple Vision until those products ship publicly.
 
 ### Current iPhone/iPad Sequence (source copy)
 

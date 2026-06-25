@@ -38,7 +38,7 @@ When a user requests ASO optimization or metadata review:
    - Ensure all metadata follows Apple's character limits
 
 4. **Validate Character Counts**
-   - For RetroRapid, run `swift run --package-path AppStore/scripts generate-metadata-docs --check`
+   - For RetroRapid, run `swift run --package-path Scripts generate-metadata-docs --check`
    - For unrelated one-off metadata, use `scripts/validate_metadata.py`
    - Display validation results with character counts and limit compliance
    - Flag any violations with specific corrections needed
