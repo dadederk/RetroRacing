@@ -21,7 +21,7 @@ Legacy redirect: [RETRORAPID_APP_STORE_REFERENCE.md](RETRORAPID_APP_STORE_REFERE
 | Update ScreenshotStudio captions or storyboard order | [06-screenshots.md](docs/06-screenshots.md) + [ES/CA slide tables](../Plans/aso/02-screenshot-localization-copy.md) |
 | Write release notes | [07-release-notes-voice.md](docs/07-release-notes-voice.md) |
 | Copy/paste **staged** What's New for next submit | [05-metadata-copy.md](docs/05-metadata-copy.md#whats-new-candidate) |
-| Check character/byte limits or validation status | [01-limits-and-sources.md](docs/01-limits-and-sources.md) + [12-validation-results.md](docs/12-validation-results.md) |
+| Check character/byte limits or validation status | [01-limits-and-sources.md](docs/01-limits-and-sources.md) + [12-validation-results.md](docs/12-validation-results.md) — regenerate with `swift run --package-path Scripts generate-metadata-docs --check` |
 | See what's live vs staged | [02-listing-snapshot.md](docs/02-listing-snapshot.md) + [03-submission-quality-gate.md](docs/03-submission-quality-gate.md) |
 | Plan new locales | [08-locale-expansion.md](docs/08-locale-expansion.md) |
 | Run PPO or post-launch measurement | [09-product-page-optimization.md](docs/09-product-page-optimization.md) + [10-aso-improvement-loop.md](docs/10-aso-improvement-loop.md) |
@@ -117,3 +117,12 @@ Some repository assets retain the **RetroRacing** technical prefix from early de
 | Archived icon source | `Icon/_archive/RetroRacing.icon/` | Legacy design source; not referenced by Xcode |
 
 Do not rename Xcode project references without a dedicated migration pass.
+
+## Validation
+
+RetroRapid's Scripts metadata pipeline (`generate-metadata-docs`, `check-documentation`) is canonical for staged catalog validation and generated docs. The generic Python script in `.agents/skills/app-store-aso/scripts/validate_metadata.py` remains available for ad-hoc ASO work only.
+
+```bash
+swift run --package-path Scripts generate-metadata-docs --check
+swift run --package-path Scripts check-documentation
+```

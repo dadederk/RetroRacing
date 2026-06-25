@@ -23,6 +23,23 @@ AI Agent development guidelines for **RetroRacing** (repo/project name). The use
 11. **Route App Store listing and ASO work** through `Plans/INDEX.md`; do not hardcode store doc paths in `AGENTS.md`
 12. **Route repository automation and script work** through `Scripts/README.md` and `Scripts/CONVENTIONS.md`; do not duplicate script conventions in `AGENTS.md`
 
+### Skills
+
+Load on demand. Paths use upstream package names — never fork-rename the directory or `name` field in `SKILL.md`. Update vendored skills with the upstream tool (e.g. `npx skills update ios-accessibility`).
+
+| Skill | Path | Use when |
+|---|---|---|
+| `retrorapid-conventions` | `.cursor/skills/` | DI, SpriteKit+SwiftUI, logging, shared module boundaries |
+| `ios-accessibility` | `.agents/skills/` | VoiceOver, Dynamic Type, SpriteKit labels, game UI |
+| `swiftui-expert-skill` | `.agents/skills/` | SwiftUI structure and performance |
+| `swift-concurrency` | `.agents/skills/` | Strict concurrency, `@MainActor`, Sendable |
+| `swift-testing-expert` | `.agents/skills/` | Swift Testing in `Scripts/`; XCTest migration guidance for app tests |
+| `app-store-aso` | `.agents/skills/` | ASO review; Scripts metadata pipeline is canonical |
+
+Project-specific rules stay in **retrorapid-conventions**; vendored skills remain generic references. Retro accessibility overlays: `.agents/skills/ios-accessibility/references/retrorapid-patterns.md`.
+
+**Skills installation:** Vendored upstream skills live in `.agents/skills/` — install/update with `npx skills add` / `npx skills update`. Project conventions live in `.cursor/skills/` at the repo root. Cursor: [Enabling Skills](https://docs.cursor.com/skills). Codex and Claude Code in-repo: `.agents/skills/`. Antigravity: `.agent/skills` symlink → `.agents/skills`.
+
 ### Brand Mark
 
 User-facing product name is **RetroRapid!** (repo/project folder remains `RetroRacing`).
@@ -382,33 +399,12 @@ The game **should** aim to be as adaptive as possible across ALL dimensions (bes
 
 ### Accessibility Guidelines
 
-- **VoiceOver Labels**: All UI elements must have descriptive labels
-- **VoiceOver Hints**: Only add when they provide meaningful context beyond the label
-- **Dynamic Type**: Text scales with system settings, layouts adapt
-- **Alternative Input**: Support switches, voice control, assistive devices
-- **Visual + Audio Feedback**: Never rely on color/sound alone
+Defaults and implementation patterns: **ios-accessibility** skill (`.agents/skills/`) and `references/retrorapid-patterns.md`. Shipped requirements: `Requirements/accessibility.md`.
 
-### Example Patterns
-
-```swift
-// Accessibility labels for sprites
-let playerSprite = SKSpriteNode(imageNamed: "playersCar")
-playerSprite.accessibilityLabel = NSLocalizedString("player_car", comment: "Player's car")
-
-// Announce score changes
-func gameScene(_ gameScene: GameScene, didUpdateScore score: Int) {
-    scoreLabel.text = "\(score)"
-    UIAccessibility.post(notification: .announcement, 
-                         argument: String(localized: "score_announcement \(score)"))
-}
-
-// Respect reduced motion
-if UIAccessibility.isReduceMotionEnabled {
-    sprite.run(SKAction.fadeIn(withDuration: 0.2)) // Simple fade
-} else {
-    sprite.run(complexBouncingAnimation) // Full animation
-}
-```
+- VoiceOver labels on UI and meaningful SpriteKit nodes; hints only when they add context beyond the label.
+- Dynamic Type via semantic fonts (`FontPreferenceStore` in shared SwiftUI).
+- Reduce Motion, Voice Control, Switch Control, and direct touch per platform requirements.
+- Visual + audio feedback — never rely on color or sound alone.
 
 ## Theming System
 
@@ -774,7 +770,7 @@ Document implementation decisions, edge cases discovered, testing results.
 
 ---
 
-**Version**: 1.4  
+**Version**: 1.5  
 **Last Updated**: 2026-06-25  
-**Changelog**: Routed script engineering conventions to `Scripts/CONVENTIONS.md`; kept a thin router in Critical Rules and Documentation Routing.  
+**Changelog**: Added agent skills table and `retrorapid-conventions` skill; trimmed duplicate accessibility examples in favor of ios-accessibility overlay.  
 **References**: Apple HIG, Swift 6.2 docs, Xarra AGENTS.md, Requirements/concurrency.md

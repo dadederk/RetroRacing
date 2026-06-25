@@ -19,15 +19,7 @@ When a user requests ASO optimization or metadata review:
    - Note any changes or updates the user mentions
 
 2. **Load ASO Knowledge Base**
-   - Route through `Plans/INDEX.md` for the App Store task row, then open `AppStore/README.md`
-   - Use the hub quick-start table in `AppStore/README.md` for RetroRapid-specific copy, strategy, and rollout status
-   - **Canonical staged metadata**: `AppStore/metadata/retrorapid-v1.5.json`
-   - **Live** listing in ASC: `AppStore/docs/02-listing-snapshot.md`
-   - **Generated staged copy**: `AppStore/docs/05-metadata-copy.md`
-   - Strategy and decisions: `AppStore/docs/04-metadata-strategy.md`
-   - Shipped release notes: `AppStore/docs/07-release-notes-voice.md`
-   - Keyword research dumps: `AppStore/docs/appendices/` (dated snapshots)
-   - Reference `references/aso_learnings.md` for generic ASO best practices
+   - Reference `references/aso_learnings.md` for comprehensive ASO best practices
    - Apply competitive analysis strategies
    - Use proven optimization patterns
 
@@ -38,8 +30,7 @@ When a user requests ASO optimization or metadata review:
    - Ensure all metadata follows Apple's character limits
 
 4. **Validate Character Counts**
-   - For RetroRapid, run `swift run --package-path Scripts generate-metadata-docs --check`
-   - For unrelated one-off metadata, use `scripts/validate_metadata.py`
+   - Use `scripts/validate_metadata.py` to verify all metadata meets Apple's requirements
    - Display validation results with character counts and limit compliance
    - Flag any violations with specific corrections needed
 
@@ -205,6 +196,3 @@ Python script that validates App Store metadata against Apple's character limits
 
 ### references/aso_learnings.md
 Comprehensive ASO knowledge base containing optimization strategies, competitive analysis frameworks, keyword research techniques, and proven best practices. Load this file to inform all ASO recommendations.
-
-### AppStore/README.md
-RetroRapid product-specific App Store reference hub. Use the agent quick-start table to jump to themed docs. **Live** metadata: `AppStore/docs/02-listing-snapshot.md`. **Canonical staged metadata**: `AppStore/metadata/retrorapid-v1.5.json`. **Generated staged copy**: `AppStore/docs/05-metadata-copy.md`. Shipped release notes: `AppStore/docs/07-release-notes-voice.md`. Featuring nominations archive: `Plans/aso/09-featuring-nominations-submitted.md`.

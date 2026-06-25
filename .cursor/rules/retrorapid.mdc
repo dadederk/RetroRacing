@@ -1,0 +1,26 @@
+---
+description: Core coding standards for RetroRapid (RetroRacing)
+globs: **/*.swift
+alwaysApply: false
+---
+
+# RetroRapid — Core Swift Standards
+
+Full conventions: see `@AGENTS.md` (repo root) and the `retrorapid-conventions` skill.
+For SwiftUI, concurrency, accessibility, and testing patterns — use the applicable skill (`swiftui-expert-skill`, `swift-concurrency`, `ios-accessibility`, `swift-testing-expert`).
+
+## Critical Rules
+
+- Route behavior through `Requirements/INDEX.md`; keep the app compiling after every change.
+- Protocol-based DI — no default instantiations in `init` for business dependencies.
+- Share platform-agnostic logic in `RetroRacingShared/`; no `#if os()` in service layer.
+- All user-facing strings in `Localizable.xcstrings`.
+- Never force-unwrap; use safe unwrapping patterns.
+- Use `@Observable` — not `ObservableObject`.
+- Run unit tests after code changes.
+
+## Code Style
+
+- Top-level methods read like a table of contents; delegate to well-named helpers.
+- ~200 lines of production code per file (exclude `#Preview` blocks).
+- Comments explain **why**, not what.
