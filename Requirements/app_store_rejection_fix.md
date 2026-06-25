@@ -1,5 +1,13 @@
 # App Store Rejection Fix – Premium Access Issue
 
+## Agent summary
+
+> Narrow tasks may stop here; open the full contract for implementation or review.
+
+- **Scope:** Historical rejection fix — reviewers must not start with premium access in Release builds.
+- **Must not break:** `debugPremiumEnabled` defaults false in production; `hasPremiumAccess` only true from entitlements or DEBUG simulation.
+- **Key files:** `StoreKitService.swift`.
+
 ## Issue Summary
 
 **Date**: 2026-02-11  

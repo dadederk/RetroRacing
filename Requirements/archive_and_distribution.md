@@ -1,5 +1,13 @@
 # Archive and Distribution (iOS, watchOS, macOS)
 
+## Agent summary
+
+> Narrow tasks may stop here; open the full contract for implementation or review.
+
+- **Scope:** Multi-platform archive workflow — separate iOS (includes watch) and macOS archives for App Store Connect.
+- **Must not break:** iOS archive embeds watch app; macOS requires separate Any Mac archive; upload both to same app version.
+- **Key files:** `RetroRacingUniversal`, `RetroRacingWatchOS` targets, Xcode archive destinations.
+
 ## Overview
 
 RetroRacing ships as one app in App Store Connect with **multiple platforms**: iPhone/iPad (iOS), Apple Watch (watchOS), and Mac (macOS). The **RetroRacingUniversal** target builds for iOS, macOS, and visionOS; the **RetroRacingWatchOS** target builds for watchOS and is **embedded** in the iOS app when you archive for iOS.

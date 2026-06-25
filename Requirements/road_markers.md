@@ -1,5 +1,13 @@
 # Road Markers
 
+## Agent summary
+
+> Narrow tasks may stop here; open the full contract for implementation or review.
+
+- **Scope:** Road-marker overlay rendering replacing grid strokes; Big Cars and road-style precedence.
+- **Must not break:** Rendering in `GameScene+Grid.swift`; overlay cleared/redrawn each grid refresh; `lapStripMask` asset variants for universal/watch/tv.
+- **Key files:** `GameScene+Grid.swift`, Scripts `generate-road-dash-masks`.
+
 ## Overview
 
 RetroRacing replaces visible horizontal/rectangular grid strokes with a road-marker overlay that better matches perspective gameplay. The system renders discontinuous lane marks that scroll with each grid tick and supports a Big Cars visual override.

@@ -1,5 +1,13 @@
 # Font System
 
+## Agent summary
+
+> Narrow tasks may stop here; open the full contract for implementation or review.
+
+- **Scope:** Global font preference (retro pixel vs system) via `FontPreferenceStore` semantic fonts.
+- **Must not break:** Shared SwiftUI uses environment semantic fonts; no hardcoded `.title`/`.body` in modals; preference persists per device.
+- **Key files:** `FontPreferenceStore`, Settings font picker, shared modal views.
+
 ## Overview
 
 RetroRacing provides a customizable font system that allows users to choose between a retro pixel font and system fonts. The font preference applies globally across all UI text, respecting the user's choice throughout the app.

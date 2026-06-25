@@ -4,6 +4,14 @@
 **Last Updated**: 2026-02-16  
 **Owner**: Dani Devesa  
 
+## Agent summary
+
+> Narrow tasks may stop here; open the full contract for implementation or review.
+
+- **Scope:** DEBUG-only StoreKit/play-limit simulation for testing free vs Unlimited Plays scenarios.
+- **Must not break:** `#if DEBUG` compile-time exclusion; production builds cannot enable simulation; defaults revert to production behavior in Release.
+- **Key files:** `BuildConfiguration`, `StoreKitService.debugPremiumEnabled`, Settings debug section.
+
 ## Overview
 
 The debug simulation system allows developers to test premium and freemium scenarios without making actual in-app purchases. This feature is **strictly limited to DEBUG builds** and is automatically disabled in production/release builds.

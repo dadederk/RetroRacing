@@ -1,5 +1,13 @@
 # Theming System
 
+## Agent summary
+
+> Narrow tasks may stop here; open the full contract for implementation or review.
+
+- **Scope:** Interchangeable visual themes (free and premium IAP) via `GameTheme` protocol across SpriteKit and SwiftUI.
+- **Must not break:** Theme colors/sprites readable at all Dynamic Type sizes; premium themes gated by Unlimited Plays; accessibility overrides for high contrast.
+- **Key files:** `GameTheme` implementations, `GameScene` theme application, theme picker in Settings.
+
 ## Overview
 
 RetroRacing features an interchangeable visual theme system that allows users to customize the game's appearance. Themes evoke different retro gaming aesthetics while maintaining accessibility and readability.

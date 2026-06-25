@@ -1,5 +1,12 @@
 # Requirements Index
 
+## Agent summary
+
+> Narrow tasks may stop here; open the full contract for implementation or review.
+
+- **Scope:** Router to shipped in-app behavior contracts; plans live in `Plans/INDEX.md`.
+- **Must not break:** Read routed contract before implementing; update INDEX when adding/removing requirement files.
+
 ## Purpose
 
 Single entrypoint for shipped in-app behavior contracts. Plans track remaining work (`Plans/INDEX.md`); requirements define what is already specified and how it should behave.

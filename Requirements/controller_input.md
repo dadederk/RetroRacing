@@ -1,5 +1,13 @@
 # Controller Input
 
+## Agent summary
+
+> Narrow tasks may stop here; open the full contract for implementation or review.
+
+- **Scope:** Physical game controller support via `GameController` on iOS, iPadOS, macOS, tvOS with remappable bindings.
+- **Must not break:** tvOS defers directional/pause to Siri Remote commands; remapping persisted in Settings; injected `GameControllerInputSource` at composition root.
+- **Key files:** `SystemGameControllerInputSource`, `GameView` injection, Settings controller section.
+
 ## Overview
 
 RetroRacing supports physical game controllers (MFI, Xbox, PlayStation) via Apple's `GameController` framework on iOS, iPadOS, macOS, and tvOS.

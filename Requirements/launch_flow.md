@@ -1,5 +1,13 @@
 # Launch & Menu Flow
 
+## Agent summary
+
+> Narrow tasks may stop here; open the full contract for implementation or review.
+
+- **Scope:** Game-base + menu-overlay launch; session identity; Play dismisses menu and starts fresh `GameScene`.
+- **Must not break:** SpriteKit scene does not start until Play; new `sessionID` on each Play; game-over modal and restart flows respect play limits.
+- **Key files:** Universal/tvOS `App` entry, `GameView`, `MenuView`, `GameViewModel`.
+
 ## Overview
 
 RetroRacing uses a **game-base + menu-overlay** launch flow on Universal (iOS, iPadOS, macOS) and tvOS:

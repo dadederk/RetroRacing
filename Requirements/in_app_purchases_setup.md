@@ -1,5 +1,13 @@
 # In‑App Purchases – Manual Setup Guide (RetroRacing)
 
+## Agent summary
+
+> Narrow tasks may stop here; open the full contract for implementation or review.
+
+- **Scope:** Manual ASC/Developer Portal setup for Unlimited Plays non-consumable IAP and sandbox testing.
+- **Must not break:** Product ID matches `StoreKitService`; capability and agreements active; sandbox TestFlight validation paths documented.
+- **Key files:** `StoreKitService`, App Store Connect IAP configuration, Xcode capabilities.
+
 This guide describes all **manual steps** required to set up and maintain the **Unlimited Plays** in‑app purchase for RetroRacing, across:
 
 - **Apple Developer account & certificates**

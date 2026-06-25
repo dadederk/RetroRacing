@@ -1,5 +1,13 @@
 # Achievements Rollout Checklist (ASC + Developer Portal)
 
+## Agent summary
+
+> Narrow tasks may stop here; open the full contract for implementation or review.
+
+- **Scope:** Production rollout checklist for 22 achievements, bundle IDs, and App Store Connect provisioning.
+- **Must not break:** Achievement IDs ≤100 chars and immutable once created; validate all platform bundle IDs and Game Center capability.
+- **Key files:** `AchievementIdentifier` catalog, ASC achievement definitions, provisioning profiles.
+
 ## Scope
 
 This checklist is for production rollout of the 22-achievement set (700 of 1,000 available points; 300 pts reserved for future achievements), including:

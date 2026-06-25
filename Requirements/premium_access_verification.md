@@ -1,5 +1,13 @@
 # Premium Access Verification Report
 
+## Agent summary
+
+> Narrow tasks may stop here; open the full contract for implementation or review.
+
+- **Scope:** Verification that Unlimited Plays purchasers always bypass daily play limits.
+- **Must not break:** `hasPremiumAccess` from StoreKit entitlements (or debug flag in DEBUG only); play limit checks must respect premium state.
+- **Key files:** `StoreKitService.swift`, `PlayLimitService`.
+
 ## Executive Summary
 
 ✅ **VERIFIED**: Premium users have unlimited plays and the play limit system is properly bypassed.

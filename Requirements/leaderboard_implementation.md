@@ -1,5 +1,13 @@
 # Leaderboard Implementation
 
+## Agent summary
+
+> Narrow tasks may stop here; open the full contract for implementation or review.
+
+- **Scope:** Game Center leaderboards per platform and difficulty (Cruise/Fast/Rapid) with DI and shared ID catalog.
+- **Must not break:** No `#if os()` in services; platform configs delegate to `LeaderboardIDCatalog`; watch relay uses shared watch mapping.
+- **Key files:** `LeaderboardConfiguration` implementations, `GameCenterService`, `LeaderboardIDCatalog`.
+
 ## Overview
 
 Game Center leaderboard system with dependency injection, zero compiler flags in services, and maximum code reuse across platforms.

@@ -1,5 +1,13 @@
 # Game Center Social Milestones
 
+## Agent summary
+
+> Narrow tasks may stop here; open the full contract for implementation or review.
+
+- **Scope:** Friend-aware in-race markers and game-over social recap on Universal + tvOS (not watchOS v1).
+- **Must not break:** Same difficulty leaderboard scope; up to two in-race markers; graceful hide when data unavailable.
+- **Key files:** Social milestone services, game-over modal social section, `GameScene` marker rendering.
+
 ## Overview
 
 RetroRacing adds friend-aware leaderboard context to live gameplay and game-over recap on **Universal + tvOS**:

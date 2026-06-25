@@ -1,5 +1,13 @@
 # Input Handling
 
+## Agent summary
+
+> Narrow tasks may stop here; open the full contract for implementation or review.
+
+- **Scope:** Platform UI captures native input and translates to shared `RacingGameController` / adapter layer.
+- **Must not break:** UI layer owns input; no platform flags in shared game logic; watch crown uses `CrownInputProcessor` gating.
+- **Key files:** `WatchGameView`, `CrownGameInputAdapter`, `GameInputAdapter` in `RetroRacingShared`.
+
 ## Overview
 
 RetroRacing captures platform-specific input at the UI layer and translates it into shared game actions. Input handling prioritizes responsiveness, consistency, and accessibility while keeping platform differences out of shared game logic.

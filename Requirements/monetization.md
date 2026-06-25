@@ -1,5 +1,13 @@
 # Monetization – Daily Play Limit & Unlimited Plays
 
+## Agent summary
+
+> Narrow tasks may stop here; open the full contract for implementation or review.
+
+- **Scope:** Freemium daily play limits, Unlimited Plays IAP, paywall triggers, and user-facing "Unlimited Plays" terminology.
+- **Must not break:** Free tier 8 games first day then 4/day; each round/restart counts; premium bypasses limits; user copy never says "Premium".
+- **Key files:** `PlayLimitService`, `StoreKitService`, paywall and game-over modal flows.
+
 ## Terminology
 
 User-facing copy uses **Unlimited Plays** consistently (not “Premium”):

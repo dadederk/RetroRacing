@@ -1,5 +1,13 @@
 # Logging
 
+## Agent summary
+
+> Narrow tasks may stop here; open the full contract for implementation or review.
+
+- **Scope:** Canonical `AppLog` structured logging grammar, domains, outcomes, and privacy rules.
+- **Must not break:** Machine-queryable shape; privacy-safe (no raw player names/URLs/paths); emoji domain consistency.
+- **Key files:** `AppLog` in `RetroRacingShared`, feature log call sites.
+
 ## Purpose
 
 Define the canonical runtime logging contract for RetroRacing across shared code and platform targets.

@@ -1,5 +1,13 @@
 # Accessibility Requirements
 
+## Agent summary
+
+> Narrow tasks may stop here; open the full contract for implementation or review.
+
+- **Scope:** Best-effort accessibility across platforms — Reduce Motion, VoiceOver labels, audio cues, and VoiceOver gameplay modes.
+- **Must not break:** Reduce Motion replaces crash blink with fade; all interactive UI has labels; SpriteKit sprites expose meaningful labels; speed-warning and lane-cue settings honor user selection.
+- **Key files:** `GameScene+Effects.swift`, `AboutView`/`Settings` accessibility sections, `FontPreferenceStore`.
+
 ## Overview
 
 RetroRacing aims for best-effort accessibility and adaptability across all platforms. This document describes the best effort we strive for. It covers reduce motion, VoiceOver/labels, and platform-specific considerations.

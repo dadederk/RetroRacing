@@ -1,5 +1,13 @@
 # Audio & Haptics Requirements (2026-02-25)
 
+## Agent summary
+
+> Narrow tasks may stop here; open the full contract for implementation or review.
+
+- **Scope:** SFX modes (retro vs lane cues), haptics, start/fail/crash feedback, and Settings selectors.
+- **Must not break:** Injected `SoundEffectPlayer`/`LaneCuePlayer` (no init defaults); game paused during start sound; cross-platform semantic parity for audio events.
+- **Key files:** `AVGeneratedSoundEffectPlayer`, `AVLaneCuePlayer`, `GameScene` audio hooks.
+
 ## Goals
 - Consistent pulse feedback:
   - `Retro audio` mode:

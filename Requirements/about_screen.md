@@ -1,5 +1,13 @@
 # About Screen
 
+## Agent summary
+
+> Narrow tasks may stop here; open the full contract for implementation or review.
+
+- **Scope:** About screen content, navigation from Settings, rate/review link, credits and acknowledgements.
+- **Must not break:** Entry via Settings push inside `NavigationStack`; localized sections; review URL uses correct App Store ID.
+- **Key files:** `RetroRacingShared/Views/AboutView.swift`, `SettingsView`.
+
 ## Overview
 
 The About screen provides information about RetroRacing, ways to rate the app, social links, acknowledgements, and credits. It is **accessible from Settings** on iOS, tvOS, and macOS via an “About” row that pushes a dedicated About view.

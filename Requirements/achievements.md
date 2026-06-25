@@ -1,5 +1,13 @@
 # Achievements Infrastructure
 
+## Agent summary
+
+> Narrow tasks may stop here; open the full contract for implementation or review.
+
+- **Scope:** Local achievement progress, Game Center reporting, catalog IDs, and idempotent sync on auth changes.
+- **Must not break:** Local snapshot is source of truth; IDs use `com.accessibilityUpTo11.RetroRacing.achievement.` prefix; reporting is non-blocking.
+- **Key files:** `AchievementCatalog`, `AchievementIdentifier`, achievement service in `RetroRacingShared/Services/`.
+
 ## Overview
 
 RetroRacing tracks achievement progress locally and reports achieved IDs to Game Center when authentication is available.

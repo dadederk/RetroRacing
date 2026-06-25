@@ -1,5 +1,13 @@
 # Testing Requirements
 
+## Agent summary
+
+> Narrow tasks may stop here; open the full contract for implementation or review.
+
+- **Scope:** Unit-test-first strategy, naming conventions, coverage goals, and validation commands for shared logic and app targets.
+- **Must not break:** Unit tests must pass after code changes; `testGivenWhenThen` naming with Given/When/Then comments; mocks via protocol implementations.
+- **Key files:** `RetroRacingSharedTests/`, `RetroRacingUniversalTests/`, `Scripts` test recipes.
+
 ## Testing Philosophy
 
 RetroRacing follows a **unit-test-first** approach with comprehensive coverage of business logic, models, and services.

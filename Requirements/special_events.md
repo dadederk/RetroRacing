@@ -1,5 +1,13 @@
 # Special Events – Temporary Unlimited Play
 
+## Agent summary
+
+> Narrow tasks may stop here; open the full contract for implementation or review.
+
+- **Scope:** Time-limited events granting unlimited play to all users without IAP.
+- **Must not break:** Event window UTC boundaries; unlimited play during active event; free users revert after event ends.
+- **Key files:** Event configuration, play-limit bypass integration with `PlayLimitService`.
+
 ## Overview
 
 RetroRacing supports time-limited **special events** that grant unlimited play to all users — including free-tier users — for the duration of the event, without requiring the Unlimited Plays purchase.
