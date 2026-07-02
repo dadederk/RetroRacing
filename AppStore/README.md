@@ -1,6 +1,6 @@
 # RetroRapid! App Store Docs
 
-Last updated: 2026-06-25
+Last updated: 2026-06-30
 
 Themed documentation for App Store copy, ASO, screenshots, rollout, and execution.
 
@@ -29,6 +29,7 @@ Legacy redirect: [RETRORAPID_APP_STORE_REFERENCE.md](RETRORAPID_APP_STORE_REFERE
 | GAAD featuring / nomination copy | [Plans/aso/06-gaad-featuring.md](../Plans/aso/06-gaad-featuring.md) |
 | Past featuring nominations & voice guide | [Plans/aso/09-featuring-nominations-submitted.md](../Plans/aso/09-featuring-nominations-submitted.md) |
 | IAP pricing experiments | [Plans/aso/04-pricing-strategy.md](../Plans/aso/04-pricing-strategy.md) |
+| Upload a TestFlight build with Helm CLI | [14-testflight-helm-upload.md](docs/14-testflight-helm-upload.md) |
 
 ## Table of contents
 
@@ -49,6 +50,7 @@ Legacy redirect: [RETRORAPID_APP_STORE_REFERENCE.md](RETRORAPID_APP_STORE_REFERE
 | 11 | 90-day execution plan | [docs/11-execution-90-day.md](docs/11-execution-90-day.md) |
 | 12 | Validation results | [docs/12-validation-results.md](docs/12-validation-results.md) |
 | 13 | Open questions | [docs/13-open-questions.md](docs/13-open-questions.md) |
+| 14 | TestFlight uploads with Helm CLI | [docs/14-testflight-helm-upload.md](docs/14-testflight-helm-upload.md) |
 
 ### Campaign & historical plans
 

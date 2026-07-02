@@ -223,34 +223,39 @@ Backfill is idempotent:
 4. Reporting never blocks gameplay and tolerates offline/auth failures via later replay.
 5. Game Center completion banners are enabled when achievements are reported.
 
-## Game Center Metadata (Title & Description)
+## Game Center Metadata (Title, Description & Artwork)
 
-The unlock UI prefers live data from Game Center over local fallbacks so that achievement titles
-and descriptions can be updated in App Store Connect without requiring an app release.
+The unlock UI prefers live data from Game Center over local fallbacks so that achievement titles,
+descriptions, and artwork can be updated in App Store Connect without requiring an app release.
 
-1. `AchievementMetadataService` protocol — `fetchAllMetadata() async -> [String: AchievementMetadata]`.
+1. `AchievementMetadataService` protocol — `fetchAllMetadata() async -> [String: AchievementMetadata]`
+   and `loadArtwork(for:) async -> Data?`.
 2. `GameCenterAchievementMetadataService` — actor-based implementation that calls
    `GKAchievementDescription.loadAchievementDescriptions` on first use and caches the result for
-   the process lifetime. Concurrent callers share a single in-flight `Task`.
+   the process lifetime. Concurrent callers share a single in-flight `Task`. Artwork is loaded
+   on demand via `GKAchievementDescription.loadImage(completionHandler:)`, serialized to PNG
+   `Data`, and cached in memory keyed by achievement identifier. In-flight artwork loads are
+   deduplicated per identifier. `invalidate()` clears metadata, description, and artwork caches.
 3. Falls back to local `AchievementIdentifier.localizedTitle` / generic modal strings when:
    - Player is not authenticated.
    - Game Center returns an error.
    - Metadata has not loaded yet (shows local strings until the async fetch completes).
 4. Injected via the SwiftUI environment using `EnvironmentValues.achievementMetadataService`.
    The default value is `nil`; views fall back to local strings when not set.
-5. `AchievementUnlockView` triggers `fetchAllMetadata()` in a `.task` on appear and stores the
-   result in `@State`. The cache means the call is instant on repeat presentations.
+5. `AchievementUnlockView` triggers `fetchAllMetadata()` and `loadArtwork(for:)` in a `.task`
+   keyed to the presented achievement identifier. Results are stored in `@State`. Service caches
+   mean repeat presentations are instant when data was fetched earlier in the session.
 
 ## Game-Over Unlock UI
 
 1. When a completed run unlocks one or more new achievements, `GameOverView` presents `AchievementUnlockView` as a regular sheet stacked above the game-over sheet.
 2. The achievement sheet lists up to 3 newly unlocked achievement titles and shows a `+N more` summary when needed.
-3. Achievement artwork uses achievement-asset resolution by achievement identifier with `AchievementDefault` as fallback.
+3. Achievement artwork shows bundled `AchievementDefault` immediately; when the player is authenticated and Game Center artwork loads, the view swaps to the remote completed-achievement image with a short crossfade. Falls back to the bundled asset on error, offline, or unauthenticated state.
 4. The achievement sheet includes:
    - primary `Done` action
    - secondary `Other achievements` action that opens the Game Center achievements surface via `GKAccessPoint` on iOS/macOS
    - on iOS/iPadOS/visionOS, actions are rendered in a bottom overlay action bar that ignores bottom safe area, uses a concentric rounded shape, and applies iOS glass effect with platform fallback
-5. Both game-over and achievement sheets expose a top-right Share action that exports content-only PNG snapshots (no action buttons/toolbars) in a 4:3 social format (including macOS).
+5. Both game-over and achievement sheets expose a top-right Share action that exports content-only PNG snapshots (no action buttons/toolbars) in a 4:3 social format (including macOS). Achievement share snapshots re-render when Game Center artwork finishes loading.
 6. Share rendering adapts to the current light/dark color scheme.
 7. This unlock-modal behavior is available on Universal platforms, including macOS.
 8. Share snapshots use a single integrated layout (no inner rounded card container).

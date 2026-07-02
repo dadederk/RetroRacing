@@ -37,6 +37,12 @@ public protocol AchievementMetadataService: Sendable {
     /// cache the result: if data has already been fetched successfully, this should return immediately.
     func fetchAllMetadata() async -> [String: AchievementMetadata]
 
+    /// Loads completed-achievement artwork for a single identifier as PNG data.
+    ///
+    /// Implementations should cache successful results in memory. Views must keep showing bundled
+    /// fallback artwork when this returns `nil` (unauthenticated, offline, or load failure).
+    func loadArtwork(for identifier: String) async -> Data?
+
     /// Clears any cached result so the next `fetchAllMetadata()` call re-fetches from Game Center.
     /// Call this on Game Center authentication state changes.
     func invalidate() async

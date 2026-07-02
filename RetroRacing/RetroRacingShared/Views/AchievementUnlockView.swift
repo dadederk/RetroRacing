@@ -16,6 +16,8 @@ struct AchievementUnlockView: View {
     @Environment(\.achievementMetadataService) var metadataService
     // Internal (not private) so AchievementUnlockView+Content.swift can read it across files.
     @State var gcMetadata: [String: AchievementMetadata] = [:]
+    // Internal (not private) so AchievementUnlockView+Content.swift can read it across files.
+    @State var gcArtworkPNGData: Data?
     #if !os(watchOS) && !os(tvOS)
     // Internal (not private) so AchievementUnlockView+Sharing.swift can read and write it across files.
     @State var shareImageURL: URL?
@@ -67,10 +69,16 @@ struct AchievementUnlockView: View {
         .onChange(of: colorScheme) { _, _ in
             refreshShareImage()
         }
+        .onChange(of: gcArtworkPNGData) { _, _ in
+            refreshShareImage()
+        }
         #endif
-        .task {
+        .task(id: achievementID) {
+            gcArtworkPNGData = nil
+            gcMetadata = [:]
             guard let metadataService else { return }
             gcMetadata = await metadataService.fetchAllMetadata()
+            gcArtworkPNGData = await metadataService.loadArtwork(for: achievementID.rawValue)
         }
     }
 }

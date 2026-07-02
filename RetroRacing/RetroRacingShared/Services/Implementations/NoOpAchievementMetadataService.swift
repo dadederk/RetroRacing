@@ -16,5 +16,9 @@ public struct NoOpAchievementMetadataService: AchievementMetadataService {
         [:]
     }
 
+    public func loadArtwork(for identifier: String) async -> Data? {
+        nil
+    }
+
     public func invalidate() async {}
 }

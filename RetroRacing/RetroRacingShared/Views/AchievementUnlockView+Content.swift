@@ -6,6 +6,11 @@
 //
 
 import SwiftUI
+#if canImport(UIKit)
+import UIKit
+#elseif canImport(AppKit)
+import AppKit
+#endif
 #if canImport(GameKit) && (os(iOS) || os(macOS))
 import GameKit
 #endif
@@ -79,11 +84,33 @@ extension AchievementUnlockView {
     }
 
     func achievementArtwork(maxWidth: CGFloat) -> some View {
-        Image(achievementArtworkAssetName, bundle: Self.sharedBundle)
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .frame(maxWidth: maxWidth)
-            .accessibilityHidden(true)
+        Group {
+            if let artworkImage = achievementArtworkImage(from: gcArtworkPNGData) {
+                artworkImage
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+            } else {
+                Image(achievementArtworkAssetName, bundle: Self.sharedBundle)
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+            }
+        }
+        .frame(maxWidth: maxWidth)
+        .accessibilityHidden(true)
+        .animation(.easeInOut(duration: 0.2), value: gcArtworkPNGData != nil)
+    }
+
+    func achievementArtworkImage(from pngData: Data?) -> Image? {
+        guard let pngData else { return nil }
+        #if os(iOS) || os(tvOS) || os(visionOS)
+        guard let image = UIImage(data: pngData) else { return nil }
+        return Image(uiImage: image)
+        #elseif os(macOS)
+        guard let image = NSImage(data: pngData) else { return nil }
+        return Image(nsImage: image)
+        #else
+        return nil
+        #endif
     }
 
     var achievementArtworkAssetName: String {

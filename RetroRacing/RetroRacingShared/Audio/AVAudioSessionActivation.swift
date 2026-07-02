@@ -8,21 +8,20 @@
 import AVFoundation
 
 #if !os(macOS)
+/// Routes AVAudioSession activation through one helper.
+///
+/// On Xcode 26 builds we use legacy `setActive(true)` because `activate(options:completionHandler:)`
+/// is iOS/tvOS/visionOS 27+ only and cannot compile against the SDK 26 toolchain.
+/// Restore the SDK 27 path when archiving with Xcode 27+ — see `Docs/xcode-27-sdk-restore.md`.
 enum AVAudioSessionActivation {
     static func activate(_ session: AVAudioSession = .sharedInstance()) async throws {
-        if #available(iOS 27.0, tvOS 27.0, visionOS 27.0, watchOS 5.0, *) {
-            try await activateAsynchronously(session)
-        } else {
-            try await Task.detached(priority: .userInitiated) {
-                try session.setActive(true)
-            }.value
-        }
+        try await Task.detached(priority: .userInitiated) {
+            try session.setActive(true)
+        }.value
     }
 
     static func activateBlocking(_ session: AVAudioSession = .sharedInstance()) throws {
-        if #available(iOS 27.0, tvOS 27.0, visionOS 27.0, watchOS 5.0, *) {
-            try activateSynchronously(session)
-        } else if Thread.isMainThread {
+        if Thread.isMainThread {
             try runOffMainThread {
                 try session.setActive(true)
             }
@@ -45,39 +44,6 @@ enum AVAudioSessionActivation {
         semaphore.wait()
         if let workError {
             throw workError
-        }
-    }
-
-    @available(iOS 27.0, tvOS 27.0, visionOS 27.0, watchOS 5.0, *)
-    private static func activateAsynchronously(_ session: AVAudioSession) async throws {
-        try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
-            session.activate(options: []) { activated, error in
-                if let error {
-                    continuation.resume(throwing: error)
-                } else if activated {
-                    continuation.resume()
-                } else {
-                    continuation.resume(throwing: AudioSessionActivationError())
-                }
-            }
-        }
-    }
-
-    @available(iOS 27.0, tvOS 27.0, visionOS 27.0, watchOS 5.0, *)
-    private static func activateSynchronously(_ session: AVAudioSession) throws {
-        var activationError: Error?
-        let semaphore = DispatchSemaphore(value: 0)
-        session.activate(options: []) { activated, error in
-            if let error {
-                activationError = error
-            } else if activated == false {
-                activationError = AudioSessionActivationError()
-            }
-            semaphore.signal()
-        }
-        semaphore.wait()
-        if let activationError {
-            throw activationError
         }
     }
 }

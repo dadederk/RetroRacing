@@ -38,7 +38,7 @@ extension GameCenterFriendSnapshotService {
                     return
                 }
 
-                continuation.resume(returning: Self.serializedAvatarData(from: photo))
+                continuation.resume(returning: GameKitImageSerialization.pngData(from: photo))
             })
         }
 
@@ -48,24 +48,6 @@ extension GameCenterFriendSnapshotService {
 
         await avatarCache.cache(data, for: playerID)
         return data
-    }
-#endif
-
-#if canImport(UIKit)
-    static func serializedAvatarData(from image: UIImage) -> Data? {
-        image.pngData()
-    }
-#elseif canImport(AppKit)
-    static func serializedAvatarData(from image: NSImage) -> Data? {
-        guard let tiffData = image.tiffRepresentation,
-              let bitmap = NSBitmapImageRep(data: tiffData) else {
-            return nil
-        }
-        return bitmap.representation(using: .png, properties: [:])
-    }
-#else
-    static func serializedAvatarData(from image: Any) -> Data? {
-        nil
     }
 #endif
 }
