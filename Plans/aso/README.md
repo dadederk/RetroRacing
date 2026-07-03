@@ -18,7 +18,7 @@ Last updated: 2026-06-25
 | ES/CA text for every screenshot slide | [02-screenshot-localization-copy.md](02-screenshot-localization-copy.md) |
 | GAAD nomination copy & timeline | [06-gaad-featuring.md](06-gaad-featuring.md) |
 | **Past featuring nominations & voice guide** | [09-featuring-nominations-submitted.md](09-featuring-nominations-submitted.md) |
-| Pricing experiment windows | [04-pricing-strategy.md](04-pricing-strategy.md) |
+| Country pricing strategy | [04-pricing-strategy.md](04-pricing-strategy.md) |
 | Confirmed positioning decisions | [01-decisions-and-priorities.md](01-decisions-and-priorities.md) |
 
 ## Table of contents
@@ -28,7 +28,7 @@ Last updated: 2026-06-25
 | 01 | Decisions & priority actions | [01-decisions-and-priorities.md](01-decisions-and-priorities.md) | Active principles |
 | 02 | Screenshot localization (all slides) | [02-screenshot-localization-copy.md](02-screenshot-localization-copy.md) | Active copy tables |
 | 03 | Metadata pack v1 | [03-metadata-v1-superseded.md](03-metadata-v1-superseded.md) | **Superseded** — use AppStore docs |
-| 04 | IAP pricing test | [04-pricing-strategy.md](04-pricing-strategy.md) | Active experiment design |
+| 04 | IAP pricing strategy | [04-pricing-strategy.md](04-pricing-strategy.md) | Active pricing policy |
 | 05 | 60-day operational checklist | [05-operational-checklist-60-day.md](05-operational-checklist-60-day.md) | **Historical** |
 | 06 | GAAD featuring nomination | [06-gaad-featuring.md](06-gaad-featuring.md) | Campaign playbook |
 | 07 | External sources | [07-sources.md](07-sources.md) | Reference links |

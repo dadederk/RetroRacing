@@ -1,4 +1,4 @@
-# In‑App Purchases – Manual Setup Guide (RetroRacing)
+# In-App Purchases - Manual Setup Guide (RetroRacing)
 
 ## Agent summary
 
@@ -8,7 +8,7 @@
 - **Must not break:** Product ID matches `StoreKitService`; capability and agreements active; sandbox TestFlight validation paths documented.
 - **Key files:** `StoreKitService`, App Store Connect IAP configuration, Xcode capabilities.
 
-This guide describes all **manual steps** required to set up and maintain the **Unlimited Plays** in‑app purchase for RetroRacing, across:
+This guide describes all **manual steps** required to set up and maintain the **Unlimited Plays** in-app purchase for RetroRacing, across:
 
 - **Apple Developer account & certificates**
 - **App Store Connect**
@@ -51,7 +51,7 @@ In App Store Connect:
 
 ## 2. App Store Connect – Product Creation
 
-### 2.1 Create the Non‑Consumable Product
+### 2.1 Create or Maintain the Non-Consumable Product
 
 1. Go to **App Store Connect → Apps → RetroRacing**.
 2. Select the **app record** (the correct platform bundle).
@@ -61,21 +61,22 @@ In App Store Connect:
 
 Configure:
 
-- **Type**: `Non‑Consumable`
+- **Type**: `Non-Consumable`
 - **Reference Name**: `Unlimited Plays`
   - Internal only, but keep it clear and consistent.
-- **Product ID**: `com.retroRacing.unlimitedPlays`
+- **Product ID**: `com.accessibilityUpTo11.RetroRacing.unlimitedPlays`
   - Must exactly match the ID used in code:  
-    `StoreKitService.ProductID.unlimitedPlays = "com.retroRacing.unlimitedPlays"`.
+    `StoreKitService.ProductID.unlimitedPlays = "com.accessibilityUpTo11.RetroRacing.unlimitedPlays"`.
 - **Cleared for Sale**: Enabled.
 
 ### 2.2 Pricing
 
-1. In the **Price Schedule** section:
-   - Choose an appropriate **price tier** (e.g. **Tier 2** ≈ $1.99 USD).
-2. Consider:
-   - Price should feel **impulse‑friendly** (low friction).
-   - Align with your other apps if you want a consistent pricing story.
+Pricing is managed through Helm/App Store Connect, not hard-coded in app code.
+
+- Current US/base price: **2.99**.
+- Strategy: Netflix Purchasing Power Parity, Apple Equalization fallback, `.99` preferred endings where possible, no minimum price, and maximum capped at the current US/base price.
+- Canonical plan: [Plans/aso/04-pricing-strategy.md](../Plans/aso/04-pricing-strategy.md).
+- Use StoreKit `displayPrice` in UI so local prices come from Apple.
 
 You can adjust the price later, but be aware:
 
@@ -132,19 +133,19 @@ Include:
 
 ```text
 RetroRapid! uses a freemium model:
-- Free users: 5 games per day (resets at midnight).
-- Premium users: Unlimited games forever (one-time purchase).
+- Free users: 8 games on the first play day, then 4 games per day from day 2 onward (resets at local midnight).
+- Unlimited Plays users: Unlimited games forever (one-time purchase).
 
 In-app purchase:
-- Product ID: com.retroRacing.unlimitedPlays
+- Product ID: com.accessibilityUpTo11.RetroRacing.unlimitedPlays
 - Type: Non-consumable (Unlimited Plays)
 
-To test Premium:
+To test Unlimited Plays:
 1. Launch the app.
-2. Play 5 games to reach the daily limit.
+2. Play enough rounds to reach the daily limit (9th attempt on first play day, 5th attempt from day 2 onward).
 3. The paywall will appear.
 4. Use a sandbox account to purchase Unlimited Plays.
-5. After purchase, there is no daily limit and the Theme picker in Settings becomes configurable.
+5. After purchase, there is no daily limit.
 ```
 
 This helps reviewers understand the flow and how to trigger the paywall.
@@ -175,7 +176,7 @@ For easier development/testing **before** App Store Connect is fully wired:
    - File → New → File → **StoreKit Configuration File**.
    - Name: `RetroRacing.storekit`.
 2. Add a **Non‑Consumable** product:
-   - Product ID: `com.retroRacing.unlimitedPlays`
+   - Product ID: `com.accessibilityUpTo11.RetroRacing.unlimitedPlays`
    - Reference Name / Display Name similar to App Store Connect.
 3. Set the StoreKit configuration for your **local scheme**:
    - Select scheme: **RetroRacingUniversal**.
@@ -190,7 +191,7 @@ This allows you to:
 
 Confirm these constants and strings match App Store Connect:
 
-- `StoreKitService.ProductID.unlimitedPlays.rawValue == "com.retroRacing.unlimitedPlays"`.
+- `StoreKitService.ProductID.unlimitedPlays.rawValue == "com.accessibilityUpTo11.RetroRacing.unlimitedPlays"`.
 - No typos in:
   - `ProductID` enum raw value.
   - Any hard‑coded IDs in test/demo code (if any).
@@ -230,14 +231,16 @@ On device / simulator:
 Recommended tests:
 
 - **Free tier**:
-  - Play 5 games in one day → verify:
-    - 6th attempt shows the paywall.
-    - Daily counter and Settings “Remaining X of 5” update correctly.
+  - On the first play day, play 8 games -> verify:
+    - 9th attempt shows the paywall.
+  - From day 2 onward, play 4 games -> verify:
+    - 5th attempt shows the paywall.
+    - Daily counter and Settings remaining-play copy update correctly.
 - **Purchase**:
   - From paywall, buy Unlimited Plays using a sandbox account:
     - Verify purchase success alert.
     - Verify daily limit is removed (even after restarting the app).
-    - Verify Theme picker becomes configurable.
+    - Verify daily limit stays removed after restarting the app.
 - **Restore Purchases**:
   - On a second device or after reinstall:
     - Tap **Restore Purchases** in Settings.
@@ -293,9 +296,9 @@ In most modern setups, no additional manual work is needed beyond what Xcode man
 
 ## 7. Quick Checklist Before Submission
 
-- [ ] Product `com.retroRacing.unlimitedPlays` exists in App Store Connect as **Non‑Consumable**.
+- [ ] Product `com.accessibilityUpTo11.RetroRacing.unlimitedPlays` exists in App Store Connect as **Non-Consumable**.
 - [ ] Localized Display Name & Description set for EN, ES, CA.
-- [ ] Price tier selected and active.
+- [ ] Netflix PPP country pricing previewed through Helm and active in App Store Connect.
 - [ ] IAP screenshot uploaded (paywall/settings).
 - [ ] App target has **In‑App Purchase** capability.
 - [ ] StoreKit product ID in code matches App Store Connect.
@@ -303,7 +306,6 @@ In most modern setups, no additional manual work is needed beyond what Xcode man
   - [ ] Purchase flow.
   - [ ] Restore Purchases.
 - [ ] Daily limit behaves correctly pre‑purchase and disappears post‑purchase.
-- [ ] Theme picker gates configuration correctly for free vs premium.
 - [ ] Simulate Premium toggle works and is documented as a **debug/testing tool**.
 - [ ] App Review notes include clear instructions for testing the IAP.
 

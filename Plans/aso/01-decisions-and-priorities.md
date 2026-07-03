@@ -2,7 +2,7 @@
 
 Part of [ASO & growth plans](README.md). Index: [retrorapid_aso_growth_plan.md](../retrorapid_aso_growth_plan.md).
 
-Last updated: 2026-03-14 (campaign); status refreshed 2026-06-25
+Last updated: 2026-07-03
 **See also:** [Canonical metadata](../../AppStore/metadata/retrorapid-v1.5.json) · [Generated metadata copy](../../AppStore/docs/05-metadata-copy.md) · [90-day plan](../../AppStore/docs/11-execution-90-day.md)
 
 
@@ -34,5 +34,5 @@ Order: low effort + high impact -> higher effort.
 | P1 | Complete accessibility listing fields for 1.3+ | App Store Connect -> Accessibility section | Converts your real product strength into visible store trust signals |
 | P2 | Localize screenshot copy for ES/CA (not only metadata) | ScreenshotStudio localizations + ASC uploads | Metadata localization without visual localization leaves conversion on the table |
 | P2 | Watch screenshots: no overlay text; optimize frame sequence only | Apple Watch screenshot set | If text overlay is impractical, story must come from screenshot order and shot choice |
-| P2 | Pricing test windows around current 2.99 | ASC pricing schedule + analytics sheet | Gives evidence-based decision between 2.99 and 1.99 |
+| P2 | Apply Netflix PPP country pricing around current 2.99 | Helm country pricing preview + analytics sheet | Improves affordability by market before any flat 1.99 promo test |
 | P3 | Expand to Wave-1 locales | ASC localization + screenshot localizations | Adds discoverability in large gaming/iOS markets |

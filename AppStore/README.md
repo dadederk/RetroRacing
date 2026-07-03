@@ -28,7 +28,7 @@ Legacy redirect: [RETRORAPID_APP_STORE_REFERENCE.md](RETRORAPID_APP_STORE_REFERE
 | Track execution checklists | [11-execution-90-day.md](docs/11-execution-90-day.md) |
 | GAAD featuring / nomination copy | [Plans/aso/06-gaad-featuring.md](../Plans/aso/06-gaad-featuring.md) |
 | Past featuring nominations & voice guide | [Plans/aso/09-featuring-nominations-submitted.md](../Plans/aso/09-featuring-nominations-submitted.md) |
-| IAP pricing experiments | [Plans/aso/04-pricing-strategy.md](../Plans/aso/04-pricing-strategy.md) |
+| IAP pricing strategy | [Plans/aso/04-pricing-strategy.md](../Plans/aso/04-pricing-strategy.md) |
 | Upload a TestFlight build with Helm CLI | [14-testflight-helm-upload.md](docs/14-testflight-helm-upload.md) |
 
 ## Table of contents
@@ -60,7 +60,7 @@ Legacy redirect: [RETRORAPID_APP_STORE_REFERENCE.md](RETRORAPID_APP_STORE_REFERE
 | Decisions & priority actions | [Plans/aso/01-decisions-and-priorities.md](../Plans/aso/01-decisions-and-priorities.md) |
 | Screenshot ES/CA copy (all 7 slides) | [Plans/aso/02-screenshot-localization-copy.md](../Plans/aso/02-screenshot-localization-copy.md) |
 | Metadata pack v1 (**superseded**) | [Plans/aso/03-metadata-v1-superseded.md](../Plans/aso/03-metadata-v1-superseded.md) |
-| IAP pricing test | [Plans/aso/04-pricing-strategy.md](../Plans/aso/04-pricing-strategy.md) |
+| IAP pricing strategy | [Plans/aso/04-pricing-strategy.md](../Plans/aso/04-pricing-strategy.md) |
 | 60-day checklist (**historical**) | [Plans/aso/05-operational-checklist-60-day.md](../Plans/aso/05-operational-checklist-60-day.md) |
 | GAAD featuring nomination | [Plans/aso/06-gaad-featuring.md](../Plans/aso/06-gaad-featuring.md) |
 | Submitted featuring nominations (2× Updated & Upgraded) | [Plans/aso/09-featuring-nominations-submitted.md](../Plans/aso/09-featuring-nominations-submitted.md) |
