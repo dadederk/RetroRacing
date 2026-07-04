@@ -24,7 +24,7 @@
 			<key>devicePosition</key>
 			<string>overflowBottom</string>
 			<key>deviceScaleFactor</key>
-			<real>1</real>
+			<real>1.0</real>
 			<key>glitchDirection</key>
 			<string>leadingToTrailing</string>
 			<key>glitchEndColor</key>
@@ -48,17 +48,17 @@
 				<key>lensBorderColor</key>
 				<string>#FFFFFF</string>
 				<key>lensBorderWidthPoints</key>
-				<real>4</real>
+				<real>4.0</real>
 				<key>lensDropShadowColor</key>
 				<string>#00000059</string>
 				<key>lensDropShadowEnabled</key>
 				<false/>
 				<key>lensDropShadowRadiusPoints</key>
-				<real>8</real>
+				<real>8.0</real>
 				<key>lensDropShadowXOffsetPoints</key>
-				<real>0</real>
+				<real>0.0</real>
 				<key>lensDropShadowYOffsetPoints</key>
-				<real>4</real>
+				<real>4.0</real>
 				<key>lensShape</key>
 				<string>circle</string>
 				<key>rectCornerRadiusUnit</key>
@@ -103,7 +103,7 @@
 			<key>titleTextStyle</key>
 			<string>original</string>
 			<key>waveTime</key>
-			<real>0</real>
+			<real>0.0</real>
 		</dict>
 		<key>localizations</key>
 		<array>
@@ -187,7 +187,7 @@
 			<key>devicePosition</key>
 			<string>overflowBottom</string>
 			<key>deviceScaleFactor</key>
-			<real>1</real>
+			<real>1.0</real>
 			<key>glitchDirection</key>
 			<string>leadingToTrailing</string>
 			<key>glitchEndColor</key>
@@ -211,17 +211,17 @@
 				<key>lensBorderColor</key>
 				<string>#FFFFFF</string>
 				<key>lensBorderWidthPoints</key>
-				<real>4</real>
+				<real>4.0</real>
 				<key>lensDropShadowColor</key>
 				<string>#00000059</string>
 				<key>lensDropShadowEnabled</key>
 				<false/>
 				<key>lensDropShadowRadiusPoints</key>
-				<real>8</real>
+				<real>8.0</real>
 				<key>lensDropShadowXOffsetPoints</key>
-				<real>0</real>
+				<real>0.0</real>
 				<key>lensDropShadowYOffsetPoints</key>
-				<real>4</real>
+				<real>4.0</real>
 				<key>lensShape</key>
 				<string>circle</string>
 				<key>rectCornerRadiusUnit</key>
@@ -266,7 +266,7 @@
 			<key>titleTextStyle</key>
 			<string>original</string>
 			<key>waveTime</key>
-			<real>0</real>
+			<real>0.0</real>
 		</dict>
 		<key>localizations</key>
 		<array>
@@ -350,7 +350,7 @@
 			<key>devicePosition</key>
 			<string>overflowTop</string>
 			<key>deviceScaleFactor</key>
-			<real>1</real>
+			<real>1.0</real>
 			<key>glitchDirection</key>
 			<string>leadingToTrailing</string>
 			<key>glitchEndColor</key>
@@ -374,17 +374,17 @@
 				<key>lensBorderColor</key>
 				<string>#FFFFFF</string>
 				<key>lensBorderWidthPoints</key>
-				<real>4</real>
+				<real>4.0</real>
 				<key>lensDropShadowColor</key>
 				<string>#00000059</string>
 				<key>lensDropShadowEnabled</key>
 				<false/>
 				<key>lensDropShadowRadiusPoints</key>
-				<real>8</real>
+				<real>8.0</real>
 				<key>lensDropShadowXOffsetPoints</key>
-				<real>0</real>
+				<real>0.0</real>
 				<key>lensDropShadowYOffsetPoints</key>
-				<real>4</real>
+				<real>4.0</real>
 				<key>lensShape</key>
 				<string>circle</string>
 				<key>rectCornerRadiusUnit</key>
@@ -429,7 +429,7 @@
 			<key>titleTextStyle</key>
 			<string>original</string>
 			<key>waveTime</key>
-			<real>0</real>
+			<real>0.0</real>
 		</dict>
 		<key>localizations</key>
 		<array>
@@ -513,7 +513,7 @@
 			<key>devicePosition</key>
 			<string>overflowTop</string>
 			<key>deviceScaleFactor</key>
-			<real>1</real>
+			<real>1.0</real>
 			<key>glitchDirection</key>
 			<string>leadingToTrailing</string>
 			<key>glitchEndColor</key>
@@ -537,17 +537,17 @@
 				<key>lensBorderColor</key>
 				<string>#FFFFFF</string>
 				<key>lensBorderWidthPoints</key>
-				<real>4</real>
+				<real>4.0</real>
 				<key>lensDropShadowColor</key>
 				<string>#00000059</string>
 				<key>lensDropShadowEnabled</key>
 				<false/>
 				<key>lensDropShadowRadiusPoints</key>
-				<real>8</real>
+				<real>8.0</real>
 				<key>lensDropShadowXOffsetPoints</key>
-				<real>0</real>
+				<real>0.0</real>
 				<key>lensDropShadowYOffsetPoints</key>
-				<real>4</real>
+				<real>4.0</real>
 				<key>lensShape</key>
 				<string>circle</string>
 				<key>rectCornerRadiusUnit</key>
@@ -592,7 +592,7 @@
 			<key>titleTextStyle</key>
 			<string>original</string>
 			<key>waveTime</key>
-			<real>0</real>
+			<real>0.0</real>
 		</dict>
 		<key>localizations</key>
 		<array>
@@ -676,7 +676,7 @@
 			<key>devicePosition</key>
 			<string>overflowBottom</string>
 			<key>deviceScaleFactor</key>
-			<real>1</real>
+			<real>1.0</real>
 			<key>glitchDirection</key>
 			<string>leadingToTrailing</string>
 			<key>glitchEndColor</key>
@@ -700,17 +700,17 @@
 				<key>lensBorderColor</key>
 				<string>#FFFFFF</string>
 				<key>lensBorderWidthPoints</key>
-				<real>4</real>
+				<real>4.0</real>
 				<key>lensDropShadowColor</key>
 				<string>#00000059</string>
 				<key>lensDropShadowEnabled</key>
 				<false/>
 				<key>lensDropShadowRadiusPoints</key>
-				<real>8</real>
+				<real>8.0</real>
 				<key>lensDropShadowXOffsetPoints</key>
-				<real>0</real>
+				<real>0.0</real>
 				<key>lensDropShadowYOffsetPoints</key>
-				<real>4</real>
+				<real>4.0</real>
 				<key>lensShape</key>
 				<string>circle</string>
 				<key>rectCornerRadiusUnit</key>
@@ -755,65 +755,65 @@
 			<key>titleTextStyle</key>
 			<string>original</string>
 			<key>waveTime</key>
-			<real>0</real>
+			<real>0.0</real>
 		</dict>
 		<key>localizations</key>
 		<array>
 			<dict>
 				<key>body</key>
-				<string>Earn achievements, chase friends, and share your best runs with Game Center.</string>
+				<string>Game Center friend markers show the rival score you are chasing, right on the track.</string>
 				<key>language</key>
 				<string>en-US</string>
 				<key>title</key>
-				<string>Climb the Leaderboards</string>
+				<string>Chase Friends On The Road</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Earn achievements, chase friends, and share your best runs with Game Center.</string>
+				<string>Game Center friend markers show the rival score you are chasing, right on the track.</string>
 				<key>language</key>
 				<string>en-GB</string>
 				<key>title</key>
-				<string>Climb the Leaderboards</string>
+				<string>Chase Friends On The Road</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Earn achievements, chase friends, and share your best runs with Game Center.</string>
+				<string>Game Center friend markers show the rival score you are chasing, right on the track.</string>
 				<key>language</key>
 				<string>en-AU</string>
 				<key>title</key>
-				<string>Climb the Leaderboards</string>
+				<string>Chase Friends On The Road</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Earn achievements, chase friends, and share your best runs with Game Center.</string>
+				<string>Game Center friend markers show the rival score you are chasing, right on the track.</string>
 				<key>language</key>
 				<string>en-CA</string>
 				<key>title</key>
-				<string>Climb the Leaderboards</string>
+				<string>Chase Friends On The Road</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Gana logros, persigue amigos y comparte tus mejores partidas con Game Center.</string>
+				<string>Los marcadores de Game Center muestran la puntuación rival que estás persiguiendo en plena carretera.</string>
 				<key>language</key>
 				<string>es-ES</string>
 				<key>title</key>
-				<string>Sube en la Clasificación</string>
+				<string>Persigue Amigos en Pista</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Gana logros, persigue amigos y comparte tus mejores partidas con Game Center.</string>
+				<string>Los marcadores de Game Center muestran la puntuación rival que estás persiguiendo en la carretera.</string>
 				<key>language</key>
 				<string>es-MX</string>
 				<key>title</key>
-				<string>Sube en la Clasificación</string>
+				<string>Persigue Amigos en Pista</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Guanya assoliments, persegueix amistats i comparteix les teues millors partides amb Game Center.</string>
+				<string>Els marcadors de Game Center mostren la puntuació rival que estàs perseguint en plena carretera.</string>
 				<key>language</key>
 				<string>ca</string>
 				<key>title</key>
-				<string>Puja en la Classificació</string>
+				<string>Persegueix Amistats en Pista</string>
 			</dict>
 		</array>
 	</dict>
@@ -839,7 +839,7 @@
 			<key>devicePosition</key>
 			<string>trailingBottom</string>
 			<key>deviceScaleFactor</key>
-			<real>1</real>
+			<real>1.0</real>
 			<key>glitchDirection</key>
 			<string>leadingToTrailing</string>
 			<key>glitchEndColor</key>
@@ -863,17 +863,17 @@
 				<key>lensBorderColor</key>
 				<string>#FFFFFF</string>
 				<key>lensBorderWidthPoints</key>
-				<real>4</real>
+				<real>4.0</real>
 				<key>lensDropShadowColor</key>
 				<string>#00000059</string>
 				<key>lensDropShadowEnabled</key>
 				<false/>
 				<key>lensDropShadowRadiusPoints</key>
-				<real>8</real>
+				<real>8.0</real>
 				<key>lensDropShadowXOffsetPoints</key>
-				<real>0</real>
+				<real>0.0</real>
 				<key>lensDropShadowYOffsetPoints</key>
-				<real>4</real>
+				<real>4.0</real>
 				<key>lensShape</key>
 				<string>circle</string>
 				<key>rectCornerRadiusUnit</key>
@@ -918,7 +918,7 @@
 			<key>titleTextStyle</key>
 			<string>original</string>
 			<key>waveTime</key>
-			<real>0</real>
+			<real>0.0</real>
 		</dict>
 		<key>localizations</key>
 		<array>
@@ -1002,7 +1002,7 @@
 			<key>devicePosition</key>
 			<string>overflowBottom</string>
 			<key>deviceScaleFactor</key>
-			<real>1</real>
+			<real>1.0</real>
 			<key>glitchDirection</key>
 			<string>leadingToTrailing</string>
 			<key>glitchEndColor</key>
@@ -1026,17 +1026,17 @@
 				<key>lensBorderColor</key>
 				<string>#FFFFFF</string>
 				<key>lensBorderWidthPoints</key>
-				<real>4</real>
+				<real>4.0</real>
 				<key>lensDropShadowColor</key>
 				<string>#00000059</string>
 				<key>lensDropShadowEnabled</key>
 				<false/>
 				<key>lensDropShadowRadiusPoints</key>
-				<real>8</real>
+				<real>8.0</real>
 				<key>lensDropShadowXOffsetPoints</key>
-				<real>0</real>
+				<real>0.0</real>
 				<key>lensDropShadowYOffsetPoints</key>
-				<real>4</real>
+				<real>4.0</real>
 				<key>lensShape</key>
 				<string>circle</string>
 				<key>rectCornerRadiusUnit</key>
@@ -1081,7 +1081,7 @@
 			<key>titleTextStyle</key>
 			<string>original</string>
 			<key>waveTime</key>
-			<real>0</real>
+			<real>0.0</real>
 		</dict>
 		<key>localizations</key>
 		<array>

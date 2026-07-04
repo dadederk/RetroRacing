@@ -2,7 +2,7 @@
 
 Part of [App Store docs hub](../README.md). Index: [RETRORAPID_APP_STORE_REFERENCE.md](../RETRORAPID_APP_STORE_REFERENCE.md).
 
-Last updated: 2026-06-25
+Last updated: 2026-07-03
 
 **Status:** source copy is `READY`; remaining localized rendering and ASC uploads are `PLANNED`. The Apple Watch sequence is `BLOCKED` pending final selection.
 
@@ -22,16 +22,17 @@ Screenshot Studio project:
 - [Apple Watch source copy](../RetroRapid.screenshotstudio/appleWatch/data.plist)
 - [Project settings](../RetroRapid.screenshotstudio/project.plist)
 
-Current source state on 2026-06-24:
+Current source state on 2026-07-03:
 
 - **Locales in project:** `en-US`, `en-GB`, `en-AU`, `en-CA`, `es-ES`, `es-MX`, `ca` (see `project.plist`).
 - iPhone, iPad, and Mac source copy uses the **seven-slide storyboard** for all locales above.
 - `en-GB` and `en-AU` use British spelling in overlay copy (`Customise Your Experience`). `en-CA` matches US spelling.
 - **Shared base captures:** English variants reuse the same underlying device captures (`en-US_*` copied to `en-GB_*`, `en-AU_*`, `en-CA_*`). After the first `es-ES` export, `es-MX` reuses the same captures; only overlay copy differs (`carro` / `rebasar` on slide 1).
 - Mac source plist now has seven slides with filled Spanish/Catalan copy; rendered Mac exports still need regeneration (slides 6–7 and all `es-ES` / `es-MX` / `ca` PNGs).
-- iPhone has English-variant JPEG exports; `es-ES`, `es-MX`, and `ca` JPEGs must be re-exported from Screenshot Studio.
+- iPhone has English-variant JPEG source captures; slide 5 now uses the Game Center friend-marker capture for English variants. `es-ES`, `es-MX`, and `ca` JPEG captures must be re-exported from Screenshot Studio.
 - iPad has locale manifests but no rendered exports yet.
-- Apple Watch stays **sequence-first**: English locales keep the hook overlay on slide 1; `es-ES`, `es-MX`, and `ca` use empty overlay text.
+- iPad and Mac slide 5 copy is ready, but the source captures should be visually checked after export to ensure the screenshot actually shows the friend-marker moment.
+- Apple Watch stays **sequence-first** and should not be replaced for this Game Center refresh unless a dedicated watch screenshot pass is done: English locales keep the hook overlay on slide 1; `es-ES`, `es-MX`, and `ca` use empty overlay text.
 - Re-sync copy and manifests after edits: `swift run --package-path Scripts sync-screenshot-studio-localizations`
 - Verify copy, manifests, and shared locale images without writing: `swift run --package-path Scripts sync-screenshot-studio-localizations --check`
 - Screenshot Studio `selectedPlatforms` should match shipping platforms only (iPhone, iPad, Mac, Apple Watch). Park Apple TV and Apple Vision until those products ship publicly.
@@ -46,7 +47,7 @@ Source `data.plist` entries now match the recommended storyboard below for all E
 | 2 | `Simple Controls. Pure Arcade Action` | `Move left. Move right. Don't crash. Master the basics in seconds, then chase your high score for hours.` | Controls |
 | 3 | `Built For Accessibility` | `VoiceOver, audio cues, haptics, larger text, and adaptable gameplay settings.` | Differentiator |
 | 4 | `One Wrong Move. Game Over` | `The speed climbs. One mistake ends your run. Restart fast and beat your best.` | Tension |
-| 5 | `Climb the Leaderboards` | `Earn achievements, chase friends, and share your best runs with Game Center.` | Social proof |
+| 5 | `Chase Friends On The Road` | `Game Center friend markers show the rival score you are chasing, right on the track.` | Social proof |
 | 6 | `Choose Your Retro Aesthetic` | `Switch from pocket-console green to LCD handheld style, and make every run feel properly retro.` | Themes |
 | 7 | `Customize Your Experience` | `Tune controls, haptics, volume, visual style, and feedback so RetroRapid! fits your play style.` | Personalization (`Customise` on en-GB/en-AU) |
 
@@ -60,7 +61,7 @@ This is the approved source story for iPhone, iPad, and Mac. Keep all localized 
 | 2 | `Simple Controls. Pure Arcade Action` | `Move left. Move right. Don't crash. Master the basics in seconds, then chase your high score for hours.` | Clarity: how it plays. |
 | 3 | `Built For Accessibility` | `VoiceOver, audio cues, haptics, larger text, and adaptable gameplay settings.` | Differentiator: inclusive play without leading only with accessibility. |
 | 4 | `One Wrong Move. Game Over` | `The speed climbs. One mistake ends your run. Restart fast and beat your best.` | Tension: why it is replayable. |
-| 5 | `Climb the Leaderboards` | `Earn achievements, chase friends, and share your best runs with Game Center.` | Retention: social/replay proof. |
+| 5 | `Chase Friends On The Road` | `Game Center friend markers show the rival score you are chasing, right on the track.` | Retention: concrete friend-racing proof. |
 | 6 | `Choose Your Retro Aesthetic` | `Switch from pocket-console green to LCD handheld style, and make every run feel properly retro.` | Monetization/theme support. |
 | 7 | `Customize Your Experience` | `Tune controls, haptics, volume, visual style, and feedback so RetroRapid! fits your play style.` | Personalization and trust. |
 

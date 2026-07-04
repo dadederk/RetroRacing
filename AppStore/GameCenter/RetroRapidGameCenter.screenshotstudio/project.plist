@@ -9,6 +9,7 @@
 		<string>en-US</string>
 		<string>ca</string>
 		<string>es-ES</string>
+		<string>es-MX</string>
 		<string>en-GB</string>
 		<string>en-AU</string>
 		<string>en-CA</string>
@@ -20,9 +21,6 @@
 		<string>iPhone</string>
 		<string>iPad</string>
 		<string>mac</string>
-		<string>appleWatch</string>
-		<string>appleTv</string>
-		<string>appleVision</string>
 	</array>
 </dict>
 </plist>

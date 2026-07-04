@@ -109,51 +109,59 @@
 		<array>
 			<dict>
 				<key>body</key>
-				<string>Navigate your car, dodge rivals, and rack up overtakes in this retro-inspired arcade racer.</string>
+				<string>Game Center friend markers show the rival score you are chasing, right on the track.</string>
 				<key>language</key>
 				<string>en-US</string>
 				<key>title</key>
-				<string>Race Through Endless Traffic</string>
+				<string>Chase Friends On The Road</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Els rivals de Game Center surten com a marcadors amb avatar als cotxes. Supera la seua millor puntuació mentre els tens al davant.</string>
-				<key>language</key>
-				<string>ca</string>
-				<key>title</key>
-				<string>Persegueix els amics per la carretera</string>
-			</dict>
-			<dict>
-				<key>body</key>
-				<string>Los rivales de Game Center aparecen como marcadores con avatar en los coches. Supera su mejor marca mientras los ves delante.</string>
-				<key>language</key>
-				<string>es-ES</string>
-				<key>title</key>
-				<string>Persigue a tus amigos en la carretera</string>
-			</dict>
-			<dict>
+				<string>Game Center friend markers show the rival score you are chasing, right on the track.</string>
 				<key>language</key>
 				<string>en-GB</string>
 				<key>title</key>
-				<string>Race Through Endless Traffic</string>
-				<key>body</key>
-				<string>Navigate your car, dodge rivals, and rack up overtakes in this retro-inspired arcade racer.</string>
+				<string>Chase Friends On The Road</string>
 			</dict>
 			<dict>
+				<key>body</key>
+				<string>Game Center friend markers show the rival score you are chasing, right on the track.</string>
 				<key>language</key>
 				<string>en-AU</string>
 				<key>title</key>
-				<string>Race Through Endless Traffic</string>
-				<key>body</key>
-				<string>Navigate your car, dodge rivals, and rack up overtakes in this retro-inspired arcade racer.</string>
+				<string>Chase Friends On The Road</string>
 			</dict>
 			<dict>
+				<key>body</key>
+				<string>Game Center friend markers show the rival score you are chasing, right on the track.</string>
 				<key>language</key>
 				<string>en-CA</string>
 				<key>title</key>
-				<string>Race Through Endless Traffic</string>
+				<string>Chase Friends On The Road</string>
+			</dict>
+			<dict>
 				<key>body</key>
-				<string>Navigate your car, dodge rivals, and rack up overtakes in this retro-inspired arcade racer.</string>
+				<string>Los marcadores de Game Center muestran la puntuación rival que estás persiguiendo en plena carretera.</string>
+				<key>language</key>
+				<string>es-ES</string>
+				<key>title</key>
+				<string>Persigue Amigos en Pista</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Los marcadores de Game Center muestran la puntuación rival que estás persiguiendo en la carretera.</string>
+				<key>language</key>
+				<string>es-MX</string>
+				<key>title</key>
+				<string>Persigue Amigos en Pista</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Els marcadors de Game Center mostren la puntuació rival que estàs perseguint en plena carretera.</string>
+				<key>language</key>
+				<string>ca</string>
+				<key>title</key>
+				<string>Persegueix Amistats en Pista</string>
 			</dict>
 		</array>
 	</dict>
@@ -264,51 +272,59 @@
 		<array>
 			<dict>
 				<key>body</key>
-				<string>Move left. Move right. Don't crash. Master the basics in seconds, then chase your high score for hours.</string>
+				<string>Navigate your car, dodge rivals, and rack up overtakes in this retro-inspired arcade racer.</string>
 				<key>language</key>
 				<string>en-US</string>
 				<key>title</key>
-				<string>Simple Controls. Pure Arcade Action</string>
+				<string>Race Through Endless Traffic</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Aconsegueix-los canviant com controles el cotxe, arribant més lluny en una sola partida o acumulant avançaments.</string>
-				<key>language</key>
-				<string>ca</string>
-				<key>title</key>
-				<string>Nous assoliments per desbloquejar</string>
-			</dict>
-			<dict>
-				<key>body</key>
-				<string>Consíguelos cambiando cómo conduces, llegando más lejos en una sola partida o acumulando adelantamientos.</string>
-				<key>language</key>
-				<string>es-ES</string>
-				<key>title</key>
-				<string>Nuevos logros por desbloquear</string>
-			</dict>
-			<dict>
+				<string>Navigate your car, dodge rivals, and rack up overtakes in this retro-inspired arcade racer.</string>
 				<key>language</key>
 				<string>en-GB</string>
 				<key>title</key>
-				<string>Simple Controls. Pure Arcade Action</string>
-				<key>body</key>
-				<string>Move left. Move right. Don't crash. Master the basics in seconds, then chase your high score for hours.</string>
+				<string>Race Through Endless Traffic</string>
 			</dict>
 			<dict>
+				<key>body</key>
+				<string>Navigate your car, dodge rivals, and rack up overtakes in this retro-inspired arcade racer.</string>
 				<key>language</key>
 				<string>en-AU</string>
 				<key>title</key>
-				<string>Simple Controls. Pure Arcade Action</string>
-				<key>body</key>
-				<string>Move left. Move right. Don't crash. Master the basics in seconds, then chase your high score for hours.</string>
+				<string>Race Through Endless Traffic</string>
 			</dict>
 			<dict>
+				<key>body</key>
+				<string>Navigate your car, dodge rivals, and rack up overtakes in this retro-inspired arcade racer.</string>
 				<key>language</key>
 				<string>en-CA</string>
 				<key>title</key>
-				<string>Simple Controls. Pure Arcade Action</string>
+				<string>Race Through Endless Traffic</string>
+			</dict>
+			<dict>
 				<key>body</key>
-				<string>Move left. Move right. Don't crash. Master the basics in seconds, then chase your high score for hours.</string>
+				<string>Conduce tu coche, esquiva rivales y acumula adelantamientos en este arcade de carreras de inspiración retro.</string>
+				<key>language</key>
+				<string>es-ES</string>
+				<key>title</key>
+				<string>Esquiva Tráfico Sin Fin</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Conduce tu carro, esquiva rivales y rebasa adelantamientos en este arcade de carreras de inspiración retro.</string>
+				<key>language</key>
+				<string>es-MX</string>
+				<key>title</key>
+				<string>Esquiva Carros Sin Fin</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Condueix el teu cotxe, esquiva rivals i acumula avançaments en este arcade de carreres d'inspiració retro.</string>
+				<key>language</key>
+				<string>ca</string>
+				<key>title</key>
+				<string>Esquiva Trànsit Sense Fi</string>
 			</dict>
 		</array>
 	</dict>
@@ -419,51 +435,59 @@
 		<array>
 			<dict>
 				<key>body</key>
-				<string>VoiceOver, audio cues, haptics, larger text, and adaptable gameplay settings.</string>
+				<string>Earn achievements for control styles, overtake streaks, distance, and lifetime totals.</string>
 				<key>language</key>
 				<string>en-US</string>
 				<key>title</key>
-				<string>Built For Accessibility</string>
+				<string>Unlock Arcade Achievements</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Quan acaba la partida, identifica quin amic et queda just a sobre a la classificació i celebra quan avançes algú per primer cop.</string>
-				<key>language</key>
-				<string>ca</string>
-				<key>title</key>
-				<string>Acaba fort i mira què ve després</string>
-			</dict>
-			<dict>
-				<key>body</key>
-				<string>Al terminar una partida, localiza al amigo que va justo por delante en la clasificación y celebra cuando adelantas a alguien por primera vez.</string>
-				<key>language</key>
-				<string>es-ES</string>
-				<key>title</key>
-				<string>Termina fuerte y mira qué pasa después</string>
-			</dict>
-			<dict>
+				<string>Earn achievements for control styles, overtake streaks, distance, and lifetime totals.</string>
 				<key>language</key>
 				<string>en-GB</string>
 				<key>title</key>
-				<string>Built For Accessibility</string>
-				<key>body</key>
-				<string>VoiceOver, audio cues, haptics, larger text, and adaptable gameplay settings.</string>
+				<string>Unlock Arcade Achievements</string>
 			</dict>
 			<dict>
+				<key>body</key>
+				<string>Earn achievements for control styles, overtake streaks, distance, and lifetime totals.</string>
 				<key>language</key>
 				<string>en-AU</string>
 				<key>title</key>
-				<string>Built For Accessibility</string>
-				<key>body</key>
-				<string>VoiceOver, audio cues, haptics, larger text, and adaptable gameplay settings.</string>
+				<string>Unlock Arcade Achievements</string>
 			</dict>
 			<dict>
+				<key>body</key>
+				<string>Earn achievements for control styles, overtake streaks, distance, and lifetime totals.</string>
 				<key>language</key>
 				<string>en-CA</string>
 				<key>title</key>
-				<string>Built For Accessibility</string>
+				<string>Unlock Arcade Achievements</string>
+			</dict>
+			<dict>
 				<key>body</key>
-				<string>VoiceOver, audio cues, haptics, larger text, and adaptable gameplay settings.</string>
+				<string>Gana logros por estilos de control, rachas de adelantamientos, distancia y totales acumulados.</string>
+				<key>language</key>
+				<string>es-ES</string>
+				<key>title</key>
+				<string>Desbloquea Logros Arcade</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Gana logros por estilos de control, rachas de rebases, distancia y totales acumulados.</string>
+				<key>language</key>
+				<string>es-MX</string>
+				<key>title</key>
+				<string>Desbloquea Logros Arcade</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Guanya assoliments per estils de control, ratxes d'avançaments, distància i totals acumulats.</string>
+				<key>language</key>
+				<string>ca</string>
+				<key>title</key>
+				<string>Desbloqueja Assoliments Arcade</string>
 			</dict>
 		</array>
 	</dict>
@@ -574,51 +598,59 @@
 		<array>
 			<dict>
 				<key>body</key>
-				<string>The speed climbs. One mistake ends your run. Restart fast and beat your best.</string>
+				<string>After each run, RetroRapid! shows the friend above you so the next target is clear.</string>
 				<key>language</key>
 				<string>en-US</string>
 				<key>title</key>
-				<string>One Wrong Move. Game Over</string>
+				<string>See Who Is Just Ahead</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Publica la pantalla final o un assoliment nou. Ideal per presumir a les xarxes.</string>
-				<key>language</key>
-				<string>ca</string>
-				<key>title</key>
-				<string>Comparteix puntuació i assoliments</string>
-			</dict>
-			<dict>
-				<key>body</key>
-				<string>Publica tu pantalla de resultados o un logro recién conseguido. Ideal para presumir en redes.</string>
-				<key>language</key>
-				<string>es-ES</string>
-				<key>title</key>
-				<string>Comparte puntuación y logros</string>
-			</dict>
-			<dict>
+				<string>After each run, RetroRapid! shows the friend above you so the next target is clear.</string>
 				<key>language</key>
 				<string>en-GB</string>
 				<key>title</key>
-				<string>One Wrong Move. Game Over</string>
-				<key>body</key>
-				<string>The speed climbs. One mistake ends your run. Restart fast and beat your best.</string>
+				<string>See Who Is Just Ahead</string>
 			</dict>
 			<dict>
+				<key>body</key>
+				<string>After each run, RetroRapid! shows the friend above you so the next target is clear.</string>
 				<key>language</key>
 				<string>en-AU</string>
 				<key>title</key>
-				<string>One Wrong Move. Game Over</string>
-				<key>body</key>
-				<string>The speed climbs. One mistake ends your run. Restart fast and beat your best.</string>
+				<string>See Who Is Just Ahead</string>
 			</dict>
 			<dict>
+				<key>body</key>
+				<string>After each run, RetroRapid! shows the friend above you so the next target is clear.</string>
 				<key>language</key>
 				<string>en-CA</string>
 				<key>title</key>
-				<string>One Wrong Move. Game Over</string>
+				<string>See Who Is Just Ahead</string>
+			</dict>
+			<dict>
 				<key>body</key>
-				<string>The speed climbs. One mistake ends your run. Restart fast and beat your best.</string>
+				<string>Tras cada partida, RetroRapid! muestra qué amigo tienes por encima para que el próximo objetivo quede claro.</string>
+				<key>language</key>
+				<string>es-ES</string>
+				<key>title</key>
+				<string>Mira Quién Va Justo Delante</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Al terminar cada partida, RetroRapid! muestra qué amigo tienes encima para que el próximo objetivo quede claro.</string>
+				<key>language</key>
+				<string>es-MX</string>
+				<key>title</key>
+				<string>Mira Quién Va Justo Delante</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Després de cada partida, RetroRapid! mostra quina amistat tens per damunt perquè el pròxim objectiu quede clar.</string>
+				<key>language</key>
+				<string>ca</string>
+				<key>title</key>
+				<string>Mira Qui Va Just Davant</string>
 			</dict>
 		</array>
 	</dict>
@@ -729,51 +761,59 @@
 		<array>
 			<dict>
 				<key>body</key>
-				<string>Earn achievements, chase friends, and share your best runs with Game Center.</string>
+				<string>Compete by platform and speed level, from Cruise to Rapid, with Game Center.</string>
 				<key>language</key>
 				<string>en-US</string>
 				<key>title</key>
-				<string>Climb the Leaderboards</string>
+				<string>Climb Fair Leaderboards</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Iconografia renovada per distinguir d'un cop d'ull la plataforma i la velocitat.</string>
-				<key>language</key>
-				<string>ca</string>
-				<key>title</key>
-				<string>Classificacions més clares</string>
-			</dict>
-			<dict>
-				<key>body</key>
-				<string>Iconografía renovada para distinguir al momento la plataforma y la velocidad.</string>
-				<key>language</key>
-				<string>es-ES</string>
-				<key>title</key>
-				<string>Clasificaciones más fáciles de leer</string>
-			</dict>
-			<dict>
+				<string>Compete by platform and speed level, from Cruise to Rapid, with Game Center.</string>
 				<key>language</key>
 				<string>en-GB</string>
 				<key>title</key>
-				<string>Climb the Leaderboards</string>
-				<key>body</key>
-				<string>Earn achievements, chase friends, and share your best runs with Game Center.</string>
+				<string>Climb Fair Leaderboards</string>
 			</dict>
 			<dict>
+				<key>body</key>
+				<string>Compete by platform and speed level, from Cruise to Rapid, with Game Center.</string>
 				<key>language</key>
 				<string>en-AU</string>
 				<key>title</key>
-				<string>Climb the Leaderboards</string>
-				<key>body</key>
-				<string>Earn achievements, chase friends, and share your best runs with Game Center.</string>
+				<string>Climb Fair Leaderboards</string>
 			</dict>
 			<dict>
+				<key>body</key>
+				<string>Compete by platform and speed level, from Cruise to Rapid, with Game Center.</string>
 				<key>language</key>
 				<string>en-CA</string>
 				<key>title</key>
-				<string>Climb the Leaderboards</string>
+				<string>Climb Fair Leaderboards</string>
+			</dict>
+			<dict>
 				<key>body</key>
-				<string>Earn achievements, chase friends, and share your best runs with Game Center.</string>
+				<string>Compite por plataforma y nivel de velocidad, de Crucero a Rapid, con Game Center.</string>
+				<key>language</key>
+				<string>es-ES</string>
+				<key>title</key>
+				<string>Sube en Clasificaciones Justas</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Compite por plataforma y nivel de velocidad, de Crucero a Rapid, con Game Center.</string>
+				<key>language</key>
+				<string>es-MX</string>
+				<key>title</key>
+				<string>Sube en Clasificaciones Justas</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Competix per plataforma i nivell de velocitat, de Cruise a Rapid, amb Game Center.</string>
+				<key>language</key>
+				<string>ca</string>
+				<key>title</key>
+				<string>Puja en Classificacions Justes</string>
 			</dict>
 		</array>
 	</dict>

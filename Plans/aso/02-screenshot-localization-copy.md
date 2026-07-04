@@ -2,7 +2,7 @@
 
 Part of [ASO & growth plans](README.md). Index: [retrorapid_aso_growth_plan.md](../retrorapid_aso_growth_plan.md).
 
-Last updated: 2026-06-24
+Last updated: 2026-07-03
 **See also:** [Current storyboard](../../AppStore/docs/06-screenshots.md) · Sync command: `swift run --package-path Scripts sync-screenshot-studio-localizations`
 
 
@@ -26,7 +26,7 @@ Current iPhone/iPad/Mac source copy uses this **seven-slide** order. Locales: `e
 | 2 | `Simple Controls. Pure Arcade Action` | `Move left. Move right. Don't crash. Master the basics in seconds, then chase your high score for hours.` |
 | 3 | `Built For Accessibility` | `VoiceOver, audio cues, haptics, larger text, and adaptable gameplay settings.` |
 | 4 | `One Wrong Move. Game Over` | `The speed climbs. One mistake ends your run. Restart fast and beat your best.` |
-| 5 | `Climb the Leaderboards` | `Earn achievements, chase friends, and share your best runs with Game Center.` |
+| 5 | `Chase Friends On The Road` | `Game Center friend markers show the rival score you are chasing, right on the track.` |
 | 6 | `Choose Your Retro Aesthetic` | `Switch from pocket-console green to LCD handheld style, and make every run feel properly retro.` |
 | 7 | `Customize Your Experience` | `Tune controls, haptics, volume, visual style, and feedback so RetroRapid! fits your play style.` (`Customise` on en-GB/en-AU) |
 
@@ -68,13 +68,14 @@ CA follows **Valencian Meridional** dialect: `trànsit` for traffic, `teua`/`seu
 | ES / ES-MX | `Un Error. Game Over` | `La velocidad sube. Un fallo termina tu partida. ¡Supera tu récord!` |
 | CA | `Un Error. Game Over` | `La velocitat puja. Un error acaba la teua partida. Supera el teu rècord!` |
 
-### Slide 5 — Game Center
+### Slide 5 — Game Center Friend Marker
 
 | Lang | Title | Body |
 |------|-------|------|
-| EN | `Climb the Leaderboards` | `Earn achievements, chase friends, and share your best runs with Game Center.` |
-| ES / ES-MX | `Sube en la Clasificación` | `Gana logros, persigue amigos y comparte tus mejores partidas con Game Center.` |
-| CA | `Puja en la Classificació` | `Guanya assoliments, persegueix amistats i comparteix les teues millors partides amb Game Center.` |
+| EN | `Chase Friends On The Road` | `Game Center friend markers show the rival score you are chasing, right on the track.` |
+| ES | `Persigue Amigos en Pista` | `Los marcadores de Game Center muestran la puntuación rival que estás persiguiendo en plena carretera.` |
+| ES-MX | `Persigue Amigos en Pista` | `Los marcadores de Game Center muestran la puntuación rival que estás persiguiendo en la carretera.` |
+| CA | `Persegueix Amistats en Pista` | `Els marcadors de Game Center mostren la puntuació rival que estàs perseguint en plena carretera.` |
 
 ### Slide 6 — Themes
 

@@ -109,6 +109,169 @@
 		<array>
 			<dict>
 				<key>body</key>
+				<string>Game Center friend markers show the rival score you are chasing, right on the track.</string>
+				<key>language</key>
+				<string>en-US</string>
+				<key>title</key>
+				<string>Chase Friends On The Road</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Game Center friend markers show the rival score you are chasing, right on the track.</string>
+				<key>language</key>
+				<string>en-GB</string>
+				<key>title</key>
+				<string>Chase Friends On The Road</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Game Center friend markers show the rival score you are chasing, right on the track.</string>
+				<key>language</key>
+				<string>en-AU</string>
+				<key>title</key>
+				<string>Chase Friends On The Road</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Game Center friend markers show the rival score you are chasing, right on the track.</string>
+				<key>language</key>
+				<string>en-CA</string>
+				<key>title</key>
+				<string>Chase Friends On The Road</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Los marcadores de Game Center muestran la puntuación rival que estás persiguiendo en plena carretera.</string>
+				<key>language</key>
+				<string>es-ES</string>
+				<key>title</key>
+				<string>Persigue Amigos en Pista</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Los marcadores de Game Center muestran la puntuación rival que estás persiguiendo en la carretera.</string>
+				<key>language</key>
+				<string>es-MX</string>
+				<key>title</key>
+				<string>Persigue Amigos en Pista</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Els marcadors de Game Center mostren la puntuació rival que estàs perseguint en plena carretera.</string>
+				<key>language</key>
+				<string>ca</string>
+				<key>title</key>
+				<string>Persegueix Amistats en Pista</string>
+			</dict>
+		</array>
+	</dict>
+	<dict>
+		<key>designConfiguration</key>
+		<dict>
+			<key>backgroundColor</key>
+			<string>#FFFFFF</string>
+			<key>backgroundGradientColors</key>
+			<array>
+				<string>#004593</string>
+				<string>#007AFF</string>
+				<string>#007AFF</string>
+			</array>
+			<key>backgroundLinearGradientDirection</key>
+			<string>topToBottom</string>
+			<key>backgroundStyle</key>
+			<string>solid</string>
+			<key>bodyColor</key>
+			<string>#1D1C1F</string>
+			<key>bodyHighlightColor</key>
+			<string>#FFD600</string>
+			<key>devicePosition</key>
+			<string>overflowTop</string>
+			<key>deviceScaleFactor</key>
+			<real>1.0</real>
+			<key>glitchDirection</key>
+			<string>leadingToTrailing</string>
+			<key>glitchEndColor</key>
+			<string>#76FEFD</string>
+			<key>glitchStartColor</key>
+			<string>#F657FD</string>
+			<key>glowColor</key>
+			<string>#0091FF</string>
+			<key>hideDeviceFrame</key>
+			<false/>
+			<key>magnifier</key>
+			<dict>
+				<key>centerUnitX</key>
+				<real>0.5</real>
+				<key>centerUnitY</key>
+				<real>0.5</real>
+				<key>circularDiameterUnit</key>
+				<real>0.32</real>
+				<key>isEnabled</key>
+				<false/>
+				<key>lensBorderColor</key>
+				<string>#FFFFFF</string>
+				<key>lensBorderWidthPoints</key>
+				<real>4.0</real>
+				<key>lensDropShadowColor</key>
+				<string>#00000059</string>
+				<key>lensDropShadowEnabled</key>
+				<false/>
+				<key>lensDropShadowRadiusPoints</key>
+				<real>8.0</real>
+				<key>lensDropShadowXOffsetPoints</key>
+				<real>0.0</real>
+				<key>lensDropShadowYOffsetPoints</key>
+				<real>4.0</real>
+				<key>lensShape</key>
+				<string>circle</string>
+				<key>rectCornerRadiusUnit</key>
+				<real>0.12</real>
+				<key>rectHeightUnit</key>
+				<real>0.45</real>
+				<key>rectWidthUnit</key>
+				<real>0.5</real>
+				<key>scaleFactor</key>
+				<real>1.5</real>
+				<key>snapPosition</key>
+				<string>center</string>
+			</dict>
+			<key>overrideColor</key>
+			<false/>
+			<key>overrideDevicePosition</key>
+			<true/>
+			<key>overrideDeviceScaleFactor</key>
+			<false/>
+			<key>overrideTextAlignment</key>
+			<false/>
+			<key>stickerColor</key>
+			<string>#000000</string>
+			<key>textAlignment</key>
+			<string>center</string>
+			<key>textBackgroundColor</key>
+			<string>#004593</string>
+			<key>textBackgroundGradientColors</key>
+			<array>
+				<string>#004593</string>
+				<string>#007AFF</string>
+				<string>#007AFF00</string>
+			</array>
+			<key>textBackgroundLinearGradientDirection</key>
+			<string>topToBottom</string>
+			<key>textBackgroundStyle</key>
+			<string>none</string>
+			<key>titleColor</key>
+			<string>#1D1C1F</string>
+			<key>titleHighlightColor</key>
+			<string>#FFD600</string>
+			<key>titleTextStyle</key>
+			<string>original</string>
+			<key>waveTime</key>
+			<real>0.0</real>
+		</dict>
+		<key>localizations</key>
+		<array>
+			<dict>
+				<key>body</key>
 				<string>Navigate your car, dodge rivals, and rack up overtakes in this retro-inspired arcade racer.</string>
 				<key>language</key>
 				<string>en-US</string>
@@ -117,11 +280,27 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Condueix el teu cotxe, esquiva rivals i acumula avançaments en este arcade de carreres d'inspiració retro.</string>
+				<string>Navigate your car, dodge rivals, and rack up overtakes in this retro-inspired arcade racer.</string>
 				<key>language</key>
-				<string>ca</string>
+				<string>en-GB</string>
 				<key>title</key>
-				<string>Esquiva Trànsit Sense Fi</string>
+				<string>Race Through Endless Traffic</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Navigate your car, dodge rivals, and rack up overtakes in this retro-inspired arcade racer.</string>
+				<key>language</key>
+				<string>en-AU</string>
+				<key>title</key>
+				<string>Race Through Endless Traffic</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Navigate your car, dodge rivals, and rack up overtakes in this retro-inspired arcade racer.</string>
+				<key>language</key>
+				<string>en-CA</string>
+				<key>title</key>
+				<string>Race Through Endless Traffic</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -132,183 +311,20 @@
 				<string>Esquiva Tráfico Sin Fin</string>
 			</dict>
 			<dict>
+				<key>body</key>
+				<string>Conduce tu carro, esquiva rivales y rebasa adelantamientos en este arcade de carreras de inspiración retro.</string>
 				<key>language</key>
-				<string>en-GB</string>
+				<string>es-MX</string>
 				<key>title</key>
-				<string>Race Through Endless Traffic</string>
-				<key>body</key>
-				<string>Navigate your car, dodge rivals, and rack up overtakes in this retro-inspired arcade racer.</string>
-			</dict>
-			<dict>
-				<key>language</key>
-				<string>en-AU</string>
-				<key>title</key>
-				<string>Race Through Endless Traffic</string>
-				<key>body</key>
-				<string>Navigate your car, dodge rivals, and rack up overtakes in this retro-inspired arcade racer.</string>
-			</dict>
-			<dict>
-				<key>language</key>
-				<string>en-CA</string>
-				<key>title</key>
-				<string>Race Through Endless Traffic</string>
-				<key>body</key>
-				<string>Navigate your car, dodge rivals, and rack up overtakes in this retro-inspired arcade racer.</string>
-			</dict>
-		</array>
-	</dict>
-	<dict>
-		<key>designConfiguration</key>
-		<dict>
-			<key>backgroundColor</key>
-			<string>#FFFFFF</string>
-			<key>backgroundGradientColors</key>
-			<array>
-				<string>#004593</string>
-				<string>#007AFF</string>
-				<string>#007AFF</string>
-			</array>
-			<key>backgroundLinearGradientDirection</key>
-			<string>topToBottom</string>
-			<key>backgroundStyle</key>
-			<string>solid</string>
-			<key>bodyColor</key>
-			<string>#1D1C1F</string>
-			<key>bodyHighlightColor</key>
-			<string>#FFD600</string>
-			<key>devicePosition</key>
-			<string>overflowTop</string>
-			<key>deviceScaleFactor</key>
-			<real>1.0</real>
-			<key>glitchDirection</key>
-			<string>leadingToTrailing</string>
-			<key>glitchEndColor</key>
-			<string>#76FEFD</string>
-			<key>glitchStartColor</key>
-			<string>#F657FD</string>
-			<key>glowColor</key>
-			<string>#0091FF</string>
-			<key>hideDeviceFrame</key>
-			<false/>
-			<key>magnifier</key>
-			<dict>
-				<key>centerUnitX</key>
-				<real>0.5</real>
-				<key>centerUnitY</key>
-				<real>0.5</real>
-				<key>circularDiameterUnit</key>
-				<real>0.32</real>
-				<key>isEnabled</key>
-				<false/>
-				<key>lensBorderColor</key>
-				<string>#FFFFFF</string>
-				<key>lensBorderWidthPoints</key>
-				<real>4.0</real>
-				<key>lensDropShadowColor</key>
-				<string>#00000059</string>
-				<key>lensDropShadowEnabled</key>
-				<false/>
-				<key>lensDropShadowRadiusPoints</key>
-				<real>8.0</real>
-				<key>lensDropShadowXOffsetPoints</key>
-				<real>0.0</real>
-				<key>lensDropShadowYOffsetPoints</key>
-				<real>4.0</real>
-				<key>lensShape</key>
-				<string>circle</string>
-				<key>rectCornerRadiusUnit</key>
-				<real>0.12</real>
-				<key>rectHeightUnit</key>
-				<real>0.45</real>
-				<key>rectWidthUnit</key>
-				<real>0.5</real>
-				<key>scaleFactor</key>
-				<real>1.5</real>
-				<key>snapPosition</key>
-				<string>center</string>
-			</dict>
-			<key>overrideColor</key>
-			<false/>
-			<key>overrideDevicePosition</key>
-			<true/>
-			<key>overrideDeviceScaleFactor</key>
-			<false/>
-			<key>overrideTextAlignment</key>
-			<false/>
-			<key>stickerColor</key>
-			<string>#000000</string>
-			<key>textAlignment</key>
-			<string>center</string>
-			<key>textBackgroundColor</key>
-			<string>#004593</string>
-			<key>textBackgroundGradientColors</key>
-			<array>
-				<string>#004593</string>
-				<string>#007AFF</string>
-				<string>#007AFF00</string>
-			</array>
-			<key>textBackgroundLinearGradientDirection</key>
-			<string>topToBottom</string>
-			<key>textBackgroundStyle</key>
-			<string>none</string>
-			<key>titleColor</key>
-			<string>#1D1C1F</string>
-			<key>titleHighlightColor</key>
-			<string>#FFD600</string>
-			<key>titleTextStyle</key>
-			<string>original</string>
-			<key>waveTime</key>
-			<real>0.0</real>
-		</dict>
-		<key>localizations</key>
-		<array>
-			<dict>
-				<key>body</key>
-				<string>Move left. Move right. Don't crash. Master the basics in seconds, then chase your high score for hours.</string>
-				<key>language</key>
-				<string>en-US</string>
-				<key>title</key>
-				<string>Simple Controls. Pure Arcade Action</string>
+				<string>Esquiva Carros Sin Fin</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>La velocitat puja. Un error acaba la teua partida. Supera el teu rècord!</string>
+				<string>Condueix el teu cotxe, esquiva rivals i acumula avançaments en este arcade de carreres d'inspiració retro.</string>
 				<key>language</key>
 				<string>ca</string>
 				<key>title</key>
-				<string>Un Error. Game Over</string>
-			</dict>
-			<dict>
-				<key>body</key>
-				<string>La velocidad sube. Un fallo termina tu partida. ¡Supera tu récord!</string>
-				<key>language</key>
-				<string>es-ES</string>
-				<key>title</key>
-				<string>Un Error. Game Over</string>
-			</dict>
-			<dict>
-				<key>language</key>
-				<string>en-GB</string>
-				<key>title</key>
-				<string>Simple Controls. Pure Arcade Action</string>
-				<key>body</key>
-				<string>Move left. Move right. Don't crash. Master the basics in seconds, then chase your high score for hours.</string>
-			</dict>
-			<dict>
-				<key>language</key>
-				<string>en-AU</string>
-				<key>title</key>
-				<string>Simple Controls. Pure Arcade Action</string>
-				<key>body</key>
-				<string>Move left. Move right. Don't crash. Master the basics in seconds, then chase your high score for hours.</string>
-			</dict>
-			<dict>
-				<key>language</key>
-				<string>en-CA</string>
-				<key>title</key>
-				<string>Simple Controls. Pure Arcade Action</string>
-				<key>body</key>
-				<string>Move left. Move right. Don't crash. Master the basics in seconds, then chase your high score for hours.</string>
+				<string>Esquiva Trànsit Sense Fi</string>
 			</dict>
 		</array>
 	</dict>
@@ -419,51 +435,59 @@
 		<array>
 			<dict>
 				<key>body</key>
-				<string>VoiceOver, audio cues, haptics, larger text, and adaptable gameplay settings.</string>
+				<string>Earn achievements for control styles, overtake streaks, distance, and lifetime totals.</string>
 				<key>language</key>
 				<string>en-US</string>
 				<key>title</key>
-				<string>Built For Accessibility</string>
+				<string>Unlock Arcade Achievements</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Desafia amics, supera rivals i demostra que ets el més ràpid a Game Center.</string>
-				<key>language</key>
-				<string>ca</string>
-				<key>title</key>
-				<string>Escala el Tauler de Líders</string>
-			</dict>
-			<dict>
-				<key>body</key>
-				<string>Desafía a tus amigos, vence a tus rivales y demuestra que eres el más rápido en Game Center.</string>
-				<key>language</key>
-				<string>es-ES</string>
-				<key>title</key>
-				<string>Sube en la Clasificación</string>
-			</dict>
-			<dict>
+				<string>Earn achievements for control styles, overtake streaks, distance, and lifetime totals.</string>
 				<key>language</key>
 				<string>en-GB</string>
 				<key>title</key>
-				<string>Built For Accessibility</string>
-				<key>body</key>
-				<string>VoiceOver, audio cues, haptics, larger text, and adaptable gameplay settings.</string>
+				<string>Unlock Arcade Achievements</string>
 			</dict>
 			<dict>
+				<key>body</key>
+				<string>Earn achievements for control styles, overtake streaks, distance, and lifetime totals.</string>
 				<key>language</key>
 				<string>en-AU</string>
 				<key>title</key>
-				<string>Built For Accessibility</string>
-				<key>body</key>
-				<string>VoiceOver, audio cues, haptics, larger text, and adaptable gameplay settings.</string>
+				<string>Unlock Arcade Achievements</string>
 			</dict>
 			<dict>
+				<key>body</key>
+				<string>Earn achievements for control styles, overtake streaks, distance, and lifetime totals.</string>
 				<key>language</key>
 				<string>en-CA</string>
 				<key>title</key>
-				<string>Built For Accessibility</string>
+				<string>Unlock Arcade Achievements</string>
+			</dict>
+			<dict>
 				<key>body</key>
-				<string>VoiceOver, audio cues, haptics, larger text, and adaptable gameplay settings.</string>
+				<string>Gana logros por estilos de control, rachas de adelantamientos, distancia y totales acumulados.</string>
+				<key>language</key>
+				<string>es-ES</string>
+				<key>title</key>
+				<string>Desbloquea Logros Arcade</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Gana logros por estilos de control, rachas de rebases, distancia y totales acumulados.</string>
+				<key>language</key>
+				<string>es-MX</string>
+				<key>title</key>
+				<string>Desbloquea Logros Arcade</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Guanya assoliments per estils de control, ratxes d'avançaments, distància i totals acumulats.</string>
+				<key>language</key>
+				<string>ca</string>
+				<key>title</key>
+				<string>Desbloqueja Assoliments Arcade</string>
 			</dict>
 		</array>
 	</dict>
@@ -574,51 +598,59 @@
 		<array>
 			<dict>
 				<key>body</key>
-				<string>The speed climbs. One mistake ends your run. Restart fast and beat your best.</string>
+				<string>After each run, RetroRapid! shows the friend above you so the next target is clear.</string>
 				<key>language</key>
 				<string>en-US</string>
 				<key>title</key>
-				<string>One Wrong Move. Game Over</string>
+				<string>See Who Is Just Ahead</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Esquerra. Dreta. No xoques. Domina l'essencial en segons i passa hores perseguint el teu rècord.</string>
-				<key>language</key>
-				<string>ca</string>
-				<key>title</key>
-				<string>Controls Simples. Acció Arcade Pura</string>
-			</dict>
-			<dict>
-				<key>body</key>
-				<string>Izquierda. Derecha. No choques. Domina lo básico en segundos y pasa horas persiguiendo tu récord.</string>
-				<key>language</key>
-				<string>es-ES</string>
-				<key>title</key>
-				<string>Controles Simples. Acción Arcade Pura</string>
-			</dict>
-			<dict>
+				<string>After each run, RetroRapid! shows the friend above you so the next target is clear.</string>
 				<key>language</key>
 				<string>en-GB</string>
 				<key>title</key>
-				<string>One Wrong Move. Game Over</string>
-				<key>body</key>
-				<string>The speed climbs. One mistake ends your run. Restart fast and beat your best.</string>
+				<string>See Who Is Just Ahead</string>
 			</dict>
 			<dict>
+				<key>body</key>
+				<string>After each run, RetroRapid! shows the friend above you so the next target is clear.</string>
 				<key>language</key>
 				<string>en-AU</string>
 				<key>title</key>
-				<string>One Wrong Move. Game Over</string>
-				<key>body</key>
-				<string>The speed climbs. One mistake ends your run. Restart fast and beat your best.</string>
+				<string>See Who Is Just Ahead</string>
 			</dict>
 			<dict>
+				<key>body</key>
+				<string>After each run, RetroRapid! shows the friend above you so the next target is clear.</string>
 				<key>language</key>
 				<string>en-CA</string>
 				<key>title</key>
-				<string>One Wrong Move. Game Over</string>
+				<string>See Who Is Just Ahead</string>
+			</dict>
+			<dict>
 				<key>body</key>
-				<string>The speed climbs. One mistake ends your run. Restart fast and beat your best.</string>
+				<string>Tras cada partida, RetroRapid! muestra qué amigo tienes por encima para que el próximo objetivo quede claro.</string>
+				<key>language</key>
+				<string>es-ES</string>
+				<key>title</key>
+				<string>Mira Quién Va Justo Delante</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Al terminar cada partida, RetroRapid! muestra qué amigo tienes encima para que el próximo objetivo quede claro.</string>
+				<key>language</key>
+				<string>es-MX</string>
+				<key>title</key>
+				<string>Mira Quién Va Justo Delante</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Després de cada partida, RetroRapid! mostra quina amistat tens per damunt perquè el pròxim objectiu quede clar.</string>
+				<key>language</key>
+				<string>ca</string>
+				<key>title</key>
+				<string>Mira Qui Va Just Davant</string>
 			</dict>
 		</array>
 	</dict>
@@ -729,362 +761,59 @@
 		<array>
 			<dict>
 				<key>body</key>
-				<string>Earn achievements, chase friends, and share your best runs with Game Center.</string>
+				<string>Compete by platform and speed level, from Cruise to Rapid, with Game Center.</string>
 				<key>language</key>
 				<string>en-US</string>
 				<key>title</key>
-				<string>Climb the Leaderboards</string>
+				<string>Climb Fair Leaderboards</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>VoiceOver, pistes d'àudio, hàptics i opcions de joc adaptables.
-</string>
-				<key>language</key>
-				<string>ca</string>
-				<key>title</key>
-				<string>Dissenyat per a l'Accessibilitat</string>
-			</dict>
-			<dict>
-				<key>body</key>
-				<string>VoiceOver, pistas de audio, hápticos y ajustes de juego adaptables.</string>
-				<key>language</key>
-				<string>es-ES</string>
-				<key>title</key>
-				<string>Diseñado para la Accesibilidad</string>
-			</dict>
-			<dict>
+				<string>Compete by platform and speed level, from Cruise to Rapid, with Game Center.</string>
 				<key>language</key>
 				<string>en-GB</string>
 				<key>title</key>
-				<string>Climb the Leaderboards</string>
-				<key>body</key>
-				<string>Earn achievements, chase friends, and share your best runs with Game Center.</string>
+				<string>Climb Fair Leaderboards</string>
 			</dict>
 			<dict>
+				<key>body</key>
+				<string>Compete by platform and speed level, from Cruise to Rapid, with Game Center.</string>
 				<key>language</key>
 				<string>en-AU</string>
 				<key>title</key>
-				<string>Climb the Leaderboards</string>
-				<key>body</key>
-				<string>Earn achievements, chase friends, and share your best runs with Game Center.</string>
+				<string>Climb Fair Leaderboards</string>
 			</dict>
 			<dict>
+				<key>body</key>
+				<string>Compete by platform and speed level, from Cruise to Rapid, with Game Center.</string>
 				<key>language</key>
 				<string>en-CA</string>
 				<key>title</key>
-				<string>Climb the Leaderboards</string>
-				<key>body</key>
-				<string>Earn achievements, chase friends, and share your best runs with Game Center.</string>
-			</dict>
-		</array>
-	</dict>
-	<dict>
-		<key>designConfiguration</key>
-		<dict>
-			<key>backgroundColor</key>
-			<string>#FFFFFF</string>
-			<key>backgroundGradientColors</key>
-			<array>
-				<string>#004593</string>
-				<string>#007AFF</string>
-				<string>#007AFF</string>
-			</array>
-			<key>backgroundLinearGradientDirection</key>
-			<string>topToBottom</string>
-			<key>backgroundStyle</key>
-			<string>solid</string>
-			<key>bodyColor</key>
-			<string>#1D1C1F</string>
-			<key>bodyHighlightColor</key>
-			<string>#FFD600</string>
-			<key>devicePosition</key>
-			<string>trailingBottom</string>
-			<key>deviceScaleFactor</key>
-			<real>1.0</real>
-			<key>glitchDirection</key>
-			<string>leadingToTrailing</string>
-			<key>glitchEndColor</key>
-			<string>#76FEFD</string>
-			<key>glitchStartColor</key>
-			<string>#F657FD</string>
-			<key>glowColor</key>
-			<string>#0091FF</string>
-			<key>hideDeviceFrame</key>
-			<false/>
-			<key>magnifier</key>
-			<dict>
-				<key>centerUnitX</key>
-				<real>0.5</real>
-				<key>centerUnitY</key>
-				<real>0.5</real>
-				<key>circularDiameterUnit</key>
-				<real>0.32</real>
-				<key>isEnabled</key>
-				<false/>
-				<key>lensBorderColor</key>
-				<string>#FFFFFF</string>
-				<key>lensBorderWidthPoints</key>
-				<real>4.0</real>
-				<key>lensDropShadowColor</key>
-				<string>#00000059</string>
-				<key>lensDropShadowEnabled</key>
-				<false/>
-				<key>lensDropShadowRadiusPoints</key>
-				<real>8.0</real>
-				<key>lensDropShadowXOffsetPoints</key>
-				<real>0.0</real>
-				<key>lensDropShadowYOffsetPoints</key>
-				<real>4.0</real>
-				<key>lensShape</key>
-				<string>circle</string>
-				<key>rectCornerRadiusUnit</key>
-				<real>0.12</real>
-				<key>rectHeightUnit</key>
-				<real>0.45</real>
-				<key>rectWidthUnit</key>
-				<real>0.5</real>
-				<key>scaleFactor</key>
-				<real>1.5</real>
-				<key>snapPosition</key>
-				<string>center</string>
-			</dict>
-			<key>overrideColor</key>
-			<false/>
-			<key>overrideDevicePosition</key>
-			<true/>
-			<key>overrideDeviceScaleFactor</key>
-			<false/>
-			<key>overrideTextAlignment</key>
-			<false/>
-			<key>stickerColor</key>
-			<string>#000000</string>
-			<key>textAlignment</key>
-			<string>center</string>
-			<key>textBackgroundColor</key>
-			<string>#004593</string>
-			<key>textBackgroundGradientColors</key>
-			<array>
-				<string>#004593</string>
-				<string>#007AFF</string>
-				<string>#007AFF00</string>
-			</array>
-			<key>textBackgroundLinearGradientDirection</key>
-			<string>topToBottom</string>
-			<key>textBackgroundStyle</key>
-			<string>none</string>
-			<key>titleColor</key>
-			<string>#1D1C1F</string>
-			<key>titleHighlightColor</key>
-			<string>#FFD600</string>
-			<key>titleTextStyle</key>
-			<string>original</string>
-			<key>waveTime</key>
-			<real>0.0</real>
-		</dict>
-		<key>localizations</key>
-		<array>
-			<dict>
-				<key>body</key>
-				<string>Switch from pocket-console green to LCD handheld style, and make every run feel properly retro.</string>
-				<key>language</key>
-				<string>en-US</string>
-				<key>title</key>
-				<string>Choose Your Retro Aesthetic</string>
+				<string>Climb Fair Leaderboards</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Ajusta el volum, tria la retroalimentació hàptica, selecciona el teu tema i afina els controls. RetroRapid! s'adapta al teu estil de joc.</string>
-				<key>language</key>
-				<string>ca</string>
-				<key>title</key>
-				<string>Personalitza la Teua Experiència</string>
-			</dict>
-			<dict>
-				<key>body</key>
-				<string>Ajusta el volumen, elige la respuesta háptica, selecciona tu tema y afina los controles. RetroRapid! se adapta a tu estilo de juego.</string>
+				<string>Compite por plataforma y nivel de velocidad, de Crucero a Rapid, con Game Center.</string>
 				<key>language</key>
 				<string>es-ES</string>
 				<key>title</key>
-				<string>Personaliza Tu Experiencia</string>
+				<string>Sube en Clasificaciones Justas</string>
 			</dict>
 			<dict>
+				<key>body</key>
+				<string>Compite por plataforma y nivel de velocidad, de Crucero a Rapid, con Game Center.</string>
 				<key>language</key>
-				<string>en-GB</string>
+				<string>es-MX</string>
 				<key>title</key>
-				<string>Choose Your Retro Aesthetic</string>
-				<key>body</key>
-				<string>Switch from pocket-console green to LCD handheld style, and make every run feel properly retro.</string>
-			</dict>
-			<dict>
-				<key>language</key>
-				<string>en-AU</string>
-				<key>title</key>
-				<string>Choose Your Retro Aesthetic</string>
-				<key>body</key>
-				<string>Switch from pocket-console green to LCD handheld style, and make every run feel properly retro.</string>
-			</dict>
-			<dict>
-				<key>language</key>
-				<string>en-CA</string>
-				<key>title</key>
-				<string>Choose Your Retro Aesthetic</string>
-				<key>body</key>
-				<string>Switch from pocket-console green to LCD handheld style, and make every run feel properly retro.</string>
-			</dict>
-		</array>
-	</dict>
-	<dict>
-		<key>designConfiguration</key>
-		<dict>
-			<key>backgroundColor</key>
-			<string>#FFFFFF</string>
-			<key>backgroundGradientColors</key>
-			<array>
-				<string>#004593</string>
-				<string>#007AFF</string>
-				<string>#007AFF</string>
-			</array>
-			<key>backgroundLinearGradientDirection</key>
-			<string>topToBottom</string>
-			<key>backgroundStyle</key>
-			<string>solid</string>
-			<key>bodyColor</key>
-			<string>#1D1C1F</string>
-			<key>bodyHighlightColor</key>
-			<string>#FFD600</string>
-			<key>devicePosition</key>
-			<string>overflowBottom</string>
-			<key>deviceScaleFactor</key>
-			<real>1.0</real>
-			<key>glitchDirection</key>
-			<string>leadingToTrailing</string>
-			<key>glitchEndColor</key>
-			<string>#76FEFD</string>
-			<key>glitchStartColor</key>
-			<string>#F657FD</string>
-			<key>glowColor</key>
-			<string>#0091FF</string>
-			<key>hideDeviceFrame</key>
-			<false/>
-			<key>magnifier</key>
-			<dict>
-				<key>centerUnitX</key>
-				<real>0.5</real>
-				<key>centerUnitY</key>
-				<real>0.5</real>
-				<key>circularDiameterUnit</key>
-				<real>0.32</real>
-				<key>isEnabled</key>
-				<false/>
-				<key>lensBorderColor</key>
-				<string>#FFFFFF</string>
-				<key>lensBorderWidthPoints</key>
-				<real>4.0</real>
-				<key>lensDropShadowColor</key>
-				<string>#00000059</string>
-				<key>lensDropShadowEnabled</key>
-				<false/>
-				<key>lensDropShadowRadiusPoints</key>
-				<real>8.0</real>
-				<key>lensDropShadowXOffsetPoints</key>
-				<real>0.0</real>
-				<key>lensDropShadowYOffsetPoints</key>
-				<real>4.0</real>
-				<key>lensShape</key>
-				<string>circle</string>
-				<key>rectCornerRadiusUnit</key>
-				<real>0.12</real>
-				<key>rectHeightUnit</key>
-				<real>0.45</real>
-				<key>rectWidthUnit</key>
-				<real>0.5</real>
-				<key>scaleFactor</key>
-				<real>1.5</real>
-				<key>snapPosition</key>
-				<string>center</string>
-			</dict>
-			<key>overrideColor</key>
-			<false/>
-			<key>overrideDevicePosition</key>
-			<false/>
-			<key>overrideDeviceScaleFactor</key>
-			<false/>
-			<key>overrideTextAlignment</key>
-			<false/>
-			<key>stickerColor</key>
-			<string>#000000</string>
-			<key>textAlignment</key>
-			<string>center</string>
-			<key>textBackgroundColor</key>
-			<string>#004593</string>
-			<key>textBackgroundGradientColors</key>
-			<array>
-				<string>#004593</string>
-				<string>#007AFF</string>
-				<string>#007AFF00</string>
-			</array>
-			<key>textBackgroundLinearGradientDirection</key>
-			<string>topToBottom</string>
-			<key>textBackgroundStyle</key>
-			<string>none</string>
-			<key>titleColor</key>
-			<string>#1D1C1F</string>
-			<key>titleHighlightColor</key>
-			<string>#FFD600</string>
-			<key>titleTextStyle</key>
-			<string>original</string>
-			<key>waveTime</key>
-			<real>0.0</real>
-		</dict>
-		<key>localizations</key>
-		<array>
-			<dict>
-				<key>body</key>
-				<string>Tune controls, haptics, volume, visual style, and feedback so RetroRapid! fits your play style.</string>
-				<key>language</key>
-				<string>en-US</string>
-				<key>title</key>
-				<string>Customize Your Experience</string>
+				<string>Sube en Clasificaciones Justas</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Del verd de les consoles de butxaca clàssiques als jocs de mà LCD, personalitza la teua experiència visual amb temes retro icònics.</string>
+				<string>Competix per plataforma i nivell de velocitat, de Cruise a Rapid, amb Game Center.</string>
 				<key>language</key>
 				<string>ca</string>
 				<key>title</key>
-				<string>Tria la Teua Estètica Retro</string>
-			</dict>
-			<dict>
-				<key>body</key>
-				<string>Del verde de las consolas de bolsillo clásicas a los juegos de mano LCD, personaliza tu experiencia visual con temas retro icónicos.</string>
-				<key>language</key>
-				<string>es-ES</string>
-				<key>title</key>
-				<string>Elige Tu Estética Retro</string>
-			</dict>
-			<dict>
-				<key>language</key>
-				<string>en-GB</string>
-				<key>title</key>
-				<string>Customise Your Experience</string>
-				<key>body</key>
-				<string>Tune controls, haptics, volume, visual style, and feedback so RetroRapid! fits your play style.</string>
-			</dict>
-			<dict>
-				<key>language</key>
-				<string>en-AU</string>
-				<key>title</key>
-				<string>Customise Your Experience</string>
-				<key>body</key>
-				<string>Tune controls, haptics, volume, visual style, and feedback so RetroRapid! fits your play style.</string>
-			</dict>
-			<dict>
-				<key>language</key>
-				<string>en-CA</string>
-				<key>title</key>
-				<string>Customize Your Experience</string>
-				<key>body</key>
-				<string>Tune controls, haptics, volume, visual style, and feedback so RetroRapid! fits your play style.</string>
+				<string>Puja en Classificacions Justes</string>
 			</dict>
 		</array>
 	</dict>
