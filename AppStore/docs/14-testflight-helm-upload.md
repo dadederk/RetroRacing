@@ -6,7 +6,7 @@ Agent playbook for RetroRapid! TestFlight uploads.
 
 - Use Xcode 26 for TestFlight/App Store archives until iOS 27 ships in September 2026. Do not submit archives built with Xcode 27 beta.
 - Resolve `helm-asc` once per session; examples use `/Applications/Helm.app/Contents/Helpers/helm-asc`.
-- Prefer the app script. It uploads with Xcode, then uses Helm for App Store Connect build metadata, groups, and beta review.
+- Prefer the Swift script. It uploads with Xcode, then uses Helm for App Store Connect build metadata, groups, and beta review.
 - Pass `--agent` to Helm commands. Avoid `jq`, pipelines, and command substitution in agent flows.
 - Discover with app-scoped commands first; mutate with `build <build-id>` only after the ID is known.
 
@@ -39,18 +39,18 @@ Refresh group IDs before attach/submit:
 From the repo root:
 
 ```bash
-AppStore/testflight/submit-1.5-via-helm.sh all
+swift run --package-path Scripts submit-testflight-build all
 ```
 
 Useful variants:
 
 ```bash
-AppStore/testflight/submit-1.5-via-helm.sh archive
-AppStore/testflight/submit-1.5-via-helm.sh upload-ios
-AppStore/testflight/submit-1.5-via-helm.sh upload-mac
+swift run --package-path Scripts submit-testflight-build archive
+swift run --package-path Scripts submit-testflight-build upload-ios
+swift run --package-path Scripts submit-testflight-build upload-mac
 ```
 
-Update the script version/build constants, or replace it with a parameterized script, before reusing it for later releases.
+Pass `--version` and `--build-number` before reusing it for later releases.
 
 ## Manual Sequence
 

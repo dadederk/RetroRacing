@@ -11,19 +11,36 @@ public struct ProcessCommand: Equatable, Sendable {
     public let executable: String
     public let arguments: [String]
     public let currentDirectory: URL?
+    public let environment: [String: String]
 
     public init(
         executable: String,
         arguments: [String],
-        currentDirectory: URL? = nil
+        currentDirectory: URL? = nil,
+        environment: [String: String] = [:]
     ) {
         self.executable = executable
         self.arguments = arguments
         self.currentDirectory = currentDirectory
+        self.environment = environment
     }
 
     public var rendered: String {
-        ([executable] + arguments).map(Self.shellQuoted).joined(separator: " ")
+        let environmentPrefix = environment.keys.sorted().map { key in
+            "\(key)=\(Self.shellQuoted(environment[key] ?? ""))"
+        }
+        return (environmentPrefix + [executable] + arguments)
+            .map(Self.shellQuotedIfNeeded)
+            .joined(separator: " ")
+    }
+
+    private static func shellQuotedIfNeeded(_ value: String) -> String {
+        if value.contains("="),
+           let separatorIndex = value.firstIndex(of: "="),
+           !value[..<separatorIndex].contains(where: { $0.isWhitespace }) {
+            return value
+        }
+        return shellQuoted(value)
     }
 
     private static func shellQuoted(_ value: String) -> String {
@@ -47,6 +64,10 @@ public enum ProcessRunner {
         process.executableURL = URL(fileURLWithPath: command.executable)
         process.arguments = command.arguments
         process.currentDirectoryURL = command.currentDirectory
+        if !command.environment.isEmpty {
+            process.environment = ProcessInfo.processInfo.environment
+                .merging(command.environment) { _, new in new }
+        }
 
         if captureOutput {
             process.standardOutput = standardOutput

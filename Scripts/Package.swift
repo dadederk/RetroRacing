@@ -24,6 +24,7 @@ let package = Package(
         ),
         .executable(name: "generate-metadata-docs", targets: ["GenerateMetadataDocs"]),
         .executable(name: "apply-retrorapid-metadata", targets: ["ApplyRetroRapidMetadata"]),
+        .executable(name: "submit-testflight-build", targets: ["SubmitTestFlightBuild"]),
     ],
     targets: [
         .target(name: "ScriptSupport"),
@@ -58,6 +59,10 @@ let package = Package(
         .executableTarget(
             name: "ApplyRetroRapidMetadata",
             dependencies: ["RetroRapidMetadataCore", "ScriptSupport"]
+        ),
+        .executableTarget(
+            name: "SubmitTestFlightBuild",
+            dependencies: ["RetroRacingAutomationCore", "ScriptSupport"]
         ),
         .testTarget(
             name: "ScriptSupportTests",

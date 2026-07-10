@@ -54,6 +54,55 @@ func givenOnlyTestingFilterWhenBuildingCommandsThenSingleFilteredCommandIsReturn
 }
 
 @Test
+func givenTestFlightArchiveOptionsWhenBuildingCommandsThenIOSAndMacArchivesArePlanned() {
+    let root = URL(fileURLWithPath: "/repository")
+    let options = testFlightOptions(command: .archive)
+
+    let commands = TestFlightUploadWorkflow.commands(
+        repositoryRoot: root,
+        options: options
+    )
+
+    #expect(commands.count == 2)
+    #expect(commands.allSatisfy { $0.environment["DEVELOPER_DIR"] == options.developerDirectory })
+    #expect(commands[0].arguments.contains("generic/platform=iOS"))
+    #expect(commands[1].arguments.contains("generic/platform=macOS"))
+}
+
+@Test
+func givenTestFlightUploadOptionsWhenBuildingCommandThenExportArchiveIsPlanned() {
+    let root = URL(fileURLWithPath: "/repository")
+    let options = testFlightOptions(command: .uploadIOS)
+
+    let commands = TestFlightUploadWorkflow.commands(
+        repositoryRoot: root,
+        options: options
+    )
+
+    #expect(commands.count == 1)
+    #expect(commands[0].arguments.contains("-exportArchive"))
+    #expect(commands[0].arguments.contains("/repository/build/testflight-1.5/RetroRacingUniversal-iOS.xcarchive"))
+}
+
+@Test
+func givenBuildLookupJSONObjectWhenParsingThenBuildIDIsReturned() throws {
+    let buildID = try TestFlightUploadWorkflow.buildID(
+        from: #"{"id":"1234567890"}"#
+    )
+
+    #expect(buildID == "1234567890")
+}
+
+@Test
+func givenBuildLookupJSONArrayWhenParsingThenFirstBuildIDIsReturned() throws {
+    let buildID = try TestFlightUploadWorkflow.buildID(
+        from: #"[{"id":"1234567890"}]"#
+    )
+
+    #expect(buildID == "1234567890")
+}
+
+@Test
 func givenRoadMaskDescriptorsWhenResolvingSizesThenLapAndLaneSizesDiffer() throws {
     let lane = try #require(
         RoadMaskWorkflow.descriptors.first { !$0.isLapMask }
@@ -111,4 +160,21 @@ func givenScreenshotPlatformWhenBuildingManifestThenEveryLocaleAndIndexIsPresent
             * ScreenshotStudioWorkflow.slideCount
     )
     #expect(images.contains { $0["filename"] as? String == "es-MX_6.jpeg" })
+}
+
+private func testFlightOptions(
+    command: TestFlightUploadCommand
+) -> TestFlightUploadOptions {
+    TestFlightUploadOptions(
+        command: command,
+        appID: "6758641625",
+        version: "1.5",
+        buildNumber: "29",
+        helmPath: "/Applications/Helm.app/Contents/Helpers/helm-asc",
+        developerDirectory: "/Applications/Xcode.app/Contents/Developer",
+        externalGroup: "df40f833-12c7-4411-b28d-122690045c58",
+        pollAttempts: 1,
+        pollIntervalSeconds: 1,
+        dryRun: true
+    )
 }

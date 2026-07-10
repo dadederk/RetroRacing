@@ -16,6 +16,7 @@ Engineering standards: [CONVENTIONS.md](CONVENTIONS.md).
 | `sync-screenshot-studio-localizations` | Synchronizes Screenshot Studio copy, manifests, and shared locale images | `--check` reports plist, manifest, and image drift without writing |
 | `generate-metadata-docs` | Generates metadata copy and validation documents from the canonical JSON catalog | `--check` verifies generated documents without writing |
 | `apply-retrorapid-metadata` | Applies validated metadata through Helm | `--dry-run` reports the plan without changing App Store Connect |
+| `submit-testflight-build` | Archives iOS/macOS builds and configures TestFlight via Helm | `--dry-run` prints archive, upload, lookup, and TestFlight configuration commands |
 
 ## Recommended Recipes
 
@@ -61,6 +62,17 @@ Optional metadata flags:
 - `--keywords-only` updates only hidden keywords.
 - `--include-app-info` explicitly retries shared name/subtitle fields.
 - `--helm <path>` overrides the Helm CLI path.
+
+Upload the current TestFlight build:
+
+```bash
+swift run --package-path Scripts submit-testflight-build --help
+swift run --package-path Scripts submit-testflight-build all --dry-run
+swift run --package-path Scripts submit-testflight-build all
+```
+
+Optional TestFlight flags include `--version`, `--build-number`, `--helm`,
+`--developer-dir`, `--external-group`, `--poll-attempts`, and `--poll-interval`.
 
 ## Historical Migrations
 
