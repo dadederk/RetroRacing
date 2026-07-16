@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		21AA00000000000000000001 /* ArcadeAudioKit in Frameworks */ = {isa = PBXBuildFile; productRef = 21AA00000000000000000003 /* ArcadeAudioKit */; };
 		210D69C32F3BFEA000EDECA3 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 210D69C22F3BFEA000EDECA3 /* StoreKit.framework */; };
 		210D69C52F3BFEAB00EDECA3 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 210D69C42F3BFEAB00EDECA3 /* StoreKit.framework */; };
 		21472B102F57A8700002E56A /* RetroRacingShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21DD46FE2F2FCB02000C9FFA /* RetroRacingShared.framework */; };
@@ -356,6 +357,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				21AA00000000000000000001 /* ArcadeAudioKit in Frameworks */,
 				21CE00022F3C0000000000A2 /* GameController.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -710,6 +712,7 @@
 			);
 			name = RetroRacingShared;
 			packageProductDependencies = (
+				21AA00000000000000000003 /* ArcadeAudioKit */,
 			);
 			productName = RetroRacingShared;
 			productReference = 21DD46FE2F2FCB02000C9FFA /* RetroRacingShared.framework */;
@@ -812,6 +815,9 @@
 			);
 			mainGroup = 21DD46382F2FC956000C9FFA;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				21AA00000000000000000002 /* XCLocalSwiftPackageReference "../../ArcadeAudioKit" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 21DD46422F2FC956000C9FFA /* Products */;
 			projectDirPath = "";
@@ -2188,6 +2194,21 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		21AA00000000000000000002 /* XCLocalSwiftPackageReference "../../ArcadeAudioKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../../ArcadeAudioKit;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		21AA00000000000000000003 /* ArcadeAudioKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 21AA00000000000000000002 /* XCLocalSwiftPackageReference "../../ArcadeAudioKit" */;
+			productName = ArcadeAudioKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 21DD46392F2FC956000C9FFA /* Project object */;
 }

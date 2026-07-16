@@ -5,8 +5,9 @@
 //  Created by Dani Devesa on 21/04/2026.
 //
 
-import Foundation
 import AVFoundation
+import ArcadeAudioKit
+import Foundation
 
 private final class GeneratedSFXPlaybackSlot {
     let node: AVAudioPlayerNode
@@ -28,83 +29,26 @@ private struct GeneratedSFXEffectPool {
 
 enum GeneratedSFXRenderer {
     static func makeBuffer(recipe: GeneratedSFXRecipe, format: AVAudioFormat) -> AVAudioPCMBuffer? {
-        let sampleRate = format.sampleRate
-        let segmentFrames = recipe.expandedSegments.map { segment in
-            max(1, Int((segment.duration * sampleRate).rounded()))
-        }
-        let totalFrames = segmentFrames.reduce(0, +)
-
-        guard totalFrames > 0,
+        let samples = AudioPCMRenderer.render(
+            recipe: recipe.arcadeAudioRecipe,
+            sampleRate: format.sampleRate
+        )
+        guard samples.isEmpty == false,
               let buffer = AVAudioPCMBuffer(
                 pcmFormat: format,
-                frameCapacity: AVAudioFrameCount(totalFrames)
+                frameCapacity: AVAudioFrameCount(samples.count)
               ),
               let channel = buffer.floatChannelData?[0] else {
             return nil
         }
 
-        buffer.frameLength = AVAudioFrameCount(totalFrames)
-        for sampleIndex in 0..<totalFrames {
-            channel[sampleIndex] = 0
-        }
-
-        var globalIndex = 0
-        for (segment, frameCount) in zip(recipe.expandedSegments, segmentFrames) {
-            let attackFrames = max(1, Int((segment.attack * sampleRate).rounded()))
-            let decayFrames = max(1, Int((segment.decay * sampleRate).rounded()))
-            let sustainFrames = max(0, frameCount - attackFrames - decayFrames)
-            var phase = 0.0
-
-            for localIndex in 0..<frameCount {
-                let progress = frameCount > 1 ? Double(localIndex) / Double(frameCount - 1) : 1
-                let frequency = segment.frequency.value(at: progress)
-                phase += frequency / sampleRate
-                let wave = waveformValue(waveform: segment.waveform, phase: phase)
-                let envelope = envelopeValue(
-                    sampleIndex: localIndex,
-                    totalSamples: frameCount,
-                    attackSamples: attackFrames,
-                    decaySamples: decayFrames,
-                    sustainSamples: sustainFrames
-                )
-                let sample = wave * segment.amplitude * envelope
-                channel[globalIndex] = Float(min(max(sample, -1), 1))
-                globalIndex += 1
+        buffer.frameLength = AVAudioFrameCount(samples.count)
+        samples.withUnsafeBufferPointer { source in
+            if let baseAddress = source.baseAddress {
+                channel.update(from: baseAddress, count: samples.count)
             }
         }
-
         return buffer
-    }
-
-    private static func waveformValue(waveform: GeneratedSFXWaveform, phase: Double) -> Double {
-        let wrappedPhase = phase.truncatingRemainder(dividingBy: 1)
-        switch waveform {
-        case .sine:
-            return sin(2.0 * .pi * wrappedPhase)
-        case .triangle:
-            return (4.0 * abs(wrappedPhase - 0.5)) - 1.0
-        case .square:
-            return wrappedPhase < 0.5 ? 1.0 : -1.0
-        }
-    }
-
-    private static func envelopeValue(
-        sampleIndex: Int,
-        totalSamples: Int,
-        attackSamples: Int,
-        decaySamples: Int,
-        sustainSamples: Int
-    ) -> Double {
-        guard totalSamples > 0 else { return 0 }
-        if sampleIndex < attackSamples {
-            return Double(sampleIndex) / Double(max(1, attackSamples))
-        }
-        if sampleIndex < attackSamples + sustainSamples {
-            return 1.0
-        }
-
-        let decayIndex = sampleIndex - attackSamples - sustainSamples
-        return max(0.0, 1.0 - (Double(decayIndex) / Double(max(1, decaySamples))))
     }
 }
 

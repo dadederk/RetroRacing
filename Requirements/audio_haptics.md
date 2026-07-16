@@ -27,8 +27,8 @@
 
 ## Implementation Rules
 - Shared audio abstraction `SoundEffectPlayer`; injected into `GameScene` (no defaults in initializers).
-- Primary runtime SFX path uses `AVGeneratedSoundEffectPlayer` (generated PCM for `start`, `bip`, `fail`) with a modular `GeneratedSFXProfile`/recipe model.
-- Generated SFX recipes are composed from ordered segments (`intro`, `body`, optional repeated `tailPattern`) so tuning is code-only constant edits.
+- Primary runtime SFX path uses `AVGeneratedSoundEffectPlayer` (generated PCM for `start`, `bip`, `fail`) with a modular `GeneratedSFXProfile` built on the shared pure `ArcadeAudioKit` recipe/rendering package.
+- Generated SFX recipes are composed from ordered `ArcadeAudioKit` segments (`intro`, `body`, optional repeated `tailPattern`) so tuning is code-only constant edits while AVFoundation playback remains RetroRapid-owned.
 - `GeneratedSFXProfile.failTailRepeatCount` is the one-line fail-tail repetition knob; default is baseline minus one repeat to shorten fail feedback.
 - Shared cue abstraction `LaneCuePlayer` with AVFoundation implementation `AVLaneCuePlayer`; injected into `GameScene` and backed by generated PCM buffers (no prerecorded cue assets required).
 - Sound IDs remain `start`, `bip`, `fail`; all three effects are generated at runtime.

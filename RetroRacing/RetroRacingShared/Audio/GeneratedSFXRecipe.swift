@@ -1,50 +1,9 @@
+import ArcadeAudioKit
 import Foundation
 
-public enum GeneratedSFXWaveform: Sendable {
-    case sine
-    case triangle
-    case square
-}
-
-public enum GeneratedSFXFrequency: Sendable, Equatable {
-    case constant(Double)
-    case linear(startHz: Double, endHz: Double)
-
-    func value(at progress: Double) -> Double {
-        let clamped = min(max(progress, 0), 1)
-        switch self {
-        case .constant(let hz):
-            return hz
-        case .linear(let startHz, let endHz):
-            return startHz + ((endHz - startHz) * clamped)
-        }
-    }
-}
-
-public struct GeneratedSFXSegment: Sendable, Equatable {
-    public let waveform: GeneratedSFXWaveform
-    public let frequency: GeneratedSFXFrequency
-    public let duration: TimeInterval
-    public let amplitude: Double
-    public let attack: TimeInterval
-    public let decay: TimeInterval
-
-    public init(
-        waveform: GeneratedSFXWaveform,
-        frequency: GeneratedSFXFrequency,
-        duration: TimeInterval,
-        amplitude: Double,
-        attack: TimeInterval,
-        decay: TimeInterval
-    ) {
-        self.waveform = waveform
-        self.frequency = frequency
-        self.duration = max(0, duration)
-        self.amplitude = max(0, amplitude)
-        self.attack = max(0, attack)
-        self.decay = max(0, decay)
-    }
-}
+public typealias GeneratedSFXFrequency = AudioPitch
+public typealias GeneratedSFXSegment = AudioSegment
+public typealias GeneratedSFXWaveform = AudioWaveform
 
 public struct GeneratedSFXTailPattern: Sendable, Equatable {
     public let motif: [GeneratedSFXSegment]
@@ -63,6 +22,10 @@ public struct GeneratedSFXTailPattern: Sendable, Equatable {
             expanded.append(contentsOf: motif)
         }
         return expanded
+    }
+
+    var arcadeAudioMotif: AudioRepeatedMotif {
+        AudioRepeatedMotif(segments: motif, repeatCount: repeatCount)
     }
 }
 
@@ -89,6 +52,13 @@ public struct GeneratedSFXRecipe: Sendable, Equatable {
         expandedSegments.reduce(0) { partialResult, segment in
             partialResult + segment.duration
         }
+    }
+
+    var arcadeAudioRecipe: AudioRecipe {
+        AudioRecipe(
+            segments: intro + body,
+            repeatedMotif: tailPattern?.arcadeAudioMotif
+        )
     }
 }
 
@@ -131,29 +101,29 @@ public struct GeneratedSFXProfile: Sendable, Equatable {
             intro: [
                 GeneratedSFXSegment(
                     waveform: .sine,
-                    frequency: .constant(523.251),
-                    duration: 0.11,
-                    amplitude: 0.23,
-                    attack: 0.003,
-                    decay: 0.022
+                    pitch: .constant(.c5),
+                    durationMilliseconds: 110,
+                    amplitudePercent: 23,
+                    attackMilliseconds: 3,
+                    decayMilliseconds: 22
                 )
             ],
             body: [
                 GeneratedSFXSegment(
                     waveform: .sine,
-                    frequency: .constant(659.255),
-                    duration: 0.11,
-                    amplitude: 0.24,
-                    attack: 0.003,
-                    decay: 0.022
+                    pitch: .constant(.e5),
+                    durationMilliseconds: 110,
+                    amplitudePercent: 24,
+                    attackMilliseconds: 3,
+                    decayMilliseconds: 22
                 ),
                 GeneratedSFXSegment(
                     waveform: .sine,
-                    frequency: .constant(783.991),
-                    duration: 0.13,
-                    amplitude: 0.25,
-                    attack: 0.003,
-                    decay: 0.026
+                    pitch: .constant(.g5),
+                    durationMilliseconds: 130,
+                    amplitudePercent: 25,
+                    attackMilliseconds: 3,
+                    decayMilliseconds: 26
                 )
             ]
         )
@@ -164,29 +134,29 @@ public struct GeneratedSFXProfile: Sendable, Equatable {
             intro: [
                 GeneratedSFXSegment(
                     waveform: .sine,
-                    frequency: .constant(523.251),
-                    duration: 0.026,
-                    amplitude: 0.2,
-                    attack: 0.001,
-                    decay: 0.012
+                    pitch: .constant(.c5),
+                    durationMilliseconds: 26,
+                    amplitudePercent: 20,
+                    attackMilliseconds: 1,
+                    decayMilliseconds: 12
                 )
             ],
             body: [
                 GeneratedSFXSegment(
                     waveform: .sine,
-                    frequency: .constant(659.255),
-                    duration: 0.026,
-                    amplitude: 0.18,
-                    attack: 0.001,
-                    decay: 0.012
+                    pitch: .constant(.e5),
+                    durationMilliseconds: 26,
+                    amplitudePercent: 18,
+                    attackMilliseconds: 1,
+                    decayMilliseconds: 12
                 ),
                 GeneratedSFXSegment(
                     waveform: .sine,
-                    frequency: .constant(783.991),
-                    duration: 0.026,
-                    amplitude: 0.17,
-                    attack: 0.001,
-                    decay: 0.012
+                    pitch: .constant(.g5),
+                    durationMilliseconds: 26,
+                    amplitudePercent: 17,
+                    attackMilliseconds: 1,
+                    decayMilliseconds: 12
                 )
             ]
         )
@@ -196,73 +166,73 @@ public struct GeneratedSFXProfile: Sendable, Equatable {
         let intro = [
             GeneratedSFXSegment(
                 waveform: .square,
-                frequency: .constant(330),
-                duration: 0.12,
-                amplitude: 0.24,
-                attack: 0.002,
-                decay: 0.018
+                pitch: .constantHz(330),
+                durationMilliseconds: 120,
+                amplitudePercent: 24,
+                attackMilliseconds: 2,
+                decayMilliseconds: 18
             ),
             GeneratedSFXSegment(
                 waveform: .square,
-                frequency: .constant(277.18),
-                duration: 0.12,
-                amplitude: 0.24,
-                attack: 0.002,
-                decay: 0.02
+                pitch: .constantHz(277.18),
+                durationMilliseconds: 120,
+                amplitudePercent: 24,
+                attackMilliseconds: 2,
+                decayMilliseconds: 20
             )
         ]
 
         let downturn = [
             GeneratedSFXSegment(
                 waveform: .triangle,
-                frequency: .linear(startHz: 260, endHz: 220),
-                duration: 0.15,
-                amplitude: 0.22,
-                attack: 0.002,
-                decay: 0.02
+                pitch: .sweepHz(startHz: 260, endHz: 220),
+                durationMilliseconds: 150,
+                amplitudePercent: 22,
+                attackMilliseconds: 2,
+                decayMilliseconds: 20
             ),
             GeneratedSFXSegment(
                 waveform: .triangle,
-                frequency: .linear(startHz: 220, endHz: 185),
-                duration: 0.15,
-                amplitude: 0.22,
-                attack: 0.002,
-                decay: 0.02
+                pitch: .sweepHz(startHz: 220, endHz: 185),
+                durationMilliseconds: 150,
+                amplitudePercent: 22,
+                attackMilliseconds: 2,
+                decayMilliseconds: 20
             ),
             GeneratedSFXSegment(
                 waveform: .triangle,
-                frequency: .linear(startHz: 185, endHz: 155),
-                duration: 0.16,
-                amplitude: 0.21,
-                attack: 0.002,
-                decay: 0.022
+                pitch: .sweepHz(startHz: 185, endHz: 155),
+                durationMilliseconds: 160,
+                amplitudePercent: 21,
+                attackMilliseconds: 2,
+                decayMilliseconds: 22
             ),
             GeneratedSFXSegment(
                 waveform: .triangle,
-                frequency: .linear(startHz: 155, endHz: 130),
-                duration: 0.16,
-                amplitude: 0.2,
-                attack: 0.002,
-                decay: 0.022
+                pitch: .sweepHz(startHz: 155, endHz: 130),
+                durationMilliseconds: 160,
+                amplitudePercent: 20,
+                attackMilliseconds: 2,
+                decayMilliseconds: 22
             )
         ]
 
         let tailMotif = [
             GeneratedSFXSegment(
                 waveform: .triangle,
-                frequency: .linear(startHz: 130, endHz: 118),
-                duration: 0.18,
-                amplitude: 0.18,
-                attack: 0.002,
-                decay: 0.028
+                pitch: .sweepHz(startHz: 130, endHz: 118),
+                durationMilliseconds: 180,
+                amplitudePercent: 18,
+                attackMilliseconds: 2,
+                decayMilliseconds: 28
             ),
             GeneratedSFXSegment(
                 waveform: .triangle,
-                frequency: .linear(startHz: 118, endHz: 104),
-                duration: 0.16,
-                amplitude: 0.16,
-                attack: 0.002,
-                decay: 0.03
+                pitch: .sweepHz(startHz: 118, endHz: 104),
+                durationMilliseconds: 160,
+                amplitudePercent: 16,
+                attackMilliseconds: 2,
+                decayMilliseconds: 30
             )
         ]
 

@@ -51,4 +51,23 @@ final class GeneratedSFXRecipeTests: XCTestCase {
         XCTAssertGreaterThan(startBuffer?.frameLength ?? 0, 0)
         XCTAssertGreaterThan(bipBuffer?.frameLength ?? 0, 0)
     }
+
+    func testGivenDefaultRecipesWhenMigratedToArcadeAudioKitThenDurationsAndFrameCountsArePreserved() throws {
+        // Given
+        let profile = GeneratedSFXProfile.defaultProfile
+        let format = try XCTUnwrap(AVAudioFormat(standardFormatWithSampleRate: 44_100, channels: 1))
+
+        // When
+        let startBuffer = try XCTUnwrap(GeneratedSFXRenderer.makeBuffer(recipe: profile.start, format: format))
+        let bipBuffer = try XCTUnwrap(GeneratedSFXRenderer.makeBuffer(recipe: profile.bip, format: format))
+        let failBuffer = try XCTUnwrap(GeneratedSFXRenderer.makeBuffer(recipe: profile.fail, format: format))
+
+        // Then
+        XCTAssertEqual(profile.start.duration, 0.35, accuracy: 0.0001)
+        XCTAssertEqual(profile.bip.duration, 0.078, accuracy: 0.0001)
+        XCTAssertEqual(profile.fail.duration, 1.88, accuracy: 0.0001)
+        XCTAssertEqual(startBuffer.frameLength, 15_435)
+        XCTAssertEqual(bipBuffer.frameLength, 3_440)
+        XCTAssertEqual(failBuffer.frameLength, 82_908)
+    }
 }
