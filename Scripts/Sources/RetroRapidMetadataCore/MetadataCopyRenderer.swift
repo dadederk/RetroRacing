@@ -38,8 +38,8 @@ public enum MetadataCopyRenderer {
             "",
             "Last updated: \(catalog.lastUpdated)",
             "",
-            "**Status:** version-localized fields are `DRAFT_APPLIED`; "
-                + "shared name/subtitle fields are `BLOCKED`.",
+            "**Status:** `\(catalog.submissionStatus)` — see field-level "
+                + "status in `12-validation-results.md`.",
             "",
             "**Canonical source:** "
                 + "[metadata/retrorapid-v1.5.json]"

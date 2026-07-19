@@ -2,7 +2,7 @@
 
 Part of [App Store docs hub](../README.md). Index: [RETRORAPID_APP_STORE_REFERENCE.md](../RETRORAPID_APP_STORE_REFERENCE.md).
 
-Last updated: 2026-06-25
+Last updated: 2026-07-19
 
 **See also:** [Metadata copy](05-metadata-copy.md) · [Live listing](02-listing-snapshot.md) · [90-day plan](11-execution-90-day.md) · [Swift scripts](../../Scripts/README.md)
 
@@ -10,25 +10,23 @@ Last updated: 2026-06-25
 
 ## Submission Quality Gate
 
-Status on 2026-06-25: `BLOCKED`. Version-localized metadata is `DRAFT_APPLIED`, but four issues should be closed before submission:
+Status on 2026-07-19: `DRAFT_APPLIED`. Name, subtitle, keywords, promotional text, description, and What's New are all applied to both 1.5 drafts across all seven locales, and What's New is also synced to the TestFlight build 28 What to Test copy. Two issues should still be closed before submission:
 
-1. **The shared App Info fields are locked.** The recommended `RetroRapid:` names and natural-language subtitles pass validation, but App Store Connect currently rejects `helm-asc` name/subtitle updates with HTTP 409 despite editable 1.5 drafts. Keywords on those drafts are already applied.
-2. **The new keyword fields are not rank-validated yet.** The live fields are now archived, but there is still no Appfigures/Krankie baseline. The staged keywords remain hypotheses until current rankings and demand are captured.
-3. **The public visionOS placeholder remains unresolved.** The staged metadata correctly omits Apple Vision, but the public listing still exposes a "Coming Soon" experience. Decide whether to remove it from sale or complete the gameplay experience.
-4. **Rendered screenshot exports are incomplete.** Source copy is aligned for iPhone, iPad, and Mac, but localized exports and uploads remain incomplete. Apple Watch still needs a finalized sequence.
+1. **The new keyword fields are not rank-validated yet.** The live fields are now archived, but there is still no Appfigures/Krankie baseline. The staged keywords remain hypotheses until current rankings and demand are captured.
+2. **The public visionOS placeholder remains unresolved.** The staged metadata correctly omits Apple Vision, but the public listing still exposes a "Coming Soon" experience. Decide whether to remove it from sale or complete the gameplay experience.
+
+Screenshots are no longer a submission-gate blocker for iPhone English variants (all four are fully rendered and uploaded), but the following still need work before submitting: Mac (missing 2 of 7 slides in English, 0 in Spanish/Catalan), iPad (0 rendered), Apple Watch (0 rendered, sequence still `BLOCKED`), and Spanish/Catalan iPhone (rendered exports were cleared from disk after the 2026-07-17 copy tightening and need re-export even though old renders are still live on the ASC draft). See `06-screenshots.md` for the exact per-locale breakdown.
 
 Ready now:
 
-- Validate or update promotional text, which does not require a new app version.
 - Capture the remaining App Store Connect analytics and keyword/rank baseline.
-- Regenerate the remaining localized screenshot exports from the aligned source.
+- Regenerate the remaining localized screenshot exports from the aligned source (Mac, iPad, Apple Watch, and Spanish/Catalan iPhone).
 
 Ready to submit when:
 
 - At least the core US/GB and Spain keyword hypotheses have been checked.
 - The public visionOS availability decision is resolved and recorded.
-- The final name/subtitle read naturally in every localization.
-- The rendered screenshots and uploaded order match the approved story.
+- The rendered screenshots and uploaded order match the approved story on every platform and locale.
 
 ### Helm Rollout Status
 
@@ -36,7 +34,7 @@ Helm CLI path: `/Applications/Helm.app/Contents/Helpers/helm-asc`
 
 Repeatable Swift command: `apply-retrorapid-metadata` in the root `Scripts` package.
 
-On 2026-06-24, `helm-asc` / the apply script updated the editable **1.5** drafts for **iOS** and **macOS** across **en-US**, **en-GB**, **en-AU**, **en-CA**, **es-ES**, **ca**, and **es-MX**. Nothing was submitted to App Review.
+On 2026-06-24, `helm-asc` / the apply script updated the editable **1.5** drafts for **iOS** and **macOS** across **en-US**, **en-GB**, **en-AU**, **en-CA**, **es-ES**, **ca**, and **es-MX**. On 2026-07-17, `helm-asc localization <id> update --name ...` applied the new `RetroRapid: Retro Arcade Racer` name for the four English locales — the shared App Info HTTP 409 that blocked this on 2026-06-25 no longer reproduced. Subtitles already matched the staged natural-language values from the earlier pass. On 2026-07-19, description and What's New (plus a re-sync of keywords/promotional text) were applied on **both** iOS and macOS for all seven locales — social proof (review quotes + Create with Swift feature) in the description, and the standardized "sharpens...racing polish" What's New everywhere. `apply-retrorapid-metadata` mangled accented characters for `es-ES`/`ca`/`es-MX` (see `04-metadata-strategy.md` decision notes); those three locales were applied with direct `helm-asc localization <id> update` calls instead. Nothing has been submitted to App Review.
 
 | Platform | Draft version ID | en-US | en-GB | en-AU | en-CA | es-ES | ca | es-MX |
 |---|---|---|---|---|---|---|---|---|
@@ -45,11 +43,12 @@ On 2026-06-24, `helm-asc` / the apply script updated the editable **1.5** drafts
 
 | Field | Status on 1.5 drafts | Notes |
 |---|---|---|
+| **Name** | `DRAFT_APPLIED` | `RetroRapid: Retro Arcade Racer` for en-US/GB/AU/CA (applied 2026-07-17); Spanish/Catalan names unchanged. Shared App Info field — updating any one locale's localization propagates across iOS and macOS automatically. |
+| **Subtitle** | `DRAFT_APPLIED` | Verified against the staged catalog on both platforms for all seven locales. |
 | **Keywords** | `DRAFT_APPLIED` | Applied on iOS and macOS for all seven locales. English variants use split keyword fields for cross-localization. |
 | **Promotional text** | `DRAFT_APPLIED` | Shared English conversion copy; Mexico uses `carros`. |
-| **Description** | `DRAFT_APPLIED` | Includes offline phrasing: *Works offline*, *sin conexión*, *sense connexió*, *sin internet*. |
-| **What's New** | `DRAFT_APPLIED` | Uses the 1.5 polish + Game Center copy from the canonical catalog. |
-| **Name + subtitle** | `BLOCKED` | ASC still returns HTTP 409 for shared App Information updates. Set manually in App Store Connect before submission. |
+| **Description** | `DRAFT_APPLIED` | Includes offline phrasing (*Works offline*, *sin conexión*, *sense connexió*, *sin internet*) plus a review quote and the Create with Swift "Indie App of the Week" pull-quote on all seven locales (applied 2026-07-19). |
+| **What's New** | `DRAFT_APPLIED` | Standardized on "This update sharpens RetroRapid! with bug fixes and racing polish..." across both platforms, all seven locales, and the TestFlight build 28 What to Test copy (applied 2026-07-19). |
 
 ```bash
 swift run --package-path Scripts generate-metadata-docs --check
@@ -59,17 +58,6 @@ swift run --package-path Scripts apply-retrorapid-metadata --keywords-only
 swift run --package-path Scripts apply-retrorapid-metadata --include-app-info
 ```
 
-The Swift tool reads `AppStore/metadata/retrorapid-v1.5.json` and validates it before calling Helm. By default it applies only version-localization fields. Use `--keywords-only` for a keyword-only sync, `--dry-run` for a non-mutating preflight, and `--include-app-info` only when intentionally retrying the currently blocked shared name/subtitle fields.
+The Swift tool reads `AppStore/metadata/retrorapid-v1.5.json` and validates it before calling Helm. By default it applies only version-localization fields. Use `--keywords-only` for a keyword-only sync, `--dry-run` for a non-mutating preflight, and `--include-app-info` to sync the shared name field (now confirmed working).
 
-### Manual App Store Connect fallback
-
-When the API blocks shared App Info (HTTP 409 on name/subtitle), apply fields manually:
-
-1. Run `swift run --package-path Scripts generate-metadata-docs --check`.
-2. Run `swift run --package-path Scripts apply-retrorapid-metadata --dry-run`, then apply the version-localization fields.
-3. In App Store Connect → App Information, set **name** and **subtitle** per locale from `05-metadata-copy.md`.
-4. Re-open the version draft and confirm keywords, promo, description, and What's New match the generated pack.
-5. Upload the regenerated Screenshot Studio exports (`06-screenshots.md`).
-6. Record manual-only fields and the submission date in `11-execution-90-day.md`.
-
-Do not submit until name/subtitle, keywords, and screenshot story are consistent across live intent and the staged pack.
+Do not submit until keyword ranks are baselined and the screenshot story is finalized.

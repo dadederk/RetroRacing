@@ -2,9 +2,9 @@
 
 Part of [App Store docs hub](../README.md).
 
-Last updated: 2026-06-26
+Last updated: 2026-07-17
 
-**Status:** version-localized fields are `DRAFT_APPLIED`; shared name/subtitle fields are `BLOCKED`.
+**Status:** `DRAFT_APPLIED` — see field-level status in `12-validation-results.md`.
 
 **Canonical source:** [metadata/retrorapid-v1.5.json](../metadata/retrorapid-v1.5.json). Do not edit generated copy directly.
 
@@ -16,10 +16,10 @@ Last updated: 2026-06-26
 
 | Locale | App name | Name count | Subtitle | Subtitle count | Keywords | Keyword bytes |
 |---|---|---:|---|---:|---|---:|
-| en-US | `RetroRapid: Arcade Racer` | 24/30 | `Dodge Traffic Across 3 Lanes` | 28/30 | `car,high,score,overtake,reflex,offline,voiceover,haptics,controller,leaderboard,handheld,lcd,endless` | 100/100 |
-| en-GB | `RetroRapid: Arcade Racer` | 24/30 | `Dodge Traffic Across 3 Lanes` | 28/30 | `endless,accessible,swift,highway,skill,vintage,drive,watch,game,nostalgia,pixel,boost,classic,reflex` | 100/100 |
-| en-AU | `RetroRapid: Arcade Racer` | 24/30 | `Overtake Rivals. Beat Records` | 29/30 | `chase,mobile,quick,offline,voiceover,haptic,controller,handheld,lcd,leaderboard,high,score,ipad,mac` | 99/100 |
-| en-CA | `RetroRapid: Arcade Racer` | 24/30 | `Chase Records in Quick Races` | 28/30 | `scoreboard,watch,game,classic,pixel,vintage,boost,nostalgia,ipad,mobile,haptic,lane,mac,drive,swift` | 99/100 |
+| en-US | `RetroRapid: Retro Arcade Racer` | 30/30 | `Dodge Traffic Across 3 Lanes` | 28/30 | `car,high,score,overtake,reflex,offline,voiceover,haptics,controller,leaderboard,handheld,lcd,endless` | 100/100 |
+| en-GB | `RetroRapid: Retro Arcade Racer` | 30/30 | `Dodge Traffic Across 3 Lanes` | 28/30 | `endless,accessible,swift,highway,skill,vintage,drive,watch,game,nostalgia,pixel,boost,classic,reflex` | 100/100 |
+| en-AU | `RetroRapid: Retro Arcade Racer` | 30/30 | `Overtake Rivals. Beat Records` | 29/30 | `chase,mobile,quick,offline,voiceover,haptic,controller,handheld,lcd,leaderboard,high,score,ipad,mac` | 99/100 |
+| en-CA | `RetroRapid: Retro Arcade Racer` | 30/30 | `Chase Records in Quick Races` | 28/30 | `scoreboard,watch,game,classic,pixel,vintage,boost,nostalgia,ipad,mobile,haptic,lane,mac,drive,swift` | 99/100 |
 | es-ES | `RetroRapid: Carreras Arcade` | 27/30 | `Esquiva tráfico en 3 carriles` | 29/30 | `coche,record,adelantar,reflejos,clasico,mando,ranking,infinito,puntuacion,conexion,voiceover,logros` | 99/100 |
 | ca | `RetroRapid: Carreres Arcade` | 27/30 | `Esquiva trànsit en 3 carrils` | 28/30 | `cotxe,avancaments,reflexos,comandament,lcd,accessibilitat,joc,reloj,puntuacio,connexio,velocitat,mac` | 100/100 |
 | es-MX | `RetroRapid: Carreras Arcade` | 27/30 | `Esquiva carros en 3 carriles` | 28/30 | `rebasar,reflejos,record,control,ranking,clasico,infinito,puntuacion,reloj,internet,trafico,logros` | 97/100 |
@@ -62,9 +62,16 @@ Why players keep coming back:
 - No data collection
 
 Crash, restart, and beat your best.
+
+Players are saying:
+"I am really a fan of this nice accessible game that I can just pick up and play! Finally, something that also works with the apple watch!"
+— Datafile, App Store review
+
+Featured in Create with Swift, Weekly Newsletter #96 (Indie App of the Week):
+"But beyond the nostalgia and tight gameplay, what truly stands out is its accessibility."
 ```
 
-Count: 732/4000 characters.
+Count: 1092/4000 characters.
 
 ### es-ES
 
@@ -84,9 +91,16 @@ Por qué engancha:
 - No se recopilan datos
 
 Choca, reinicia y supera tu marca.
+
+Lo que dicen los jugadores:
+"Un juego simplemente accesible y simplemente entretenido. Muy recomendable."
+— Jonathan Chacón, reseña en el App Store
+
+Destacado en Create with Swift, Boletín semanal n.º 96 (App Indie de la Semana):
+"Más allá de la nostalgia y la jugabilidad ajustada, lo que realmente destaca es su accesibilidad."
 ```
 
-Count: 834/4000 characters.
+Count: 1165/4000 characters.
 
 ### ca
 
@@ -106,9 +120,12 @@ Per què enganxa:
 - No es recopilen dades
 
 Xoca, reinicia i supera la teua marca.
+
+Destacat a Create with Swift, Butlletí setmanal núm. 96 (App Indie de la Setmana):
+"Més enllà de la nostàlgia i la jugabilitat ajustada, allò que realment destaca és la seua accessibilitat."
 ```
 
-Count: 843/4000 characters.
+Count: 1035/4000 characters.
 
 ### es-MX
 
@@ -128,9 +145,16 @@ Por qué engancha:
 - No se recopilan datos
 
 Choca, reinicia y supera tu récord.
+
+Lo que dicen los jugadores:
+"Un juego simplemente accesible y simplemente entretenido. Muy recomendable."
+— Jonathan Chacón, reseña en el App Store
+
+Destacado en Create with Swift, Boletín semanal n.º 96 (App Indie de la Semana):
+"Más allá de la nostalgia y la jugabilidad ajustada, lo que realmente destaca es su accesibilidad."
 ```
 
-Count: 832/4000 characters.
+Count: 1163/4000 characters.
 
 ## What's New Candidate
 
@@ -139,39 +163,25 @@ Use this shape for the next bug-fix or polish release if there is no larger feat
 ### en-US / en-GB / en-AU / en-CA
 
 ```text
-This update makes RetroRapid! more stable and consistent.
-
-We fixed a crash that could occur when sound effects or haptic cues were playing, and aligned in-app branding so menus and settings show RetroRapid! correctly throughout.
-
-Game Center achievements, friend markers, and sharing are unchanged — still the best way to chase your crew.
-
-Thanks for racing with us.
+This update sharpens RetroRapid! with bug fixes and racing polish. The Game Center update is still the star: earn achievements, chase friends on the track, and share clean snapshots of your best runs. Thanks for racing with us.
 ```
 
-Count: 367/4000 characters.
+Count: 227/4000 characters.
 
 ### es-ES / es-MX
 
 ```text
-Esta actualización hace que RetroRapid! sea más estable y coherente.
-
-Hemos corregido un cierre inesperado que podía ocurrir al reproducir efectos de sonido o señales hápticas, y hemos unificado la marca en la app para que menús y ajustes muestren RetroRapid! correctamente.
-
-Game Center — logros, marcadores de amigos y compartir — sigue igual. Gracias por correr con nosotros.
+Esta actualización pule RetroRapid! con correcciones de errores y mejoras de conducción. La actualización de Game Center sigue siendo la protagonista: consigue logros, persigue a tus amigos en la pista y comparte capturas limpias de tus mejores partidas. Gracias por correr con nosotros.
 ```
 
-Count: 378/4000 characters.
+Count: 287/4000 characters.
 
 ### ca
 
 ```text
-Aquesta actualització fa que RetroRapid! siga més estable i coherent.
-
-Hem corregit un tancament inesperat que podia passar en reproduir efectes de so o senyals hàptiques, i hem unificat la marca a l'app perquè menús i ajustos mostren RetroRapid! correctament.
-
-Game Center — assoliments, marcadors d'amistats i compartir — continua igual. Gràcies per córrer amb nosaltres.
+Esta actualització poleix RetroRapid! amb correccions d'errors i millores de conducció. L'actualització de Game Center continua sent la protagonista: consegueix assoliments, persegueix als teus amics en la pista i comparteix captures netes de les teues millors partides. Gràcies per córrer amb nosaltres.
 ```
 
-Count: 373/4000 characters.
+Count: 304/4000 characters.
 
 _Generated by `swift run --package-path Scripts generate-metadata-docs`._

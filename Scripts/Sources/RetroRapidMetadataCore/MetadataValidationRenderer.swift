@@ -37,8 +37,9 @@ public enum MetadataValidationRenderer {
             "Last updated: \(catalog.lastUpdated)",
             "",
             "**Status:** `READY` — the canonical catalog passes all configured "
-                + "limits. The overall submission remains `BLOCKED` by the "
-                + "issues in the submission gate.",
+                + "limits. Overall submission status: "
+                + "`\(catalog.submissionStatus)`; see `03-submission-quality-gate.md` "
+                + "for any remaining non-metadata blockers.",
             "",
             "**Canonical source:** "
                 + "[metadata/retrorapid-v1.5.json]"

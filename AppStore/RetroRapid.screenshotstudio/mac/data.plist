@@ -24,7 +24,7 @@
 			<key>devicePosition</key>
 			<string>overflowBottom</string>
 			<key>deviceScaleFactor</key>
-			<real>1.0</real>
+			<real>1</real>
 			<key>glitchDirection</key>
 			<string>leadingToTrailing</string>
 			<key>glitchEndColor</key>
@@ -42,29 +42,29 @@
 				<key>centerUnitY</key>
 				<real>0.5</real>
 				<key>circularDiameterUnit</key>
-				<real>0.32</real>
+				<real>0.32000000000000001</real>
 				<key>isEnabled</key>
 				<false/>
 				<key>lensBorderColor</key>
 				<string>#FFFFFF</string>
 				<key>lensBorderWidthPoints</key>
-				<real>4.0</real>
+				<real>4</real>
 				<key>lensDropShadowColor</key>
 				<string>#00000059</string>
 				<key>lensDropShadowEnabled</key>
 				<false/>
 				<key>lensDropShadowRadiusPoints</key>
-				<real>8.0</real>
+				<real>8</real>
 				<key>lensDropShadowXOffsetPoints</key>
 				<real>0.0</real>
 				<key>lensDropShadowYOffsetPoints</key>
-				<real>4.0</real>
+				<real>4</real>
 				<key>lensShape</key>
 				<string>circle</string>
 				<key>rectCornerRadiusUnit</key>
 				<real>0.12</real>
 				<key>rectHeightUnit</key>
-				<real>0.45</real>
+				<real>0.45000000000000001</real>
 				<key>rectWidthUnit</key>
 				<real>0.5</real>
 				<key>scaleFactor</key>
@@ -109,7 +109,7 @@
 		<array>
 			<dict>
 				<key>body</key>
-				<string>Navigate your car, dodge rivals, and rack up overtakes in this retro-inspired arcade racer.</string>
+				<string>Dodge traffic and chase overtakes in a retro arcade racer.</string>
 				<key>language</key>
 				<string>en-US</string>
 				<key>title</key>
@@ -117,7 +117,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Navigate your car, dodge rivals, and rack up overtakes in this retro-inspired arcade racer.</string>
+				<string>Dodge traffic and chase overtakes in a retro arcade racer.</string>
 				<key>language</key>
 				<string>en-GB</string>
 				<key>title</key>
@@ -125,7 +125,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Navigate your car, dodge rivals, and rack up overtakes in this retro-inspired arcade racer.</string>
+				<string>Dodge traffic and chase overtakes in a retro arcade racer.</string>
 				<key>language</key>
 				<string>en-AU</string>
 				<key>title</key>
@@ -133,7 +133,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Navigate your car, dodge rivals, and rack up overtakes in this retro-inspired arcade racer.</string>
+				<string>Dodge traffic and chase overtakes in a retro arcade racer.</string>
 				<key>language</key>
 				<string>en-CA</string>
 				<key>title</key>
@@ -141,7 +141,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Conduce tu coche, esquiva rivales y acumula adelantamientos en este arcade de carreras de inspiración retro.</string>
+				<string>Esquiva tráfico y consigue adelantamientos en un arcade de carreras retro.</string>
 				<key>language</key>
 				<string>es-ES</string>
 				<key>title</key>
@@ -149,7 +149,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Conduce tu carro, esquiva rivales y rebasa adelantamientos en este arcade de carreras de inspiración retro.</string>
+				<string>Esquiva carros y logra rebases en un arcade de carreras retro.</string>
 				<key>language</key>
 				<string>es-MX</string>
 				<key>title</key>
@@ -157,7 +157,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Condueix el teu cotxe, esquiva rivals i acumula avançaments en este arcade de carreres d'inspiració retro.</string>
+				<string>Esquiva trànsit i acumula avançaments en este arcade de carreres retro.</string>
 				<key>language</key>
 				<string>ca</string>
 				<key>title</key>
@@ -187,7 +187,7 @@
 			<key>devicePosition</key>
 			<string>overflowBottom</string>
 			<key>deviceScaleFactor</key>
-			<real>1.0</real>
+			<real>1</real>
 			<key>glitchDirection</key>
 			<string>leadingToTrailing</string>
 			<key>glitchEndColor</key>
@@ -205,29 +205,29 @@
 				<key>centerUnitY</key>
 				<real>0.5</real>
 				<key>circularDiameterUnit</key>
-				<real>0.32</real>
+				<real>0.32000000000000001</real>
 				<key>isEnabled</key>
 				<false/>
 				<key>lensBorderColor</key>
 				<string>#FFFFFF</string>
 				<key>lensBorderWidthPoints</key>
-				<real>4.0</real>
+				<real>4</real>
 				<key>lensDropShadowColor</key>
 				<string>#00000059</string>
 				<key>lensDropShadowEnabled</key>
 				<false/>
 				<key>lensDropShadowRadiusPoints</key>
-				<real>8.0</real>
+				<real>8</real>
 				<key>lensDropShadowXOffsetPoints</key>
 				<real>0.0</real>
 				<key>lensDropShadowYOffsetPoints</key>
-				<real>4.0</real>
+				<real>4</real>
 				<key>lensShape</key>
 				<string>circle</string>
 				<key>rectCornerRadiusUnit</key>
 				<real>0.12</real>
 				<key>rectHeightUnit</key>
-				<real>0.45</real>
+				<real>0.45000000000000001</real>
 				<key>rectWidthUnit</key>
 				<real>0.5</real>
 				<key>scaleFactor</key>
@@ -272,7 +272,7 @@
 		<array>
 			<dict>
 				<key>body</key>
-				<string>Move left. Move right. Don't crash. Master the basics in seconds, then chase your high score for hours.</string>
+				<string>Move left. Move right. Don't crash. That's the whole game.</string>
 				<key>language</key>
 				<string>en-US</string>
 				<key>title</key>
@@ -280,7 +280,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Move left. Move right. Don't crash. Master the basics in seconds, then chase your high score for hours.</string>
+				<string>Move left. Move right. Don't crash. That's the whole game.</string>
 				<key>language</key>
 				<string>en-GB</string>
 				<key>title</key>
@@ -288,7 +288,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Move left. Move right. Don't crash. Master the basics in seconds, then chase your high score for hours.</string>
+				<string>Move left. Move right. Don't crash. That's the whole game.</string>
 				<key>language</key>
 				<string>en-AU</string>
 				<key>title</key>
@@ -296,7 +296,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Move left. Move right. Don't crash. Master the basics in seconds, then chase your high score for hours.</string>
+				<string>Move left. Move right. Don't crash. That's the whole game.</string>
 				<key>language</key>
 				<string>en-CA</string>
 				<key>title</key>
@@ -304,7 +304,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Izquierda. Derecha. No choques. Domina lo básico en segundos y pasa horas persiguiendo tu récord.</string>
+				<string>Izquierda. Derecha. No choques. Eso es todo el juego.</string>
 				<key>language</key>
 				<string>es-ES</string>
 				<key>title</key>
@@ -312,7 +312,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Izquierda. Derecha. No choques. Domina lo básico en segundos y pasa horas persiguiendo tu récord.</string>
+				<string>Izquierda. Derecha. No choques. Eso es todo el juego.</string>
 				<key>language</key>
 				<string>es-MX</string>
 				<key>title</key>
@@ -320,7 +320,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Esquerra. Dreta. No xoques. Domina l'essencial en segons i passa hores perseguint el teu rècord.</string>
+				<string>Esquerra. Dreta. No xoques. Això és tot el joc.</string>
 				<key>language</key>
 				<string>ca</string>
 				<key>title</key>
@@ -350,7 +350,7 @@
 			<key>devicePosition</key>
 			<string>overflowTop</string>
 			<key>deviceScaleFactor</key>
-			<real>1.0</real>
+			<real>1</real>
 			<key>glitchDirection</key>
 			<string>leadingToTrailing</string>
 			<key>glitchEndColor</key>
@@ -368,29 +368,29 @@
 				<key>centerUnitY</key>
 				<real>0.5</real>
 				<key>circularDiameterUnit</key>
-				<real>0.32</real>
+				<real>0.32000000000000001</real>
 				<key>isEnabled</key>
 				<false/>
 				<key>lensBorderColor</key>
 				<string>#FFFFFF</string>
 				<key>lensBorderWidthPoints</key>
-				<real>4.0</real>
+				<real>4</real>
 				<key>lensDropShadowColor</key>
 				<string>#00000059</string>
 				<key>lensDropShadowEnabled</key>
 				<false/>
 				<key>lensDropShadowRadiusPoints</key>
-				<real>8.0</real>
+				<real>8</real>
 				<key>lensDropShadowXOffsetPoints</key>
 				<real>0.0</real>
 				<key>lensDropShadowYOffsetPoints</key>
-				<real>4.0</real>
+				<real>4</real>
 				<key>lensShape</key>
 				<string>circle</string>
 				<key>rectCornerRadiusUnit</key>
 				<real>0.12</real>
 				<key>rectHeightUnit</key>
-				<real>0.45</real>
+				<real>0.45000000000000001</real>
 				<key>rectWidthUnit</key>
 				<real>0.5</real>
 				<key>scaleFactor</key>
@@ -513,7 +513,7 @@
 			<key>devicePosition</key>
 			<string>overflowTop</string>
 			<key>deviceScaleFactor</key>
-			<real>1.0</real>
+			<real>1</real>
 			<key>glitchDirection</key>
 			<string>leadingToTrailing</string>
 			<key>glitchEndColor</key>
@@ -531,29 +531,29 @@
 				<key>centerUnitY</key>
 				<real>0.5</real>
 				<key>circularDiameterUnit</key>
-				<real>0.32</real>
+				<real>0.32000000000000001</real>
 				<key>isEnabled</key>
 				<false/>
 				<key>lensBorderColor</key>
 				<string>#FFFFFF</string>
 				<key>lensBorderWidthPoints</key>
-				<real>4.0</real>
+				<real>4</real>
 				<key>lensDropShadowColor</key>
 				<string>#00000059</string>
 				<key>lensDropShadowEnabled</key>
 				<false/>
 				<key>lensDropShadowRadiusPoints</key>
-				<real>8.0</real>
+				<real>8</real>
 				<key>lensDropShadowXOffsetPoints</key>
 				<real>0.0</real>
 				<key>lensDropShadowYOffsetPoints</key>
-				<real>4.0</real>
+				<real>4</real>
 				<key>lensShape</key>
 				<string>circle</string>
 				<key>rectCornerRadiusUnit</key>
 				<real>0.12</real>
 				<key>rectHeightUnit</key>
-				<real>0.45</real>
+				<real>0.45000000000000001</real>
 				<key>rectWidthUnit</key>
 				<real>0.5</real>
 				<key>scaleFactor</key>
@@ -598,7 +598,7 @@
 		<array>
 			<dict>
 				<key>body</key>
-				<string>The speed climbs. One mistake ends your run. Restart fast and beat your best.</string>
+				<string>One mistake ends your run. Restart fast, beat your best.</string>
 				<key>language</key>
 				<string>en-US</string>
 				<key>title</key>
@@ -606,7 +606,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>The speed climbs. One mistake ends your run. Restart fast and beat your best.</string>
+				<string>One mistake ends your run. Restart fast, beat your best.</string>
 				<key>language</key>
 				<string>en-GB</string>
 				<key>title</key>
@@ -614,7 +614,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>The speed climbs. One mistake ends your run. Restart fast and beat your best.</string>
+				<string>One mistake ends your run. Restart fast, beat your best.</string>
 				<key>language</key>
 				<string>en-AU</string>
 				<key>title</key>
@@ -622,7 +622,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>The speed climbs. One mistake ends your run. Restart fast and beat your best.</string>
+				<string>One mistake ends your run. Restart fast, beat your best.</string>
 				<key>language</key>
 				<string>en-CA</string>
 				<key>title</key>
@@ -630,7 +630,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>La velocidad sube. Un fallo termina tu partida. ¡Supera tu récord!</string>
+				<string>Un fallo termina tu partida. Reinicia y supera tu récord.</string>
 				<key>language</key>
 				<string>es-ES</string>
 				<key>title</key>
@@ -638,7 +638,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>La velocidad sube. Un fallo termina tu partida. ¡Supera tu récord!</string>
+				<string>Un fallo termina tu partida. Reinicia y supera tu récord.</string>
 				<key>language</key>
 				<string>es-MX</string>
 				<key>title</key>
@@ -646,7 +646,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>La velocitat puja. Un error acaba la teua partida. Supera el teu rècord!</string>
+				<string>Un error acaba la teua partida. Reinicia i supera el teu rècord.</string>
 				<key>language</key>
 				<string>ca</string>
 				<key>title</key>
@@ -676,7 +676,7 @@
 			<key>devicePosition</key>
 			<string>overflowBottom</string>
 			<key>deviceScaleFactor</key>
-			<real>1.0</real>
+			<real>1</real>
 			<key>glitchDirection</key>
 			<string>leadingToTrailing</string>
 			<key>glitchEndColor</key>
@@ -694,29 +694,29 @@
 				<key>centerUnitY</key>
 				<real>0.5</real>
 				<key>circularDiameterUnit</key>
-				<real>0.32</real>
+				<real>0.32000000000000001</real>
 				<key>isEnabled</key>
 				<false/>
 				<key>lensBorderColor</key>
 				<string>#FFFFFF</string>
 				<key>lensBorderWidthPoints</key>
-				<real>4.0</real>
+				<real>4</real>
 				<key>lensDropShadowColor</key>
 				<string>#00000059</string>
 				<key>lensDropShadowEnabled</key>
 				<false/>
 				<key>lensDropShadowRadiusPoints</key>
-				<real>8.0</real>
+				<real>8</real>
 				<key>lensDropShadowXOffsetPoints</key>
 				<real>0.0</real>
 				<key>lensDropShadowYOffsetPoints</key>
-				<real>4.0</real>
+				<real>4</real>
 				<key>lensShape</key>
 				<string>circle</string>
 				<key>rectCornerRadiusUnit</key>
 				<real>0.12</real>
 				<key>rectHeightUnit</key>
-				<real>0.45</real>
+				<real>0.45000000000000001</real>
 				<key>rectWidthUnit</key>
 				<real>0.5</real>
 				<key>scaleFactor</key>
@@ -761,7 +761,7 @@
 		<array>
 			<dict>
 				<key>body</key>
-				<string>Game Center friend markers show the rival score you are chasing, right on the track.</string>
+				<string>Game Center markers show the rival score you're chasing.</string>
 				<key>language</key>
 				<string>en-US</string>
 				<key>title</key>
@@ -769,7 +769,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Game Center friend markers show the rival score you are chasing, right on the track.</string>
+				<string>Game Center markers show the rival score you're chasing.</string>
 				<key>language</key>
 				<string>en-GB</string>
 				<key>title</key>
@@ -777,7 +777,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Game Center friend markers show the rival score you are chasing, right on the track.</string>
+				<string>Game Center markers show the rival score you're chasing.</string>
 				<key>language</key>
 				<string>en-AU</string>
 				<key>title</key>
@@ -785,7 +785,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Game Center friend markers show the rival score you are chasing, right on the track.</string>
+				<string>Game Center markers show the rival score you're chasing.</string>
 				<key>language</key>
 				<string>en-CA</string>
 				<key>title</key>
@@ -793,7 +793,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Los marcadores de Game Center muestran la puntuación rival que estás persiguiendo en plena carretera.</string>
+				<string>Los marcadores de Game Center muestran la puntuación que persigues.</string>
 				<key>language</key>
 				<string>es-ES</string>
 				<key>title</key>
@@ -801,7 +801,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Los marcadores de Game Center muestran la puntuación rival que estás persiguiendo en la carretera.</string>
+				<string>Los marcadores de Game Center muestran la puntuación que persigues.</string>
 				<key>language</key>
 				<string>es-MX</string>
 				<key>title</key>
@@ -809,7 +809,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Els marcadors de Game Center mostren la puntuació rival que estàs perseguint en plena carretera.</string>
+				<string>Els marcadors de Game Center mostren la puntuació que persegueixes.</string>
 				<key>language</key>
 				<string>ca</string>
 				<key>title</key>
@@ -839,7 +839,7 @@
 			<key>devicePosition</key>
 			<string>trailingBottom</string>
 			<key>deviceScaleFactor</key>
-			<real>1.0</real>
+			<real>1</real>
 			<key>glitchDirection</key>
 			<string>leadingToTrailing</string>
 			<key>glitchEndColor</key>
@@ -857,29 +857,29 @@
 				<key>centerUnitY</key>
 				<real>0.5</real>
 				<key>circularDiameterUnit</key>
-				<real>0.32</real>
+				<real>0.32000000000000001</real>
 				<key>isEnabled</key>
 				<false/>
 				<key>lensBorderColor</key>
 				<string>#FFFFFF</string>
 				<key>lensBorderWidthPoints</key>
-				<real>4.0</real>
+				<real>4</real>
 				<key>lensDropShadowColor</key>
 				<string>#00000059</string>
 				<key>lensDropShadowEnabled</key>
 				<false/>
 				<key>lensDropShadowRadiusPoints</key>
-				<real>8.0</real>
+				<real>8</real>
 				<key>lensDropShadowXOffsetPoints</key>
 				<real>0.0</real>
 				<key>lensDropShadowYOffsetPoints</key>
-				<real>4.0</real>
+				<real>4</real>
 				<key>lensShape</key>
 				<string>circle</string>
 				<key>rectCornerRadiusUnit</key>
 				<real>0.12</real>
 				<key>rectHeightUnit</key>
-				<real>0.45</real>
+				<real>0.45000000000000001</real>
 				<key>rectWidthUnit</key>
 				<real>0.5</real>
 				<key>scaleFactor</key>
@@ -924,7 +924,7 @@
 		<array>
 			<dict>
 				<key>body</key>
-				<string>Switch from pocket-console green to LCD handheld style, and make every run feel properly retro.</string>
+				<string>Switch between pocket-console green and LCD handheld styles anytime.</string>
 				<key>language</key>
 				<string>en-US</string>
 				<key>title</key>
@@ -932,7 +932,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Switch from pocket-console green to LCD handheld style, and make every run feel properly retro.</string>
+				<string>Switch between pocket-console green and LCD handheld styles anytime.</string>
 				<key>language</key>
 				<string>en-GB</string>
 				<key>title</key>
@@ -940,7 +940,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Switch from pocket-console green to LCD handheld style, and make every run feel properly retro.</string>
+				<string>Switch between pocket-console green and LCD handheld styles anytime.</string>
 				<key>language</key>
 				<string>en-AU</string>
 				<key>title</key>
@@ -948,7 +948,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Switch from pocket-console green to LCD handheld style, and make every run feel properly retro.</string>
+				<string>Switch between pocket-console green and LCD handheld styles anytime.</string>
 				<key>language</key>
 				<string>en-CA</string>
 				<key>title</key>
@@ -956,7 +956,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Del verde de las consolas de bolsillo clásicas a los juegos de mano LCD, personaliza tu experiencia visual con temas retro icónicos.</string>
+				<string>Cambia del verde de consola de bolsillo al estilo LCD portátil.</string>
 				<key>language</key>
 				<string>es-ES</string>
 				<key>title</key>
@@ -964,7 +964,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Del verde de las consolas de bolsillo clásicas a los juegos de mano LCD, personaliza tu experiencia visual con temas retro icónicos.</string>
+				<string>Cambia del verde de consola de bolsillo al estilo LCD portátil.</string>
 				<key>language</key>
 				<string>es-MX</string>
 				<key>title</key>
@@ -972,7 +972,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Del verd de les consoles de butxaca clàssiques als jocs de mà LCD, personalitza la teua experiència visual amb temes retro icònics.</string>
+				<string>Canvia del verd de consola de butxaca a l'estil LCD portàtil.</string>
 				<key>language</key>
 				<string>ca</string>
 				<key>title</key>
@@ -1002,7 +1002,7 @@
 			<key>devicePosition</key>
 			<string>overflowBottom</string>
 			<key>deviceScaleFactor</key>
-			<real>1.0</real>
+			<real>1</real>
 			<key>glitchDirection</key>
 			<string>leadingToTrailing</string>
 			<key>glitchEndColor</key>
@@ -1020,29 +1020,29 @@
 				<key>centerUnitY</key>
 				<real>0.5</real>
 				<key>circularDiameterUnit</key>
-				<real>0.32</real>
+				<real>0.32000000000000001</real>
 				<key>isEnabled</key>
 				<false/>
 				<key>lensBorderColor</key>
 				<string>#FFFFFF</string>
 				<key>lensBorderWidthPoints</key>
-				<real>4.0</real>
+				<real>4</real>
 				<key>lensDropShadowColor</key>
 				<string>#00000059</string>
 				<key>lensDropShadowEnabled</key>
 				<false/>
 				<key>lensDropShadowRadiusPoints</key>
-				<real>8.0</real>
+				<real>8</real>
 				<key>lensDropShadowXOffsetPoints</key>
 				<real>0.0</real>
 				<key>lensDropShadowYOffsetPoints</key>
-				<real>4.0</real>
+				<real>4</real>
 				<key>lensShape</key>
 				<string>circle</string>
 				<key>rectCornerRadiusUnit</key>
 				<real>0.12</real>
 				<key>rectHeightUnit</key>
-				<real>0.45</real>
+				<real>0.45000000000000001</real>
 				<key>rectWidthUnit</key>
 				<real>0.5</real>
 				<key>scaleFactor</key>
@@ -1087,7 +1087,7 @@
 		<array>
 			<dict>
 				<key>body</key>
-				<string>Tune controls, haptics, volume, visual style, and feedback so RetroRapid! fits your play style.</string>
+				<string>Tune controls, haptics, volume, and visuals to fit your style.</string>
 				<key>language</key>
 				<string>en-US</string>
 				<key>title</key>
@@ -1095,7 +1095,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Tune controls, haptics, volume, visual style, and feedback so RetroRapid! fits your play style.</string>
+				<string>Tune controls, haptics, volume, and visuals to fit your style.</string>
 				<key>language</key>
 				<string>en-GB</string>
 				<key>title</key>
@@ -1103,7 +1103,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Tune controls, haptics, volume, visual style, and feedback so RetroRapid! fits your play style.</string>
+				<string>Tune controls, haptics, volume, and visuals to fit your style.</string>
 				<key>language</key>
 				<string>en-AU</string>
 				<key>title</key>
@@ -1111,7 +1111,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Tune controls, haptics, volume, visual style, and feedback so RetroRapid! fits your play style.</string>
+				<string>Tune controls, haptics, volume, and visuals to fit your style.</string>
 				<key>language</key>
 				<string>en-CA</string>
 				<key>title</key>
@@ -1119,7 +1119,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Ajusta el volumen, elige la respuesta háptica, selecciona tu tema y afina los controles. RetroRapid! se adapta a tu estilo de juego.</string>
+				<string>Ajusta controles, hápticos, volumen y visuales a tu estilo.</string>
 				<key>language</key>
 				<string>es-ES</string>
 				<key>title</key>
@@ -1127,7 +1127,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Ajusta el volumen, elige la respuesta háptica, selecciona tu tema y afina los controles. RetroRapid! se adapta a tu estilo de juego.</string>
+				<string>Ajusta controles, hápticos, volumen y visuales a tu estilo.</string>
 				<key>language</key>
 				<string>es-MX</string>
 				<key>title</key>
@@ -1135,7 +1135,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Ajusta el volum, tria la retroalimentació hàptica, selecciona el teu tema i afina els controls. RetroRapid! s'adapta al teu estil de joc.</string>
+				<string>Ajusta els controls, hàptics, volum i visuals al teu estil.</string>
 				<key>language</key>
 				<string>ca</string>
 				<key>title</key>

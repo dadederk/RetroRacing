@@ -2,9 +2,9 @@
 
 Part of [App Store docs hub](../README.md). Index: [RETRORAPID_APP_STORE_REFERENCE.md](../RETRORAPID_APP_STORE_REFERENCE.md).
 
-Last updated: 2026-07-03
+Last updated: 2026-07-17
 
-**Status:** source copy is `READY`; remaining localized rendering and ASC uploads are `PLANNED`. The Apple Watch sequence is `BLOCKED` pending final selection.
+**Status:** source copy is `READY` (bodies tightened to ≤ ~10 words on 2026-07-17); remaining localized rendering and ASC uploads are `PLANNED`. The Apple Watch sequence is `BLOCKED` pending final selection.
 
 **See also:** [ES/CA slide copy](../../Plans/aso/02-screenshot-localization-copy.md) · [PPO](09-product-page-optimization.md)
 
@@ -37,33 +37,21 @@ Current source state on 2026-07-03:
 - Verify copy, manifests, and shared locale images without writing: `swift run --package-path Scripts sync-screenshot-studio-localizations --check`
 - Screenshot Studio `selectedPlatforms` should match shipping platforms only (iPhone, iPad, Mac, Apple Watch). Park Apple TV and Apple Vision until those products ship publicly.
 
-### Current iPhone/iPad Sequence (source copy)
+### Approved Screenshot Storyboard (source copy)
 
-Source `data.plist` entries now match the recommended storyboard below for all English variants. Re-export screenshots from Screenshot Studio before uploading to App Store Connect.
+Canonical source: `Scripts/Sources/RetroRacingAutomationCore/ScreenshotStudioWorkflow.swift`. Regenerate `data.plist` after edits with `swift run --package-path Scripts sync-screenshot-studio-localizations`; verify without writing via `--check`. This is the approved story for iPhone, iPad, and Mac — keep all localized exports aligned with this order.
 
-| # | Title | English body | Notes |
+Bodies target **≤ ~10 words** in English — one concrete beat per slide, not a second paragraph. Translated bodies may run a word or two longer, which is expected for Romance-language expansion.
+
+| # | Title | English body (≤ ~10 words) | Purpose |
 |---:|---|---|---|
-| 1 | `Race Through Endless Traffic` | `Navigate your car, dodge rivals, and rack up overtakes in this retro-inspired arcade racer.` | Hook |
-| 2 | `Simple Controls. Pure Arcade Action` | `Move left. Move right. Don't crash. Master the basics in seconds, then chase your high score for hours.` | Controls |
-| 3 | `Built For Accessibility` | `VoiceOver, audio cues, haptics, larger text, and adaptable gameplay settings.` | Differentiator |
-| 4 | `One Wrong Move. Game Over` | `The speed climbs. One mistake ends your run. Restart fast and beat your best.` | Tension |
-| 5 | `Chase Friends On The Road` | `Game Center friend markers show the rival score you are chasing, right on the track.` | Social proof |
-| 6 | `Choose Your Retro Aesthetic` | `Switch from pocket-console green to LCD handheld style, and make every run feel properly retro.` | Themes |
-| 7 | `Customize Your Experience` | `Tune controls, haptics, volume, visual style, and feedback so RetroRapid! fits your play style.` | Personalization (`Customise` on en-GB/en-AU) |
-
-### Approved Screenshot Storyboard
-
-This is the approved source story for iPhone, iPad, and Mac. Keep all localized exports aligned with this order.
-
-| # | Title | Body | Purpose |
-|---:|---|---|---|
-| 1 | `Race Through Endless Traffic` | `Navigate your car, dodge rivals, and rack up overtakes in this retro-inspired arcade racer.` | Hook: what the game is. |
-| 2 | `Simple Controls. Pure Arcade Action` | `Move left. Move right. Don't crash. Master the basics in seconds, then chase your high score for hours.` | Clarity: how it plays. |
+| 1 | `Race Through Endless Traffic` | `Dodge traffic and chase overtakes in a retro arcade racer.` | Hook: what the game is. |
+| 2 | `Simple Controls. Pure Arcade Action` | `Move left. Move right. Don't crash. That's the whole game.` | Clarity: how it plays. |
 | 3 | `Built For Accessibility` | `VoiceOver, audio cues, haptics, larger text, and adaptable gameplay settings.` | Differentiator: inclusive play without leading only with accessibility. |
-| 4 | `One Wrong Move. Game Over` | `The speed climbs. One mistake ends your run. Restart fast and beat your best.` | Tension: why it is replayable. |
-| 5 | `Chase Friends On The Road` | `Game Center friend markers show the rival score you are chasing, right on the track.` | Retention: concrete friend-racing proof. |
-| 6 | `Choose Your Retro Aesthetic` | `Switch from pocket-console green to LCD handheld style, and make every run feel properly retro.` | Monetization/theme support. |
-| 7 | `Customize Your Experience` | `Tune controls, haptics, volume, visual style, and feedback so RetroRapid! fits your play style.` | Personalization and trust. |
+| 4 | `One Wrong Move. Game Over` | `One mistake ends your run. Restart fast, beat your best.` | Tension: why it is replayable. |
+| 5 | `Chase Friends On The Road` | `Game Center markers show the rival score you're chasing.` | Retention: concrete friend-racing proof. |
+| 6 | `Choose Your Retro Aesthetic` | `Switch between pocket-console green and LCD handheld styles anytime.` | Monetization/theme support. |
+| 7 | `Customize Your Experience` | `Tune controls, haptics, volume, and visuals to fit your style.` | Personalization and trust. (`Customise` on en-GB/en-AU) |
 
 ### Screenshot Title ASO Variants (First Three Slides)
 

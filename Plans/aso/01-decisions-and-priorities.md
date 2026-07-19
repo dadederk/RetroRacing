@@ -10,7 +10,7 @@ Last updated: 2026-07-03
 
 ## 1) Confirmed Decisions
 
-- Installed and in-app branding uses **RetroRapid!**. The staged App Store listing name uses **RetroRapid: Arcade Racer**, following the portfolio naming convention.
+- Installed and in-app branding uses **RetroRapid!**. The staged App Store listing name (English locales) uses **RetroRapid: Retro Arcade Racer** — adding the standalone word "retro" since it's otherwise likely not indexed as a separate search token inside the compound brand word `RetroRapid` (2026-07-17).
 - **tvOS is not publicly supported.** The public visionOS placeholder remains unresolved and is intentionally omitted from staged marketing copy.
 - Accessibility is a core differentiator, but for broad discovery we should lead with the **game fantasy first**, then accessibility.
 - Game Center is useful for retention/fun, but not a top-of-funnel differentiator.

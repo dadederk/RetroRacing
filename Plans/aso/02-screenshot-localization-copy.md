@@ -2,100 +2,39 @@
 
 Part of [ASO & growth plans](README.md). Index: [retrorapid_aso_growth_plan.md](../retrorapid_aso_growth_plan.md).
 
-Last updated: 2026-07-03
-**See also:** [Current storyboard](../../AppStore/docs/06-screenshots.md) · Sync command: `swift run --package-path Scripts sync-screenshot-studio-localizations`
-
+Last updated: 2026-07-17
+**See also:** [Current storyboard](../../AppStore/docs/06-screenshots.md) · Canonical source: `Scripts/Sources/RetroRacingAutomationCore/ScreenshotStudioWorkflow.swift` · Sync command: `swift run --package-path Scripts sync-screenshot-studio-localizations`
 
 ---
 
-## 4) Screenshot Messaging Plan (Revised)
+## 4) Screenshot Messaging Plan
 
 ## 4.1 Positioning Rule
 
 - Slide 1 should sell the game loop.
 - Accessibility should appear early (slide 2/3), but not replace the gameplay hook.
 - Game Center should appear as replayability support, not as headline proposition.
+- Bodies target **≤ ~10 words** in English; one beat per slide, no repeated ground. Translated bodies may run a word or two longer.
 
-## 4.2 iPhone Caption Sequence — Live (as of 2026-06-24)
+## 4.2 iPhone Caption Sequence
 
-Current iPhone/iPad/Mac source copy uses this **seven-slide** order. Locales: `en-US`, `en-GB`, `en-AU`, `en-CA`, `es-ES`, `es-MX`, `ca`. English variants share the same base captures; `es-MX` shares `es-ES` captures with Mexico-specific overlay copy on slide 1.
+Current iPhone/iPad/Mac source copy uses this **seven-slide** order. Locales: `en-US`, `en-GB`, `en-AU`, `en-CA`, `es-ES`, `es-MX`, `ca`. English variants share the same base captures; `es-MX` shares `es-ES` captures with Mexico-specific overlay copy on slide 1. Full per-locale text lives only in the canonical Swift source and generated `data.plist` files — not duplicated per-language below.
 
-| # | Title (EN) | Body (EN) |
+Translations use vocabulary consistent with `Localizable.xcstrings` and App Store metadata. CA follows **Valencian Meridional** dialect: `trànsit` for traffic, `teua`/`seua` for feminine possessives, `este`/`esta` for proximal demonstratives, Valencian verb forms (`gaudix`, `resistix`, `valga`).
+
+| # | Title (EN) | Body (EN, ≤ ~10 words) |
 |---|------------|-----------|
-| 1 | `Race Through Endless Traffic` | `Navigate your car, dodge rivals, and rack up overtakes in this retro-inspired arcade racer.` |
-| 2 | `Simple Controls. Pure Arcade Action` | `Move left. Move right. Don't crash. Master the basics in seconds, then chase your high score for hours.` |
+| 1 | `Race Through Endless Traffic` | `Dodge traffic and chase overtakes in a retro arcade racer.` |
+| 2 | `Simple Controls. Pure Arcade Action` | `Move left. Move right. Don't crash. That's the whole game.` |
 | 3 | `Built For Accessibility` | `VoiceOver, audio cues, haptics, larger text, and adaptable gameplay settings.` |
-| 4 | `One Wrong Move. Game Over` | `The speed climbs. One mistake ends your run. Restart fast and beat your best.` |
-| 5 | `Chase Friends On The Road` | `Game Center friend markers show the rival score you are chasing, right on the track.` |
-| 6 | `Choose Your Retro Aesthetic` | `Switch from pocket-console green to LCD handheld style, and make every run feel properly retro.` |
-| 7 | `Customize Your Experience` | `Tune controls, haptics, volume, visual style, and feedback so RetroRapid! fits your play style.` (`Customise` on en-GB/en-AU) |
+| 4 | `One Wrong Move. Game Over` | `One mistake ends your run. Restart fast, beat your best.` |
+| 5 | `Chase Friends On The Road` | `Game Center markers show the rival score you're chasing.` |
+| 6 | `Choose Your Retro Aesthetic` | `Switch between pocket-console green and LCD handheld styles anytime.` |
+| 7 | `Customize Your Experience` | `Tune controls, haptics, volume, and visuals to fit your style.` (`Customise` on en-GB/en-AU) |
 
-## 4.3 Screenshot Localization — All Slides, All Languages
+> **Export status (2026-07-17):** Source `data.plist` copy is synced for iPhone, iPad, Mac, and Apple Watch via the sync script. iPhone has English-variant JPEG exports; `es-ES`, `es-MX`, and `ca` must be re-exported with the tightened copy above. iPad and Mac need full locale exports.
 
-Translations use vocabulary consistent with `Localizable.xcstrings` and App Store metadata.  
-CA follows **Valencian Meridional** dialect: `trànsit` for traffic, `teua`/`seua` for feminine possessives, `este`/`esta` for proximal demonstratives, Valencian verb forms (`gaudix`, `resistix`, `valga`).
-
-### Slide 1 — Hook
-
-| Lang | Title | Body |
-|------|-------|------|
-| EN | `Race Through Endless Traffic` | `Navigate your car, dodge rivals, and rack up overtakes in this retro-inspired arcade racer.` |
-| ES | `Esquiva Tráfico Sin Fin` | `Conduce tu coche, esquiva rivales y acumula adelantamientos en este arcade de carreras de inspiración retro.` |
-| ES-MX | `Esquiva Carros Sin Fin` | `Conduce tu carro, esquiva rivales y rebasa adelantamientos en este arcade de carreras de inspiración retro.` |
-| CA | `Esquiva Trànsit Sense Fi` | `Condueix el teu cotxe, esquiva rivals i acumula avançaments en este arcade de carreres d'inspiració retro.` |
-
-### Slide 2 — Controls
-
-| Lang | Title | Body |
-|------|-------|------|
-| EN | `Simple Controls. Pure Arcade Action` | `Move left. Move right. Don't crash. Master the basics in seconds, then chase your high score for hours.` |
-| ES / ES-MX | `Controles Simples. Acción Arcade Pura` | `Izquierda. Derecha. No choques. Domina lo básico en segundos y pasa horas persiguiendo tu récord.` |
-| CA | `Controls Simples. Acció Arcade Pura` | `Esquerra. Dreta. No xoques. Domina l'essencial en segons i passa hores perseguint el teu rècord.` |
-
-### Slide 3 — Accessibility
-
-| Lang | Title | Body |
-|------|-------|------|
-| EN | `Built For Accessibility` | `VoiceOver, audio cues, haptics, larger text, and adaptable gameplay settings.` |
-| ES / ES-MX | `Diseñado para la Accesibilidad` | `VoiceOver, pistas de audio, hápticos y ajustes de juego adaptables.` |
-| CA | `Dissenyat per a l'Accessibilitat` | `VoiceOver, pistes d'àudio, hàptics i opcions de joc adaptables.` |
-
-### Slide 4 — Tension
-
-| Lang | Title | Body |
-|------|-------|------|
-| EN | `One Wrong Move. Game Over` | `The speed climbs. One mistake ends your run. Restart fast and beat your best.` |
-| ES / ES-MX | `Un Error. Game Over` | `La velocidad sube. Un fallo termina tu partida. ¡Supera tu récord!` |
-| CA | `Un Error. Game Over` | `La velocitat puja. Un error acaba la teua partida. Supera el teu rècord!` |
-
-### Slide 5 — Game Center Friend Marker
-
-| Lang | Title | Body |
-|------|-------|------|
-| EN | `Chase Friends On The Road` | `Game Center friend markers show the rival score you are chasing, right on the track.` |
-| ES | `Persigue Amigos en Pista` | `Los marcadores de Game Center muestran la puntuación rival que estás persiguiendo en plena carretera.` |
-| ES-MX | `Persigue Amigos en Pista` | `Los marcadores de Game Center muestran la puntuación rival que estás persiguiendo en la carretera.` |
-| CA | `Persegueix Amistats en Pista` | `Els marcadors de Game Center mostren la puntuació rival que estàs perseguint en plena carretera.` |
-
-### Slide 6 — Themes
-
-| Lang | Title | Body |
-|------|-------|------|
-| EN | `Choose Your Retro Aesthetic` | `Switch from pocket-console green to LCD handheld style, and make every run feel properly retro.` |
-| ES / ES-MX | `Elige Tu Estética Retro` | `Del verde de las consolas de bolsillo clásicas a los juegos de mano LCD, personaliza tu experiencia visual con temas retro icónicos.` |
-| CA | `Tria la Teua Estètica Retro` | `Del verd de les consoles de butxaca clàssiques als jocs de mà LCD, personalitza la teua experiència visual amb temes retro icònics.` |
-
-### Slide 7 — Customisation
-
-| Lang | Title | Body |
-|------|-------|------|
-| EN | `Customize Your Experience` | `Tune controls, haptics, volume, visual style, and feedback so RetroRapid! fits your play style.` |
-| ES / ES-MX | `Personaliza Tu Experiencia` | `Ajusta el volumen, elige la respuesta háptica, selecciona tu tema y afina los controles. RetroRapid! se adapta a tu estilo de juego.` |
-| CA | `Personalitza la Teua Experiència` | `Ajusta el volum, tria la retroalimentació hàptica, selecciona el teu tema i afina els controls. RetroRapid! s'adapta al teu estil de joc.` |
-
-> **Export status (2026-06-24):** Source `data.plist` copy is synced for iPhone, iPad, Mac, and Apple Watch. iPhone has English-variant JPEG exports; `es-ES`, `es-MX`, and `ca` must be re-exported. iPad and Mac need full locale exports (Mac slides 6–7 are new in source).
-
-## 4.4 Apple Watch Screenshot Approach
+## 4.3 Apple Watch Screenshot Approach
 
 - Assume **no marketing text overlays** for watch output.
 - Use sequence-only storytelling:
@@ -106,7 +45,7 @@ CA follows **Valencian Meridional** dialect: `trànsit` for traffic, `teua`/`seu
   5. Score/result state
 - Add support explanation in ASC screenshot order notes/internal checklist, not in-image copy.
 
-## 4.5 Platform Scope Cleanup In ScreenshotStudio
+## 4.4 Platform Scope Cleanup In ScreenshotStudio
 
 - Remove Apple TV and Apple Vision from active planning/output for now to avoid accidental scope drift.
 - Keep active sets: iPhone, iPad, Mac, Apple Watch.

@@ -2,9 +2,9 @@
 
 Part of [App Store docs hub](../README.md).
 
-Last updated: 2026-06-26
+Last updated: 2026-07-17
 
-**Status:** `READY` — the canonical catalog passes all configured limits. The overall submission remains `BLOCKED` by the issues in the submission gate.
+**Status:** `READY` — the canonical catalog passes all configured limits. Overall submission status: `DRAFT_APPLIED`; see `03-submission-quality-gate.md` for any remaining non-metadata blockers.
 
 **Canonical source:** [metadata/retrorapid-v1.5.json](../metadata/retrorapid-v1.5.json).
 
@@ -16,8 +16,8 @@ Last updated: 2026-06-26
 
 | Field | Status |
 |---|---|
-| Name | `BLOCKED` |
-| Subtitle | `BLOCKED` |
+| Name | `DRAFT_APPLIED` |
+| Subtitle | `DRAFT_APPLIED` |
 | Keywords | `DRAFT_APPLIED` |
 | Promotional text | `DRAFT_APPLIED` |
 | Description | `DRAFT_APPLIED` |
@@ -29,13 +29,13 @@ Validated from the canonical catalog for version 1.5. Character counts use Swift
 
 | Locale | App name | Subtitle | Promotional text | Keywords | Keyword bytes | Description | What's New |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| en-US | 24/30 | 28/30 | 130/170 | 100 chars | 100/100 | 732/4000 | 367/4000 |
-| en-GB | 24/30 | 28/30 | 130/170 | 100 chars | 100/100 | 732/4000 | 367/4000 |
-| en-AU | 24/30 | 29/30 | 130/170 | 99 chars | 99/100 | 732/4000 | 367/4000 |
-| en-CA | 24/30 | 28/30 | 130/170 | 99 chars | 99/100 | 732/4000 | 367/4000 |
-| es-ES | 27/30 | 29/30 | 114/170 | 99 chars | 99/100 | 834/4000 | 378/4000 |
-| ca | 27/30 | 28/30 | 118/170 | 100 chars | 100/100 | 843/4000 | 373/4000 |
-| es-MX | 27/30 | 28/30 | 113/170 | 97 chars | 97/100 | 832/4000 | 378/4000 |
+| en-US | 30/30 | 28/30 | 130/170 | 100 chars | 100/100 | 1092/4000 | 227/4000 |
+| en-GB | 30/30 | 28/30 | 130/170 | 100 chars | 100/100 | 1092/4000 | 227/4000 |
+| en-AU | 30/30 | 29/30 | 130/170 | 99 chars | 99/100 | 1092/4000 | 227/4000 |
+| en-CA | 30/30 | 28/30 | 130/170 | 99 chars | 99/100 | 1092/4000 | 227/4000 |
+| es-ES | 27/30 | 29/30 | 114/170 | 99 chars | 99/100 | 1165/4000 | 287/4000 |
+| ca | 27/30 | 28/30 | 118/170 | 100 chars | 100/100 | 1035/4000 | 304/4000 |
+| es-MX | 27/30 | 28/30 | 113/170 | 97 chars | 97/100 | 1163/4000 | 287/4000 |
 
 All selected fields pass current Apple limits. Run `swift run --package-path Scripts generate-metadata-docs --check` before applying metadata or submitting a release.
 

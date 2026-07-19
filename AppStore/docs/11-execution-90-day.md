@@ -16,10 +16,11 @@ Last updated: 2026-06-25
 ### Days 1-7
 
 - [x] Pull and archive the live hidden keywords, names, and subtitles from App Store Connect.
+- [x] Apply the staged name (`RetroRapid: Retro Arcade Racer`) and confirm subtitle/keywords/description/promo on both 1.5 drafts via Helm CLI (2026-07-17). The shared App Info HTTP 409 no longer reproduced.
 - [ ] Inventory promotional text, description, localized What's New, and screenshot uploads before submission.
 - [ ] Capture current keyword rankings and App Store Connect conversion/search baselines before changing indexed metadata.
-- [ ] Review `RetroRapid: Arcade Racer` plus `Dodge Traffic Across 3 Lanes` (and localized equivalents) against the baseline data.
-- [ ] Resolve the App Store Connect shared App Info lock and apply the staged name/subtitle localizations.
+- [ ] Review `RetroRapid: Retro Arcade Racer` plus `Dodge Traffic Across 3 Lanes` (and localized equivalents) against the baseline data.
+- [ ] Reconcile the live draft's What's New text with the canonical catalog before submission (see `13-open-questions.md`).
 - [ ] Replace current public What's New copy that says `RetroRacing`.
 - [x] Remove Apple Vision claims from proposed copy.
 - [ ] Decide whether the placeholder visionOS version should remain available.
