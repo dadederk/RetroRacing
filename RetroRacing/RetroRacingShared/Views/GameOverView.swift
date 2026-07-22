@@ -23,7 +23,6 @@ public struct GameOverView: View {
 
     @Environment(\.fontPreferenceStore) var fontPreferenceStore
     @Environment(\.colorScheme) var colorScheme
-    @Environment(\.dynamicTypeSize) var dynamicTypeSize
     @ScaledMetric(relativeTo: .body) var avatarSize: CGFloat = 24
     @State private var pendingAchievementIDs: [AchievementIdentifier] = []
     @State private var presentedAchievementID: AchievementIdentifier?

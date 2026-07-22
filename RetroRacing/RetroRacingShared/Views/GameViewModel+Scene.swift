@@ -64,6 +64,10 @@ extension GameViewModel {
             hapticController: hapticController,
             volume: volume
         )
+        if isMenuOverlayPresented || shouldPauseSceneForCurrentSharePlayState {
+            newScene.setOverlayPauseLock(true)
+            newScene.pauseGameplay()
+        }
         scene = newScene
         let newDelegate = makeGameSceneDelegate()
         delegate = newDelegate
@@ -75,10 +79,11 @@ extension GameViewModel {
         hud.score = currentScore
         hud.lives = currentLives
 
-        // Record this session against the daily play limit, unless a special event
-        // grants unlimited play — event plays don't count against the daily quota.
+        // Record this session against the daily play limit, unless a special event grants
+        // unlimited play or a SharePlay match is in progress — neither consumes the daily quota.
+        // "Friend races are free." (Requirements/monetization.md, "SharePlay Exception".)
         let now = Date()
-        if specialEventService?.isEventActive(on: now) != true {
+        if specialEventService?.isEventActive(on: now) != true, isSharePlayActive == false {
             playLimitService?.recordGamePlayed(on: now)
         }
 
@@ -96,6 +101,21 @@ extension GameViewModel {
         Task { [weak self] in
             guard let self else { return }
             await refreshFriendMilestonesForCurrentRun()
+        }
+    }
+
+    private var shouldPauseSceneForCurrentSharePlayState: Bool {
+        switch sharePlayState {
+        case .idle, .inRound:
+            return false
+        case .waitingForFriend,
+             .countdown,
+             .waitingAfterLocalLoss,
+             .finished,
+             .retryWaiting,
+             .retryTimedOut,
+             .aborted:
+            return true
         }
     }
 
@@ -134,6 +154,7 @@ extension GameViewModel {
                 self.hud.score = score
                 self.updateFriendProgress(forScore: score)
                 self.recordVoiceOverControlIfNeeded()
+                self.reportSharePlayScoreIfActive(score: score, lives: self.hud.lives)
             },
             onLevelChangeImminent: { [weak self] in self?.hud.speedIncreaseImminent = $0 },
             onCollision: { [weak self] in self?.handleCollision() },

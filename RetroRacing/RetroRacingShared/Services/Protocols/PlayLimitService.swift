@@ -43,5 +43,8 @@ public protocol PlayLimitService {
     /// Marks the user as having unlimited access.
     /// Implementations should update any persisted state accordingly.
     func unlockUnlimitedAccess()
+
+    /// Clears locally persisted unlimited access when live entitlements no longer include a purchase.
+    func clearUnlimitedAccess()
 }
 

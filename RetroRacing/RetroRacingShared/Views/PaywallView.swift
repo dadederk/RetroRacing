@@ -132,6 +132,17 @@ public struct PaywallView: View {
                         } actionContent: {
                             EmptyView()
                         }
+
+                        // SharePlay is always free and never counts against the daily limit —
+                        // let players hitting the cap know they can still play with a friend.
+                        PaywallInfoCard(
+                            title: GameLocalizedStrings.string("menu_play_with_friends"),
+                            icon: "shareplay"
+                        ) {
+                            Text(GameLocalizedStrings.string("paywall_shareplay_free_notice"))
+                        } actionContent: {
+                            EmptyView()
+                        }
                     }
 
                     VStack(spacing: 4) {

@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		21AA00000000000000000001 /* ArcadeAudioKit in Frameworks */ = {isa = PBXBuildFile; productRef = 21AA00000000000000000003 /* ArcadeAudioKit */; };
 		210D69C32F3BFEA000EDECA3 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 210D69C22F3BFEA000EDECA3 /* StoreKit.framework */; };
 		210D69C52F3BFEAB00EDECA3 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 210D69C42F3BFEAB00EDECA3 /* StoreKit.framework */; };
 		21472B102F57A8700002E56A /* RetroRacingShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21DD46FE2F2FCB02000C9FFA /* RetroRacingShared.framework */; };
+		21AA00000000000000000001 /* ArcadeAudioKit in Frameworks */ = {isa = PBXBuildFile; productRef = 21AA00000000000000000003 /* ArcadeAudioKit */; };
 		21CE00022F3C0000000000A2 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21CE00012F3C0000000000A1 /* GameController.framework */; platformFilters = (ios, maccatalyst, macos, tvos, visionos, ); };
 		21DD469F2F2FCA97000C9FFA /* RetroRacingWatchOS.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 21DD467F2F2FCA96000C9FFA /* RetroRacingWatchOS.app */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		21DD47092F2FCB02000C9FFA /* RetroRacingShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21DD46FE2F2FCB02000C9FFA /* RetroRacingShared.framework */; };
@@ -1912,7 +1912,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1963,7 +1963,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;

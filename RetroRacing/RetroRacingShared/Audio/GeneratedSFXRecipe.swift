@@ -70,6 +70,10 @@ public struct GeneratedSFXProfile: Sendable, Equatable {
     public let start: GeneratedSFXRecipe
     public let bip: GeneratedSFXRecipe
     public let fail: GeneratedSFXRecipe
+    public let sharePlayCountdownLow: GeneratedSFXRecipe
+    public let sharePlayCountdownMid: GeneratedSFXRecipe
+    public let sharePlayCountdownHigh: GeneratedSFXRecipe
+    public let sharePlayCountdownGo: GeneratedSFXRecipe
 
     public init(failTailRepeatCount: Int = GeneratedSFXProfile.defaultFailTailRepeatCount) {
         let resolvedRepeatCount = max(0, failTailRepeatCount)
@@ -77,6 +81,22 @@ public struct GeneratedSFXProfile: Sendable, Equatable {
         self.start = Self.makeStartRecipe()
         self.bip = Self.makeBipRecipe()
         self.fail = Self.makeFailRecipe(failTailRepeatCount: resolvedRepeatCount)
+        self.sharePlayCountdownLow = Self.makeSharePlayCountdownStepRecipe(
+            pitch: .constantHz(523.25),
+            durationMilliseconds: 100,
+            amplitudePercent: 24
+        )
+        self.sharePlayCountdownMid = Self.makeSharePlayCountdownStepRecipe(
+            pitch: .constantHz(659.25),
+            durationMilliseconds: 100,
+            amplitudePercent: 25
+        )
+        self.sharePlayCountdownHigh = Self.makeSharePlayCountdownStepRecipe(
+            pitch: .constantHz(783.99),
+            durationMilliseconds: 100,
+            amplitudePercent: 26
+        )
+        self.sharePlayCountdownGo = Self.makeSharePlayCountdownGoRecipe()
     }
 
     public static let defaultProfile = GeneratedSFXProfile()
@@ -93,6 +113,14 @@ public struct GeneratedSFXProfile: Sendable, Equatable {
             return bip
         case .fail:
             return fail
+        case .sharePlayCountdownLow:
+            return sharePlayCountdownLow
+        case .sharePlayCountdownMid:
+            return sharePlayCountdownMid
+        case .sharePlayCountdownHigh:
+            return sharePlayCountdownHigh
+        case .sharePlayCountdownGo:
+            return sharePlayCountdownGo
         }
     }
 
@@ -243,6 +271,51 @@ public struct GeneratedSFXProfile: Sendable, Equatable {
                 motif: tailMotif,
                 repeatCount: failTailRepeatCount
             )
+        )
+    }
+
+    private static func makeSharePlayCountdownStepRecipe(
+        pitch: GeneratedSFXFrequency,
+        durationMilliseconds: Double,
+        amplitudePercent: Double
+    ) -> GeneratedSFXRecipe {
+        GeneratedSFXRecipe(
+            intro: [],
+            body: [
+                GeneratedSFXSegment(
+                    waveform: .sine,
+                    pitch: pitch,
+                    durationMilliseconds: durationMilliseconds,
+                    amplitudePercent: amplitudePercent,
+                    attackMilliseconds: 2,
+                    decayMilliseconds: 28
+                )
+            ]
+        )
+    }
+
+    private static func makeSharePlayCountdownGoRecipe() -> GeneratedSFXRecipe {
+        GeneratedSFXRecipe(
+            intro: [
+                GeneratedSFXSegment(
+                    waveform: .sine,
+                    pitch: .constantHz(987.77),
+                    durationMilliseconds: 90,
+                    amplitudePercent: 26,
+                    attackMilliseconds: 2,
+                    decayMilliseconds: 12
+                )
+            ],
+            body: [
+                GeneratedSFXSegment(
+                    waveform: .sine,
+                    pitch: .constantHz(1_046.50),
+                    durationMilliseconds: 330,
+                    amplitudePercent: 28,
+                    attackMilliseconds: 2,
+                    decayMilliseconds: 70
+                )
+            ]
         )
     }
 }

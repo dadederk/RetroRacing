@@ -19,6 +19,7 @@ Single entrypoint for shipped in-app behavior contracts. Plans track remaining w
 |---|---|---|
 | Repo layout, target folders | [folder_structure.md](folder_structure.md) | [concurrency.md](concurrency.md) |
 | Launch, menu, game flow | [launch_flow.md](launch_flow.md) | [game_tutorial.md](game_tutorial.md) |
+| SharePlay competitive mode | [shareplay_multiplayer.md](shareplay_multiplayer.md) | — |
 | Game Center, leaderboards | [leaderboard_implementation.md](leaderboard_implementation.md) | [game_center_social_milestones.md](game_center_social_milestones.md) |
 | Achievements | [achievements.md](achievements.md) | [achievements_rollout_checklist.md](achievements_rollout_checklist.md), [special_events.md](special_events.md) |
 | Monetization, IAP, premium access | [monetization.md](monetization.md) | [in_app_purchases_setup.md](in_app_purchases_setup.md), [premium_access_verification.md](premium_access_verification.md) |
@@ -44,6 +45,7 @@ Single entrypoint for shipped in-app behavior contracts. Plans track remaining w
 - [launch_flow.md](launch_flow.md) — Launch and menu overlay flow
 - [game_tutorial.md](game_tutorial.md) — In-game tutorial behavior
 - [tvos_parity.md](tvos_parity.md) — tvOS shared UI parity
+- [shareplay_multiplayer.md](shareplay_multiplayer.md) — SharePlay competitive mode (iOS/iPad v1)
 
 ### Game Center and social
 
@@ -122,4 +124,4 @@ Single entrypoint for shipped in-app behavior contracts. Plans track remaining w
 
 ---
 
-**Last updated**: 2026-06-25
+**Last updated**: 2026-07-22

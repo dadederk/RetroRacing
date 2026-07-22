@@ -125,7 +125,7 @@ public struct SettingsView: View {
                 }
 
                 Section {
-                    if storeKit.hasPremiumAccess {
+                    if storeKit.hasPremiumAccessForGating {
                         Picker(selection: Binding(
                             get: { themeManager.currentTheme.id },
                             set: { newID in
@@ -161,14 +161,14 @@ public struct SettingsView: View {
                     Text(GameLocalizedStrings.string("settings_theme"))
                         .font(fontForLabels)
                 } footer: {
-                    if !storeKit.hasPremiumAccess {
+                    if !storeKit.hasPremiumAccessForGating {
                         Text(GameLocalizedStrings.string("settings_theme_unlock_footnote"))
                             .font(secondaryFont)
                             .modifier(SettingsFooterTextStyle())
                     }
                 }
 
-                if let playLimitService, !storeKit.hasPremiumAccess {
+                if let playLimitService, storeKit.shouldShowFreeTierAffordances {
                     let now = Date()
                     let activeEventInfo = specialEventService?.eventInfo(on: now)
 
@@ -411,7 +411,7 @@ public struct SettingsView: View {
                 }
 
                 Section {
-                    if storeKit.hasPremiumAccess {
+                    if storeKit.hasPremiumAccessForGating {
                         HStack {
                             Image(systemName: "checkmark.seal.fill")
                                 .foregroundColor(.accentColor)
@@ -428,7 +428,7 @@ public struct SettingsView: View {
                         .accessibilityElement(children: .combine)
                     }
 
-                    if !storeKit.hasPremiumAccess {
+                    if storeKit.shouldShowFreeTierAffordances {
                         Button {
                             showingPaywall = true
                         } label: {
@@ -502,7 +502,7 @@ public struct SettingsView: View {
                     }
 
                     #if os(macOS)
-                    if !storeKit.hasPremiumAccess {
+                    if storeKit.shouldShowFreeTierAffordances {
                         inlineSectionFooterRow(text: GameLocalizedStrings.string("settings_restore_footer"))
                     }
                     #endif
@@ -513,7 +513,7 @@ public struct SettingsView: View {
                     #if os(macOS)
                     EmptyView()
                     #else
-                    if !storeKit.hasPremiumAccess {
+                    if storeKit.shouldShowFreeTierAffordances {
                         Text(GameLocalizedStrings.string("settings_restore_footer"))
                             .font(secondaryFont)
                             .modifier(SettingsFooterTextStyle())

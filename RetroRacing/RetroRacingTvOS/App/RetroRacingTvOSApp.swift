@@ -89,7 +89,15 @@ struct RetroRacingTvOSApp: App {
                 GameDifficulty.currentSelection(from: userDefaults)
             }
         )
-        playLimitService = UserDefaultsPlayLimitService(userDefaults: userDefaults)
+        let playLimit = UserDefaultsPlayLimitService(userDefaults: userDefaults)
+        playLimitService = playLimit
+        storeKitService.onEntitlementsUpdated = { isPremium in
+            if isPremium {
+                playLimit.unlockUnlimitedAccess()
+            } else {
+                playLimit.clearUnlimitedAccess()
+            }
+        }
         specialEventService = Self.makeMiamiGrandPrixEventService()
 
         BuildConfiguration.initializeTestFlightCheck()

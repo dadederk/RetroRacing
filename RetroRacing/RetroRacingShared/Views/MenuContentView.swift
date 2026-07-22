@@ -18,6 +18,9 @@ struct MenuContentView: View {
     let onLeaderboard: () -> Void
     let onRate: () -> Void
     let onSupport: () -> Void
+    var showPlayWithFriends: Bool = false
+    var showPlayWithFriendsFreeFootnote: Bool = false
+    var onPlayWithFriends: () -> Void = {}
 
     var body: some View {
         VStack(spacing: style.menuSpacing) {
@@ -47,6 +50,16 @@ struct MenuContentView: View {
     private var buttonsStack: some View {
         VStack(spacing: style.buttonSpacing) {
             menuPlayButton
+            if showPlayWithFriends {
+                menuPlayWithFriendsButton
+                if showPlayWithFriendsFreeFootnote {
+                    Text(GameLocalizedStrings.string("menu_play_with_friends_free_footer"))
+                        .font(promptFont)
+                        .multilineTextAlignment(.center)
+                        .foregroundStyle(.secondary)
+                        .padding(.horizontal, 4)
+                }
+            }
             menuLeaderboardButton
             if showRateButton || showSupportButton {
                 engagementButtons
@@ -94,6 +107,22 @@ struct MenuContentView: View {
         }
         .retroRacingPrimaryButtonStyle()
         .controlSize(.large)
+    }
+
+    private var menuPlayWithFriendsButton: some View {
+        Button {
+            onPlayWithFriends()
+        } label: {
+            Label {
+                Text(GameLocalizedStrings.string("menu_play_with_friends"))
+                    .font(buttonFont)
+            } icon: {
+                Image(systemName: "shareplay")
+            }
+        }
+        .retroRacingSecondaryButtonStyle()
+        .tint(Color.accentColor)
+        .accessibilityHint(GameLocalizedStrings.string("menu_play_with_friends_free_hint"))
     }
 
     private var menuLeaderboardButton: some View {

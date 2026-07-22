@@ -17,7 +17,12 @@ This avoids over-relying on explicit user-triggered StoreKit prompt calls, which
   - `AppStoreReviewURL.writeReview`
   - `https://apps.apple.com/app/id6758641625?action=write-review`
 - Universal menu engagement CTA (`MenuView` key: `menu_rate_game`, label: "Rate it") opens the URL via `openURL`.
+  - Hidden for Unlimited Plays purchasers once entitlement state resolves — asking someone who
+    already paid to also rate the app on the home screen feels intrusive (see "Unlimited Plays
+    Menu Exclusion" below).
 - About screen button (`AboutView`) opens the same URL via `openURL`.
+  - **Always shown**, regardless of premium status. Unlimited Plays purchasers who want to rate
+    voluntarily can still do so from About.
 
 ### Automatic StoreKit Prompt
 
@@ -31,6 +36,10 @@ This avoids over-relying on explicit user-triggered StoreKit prompt calls, which
 2. The user has **not** already been prompted for the current app version.
 3. At least **90 days** have passed since the last prompt.
 
+This runs the same way for free and Unlimited Plays users — the native prompt is timed around a
+satisfying gameplay moment (not tied to a visible on-screen ask), so it is **not** suppressed for
+premium purchasers. Only the home-screen menu CTA is exclusive to free users (see below).
+
 ## Gameplay Integration
 
 - `GameViewModel+Gameplay.handleCollision()` checks game over flow.
@@ -43,6 +52,20 @@ This avoids over-relying on explicit user-triggered StoreKit prompt calls, which
 
 This ties automatic prompt timing to moments where the user is likely satisfied.
 
+## Unlimited Plays Menu Exclusion
+
+Users who have purchased Unlimited Plays have already supported the game, so the home-screen
+menu should not visibly ask them to also rate it:
+
+- **Menu engagement CTA:** `MenuView.shouldShowRateButtonPolicy` hides the `menu_rate_game`
+  button when `hasPremiumAccessForGating` is `true` (including cached premium on launch).
+  Support uses `shouldShowFreeTierAffordances` so free CTAs are withheld until StoreKit confirms
+  the user is not premium.
+- **Native StoreKit prompt:** unaffected — still eligible for premium users (see "Automatic
+  StoreKit Prompt" above), since it is not a visible, repeated on-screen ask.
+- **About screen:** unaffected — the About screen's Rate button (`about_rate_title`) is always
+  visible so a premium user can still rate voluntarily if they want to.
+
 ## Persistence Keys
 
 `StoreReviewService` persists prompt state in `UserDefaults`:
@@ -53,15 +76,20 @@ This ties automatic prompt timing to moments where the user is likely satisfied.
 
 ## Menu Engagement Block
 
-The menu shows an engagement section below the Play and Leaderboard buttons when `showRateButton == true`:
+The menu shows an engagement section below the Play and Leaderboard buttons when the rate
+button and/or support button should be visible (`showRateButton || showSupportButton`, both
+computed via their respective policy functions on `MenuView`):
 
 - **Prompt text** varies by context:
   - Free user (support button visible): `"menu_engagement_prompt"` — "Enjoying the game? You can help RetroRapid!"
-  - Paid user (support button hidden): `"menu_engagement_prompt_rate_only"` — "Enjoying the game?"
-- **Rate button** (`"menu_rate_game"`): "Rate it" — opens App Store write-review URL.
-- **Support button** (`"menu_support_game"`): "Back development" — opens paywall. Hidden for users who already own Unlimited Plays.
+  - Paid user (support button hidden, rate button still resolving): `"menu_engagement_prompt_rate_only"` — "Enjoying the game?"
+- **Rate button** (`"menu_rate_game"`): "Rate it" — opens App Store write-review URL. Hidden when
+  `hasPremiumAccessForGating` is `true` (`shouldShowRateButtonPolicy`).
+- **Support button** (`"menu_support_game"`): "Back development" — opens paywall. Shown only when
+  `shouldShowFreeTierAffordances` is `true`.
 
-The two-prompt approach avoids asking paid users to "help" the game when they have already done so.
+Unlimited Plays purchasers see neither button. Free-tier CTAs are withheld until live entitlements
+resolve, so premium users never flash Support/Rate prompts on cold launch.
 
 ## tvOS Notes
 
@@ -76,6 +104,13 @@ Unit tests in `RetroRacing/RetroRacingSharedTests/StoreReviewServiceTests.swift`
 - Two best-score improvements do not trigger prompt.
 - Third improvement triggers one prompt.
 - Additional improvements after prompt do not trigger extra prompts in same version.
+
+Unit tests in `RetroRacing/RetroRacingSharedTests/GameViewModelTests.swift` validate:
+
+- `MenuView.shouldShowRateButtonPolicy` hides the rate button when `hasPremiumAccessForGating`
+  is `true`.
+- `MenuView.shouldShowSupportButtonPolicy` shows Support only when `shouldShowFreeTierAffordances`
+  is `true`.
 
 ## References
 

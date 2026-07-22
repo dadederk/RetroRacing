@@ -100,6 +100,18 @@ This document describes the session model, how the overlay interacts with gamepl
 - Menu button during gameplay:
   - Supported via `onMenuRequest` and `showMenuButton` in `GameView`.
   - Enabled per-platform from the app entry point.
+- **Play with Friends** (SharePlay, iOS/iPad only — see
+  [`shareplay_multiplayer.md`](shareplay_multiplayer.md)):
+  - A second menu button, shown only when the composition root supplies
+    `onPlayWithFriendsRequest` (iOS/iPad; hidden on macOS/tvOS).
+  - Tapping it activates the system SharePlay share sheet via
+    `SharePlayMatchService.startHostSession()`, rather than dismissing the menu directly.
+  - The menu is dismissed and a fresh session starts (same `sessionID`/`shouldStartGame`
+    mechanics as **Play**) reactively, once the SharePlay match state actually transitions away
+    from `.idle` — covering both host-initiated and system-activated (incoming) sessions through
+    the same code path.
+  - Unlike **Play**, this entry point **never** checks `PlayLimitService`/`hasPremiumAccess` —
+    SharePlay matches are always free (see [`monetization.md`](monetization.md#shareplay-exception)).
 
 ### macOS
 
@@ -156,3 +168,6 @@ This document describes the session model, how the overlay interacts with gamepl
   - Opening the menu from gameplay pauses immediately (no ongoing background grid ticks, move haptics, or repeated `bip` playback).
   - User-initiated pauses are not overridden by overlay dismissal.
   - VoiceOver focus and announcements behave sensibly when the overlay appears and disappears.
+  - **Play with Friends** starts gameplay for both the host and the joining guest without ever
+    presenting the paywall, regardless of remaining daily plays (see
+    [`shareplay_multiplayer.md`](shareplay_multiplayer.md)).

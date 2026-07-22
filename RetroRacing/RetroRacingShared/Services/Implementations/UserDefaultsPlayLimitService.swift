@@ -28,14 +28,14 @@ public final class UserDefaultsPlayLimitService: PlayLimitService {
     /// - Parameters:
     ///   - userDefaults: Backing store. Prefer `InfrastructureDefaults.userDefaults`.
     ///   - calendar: Calendar used to determine day boundaries. Defaults to `.current`.
-    ///   - maxPlaysPerDay: Maximum allowed plays per calendar day from day 2 onward. Defaults to 4.
+    ///   - maxPlaysPerDay: Maximum allowed plays per calendar day from day 2 onward. Defaults to 3.
     ///   - firstDayMaxPlays: Maximum plays on the first day the user ever plays (welcome bonus).
-    ///     Resets on reinstall since UserDefaults is cleared. Defaults to 8.
+    ///     Resets on reinstall since UserDefaults is cleared. Defaults to 9.
     public init(
         userDefaults: UserDefaults,
         calendar: Calendar = .current,
-        maxPlaysPerDay: Int = 4,
-        firstDayMaxPlays: Int = 8
+        maxPlaysPerDay: Int = 3,
+        firstDayMaxPlays: Int = 9
     ) {
         self.userDefaults = userDefaults
         self.calendar = calendar
@@ -122,6 +122,15 @@ public final class UserDefaultsPlayLimitService: PlayLimitService {
         AppLog.info(
             AppLog.monetization,
             "PLAY_LIMIT_UNLOCK",
+            outcome: .succeeded
+        )
+    }
+
+    public func clearUnlimitedAccess() {
+        userDefaults.set(false, forKey: Keys.hasUnlimitedAccess)
+        AppLog.info(
+            AppLog.monetization,
+            "PLAY_LIMIT_CLEAR",
             outcome: .succeeded
         )
     }

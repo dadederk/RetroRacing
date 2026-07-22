@@ -31,7 +31,8 @@ final class StoreKitServiceTests: XCTestCase {
     private func makeService(isDebugSimulationEnabled: Bool = true) -> StoreKitService {
         StoreKitService(
             userDefaults: userDefaults,
-            isDebugSimulationEnabled: isDebugSimulationEnabled
+            isDebugSimulationEnabled: isDebugSimulationEnabled,
+            refreshEntitlementsOnInit: false
         )
     }
     
@@ -243,5 +244,96 @@ final class StoreKitServiceTests: XCTestCase {
 
         // Then – simulation is off so result matches purchasedProductIDs (empty in test env)
         XCTAssertEqual(result, service.purchasedProductIDs.contains(StoreKitService.ProductID.unlimitedPlays.rawValue))
+    }
+
+    // MARK: - Premium cache / gating
+
+    func testGivenPersistedPremiumCacheWhenCreatingServiceThenCachedPremiumAccessIsSeeded() {
+        // Given
+        userDefaults.set(true, forKey: StoreKitService.StorageKeys.cachedPremiumAccess)
+
+        // When
+        let service = makeService()
+
+        // Then
+        XCTAssertTrue(service.cachedPremiumAccess)
+    }
+
+    func testGivenCachedPremiumBeforeResolveWhenCheckingGatingThenPremiumAccessForGatingIsTrue() {
+        // Given
+        userDefaults.set(true, forKey: StoreKitService.StorageKeys.cachedPremiumAccess)
+        let service = makeService()
+
+        // When
+        let hasPremiumForGating = service.hasPremiumAccessForGating
+        let shouldShowFreeTier = service.shouldShowFreeTierAffordances
+
+        // Then
+        XCTAssertTrue(hasPremiumForGating)
+        XCTAssertFalse(shouldShowFreeTier)
+    }
+
+    func testGivenNoEntitlementCheckYetWhenCheckingFreeTierAffordancesThenLocksAreWithheld() {
+        // Given
+        let service = makeService()
+
+        // When
+        let shouldShowFreeTier = service.shouldShowFreeTierAffordances
+
+        // Then
+        XCTAssertFalse(service.hasResolvedInitialEntitlements)
+        XCTAssertFalse(shouldShowFreeTier)
+    }
+
+    func testGivenEntitlementsRefreshedWhenCheckingFreeTierAffordancesThenFollowsLiveAccess() async {
+        // Given
+        let service = makeService()
+
+        // When
+        await service.refreshPurchasedProducts()
+
+        // Then
+        XCTAssertTrue(service.hasResolvedInitialEntitlements)
+        XCTAssertEqual(
+            service.shouldShowFreeTierAffordances,
+            !service.hasPremiumAccess
+        )
+    }
+
+    func testGivenEntitlementsRefreshedWhenCheckingGatingThenFollowsLiveAccess() async {
+        // Given
+        userDefaults.set(true, forKey: StoreKitService.StorageKeys.cachedPremiumAccess)
+        let service = makeService()
+
+        // When
+        await service.refreshPurchasedProducts()
+
+        // Then
+        XCTAssertEqual(service.hasPremiumAccessForGating, service.hasPremiumAccess)
+    }
+
+    func testGivenEntitlementsUpdatedCallbackWhenRefreshingThenReceivesRealEntitlementState() async {
+        // Given
+        let service = makeService()
+        var receivedValues: [Bool] = []
+        service.onEntitlementsUpdated = { receivedValues.append($0) }
+
+        // When
+        await service.refreshPurchasedProducts()
+
+        // Then
+        XCTAssertEqual(receivedValues, [!service.purchasedProductIDs.isEmpty])
+    }
+
+    func testGivenUnlimitedSimulationWhenRefreshingThenPersistedCacheUsesRealEntitlements() async {
+        // Given
+        let service = makeService()
+        service.debugPremiumSimulationMode = .unlimitedPlays
+
+        // When
+        await service.refreshPurchasedProducts()
+
+        // Then
+        XCTAssertFalse(userDefaults.bool(forKey: StoreKitService.StorageKeys.cachedPremiumAccess))
     }
 }

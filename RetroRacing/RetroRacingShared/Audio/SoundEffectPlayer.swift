@@ -5,6 +5,10 @@ public enum SoundEffect: String, CaseIterable {
     case start
     case bip
     case fail
+    case sharePlayCountdownLow
+    case sharePlayCountdownMid
+    case sharePlayCountdownHigh
+    case sharePlayCountdownGo
 }
 
 public enum SoundPreferences {

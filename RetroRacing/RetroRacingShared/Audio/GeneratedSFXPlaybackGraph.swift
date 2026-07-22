@@ -285,7 +285,12 @@ final class GeneratedSFXPlaybackGraph {
         switch effect {
         case .bip:
             return 4
-        case .start, .fail:
+        case .start,
+             .fail,
+             .sharePlayCountdownLow,
+             .sharePlayCountdownMid,
+             .sharePlayCountdownHigh,
+             .sharePlayCountdownGo:
             return 1
         }
     }

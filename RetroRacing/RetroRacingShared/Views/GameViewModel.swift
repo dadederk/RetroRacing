@@ -46,6 +46,21 @@ final class GameViewModel {
     var debugForcedAchievementIdentifier: AchievementIdentifier?
     var debugShowsSpriteKitFrameStats = false
 
+    /// Optional SharePlay match service. `nil` outside the v1 iOS/iPad scope, in previews, and
+    /// in tests. Used to report local score/elimination and to drive retry/leave actions.
+    let sharePlayMatchService: (any SharePlayMatchService)?
+    /// Mirrors the app-level SharePlay state. `GameViewModel` is recreated every session, so the
+    /// long-lived state-change handler lives at the composition root; `GameView` pushes updates
+    /// down here via `applySharePlayState(_:)`, matching the existing `shouldStartGame` flow.
+    var sharePlayState: SharePlayMatchState = .idle
+    /// The local participant's role for the active SharePlay match, if any.
+    var sharePlayLocalRole: SharePlayPlayerRole?
+    var sharePlayOpponentName: String?
+    /// Captures/restores the guest's own difficulty selection around a SharePlay match.
+    var sharePlayGuestSpeedRestore = SharePlayGuestSpeedRestore()
+    /// Prevents duplicate SharePlay countdown beeps while SwiftUI's timeline refreshes.
+    var sharePlayCountdownCueScheduler = SharePlayCountdownCueScheduler()
+
     init(
         leaderboardService: LeaderboardService,
         ratingService: RatingService,
@@ -56,6 +71,8 @@ final class GameViewModel {
         inputAdapterFactory: any GameInputAdapterFactory,
         playLimitService: PlayLimitService?,
         specialEventService: SpecialEventService?,
+        sharePlayMatchService: (any SharePlayMatchService)? = nil,
+        initialSharePlayUIState: SharePlayUIState = .idle,
         selectedDifficulty: GameDifficulty,
         selectedAudioFeedbackMode: AudioFeedbackMode,
         selectedLaneMoveCueStyle: LaneMoveCueStyle,
@@ -72,6 +89,10 @@ final class GameViewModel {
         self.inputAdapterFactory = inputAdapterFactory
         self.playLimitService = playLimitService
         self.specialEventService = specialEventService
+        self.sharePlayMatchService = sharePlayMatchService
+        self.sharePlayState = initialSharePlayUIState.state
+        self.sharePlayLocalRole = initialSharePlayUIState.localRole
+        self.sharePlayOpponentName = initialSharePlayUIState.opponentDisplayName
         self.selectedDifficulty = selectedDifficulty
         self.selectedAudioFeedbackMode = selectedAudioFeedbackMode
         self.selectedLaneMoveCueStyle = selectedLaneMoveCueStyle

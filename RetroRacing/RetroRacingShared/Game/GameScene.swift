@@ -262,7 +262,13 @@ public class GameScene: SKScene {
     }
 
     public func start() {
-        initialiseGame()
+        initialiseGame(playsStartSound: true)
+    }
+
+    /// Resets gameplay and starts immediately without the solo start cue. Used after the
+    /// SharePlay synchronized countdown has already played its own start cue.
+    public func startImmediately() {
+        initialiseGame(playsStartSound: false)
     }
 
     /// Pauses gameplay without resetting grid or score. Used by user-facing pause control.
@@ -334,7 +340,7 @@ public class GameScene: SKScene {
                 ]
             )
             createGrid()
-            initialiseGame()
+            initialiseGame(playsStartSound: isOverlayPauseLocked == false)
         }
     }
 
@@ -385,7 +391,7 @@ public class GameScene: SKScene {
         }
     }
 
-    private func initialiseGame() {
+    private func initialiseGame(playsStartSound: Bool) {
         lastGameUpdateTime = 0
         roadDashPhase = 0
         safetyMarkerRows.removeAll()
@@ -401,7 +407,11 @@ public class GameScene: SKScene {
         }
         cancelCrashResolutionIfNeeded()
         gridStateDidUpdate(gridState, shouldPlayFeedback: false, notifyDelegate: false)
-        playStartThenUnpause()
+        if playsStartSound {
+            playStartThenUnpause()
+        } else {
+            startWithoutStartSound()
+        }
     }
 
     func handleCrash() {
@@ -589,6 +599,13 @@ public class GameScene: SKScene {
             guard !Task.isCancelled else { return }
             self.finishStartPlaybackIfNeeded()
         }
+    }
+
+    private func startWithoutStartSound() {
+        isPaused = false
+        stopStartPulseOnPlayerCar()
+        cancelStartPlaybackIfNeeded()
+        updatePauseState(isOverlayPauseLocked)
     }
 
     private func finishStartPlaybackIfNeeded() {

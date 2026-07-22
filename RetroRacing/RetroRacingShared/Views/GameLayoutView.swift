@@ -20,6 +20,9 @@ struct GameLayoutView<GameArea: View>: View {
     let rightButtonDown: Bool
     let directionButtonHeight: CGFloat
     let headerFont: Font
+    let sharePlayOpponentName: String?
+    let sharePlayOpponentScore: Int?
+    let sharePlayOpponentLives: Int?
     let inputAdapter: GameInputAdapter?
     let onMoveLeft: () -> Void
     let onMoveRight: () -> Void
@@ -77,19 +80,22 @@ struct GameLayoutView<GameArea: View>: View {
     }
 
     private var portraitHeader: some View {
-        Group {
-            if shouldUseVerticalPortraitHeader {
-                AdaptiveStack {
-                    headerScoreLabel
-                    headerLivesView
-                }
-            } else {
-                HStack {
-                    headerScoreLabel
-                    Spacer()
-                    headerLivesView
+        VStack(alignment: .leading, spacing: 6) {
+            Group {
+                if shouldUseVerticalPortraitHeader {
+                    AdaptiveStack {
+                        headerScoreLabel
+                        headerLivesView
+                    }
+                } else {
+                    HStack {
+                        headerScoreLabel
+                        Spacer()
+                        headerLivesView
+                    }
                 }
             }
+            sharePlayOpponentHeaderRow
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.horizontal, style.headerPadding)
@@ -102,6 +108,7 @@ struct GameLayoutView<GameArea: View>: View {
         HStack(spacing: 0) {
             VStack(alignment: .leading, spacing: 0) {
                 headerScoreLabel
+                sharePlayOpponentHeaderRow
                 Spacer(minLength: 8)
                 directionButtonImage(isLeft: true)
                     .frame(minWidth: 100, minHeight: 80)
@@ -139,8 +146,66 @@ struct GameLayoutView<GameArea: View>: View {
         )
     }
 
+    @ViewBuilder
+    private var sharePlayOpponentHeaderRow: some View {
+        if let sharePlayOpponentScore {
+            HStack(spacing: 8) {
+                Text(
+                    GameLocalizedStrings.format(
+                        "shareplay_score_row %@ %lld",
+                        sharePlayOpponentScoreLabel,
+                        Int64(sharePlayOpponentScore)
+                    )
+                )
+                .font(headerFont)
+                .foregroundStyle(.secondary)
+                .lineLimit(shouldUseVerticalPortraitHeader ? nil : 1)
+                .minimumScaleFactor(0.75)
+                Spacer(minLength: 0)
+                if let sharePlayOpponentLives {
+                    sharePlayOpponentLivesView(lives: sharePlayOpponentLives)
+                }
+            }
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel(
+                GameLocalizedStrings.format(
+                    "shareplay_score_accessibility %@ %lld %lld",
+                    sharePlayOpponentScoreLabel,
+                    Int64(sharePlayOpponentScore),
+                    Int64(sharePlayOpponentLives ?? 0)
+                )
+            )
+            .accessibilityHidden(hideHUDFromAccessibility)
+        }
+    }
+
+    private var sharePlayOpponentScoreLabel: String {
+        if let sharePlayOpponentName, sharePlayOpponentName.isEmpty == false {
+            return sharePlayOpponentName
+        }
+        return GameLocalizedStrings.string("shareplay_opponent_score_fallback_label")
+    }
+
+    private func sharePlayOpponentLivesView(lives: Int) -> some View {
+        HStack(spacing: 4) {
+            Image(lifeAssetName, bundle: bundle)
+                .renderingMode(.template)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(
+                    width: style.lifeIconSize * lifeIconScale,
+                    height: style.lifeIconSize * lifeIconScale
+                )
+                .foregroundStyle(.secondary)
+                .accessibilityHidden(true)
+            Text(GameLocalizedStrings.format("lives_count", Int64(lives)))
+                .font(headerFont)
+                .foregroundStyle(.secondary)
+        }
+    }
+
     private var headerScoreLabel: some View {
-        Text(GameLocalizedStrings.format("score %lld", Int64(score)))
+        Text(headerScoreText)
             .font(headerFont)
             .foregroundStyle(.primary)
             .shadow(color: Color.primary.opacity(0.35), radius: 0.5)
@@ -149,10 +214,17 @@ struct GameLayoutView<GameArea: View>: View {
             .allowsTightening(!usesLandscapeLayout)
             .fixedSize(horizontal: false, vertical: usesLandscapeLayout)
             .multilineTextAlignment(.leading)
-            .accessibilityLabel(GameLocalizedStrings.format("score %lld", Int64(score)))
+            .accessibilityLabel(headerScoreText)
             .accessibilityAddTraits(.isStaticText)
             .accessibilityRespondsToUserInteraction(false)
             .accessibilityHidden(hideHUDFromAccessibility)
+    }
+
+    private var headerScoreText: String {
+        guard sharePlayOpponentScore != nil else {
+            return GameLocalizedStrings.format("score %lld", Int64(score))
+        }
+        return GameLocalizedStrings.format("shareplay_your_score_row %lld", Int64(score))
     }
 
     private var headerLivesView: some View {

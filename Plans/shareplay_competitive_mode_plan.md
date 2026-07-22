@@ -1,5 +1,10 @@
 # SharePlay Competitive Mode Plan (iOS+iPad v1)
 
+**Status:** ✅ Implemented (2026-07-22). Shipped behavior is documented in
+[`Requirements/shareplay_multiplayer.md`](../Requirements/shareplay_multiplayer.md); this file
+remains as the original planning record. Manual 2-device SharePlay validation (see that doc's
+"Manual QA" section) is still required before release sign-off.
+
 ## Summary
 
 Implement SharePlay competitive multiplayer for 2 players on iOS and iPad first, with synchronized starts, live post-loss waiting, synced final result, and dual-retry rematch flow.

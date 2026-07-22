@@ -8,5 +8,7 @@
 	</array>
 	<key>com.apple.developer.game-center</key>
 	<true/>
+	<key>com.apple.developer.group-session</key>
+	<true/>
 </dict>
 </plist>

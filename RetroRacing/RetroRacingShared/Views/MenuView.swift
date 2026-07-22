@@ -39,6 +39,13 @@ public struct MenuView: View {
     public let inputAdapterFactory: any GameInputAdapterFactory
     private let onPlayRequest: (() -> Void)?
     private let onSettingsRequest: (() -> Void)?
+    /// Present only when non-nil. The composition root only supplies this on the v1 SharePlay
+    /// scope (iOS/iPad); other platforms omit it and the button stays hidden.
+    private let onPlayWithFriendsRequest: (() -> Void)?
+    /// True while a SharePlay match is active. Locks difficulty editing in the Settings sheet
+    /// presented from this menu, since the difficulty is shared/synchronized between both
+    /// participants for the duration of the match.
+    private let isSharePlayActive: Bool
 
     @Environment(\.openURL) private var openURL
     @Environment(StoreKitService.self) private var storeKit
@@ -47,7 +54,6 @@ public struct MenuView: View {
     @State private var showLeaderboard = false
     @State private var showSettings = false
     @State private var paywallTrigger: PaywallTrigger? = nil
-    @State private var hasResolvedSupportEntitlement = false
     @State private var authModel: MenuAuthModel
 
     public init(
@@ -71,7 +77,9 @@ public struct MenuView: View {
         showRateButton: Bool,
         inputAdapterFactory: any GameInputAdapterFactory,
         onPlayRequest: (() -> Void)? = nil,
-        onSettingsRequest: (() -> Void)? = nil
+        onSettingsRequest: (() -> Void)? = nil,
+        onPlayWithFriendsRequest: (() -> Void)? = nil,
+        isSharePlayActive: Bool = false
     ) {
         self.leaderboardService = leaderboardService
         self.ratingService = ratingService
@@ -92,6 +100,8 @@ public struct MenuView: View {
         self.inputAdapterFactory = inputAdapterFactory
         self.onPlayRequest = onPlayRequest
         self.onSettingsRequest = onSettingsRequest
+        self.onPlayWithFriendsRequest = onPlayWithFriendsRequest
+        self.isSharePlayActive = isSharePlayActive
         _authModel = State(initialValue: MenuAuthModel(
             gameCenterService: gameCenterService,
             authenticationPresenter: authenticationPresenter
@@ -126,6 +136,7 @@ public struct MenuView: View {
                     controlsDescriptionKey: controlsDescriptionKey,
                     style: settingsStyle,
                     achievementProgressService: achievementProgressService,
+                    isGameSessionInProgress: isSharePlayActive,
                     playLimitService: playLimitService,
                     specialEventService: specialEventService
                 )
@@ -169,9 +180,6 @@ public struct MenuView: View {
             authModel.configurePresentationHandler()
             authModel.startAuthentication(startedByUser: false)
         }
-        .task {
-            await resolveSupportEntitlementIfNeeded()
-        }
         #if (canImport(UIKit) && !os(watchOS)) || os(macOS)
         .onReceive(NotificationCenter.default.publisher(for: .GKPlayerAuthenticationDidChangeNotificationName)) { _ in
             authModel.refreshAuthState()
@@ -210,7 +218,7 @@ public struct MenuView: View {
         MenuContentView(
             style: style,
             fontPreferenceStore: fontPreferenceStore,
-            showRateButton: showRateButton,
+            showRateButton: shouldShowRateButton,
             showSupportButton: shouldShowSupportButton,
             isLeaderboardEnabled: authModel.isAuthenticated,
             authError: Binding(
@@ -220,7 +228,7 @@ public struct MenuView: View {
             onPlay: {
                 let now = Date()
                 // Premium users always have unlimited plays.
-                if storeKit.hasPremiumAccess {
+                if storeKit.hasPremiumAccessForGating {
                     if let onPlayRequest {
                         onPlayRequest()
                     } else {
@@ -244,7 +252,10 @@ public struct MenuView: View {
             },
             onLeaderboard: handleLeaderboardTap,
             onRate: handleRateTap,
-            onSupport: handleSupportTap
+            onSupport: handleSupportTap,
+            showPlayWithFriends: onPlayWithFriendsRequest != nil,
+            showPlayWithFriendsFreeFootnote: shouldShowPlayWithFriendsFreeFootnote,
+            onPlayWithFriends: { onPlayWithFriendsRequest?() }
         )
     }
 
@@ -282,6 +293,12 @@ public struct MenuView: View {
         return GameDifficulty.currentSelection(from: InfrastructureDefaults.userDefaults)
     }
 
+    private var shouldShowPlayWithFriendsFreeFootnote: Bool {
+        guard onPlayWithFriendsRequest != nil else { return false }
+        guard storeKit.hasPremiumAccessForGating == false else { return false }
+        return specialEventService?.isEventActive(on: Date()) != true
+    }
+
     private var settingsPreviewDependencyFactory: SettingsPreviewDependencyFactory {
         SettingsPreviewDependencyFactory(
             laneCuePlayerFactory: { PlatformFactories.makeLaneCuePlayer() },
@@ -302,24 +319,32 @@ public struct MenuView: View {
 
     static func shouldShowSupportButtonPolicy(
         showRateButton: Bool,
-        hasResolvedSupportEntitlement: Bool,
-        hasPremiumAccess: Bool
+        shouldShowFreeTierAffordances: Bool
     ) -> Bool {
-        showRateButton && hasResolvedSupportEntitlement && !hasPremiumAccess
+        showRateButton && shouldShowFreeTierAffordances
     }
 
     private var shouldShowSupportButton: Bool {
         return Self.shouldShowSupportButtonPolicy(
             showRateButton: showRateButton,
-            hasResolvedSupportEntitlement: hasResolvedSupportEntitlement,
-            hasPremiumAccess: storeKit.hasPremiumAccess
+            shouldShowFreeTierAffordances: storeKit.shouldShowFreeTierAffordances
         )
     }
 
-    private func resolveSupportEntitlementIfNeeded() async {
-        guard hasResolvedSupportEntitlement == false else { return }
-        await storeKit.refreshPurchasedProducts()
-        hasResolvedSupportEntitlement = true
+    /// Unlimited Plays purchasers have already supported the game, so the menu's rate CTA
+    /// is hidden for them (`Requirements/rating_system.md`). They can still rate from About.
+    static func shouldShowRateButtonPolicy(
+        showRateButton: Bool,
+        hasPremiumAccessForGating: Bool
+    ) -> Bool {
+        showRateButton && !hasPremiumAccessForGating
+    }
+
+    private var shouldShowRateButton: Bool {
+        return Self.shouldShowRateButtonPolicy(
+            showRateButton: showRateButton,
+            hasPremiumAccessForGating: storeKit.hasPremiumAccessForGating
+        )
     }
 
     private func handleSupportTap() {

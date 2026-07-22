@@ -133,7 +133,7 @@ Include:
 
 ```text
 RetroRapid! uses a freemium model:
-- Free users: 8 games on the first play day, then 4 games per day from day 2 onward (resets at local midnight).
+- Free users: 9 games on the first play day, then 3 games per day from day 2 onward (resets at local midnight).
 - Unlimited Plays users: Unlimited games forever (one-time purchase).
 
 In-app purchase:
@@ -142,7 +142,7 @@ In-app purchase:
 
 To test Unlimited Plays:
 1. Launch the app.
-2. Play enough rounds to reach the daily limit (9th attempt on first play day, 5th attempt from day 2 onward).
+2. Play enough rounds to reach the daily limit (10th attempt on first play day, 4th attempt from day 2 onward).
 3. The paywall will appear.
 4. Use a sandbox account to purchase Unlimited Plays.
 5. After purchase, there is no daily limit.
@@ -231,10 +231,10 @@ On device / simulator:
 Recommended tests:
 
 - **Free tier**:
-  - On the first play day, play 8 games -> verify:
-    - 9th attempt shows the paywall.
-  - From day 2 onward, play 4 games -> verify:
-    - 5th attempt shows the paywall.
+  - On the first play day, play 9 games -> verify:
+    - 10th attempt shows the paywall.
+  - From day 2 onward, play 3 games -> verify:
+    - 4th attempt shows the paywall.
     - Daily counter and Settings remaining-play copy update correctly.
 - **Purchase**:
   - From paywall, buy Unlimited Plays using a sandbox account:

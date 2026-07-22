@@ -40,6 +40,8 @@ public struct GameView: View {
     public let achievementProgressService: AchievementProgressService
     public let playLimitService: PlayLimitService?
     public let specialEventService: SpecialEventService?
+    public let sharePlayMatchService: (any SharePlayMatchService)?
+    public let sharePlayUIState: SharePlayUIState
     public let style: GameViewStyle
     public let inputAdapterFactory: any GameInputAdapterFactory
     public let controllerInputSource: any GameControllerInputSource
@@ -92,6 +94,8 @@ public struct GameView: View {
         achievementProgressService: AchievementProgressService,
         playLimitService: PlayLimitService?,
         specialEventService: SpecialEventService? = nil,
+        sharePlayMatchService: (any SharePlayMatchService)? = nil,
+        sharePlayUIState: SharePlayUIState = .idle,
         style: GameViewStyle,
         inputAdapterFactory: any GameInputAdapterFactory,
         controllerInputSource: any GameControllerInputSource,
@@ -113,6 +117,8 @@ public struct GameView: View {
         self.achievementProgressService = achievementProgressService
         self.playLimitService = playLimitService
         self.specialEventService = specialEventService
+        self.sharePlayMatchService = sharePlayMatchService
+        self.sharePlayUIState = sharePlayUIState
         self.style = style
         self.inputAdapterFactory = inputAdapterFactory
         self.controllerInputSource = controllerInputSource
@@ -147,6 +153,8 @@ public struct GameView: View {
             inputAdapterFactory: inputAdapterFactory,
             playLimitService: playLimitService,
             specialEventService: specialEventService,
+            sharePlayMatchService: sharePlayMatchService,
+            initialSharePlayUIState: sharePlayUIState,
             selectedDifficulty: selectedDifficulty,
             selectedAudioFeedbackMode: selectedAudioFeedbackMode,
             selectedLaneMoveCueStyle: selectedLaneMoveCueStyle,
@@ -172,6 +180,9 @@ public struct GameView: View {
                     rightButtonDown: model.controls.rightButtonDown,
                     directionButtonHeight: directionButtonHeight,
                     headerFont: headerFont(textStyle: style.hudTextStyle),
+                    sharePlayOpponentName: model.sharePlayOpponentDisplayName,
+                    sharePlayOpponentScore: sharePlayOpponentScore,
+                    sharePlayOpponentLives: sharePlayOpponentLives,
                     inputAdapter: model.inputAdapter,
                     onMoveLeft: { model.flashButton(.left) },
                     onMoveRight: { model.flashButton(.right) },
@@ -244,6 +255,7 @@ public struct GameView: View {
             }
             attemptAutoPresentVoiceOverHelpIfNeeded()
             startControllerInput()
+            model.applySharePlayState(sharePlayUIState)
         }
         #if os(iOS) || os(tvOS) || os(visionOS)
         .accessibilityAction(.magicTap) {
@@ -254,8 +266,7 @@ public struct GameView: View {
             if showMenuButton && shouldShowMenuToolbarButton {
                 ToolbarItem(placement: Self.menuToolbarPlacement) {
                     Button {
-                        model.setOverlayPause(isPresented: true)
-                        onMenuRequest?()
+                        handleMenuToolbarTap()
                     } label: {
                         Label(
                             GameLocalizedStrings.string("menu_button"),
@@ -398,7 +409,46 @@ public struct GameView: View {
             PaywallView(playLimitService: playLimitService, isLimitReached: true)
                 .fontPreferenceStore(fontPreferenceStore)
         }
+        .sheet(isPresented: showSharePlayResultBinding) {
+            SharePlayResultView(
+                state: model.sharePlayState,
+                localRole: model.sharePlayLocalRole,
+                opponentDisplayName: model.sharePlayOpponentDisplayName,
+                score: model.hud.gameOverScore,
+                bestScore: model.hud.gameOverBestScore,
+                difficulty: model.hud.gameOverDifficulty,
+                isNewRecord: model.hud.isNewHighScore,
+                previousBestScore: model.hud.gameOverPreviousBestScore,
+                nextFriendAhead: model.hud.gameOverNextFriendAhead,
+                overtakenFriends: model.hud.gameOverOvertakenFriends,
+                newlyAchievedAchievementIDs: model.hud.gameOverNewlyAchievedAchievementIDs,
+                onRetry: model.retrySharePlayMatch,
+                onLeave: handleSharePlayLeave
+            )
+            .fontPreferenceStore(fontPreferenceStore)
+            .interactiveDismissDisabled(true)
+        }
+        .onChange(of: sharePlayUIState) { _, newValue in
+            model.applySharePlayState(newValue)
+        }
         .fontPreferenceStore(fontPreferenceStore)
+    }
+
+    /// Presents `SharePlayResultView` while the match reached a terminal/handshake state that
+    /// needs its own screen (finished, retry handshake, retry timeout, or aborted). Transient
+    /// states (waiting, countdown, in-round) render inline via `SharePlayOverlayView` instead.
+    private var showSharePlayResultBinding: Binding<Bool> {
+        Binding(
+            get: {
+                switch model.sharePlayState {
+                case .finished, .retryWaiting, .retryTimedOut, .aborted:
+                    return true
+                default:
+                    return false
+                }
+            },
+            set: { _ in }
+        )
     }
 
     /// Background color for the game view. Uses a secondary system background where available
@@ -422,9 +472,18 @@ public struct GameView: View {
 
     private var showGameOverBinding: Binding<Bool> {
         Binding(
-            get: { model.hud.showGameOver },
+            get: { model.hud.showGameOver && model.isSharePlayActive == false },
             set: { model.hud.showGameOver = $0 }
         )
+    }
+
+    private var sharePlayOpponentScore: Int? {
+        guard case .inRound(_, _, let remoteScore, _) = model.sharePlayState else { return nil }
+        return remoteScore
+    }
+
+    private var sharePlayOpponentLives: Int? {
+        model.sharePlayRemoteLives
     }
 
     @ViewBuilder
@@ -437,6 +496,13 @@ public struct GameView: View {
                     .accessibilityRespondsToUserInteraction(false)
                 if isPausedGridExplorationMode {
                     PausedGridAccessibilityOverlay(gridState: scene.gridState)
+                }
+                if model.isSharePlayActive {
+                    SharePlayOverlayView(
+                        state: model.sharePlayState,
+                        opponentDisplayName: model.sharePlayOpponentDisplayName,
+                        onCountdownSecondChanged: { model.playSharePlayCountdownCue(for: $0) }
+                    )
                 }
             }
         } else {
@@ -622,7 +688,7 @@ public struct GameView: View {
     private func handleRestartFromGameOver() {
         let now = Date()
         // Premium users always have unlimited plays.
-        if storeKit.hasPremiumAccess {
+        if storeKit.hasPremiumAccessForGating {
             model.restartGame()
         // Special events grant temporary unlimited play to everyone.
         } else if specialEventService?.isEventActive(on: now) == true {
@@ -647,6 +713,28 @@ public struct GameView: View {
         pendingFinishRequestAfterGameOverDismiss = false
         if let onFinishRequest {
             onFinishRequest()
+        } else {
+            dismiss()
+        }
+    }
+
+    private func handleMenuToolbarTap() {
+        guard model.isSharePlayActive == false else {
+            handleSharePlayLeave()
+            return
+        }
+        model.setOverlayPause(isPresented: true)
+        onMenuRequest?()
+    }
+
+    private func handleSharePlayLeave() {
+        model.leaveSharePlayMatch()
+        controllerInputSource.stop()
+        model.tearDown()
+        if let onFinishRequest {
+            onFinishRequest()
+        } else if let onMenuRequest {
+            onMenuRequest()
         } else {
             dismiss()
         }

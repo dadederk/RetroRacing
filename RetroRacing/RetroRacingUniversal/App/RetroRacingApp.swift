@@ -14,6 +14,9 @@ import UIKit
 #if canImport(UIKit) && !os(tvOS) && !os(watchOS)
 import CoreHaptics
 #endif
+#if canImport(GroupActivities) && os(iOS)
+import GroupActivities
+#endif
 import GameController
 
 /// App entry point assembling shared services and presenting the universal menu scene.
@@ -44,15 +47,27 @@ struct RetroRacingApp: App {
     private let playLimitService: PlayLimitService
     private let specialEventService: SpecialEventService
     private let storeKitService: StoreKitService
+    private let sharePlayMatchService: any SharePlayMatchService
+    #if canImport(GroupActivities) && os(iOS)
+    /// Reports whether the device is already in a FaceTime call/Messages conversation. When
+    /// `false`, `activate()` cannot present any UI on its own, so a `GroupActivitySharingController`
+    /// sheet must be presented instead (see `handlePlayWithFriendsRequest`).
+    private let groupStateObserver = GroupStateObserver()
+    #endif
     private let controllerInputSource: SystemGameControllerInputSource
     private let controlsDescriptionKey: String
     @State private var isMenuPresented = true
     @State private var isSettingsPresented = false
+    @State private var sharePlaySharingPresentation: SharePlaySharingPresentation?
     /// Controls whether gameplay should be allowed to start for the current session.
     /// On initial launch and after Finish, this is false so that the SpriteKit
     /// scene is not created until the menu overlay is dismissed via Play.
     @State private var shouldStartGame = false
     @State private var sessionID = UUID()
+    /// Mirrors `SharePlayMatchService` state. `GameViewModel` is recreated every play session,
+    /// so this composition root owns the single long-lived state-change handler and pushes
+    /// updates down into `GameView` via an explicit prop (see `SharePlayUIState`).
+    @State private var sharePlayUIState: SharePlayUIState = .idle
 
     init() {
         AppBootstrap.configureAudioSession()
@@ -174,8 +189,23 @@ struct RetroRacingApp: App {
         #endif
 
         BuildConfiguration.initializeTestFlightCheck()
-        playLimitService = UserDefaultsPlayLimitService(userDefaults: userDefaults)
+        let playLimit = UserDefaultsPlayLimitService(userDefaults: userDefaults)
+        playLimitService = playLimit
+        storeKitService.onEntitlementsUpdated = { isPremium in
+            if isPremium {
+                playLimit.unlockUnlimitedAccess()
+            } else {
+                playLimit.clearUnlimitedAccess()
+            }
+        }
         specialEventService = Self.makeMiamiGrandPrixEventService()
+        #if os(iOS)
+        sharePlayMatchService = GroupActivitiesSharePlayMatchService(
+            difficultyProvider: { GameDifficulty.currentSelection(from: userDefaults) }
+        )
+        #else
+        sharePlayMatchService = NoOpSharePlayMatchService()
+        #endif
         controllerInputSource = SystemGameControllerInputSource(
             platformConfig: .standard,
             userDefaults: userDefaults
@@ -240,10 +270,27 @@ struct RetroRacingApp: App {
                 rootView
                     .environment(storeKitService)
                     .achievementMetadataService(achievementMetadataService)
+                    .sharePlayMatchService(sharePlayMatchService)
                     .task {
                         await storeKitService.loadProducts()
                         await bestScoreSyncService.syncIfPossible()
                         await watchRelayIngestionService?.flushPendingIfPossible(trigger: .appLifecycle)
+                    }
+                    .task {
+                        await sharePlayMatchService.setStateChangeHandler { state in
+                            Task { @MainActor in
+                                let role = await sharePlayMatchService.currentRole()
+                                let opponentName = await sharePlayMatchService.currentOpponentDisplayName()
+                                handleSharePlayStateChanged(
+                                    SharePlayUIState(
+                                        state: state,
+                                        localRole: role,
+                                        opponentDisplayName: opponentName
+                                    )
+                                )
+                            }
+                        }
+                        await sharePlayMatchService.observeIncomingSessions()
                     }
                     .onContinueUserActivity(NSUserActivityTypeBrowsingWeb) { userActivity in
                         guard let url = userActivity.webpageURL else { return }
@@ -321,6 +368,8 @@ struct RetroRacingApp: App {
             achievementProgressService: achievementProgressService,
             playLimitService: playLimitService,
             specialEventService: specialEventService,
+            sharePlayMatchService: sharePlayMatchService,
+            sharePlayUIState: sharePlayUIState,
             style: .universal,
             inputAdapterFactory: TouchInputAdapterFactory(),
             controllerInputSource: controllerInputSource,
@@ -384,9 +433,20 @@ struct RetroRacingApp: App {
             controlsDescriptionKey: controlsDescriptionKey,
             showRateButton: true,
             inputAdapterFactory: TouchInputAdapterFactory(),
-            onPlayRequest: handlePlayRequest
+            onPlayRequest: handlePlayRequest,
+            onPlayWithFriendsRequest: handlePlayWithFriendsRequest,
+            isSharePlayActive: sharePlayUIState.state.isActive
         )
         .interactiveDismissDisabled(true)
+        #if canImport(GroupActivities) && os(iOS)
+        .background {
+            if sharePlaySharingPresentation != nil {
+                SharePlayActivitySharingPresenter(onUserDismissed: handleSharePlaySharingUserDismissed)
+                    .frame(width: 0, height: 0)
+                    .accessibilityHidden(true)
+            }
+        }
+        #endif
         #endif
     }
 
@@ -459,8 +519,73 @@ struct RetroRacingApp: App {
         )
     }
 
+    /// Called from the "Play with Friends" menu button. `activate()` only presents system UI (or
+    /// succeeds at all) when the device is already in a FaceTime call/Messages conversation; if
+    /// not, a `GroupActivitySharingController` sheet must be presented instead to let the person
+    /// invite someone first. Either way, the actual transition into gameplay happens reactively
+    /// in `handleSharePlayStateChanged` once a session (host-initiated or system-activated
+    /// incoming) actually arrives, so the same code path handles both cases.
+    private func handlePlayWithFriendsRequest() {
+        AppLog.info(AppLog.lifecycle + AppLog.game, "SHAREPLAY_MENU_REQUEST", outcome: .requested)
+        #if canImport(GroupActivities) && os(iOS)
+        if groupStateObserver.isEligibleForGroupSession {
+            Task { await sharePlayMatchService.startHostSession() }
+        } else {
+            Task {
+                await sharePlayMatchService.prepareHostActivation()
+                await MainActor.run {
+                    sharePlaySharingPresentation = SharePlaySharingPresentation()
+                }
+            }
+        }
+        #else
+        Task { await sharePlayMatchService.startHostSession() }
+        #endif
+    }
+
+    /// Mirrors `SharePlayMatchService` state into `sharePlayUIState` for `GameView`, and — the
+    /// first time a session transitions away from idle — dismisses the menu and starts a game
+    /// session, exactly like tapping Play, but without any daily play-limit/paywall check
+    /// (SharePlay matches are always free). Covers host-initiated and system-activated
+    /// (incoming) sessions identically, since both arrive via the same state-change handler.
+    private func handleSharePlayStateChanged(_ newValue: SharePlayUIState) {
+        let wasIdle = sharePlayUIState.state == .idle
+        sharePlayUIState = newValue
+        if wasIdle, newValue.state != .idle {
+            sharePlaySharingPresentation = nil
+        }
+        guard wasIdle, newValue.state != .idle, isMenuPresented else { return }
+        let previousSessionID = sessionID
+        let nextState = MenuSessionTransitionPolicy.stateAfterPlayRequest(
+            from: MenuSessionState(
+                shouldStartGame: shouldStartGame,
+                isMenuPresented: isMenuPresented,
+                sessionID: sessionID
+            )
+        )
+        shouldStartGame = nextState.shouldStartGame
+        isMenuPresented = nextState.isMenuPresented
+        sessionID = nextState.sessionID
+        AppLog.info(
+            AppLog.lifecycle + AppLog.game,
+            "SHAREPLAY_SESSION_ENTRY",
+            outcome: .started,
+            fields: [
+                .string("fromSession", AppLog.shortID(previousSessionID)),
+                .string("toSession", AppLog.shortID(sessionID))
+            ]
+        )
+    }
+
     private func handleMenuDismissed() {
+        sharePlaySharingPresentation = nil
         AppLog.info(AppLog.lifecycle + AppLog.game, "MENU_DISMISS", outcome: .completed)
+    }
+
+    private func handleSharePlaySharingUserDismissed() {
+        sharePlaySharingPresentation = nil
+        guard sharePlayUIState.state == .idle else { return }
+        Task { await sharePlayMatchService.cancelHostActivation() }
     }
 
     private func handleFinish() {

@@ -23,19 +23,23 @@ This document provides comprehensive verification that the critical requirement�
 **File**: `RetroRacingShared/Services/StoreKitService.swift`
 
 ```swift
-public var hasPremiumAccess: Bool {
-    if debugPremiumEnabled {
-        return true
+public var hasPremiumAccess: Bool { ... } // live entitlements (or debug simulation)
+public var hasPremiumAccessForGating: Bool {
+    guard hasResolvedInitialEntitlements else {
+        return cachedPremiumAccess || hasPremiumAccess
     }
-    return !purchasedProductIDs.isEmpty
+    return hasPremiumAccess
+}
+public var shouldShowFreeTierAffordances: Bool {
+    hasResolvedInitialEntitlements && !hasPremiumAccess
 }
 ```
 
 ✅ **Verified**:
-- `hasPremiumAccess` prioritizes `debugPremiumEnabled` for testing
-- Falls back to checking `purchasedProductIDs` from StoreKit 2 entitlements
-- Works across devices (same Apple ID)
-- Survives app deletion/reinstallation (StoreKit 2 handles persistence)
+- Live entitlement state remains in `hasPremiumAccess` / `purchasedProductIDs`
+- Returning purchasers seed from `StoreKit.cachedPremiumAccess` at launch, so Menu/Game/Settings do not flash free-tier UI before StoreKit resolves
+- After the first live refresh, gating follows live entitlements only; refunds clear the cache and `PlayLimitService` via `onEntitlementsUpdated`
+- Works across devices (same Apple ID); StoreKit 2 remains authoritative after resolve
 
 ### 1.2 PlayLimitService (Respects Unlimited Access)
 
@@ -159,8 +163,8 @@ if let playLimitService, !storeKit.hasPremiumAccess {
 **File**: `RetroRacingSharedTests/PlayLimitServiceTests.swift`
 
 ✅ **Test Coverage**:
-- `testGivenFirstDayWhenPlayingEightGamesThenNinthGameIsBlocked()` – Verifies 8-game first-day limit
-- `testGivenSecondDayWhenPlayingFourGamesThenFifthGameIsBlocked()` – Verifies 4-game regular-day limit
+- `testGivenFirstDayWhenPlayingNineGamesThenTenthGameIsBlocked()` – Verifies 9-game first-day limit
+- `testGivenSecondDayWhenPlayingThreeGamesThenFourthGameIsBlocked()` – Verifies 3-game regular-day limit
 - `testCounterResetsAtMidnight()` – Verifies daily reset logic
 - `testUnlockUnlimitedAccess_DisablesCounting()` – **Verifies unlimited access bypass**
 - `testNextResetDate_IsNextMidnight()` – Verifies reset calculation
@@ -342,13 +346,13 @@ if let playLimitService, !storeKit.hasPremiumAccess {
 1. Launch app in Simulator or physical device
 2. Go to **Settings** → **Debug**
 3. Disable **"Simulate Premium Access"** toggle
-4. Go to Menu and play 8 games on first day (or 4 games on a regular day)
+4. Go to Menu and play 9 games on first day (or 3 games on a regular day)
 5. **Verify**:
-   - ✅ Play Limit section shows "Remaining: 8 of 8" on first day ("Remaining: 4 of 4" on day 2+)
+   - ✅ Play Limit section shows "Remaining: 9 of 9" on first day ("Remaining: 3 of 3" on day 2+)
    - ✅ After each game, remaining count decreases
-   - ✅ After 8 games (first day) or 4 games (day 2+), tapping "Play" shows paywall
+   - ✅ After 9 games (first day) or 3 games (day 2+), tapping "Play" shows paywall
    - ✅ After game over, tapping "Restart" shows paywall
-   - ✅ Settings shows "Remaining: 0 of 8" (first day) or "Remaining: 0 of 4" (day 2+) and reset timer
+   - ✅ Settings shows "Remaining: 0 of 9" (first day) or "Remaining: 0 of 3" (day 2+) and reset timer
 
 ### 6.3 Testing IAP Purchase (Sandbox)
 
@@ -361,7 +365,7 @@ Steps:
 1. Launch app on physical device (signed with dev certificate)
 2. Go to **Settings** → **Debug**
 3. Disable **"Simulate Premium Access"** toggle
-4. Exhaust free plays (8 on first day, 4 on day 2+)
+4. Exhaust free plays (9 on first day, 3 on day 2+)
 5. Tap "Play" → Paywall appears
 6. Tap product row → StoreKit purchase flow
 7. Sign in with **sandbox Apple ID**
@@ -376,7 +380,7 @@ Steps:
 
 1. After purchasing on Device A
 2. Install app on Device B (same Apple ID)
-3. Launch app → see free play limit (8 on first install day, 4 from day 2)
+3. Launch app → see free play limit (9 on first install day, 3 from day 2)
 4. Go to **Settings** → **Purchases**
 5. Tap **"Restore Purchases"**
 6. **Verify**:

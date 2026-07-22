@@ -5,7 +5,7 @@
 > Narrow tasks may stop here; open the full contract for implementation or review.
 
 - **Scope:** Freemium daily play limits, Unlimited Plays IAP, paywall triggers, and user-facing "Unlimited Plays" terminology.
-- **Must not break:** Free tier 8 games first day then 4/day; each round/restart counts; premium bypasses limits; user copy never says "Premium".
+- **Must not break:** Free tier 9 games first day then 3/day; each round/restart counts; premium bypasses limits; user copy never says "Premium".
 - **Key files:** `PlayLimitService`, `StoreKitService`, paywall and game-over modal flows.
 
 ## Terminology
@@ -21,7 +21,7 @@ Internal code may still use names like `hasPremiumAccess` for the entitlement; t
 
 RetroRacing uses a **freemium** model with:
 
-- **Free tier**: up to **8 games on the first play day** (welcome bonus), then **4 games per calendar day** from day 2 onward (resets at local midnight). Reinstalling the app resets the bonus.
+- **Free tier**: up to **9 games on the first play day** (welcome bonus), then **3 games per calendar day** from day 2 onward (resets at local midnight). Reinstalling the app resets the bonus.
 - **Unlimited Plays**: one‑time purchase (non‑consumable IAP) that removes the daily limit and includes theme choices as an extra
 
 The goal is to encourage support without making the free experience feel hostile. Messaging focuses on **supporting the game** (buying coffee) rather than hard paywalling.
@@ -33,7 +33,7 @@ The goal is to encourage support without making the free experience feel hostile
 - A “game” is counted **per round**:
   - A round starts when a new `GameScene` is created (menu → game).
   - Restarts after game over **also count as new rounds**.
-- Free users can play **8 rounds on their first play day** (`firstDayMaxPlays = 8`) and **4 rounds per calendar day** from day 2 onward (`maxPlaysPerDay = 4`). "First play day" is the calendar day on which `recordGamePlayed` is first called (stored as `PlayLimit.firstPlayDate`). Reinstalling the app clears UserDefaults, resetting the bonus.
+- Free users can play **9 rounds on their first play day** (`firstDayMaxPlays = 9`) and **3 rounds per calendar day** from day 2 onward (`maxPlaysPerDay = 3`). "First play day" is the calendar day on which `recordGamePlayed` is first called (stored as `PlayLimit.firstPlayDate`). Reinstalling the app clears UserDefaults, resetting the bonus.
 - The day boundary is based on the user’s **current Calendar and time zone** and resets at **00:00 local time**.
 - When the limit is reached:
   - Starting a new game from the menu **shows the paywall**.
@@ -48,6 +48,37 @@ The goal is to encourage support without making the free experience feel hostile
   - Unlocks **Pocket theme** and theme selection as an **extra** on iOS/tvOS/macOS/visionOS (watchOS keeps Pocket as the default theme for everyone).
 - StoreKit 2’s **on‑device verification** is used; **no server** is required.
 - Entitlement works across devices with the same Apple ID and survives app deletion/reinstallation.
+
+## SharePlay Exception
+
+**Framing:** "Friend races are free." SharePlay competitive matches (see
+[`Requirements/shareplay_multiplayer.md`](shareplay_multiplayer.md)) are **always free** for
+every player, regardless of `StoreKitService.hasPremiumAccess` or `PlayLimitService` state, and
+they **never consume a daily play**.
+
+- **Entry point**: The **Play with Friends** button in `MenuView`/`MenuContentView` calls
+  `onPlayWithFriendsRequest` directly — it never routes through the `PlayLimitService`/paywall
+  check that gates the regular **Play** button.
+- **Recording skip**: `GameViewModel.isSharePlayActive` (true whenever
+  `SharePlayMatchState.isActive` is true, i.e. not `.idle`) gates every
+  `playLimitService?.recordGamePlayed(on:)` call site, mirroring the existing
+  `specialEventService?.isEventActive(on:)` skip:
+  - `GameViewModel+Gameplay.swift` (`restartGame()`).
+  - `GameViewModel+Scene.swift` (scene creation on menu → game transition).
+- This applies even when the player has **zero remaining daily plays** — a SharePlay match can
+  always start and does not deduct from, or get blocked by, the free-tier counter.
+- **Difficulty lock**: While a SharePlay match is active, `MenuView` passes
+  `isGameSessionInProgress: isSharePlayActive` into its `SettingsView` sheet, disabling
+  difficulty editing (the round's difficulty is host-authoritative and shared with the guest for
+  the match's duration; see `SharePlayGuestSpeedRestore`).
+- **Copy**:
+  - `menu_play_with_friends_free_footer` — visible footer below the Play with Friends button.
+  - `menu_play_with_friends_free_hint` — explicit accessibility hint on the Play with Friends button.
+  - `paywall_shareplay_free_notice` — info card in `PaywallView`'s limit-triggered mode (shown
+    alongside "Want to Stay Free?"), reminding players who hit the daily cap that SharePlay
+    matches are still available for free.
+  - SharePlay-related paywall/body copy should avoid em dashes and must be translated in the
+    shared string catalog for English, Spanish, and Catalan locales.
 
 ## Architecture
 
@@ -95,20 +126,30 @@ Responsibilities:
 - Load StoreKit products (currently one non‑consumable).
 - Handle purchases and verify transactions.
 - Refresh current entitlements.
-- Expose `hasPremiumAccess` and `debugPremiumSimulationMode` for UI & testing.
+- Expose `hasPremiumAccess`, gating helpers, and `debugPremiumSimulationMode` for UI & testing.
+- Persist the last verified premium state locally so returning purchasers are not briefly treated as free while StoreKit resolves on cold launch.
 
 Key API:
 
 - `public enum ProductID: String { case unlimitedPlays = "com.accessibilityUpTo11.RetroRacing.unlimitedPlays" }`
 - `public private(set) var products: [Product]`
 - `public private(set) var purchasedProductIDs: Set<String>`
-- `public var hasPremiumAccess: Bool`
+- `public var hasPremiumAccess: Bool` — live (or debug-simulated) entitlement state
+- `public var hasPremiumAccessForGating: Bool` — uses cached premium until the first live entitlement check resolves; then live only
+- `public var shouldShowFreeTierAffordances: Bool` — `true` only after entitlements resolve **and** the user is not premium; withholds free CTAs during the resolve window
+- `public private(set) var hasResolvedInitialEntitlements: Bool`
+- `public var onEntitlementsUpdated: ((Bool) -> Void)?` — fired with the real StoreKit result after every refresh
 - `public enum DebugPremiumSimulationMode { case productionDefault, unlimitedPlays, freemium }`
 - `public var debugPremiumSimulationMode: DebugPremiumSimulationMode`
 - `public func loadProducts() async`
 - `public func purchase(_ product: Product) async throws -> Transaction?`
 - `public func restorePurchases() async throws`
 - `public func hasPurchased(_ productID: String) -> Bool`
+
+Local cache keys (`UserDefaults`):
+
+- `"StoreKit.cachedPremiumAccess"`
+- `"StoreKit.lastEntitlementCheck"` (stamp only; no TTL)
 
 `hasPremiumAccess` logic:
 
@@ -120,7 +161,9 @@ Key API:
 - `debugPremiumSimulationMode` **defaults to `.productionDefault`**.
 - Simulation overrides are active only when `StoreKitService` is created with `isDebugSimulationEnabled == true` (default: `BuildConfiguration.isDebug`).
 - The Debug section (with the picker) is **hidden** when `BuildConfiguration.shouldShowDebugFeatures == false`.
-- `StoreKitService.hasPremiumAccess` is the **single source of truth** for premium status. All UI checks (MenuView, GameView, SettingsView) check this property **first** before falling back to `PlayLimitService` checks. This ensures premium users **always** have unlimited plays regardless of `PlayLimitService` state.
+- **Play bypass and premium UI chrome** use `hasPremiumAccessForGating`. **Free-tier affordances** (Support CTA, play-limit section, purchase CTAs) use `shouldShowFreeTierAffordances`. **Purchase/restore feedback** keeps live `hasPremiumAccess`.
+- `StoreKitService` starts an independent entitlement refresh in `init` so a product-catalog failure cannot delay premium resolution.
+- Composition roots wire `onEntitlementsUpdated` to `PlayLimitService.unlockUnlimitedAccess()` / `clearUnlimitedAccess()` so the play-limit store stays aligned with live entitlements.
 - When `debugPremiumSimulationMode == .freemium`, `StoreKitService` writes the debug override key (`"PlayLimit.debugForceFreemium"`) so `PlayLimitService` behaves as unpaid even if the device has previously unlocked unlimited plays.
 - `hasPurchased(_:)` **also respects `debugPremiumSimulationMode`**: it returns `false` in `.freemium` mode and `true` for the unlimited plays product in `.unlimitedPlays` mode. This ensures UI elements (e.g. `ProductRow` in the paywall) that use `hasPurchased` stay consistent with `hasPremiumAccess` under all debug states.
 
@@ -153,7 +196,12 @@ Used to:
 ```swift
 BuildConfiguration.initializeTestFlightCheck()
 storeKitService = StoreKitService(userDefaults: userDefaults)
-playLimitService = UserDefaultsPlayLimitService(userDefaults: userDefaults)
+let playLimit = UserDefaultsPlayLimitService(userDefaults: userDefaults)
+playLimitService = playLimit
+storeKitService.onEntitlementsUpdated = { isPremium in
+    if isPremium { playLimit.unlockUnlimitedAccess() }
+    else { playLimit.clearUnlimitedAccess() }
+}
 
 NavigationStack {
     rootView
@@ -164,7 +212,7 @@ NavigationStack {
 }
 ```
 
-**Important**: `loadProducts()` is called on app launch via `.task` to ensure entitlements are loaded **before** the user navigates to Settings or the Paywall. This ensures premium users see their status immediately.
+**Important**: `loadProducts()` still loads the product catalog on launch. Entitlement resolution also runs independently in `StoreKitService.init`, and the local premium cache is seeded from `UserDefaults` before the first UI frame so returning purchasers do not flash free-tier chrome.
 
 `GameView` and `MenuView` receive `playLimitService` via their initialisers.
 
@@ -215,7 +263,7 @@ NavigationStack {
 ```swift
 onPlay: {
     // Premium users always have unlimited plays
-    if storeKit.hasPremiumAccess {
+    if storeKit.hasPremiumAccessForGating {
         if let onPlayRequest {
             onPlayRequest()
         } else {
@@ -232,7 +280,7 @@ onPlay: {
 }
 ```
 
-- **Premium users** (via `storeKit.hasPremiumAccess`) **always bypass** the play limit check.
+- **Premium users** (via `storeKit.hasPremiumAccessForGating`) **always bypass** the play limit check.
 - **Free users** are checked against the daily limit; if reached, the **paywall sheet** is presented.
 
 ### Menu – Support CTA
@@ -244,10 +292,10 @@ onPlay: {
   - Rate action: `"menu_rate_game"` (opens App Store write-review URL)
   - Support action: `"menu_support_game"` (opens paywall sheet)
 - Support CTA visibility:
-  - **Hidden by default** until entitlement status is refreshed for the current menu session.
-  - **Shown** when `showRateButton == true`, entitlement has been resolved, and `storeKit.hasPremiumAccess == false`.
-  - **Hidden** when Unlimited Plays is already active.
-  - Layout stability: support CTA keeps a reserved button slot in the menu stack so text/buttons do not jump when the entitlement result arrives.
+  - **Shown** when `showRateButton == true` and `storeKit.shouldShowFreeTierAffordances == true`.
+  - **Hidden** while entitlements are still resolving, and when Unlimited Plays is active (live or cached).
+- Rate CTA visibility:
+  - **Hidden** when `storeKit.hasPremiumAccessForGating == true` (including cached premium on launch).
 - tvOS keeps `showRateButton = false`, so this engagement block is not shown there.
 
 ### Game – Restart Button
@@ -262,7 +310,7 @@ onPlay: {
 ```swift
 Button(GameLocalizedStrings.string("restart")) {
     // Premium users always have unlimited plays
-    if storeKit.hasPremiumAccess {
+    if storeKit.hasPremiumAccessForGating {
         model.restartGame()
     } else if let playLimitService, playLimitService.canStartNewGame(on: Date()) {
         model.restartGame()
@@ -384,7 +432,7 @@ Sections added:
        - `"play_limit_resets_tomorrow"` or
        - `"play_limit_resets_in_hours %lld"`.
      - Row accessibility is combined (`.accessibilityElement(children: .combine)`).
-   - **Note**: This entire section is **hidden** for premium users (via `if let playLimitService, !storeKit.hasPremiumAccess`) since they have unlimited plays.
+   - **Note**: This entire section is **hidden** for premium users (via `if let playLimitService, storeKit.shouldShowFreeTierAffordances`) since they have unlimited plays.
 
 2. **Purchases**
    - Unlimited Plays row (when owned):
@@ -435,8 +483,8 @@ An **About** section appears above Debug, and Debug remains the final section in
 
 Scenarios covered:
 
-- Initial state (first play day) allows **8 games**, blocks the 9th.
-- Day 2 onward allows **4 games**, blocks the 5th.
+- Initial state (first play day) allows **9 games**, blocks the 10th.
+- Day 2 onward allows **3 games**, blocks the 4th.
 - First play day is detected via `PlayLimit.firstPlayDate` (set on first `recordGamePlayed` call).
 - Counter **resets at midnight** (calendar day change).
 - `unlockUnlimitedAccess()`:
@@ -448,10 +496,10 @@ Scenarios covered:
 ### Manual QA Checklist
 
 - Free user:
-  - First play day: can play up to 8 games. 9th attempt from menu → paywall appears.
-  - Day 2+: can play up to 4 games. 5th attempt from menu → paywall appears.
+  - First play day: can play up to 9 games. 10th attempt from menu → paywall appears.
+  - Day 2+: can play up to 3 games. 4th attempt from menu → paywall appears.
   - Restart after limit reached → paywall appears.
-  - Next day: counter resets and 4 plays are available.
+  - Next day: counter resets and 3 plays are available.
 - Premium user:
   - No play limit (unbounded sessions).
   - Settings shows “♾️ Unlimited” + thank‑you message.
@@ -469,7 +517,7 @@ See plan for full details; key points:
 - Create **Non‑Consumable IAP**:
   - ID: `com.accessibilityUpTo11.RetroRacing.unlimitedPlays`
   - Name: “Unlimited Plays”
-  - Description explains the daily limit (8 on first day, 4 from day 2) and unlimited unlock.
+  - Description explains the daily limit (9 on first day, 3 from day 2) and unlimited unlock.
 - Localise display name/description into EN/ES/CA.
 - Provide at least one screenshot showing:
   - The paywall.

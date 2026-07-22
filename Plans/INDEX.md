@@ -18,7 +18,7 @@ Single status entrypoint for roadmap and themed plans. Requirements define shipp
 | App Store metadata, screenshots, release notes, ASO | `../AppStore/README.md` | `AppStore/docs/`, `aso/README.md` |
 | ASO campaigns, GAAD featuring, pricing tests | `aso/README.md` | `AppStore/docs/04-metadata-strategy.md`, `05-metadata-copy.md` |
 | Game Center challenge infrastructure | `challenges_infrastructure_and_asc_admin_plan.md` | `../Requirements/leaderboard_implementation.md` |
-| SharePlay competitive mode | `shareplay_competitive_mode_plan.md` | — |
+| SharePlay competitive mode | `../Requirements/shareplay_multiplayer.md` | `shareplay_competitive_mode_plan.md` (planning record) |
 
 ## Themed Plans
 
@@ -26,7 +26,7 @@ Single status entrypoint for roadmap and themed plans. Requirements define shipp
 |---|---|---|
 | ASO & App Store growth | [aso/README.md](aso/README.md) | Metadata, screenshots, pricing, GAAD featuring |
 | Game Center challenges & ASC admin | [challenges_infrastructure_and_asc_admin_plan.md](challenges_infrastructure_and_asc_admin_plan.md) | Infrastructure IDs, not release copy |
-| SharePlay competitive mode | [shareplay_competitive_mode_plan.md](shareplay_competitive_mode_plan.md) | Future feature |
+| SharePlay competitive mode | [shareplay_competitive_mode_plan.md](shareplay_competitive_mode_plan.md) | ✅ Implemented (2026-07-22); shipped behavior now lives in [`../Requirements/shareplay_multiplayer.md`](../Requirements/shareplay_multiplayer.md). Manual 2-device QA still pending. |
 
 ## Maintenance Rules
 

@@ -363,17 +363,143 @@ final class GameViewModelTests: XCTestCase {
         XCTAssertEqual(playLimitService.recordGamePlayedCallCount, 1)
     }
 
+    // MARK: - SharePlay free-play exception (Requirements/monetization.md, "SharePlay Exception")
+
+    func testGivenActiveSharePlayMatchWhenRestartingGameThenPlayLimitIsNotRecorded() {
+        // Given
+        let playLimitService = MockPlayLimitServiceForGameViewModel()
+        let viewModel = makeViewModel(
+            playLimitService: playLimitService,
+            specialEventService: nil
+        )
+        viewModel.sharePlayState = .inRound(difficulty: .rapid, localScore: 0, remoteScore: 0, remoteLives: 3)
+
+        // When
+        viewModel.restartGame()
+
+        // Then
+        XCTAssertEqual(playLimitService.recordGamePlayedCallCount, 0)
+    }
+
+    func testGivenActiveSharePlayMatchAtZeroRemainingPlaysWhenRestartingGameThenPlayLimitIsStillNotRecorded() {
+        // Given
+        let playLimitService = MockPlayLimitServiceForGameViewModel()
+        playLimitService.canStartNewGameOverride = false
+        playLimitService.remainingPlaysOverride = 0
+        let viewModel = makeViewModel(
+            playLimitService: playLimitService,
+            specialEventService: nil
+        )
+        viewModel.sharePlayState = .waitingForFriend
+
+        // When
+        viewModel.restartGame()
+
+        // Then
+        XCTAssertEqual(playLimitService.recordGamePlayedCallCount, 0)
+    }
+
+    func testGivenIdleSharePlayStateWhenRestartingGameThenPlayLimitIsRecordedNormally() {
+        // Given
+        let playLimitService = MockPlayLimitServiceForGameViewModel()
+        let viewModel = makeViewModel(
+            playLimitService: playLimitService,
+            specialEventService: nil
+        )
+        viewModel.sharePlayState = .idle
+
+        // When
+        viewModel.restartGame()
+
+        // Then
+        XCTAssertEqual(playLimitService.recordGamePlayedCallCount, 1)
+    }
+
+    func testGivenActiveSharePlayMatchWhenHandlingCollisionThenGameOverSheetIsNotShown() {
+        // Given
+        let scene = makeScene()
+        scene.handleCrash()
+        scene.handleCrash()
+        scene.handleCrash()
+        viewModel.scene = scene
+        viewModel.sharePlayState = .inRound(difficulty: .rapid, localScore: 10, remoteScore: 5, remoteLives: 2)
+        XCTAssertEqual(scene.gameState.lives, 0)
+
+        // When
+        viewModel.handleCollision()
+
+        // Then
+        XCTAssertFalse(viewModel.hud.showGameOver)
+        XCTAssertEqual(viewModel.hud.gameOverScore, scene.gameState.score)
+    }
+
+    func testGivenFinalSharePlayCollisionWhenHandlingCollisionThenLivesZeroIsSentBeforeElimination() async {
+        // Given
+        let sharePlayMatchService = MockSharePlayMatchServiceForGameViewModel()
+        let viewModel = makeViewModel(
+            playLimitService: nil,
+            specialEventService: nil,
+            sharePlayMatchService: sharePlayMatchService
+        )
+        let scene = makeScene()
+        scene.handleCrash()
+        scene.handleCrash()
+        scene.handleCrash()
+        viewModel.scene = scene
+        viewModel.sharePlayState = .inRound(difficulty: .rapid, localScore: 0, remoteScore: 5, remoteLives: 2)
+        XCTAssertEqual(scene.gameState.lives, 0)
+
+        // When
+        viewModel.handleCollision()
+        await waitForSharePlayEvents(sharePlayMatchService, count: 2)
+
+        // Then
+        let events = await sharePlayMatchService.recordedEvents()
+        XCTAssertEqual(
+            events,
+            [
+                .scoreUpdate(score: scene.gameState.score, lives: 0),
+                .playerEliminated(finalScore: scene.gameState.score)
+            ]
+        )
+    }
+
+    func testGivenSharePlayWaitingCountdownAndRecoveryStatesWhenAppliedThenGameplayStaysPaused() {
+        // Given
+        let scene = makeScene()
+        viewModel.scene = scene
+        let now = Date(timeIntervalSinceReferenceDate: 1_000)
+        let pausedStates: [SharePlayMatchState] = [
+            .waitingForFriend,
+            .countdown(startAt: now.addingTimeInterval(3), difficulty: .rapid),
+            .waitingAfterLocalLoss(remoteScore: 12, localFinalScore: 8),
+            .finished(SharePlayRoundResult(hostScore: 12, guestScore: 8, difficulty: .rapid)),
+            .retryWaiting(localReady: false, remoteReady: false, deadline: now.addingTimeInterval(30)),
+            .retryTimedOut,
+            .aborted(reason: .disconnected)
+        ]
+
+        for state in pausedStates {
+            // When
+            scene.unpauseGameplay()
+            viewModel.applySharePlayState(
+                SharePlayUIState(state: state, localRole: .host, opponentDisplayName: "Rita")
+            )
+
+            // Then
+            XCTAssertTrue(scene.gameState.isPaused, "\(state) should keep gameplay paused")
+        }
+    }
+
     func testGivenActiveEventWhenEvaluatingSupportButtonPolicyThenSupportButtonIsShown() {
         // Given
         let showRateButton = true
-        let hasResolvedSupportEntitlement = true
-        let hasPremiumAccess = false
+        let shouldShowFreeTierAffordances = true
 
         // When
         let shouldShowButton = MenuView.shouldShowSupportButtonPolicy(
             showRateButton: showRateButton,
-            hasResolvedSupportEntitlement: hasResolvedSupportEntitlement,
-            hasPremiumAccess: hasPremiumAccess
+            shouldShowFreeTierAffordances: shouldShowFreeTierAffordances
         )
 
         // Then
@@ -383,18 +509,91 @@ final class GameViewModelTests: XCTestCase {
     func testGivenEligibleFreeUserWithoutEventWhenEvaluatingSupportButtonPolicyThenSupportButtonIsShown() {
         // Given
         let showRateButton = true
-        let hasResolvedSupportEntitlement = true
-        let hasPremiumAccess = false
+        let shouldShowFreeTierAffordances = true
 
         // When
         let shouldShowButton = MenuView.shouldShowSupportButtonPolicy(
             showRateButton: showRateButton,
-            hasResolvedSupportEntitlement: hasResolvedSupportEntitlement,
-            hasPremiumAccess: hasPremiumAccess
+            shouldShowFreeTierAffordances: shouldShowFreeTierAffordances
         )
 
         // Then
         XCTAssertTrue(shouldShowButton)
+    }
+
+    func testGivenNoFreeTierAffordancesWhenEvaluatingSupportButtonPolicyThenSupportButtonIsHidden() {
+        // Given
+        let showRateButton = true
+        let shouldShowFreeTierAffordances = false
+
+        // When
+        let shouldShowButton = MenuView.shouldShowSupportButtonPolicy(
+            showRateButton: showRateButton,
+            shouldShowFreeTierAffordances: shouldShowFreeTierAffordances
+        )
+
+        // Then
+        XCTAssertFalse(shouldShowButton)
+    }
+
+    func testGivenPremiumGatingWhenEvaluatingRateButtonPolicyThenRateButtonIsHidden() {
+        // Given
+        let showRateButton = true
+        let hasPremiumAccessForGating = true
+
+        // When
+        let shouldShowButton = MenuView.shouldShowRateButtonPolicy(
+            showRateButton: showRateButton,
+            hasPremiumAccessForGating: hasPremiumAccessForGating
+        )
+
+        // Then
+        XCTAssertFalse(shouldShowButton)
+    }
+
+    func testGivenNonPremiumGatingWhenEvaluatingRateButtonPolicyThenRateButtonIsShown() {
+        // Given
+        let showRateButton = true
+        let hasPremiumAccessForGating = false
+
+        // When
+        let shouldShowButton = MenuView.shouldShowRateButtonPolicy(
+            showRateButton: showRateButton,
+            hasPremiumAccessForGating: hasPremiumAccessForGating
+        )
+
+        // Then
+        XCTAssertTrue(shouldShowButton)
+    }
+
+    func testGivenCachedPremiumGatingWhenEvaluatingRateButtonPolicyThenRateButtonIsHidden() {
+        // Given
+        let showRateButton = true
+        let hasPremiumAccessForGating = true
+
+        // When
+        let shouldShowButton = MenuView.shouldShowRateButtonPolicy(
+            showRateButton: showRateButton,
+            hasPremiumAccessForGating: hasPremiumAccessForGating
+        )
+
+        // Then
+        XCTAssertFalse(shouldShowButton)
+    }
+
+    func testGivenPlatformHidesRateButtonWhenEvaluatingRateButtonPolicyThenRateButtonIsHidden() {
+        // Given
+        let showRateButton = false
+        let hasPremiumAccessForGating = false
+
+        // When
+        let shouldShowButton = MenuView.shouldShowRateButtonPolicy(
+            showRateButton: showRateButton,
+            hasPremiumAccessForGating: hasPremiumAccessForGating
+        )
+
+        // Then
+        XCTAssertFalse(shouldShowButton)
     }
 
     func testGivenGameOverWhenHandlingCollisionThenAchievementProgressRecordsCompletedRun() {
@@ -690,7 +889,8 @@ final class GameViewModelTests: XCTestCase {
 
     private func makeViewModel(
         playLimitService: PlayLimitService?,
-        specialEventService: SpecialEventService?
+        specialEventService: SpecialEventService?,
+        sharePlayMatchService: (any SharePlayMatchService)? = nil
     ) -> GameViewModel {
         GameViewModel(
             leaderboardService: leaderboardService,
@@ -702,6 +902,7 @@ final class GameViewModelTests: XCTestCase {
             inputAdapterFactory: inputAdapterFactory,
             playLimitService: playLimitService,
             specialEventService: specialEventService,
+            sharePlayMatchService: sharePlayMatchService,
             selectedDifficulty: .rapid,
             selectedAudioFeedbackMode: .retro,
             selectedLaneMoveCueStyle: .laneConfirmationAndSafety,
@@ -709,6 +910,19 @@ final class GameViewModelTests: XCTestCase {
             selectedRoadVisualStyle: .detailedRoad,
             shouldStartGame: true
         )
+    }
+
+    private func waitForSharePlayEvents(
+        _ service: MockSharePlayMatchServiceForGameViewModel,
+        count: Int,
+        maxYields: Int = 10
+    ) async {
+        for _ in 0..<maxYields {
+            if await service.recordedEvents().count >= count {
+                return
+            }
+            await Task.yield()
+        }
     }
 }
 
@@ -784,6 +998,63 @@ private final class MockLaneCuePlayerStub: LaneCuePlayer {
     func stopAll(fadeDuration: TimeInterval) {}
 }
 
+private actor MockSharePlayMatchServiceForGameViewModel: SharePlayMatchService {
+    enum Event: Equatable {
+        case scoreUpdate(score: Int, lives: Int)
+        case playerEliminated(finalScore: Int)
+        case retry
+        case leave
+        case cancelHostActivation
+    }
+
+    private var events: [Event] = []
+    private var stateChangeHandler: (@Sendable (SharePlayMatchState) -> Void)?
+
+    func recordedEvents() -> [Event] {
+        events
+    }
+
+    func setStateChangeHandler(_ handler: @escaping @Sendable (SharePlayMatchState) -> Void) async {
+        stateChangeHandler = handler
+    }
+
+    func currentRole() async -> SharePlayPlayerRole? {
+        .host
+    }
+
+    func startHostSession() async {}
+
+    func prepareHostActivation() async {}
+
+    func cancelHostActivation() async {
+        events.append(.cancelHostActivation)
+    }
+
+    func observeIncomingSessions() async {}
+
+    func hostStartRoundIfReady(difficulty: GameDifficulty) async {}
+
+    func updateLocalScore(_ score: Int, lives: Int) async {
+        events.append(.scoreUpdate(score: score, lives: lives))
+    }
+
+    func currentOpponentDisplayName() async -> String? {
+        nil
+    }
+
+    func reportLocalElimination(finalScore: Int) async {
+        events.append(.playerEliminated(finalScore: finalScore))
+    }
+
+    func retry() async {
+        events.append(.retry)
+    }
+
+    func leaveSession() async {
+        events.append(.leave)
+    }
+}
+
 private final class MockAchievementProgressService: AchievementProgressService {
     private(set) var backfillCallCount = 0
     private(set) var recordedRuns: [CompletedRunAchievementData] = []
@@ -816,9 +1087,12 @@ private final class MockAchievementProgressService: AchievementProgressService {
 private final class MockPlayLimitServiceForGameViewModel: PlayLimitService {
     private(set) var recordGamePlayedCallCount = 0
     private(set) var hasUnlimitedAccess = false
+    /// Overridable so tests can simulate a player who has exhausted their daily plays.
+    var canStartNewGameOverride = true
+    var remainingPlaysOverride = 3
 
     func canStartNewGame(on date: Date) -> Bool {
-        true
+        canStartNewGameOverride
     }
 
     func recordGamePlayed(on date: Date) {
@@ -826,7 +1100,7 @@ private final class MockPlayLimitServiceForGameViewModel: PlayLimitService {
     }
 
     func remainingPlays(on date: Date) -> Int {
-        3
+        remainingPlaysOverride
     }
 
     func maxPlays(on date: Date) -> Int {
@@ -843,6 +1117,10 @@ private final class MockPlayLimitServiceForGameViewModel: PlayLimitService {
 
     func unlockUnlimitedAccess() {
         hasUnlimitedAccess = true
+    }
+
+    func clearUnlimitedAccess() {
+        hasUnlimitedAccess = false
     }
 }
 
