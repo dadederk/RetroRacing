@@ -180,23 +180,31 @@ struct GameLayoutView<GameArea: View>: View {
     }
 
     private var sharePlayOpponentScoreLabel: String {
-        if let sharePlayOpponentName, sharePlayOpponentName.isEmpty == false {
+        if let sharePlayOpponentName = sanitizedSharePlayOpponentName {
             return sharePlayOpponentName
         }
         return GameLocalizedStrings.string("shareplay_opponent_score_fallback_label")
     }
 
+    private var sanitizedSharePlayOpponentName: String? {
+        guard let sharePlayOpponentName else { return nil }
+        let trimmedName = sharePlayOpponentName.trimmingCharacters(in: .whitespacesAndNewlines)
+        return trimmedName.isEmpty ? nil : trimmedName
+    }
+
     private func sharePlayOpponentLivesView(lives: Int) -> some View {
         HStack(spacing: 4) {
             Image(lifeAssetName, bundle: bundle)
-                .renderingMode(.template)
+                .renderingMode(.original)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(
                     width: style.lifeIconSize * lifeIconScale,
                     height: style.lifeIconSize * lifeIconScale
                 )
-                .foregroundStyle(.secondary)
+                .saturation(0)
+                .contrast(0.85)
+                .opacity(0.72)
                 .accessibilityHidden(true)
             Text(GameLocalizedStrings.format("lives_count", Int64(lives)))
                 .font(headerFont)

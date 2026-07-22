@@ -2,7 +2,7 @@
 
 Part of [App Store docs hub](../README.md). Index: [RETRORAPID_APP_STORE_REFERENCE.md](../RETRORAPID_APP_STORE_REFERENCE.md).
 
-Last updated: 2026-07-03
+Last updated: 2026-07-23
 **See also:** [Screenshot ASO variants](06-screenshots.md#screenshot-title-aso-variants-first-three-slides) · [Improvement loop](10-aso-improvement-loop.md)
 
 
@@ -25,7 +25,16 @@ Do not test name/subtitle changes through PPO; Apple does not use PPO for those 
 
 Use Custom Product Pages for segmented campaigns, not as a replacement for the default product page. The default screenshot funnel should stay gameplay-first; Custom Product Pages can focus on one motivated audience or traffic source.
 
-Apple docs checked 2026-07-03:
+### SharePlay Campaign Page
+
+Status: `PLANNED`; copy and storyboard live in [SharePlay release campaign](../../Plans/aso/10-shareplay-release-campaign.md).
+
+Use this before, or as the next evolution of, the existing Game Center page if the release
+campaign leads with live friend races. Keep the default page broad and gameplay-first; route
+SharePlay/event/social traffic to a focused Custom Product Page with iPhone/iPad-only claims.
+
+Apple docs checked 2026-07-03; Custom Product Page guidance reconfirmed for SharePlay planning
+on 2026-07-23:
 
 - Custom Product Pages support different screenshots, app previews, promotional text, and keywords, and are shareable through a unique URL.
 - They are visible through the page URL, or through App Store search only after assigning keywords and approval/visibility.

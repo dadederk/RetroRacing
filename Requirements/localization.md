@@ -71,8 +71,8 @@ The shared catalog is the primary source because shared UI and game surfaces are
 - SharePlay UX keys must keep visible copy concise and accessibility copy explicit:
   - `menu_play_with_friends_free_footer` — visible footer, currently `Friend races are free.`
   - `menu_play_with_friends_free_hint` — accessibility hint, currently `SharePlay matches don’t use daily plays.`
-  - `shareplay_your_score_row %lld`, `shareplay_score_row %@ %lld`, `shareplay_opponent_score_fallback_label`, and `shareplay_score_accessibility %@ %lld %lld` — HUD/result score labels without “overtakes” row copy; fallback English HUD copy uses `Friend score`.
-  - `shareplay_waiting_for_opponent_title`, `shareplay_your_overtakes %lld`, and `shareplay_friend_overtakes %lld` — waiting-after-loss overlay copy; user-facing values use friend wording and two separate score lines.
+  - `shareplay_your_score_row %lld`, `shareplay_score_row %@ %lld`, `shareplay_opponent_score_fallback_label`, and `shareplay_score_accessibility %@ %lld %lld` — HUD/result/waiting-after-loss score labels without “overtakes” row copy; English fallback copy uses concise `You: <score>` and `Friend: <score>` rows, while display names are used when available.
+  - `shareplay_waiting_for_opponent_title` — waiting-after-loss overlay title; user-facing values use the shared concise score-row keys above.
   - `game_over_your_best %lld` — SharePlay result secondary stat copy.
   - SharePlay user-facing values must avoid em dashes and must provide real `es`/`ca` translations rather than English placeholders.
 - After localization changes:

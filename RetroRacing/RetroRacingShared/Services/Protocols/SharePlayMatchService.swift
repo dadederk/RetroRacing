@@ -51,7 +51,8 @@ public protocol SharePlayMatchService: AnyObject, Sendable {
     /// The remote participant's display name when a session is active, or `nil`.
     func currentOpponentDisplayName() async -> String?
 
-    /// Reports that the local player's run ended (collision/game over).
+    /// Reports that the local player's run ended (collision/game over). Implementations must send
+    /// the final `scoreUpdate(score: finalScore, lives: 0)` before the elimination command.
     func reportLocalElimination(finalScore: Int) async
 
     /// Confirms local intent to play again after a finished round.

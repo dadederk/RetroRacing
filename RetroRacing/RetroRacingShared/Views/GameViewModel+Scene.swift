@@ -78,14 +78,9 @@ extension GameViewModel {
         let (currentScore, currentLives) = Self.scoreAndLives(from: newScene)
         hud.score = currentScore
         hud.lives = currentLives
+        startCurrentSharePlayRoundIfNeeded()
 
-        // Record this session against the daily play limit, unless a special event grants
-        // unlimited play or a SharePlay match is in progress — neither consumes the daily quota.
-        // "Friend races are free." (Requirements/monetization.md, "SharePlay Exception".)
-        let now = Date()
-        if specialEventService?.isEventActive(on: now) != true, isSharePlayActive == false {
-            playLimitService?.recordGamePlayed(on: now)
-        }
+        recordGamePlayedIfCounted()
 
         // Respect current overlay state: if the menu is on top, keep gameplay paused
         if isMenuOverlayPresented {
@@ -102,6 +97,12 @@ extension GameViewModel {
             guard let self else { return }
             await refreshFriendMilestonesForCurrentRun()
         }
+    }
+
+    func recordGamePlayedIfCounted(on date: Date = Date()) {
+        guard specialEventService?.isEventActive(on: date) != true else { return }
+        guard isSharePlayActive == false else { return }
+        playLimitService?.recordGamePlayed(on: date)
     }
 
     private var shouldPauseSceneForCurrentSharePlayState: Bool {

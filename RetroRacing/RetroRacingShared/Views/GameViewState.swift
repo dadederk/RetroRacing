@@ -25,6 +25,12 @@ struct HUDState {
     var speedIncreaseImminent: Bool = false
 }
 
+/// Stable social recap captured for a finished SharePlay round.
+struct GameOverSocialStatsSummary: Sendable, Equatable {
+    var nextFriendAhead: GameOverFriendAheadSummary?
+    var overtakenFriends = [GameOverOvertakenFriendSummary]()
+}
+
 /// Tracks pause states separately from HUD to avoid unrelated view updates.
 struct PauseState {
     var scenePaused: Bool = false     // reflects scene state (crash/start pauses)

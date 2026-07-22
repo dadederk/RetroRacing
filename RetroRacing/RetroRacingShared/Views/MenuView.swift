@@ -225,31 +225,7 @@ public struct MenuView: View {
                 get: { authModel.authError },
                 set: { authModel.authError = $0 }
             ),
-            onPlay: {
-                let now = Date()
-                // Premium users always have unlimited plays.
-                if storeKit.hasPremiumAccessForGating {
-                    if let onPlayRequest {
-                        onPlayRequest()
-                    } else {
-                        showGame = true
-                    }
-                // Special events grant temporary unlimited play to everyone.
-                } else if specialEventService?.isEventActive(on: now) == true {
-                    if let onPlayRequest {
-                        onPlayRequest()
-                    } else {
-                        showGame = true
-                    }
-                } else if let service = playLimitService,
-                          service.canStartNewGame(on: now) == false {
-                    paywallTrigger = .limitReached
-                } else if let onPlayRequest {
-                    onPlayRequest()
-                } else {
-                    showGame = true
-                }
-            },
+            onPlay: handlePlayTap,
             onLeaderboard: handleLeaderboardTap,
             onRate: handleRateTap,
             onSupport: handleSupportTap,
@@ -286,6 +262,31 @@ public struct MenuView: View {
             return
         }
         showSettings = true
+    }
+
+    private func handlePlayTap() {
+        let now = Date()
+        let decision = PlayStartEligibilityPolicy.decision(
+            hasUnlimitedAccessForGating: storeKit.hasPremiumAccessForGating,
+            isSpecialEventActive: specialEventService?.isEventActive(on: now) == true,
+            playLimitServiceExists: playLimitService != nil,
+            canStartNewGame: playLimitService?.canStartNewGame(on: now) ?? true
+        )
+
+        switch decision {
+        case .startGame:
+            startGameFromMenu()
+        case .showLimitPaywall:
+            paywallTrigger = .limitReached
+        }
+    }
+
+    private func startGameFromMenu() {
+        if let onPlayRequest {
+            onPlayRequest()
+        } else {
+            showGame = true
+        }
     }
 
     private var selectedDifficulty: GameDifficulty {

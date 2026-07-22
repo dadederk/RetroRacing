@@ -60,6 +60,8 @@ final class GameViewModel {
     var sharePlayGuestSpeedRestore = SharePlayGuestSpeedRestore()
     /// Prevents duplicate SharePlay countdown beeps while SwiftUI's timeline refreshes.
     var sharePlayCountdownCueScheduler = SharePlayCountdownCueScheduler()
+    /// Stable social recap for the finished SharePlay result sheet.
+    var sharePlayResultSocialStats: GameOverSocialStatsSummary?
 
     init(
         leaderboardService: LeaderboardService,
@@ -99,6 +101,12 @@ final class GameViewModel {
         self.selectedBigRivalCarsEnabled = selectedBigRivalCarsEnabled
         self.selectedRoadVisualStyle = selectedRoadVisualStyle
         self.shouldStartGame = shouldStartGame
+
+        if case .finished(let result) = initialSharePlayUIState.state {
+            captureSharePlayResultSocialStatsIfNeeded(
+                finalScore: result.score(for: initialSharePlayUIState.localRole ?? .host)
+            )
+        }
     }
 
     var pauseButtonDisabled: Bool {

@@ -4,7 +4,7 @@ Campaign context, historical decisions, and specialized playbooks. **Canonical s
 
 Legacy monolith: [retrorapid_aso_growth_plan.md](../retrorapid_aso_growth_plan.md) (redirects here).
 
-Last updated: 2026-06-25
+Last updated: 2026-07-23
 
 ## Agent quick-start
 
@@ -34,6 +34,7 @@ Last updated: 2026-06-25
 | 07 | External sources | [07-sources.md](07-sources.md) | Reference links |
 | 08 | Locale expansion waves (summary) | [08-locale-expansion-waves.md](08-locale-expansion-waves.md) | Pointer — see [08-locale-expansion.md](../../AppStore/docs/08-locale-expansion.md) |
 | 09 | **Submitted featuring nominations** | [09-featuring-nominations-submitted.md](09-featuring-nominations-submitted.md) | Archive + voice guide |
+| 10 | SharePlay release campaign | [10-shareplay-release-campaign.md](10-shareplay-release-campaign.md) | Planned launch package |
 
 ## Canonical vs this folder
 

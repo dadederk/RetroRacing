@@ -176,7 +176,7 @@ final class PlayLimitServiceTests: XCTestCase {
             maxPlaysPerDay: 4,
             firstDayMaxPlays: 4
         )
-        let storeKit = StoreKitService(userDefaults: userDefaults)
+        let storeKit = StoreKitService(userDefaults: userDefaults, refreshEntitlementsOnInit: false)
         let now = date(year: 2026, month: 2, day: 10, hour: 9)
         service.unlockUnlimitedAccess()
         storeKit.debugPremiumSimulationMode = .freemium
@@ -199,7 +199,8 @@ final class PlayLimitServiceTests: XCTestCase {
         let service = UserDefaultsPlayLimitService(userDefaults: userDefaults, calendar: calendar)
         let storeKit = StoreKitService(
             userDefaults: userDefaults,
-            isDebugSimulationEnabled: false
+            isDebugSimulationEnabled: false,
+            refreshEntitlementsOnInit: false
         )
         let now = date(year: 2026, month: 2, day: 10, hour: 9)
         service.unlockUnlimitedAccess()

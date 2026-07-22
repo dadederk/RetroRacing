@@ -1,6 +1,6 @@
 //
 //  GroupActivitiesSharePlayMatchService.swift
-//  RetroRacingShared
+//  RetroRacingUniversal
 //
 //  Created by Dani Devesa on 22/07/2026.
 //
@@ -8,6 +8,7 @@
 #if canImport(GroupActivities) && os(iOS)
 import GroupActivities
 import Foundation
+import RetroRacingShared
 
 /// Production `SharePlayMatchService` backed by the GroupActivities framework (iOS/iPad only,
 /// per v1 scope). Composes `GroupSessionCoordinator` (transport lifecycle) with the pure
@@ -51,11 +52,11 @@ public actor GroupActivitiesSharePlayMatchService: SharePlayMatchService {
             let activated = try await activity.activate()
             if activated == false {
                 pendingHostActivation = false
-                AppLog.info(AppLog.game, "SHAREPLAY_ACTIVATE", outcome: .cancelled)
+                AppLog.info(.game, "SHAREPLAY_ACTIVATE", outcome: .cancelled)
             }
         } catch {
             pendingHostActivation = false
-            AppLog.error(AppLog.game, "SHAREPLAY_ACTIVATE", outcome: .failed, fields: AppLog.Field.error(error))
+            AppLog.error(.game, "SHAREPLAY_ACTIVATE", outcome: .failed, fields: AppLog.Field.error(error))
         }
     }
 
@@ -65,7 +66,7 @@ public actor GroupActivitiesSharePlayMatchService: SharePlayMatchService {
 
     public func cancelHostActivation() async {
         pendingHostActivation = false
-        AppLog.info(AppLog.game, "SHAREPLAY_ACTIVATE", outcome: .cancelled)
+        AppLog.info(.game, "SHAREPLAY_ACTIVATE", outcome: .cancelled)
     }
 
     /// Awaits both host-activated and system-activated (incoming) sessions for this activity.
@@ -96,12 +97,12 @@ public actor GroupActivitiesSharePlayMatchService: SharePlayMatchService {
         let commands = machine.updateLocalScore(score, lives: lives)
         stateMachine = machine
         await sendAll(commands)
-        notifyStateChanged()
     }
 
     public func reportLocalElimination(finalScore: Int) async {
-        guard var machine = stateMachine else { return }
-        let commands = machine.localPlayerEliminated(finalScore: finalScore)
+        guard var machine = stateMachine, case .inRound = machine.state else { return }
+        var commands = machine.updateLocalScore(finalScore, lives: 0)
+        commands += machine.localPlayerEliminated(finalScore: finalScore)
         stateMachine = machine
         await sendAll(commands)
         notifyStateChanged()
@@ -174,7 +175,7 @@ public actor GroupActivitiesSharePlayMatchService: SharePlayMatchService {
     }
 
     private func autoStartHostRoundIfReady() async {
-        guard hasTwoParticipants else { return }
+        guard hasTwoParticipants, stateMachine?.isRemoteReady == true else { return }
         await hostStartRoundIfReady(difficulty: difficultyProvider())
     }
 
@@ -186,9 +187,13 @@ public actor GroupActivitiesSharePlayMatchService: SharePlayMatchService {
 
         if case .countdown = machine.state {
             scheduleCountdownCompletion()
+        } else {
+            cancelCountdown()
         }
         if case .retryWaiting = machine.state {
             scheduleRetryTimeoutIfNeeded()
+        } else {
+            cancelRetryTimeout()
         }
         notifyStateChanged()
 
@@ -209,7 +214,7 @@ public actor GroupActivitiesSharePlayMatchService: SharePlayMatchService {
     // MARK: - Timers
 
     private func scheduleCountdownCompletion() {
-        countdownTask?.cancel()
+        cancelCountdown()
         guard case .countdown(let startAt, _) = stateMachine?.state else { return }
         let delay = max(0, startAt.timeIntervalSinceNow)
         countdownTask = Task {
@@ -221,13 +226,14 @@ public actor GroupActivitiesSharePlayMatchService: SharePlayMatchService {
 
     private func completeCountdown() async {
         guard var machine = stateMachine else { return }
+        countdownTask = nil
         machine.beginRound()
         stateMachine = machine
         notifyStateChanged()
     }
 
     private func scheduleRetryTimeoutIfNeeded() {
-        retryTimeoutTask?.cancel()
+        cancelRetryTimeout()
         guard case .retryWaiting(_, _, let deadline) = stateMachine?.state else { return }
         let delay = max(0, deadline.timeIntervalSinceNow)
         retryTimeoutTask = Task {
@@ -239,16 +245,25 @@ public actor GroupActivitiesSharePlayMatchService: SharePlayMatchService {
 
     private func completeRetryTimeout() async {
         guard var machine = stateMachine else { return }
+        retryTimeoutTask = nil
         machine.retryTimeoutElapsed()
         stateMachine = machine
         notifyStateChanged()
     }
 
-    private func cancelTimers() {
+    private func cancelCountdown() {
         countdownTask?.cancel()
-        retryTimeoutTask?.cancel()
         countdownTask = nil
+    }
+
+    private func cancelRetryTimeout() {
+        retryTimeoutTask?.cancel()
         retryTimeoutTask = nil
+    }
+
+    private func cancelTimers() {
+        cancelCountdown()
+        cancelRetryTimeout()
     }
 
     private func sendAll(_ commands: [SharePlayMatchCommand]) async {

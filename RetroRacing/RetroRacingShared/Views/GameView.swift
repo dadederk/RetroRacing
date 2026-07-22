@@ -77,6 +77,8 @@ public struct GameView: View {
     @State private var pendingFinishRequestAfterGameOverDismiss = false
     @State private var isInGameHelpPresented = false
     @State private var helpPresentationContext: HelpPresentationContext?
+    @State private var isSharePlayRetryRequestPending = false
+    @State private var optimisticSharePlayRetryDeadline: Date?
 
     private enum HelpPresentationContext {
         case manual(snapshot: GameViewModel.HelpPauseSnapshot)
@@ -411,7 +413,7 @@ public struct GameView: View {
         }
         .sheet(isPresented: showSharePlayResultBinding) {
             SharePlayResultView(
-                state: model.sharePlayState,
+                state: displayedSharePlayResultState,
                 localRole: model.sharePlayLocalRole,
                 opponentDisplayName: model.sharePlayOpponentDisplayName,
                 score: model.hud.gameOverScore,
@@ -419,10 +421,10 @@ public struct GameView: View {
                 difficulty: model.hud.gameOverDifficulty,
                 isNewRecord: model.hud.isNewHighScore,
                 previousBestScore: model.hud.gameOverPreviousBestScore,
-                nextFriendAhead: model.hud.gameOverNextFriendAhead,
-                overtakenFriends: model.hud.gameOverOvertakenFriends,
+                nextFriendAhead: model.sharePlayResultSocialStats?.nextFriendAhead,
+                overtakenFriends: model.sharePlayResultSocialStats?.overtakenFriends ?? [],
                 newlyAchievedAchievementIDs: model.hud.gameOverNewlyAchievedAchievementIDs,
-                onRetry: model.retrySharePlayMatch,
+                onRetry: handleSharePlayRetry,
                 onLeave: handleSharePlayLeave
             )
             .fontPreferenceStore(fontPreferenceStore)
@@ -430,8 +432,23 @@ public struct GameView: View {
         }
         .onChange(of: sharePlayUIState) { _, newValue in
             model.applySharePlayState(newValue)
+            clearSharePlayRetryRequestPendingIfNeeded(for: newValue.state)
         }
         .fontPreferenceStore(fontPreferenceStore)
+    }
+
+    /// The SharePlay service remains the source of truth, but a local retry tap should stop
+    /// rendering stale win/loss content immediately while the ordered retry command propagates.
+    private var displayedSharePlayResultState: SharePlayMatchState {
+        guard isSharePlayRetryRequestPending else { return model.sharePlayState }
+        if case .finished = model.sharePlayState {
+            return .retryWaiting(
+                localReady: true,
+                remoteReady: false,
+                deadline: optimisticSharePlayRetryDeadline ?? Date()
+            )
+        }
+        return model.sharePlayState
     }
 
     /// Presents `SharePlayResultView` while the match reached a terminal/handshake state that
@@ -449,6 +466,20 @@ public struct GameView: View {
             },
             set: { _ in }
         )
+    }
+
+    private func handleSharePlayRetry() {
+        let didStartRetry = model.retrySharePlayMatch()
+        if didStartRetry, case .finished = model.sharePlayState {
+            isSharePlayRetryRequestPending = true
+            optimisticSharePlayRetryDeadline = Date().addingTimeInterval(30)
+        }
+    }
+
+    private func clearSharePlayRetryRequestPendingIfNeeded(for state: SharePlayMatchState) {
+        if case .finished = state { return }
+        isSharePlayRetryRequestPending = false
+        optimisticSharePlayRetryDeadline = nil
     }
 
     /// Background color for the game view. Uses a secondary system background where available
@@ -687,19 +718,19 @@ public struct GameView: View {
 
     private func handleRestartFromGameOver() {
         let now = Date()
-        // Premium users always have unlimited plays.
-        if storeKit.hasPremiumAccessForGating {
+        let decision = PlayStartEligibilityPolicy.decision(
+            hasUnlimitedAccessForGating: storeKit.hasPremiumAccessForGating,
+            isSpecialEventActive: specialEventService?.isEventActive(on: now) == true,
+            playLimitServiceExists: playLimitService != nil,
+            canStartNewGame: playLimitService?.canStartNewGame(on: now) ?? true
+        )
+
+        switch decision {
+        case .startGame:
             model.restartGame()
-        // Special events grant temporary unlimited play to everyone.
-        } else if specialEventService?.isEventActive(on: now) == true {
-            model.restartGame()
-        } else if let playLimitService, playLimitService.canStartNewGame(on: now) {
-            model.restartGame()
-        } else if playLimitService != nil {
+        case .showLimitPaywall:
             model.dismissGameOverModal()
             isPaywallPresented = true
-        } else {
-            model.restartGame()
         }
     }
 

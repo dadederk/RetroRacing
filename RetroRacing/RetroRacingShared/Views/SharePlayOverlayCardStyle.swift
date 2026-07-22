@@ -29,11 +29,11 @@ struct SharePlayOverlayCardStyle: ViewModifier {
             #if os(iOS)
             if #available(iOS 26.0, *) {
                 content
-                    .glassEffect(.regular.tint(.white.opacity(0.16)), in: shape)
+                    .glassEffect(.regular, in: shape)
                     .overlay {
-                        shape.stroke(.white.opacity(0.28), lineWidth: 1)
+                        shape.stroke(.white.opacity(0.18), lineWidth: 1)
                     }
-                    .shadow(color: .black.opacity(0.18), radius: 18, y: 8)
+                    .shadow(color: .black.opacity(0.16), radius: 18, y: 8)
             } else {
                 content
                     .background(.ultraThinMaterial, in: shape)

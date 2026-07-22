@@ -2,8 +2,8 @@
 
 **Status:** ✅ Implemented (2026-07-22). Shipped behavior is documented in
 [`Requirements/shareplay_multiplayer.md`](../Requirements/shareplay_multiplayer.md); this file
-remains as the original planning record. Manual 2-device SharePlay validation (see that doc's
-"Manual QA" section) is still required before release sign-off.
+remains as the original planning record. Manual 2-device SharePlay validation passed on
+2026-07-23; one small glitch remains as non-blocking polish before release.
 
 ## Summary
 

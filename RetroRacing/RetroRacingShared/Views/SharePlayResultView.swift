@@ -26,7 +26,6 @@ public struct SharePlayResultView: View {
     let onLeave: () -> Void
 
     @Environment(\.fontPreferenceStore) private var fontPreferenceStore
-    @ScaledMetric(relativeTo: .body) private var outcomeIconSize: CGFloat = 56
     @ScaledMetric(relativeTo: .body) private var avatarSize: CGFloat = 24
     @State private var pendingAchievementIDs: [AchievementIdentifier] = []
     @State private var presentedAchievementID: AchievementIdentifier?
@@ -119,7 +118,7 @@ public struct SharePlayResultView: View {
     @ViewBuilder
     private var actions: some View {
         switch state {
-        case .finished, .retryTimedOut:
+        case .finished:
             VStack(spacing: 10) {
                 Button(action: onRetry) {
                     Text(GameLocalizedStrings.string("shareplay_retry_button"))
@@ -132,6 +131,12 @@ public struct SharePlayResultView: View {
                 }
                 .retroRacingSecondaryButtonStyle()
             }
+        case .retryTimedOut:
+            Button(action: onLeave) {
+                Text(GameLocalizedStrings.string("shareplay_leave_button"))
+                    .font(buttonFont)
+            }
+            .retroRacingPrimaryButtonStyle()
         case .retryWaiting(let localReady, _, _):
             if localReady {
                 Button(action: onLeave) {
@@ -168,7 +173,7 @@ public struct SharePlayResultView: View {
         let outcome = result.localOutcome(for: localRole ?? .host)
         let localScore = result.score(for: localRole ?? .host)
         let opponentScore = result.opponentScore(for: localRole ?? .host)
-        let opponentLabel = resolvedOpponentLabel
+        let opponentLabel = resolvedOpponentScoreLabel
 
         return VStack(spacing: 20) {
             outcomeArtwork(outcome)
@@ -229,47 +234,13 @@ public struct SharePlayResultView: View {
             .foregroundStyle(.secondary)
             .multilineTextAlignment(.center)
 
-            if let nextFriendAhead {
-                Text(GameLocalizedStrings.string("game_over_next_friend_ahead_title"))
-                    .font(bodyFont)
-                    .foregroundStyle(.secondary)
-                GameOverSocialFriendScoreRow(
-                    displayName: nextFriendAhead.displayName,
-                    score: nextFriendAhead.score,
-                    avatarPNGData: nextFriendAhead.avatarPNGData,
-                    avatarSize: avatarSize,
-                    bodyFont: bodyFont,
-                    scoreFont: scoreFont
-                )
-            }
-
-            if overtakenFriends.isEmpty == false {
-                Text(GameLocalizedStrings.string("game_over_overtaken_friends_title"))
-                    .font(bodyFont)
-                    .foregroundStyle(.secondary)
-                ForEach(Array(overtakenFriends.prefix(3))) { friend in
-                    GameOverSocialFriendScoreRow(
-                        displayName: friend.displayName,
-                        score: friend.score,
-                        avatarPNGData: friend.avatarPNGData,
-                        avatarSize: avatarSize,
-                        bodyFont: bodyFont,
-                        scoreFont: scoreFont
-                    )
-                }
-
-                let hiddenCount = overtakenFriends.count - 3
-                if hiddenCount > 0 {
-                    Text(
-                        GameLocalizedStrings.format(
-                            "game_over_overtaken_friends_more %lld",
-                            Int64(hiddenCount)
-                        )
-                    )
-                    .font(bodyFont)
-                    .foregroundStyle(.secondary)
-                }
-            }
+            GameOverSocialStatsSection(
+                nextFriendAhead: nextFriendAhead,
+                overtakenFriends: overtakenFriends,
+                avatarSize: avatarSize,
+                bodyFont: bodyFont,
+                scoreFont: scoreFont
+            )
         }
         .multilineTextAlignment(.center)
     }
@@ -336,13 +307,6 @@ public struct SharePlayResultView: View {
         }
     }
 
-    private var resolvedOpponentLabel: String {
-        if let opponentDisplayName, opponentDisplayName.isEmpty == false {
-            return opponentDisplayName
-        }
-        return GameLocalizedStrings.string("shareplay_opponent_fallback_name")
-    }
-
     private func abortedTitle(for reason: SharePlayAbortReason) -> String {
         switch reason {
         case .disconnected, .sessionEnded:
@@ -363,19 +327,24 @@ public struct SharePlayResultView: View {
         }
     }
 
-    private func outcomeSymbolName(_ outcome: SharePlayRoundResult.LocalOutcome) -> String {
+    private var resolvedOpponentScoreLabel: String {
+        if let opponentDisplayName = sanitizedOpponentDisplayName {
+            return opponentDisplayName
+        }
+        return GameLocalizedStrings.string("shareplay_opponent_score_fallback_label")
+    }
+
+    private var sanitizedOpponentDisplayName: String? {
+        guard let opponentDisplayName else { return nil }
+        let trimmedName = opponentDisplayName.trimmingCharacters(in: .whitespacesAndNewlines)
+        return trimmedName.isEmpty ? nil : trimmedName
+    }
+
+    private func outcomeAssetName(_ outcome: SharePlayRoundResult.LocalOutcome) -> String {
         switch outcome {
         case .won: return "WinWithFriend"
         case .lost: return "LoseWithFriend"
-        case .tie: return "equal.circle.fill"
-        }
-    }
-
-    private func outcomeTintColor(_ outcome: SharePlayRoundResult.LocalOutcome) -> Color {
-        switch outcome {
-        case .won: return .yellow
-        case .lost: return .secondary
-        case .tie: return .blue
+        case .tie: return "Tie"
         }
     }
 
@@ -397,15 +366,7 @@ public struct SharePlayResultView: View {
 
     @ViewBuilder
     private func outcomeArtwork(_ outcome: SharePlayRoundResult.LocalOutcome) -> some View {
-        switch outcome {
-        case .won, .lost:
-            resultAssetImage(named: outcomeSymbolName(outcome))
-        case .tie:
-            Image(systemName: outcomeSymbolName(outcome))
-                .font(.system(size: outcomeIconSize))
-                .foregroundStyle(outcomeTintColor(outcome))
-                .accessibilityHidden(true)
-        }
+        resultAssetImage(named: outcomeAssetName(outcome))
     }
 
     private func resultAssetImage(named assetName: String) -> some View {

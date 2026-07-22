@@ -47,8 +47,12 @@ struct SharePlayOverlayView: View {
                     assetName: "WaitingForFriendToFinish",
                     title: GameLocalizedStrings.string("shareplay_waiting_for_opponent_title"),
                     subtitleLines: [
-                        GameLocalizedStrings.format("shareplay_your_overtakes %lld", Int64(localFinalScore)),
-                        GameLocalizedStrings.format("shareplay_friend_overtakes %lld", Int64(remoteScore))
+                        GameLocalizedStrings.format("shareplay_your_score_row %lld", Int64(localFinalScore)),
+                        GameLocalizedStrings.format(
+                            "shareplay_score_row %@ %lld",
+                            sharePlayOpponentScoreLabel,
+                            Int64(remoteScore)
+                        )
                     ],
                     showsSpinner: true
                 )
@@ -121,7 +125,7 @@ struct SharePlayOverlayView: View {
             .accessibilityLabel(
                 GameLocalizedStrings.format("shareplay_countdown_accessibility %lld", Int64(displayValue))
             )
-            .onChange(of: displayValue) { _, newValue in
+            .onChange(of: displayValue, initial: true) { _, newValue in
                 guard newValue > 0, lastTriggeredCountdownSecond != newValue else { return }
                 lastTriggeredCountdownSecond = newValue
                 onCountdownSecondChanged(newValue)
@@ -137,6 +141,19 @@ struct SharePlayOverlayView: View {
             .frame(maxWidth: usesTemplate ? 72 : 140)
             .foregroundStyle(.secondary)
             .accessibilityHidden(true)
+    }
+
+    private var sharePlayOpponentScoreLabel: String {
+        if let opponentName = sanitizedOpponentDisplayName {
+            return opponentName
+        }
+        return GameLocalizedStrings.string("shareplay_opponent_score_fallback_label")
+    }
+
+    private var sanitizedOpponentDisplayName: String? {
+        guard let opponentDisplayName else { return nil }
+        let trimmedName = opponentDisplayName.trimmingCharacters(in: .whitespacesAndNewlines)
+        return trimmedName.isEmpty ? nil : trimmedName
     }
 
     private var headlineFont: Font {

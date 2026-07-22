@@ -118,6 +118,27 @@ extension GameViewModel {
         hud.gameOverOvertakenFriends = overtakenFriends
     }
 
+    func captureSharePlayResultSocialStatsIfNeeded(finalScore: Int) {
+        guard sharePlayResultSocialStats == nil else { return }
+        applyFriendGameOverSummaries(finalScore: finalScore)
+        captureSharePlayResultSocialStatsFromHUD()
+    }
+
+    func captureSharePlayResultSocialStatsFromHUD() {
+        guard hud.gameOverNextFriendAhead != nil || hud.gameOverOvertakenFriends.isEmpty == false else {
+            sharePlayResultSocialStats = nil
+            return
+        }
+        sharePlayResultSocialStats = GameOverSocialStatsSummary(
+            nextFriendAhead: hud.gameOverNextFriendAhead,
+            overtakenFriends: hud.gameOverOvertakenFriends
+        )
+    }
+
+    func clearSharePlayResultSocialStats() {
+        sharePlayResultSocialStats = nil
+    }
+
     func clearFriendMilestoneState() {
         friendSnapshot = nil
         runBaselineBestScore = highestScoreStore.currentBest(for: selectedDifficulty)

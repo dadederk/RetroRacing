@@ -12692,37 +12692,37 @@
         "ca": {
           "stringUnit": {
             "state": "translated",
-            "value": "La teva puntuació: %lld"
+            "value": "Tu: %lld"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Your score: %lld"
+            "value": "You: %lld"
           }
         },
         "en-AU": {
           "stringUnit": {
             "state": "translated",
-            "value": "Your score: %lld"
+            "value": "You: %lld"
           }
         },
         "en-CA": {
           "stringUnit": {
             "state": "translated",
-            "value": "Your score: %lld"
+            "value": "You: %lld"
           }
         },
         "en-GB": {
           "stringUnit": {
             "state": "translated",
-            "value": "Your score: %lld"
+            "value": "You: %lld"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tu puntuación: %lld"
+            "value": "Tú: %lld"
           }
         }
       }
@@ -12733,37 +12733,37 @@
         "ca": {
           "stringUnit": {
             "state": "translated",
-            "value": "Puntuació del teu amic"
+            "value": "Amic"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Friend score"
+            "value": "Friend"
           }
         },
         "en-AU": {
           "stringUnit": {
             "state": "translated",
-            "value": "Friend score"
+            "value": "Friend"
           }
         },
         "en-CA": {
           "stringUnit": {
             "state": "translated",
-            "value": "Friend score"
+            "value": "Friend"
           }
         },
         "en-GB": {
           "stringUnit": {
             "state": "translated",
-            "value": "Friend score"
+            "value": "Friend"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Puntuación de tu amigo"
+            "value": "Amigo"
           }
         }
       }

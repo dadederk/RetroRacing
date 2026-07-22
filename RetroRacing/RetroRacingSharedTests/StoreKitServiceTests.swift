@@ -48,6 +48,18 @@ final class StoreKitServiceTests: XCTestCase {
         XCTAssertEqual(service.debugPremiumSimulationMode, .productionDefault)
         XCTAssertEqual(hasPremium, expectedPremium)
     }
+
+    func testGivenCachedPremiumWhenDebugFreemiumGatingThenCacheDoesNotGrantAccess() {
+        // Given
+        userDefaults.set(true, forKey: StoreKitService.StorageKeys.cachedPremiumAccess)
+        let service = makeService()
+
+        // When
+        service.debugPremiumSimulationMode = .freemium
+
+        // Then
+        XCTAssertFalse(service.hasPremiumAccessForGating)
+    }
     
     func testGivenUnlimitedSimulationModeWhenCheckingPremiumAccessThenReturnsTrue() {
         // Given

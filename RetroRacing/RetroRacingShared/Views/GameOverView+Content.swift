@@ -67,47 +67,13 @@ extension GameOverView {
 
     @ViewBuilder
     var socialRows: some View {
-        if nextFriendAhead != nil || overtakenFriends.isEmpty == false {
-            VStack(spacing: 8) {
-                if let nextFriendAhead {
-                    Text(GameLocalizedStrings.string("game_over_next_friend_ahead_title"))
-                        .font(bodyFont)
-                        .foregroundStyle(.secondary)
-                    socialFriendScoreRow(
-                        displayName: nextFriendAhead.displayName,
-                        score: nextFriendAhead.score,
-                        avatarPNGData: nextFriendAhead.avatarPNGData
-                    )
-                }
-
-                if overtakenFriends.isEmpty == false {
-                    Text(GameLocalizedStrings.string("game_over_overtaken_friends_title"))
-                        .font(bodyFont)
-                        .foregroundStyle(.secondary)
-
-                    ForEach(Array(overtakenFriends.prefix(3))) { friend in
-                        socialFriendScoreRow(
-                            displayName: friend.displayName,
-                            score: friend.score,
-                            avatarPNGData: friend.avatarPNGData
-                        )
-                    }
-
-                    let hiddenCount = overtakenFriends.count - 3
-                    if hiddenCount > 0 {
-                        Text(
-                            GameLocalizedStrings.format(
-                                "game_over_overtaken_friends_more %lld",
-                                Int64(hiddenCount)
-                            )
-                        )
-                        .font(bodyFont)
-                        .foregroundStyle(.secondary)
-                    }
-                }
-            }
-            .multilineTextAlignment(.center)
-        }
+        GameOverSocialStatsSection(
+            nextFriendAhead: nextFriendAhead,
+            overtakenFriends: overtakenFriends,
+            avatarSize: avatarSize,
+            bodyFont: bodyFont,
+            scoreFont: scoreFont
+        )
     }
 
     var actionButtons: some View {

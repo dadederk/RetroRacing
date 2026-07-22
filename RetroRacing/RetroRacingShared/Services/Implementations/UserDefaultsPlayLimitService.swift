@@ -8,8 +8,7 @@
 import Foundation
 
 /// UserDefaults-backed implementation of `PlayLimitService`.
-/// Thread-safety is provided by the implicit `@MainActor` isolation
-/// from the project's `SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor` build setting.
+/// Read-modify-write operations are serialized before touching the backing store.
 /// Counts reset at local midnight via a calendar-based day boundary.
 public final class UserDefaultsPlayLimitService: PlayLimitService {
     private enum Keys {
@@ -24,6 +23,7 @@ public final class UserDefaultsPlayLimitService: PlayLimitService {
     private let calendar: Calendar
     private let maxPlaysPerDay: Int
     private let firstDayMaxPlays: Int
+    private let lock = NSLock()
 
     /// - Parameters:
     ///   - userDefaults: Backing store. Prefer `InfrastructureDefaults.userDefaults`.
@@ -46,79 +46,92 @@ public final class UserDefaultsPlayLimitService: PlayLimitService {
     // MARK: - PlayLimitService
 
     public var hasUnlimitedAccess: Bool {
-        hasUnlimitedAccessEnabled()
+        withLock { hasUnlimitedAccessEnabled() }
     }
 
     public func canStartNewGame(on date: Date) -> Bool {
-        guard !hasUnlimitedAccessEnabled() else { return true }
-        let state = normalizedState(for: date)
-        return state.count < effectiveLimit(for: date)
+        withLock {
+            guard !hasUnlimitedAccessEnabled() else { return true }
+            let state = normalizedState(for: date)
+            return state.count < effectiveLimit(for: date)
+        }
     }
 
     public func recordGamePlayed(on date: Date) {
-        guard !hasUnlimitedAccessEnabled() else { return }
+        withLock {
+            guard !hasUnlimitedAccessEnabled() else { return }
 
-        if userDefaults.object(forKey: Keys.firstPlayDate) == nil {
-            userDefaults.set(date, forKey: Keys.firstPlayDate)
-            AppLog.info(
-                AppLog.monetization,
-                "PLAY_LIMIT_FIRST_DAY",
-                outcome: .completed
-            )
-        }
+            if userDefaults.object(forKey: Keys.firstPlayDate) == nil {
+                userDefaults.set(date, forKey: Keys.firstPlayDate)
+                AppLog.info(
+                    AppLog.monetization,
+                    "PLAY_LIMIT_FIRST_DAY",
+                    outcome: .completed
+                )
+            }
 
-        var state = normalizedState(for: date)
-        let limit = effectiveLimit(for: date)
+            var state = normalizedState(for: date)
+            let limit = effectiveLimit(for: date)
 
-        if state.count >= limit {
+            if state.count >= limit {
+                AppLog.info(
+                    AppLog.monetization,
+                    "PLAY_LIMIT_RECORD",
+                    outcome: .ignored,
+                    fields: [.reason("daily_limit_reached"), .int("limit", limit)]
+                )
+                return
+            }
+
+            state.count = min(state.count + 1, limit)
+            persist(state: state)
             AppLog.info(
                 AppLog.monetization,
                 "PLAY_LIMIT_RECORD",
-                outcome: .ignored,
-                fields: [.reason("daily_limit_reached"), .int("limit", limit)]
+                outcome: .completed,
+                fields: [
+                    .int("count", state.count),
+                    .int("limit", limit)
+                ]
             )
-            return
         }
-
-        state.count = min(state.count + 1, limit)
-        persist(state: state)
-        AppLog.info(
-            AppLog.monetization,
-            "PLAY_LIMIT_RECORD",
-            outcome: .completed,
-            fields: [
-                .int("count", state.count),
-                .int("limit", limit)
-            ]
-        )
     }
 
     public func remainingPlays(on date: Date) -> Int {
-        if hasUnlimitedAccessEnabled() { return .max }
-        let state = normalizedState(for: date)
-        return max(0, effectiveLimit(for: date) - state.count)
+        withLock {
+            if hasUnlimitedAccessEnabled() { return .max }
+            let state = normalizedState(for: date)
+            return max(0, effectiveLimit(for: date) - state.count)
+        }
     }
 
     public func maxPlays(on date: Date) -> Int {
-        if hasUnlimitedAccessEnabled() { return .max }
-        return effectiveLimit(for: date)
+        withLock {
+            if hasUnlimitedAccessEnabled() { return .max }
+            return effectiveLimit(for: date)
+        }
     }
 
     public func isFirstPlayDay(on date: Date) -> Bool {
-        guard let firstPlay = userDefaults.object(forKey: Keys.firstPlayDate) as? Date else {
-            return false
+        withLock {
+            guard let firstPlay = userDefaults.object(forKey: Keys.firstPlayDate) as? Date else {
+                return false
+            }
+            return calendar.isDate(firstPlay, inSameDayAs: date)
         }
-        return calendar.isDate(firstPlay, inSameDayAs: date)
     }
 
     public func nextResetDate(after date: Date) -> Date {
-        // Next midnight in the user's current calendar/locale.
-        let startOfDay = calendar.startOfDay(for: date)
-        return calendar.date(byAdding: .day, value: 1, to: startOfDay) ?? startOfDay
+        withLock {
+            let startOfDay = calendar.startOfDay(for: date)
+            return calendar.date(byAdding: .day, value: 1, to: startOfDay) ?? startOfDay
+        }
     }
 
     public func unlockUnlimitedAccess() {
-        userDefaults.set(true, forKey: Keys.hasUnlimitedAccess)
+        withLock {
+            userDefaults.set(true, forKey: Keys.hasUnlimitedAccess)
+        }
         AppLog.info(
             AppLog.monetization,
             "PLAY_LIMIT_UNLOCK",
@@ -127,7 +140,9 @@ public final class UserDefaultsPlayLimitService: PlayLimitService {
     }
 
     public func clearUnlimitedAccess() {
-        userDefaults.set(false, forKey: Keys.hasUnlimitedAccess)
+        withLock {
+            userDefaults.set(false, forKey: Keys.hasUnlimitedAccess)
+        }
         AppLog.info(
             AppLog.monetization,
             "PLAY_LIMIT_CLEAR",
@@ -177,5 +192,11 @@ public final class UserDefaultsPlayLimitService: PlayLimitService {
     private func hasUnlimitedAccessEnabled() -> Bool {
         let forceFreemium = userDefaults.bool(forKey: Keys.debugForceFreemium)
         return userDefaults.bool(forKey: Keys.hasUnlimitedAccess) && !forceFreemium
+    }
+
+    private func withLock<T>(_ body: () -> T) -> T {
+        lock.lock()
+        defer { lock.unlock() }
+        return body()
     }
 }

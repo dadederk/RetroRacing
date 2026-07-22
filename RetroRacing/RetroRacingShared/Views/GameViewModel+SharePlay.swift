@@ -36,8 +36,10 @@ extension GameViewModel {
 
         switch uiState.state {
         case .waitingForFriend:
+            clearSharePlayResultSocialStats()
             pauseSharePlayGameplayLock()
         case .countdown(_, let difficulty):
+            clearSharePlayResultSocialStats()
             if case .countdown = previousState {
                 // Keep the existing scheduler state while the countdown ticks.
             } else {
@@ -51,18 +53,27 @@ extension GameViewModel {
                 updateDifficulty(difficulty)
                 beginSharePlayRound()
             }
-        case .waitingAfterLocalLoss,
-             .finished,
-             .retryWaiting,
+        case .waitingAfterLocalLoss(_, let localFinalScore):
+            captureSharePlayResultSocialStatsIfNeeded(finalScore: localFinalScore)
+            pauseSharePlayGameplayLock()
+        case .retryWaiting,
              .retryTimedOut,
              .aborted:
+            clearSharePlayResultSocialStats()
             pauseSharePlayGameplayLock()
             if case .retryTimedOut = uiState.state {
                 restoreGuestSpeedIfNeeded()
             } else if case .aborted = uiState.state {
                 restoreGuestSpeedIfNeeded()
             }
+        case .finished(let result):
+            captureSharePlayResultSocialStatsIfNeeded(
+                finalScore: result.score(for: sharePlayLocalRole ?? .host)
+            )
+            pauseSharePlayGameplayLock()
+            restoreGuestSpeedIfNeeded()
         case .idle:
+            clearSharePlayResultSocialStats()
             releaseSharePlayGameplayLock()
             restoreGuestSpeedIfNeeded()
         }
@@ -80,10 +91,9 @@ extension GameViewModel {
     /// Reports the local player's elimination to the match service while a round is active.
     /// Called alongside (not instead of) the existing single-player game-over flow in
     /// `handleCollision()` — each player still submits their own score to the leaderboard.
-    func reportSharePlayEliminationIfActive(finalScore: Int, lives: Int) {
+    func reportSharePlayEliminationIfActive(finalScore: Int) {
         guard case .inRound = sharePlayState, let sharePlayMatchService else { return }
         Task {
-            await sharePlayMatchService.updateLocalScore(finalScore, lives: lives)
             await sharePlayMatchService.reportLocalElimination(finalScore: finalScore)
         }
     }
@@ -96,9 +106,11 @@ extension GameViewModel {
     }
 
     /// Confirms local intent to play again after a finished SharePlay round.
-    func retrySharePlayMatch() {
-        guard let sharePlayMatchService else { return }
+    @discardableResult
+    func retrySharePlayMatch() -> Bool {
+        guard let sharePlayMatchService else { return false }
         Task { await sharePlayMatchService.retry() }
+        return true
     }
 
     /// Leaves the current SharePlay session (user-initiated exit).
@@ -108,10 +120,18 @@ extension GameViewModel {
         Task { await sharePlayMatchService.leaveSession() }
     }
 
+    /// Applies the SharePlay start path when a view model is created after the round is already live.
+    func startCurrentSharePlayRoundIfNeeded() {
+        guard case .inRound(let difficulty, _, _, _) = sharePlayState else { return }
+        applyGuestSpeedIfNeeded(sharedDifficulty: difficulty)
+        beginSharePlayRound()
+    }
+
     /// Resets the round and starts synchronized gameplay once the shared countdown elapses.
     /// Skips daily play-limit recording — SharePlay matches are always free (see
     /// `Requirements/monetization.md`, "SharePlay Exception").
     private func beginSharePlayRound() {
+        clearSharePlayResultSocialStats()
         releaseSharePlayGameplayLock()
         scene?.play(.sharePlayCountdownGo)
         scene?.startImmediately()

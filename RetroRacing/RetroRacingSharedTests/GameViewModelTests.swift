@@ -464,6 +464,31 @@ final class GameViewModelTests: XCTestCase {
         )
     }
 
+    func testGivenGuestSharePlayMatchFinishesWhenApplyingStateThenOriginalDifficultyIsRestored() {
+        // Given
+        viewModel.selectedDifficulty = .cruise
+        viewModel.applySharePlayState(
+            SharePlayUIState(
+                state: .countdown(startAt: Date().addingTimeInterval(3), difficulty: .rapid),
+                localRole: .guest,
+                opponentDisplayName: "Rita"
+            )
+        )
+        XCTAssertEqual(viewModel.selectedDifficulty, .rapid)
+
+        // When
+        viewModel.applySharePlayState(
+            SharePlayUIState(
+                state: .finished(SharePlayRoundResult(hostScore: 12, guestScore: 8, difficulty: .rapid)),
+                localRole: .guest,
+                opponentDisplayName: "Rita"
+            )
+        )
+
+        // Then
+        XCTAssertEqual(viewModel.selectedDifficulty, .cruise)
+    }
+
     func testGivenSharePlayWaitingCountdownAndRecoveryStatesWhenAppliedThenGameplayStaysPaused() {
         // Given
         let scene = makeScene()
@@ -873,6 +898,72 @@ final class GameViewModelTests: XCTestCase {
         XCTAssertEqual(viewModel.hud.gameOverOvertakenFriends.map(\.playerID), ["p1", "p2"])
     }
 
+    func testGivenSharePlayResultSocialStatsWhenFriendStateClearsThenSnapshotRemainsStable() {
+        // Given
+        viewModel.friendSnapshot = FriendLeaderboardSnapshot(
+            remoteBestScore: 100,
+            friendEntries: [
+                FriendLeaderboardEntry(playerID: "p1", displayName: "Alex", score: 110),
+                FriendLeaderboardEntry(playerID: "p2", displayName: "Rita", score: 120),
+                FriendLeaderboardEntry(playerID: "p3", displayName: "Marta", score: 150)
+            ]
+        )
+        viewModel.runBaselineBestScore = 100
+        viewModel.applySharePlayState(
+            SharePlayUIState(
+                state: .waitingAfterLocalLoss(remoteScore: 90, localFinalScore: 125),
+                localRole: .host,
+                opponentDisplayName: "Rita"
+            )
+        )
+        let capturedStats = viewModel.sharePlayResultSocialStats
+
+        // When
+        viewModel.clearFriendMilestoneState()
+        viewModel.applySharePlayState(
+            SharePlayUIState(
+                state: .finished(SharePlayRoundResult(hostScore: 125, guestScore: 140, difficulty: .rapid)),
+                localRole: .host,
+                opponentDisplayName: "Rita"
+            )
+        )
+
+        // Then
+        XCTAssertNil(viewModel.hud.gameOverNextFriendAhead)
+        XCTAssertEqual(capturedStats?.nextFriendAhead?.playerID, "p3")
+        XCTAssertEqual(capturedStats?.overtakenFriends.map(\.playerID), ["p1", "p2"])
+        XCTAssertEqual(viewModel.sharePlayResultSocialStats, capturedStats)
+    }
+
+    func testGivenSharePlayResultSocialStatsWhenRetryStartsThenSnapshotClears() {
+        // Given
+        viewModel.sharePlayResultSocialStats = GameOverSocialStatsSummary(
+            nextFriendAhead: GameOverFriendAheadSummary(
+                playerID: "p1",
+                displayName: "Alex",
+                score: 150,
+                avatarPNGData: nil
+            ),
+            overtakenFriends: []
+        )
+
+        // When
+        viewModel.applySharePlayState(
+            SharePlayUIState(
+                state: .retryWaiting(
+                    localReady: true,
+                    remoteReady: false,
+                    deadline: Date(timeIntervalSinceReferenceDate: 1_000)
+                ),
+                localRole: .host,
+                opponentDisplayName: "Rita"
+            )
+        )
+
+        // Then
+        XCTAssertNil(viewModel.sharePlayResultSocialStats)
+    }
+
     private func makeScene() -> GameScene {
         GameScene(
             size: CGSize(width: 100, height: 100),
@@ -1043,6 +1134,7 @@ private actor MockSharePlayMatchServiceForGameViewModel: SharePlayMatchService {
     }
 
     func reportLocalElimination(finalScore: Int) async {
+        events.append(.scoreUpdate(score: finalScore, lives: 0))
         events.append(.playerEliminated(finalScore: finalScore))
     }
 

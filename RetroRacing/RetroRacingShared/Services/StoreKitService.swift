@@ -107,6 +107,17 @@ public final class StoreKitService {
     /// resolves, falls back to the locally cached premium state so returning purchasers are never
     /// briefly treated as free users.
     public var hasPremiumAccessForGating: Bool {
+        if isDebugSimulationEnabled {
+            switch debugPremiumSimulationMode {
+            case .unlimitedPlays:
+                return true
+            case .freemium:
+                return false
+            case .productionDefault:
+                break
+            }
+        }
+
         guard hasResolvedInitialEntitlements else {
             return cachedPremiumAccess || hasPremiumAccess
         }
@@ -137,9 +148,12 @@ public final class StoreKitService {
         cachedPremiumAccess = userDefaults.bool(forKey: StorageKeys.cachedPremiumAccess)
         syncPlayLimitDebugMode()
 
-        // Start listening for transaction updates immediately
+        // Start listening for transaction updates immediately.
         transactionUpdateTask = Task { [weak self] in
-            await self?.observeTransactionUpdates()
+            for await verificationResult in Transaction.updates {
+                guard Task.isCancelled == false else { return }
+                await self?.handleTransactionUpdate(verificationResult)
+            }
         }
 
         if refreshEntitlementsOnInit {
@@ -147,6 +161,10 @@ public final class StoreKitService {
                 await self?.updatePurchasedProducts()
             }
         }
+    }
+
+    isolated deinit {
+        transactionUpdateTask?.cancel()
     }
 
     // MARK: - Loading products
@@ -263,20 +281,13 @@ public final class StoreKitService {
         userDefaults.set(Date(), forKey: StorageKeys.lastEntitlementCheck)
     }
 
-    /// Observes the transaction updates stream to handle purchases completed outside the app,
-    /// on other devices, or while the app was closed.
-    private func observeTransactionUpdates() async {
-        for await verificationResult in Transaction.updates {
-            guard case .verified(let transaction) = verificationResult else {
-                continue
-            }
-
-            // Update purchased products when a new transaction arrives
-            await updatePurchasedProducts()
-
-            // Finish the transaction
-            await transaction.finish()
+    private func handleTransactionUpdate(_ verificationResult: VerificationResult<Transaction>) async {
+        guard case .verified(let transaction) = verificationResult else {
+            return
         }
+
+        await updatePurchasedProducts()
+        await transaction.finish()
     }
 
     private func syncPlayLimitDebugMode() {

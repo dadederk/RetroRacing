@@ -24,6 +24,7 @@ extension GameViewModel {
         hud.gameOverNextFriendAhead = nil
         hud.gameOverOvertakenFriends = []
         hud.gameOverNewlyAchievedAchievementIDs = []
+        sharePlayResultSocialStats = nil
         hud.isNewHighScore = false
         hud.shouldRequestRatingOnGameOverModal = false
         hud.speedIncreaseImminent = false
@@ -32,13 +33,7 @@ extension GameViewModel {
         pendingFriendOvertakeAnnouncement = nil
         scene?.setUpcomingFriendMilestones([])
 
-        // Record this restart against the daily play limit, unless a special event is active
-        // or a SharePlay match is in progress — neither consumes free-tier daily plays.
-        // "Friend races are free." (Requirements/monetization.md, "SharePlay Exception".)
-        let now = Date()
-        if specialEventService?.isEventActive(on: now) != true, isSharePlayActive == false {
-            playLimitService?.recordGamePlayed(on: now)
-        }
+        recordGamePlayedIfCounted()
 
         Task { [weak self] in
             guard let self else { return }
@@ -52,7 +47,7 @@ extension GameViewModel {
         hud.lives = currentLives
         if currentLives == 0 {
             recordVoiceOverControlIfNeeded()
-            reportSharePlayEliminationIfActive(finalScore: currentScore, lives: currentLives)
+            reportSharePlayEliminationIfActive(finalScore: currentScore)
             let difficultyAtGameOver = selectedDifficulty
             leaderboardService.submitScore(currentScore, difficulty: difficultyAtGameOver)
             let achievementUpdate = achievementProgressService.recordCompletedRun(
@@ -85,6 +80,9 @@ extension GameViewModel {
                 hapticController?.triggerSuccessHaptic()
             }
             applyFriendGameOverSummaries(finalScore: currentScore)
+            if isSharePlayActive {
+                captureSharePlayResultSocialStatsFromHUD()
+            }
             if isSharePlayActive == false {
                 hud.showGameOver = true
             }

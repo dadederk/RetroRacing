@@ -5,8 +5,8 @@
 > Narrow tasks may stop here; open the full contract for implementation or review.
 
 - **Scope:** 2-player SharePlay competitive races on iOS/iPad only (v1); host-authoritative start, local simulation with mirrored events, own-score leaderboard submission, dual-retry with 30s timeout, guest speed restore, free-play exception.
-- **Must not break:** No `#if os()` in the service layer (platform gating stays in `RetroRacingApp.swift`); `SharePlayMatchStateMachine` stays pure/synchronous with no `GroupActivities` import; SharePlay matches never call `PlayLimitService.recordGamePlayed`; each player still submits their own score via the existing `LeaderboardService.submitScore` path.
-- **Key files:** `SharePlay/SharePlayMatchStateMachine.swift`, `Services/Implementations/GroupActivitiesSharePlayMatchService.swift`, `Services/Protocols/SharePlayMatchService.swift`, `Views/GameViewModel+SharePlay.swift`, `Views/SharePlayOverlayView.swift`, `Views/SharePlayResultView.swift`.
+- **Must not break:** No `#if os()` in the shared service layer (platform gating stays in the app composition/adapter layer); `SharePlayMatchStateMachine` stays pure/synchronous with no `GroupActivities` import; SharePlay matches never call `PlayLimitService.recordGamePlayed`; each player still submits their own score via the existing `LeaderboardService.submitScore` path.
+- **Key files:** `RetroRacingShared/SharePlay/SharePlayMatchStateMachine.swift`, `RetroRacingUniversal/SharePlay/GroupActivitiesSharePlayMatchService.swift`, `RetroRacingShared/Services/Protocols/SharePlayMatchService.swift`, `RetroRacingShared/Views/GameViewModel+SharePlay.swift`, `RetroRacingShared/Views/SharePlayOverlayView.swift`, `RetroRacingShared/Views/SharePlayResultView.swift`.
 
 ## Overview
 
@@ -109,8 +109,9 @@ flowchart TB
   guest's personal preference is unaffected after the match.
 - `SharePlayUIState` — bundles `SharePlayMatchState`, `SharePlayPlayerRole`, and optional
   `opponentDisplayName` for atomic propagation from the composition root down to
-  `GameView`/`GameViewModel`. Friend names fall back to a localized "Your friend" label when
-  GroupActivities does not expose participant display names (iOS 26).
+  `GameView`/`GameViewModel`. HUD/result score rows use the friend's display name when available
+  and fall back to a localized `Friend` label when GroupActivities does not expose participant
+  display names (iOS 26).
 
 ### Service protocol (`Services/Protocols/SharePlayMatchService.swift`)
 
@@ -135,14 +136,18 @@ Injected via `SharePlayMatchService+Environment.swift`, matching the existing
 `AchievementMetadataService+Environment.swift` DI convention. Views/view models never talk to
 `GroupActivities` directly.
 
-### iOS/iPad adapter (`#if canImport(GroupActivities) && os(iOS)`)
+### iOS/iPad adapter (`RetroRacingUniversal/SharePlay`, `#if canImport(GroupActivities) && os(iOS)`)
 
 - `RetroRacingGroupActivity` — `GroupActivity` conformance; `activityIdentifier`
   `"com.accessibilityUpTo11.RetroRacing.shareplay.competitive"`; localized title
   (`shareplay_activity_title`).
 - `GroupSessionCoordinator` — manages a single `GroupSession<RetroRacingGroupActivity>`
   lifecycle: participant readiness, disconnect → abort, and wires
-  `GroupSessionMessengerTransport`.
+  `GroupSessionMessengerTransport`. Participant-ready and display-name callbacks are
+  edge-triggered so repeated `activeParticipants` emissions do not re-start no-op host checks or
+  invalidate SwiftUI without a visible state change. Stale observer callbacks from prior
+  sessions are ignored, and participant-count loss after readiness uses a short grace window so
+  transient GroupActivities join churn does not flash a false connection-lost screen.
 - `GroupSessionMessengerTransport` — thin wrapper around `GroupSessionMessenger` send/receive of
   `SharePlayMatchCommand`.
 - `GroupActivitiesSharePlayMatchService` — the production `SharePlayMatchService`, an **actor**
@@ -155,11 +160,15 @@ Injected via `SharePlayMatchService+Environment.swift`, matching the existing
   from an invisible UIKit host embedded in the menu background. It intentionally does not use a
   SwiftUI `.fullScreenCover` for the system sharing sheet, because the extra cover can outlive
   the UIKit sheet and leave a blank, non-interactive screen. Each **Play with Friends** tap
-  creates a fresh `SharePlaySharingPresentation` identity so re-presenting works after dismiss.
-  Used when `GroupStateObserver.isEligibleForGroupSession` is `false`, since `GroupActivity.activate()`
-  only works (and only presents system UI) while already in a FaceTime call/Messages
-  conversation. `SharePlaySharingPresentation` itself is platform-neutral so non-iOS app targets
-  still compile; only the UIKit presenter is iOS-gated.
+  creates a fresh `SharePlaySharingPresentation` identity, and the hidden UIKit host is keyed and
+  reset from that identity so re-presenting works after dismiss. Used when
+  `GroupStateObserver.isEligibleForGroupSession` is `false`, since `GroupActivity.activate()` only
+  works (and only presents system UI) while already in a FaceTime call/Messages conversation.
+  Dismissal is classified from `GroupActivitySharingController.result`: only `.cancelled`
+  clears pending host activation, while `.success` leaves host activation intact for the session
+  delivered by `RetroRacingGroupActivity.sessions()`.
+  `SharePlaySharingPresentation` itself is platform-neutral so non-iOS app targets still compile;
+  only the UIKit presenter is iOS-gated.
 - `NoOpSharePlayMatchService` — fallback for macOS/tvOS/watchOS/visionOS, previews, and tests;
   every method is a no-op so calling code behaves exactly as before SharePlay existed.
 
@@ -183,33 +192,45 @@ Injected via `SharePlayMatchService+Environment.swift`, matching the existing
   synchronized numeric countdown, waiting-after-loss, disconnect) **centered on the game
   square**. Overlay cards use the first-party `WaitingForFriendToJoin`, `GetReady`,
   `WaitingForFriendToFinish`, and `ConnectionLost` assets, plus native `glassEffect` on iOS 26
-  with material/opaque Reduce Transparency fallbacks. `GameView` presents `SharePlayResultView`
+  applied directly to the padded card content. Material/color backgrounds are reserved for
+  pre-iOS 26 and Reduce Transparency fallbacks. `GameView` presents `SharePlayResultView`
   as a `.sheet` (`.interactiveDismissDisabled(true)`)
   for terminal/handshake states (`.finished`, `.retryWaiting`, `.retryTimedOut`, `.aborted`).
   The result sheet merges match outcome (won/lost/tie + score comparison) with the personal stats
   normally shown on the solo game-over screen (your best score, speed, friend leaderboard rows).
-  Solo `GameOverView` is suppressed while SharePlay is active.
-- During `.inRound`, the standard HUD header says `Your score` for the local player and shows the
-  friend/name score row plus remote lives below it. The fallback friend row uses `Friend score`
-  for visual balance. These rows must not include “overtakes” copy. The remote helmet uses
-  template rendering tinted with the secondary text style so the friend's lives read as secondary
-  HUD information.
+  SharePlay friend leaderboard rows are captured as a stable per-result snapshot so late in-race
+  friend milestone refreshes cannot briefly show then remove stale social rows.
+  Solo `GameOverView` is suppressed while SharePlay is active. After the local player taps
+  **Play Again** from a finished match, the sheet immediately renders retry/waiting content while
+  the ordered retry command propagates, so stale win/loss content does not flash during restart.
+- During `.inRound`, the standard HUD header uses concise score rows (`You: <score>` and
+  `<friend name>: <score>` when available, otherwise `Friend: <score>`) plus remote lives below it.
+  These rows must not include “overtakes” copy. The remote helmet uses the
+  original helmet art with desaturation, reduced contrast, and opacity so the friend's lives read
+  as secondary HUD information while preserving the helmet detail.
 - `GameViewModel+SharePlay.swift` bridges match-service calls: `reportSharePlayScoreIfActive`,
   `reportSharePlayEliminationIfActive` (called alongside — not instead of — the existing
   single-player game-over flow in `handleCollision()`), `retrySharePlayMatch`,
   `leaveSharePlayMatch`, and guest speed capture/restore around `applySharePlayState(_:)`.
+- The host auto-starts countdown only after both conditions are true: the GroupActivities session
+  reports two active participants, and the remote peer's ordered `.sessionReady` command has been
+  received by the state machine.
 - Gameplay is pause-locked while waiting for a friend, during countdown, after local loss, during
   retry waiting/timeout, and after disconnect/abort. The scene unlocks only for `.inRound`.
 - SharePlay round start uses the countdown “go” cue and starts the scene immediately, bypassing
   the normal solo start cue after the countdown.
 - On final collision, the local device sends an ordered `scoreUpdate(score, lives: 0)` before
   `playerEliminated(finalScore:)` so the friend's HUD reliably reaches zero lives without a
-  wire-format change.
-- Result artwork: wins use `WinWithFriend`, losses use `LoseWithFriend`, retry/waiting uses
-  `Rematch`, disconnect/session-ended states use `ConnectionLost`, and ties keep the existing
-  neutral symbol until a tie asset is added. Friend-ahead and overtaken-friend rows reuse the
+  wire-format change. `reportLocalElimination(finalScore:)` owns that invariant internally
+  instead of accepting caller-provided lives.
+- Result artwork: wins use `WinWithFriend`, losses use `LoseWithFriend`, ties use `Tie`,
+  retry/waiting uses `Rematch`, and disconnect/session-ended states use `ConnectionLost`.
+  Friend-ahead and overtaken-friend rows reuse the
   same avatar row component as `GameOverView`; **Play Again**, **Leave**, and **Done** use the
   same bottom action bar and button font treatment.
+- Retry timeout is terminal: `SharePlayResultView` must offer **Leave** only for
+  `.retryTimedOut`, not **Play Again**, because the retry state machine no longer accepts retry
+  input after the 30-second deadline has elapsed.
 - **Leaderboard submission is unchanged**: each player still submits their own score via the
   existing `LeaderboardService.submitScore` path in `handleCollision()`. No leaderboard protocol
   changes.
@@ -265,13 +286,13 @@ considered done:
 - Elimination order: first-eliminated player sees the waiting screen with separate local and
   friend overtake lines.
 - Final result (win/lose/tie + both scores) matches on both devices.
-- Dual-retry: both confirm → new round starts; only one confirms and the 30s deadline elapses →
-  `.retryTimedOut` recovery UI appears on both devices.
+- Dual-retry: both confirm → new round starts without stale win/loss content flashing; only one
+  confirms and the 30s deadline elapses → `.retryTimedOut` recovery UI appears on both devices.
 - Disconnect mid-match on either device surfaces `.aborted(.disconnected)` on the other.
 - Tapping the in-game menu/close button during a SharePlay match leaves the session and shows the
   other player the connection-lost recovery UI.
-- Cancel SharePlay invitation before a session starts; the menu remains usable and no blank
-  gameplay screen appears.
+- Cancel SharePlay invitation before a session starts; the menu remains usable, tapping
+  **Play with Friends** again presents a fresh sharing sheet, and no blank gameplay screen appears.
 - Guest's difficulty preference is restored after the match ends (finished, timed out, or
   aborted).
 - Neither player's daily play count is affected, regardless of remaining plays before the match.
@@ -285,4 +306,4 @@ considered done:
 
 ---
 
-**Last updated**: 2026-07-22 (SharePlay UX polish: embedded sharing presenter, first-party overlay art, friend wording, menu-exit cancellation)
+**Last updated**: 2026-07-23 (SharePlay UX polish: stable join handling, concise HUD score copy, first-party overlay art, friend wording, menu-exit cancellation)

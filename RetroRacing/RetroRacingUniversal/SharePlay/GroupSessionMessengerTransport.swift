@@ -1,6 +1,6 @@
 //
 //  GroupSessionMessengerTransport.swift
-//  RetroRacingShared
+//  RetroRacingUniversal
 //
 //  Created by Dani Devesa on 22/07/2026.
 //
@@ -8,10 +8,11 @@
 #if canImport(GroupActivities) && os(iOS)
 import GroupActivities
 import Foundation
+import RetroRacingShared
 
 /// Thin wrapper around `GroupSessionMessenger` that speaks only `SharePlayMatchCommand`,
 /// keeping the GroupActivities messenger APIs out of the state machine and service layer.
-final class GroupSessionMessengerTransport {
+nonisolated final class GroupSessionMessengerTransport {
     private let messenger: GroupSessionMessenger
     private var receiveTask: Task<Void, Never>?
 
@@ -39,7 +40,7 @@ final class GroupSessionMessengerTransport {
             try await messenger.send(command)
         } catch {
             AppLog.error(
-                AppLog.game,
+                .game,
                 "SHAREPLAY_MESSENGER_SEND",
                 outcome: .failed,
                 fields: AppLog.Field.error(error)

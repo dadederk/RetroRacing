@@ -440,9 +440,13 @@ struct RetroRacingApp: App {
         .interactiveDismissDisabled(true)
         #if canImport(GroupActivities) && os(iOS)
         .background {
-            if sharePlaySharingPresentation != nil {
-                SharePlayActivitySharingPresenter(onUserDismissed: handleSharePlaySharingUserDismissed)
+            if let sharePlaySharingPresentation {
+                SharePlayActivitySharingPresenter(
+                    presentationID: sharePlaySharingPresentation.id,
+                    onUserDismissed: handleSharePlaySharingUserDismissed
+                )
                     .frame(width: 0, height: 0)
+                    .id(sharePlaySharingPresentation.id)
                     .accessibilityHidden(true)
             }
         }
@@ -497,17 +501,9 @@ struct RetroRacingApp: App {
     }
 
     private func handlePlayRequest() {
-        let previousSessionID = sessionID
-        let nextState = MenuSessionTransitionPolicy.stateAfterPlayRequest(
-            from: MenuSessionState(
-                shouldStartGame: shouldStartGame,
-                isMenuPresented: isMenuPresented,
-                sessionID: sessionID
-            )
+        let previousSessionID = applyMenuSessionTransition(
+            using: { MenuSessionTransitionPolicy.stateAfterPlayRequest(from: $0) }
         )
-        shouldStartGame = nextState.shouldStartGame
-        isMenuPresented = nextState.isMenuPresented
-        sessionID = nextState.sessionID
         AppLog.info(
             AppLog.lifecycle + AppLog.game,
             "SESSION_PLAY_REQUEST",
@@ -555,17 +551,9 @@ struct RetroRacingApp: App {
             sharePlaySharingPresentation = nil
         }
         guard wasIdle, newValue.state != .idle, isMenuPresented else { return }
-        let previousSessionID = sessionID
-        let nextState = MenuSessionTransitionPolicy.stateAfterPlayRequest(
-            from: MenuSessionState(
-                shouldStartGame: shouldStartGame,
-                isMenuPresented: isMenuPresented,
-                sessionID: sessionID
-            )
+        let previousSessionID = applyMenuSessionTransition(
+            using: { MenuSessionTransitionPolicy.stateAfterPlayRequest(from: $0) }
         )
-        shouldStartGame = nextState.shouldStartGame
-        isMenuPresented = nextState.isMenuPresented
-        sessionID = nextState.sessionID
         AppLog.info(
             AppLog.lifecycle + AppLog.game,
             "SHAREPLAY_SESSION_ENTRY",
@@ -589,17 +577,9 @@ struct RetroRacingApp: App {
     }
 
     private func handleFinish() {
-        let previousSessionID = sessionID
-        let nextState = MenuSessionTransitionPolicy.stateAfterFinishRequest(
-            from: MenuSessionState(
-                shouldStartGame: shouldStartGame,
-                isMenuPresented: isMenuPresented,
-                sessionID: sessionID
-            )
+        let previousSessionID = applyMenuSessionTransition(
+            using: { MenuSessionTransitionPolicy.stateAfterFinishRequest(from: $0) }
         )
-        shouldStartGame = nextState.shouldStartGame
-        isMenuPresented = nextState.isMenuPresented
-        sessionID = nextState.sessionID
         AppLog.info(
             AppLog.lifecycle + AppLog.game,
             "SESSION_FINISH_REQUEST",
@@ -609,6 +589,25 @@ struct RetroRacingApp: App {
                 .string("toSession", AppLog.shortID(sessionID))
             ]
         )
+    }
+
+    private var currentMenuSessionState: MenuSessionState {
+        MenuSessionState(
+            shouldStartGame: shouldStartGame,
+            isMenuPresented: isMenuPresented,
+            sessionID: sessionID
+        )
+    }
+
+    private func applyMenuSessionTransition(
+        using transition: (MenuSessionState) -> MenuSessionState
+    ) -> UUID {
+        let previousSessionID = sessionID
+        let nextState = transition(currentMenuSessionState)
+        shouldStartGame = nextState.shouldStartGame
+        isMenuPresented = nextState.isMenuPresented
+        sessionID = nextState.sessionID
+        return previousSessionID
     }
 
     private func handleMenuRequest() {
