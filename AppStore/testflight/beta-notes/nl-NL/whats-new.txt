@@ -1,0 +1,19 @@
+Race live met vrienden via SharePlay op iPhone en iPad.
+
+Tik op Spelen met vrienden, start een gesynchroniseerde countdown, ontwijk samen verkeer en vergelijk aan het einde dezelfde win-, verlies- of gelijkspeluitslag. Rematches wachten tot beide spelers klaar zijn.
+
+Vriendenraces zijn gratis en gebruiken nooit je dagelijkse solo-spelen, zelfs als je gratis plays op zijn.
+
+RetroRapid! spreekt nu Duits, Nederlands, Italiaans en Frans in de hele app, naast Spaans en Catalaans. Wijzig je apparaattaal en menu's, instellingen en race-UI zouden moeten meevolgen.
+
+We hebben ook instellingen, paywall-duidelijkheid, audio en stabiliteit in de hele app verbeterd.
+
+Waar we op letten:
+- Start een SharePlay-race met een vriend op twee iPhones of iPads en controleer of de countdown gesynchroniseerd blijft
+- Zet je apparaat op Duits, Nederlands, Italiaans of Frans en controleer of menu's, instellingen en in-game tekst natuurlijk lezen
+- Race tot het einde, tik dan op Opnieuw spelen en controleer of beide spelers moeten bevestigen voor de rematch
+- Met nul dagelijkse plays: controleer of vriendenraces nog steeds gratis starten via Spelen met vrienden
+- Op Mac en Apple Watch: controleer of solo racen nog steeds solide voelt
+- Meld crashes, disconnects, verwarrende multiplayer-momenten of onhandige vertalingen
+
+Bedankt dat je met ons rijdt.

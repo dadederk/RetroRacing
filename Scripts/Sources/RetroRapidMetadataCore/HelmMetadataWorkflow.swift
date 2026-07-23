@@ -56,28 +56,32 @@ public enum HelmMetadataWorkflow {
             localizationID,
             "update",
             "--keywords",
-            locale.keywords,
+            normalizedHelmArgument(locale.keywords),
         ]
         if !keywordsOnly {
             arguments += [
                 "--promotional-text",
-                locale.promotionalText,
+                normalizedHelmArgument(locale.promotionalText),
                 "--description",
-                locale.description,
+                normalizedHelmArgument(locale.description),
                 "--whats-new",
-                locale.whatsNew,
+                normalizedHelmArgument(locale.whatsNew),
             ]
         }
         if includeAppInfo {
             arguments += [
                 "--name",
-                locale.name,
+                normalizedHelmArgument(locale.name),
                 "--subtitle",
-                locale.subtitle,
+                normalizedHelmArgument(locale.subtitle),
             ]
         }
         arguments.append("--agent")
         return arguments
+    }
+
+    private static func normalizedHelmArgument(_ value: String) -> String {
+        value.precomposedStringWithCanonicalMapping
     }
 
     private static func applyVersionMetadata(
@@ -160,13 +164,63 @@ public enum HelmMetadataWorkflow {
         arguments: [String]
     ) throws {
         do {
-            let output = try ProcessRunner.run(
-                ProcessCommand(executable: helmPath, arguments: arguments),
-                captureOutput: true
+            let output = try runHelmViaPython(
+                helmPath: helmPath,
+                arguments: arguments
             )
             print(output.isEmpty ? "  ok" : "  \(output)")
         } catch {
             throw MetadataToolError.helmFailed(error.localizedDescription)
         }
+    }
+
+    /// Swift `Process` can pass decomposed/non-ASCII argv to `helm-asc`, which ASC rejects.
+    private static func runHelmViaPython(
+        helmPath: String,
+        arguments: [String]
+    ) throws -> String {
+        let command = [helmPath] + arguments
+        let payload = try JSONSerialization.data(withJSONObject: command)
+        let script = """
+        import json, subprocess, sys
+        command = json.loads(sys.stdin.read())
+        result = subprocess.run(command, capture_output=True, text=True)
+        sys.stdout.write(result.stdout)
+        sys.stderr.write(result.stderr)
+        sys.exit(result.returncode)
+        """
+        let process = Process()
+        let standardOutput = Pipe()
+        let standardError = Pipe()
+        let standardInput = Pipe()
+
+        process.executableURL = URL(fileURLWithPath: "/usr/bin/python3")
+        process.arguments = ["-c", script]
+        process.standardOutput = standardOutput
+        process.standardError = standardError
+        process.standardInput = standardInput
+
+        try process.run()
+        standardInput.fileHandleForWriting.write(payload)
+        try standardInput.fileHandleForWriting.close()
+        process.waitUntilExit()
+
+        let output = readText(from: standardOutput)
+        let errorOutput = readText(from: standardError)
+        guard process.terminationStatus == 0 else {
+            throw ScriptSupportError.commandFailed(
+                ([helmPath] + arguments).joined(separator: " "),
+                process.terminationStatus,
+                errorOutput.isEmpty ? output : errorOutput
+            )
+        }
+        return output
+    }
+
+    private static func readText(from pipe: Pipe) -> String {
+        String(
+            data: pipe.fileHandleForReading.readDataToEndOfFile(),
+            encoding: .utf8
+        )?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
     }
 }

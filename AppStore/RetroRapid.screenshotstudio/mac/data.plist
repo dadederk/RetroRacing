@@ -42,7 +42,7 @@
 				<key>centerUnitY</key>
 				<real>0.5</real>
 				<key>circularDiameterUnit</key>
-				<real>0.32</real>
+				<real>0.32000000000000001</real>
 				<key>isEnabled</key>
 				<false/>
 				<key>lensBorderColor</key>
@@ -56,7 +56,7 @@
 				<key>lensDropShadowRadiusPoints</key>
 				<real>8</real>
 				<key>lensDropShadowXOffsetPoints</key>
-				<real>0</real>
+				<real>0.0</real>
 				<key>lensDropShadowYOffsetPoints</key>
 				<real>4</real>
 				<key>lensShape</key>
@@ -64,7 +64,7 @@
 				<key>rectCornerRadiusUnit</key>
 				<real>0.12</real>
 				<key>rectHeightUnit</key>
-				<real>0.45</real>
+				<real>0.45000000000000001</real>
 				<key>rectWidthUnit</key>
 				<real>0.5</real>
 				<key>scaleFactor</key>
@@ -103,7 +103,7 @@
 			<key>titleTextStyle</key>
 			<string>original</string>
 			<key>waveTime</key>
-			<real>0</real>
+			<real>0.0</real>
 		</dict>
 		<key>localizations</key>
 		<array>
@@ -138,6 +138,38 @@
 				<string>en-CA</string>
 				<key>title</key>
 				<string>Race Through Endless Traffic</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Weiche Verkehr aus und hol dir Überholungen in diesem Retro-Arcade-Rennen.</string>
+				<key>language</key>
+				<string>de-DE</string>
+				<key>title</key>
+				<string>Rase Durch Endlosen Verkehr</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Ontwijk verkeer en pak inhaalslagen in deze retro arcade-racer.</string>
+				<key>language</key>
+				<string>nl-NL</string>
+				<key>title</key>
+				<string>Race Door Eindeloos Verkeer</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Schiva il traffico e conquista sorpassi in questo arcade di corse retro.</string>
+				<key>language</key>
+				<string>it</string>
+				<key>title</key>
+				<string>Corri Nel Traffico Infinito</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Esquive le trafic et enchaîne les dépassements dans cette course arcade retro.</string>
+				<key>language</key>
+				<string>fr-FR</string>
+				<key>title</key>
+				<string>Fonce Dans Le Trafic Sans Fin</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -205,7 +237,7 @@
 				<key>centerUnitY</key>
 				<real>0.5</real>
 				<key>circularDiameterUnit</key>
-				<real>0.32</real>
+				<real>0.32000000000000001</real>
 				<key>isEnabled</key>
 				<false/>
 				<key>lensBorderColor</key>
@@ -219,7 +251,7 @@
 				<key>lensDropShadowRadiusPoints</key>
 				<real>8</real>
 				<key>lensDropShadowXOffsetPoints</key>
-				<real>0</real>
+				<real>0.0</real>
 				<key>lensDropShadowYOffsetPoints</key>
 				<real>4</real>
 				<key>lensShape</key>
@@ -227,7 +259,7 @@
 				<key>rectCornerRadiusUnit</key>
 				<real>0.12</real>
 				<key>rectHeightUnit</key>
-				<real>0.45</real>
+				<real>0.45000000000000001</real>
 				<key>rectWidthUnit</key>
 				<real>0.5</real>
 				<key>scaleFactor</key>
@@ -266,7 +298,7 @@
 			<key>titleTextStyle</key>
 			<string>original</string>
 			<key>waveTime</key>
-			<real>0</real>
+			<real>0.0</real>
 		</dict>
 		<key>localizations</key>
 		<array>
@@ -301,6 +333,38 @@
 				<string>en-CA</string>
 				<key>title</key>
 				<string>Simple Controls. Pure Arcade Action</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Links. Rechts. Nicht crashen. Das ist das ganze Spiel.</string>
+				<key>language</key>
+				<string>de-DE</string>
+				<key>title</key>
+				<string>Einfache Steuerung. Pure Arcade-Action</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Links. Rechts. Niet crashen. Dat is het hele spel.</string>
+				<key>language</key>
+				<string>nl-NL</string>
+				<key>title</key>
+				<string>Simpele Besturing. Pure Arcade-Actie</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Sinistra. Destra. Non schiantarti. È tutto il gioco.</string>
+				<key>language</key>
+				<string>it</string>
+				<key>title</key>
+				<string>Controlli Semplici. Pura Azione Arcade</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Gauche. Droite. Ne crash pas. C'est tout le jeu.</string>
+				<key>language</key>
+				<string>fr-FR</string>
+				<key>title</key>
+				<string>Commandes Simples. Action Arcade Pure</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -368,7 +432,7 @@
 				<key>centerUnitY</key>
 				<real>0.5</real>
 				<key>circularDiameterUnit</key>
-				<real>0.32</real>
+				<real>0.32000000000000001</real>
 				<key>isEnabled</key>
 				<false/>
 				<key>lensBorderColor</key>
@@ -382,7 +446,7 @@
 				<key>lensDropShadowRadiusPoints</key>
 				<real>8</real>
 				<key>lensDropShadowXOffsetPoints</key>
-				<real>0</real>
+				<real>0.0</real>
 				<key>lensDropShadowYOffsetPoints</key>
 				<real>4</real>
 				<key>lensShape</key>
@@ -390,7 +454,7 @@
 				<key>rectCornerRadiusUnit</key>
 				<real>0.12</real>
 				<key>rectHeightUnit</key>
-				<real>0.45</real>
+				<real>0.45000000000000001</real>
 				<key>rectWidthUnit</key>
 				<real>0.5</real>
 				<key>scaleFactor</key>
@@ -429,7 +493,7 @@
 			<key>titleTextStyle</key>
 			<string>original</string>
 			<key>waveTime</key>
-			<real>0</real>
+			<real>0.0</real>
 		</dict>
 		<key>localizations</key>
 		<array>
@@ -464,6 +528,38 @@
 				<string>en-CA</string>
 				<key>title</key>
 				<string>Built For Accessibility</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>VoiceOver, Audiohinweise, Haptik und anpassbare Spieleinstellungen.</string>
+				<key>language</key>
+				<string>de-DE</string>
+				<key>title</key>
+				<string>Für Barrierefreiheit Gebaut</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>VoiceOver, audiosignalen, haptiek en aanpasbare spelinstellingen.</string>
+				<key>language</key>
+				<string>nl-NL</string>
+				<key>title</key>
+				<string>Gemaakt Voor Toegankelijkheid</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>VoiceOver, segnali audio, haptica e impostazioni di gioco adattabili.</string>
+				<key>language</key>
+				<string>it</string>
+				<key>title</key>
+				<string>Progettato Per L'Accessibilità</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>VoiceOver, indices audio, haptique et réglages de jeu adaptables.</string>
+				<key>language</key>
+				<string>fr-FR</string>
+				<key>title</key>
+				<string>Conçu Pour L'Accessibilité</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -531,7 +627,7 @@
 				<key>centerUnitY</key>
 				<real>0.5</real>
 				<key>circularDiameterUnit</key>
-				<real>0.32</real>
+				<real>0.32000000000000001</real>
 				<key>isEnabled</key>
 				<false/>
 				<key>lensBorderColor</key>
@@ -545,7 +641,7 @@
 				<key>lensDropShadowRadiusPoints</key>
 				<real>8</real>
 				<key>lensDropShadowXOffsetPoints</key>
-				<real>0</real>
+				<real>0.0</real>
 				<key>lensDropShadowYOffsetPoints</key>
 				<real>4</real>
 				<key>lensShape</key>
@@ -553,7 +649,7 @@
 				<key>rectCornerRadiusUnit</key>
 				<real>0.12</real>
 				<key>rectHeightUnit</key>
-				<real>0.45</real>
+				<real>0.45000000000000001</real>
 				<key>rectWidthUnit</key>
 				<real>0.5</real>
 				<key>scaleFactor</key>
@@ -592,7 +688,7 @@
 			<key>titleTextStyle</key>
 			<string>original</string>
 			<key>waveTime</key>
-			<real>0</real>
+			<real>0.0</real>
 		</dict>
 		<key>localizations</key>
 		<array>
@@ -627,6 +723,38 @@
 				<string>en-CA</string>
 				<key>title</key>
 				<string>One Wrong Move. Game Over</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Ein Fehler beendet deine Runde. Schnell neu starten, Rekord schlagen.</string>
+				<key>language</key>
+				<string>de-DE</string>
+				<key>title</key>
+				<string>Ein Fehler. Game Over</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Één fout beëindigt je run. Snel herstarten, verbeter je record.</string>
+				<key>language</key>
+				<string>nl-NL</string>
+				<key>title</key>
+				<string>Één Fout. Game Over</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Un errore termina la partita. Riparti in fretta, batti il tuo record.</string>
+				<key>language</key>
+				<string>it</string>
+				<key>title</key>
+				<string>Un Errore. Game Over</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Une erreur termine ta partie. Recommence vite, bats ton record.</string>
+				<key>language</key>
+				<string>fr-FR</string>
+				<key>title</key>
+				<string>Une Erreur. Game Over</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -694,7 +822,7 @@
 				<key>centerUnitY</key>
 				<real>0.5</real>
 				<key>circularDiameterUnit</key>
-				<real>0.32</real>
+				<real>0.32000000000000001</real>
 				<key>isEnabled</key>
 				<false/>
 				<key>lensBorderColor</key>
@@ -708,7 +836,7 @@
 				<key>lensDropShadowRadiusPoints</key>
 				<real>8</real>
 				<key>lensDropShadowXOffsetPoints</key>
-				<real>0</real>
+				<real>0.0</real>
 				<key>lensDropShadowYOffsetPoints</key>
 				<real>4</real>
 				<key>lensShape</key>
@@ -716,7 +844,7 @@
 				<key>rectCornerRadiusUnit</key>
 				<real>0.12</real>
 				<key>rectHeightUnit</key>
-				<real>0.45</real>
+				<real>0.45000000000000001</real>
 				<key>rectWidthUnit</key>
 				<real>0.5</real>
 				<key>scaleFactor</key>
@@ -755,7 +883,7 @@
 			<key>titleTextStyle</key>
 			<string>original</string>
 			<key>waveTime</key>
-			<real>0</real>
+			<real>0.0</real>
 		</dict>
 		<key>localizations</key>
 		<array>
@@ -790,6 +918,38 @@
 				<string>en-CA</string>
 				<key>title</key>
 				<string>Chase Friends On The Road</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Game-Center-Marker zeigen den Punktestand, den du jagst.</string>
+				<key>language</key>
+				<string>de-DE</string>
+				<key>title</key>
+				<string>Jage Freunde Auf Der Strecke</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Game Center-markeringen tonen de score die je achtervolgt.</string>
+				<key>language</key>
+				<string>nl-NL</string>
+				<key>title</key>
+				<string>Jaag Vrienden Op De Baan</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>I marcatori Game Center mostrano il punteggio che insegui.</string>
+				<key>language</key>
+				<string>it</string>
+				<key>title</key>
+				<string>Insegue Amici In Pista</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Les marqueurs Game Center montrent le score que tu poursuis.</string>
+				<key>language</key>
+				<string>fr-FR</string>
+				<key>title</key>
+				<string>Poursuis Tes Amis Sur La Piste</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -857,7 +1017,7 @@
 				<key>centerUnitY</key>
 				<real>0.5</real>
 				<key>circularDiameterUnit</key>
-				<real>0.32</real>
+				<real>0.32000000000000001</real>
 				<key>isEnabled</key>
 				<false/>
 				<key>lensBorderColor</key>
@@ -871,7 +1031,7 @@
 				<key>lensDropShadowRadiusPoints</key>
 				<real>8</real>
 				<key>lensDropShadowXOffsetPoints</key>
-				<real>0</real>
+				<real>0.0</real>
 				<key>lensDropShadowYOffsetPoints</key>
 				<real>4</real>
 				<key>lensShape</key>
@@ -879,7 +1039,7 @@
 				<key>rectCornerRadiusUnit</key>
 				<real>0.12</real>
 				<key>rectHeightUnit</key>
-				<real>0.45</real>
+				<real>0.45000000000000001</real>
 				<key>rectWidthUnit</key>
 				<real>0.5</real>
 				<key>scaleFactor</key>
@@ -918,7 +1078,7 @@
 			<key>titleTextStyle</key>
 			<string>original</string>
 			<key>waveTime</key>
-			<real>0</real>
+			<real>0.0</real>
 		</dict>
 		<key>localizations</key>
 		<array>
@@ -953,6 +1113,38 @@
 				<string>en-CA</string>
 				<key>title</key>
 				<string>Choose Your Retro Aesthetic</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Wechsle jederzeit zwischen Pocket-Konsolen-Grün und LCD-Handheld-Stil.</string>
+				<key>language</key>
+				<string>de-DE</string>
+				<key>title</key>
+				<string>Wähle Deinen Retro-Look</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Wissel altijd tussen pocket-console groen en LCD-handheld-stijl.</string>
+				<key>language</key>
+				<string>nl-NL</string>
+				<key>title</key>
+				<string>Kies Je Retro-Stijl</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Passa dal verde console tascabile allo stile LCD portatile quando vuoi.</string>
+				<key>language</key>
+				<string>it</string>
+				<key>title</key>
+				<string>Scegli La Tua Estetica Retro</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Passe du vert console de poche au style LCD portable quand tu veux.</string>
+				<key>language</key>
+				<string>fr-FR</string>
+				<key>title</key>
+				<string>Choisis Ton Style Retro</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -1020,7 +1212,7 @@
 				<key>centerUnitY</key>
 				<real>0.5</real>
 				<key>circularDiameterUnit</key>
-				<real>0.32</real>
+				<real>0.32000000000000001</real>
 				<key>isEnabled</key>
 				<false/>
 				<key>lensBorderColor</key>
@@ -1034,7 +1226,7 @@
 				<key>lensDropShadowRadiusPoints</key>
 				<real>8</real>
 				<key>lensDropShadowXOffsetPoints</key>
-				<real>0</real>
+				<real>0.0</real>
 				<key>lensDropShadowYOffsetPoints</key>
 				<real>4</real>
 				<key>lensShape</key>
@@ -1042,7 +1234,7 @@
 				<key>rectCornerRadiusUnit</key>
 				<real>0.12</real>
 				<key>rectHeightUnit</key>
-				<real>0.45</real>
+				<real>0.45000000000000001</real>
 				<key>rectWidthUnit</key>
 				<real>0.5</real>
 				<key>scaleFactor</key>
@@ -1081,7 +1273,7 @@
 			<key>titleTextStyle</key>
 			<string>original</string>
 			<key>waveTime</key>
-			<real>0</real>
+			<real>0.0</real>
 		</dict>
 		<key>localizations</key>
 		<array>
@@ -1116,6 +1308,38 @@
 				<string>en-CA</string>
 				<key>title</key>
 				<string>Customize Your Experience</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Stelle Steuerung, Haptik, Lautstärke und Optik nach deinem Stil ein.</string>
+				<key>language</key>
+				<string>de-DE</string>
+				<key>title</key>
+				<string>Passe Dein Erlebnis An</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Stel besturing, haptiek, volume en visuals af op jouw stijl.</string>
+				<key>language</key>
+				<string>nl-NL</string>
+				<key>title</key>
+				<string>Pas Je Ervaring Aan</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Regola controlli, haptica, volume e grafica al tuo stile.</string>
+				<key>language</key>
+				<string>it</string>
+				<key>title</key>
+				<string>Personalizza La Tua Esperienza</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Ajuste commandes, haptique, volume et visuels à ton style.</string>
+				<key>language</key>
+				<string>fr-FR</string>
+				<key>title</key>
+				<string>Personnalise Ton Expérience</string>
 			</dict>
 			<dict>
 				<key>body</key>

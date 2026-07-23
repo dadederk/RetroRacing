@@ -1,0 +1,19 @@
+Corri dal vivo con gli amici tramite SharePlay su iPhone e iPad.
+
+Tocca Gioca con amici, avvia un countdown sincronizzato, schiva il traffico insieme e confronta lo stesso risultato di vittoria, sconfitta o pareggio alla fine. Le rivincite aspettano che entrambi i giocatori siano pronti.
+
+Le gare con amici sono gratuite e non usano mai le partite giornaliere in solitaria, anche quando hai esaurito quelle gratuite.
+
+RetroRapid! ora parla tedesco, olandese, italiano e francese in tutta l'app, oltre a spagnolo e catalano. Cambia la lingua del dispositivo e menu, impostazioni e interfaccia di gara dovrebbero seguirla.
+
+Abbiamo anche migliorato impostazioni, chiarezza del paywall, audio e stabilità in tutta l'app.
+
+Su cosa ci piacerebbe che ti concentrassi:
+- Avvia una gara SharePlay con un amico su due iPhone o iPad e verifica che il countdown resti sincronizzato
+- Imposta il dispositivo in tedesco, olandese, italiano o francese e verifica che menu, impostazioni e testi in gioco suonino naturali
+- Corri fino al traguardo, poi prova Gioca ancora e verifica che entrambi i giocatori debbano confermare prima della rivincita
+- Con zero partite giornaliere, verifica che le gare con amici partano ancora gratis da Gioca con amici
+- Su Mac e Apple Watch, verifica che le corse in solitaria restino solide
+- Segnala crash, disconnessioni, momenti multiplayer confusi o traduzioni goffe
+
+Grazie per correre con noi.

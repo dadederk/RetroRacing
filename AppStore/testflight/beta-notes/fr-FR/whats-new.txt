@@ -1,0 +1,19 @@
+Course en direct avec tes amis via SharePlay sur iPhone et iPad.
+
+Touche Jouer avec des amis, lance un compte à rebours synchronisé, esquive le trafic ensemble et compare le même résultat victoire, défaite ou égalité à la fin. Les revanches attendent que les deux joueurs soient prêts.
+
+Les courses entre amis sont gratuites et n'utilisent jamais tes parties solo quotidiennes, même quand tu as épuisé tes parties gratuites.
+
+RetroRapid! parle maintenant allemand, néerlandais, italien et français dans toute l'app, en plus de l'espagnol et du catalan. Change la langue de l'appareil et les menus, réglages et interface de course devraient suivre.
+
+Nous avons aussi peaufiné les réglages, la clarté du paywall, l'audio et la stabilité dans toute l'app.
+
+Ce sur quoi nous aimerions que tu te concentres :
+- Lance une course SharePlay avec un ami sur deux iPhone ou iPad et vérifie que le compte à rebours reste synchronisé
+- Passe ton appareil en allemand, néerlandais, italien ou français et vérifie que menus, réglages et textes en jeu sonnent naturels
+- Course jusqu'à la fin, puis essaie Rejouer et vérifie que les deux joueurs doivent confirmer avant la revanche
+- Avec zéro partie quotidienne, vérifie que les courses entre amis démarrent toujours gratuitement depuis Jouer avec des amis
+- Sur Mac et Apple Watch, vérifie que la course solo reste solide
+- Signale les crashs, déconnexions, moments multijoueur confus ou traductions maladroites
+
+Merci de courir avec nous.

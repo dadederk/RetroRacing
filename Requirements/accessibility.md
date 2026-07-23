@@ -43,8 +43,8 @@ The game **must** respect the user’s Reduce Motion preference:
   - Focus order is deterministic row-major: `(0,0)`, `(0,1)`, `(0,2)`, `(1,0)` ... to the bottom-right cell.
   - Cell announcements use the localized occupant plus coordinates: `No car (row, col)`, `Rival car (row, col)`, `Player car (row, col)`, `Crash (row, col)`.
 - **Implicit pauses keep direct touch active:** Crash/start/help/menu-overlay pauses should not switch to paused-grid exploration; this avoids disruptive VoiceOver focus jumps during non-user pause transitions.
-- **Direct touch controls (iOS/iPadOS, macOS, tvOS, watchOS):** Gameplay touch regions use `accessibilityDirectTouch(..., options: [.silentOnTouch])` while active input is enabled.
-  - Settings expose a `Direct Touch` toggle under Accessibility.
+- **Direct touch controls (iOS/iPadOS, tvOS, watchOS, visionOS):** Gameplay touch regions use `accessibilityDirectTouch(..., options: [.silentOnTouch])` while active input is enabled.
+  - Settings expose a `Direct Touch` toggle under Accessibility on touch-first platforms. macOS omits the toggle because keyboard, mouse, and controller input are primary there.
   - Default behavior is enabled via conditional-default storage.
   - User overrides persist per device profile and are applied immediately.
 - **Voice Control aliases (universal shared view):** Left/right gameplay controls include input labels in this order: `Left`, `Move left` and `Right`, `Move right`, so short commands like “Tap left/right” are recognized.

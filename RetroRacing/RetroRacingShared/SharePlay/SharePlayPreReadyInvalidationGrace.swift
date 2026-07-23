@@ -17,9 +17,7 @@ public final class SharePlayPreReadyInvalidationGrace: @unchecked Sendable {
     public init() {}
 
     public var hasPendingTask: Bool {
-        lock.lock()
-        defer { lock.unlock() }
-        return task != nil
+        lock.withLock { task != nil }
     }
 
     public func schedule(
@@ -27,45 +25,48 @@ public final class SharePlayPreReadyInvalidationGrace: @unchecked Sendable {
         shouldDisconnect: @escaping @Sendable () -> Bool,
         onDisconnect: @escaping @Sendable () -> Void
     ) {
-        lock.lock()
-        guard task == nil else {
-            lock.unlock()
-            return
-        }
+        lock.withLock {
+            guard task == nil else { return }
 
-        generation += 1
-        let scheduledGeneration = generation
-        let delay = UInt64(max(0, graceDuration) * 1_000_000_000)
-        task = Task { [weak self] in
-            try? await Task.sleep(nanoseconds: delay)
-            guard let self else { return }
-            guard Task.isCancelled == false else { return }
-
-            var shouldFire = false
-            self.lock.lock()
-            defer { self.lock.unlock() }
-
-            guard scheduledGeneration == self.generation else { return }
-            defer {
-                if scheduledGeneration == self.generation {
-                    self.task = nil
-                }
+            generation += 1
+            let scheduledGeneration = generation
+            let delay = UInt64(max(0, graceDuration) * 1_000_000_000)
+            task = Task { [weak self] in
+                try? await Task.sleep(nanoseconds: delay)
+                guard let self, Task.isCancelled == false else { return }
+                self.completeScheduledGrace(
+                    scheduledGeneration: scheduledGeneration,
+                    shouldDisconnect: shouldDisconnect,
+                    onDisconnect: onDisconnect
+                )
             }
-
-            shouldFire = shouldDisconnect()
-            guard shouldFire else { return }
-
-            onDisconnect()
         }
-        lock.unlock()
     }
 
     public func cancel() {
-        lock.lock()
-        defer { lock.unlock() }
-        guard task != nil else { return }
-        generation += 1
-        task?.cancel()
-        task = nil
+        lock.withLock {
+            guard task != nil else { return }
+            generation += 1
+            task?.cancel()
+            task = nil
+        }
+    }
+
+    private func completeScheduledGrace(
+        scheduledGeneration: Int,
+        shouldDisconnect: @Sendable () -> Bool,
+        onDisconnect: @Sendable () -> Void
+    ) {
+        let shouldFire = lock.withLock { () -> Bool in
+            guard scheduledGeneration == generation else { return false }
+            defer {
+                if scheduledGeneration == generation {
+                    task = nil
+                }
+            }
+            return shouldDisconnect()
+        }
+        guard shouldFire else { return }
+        onDisconnect()
     }
 }

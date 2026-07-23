@@ -167,6 +167,123 @@ public struct GameView: View {
     }
 
     public var body: some View {
+        gameViewWithPreferenceHandlers
+            .onDisappear(perform: handleGameViewDisappear)
+            .fontPreferenceStore(fontPreferenceStore)
+    }
+
+    private var gameViewWithPreferenceHandlers: some View {
+        gameViewWithPresentation
+            .onChange(of: soundEffectsVolumeData) { _, _ in
+                model.setVolume(selectedSoundEffectsVolume)
+            }
+            .onChange(of: shouldStartGame) { _, newValue in
+                AppLog.info(
+                    AppLog.lifecycle + AppLog.game,
+                    "GAME_START_FLAG_CHANGED",
+                    outcome: .completed,
+                    fields: [
+                        .bool("previousValue", model.shouldStartGame),
+                        .bool("newValue", newValue)
+                    ]
+                )
+                model.shouldStartGame = newValue
+            }
+            .onChange(of: difficultyStorageData) { _, _ in
+                model.updateDifficulty(selectedDifficulty)
+            }
+            .onChange(of: audioFeedbackModeStorageData) { _, _ in
+                model.updateAudioFeedbackMode(selectedAudioFeedbackMode)
+            }
+            .onChange(of: laneMoveCueStyleRawValue) { _, _ in
+                model.updateLaneMoveCueStyle(selectedLaneMoveCueStyle)
+            }
+            .onChange(of: bigCarsData) { _, _ in
+                model.updateBigRivalCarsEnabled(selectedBigRivalCarsEnabled)
+            }
+            .onChange(of: roadVisualStyleRawValue) { _, _ in
+                model.updateRoadVisualStyle(selectedRoadVisualStyle)
+            }
+            .onChange(of: speedWarningFeedbackModeData) { _, _ in
+                if model.hud.speedIncreaseImminent {
+                    announceSpeedIncreaseIfNeeded(oldValue: false, newValue: true)
+                }
+            }
+            .onChange(of: debugForcedAchievementIdentifierRawValue) { _, _ in
+                model.setDebugForcedAchievementIdentifier(selectedDebugForcedAchievementIdentifier)
+            }
+            .onChange(of: debugShowSpriteKitFrameStats) { _, _ in
+                model.updateDebugSpriteKitFrameStatsVisibility(shouldShowDebugSpriteKitFrameStats)
+            }
+            .onChange(of: model.pause.scenePaused) { _, _ in
+                attemptAutoPresentVoiceOverHelpIfNeeded()
+            }
+            .onChange(of: model.hud.speedIncreaseImminent) { oldValue, newValue in
+                announceSpeedIncreaseIfNeeded(oldValue: oldValue, newValue: newValue)
+            }
+            .onChange(of: isMenuOverlayPresented?.wrappedValue ?? false) { _, isPresented in
+                guard isMenuOverlayPresented != nil else { return }
+                AppLog.info(
+                    AppLog.lifecycle + AppLog.game,
+                    "GAME_OVERLAY_STATE_CHANGED",
+                    outcome: .completed,
+                    fields: [.bool("isPresented", isPresented)]
+                )
+                model.setOverlayPause(isPresented: isPresented)
+            }
+    }
+
+    private var gameViewWithPresentation: some View {
+        gameViewCore
+            .sheet(isPresented: $isInGameHelpPresented, onDismiss: handleInGameHelpDismissed) {
+                makeInGameHelpView()
+            }
+            .sheet(isPresented: showGameOverBinding, onDismiss: handleGameOverSheetDismissed) {
+                GameOverView(
+                    score: model.hud.gameOverScore,
+                    bestScore: model.hud.gameOverBestScore,
+                    difficulty: model.hud.gameOverDifficulty,
+                    isNewRecord: model.hud.isNewHighScore,
+                    previousBestScore: model.hud.gameOverPreviousBestScore,
+                    nextFriendAhead: model.hud.gameOverNextFriendAhead,
+                    overtakenFriends: model.hud.gameOverOvertakenFriends,
+                    newlyAchievedAchievementIDs: model.hud.gameOverNewlyAchievedAchievementIDs,
+                    onRestart: handleRestartFromGameOver,
+                    onFinish: handleFinishFromGameOver,
+                    onPresented: model.handleGameOverModalPresentedIfNeeded
+                )
+                .fontPreferenceStore(fontPreferenceStore)
+            }
+            .sheet(isPresented: $isPaywallPresented) {
+                PaywallView(playLimitService: playLimitService, isLimitReached: true)
+                    .fontPreferenceStore(fontPreferenceStore)
+            }
+            .sheet(isPresented: showSharePlayResultBinding) {
+                SharePlayResultView(
+                    state: displayedSharePlayResultState,
+                    localRole: model.sharePlayLocalRole,
+                    opponentDisplayName: model.sharePlayOpponentDisplayName,
+                    score: model.hud.gameOverScore,
+                    bestScore: model.hud.gameOverBestScore,
+                    difficulty: model.hud.gameOverDifficulty,
+                    isNewRecord: model.hud.isNewHighScore,
+                    previousBestScore: model.hud.gameOverPreviousBestScore,
+                    nextFriendAhead: model.sharePlayResultSocialStats?.nextFriendAhead,
+                    overtakenFriends: model.sharePlayResultSocialStats?.overtakenFriends ?? [],
+                    newlyAchievedAchievementIDs: model.hud.gameOverNewlyAchievedAchievementIDs,
+                    onRetry: handleSharePlayRetry,
+                    onLeave: handleSharePlayLeave
+                )
+                .fontPreferenceStore(fontPreferenceStore)
+                .interactiveDismissDisabled(true)
+            }
+            .onChange(of: sharePlayUIState) { _, newValue in
+                model.applySharePlayState(newValue)
+                clearSharePlayRetryRequestPendingIfNeeded(for: newValue.state)
+            }
+    }
+
+    private var gameViewCore: some View {
         GeometryReader { outer in
             ZStack {
                 GameLayoutView(
@@ -327,114 +444,11 @@ public struct GameView: View {
                 #endif
             }
         }
-        .sheet(isPresented: $isInGameHelpPresented, onDismiss: handleInGameHelpDismissed) {
-            makeInGameHelpView()
-        }
-        .sheet(isPresented: showGameOverBinding, onDismiss: handleGameOverSheetDismissed) {
-            GameOverView(
-                score: model.hud.gameOverScore,
-                bestScore: model.hud.gameOverBestScore,
-                difficulty: model.hud.gameOverDifficulty,
-                isNewRecord: model.hud.isNewHighScore,
-                previousBestScore: model.hud.gameOverPreviousBestScore,
-                nextFriendAhead: model.hud.gameOverNextFriendAhead,
-                overtakenFriends: model.hud.gameOverOvertakenFriends,
-                newlyAchievedAchievementIDs: model.hud.gameOverNewlyAchievedAchievementIDs,
-                onRestart: handleRestartFromGameOver,
-                onFinish: handleFinishFromGameOver,
-                onPresented: model.handleGameOverModalPresentedIfNeeded
-            )
-            .fontPreferenceStore(fontPreferenceStore)
-        }
-        .onDisappear {
-            controllerInputSource.stop()
-            model.tearDown()
-        }
-        .onChange(of: soundEffectsVolumeData) { _, _ in
-            model.setVolume(selectedSoundEffectsVolume)
-        }
-        .onChange(of: shouldStartGame) { _, newValue in
-            AppLog.info(
-                AppLog.lifecycle + AppLog.game,
-                "GAME_START_FLAG_CHANGED",
-                outcome: .completed,
-                fields: [
-                    .bool("previousValue", model.shouldStartGame),
-                    .bool("newValue", newValue)
-                ]
-            )
-            model.shouldStartGame = newValue
-        }
-        .onChange(of: difficultyStorageData) { _, _ in
-            model.updateDifficulty(selectedDifficulty)
-        }
-        .onChange(of: audioFeedbackModeStorageData) { _, _ in
-            model.updateAudioFeedbackMode(selectedAudioFeedbackMode)
-        }
-        .onChange(of: laneMoveCueStyleRawValue) { _, _ in
-            model.updateLaneMoveCueStyle(selectedLaneMoveCueStyle)
-        }
-        .onChange(of: bigCarsData) { _, _ in
-            model.updateBigRivalCarsEnabled(selectedBigRivalCarsEnabled)
-        }
-        .onChange(of: roadVisualStyleRawValue) { _, _ in
-            model.updateRoadVisualStyle(selectedRoadVisualStyle)
-        }
-        .onChange(of: speedWarningFeedbackModeData) { _, _ in
-            if model.hud.speedIncreaseImminent {
-                announceSpeedIncreaseIfNeeded(oldValue: false, newValue: true)
-            }
-        }
-        .onChange(of: debugForcedAchievementIdentifierRawValue) { _, _ in
-            model.setDebugForcedAchievementIdentifier(selectedDebugForcedAchievementIdentifier)
-        }
-        .onChange(of: debugShowSpriteKitFrameStats) { _, _ in
-            model.updateDebugSpriteKitFrameStatsVisibility(shouldShowDebugSpriteKitFrameStats)
-        }
-        .onChange(of: model.pause.scenePaused) { _, _ in
-            attemptAutoPresentVoiceOverHelpIfNeeded()
-        }
-        .onChange(of: model.hud.speedIncreaseImminent) { oldValue, newValue in
-            announceSpeedIncreaseIfNeeded(oldValue: oldValue, newValue: newValue)
-        }
-        .onChange(of: isMenuOverlayPresented?.wrappedValue ?? false) { _, isPresented in
-            guard isMenuOverlayPresented != nil else { return }
-            AppLog.info(
-                AppLog.lifecycle + AppLog.game,
-                "GAME_OVERLAY_STATE_CHANGED",
-                outcome: .completed,
-                fields: [.bool("isPresented", isPresented)]
-            )
-            model.setOverlayPause(isPresented: isPresented)
-        }
-        .sheet(isPresented: $isPaywallPresented) {
-            PaywallView(playLimitService: playLimitService, isLimitReached: true)
-                .fontPreferenceStore(fontPreferenceStore)
-        }
-        .sheet(isPresented: showSharePlayResultBinding) {
-            SharePlayResultView(
-                state: displayedSharePlayResultState,
-                localRole: model.sharePlayLocalRole,
-                opponentDisplayName: model.sharePlayOpponentDisplayName,
-                score: model.hud.gameOverScore,
-                bestScore: model.hud.gameOverBestScore,
-                difficulty: model.hud.gameOverDifficulty,
-                isNewRecord: model.hud.isNewHighScore,
-                previousBestScore: model.hud.gameOverPreviousBestScore,
-                nextFriendAhead: model.sharePlayResultSocialStats?.nextFriendAhead,
-                overtakenFriends: model.sharePlayResultSocialStats?.overtakenFriends ?? [],
-                newlyAchievedAchievementIDs: model.hud.gameOverNewlyAchievedAchievementIDs,
-                onRetry: handleSharePlayRetry,
-                onLeave: handleSharePlayLeave
-            )
-            .fontPreferenceStore(fontPreferenceStore)
-            .interactiveDismissDisabled(true)
-        }
-        .onChange(of: sharePlayUIState) { _, newValue in
-            model.applySharePlayState(newValue)
-            clearSharePlayRetryRequestPendingIfNeeded(for: newValue.state)
-        }
-        .fontPreferenceStore(fontPreferenceStore)
+    }
+
+    private func handleGameViewDisappear() {
+        controllerInputSource.stop()
+        model.tearDown()
     }
 
     /// The SharePlay service remains the source of truth, but a local retry tap should stop

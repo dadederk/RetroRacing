@@ -2,7 +2,7 @@
 
 Part of [App Store docs hub](../README.md).
 
-Last updated: 2026-07-17
+Last updated: 2026-07-23
 
 **Status:** `READY` — the canonical catalog passes all configured limits. Overall submission status: `DRAFT_APPLIED`; see `03-submission-quality-gate.md` for any remaining non-metadata blockers.
 
@@ -29,13 +29,17 @@ Validated from the canonical catalog for version 1.5. Character counts use Swift
 
 | Locale | App name | Subtitle | Promotional text | Keywords | Keyword bytes | Description | What's New |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| en-US | 30/30 | 28/30 | 130/170 | 100 chars | 100/100 | 1092/4000 | 227/4000 |
-| en-GB | 30/30 | 28/30 | 130/170 | 100 chars | 100/100 | 1092/4000 | 227/4000 |
-| en-AU | 30/30 | 29/30 | 130/170 | 99 chars | 99/100 | 1092/4000 | 227/4000 |
-| en-CA | 30/30 | 28/30 | 130/170 | 99 chars | 99/100 | 1092/4000 | 227/4000 |
-| es-ES | 27/30 | 29/30 | 114/170 | 99 chars | 99/100 | 1165/4000 | 287/4000 |
-| ca | 27/30 | 28/30 | 118/170 | 100 chars | 100/100 | 1035/4000 | 304/4000 |
-| es-MX | 27/30 | 28/30 | 113/170 | 97 chars | 97/100 | 1163/4000 | 287/4000 |
+| en-US | 30/30 | 28/30 | 130/170 | 100 chars | 100/100 | 1092/4000 | 604/4000 |
+| en-GB | 30/30 | 28/30 | 130/170 | 100 chars | 100/100 | 1092/4000 | 604/4000 |
+| en-AU | 30/30 | 29/30 | 130/170 | 99 chars | 99/100 | 1092/4000 | 604/4000 |
+| en-CA | 30/30 | 28/30 | 130/170 | 99 chars | 99/100 | 1092/4000 | 604/4000 |
+| de-DE | 28/30 | 27/30 | 127/170 | 97 chars | 97/100 | 994/4000 | 717/4000 |
+| nl-NL | 28/30 | 26/30 | 117/170 | 98 chars | 98/100 | 938/4000 | 640/4000 |
+| it | 30/30 | 30/30 | 113/170 | 97 chars | 97/100 | 1006/4000 | 670/4000 |
+| fr-FR | 30/30 | 26/30 | 128/170 | 100 chars | 100/100 | 1014/4000 | 718/4000 |
+| es-ES | 27/30 | 29/30 | 114/170 | 99 chars | 99/100 | 1165/4000 | 648/4000 |
+| ca | 27/30 | 28/30 | 118/170 | 100 chars | 100/100 | 1035/4000 | 645/4000 |
+| es-MX | 27/30 | 28/30 | 113/170 | 97 chars | 97/100 | 1163/4000 | 648/4000 |
 
 All selected fields pass current Apple limits. Run `swift run --package-path Scripts generate-metadata-docs --check` before applying metadata or submitting a release.
 

@@ -135,7 +135,7 @@ onPlayRequest: (() -> Void)?
 
 ## Settings UI
 
-`SettingsView` shows a **Controls** section with a **How to play the game** row. The row opens a Settings help sheet that shows the platform controls copy first, then a **Controller** mapping section. The mapping section contains three `Picker` rows (Move Left, Move Right, Pause/Resume), each offering all `GameControllerRemapButton` cases. A footer explains that remapped buttons replace D-pad/Menu bindings while keeping keyboard controls unaffected.
+`SettingsView` shows a **Controls** section with a **How to play the game** row. The row opens a Settings help sheet that shows the platform controls copy first, then a **Controller** mapping section. On macOS the sheet uses a `ScrollView` layout so the controls copy renders reliably in the settings window; other platforms keep a `List`. The mapping section contains three `Picker` rows (Move Left, Move Right, Pause/Resume), each offering all `GameControllerRemapButton` cases. A footer explains that remapped buttons replace D-pad/Menu bindings while keeping keyboard controls unaffected.
 
 `SettingsPreferencesStore` exposes:
 - `controllerLeftButtonSelection: Binding<GameControllerRemapButton>`

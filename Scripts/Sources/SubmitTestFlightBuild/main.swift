@@ -11,7 +11,7 @@ import ScriptSupport
 
 private let defaultAppID = "6758641625"
 private let defaultVersion = "1.5"
-private let defaultBuildNumber = "29"
+private let defaultBuildNumber = "31"
 private let defaultHelmPath = "/Applications/Helm.app/Contents/Helpers/helm-asc"
 private let defaultDeveloperDirectory = "/Applications/Xcode.app/Contents/Developer"
 private let defaultExternalGroup = "df40f833-12c7-4411-b28d-122690045c58"

@@ -19,7 +19,7 @@ Last updated: 2026-07-19
 - The public page already communicates privacy, accessibility, Game Center, Apple Watch, Mac, and one-time IAP support.
 - User reviews reinforce the right messages: addictive high-score chasing, simple controls, Apple Watch support, nostalgia, and accessibility.
 - The game has a clean core search story: retro arcade racing, 3 lanes, traffic dodging, high-score/reflex play, quick sessions, and accessible gameplay.
-- Screenshot source files include English (`en-US`, `en-GB`, `en-AU`, `en-CA`), Spanish, and Catalan for iPhone/iPad, aligned to the recommended seven-slide storyboard.
+- Screenshot source files include English (`en-US`, `en-GB`, `en-AU`, `en-CA`), German (`de-DE`), Dutch (`nl-NL`), Italian (`it`), French (`fr-FR`), Spanish, and Catalan for iPhone/iPad, aligned to the recommended seven-slide storyboard.
 
 ### Main Opportunities
 
@@ -95,7 +95,7 @@ Avoid repeating the same indexed term across name, subtitle, and keywords. These
 
 Source: [AppTweak — cross-localization on the App Store](https://www.apptweak.com/en/aso-blog/how-to-benefit-from-cross-localization-on-the-app-store).
 
-The v1.5 draft catalog includes **en-US**, **en-GB**, **en-AU**, **en-CA**, **es-ES**, **ca**, and **es-MX**. Apple indexes **multiple locales per territory**, so keyword fields should be planned as a set, not isolated lists.
+The v1.5 draft catalog includes **en-US**, **en-GB**, **en-AU**, **en-CA**, **de-DE**, **nl-NL**, **it**, **fr-FR**, **es-ES**, **ca**, and **es-MX**. Apple indexes **multiple locales per territory**, so keyword fields should be planned as a set, not isolated lists.
 
 | Territory | Primary locale | Also indexes (relevant to us) | Subtitle + keyword strategy |
 |---|---|---|---|
@@ -103,6 +103,12 @@ The v1.5 draft catalog includes **en-US**, **en-GB**, **en-AU**, **en-CA**, **es
 | **United Kingdom** | English (UK) | **English (Australia)** | Split **en-GB** + **en-AU** subtitles and keyword fields — no duplicate tokens across the pair. |
 | **Canada** | English (Canada) | **English (US)** among others | Split **en-CA** + **en-US** subtitles and keyword fields — no duplicate tokens across the pair. |
 | **Australia** | English (Australia) | **English (UK)** | Same **en-GB** + **en-AU** pair as UK (roles reversed). |
+| **Germany** | German (Germany) | English (US) | Split **de-DE** + **en-US** keywords — no duplicate tokens. |
+| **France** | French (France) | English (UK) | Split **fr-FR** + **en-GB** subtitles/keywords. |
+| **Italy** | Italian | English (UK) | Split **it** + **en-GB** keywords. |
+| **Netherlands** | Dutch (Netherlands) | English (US) | Split **nl-NL** + **en-US** keywords. |
+| **Belgium** | Dutch / French | each other | Avoid duplicate FR/NL tokens where both index. |
+| **Switzerland** | German / French / Italian | multiple | De-dupe **de-DE**, **fr-FR**, and **it** globally. |
 | **Spain** | Spanish (Spain) | **Catalan**, English (UK) | Split Spanish and Catalan across **es-ES** and **ca**. **en-GB** adds English search coverage without duplicating Spanish tokens. |
 | **Mexico** | Spanish (Mexico) | English (UK) | **es-MX** subtitle/name stay Mexican Spanish; keywords carry local terms plus `internet`. |
 

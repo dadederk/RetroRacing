@@ -92,6 +92,7 @@ Implement SharePlay competitive multiplayer for 2 players on iOS and iPad first,
 
 ## Follow-Ups (Post-v1)
 
-- Expand support to macOS and tvOS after iOS+iPad stabilization.
+- Expand support to macOS — see [`shareplay_macos_plan.md`](shareplay_macos_plan.md).
+- Expand support to tvOS after iOS+iPad/macOS stabilization.
 - Optional best-of-3 session mode.
 - Optional richer spectator feedback after local elimination.

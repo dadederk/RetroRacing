@@ -183,6 +183,18 @@ Full localized metadata for all 22 achievements. The GAAD event payload is in it
 | `controlDigitalCrown` | `Controls de Corona Digital` | `Has completat una partida usant la Corona Digital.` | `Completa una partida usant la Corona Digital.` |
 | `controlGameController` | `Controls de Comandament` | `Has completat una partida usant un comandament.` | `Completa una partida usant un comandament.` |
 
+## Localization Payload (de-DE + nl-NL + it + fr-FR)
+
+Machine-readable catalog: [`AppStore/game-center/achievements-eu-localizations.json`](../AppStore/game-center/achievements-eu-localizations.json).
+
+Print a copy-paste checklist:
+
+```bash
+swift run --package-path Scripts print-game-center-eu-localizations
+```
+
+Helm CLI does not yet expose public Game Center achievement localization upload; use App Store Connect UI or the optional `asc` CLI (see [`AppStore/game-center/README.md`](../AppStore/game-center/README.md)).
+
 ## Sign-Off
 
 Before shipping:

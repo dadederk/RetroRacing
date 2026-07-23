@@ -109,7 +109,7 @@ struct SettingsView: View {
                         .tag(theme.id)
                 }
             } label: {
-                Text(GameLocalizedStrings.string("settings_theme"))
+                Text(GameLocalizedStrings.string("settings_theme_style"))
                     .font(fontForLabels)
             }
         } header: {

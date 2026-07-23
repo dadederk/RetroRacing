@@ -1,0 +1,19 @@
+Rase live mit Freunden per SharePlay auf iPhone und iPad.
+
+Tippe auf Mit Freunden spielen, starte einen synchronisierten Countdown, weiche gemeinsam dem Verkehr aus und vergleiche am Ende dasselbe Sieg-, Niederlage- oder Unentschieden-Ergebnis. Rematches warten, bis beide Spieler bereit sind.
+
+Freundesrennen sind kostenlos und verbrauchen nie deine täglichen Solo-Spiele, auch wenn deine Gratis-Spiele aufgebraucht sind.
+
+RetroRapid! spricht jetzt Deutsch, Niederländisch, Italienisch und Französisch in der gesamten App, zusätzlich zu Spanisch und Katalanisch. Stelle die Gerätesprache um und Menüs, Einstellungen und Renn-UI sollten folgen.
+
+Außerdem haben wir Einstellungen, Paywall-Klarheit, Audio und Stabilität in der gesamten App verbessert.
+
+Worauf wir uns freuen:
+- Starte eine SharePlay-Runde mit einem Freund auf zwei iPhones oder iPads und prüfe, ob der Countdown synchron bleibt
+- Stelle dein Gerät auf Deutsch, Niederländisch, Italienisch oder Französisch und prüfe, ob Menüs, Einstellungen und Spieltexte natürlich klingen
+- Fahre bis zum Ziel, tippe dann auf Nochmal spielen und prüfe, ob beide Spieler bestätigen müssen, bevor die Revanche startet
+- Mit null täglichen Spielen: prüfe, ob Freundesrennen weiterhin kostenlos über Mit Freunden spielen starten
+- Auf Mac und Apple Watch: prüfe, ob Solo-Rennen weiterhin solide laufen
+- Melde Abstürze, Verbindungsabbrüche, verwirrende Multiplayer-Momente oder holprige Übersetzungen
+
+Danke, dass du mit uns fährst.

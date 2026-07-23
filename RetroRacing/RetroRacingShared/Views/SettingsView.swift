@@ -317,13 +317,13 @@ public struct SettingsView: View {
                             .tag(theme.id)
                     }
                 } label: {
-                    Text(GameLocalizedStrings.string("settings_theme"))
+                    Text(GameLocalizedStrings.string("settings_theme_style"))
                         .font(fontForLabels)
                 }
                 .disabled(isGameSessionInProgress)
             } else {
                 HStack {
-                    Text(GameLocalizedStrings.string("settings_theme"))
+                    Text(GameLocalizedStrings.string("settings_theme_style"))
                         .font(fontForLabels)
                     Spacer()
                     Text(themeManager.currentTheme.name)
@@ -331,7 +331,7 @@ public struct SettingsView: View {
                         .foregroundStyle(.secondary)
                 }
                 .accessibilityElement(children: .ignore)
-                .accessibilityLabel(Text(GameLocalizedStrings.string("settings_theme")))
+                .accessibilityLabel(Text(GameLocalizedStrings.string("settings_theme_style")))
                 .accessibilityValue(Text(themeManager.currentTheme.name))
             }
         } header: {
@@ -532,11 +532,13 @@ public struct SettingsView: View {
             }
             .tint(.accentColor)
 
+            #if !os(macOS)
             Toggle(isOn: preferencesStore.directTouchSelection) {
                 Text(GameLocalizedStrings.string("settings_direct_touch"))
                     .font(fontForLabels)
             }
             .tint(.accentColor)
+            #endif
 
             Toggle(isOn: $friendOvertakeVoiceOverAnnouncementEnabled) {
                 Text(GameLocalizedStrings.string("settings_voiceover_friend_overtake_announcements"))

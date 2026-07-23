@@ -15,7 +15,7 @@ import RetroRacingShared
 /// observing state/participant changes, and wiring a `GroupSessionMessengerTransport`.
 /// `GroupActivitiesSharePlayMatchService` owns one instance and reconfigures it whenever a new
 /// session arrives from `RetroRacingGroupActivity.sessions()`.
-nonisolated final class GroupSessionCoordinator {
+nonisolated final class GroupSessionCoordinator: @unchecked Sendable {
     private(set) var transport: GroupSessionMessengerTransport?
     private var session: GroupSession<RetroRacingGroupActivity>?
     private var stateTask: Task<Void, Never>?

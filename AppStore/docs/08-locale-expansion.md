@@ -4,7 +4,7 @@ Part of [App Store docs hub](../README.md). Index: [RETRORAPID_APP_STORE_REFEREN
 
 Last updated: 2026-06-25
 
-**Status:** current storefront coverage is `LIVE`; v1.5 regional metadata is `DRAFT_APPLIED`; new full-app locales are `PLANNED`.
+**Status:** current storefront coverage is `LIVE`; v1.5 regional metadata is `DRAFT_APPLIED`; `de-DE`, `nl-NL`, `it`, and `fr-FR` app strings and metadata are `LIVE` in repo/ASC drafts; `fr-CA` remains optional future work.
 
 **See also:** [Cross-localization](04-metadata-strategy.md#cross-localization-strategy) · [Localization requirements](../../Requirements/localization.md)
 
@@ -13,7 +13,7 @@ Last updated: 2026-06-25
 
 ## Country And Language Expansion Strategy
 
-Current supported app languages are English (`en`, `en-GB`, `en-AU`, `en-CA`), Spanish, and Catalan. App Store metadata should stay aligned with in-app localization, especially because RetroRapid sells accessibility and settings clarity. For each new market, prepare App Store metadata, screenshots, app strings, IAP display names, Game Center metadata, and support/privacy pages as one localization package.
+Current supported app languages are English (`en`, `en-GB`, `en-AU`, `en-CA`), German (`de`), Dutch (`nl`), Italian (`it`), French (`fr`), Spanish, and Catalan. App Store metadata should stay aligned with in-app localization, especially because RetroRapid sells accessibility and settings clarity. For each new market, prepare App Store metadata, screenshots, app strings, IAP display names, Game Center metadata, and support/privacy pages as one localization package.
 
 ### Priority Tiers
 
@@ -21,13 +21,13 @@ Current supported app languages are English (`en`, `en-GB`, `en-AU`, `en-CA`), S
 |---|---|---|---|
 | P0 | `en-US`, `en-GB`, `en-AU`, `en-CA`, `es-ES`, `ca` | App strings and existing storefront coverage are `LIVE`; v1.5 regional metadata fields are `DRAFT_APPLIED`. UK ratings remain strong. | Re-export remaining localized screenshots. Compare UK/AU/CA conversion separately in ASC. |
 | P0 | `es-MX` | v1.5 metadata is `DRAFT_APPLIED`; full app localization and rendered screenshots are `PLANNED`. Mexico/LatAm cross-indexes with en-US. | Validate ranks for `carro`, `rebasar`, `internet`, and `control` before submission. |
-| P1 | `de-DE` | Large European App Store market; racing and arcade terms are direct enough to localize well. | Requires full app strings and screenshots. Check `arcade rennen`, `retro rennen`, `verkehr`, `reaktion`, `watch spiel`, and accessibility terms. |
+| P1 | `de-DE` | Large European App Store market; racing and arcade terms are direct enough to localize well. | **LIVE** in repo + ASC 1.5 drafts (2026-07-23). |
 | P1 | `ja` | Strong game market and good fit for compact arcade gameplay. | Needs professional localization and screenshot typography QA. Avoid literal machine translation of racing/retro terms. |
 | P1 | `pt-BR` | Large audience and useful next step after Spanish. | Prepare Brazilian Portuguese specifically, not generic Portuguese. Validate monetization/pricing expectations. |
-| P2 | `fr-FR` | Large EU market with reasonable localization lift. | Check whether arcade/racing/watch-game terms have enough demand before full rollout. |
+| P2 | `fr-FR` | Large EU market with reasonable localization lift. | **LIVE** in repo + ASC 1.5 drafts (2026-07-23). Optional `fr-CA` deferred. |
 | P2 | `ko` | Strong mobile gaming market and high engagement potential. | Higher localization QA bar. Prioritize only after Japanese/German data or if App Store Connect shows Korean traction. |
 | P2 | `zh-Hans`, `zh-Hant` | High upside, especially for simple arcade games. | Needs careful localization, legal/availability review, screenshot QA, and monetization expectations. |
-| P3 | `it`, `nl`, `pl`, `tr` | Additional scale after the first wave. | Require keyword exports before committing. Italy may be the lowest-friction Romance-language follow-up. |
+| P3 | `it`, `nl`, `pl`, `tr` | Additional scale after the first wave. | `it` and `nl` are **LIVE** in repo + ASC 1.5 drafts (2026-07-23). |
 
 ### Data To Request Before Each Locale
 

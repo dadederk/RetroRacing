@@ -11,16 +11,43 @@ All user-facing copy must be localizable and sourced from shared localization as
 - English (UK): `en-GB` — British spelling where it differs (`favourite`, `colour`, `centre`, `customise`)
 - English (Australia): `en-AU` — same British spelling conventions as `en-GB` for in-app copy
 - English (Canada): `en-CA` — US spelling conventions for in-app copy (matches `en` strings)
+- German: `de`
+- Dutch: `nl`
+- Italian: `it`
+- French: `fr` (covers France and French-Canadian fallback)
 - Spanish (Spain): `es`
 - Catalan: `ca` (translations written in Valencian Meridional style)
 
 ## Source of Truth
 
 - Shared catalog: `RetroRacing/RetroRacingShared/Localizable.xcstrings`
+- App Store metadata: `AppStore/metadata/retrorapid-v1.5.json` (`de-DE`, `nl-NL`, `it`, `fr-FR`)
+- EU transcreation reference: `Scripts/Resources/eu_localizations.json`
 - Project regions: `RetroRacing/RetroRacing.xcodeproj/project.pbxproj`
 - App Info.plist overlay: `RetroRacing/Config/RetroRacingUniversalInfo.plist`
 
 The shared catalog is the primary source because shared UI and game surfaces are localized from `RetroRacingShared`.
+
+## Voice And Transcreation
+
+- Use English (`en`) as the voice reference and Spanish/Catalan (`es`/`ca`) as the tone bar.
+- Transcreate for meaning and energy; avoid literal or bureaucratic phrasing.
+- Preserve playful arcade tone (pit-stop/coffee paywall, punchy game-over exclamations, warm engagement prompts).
+- Use friendly `du` (German), `je` (Dutch/French), and `tu` (Italian) in player-facing copy.
+- Do not translate `RetroRapid` / `RetroRapid!` (see `BrandMark.swift`, `AGENTS.md`).
+
+### Product terminology (EU locales)
+
+Keep these customer-facing terms aligned across in-app copy, IAP display names, and App Store metadata:
+
+| Locale | Unlimited Plays | Game Center achievements |
+|---|---|---|
+| `de` | Unbegrenzte Spiele | Erfolge |
+| `nl` | Onbeperkt spelen | prestaties |
+| `it` | Partite illimitate | obiettivi |
+| `fr` | Parties illimitées | succès |
+
+Reference bundle: `Scripts/Resources/eu_localizations.json`.
 
 ## Implementation Rules
 
@@ -40,7 +67,7 @@ The shared catalog is the primary source because shared UI and game surfaces are
 
 - The universal app target uses `Config/RetroRacingUniversalInfo.plist` as an overlay while keeping generated Info.plist enabled.
 - Keep `CFBundleAllowMixedLocalizations = true` so localized resources from embedded/shared bundles are resolved correctly.
-- Keep `CFBundleLocalizations = [en, en-GB, en-AU, en-CA, es, ca]` aligned with project-supported regions.
+- Keep `CFBundleLocalizations = [en, en-GB, en-AU, en-CA, de, nl, it, fr, es, ca]` aligned with project-supported regions.
 
 ## Valencian Variant Guidelines
 
@@ -51,6 +78,7 @@ The shared catalog is the primary source because shared UI and game surfaces are
 ## Testing Strategy
 
 - Unit tests must validate locale resolution for:
+  - German (`de`), Dutch (`nl`), Italian (`it`), French (`fr`)
   - Spanish (`es`)
   - Catalan (`ca`)
 - Keep translation completeness at 100% for required locales in the shared catalog.
@@ -61,6 +89,7 @@ The shared catalog is the primary source because shared UI and game surfaces are
   - `en`
   - `en-GB` and `en-AU` (British spelling variants where applicable; otherwise copy `en`)
   - `en-CA` (copy `en` unless Canadian wording is required)
+  - `de`, `nl`, `it`, `fr`
   - `es`
   - `ca` (with Valencian Meridional phrasing)
 - Engagement/paywall UX keys for the current menu/settings flow include:
@@ -77,7 +106,7 @@ The shared catalog is the primary source because shared UI and game surfaces are
   - `shareplay_your_score_row %lld`, `shareplay_score_row %@ %lld`, `shareplay_opponent_score_fallback_label`, and `shareplay_score_accessibility %@ %lld %lld` — HUD/result/waiting-after-loss score labels without “overtakes” row copy; English fallback copy uses concise `You: <score>` and `Friend: <score>` rows, while display names are used when available.
   - `shareplay_waiting_for_opponent_title` — waiting-after-loss overlay title; user-facing values use the shared concise score-row keys above.
   - `game_over_your_best %lld` — SharePlay result secondary stat copy.
-  - SharePlay user-facing values must avoid em dashes and must provide real `es`/`ca` translations rather than English placeholders.
+  - SharePlay user-facing values must avoid em dashes and must provide real translations for all supported locales rather than English placeholders.
 - After localization changes:
   - run shared and universal unit tests
   - verify no missing translations in String Catalog entries

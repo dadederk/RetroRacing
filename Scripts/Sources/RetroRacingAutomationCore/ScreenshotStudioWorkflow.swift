@@ -15,7 +15,9 @@ public enum ScreenshotStudioMode: Sendable {
 
 public enum ScreenshotStudioWorkflow {
     public static let locales = [
-        "en-US", "en-GB", "en-AU", "en-CA", "es-ES", "es-MX", "ca",
+        "en-US", "en-GB", "en-AU", "en-CA",
+        "de-DE", "nl-NL", "it", "fr-FR",
+        "es-ES", "es-MX", "ca",
     ]
     public static let slideCount = 7
 
@@ -394,36 +396,60 @@ private struct SlideCopy {
 private let slides: [SlideCopy] = [
     SlideCopy(byLocale: [
         "en-US": ("Race Through Endless Traffic", "Dodge traffic and chase overtakes in a retro arcade racer."),
+        "de-DE": ("Rase Durch Endlosen Verkehr", "Weiche Verkehr aus und hol dir Überholungen in diesem Retro-Arcade-Rennen."),
+        "nl-NL": ("Race Door Eindeloos Verkeer", "Ontwijk verkeer en pak inhaalslagen in deze retro arcade-racer."),
+        "it": ("Corri Nel Traffico Infinito", "Schiva il traffico e conquista sorpassi in questo arcade di corse retro."),
+        "fr-FR": ("Fonce Dans Le Trafic Sans Fin", "Esquive le trafic et enchaîne les dépassements dans cette course arcade retro."),
         "es-ES": ("Esquiva Tráfico Sin Fin", "Esquiva tráfico y consigue adelantamientos en un arcade de carreras retro."),
         "es-MX": ("Esquiva Carros Sin Fin", "Esquiva carros y logra rebases en un arcade de carreras retro."),
         "ca": ("Esquiva Trànsit Sense Fi", "Esquiva trànsit i acumula avançaments en este arcade de carreres retro."),
     ]),
     SlideCopy(byLocale: [
         "en-US": ("Simple Controls. Pure Arcade Action", "Move left. Move right. Don't crash. That's the whole game."),
+        "de-DE": ("Einfache Steuerung. Pure Arcade-Action", "Links. Rechts. Nicht crashen. Das ist das ganze Spiel."),
+        "nl-NL": ("Simpele Besturing. Pure Arcade-Actie", "Links. Rechts. Niet crashen. Dat is het hele spel."),
+        "it": ("Controlli Semplici. Pura Azione Arcade", "Sinistra. Destra. Non schiantarti. È tutto il gioco."),
+        "fr-FR": ("Commandes Simples. Action Arcade Pure", "Gauche. Droite. Ne crash pas. C'est tout le jeu."),
         "es-ES": ("Controles Simples. Acción Arcade Pura", "Izquierda. Derecha. No choques. Eso es todo el juego."),
         "es-MX": ("Controles Simples. Acción Arcade Pura", "Izquierda. Derecha. No choques. Eso es todo el juego."),
         "ca": ("Controls Simples. Acció Arcade Pura", "Esquerra. Dreta. No xoques. Això és tot el joc."),
     ]),
     SlideCopy(byLocale: [
         "en-US": ("Built For Accessibility", "VoiceOver, audio cues, haptics, larger text, and adaptable gameplay settings."),
+        "de-DE": ("Für Barrierefreiheit Gebaut", "VoiceOver, Audiohinweise, Haptik und anpassbare Spieleinstellungen."),
+        "nl-NL": ("Gemaakt Voor Toegankelijkheid", "VoiceOver, audiosignalen, haptiek en aanpasbare spelinstellingen."),
+        "it": ("Progettato Per L'Accessibilità", "VoiceOver, segnali audio, haptica e impostazioni di gioco adattabili."),
+        "fr-FR": ("Conçu Pour L'Accessibilité", "VoiceOver, indices audio, haptique et réglages de jeu adaptables."),
         "es-ES": ("Diseñado para la Accesibilidad", "VoiceOver, pistas de audio, hápticos y ajustes de juego adaptables."),
         "es-MX": ("Diseñado para la Accesibilidad", "VoiceOver, pistas de audio, hápticos y ajustes de juego adaptables."),
         "ca": ("Dissenyat per a l'Accessibilitat", "VoiceOver, pistes d'àudio, hàptics i opcions de joc adaptables."),
     ]),
     SlideCopy(byLocale: [
         "en-US": ("One Wrong Move. Game Over", "One mistake ends your run. Restart fast, beat your best."),
+        "de-DE": ("Ein Fehler. Game Over", "Ein Fehler beendet deine Runde. Schnell neu starten, Rekord schlagen."),
+        "nl-NL": ("Één Fout. Game Over", "Één fout beëindigt je run. Snel herstarten, verbeter je record."),
+        "it": ("Un Errore. Game Over", "Un errore termina la partita. Riparti in fretta, batti il tuo record."),
+        "fr-FR": ("Une Erreur. Game Over", "Une erreur termine ta partie. Recommence vite, bats ton record."),
         "es-ES": ("Un Error. Game Over", "Un fallo termina tu partida. Reinicia y supera tu récord."),
         "es-MX": ("Un Error. Game Over", "Un fallo termina tu partida. Reinicia y supera tu récord."),
         "ca": ("Un Error. Game Over", "Un error acaba la teua partida. Reinicia i supera el teu rècord."),
     ]),
     SlideCopy(byLocale: [
         "en-US": ("Chase Friends On The Road", "Game Center markers show the rival score you're chasing."),
+        "de-DE": ("Jage Freunde Auf Der Strecke", "Game-Center-Marker zeigen den Punktestand, den du jagst."),
+        "nl-NL": ("Jaag Vrienden Op De Baan", "Game Center-markeringen tonen de score die je achtervolgt."),
+        "it": ("Insegue Amici In Pista", "I marcatori Game Center mostrano il punteggio che insegui."),
+        "fr-FR": ("Poursuis Tes Amis Sur La Piste", "Les marqueurs Game Center montrent le score que tu poursuis."),
         "es-ES": ("Persigue Amigos en Pista", "Los marcadores de Game Center muestran la puntuación que persigues."),
         "es-MX": ("Persigue Amigos en Pista", "Los marcadores de Game Center muestran la puntuación que persigues."),
         "ca": ("Persegueix Amistats en Pista", "Els marcadors de Game Center mostren la puntuació que persegueixes."),
     ]),
     SlideCopy(byLocale: [
         "en-US": ("Choose Your Retro Aesthetic", "Switch between pocket-console green and LCD handheld styles anytime."),
+        "de-DE": ("Wähle Deinen Retro-Look", "Wechsle jederzeit zwischen Pocket-Konsolen-Grün und LCD-Handheld-Stil."),
+        "nl-NL": ("Kies Je Retro-Stijl", "Wissel altijd tussen pocket-console groen en LCD-handheld-stijl."),
+        "it": ("Scegli La Tua Estetica Retro", "Passa dal verde console tascabile allo stile LCD portatile quando vuoi."),
+        "fr-FR": ("Choisis Ton Style Retro", "Passe du vert console de poche au style LCD portable quand tu veux."),
         "es-ES": ("Elige Tu Estética Retro", "Cambia del verde de consola de bolsillo al estilo LCD portátil."),
         "es-MX": ("Elige Tu Estética Retro", "Cambia del verde de consola de bolsillo al estilo LCD portátil."),
         "ca": ("Tria la Teua Estètica Retro", "Canvia del verd de consola de butxaca a l'estil LCD portàtil."),
@@ -432,6 +458,10 @@ private let slides: [SlideCopy] = [
         "en-US": ("Customize Your Experience", "Tune controls, haptics, volume, and visuals to fit your style."),
         "en-GB": ("Customise Your Experience", "Tune controls, haptics, volume, and visuals to fit your style."),
         "en-AU": ("Customise Your Experience", "Tune controls, haptics, volume, and visuals to fit your style."),
+        "de-DE": ("Passe Dein Erlebnis An", "Stelle Steuerung, Haptik, Lautstärke und Optik nach deinem Stil ein."),
+        "nl-NL": ("Pas Je Ervaring Aan", "Stel besturing, haptiek, volume en visuals af op jouw stijl."),
+        "it": ("Personalizza La Tua Esperienza", "Regola controlli, haptica, volume e grafica al tuo stile."),
+        "fr-FR": ("Personnalise Ton Expérience", "Ajuste commandes, haptique, volume et visuels à ton style."),
         "es-ES": ("Personaliza Tu Experiencia", "Ajusta controles, hápticos, volumen y visuales a tu estilo."),
         "es-MX": ("Personaliza Tu Experiencia", "Ajusta controles, hápticos, volumen y visuales a tu estilo."),
         "ca": ("Personalitza la Teua Experiència", "Ajusta els controls, hàptics, volum i visuals al teu estil."),

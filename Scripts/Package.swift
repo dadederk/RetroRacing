@@ -24,6 +24,8 @@ let package = Package(
         ),
         .executable(name: "generate-metadata-docs", targets: ["GenerateMetadataDocs"]),
         .executable(name: "apply-retrorapid-metadata", targets: ["ApplyRetroRapidMetadata"]),
+        .executable(name: "apply-iap-localizations", targets: ["ApplyIAPLocalizations"]),
+        .executable(name: "print-game-center-eu-localizations", targets: ["PrintGameCenterEULocalizations"]),
         .executable(name: "submit-testflight-build", targets: ["SubmitTestFlightBuild"]),
     ],
     targets: [
@@ -58,6 +60,14 @@ let package = Package(
         ),
         .executableTarget(
             name: "ApplyRetroRapidMetadata",
+            dependencies: ["RetroRapidMetadataCore", "ScriptSupport"]
+        ),
+        .executableTarget(
+            name: "ApplyIAPLocalizations",
+            dependencies: ["RetroRapidMetadataCore", "ScriptSupport"]
+        ),
+        .executableTarget(
+            name: "PrintGameCenterEULocalizations",
             dependencies: ["RetroRapidMetadataCore", "ScriptSupport"]
         ),
         .executableTarget(

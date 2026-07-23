@@ -85,12 +85,28 @@ You can adjust the price later, but be aware:
 
 ### 2.3 Localized Display Name & Description
 
-For each supported language (at least EN, ES, CA):
+For each supported language (at least EN, ES, CA, DE, NL, IT, FR):
 
 - **English (US)**
   - Display Name: `Unlimited Plays`
   - Description:  
     `Unlock unlimited games every day and support RetroRapid! development!`
+
+- **German (Germany)**
+  - Display Name: `Unbegrenzte Spiele`
+  - Description: `Spiele unbegrenzt und unterstütze RetroRapid!`
+
+- **Dutch (Netherlands)**
+  - Display Name: `Onbeperkt spelen`
+  - Description: `Speel onbeperkt en steun RetroRapid!`
+
+- **Italian**
+  - Display Name: `Partite illimitate`
+  - Description: `Partite illimitate: supporta RetroRapid!`
+
+- **French (France)**
+  - Display Name: `Parties illimitées`
+  - Description: `Joue sans limite et soutiens RetroRapid!`
 
 - **Spanish (Spain)**
   - Display Name: `Partidas Ilimitadas`
@@ -109,6 +125,17 @@ For each supported language (at least EN, ES, CA):
   - Supporting the game
   - No subscription / one‑time purchase.
 - Avoid **technical details** (StoreKit, receipts, etc.) – that’s for docs, not users.
+
+**Apply EU IAP localizations via Helm** (after editing `AppStore/iap-localizations/6759012658/`):
+
+```bash
+swift run --package-path Scripts apply-iap-localizations --dry-run
+swift run --package-path Scripts apply-iap-localizations
+```
+
+The tool tries a direct upload from the repo bundle first. When `helm-asc` cannot read repo files (common even after a Developer-folder grant), it downloads the current IAP bundle into Helm’s artifact directory, merges the repo CSVs there, and uploads from that path. Keep **Helm running** while the command executes.
+
+CSV bundle uses `<locale>/metadata.csv` with `field,value` rows for `name` and `description`.
 
 ### 2.4 Screenshot for the Product
 
@@ -297,7 +324,7 @@ In most modern setups, no additional manual work is needed beyond what Xcode man
 ## 7. Quick Checklist Before Submission
 
 - [ ] Product `com.accessibilityUpTo11.RetroRacing.unlimitedPlays` exists in App Store Connect as **Non-Consumable**.
-- [ ] Localized Display Name & Description set for EN, ES, CA.
+- [ ] Localized Display Name & Description set for EN, DE, NL, IT, FR, ES, CA.
 - [ ] Netflix PPP country pricing previewed through Helm and active in App Store Connect.
 - [ ] IAP screenshot uploaded (paywall/settings).
 - [ ] App target has **In‑App Purchase** capability.

@@ -16,6 +16,8 @@ Engineering standards: [CONVENTIONS.md](CONVENTIONS.md).
 | `sync-screenshot-studio-localizations` | Synchronizes Screenshot Studio copy, manifests, and shared locale images | `--check` reports plist, manifest, and image drift without writing |
 | `generate-metadata-docs` | Generates metadata copy and validation documents from the canonical JSON catalog | `--check` verifies generated documents without writing |
 | `apply-retrorapid-metadata` | Applies validated metadata through Helm | `--dry-run` reports the plan without changing App Store Connect |
+| `apply-iap-localizations` | Uploads EU Unlimited Plays IAP localizations through Helm | `--dry-run` plans the upload without changing App Store Connect |
+| `print-game-center-eu-localizations` | Prints EU Game Center achievement copy for manual ASC entry | Read-only |
 | `submit-testflight-build` | Archives iOS/macOS builds and configures TestFlight via Helm | `--dry-run` prints archive, upload, lookup, and TestFlight configuration commands |
 
 ## Recommended Recipes
@@ -62,6 +64,19 @@ Optional metadata flags:
 - `--keywords-only` updates only hidden keywords.
 - `--include-app-info` explicitly retries shared name/subtitle fields.
 - `--helm <path>` overrides the Helm CLI path.
+
+Upload EU Unlimited Plays IAP localizations:
+
+```bash
+swift run --package-path Scripts apply-iap-localizations --dry-run
+swift run --package-path Scripts apply-iap-localizations
+```
+
+Print EU Game Center achievement copy for manual App Store Connect entry:
+
+```bash
+swift run --package-path Scripts print-game-center-eu-localizations
+```
 
 Upload the current TestFlight build:
 

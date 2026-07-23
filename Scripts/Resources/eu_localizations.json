@@ -1,0 +1,2012 @@
+{
+  "%@%@": {
+    "de": "%1$@%2$@",
+    "nl": "%1$@%2$@",
+    "it": "%1$@%2$@",
+    "fr": "%1$@%2$@"
+  },
+  "%@%@%@": {
+    "de": "%1$@%2$@%3$@",
+    "nl": "%1$@%2$@%3$@",
+    "it": "%1$@%2$@%3$@",
+    "fr": "%1$@%2$@%3$@"
+  },
+  "%lld": {
+    "de": "",
+    "nl": "",
+    "it": "",
+    "fr": ""
+  },
+  "%lld life remaining": {
+    "de": "%lld Leben übrig",
+    "nl": "%lld leven over",
+    "it": "%lld vita rimasta",
+    "fr": "%lld vie restante"
+  },
+  "%lld lives remaining": {
+    "de": "%lld Leben übrig",
+    "nl": "%lld levens over",
+    "it": "%lld vite rimaste",
+    "fr": "%lld vies restantes"
+  },
+  "0%": {
+    "de": "0%",
+    "nl": "0%",
+    "it": "0%",
+    "fr": "0%"
+  },
+  "100%": {
+    "de": "100%",
+    "nl": "100%",
+    "it": "100%",
+    "fr": "100%"
+  },
+  "about_also_supporting_header": {
+    "de": "Unterstützen wir auch",
+    "nl": "Ook steunen we",
+    "it": "Sosteniamo anche",
+    "fr": "Nous soutenons aussi"
+  },
+  "about_ammec_footer": {
+    "de": "10 % der Einnahmen gehen an AMMEC, einen Verein, der Autonomie und soziale Integration für Menschen mit körperlichen Behinderungen fördert, Familien unterstützt und Gemeinschaft stärkt.",
+    "nl": "10% van de opbrengsten gaat naar AMMEC, een vereniging die autonomie en sociale integratie voor mensen met een lichamelijke beperking bevordert, gezinnen ondersteunt en gemeenschap versterkt.",
+    "it": "Il 10% dei ricavi va ad AMMEC, un'associazione che promuove l'autonomia e l'integrazione sociale delle persone con disabilità fisiche, sostenendo le famiglie e favorendo la comunità.",
+    "fr": "10 % des recettes vont à AMMEC, une association qui promeut l'autonomie et l'intégration sociale des personnes en situation de handicap physique, en soutenant les familles et en renforçant la communauté."
+  },
+  "about_ammec_title": {
+    "de": "AMMEC",
+    "nl": "AMMEC",
+    "it": "AMMEC",
+    "fr": "AMMEC"
+  },
+  "about_app_subtitle": {
+    "de": "App-Infos, Tipps und Hilfe",
+    "nl": "App-info, tips en hulp",
+    "it": "Info sull'app, consigli e aiuto",
+    "fr": "Infos sur l'app, astuces et aide"
+  },
+  "about_app_title": {
+    "de": "RetroRapid!",
+    "nl": "RetroRapid!",
+    "it": "RetroRapid!",
+    "fr": "RetroRapid!"
+  },
+  "about_arcticonference_subtitle": {
+    "de": "Für die coolste Konferenz",
+    "nl": "Voor de coolste conferentie",
+    "it": "Per la conferenza più imperdibile",
+    "fr": "Pour la conférence la plus cool"
+  },
+  "about_arcticonference_title": {
+    "de": "ARCtic Conference",
+    "nl": "ARCtic Conference",
+    "it": "ARCtic Conference",
+    "fr": "ARCtic Conference"
+  },
+  "about_connect_header": {
+    "de": "Lass uns vernetzen!",
+    "nl": "Laten we contact houden!",
+    "it": "Restiamo in contatto!",
+    "fr": "Restons en contact !"
+  },
+  "about_credits_header": {
+    "de": "Credits",
+    "nl": "Credits",
+    "it": "Crediti",
+    "fr": "Crédits"
+  },
+  "about_font_license": {
+    "de": "Lizenziert unter der SIL Open Font License 1.1",
+    "nl": "Gelicentieerd onder de SIL Open Font License 1.1",
+    "it": "Con licenza SIL Open Font License 1.1",
+    "fr": "Sous licence SIL Open Font License 1.1"
+  },
+  "about_font_press_start": {
+    "de": "Press Start 2P",
+    "nl": "Press Start 2P",
+    "it": "Press Start 2P",
+    "fr": "Press Start 2P"
+  },
+  "about_footer_location": {
+    "de": "Oulu, Finnland",
+    "nl": "Oulu, Finland",
+    "it": "Oulu, Finlandia",
+    "fr": "Oulu, Finlande"
+  },
+  "about_footer_love": {
+    "de": "Mit Liebe ❤️ veröffentlicht aus ARCtic",
+    "nl": "Uitgebracht met liefde ❤️ vanuit ARCtic",
+    "it": "Pubblicato con amore ❤️ da ARCtic",
+    "fr": "Publié avec amour ❤️ depuis ARCtic"
+  },
+  "about_footer_thanks": {
+    "de": "Danke an alle, die gespielt und mich ermutigt haben, den Knopf zu drücken.",
+    "nl": "Bedankt aan iedereen die het spel heeft gespeeld en me heeft aangemoedigd om op de knop te drukken.",
+    "it": "Grazie a tutti quelli che hanno giocato e mi hanno incoraggiato a premere il pulsante.",
+    "fr": "Merci à tous ceux qui ont joué et m'ont encouragé à appuyer sur le bouton."
+  },
+  "about_giving_back_header": {
+    "de": "Zurückgeben",
+    "nl": "Teruggeven",
+    "it": "Restituire",
+    "fr": "Redonner"
+  },
+  "about_helm_subtitle": {
+    "de": "Eine native App für App Store Connect",
+    "nl": "Een native app voor App Store Connect",
+    "it": "Un'app nativa per gestire App Store Connect",
+    "fr": "Une app native pour gérer App Store Connect"
+  },
+  "about_helm_title": {
+    "de": "Shipped with Helm!",
+    "nl": "Shipped with Helm!",
+    "it": "Shipped with Helm!",
+    "fr": "Shipped with Helm!"
+  },
+  "about_link_blog": {
+    "de": "Accessibility up to 11!",
+    "nl": "Accessibility up to 11!",
+    "it": "Accessibility up to 11!",
+    "fr": "Accessibility up to 11!"
+  },
+  "about_link_bluesky": {
+    "de": "BlueSky",
+    "nl": "BlueSky",
+    "it": "BlueSky",
+    "fr": "BlueSky"
+  },
+  "about_link_linkedin": {
+    "de": "LinkedIn",
+    "nl": "LinkedIn",
+    "it": "LinkedIn",
+    "fr": "LinkedIn"
+  },
+  "about_link_mastodon": {
+    "de": "Mastodon",
+    "nl": "Mastodon",
+    "it": "Mastodon",
+    "fr": "Mastodon"
+  },
+  "about_link_twitter": {
+    "de": "X (Twitter)",
+    "nl": "X (Twitter)",
+    "it": "X (Twitter)",
+    "fr": "X (Twitter)"
+  },
+  "about_rate_hint": {
+    "de": "Öffnet die App-Store-Bewertungsseite",
+    "nl": "Opent de App Store-beoordelingspagina",
+    "it": "Apre la pagina delle recensioni sull'App Store",
+    "fr": "Ouvre la page d'évaluation sur l'App Store"
+  },
+  "about_rate_title": {
+    "de": "Bewerte RetroRapid!",
+    "nl": "Beoordeel RetroRapid!",
+    "it": "Valuta RetroRapid!",
+    "fr": "Note RetroRapid !"
+  },
+  "about_swift_for_swifts_title": {
+    "de": "Swift for Swifts",
+    "nl": "Swift for Swifts",
+    "it": "Swift for Swifts",
+    "fr": "Swift for Swifts"
+  },
+  "about_title": {
+    "de": "Info",
+    "nl": "Over",
+    "it": "Info",
+    "fr": "À propos"
+  },
+  "achievement_control_name_crown": {
+    "de": "Digital Crown",
+    "nl": "Digital Crown",
+    "it": "Digital Crown",
+    "fr": "Digital Crown"
+  },
+  "achievement_control_name_gamecontroller": {
+    "de": "Game Controller",
+    "nl": "Gamecontroller",
+    "it": "Controller di gioco",
+    "fr": "Manette"
+  },
+  "achievement_control_name_keyboard": {
+    "de": "Tastatur",
+    "nl": "Toetsenbord",
+    "it": "Tastiera",
+    "fr": "Clavier"
+  },
+  "achievement_control_name_swipe": {
+    "de": "Wischen",
+    "nl": "Veeg",
+    "it": "Scorrimento",
+    "fr": "Glissement"
+  },
+  "achievement_control_name_tap": {
+    "de": "Tippen",
+    "nl": "Tik",
+    "it": "Tocco",
+    "fr": "Toucher"
+  },
+  "achievement_control_name_voiceover": {
+    "de": "VoiceOver",
+    "nl": "VoiceOver",
+    "it": "VoiceOver",
+    "fr": "VoiceOver"
+  },
+  "achievement_modal_more %lld": {
+    "de": "+%lld weitere Erfolge",
+    "nl": "+%lld extra prestaties",
+    "it": "+%lld altri obiettivi",
+    "fr": "+%lld autres succès"
+  },
+  "achievement_modal_other_achievements": {
+    "de": "Weitere Erfolge",
+    "nl": "Andere prestaties",
+    "it": "Altri obiettivi",
+    "fr": "Autres succès"
+  },
+  "achievement_modal_subtitle": {
+    "de": "Glückwunsch! Du hast freigeschaltet:",
+    "nl": "Gefeliciteerd! Je hebt ontgrendeld:",
+    "it": "Complimenti! Hai sbloccato:",
+    "fr": "Bravo ! Tu as débloqué :"
+  },
+  "achievement_modal_title": {
+    "de": "Erfolg freigeschaltet!",
+    "nl": "Prestatie voltooid!",
+    "it": "Obiettivo sbloccato!",
+    "fr": "Succès débloqué !"
+  },
+  "achievement_title_control %@": {
+    "de": "Steuerung mit %@ in einer abgeschlossenen Runde",
+    "nl": "%@-besturing gebruiken in een voltooide run",
+    "it": "Usa i controlli %@ in una partita completata",
+    "fr": "Utiliser les commandes %@ dans une partie terminée"
+  },
+  "achievement_title_event_gaad": {
+    "de": "GAAD Assistive Week",
+    "nl": "GAAD Assistive Week",
+    "it": "Settimana GAAD Assistiva",
+    "fr": "Semaine GAAD Assistive"
+  },
+  "achievement_title_run_overtakes %lld": {
+    "de": "Serie: %lld Autos in einer Runde überholen",
+    "nl": "Reeks: %lld auto's inhalen in één run",
+    "it": "Serie: sorpassa %lld auto in una partita",
+    "fr": "Série : dépasse %lld voitures en une partie"
+  },
+  "achievement_title_total_overtakes %lld": {
+    "de": "Overlander: %lld Autos insgesamt überholen",
+    "nl": "Overlander: %lld auto's in totaal inhalen",
+    "it": "Overlander: sorpassa %lld auto in totale",
+    "fr": "Overlander : dépasse %lld voitures au total"
+  },
+  "Close": {
+    "de": "Schließen",
+    "nl": "Sluiten",
+    "it": "Chiudi",
+    "fr": "Fermer"
+  },
+  "coming_soon": {
+    "de": "Demnächst",
+    "nl": "Binnenkort",
+    "it": "Prossimamente",
+    "fr": "Bientôt"
+  },
+  "controller_button_a": {
+    "de": "A",
+    "nl": "A",
+    "it": "A",
+    "fr": "A"
+  },
+  "controller_button_b": {
+    "de": "B",
+    "nl": "B",
+    "it": "B",
+    "fr": "B"
+  },
+  "controller_button_dpadLeft": {
+    "de": "D-pad links",
+    "nl": "D-pad links",
+    "it": "D-pad sinistra",
+    "fr": "D-pad gauche"
+  },
+  "controller_button_dpadRight": {
+    "de": "D-pad rechts",
+    "nl": "D-pad rechts",
+    "it": "D-pad destra",
+    "fr": "D-pad droite"
+  },
+  "controller_button_leftShoulder": {
+    "de": "Linker Shoulder",
+    "nl": "Linker shoulder",
+    "it": "Bumper sinistro",
+    "fr": "Gâchette gauche (shoulder)"
+  },
+  "controller_button_leftTrigger": {
+    "de": "Linker Trigger",
+    "nl": "Linker trigger",
+    "it": "Grilletto sinistro",
+    "fr": "Gâchette gauche (trigger)"
+  },
+  "controller_button_menu": {
+    "de": "Menü",
+    "nl": "Menu",
+    "it": "Menu",
+    "fr": "Menu"
+  },
+  "controller_button_none": {
+    "de": "Keine",
+    "nl": "Geen",
+    "it": "Nessuno",
+    "fr": "Aucun"
+  },
+  "controller_button_rightShoulder": {
+    "de": "Rechter Shoulder",
+    "nl": "Rechter shoulder",
+    "it": "Bumper destro",
+    "fr": "Gâchette droite (shoulder)"
+  },
+  "controller_button_rightTrigger": {
+    "de": "Rechter Trigger",
+    "nl": "Rechter trigger",
+    "it": "Grilletto destro",
+    "fr": "Gâchette droite (trigger)"
+  },
+  "controller_button_x": {
+    "de": "X",
+    "nl": "X",
+    "it": "X",
+    "fr": "X"
+  },
+  "controller_button_y": {
+    "de": "Y",
+    "nl": "Y",
+    "it": "Y",
+    "fr": "Y"
+  },
+  "crash_sprite": {
+    "de": "Crash",
+    "nl": "Botsing",
+    "it": "Incidente",
+    "fr": "Crash"
+  },
+  "debug_boolean_false": {
+    "de": "False",
+    "nl": "False",
+    "it": "False",
+    "fr": "False"
+  },
+  "debug_boolean_true": {
+    "de": "True",
+    "nl": "True",
+    "it": "True",
+    "fr": "True"
+  },
+  "debug_force_achievement_none": {
+    "de": "Kein erzwungener Erfolg",
+    "nl": "Geen geforceerde prestatie",
+    "it": "Nessun traguardo forzato",
+    "fr": "Aucun succès forcé"
+  },
+  "debug_force_achievement_picker_footer": {
+    "de": "Zeigt den ausgewählten Erfolg in der Game-Over-Oberfläche an, ohne ihn zu melden.",
+    "nl": "Toont de geselecteerde prestatie in het Game Over-scherm zonder deze te rapporteren.",
+    "it": "Mostra il traguardo selezionato nella schermata Game Over senza inviarlo.",
+    "fr": "Affiche le succès sélectionné dans l'écran Game Over sans l'envoyer."
+  },
+  "debug_force_achievement_picker_title": {
+    "de": "Erfolg freischalten erzwingen",
+    "nl": "Prestatie ontgrendelen forceren",
+    "it": "Forza sblocco traguardo",
+    "fr": "Forcer le déblocage d'un succès"
+  },
+  "debug_gaad_active_assistive": {
+    "de": "Active Assistive Technologies",
+    "nl": "Actieve ondersteunende technologieën",
+    "it": "Tecnologie assistive attive",
+    "fr": "Technologies d'assistance actives"
+  },
+  "debug_gaad_assistive_none": {
+    "de": "Keine",
+    "nl": "Geen",
+    "it": "Nessuna",
+    "fr": "Aucune"
+  },
+  "debug_gaad_assistive_switch_control": {
+    "de": "Switch Control",
+    "nl": "Switch Control",
+    "it": "Switch Control",
+    "fr": "Switch Control"
+  },
+  "debug_gaad_assistive_voiceover": {
+    "de": "VoiceOver",
+    "nl": "VoiceOver",
+    "it": "VoiceOver",
+    "fr": "VoiceOver"
+  },
+  "debug_gaad_current_time": {
+    "de": "Aktuelle Uhrzeit",
+    "nl": "Huidige tijd",
+    "it": "Ora attuale",
+    "fr": "Heure actuelle"
+  },
+  "debug_gaad_in_window": {
+    "de": "Innerhalb GAAD Week",
+    "nl": "Binnen GAAD Week",
+    "it": "Durante la GAAD Week",
+    "fr": "Pendant la GAAD Week"
+  },
+  "debug_gaad_local_achievement": {
+    "de": "GAAD Achievement Marked Achieved",
+    "nl": "GAAD-prestatie gemarkeerd als behaald",
+    "it": "Traguardo GAAD segnato come ottenuto",
+    "fr": "Succès GAAD marqué comme obtenu"
+  },
+  "debug_gaad_panel_title": {
+    "de": "GAAD Achievement QA",
+    "nl": "GAAD Achievement QA",
+    "it": "QA traguardo GAAD",
+    "fr": "QA succès GAAD"
+  },
+  "debug_gaad_qualification_mode": {
+    "de": "Qualification Mode",
+    "nl": "Kwalificatiemodus",
+    "it": "Modalità di qualificazione",
+    "fr": "Mode de qualification"
+  },
+  "debug_gaad_qualification_mode_voiceover_only": {
+    "de": "Nur VoiceOver (watchOS v1)",
+    "nl": "Alleen VoiceOver (watchOS v1)",
+    "it": "Solo VoiceOver (watchOS v1)",
+    "fr": "VoiceOver uniquement (watchOS v1)"
+  },
+  "debug_gaad_qualification_mode_voiceover_switch": {
+    "de": "VoiceOver + Switch Control (v1)",
+    "nl": "VoiceOver + Switch Control (v1)",
+    "it": "VoiceOver + Switch Control (v1)",
+    "fr": "VoiceOver + Switch Control (v1)"
+  },
+  "debug_gaad_qualifies_now": {
+    "de": "Would Qualify If Run Ends Now",
+    "nl": "Zou kwalificeren als de run nu eindigt",
+    "it": "Qualificherebbe se la partita finisse ora",
+    "fr": "Serait qualifié si la partie se terminait maintenant"
+  },
+  "debug_gaad_signal_latched": {
+    "de": "GAAD Completion Signal Latched",
+    "nl": "GAAD-voltooiingssignaal vastgehouden",
+    "it": "Segnale di completamento GAAD bloccato",
+    "fr": "Signal de fin GAAD verrouillé"
+  },
+  "debug_gaad_window": {
+    "de": "GAAD Week Window",
+    "nl": "GAAD Week-venster",
+    "it": "Finestra GAAD Week",
+    "fr": "Fenêtre GAAD Week"
+  },
+  "debug_gaad_window_unavailable": {
+    "de": "Nicht verfügbar",
+    "nl": "Niet beschikbaar",
+    "it": "Non disponibile",
+    "fr": "Indisponible"
+  },
+  "debug_section_title": {
+    "de": "Debug",
+    "nl": "Debug",
+    "it": "Debug",
+    "fr": "Debug"
+  },
+  "debug_show_spritekit_frame_stats": {
+    "de": "SpriteKit-FPS und Knotenanzahl anzeigen",
+    "nl": "SpriteKit-FPS en knopentelling tonen",
+    "it": "Mostra FPS e conteggio nodi SpriteKit",
+    "fr": "Afficher les FPS SpriteKit et le nombre de nœuds"
+  },
+  "debug_simulate_premium": {
+    "de": "Unbegrenzte Spiele simulieren",
+    "nl": "Onbeperkt spelen simuleren",
+    "it": "Simula partite illimitate",
+    "fr": "Simuler les parties illimitées"
+  },
+  "debug_simulate_premium_footer": {
+    "de": "Standard nutzt Produktionsverhalten. Unbegrenzte Spiele erzwingt vollen Zugriff. Freemium simuliert, dass Unbegrenzte Spiele nicht gekauft wurden.",
+    "nl": "Standaard gebruikt productiegedrag. Onbeperkt spelen forceert volledige toegang. Freemium simuleert dat Onbeperkt spelen niet is gekocht.",
+    "it": "Predefinito usa il comportamento di produzione. Partite illimitate forza l'accesso completo. Freemium simula che Partite illimitate non sia stato acquistato.",
+    "fr": "Par défaut, comportement de production. Parties illimitées force l'accès complet. Freemium simule que Parties illimitées n'a pas été acheté."
+  },
+  "debug_simulation_mode_default": {
+    "de": "Standard",
+    "nl": "Standaard",
+    "it": "Predefinito",
+    "fr": "Par défaut"
+  },
+  "debug_simulation_mode_freemium": {
+    "de": "Freemium",
+    "nl": "Freemium",
+    "it": "Freemium",
+    "fr": "Freemium"
+  },
+  "debug_simulation_mode_unlimited": {
+    "de": "Unbegrenzte Spiele",
+    "nl": "Onbeperkt spelen",
+    "it": "Partite illimitate",
+    "fr": "Parties illimitées"
+  },
+  "debug_spritekit_stats %@ %@": {
+    "de": "FPS %@ · Knoten %@",
+    "nl": "FPS %@ · Knopen %@",
+    "it": "FPS %@ · Nodi %@",
+    "fr": "FPS %@ · Nœuds %@"
+  },
+  "done": {
+    "de": "Fertig",
+    "nl": "Klaar",
+    "it": "Fine",
+    "fr": "Terminé"
+  },
+  "error_product_not_available": {
+    "de": "Produkte konnten nicht geladen werden. Bitte prüfe deine Internetverbindung.",
+    "nl": "Producten kunnen niet worden geladen. Controleer je internetverbinding.",
+    "it": "Impossibile caricare i prodotti. Controlla la connessione a Internet.",
+    "fr": "Impossible de charger les produits. Vérifie ta connexion Internet."
+  },
+  "error_retry": {
+    "de": "Erneut versuchen",
+    "nl": "Opnieuw proberen",
+    "it": "Riprova",
+    "fr": "Réessayer"
+  },
+  "event_play_unlimited_subtitle %@ %@": {
+    "de": "Unbegrenzt bis %@, feiern wir %@ 🏎",
+    "nl": "Onbeperkt tot %@, ter ere van %@ 🏎",
+    "it": "Illimitato fino al %@, in celebrazione di %@ 🏎",
+    "fr": "Illimité jusqu'au %@, pour célébrer %@ 🏎"
+  },
+  "event_play_unlimited_title": {
+    "de": "Unbegrenzte Spiele",
+    "nl": "Onbeperkt spelen",
+    "it": "Partite illimitate",
+    "fr": "Parties illimitées"
+  },
+  "finish": {
+    "de": "Beenden",
+    "nl": "Afronden",
+    "it": "Termina",
+    "fr": "Terminer"
+  },
+  "font_style_custom": {
+    "de": "Retro (Press Start 2P)",
+    "nl": "Retro (Press Start 2P)",
+    "it": "Retro (Press Start 2P)",
+    "fr": "Retro (Press Start 2P)"
+  },
+  "font_style_system": {
+    "de": "System",
+    "nl": "Systeem",
+    "it": "Sistema",
+    "fr": "Système"
+  },
+  "font_style_system_monospaced": {
+    "de": "System monospaced",
+    "nl": "Systeem monospaced",
+    "it": "Sistema monospaziato",
+    "fr": "Système monospace"
+  },
+  "friend_milestone_avatar %@ %lld": {
+    "de": "Bevorstehende Freundes-Punktzahl: %@, %lld",
+    "nl": "Aankomende vriendenscore: %@, %lld",
+    "it": "Punteggio amico in arrivo: %@, %lld",
+    "fr": "Score d'ami à venir : %@, %lld"
+  },
+  "friend_overtake_announcement %@": {
+    "de": "%@ überholt",
+    "nl": "%@ ingehaald",
+    "it": "Hai sorpassato %@",
+    "fr": "Tu as dépassé %@"
+  },
+  "friend_overtake_announcement_multiple %lld": {
+    "de": "%lld Freunde überholt",
+    "nl": "%lld vrienden ingehaald",
+    "it": "Hai sorpassato %lld amici",
+    "fr": "Tu as dépassé %lld amis"
+  },
+  "Game Center is unavailable for this account.": {
+    "de": "Game Center ist für dieses Konto nicht verfügbar.",
+    "nl": "Game Center is niet beschikbaar voor dit account.",
+    "it": "Game Center non è disponibile per questo account.",
+    "fr": "Game Center n'est pas disponible pour ce compte."
+  },
+  "Game Center leaderboard is available on iOS and tvOS.": {
+    "de": "Die Game-Center-Bestenliste ist auf iOS und tvOS verfügbar.",
+    "nl": "Het Game Center-klassement is beschikbaar op iOS en tvOS.",
+    "it": "La classifica di Game Center è disponibile su iOS e tvOS.",
+    "fr": "Le classement Game Center est disponible sur iOS et tvOS."
+  },
+  "Game Center leaderboard is not available on this device.": {
+    "de": "Die Game-Center-Bestenliste ist auf diesem Gerät nicht verfügbar.",
+    "nl": "Het Game Center-klassement is niet beschikbaar op dit apparaat.",
+    "it": "La classifica di Game Center non è disponibile su questo dispositivo.",
+    "fr": "Le classement Game Center n'est pas disponible sur cet appareil."
+  },
+  "game_over_best %lld": {
+    "de": "Beste: %lld",
+    "nl": "Beste: %lld",
+    "it": "Record: %lld",
+    "fr": "Meilleur : %lld"
+  },
+  "game_over_your_best %lld": {
+    "de": "Deine Beste: %lld",
+    "nl": "Je beste: %lld",
+    "it": "Il tuo record: %lld",
+    "fr": "Ton meilleur : %lld"
+  },
+  "game_over_encouragement_subtitle": {
+    "de": "Die nächste Runde könnte deine beste werden.",
+    "nl": "De volgende ronde kan je beste worden.",
+    "it": "Il prossimo giro potrebbe essere il tuo migliore.",
+    "fr": "Le prochain tour pourrait être ton meilleur."
+  },
+  "game_over_encouragement_title": {
+    "de": "Gut gespielt!",
+    "nl": "Goed gespeeld!",
+    "it": "Ben giocato!",
+    "fr": "Bien joué !"
+  },
+  "game_over_friend_score %@ %lld": {
+    "de": "%@: %lld",
+    "nl": "%@: %lld",
+    "it": "%@: %lld",
+    "fr": "%@: %lld"
+  },
+  "game_over_new_record_subtitle": {
+    "de": "Starke Fahrt! Du hast deinen Bestwert geschlagen.",
+    "nl": "Geweldige rit! Je hebt je beste score verslagen.",
+    "it": "Gran gara! Hai battuto il tuo miglior punteggio.",
+    "fr": "Super course ! Tu as battu ton meilleur score."
+  },
+  "game_over_new_record_title": {
+    "de": "Neuer Rekord!",
+    "nl": "Nieuw record!",
+    "it": "Nuovo record!",
+    "fr": "Nouveau record !"
+  },
+  "game_over_new_record_value %lld": {
+    "de": "Neuer Rekord: %lld",
+    "nl": "Nieuw record: %lld",
+    "it": "Nuovo record: %lld",
+    "fr": "Nouveau record : %lld"
+  },
+  "game_over_next_friend_ahead_title": {
+    "de": "Nächster Freund voraus",
+    "nl": "Volgende vriend voor je",
+    "it": "Prossimo amico davanti",
+    "fr": "Prochain ami devant toi"
+  },
+  "game_over_overtaken_friends_more %lld": {
+    "de": "+%lld weitere",
+    "nl": "+%lld meer",
+    "it": "+%lld altri",
+    "fr": "+%lld de plus"
+  },
+  "game_over_overtaken_friends_title": {
+    "de": "Freunde in dieser Runde überholt",
+    "nl": "Vrienden ingehaald in deze run",
+    "it": "Amici sorpassati in questa partita",
+    "fr": "Amis dépassés dans cette partie"
+  },
+  "game_over_previous_best %lld": {
+    "de": "Vorherige Beste: %lld",
+    "nl": "Vorige beste: %lld",
+    "it": "Migliore precedente: %lld",
+    "fr": "Meilleur précédent : %lld"
+  },
+  "game_over_speed %@": {
+    "de": "Tempo: %@",
+    "nl": "Snelheid: %@",
+    "it": "Velocità: %@",
+    "fr": "Vitesse : %@"
+  },
+  "gameName": {
+    "de": "RetroRapid!",
+    "nl": "RetroRapid!",
+    "it": "RetroRapid!",
+    "fr": "RetroRapid!"
+  },
+  "gameOver": {
+    "de": "Game Over",
+    "nl": "Game Over",
+    "it": "Game Over",
+    "fr": "Game Over"
+  },
+  "grid_cell_label %@ (%lld, %lld)": {
+    "de": "%@ (%lld, %lld)",
+    "nl": "%@ (%lld, %lld)",
+    "it": "%@ (%lld, %lld)",
+    "fr": "%@ (%lld, %lld)"
+  },
+  "leaderboard": {
+    "de": "Bestenliste",
+    "nl": "Klassement",
+    "it": "Classifica",
+    "fr": "Classement"
+  },
+  "lives_count": {
+    "de": " x%lld",
+    "nl": " x%lld",
+    "it": " x%lld",
+    "fr": " x%lld"
+  },
+  "menu_button": {
+    "de": "Menü",
+    "nl": "Menu",
+    "it": "Menu",
+    "fr": "Menu"
+  },
+  "menu_engagement_prompt": {
+    "de": "Gefällt dir das Spiel? Du kannst RetroRapid! unterstützen!",
+    "nl": "Vind je het spel leuk? Je kunt RetroRapid! helpen!",
+    "it": "Ti piace il gioco? Puoi aiutare RetroRapid!",
+    "fr": "Tu aimes le jeu ? Tu peux aider RetroRapid !"
+  },
+  "menu_engagement_prompt_rate_only": {
+    "de": "Gefällt dir das Spiel?",
+    "nl": "Vind je het spel leuk?",
+    "it": "Ti piace il gioco?",
+    "fr": "Tu aimes le jeu ?"
+  },
+  "menu_play_with_friends": {
+    "de": "Mit Freunden spielen",
+    "nl": "Spelen met vrienden",
+    "it": "Gioca con gli amici",
+    "fr": "Jouer avec des amis"
+  },
+  "menu_play_with_friends_free_footer": {
+    "de": "Freundesrennen sind kostenlos.",
+    "nl": "Vriendenraces zijn gratis.",
+    "it": "Le gare con gli amici sono gratis.",
+    "fr": "Les courses entre amis sont gratuites."
+  },
+  "menu_play_with_friends_free_hint": {
+    "de": "SharePlay-Matches verbrauchen keine täglichen Spiele.",
+    "nl": "SharePlay-wedstrijden gebruiken geen dagelijkse runs.",
+    "it": "Le partite SharePlay non consumano le tue giocate giornaliere.",
+    "fr": "Les parties SharePlay n'utilisent pas tes essais quotidiens."
+  },
+  "menu_rate_game": {
+    "de": "Bewerten",
+    "nl": "Beoordeel",
+    "it": "Valuta",
+    "fr": "Noter"
+  },
+  "menu_support_game": {
+    "de": "Spiel unterstützen",
+    "nl": "Steun het spel",
+    "it": "Sostieni il gioco",
+    "fr": "Soutenir le jeu"
+  },
+  "move_left": {
+    "de": "Nach links",
+    "nl": "Naar links",
+    "it": "Muovi a sinistra",
+    "fr": "Aller à gauche"
+  },
+  "move_left_hint": {
+    "de": "Doppeltippen, um das Auto nach links zu bewegen",
+    "nl": "Dubbeltik om de auto naar links te bewegen",
+    "it": "Tocca due volte per spostare l'auto a sinistra",
+    "fr": "Double-touche pour déplacer la voiture à gauche"
+  },
+  "move_right": {
+    "de": "Nach rechts",
+    "nl": "Naar rechts",
+    "it": "Muovi a destra",
+    "fr": "Aller à droite"
+  },
+  "move_right_hint": {
+    "de": "Doppeltippen, um das Auto nach rechts zu bewegen",
+    "nl": "Dubbeltik om de auto naar rechts te bewegen",
+    "it": "Tocca due volte per spostare l'auto a destra",
+    "fr": "Double-touche pour déplacer la voiture à droite"
+  },
+  "new_high_score_message %lld": {
+    "de": "Neuer Highscore! %lld Überholungen",
+    "nl": "Nieuwe topscore! %lld inhaalacties",
+    "it": "Nuovo record! %lld sorpassi",
+    "fr": "Nouveau record ! %lld dépassements"
+  },
+  "no_car": {
+    "de": "Kein Auto",
+    "nl": "Geen auto",
+    "it": "Nessuna auto",
+    "fr": "Pas de voiture"
+  },
+  "ok": {
+    "de": "OK",
+    "nl": "Oké",
+    "it": "OK",
+    "fr": "OK"
+  },
+  "Opens app rating prompt": {
+    "de": "Öffnet die App-Bewertungsaufforderung",
+    "nl": "Opent de app-beoordelingsprompt",
+    "it": "Apre la richiesta di valutazione dell'app",
+    "fr": "Ouvre l'invite d'évaluation de l'app"
+  },
+  "pause": {
+    "de": "Pause",
+    "nl": "Pauze",
+    "it": "Pausa",
+    "fr": "Pause"
+  },
+  "paywall_avatar_accessibility_label": {
+    "de": "Pixel-Art-Porträt eines lächelnden, bärtigen Mannes mit Flat Cap und marineblauem Pullover, vor einer Retro-Rennstrecke mit Tribünen, Startampeln und winzigen grünen Autos im bunten 16-Bit-Spielstil.",
+    "nl": "Pixelart-portret van een glimlachende, bebaarde man met een platte pet en marineblauwe trui, tegen een retro-racecircuit met tribunes, startlichten en kleine groene auto's in een kleurrijke 16-bit gamestijl.",
+    "it": "Ritratto pixel art di un uomo sorridente con barba, berretto piatto e maglione blu navy, su un circuito retro con tribune, semaforo di partenza e piccole auto verdi in uno stile di gioco 16 bit colorato.",
+    "fr": "Portrait en pixel art d'un homme souriant barbu, casquette plate et pull bleu marine, sur un circuit rétro avec tribunes, feux de départ et petites voitures vertes dans un style de jeu 16 bits coloré."
+  },
+  "paywall_caption_coffee": {
+    "de": "Hi! Ich bin Dani. Schalte Unbegrenzte Spiele frei und spendier mir einen Kaffee. Koffein hilft mir, neue Features zu bauen, die du hoffentlich lieben wirst.",
+    "nl": "Hoi! Ik ben Dani. Overweeg Onbeperkt spelen te ontgrendelen als een manier om me een koffie te trakteren. Cafeïne helpt me nieuwe functies te bouwen waarvan ik hoop dat je ze geweldig vindt.",
+    "it": "Ciao! Sono Dani. Considera di sbloccare Partite illimitate per offrirmi un caffè. La caffeina mi aiuta a creare nuove funzioni che spero ti piaceranno.",
+    "fr": "Salut ! Je suis Dani. Pense à débloquer Parties illimitées pour m'offrir un café. La caféine m'aide à créer de nouvelles fonctionnalités qui, je l'espère, te plairont."
+  },
+  "paywall_close": {
+    "de": "Schließen",
+    "nl": "Sluiten",
+    "it": "Chiudi",
+    "fr": "Fermer"
+  },
+  "paywall_footer_one_time": {
+    "de": "Einmaliger Kauf. Kein Abo. Schaltet unbegrenzte Spiele für immer frei.",
+    "nl": "Eenmalige aankoop. Geen abonnement. Ontgrendelt onbeperkt spelen voor altijd.",
+    "it": "Acquisto una tantum. Nessun abbonamento. Sblocca partite illimitate per sempre.",
+    "fr": "Achat unique. Pas d'abonnement. Débloque des parties illimitées pour toujours."
+  },
+  "paywall_giving_back_body": {
+    "de": "10 % der Einnahmen gehen an **AMMEC**, einen Verein, der Autonomie und soziale Integration für Menschen mit körperlichen Behinderungen fördert, Familien unterstützt und Gemeinschaft stärkt.",
+    "nl": "10% van de opbrengsten gaat naar **AMMEC**, een vereniging die autonomie en sociale integratie voor mensen met een lichamelijke beperking bevordert, gezinnen ondersteunt en gemeenschap versterkt.",
+    "it": "Il 10% dei ricavi va ad **AMMEC**, un'associazione che promuove l'autonomia e l'integrazione sociale delle persone con disabilità fisiche, sostenendo le famiglie e favorendo la comunità.",
+    "fr": "10 % des recettes vont à **AMMEC**, une association qui promeut l'autonomie et l'intégration sociale des personnes en situation de handicap physique, en soutenant les familles et en renforçant la communauté."
+  },
+  "paywall_giving_back_title": {
+    "de": "Zurückgeben",
+    "nl": "Teruggeven",
+    "it": "Restituire",
+    "fr": "Redonner"
+  },
+  "paywall_go_premium": {
+    "de": "Unbegrenzt spielen",
+    "nl": "Onbeperkt spelen",
+    "it": "Senza limiti",
+    "fr": "Sans limites"
+  },
+  "paywall_learn_more": {
+    "de": "Mehr erfahren",
+    "nl": "Meer info",
+    "it": "Scopri di più",
+    "fr": "En savoir plus"
+  },
+  "paywall_limit_notice": {
+    "de": "Boxenstopp! Du hast alle Spiele für heute verbraucht. Komm morgen wieder für mehr Gratis-Spiele. Oder geh unbegrenzt: Ein Kaffee für mich, unbegrenzte Spiele für dich!",
+    "nl": "Pitstop! Je hebt al je runs voor vandaag opgebruikt. Kom morgen terug voor meer gratis runs. Of ga onbeperkt: een koffie voor mij, onbeperkt spelen voor jou!",
+    "it": "Pit stop! Hai esaurito tutte le partite di oggi. Torna domani per altre partite gratuite. Oppure vai senza limiti: un caffè per me, partite illimitate per te!",
+    "fr": "Arrêt aux stands ! Tu as utilisé toutes tes parties du jour. Reviens demain pour plus de parties gratuites. Ou passe en illimité : un café pour moi, des parties illimitées pour toi !"
+  },
+  "paywall_shareplay_free_notice": {
+    "de": "Freundesrennen sind mit SharePlay kostenlos!",
+    "nl": "Vriendenraces zijn gratis met SharePlay!",
+    "it": "Le gare con gli amici sono gratis con SharePlay!",
+    "fr": "Les courses entre amis sont gratuites avec SharePlay !"
+  },
+  "paywall_stay_free_reset_body": {
+    "de": "Dein Tageslimit wird um Mitternacht zurückgesetzt.",
+    "nl": "Je daglimiet wordt om middernacht gereset.",
+    "it": "Il limite giornaliero si azzera a mezzanotte.",
+    "fr": "Ta limite quotidienne se réinitialise à minuit."
+  },
+  "paywall_stay_free_reset_title": {
+    "de": "Kein Stress!",
+    "nl": "Geen zorgen!",
+    "it": "Nessun problema!",
+    "fr": "Pas de souci !"
+  },
+  "paywall_stay_free_title": {
+    "de": "Gratis bleiben?",
+    "nl": "Gratis blijven spelen?",
+    "it": "Vuoi restare gratis?",
+    "fr": "Rester en gratuit ?"
+  },
+  "paywall_stay_free_watch_body": {
+    "de": "Spiele so viel du willst auf deiner Apple Watch.",
+    "nl": "Speel zoveel je wilt op je Apple Watch.",
+    "it": "Continua a giocare quanto vuoi sul tuo Apple Watch.",
+    "fr": "Joue autant que tu veux sur ton Apple Watch."
+  },
+  "paywall_stay_free_watch_title": {
+    "de": "Apple Watch",
+    "nl": "Apple Watch",
+    "it": "Apple Watch",
+    "fr": "Apple Watch"
+  },
+  "paywall_title": {
+    "de": "Unbegrenzte Spiele freischalten",
+    "nl": "Onbeperkt spelen ontgrendelen",
+    "it": "Ottieni partite illimitate",
+    "fr": "Obtenir des parties illimitées"
+  },
+  "paywall_unlimited_and_themes": {
+    "de": "Unbegrenzte Spiele für immer. Wähle aus verfügbaren visuellen Themes. Unterstütze die Entwicklung.",
+    "nl": "Onbeperkt spelen voor altijd. Kies uit beschikbare visuele thema's. Steun de ontwikkeling.",
+    "it": "Partite illimitate per sempre. Scegli tra i temi visivi disponibili. Sostieni lo sviluppo.",
+    "fr": "Parties illimitées pour toujours. Choisis parmi les thèmes visuels disponibles. Soutiens le développement."
+  },
+  "play": {
+    "de": "Spielen",
+    "nl": "Spelen",
+    "it": "Gioca",
+    "fr": "Jouer"
+  },
+  "play_limit_remaining %lld %lld": {
+    "de": "Verbleibend: %lld von %lld",
+    "nl": "Resterend: %lld van %lld",
+    "it": "Rimanenti: %lld di %lld",
+    "fr": "Restantes : %lld sur %lld"
+  },
+  "play_limit_resets_in_hours %lld": {
+    "de": "Zurücksetzen in %lld Stunden",
+    "nl": "Reset over %lld uur",
+    "it": "Si azzera tra %lld ore",
+    "fr": "Réinitialisation dans %lld heures"
+  },
+  "play_limit_resets_in_one_hour": {
+    "de": "Zurücksetzen in 1 Stunde",
+    "nl": "Reset over 1 uur",
+    "it": "Si azzera tra 1 ora",
+    "fr": "Réinitialisation dans 1 heure"
+  },
+  "play_limit_resets_tomorrow": {
+    "de": "Zurücksetzen morgen um 00:00",
+    "nl": "Reset morgen om 00:00",
+    "it": "Si azzera domani alle 00:00",
+    "fr": "Réinitialisation demain à 00:00"
+  },
+  "play_limit_section_footer %lld": {
+    "de": "%lld Gratis-Spiele pro Tag ohne Unbegrenzte Spiele.",
+    "nl": "%lld gratis runs per dag zonder Onbeperkt spelen.",
+    "it": "%lld partite gratuite al giorno senza Partite illimitate.",
+    "fr": "%lld parties gratuites par jour sans Parties illimitées."
+  },
+  "play_limit_section_footer_first_day %lld %lld": {
+    "de": "%lld Gratis-Spiele pro Tag ohne Unbegrenzte Spiele. Willkommensbonus: %lld Gratis-Spiele am ersten Tag.",
+    "nl": "%lld gratis runs per dag zonder Onbeperkt spelen. Welkomstbonus: %lld gratis runs op je eerste dag.",
+    "it": "%lld partite gratuite al giorno senza Partite illimitate. Bonus di benvenuto: %lld partite gratuite il primo giorno.",
+    "fr": "%lld parties gratuites par jour sans Parties illimitées. Bonus de bienvenue : %lld parties gratuites le premier jour."
+  },
+  "play_limit_thank_you": {
+    "de": "Danke für deine Unterstützung!",
+    "nl": "Bedankt voor je steun!",
+    "it": "Grazie per il tuo supporto!",
+    "fr": "Merci pour ton soutien !"
+  },
+  "play_limit_title": {
+    "de": "Spiel-Limit",
+    "nl": "Speellimiet",
+    "it": "Limite di partite",
+    "fr": "Limite de parties"
+  },
+  "play_limit_unlimited": {
+    "de": "♾️ Unbegrenzt",
+    "nl": "♾️ Onbeperkt",
+    "it": "♾️ Illimitato",
+    "fr": "♾️ Illimité"
+  },
+  "player_car": {
+    "de": "Spielerauto",
+    "nl": "Spelersauto",
+    "it": "Auto del giocatore",
+    "fr": "Voiture du joueur"
+  },
+  "product_unlimited_plays": {
+    "de": "Unbegrenzte Spiele",
+    "nl": "Onbeperkt spelen",
+    "it": "Partite illimitate",
+    "fr": "Parties illimitées"
+  },
+  "purchase_error_title": {
+    "de": "Kauf fehlgeschlagen",
+    "nl": "Aankoop mislukt",
+    "it": "Acquisto non riuscito",
+    "fr": "Achat échoué"
+  },
+  "purchase_restored_failed %@": {
+    "de": "Käufe konnten nicht wiederhergestellt werden: %@",
+    "nl": "Aankopen kunnen niet worden hersteld: %@",
+    "it": "Impossibile ripristinare gli acquisti: %@",
+    "fr": "Impossible de restaurer les achats : %@"
+  },
+  "purchase_restored_none": {
+    "de": "Keine Käufe zum Wiederherstellen gefunden.",
+    "nl": "Geen aankopen gevonden om te herstellen.",
+    "it": "Nessun acquisto da ripristinare.",
+    "fr": "Aucun achat à restaurer."
+  },
+  "purchase_restored_success": {
+    "de": "Kauf erfolgreich wiederhergestellt!",
+    "nl": "Aankoop succesvol hersteld!",
+    "it": "Acquisto ripristinato con successo!",
+    "fr": "Achat restauré avec succès !"
+  },
+  "purchase_success_message": {
+    "de": "Du hast jetzt unbegrenzte Spiele!",
+    "nl": "Je hebt nu onbeperkt spelen!",
+    "it": "Ora hai partite illimitate!",
+    "fr": "Tu as maintenant des parties illimitées !"
+  },
+  "purchase_success_title": {
+    "de": "Kauf erfolgreich",
+    "nl": "Aankoop geslaagd",
+    "it": "Acquisto riuscito",
+    "fr": "Achat réussi"
+  },
+  "redeem_code": {
+    "de": "Code einlösen",
+    "nl": "Code inwisselen",
+    "it": "Riscatta codice",
+    "fr": "Utiliser un code"
+  },
+  "restart": {
+    "de": "Nochmal spielen",
+    "nl": "Opnieuw spelen",
+    "it": "Gioca di nuovo",
+    "fr": "Rejouer"
+  },
+  "restore_purchases": {
+    "de": "Käufe wiederherstellen",
+    "nl": "Aankopen herstellen",
+    "it": "Ripristina acquisti",
+    "fr": "Restaurer les achats"
+  },
+  "resume": {
+    "de": "Fortsetzen",
+    "nl": "Hervatten",
+    "it": "Riprendi",
+    "fr": "Reprendre"
+  },
+  "rival_car": {
+    "de": "Gegnerauto",
+    "nl": "Tegenstanderauto",
+    "it": "Auto rivale",
+    "fr": "Voiture rivale"
+  },
+  "score": {
+    "de": "Punkte",
+    "nl": "Score",
+    "it": "Punteggio",
+    "fr": "Score"
+  },
+  "score %lld": {
+    "de": "Punkte: %lld",
+    "nl": "Score: %lld",
+    "it": "Punteggio: %lld",
+    "fr": "Score : %lld"
+  },
+  "settings": {
+    "de": "Einstellungen",
+    "nl": "Instellingen",
+    "it": "Impostazioni",
+    "fr": "Réglages"
+  },
+  "settings_accessibility": {
+    "de": "Bedienungshilfen",
+    "nl": "Toegankelijkheid",
+    "it": "Accessibilità",
+    "fr": "Accessibilité"
+  },
+  "settings_audio_cue_tutorial": {
+    "de": "Audio-Hinweis-Tutorial",
+    "nl": "Audio-aanwijzingentutorial",
+    "it": "Tutorial segnali audio",
+    "fr": "Tutoriel des indices audio"
+  },
+  "settings_audio_feedback_mode": {
+    "de": "Audio-Feedback-Modus",
+    "nl": "Audioreactiemodus",
+    "it": "Modalità feedback audio",
+    "fr": "Mode de retour audio"
+  },
+  "settings_audio_feedback_mode_cue_arpeggio": {
+    "de": "Audio-Hinweise (Arpeggio)",
+    "nl": "Audio-aanwijzingen (arpeggio)",
+    "it": "Segnali audio (arpeggio)",
+    "fr": "Indices audio (arpège)"
+  },
+  "settings_audio_feedback_mode_cue_chord": {
+    "de": "Audio-Hinweise (Akkord)",
+    "nl": "Audio-aanwijzingen (akkoord)",
+    "it": "Segnali audio (accordo)",
+    "fr": "Indices audio (accord)"
+  },
+  "settings_audio_feedback_mode_cue_lane_pulses": {
+    "de": "Audio-Hinweise (Spurpulse)",
+    "nl": "Audio-aanwijzingen (baanpulsen)",
+    "it": "Segnali audio (impulsi di corsia)",
+    "fr": "Indices audio (pulsations de voie)"
+  },
+  "settings_audio_feedback_mode_retro": {
+    "de": "Retro-Audio",
+    "nl": "Retro-audio",
+    "it": "Audio retro",
+    "fr": "Audio rétro"
+  },
+  "settings_audio_feedback_mode_voiceover_default": {
+    "de": "Audio-Hinweise (Arpeggio) (Standard bei aktivem VoiceOver)",
+    "nl": "Audio-aanwijzingen (arpeggio) (standaard wanneer VoiceOver aan staat)",
+    "it": "Segnali audio (arpeggio) (predefinito con VoiceOver attivo)",
+    "fr": "Indices audio (arpège) (par défaut quand VoiceOver est activé)"
+  },
+  "settings_big_cars": {
+    "de": "Große Autos",
+    "nl": "Grote auto's",
+    "it": "Auto grandi",
+    "fr": "Grandes voitures"
+  },
+  "settings_coming_soon": {
+    "de": "Einstellungen demnächst",
+    "nl": "Instellingen binnenkort",
+    "it": "Impostazioni in arrivo",
+    "fr": "Réglages bientôt disponibles"
+  },
+  "settings_controller": {
+    "de": "Controller",
+    "nl": "Controller",
+    "it": "Controller",
+    "fr": "Manette"
+  },
+  "settings_controller_footnote": {
+    "de": "Neu zugewiesene Tasten ersetzen die Standard-D-pad/Menü-Belegungen für diese Aktionen. Der linke Stick bleibt als Links/Rechts-Backup. Pfeiltasten bleiben auf dem Mac aktiv.",
+    "nl": "Hertoegewezen knoppen vervangen de standaard D-pad/Menu-toewijzingen voor die acties. De linker stick blijft als links/rechts-back-up. Pijltjestoetsen blijven actief op Mac.",
+    "it": "I pulsanti rimappati sostituiscono le assegnazioni predefinite di D-pad/Menu per quelle azioni. Lo stick sinistro resta come backup sinistra/destra. I tasti freccia restano attivi su Mac.",
+    "fr": "Les boutons remappés remplacent les assignations D-pad/Menu par défaut pour ces actions. Le stick gauche reste une option gauche/droite. Les touches fléchées restent actives sur Mac."
+  },
+  "settings_controller_move_left": {
+    "de": "Taste Links",
+    "nl": "Knop links",
+    "it": "Pulsante sinistra",
+    "fr": "Bouton gauche"
+  },
+  "settings_controller_move_right": {
+    "de": "Taste Rechts",
+    "nl": "Knop rechts",
+    "it": "Pulsante destra",
+    "fr": "Bouton droite"
+  },
+  "settings_controller_pause_resume": {
+    "de": "Pause/Fortsetzen-Taste",
+    "nl": "Pauze/hervat-knop",
+    "it": "Pulsante pausa/riprendi",
+    "fr": "Bouton pause/reprendre"
+  },
+  "settings_controls": {
+    "de": "Steuerung",
+    "nl": "Besturing",
+    "it": "Controlli",
+    "fr": "Commandes"
+  },
+  "settings_controls_how_to_play": {
+    "de": "So spielst du",
+    "nl": "Hoe je speelt",
+    "it": "Come giocare",
+    "fr": "Comment jouer"
+  },
+  "settings_controls_ios": {
+    "de": "• Wische links oder rechts zum Bewegen.\n• Tippe auf die linke oder rechte Bildschirmhälfte.\n• Nutze die Pfeiltasten links und rechts bei angeschlossener Tastatur.\n• Mit einem Controller bewegen D-pad und linker Stick standardmäßig; Tasten kannst du in den Controller-Einstellungen neu belegen.",
+    "nl": "• Veeg links of rechts om te bewegen.\n• Tik op de linker of rechter helft van het scherm.\n• Gebruik de pijltjestoetsen links en rechts wanneer een toetsenbord is aangesloten.\n• Met een controller bewegen de D-pad en linker stick standaard; je kunt knoppen opnieuw toewijzen in Controller-instellingen.",
+    "it": "• Scorri a sinistra o a destra per muoverti.\n• Tocca la metà sinistra o destra dello schermo.\n• Usa i tasti freccia sinistra e destra con una tastiera collegata.\n• Con un controller, D-pad e stick sinistro muovono per impostazione predefinita; puoi rimappare i pulsanti nelle impostazioni Controller.",
+    "fr": "• Glisse à gauche ou à droite pour te déplacer.\n• Touche la moitié gauche ou droite de l'écran.\n• Utilise les touches fléchées gauche et droite quand un clavier est connecté.\n• Avec une manette, le D-pad et le stick gauche déplacent par défaut ; tu peux remapper les boutons dans Réglages Manette."
+  },
+  "settings_controls_macos": {
+    "de": "• Nutze die Pfeiltasten links und rechts auf der Tastatur zum Bewegen.\n• Klicke mit Trackpad oder Maus auf die linke oder rechte Fensterhälfte.\n• Drücke die Leertaste zum Pausieren oder Fortsetzen.\n• Mit einem Controller bewegen D-pad und linker Stick standardmäßig; Tasten kannst du in den Controller-Einstellungen neu belegen.",
+    "nl": "• Gebruik de pijltjestoetsen links en rechts op het toetsenbord om te bewegen.\n• Klik op de linker of rechter helft van het venster met trackpad of muis.\n• Druk op de spatiebalk om te pauzeren of hervatten.\n• Met een controller bewegen de D-pad en linker stick standaard; je kunt knoppen opnieuw toewijzen in Controller-instellingen.",
+    "it": "• Usa i tasti freccia sinistra e destra sulla tastiera per muoverti.\n• Clicca sulla metà sinistra o destra della finestra con trackpad o mouse.\n• Premi la barra spaziatrice per mettere in pausa o riprendere.\n• Con un controller, D-pad e stick sinistro muovono per impostazione predefinita; puoi rimappare i pulsanti nelle impostazioni Controller.",
+    "fr": "• Utilise les touches fléchées gauche et droite du clavier pour te déplacer.\n• Clique sur la moitié gauche ou droite de la fenêtre avec le trackpad ou la souris.\n• Appuie sur la barre d'espace pour mettre en pause ou reprendre.\n• Avec une manette, le D-pad et le stick gauche déplacent par défaut ; tu peux remapper les boutons dans Réglages Manette."
+  },
+  "settings_controls_tvos": {
+    "de": "• Wische mit der Siri Remote links oder rechts zum Bewegen.\n• Drücke die Play-Taste zum Auswählen.\n• Mit einem Controller kannst du Tasten in den Controller-Einstellungen neu belegen.",
+    "nl": "• Veeg links of rechts met de Siri Remote om te bewegen.\n• Druk op de afspeelknop om te selecteren.\n• Met een controller kun je knoppen opnieuw toewijzen in Controller-instellingen.",
+    "it": "• Scorri a sinistra o a destra con il telecomando Siri per muoverti.\n• Premi il pulsante play per selezionare.\n• Con un controller puoi rimappare i pulsanti nelle impostazioni Controller.",
+    "fr": "• Glisse à gauche ou à droite avec la Siri Remote pour te déplacer.\n• Appuie sur le bouton lecture pour sélectionner.\n• Avec une manette, tu peux remapper les boutons dans Réglages Manette."
+  },
+  "settings_controls_watchos": {
+    "de": "• Drehe die Digital Crown nach oben für rechts und nach unten für links.\n• Tippe links auf den Bildschirm für links und rechts für rechts.\n• Wische links zum Bewegen nach links und rechts zum Bewegen nach rechts.",
+    "nl": "• Draai de Digital Crown omhoog om naar rechts te gaan en omlaag om naar links te gaan.\n• Tik op de linkerkant van het scherm om naar links te gaan en op de rechterkant om naar rechts te gaan.\n• Veeg naar links om naar links te gaan en naar rechts om naar rechts te gaan.",
+    "it": "• Ruota la Digital Crown verso l'alto per andare a destra e verso il basso per andare a sinistra.\n• Tocca il lato sinistro dello schermo per andare a sinistra e il destro per andare a destra.\n• Scorri a sinistra per andare a sinistra e a destra per andare a destra.",
+    "fr": "• Tourne la Digital Crown vers le haut pour aller à droite et vers le bas pour aller à gauche.\n• Touche le côté gauche de l'écran pour aller à gauche et le côté droit pour aller à droite.\n• Glisse à gauche pour aller à gauche et à droite pour aller à droite."
+  },
+  "settings_direct_touch": {
+    "de": "Direct Touch",
+    "nl": "Direct Touch",
+    "it": "Direct Touch",
+    "fr": "Direct Touch"
+  },
+  "settings_font": {
+    "de": "Schrift",
+    "nl": "Lettertype",
+    "it": "Font",
+    "fr": "Police"
+  },
+  "settings_haptic_feedback": {
+    "de": "Haptisches Feedback",
+    "nl": "Haptische feedback",
+    "it": "Feedback aptico",
+    "fr": "Retour haptique"
+  },
+  "settings_in_game_announcements": {
+    "de": "Ansagen im Spiel",
+    "nl": "In-game-aankondigingen",
+    "it": "Annunci in partita",
+    "fr": "Annonces en jeu"
+  },
+  "settings_lane_move_cue_style": {
+    "de": "Spurwechsel-Hinweis",
+    "nl": "Baanaanwijzing bij wisselen",
+    "it": "Segnale cambio corsia",
+    "fr": "Indice de changement de voie"
+  },
+  "settings_lane_move_cue_style_haptics": {
+    "de": "Haptik",
+    "nl": "Haptisch",
+    "it": "Aptico",
+    "fr": "Haptique"
+  },
+  "settings_lane_move_cue_style_lane_and_safety": {
+    "de": "Spur + Erfolg",
+    "nl": "Baan + succes",
+    "it": "Corsia + successo",
+    "fr": "Voie + succès"
+  },
+  "settings_lane_move_cue_style_lane_confirmation": {
+    "de": "Spurbestätigung",
+    "nl": "Baansbevestiging",
+    "it": "Conferma corsia",
+    "fr": "Confirmation de voie"
+  },
+  "settings_lane_move_cue_style_safety_only": {
+    "de": "Erfolg",
+    "nl": "Succes",
+    "it": "Successo",
+    "fr": "Succès"
+  },
+  "settings_leaderboard_watch_info": {
+    "de": "Punkte werden an Game Center gesendet.",
+    "nl": "Scores worden naar Game Center gestuurd.",
+    "it": "I punteggi vengono inviati a Game Center.",
+    "fr": "Les scores sont envoyés à Game Center."
+  },
+  "settings_leaderboard_watch_sign_in_required": {
+    "de": "Melde dich auf deinem iPhone bei Game Center an, um Punkte von der Uhr zu senden.",
+    "nl": "Log in op Game Center op je iPhone om scores vanaf je horloge te versturen.",
+    "it": "Accedi a Game Center sul tuo iPhone per inviare punteggi dal watch.",
+    "fr": "Connecte-toi à Game Center sur ton iPhone pour envoyer des scores depuis la montre."
+  },
+  "settings_learn_premium": {
+    "de": "Unbegrenzte Spiele freischalten",
+    "nl": "Onbeperkt spelen ontgrendelen",
+    "it": "Ottieni partite illimitate",
+    "fr": "Obtenir des parties illimitées"
+  },
+  "settings_percentage_value": {
+    "de": "%lld%%",
+    "nl": "%lld%%",
+    "it": "%lld%%",
+    "fr": "%lld%%"
+  },
+  "settings_premium_active": {
+    "de": "Unbegrenzte Spiele",
+    "nl": "Onbeperkt spelen",
+    "it": "Partite illimitate",
+    "fr": "Parties illimitées"
+  },
+  "settings_premium_active_subtitle": {
+    "de": "Endloses Spielen und wähle dein Lieblings-Theme.",
+    "nl": "Oneindig spelen en kies je favoriete thema.",
+    "it": "Gioca senza limiti e scegli il tuo tema preferito.",
+    "fr": "Joue sans limite et choisis ton thème préféré."
+  },
+  "settings_purchases_title": {
+    "de": "Käufe",
+    "nl": "Aankopen",
+    "it": "Acquisti",
+    "fr": "Achats"
+  },
+  "settings_restore_footer": {
+    "de": "Wenn du Unbegrenzte Spiele auf einem anderen Gerät gekauft hast, tippe auf Käufe wiederherstellen.",
+    "nl": "Als je Onbeperkt spelen op een ander apparaat hebt gekocht, tik op Aankopen herstellen.",
+    "it": "Se hai acquistato Partite illimitate su un altro dispositivo, tocca Ripristina acquisti.",
+    "fr": "Si tu as acheté Parties illimitées sur un autre appareil, touche Restaurer les achats."
+  },
+  "settings_road_visual_style": {
+    "de": "Straßenstil",
+    "nl": "Wegstijl",
+    "it": "Stile strada",
+    "fr": "Style de route"
+  },
+  "settings_road_visual_style_detailed": {
+    "de": "Detaillierte Straße",
+    "nl": "Gedetailleerde weg",
+    "it": "Strada dettagliata",
+    "fr": "Route détaillée"
+  },
+  "settings_road_visual_style_simplified": {
+    "de": "Vereinfachtes Raster",
+    "nl": "Vereenvoudigd raster",
+    "it": "Griglia semplificata",
+    "fr": "Grille simplifiée"
+  },
+  "settings_sound": {
+    "de": "Ton",
+    "nl": "Geluid",
+    "it": "Audio",
+    "fr": "Son"
+  },
+  "settings_sound_effects_volume": {
+    "de": "Lautstärke Soundeffekte",
+    "nl": "Volume geluidseffecten",
+    "it": "Volume effetti sonori",
+    "fr": "Volume des effets sonores"
+  },
+  "settings_speed": {
+    "de": "Tempo",
+    "nl": "Snelheid",
+    "it": "Velocità",
+    "fr": "Vitesse"
+  },
+  "settings_speed_voiceover_default": {
+    "de": "Cruise (Standard bei aktivem VoiceOver)",
+    "nl": "Cruise (standaard wanneer VoiceOver aan staat)",
+    "it": "Cruise (predefinito con VoiceOver attivo)",
+    "fr": "Cruise (par défaut quand VoiceOver est activé)"
+  },
+  "settings_speed_warning_feedback": {
+    "de": "Feedback bei Tempoerhöhung",
+    "nl": "Feedback bij snelheidsverhoging",
+    "it": "Feedback avviso aumento velocità",
+    "fr": "Retour d'avertissement d'accélération"
+  },
+  "settings_speed_warning_feedback_announcement": {
+    "de": "VoiceOver-Ansage",
+    "nl": "VoiceOver-aankondiging",
+    "it": "Annuncio VoiceOver",
+    "fr": "Annonce VoiceOver"
+  },
+  "settings_speed_warning_feedback_none": {
+    "de": "Keine",
+    "nl": "Geen",
+    "it": "Nessuno",
+    "fr": "Aucun"
+  },
+  "settings_speed_warning_feedback_preview_warning": {
+    "de": "Warnung vorhören",
+    "nl": "Waarschuwing voorvertonen",
+    "it": "Anteprima avviso",
+    "fr": "Aperçu de l'avertissement"
+  },
+  "settings_speed_warning_feedback_warning_haptic": {
+    "de": "Haptik",
+    "nl": "Haptisch",
+    "it": "Aptico",
+    "fr": "Haptique"
+  },
+  "settings_speed_warning_feedback_warning_sound": {
+    "de": "Ton",
+    "nl": "Geluid",
+    "it": "Suono",
+    "fr": "Son"
+  },
+  "settings_theme": {
+    "de": "Theme",
+    "nl": "Thema",
+    "it": "Tema",
+    "fr": "Thème"
+  },
+  "settings_theme_style": {
+    "de": "Stil",
+    "nl": "Stijl",
+    "it": "Stile",
+    "fr": "Style"
+  },
+  "settings_theme_unlock_footnote": {
+    "de": "Themes wechseln? Schalte Unbegrenzte Spiele unter Käufe frei.",
+    "nl": "Thema's wijzigen? Ontgrendel Onbeperkt spelen bij Aankopen.",
+    "it": "Vuoi cambiare tema? Sblocca Partite illimitate in Acquisti.",
+    "fr": "Tu veux changer de thème ? Débloque Parties illimitées dans Achats."
+  },
+  "settings_vibration": {
+    "de": "Vibration",
+    "nl": "Trilling",
+    "it": "Vibrazione",
+    "fr": "Vibration"
+  },
+  "settings_voiceover_friend_overtake_announcements": {
+    "de": "Freundes-Überholungen ansagen",
+    "nl": "Vrienden-inhaalacties aankondigen",
+    "it": "Annuncia sorpassi agli amici",
+    "fr": "Annoncer les dépassements d'amis"
+  },
+  "share_action": {
+    "de": "Teilen",
+    "nl": "Delen",
+    "it": "Condividi",
+    "fr": "Partager"
+  },
+  "shareplay_aborted_disconnected_body": {
+    "de": "Dein Freund hat die Session verlassen. Tippe auf Fertig, um zurück ins Menü zu gehen.",
+    "nl": "Je vriend heeft de sessie verlaten. Tik op Klaar om terug naar het menu te gaan.",
+    "it": "Il tuo amico ha lasciato la sessione. Tocca Fine per tornare al menu.",
+    "fr": "Ton ami a quitté la session. Touche Terminé pour revenir au menu."
+  },
+  "shareplay_aborted_session_ended_body": {
+    "de": "Die Verbindung wurde unterbrochen. Tippe auf Fertig, um zum Menü zurückzukehren.",
+    "nl": "De verbinding is verbroken. Tik op Klaar om terug naar het menu te gaan.",
+    "it": "La connessione si è interrotta. Tocca Fine per tornare al menu.",
+    "fr": "La connexion a été perdue. Touche Terminé pour revenir au menu."
+  },
+  "shareplay_aborted_title": {
+    "de": "Session beendet",
+    "nl": "Sessie beëindigd",
+    "it": "Sessione terminata",
+    "fr": "Session terminée"
+  },
+  "shareplay_activity_title": {
+    "de": "RetroRapid! Multiplayer-Rennen",
+    "nl": "RetroRapid! Multiplayer-race",
+    "it": "RetroRapid! Gara multigiocatore",
+    "fr": "RetroRapid! Course multijoueur"
+  },
+  "shareplay_countdown_title": {
+    "de": "Mach dich bereit!",
+    "nl": "Maak je klaar!",
+    "it": "Preparati!",
+    "fr": "Prépare-toi !"
+  },
+  "shareplay_disconnected_title": {
+    "de": "Verbindung verloren",
+    "nl": "Verbinding verbroken",
+    "it": "Connessione persa",
+    "fr": "Connexion perdue"
+  },
+  "shareplay_done_button": {
+    "de": "Fertig",
+    "nl": "Klaar",
+    "it": "Fine",
+    "fr": "Terminé"
+  },
+  "shareplay_final_scores %lld %lld": {
+    "de": "Du: %lld  Freund: %lld",
+    "nl": "Jij: %lld  Vriend: %lld",
+    "it": "Tu: %lld  Amico: %lld",
+    "fr": "Toi : %lld  Ami : %lld"
+  },
+  "shareplay_leave_button": {
+    "de": "Verlassen",
+    "nl": "Verlaten",
+    "it": "Esci",
+    "fr": "Quitter"
+  },
+  "shareplay_opponent_score_accessibility_label %lld": {
+    "de": "Freundes-Punkte: %lld",
+    "nl": "Vriendenscore: %lld",
+    "it": "Punteggio amico: %lld",
+    "fr": "Score de l'ami : %lld"
+  },
+  "shareplay_opponent_score_label": {
+    "de": "Freund",
+    "nl": "Vriend",
+    "it": "Amico",
+    "fr": "Ami"
+  },
+  "shareplay_result_lost": {
+    "de": "Pech gehabt!",
+    "nl": "Pech gehad!",
+    "it": "Che sfortuna!",
+    "fr": "Pas de chance !"
+  },
+  "shareplay_result_tie": {
+    "de": "Unentschieden!",
+    "nl": "Gelijkspel!",
+    "it": "Pareggio!",
+    "fr": "Match nul !"
+  },
+  "shareplay_result_title": {
+    "de": "Spielergebnis",
+    "nl": "Wedstrijduitslag",
+    "it": "Risultato della partita",
+    "fr": "Résultat du match"
+  },
+  "shareplay_result_won": {
+    "de": "Du hast gewonnen!",
+    "nl": "Je hebt gewonnen!",
+    "it": "Hai vinto!",
+    "fr": "Tu as gagné !"
+  },
+  "shareplay_retry_button": {
+    "de": "Nochmal spielen",
+    "nl": "Opnieuw spelen",
+    "it": "Gioca di nuovo",
+    "fr": "Rejouer"
+  },
+  "shareplay_retry_timed_out_body": {
+    "de": "Ihr habt beide nicht rechtzeitig bestätigt. Du kannst es erneut versuchen oder die Session verlassen.",
+    "nl": "Jullie hebben allebei niet op tijd bevestigd. Je kunt het opnieuw proberen of de sessie verlaten.",
+    "it": "Non avete confermato entrambi in tempo. Puoi riprovare o uscire dalla sessione.",
+    "fr": "Vous n'avez pas tous les deux confirmé à temps. Tu peux réessayer ou quitter la session."
+  },
+  "shareplay_retry_timed_out_title": {
+    "de": "Revanche abgelaufen",
+    "nl": "Revanche verlopen",
+    "it": "Tempo scaduto per la rivincita",
+    "fr": "Revanche expirée"
+  },
+  "shareplay_retry_waiting_for_opponent": {
+    "de": "Warte, bis dein Freund bestätigt...",
+    "nl": "Wachten tot je vriend bevestigt...",
+    "it": "In attesa che il tuo amico confermi...",
+    "fr": "En attente de la confirmation de ton ami..."
+  },
+  "shareplay_retry_waiting_for_you": {
+    "de": "Dein Freund ist bereit. Bestätige, wenn du wieder spielen willst.",
+    "nl": "Je vriend is klaar. Bevestig wanneer je weer wilt spelen.",
+    "it": "Il tuo amico è pronto. Conferma quando vuoi giocare di nuovo.",
+    "fr": "Ton ami est prêt. Confirme quand tu veux rejouer."
+  },
+  "shareplay_retry_waiting_title": {
+    "de": "Revanche?",
+    "nl": "Revanche?",
+    "it": "Rivincita?",
+    "fr": "Revanche ?"
+  },
+  "shareplay_waiting_for_opponent_scores %lld %lld": {
+    "de": "Deine Überholungen: %lld. Freund: %lld",
+    "nl": "Jouw inhaalacties: %lld. Vriend: %lld",
+    "it": "I tuoi sorpassi: %lld. Amico: %lld",
+    "fr": "Tes dépassements : %lld. Ami : %lld"
+  },
+  "shareplay_waiting_for_opponent_title": {
+    "de": "Warte, bis dein Freund fertig ist...",
+    "nl": "Wachten tot je vriend klaar is...",
+    "it": "In attesa che il tuo amico finisca...",
+    "fr": "En attente que ton ami termine..."
+  },
+  "shareplay_waiting_title": {
+    "de": "Warte auf deinen Freund...",
+    "nl": "Wachten op je vriend...",
+    "it": "In attesa del tuo amico...",
+    "fr": "En attente de ton ami..."
+  },
+  "Shows Game Center leaderboard": {
+    "de": "Zeigt die Game-Center-Bestenliste",
+    "nl": "Toont het Game Center-klassement",
+    "it": "Mostra la classifica di Game Center",
+    "fr": "Affiche le classement Game Center"
+  },
+  "Sign in to Game Center to view the leaderboard.": {
+    "de": "Melde dich bei Game Center an, um die Bestenliste anzuzeigen.",
+    "nl": "Log in op Game Center om het klassement te bekijken.",
+    "it": "Accedi a Game Center per vedere la classifica.",
+    "fr": "Connecte-toi à Game Center pour voir le classement."
+  },
+  "speed_alert_hey_ho": {
+    "de": "Hey Ho!",
+    "nl": "Hey Ho!",
+    "it": "Hey Ho!",
+    "fr": "Hey Ho!"
+  },
+  "speed_increase_announcement": {
+    "de": "Hey Ho! Tempo steigt!",
+    "nl": "Hey Ho! Snelheid stijgt!",
+    "it": "Hey Ho! La velocità aumenta!",
+    "fr": "Hey Ho! La vitesse augmente !"
+  },
+  "speed_increasing_alert": {
+    "de": "Tempo steigt!",
+    "nl": "Snelheid stijgt!",
+    "it": "La velocità aumenta!",
+    "fr": "La vitesse augmente !"
+  },
+  "speed_level_cruise": {
+    "de": "Cruise",
+    "nl": "Cruise",
+    "it": "Cruise",
+    "fr": "Cruise"
+  },
+  "speed_level_fast": {
+    "de": "Schnell",
+    "nl": "Snel",
+    "it": "Veloce",
+    "fr": "Rapide"
+  },
+  "speed_level_rapid": {
+    "de": "Rapid",
+    "nl": "Rapid",
+    "it": "Rapid",
+    "fr": "Rapid"
+  },
+  "Starts the game": {
+    "de": "Startet das Spiel",
+    "nl": "Start het spel",
+    "it": "Avvia la partita",
+    "fr": "Lance la partie"
+  },
+  "tutorial_audio_lane_all": {
+    "de": "Alle Spuren sicher",
+    "nl": "Alle banen veilig",
+    "it": "Tutte le corsie sicure",
+    "fr": "Toutes les voies sûres"
+  },
+  "tutorial_audio_lane_center": {
+    "de": "Mitte",
+    "nl": "Midden",
+    "it": "Centro",
+    "fr": "Centre"
+  },
+  "tutorial_audio_lane_center_right": {
+    "de": "Mitte und rechts",
+    "nl": "Midden en rechts",
+    "it": "Centro e destra",
+    "fr": "Centre et droite"
+  },
+  "tutorial_audio_lane_left": {
+    "de": "Links",
+    "nl": "Links",
+    "it": "Sinistra",
+    "fr": "Gauche"
+  },
+  "tutorial_audio_lane_left_center": {
+    "de": "Links und Mitte",
+    "nl": "Links en midden",
+    "it": "Sinistra e centro",
+    "fr": "Gauche et centre"
+  },
+  "tutorial_audio_lane_left_right": {
+    "de": "Links und rechts",
+    "nl": "Links en rechts",
+    "it": "Sinistra e destra",
+    "fr": "Gauche et droite"
+  },
+  "tutorial_audio_lane_modes_title": {
+    "de": "Spurhinweis-Varianten",
+    "nl": "Baan-aanwijzingsvarianten",
+    "it": "Varianti segnali di corsia",
+    "fr": "Variantes d'indices de voie"
+  },
+  "tutorial_audio_lane_right": {
+    "de": "Rechts",
+    "nl": "Rechts",
+    "it": "Destra",
+    "fr": "Droite"
+  },
+  "tutorial_audio_mode_description_arpeggio": {
+    "de": "Spielt sichere Spuren nacheinander von links nach rechts ab.",
+    "nl": "Speelt veilige banen één voor één af, van links naar rechts.",
+    "it": "Riproduce le corsie sicure una nota dopo l'altra, da sinistra a destra.",
+    "fr": "Joue les voies sûres une note après l'autre, de gauche à droite."
+  },
+  "tutorial_audio_mode_description_chord": {
+    "de": "Spielt alle sicheren Spuren gleichzeitig als Akkord.",
+    "nl": "Speelt alle veilige banen tegelijk als een akkoord.",
+    "it": "Riproduce tutte le corsie sicure insieme come un accordo.",
+    "fr": "Joue toutes les voies sûres en même temps comme un accord."
+  },
+  "tutorial_audio_mode_description_lane_pulses": {
+    "de": "Spielt kurze Pulse in Spurpositionen; ein aktiver Puls markiert eine sichere Spur.",
+    "nl": "Speelt korte pulsen per baanpositie; een actieve puls markeert een veilige baan.",
+    "it": "Riproduce brevi impulsi per posizione di corsia; l'impulso attivo indica una corsia sicura.",
+    "fr": "Joue de courtes pulsations par position de voie ; une pulsation active indique une voie sûre."
+  },
+  "tutorial_audio_move_modes_title": {
+    "de": "Spurwechsel-Hinweis-Varianten",
+    "nl": "Varianten bij baanwissel",
+    "it": "Varianti segnale cambio corsia",
+    "fr": "Variantes d'indices de changement de voie"
+  },
+  "tutorial_audio_move_style_description_haptics": {
+    "de": "Spielt ein Erfolgs-Haptik-Feedback bei sicherer Spur und ein Bewegungs-Haptik-Feedback bei unsicherer Spur.",
+    "nl": "Speelt haptische feedback bij succes voor een veilige baan en beweging voor een onveilige baan.",
+    "it": "Riproduce feedback aptico di successo se la corsia è sicura e di movimento se non lo è.",
+    "fr": "Joue un retour haptique de succès pour une voie sûre et un retour de mouvement pour une voie dangereuse."
+  },
+  "tutorial_audio_move_style_description_lane_and_safety": {
+    "de": "Spielt Spurbestätigung gefolgt von Erfolgs- oder Fehlerton.",
+    "nl": "Speelt baansbevestiging gevolgd door een succes- of fouttoon.",
+    "it": "Riproduce la conferma di corsia seguita da un tono di successo o errore.",
+    "fr": "Joue la confirmation de voie suivie d'un ton de succès ou d'échec."
+  },
+  "tutorial_audio_move_style_description_lane_confirmation": {
+    "de": "Spielt nur die Zielspur-Note beim Bewegen nach links oder rechts, damit du sie mit dem Audio-Hinweis abgleichen kannst.",
+    "nl": "Speelt alleen de bestemmingsbaan-noot wanneer je naar links of rechts beweegt, zodat je die kunt matchen met de audio-aanwijzing.",
+    "it": "Riproduce solo la nota della corsia di destinazione quando ti muovi a sinistra o a destra, così puoi abbinarla al segnale audio.",
+    "fr": "Joue uniquement la note de la voie de destination quand tu te déplaces à gauche ou à droite, pour la faire correspondre à l'indice audio."
+  },
+  "tutorial_audio_move_style_description_safety_only": {
+    "de": "Spielt nur einen Erfolgs- oder Fehlerton.",
+    "nl": "Speelt alleen een succes- of fouttoon.",
+    "it": "Riproduce solo un tono di successo o errore.",
+    "fr": "Joue uniquement un ton de succès ou d'échec."
+  },
+  "tutorial_audio_play_preview": {
+    "de": "Abspielen",
+    "nl": "Afspelen",
+    "it": "Riproduci",
+    "fr": "Lire"
+  },
+  "tutorial_audio_preview_fail": {
+    "de": "Fehler",
+    "nl": "Fout",
+    "it": "Errore",
+    "fr": "Échec"
+  },
+  "tutorial_audio_preview_safe": {
+    "de": "Sicher",
+    "nl": "Veilig",
+    "it": "Sicuro",
+    "fr": "Sûr"
+  },
+  "tutorial_audio_preview_safe_lane": {
+    "de": "Sichere Spur",
+    "nl": "Veilige baan",
+    "it": "Corsia sicura",
+    "fr": "Voie sûre"
+  },
+  "tutorial_audio_preview_unsafe": {
+    "de": "Unsicher",
+    "nl": "Onveilig",
+    "it": "Non sicuro",
+    "fr": "Dangereux"
+  },
+  "tutorial_audio_preview_unsafe_lane": {
+    "de": "Unsichere Spur",
+    "nl": "Onveilige baan",
+    "it": "Corsia non sicura",
+    "fr": "Voie dangereuse"
+  },
+  "tutorial_audio_title": {
+    "de": "Audio-Hinweis-Tutorial",
+    "nl": "Audio-aanwijzingentutorial",
+    "it": "Tutorial segnali audio",
+    "fr": "Tutoriel des indices audio"
+  },
+  "tutorial_configured %@": {
+    "de": "%@ konfiguriert",
+    "nl": "%@ geconfigureerd",
+    "it": "%@ configurato",
+    "fr": "%@ configuré"
+  },
+  "tutorial_help_button": {
+    "de": "Tutorial",
+    "nl": "Tutorial",
+    "it": "Tutorial",
+    "fr": "Tutoriel"
+  },
+  "tutorial_help_title": {
+    "de": "Tutorial",
+    "nl": "Tutorial",
+    "it": "Tutorial",
+    "fr": "Tutoriel"
+  },
+  "tutorial_section_audio_feedback_mode": {
+    "de": "Audio-Feedback-Modus",
+    "nl": "Audioreactiemodus",
+    "it": "Modalità feedback audio",
+    "fr": "Mode de retour audio"
+  },
+  "tutorial_section_description": {
+    "de": "Beschreibung",
+    "nl": "Beschrijving",
+    "it": "Descrizione",
+    "fr": "Description"
+  },
+  "tutorial_section_lane_change_cue": {
+    "de": "Spurwechsel-Hinweis",
+    "nl": "Baanaanwijzing bij wisselen",
+    "it": "Segnale cambio corsia",
+    "fr": "Indice de changement de voie"
+  },
+  "tutorial_section_speed_warning_feedback": {
+    "de": "Feedback bei Tempoerhöhung",
+    "nl": "Feedback bij snelheidsverhoging",
+    "it": "Feedback avviso aumento velocità",
+    "fr": "Retour d'avertissement d'accélération"
+  },
+  "tutorial_set %@": {
+    "de": "%@ setzen",
+    "nl": "%@ instellen",
+    "it": "Imposta %@",
+    "fr": "Définir %@"
+  },
+  "tutorial_speed_warning_description_announcement": {
+    "de": "Sagt die Tempoerhöhung mit VoiceOver an.",
+    "nl": "Kondigt de snelheidsverhoging aan met VoiceOver.",
+    "it": "Annuncia l'aumento di velocità con VoiceOver.",
+    "fr": "Annonce l'accélération avec VoiceOver."
+  },
+  "tutorial_speed_warning_description_haptic": {
+    "de": "Spielt ein Warn-Haptik-Feedback vor der Tempoerhöhung.",
+    "nl": "Speelt haptische waarschuwing vóór de snelheidsverhoging.",
+    "it": "Riproduce un feedback aptico di avviso prima dell'aumento di velocità.",
+    "fr": "Joue un retour haptique d'avertissement avant l'accélération."
+  },
+  "tutorial_speed_warning_description_none": {
+    "de": "Spielt keinen Warnhinweis bei Tempoerhöhung.",
+    "nl": "Speelt geen waarschuwing bij snelheidsverhoging.",
+    "it": "Non riproduce alcun avviso di aumento velocità.",
+    "fr": "Ne joue aucun avertissement d'accélération."
+  },
+  "tutorial_speed_warning_description_sound": {
+    "de": "Spielt einen kurzen dreinotigen aufsteigenden Warnton.",
+    "nl": "Speelt een korte drienotige stijgende waarschuwing.",
+    "it": "Riproduce un breve segnale di avviso ascendente a tre note.",
+    "fr": "Joue un court avertissement ascendant de trois notes."
+  },
+  "tutorial_voiceover_intro": {
+    "de": "RetroRapid! ist ein 3-Spur-Rennspiel. Bewege dich links oder rechts zwischen den drei Positionen. Wir spielen Töne ab, die sichere Spuren anzeigen, und du musst schnell in eine sichere Spur wechseln, um Autos zu überholen und Crashes zu vermeiden.",
+    "nl": "RetroRapid! is een racespel met 3 banen. Beweeg links of rechts tussen de drie posities. We spelen geluiden af die aangeven welke banen veilig zijn, en je moet snel naar een veilige baan om auto's in te halen en botsingen te vermijden.",
+    "it": "RetroRapid! è un gioco di corse a 3 corsie. Muoviti a sinistra o a destra tra le tre posizioni. Riprodiamo suoni per indicare quali corsie sono sicure, e devi spostarti rapidamente in una corsia sicura per sorpassare le auto ed evitare incidenti.",
+    "fr": "RetroRapid! est un jeu de course à 3 voies. Déplace-toi à gauche ou à droite entre les trois positions. Nous jouons des sons pour indiquer quelles voies sont sûres, et tu dois te déplacer rapidement vers une voie sûre pour dépasser les voitures et éviter les crashs."
+  },
+  "x%lld": {
+    "de": "x%lld",
+    "nl": "x%lld",
+    "it": "x%lld",
+    "fr": "x%lld"
+  },
+  "shareplay_opponent_fallback_name": {
+    "de": "Dein Freund",
+    "nl": "Je vriend",
+    "it": "Il tuo amico",
+    "fr": "Ton ami"
+  },
+  "shareplay_local_player_name": {
+    "de": "Du",
+    "nl": "Jij",
+    "it": "Tu",
+    "fr": "Toi"
+  },
+  "shareplay_overtakes_row %@ %lld": {
+    "de": "%@: %lld Überholungen",
+    "nl": "%@: %lld inhaalacties",
+    "it": "%@: %lld sorpassi",
+    "fr": "%@ : %lld dépassements"
+  },
+  "shareplay_your_overtakes %lld": {
+    "de": "Deine Überholungen: %lld",
+    "nl": "Jouw inhaalacties: %lld",
+    "it": "I tuoi sorpassi: %lld",
+    "fr": "Tes dépassements : %lld"
+  },
+  "shareplay_friend_overtakes %lld": {
+    "de": "Deines Freundes: %lld",
+    "nl": "Van je vriend: %lld",
+    "it": "Del tuo amico: %lld",
+    "fr": "De ton ami : %lld"
+  },
+  "shareplay_waiting_for_opponent_overtakes %lld %lld": {
+    "de": "Deine Überholungen: %lld. Freund: %lld",
+    "nl": "Jouw inhaalacties: %lld. Vriend: %lld",
+    "it": "I tuoi sorpassi: %lld. Amico: %lld",
+    "fr": "Tes dépassements : %lld. Ami : %lld"
+  },
+  "shareplay_your_score_row %lld": {
+    "de": "Du: %lld",
+    "nl": "Jij: %lld",
+    "it": "Tu: %lld",
+    "fr": "Toi : %lld"
+  },
+  "shareplay_opponent_score_fallback_label": {
+    "de": "Freund",
+    "nl": "Vriend",
+    "it": "Amico",
+    "fr": "Ami"
+  },
+  "shareplay_score_row %@ %lld": {
+    "de": "%@: %lld",
+    "nl": "%@: %lld",
+    "it": "%@: %lld",
+    "fr": "%@ : %lld"
+  },
+  "shareplay_score_accessibility %@ %lld %lld": {
+    "de": "%@, %lld Punkte, %lld Leben übrig",
+    "nl": "%@, %lld punten, %lld levens over",
+    "it": "%@, %lld punti, %lld vite rimaste",
+    "fr": "%@, %lld points, %lld vies restantes"
+  },
+  "shareplay_opponent_overtakes_row %@ %lld": {
+    "de": "%@: %lld Überholungen",
+    "nl": "%@: %lld inhaalacties",
+    "it": "%@: %lld sorpassi",
+    "fr": "%@ : %lld dépassements"
+  },
+  "shareplay_opponent_overtakes_accessibility %@ %lld %lld": {
+    "de": "%@, %lld Überholungen, %lld Leben übrig",
+    "nl": "%@, %lld inhaalacties, %lld levens over",
+    "it": "%@, %lld sorpassi, %lld vite rimaste",
+    "fr": "%@, %lld dépassements, %lld vies restantes"
+  },
+  "shareplay_countdown_accessibility %lld": {
+    "de": "Start in %lld",
+    "nl": "Start over %lld",
+    "it": "Partenza tra %lld",
+    "fr": "Départ dans %lld"
+  },
+  "shareplay_result_won_subtitle": {
+    "de": "Starke Leistung. Du bist als Erster ins Ziel!",
+    "nl": "Goed gedaan. Jij was als eerste over de finish!",
+    "it": "Ottimo lavoro. Sei arrivato primo al traguardo!",
+    "fr": "Beau travail. Tu as franchi la ligne en premier !"
+  },
+  "shareplay_result_lost_subtitle": {
+    "de": "Nächste Runde könnte für dich laufen.",
+    "nl": "De volgende ronde kan voor jou vallen.",
+    "it": "Il prossimo giro potrebbe andare a tuo favore.",
+    "fr": "Le prochain tour pourrait te sourire."
+  },
+  "shareplay_result_tie_subtitle": {
+    "de": "Was für ein Rennen. Ihr habt euch Überholung für Überholung getroffen.",
+    "nl": "Wat een race. Jullie stonden gelijk, inhaalactie voor inhaalactie.",
+    "it": "Che gara. Vi siete pareggiati sorpasso dopo sorpasso.",
+    "fr": "Quelle course. Vous vous êtes égalés dépassement après dépassement."
+  },
+  "shareplay_announcement_waiting": {
+    "de": "Warte, bis dein Freund beitritt.",
+    "nl": "Wachten tot je vriend meedoet.",
+    "it": "In attesa che il tuo amico si unisca.",
+    "fr": "En attente que ton ami rejoigne."
+  },
+  "shareplay_announcement_countdown": {
+    "de": "Mach dich bereit! Das Rennen startet gleich.",
+    "nl": "Maak je klaar! De race begint zo.",
+    "it": "Preparati! La gara sta per iniziare.",
+    "fr": "Prépare-toi ! La course va commencer."
+  },
+  "shareplay_announcement_round_start": {
+    "de": "Los!",
+    "nl": "Ga!",
+    "it": "Via!",
+    "fr": "C'est parti !"
+  },
+  "shareplay_announcement_waiting_for_opponent": {
+    "de": "Warte, bis dein Freund fertig ist.",
+    "nl": "Wachten tot je vriend klaar is.",
+    "it": "In attesa che il tuo amico finisca.",
+    "fr": "En attente que ton ami termine."
+  },
+  "shareplay_announcement_won %lld %lld": {
+    "de": "Du hast mit %lld Überholungen gewonnen. Dein Freund: %lld.",
+    "nl": "Je hebt gewonnen met %lld inhaalacties. Je vriend: %lld.",
+    "it": "Hai vinto con %lld sorpassi. Il tuo amico: %lld.",
+    "fr": "Tu as gagné avec %lld dépassements. Ton ami : %lld."
+  },
+  "shareplay_announcement_lost %lld %lld": {
+    "de": "Du hast mit %lld Überholungen verloren. Dein Freund: %lld.",
+    "nl": "Je hebt verloren met %lld inhaalacties. Je vriend: %lld.",
+    "it": "Hai perso con %lld sorpassi. Il tuo amico: %lld.",
+    "fr": "Tu as perdu avec %lld dépassements. Ton ami : %lld."
+  },
+  "shareplay_announcement_tie %lld %lld": {
+    "de": "Unentschieden bei je %lld Überholungen.",
+    "nl": "Gelijkspel met %lld inhaalacties elk.",
+    "it": "Pareggio con %lld sorpassi ciascuno.",
+    "fr": "Match nul avec %lld dépassements chacun."
+  },
+  "shareplay_announcement_disconnected": {
+    "de": "Dein Freund hat die Verbindung getrennt.",
+    "nl": "Je vriend is losgekoppeld.",
+    "it": "Il tuo amico si è disconnesso.",
+    "fr": "Ton ami s'est déconnecté."
+  },
+  "shareplay_announcement_session_ended": {
+    "de": "Die SharePlay-Session ist beendet.",
+    "nl": "De SharePlay-sessie is beëindigd.",
+    "it": "La sessione SharePlay è terminata.",
+    "fr": "La session SharePlay est terminée."
+  }
+}

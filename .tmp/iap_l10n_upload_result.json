@@ -1,0 +1,16 @@
+{
+  "steps": [
+    {
+      "name": "paths",
+      "cmd": [
+        "helm-asc",
+        "paths",
+        "--agent"
+      ],
+      "stdout": "{\n  \"artifactRoot\" : \"/Users/dadederk/Library/Group Containers/group.com.modumhq.Helm/CLI Artifacts\",\n  \"downloadsRoot\" : \"/Users/dadederk/Library/Group Containers/group.com.modumhq.Helm/CLI Artifacts\",\n  \"notes\" : [\n    \"Omit --path on download commands to let Helm choose a sandbox-safe subdirectory.\",\n    \"Use uploadsInbox for files an agent creates before passing them to upload commands.\",\n    \"Changing the shell working directory does not grant sandbox access to arbitrary user paths.\"\n  ],\n  \"uploadsInbox\" : \"/Users/dadederk/Library/Group Containers/group.com.modumhq.Helm/CLI Artifacts/CLI Inbox\"\n}\n",
+      "stderr": "",
+      "code": 0
+    }
+  ],
+  "error": "PermissionError(1, 'Operation not permitted')"
+}

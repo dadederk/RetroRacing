@@ -2,7 +2,7 @@
 
 Part of [App Store docs hub](../README.md).
 
-Last updated: 2026-07-17
+Last updated: 2026-07-23
 
 **Status:** `DRAFT_APPLIED` — see field-level status in `12-validation-results.md`.
 
@@ -20,6 +20,10 @@ Last updated: 2026-07-17
 | en-GB | `RetroRapid: Retro Arcade Racer` | 30/30 | `Dodge Traffic Across 3 Lanes` | 28/30 | `endless,accessible,swift,highway,skill,vintage,drive,watch,game,nostalgia,pixel,boost,classic,reflex` | 100/100 |
 | en-AU | `RetroRapid: Retro Arcade Racer` | 30/30 | `Overtake Rivals. Beat Records` | 29/30 | `chase,mobile,quick,offline,voiceover,haptic,controller,handheld,lcd,leaderboard,high,score,ipad,mac` | 99/100 |
 | en-CA | `RetroRapid: Retro Arcade Racer` | 30/30 | `Chase Records in Quick Races` | 28/30 | `scoreboard,watch,game,classic,pixel,vintage,boost,nostalgia,ipad,mobile,haptic,lane,mac,drive,swift` | 99/100 |
+| de-DE | `RetroRapid: Arcade Rennspiel` | 28/30 | `Weiche Verkehr auf 3 Spuren` | 27/30 | `rekord,controller,uhr,reaktion,klassisch,endlos,punkte,barrierefrei,erfolge,mac,ipad,wagen,rennen` | 97/100 |
+| nl-NL | `RetroRapid: Arcade Race Spel` | 28/30 | `Ontwijk verkeer in 3 banen` | 26/30 | `reflex,controller,horloge,reactie,klassiek,oneindig,toegankelijk,prestaties,mac,ipad,snelheid,baan` | 98/100 |
+| it | `RetroRapid: Retro Corse Arcade` | 30/30 | `Schiva il traffico in 3 corsie` | 30/30 | `record,controller,orologio,reazione,classico,infinito,punteggio,successi,riflessi,ipad,veloce,mac` | 97/100 |
+| fr-FR | `RetroRapid: Retro Course Autos` | 30/30 | `Esquive le trafic, 3 voies` | 26/30 | `reflexes,manette,montre,reaction,classique,infini,accessibilite,mac,ipad,succes,classement,horsligne` | 100/100 |
 | es-ES | `RetroRapid: Carreras Arcade` | 27/30 | `Esquiva tráfico en 3 carriles` | 29/30 | `coche,record,adelantar,reflejos,clasico,mando,ranking,infinito,puntuacion,conexion,voiceover,logros` | 99/100 |
 | ca | `RetroRapid: Carreres Arcade` | 27/30 | `Esquiva trànsit en 3 carrils` | 28/30 | `cotxe,avancaments,reflexos,comandament,lcd,accessibilitat,joc,reloj,puntuacio,connexio,velocitat,mac` | 100/100 |
 | es-MX | `RetroRapid: Carreras Arcade` | 27/30 | `Esquiva carros en 3 carriles` | 28/30 | `rebasar,reflejos,record,control,ranking,clasico,infinito,puntuacion,reloj,internet,trafico,logros` | 97/100 |
@@ -38,6 +42,10 @@ Notes:
 | Locale | Promotional text | Count |
 |---|---|---:|
 | en-US / en-GB / en-AU / en-CA | `Dodge traffic and chase high scores in quick retro races, with Game Center, Apple Watch support, and accessibility-first controls.` | 130/170 |
+| de-DE | `Weiche Verkehr aus und jage Highscores in schnellen Retro-Rennen – mit Game Center, Apple Watch und barrierefreien Steuerungen.` | 127/170 |
+| nl-NL | `Ontwijk verkeer en jaag op highscores in snelle retro-races, met Game Center, Apple Watch en toegankelijke besturing.` | 117/170 |
+| it | `Schiva il traffico e punta al record in corse retrò veloci, con Game Center, Apple Watch e controlli accessibili.` | 113/170 |
+| fr-FR | `Esquive le trafic et bats ton record dans des courses rétro rapides, avec Game Center, Apple Watch et des commandes accessibles.` | 128/170 |
 | es-ES | `Esquiva tráfico y supera tu récord en carreras retro rápidas, con Game Center, Apple Watch y controles accesibles.` | 114/170 |
 | ca | `Esquiva trànsit i supera el teu rècord en carreres retro ràpides, amb Game Center, Apple Watch i controls accessibles.` | 118/170 |
 | es-MX | `Esquiva carros y supera tu récord en carreras retro rápidas, con Game Center, Apple Watch y controles accesibles.` | 113/170 |
@@ -72,6 +80,106 @@ Featured in Create with Swift, Weekly Newsletter #96 (Indie App of the Week):
 ```
 
 Count: 1092/4000 characters.
+
+### de-DE
+
+```text
+RetroRapid! ist ein schnelles 3-Spuren-Arcade-Rennspiel für kurze Sessions und die Jagd nach Highscores.
+
+Weiche dem Verkehr aus und halte durch, wenn das Tempo steigt. Die Steuerung ist leicht zu lernen und schwer zu meistern – jede Runde wird zur Reflexprüfung.
+
+Warum Spieler wiederkommen:
+- Schnelles Arcade-Gameplay für "noch eine Runde"
+- Game-Center-Bestenlisten, Erfolge und Freundesmarker
+- Spiele auf iPhone, iPad, Mac und Apple Watch
+- Touch, Wischen, Tastatur, Digital Crown und unterstützte Controller
+- VoiceOver, Audiohinweise, Haptik, größerer Text, hoher Kontrast und Bewegung reduzieren
+- Funktioniert offline für schnelle Runden jederzeit
+- Spiele jeden Tag gratis oder schalte Unbegrenzte Spiele einmal frei – kein Abo
+- Keine Datenerfassung
+
+Crash, neu starten und schlage deinen Rekord.
+
+Featured in Create with Swift, Weekly Newsletter #96 (Indie App of the Week):
+"Doch abgesehen von der Nostalgie und dem straffen Gameplay sticht vor allem die Barrierefreiheit hervor."
+```
+
+Count: 994/4000 characters.
+
+### nl-NL
+
+```text
+RetroRapid! is een snelle 3-baans arcade-racer voor korte sessies en highscore-jagen.
+
+Ontwijk verkeer en houd vol terwijl het tempo stijgt. Besturing is makkelijk te leren en moeilijk te beheersen, dus elke run wordt een reflextest.
+
+Waarom spelers blijven terugkomen:
+- Snel arcade-gameplay voor "nog eentje dan"
+- Game Center-ranglijsten, prestaties en vriendenmarkeringen
+- Speel op iPhone, iPad, Mac en Apple Watch
+- Touch, vegen, toetsenbord, Digital Crown en ondersteunde controllers
+- VoiceOver, audiosignalen, haptiek, grotere tekst, hoog contrast en Verminder beweging
+- Werkt offline voor snelle races wanneer je wilt
+- Speel elke dag gratis of ontgrendel Onbeperkt spelen eenmalig – geen abonnement
+- Geen gegevensverzameling
+
+Crash, herstart en verbeter je record.
+
+Featured in Create with Swift, Weekly Newsletter #96 (Indie App of the Week):
+"Maar naast de nostalgie en strakke gameplay valt vooral de toegankelijkheid op."
+```
+
+Count: 938/4000 characters.
+
+### it
+
+```text
+RetroRapid! è un arcade di corse a 3 corsie pensato per sessioni rapide e per inseguire il tuo miglior punteggio.
+
+Schiva il traffico e resisti mentre la velocità aumenta. I controlli sono facili da imparare e difficili da padroneggiare, quindi ogni partita mette alla prova i tuoi riflessi.
+
+Perché i giocatori tornano:
+- Gameplay arcade veloce da "ancora una"
+- Classifiche, obiettivi e marcatori amici di Game Center
+- Gioca su iPhone, iPad, Mac e Apple Watch
+- Tocco, swipe, tastiera, Digital Crown e controller supportati
+- VoiceOver, segnali audio, haptica, testo più grande, alto contrasto e Riduci movimento
+- Funziona offline per corse veloci in qualsiasi momento
+- Gioca gratis ogni giorno o sblocca Partite illimitate con un solo acquisto – nessun abbonamento
+- Nessuna raccolta dati
+
+Schianto, riparti e batti il tuo record.
+
+Featured in Create with Swift, Weekly Newsletter #96 (Indie App of the Week):
+"Ma oltre alla nostalgia e al gameplay serrato, ciò che davvero spicca è l'accessibilità."
+```
+
+Count: 1006/4000 characters.
+
+### fr-FR
+
+```text
+RetroRapid! est un arcade de course à 3 voies pensé pour des parties rapides et pour chasser ton meilleur score.
+
+Esquive le trafic et tiens bon quand la vitesse monte. Les commandes sont faciles à apprendre et difficiles à maîtriser, donc chaque partie teste tes réflexes.
+
+Pourquoi les joueurs reviennent :
+- Gameplay arcade rapide "encore une"
+- Classements, succès et marqueurs d'amis Game Center
+- Joue sur iPhone, iPad, Mac et Apple Watch
+- Toucher, glisser, clavier, Digital Crown et manettes compatibles
+- VoiceOver, indices audio, haptique, texte plus grand, contraste élevé et Réduire les animations
+- Fonctionne hors ligne pour des courses rapides à tout moment
+- Joue gratuitement chaque jour ou débloque Parties illimitées en un seul achat – pas d'abonnement
+- Aucune collecte de données
+
+Crash, redémarre et bats ton record.
+
+Featured in Create with Swift, Weekly Newsletter #96 (Indie App of the Week) :
+"Au-delà de la nostalgie et du gameplay serré, ce qui ressort vraiment, c'est l'accessibilité."
+```
+
+Count: 1014/4000 characters.
 
 ### es-ES
 
@@ -163,25 +271,113 @@ Use this shape for the next bug-fix or polish release if there is no larger feat
 ### en-US / en-GB / en-AU / en-CA
 
 ```text
-This update sharpens RetroRapid! with bug fixes and racing polish. The Game Center update is still the star: earn achievements, chase friends on the track, and share clean snapshots of your best runs. Thanks for racing with us.
+Race friends live with SharePlay on iPhone and iPad — synchronized countdowns, shared win/loss/tie results, and free rematches that wait until both players are ready.
+
+RetroRapid! now speaks German, Dutch, Italian, and French across the app, alongside Spanish and Catalan.
+
+We've also polished settings, audio, and stability across iPhone, iPad, Mac, and Apple Watch.
+
+If you're catching up: recent releases added Game Center achievements, friend markers during races, and shareable result snapshots, along with accessibility improvements and Spanish and Catalan localization.
+
+Thanks for racing with us.
 ```
 
-Count: 227/4000 characters.
+Count: 604/4000 characters.
+
+### de-DE
+
+```text
+Rase live mit Freunden per SharePlay auf iPhone und iPad — synchronisierte Countdowns, gemeinsame Sieg-/Niederlage-/Unentschieden-Ergebnisse und kostenlose Rematches, die warten, bis beide Spieler bereit sind.
+
+RetroRapid! spricht jetzt Deutsch, Niederländisch, Italienisch und Französisch in der gesamten App, zusätzlich zu Spanisch und Katalanisch.
+
+Außerdem haben wir Einstellungen, Audio und Stabilität auf iPhone, iPad, Mac und Apple Watch verbessert.
+
+Falls du aufholst: In den letzten Versionen kamen Game-Center-Erfolge, Freundesmarker auf der Strecke und teilbare Ergebnis-Screenshots hinzu, dazu Barrierefreiheitsverbesserungen sowie spanische und katalanische Lokalisierung.
+
+Danke, dass du mit uns fährst.
+```
+
+Count: 717/4000 characters.
+
+### nl-NL
+
+```text
+Race live met vrienden via SharePlay op iPhone en iPad — gesynchroniseerde countdowns, gedeelde winst/verlies/gelijkspel-resultaten en gratis rematches die wachten tot beide spelers klaar zijn.
+
+RetroRapid! spreekt nu Duits, Nederlands, Italiaans en Frans in de hele app, naast Spaans en Catalaans.
+
+We hebben ook instellingen, audio en stabiliteit verbeterd op iPhone, iPad, Mac en Apple Watch.
+
+Als je bij bent: recente releases voegden Game Center-prestaties, vriendenmarkeringen tijdens races en deelbare resultaat-screenshots toe, plus toegankelijkheidsverbeteringen en Spaanse en Catalaanse localisatie.
+
+Bedankt dat je met ons rijdt.
+```
+
+Count: 640/4000 characters.
+
+### it
+
+```text
+Corri in diretta con gli amici tramite SharePlay su iPhone e iPad — countdown sincronizzati, risultati condivisi di vittoria/sconfitta/parità e rematch gratuiti che aspettano che entrambi i giocatori siano pronti.
+
+RetroRapid! ora parla tedesco, olandese, italiano e francese in tutta l'app, oltre a spagnolo e catalano.
+
+Abbiamo anche rifinito impostazioni, audio e stabilità su iPhone, iPad, Mac e Apple Watch.
+
+Se ti stai aggiornando: le versioni recenti hanno aggiunto obiettivi Game Center, marcatori amici in gara e screenshot condivisibili dei risultati, oltre a miglioramenti di accessibilità e localizzazione in spagnolo e catalano.
+
+Grazie per correre con noi.
+```
+
+Count: 670/4000 characters.
+
+### fr-FR
+
+```text
+Course en direct avec tes amis via SharePlay sur iPhone et iPad — comptes à rebours synchronisés, résultats victoire/défaite/égalité partagés et revanches gratuites qui attendent que les deux joueurs soient prêts.
+
+RetroRapid! parle désormais allemand, néerlandais, italien et français dans toute l'app, en plus de l'espagnol et du catalan.
+
+Nous avons aussi peaufiné les réglages, l'audio et la stabilité sur iPhone, iPad, Mac et Apple Watch.
+
+Si tu rattrapes le train : les versions récentes ont ajouté des succès Game Center, des marqueurs d'amis en course et des captures de résultats partageables, ainsi que des améliorations d'accessibilité et une localisation en espagnol et catalan.
+
+Merci de courir avec nous.
+```
+
+Count: 718/4000 characters.
 
 ### es-ES / es-MX
 
 ```text
-Esta actualización pule RetroRapid! con correcciones de errores y mejoras de conducción. La actualización de Game Center sigue siendo la protagonista: consigue logros, persigue a tus amigos en la pista y comparte capturas limpias de tus mejores partidas. Gracias por correr con nosotros.
+Corre en vivo con amigos gracias a SharePlay en iPhone e iPad: cuenta atrás sincronizada, mismos resultados de victoria, derrota o empate y revanchas gratis que esperan a que ambos jugadores estén listos.
+
+RetroRapid! ya habla alemán, neerlandés, italiano y francés en toda la app, además de español y catalán.
+
+También hemos pulido ajustes, audio y estabilidad en iPhone, iPad, Mac y Apple Watch.
+
+Si te pones al día: versiones recientes añadieron logros de Game Center, marcadores de amigos en pista y capturas de resultados para compartir, junto con mejoras de accesibilidad y localización en español y catalán.
+
+Gracias por correr con nosotros.
 ```
 
-Count: 287/4000 characters.
+Count: 648/4000 characters.
 
 ### ca
 
 ```text
-Esta actualització poleix RetroRapid! amb correccions d'errors i millores de conducció. L'actualització de Game Center continua sent la protagonista: consegueix assoliments, persegueix als teus amics en la pista i comparteix captures netes de les teues millors partides. Gràcies per córrer amb nosaltres.
+Corre en viu amb amics amb SharePlay a iPhone i iPad: compte enrere sincronitzat, mateixos resultats de victòria, derrota o empat i revanxes gratuïtes que esperen que els dos jugadors estiguen llestos.
+
+RetroRapid! ara parla alemany, neerlandès, italià i francès a tota l'app, a més de castellà i català.
+
+També hem polix ajustos, àudio i estabilitat a iPhone, iPad, Mac i Apple Watch.
+
+Si et poses al dia: versions recents van afegir assoliments de Game Center, marcadors d'amistats en pista i captures de resultats per a compartir, juntament amb millores d'accessibilitat i localització en castellà i català.
+
+Gràcies per córrer amb nosaltres.
 ```
 
-Count: 304/4000 characters.
+Count: 645/4000 characters.
 
 _Generated by `swift run --package-path Scripts generate-metadata-docs`._

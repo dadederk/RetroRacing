@@ -1,9 +1,19 @@
-This update sharpens RetroRapid! with bug fixes and racing polish. The Game Center update is still the star: earn achievements, chase friends on the track, and share clean snapshots of your best runs. Thanks for racing with us.
+Race friends live with SharePlay on iPhone and iPad.
+
+Tap Play with Friends, start a synchronized countdown, dodge traffic together, and compare the same win, loss, or tie result at the end. Rematches wait until both players are ready.
+
+Friend races are free and never use daily plays, even when your solo free plays are used up.
+
+RetroRapid! now speaks German, Dutch, Italian, and French across the app, alongside Spanish and Catalan. Change your device language and menus, settings, and race UI should follow.
+
+We've also polished settings, paywall clarity, audio, and stability across the app.
 
 What we'd like you to focus on:
-- Earn a few achievements and confirm the artwork and unlock timing look right
-- Chase a friend's marker mid-race and check it stays accurate
-- Share a result snapshot and confirm it looks clean
-- Report any unexpected crashes, especially around game-over or lane changes
+- Start a SharePlay race with a friend on two iPhones or iPads and confirm the countdown stays in sync
+- Switch your device to German, Dutch, Italian, or French and confirm menus, settings, and in-game copy read naturally
+- Race to the finish, then try Play Again and confirm both players need to confirm before the rematch
+- With zero daily plays left, confirm friend races still start free from Play with Friends
+- On Mac and Apple Watch, confirm solo racing still feels solid
+- Report any crashes, disconnects, confusing multiplayer moments, or awkward translations
 
 Thanks for racing with us.

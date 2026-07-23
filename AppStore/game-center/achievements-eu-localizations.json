@@ -1,0 +1,584 @@
+{
+  "schemaVersion": 1,
+  "appId": "6758641625",
+  "locales": [
+    "de-DE",
+    "nl-NL",
+    "it",
+    "fr-FR"
+  ],
+  "achievements": [
+    {
+      "referenceName": "runOvertakes100",
+      "vendorId": "com.accessibilityUpTo11.RetroRacing.achievement.run.overtakes.0100",
+      "localizations": {
+        "de-DE": {
+          "name": "Serie 100",
+          "earnedDescription": "Du hast 100 Autos in einer Runde überholt.",
+          "preEarnedDescription": "Überhole 100 Autos in einer Runde."
+        },
+        "nl-NL": {
+          "name": "Serie 100",
+          "earnedDescription": "Je hebt 100 auto's ingehaald in één run.",
+          "preEarnedDescription": "Haal 100 auto's in in één run."
+        },
+        "it": {
+          "name": "Serie 100",
+          "earnedDescription": "Hai sorpassato 100 auto in una partita.",
+          "preEarnedDescription": "Sorpassa 100 auto in una partita."
+        },
+        "fr-FR": {
+          "name": "Série 100",
+          "earnedDescription": "Tu as dépassé 100 voitures en une partie.",
+          "preEarnedDescription": "Dépasse 100 voitures en une partie."
+        }
+      }
+    },
+    {
+      "referenceName": "runOvertakes200",
+      "vendorId": "com.accessibilityUpTo11.RetroRacing.achievement.run.overtakes.0200",
+      "localizations": {
+        "de-DE": {
+          "name": "Serie 200",
+          "earnedDescription": "Du hast 200 Autos in einer Runde überholt.",
+          "preEarnedDescription": "Überhole 200 Autos in einer Runde."
+        },
+        "nl-NL": {
+          "name": "Serie 200",
+          "earnedDescription": "Je hebt 200 auto's ingehaald in één run.",
+          "preEarnedDescription": "Haal 200 auto's in in één run."
+        },
+        "it": {
+          "name": "Serie 200",
+          "earnedDescription": "Hai sorpassato 200 auto in una partita.",
+          "preEarnedDescription": "Sorpassa 200 auto in una partita."
+        },
+        "fr-FR": {
+          "name": "Série 200",
+          "earnedDescription": "Tu as dépassé 200 voitures en une partie.",
+          "preEarnedDescription": "Dépasse 200 voitures en une partie."
+        }
+      }
+    },
+    {
+      "referenceName": "runOvertakes300",
+      "vendorId": "com.accessibilityUpTo11.RetroRacing.achievement.run.overtakes.0300",
+      "localizations": {
+        "de-DE": {
+          "name": "Serie 300",
+          "earnedDescription": "Du hast 300 Autos in einer Runde überholt.",
+          "preEarnedDescription": "Überhole 300 Autos in einer Runde."
+        },
+        "nl-NL": {
+          "name": "Serie 300",
+          "earnedDescription": "Je hebt 300 auto's ingehaald in één run.",
+          "preEarnedDescription": "Haal 300 auto's in in één run."
+        },
+        "it": {
+          "name": "Serie 300",
+          "earnedDescription": "Hai sorpassato 300 auto in una partita.",
+          "preEarnedDescription": "Sorpassa 300 auto in una partita."
+        },
+        "fr-FR": {
+          "name": "Série 300",
+          "earnedDescription": "Tu as dépassé 300 voitures en une partie.",
+          "preEarnedDescription": "Dépasse 300 voitures en une partie."
+        }
+      }
+    },
+    {
+      "referenceName": "runOvertakes400",
+      "vendorId": "com.accessibilityUpTo11.RetroRacing.achievement.run.overtakes.0400",
+      "localizations": {
+        "de-DE": {
+          "name": "Serie 400",
+          "earnedDescription": "Du hast 400 Autos in einer Runde überholt.",
+          "preEarnedDescription": "Überhole 400 Autos in einer Runde."
+        },
+        "nl-NL": {
+          "name": "Serie 400",
+          "earnedDescription": "Je hebt 400 auto's ingehaald in één run.",
+          "preEarnedDescription": "Haal 400 auto's in in één run."
+        },
+        "it": {
+          "name": "Serie 400",
+          "earnedDescription": "Hai sorpassato 400 auto in una partita.",
+          "preEarnedDescription": "Sorpassa 400 auto in una partita."
+        },
+        "fr-FR": {
+          "name": "Série 400",
+          "earnedDescription": "Tu as dépassé 400 voitures en une partie.",
+          "preEarnedDescription": "Dépasse 400 voitures en une partie."
+        }
+      }
+    },
+    {
+      "referenceName": "runOvertakes500",
+      "vendorId": "com.accessibilityUpTo11.RetroRacing.achievement.run.overtakes.0500",
+      "localizations": {
+        "de-DE": {
+          "name": "Serie 500",
+          "earnedDescription": "Du hast 500 Autos in einer Runde überholt.",
+          "preEarnedDescription": "Überhole 500 Autos in einer Runde."
+        },
+        "nl-NL": {
+          "name": "Serie 500",
+          "earnedDescription": "Je hebt 500 auto's ingehaald in één run.",
+          "preEarnedDescription": "Haal 500 auto's in in één run."
+        },
+        "it": {
+          "name": "Serie 500",
+          "earnedDescription": "Hai sorpassato 500 auto in una partita.",
+          "preEarnedDescription": "Sorpassa 500 auto in una partita."
+        },
+        "fr-FR": {
+          "name": "Série 500",
+          "earnedDescription": "Tu as dépassé 500 voitures en une partie.",
+          "preEarnedDescription": "Dépasse 500 voitures en une partie."
+        }
+      }
+    },
+    {
+      "referenceName": "runOvertakes600",
+      "vendorId": "com.accessibilityUpTo11.RetroRacing.achievement.run.overtakes.0600",
+      "localizations": {
+        "de-DE": {
+          "name": "Serie 600",
+          "earnedDescription": "Du hast 600 Autos in einer Runde überholt.",
+          "preEarnedDescription": "Überhole 600 Autos in einer Runde."
+        },
+        "nl-NL": {
+          "name": "Serie 600",
+          "earnedDescription": "Je hebt 600 auto's ingehaald in één run.",
+          "preEarnedDescription": "Haal 600 auto's in in één run."
+        },
+        "it": {
+          "name": "Serie 600",
+          "earnedDescription": "Hai sorpassato 600 auto in una partita.",
+          "preEarnedDescription": "Sorpassa 600 auto in una partita."
+        },
+        "fr-FR": {
+          "name": "Série 600",
+          "earnedDescription": "Tu as dépassé 600 voitures en une partie.",
+          "preEarnedDescription": "Dépasse 600 voitures en une partie."
+        }
+      }
+    },
+    {
+      "referenceName": "runOvertakes700",
+      "vendorId": "com.accessibilityUpTo11.RetroRacing.achievement.run.overtakes.0700",
+      "localizations": {
+        "de-DE": {
+          "name": "Serie 700",
+          "earnedDescription": "Du hast 700 Autos in einer Runde überholt.",
+          "preEarnedDescription": "Überhole 700 Autos in einer Runde."
+        },
+        "nl-NL": {
+          "name": "Serie 700",
+          "earnedDescription": "Je hebt 700 auto's ingehaald in één run.",
+          "preEarnedDescription": "Haal 700 auto's in in één run."
+        },
+        "it": {
+          "name": "Serie 700",
+          "earnedDescription": "Hai sorpassato 700 auto in una partita.",
+          "preEarnedDescription": "Sorpassa 700 auto in una partita."
+        },
+        "fr-FR": {
+          "name": "Série 700",
+          "earnedDescription": "Tu as dépassé 700 voitures en une partie.",
+          "preEarnedDescription": "Dépasse 700 voitures en une partie."
+        }
+      }
+    },
+    {
+      "referenceName": "runOvertakes800",
+      "vendorId": "com.accessibilityUpTo11.RetroRacing.achievement.run.overtakes.0800",
+      "localizations": {
+        "de-DE": {
+          "name": "Serie 800",
+          "earnedDescription": "Du hast 800 Autos in einer Runde überholt.",
+          "preEarnedDescription": "Überhole 800 Autos in einer Runde."
+        },
+        "nl-NL": {
+          "name": "Serie 800",
+          "earnedDescription": "Je hebt 800 auto's ingehaald in één run.",
+          "preEarnedDescription": "Haal 800 auto's in in één run."
+        },
+        "it": {
+          "name": "Serie 800",
+          "earnedDescription": "Hai sorpassato 800 auto in una partita.",
+          "preEarnedDescription": "Sorpassa 800 auto in una partita."
+        },
+        "fr-FR": {
+          "name": "Série 800",
+          "earnedDescription": "Tu as dépassé 800 voitures en une partie.",
+          "preEarnedDescription": "Dépasse 800 voitures en une partie."
+        }
+      }
+    },
+    {
+      "referenceName": "totalOvertakes1k",
+      "vendorId": "com.accessibilityUpTo11.RetroRacing.achievement.total.overtakes.001k",
+      "localizations": {
+        "de-DE": {
+          "name": "Overlander 1K",
+          "earnedDescription": "Du hast 1.000 Autos insgesamt überholt.",
+          "preEarnedDescription": "Überhole 1.000 Autos insgesamt."
+        },
+        "nl-NL": {
+          "name": "Overlander 1K",
+          "earnedDescription": "Je hebt 1.000 auto's in totaal ingehaald.",
+          "preEarnedDescription": "Haal 1.000 auto's in totaal in."
+        },
+        "it": {
+          "name": "Overlander 1K",
+          "earnedDescription": "Hai sorpassato 1.000 auto in totale.",
+          "preEarnedDescription": "Sorpassa 1.000 auto in totale."
+        },
+        "fr-FR": {
+          "name": "Overlander 1K",
+          "earnedDescription": "Tu as dépassé 1.000 voitures au total.",
+          "preEarnedDescription": "Dépasse 1.000 voitures au total."
+        }
+      }
+    },
+    {
+      "referenceName": "totalOvertakes5k",
+      "vendorId": "com.accessibilityUpTo11.RetroRacing.achievement.total.overtakes.005k",
+      "localizations": {
+        "de-DE": {
+          "name": "Overlander 5K",
+          "earnedDescription": "Du hast 5.000 Autos insgesamt überholt.",
+          "preEarnedDescription": "Überhole 5.000 Autos insgesamt."
+        },
+        "nl-NL": {
+          "name": "Overlander 5K",
+          "earnedDescription": "Je hebt 5.000 auto's in totaal ingehaald.",
+          "preEarnedDescription": "Haal 5.000 auto's in totaal in."
+        },
+        "it": {
+          "name": "Overlander 5K",
+          "earnedDescription": "Hai sorpassato 5.000 auto in totale.",
+          "preEarnedDescription": "Sorpassa 5.000 auto in totale."
+        },
+        "fr-FR": {
+          "name": "Overlander 5K",
+          "earnedDescription": "Tu as dépassé 5.000 voitures au total.",
+          "preEarnedDescription": "Dépasse 5.000 voitures au total."
+        }
+      }
+    },
+    {
+      "referenceName": "totalOvertakes10k",
+      "vendorId": "com.accessibilityUpTo11.RetroRacing.achievement.total.overtakes.010k",
+      "localizations": {
+        "de-DE": {
+          "name": "Overlander 10K",
+          "earnedDescription": "Du hast 10.000 Autos insgesamt überholt.",
+          "preEarnedDescription": "Überhole 10.000 Autos insgesamt."
+        },
+        "nl-NL": {
+          "name": "Overlander 10K",
+          "earnedDescription": "Je hebt 10.000 auto's in totaal ingehaald.",
+          "preEarnedDescription": "Haal 10.000 auto's in totaal in."
+        },
+        "it": {
+          "name": "Overlander 10K",
+          "earnedDescription": "Hai sorpassato 10.000 auto in totale.",
+          "preEarnedDescription": "Sorpassa 10.000 auto in totale."
+        },
+        "fr-FR": {
+          "name": "Overlander 10K",
+          "earnedDescription": "Tu as dépassé 10.000 voitures au total.",
+          "preEarnedDescription": "Dépasse 10.000 voitures au total."
+        }
+      }
+    },
+    {
+      "referenceName": "totalOvertakes20k",
+      "vendorId": "com.accessibilityUpTo11.RetroRacing.achievement.total.overtakes.020k",
+      "localizations": {
+        "de-DE": {
+          "name": "Overlander 20K",
+          "earnedDescription": "Du hast 20.000 Autos insgesamt überholt.",
+          "preEarnedDescription": "Überhole 20.000 Autos insgesamt."
+        },
+        "nl-NL": {
+          "name": "Overlander 20K",
+          "earnedDescription": "Je hebt 20.000 auto's in totaal ingehaald.",
+          "preEarnedDescription": "Haal 20.000 auto's in totaal in."
+        },
+        "it": {
+          "name": "Overlander 20K",
+          "earnedDescription": "Hai sorpassato 20.000 auto in totale.",
+          "preEarnedDescription": "Sorpassa 20.000 auto in totale."
+        },
+        "fr-FR": {
+          "name": "Overlander 20K",
+          "earnedDescription": "Tu as dépassé 20.000 voitures au total.",
+          "preEarnedDescription": "Dépasse 20.000 voitures au total."
+        }
+      }
+    },
+    {
+      "referenceName": "totalOvertakes50k",
+      "vendorId": "com.accessibilityUpTo11.RetroRacing.achievement.total.overtakes.050k",
+      "localizations": {
+        "de-DE": {
+          "name": "Overlander 50K",
+          "earnedDescription": "Du hast 50.000 Autos insgesamt überholt.",
+          "preEarnedDescription": "Überhole 50.000 Autos insgesamt."
+        },
+        "nl-NL": {
+          "name": "Overlander 50K",
+          "earnedDescription": "Je hebt 50.000 auto's in totaal ingehaald.",
+          "preEarnedDescription": "Haal 50.000 auto's in totaal in."
+        },
+        "it": {
+          "name": "Overlander 50K",
+          "earnedDescription": "Hai sorpassato 50.000 auto in totale.",
+          "preEarnedDescription": "Sorpassa 50.000 auto in totale."
+        },
+        "fr-FR": {
+          "name": "Overlander 50K",
+          "earnedDescription": "Tu as dépassé 50.000 voitures au total.",
+          "preEarnedDescription": "Dépasse 50.000 voitures au total."
+        }
+      }
+    },
+    {
+      "referenceName": "totalOvertakes100k",
+      "vendorId": "com.accessibilityUpTo11.RetroRacing.achievement.total.overtakes.100k",
+      "localizations": {
+        "de-DE": {
+          "name": "Overlander 100K",
+          "earnedDescription": "Du hast 100.000 Autos insgesamt überholt.",
+          "preEarnedDescription": "Überhole 100.000 Autos insgesamt."
+        },
+        "nl-NL": {
+          "name": "Overlander 100K",
+          "earnedDescription": "Je hebt 100.000 auto's in totaal ingehaald.",
+          "preEarnedDescription": "Haal 100.000 auto's in totaal in."
+        },
+        "it": {
+          "name": "Overlander 100K",
+          "earnedDescription": "Hai sorpassato 100.000 auto in totale.",
+          "preEarnedDescription": "Sorpassa 100.000 auto in totale."
+        },
+        "fr-FR": {
+          "name": "Overlander 100K",
+          "earnedDescription": "Tu as dépassé 100.000 voitures au total.",
+          "preEarnedDescription": "Dépasse 100.000 voitures au total."
+        }
+      }
+    },
+    {
+      "referenceName": "totalOvertakes200k",
+      "vendorId": "com.accessibilityUpTo11.RetroRacing.achievement.total.overtakes.200k",
+      "localizations": {
+        "de-DE": {
+          "name": "Overlander 200K",
+          "earnedDescription": "Du hast 200.000 Autos insgesamt überholt.",
+          "preEarnedDescription": "Überhole 200.000 Autos insgesamt."
+        },
+        "nl-NL": {
+          "name": "Overlander 200K",
+          "earnedDescription": "Je hebt 200.000 auto's in totaal ingehaald.",
+          "preEarnedDescription": "Haal 200.000 auto's in totaal in."
+        },
+        "it": {
+          "name": "Overlander 200K",
+          "earnedDescription": "Hai sorpassato 200.000 auto in totale.",
+          "preEarnedDescription": "Sorpassa 200.000 auto in totale."
+        },
+        "fr-FR": {
+          "name": "Overlander 200K",
+          "earnedDescription": "Tu as dépassé 200.000 voitures au total.",
+          "preEarnedDescription": "Dépasse 200.000 voitures au total."
+        }
+      }
+    },
+    {
+      "referenceName": "controlTap",
+      "vendorId": "com.accessibilityUpTo11.RetroRacing.achievement.control.tap",
+      "localizations": {
+        "de-DE": {
+          "name": "Tipp-Steuerung",
+          "earnedDescription": "Du hast eine Runde mit Tipp-Steuerung abgeschlossen.",
+          "preEarnedDescription": "Schließe eine Runde mit Tipp-Steuerung ab."
+        },
+        "nl-NL": {
+          "name": "Tikbesturing",
+          "earnedDescription": "Je hebt een run voltooid met tikbesturing.",
+          "preEarnedDescription": "Voltooi een run met tikbesturing."
+        },
+        "it": {
+          "name": "Controlli tocco",
+          "earnedDescription": "Hai completato una partita con i controlli tocco.",
+          "preEarnedDescription": "Completa una partita con i controlli tocco."
+        },
+        "fr-FR": {
+          "name": "Commandes tactiles",
+          "earnedDescription": "Tu as terminé une partie avec les commandes tactiles.",
+          "preEarnedDescription": "Termine une partie avec les commandes tactiles."
+        }
+      }
+    },
+    {
+      "referenceName": "controlSwipe",
+      "vendorId": "com.accessibilityUpTo11.RetroRacing.achievement.control.swipe",
+      "localizations": {
+        "de-DE": {
+          "name": "Wisch-Steuerung",
+          "earnedDescription": "Du hast eine Runde mit Wisch-Steuerung abgeschlossen.",
+          "preEarnedDescription": "Schließe eine Runde mit Wisch-Steuerung ab."
+        },
+        "nl-NL": {
+          "name": "Veegbesturing",
+          "earnedDescription": "Je hebt een run voltooid met veegbesturing.",
+          "preEarnedDescription": "Voltooi een run met veegbesturing."
+        },
+        "it": {
+          "name": "Controlli swipe",
+          "earnedDescription": "Hai completato una partita con i controlli swipe.",
+          "preEarnedDescription": "Completa una partita con i controlli swipe."
+        },
+        "fr-FR": {
+          "name": "Commandes glisser",
+          "earnedDescription": "Tu as terminé une partie avec les commandes glisser.",
+          "preEarnedDescription": "Termine une partie avec les commandes glisser."
+        }
+      }
+    },
+    {
+      "referenceName": "controlKeyboard",
+      "vendorId": "com.accessibilityUpTo11.RetroRacing.achievement.control.keyboard",
+      "localizations": {
+        "de-DE": {
+          "name": "Tastatur-Steuerung",
+          "earnedDescription": "Du hast eine Runde mit Tastatur-Steuerung abgeschlossen.",
+          "preEarnedDescription": "Schließe eine Runde mit Tastatur-Steuerung ab."
+        },
+        "nl-NL": {
+          "name": "Toetsenbordbesturing",
+          "earnedDescription": "Je hebt een run voltooid met toetsenbordbesturing.",
+          "preEarnedDescription": "Voltooi een run met toetsenbordbesturing."
+        },
+        "it": {
+          "name": "Controlli tastiera",
+          "earnedDescription": "Hai completato una partita con la tastiera.",
+          "preEarnedDescription": "Completa una partita con la tastiera."
+        },
+        "fr-FR": {
+          "name": "Commandes clavier",
+          "earnedDescription": "Tu as terminé une partie avec le clavier.",
+          "preEarnedDescription": "Termine une partie avec le clavier."
+        }
+      }
+    },
+    {
+      "referenceName": "controlVoiceOver",
+      "vendorId": "com.accessibilityUpTo11.RetroRacing.achievement.control.voiceover",
+      "localizations": {
+        "de-DE": {
+          "name": "VoiceOver-Steuerung",
+          "earnedDescription": "Du hast eine Runde mit VoiceOver-Steuerung abgeschlossen.",
+          "preEarnedDescription": "Schließe eine Runde mit VoiceOver-Steuerung ab."
+        },
+        "nl-NL": {
+          "name": "VoiceOver-besturing",
+          "earnedDescription": "Je hebt een run voltooid met VoiceOver-besturing.",
+          "preEarnedDescription": "Voltooi een run met VoiceOver-besturing."
+        },
+        "it": {
+          "name": "Controlli VoiceOver",
+          "earnedDescription": "Hai completato una partita con VoiceOver.",
+          "preEarnedDescription": "Completa una partita con VoiceOver."
+        },
+        "fr-FR": {
+          "name": "Commandes VoiceOver",
+          "earnedDescription": "Tu as terminé une partie avec VoiceOver.",
+          "preEarnedDescription": "Termine une partie avec VoiceOver."
+        }
+      }
+    },
+    {
+      "referenceName": "controlDigitalCrown",
+      "vendorId": "com.accessibilityUpTo11.RetroRacing.achievement.control.crown",
+      "localizations": {
+        "de-DE": {
+          "name": "Digital-Crown-Steuerung",
+          "earnedDescription": "Du hast eine Runde mit Digital-Crown-Steuerung abgeschlossen.",
+          "preEarnedDescription": "Schließe eine Runde mit Digital-Crown-Steuerung ab."
+        },
+        "nl-NL": {
+          "name": "Digital Crown-besturing",
+          "earnedDescription": "Je hebt een run voltooid met Digital Crown-besturing.",
+          "preEarnedDescription": "Voltooi een run met Digital Crown-besturing."
+        },
+        "it": {
+          "name": "Controlli Digital Crown",
+          "earnedDescription": "Hai completato una partita con Digital Crown.",
+          "preEarnedDescription": "Completa una partita con Digital Crown."
+        },
+        "fr-FR": {
+          "name": "Commandes Digital Crown",
+          "earnedDescription": "Tu as terminé une partie avec Digital Crown.",
+          "preEarnedDescription": "Termine une partie avec Digital Crown."
+        }
+      }
+    },
+    {
+      "referenceName": "controlGameController",
+      "vendorId": "com.accessibilityUpTo11.RetroRacing.achievement.control.gamecontroller",
+      "localizations": {
+        "de-DE": {
+          "name": "Controller-Steuerung",
+          "earnedDescription": "Du hast eine Runde mit Controller-Steuerung abgeschlossen.",
+          "preEarnedDescription": "Schließe eine Runde mit Controller-Steuerung ab."
+        },
+        "nl-NL": {
+          "name": "Controllerbesturing",
+          "earnedDescription": "Je hebt een run voltooid met een controller.",
+          "preEarnedDescription": "Voltooi een run met een controller."
+        },
+        "it": {
+          "name": "Controlli controller",
+          "earnedDescription": "Hai completato una partita con un controller.",
+          "preEarnedDescription": "Completa una partita con un controller."
+        },
+        "fr-FR": {
+          "name": "Commandes manette",
+          "earnedDescription": "Tu as terminé une partie avec une manette.",
+          "preEarnedDescription": "Termine une partie avec une manette."
+        }
+      }
+    },
+    {
+      "referenceName": "eventGAADAssistive",
+      "vendorId": "com.accessibilityUpTo11.RetroRacing.achievement.event.gaad.assistive",
+      "localizations": {
+        "de-DE": {
+          "name": "GAAD Assistive Week",
+          "earnedDescription": "Du hast während der GAAD-Woche eine Runde mit assistiver Technologie abgeschlossen.",
+          "preEarnedDescription": "Schließe während der GAAD-Woche eine Runde mit assistiver Technologie ab."
+        },
+        "nl-NL": {
+          "name": "GAAD Assistive Week",
+          "earnedDescription": "Je hebt tijdens GAAD Week een run voltooid met ondersteunende technologie.",
+          "preEarnedDescription": "Voltooi tijdens GAAD Week een run met ondersteunende technologie."
+        },
+        "it": {
+          "name": "Settimana GAAD Assistiva",
+          "earnedDescription": "Hai completato una partita durante la GAAD Week usando una tecnologia assistiva.",
+          "preEarnedDescription": "Completa una partita durante la GAAD Week usando una tecnologia assistiva."
+        },
+        "fr-FR": {
+          "name": "Semaine GAAD Assistive",
+          "earnedDescription": "Tu as terminé une partie pendant la semaine GAAD avec une technologie d'assistance.",
+          "preEarnedDescription": "Termine une partie pendant la semaine GAAD avec une technologie d'assistance."
+        }
+      }
+    }
+  ]
+}

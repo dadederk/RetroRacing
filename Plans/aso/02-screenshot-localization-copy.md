@@ -18,7 +18,7 @@ Last updated: 2026-07-23
 
 ## 4.2 iPhone Caption Sequence
 
-Current iPhone/iPad/Mac source copy uses this **seven-slide** order. Locales: `en-US`, `en-GB`, `en-AU`, `en-CA`, `es-ES`, `es-MX`, `ca`. For this submission pass, all locales reuse the same `en-US` base captures while keeping localized overlay copy in the generated `data.plist` files. Full per-locale text lives only in the canonical Swift source and generated `data.plist` files — not duplicated per-language below.
+Current iPhone/iPad/Mac source copy uses this **seven-slide** order. Locales: `en-US`, `en-GB`, `en-AU`, `en-CA`, `de-DE`, `nl-NL`, `it`, `fr-FR`, `es-ES`, `es-MX`, `ca`. For this submission pass, all locales reuse the same `en-US` base captures while keeping localized overlay copy in the generated `data.plist` files. Full per-locale text lives only in the canonical Swift source and generated `data.plist` files — not duplicated per-language below.
 
 Translations use vocabulary consistent with `Localizable.xcstrings` and App Store metadata. CA follows **Valencian Meridional** dialect: `trànsit` for traffic, `teua`/`seua` for feminine possessives, `este`/`esta` for proximal demonstratives, Valencian verb forms (`gaudix`, `resistix`, `valga`).
 

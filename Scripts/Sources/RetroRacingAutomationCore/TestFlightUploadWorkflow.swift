@@ -176,14 +176,45 @@ public enum TestFlightUploadWorkflow {
         plan: BuildPlan,
         platform: ArchivePlatform
     ) throws {
-        let whatsNew = try String(contentsOf: plan.whatsNewFile, encoding: .utf8)
-        let update = buildUpdateCommand(buildID: buildID, whatsNew: whatsNew, plan: plan)
+        try applyBetaNotes(buildID: buildID, plan: plan)
         let attach = buildAttachCommand(buildID: buildID, plan: plan)
         let finalState = buildLookupCommand(plan: plan, platform: platform)
 
-        try run(command: update, dryRun: plan.options.dryRun)
         try run(command: attach, dryRun: plan.options.dryRun)
         try run(command: finalState, dryRun: plan.options.dryRun)
+    }
+
+    private static func applyBetaNotes(
+        buildID: String,
+        plan: BuildPlan
+    ) throws {
+        let locales = try betaNoteLocales(in: plan.betaNotesDirectory)
+        for (index, locale) in locales.enumerated() {
+            let whatsNewFile = plan.betaNotesDirectory
+                .appending(path: locale)
+                .appending(path: "whats-new.txt")
+            let update = buildUpdateCommand(
+                buildID: buildID,
+                locale: locale,
+                whatsNewFile: whatsNewFile,
+                plan: plan,
+                includeExportCompliance: index == 0
+            )
+            try run(command: update, dryRun: plan.options.dryRun)
+        }
+    }
+
+    private static func betaNoteLocales(in directory: URL) throws -> [String] {
+        let contents = try FileManager.default.contentsOfDirectory(
+            at: directory,
+            includingPropertiesForKeys: [.isDirectoryKey]
+        )
+        return contents
+            .filter { url in
+                (try? url.resourceValues(forKeys: [.isDirectoryKey]).isDirectory) == true
+            }
+            .map { $0.lastPathComponent }
+            .sorted()
     }
 
     private static func run(command: ProcessCommand, dryRun: Bool) throws {
@@ -268,24 +299,29 @@ public enum TestFlightUploadWorkflow {
 
     private static func buildUpdateCommand(
         buildID: String,
-        whatsNew: String,
-        plan: BuildPlan
+        locale: String,
+        whatsNewFile: URL,
+        plan: BuildPlan,
+        includeExportCompliance: Bool
     ) -> ProcessCommand {
-        ProcessCommand(
-            executable: plan.options.helmPath,
-            arguments: [
-                "build",
-                buildID,
-                "update",
-                "--uses-non-exempt-encryption",
-                "false",
-                "--locale",
-                "en-US",
-                "--whats-new",
-                whatsNew,
-                "--agent",
-            ]
+        let helm = shellSingleQuoted(plan.options.helmPath)
+        let filePath = shellSingleQuoted(whatsNewFile.path)
+        let build = shellSingleQuoted(buildID)
+        let loc = shellSingleQuoted(locale)
+        var script = "text=$(cat \(filePath))\n"
+        script += "\(helm) build \(build) update"
+        if includeExportCompliance {
+            script += " --uses-non-exempt-encryption false"
+        }
+        script += " --locale \(loc) --whats-new \"$text\" --agent"
+        return ProcessCommand(
+            executable: "/bin/bash",
+            arguments: ["-lc", script]
         )
+    }
+
+    private static func shellSingleQuoted(_ value: String) -> String {
+        "'" + value.replacingOccurrences(of: "'", with: "'\\''") + "'"
     }
 
     private static func buildAttachCommand(
@@ -328,8 +364,8 @@ private struct BuildPlan {
         repositoryRoot.appending(path: "AppStore/testflight/ExportOptions-upload.plist")
     }
 
-    var whatsNewFile: URL {
-        repositoryRoot.appending(path: "AppStore/testflight/beta-notes/en-US/whats-new.txt")
+    var betaNotesDirectory: URL {
+        repositoryRoot.appending(path: "AppStore/testflight/beta-notes")
     }
 
     func archivePath(for platform: ArchivePlatform) -> URL {

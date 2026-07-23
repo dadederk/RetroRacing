@@ -102,8 +102,12 @@ struct MenuContentView: View {
         Button {
             onPlay()
         } label: {
-            Text(GameLocalizedStrings.string("play"))
-                .font(buttonFont)
+            Label {
+                Text(GameLocalizedStrings.string("play"))
+                    .font(buttonFont)
+            } icon: {
+                Image(systemName: "play.fill")
+            }
         }
         .retroRacingPrimaryButtonStyle()
         .controlSize(.large)
@@ -130,8 +134,12 @@ struct MenuContentView: View {
             authError = nil
             onLeaderboard()
         } label: {
-            Text(GameLocalizedStrings.string("leaderboard"))
-                .font(buttonFont)
+            Label {
+                Text(GameLocalizedStrings.string("leaderboard"))
+                    .font(buttonFont)
+            } icon: {
+                Image(systemName: "trophy.fill")
+            }
         }
         .retroRacingSecondaryButtonStyle()
         .disabled(!isLeaderboardEnabled)

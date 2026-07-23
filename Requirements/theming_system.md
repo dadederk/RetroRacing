@@ -218,6 +218,8 @@ The Settings screen (Universal, tvOS, watchOS) exposes a **Theme** section with 
 
 Section headings in Settings, About, controls help sheets, and paywall subsections use `RetroSectionHeaderStyle` (headline font + `.primary` foreground) via the `retroSectionHeader(font:)` view helper in `RetroRacingShared/Appearance/RetroSectionHeaderStyle.swift`.
 
+The Theme section heading remains `"settings_theme"`; the picker/row label uses `"settings_theme_style"` so the section reads as **Theme → Style → LCD/Pocket/...**.
+
 ### Settings View (reference)
 
 ```swift
