@@ -546,6 +546,8 @@ struct RetroRacingApp: App {
     /// (incoming) sessions identically, since both arrive via the same state-change handler.
     private func handleSharePlayStateChanged(_ newValue: SharePlayUIState) {
         let wasIdle = sharePlayUIState.state == .idle
+        let previousState = sharePlayUIState.state
+        logSharePlayUIStateChanged(from: previousState, to: newValue, wasIdle: wasIdle)
         sharePlayUIState = newValue
         if wasIdle, newValue.state != .idle {
             sharePlaySharingPresentation = nil
@@ -563,6 +565,28 @@ struct RetroRacingApp: App {
                 .string("toSession", AppLog.shortID(sessionID))
             ]
         )
+    }
+
+    private func logSharePlayUIStateChanged(
+        from previousState: SharePlayMatchState,
+        to newValue: SharePlayUIState,
+        wasIdle: Bool
+    ) {
+        let fields: [AppLog.Field] = [
+            .string("previousState", previousState.diagnosticName),
+            .string("newState", newValue.state.diagnosticName),
+            .string("role", newValue.localRole?.rawValue),
+            .string("opponentName", AppLog.redactedPlayer(newValue.opponentDisplayName)),
+            .bool("wasIdle", wasIdle),
+            .bool("isMenuPresented", isMenuPresented),
+            .bool("shouldStartGame", shouldStartGame),
+            .string("session", AppLog.shortID(sessionID))
+        ]
+        if previousState.diagnosticName != newValue.state.diagnosticName {
+            AppLog.info(AppLog.lifecycle + AppLog.game, "SHAREPLAY_UI_STATE", outcome: .completed, fields: fields)
+        } else {
+            AppLog.debug(AppLog.lifecycle + AppLog.game, "SHAREPLAY_UI_STATE", outcome: .completed, fields: fields)
+        }
     }
 
     private func handleMenuDismissed() {

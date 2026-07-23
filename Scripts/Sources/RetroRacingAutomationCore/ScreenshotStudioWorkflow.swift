@@ -20,6 +20,7 @@ public enum ScreenshotStudioWorkflow {
     public static let slideCount = 7
 
     private static let englishLocales = ["en-US", "en-GB", "en-AU", "en-CA"]
+    private static let baseImageLocale = "en-US"
     private static let platforms = ["iphone", "ipad", "mac"]
     private static let imageExtensions = [
         "iphone": ".jpeg",
@@ -77,11 +78,34 @@ public enum ScreenshotStudioWorkflow {
         platform: String,
         slideCount: Int
     ) throws -> [String: Any] {
+        try contentsManifest(
+            platform: platform,
+            slideCount: slideCount,
+            locales: locales
+        )
+    }
+
+    static func baseLocaleContentsManifest(
+        platform: String,
+        slideCount: Int
+    ) throws -> [String: Any] {
+        try contentsManifest(
+            platform: platform,
+            slideCount: slideCount,
+            locales: [baseImageLocale]
+        )
+    }
+
+    private static func contentsManifest(
+        platform: String,
+        slideCount: Int,
+        locales manifestLocales: [String]
+    ) throws -> [String: Any] {
         guard let fileExtension = imageExtensions[platform] else {
             throw ScreenshotStudioError.unsupportedPlatform(platform)
         }
         let images = (0..<slideCount).flatMap { index in
-            locales.map { locale in
+            manifestLocales.map { locale in
                 [
                     "filename": "\(locale)_\(index)\(fileExtension)",
                     "index": index,
@@ -115,9 +139,12 @@ public enum ScreenshotStudioWorkflow {
         }
 
         artifacts.append(try expectedWatchDataPlist(studioRoot: studioRoot))
-        artifacts += try expectedImageArtifacts(
+        artifacts += try expectedBaseLocaleImageArtifacts(
             platform: "appleWatch",
-            slideCount: 1,
+            slideCount: try loadSlides(
+                platform: "appleWatch",
+                studioRoot: studioRoot
+            ).count,
             studioRoot: studioRoot
         )
         return artifacts
@@ -190,11 +217,24 @@ public enum ScreenshotStudioWorkflow {
                 actual: 0
             )
         }
-        watchSlides[0]["localizations"] = localizationEntries(
-            slideIndex: 0,
-            watchSequenceOnly: true
-        )
+        for index in watchSlides.indices {
+            watchSlides[index]["localizations"] = emptyLocalizationEntries(
+                preservingOrderFrom: watchSlides[index]["localizations"]
+            )
+        }
         return .propertyList(url: url, value: watchSlides)
+    }
+
+    private static func emptyLocalizationEntries(
+        preservingOrderFrom currentValue: Any?
+    ) -> [[String: String]] {
+        let currentLocales = (currentValue as? [[String: Any]])?
+            .compactMap { $0["language"] as? String } ?? []
+        let orderedLocales = currentLocales
+            + locales.filter { locale in !currentLocales.contains(locale) }
+        return orderedLocales.map { locale in
+            ["language": locale, "title": "", "body": ""]
+        }
     }
 
     private static func expectedImageArtifacts(
@@ -222,20 +262,33 @@ public enum ScreenshotStudioWorkflow {
         for index in 0..<slideCount {
             artifacts += try sharedImageCopies(
                 imagesDirectory: imagesDirectory,
-                sourceLocale: "en-US",
-                targetLocales: englishLocales.filter { $0 != "en-US" },
-                index: index,
-                fileExtension: fileExtension
-            )
-            artifacts += try sharedImageCopies(
-                imagesDirectory: imagesDirectory,
-                sourceLocale: "es-ES",
-                targetLocales: ["es-MX"],
+                sourceLocale: baseImageLocale,
+                targetLocales: locales.filter { $0 != baseImageLocale },
                 index: index,
                 fileExtension: fileExtension
             )
         }
         return artifacts
+    }
+
+    private static func expectedBaseLocaleImageArtifacts(
+        platform: String,
+        slideCount: Int,
+        studioRoot: URL
+    ) throws -> [ExpectedArtifact] {
+        let imagesDirectory = studioRoot
+            .appending(path: platform)
+            .appending(path: "images")
+        let manifest = try baseLocaleContentsManifest(
+            platform: platform,
+            slideCount: slideCount
+        )
+        return [
+            .json(
+                url: imagesDirectory.appending(path: "contents.json"),
+                value: manifest
+            ),
+        ]
     }
 
     private static func sharedImageCopies(

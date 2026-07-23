@@ -146,8 +146,11 @@ Injected via `SharePlayMatchService+Environment.swift`, matching the existing
   `GroupSessionMessengerTransport`. Participant-ready and display-name callbacks are
   edge-triggered so repeated `activeParticipants` emissions do not re-start no-op host checks or
   invalidate SwiftUI without a visible state change. Stale observer callbacks from prior
-  sessions are ignored, and participant-count loss after readiness uses a short grace window so
-  transient GroupActivities join churn does not flash a false connection-lost screen.
+  sessions are ignored. Participant-count loss after readiness uses a short grace window so
+  transient GroupActivities join churn does not flash a false connection-lost screen. A
+  pre-ready session invalidation is also deferred briefly and cancelled by a replacement session,
+  because the system can invalidate the first guest session immediately before delivering the
+  real joined session.
 - `GroupSessionMessengerTransport` — thin wrapper around `GroupSessionMessenger` send/receive of
   `SharePlayMatchCommand`.
 - `GroupActivitiesSharePlayMatchService` — the production `SharePlayMatchService`, an **actor**
@@ -155,7 +158,10 @@ Injected via `SharePlayMatchService+Environment.swift`, matching the existing
   host-activated (`startHostSession()`) and system-activated (`observeIncomingSessions()`)
   sessions identically — both arrive via `RetroRacingGroupActivity.sessions()` and are
   distinguished only by whether `pendingHostActivation` was set first (by `startHostSession()` or
-  `prepareHostActivation()`).
+  `prepareHostActivation()`). SharePlay service/coordinator/app-state boundaries emit structured
+  `SHAREPLAY_*` logs for session observation, participant counts, delayed disconnect scheduling
+  and cancellation, incoming lifecycle commands, and UI state propagation so transient terminal
+  flashes can be diagnosed from a two-device log capture without exposing player names.
 - `SharePlayActivitySharingPresenter` — presents the system `GroupActivitySharingController`
   from an invisible UIKit host embedded in the menu background. It intentionally does not use a
   SwiftUI `.fullScreenCover` for the system sharing sheet, because the extra cover can outlive
@@ -269,6 +275,9 @@ opponent wording.
   call `recordGamePlayed`, even at zero remaining daily plays; SharePlay collisions do not present
   solo `GameOverView`; final collision sends `lives: 0` before elimination; waiting/countdown/
   recovery states keep gameplay paused; baseline idle-state behavior is unaffected.
+- `SharePlayPreReadyInvalidationGraceTests` — deferred pre-ready session invalidation grace:
+  cancel-before-fire, reschedule-after-cancel, and should-disconnect guard behavior used by
+  `GroupSessionCoordinator`.
 - `GeneratedSFXRecipeTests` — generated countdown step/go recipes render and have expected
   durations; `SharePlayCountdownCueScheduler` plays once per displayed countdown step.
 

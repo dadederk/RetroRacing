@@ -36,7 +36,7 @@
 	<key>deviceScaleFactor</key>
 	<real>1</real>
 	<key>frameStyle</key>
-	<string>lightBordered</string>
+	<string>darkBordered</string>
 	<key>glitchDirection</key>
 	<string>leadingToTrailing</string>
 	<key>glitchEndColor</key>

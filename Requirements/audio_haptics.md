@@ -27,8 +27,8 @@
 
 ## Implementation Rules
 - Shared audio abstraction `SoundEffectPlayer`; injected into `GameScene` (no defaults in initializers).
-- Primary runtime SFX path uses `AVGeneratedSoundEffectPlayer` (generated PCM for `start`, `bip`, `fail`, and SharePlay countdown cues) with a modular `GeneratedSFXProfile` built on the shared pure `ArcadeAudioKit` recipe/rendering package.
-- Generated SFX recipes are composed from ordered `ArcadeAudioKit` segments (`intro`, `body`, optional repeated `tailPattern`) so tuning is code-only constant edits while AVFoundation playback remains RetroRapid-owned.
+- Primary runtime SFX path uses `AVGeneratedSoundEffectPlayer` (generated PCM for `start`, `bip`, `fail`, and SharePlay countdown cues) with a modular `GeneratedSFXProfile` rendered through the shared pure `ArcadeAudioKit` package.
+- Generated SFX recipes are composed from RetroRapid-owned `GeneratedSFXSegment` values (`intro`, `body`, optional repeated `tailPattern`) and converted internally to `ArcadeAudioKit` recipes at render time, so the app framework does not expose the local package in its public interface. Musical recipe tones use named `GeneratedSFXNote` constants; explicit Hz remains available for non-musical sweeps and tuning.
 - `GeneratedSFXProfile.failTailRepeatCount` is the one-line fail-tail repetition knob; default is baseline minus one repeat to shorten fail feedback.
 - Shared cue abstraction `LaneCuePlayer` with AVFoundation implementation `AVLaneCuePlayer`; injected into `GameScene` and backed by generated PCM buffers (no prerecorded cue assets required).
 - Sound IDs include `start`, `bip`, `fail`, and semantic SharePlay countdown effects (`sharePlayCountdownLow`, `sharePlayCountdownMid`, `sharePlayCountdownHigh`, `sharePlayCountdownGo`); all are generated at runtime.

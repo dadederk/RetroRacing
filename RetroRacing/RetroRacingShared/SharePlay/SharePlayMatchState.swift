@@ -35,4 +35,20 @@ public enum SharePlayMatchState: Sendable, Equatable {
     public var isActive: Bool {
         self != .idle
     }
+
+    /// Stable, privacy-safe label for structured diagnostics. Associated values are intentionally
+    /// omitted so logs stay compact while still making transient state flashes traceable.
+    public var diagnosticName: String {
+        switch self {
+        case .idle: return "idle"
+        case .waitingForFriend: return "waitingForFriend"
+        case .countdown: return "countdown"
+        case .inRound: return "inRound"
+        case .waitingAfterLocalLoss: return "waitingAfterLocalLoss"
+        case .finished: return "finished"
+        case .retryWaiting: return "retryWaiting"
+        case .retryTimedOut: return "retryTimedOut"
+        case .aborted: return "aborted"
+        }
+    }
 }

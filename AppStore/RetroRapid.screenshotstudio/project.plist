@@ -15,7 +15,12 @@
 		<string>es-MX</string>
 	</array>
 	<key>selectedAppleWatchSpecification</key>
-	<string>appleWatchUltra</string>
+	<string>appleWatchUltra3</string>
+	<key>selectedIPhoneSpecifications</key>
+	<array>
+		<string>display6_5</string>
+		<string>display6_9</string>
+	</array>
 	<key>selectedPlatforms</key>
 	<array>
 		<string>iPhone</string>

@@ -6050,78 +6050,119 @@
         "ca": {
           "stringUnit": {
             "state": "translated",
-            "value": "Les curses amb amics són gratis amb SharePlay."
+            "value": "Les curses amb amics són gratis amb SharePlay!"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Friend races are free with SharePlay."
+            "value": "Friend races are free with SharePlay!"
           }
         },
         "en-AU": {
           "stringUnit": {
             "state": "translated",
-            "value": "Friend races are free with SharePlay."
+            "value": "Friend races are free with SharePlay!"
           }
         },
         "en-CA": {
           "stringUnit": {
             "state": "translated",
-            "value": "Friend races are free with SharePlay."
+            "value": "Friend races are free with SharePlay!"
           }
         },
         "en-GB": {
           "stringUnit": {
             "state": "translated",
-            "value": "Friend races are free with SharePlay."
+            "value": "Friend races are free with SharePlay!"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Las carreras con amigos son gratis con SharePlay."
+            "value": "¡Las carreras con amigos son gratis con SharePlay!"
           }
         }
       }
     },
-    "paywall_stay_free_body": {
+    "paywall_stay_free_reset_body": {
       "extractionState": "manual",
       "localizations": {
         "ca": {
           "stringUnit": {
             "state": "translated",
-            "value": "Cap problema! El límit diari es reinicia a mitjanit. Continua jugant tant com vulguis a l'Apple Watch o fes una cursa gratis amb un amic amb SharePlay!"
+            "value": "El límit diari es reinicia a mitjanit."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "No worries! Your daily limit resets at midnight. Keep playing as much as you want on your Apple Watch or race a friend for free with SharePlay!"
+            "value": "Your daily limit resets at midnight."
           }
         },
         "en-AU": {
           "stringUnit": {
             "state": "translated",
-            "value": "No worries! Your daily limit resets at midnight. Keep playing as much as you want on your Apple Watch or race a friend for free with SharePlay!"
+            "value": "Your daily limit resets at midnight."
           }
         },
         "en-CA": {
           "stringUnit": {
             "state": "translated",
-            "value": "No worries! Your daily limit resets at midnight. Keep playing as much as you want on your Apple Watch or race a friend for free with SharePlay!"
+            "value": "Your daily limit resets at midnight."
           }
         },
         "en-GB": {
           "stringUnit": {
             "state": "translated",
-            "value": "No worries! Your daily limit resets at midnight. Keep playing as much as you want on your Apple Watch or race a friend for free with SharePlay!"
+            "value": "Your daily limit resets at midnight."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "¡No pasa nada! Tu límite diario se reinicia a medianoche. Sigue jugando todo lo que quieras en tu Apple Watch o corre gratis con un amigo usando SharePlay."
+            "value": "Tu límite diario se reinicia a medianoche."
+          }
+        }
+      }
+    },
+    "paywall_stay_free_reset_title": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cap problema!"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No worries!"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No worries!"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No worries!"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "No worries!"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¡No pasa nada!"
           }
         }
       }
@@ -6163,6 +6204,88 @@
           "stringUnit": {
             "state": "translated",
             "value": "¿Quieres seguir gratis?"
+          }
+        }
+      }
+    },
+    "paywall_stay_free_watch_body": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Continua jugant tant com vulgues a l'Apple Watch."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep playing as much as you want on your Apple Watch."
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep playing as much as you want on your Apple Watch."
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep playing as much as you want on your Apple Watch."
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep playing as much as you want on your Apple Watch."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sigue jugando todo lo que quieras en tu Apple Watch."
+          }
+        }
+      }
+    },
+    "paywall_stay_free_watch_title": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple Watch"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple Watch"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple Watch"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple Watch"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple Watch"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Apple Watch"
           }
         }
       }
@@ -6454,84 +6577,84 @@
         }
       }
     },
-    "play_limit_section_footer": {
+    "play_limit_section_footer %lld": {
       "extractionState": "manual",
       "localizations": {
         "ca": {
           "stringUnit": {
             "state": "translated",
-            "value": "3 partides gratuïtes cada dia."
+            "value": "%lld partides gratuïtes cada dia sense Partides il·limitades."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "3 free plays every day."
+            "value": "%lld free plays every day without Unlimited Plays."
           }
         },
         "en-AU": {
           "stringUnit": {
             "state": "translated",
-            "value": "3 free plays every day."
+            "value": "%lld free plays every day without Unlimited Plays."
           }
         },
         "en-CA": {
           "stringUnit": {
             "state": "translated",
-            "value": "3 free plays every day."
+            "value": "%lld free plays every day without Unlimited Plays."
           }
         },
         "en-GB": {
           "stringUnit": {
             "state": "translated",
-            "value": "3 free plays every day."
+            "value": "%lld free plays every day without Unlimited Plays."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "3 partidas gratuitas al día."
+            "value": "%lld partidas gratuitas al día sin Partidas ilimitadas."
           }
         }
       }
     },
-    "play_limit_section_footer_first_day": {
+    "play_limit_section_footer_first_day %lld %lld": {
       "extractionState": "manual",
       "localizations": {
         "ca": {
           "stringUnit": {
             "state": "translated",
-            "value": "3 partides gratuïtes cada dia. Però benvingut! 9 partides gratuïtes en el teu primer dia!"
+            "value": "%lld partides gratuïtes cada dia sense Partides il·limitades. Bonificació de benvinguda: %lld partides gratuïtes en el teu primer dia."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "3 free plays every day. But welcome! 9 free plays on your first day!"
+            "value": "%lld free plays every day without Unlimited Plays. Welcome bonus: %lld free plays on your first day."
           }
         },
         "en-AU": {
           "stringUnit": {
             "state": "translated",
-            "value": "3 free plays every day. But welcome! 9 free plays on your first day!"
+            "value": "%lld free plays every day without Unlimited Plays. Welcome bonus: %lld free plays on your first day."
           }
         },
         "en-CA": {
           "stringUnit": {
             "state": "translated",
-            "value": "3 free plays every day. But welcome! 9 free plays on your first day!"
+            "value": "%lld free plays every day without Unlimited Plays. Welcome bonus: %lld free plays on your first day."
           }
         },
         "en-GB": {
           "stringUnit": {
             "state": "translated",
-            "value": "3 free plays every day. But welcome! 9 free plays on your first day!"
+            "value": "%lld free plays every day without Unlimited Plays. Welcome bonus: %lld free plays on your first day."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "3 partidas gratuitas al día. ¡Pero bienvenido! ¡9 partidas gratuitas en tu primer día!"
+            "value": "%lld partidas gratuitas al día sin Partidas ilimitadas. Bono de bienvenida: %lld partidas gratuitas en tu primer día."
           }
         }
       }
@@ -7967,6 +8090,47 @@
           "stringUnit": {
             "state": "translated",
             "value": "Controles"
+          }
+        }
+      }
+    },
+    "settings_controls_how_to_play": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Com jugar al joc"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "How to play the game"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "How to play the game"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "How to play the game"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "How to play the game"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cómo jugar"
           }
         }
       }

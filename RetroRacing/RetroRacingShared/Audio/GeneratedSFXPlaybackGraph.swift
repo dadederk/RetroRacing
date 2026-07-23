@@ -6,7 +6,7 @@
 //
 
 import AVFoundation
-import ArcadeAudioKit
+internal import ArcadeAudioKit
 import Foundation
 
 private final class GeneratedSFXPlaybackSlot {

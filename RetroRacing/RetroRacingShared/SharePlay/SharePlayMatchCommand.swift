@@ -33,6 +33,21 @@ public enum SharePlayMatchCommand: Sendable, Equatable, Codable {
     /// Default lives at round start; used when decoding legacy score-only updates.
     public static let defaultStartingLives = 3
 
+    /// Stable, privacy-safe label for structured diagnostics. Payloads are intentionally omitted
+    /// because command order matters more than command contents for lifecycle debugging.
+    public var diagnosticName: String {
+        switch self {
+        case .sessionReady: return "sessionReady"
+        case .roundStart: return "roundStart"
+        case .scoreUpdate: return "scoreUpdate"
+        case .playerEliminated: return "playerEliminated"
+        case .roundResult: return "roundResult"
+        case .retryReady: return "retryReady"
+        case .sessionFinished: return "sessionFinished"
+        case .sessionAborted: return "sessionAborted"
+        }
+    }
+
     private enum CodingKeys: String, CodingKey {
         case kind
         case startAt

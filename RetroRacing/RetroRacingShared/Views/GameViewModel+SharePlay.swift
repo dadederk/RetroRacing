@@ -30,6 +30,7 @@ extension GameViewModel {
     /// mirroring the existing `shouldStartGame` prop-down flow.
     func applySharePlayState(_ uiState: SharePlayUIState) {
         let previousState = sharePlayState
+        logSharePlayStateApplication(from: previousState, to: uiState)
         sharePlayState = uiState.state
         sharePlayLocalRole = uiState.localRole
         sharePlayOpponentName = uiState.opponentDisplayName
@@ -79,6 +80,24 @@ extension GameViewModel {
         }
 
         announceSharePlayStateChangeIfNeeded(from: previousState, to: uiState.state)
+    }
+
+    private func logSharePlayStateApplication(
+        from previousState: SharePlayMatchState,
+        to uiState: SharePlayUIState
+    ) {
+        let fields: [AppLog.Field] = [
+            .string("previousState", previousState.diagnosticName),
+            .string("newState", uiState.state.diagnosticName),
+            .string("role", uiState.localRole?.rawValue),
+            .string("opponentName", AppLog.redactedPlayer(uiState.opponentDisplayName)),
+            .bool("stateKindChanged", previousState.diagnosticName != uiState.state.diagnosticName)
+        ]
+        if previousState.diagnosticName != uiState.state.diagnosticName {
+            AppLog.info(AppLog.lifecycle + AppLog.game, "SHAREPLAY_VIEW_MODEL_STATE", outcome: .completed, fields: fields)
+        } else {
+            AppLog.debug(AppLog.lifecycle + AppLog.game, "SHAREPLAY_VIEW_MODEL_STATE", outcome: .completed, fields: fields)
+        }
     }
 
     /// Reports the local player's live score and lives to the match service while a round is active.

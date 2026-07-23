@@ -37,6 +37,10 @@ public struct AboutView: View {
     @State private var safariURL: IdentifiableURL?
     #endif
 
+    private var sectionHeaderFont: Font {
+        fontPreferenceStore?.font(textStyle: .headline) ?? .headline
+    }
+
     public var body: some View {
         List {
             appSection
@@ -106,8 +110,7 @@ public struct AboutView: View {
                 linkRow(icon: "person.2.fill", title: GameLocalizedStrings.string("about_link_linkedin"), url: url)
             }
         } header: {
-            Text(GameLocalizedStrings.string("about_connect_header"))
-                .font(fontPreferenceStore?.font(textStyle: .headline) ?? .headline)
+            aboutSectionHeader("about_connect_header")
         }
     }
 
@@ -117,8 +120,7 @@ public struct AboutView: View {
                 linkRow(icon: "heart.circle.fill", title: GameLocalizedStrings.string("about_ammec_title"), url: url)
             }
         } header: {
-            Text(GameLocalizedStrings.string("about_giving_back_header"))
-                .font(fontPreferenceStore?.font(textStyle: .headline) ?? .headline)
+            aboutSectionHeader("about_giving_back_header")
         } footer: {
             Text(.init(GameLocalizedStrings.string("paywall_giving_back_body")))
                 .font(fontPreferenceStore?.font(textStyle: .subheadline) ?? .subheadline)
@@ -131,8 +133,7 @@ public struct AboutView: View {
                 linkRow(icon: "bird.fill", title: GameLocalizedStrings.string("about_swift_for_swifts_title"), url: url)
             }
         } header: {
-            Text(GameLocalizedStrings.string("about_also_supporting_header"))
-                .font(fontPreferenceStore?.font(textStyle: .headline) ?? .headline)
+            aboutSectionHeader("about_also_supporting_header")
         }
     }
 
@@ -163,8 +164,7 @@ public struct AboutView: View {
                 )
             }
         } header: {
-            Text(GameLocalizedStrings.string("about_credits_header"))
-                .font(fontPreferenceStore?.font(textStyle: .headline) ?? .headline)
+            aboutSectionHeader("about_credits_header")
         }
     }
 
@@ -182,6 +182,11 @@ public struct AboutView: View {
             .listRowBackground(Color.clear)
             .listRowInsets(EdgeInsets(top: 16, leading: 16, bottom: 16, trailing: 16))
         }
+    }
+
+    private func aboutSectionHeader(_ key: String) -> some View {
+        Text(GameLocalizedStrings.string(key))
+            .retroSectionHeader(font: sectionHeaderFont)
     }
 
     private func linkRow(icon: String, title: String, subtitle: String? = nil, url: URL) -> some View {

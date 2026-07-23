@@ -135,7 +135,7 @@ onPlayRequest: (() -> Void)?
 
 ## Settings UI
 
-`SettingsView` shows a **Controller** section directly below the **Accessibility** section. It contains three `Picker` rows (Move Left, Move Right, Pause/Resume), each offering all `GameControllerRemapButton` cases. A footer explains that remapped buttons replace D-pad/Menu bindings while keeping keyboard controls unaffected.
+`SettingsView` shows a **Controls** section with a **How to play the game** row. The row opens a Settings help sheet that shows the platform controls copy first, then a **Controller** mapping section. The mapping section contains three `Picker` rows (Move Left, Move Right, Pause/Resume), each offering all `GameControllerRemapButton` cases. A footer explains that remapped buttons replace D-pad/Menu bindings while keeping keyboard controls unaffected.
 
 `SettingsPreferencesStore` exposes:
 - `controllerLeftButtonSelection: Binding<GameControllerRemapButton>`
@@ -157,6 +157,7 @@ New string keys (English / Spanish / Catalan):
 | `settings_controller_move_right` | Picker label |
 | `settings_controller_pause_resume` | Picker label |
 | `settings_controller_footnote` | Remap behavior note |
+| `settings_controls_how_to_play` | Controls help sheet row and title |
 | `controller_button_none` | "None" option |
 | `controller_button_a` … `controller_button_menu` | Button names |
 

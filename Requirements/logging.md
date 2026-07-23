@@ -107,4 +107,7 @@ log stream --predicate 'eventMessage CONTAINS "🎛️"' --level debug
 
 # Audio
 log stream --predicate 'eventMessage CONTAINS "🔊"' --level debug
+
+# SharePlay lifecycle / connection diagnostics
+log stream --predicate 'eventMessage CONTAINS "SHAREPLAY"' --level debug
 ```

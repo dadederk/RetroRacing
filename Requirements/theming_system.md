@@ -216,6 +216,8 @@ The app composition root creates `ThemeManager(initialThemes: [...], defaultThem
 
 The Settings screen (Universal, tvOS, watchOS) exposes a **Theme** section with a native picker of available themes. Selection is bound to `ThemeManager.currentTheme` via `setTheme`. Font and haptic feedback options are in the same Settings screen.
 
+Section headings in Settings, About, controls help sheets, and paywall subsections use `RetroSectionHeaderStyle` (headline font + `.primary` foreground) via the `retroSectionHeader(font:)` view helper in `RetroRacingShared/Appearance/RetroSectionHeaderStyle.swift`.
+
 ### Settings View (reference)
 
 ```swift

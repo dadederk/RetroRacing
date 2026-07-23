@@ -2,7 +2,7 @@
 
 Part of [ASO & growth plans](README.md). Index: [retrorapid_aso_growth_plan.md](../retrorapid_aso_growth_plan.md).
 
-Last updated: 2026-07-17
+Last updated: 2026-07-23
 **See also:** [Current storyboard](../../AppStore/docs/06-screenshots.md) · Canonical source: `Scripts/Sources/RetroRacingAutomationCore/ScreenshotStudioWorkflow.swift` · Sync command: `swift run --package-path Scripts sync-screenshot-studio-localizations`
 
 ---
@@ -18,7 +18,7 @@ Last updated: 2026-07-17
 
 ## 4.2 iPhone Caption Sequence
 
-Current iPhone/iPad/Mac source copy uses this **seven-slide** order. Locales: `en-US`, `en-GB`, `en-AU`, `en-CA`, `es-ES`, `es-MX`, `ca`. English variants share the same base captures; `es-MX` shares `es-ES` captures with Mexico-specific overlay copy on slide 1. Full per-locale text lives only in the canonical Swift source and generated `data.plist` files — not duplicated per-language below.
+Current iPhone/iPad/Mac source copy uses this **seven-slide** order. Locales: `en-US`, `en-GB`, `en-AU`, `en-CA`, `es-ES`, `es-MX`, `ca`. For this submission pass, all locales reuse the same `en-US` base captures while keeping localized overlay copy in the generated `data.plist` files. Full per-locale text lives only in the canonical Swift source and generated `data.plist` files — not duplicated per-language below.
 
 Translations use vocabulary consistent with `Localizable.xcstrings` and App Store metadata. CA follows **Valencian Meridional** dialect: `trànsit` for traffic, `teua`/`seua` for feminine possessives, `este`/`esta` for proximal demonstratives, Valencian verb forms (`gaudix`, `resistix`, `valga`).
 
@@ -32,7 +32,7 @@ Translations use vocabulary consistent with `Localizable.xcstrings` and App Stor
 | 6 | `Choose Your Retro Aesthetic` | `Switch between pocket-console green and LCD handheld styles anytime.` |
 | 7 | `Customize Your Experience` | `Tune controls, haptics, volume, and visuals to fit your style.` (`Customise` on en-GB/en-AU) |
 
-> **Export status (2026-07-17):** Source `data.plist` copy is synced for iPhone, iPad, Mac, and Apple Watch via the sync script. iPhone has English-variant JPEG exports; `es-ES`, `es-MX`, and `ca` must be re-exported with the tightened copy above. iPad and Mac need full locale exports.
+> **Export status (2026-07-23):** Source `data.plist` copy is synced for iPhone, iPad, Mac, and Apple Watch via the sync script. iPhone has seven `en-US` JPEG captures reused for every locale. Mac has the five existing `en-US` PNG captures reused for every locale; add slides 6-7 base captures and rerun sync. iPad still needs `en-US` base captures, then sync will reuse them for every locale.
 
 ## 4.3 Apple Watch Screenshot Approach
 

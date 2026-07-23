@@ -1,9 +1,59 @@
-import ArcadeAudioKit
+internal import ArcadeAudioKit
 import Foundation
 
-public typealias GeneratedSFXFrequency = AudioPitch
-public typealias GeneratedSFXSegment = AudioSegment
-public typealias GeneratedSFXWaveform = AudioWaveform
+public enum GeneratedSFXWaveform: String, Sendable, Equatable, CaseIterable {
+    case sine
+    case triangle
+    case square
+}
+
+public enum GeneratedSFXNote: Sendable, Equatable, Hashable {
+    case c5
+    case e5
+    case g5
+    case b5
+    case c6
+}
+
+public enum GeneratedSFXFrequency: Sendable, Equatable {
+    case constant(GeneratedSFXNote)
+    case constantHz(Double)
+    case sweepHz(startHz: Double, endHz: Double)
+}
+
+public struct GeneratedSFXSegment: Sendable, Equatable {
+    public let waveform: GeneratedSFXWaveform
+    public let pitch: GeneratedSFXFrequency
+    public let durationMilliseconds: Double
+    public let amplitudePercent: Double
+    public let attackMilliseconds: Double
+    public let decayMilliseconds: Double
+
+    public init(
+        waveform: GeneratedSFXWaveform,
+        pitch: GeneratedSFXFrequency,
+        durationMilliseconds: Double,
+        amplitudePercent: Double,
+        attackMilliseconds: Double,
+        decayMilliseconds: Double
+    ) {
+        self.waveform = waveform
+        self.pitch = pitch
+        self.durationMilliseconds = Self.nonNegative(durationMilliseconds)
+        self.amplitudePercent = min(Self.nonNegative(amplitudePercent), 100)
+        self.attackMilliseconds = Self.nonNegative(attackMilliseconds)
+        self.decayMilliseconds = Self.nonNegative(decayMilliseconds)
+    }
+
+    public var duration: TimeInterval {
+        durationMilliseconds / 1000.0
+    }
+
+    private static func nonNegative(_ value: Double) -> Double {
+        guard value.isFinite else { return 0 }
+        return max(0, value)
+    }
+}
 
 public struct GeneratedSFXTailPattern: Sendable, Equatable {
     public let motif: [GeneratedSFXSegment]
@@ -25,7 +75,10 @@ public struct GeneratedSFXTailPattern: Sendable, Equatable {
     }
 
     var arcadeAudioMotif: AudioRepeatedMotif {
-        AudioRepeatedMotif(segments: motif, repeatCount: repeatCount)
+        AudioRepeatedMotif(
+            segments: motif.map(\.arcadeAudioSegment),
+            repeatCount: repeatCount
+        )
     }
 }
 
@@ -56,7 +109,7 @@ public struct GeneratedSFXRecipe: Sendable, Equatable {
 
     var arcadeAudioRecipe: AudioRecipe {
         AudioRecipe(
-            segments: intro + body,
+            segments: (intro + body).map(\.arcadeAudioSegment),
             repeatedMotif: tailPattern?.arcadeAudioMotif
         )
     }
@@ -82,17 +135,17 @@ public struct GeneratedSFXProfile: Sendable, Equatable {
         self.bip = Self.makeBipRecipe()
         self.fail = Self.makeFailRecipe(failTailRepeatCount: resolvedRepeatCount)
         self.sharePlayCountdownLow = Self.makeSharePlayCountdownStepRecipe(
-            pitch: .constantHz(523.25),
+            pitch: .constant(.c5),
             durationMilliseconds: 100,
             amplitudePercent: 24
         )
         self.sharePlayCountdownMid = Self.makeSharePlayCountdownStepRecipe(
-            pitch: .constantHz(659.25),
+            pitch: .constant(.e5),
             durationMilliseconds: 100,
             amplitudePercent: 25
         )
         self.sharePlayCountdownHigh = Self.makeSharePlayCountdownStepRecipe(
-            pitch: .constantHz(783.99),
+            pitch: .constant(.g5),
             durationMilliseconds: 100,
             amplitudePercent: 26
         )
@@ -299,7 +352,7 @@ public struct GeneratedSFXProfile: Sendable, Equatable {
             intro: [
                 GeneratedSFXSegment(
                     waveform: .sine,
-                    pitch: .constantHz(987.77),
+                    pitch: .constant(.b5),
                     durationMilliseconds: 90,
                     amplitudePercent: 26,
                     attackMilliseconds: 2,
@@ -309,13 +362,69 @@ public struct GeneratedSFXProfile: Sendable, Equatable {
             body: [
                 GeneratedSFXSegment(
                     waveform: .sine,
-                    pitch: .constantHz(1_046.50),
+                    pitch: .constant(.c6),
                     durationMilliseconds: 330,
                     amplitudePercent: 28,
                     attackMilliseconds: 2,
                     decayMilliseconds: 70
                 )
             ]
+        )
+    }
+}
+
+private extension GeneratedSFXWaveform {
+    var arcadeAudioWaveform: AudioWaveform {
+        switch self {
+        case .sine:
+            return .sine
+        case .triangle:
+            return .triangle
+        case .square:
+            return .square
+        }
+    }
+}
+
+private extension GeneratedSFXFrequency {
+    var arcadeAudioPitch: AudioPitch {
+        switch self {
+        case .constant(let note):
+            return .constant(note.arcadeAudioNote)
+        case .constantHz(let frequency):
+            return .constantHz(frequency)
+        case .sweepHz(let startHz, let endHz):
+            return .sweepHz(startHz: startHz, endHz: endHz)
+        }
+    }
+}
+
+private extension GeneratedSFXNote {
+    var arcadeAudioNote: AudioNote {
+        switch self {
+        case .c5:
+            return .c5
+        case .e5:
+            return .e5
+        case .g5:
+            return .g5
+        case .b5:
+            return .b5
+        case .c6:
+            return AudioNote(.c, octave: 6)
+        }
+    }
+}
+
+private extension GeneratedSFXSegment {
+    var arcadeAudioSegment: AudioSegment {
+        AudioSegment(
+            waveform: waveform.arcadeAudioWaveform,
+            pitch: pitch.arcadeAudioPitch,
+            durationMilliseconds: durationMilliseconds,
+            amplitudePercent: amplitudePercent,
+            attackMilliseconds: attackMilliseconds,
+            decayMilliseconds: decayMilliseconds
         )
     }
 }

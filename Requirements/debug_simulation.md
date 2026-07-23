@@ -219,6 +219,8 @@ if BuildConfiguration.shouldShowDebugFeatures {
 - Section only rendered when `shouldShowDebugFeatures` is `true`
 - Uses `@Observable` for automatic UI updates
 - Footer explains the feature and production behavior
+- The shared Debug section remains last in Settings and also includes force-achievement selection and SpriteKit frame stats.
+- Settings no longer present the GAAD Achievement QA panel; watchOS has no Debug section when GAAD QA is the only debug-only content.
 
 ## Testing Strategy
 

@@ -25,6 +25,7 @@ public actor GroupActivitiesSharePlayMatchService: SharePlayMatchService {
     private var hasTwoParticipants = false
     private var opponentDisplayName: String?
     private var sessionGeneration = 0
+    private var lastNotifiedStateName: String?
     private var sessionsTask: Task<Void, Never>?
     private var countdownTask: Task<Void, Never>?
     private var retryTimeoutTask: Task<Void, Never>?
@@ -47,10 +48,23 @@ public actor GroupActivitiesSharePlayMatchService: SharePlayMatchService {
 
     public func startHostSession() async {
         pendingHostActivation = true
+        AppLog.info(
+            AppLog.lifecycle + AppLog.game,
+            "SHAREPLAY_ACTIVATE",
+            outcome: .requested,
+            fields: [.bool("pendingHostActivation", pendingHostActivation)]
+        )
         let activity = RetroRacingGroupActivity()
         do {
             let activated = try await activity.activate()
-            if activated == false {
+            if activated {
+                AppLog.info(
+                    AppLog.lifecycle + AppLog.game,
+                    "SHAREPLAY_ACTIVATE",
+                    outcome: .succeeded,
+                    fields: [.bool("pendingHostActivation", pendingHostActivation)]
+                )
+            } else {
                 pendingHostActivation = false
                 AppLog.info(.game, "SHAREPLAY_ACTIVATE", outcome: .cancelled)
             }
@@ -62,17 +76,38 @@ public actor GroupActivitiesSharePlayMatchService: SharePlayMatchService {
 
     public func prepareHostActivation() async {
         pendingHostActivation = true
+        AppLog.info(
+            AppLog.lifecycle + AppLog.game,
+            "SHAREPLAY_HOST_ACTIVATION",
+            outcome: .requested,
+            fields: [.bool("pendingHostActivation", pendingHostActivation)]
+        )
     }
 
     public func cancelHostActivation() async {
+        let wasPending = pendingHostActivation
         pendingHostActivation = false
-        AppLog.info(.game, "SHAREPLAY_ACTIVATE", outcome: .cancelled)
+        AppLog.info(
+            AppLog.lifecycle + AppLog.game,
+            "SHAREPLAY_ACTIVATE",
+            outcome: .cancelled,
+            fields: [.bool("wasPendingHostActivation", wasPending)]
+        )
     }
 
     /// Awaits both host-activated and system-activated (incoming) sessions for this activity.
     /// Intended to run for the lifetime of the app in a single long-lived `.task`.
     public func observeIncomingSessions() async {
-        guard sessionsTask == nil else { return }
+        guard sessionsTask == nil else {
+            AppLog.warning(
+                AppLog.lifecycle + AppLog.game,
+                "SHAREPLAY_SESSION_OBSERVER",
+                outcome: .ignored,
+                fields: [.reason("already_running")]
+            )
+            return
+        }
+        AppLog.info(AppLog.lifecycle + AppLog.game, "SHAREPLAY_SESSION_OBSERVER", outcome: .started)
         let task = Task {
             for await session in RetroRacingGroupActivity.sessions() {
                 if Task.isCancelled { return }
@@ -84,7 +119,27 @@ public actor GroupActivitiesSharePlayMatchService: SharePlayMatchService {
     }
 
     public func hostStartRoundIfReady(difficulty: GameDifficulty) async {
-        guard var machine = stateMachine, machine.localRole == .host, case .waitingForFriend = machine.state else { return }
+        guard var machine = stateMachine else {
+            logHostStartBlocked(reason: "missing_state_machine")
+            return
+        }
+        guard machine.localRole == .host else {
+            logHostStartBlocked(reason: "not_host", machine: machine)
+            return
+        }
+        guard case .waitingForFriend = machine.state else {
+            logHostStartBlocked(reason: "not_waiting_for_friend", machine: machine)
+            return
+        }
+        AppLog.info(
+            AppLog.lifecycle + AppLog.game,
+            "SHAREPLAY_HOST_START_ROUND",
+            outcome: .requested,
+            fields: [
+                .int("generation", sessionGeneration),
+                .string("difficulty", difficulty.rawValue)
+            ]
+        )
         let commands = machine.hostStartRound(difficulty: difficulty)
         stateMachine = machine
         await sendAll(commands)
@@ -138,10 +193,25 @@ public actor GroupActivitiesSharePlayMatchService: SharePlayMatchService {
         sessionGeneration += 1
         let generation = sessionGeneration
 
+        let wasPendingHostActivation = pendingHostActivation
+        let previousStateName = stateMachine?.state.diagnosticName
         let role: SharePlayPlayerRole = pendingHostActivation ? .host : .guest
         pendingHostActivation = false
         hasTwoParticipants = false
         opponentDisplayName = nil
+        lastNotifiedStateName = nil
+
+        AppLog.info(
+            AppLog.lifecycle + AppLog.game,
+            "SHAREPLAY_SESSION_HANDLE",
+            outcome: .started,
+            fields: [
+                .int("generation", generation),
+                .string("role", role.rawValue),
+                .bool("wasPendingHostActivation", wasPendingHostActivation),
+                .string("previousState", previousStateName)
+            ]
+        )
 
         var machine = SharePlayMatchStateMachine(localRole: role)
         let commands = machine.startWaitingForFriend()
@@ -162,28 +232,117 @@ public actor GroupActivitiesSharePlayMatchService: SharePlayMatchService {
 
         await sendAll(commands)
         notifyStateChanged()
+        AppLog.info(
+            AppLog.lifecycle + AppLog.game,
+            "SHAREPLAY_SESSION_HANDLE",
+            outcome: .completed,
+            fields: [
+                .int("generation", generation),
+                .string("state", machine.state.diagnosticName),
+                .string("role", role.rawValue)
+            ]
+        )
     }
 
     private func updateOpponentDisplayName(_ name: String?) {
         opponentDisplayName = name
+        AppLog.debug(
+            AppLog.lifecycle + AppLog.game,
+            "SHAREPLAY_OPPONENT_NAME",
+            outcome: .completed,
+            fields: [
+                .int("generation", sessionGeneration),
+                .string("opponentName", AppLog.redactedPlayer(name))
+            ]
+        )
         notifyStateChanged()
     }
 
     private func participantsBecameReady() async {
         hasTwoParticipants = true
+        AppLog.info(
+            AppLog.lifecycle + AppLog.game,
+            "SHAREPLAY_PARTICIPANTS_READY",
+            outcome: .completed,
+            fields: [
+                .int("generation", sessionGeneration),
+                .string("state", stateMachine?.state.diagnosticName),
+                .bool("remoteReady", stateMachine?.isRemoteReady == true)
+            ]
+        )
         await autoStartHostRoundIfReady()
     }
 
     private func autoStartHostRoundIfReady() async {
-        guard hasTwoParticipants, stateMachine?.isRemoteReady == true else { return }
+        guard hasTwoParticipants else {
+            logAutoStartBlocked(reason: "waiting_for_two_participants")
+            return
+        }
+        guard stateMachine?.isRemoteReady == true else {
+            logAutoStartBlocked(reason: "waiting_for_remote_ready")
+            return
+        }
+        AppLog.info(
+            AppLog.lifecycle + AppLog.game,
+            "SHAREPLAY_AUTO_START_ROUND",
+            outcome: .requested,
+            fields: [
+                .int("generation", sessionGeneration),
+                .string("state", stateMachine?.state.diagnosticName),
+                .string("role", stateMachine?.localRole.rawValue)
+            ]
+        )
         await hostStartRoundIfReady(difficulty: difficultyProvider())
     }
 
     private func handleIncoming(_ command: SharePlayMatchCommand) async {
-        guard var machine = stateMachine else { return }
+        guard var machine = stateMachine else {
+            AppLog.warning(
+                AppLog.lifecycle + AppLog.game,
+                "SHAREPLAY_COMMAND_RECEIVE",
+                outcome: .ignored,
+                fields: [
+                    .reason("missing_state_machine"),
+                    .int("generation", sessionGeneration),
+                    .string("command", command.diagnosticName)
+                ]
+            )
+            return
+        }
+        let previousState = machine.state
+        let shouldLogCommandLifecycle = shouldLogLifecycle(for: command)
+        if shouldLogCommandLifecycle {
+            AppLog.debug(
+                AppLog.lifecycle + AppLog.game,
+                "SHAREPLAY_COMMAND_RECEIVE",
+                outcome: .completed,
+                fields: [
+                    .int("generation", sessionGeneration),
+                    .string("command", command.diagnosticName),
+                    .string("previousState", previousState.diagnosticName)
+                ]
+            )
+        }
         let commands = machine.receive(command)
         stateMachine = machine
         await sendAll(commands)
+        let previousStateName = previousState.diagnosticName
+        let newStateName = machine.state.diagnosticName
+        let didStateKindChange = previousStateName != newStateName
+        if didStateKindChange || shouldLogCommandLifecycle {
+            AppLog.info(
+                AppLog.lifecycle + AppLog.game,
+                "SHAREPLAY_COMMAND_APPLY",
+                outcome: .completed,
+                fields: [
+                    .int("generation", sessionGeneration),
+                    .string("command", command.diagnosticName),
+                    .string("previousState", previousStateName),
+                    .string("newState", newStateName),
+                    .int("emittedCommands", commands.count)
+                ]
+            )
+        }
 
         if case .countdown = machine.state {
             scheduleCountdownCompletion()
@@ -203,12 +362,55 @@ public actor GroupActivitiesSharePlayMatchService: SharePlayMatchService {
     }
 
     private func handleDisconnected(generation: Int) async {
-        guard generation == sessionGeneration else { return }
-        guard var machine = stateMachine else { return }
+        guard generation == sessionGeneration else {
+            AppLog.warning(
+                AppLog.lifecycle + AppLog.game,
+                "SHAREPLAY_DISCONNECTED",
+                outcome: .ignored,
+                fields: [
+                    .reason("stale_generation"),
+                    .int("callbackGeneration", generation),
+                    .int("sessionGeneration", sessionGeneration)
+                ]
+            )
+            return
+        }
+        guard var machine = stateMachine else {
+            AppLog.warning(
+                AppLog.lifecycle + AppLog.game,
+                "SHAREPLAY_DISCONNECTED",
+                outcome: .ignored,
+                fields: [
+                    .reason("missing_state_machine"),
+                    .int("generation", generation)
+                ]
+            )
+            return
+        }
+        let previousState = machine.state
+        AppLog.warning(
+            AppLog.lifecycle + AppLog.game,
+            "SHAREPLAY_DISCONNECTED",
+            outcome: .started,
+            fields: [
+                .int("generation", generation),
+                .string("previousState", previousState.diagnosticName)
+            ]
+        )
         cancelTimers()
         machine.disconnected()
         stateMachine = machine
         notifyStateChanged()
+        AppLog.warning(
+            AppLog.lifecycle + AppLog.game,
+            "SHAREPLAY_DISCONNECTED",
+            outcome: .completed,
+            fields: [
+                .int("generation", generation),
+                .string("previousState", previousState.diagnosticName),
+                .string("newState", machine.state.diagnosticName)
+            ]
+        )
     }
 
     // MARK: - Timers
@@ -217,6 +419,15 @@ public actor GroupActivitiesSharePlayMatchService: SharePlayMatchService {
         cancelCountdown()
         guard case .countdown(let startAt, _) = stateMachine?.state else { return }
         let delay = max(0, startAt.timeIntervalSinceNow)
+        AppLog.debug(
+            AppLog.lifecycle + AppLog.game,
+            "SHAREPLAY_COUNTDOWN_TIMER",
+            outcome: .deferred,
+            fields: [
+                .int("generation", sessionGeneration),
+                .double("delaySeconds", delay)
+            ]
+        )
         countdownTask = Task {
             try? await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000))
             guard Task.isCancelled == false else { return }
@@ -227,15 +438,35 @@ public actor GroupActivitiesSharePlayMatchService: SharePlayMatchService {
     private func completeCountdown() async {
         guard var machine = stateMachine else { return }
         countdownTask = nil
+        let previousState = machine.state
         machine.beginRound()
         stateMachine = machine
         notifyStateChanged()
+        AppLog.info(
+            AppLog.lifecycle + AppLog.game,
+            "SHAREPLAY_COUNTDOWN_TIMER",
+            outcome: .completed,
+            fields: [
+                .int("generation", sessionGeneration),
+                .string("previousState", previousState.diagnosticName),
+                .string("newState", machine.state.diagnosticName)
+            ]
+        )
     }
 
     private func scheduleRetryTimeoutIfNeeded() {
         cancelRetryTimeout()
         guard case .retryWaiting(_, _, let deadline) = stateMachine?.state else { return }
         let delay = max(0, deadline.timeIntervalSinceNow)
+        AppLog.debug(
+            AppLog.lifecycle + AppLog.game,
+            "SHAREPLAY_RETRY_TIMER",
+            outcome: .deferred,
+            fields: [
+                .int("generation", sessionGeneration),
+                .double("delaySeconds", delay)
+            ]
+        )
         retryTimeoutTask = Task {
             try? await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000))
             guard Task.isCancelled == false else { return }
@@ -246,9 +477,20 @@ public actor GroupActivitiesSharePlayMatchService: SharePlayMatchService {
     private func completeRetryTimeout() async {
         guard var machine = stateMachine else { return }
         retryTimeoutTask = nil
+        let previousState = machine.state
         machine.retryTimeoutElapsed()
         stateMachine = machine
         notifyStateChanged()
+        AppLog.warning(
+            AppLog.lifecycle + AppLog.game,
+            "SHAREPLAY_RETRY_TIMER",
+            outcome: .completed,
+            fields: [
+                .int("generation", sessionGeneration),
+                .string("previousState", previousState.diagnosticName),
+                .string("newState", machine.state.diagnosticName)
+            ]
+        )
     }
 
     private func cancelCountdown() {
@@ -268,13 +510,122 @@ public actor GroupActivitiesSharePlayMatchService: SharePlayMatchService {
 
     private func sendAll(_ commands: [SharePlayMatchCommand]) async {
         for command in commands {
+            if shouldLogLifecycle(for: command) {
+                AppLog.debug(
+                    AppLog.lifecycle + AppLog.game,
+                    "SHAREPLAY_COMMAND_SEND",
+                    outcome: .requested,
+                    fields: [
+                        .int("generation", sessionGeneration),
+                        .string("command", command.diagnosticName),
+                        .string("state", stateMachine?.state.diagnosticName)
+                    ]
+                )
+            }
             await coordinator.send(command)
         }
     }
 
+    private func shouldLogLifecycle(for command: SharePlayMatchCommand) -> Bool {
+        switch command {
+        case .scoreUpdate:
+            return false
+        case .sessionReady,
+             .roundStart,
+             .playerEliminated,
+             .roundResult,
+             .retryReady,
+             .sessionFinished,
+             .sessionAborted:
+            return true
+        @unknown default:
+            return true
+        }
+    }
+
     private func notifyStateChanged() {
-        guard let state = stateMachine?.state, let handler = stateChangeHandler else { return }
+        guard let state = stateMachine?.state else {
+            AppLog.warning(
+                AppLog.lifecycle + AppLog.game,
+                "SHAREPLAY_STATE_NOTIFY",
+                outcome: .skipped,
+                fields: [
+                    .reason("missing_state_machine"),
+                    .int("generation", sessionGeneration)
+                ]
+            )
+            return
+        }
+        guard let handler = stateChangeHandler else {
+            AppLog.warning(
+                AppLog.lifecycle + AppLog.game,
+                "SHAREPLAY_STATE_NOTIFY",
+                outcome: .skipped,
+                fields: [
+                    .reason("missing_handler"),
+                    .int("generation", sessionGeneration),
+                    .string("state", state.diagnosticName)
+                ]
+            )
+            return
+        }
+        let stateName = state.diagnosticName
+        if lastNotifiedStateName != stateName {
+            AppLog.info(
+                AppLog.lifecycle + AppLog.game,
+                "SHAREPLAY_STATE_NOTIFY",
+                outcome: .completed,
+                fields: [
+                    .int("generation", sessionGeneration),
+                    .string("previousState", lastNotifiedStateName),
+                    .string("newState", stateName),
+                    .string("role", stateMachine?.localRole.rawValue)
+                ]
+            )
+        } else {
+            AppLog.debug(
+                AppLog.lifecycle + AppLog.game,
+                "SHAREPLAY_STATE_NOTIFY",
+                outcome: .completed,
+                fields: [
+                    .int("generation", sessionGeneration),
+                    .string("newState", stateName),
+                    .bool("sameStateKind", true)
+                ]
+            )
+        }
+        lastNotifiedStateName = stateName
         handler(state)
+    }
+
+    private func logHostStartBlocked(reason: String, machine: SharePlayMatchStateMachine? = nil) {
+        AppLog.debug(
+            AppLog.lifecycle + AppLog.game,
+            "SHAREPLAY_HOST_START_ROUND",
+            outcome: .blocked,
+            fields: [
+                .reason(reason),
+                .int("generation", sessionGeneration),
+                .string("state", machine?.state.diagnosticName ?? stateMachine?.state.diagnosticName),
+                .string("role", machine?.localRole.rawValue ?? stateMachine?.localRole.rawValue)
+            ]
+        )
+    }
+
+    private func logAutoStartBlocked(reason: String) {
+        AppLog.debug(
+            AppLog.lifecycle + AppLog.game,
+            "SHAREPLAY_AUTO_START_ROUND",
+            outcome: .blocked,
+            fields: [
+                .reason(reason),
+                .int("generation", sessionGeneration),
+                .bool("hasTwoParticipants", hasTwoParticipants),
+                .bool("remoteReady", stateMachine?.isRemoteReady == true),
+                .string("state", stateMachine?.state.diagnosticName),
+                .string("role", stateMachine?.localRole.rawValue)
+            ]
+        )
     }
 }
 #endif

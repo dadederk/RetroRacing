@@ -2,9 +2,9 @@
 
 Part of [App Store docs hub](../README.md). Index: [RETRORAPID_APP_STORE_REFERENCE.md](../RETRORAPID_APP_STORE_REFERENCE.md).
 
-Last updated: 2026-07-17
+Last updated: 2026-07-23
 
-**Status:** source copy is `READY` (bodies tightened to ≤ ~10 words on 2026-07-17); remaining localized rendering and ASC uploads are `PLANNED`. The Apple Watch sequence is `BLOCKED` pending final selection.
+**Status:** source copy is `READY` (bodies tightened to ≤ ~10 words on 2026-07-17). For the current submission pass, iPhone/iPad/Mac reuse `en-US` base captures for every locale; iPhone is synced, Mac is synced for the five base captures currently present, and iPad still needs base captures. ASC uploads remain `PLANNED`.
 
 **See also:** [ES/CA slide copy](../../Plans/aso/02-screenshot-localization-copy.md) · [PPO](09-product-page-optimization.md)
 
@@ -22,17 +22,17 @@ Screenshot Studio project:
 - [Apple Watch source copy](../RetroRapid.screenshotstudio/appleWatch/data.plist)
 - [Project settings](../RetroRapid.screenshotstudio/project.plist)
 
-Current source state on 2026-07-03:
+Current source state on 2026-07-23:
 
 - **Locales in project:** `en-US`, `en-GB`, `en-AU`, `en-CA`, `es-ES`, `es-MX`, `ca` (see `project.plist`).
 - iPhone, iPad, and Mac source copy uses the **seven-slide storyboard** for all locales above.
 - `en-GB` and `en-AU` use British spelling in overlay copy (`Customise Your Experience`). `en-CA` matches US spelling.
-- **Shared base captures:** English variants reuse the same underlying device captures (`en-US_*` copied to `en-GB_*`, `en-AU_*`, `en-CA_*`). After the first `es-ES` export, `es-MX` reuses the same captures; only overlay copy differs (`carro` / `rebasar` on slide 1).
-- Mac source plist now has seven slides with filled Spanish/Catalan copy; rendered Mac exports still need regeneration (slides 6–7 and all `es-ES` / `es-MX` / `ca` PNGs).
-- iPhone has English-variant JPEG source captures; slide 5 now uses the Game Center friend-marker capture for English variants. `es-ES`, `es-MX`, and `ca` JPEG captures must be re-exported from Screenshot Studio.
-- iPad has locale manifests but no rendered exports yet.
+- **Shared base captures:** For this submission pass, iPhone, iPad, and Mac reuse the same underlying `en-US_*` device captures for every locale. Localized overlay copy still differs by locale in `data.plist`; the sync script fans out each available base capture to `en-GB`, `en-AU`, `en-CA`, `es-ES`, `es-MX`, and `ca`.
+- iPhone has all seven `en-US` JPEG source captures synced to every locale; slide 5 uses the Game Center friend-marker capture.
+- iPad has locale manifests but no rendered base captures yet. Add `en-US_0.jpeg` through `en-US_6.jpeg`, then rerun the sync script to reuse them for every locale.
+- Mac source plist has seven slides with filled Spanish/Catalan copy. The existing five `en-US` PNG source captures are synced to every locale; add `en-US_5.png` and `en-US_6.png`, then rerun the sync script.
 - iPad and Mac slide 5 copy is ready, but the source captures should be visually checked after export to ensure the screenshot actually shows the friend-marker moment.
-- Apple Watch stays **sequence-first** and should not be replaced for this Game Center refresh unless a dedicated watch screenshot pass is done: English locales keep the hook overlay on slide 1; `es-ES`, `es-MX`, and `ca` use empty overlay text.
+- Apple Watch stays **sequence-first** and should not be replaced for this Game Center refresh unless a dedicated watch screenshot pass is done. Current watch images are base `en-US` sequence captures with empty overlay text.
 - Re-sync copy and manifests after edits: `swift run --package-path Scripts sync-screenshot-studio-localizations`
 - Verify copy, manifests, and shared locale images without writing: `swift run --package-path Scripts sync-screenshot-studio-localizations --check`
 - Screenshot Studio `selectedPlatforms` should match shipping platforms only (iPhone, iPad, Mac, Apple Watch). Park Apple TV and Apple Vision until those products ship publicly.
@@ -74,7 +74,7 @@ Watch screenshots:
 Mac screenshots:
 
 - Mac now uses the same seven-slide story as iPhone/iPad.
-- Spanish and Catalan overlay copy is filled in source; re-export all Mac locales from Screenshot Studio.
+- Spanish and Catalan overlay copy is filled in source. For now, reuse the `en-US` base captures for every Mac locale; add missing base captures before final export.
 - Show keyboard/controller controls somewhere in the Mac set because Mac users will look for input clarity.
 
 Apple Vision:

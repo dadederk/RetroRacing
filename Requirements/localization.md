@@ -68,6 +68,9 @@ The shared catalog is the primary source because shared UI and game surfaces are
   - `menu_rate_game`
   - `menu_support_game`
   - `settings_theme_unlock_footnote`
+  - `settings_controls_how_to_play`
+  - `play_limit_section_footer`
+  - `play_limit_section_footer_first_day`
 - SharePlay UX keys must keep visible copy concise and accessibility copy explicit:
   - `menu_play_with_friends_free_footer` — visible footer, currently `Friend races are free.`
   - `menu_play_with_friends_free_hint` — accessibility hint, currently `SharePlay matches don’t use daily plays.`

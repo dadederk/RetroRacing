@@ -160,6 +160,21 @@ func givenScreenshotPlatformWhenBuildingManifestThenEveryLocaleAndIndexIsPresent
             * ScreenshotStudioWorkflow.slideCount
     )
     #expect(images.contains { $0["filename"] as? String == "es-MX_6.jpeg" })
+    #expect(images.contains { $0["filename"] as? String == "ca_6.jpeg" })
+    #expect(images.contains { $0["filename"] as? String == "es-ES_6.jpeg" })
+}
+
+@Test
+func givenWatchPlatformWhenBuildingManifestThenOnlyBaseLocaleImagesArePresent() throws {
+    let manifest = try ScreenshotStudioWorkflow.baseLocaleContentsManifest(
+        platform: "appleWatch",
+        slideCount: 5
+    )
+    let images = try #require(manifest["images"] as? [[String: Any]])
+
+    #expect(images.count == 5)
+    #expect(Set(images.compactMap { $0["locale"] as? String }) == Set(["en-US"]))
+    #expect(images.contains { $0["filename"] as? String == "en-US_4.jpeg" })
 }
 
 private func testFlightOptions(

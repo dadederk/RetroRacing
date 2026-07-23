@@ -74,9 +74,9 @@ they **never consume a daily play**.
 - **Copy**:
   - `menu_play_with_friends_free_footer` — visible footer below the Play with Friends button.
   - `menu_play_with_friends_free_hint` — explicit accessibility hint on the Play with Friends button.
-  - `paywall_shareplay_free_notice` — info card in `PaywallView`'s limit-triggered mode (shown
-    alongside "Want to Stay Free?"), reminding players who hit the daily cap that SharePlay
-    matches are still available for free.
+  - `paywall_shareplay_free_notice` — Play with Friends card body in `PaywallView`'s
+    limit-triggered "Want to Stay Free?" section, reminding players who hit the daily cap that
+    SharePlay matches are still available for free.
   - SharePlay-related paywall/body copy should avoid em dashes and must be translated in the
     shared string catalog for English, Spanish, and Catalan locales.
 
@@ -385,8 +385,14 @@ Key elements:
   - Hidden on platforms without the offer-code UI.
 - **Benefits text** (`"paywall_unlimited_and_themes"`): "Unlimited plays forever. Choose from available visual themes. Back development." Positioned below restore button.
 - **Info cards** (`PaywallInfoCard`):
+  - Cards expand to the full paywall content width (`.frame(maxWidth: .infinity)`).
+  - Nested cards under the limit-triggered **Want to Stay Free?** heading omit per-card
+    accessibility header traits; the section heading remains the sole header for that group.
   - **Giving Back** (always shown): AMMEC donation explanation with Learn More link (in-app SafariView on iOS, `openURL` elsewhere).
-  - **Want to Stay Free?** (limit-triggered only): daily reset explanation — "No problem! Your daily limit resets at midnight. Just wait a bit to enjoy the game again. See you tomorrow!"
+  - **Want to Stay Free?** (limit-triggered only): section heading followed by three sibling cards:
+    - **No worries!** (`paywall_stay_free_reset_title` / `paywall_stay_free_reset_body`): "Your daily limit resets at midnight."
+    - **Apple Watch** (`paywall_stay_free_watch_title` / `paywall_stay_free_watch_body`): "Keep playing as much as you want on your Apple Watch."
+    - **Play with Friends** (`menu_play_with_friends` / `paywall_shareplay_free_notice`): "Friend races are free with SharePlay!"
 - **Footer** (`"paywall_footer_one_time"`): one-time purchase, no subscription, unlocks unlimited plays forever.
 
 Purchase handling:
@@ -417,12 +423,7 @@ if storeKit.hasPremiumAccess {
 
 **File:** `RetroRacingShared/Views/SettingsView.swift`
 
-Sections added:
-
-0. **Theme**
-   - When Unlimited Plays is not active, the Theme section footer shows:
-     - `"settings_theme_unlock_footnote"` (soft prompt to unlock Unlimited Plays from Purchases).
-   - Non-premium Theme row remains a single combined accessibility element (`Theme`, current value).
+Settings order in the shared view is: **Play Limit**, **Purchases**, **Theme**, **Font**, **Speed**, **Sound**, **Vibration**, **Controls**, **Accessibility**, **About**, **Debug**.
 
 1. **Play Limit** (only visible for **free users**)
    - Title: `"play_limit_title"`
@@ -432,6 +433,12 @@ Sections added:
        - `"play_limit_resets_tomorrow"` or
        - `"play_limit_resets_in_hours %lld"`.
      - Row accessibility is combined (`.accessibilityElement(children: .combine)`).
+   - Footer copy:
+     - `"play_limit_section_footer %lld"` — daily allowance without Unlimited Plays; `%lld` is the
+       standard daily max derived from `PlayLimitService.maxPlays(on:)` (using the next calendar day
+       while the welcome bonus is active so the daily value stays accurate).
+     - `"play_limit_section_footer_first_day %lld %lld"` — same daily max plus the first-day welcome
+       bonus max from `PlayLimitService.maxPlays(on:)` on the current day.
    - **Note**: This entire section is **hidden** for premium users (via `if let playLimitService, storeKit.shouldShowFreeTierAffordances`) since they have unlimited plays.
 
 2. **Purchases**
@@ -448,13 +455,24 @@ Sections added:
    - Footer:
      - `"settings_restore_footer"`.
 
-3. **Debug (DEBUG only)**
+3. **Theme**
+   - When Unlimited Plays is not active, the Theme section footer shows:
+     - `"settings_theme_unlock_footnote"` (soft prompt to unlock Unlimited Plays from Purchases).
+   - Non-premium Theme row remains a single combined accessibility element (`Theme`, current value).
+
+4. **Controls**
+   - The top-level Settings list shows one `"settings_controls_how_to_play"` row.
+   - The row opens a Settings help sheet with the current platform controls copy first.
+   - On shared controller-supported settings surfaces, the sheet also contains controller remapping pickers and the existing `"settings_controller_footnote"`.
+
+5. **Debug (DEBUG only)**
    - Picker: `"debug_simulate_premium"` (displayed as “Simulate Unlimited Plays”) bound to `storeKit.debugPremiumSimulationMode`.
    - Options:
      - `"debug_simulation_mode_default"` (Default / production behavior).
      - `"debug_simulation_mode_unlimited"` (forces Unlimited Plays).
      - `"debug_simulation_mode_freemium"` (forces free-tier behavior).
    - Footer: `"debug_simulate_premium_footer"`.
+   - Debug also exposes force-achievement selection and SpriteKit frame stats in DEBUG builds; the GAAD Achievement QA panel is not shown in Settings.
    - **Note**: This entire section is **hidden** in Release builds (via `BuildConfiguration.shouldShowDebugFeatures`).
 
 An **About** section appears above Debug, and Debug remains the final section in the list.

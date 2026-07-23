@@ -122,27 +122,8 @@ public struct PaywallView: View {
                         #endif
                     }
 
-                    // Want to Stay Free? Only shown when the user actually hit the daily limit.
                     if isLimitReached {
-                        PaywallInfoCard(
-                            title: GameLocalizedStrings.string("paywall_stay_free_title"),
-                            icon: "info.circle"
-                        ) {
-                            Text(GameLocalizedStrings.string("paywall_stay_free_body"))
-                        } actionContent: {
-                            EmptyView()
-                        }
-
-                        // SharePlay is always free and never counts against the daily limit —
-                        // let players hitting the cap know they can still play with a friend.
-                        PaywallInfoCard(
-                            title: GameLocalizedStrings.string("menu_play_with_friends"),
-                            icon: "shareplay"
-                        ) {
-                            Text(GameLocalizedStrings.string("paywall_shareplay_free_notice"))
-                        } actionContent: {
-                            EmptyView()
-                        }
+                        stayFreeSection
                     }
 
                     VStack(spacing: 4) {
@@ -215,6 +196,45 @@ public struct PaywallView: View {
     }
 
     // MARK: - Sections
+
+    private var stayFreeSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text(GameLocalizedStrings.string("paywall_stay_free_title"))
+                .retroSectionHeader(font: fontPreferenceStore?.font(textStyle: .headline) ?? .headline)
+                .accessibilityAddTraits(.isHeader)
+
+            stayFreeCard(
+                title: GameLocalizedStrings.string("paywall_stay_free_reset_title"),
+                icon: "clock.arrow.circlepath",
+                bodyKey: "paywall_stay_free_reset_body"
+            )
+
+            stayFreeCard(
+                title: GameLocalizedStrings.string("paywall_stay_free_watch_title"),
+                icon: "applewatch",
+                bodyKey: "paywall_stay_free_watch_body"
+            )
+
+            stayFreeCard(
+                title: GameLocalizedStrings.string("menu_play_with_friends"),
+                icon: "shareplay",
+                bodyKey: "paywall_shareplay_free_notice"
+            )
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private func stayFreeCard(title: String, icon: String, bodyKey: String) -> some View {
+        PaywallInfoCard(
+            title: title,
+            icon: icon,
+            treatsTitleAsAccessibilityHeader: false
+        ) {
+            Text(GameLocalizedStrings.string(bodyKey))
+        } actionContent: {
+            EmptyView()
+        }
+    }
 
     @ViewBuilder
     private var purchaseActions: some View {
@@ -425,5 +445,11 @@ public struct PaywallView: View {
 #Preview("Paywall (Loading)") {
     PaywallView(previewData: PaywallPreviewData(isLoadingProducts: true, products: [], hasError: false))
         .environment(StoreKitService())
+}
+
+#Preview("Paywall (Limit Reached)") {
+    PaywallView(isLimitReached: true)
+        .environment(StoreKitService())
+        .fontPreferenceStore(FontPreferenceStore(userDefaults: .standard, customFontAvailable: true))
 }
 #endif

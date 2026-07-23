@@ -82,6 +82,7 @@ struct PaywallCardLinkLabel: View {
 struct PaywallInfoCard<BodyContent: View, ActionContent: View>: View {
     let title: String
     let icon: String
+    var treatsTitleAsAccessibilityHeader: Bool = true
     @ViewBuilder let bodyContent: () -> BodyContent
     @ViewBuilder let actionContent: () -> ActionContent
     
@@ -96,7 +97,7 @@ struct PaywallInfoCard<BodyContent: View, ActionContent: View>: View {
             }
             .font(fontPreferenceStore?.font(textStyle: .headline) ?? .headline)
             .accessibilityElement(children: .combine)
-            .accessibilityAddTraits(.isHeader)
+            .accessibilityAddTraits(treatsTitleAsAccessibilityHeader ? .isHeader : [])
 
             bodyContent()
                 .font(fontPreferenceStore?.font(textStyle: .subheadline) ?? .subheadline)
@@ -105,6 +106,7 @@ struct PaywallInfoCard<BodyContent: View, ActionContent: View>: View {
             actionContent()
                 .padding(.top, 2)
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
         .background(.quaternary)
         .clipShape(RoundedRectangle(cornerRadius: 12))

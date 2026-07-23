@@ -42,9 +42,8 @@ public struct SettingsView: View {
     @State private var isRestoringPurchases = false
     @State private var restoreMessage: String?
     @State private var showingRestoreAlert = false
-    @State private var showingPaywall = false
     @State private var showingOfferCodeRedemption = false
-    @State private var showingAudioCueTutorial = false
+    @State private var presentedSettingsSheet: PresentedSettingsSheet?
     #if os(macOS)
     @State private var offerCodeRedemptionHostController: NSViewController?
     @State private var isRedeemingOfferCode = false
@@ -87,6 +86,16 @@ public struct SettingsView: View {
     private var secondaryFont: Font {
         fontPreferenceStore.font(textStyle: .caption)
     }
+    private var sectionHeaderFont: Font {
+        fontPreferenceStore.font(textStyle: .headline)
+    }
+    private enum PresentedSettingsSheet: Hashable, Identifiable {
+        case paywall
+        case audioCueTutorial
+        case controlsHelp
+
+        var id: Self { self }
+    }
     public var body: some View {
         settingsContent
             #if os(macOS)
@@ -99,509 +108,17 @@ public struct SettingsView: View {
     private var settingsContent: some View {
         NavigationStack {
             List {
-                if fontPreferenceStore.isCustomFontAvailable {
-                    Section {
-                        Picker(selection: Binding(
-                            get: { fontPreferenceStore.currentStyle },
-                            set: { fontPreferenceStore.currentStyle = $0 }
-                        )) {
-                            Text(GameLocalizedStrings.string("font_style_custom"))
-                                .font(fontForLabels)
-                                .tag(AppFontStyle.custom)
-                            Text(GameLocalizedStrings.string("font_style_system"))
-                                .font(fontForLabels)
-                                .tag(AppFontStyle.system)
-                            Text(GameLocalizedStrings.string("font_style_system_monospaced"))
-                                .font(fontForLabels)
-                                .tag(AppFontStyle.systemMonospaced)
-                        } label: {
-                            Text(GameLocalizedStrings.string("settings_font"))
-                                .font(fontForLabels)
-                        }
-                    } header: {
-                        Text(GameLocalizedStrings.string("settings_font"))
-                            .font(fontForLabels)
-                    }
-                }
-
-                Section {
-                    if storeKit.hasPremiumAccessForGating {
-                        Picker(selection: Binding(
-                            get: { themeManager.currentTheme.id },
-                            set: { newID in
-                                if let theme = themeManager.availableThemes.first(where: { $0.id == newID }) {
-                                    themeManager.setTheme(theme)
-                                }
-                            }
-                        )) {
-                            ForEach(themeManager.availableThemes, id: \.id) { theme in
-                                Text(theme.name)
-                                    .font(fontForLabels)
-                                    .tag(theme.id)
-                            }
-                        } label: {
-                            Text(GameLocalizedStrings.string("settings_theme"))
-                                .font(fontForLabels)
-                        }
-                        .disabled(isGameSessionInProgress)
-                    } else {
-                        HStack {
-                            Text(GameLocalizedStrings.string("settings_theme"))
-                                .font(fontForLabels)
-                            Spacer()
-                            Text(themeManager.currentTheme.name)
-                                .font(fontForLabels)
-                                .foregroundStyle(.secondary)
-                        }
-                        .accessibilityElement(children: .ignore)
-                        .accessibilityLabel(Text(GameLocalizedStrings.string("settings_theme")))
-                        .accessibilityValue(Text(themeManager.currentTheme.name))
-                    }
-                } header: {
-                    Text(GameLocalizedStrings.string("settings_theme"))
-                        .font(fontForLabels)
-                } footer: {
-                    if !storeKit.hasPremiumAccessForGating {
-                        Text(GameLocalizedStrings.string("settings_theme_unlock_footnote"))
-                            .font(secondaryFont)
-                            .modifier(SettingsFooterTextStyle())
-                    }
-                }
-
-                if let playLimitService, storeKit.shouldShowFreeTierAffordances {
-                    let now = Date()
-                    let activeEventInfo = specialEventService?.eventInfo(on: now)
-
-                    Section {
-                        VStack(alignment: .leading, spacing: 4) {
-                            if let eventInfo = activeEventInfo {
-                                Text(GameLocalizedStrings.string("event_play_unlimited_title"))
-                                    .font(fontForLabels)
-                                Text(eventSubtitle(for: eventInfo))
-                                    .font(fontForLabels)
-                                    .foregroundStyle(.secondary)
-                            } else {
-                                Text(playLimitTitle(for: playLimitService))
-                                    .font(fontForLabels)
-                                if let subtitle = playLimitSubtitle(for: playLimitService) {
-                                    Text(subtitle)
-                                        .font(fontForLabels)
-                                        .foregroundStyle(.secondary)
-                                }
-                            }
-                        }
-                        .accessibilityElement(children: .combine)
-                    } header: {
-                        Text(GameLocalizedStrings.string("play_limit_title"))
-                            .font(fontForLabels)
-                    } footer: {
-                        if activeEventInfo == nil {
-                            Text(playLimitFooter(for: playLimitService))
-                                .font(secondaryFont)
-                                .modifier(SettingsFooterTextStyle())
-                        }
-                    }
-                }
-
-                Section {
-                    Text(GameLocalizedStrings.string(controlsDescriptionKey))
-                        .font(fontForLabels)
-                } header: {
-                    Text(GameLocalizedStrings.string("settings_controls"))
-                        .font(fontForLabels)
-                }
-
-                Section {
-                    Picker(selection: preferencesStore.difficultySelection) {
-                        ForEach(GameDifficulty.allCases, id: \.self) { difficulty in
-                            Text(GameLocalizedStrings.string(difficulty.localizedNameKey))
-                                .font(fontForLabels)
-                                .tag(difficulty)
-                        }
-                    } label: {
-                        Text(GameLocalizedStrings.string("settings_speed"))
-                            .font(fontForLabels)
-                    }
-                    .disabled(isGameSessionInProgress)
-                } header: {
-                    Text(GameLocalizedStrings.string("settings_speed"))
-                        .font(fontForLabels)
-                }
-
-                Section {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Picker(selection: preferencesStore.audioFeedbackModeSelection) {
-                            ForEach(AudioFeedbackMode.displayOrder, id: \.self) { mode in
-                                Text(GameLocalizedStrings.string(mode.localizedNameKey))
-                                    .font(fontForLabels)
-                                    .tag(mode)
-                            }
-                        } label: {
-                            Text(GameLocalizedStrings.string("settings_audio_feedback_mode"))
-                                .font(fontForLabels)
-                        }
-
-                        if preferencesStore.shouldShowAudioCueTutorial {
-                            Picker(selection: preferencesStore.laneMoveCueStyleSelection) {
-                                ForEach(preferencesStore.availableLaneMoveCueStyles, id: \.self) { style in
-                                    Text(GameLocalizedStrings.string(style.localizedNameKey))
-                                        .font(fontForLabels)
-                                        .tag(style)
-                                }
-                            } label: {
-                                Text(GameLocalizedStrings.string("settings_lane_move_cue_style"))
-                                    .font(fontForLabels)
-                            }
-                        }
-                    }
-
-                    if preferencesStore.shouldShowAudioCueTutorial {
-                        Button {
-                            showingAudioCueTutorial = true
-                        } label: {
-                            Text(GameLocalizedStrings.string("settings_audio_cue_tutorial"))
-                                .font(fontForLabels)
-                        }
-                        .buttonStyle(.borderless)
-                    }
-
-                    #if os(tvOS)
-                    Picker(selection: volumeSelection) {
-                        ForEach(Self.volumeSteps, id: \.self) { value in
-                            Text(GameLocalizedStrings.format("settings_percentage_value", Int64(value * 100)))
-                                .font(fontForLabels)
-                                .tag(value)
-                        }
-                    } label: {
-                        Text(GameLocalizedStrings.string("settings_sound_effects_volume"))
-                            .font(fontForLabels)
-                    }
-                    #else
-                    Slider(value: preferencesStore.soundEffectsVolumeSelection, in: 0...1, step: 0.05) {
-                        Text(GameLocalizedStrings.string("settings_sound_effects_volume"))
-                            .font(fontForLabels)
-                    } minimumValueLabel: {
-                        Text(GameLocalizedStrings.string("0%"))
-                            .font(fontForLabels)
-                            .accessibilityHidden(true)
-                    } maximumValueLabel: {
-                        Text(GameLocalizedStrings.string("100%"))
-                            .font(fontForLabels)
-                            .accessibilityHidden(true)
-                    }
-                    .accessibilityLabel(Text(GameLocalizedStrings.string("settings_sound_effects_volume")))
-                    .accessibilityValue(Text(soundEffectsVolumeAccessibilityValue))
-                    #endif
-                } header: {
-                    Text(GameLocalizedStrings.string("settings_sound"))
-                        .font(fontForLabels)
-                }
-
-                if supportsHapticFeedback {
-                    Section {
-                        Toggle(isOn: $hapticFeedbackEnabled) {
-                            Text(GameLocalizedStrings.string("settings_haptic_feedback"))
-                                .font(fontForLabels)
-                        }
-                        .tint(.accentColor)
-                    } header: {
-                        Text(GameLocalizedStrings.string("settings_vibration"))
-                            .font(fontForLabels)
-                    }
-                }
-
-                Section {
-                    Picker(selection: preferencesStore.speedWarningFeedbackSelection) {
-                        ForEach(preferencesStore.availableSpeedWarningFeedbackModes, id: \.self) { mode in
-                            Text(GameLocalizedStrings.string(mode.localizedNameKey))
-                                .font(fontForLabels)
-                                .tag(mode)
-                        }
-                    } label: {
-                        Text(GameLocalizedStrings.string("settings_speed_warning_feedback"))
-                            .font(fontForLabels)
-                    }
-
-                    Button {
-                        speedWarningFeedbackPreviewPlayer.play(
-                            mode: preferencesStore.selectedSpeedWarningFeedbackMode
-                        )
-                    } label: {
-                        Text(GameLocalizedStrings.string("settings_speed_warning_feedback_preview_warning"))
-                            .font(fontForLabels)
-                    }
-                    .buttonStyle(.borderless)
-                    .disabled(preferencesStore.shouldEnableSpeedWarningPreview == false)
-
-                    Picker(selection: preferencesStore.roadVisualStyleSelection) {
-                        ForEach(RoadVisualStyle.allCases, id: \.self) { style in
-                            Text(GameLocalizedStrings.string(style.localizedNameKey))
-                                .font(fontForLabels)
-                                .tag(style)
-                        }
-                    } label: {
-                        Text(GameLocalizedStrings.string("settings_road_visual_style"))
-                            .font(fontForLabels)
-                    }
-
-                    Toggle(isOn: preferencesStore.bigCarsSelection) {
-                        Text(GameLocalizedStrings.string("settings_big_cars"))
-                            .font(fontForLabels)
-                    }
-                    .tint(.accentColor)
-
-                    Toggle(isOn: preferencesStore.directTouchSelection) {
-                        Text(GameLocalizedStrings.string("settings_direct_touch"))
-                            .font(fontForLabels)
-                    }
-                    .tint(.accentColor)
-
-                    Toggle(isOn: $friendOvertakeVoiceOverAnnouncementEnabled) {
-                        Text(GameLocalizedStrings.string("settings_voiceover_friend_overtake_announcements"))
-                            .font(fontForLabels)
-                    }
-                    .tint(.accentColor)
-                } header: {
-                    Text(GameLocalizedStrings.string("settings_accessibility"))
-                        .font(fontForLabels)
-                }
-
-                Section {
-                    Picker(selection: preferencesStore.controllerLeftButtonSelection) {
-                        ForEach(GameControllerRemapButton.allCases, id: \.self) { button in
-                            Text(GameLocalizedStrings.string(button.localizedNameKey))
-                                .font(fontForLabels)
-                                .tag(button)
-                        }
-                    } label: {
-                        Text(GameLocalizedStrings.string("settings_controller_move_left"))
-                            .font(fontForLabels)
-                    }
-                    Picker(selection: preferencesStore.controllerRightButtonSelection) {
-                        ForEach(GameControllerRemapButton.allCases, id: \.self) { button in
-                            Text(GameLocalizedStrings.string(button.localizedNameKey))
-                                .font(fontForLabels)
-                                .tag(button)
-                        }
-                    } label: {
-                        Text(GameLocalizedStrings.string("settings_controller_move_right"))
-                            .font(fontForLabels)
-                    }
-                    Picker(selection: preferencesStore.controllerPauseButtonSelection) {
-                        ForEach(GameControllerRemapButton.allCases, id: \.self) { button in
-                            Text(GameLocalizedStrings.string(button.localizedNameKey))
-                                .font(fontForLabels)
-                                .tag(button)
-                        }
-                    } label: {
-                        Text(GameLocalizedStrings.string("settings_controller_pause_resume"))
-                            .font(fontForLabels)
-                    }
-                } header: {
-                    Text(GameLocalizedStrings.string("settings_controller"))
-                        .font(fontForLabels)
-                } footer: {
-                    #if os(macOS)
-                    inlineSectionFooterRow(text: GameLocalizedStrings.string("settings_controller_footnote"))
-                    #else
-                    Text(GameLocalizedStrings.string("settings_controller_footnote"))
-                        .font(secondaryFont)
-                        .modifier(SettingsFooterTextStyle())
-                    #endif
-                }
-
-                Section {
-                    if storeKit.hasPremiumAccessForGating {
-                        HStack {
-                            Image(systemName: "checkmark.seal.fill")
-                                .foregroundColor(.accentColor)
-                                .accessibilityHidden(true)
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(GameLocalizedStrings.string("settings_premium_active"))
-                                    .font(fontForLabels)
-                                Text(GameLocalizedStrings.string("settings_premium_active_subtitle"))
-                                    .font(secondaryFont)
-                                    .foregroundStyle(.secondary)
-                            }
-                            Spacer()
-                        }
-                        .accessibilityElement(children: .combine)
-                    }
-
-                    if storeKit.shouldShowFreeTierAffordances {
-                        Button {
-                            showingPaywall = true
-                        } label: {
-                            HStack {
-                                Image(systemName: "star.circle.fill")
-                                    .foregroundColor(.accentColor)
-                                Text(GameLocalizedStrings.string("settings_learn_premium"))
-                                    .font(fontForLabels)
-                                    .foregroundColor(.accentColor)
-                                Spacer()
-                            }
-                        }
-
-                        #if os(iOS)
-                        Button {
-                            showingOfferCodeRedemption = true
-                        } label: {
-                            HStack {
-                                Image(systemName: "giftcard")
-                                    .foregroundColor(.accentColor)
-                                Text(GameLocalizedStrings.string("redeem_code"))
-                                    .font(fontForLabels)
-                                    .foregroundColor(.accentColor)
-                                Spacer()
-                            }
-                        }
-                        .offerCodeRedemption(isPresented: $showingOfferCodeRedemption) { result in
-                            if case .success = result {
-                                Task { await storeKit.refreshPurchasedProducts() }
-                            }
-                        }
-                        #elseif os(macOS)
-                        Button {
-                            Task { await redeemOfferCode() }
-                        } label: {
-                            HStack {
-                                if isRedeemingOfferCode {
-                                    ProgressView()
-                                        .progressViewStyle(.circular)
-                                } else {
-                                    Image(systemName: "giftcard")
-                                        .foregroundColor(.accentColor)
-                                }
-                                Text(GameLocalizedStrings.string("redeem_code"))
-                                    .font(fontForLabels)
-                                    .foregroundColor(.accentColor)
-                                Spacer()
-                            }
-                        }
-                        .disabled(isRedeemingOfferCode)
-                        #endif
-
-                        Button {
-                            Task { await restorePurchases() }
-                        } label: {
-                            HStack {
-                                if isRestoringPurchases {
-                                    ProgressView()
-                                        .progressViewStyle(.circular)
-                                } else {
-                                    Image(systemName: "arrow.clockwise.circle")
-                                        .foregroundColor(.accentColor)
-                                }
-                                Text(GameLocalizedStrings.string("restore_purchases"))
-                                    .font(fontForLabels)
-                                    .foregroundColor(.accentColor)
-                                Spacer()
-                            }
-                        }
-                        .disabled(isRestoringPurchases)
-                    }
-
-                    #if os(macOS)
-                    if storeKit.shouldShowFreeTierAffordances {
-                        inlineSectionFooterRow(text: GameLocalizedStrings.string("settings_restore_footer"))
-                    }
-                    #endif
-                } header: {
-                    Text(GameLocalizedStrings.string("settings_purchases_title"))
-                        .font(fontForLabels)
-                } footer: {
-                    #if os(macOS)
-                    EmptyView()
-                    #else
-                    if storeKit.shouldShowFreeTierAffordances {
-                        Text(GameLocalizedStrings.string("settings_restore_footer"))
-                            .font(secondaryFont)
-                            .modifier(SettingsFooterTextStyle())
-                    }
-                    #endif
-                }
-
-                Section {
-                    NavigationLink {
-                        AboutView()
-                    } label: {
-                        Label(GameLocalizedStrings.string("about_title"), systemImage: "info.circle")
-                            .font(fontForLabels)
-                    }
-                }
-
-                if BuildConfiguration.shouldShowDebugFeatures {
-                    Section {
-                        Picker(
-                            selection: Binding(
-                                get: { storeKit.debugPremiumSimulationMode },
-                                set: { storeKit.debugPremiumSimulationMode = $0 }
-                            )
-                        ) {
-                            Text(GameLocalizedStrings.string("debug_simulation_mode_default"))
-                                .font(fontForLabels)
-                                .tag(StoreKitService.DebugPremiumSimulationMode.productionDefault)
-                            Text(GameLocalizedStrings.string("debug_simulation_mode_unlimited"))
-                                .font(fontForLabels)
-                                .tag(StoreKitService.DebugPremiumSimulationMode.unlimitedPlays)
-                            Text(GameLocalizedStrings.string("debug_simulation_mode_freemium"))
-                                .font(fontForLabels)
-                                .tag(StoreKitService.DebugPremiumSimulationMode.freemium)
-                        } label: {
-                            Text(GameLocalizedStrings.string("debug_simulate_premium"))
-                                .font(fontForLabels)
-                        }
-
-                        #if os(macOS)
-                        inlineSectionFooterRow(text: GameLocalizedStrings.string("debug_simulate_premium_footer"))
-                        #endif
-
-                        Picker(selection: $debugForcedAchievementIdentifierRawValue) {
-                            Text(GameLocalizedStrings.string("debug_force_achievement_none"))
-                                .font(fontForLabels)
-                                .tag(DebugGameplayStorageKeys.noForcedAchievementIdentifier)
-                            ForEach(debugAchievementPickerOptions, id: \.rawValue) { achievementIdentifier in
-                                Text(achievementIdentifier.localizedTitle)
-                                    .font(fontForLabels)
-                                    .tag(achievementIdentifier.rawValue)
-                            }
-                        } label: {
-                            Text(GameLocalizedStrings.string("debug_force_achievement_picker_title"))
-                                .font(fontForLabels)
-                        }
-
-                        Text(GameLocalizedStrings.string("debug_force_achievement_picker_footer"))
-                            .font(secondaryFont)
-                            .foregroundStyle(.secondary)
-
-                        Toggle(isOn: $debugShowSpriteKitFrameStats) {
-                            Text(GameLocalizedStrings.string("debug_show_spritekit_frame_stats"))
-                                .font(fontForLabels)
-                        }
-                        .tint(.accentColor)
-
-                        Text(GameLocalizedStrings.string("debug_gaad_panel_title"))
-                            .font(fontForLabels)
-
-                        GAADAchievementDebugPanel(
-                            achievementProgressService: achievementProgressService,
-                            qualificationMode: .voiceOverAndSwitchControl,
-                            primaryFont: fontForLabels,
-                            secondaryFont: secondaryFont
-                        )
-                    } header: {
-                        Text(GameLocalizedStrings.string("debug_section_title"))
-                            .font(fontForLabels)
-                    } footer: {
-                        #if os(macOS)
-                        EmptyView()
-                        #else
-                        Text(GameLocalizedStrings.string("debug_simulate_premium_footer"))
-                            .font(secondaryFont)
-                            .modifier(SettingsFooterTextStyle())
-                        #endif
-                    }
-                }
+                playLimitSection
+                purchasesSection
+                themeSection
+                fontSection
+                speedSection
+                soundSection
+                vibrationSection
+                controlsSection
+                accessibilitySection
+                aboutSection
+                debugSection
             }
             .navigationTitle(GameLocalizedStrings.string("settings"))
             .modifier(SettingsNavigationTitleStyle())
@@ -620,36 +137,10 @@ public struct SettingsView: View {
                     Text(restoreMessage)
                 }
             }
-            .sheet(isPresented: $showingPaywall) {
-                PaywallView(playLimitService: playLimitService)
-                    .fontPreferenceStore(fontPreferenceStore)
-            }
-            .sheet(isPresented: $showingAudioCueTutorial, onDismiss: {
+            .sheet(item: $presentedSettingsSheet, onDismiss: {
                 preferencesStore.reloadFromStorage()
-            }) {
-                NavigationStack {
-                    ScrollView {
-                        AudioCueTutorialContentView(
-                            previewPlayer: audioCueTutorialPreviewPlayer,
-                            speedWarningFeedbackPreviewPlayer: speedWarningFeedbackPreviewPlayer,
-                            supportsHapticFeedback: supportsHapticFeedback,
-                            hapticController: hapticController,
-                            showAudioCueSections: true
-                        )
-                            .padding()
-                    }
-                    .navigationTitle(GameLocalizedStrings.string("settings_audio_cue_tutorial"))
-                    .modifier(SettingsNavigationTitleStyle())
-                    .toolbar {
-                        ToolbarItem(placement: Self.doneToolbarPlacement) {
-                            Button(GameLocalizedStrings.string("done")) {
-                                showingAudioCueTutorial = false
-                            }
-                            .font(fontForLabels)
-                        }
-                    }
-                }
-                .fontPreferenceStore(fontPreferenceStore)
+            }) { sheet in
+                sheetContent(for: sheet)
             }
             #if os(macOS)
             .background {
@@ -659,6 +150,517 @@ public struct SettingsView: View {
             #endif
         }
     }
+
+    @ViewBuilder
+    private var playLimitSection: some View {
+        if let playLimitService, storeKit.shouldShowFreeTierAffordances {
+            let now = Date()
+            let activeEventInfo = specialEventService?.eventInfo(on: now)
+
+            Section {
+                VStack(alignment: .leading, spacing: 4) {
+                    if let eventInfo = activeEventInfo {
+                        Text(GameLocalizedStrings.string("event_play_unlimited_title"))
+                            .font(fontForLabels)
+                        Text(eventSubtitle(for: eventInfo))
+                            .font(fontForLabels)
+                            .foregroundStyle(.secondary)
+                    } else {
+                        Text(playLimitTitle(for: playLimitService))
+                            .font(fontForLabels)
+                        if let subtitle = playLimitSubtitle(for: playLimitService) {
+                            Text(subtitle)
+                                .font(fontForLabels)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                }
+                .accessibilityElement(children: .combine)
+            } header: {
+                settingsSectionHeader("play_limit_title")
+            } footer: {
+                if activeEventInfo == nil {
+                    Text(playLimitFooter(for: playLimitService))
+                        .font(secondaryFont)
+                        .modifier(SettingsFooterTextStyle())
+                }
+            }
+        }
+    }
+
+    private var purchasesSection: some View {
+        Section {
+            if storeKit.hasPremiumAccessForGating {
+                HStack {
+                    Image(systemName: "checkmark.seal.fill")
+                        .foregroundColor(.accentColor)
+                        .accessibilityHidden(true)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(GameLocalizedStrings.string("settings_premium_active"))
+                            .font(fontForLabels)
+                        Text(GameLocalizedStrings.string("settings_premium_active_subtitle"))
+                            .font(secondaryFont)
+                            .foregroundStyle(.secondary)
+                    }
+                    Spacer()
+                }
+                .accessibilityElement(children: .combine)
+            }
+
+            if storeKit.shouldShowFreeTierAffordances {
+                Button {
+                    presentedSettingsSheet = .paywall
+                } label: {
+                    HStack {
+                        Image(systemName: "star.circle.fill")
+                            .foregroundColor(.accentColor)
+                        Text(GameLocalizedStrings.string("settings_learn_premium"))
+                            .font(fontForLabels)
+                            .foregroundColor(.accentColor)
+                        Spacer()
+                    }
+                }
+
+                #if os(iOS)
+                Button {
+                    showingOfferCodeRedemption = true
+                } label: {
+                    HStack {
+                        Image(systemName: "giftcard")
+                            .foregroundColor(.accentColor)
+                        Text(GameLocalizedStrings.string("redeem_code"))
+                            .font(fontForLabels)
+                            .foregroundColor(.accentColor)
+                        Spacer()
+                    }
+                }
+                .offerCodeRedemption(isPresented: $showingOfferCodeRedemption) { result in
+                    if case .success = result {
+                        Task { await storeKit.refreshPurchasedProducts() }
+                    }
+                }
+                #elseif os(macOS)
+                Button {
+                    Task { await redeemOfferCode() }
+                } label: {
+                    HStack {
+                        if isRedeemingOfferCode {
+                            ProgressView()
+                                .progressViewStyle(.circular)
+                        } else {
+                            Image(systemName: "giftcard")
+                                .foregroundColor(.accentColor)
+                        }
+                        Text(GameLocalizedStrings.string("redeem_code"))
+                            .font(fontForLabels)
+                            .foregroundColor(.accentColor)
+                        Spacer()
+                    }
+                }
+                .disabled(isRedeemingOfferCode)
+                #endif
+
+                Button {
+                    Task { await restorePurchases() }
+                } label: {
+                    HStack {
+                        if isRestoringPurchases {
+                            ProgressView()
+                                .progressViewStyle(.circular)
+                        } else {
+                            Image(systemName: "arrow.clockwise.circle")
+                                .foregroundColor(.accentColor)
+                        }
+                        Text(GameLocalizedStrings.string("restore_purchases"))
+                            .font(fontForLabels)
+                            .foregroundColor(.accentColor)
+                        Spacer()
+                    }
+                }
+                .disabled(isRestoringPurchases)
+            }
+
+            #if os(macOS)
+            if storeKit.shouldShowFreeTierAffordances {
+                inlineSectionFooterRow(text: GameLocalizedStrings.string("settings_restore_footer"))
+            }
+            #endif
+        } header: {
+            settingsSectionHeader("settings_purchases_title")
+        } footer: {
+            #if os(macOS)
+            EmptyView()
+            #else
+            if storeKit.shouldShowFreeTierAffordances {
+                Text(GameLocalizedStrings.string("settings_restore_footer"))
+                    .font(secondaryFont)
+                    .modifier(SettingsFooterTextStyle())
+            }
+            #endif
+        }
+    }
+
+    private var themeSection: some View {
+        Section {
+            if storeKit.hasPremiumAccessForGating {
+                Picker(selection: Binding(
+                    get: { themeManager.currentTheme.id },
+                    set: { newID in
+                        if let theme = themeManager.availableThemes.first(where: { $0.id == newID }) {
+                            themeManager.setTheme(theme)
+                        }
+                    }
+                )) {
+                    ForEach(themeManager.availableThemes, id: \.id) { theme in
+                        Text(theme.name)
+                            .font(fontForLabels)
+                            .tag(theme.id)
+                    }
+                } label: {
+                    Text(GameLocalizedStrings.string("settings_theme"))
+                        .font(fontForLabels)
+                }
+                .disabled(isGameSessionInProgress)
+            } else {
+                HStack {
+                    Text(GameLocalizedStrings.string("settings_theme"))
+                        .font(fontForLabels)
+                    Spacer()
+                    Text(themeManager.currentTheme.name)
+                        .font(fontForLabels)
+                        .foregroundStyle(.secondary)
+                }
+                .accessibilityElement(children: .ignore)
+                .accessibilityLabel(Text(GameLocalizedStrings.string("settings_theme")))
+                .accessibilityValue(Text(themeManager.currentTheme.name))
+            }
+        } header: {
+            settingsSectionHeader("settings_theme")
+        } footer: {
+            if !storeKit.hasPremiumAccessForGating {
+                Text(GameLocalizedStrings.string("settings_theme_unlock_footnote"))
+                    .font(secondaryFont)
+                    .modifier(SettingsFooterTextStyle())
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var fontSection: some View {
+        if fontPreferenceStore.isCustomFontAvailable {
+            Section {
+                Picker(selection: Binding(
+                    get: { fontPreferenceStore.currentStyle },
+                    set: { fontPreferenceStore.currentStyle = $0 }
+                )) {
+                    Text(GameLocalizedStrings.string("font_style_custom"))
+                        .font(fontForLabels)
+                        .tag(AppFontStyle.custom)
+                    Text(GameLocalizedStrings.string("font_style_system"))
+                        .font(fontForLabels)
+                        .tag(AppFontStyle.system)
+                    Text(GameLocalizedStrings.string("font_style_system_monospaced"))
+                        .font(fontForLabels)
+                        .tag(AppFontStyle.systemMonospaced)
+                } label: {
+                    Text(GameLocalizedStrings.string("settings_font"))
+                        .font(fontForLabels)
+                }
+            } header: {
+                settingsSectionHeader("settings_font")
+            }
+        }
+    }
+
+    private var speedSection: some View {
+        Section {
+            Picker(selection: preferencesStore.difficultySelection) {
+                ForEach(GameDifficulty.allCases, id: \.self) { difficulty in
+                    Text(GameLocalizedStrings.string(difficulty.localizedNameKey))
+                        .font(fontForLabels)
+                        .tag(difficulty)
+                }
+            } label: {
+                Text(GameLocalizedStrings.string("settings_speed"))
+                    .font(fontForLabels)
+            }
+            .disabled(isGameSessionInProgress)
+        } header: {
+            settingsSectionHeader("settings_speed")
+        }
+    }
+
+    private var soundSection: some View {
+        Section {
+            VStack(alignment: .leading, spacing: 8) {
+                Picker(selection: preferencesStore.audioFeedbackModeSelection) {
+                    ForEach(AudioFeedbackMode.displayOrder, id: \.self) { mode in
+                        Text(GameLocalizedStrings.string(mode.localizedNameKey))
+                            .font(fontForLabels)
+                            .tag(mode)
+                    }
+                } label: {
+                    Text(GameLocalizedStrings.string("settings_audio_feedback_mode"))
+                        .font(fontForLabels)
+                }
+
+                if preferencesStore.shouldShowAudioCueTutorial {
+                    Picker(selection: preferencesStore.laneMoveCueStyleSelection) {
+                        ForEach(preferencesStore.availableLaneMoveCueStyles, id: \.self) { style in
+                            Text(GameLocalizedStrings.string(style.localizedNameKey))
+                                .font(fontForLabels)
+                                .tag(style)
+                        }
+                    } label: {
+                        Text(GameLocalizedStrings.string("settings_lane_move_cue_style"))
+                            .font(fontForLabels)
+                    }
+                }
+            }
+
+            if preferencesStore.shouldShowAudioCueTutorial {
+                Button {
+                    presentedSettingsSheet = .audioCueTutorial
+                } label: {
+                    Text(GameLocalizedStrings.string("settings_audio_cue_tutorial"))
+                        .font(fontForLabels)
+                }
+                .buttonStyle(.borderless)
+            }
+
+            #if os(tvOS)
+            Picker(selection: volumeSelection) {
+                ForEach(Self.volumeSteps, id: \.self) { value in
+                    Text(GameLocalizedStrings.format("settings_percentage_value", Int64(value * 100)))
+                        .font(fontForLabels)
+                        .tag(value)
+                }
+            } label: {
+                Text(GameLocalizedStrings.string("settings_sound_effects_volume"))
+                    .font(fontForLabels)
+            }
+            #else
+            Slider(value: preferencesStore.soundEffectsVolumeSelection, in: 0...1, step: 0.05) {
+                Text(GameLocalizedStrings.string("settings_sound_effects_volume"))
+                    .font(fontForLabels)
+            } minimumValueLabel: {
+                Text(GameLocalizedStrings.string("0%"))
+                    .font(fontForLabels)
+                    .accessibilityHidden(true)
+            } maximumValueLabel: {
+                Text(GameLocalizedStrings.string("100%"))
+                    .font(fontForLabels)
+                    .accessibilityHidden(true)
+            }
+            .accessibilityLabel(Text(GameLocalizedStrings.string("settings_sound_effects_volume")))
+            .accessibilityValue(Text(soundEffectsVolumeAccessibilityValue))
+            #endif
+        } header: {
+            settingsSectionHeader("settings_sound")
+        }
+    }
+
+    @ViewBuilder
+    private var vibrationSection: some View {
+        if supportsHapticFeedback {
+            Section {
+                Toggle(isOn: $hapticFeedbackEnabled) {
+                    Text(GameLocalizedStrings.string("settings_haptic_feedback"))
+                        .font(fontForLabels)
+                }
+                .tint(.accentColor)
+            } header: {
+                settingsSectionHeader("settings_vibration")
+            }
+        }
+    }
+
+    private var controlsSection: some View {
+        Section {
+            Button {
+                presentedSettingsSheet = .controlsHelp
+            } label: {
+                Label(
+                    GameLocalizedStrings.string("settings_controls_how_to_play"),
+                    systemImage: "questionmark.circle"
+                )
+                .font(fontForLabels)
+            }
+        } header: {
+            settingsSectionHeader("settings_controls")
+        }
+    }
+
+    private var accessibilitySection: some View {
+        Section {
+            Picker(selection: preferencesStore.speedWarningFeedbackSelection) {
+                ForEach(preferencesStore.availableSpeedWarningFeedbackModes, id: \.self) { mode in
+                    Text(GameLocalizedStrings.string(mode.localizedNameKey))
+                        .font(fontForLabels)
+                        .tag(mode)
+                }
+            } label: {
+                Text(GameLocalizedStrings.string("settings_speed_warning_feedback"))
+                    .font(fontForLabels)
+            }
+
+            Button {
+                speedWarningFeedbackPreviewPlayer.play(
+                    mode: preferencesStore.selectedSpeedWarningFeedbackMode
+                )
+            } label: {
+                Text(GameLocalizedStrings.string("settings_speed_warning_feedback_preview_warning"))
+                    .font(fontForLabels)
+            }
+            .buttonStyle(.borderless)
+            .disabled(preferencesStore.shouldEnableSpeedWarningPreview == false)
+
+            Picker(selection: preferencesStore.roadVisualStyleSelection) {
+                ForEach(RoadVisualStyle.allCases, id: \.self) { style in
+                    Text(GameLocalizedStrings.string(style.localizedNameKey))
+                        .font(fontForLabels)
+                        .tag(style)
+                }
+            } label: {
+                Text(GameLocalizedStrings.string("settings_road_visual_style"))
+                    .font(fontForLabels)
+            }
+
+            Toggle(isOn: preferencesStore.bigCarsSelection) {
+                Text(GameLocalizedStrings.string("settings_big_cars"))
+                    .font(fontForLabels)
+            }
+            .tint(.accentColor)
+
+            Toggle(isOn: preferencesStore.directTouchSelection) {
+                Text(GameLocalizedStrings.string("settings_direct_touch"))
+                    .font(fontForLabels)
+            }
+            .tint(.accentColor)
+
+            Toggle(isOn: $friendOvertakeVoiceOverAnnouncementEnabled) {
+                Text(GameLocalizedStrings.string("settings_voiceover_friend_overtake_announcements"))
+                    .font(fontForLabels)
+            }
+            .tint(.accentColor)
+        } header: {
+            settingsSectionHeader("settings_accessibility")
+        }
+    }
+
+    private var aboutSection: some View {
+        Section {
+            NavigationLink {
+                AboutView()
+            } label: {
+                Label(GameLocalizedStrings.string("about_title"), systemImage: "info.circle")
+                    .font(fontForLabels)
+            }
+        } header: {
+            settingsSectionHeader("about_title")
+        }
+    }
+
+    @ViewBuilder
+    private var debugSection: some View {
+        if BuildConfiguration.shouldShowDebugFeatures {
+            Section {
+                Picker(
+                    selection: Binding(
+                        get: { storeKit.debugPremiumSimulationMode },
+                        set: { storeKit.debugPremiumSimulationMode = $0 }
+                    )
+                ) {
+                    Text(GameLocalizedStrings.string("debug_simulation_mode_default"))
+                        .font(fontForLabels)
+                        .tag(StoreKitService.DebugPremiumSimulationMode.productionDefault)
+                    Text(GameLocalizedStrings.string("debug_simulation_mode_unlimited"))
+                        .font(fontForLabels)
+                        .tag(StoreKitService.DebugPremiumSimulationMode.unlimitedPlays)
+                    Text(GameLocalizedStrings.string("debug_simulation_mode_freemium"))
+                        .font(fontForLabels)
+                        .tag(StoreKitService.DebugPremiumSimulationMode.freemium)
+                } label: {
+                    Text(GameLocalizedStrings.string("debug_simulate_premium"))
+                        .font(fontForLabels)
+                }
+
+                #if os(macOS)
+                inlineSectionFooterRow(text: GameLocalizedStrings.string("debug_simulate_premium_footer"))
+                #endif
+
+                Picker(selection: $debugForcedAchievementIdentifierRawValue) {
+                    Text(GameLocalizedStrings.string("debug_force_achievement_none"))
+                        .font(fontForLabels)
+                        .tag(DebugGameplayStorageKeys.noForcedAchievementIdentifier)
+                    ForEach(debugAchievementPickerOptions, id: \.rawValue) { achievementIdentifier in
+                        Text(achievementIdentifier.localizedTitle)
+                            .font(fontForLabels)
+                            .tag(achievementIdentifier.rawValue)
+                    }
+                } label: {
+                    Text(GameLocalizedStrings.string("debug_force_achievement_picker_title"))
+                        .font(fontForLabels)
+                }
+
+                Toggle(isOn: $debugShowSpriteKitFrameStats) {
+                    Text(GameLocalizedStrings.string("debug_show_spritekit_frame_stats"))
+                        .font(fontForLabels)
+                }
+                .tint(.accentColor)
+            } header: {
+                settingsSectionHeader("debug_section_title")
+            } footer: {
+                #if os(macOS)
+                EmptyView()
+                #else
+                Text(GameLocalizedStrings.string("debug_simulate_premium_footer"))
+                    .font(secondaryFont)
+                    .modifier(SettingsFooterTextStyle())
+                #endif
+            }
+        }
+    }
+
+    @ViewBuilder
+    private func sheetContent(for sheet: PresentedSettingsSheet) -> some View {
+        switch sheet {
+        case .paywall:
+            PaywallView(playLimitService: playLimitService)
+                .fontPreferenceStore(fontPreferenceStore)
+        case .audioCueTutorial:
+            NavigationStack {
+                ScrollView {
+                    AudioCueTutorialContentView(
+                        previewPlayer: audioCueTutorialPreviewPlayer,
+                        speedWarningFeedbackPreviewPlayer: speedWarningFeedbackPreviewPlayer,
+                        supportsHapticFeedback: supportsHapticFeedback,
+                        hapticController: hapticController,
+                        showAudioCueSections: true
+                    )
+                        .padding()
+                }
+                .navigationTitle(GameLocalizedStrings.string("settings_audio_cue_tutorial"))
+                .modifier(SettingsNavigationTitleStyle())
+                .toolbar {
+                    ToolbarItem(placement: Self.doneToolbarPlacement) {
+                        Button(GameLocalizedStrings.string("done")) {
+                            presentedSettingsSheet = nil
+                        }
+                        .font(fontForLabels)
+                    }
+                }
+            }
+            .fontPreferenceStore(fontPreferenceStore)
+        case .controlsHelp:
+            SettingsControlsHelpSheet(
+                controlsDescriptionKey: controlsDescriptionKey,
+                controllerPreferencesStore: preferencesStore
+            )
+            .fontPreferenceStore(fontPreferenceStore)
+        }
+    }
+
     private static let volumeSteps: [Double] = stride(from: 0.0, through: 1.0, by: 0.05).map {
         Double((($0 * 100).rounded()) / 100)
     }
@@ -688,6 +690,12 @@ public struct SettingsView: View {
         AchievementIdentifier.allCases.sorted { lhs, rhs in
             lhs.rawValue < rhs.rawValue
         }
+    }
+
+    @ViewBuilder
+    private func settingsSectionHeader(_ key: String) -> some View {
+        Text(GameLocalizedStrings.string(key))
+            .retroSectionHeader(font: sectionHeaderFont)
     }
 
     @ViewBuilder
@@ -740,8 +748,20 @@ public struct SettingsView: View {
     }
 
     private func playLimitFooter(for service: PlayLimitService) -> String {
-        let key = service.isFirstPlayDay(on: Date()) ? "play_limit_section_footer_first_day" : "play_limit_section_footer"
-        return GameLocalizedStrings.string(key)
+        let now = Date()
+        if service.isFirstPlayDay(on: now) {
+            let welcomeMax = Int64(service.maxPlays(on: now))
+            let nextDay = Calendar.current.date(byAdding: .day, value: 1, to: now) ?? now
+            let dailyMax = Int64(service.maxPlays(on: nextDay))
+            return GameLocalizedStrings.format(
+                "play_limit_section_footer_first_day %lld %lld",
+                dailyMax,
+                welcomeMax
+            )
+        }
+
+        let dailyMax = Int64(service.maxPlays(on: now))
+        return GameLocalizedStrings.format("play_limit_section_footer %lld", dailyMax)
     }
 
     private func playLimitSubtitle(for service: PlayLimitService) -> String? {
