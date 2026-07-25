@@ -9,14 +9,36 @@ import Foundation
 import ScriptSupport
 
 public struct TestRunnerOptions: Equatable, Sendable {
+    public enum BuildMode: Equatable, Sendable {
+        case test
+        case buildForTesting
+        case testWithoutBuilding
+    }
+
     public let destination: String
     public let dryRun: Bool
     public let onlyTesting: [String]
+    public let environment: [String: String]
+    public let timeout: TimeInterval?
+    public let buildMode: BuildMode
+    public let scheme: String
 
-    public init(destination: String, dryRun: Bool, onlyTesting: [String] = []) {
+    public init(
+        destination: String,
+        dryRun: Bool,
+        onlyTesting: [String] = [],
+        environment: [String: String] = [:],
+        timeout: TimeInterval? = nil,
+        buildMode: BuildMode = .test,
+        scheme: String = "RetroRacingUniversal"
+    ) {
         self.destination = destination
         self.dryRun = dryRun
         self.onlyTesting = onlyTesting
+        self.environment = environment
+        self.timeout = timeout
+        self.buildMode = buildMode
+        self.scheme = scheme
     }
 
     public static func parse(_ arguments: CLIArguments) throws -> TestRunnerOptions {
@@ -44,33 +66,63 @@ public enum TestRunnerWorkflow {
 
         if !options.onlyTesting.isEmpty {
             return [
-                testCommand(
+                xcodebuildCommand(
                     project: project,
                     destination: options.destination,
-                    onlyTesting: options.onlyTesting
+                    onlyTesting: options.onlyTesting,
+                    environment: options.environment,
+                    buildMode: options.buildMode,
+                    scheme: options.scheme
                 ),
             ]
         }
 
         return [
-            testCommand(
+            xcodebuildCommand(
                 project: project,
                 destination: options.destination,
-                onlyTesting: ["RetroRacingSharedTests"]
+                onlyTesting: ["RetroRacingSharedTests"],
+                environment: options.environment,
+                buildMode: options.buildMode,
+                scheme: options.scheme
             ),
-            testCommand(
+            xcodebuildCommand(
                 project: project,
                 destination: options.destination,
-                onlyTesting: ["RetroRacingUniversalTests"]
+                onlyTesting: ["RetroRacingUniversalTests"],
+                environment: options.environment,
+                buildMode: options.buildMode,
+                scheme: options.scheme
             ),
         ]
+    }
+
+    public static func runBuildForTesting(
+        repositoryRoot: URL,
+        destination: String,
+        scheme: String = "RetroRacingUniversal",
+        onlyTesting: [String] = [
+            "RetroRacingUniversalUITests/AppStoreScreenshotTests/testCaptureConfiguredScreenshot",
+        ],
+        dryRun: Bool = false,
+        timeout: TimeInterval? = nil
+    ) throws {
+        let options = TestRunnerOptions(
+            destination: destination,
+            dryRun: dryRun,
+            onlyTesting: onlyTesting,
+            timeout: timeout,
+            buildMode: .buildForTesting,
+            scheme: scheme
+        )
+        try run(repositoryRoot: repositoryRoot, options: options)
     }
 
     public static func run(repositoryRoot: URL, options: TestRunnerOptions) throws {
         for command in commands(repositoryRoot: repositoryRoot, options: options) {
             print(command.rendered)
             if !options.dryRun {
-                try ProcessRunner.run(command)
+                try ProcessRunner.run(command, timeout: options.timeout)
             }
         }
         if options.dryRun {
@@ -78,27 +130,62 @@ public enum TestRunnerWorkflow {
         }
     }
 
-    private static func testCommand(
+    private static func xcodebuildCommand(
         project: String,
         destination: String,
-        onlyTesting: [String]
+        onlyTesting: [String],
+        environment: [String: String] = [:],
+        buildMode: TestRunnerOptions.BuildMode = .test,
+        scheme: String = "RetroRacingUniversal"
     ) -> ProcessCommand {
+        let action: String
+        switch buildMode {
+        case .test:
+            action = "test"
+        case .buildForTesting:
+            action = "build-for-testing"
+        case .testWithoutBuilding:
+            action = "test-without-building"
+        }
+
         var arguments = [
             "xcodebuild",
-            "test",
+            action,
             "-project",
             project,
             "-scheme",
-            "RetroRacingUniversal",
+            scheme,
             "-destination",
             destination,
         ]
         for filter in onlyTesting {
             arguments.append("-only-testing:\(filter)")
         }
+        if buildMode != .buildForTesting {
+            arguments.append("-parallel-testing-enabled")
+            arguments.append("NO")
+        }
         return ProcessCommand(
             executable: "/usr/bin/xcrun",
-            arguments: arguments
+            arguments: arguments,
+            environment: environment
+        )
+    }
+
+    private static func testCommand(
+        project: String,
+        destination: String,
+        onlyTesting: [String],
+        environment: [String: String] = [:],
+        scheme: String = "RetroRacingUniversal"
+    ) -> ProcessCommand {
+        xcodebuildCommand(
+            project: project,
+            destination: destination,
+            onlyTesting: onlyTesting,
+            environment: environment,
+            buildMode: .test,
+            scheme: scheme
         )
     }
 }

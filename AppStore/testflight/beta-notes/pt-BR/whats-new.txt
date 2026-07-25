@@ -1,0 +1,19 @@
+Teste corridas ao vivo com amigos no SharePlay no iPhone e iPad.
+
+Toque em Jogar com amigos, inicie a contagem regressiva sincronizada, desvie do tráfego juntos e compare o mesmo resultado de vitória, derrota ou empate. Revanches esperam os dois jogadores ficarem prontos.
+
+Corridas com amigos são grátis e nunca usam partidas diárias.
+
+RetroRapid! 1.5 chega com localização completa do app em catalão, holandês, francês, alemão, italiano, japonês, coreano, português do Brasil, espanhol e chinês tradicional. Mude o idioma do dispositivo e confira se menus, ajustes e a UI da corrida soam naturais.
+
+Também polimos ajustes, clareza do paywall, áudio e estabilidade.
+
+Foco do teste:
+- Inicie uma corrida SharePlay em dois iPhones/iPads e confirme a contagem sincronizada
+- Mude para português do Brasil ou outro idioma compatível e avalie a naturalidade das traduções
+- Após a chegada, teste Jogar de novo e confirme se os dois precisam confirmar
+- Com zero partidas diárias, confirme que corridas com amigos ainda começam grátis
+- No Mac e Apple Watch, confirme a qualidade do modo solo
+- Reporte crashes, desconexões ou traduções estranhas
+
+Obrigado por correr com a gente.

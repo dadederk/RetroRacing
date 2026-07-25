@@ -10,8 +10,6 @@ import XCTest
 @testable import RetroRacingShared
 
 final class GameLocalizedStringsLocaleTests: XCTestCase {
-    private let bundle = Bundle(for: GameScene.self)
-
     private let checkpointKeys = [
         "play",
         "settings",
@@ -21,7 +19,7 @@ final class GameLocalizedStringsLocaleTests: XCTestCase {
         "shareplay_activity_title",
     ]
 
-    private let supportedLocales = ["de", "nl", "it", "fr", "es", "ca"]
+    private let supportedLocales = ["de", "nl", "it", "fr", "es", "ca", "ja", "ko", "pt-BR", "zh-Hant"]
 
     func testGivenSupportedLocalesWhenResolvingCheckpointKeysThenValuesAreNonEmpty() {
         for localeIdentifier in supportedLocales {
@@ -70,11 +68,66 @@ final class GameLocalizedStringsLocaleTests: XCTestCase {
         XCTAssertTrue(others.localizedCaseInsensitiveContains("obiettivi"))
     }
 
-    private func localizedString(_ key: String, locale: Locale) -> String {
-        String(
-            localized: String.LocalizationValue(stringLiteral: key),
-            bundle: bundle,
-            locale: locale
+    func testGivenVoiceOverControlAchievementWhenReadingLocalFallbackThenMatchesASCCopy() {
+        XCTAssertEqual(
+            AchievementIdentifier.controlVoiceOver.localizedTitle,
+            "VoiceOver Controls"
         )
+        XCTAssertEqual(
+            AchievementIdentifier.controlVoiceOver.localizedAchievedDescription,
+            "You completed a run using VoiceOver controls."
+        )
+    }
+
+    func testGivenStreakAndOverlanderAchievementsWhenReadingLocalFallbackThenMatchesASCCopy() {
+        XCTAssertEqual(AchievementIdentifier.runOvertakes100.localizedTitle, "Streak 100")
+        XCTAssertEqual(
+            AchievementIdentifier.runOvertakes100.localizedAchievedDescription,
+            "You overtook 100 cars in one run."
+        )
+        XCTAssertEqual(AchievementIdentifier.totalOvertakes1k.localizedTitle, "Overlander 1K")
+        XCTAssertEqual(
+            AchievementIdentifier.totalOvertakes1k.localizedAchievedDescription,
+            "You overtook 1,000 cars in total."
+        )
+        XCTAssertEqual(AchievementIdentifier.eventGAADAssistive.localizedTitle, "GAAD Assistive Week")
+        XCTAssertEqual(
+            AchievementIdentifier.eventGAADAssistive.localizedAchievedDescription,
+            "You completed a run during GAAD week using assistive technology."
+        )
+    }
+
+    func testGivenJapaneseLocaleWhenResolvingPlayThenUsesJapaneseCopy() {
+        let value = localizedString("play", locale: Locale(identifier: "ja"))
+        XCTAssertEqual(value, "プレイ")
+    }
+
+    func testGivenBrazilianPortugueseLocaleWhenResolvingSettingsThenUsesPortugueseCopy() {
+        let value = localizedString("settings", locale: Locale(identifier: "pt-BR"))
+        XCTAssertEqual(value, "Ajustes")
+    }
+
+    func testGivenTraditionalChineseLocaleWhenResolvingPaywallTitleThenUsesChineseCopy() {
+        let value = localizedString("paywall_title", locale: Locale(identifier: "zh-Hant"))
+        XCTAssertTrue(value.contains("無限"))
+    }
+
+    func testGivenPreferredCaptureLocaleWhenResolvingViaGameLocalizedStringsThenUsesThatLocale() {
+        let germanPlay = GameLocalizedStrings.string("play", preferredLocale: Locale(identifier: "de"))
+        let dutchSettings = GameLocalizedStrings.string("settings", preferredLocale: Locale(identifier: "nl"))
+        XCTAssertEqual(germanPlay, "Spielen")
+        XCTAssertEqual(dutchSettings, "Instellingen")
+    }
+
+    func testGivenLocalizationDirectoryCandidatesWhenResolvingThenPrefersLanguageCodeFallback() {
+        let candidates = GameLocalizedStrings.localizationDirectoryCandidates(
+            for: Locale(identifier: "de_DE")
+        )
+        XCTAssertTrue(candidates.contains("de"))
+        XCTAssertNotNil(GameLocalizedStrings.localizationBundle(for: Locale(identifier: "nl-NL")))
+    }
+
+    private func localizedString(_ key: String, locale: Locale) -> String {
+        GameLocalizedStrings.string(key, preferredLocale: locale)
     }
 }

@@ -195,7 +195,7 @@ Create only the leaderboards for platforms you ship (e.g. if you ship iPhone + w
 
 ### Localization for Score Units
 
-- English-only for sandbox: score suffix singular `overtake`, plural `Overtakes`. Applied to every leaderboard localization in App Store Connect (set + boards). Add ES/CA later for production.
+- English-only for sandbox: score suffix singular `overtake`, plural `Overtakes`. Applied to every leaderboard localization in App Store Connect (set + boards). EU (`de-DE`, `nl-NL`, `it`, `fr-FR`) suffix copy lives in [`AppStore/game-center/leaderboards-eu-localizations.json`](../AppStore/game-center/leaderboards-eu-localizations.json); upload with `swift run --package-path Scripts apply-game-center-eu-localizations`. EU display names translate **High Score** only; speed levels match in-app labels (`Cruise` / `Rapid` unchanged; `Fast` localized where Settings localizes it). Display names must stay within ASC’s **30-character** limit; the upload script shortens platform or “High Score” phrasing when a literal translation would overflow. EU **descriptions** are uploaded with the same command (short overtakes-in-one-run copy, aligned with en-US when that row exists in ASC).
 
 ### Debugging score submission
 

@@ -40,6 +40,55 @@ struct RetroRacingWatchOSApp: App {
 
     var body: some Scene {
         WindowGroup {
+            rootView
+                .achievementMetadataService(achievementMetadataService)
+                .onAppear {
+                    guard WatchScreenshotCaptureConfiguration.current == nil else { return }
+                    setupGameCenterAuthentication {
+                        Task {
+                            await bestScoreSyncService.syncIfPossible()
+                            achievementProgressService.replayAchievedAchievements()
+                            leaderboardService.flushPendingScoresIfPossible()
+                            await achievementMetadataService.invalidate()
+                        }
+                    }
+                }
+                .onReceive(NotificationCenter.default.publisher(for: .GKPlayerAuthenticationDidChangeNotificationName)) { _ in
+                    guard WatchScreenshotCaptureConfiguration.current == nil else { return }
+                    let isAuthenticated = GKLocalPlayer.local.isAuthenticated
+                    AppLog.info(
+                        AppLog.leaderboard + AppLog.lifecycle,
+                        "AUTH_STATE_CHANGED",
+                        outcome: .completed,
+                        fields: [
+                            .bool("isAuthenticated", isAuthenticated)
+                        ]
+                    )
+                    Task {
+                        await bestScoreSyncService.syncIfPossible()
+                        achievementProgressService.replayAchievedAchievements()
+                        leaderboardService.flushPendingScoresIfPossible()
+                        await achievementMetadataService.invalidate()
+                    }
+                }
+        }
+    }
+
+    @ViewBuilder
+    private var rootView: some View {
+        if let screenshotConfiguration = WatchScreenshotCaptureConfiguration.current {
+            WatchScreenshotCaptureRootView(
+                configuration: screenshotConfiguration,
+                dependencies: WatchScreenshotCaptureDependencies(
+                    themeManager: themeManager,
+                    fontPreferenceStore: fontPreferenceStore,
+                    highestScoreStore: highestScoreStore,
+                    achievementProgressService: achievementProgressService,
+                    leaderboardService: leaderboardService,
+                    watchBestScoreRelaySender: watchBestScoreRelaySender
+                )
+            )
+        } else {
             ContentView(
                 themeManager: themeManager,
                 fontPreferenceStore: fontPreferenceStore,
@@ -48,38 +97,12 @@ struct RetroRacingWatchOSApp: App {
                 leaderboardService: leaderboardService,
                 watchBestScoreRelaySender: watchBestScoreRelaySender
             )
-            .achievementMetadataService(achievementMetadataService)
-            .onAppear {
-                setupGameCenterAuthentication {
-                    Task {
-                        await bestScoreSyncService.syncIfPossible()
-                        achievementProgressService.replayAchievedAchievements()
-                        leaderboardService.flushPendingScoresIfPossible()
-                        await achievementMetadataService.invalidate()
-                    }
-                }
-            }
-            .onReceive(NotificationCenter.default.publisher(for: .GKPlayerAuthenticationDidChangeNotificationName)) { _ in
-                let isAuthenticated = GKLocalPlayer.local.isAuthenticated
-                AppLog.info(
-                    AppLog.leaderboard + AppLog.lifecycle,
-                    "AUTH_STATE_CHANGED",
-                    outcome: .completed,
-                    fields: [
-                        .bool("isAuthenticated", isAuthenticated)
-                    ]
-                )
-                Task {
-                    await bestScoreSyncService.syncIfPossible()
-                    achievementProgressService.replayAchievedAchievements()
-                    leaderboardService.flushPendingScoresIfPossible()
-                    await achievementMetadataService.invalidate()
-                }
-            }
         }
     }
 
     init() {
+        ScreenshotCaptureLocaleCatalog.applyCaptureLocaleFromLaunchArgumentsIfNeeded()
+        ScreenshotCaptureAppearance.applySystemInterfaceStyleIfNeeded()
         AppBootstrap.configureAudioSession()
         SettingsPreferenceMigration.runIfNeeded(
             userDefaults: InfrastructureDefaults.userDefaults,

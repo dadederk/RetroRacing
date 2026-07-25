@@ -29,6 +29,10 @@ public struct SettingsView: View {
     /// Optional special-event service for showing the event banner in place of the play limit.
     public let specialEventService: SpecialEventService?
     public let achievementProgressService: AchievementProgressService
+    public let screenshotFocus: ScreenshotSettingsFocus?
+    public let screenshotFriendOvertakeAnnouncementsEnabled: Bool?
+    public let screenshotPresentedInSheet: Bool
+    public let onScreenshotLayoutReady: (() -> Void)?
 
     @Environment(\.dismiss) private var dismiss
     @Environment(StoreKitService.self) private var storeKit
@@ -60,7 +64,11 @@ public struct SettingsView: View {
         achievementProgressService: AchievementProgressService,
         isGameSessionInProgress: Bool = false,
         playLimitService: PlayLimitService? = nil,
-        specialEventService: SpecialEventService? = nil
+        specialEventService: SpecialEventService? = nil,
+        screenshotFocus: ScreenshotSettingsFocus? = nil,
+        screenshotFriendOvertakeAnnouncementsEnabled: Bool? = nil,
+        screenshotPresentedInSheet: Bool = false,
+        onScreenshotLayoutReady: (() -> Void)? = nil
     ) {
         self.themeManager = themeManager
         self.fontPreferenceStore = fontPreferenceStore
@@ -74,11 +82,21 @@ public struct SettingsView: View {
         self.isGameSessionInProgress = isGameSessionInProgress
         self.playLimitService = playLimitService
         self.specialEventService = specialEventService
-        _preferencesStore = State(initialValue: SettingsPreferencesStore(
+        self.screenshotFocus = screenshotFocus
+        self.screenshotFriendOvertakeAnnouncementsEnabled = screenshotFriendOvertakeAnnouncementsEnabled
+        self.screenshotPresentedInSheet = screenshotPresentedInSheet
+        self.onScreenshotLayoutReady = onScreenshotLayoutReady
+        let initialPreferencesStore = SettingsPreferencesStore(
             userDefaults: InfrastructureDefaults.userDefaults,
             supportsHaptics: supportsHapticFeedback,
-            isVoiceOverRunningProvider: { VoiceOverStatus.isVoiceOverRunning }
-        ))
+            isVoiceOverRunningProvider: {
+                screenshotFocus == .accessibility ? true : VoiceOverStatus.isVoiceOverRunning
+            }
+        )
+        if let screenshotFocus {
+            initialPreferencesStore.applyScreenshotCapturePreset(focus: screenshotFocus)
+        }
+        _preferencesStore = State(initialValue: initialPreferencesStore)
     }
     private var fontForLabels: Font {
         fontPreferenceStore.font(textStyle: .body)
@@ -98,30 +116,57 @@ public struct SettingsView: View {
     }
     public var body: some View {
         settingsContent
-            #if os(macOS)
-            .frame(minWidth: 420, minHeight: 380)
-            #endif
+            .modifier(
+                ScreenshotSettingsPresentationModifier(
+                    isActive: screenshotFocus != nil && screenshotPresentedInSheet == false
+                )
+            )
             .onAppear {
                 preferencesStore.loadIfNeeded()
+                if let screenshotFriendOvertakeAnnouncementsEnabled {
+                    friendOvertakeVoiceOverAnnouncementEnabled = screenshotFriendOvertakeAnnouncementsEnabled
+                }
             }
     }
     private var settingsContent: some View {
         NavigationStack {
-            List {
-                playLimitSection
-                purchasesSection
-                themeSection
-                fontSection
-                speedSection
-                soundSection
-                vibrationSection
-                controlsSection
-                accessibilitySection
-                aboutSection
-                debugSection
+            ScrollViewReader { scrollProxy in
+                List {
+                    playLimitSection
+                    purchasesSection
+                    themeSection
+                    fontSection
+                    speedSection
+                    soundSection
+                    vibrationSection
+                    controlsSection
+                    accessibilitySection
+                    aboutSection
+                    debugSection
+                }
+                .modifier(SettingsScreenshotListChromeModifier(screenshotFocus: screenshotFocus))
+                .onAppear {
+                    guard let screenshotFocus else { return }
+                    let targetID = screenshotScrollTargetID(for: screenshotFocus)
+                    DispatchQueue.main.async {
+                        var transaction = Transaction()
+                        transaction.disablesAnimations = true
+                        withTransaction(transaction) {
+                            scrollProxy.scrollTo(targetID, anchor: Self.screenshotSettingsScrollAnchor)
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                            withTransaction(transaction) {
+                                scrollProxy.scrollTo(targetID, anchor: Self.screenshotSettingsScrollAnchor)
+                            }
+                        }
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
+                            onScreenshotLayoutReady?()
+                        }
+                    }
+                }
             }
             .navigationTitle(GameLocalizedStrings.string("settings"))
-            .modifier(SettingsNavigationTitleStyle())
+            .modifier(SettingsNavigationChromeModifier(screenshotFocus: screenshotFocus))
             .toolbar {
                 ToolbarItem(placement: Self.doneToolbarPlacement) {
                     Button(GameLocalizedStrings.string("done")) {
@@ -336,6 +381,7 @@ public struct SettingsView: View {
             }
         } header: {
             settingsSectionHeader("settings_theme")
+                .id(ScreenshotCaptureIdentifiers.settingsThemeSection)
         } footer: {
             if !storeKit.hasPremiumAccessForGating {
                 Text(GameLocalizedStrings.string("settings_theme_unlock_footnote"))
@@ -343,6 +389,7 @@ public struct SettingsView: View {
                     .modifier(SettingsFooterTextStyle())
             }
         }
+        .accessibilityIdentifier(ScreenshotCaptureIdentifiers.settingsThemeSection)
     }
 
     @ViewBuilder
@@ -388,6 +435,8 @@ public struct SettingsView: View {
         } header: {
             settingsSectionHeader("settings_speed")
         }
+        .id(ScreenshotCaptureIdentifiers.settingsCustomizeSection)
+        .accessibilityIdentifier(ScreenshotCaptureIdentifiers.settingsCustomizeSection)
     }
 
     private var soundSection: some View {
@@ -547,7 +596,9 @@ public struct SettingsView: View {
             .tint(.accentColor)
         } header: {
             settingsSectionHeader("settings_accessibility")
+                .id(ScreenshotCaptureIdentifiers.settingsAccessibilitySection)
         }
+        .accessibilityIdentifier(ScreenshotCaptureIdentifiers.settingsAccessibilitySection)
     }
 
     private var aboutSection: some View {
@@ -643,7 +694,7 @@ public struct SettingsView: View {
                         .padding()
                 }
                 .navigationTitle(GameLocalizedStrings.string("settings_audio_cue_tutorial"))
-                .modifier(SettingsNavigationTitleStyle())
+                .modifier(SettingsNavigationChromeModifier(screenshotFocus: nil))
                 .toolbar {
                     ToolbarItem(placement: Self.doneToolbarPlacement) {
                         Button(GameLocalizedStrings.string("done")) {
@@ -837,16 +888,87 @@ public struct SettingsView: View {
         }
     }
     #endif
+
+    private func screenshotScrollTargetID(for focus: ScreenshotSettingsFocus) -> String {
+        switch focus {
+        case .accessibility:
+            ScreenshotCaptureIdentifiers.settingsAccessibilitySection
+        case .themeAndFont:
+            ScreenshotCaptureIdentifiers.settingsThemeSection
+        case .customize:
+            ScreenshotCaptureIdentifiers.settingsCustomizeSection
+        }
+    }
+
+    /// Keeps section headers visible below the inline navigation title during screenshot capture.
+    private static let screenshotSettingsScrollAnchor = UnitPoint(x: 0.5, y: 0.12)
 }
 
 #if os(iOS)
-private struct SettingsNavigationTitleStyle: ViewModifier {
+private struct SettingsNavigationChromeModifier: ViewModifier {
+    let screenshotFocus: ScreenshotSettingsFocus?
+
     func body(content: Content) -> some View {
-        content.navigationBarTitleDisplayMode(.inline)
+        if screenshotFocus != nil {
+            content
+                .navigationBarTitleDisplayMode(
+                    UIDevice.current.userInterfaceIdiom == .pad ? .large : .inline
+                )
+                .toolbarBackground(.visible, for: .navigationBar)
+                .toolbarBackground(Color(uiColor: .systemGroupedBackground), for: .navigationBar)
+        } else {
+            content.navigationBarTitleDisplayMode(.inline)
+        }
+    }
+}
+
+private struct SettingsScreenshotListChromeModifier: ViewModifier {
+    let screenshotFocus: ScreenshotSettingsFocus?
+
+    func body(content: Content) -> some View {
+        if screenshotFocus != nil {
+            content.scrollEdgeEffectStyle(.hard, for: .top)
+        } else {
+            content
+        }
     }
 }
 #else
-private struct SettingsNavigationTitleStyle: ViewModifier {
+private struct SettingsNavigationChromeModifier: ViewModifier {
+    let screenshotFocus: ScreenshotSettingsFocus?
+
+    func body(content: Content) -> some View {
+        content
+    }
+}
+
+private struct SettingsScreenshotListChromeModifier: ViewModifier {
+    let screenshotFocus: ScreenshotSettingsFocus?
+
+    func body(content: Content) -> some View {
+        content
+    }
+}
+#endif
+
+#if canImport(UIKit) && !os(watchOS) && !os(tvOS)
+private struct ScreenshotSettingsPresentationModifier: ViewModifier {
+    let isActive: Bool
+
+    func body(content: Content) -> some View {
+        if isActive {
+            content
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color(uiColor: .systemGroupedBackground).ignoresSafeArea())
+        } else {
+            content
+        }
+    }
+}
+#else
+private struct ScreenshotSettingsPresentationModifier: ViewModifier {
+    let isActive: Bool
+
     func body(content: Content) -> some View {
         content
     }

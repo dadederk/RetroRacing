@@ -1,0 +1,592 @@
+{
+  "schemaVersion": 1,
+  "appId": "6758641625",
+  "locales": [
+    "de-DE",
+    "nl-NL",
+    "it",
+    "fr-FR",
+    "ja",
+    "ko",
+    "pt-BR",
+    "zh-Hant"
+  ],
+  "leaderboards": [
+    {
+      "referenceName": "iPhone Cruise",
+      "vendorLeaderboardId": "bestios001cruise",
+      "platform": "iPhone",
+      "difficulty": "cruise",
+      "localizations": {
+        "de-DE": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "Überholung",
+          "formatterSuffix": "Überholungen"
+        },
+        "nl-NL": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "auto",
+          "formatterSuffix": "auto's"
+        },
+        "it": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "sorpasso",
+          "formatterSuffix": "sorpassi"
+        },
+        "fr-FR": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "dépassement",
+          "formatterSuffix": "dépassements"
+        },
+        "ja": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "追い抜き",
+          "formatterSuffix": "追い抜き"
+        },
+        "ko": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "추월",
+          "formatterSuffix": "추월"
+        },
+        "pt-BR": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "ultrapassagem",
+          "formatterSuffix": "ultrapassagens"
+        },
+        "zh-Hant": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "超車",
+          "formatterSuffix": "超車"
+        }
+      }
+    },
+    {
+      "referenceName": "iPhone Fast",
+      "vendorLeaderboardId": "bestios001fast",
+      "platform": "iPhone",
+      "difficulty": "fast",
+      "localizations": {
+        "de-DE": {
+          "name": "Fast",
+          "formatterSuffixSingular": "Überholung",
+          "formatterSuffix": "Überholungen"
+        },
+        "nl-NL": {
+          "name": "Fast",
+          "formatterSuffixSingular": "auto",
+          "formatterSuffix": "auto's"
+        },
+        "it": {
+          "name": "Fast",
+          "formatterSuffixSingular": "sorpasso",
+          "formatterSuffix": "sorpassi"
+        },
+        "fr-FR": {
+          "name": "Fast",
+          "formatterSuffixSingular": "dépassement",
+          "formatterSuffix": "dépassements"
+        },
+        "ja": {
+          "name": "ファスト",
+          "formatterSuffixSingular": "追い抜き",
+          "formatterSuffix": "追い抜き"
+        },
+        "ko": {
+          "name": "패스트",
+          "formatterSuffixSingular": "추월",
+          "formatterSuffix": "추월"
+        },
+        "pt-BR": {
+          "name": "Rápido",
+          "formatterSuffixSingular": "ultrapassagem",
+          "formatterSuffix": "ultrapassagens"
+        },
+        "zh-Hant": {
+          "name": "快速",
+          "formatterSuffixSingular": "超車",
+          "formatterSuffix": "超車"
+        }
+      }
+    },
+    {
+      "referenceName": "iPhone Rapid",
+      "vendorLeaderboardId": "bestios001test",
+      "platform": "iPhone",
+      "difficulty": "rapid",
+      "localizations": {
+        "de-DE": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "Überholung",
+          "formatterSuffix": "Überholungen"
+        },
+        "nl-NL": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "auto",
+          "formatterSuffix": "auto's"
+        },
+        "it": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "sorpasso",
+          "formatterSuffix": "sorpassi"
+        },
+        "fr-FR": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "dépassement",
+          "formatterSuffix": "dépassements"
+        },
+        "ja": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "追い抜き",
+          "formatterSuffix": "追い抜き"
+        },
+        "ko": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "추월",
+          "formatterSuffix": "추월"
+        },
+        "pt-BR": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "ultrapassagem",
+          "formatterSuffix": "ultrapassagens"
+        },
+        "zh-Hant": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "超車",
+          "formatterSuffix": "超車"
+        }
+      }
+    },
+    {
+      "referenceName": "iPad Cruise",
+      "vendorLeaderboardId": "bestipad001cruise",
+      "platform": "iPad",
+      "difficulty": "cruise",
+      "localizations": {
+        "de-DE": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "Überholung",
+          "formatterSuffix": "Überholungen"
+        },
+        "nl-NL": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "auto",
+          "formatterSuffix": "auto's"
+        },
+        "it": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "sorpasso",
+          "formatterSuffix": "sorpassi"
+        },
+        "fr-FR": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "dépassement",
+          "formatterSuffix": "dépassements"
+        },
+        "ja": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "追い抜き",
+          "formatterSuffix": "追い抜き"
+        },
+        "ko": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "추월",
+          "formatterSuffix": "추월"
+        },
+        "pt-BR": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "ultrapassagem",
+          "formatterSuffix": "ultrapassagens"
+        },
+        "zh-Hant": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "超車",
+          "formatterSuffix": "超車"
+        }
+      }
+    },
+    {
+      "referenceName": "iPad Fast",
+      "vendorLeaderboardId": "bestipad001fast",
+      "platform": "iPad",
+      "difficulty": "fast",
+      "localizations": {
+        "de-DE": {
+          "name": "Fast",
+          "formatterSuffixSingular": "Überholung",
+          "formatterSuffix": "Überholungen"
+        },
+        "nl-NL": {
+          "name": "Fast",
+          "formatterSuffixSingular": "auto",
+          "formatterSuffix": "auto's"
+        },
+        "it": {
+          "name": "Fast",
+          "formatterSuffixSingular": "sorpasso",
+          "formatterSuffix": "sorpassi"
+        },
+        "fr-FR": {
+          "name": "Fast",
+          "formatterSuffixSingular": "dépassement",
+          "formatterSuffix": "dépassements"
+        },
+        "ja": {
+          "name": "ファスト",
+          "formatterSuffixSingular": "追い抜き",
+          "formatterSuffix": "追い抜き"
+        },
+        "ko": {
+          "name": "패스트",
+          "formatterSuffixSingular": "추월",
+          "formatterSuffix": "추월"
+        },
+        "pt-BR": {
+          "name": "Rápido",
+          "formatterSuffixSingular": "ultrapassagem",
+          "formatterSuffix": "ultrapassagens"
+        },
+        "zh-Hant": {
+          "name": "快速",
+          "formatterSuffixSingular": "超車",
+          "formatterSuffix": "超車"
+        }
+      }
+    },
+    {
+      "referenceName": "iPad Rapid",
+      "vendorLeaderboardId": "bestipad001test",
+      "platform": "iPad",
+      "difficulty": "rapid",
+      "localizations": {
+        "de-DE": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "Überholung",
+          "formatterSuffix": "Überholungen"
+        },
+        "nl-NL": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "auto",
+          "formatterSuffix": "auto's"
+        },
+        "it": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "sorpasso",
+          "formatterSuffix": "sorpassi"
+        },
+        "fr-FR": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "dépassement",
+          "formatterSuffix": "dépassements"
+        },
+        "ja": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "追い抜き",
+          "formatterSuffix": "追い抜き"
+        },
+        "ko": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "추월",
+          "formatterSuffix": "추월"
+        },
+        "pt-BR": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "ultrapassagem",
+          "formatterSuffix": "ultrapassagens"
+        },
+        "zh-Hant": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "超車",
+          "formatterSuffix": "超車"
+        }
+      }
+    },
+    {
+      "referenceName": "macOS Cruise",
+      "vendorLeaderboardId": "bestmacos001cruise",
+      "platform": "macOS",
+      "difficulty": "cruise",
+      "localizations": {
+        "de-DE": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "Überholung",
+          "formatterSuffix": "Überholungen"
+        },
+        "nl-NL": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "auto",
+          "formatterSuffix": "auto's"
+        },
+        "it": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "sorpasso",
+          "formatterSuffix": "sorpassi"
+        },
+        "fr-FR": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "dépassement",
+          "formatterSuffix": "dépassements"
+        },
+        "ja": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "追い抜き",
+          "formatterSuffix": "追い抜き"
+        },
+        "ko": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "추월",
+          "formatterSuffix": "추월"
+        },
+        "pt-BR": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "ultrapassagem",
+          "formatterSuffix": "ultrapassagens"
+        },
+        "zh-Hant": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "超車",
+          "formatterSuffix": "超車"
+        }
+      }
+    },
+    {
+      "referenceName": "macOS Fast",
+      "vendorLeaderboardId": "bestmacos001fast",
+      "platform": "macOS",
+      "difficulty": "fast",
+      "localizations": {
+        "de-DE": {
+          "name": "Fast",
+          "formatterSuffixSingular": "Überholung",
+          "formatterSuffix": "Überholungen"
+        },
+        "nl-NL": {
+          "name": "Fast",
+          "formatterSuffixSingular": "auto",
+          "formatterSuffix": "auto's"
+        },
+        "it": {
+          "name": "Fast",
+          "formatterSuffixSingular": "sorpasso",
+          "formatterSuffix": "sorpassi"
+        },
+        "fr-FR": {
+          "name": "Fast",
+          "formatterSuffixSingular": "dépassement",
+          "formatterSuffix": "dépassements"
+        },
+        "ja": {
+          "name": "ファスト",
+          "formatterSuffixSingular": "追い抜き",
+          "formatterSuffix": "追い抜き"
+        },
+        "ko": {
+          "name": "패스트",
+          "formatterSuffixSingular": "추월",
+          "formatterSuffix": "추월"
+        },
+        "pt-BR": {
+          "name": "Rápido",
+          "formatterSuffixSingular": "ultrapassagem",
+          "formatterSuffix": "ultrapassagens"
+        },
+        "zh-Hant": {
+          "name": "快速",
+          "formatterSuffixSingular": "超車",
+          "formatterSuffix": "超車"
+        }
+      }
+    },
+    {
+      "referenceName": "macOS Rapid",
+      "vendorLeaderboardId": "bestmacos001test",
+      "platform": "macOS",
+      "difficulty": "rapid",
+      "localizations": {
+        "de-DE": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "Überholung",
+          "formatterSuffix": "Überholungen"
+        },
+        "nl-NL": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "auto",
+          "formatterSuffix": "auto's"
+        },
+        "it": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "sorpasso",
+          "formatterSuffix": "sorpassi"
+        },
+        "fr-FR": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "dépassement",
+          "formatterSuffix": "dépassements"
+        },
+        "ja": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "追い抜き",
+          "formatterSuffix": "追い抜き"
+        },
+        "ko": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "추월",
+          "formatterSuffix": "추월"
+        },
+        "pt-BR": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "ultrapassagem",
+          "formatterSuffix": "ultrapassagens"
+        },
+        "zh-Hant": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "超車",
+          "formatterSuffix": "超車"
+        }
+      }
+    },
+    {
+      "referenceName": "watchOS Cruise",
+      "vendorLeaderboardId": "bestwatchos001cruise",
+      "platform": "watchOS",
+      "difficulty": "cruise",
+      "localizations": {
+        "de-DE": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "Überholung",
+          "formatterSuffix": "Überholungen"
+        },
+        "nl-NL": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "auto",
+          "formatterSuffix": "auto's"
+        },
+        "it": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "sorpasso",
+          "formatterSuffix": "sorpassi"
+        },
+        "fr-FR": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "dépassement",
+          "formatterSuffix": "dépassements"
+        },
+        "ja": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "追い抜き",
+          "formatterSuffix": "追い抜き"
+        },
+        "ko": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "추월",
+          "formatterSuffix": "추월"
+        },
+        "pt-BR": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "ultrapassagem",
+          "formatterSuffix": "ultrapassagens"
+        },
+        "zh-Hant": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "超車",
+          "formatterSuffix": "超車"
+        }
+      }
+    },
+    {
+      "referenceName": "watchOS Fast",
+      "vendorLeaderboardId": "bestwatchos001fast",
+      "platform": "watchOS",
+      "difficulty": "fast",
+      "localizations": {
+        "de-DE": {
+          "name": "Fast",
+          "formatterSuffixSingular": "Überholung",
+          "formatterSuffix": "Überholungen"
+        },
+        "nl-NL": {
+          "name": "Fast",
+          "formatterSuffixSingular": "auto",
+          "formatterSuffix": "auto's"
+        },
+        "it": {
+          "name": "Fast",
+          "formatterSuffixSingular": "sorpasso",
+          "formatterSuffix": "sorpassi"
+        },
+        "fr-FR": {
+          "name": "Fast",
+          "formatterSuffixSingular": "dépassement",
+          "formatterSuffix": "dépassements"
+        },
+        "ja": {
+          "name": "ファスト",
+          "formatterSuffixSingular": "追い抜き",
+          "formatterSuffix": "追い抜き"
+        },
+        "ko": {
+          "name": "패스트",
+          "formatterSuffixSingular": "추월",
+          "formatterSuffix": "추월"
+        },
+        "pt-BR": {
+          "name": "Rápido",
+          "formatterSuffixSingular": "ultrapassagem",
+          "formatterSuffix": "ultrapassagens"
+        },
+        "zh-Hant": {
+          "name": "快速",
+          "formatterSuffixSingular": "超車",
+          "formatterSuffix": "超車"
+        }
+      }
+    },
+    {
+      "referenceName": "watchOS Rapid",
+      "vendorLeaderboardId": "bestwatchos001test",
+      "platform": "watchOS",
+      "difficulty": "rapid",
+      "localizations": {
+        "de-DE": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "Überholung",
+          "formatterSuffix": "Überholungen"
+        },
+        "nl-NL": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "auto",
+          "formatterSuffix": "auto's"
+        },
+        "it": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "sorpasso",
+          "formatterSuffix": "sorpassi"
+        },
+        "fr-FR": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "dépassement",
+          "formatterSuffix": "dépassements"
+        },
+        "ja": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "追い抜き",
+          "formatterSuffix": "追い抜き"
+        },
+        "ko": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "추월",
+          "formatterSuffix": "추월"
+        },
+        "pt-BR": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "ultrapassagem",
+          "formatterSuffix": "ultrapassagens"
+        },
+        "zh-Hant": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "超車",
+          "formatterSuffix": "超車"
+        }
+      }
+    }
+  ]
+}

@@ -7,9 +7,15 @@
 
 import SwiftUI
 
-struct AchievementUnlockView: View {
-    let achievementID: AchievementIdentifier
-    let onDone: () -> Void
+/// Shared achievement unlock modal shown across platforms.
+public struct AchievementUnlockView: View {
+    public let achievementID: AchievementIdentifier
+    public let onDone: () -> Void
+
+    public init(achievementID: AchievementIdentifier, onDone: @escaping () -> Void) {
+        self.achievementID = achievementID
+        self.onDone = onDone
+    }
 
     @Environment(\.fontPreferenceStore) var fontPreferenceStore
     @Environment(\.colorScheme) var colorScheme
@@ -36,7 +42,7 @@ struct AchievementUnlockView: View {
     }
     #endif
 
-    var body: some View {
+    public var body: some View {
         NavigationStack {
             ScrollView {
                 achievementMainContent

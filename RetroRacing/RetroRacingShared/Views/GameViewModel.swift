@@ -42,6 +42,8 @@ final class GameViewModel {
     var runBaselineBestScore: Int = 0
     var overtakenFriendPlayerIDs = Set<String>()
     var currentUpcomingFriendMilestone: UpcomingFriendMilestone?
+    /// When true, fixture milestones from screenshot capture must not be cleared by async Game Center refresh.
+    var isScreenshotCapturePinned = false
     var pendingFriendOvertakeAnnouncement: String?
     var debugForcedAchievementIdentifier: AchievementIdentifier?
     var debugShowsSpriteKitFrameStats = false

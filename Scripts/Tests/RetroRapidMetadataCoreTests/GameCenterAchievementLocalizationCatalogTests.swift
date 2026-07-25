@@ -18,8 +18,9 @@ func givenEUCatalogWhenLoadedThenTwentyTwoAchievementsAcrossFourLocalesExist() t
     let catalog = try GameCenterAchievementLocalizationCatalog.load(from: catalogURL)
 
     #expect(catalog.achievements.count == 22)
-    #expect(catalog.locales == ["de-DE", "nl-NL", "it", "fr-FR"])
+    #expect(catalog.locales == ["de-DE", "nl-NL", "it", "fr-FR", "ja", "ko", "pt-BR", "zh-Hant"])
     #expect(catalog.renderedChecklist().contains("Serie 100"))
+    #expect(catalog.renderedChecklist().contains("apply-game-center-eu-localizations"))
 }
 
 @Test

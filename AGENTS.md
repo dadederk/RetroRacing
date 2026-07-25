@@ -104,11 +104,14 @@ Do not treat tvOS or visionOS as equal shipping promises in metadata, screenshot
 ## Validation
 
 ```bash
-swift test --package-path Scripts
-swift run --package-path Scripts run-tests
+./retrorapid test package
+./retrorapid check
+./retrorapid test
 ```
 
-Documentation checks: `swift run --package-path Scripts check-documentation`
+Documentation checks: `./retrorapid docs` or `swift run --package-path Scripts check-documentation`
+
+Direct invocation: `swift test --package-path Scripts` and `swift run --package-path Scripts run-tests`
 
 ## Brand Mark
 

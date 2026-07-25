@@ -73,6 +73,8 @@ public class GameScene: SKScene {
     private var crashResolutionFallbackTask: Task<Void, Never>?
     private var isWaitingForCrashResolution = false
     private var isOverlayPauseLocked = false
+    /// When true, crash sprites render fully opaque without the gameplay blink animation.
+    var rendersStaticCrashForScreenshot = false
     private var showsDebugFrameStats = false
     #if !os(watchOS)
     private weak var hostingView: SKView?
@@ -715,6 +717,61 @@ public class GameScene: SKScene {
 
     private func cueColumn(for column: Int) -> CueColumn? {
         CueColumn(rawValue: column)
+    }
+
+    public func applyScreenshotLayout(_ layout: GameScreenshotLayout) {
+        prepareGridForScreenshotLayout(expectedState: layout.gridState)
+        gridState = layout.gridState
+        safetyMarkerRows = layout.safetyMarkerRows
+        gameState.score = layout.score
+        gameState.lives = layout.lives
+        lastPlayerColumn = gridState.playerRow().firstIndex(of: .Player) ?? 1
+        setUpcomingFriendMilestones(layout.upcomingMilestones)
+        rendersStaticCrashForScreenshot = layout.gridState.hasCrashed
+        gridStateDidUpdate(
+            gridState,
+            shouldPlayFeedback: false,
+            notifyDelegate: false
+        )
+        if rendersStaticCrashForScreenshot {
+            solidifyCrashSpritesForScreenshotCapture()
+        }
+        setOverlayPauseLock(true)
+        pauseGameplay()
+    }
+
+    public var isReadyToApplyScreenshotLayout: Bool {
+        guard hasConfiguredScene else { return false }
+        guard size.width > 1, size.height > 1 else { return false }
+        #if os(watchOS)
+        return childNode(withName: nameForCell(column: 0, row: 0)) != nil
+        #else
+        return hostingView != nil
+            && childNode(withName: nameForCell(column: 0, row: 0)) != nil
+        #endif
+    }
+
+    private func prepareGridForScreenshotLayout(expectedState: GridState) {
+        let gridCellExists = childNode(withName: nameForCell(column: 0, row: 0)) != nil
+        let dimensionsMatch = gridState.numberOfRows == expectedState.numberOfRows
+            && gridState.numberOfColumns == expectedState.numberOfColumns
+
+        if hasConfiguredScene, gridCellExists, dimensionsMatch {
+            return
+        }
+
+        removeAllChildren()
+        spritesForGivenState.removeAll()
+        lineOverlayNodes.removeAll()
+        friendMilestoneOverlayNodes.removeAll()
+
+        hasConfiguredScene = true
+        lastConfiguredSize = size
+        anchorPoint = CGPoint(x: 0, y: 0)
+        scaleMode = .aspectFit
+        backgroundColor = gameBackgroundColor
+        gridState = expectedState
+        createGrid()
     }
 }
 

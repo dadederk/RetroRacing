@@ -18,11 +18,17 @@ import CoreHaptics
 import GroupActivities
 #endif
 import GameController
+#if os(macOS)
+import AppKit
+#endif
 
 /// App entry point assembling shared services and presenting the universal menu scene.
 @main
 struct RetroRacingApp: App {
     @Environment(\.scenePhase) private var scenePhase
+    #if os(macOS)
+    @NSApplicationDelegateAdaptor(MacScreenshotCaptureAppDelegate.self) private var macAppDelegate
+    #endif
 
     private let leaderboardConfiguration: LeaderboardConfiguration
     #if canImport(UIKit)
@@ -70,6 +76,16 @@ struct RetroRacingApp: App {
     @State private var sharePlayUIState: SharePlayUIState = .idle
 
     init() {
+        ScreenshotCaptureLocaleCatalog.applyCaptureLocaleFromLaunchArgumentsIfNeeded()
+        #if os(macOS)
+        if ScreenshotCaptureConfiguration.isCaptureModeEnabled {
+            NSApplication.shared.setActivationPolicy(.regular)
+        }
+        ScreenshotCaptureLaunchDiagnostics.writeAppLaunchSnapshot(
+            stagingDirectory: ScreenshotCaptureConfiguration.current?.stagingDirectory
+        )
+        #endif
+        ScreenshotCaptureAppearance.applySystemInterfaceStyleIfNeeded()
         AppBootstrap.configureAudioSession()
         AppBootstrap.configureGameCenterAccessPoint()
         let customFontAvailable = AppBootstrap.registerCustomFont()
@@ -265,72 +281,121 @@ struct RetroRacingApp: App {
     }
 
     var body: some Scene {
-        WindowGroup {
-            NavigationStack {
-                rootView
-                    .environment(storeKitService)
-                    .achievementMetadataService(achievementMetadataService)
-                    .sharePlayMatchService(sharePlayMatchService)
-                    .task {
-                        await storeKitService.loadProducts()
-                        await bestScoreSyncService.syncIfPossible()
-                        await watchRelayIngestionService?.flushPendingIfPossible(trigger: .appLifecycle)
-                    }
-                    .task {
-                        await sharePlayMatchService.setStateChangeHandler { state in
-                            Task { @MainActor in
-                                let role = await sharePlayMatchService.currentRole()
-                                let opponentName = await sharePlayMatchService.currentOpponentDisplayName()
-                                handleSharePlayStateChanged(
-                                    SharePlayUIState(
-                                        state: state,
-                                        localRole: role,
-                                        opponentDisplayName: opponentName
-                                    )
-                                )
-                            }
-                        }
-                        await sharePlayMatchService.observeIncomingSessions()
-                    }
-                    .onContinueUserActivity(NSUserActivityTypeBrowsingWeb) { userActivity in
-                        guard let url = userActivity.webpageURL else { return }
-                        handleUniversalLink(url, source: "SwiftUI.onContinueUserActivity")
-                    }
-                    .onOpenURL { url in
-                        handleUniversalLink(url, source: "SwiftUI.onOpenURL")
-                    }
-                    .onReceive(NotificationCenter.default.publisher(for: .GKPlayerAuthenticationDidChangeNotificationName)) { _ in
-                        Task {
-                            await bestScoreSyncService.syncIfPossible()
-                            await watchRelayIngestionService?.flushPendingIfPossible(trigger: .gameCenterAuthChanged)
-                            achievementProgressService.replayAchievedAchievements()
-                            gameCenterService.flushPendingScoresIfPossible()
-                            await achievementMetadataService.invalidate()
-                        }
-                    }
-                    .onChange(of: scenePhase) { _, newValue in
-                        guard newValue == .active else { return }
-                        Task {
-                            await watchRelayIngestionService?.flushPendingIfPossible(trigger: .appLifecycle)
-                        }
-                    }
-            }
-        }
         #if os(macOS)
-        .commands {
-            CommandGroup(replacing: .appSettings) {
-                Button(GameLocalizedStrings.string("settings")) {
-                    handleSettingsRequest()
+        appWindowGroup
+            .commands {
+                CommandGroup(replacing: .appSettings) {
+                    Button(GameLocalizedStrings.string("settings")) {
+                        handleSettingsRequest()
+                    }
+                    .keyboardShortcut(",", modifiers: .command)
                 }
-                .keyboardShortcut(",", modifiers: .command)
             }
-        }
+        #else
+        appWindowGroup
         #endif
     }
 
-    /// Platform-aware root content that composes the shared game view and menu presentation.
+    private var appWindowGroup: some Scene {
+        WindowGroup {
+            appRootContainer
+            .transaction { transaction in
+                if ScreenshotCaptureConfiguration.current != nil {
+                    transaction.disablesAnimations = true
+                }
+            }
+        }
+        #if os(macOS)
+        .defaultSize(ScreenshotCaptureWindowConfiguration.macLandscapeContentSize)
+        .defaultLaunchBehavior(
+            ScreenshotCaptureConfiguration.isCaptureModeEnabled ? .presented : .automatic
+        )
+        #endif
+    }
+
+    private var resolvedAchievementMetadataService: any AchievementMetadataService {
+        if ScreenshotCaptureConfiguration.isCaptureModeEnabled {
+            // Use ASC-aligned local strings during capture; live Game Center metadata is often English.
+            return NoOpAchievementMetadataService()
+        }
+        return achievementMetadataService
+    }
+
+    @ViewBuilder
+    private var appRootContainer: some View {
+        let configuredRoot = rootView
+            .environment(storeKitService)
+            .achievementMetadataService(resolvedAchievementMetadataService)
+            .sharePlayMatchService(sharePlayMatchService)
+            .task {
+                await storeKitService.loadProducts()
+                await bestScoreSyncService.syncIfPossible()
+                await watchRelayIngestionService?.flushPendingIfPossible(trigger: .appLifecycle)
+            }
+            .task {
+                await sharePlayMatchService.setStateChangeHandler { state in
+                    Task { @MainActor in
+                        let role = await sharePlayMatchService.currentRole()
+                        let opponentName = await sharePlayMatchService.currentOpponentDisplayName()
+                        handleSharePlayStateChanged(
+                            SharePlayUIState(
+                                state: state,
+                                localRole: role,
+                                opponentDisplayName: opponentName
+                            )
+                        )
+                    }
+                }
+                await sharePlayMatchService.observeIncomingSessions()
+            }
+            .onContinueUserActivity(NSUserActivityTypeBrowsingWeb) { userActivity in
+                guard let url = userActivity.webpageURL else { return }
+                handleUniversalLink(url, source: "SwiftUI.onContinueUserActivity")
+            }
+            .onOpenURL { url in
+                handleUniversalLink(url, source: "SwiftUI.onOpenURL")
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .GKPlayerAuthenticationDidChangeNotificationName)) { _ in
+                Task {
+                    await bestScoreSyncService.syncIfPossible()
+                    await watchRelayIngestionService?.flushPendingIfPossible(trigger: .gameCenterAuthChanged)
+                    achievementProgressService.replayAchievedAchievements()
+                    gameCenterService.flushPendingScoresIfPossible()
+                    await achievementMetadataService.invalidate()
+                }
+            }
+            .onChange(of: scenePhase) { _, newValue in
+                guard newValue == .active else { return }
+                #if os(macOS)
+                if ScreenshotCaptureConfiguration.current != nil {
+                    ScreenshotCaptureMacWindowLayout.applyLandscapeCaptureSize()
+                }
+                #endif
+                Task {
+                    await watchRelayIngestionService?.flushPendingIfPossible(trigger: .appLifecycle)
+                }
+            }
+
+        if ScreenshotCaptureConfiguration.current != nil {
+            configuredRoot
+        } else {
+            NavigationStack {
+                configuredRoot
+            }
+        }
+    }
+
     @ViewBuilder
     private var rootView: some View {
+        if let screenshotConfiguration = ScreenshotCaptureConfiguration.current {
+            screenshotCaptureView(for: screenshotConfiguration)
+        } else {
+            normalRootView
+        }
+    }
+
+    @ViewBuilder
+    private var normalRootView: some View {
         #if os(iOS) || os(tvOS)
         gameView
             .navigationBarTitleDisplayMode(.inline)
@@ -353,6 +418,34 @@ struct RetroRacingApp: App {
             .animation(nil, value: isMenuPresented)
             .animation(nil, value: isSettingsPresented)
         #endif
+    }
+
+    private func screenshotCaptureView(for configuration: ScreenshotCaptureConfiguration) -> some View {
+        ScreenshotCaptureRootView(
+            configuration: configuration,
+            dependencies: ScreenshotCaptureDependencies(
+                leaderboardService: gameCenterService,
+                gameCenterService: gameCenterService,
+                leaderboardConfiguration: leaderboardConfiguration,
+                authenticationPresenter: authenticationPresenter,
+                ratingService: ratingService,
+                themeManager: themeManager,
+                fontPreferenceStore: fontPreferenceStore,
+                screenshotFontPreferenceStore: makeScreenshotFontPreferenceStore(),
+                hapticController: hapticController,
+                supportsHapticFeedback: supportsHapticFeedback,
+                highestScoreStore: highestScoreStore,
+                achievementProgressService: achievementProgressService,
+                playLimitService: playLimitService,
+                specialEventService: specialEventService,
+                sharePlayMatchService: sharePlayMatchService,
+                controllerInputSource: controllerInputSource,
+                controlsDescriptionKey: controlsDescriptionKey,
+                settingsPreviewDependencies: settingsPreviewDependencyFactory.make(
+                    hapticController: hapticController
+                )
+            )
+        )
     }
 
     /// Shared game view used across platforms.
@@ -486,6 +579,7 @@ struct RetroRacingApp: App {
                 specialEventService: specialEventService
             )
             .fontPreferenceStore(fontPreferenceStore)
+            .settingsSheetStyle()
     }
     #endif
 
@@ -654,5 +748,17 @@ struct RetroRacingApp: App {
                 SoundEffectsVolumePreference.currentSelection(from: InfrastructureDefaults.userDefaults)
             }
         )
+    }
+
+    /// Isolated font store for screenshot capture so game-over and settings slides always use Press Start when bundled.
+    private func makeScreenshotFontPreferenceStore() -> FontPreferenceStore {
+        let store = FontPreferenceStore(
+            userDefaults: UserDefaults(suiteName: "com.accessibilityUpTo11.RetroRacing.screenshot-font") ?? .standard,
+            customFontAvailable: fontPreferenceStore.isCustomFontAvailable
+        )
+        if store.isCustomFontAvailable {
+            store.currentStyle = .custom
+        }
+        return store
     }
 }

@@ -48,6 +48,9 @@ public struct GameView: View {
     public let controlsDescriptionKey: String
     private let shouldStartGame: Bool
     private let showMenuButton: Bool
+    let screenshotLayout: GameScreenshotLayout?
+    let screenshotReadinessIdentifier: String?
+    let onScreenshotLayoutReady: (() -> Void)?
     private let onFinishRequest: (() -> Void)?
     private let onMenuRequest: (() -> Void)?
     private let onPlayRequest: (() -> Void)?
@@ -69,7 +72,7 @@ public struct GameView: View {
     private var debugForcedAchievementIdentifierRawValue: String = DebugGameplayStorageKeys.noForcedAchievementIdentifier
     @AppStorage(DebugGameplayStorageKeys.showSpriteKitFrameStats)
     private var debugShowSpriteKitFrameStats: Bool = false
-    @State private var model: GameViewModel
+    @State var model: GameViewModel
     @ScaledMetric(relativeTo: .largeTitle) private var directionButtonHeight: CGFloat = 120
     @Environment(\.dismiss) private var dismiss
     @Environment(StoreKitService.self) private var storeKit
@@ -79,6 +82,10 @@ public struct GameView: View {
     @State private var helpPresentationContext: HelpPresentationContext?
     @State private var isSharePlayRetryRequestPending = false
     @State private var optimisticSharePlayRetryDeadline: Date?
+    @State var measuredGameSide: CGFloat = 0
+    @State var isScreenshotCaptureReady = false
+    @State var screenshotReadinessTask: Task<Void, Never>?
+    @State private var lastScreenshotCaptureEffectiveSide: CGFloat = 0
 
     private enum HelpPresentationContext {
         case manual(snapshot: GameViewModel.HelpPauseSnapshot)
@@ -104,6 +111,9 @@ public struct GameView: View {
         controlsDescriptionKey: String,
         shouldStartGame: Bool = true,
         showMenuButton: Bool = false,
+        screenshotLayout: GameScreenshotLayout? = nil,
+        screenshotReadinessIdentifier: String? = nil,
+        onScreenshotLayoutReady: (() -> Void)? = nil,
         onFinishRequest: (() -> Void)? = nil,
         onMenuRequest: (() -> Void)? = nil,
         onPlayRequest: (() -> Void)? = nil,
@@ -127,6 +137,9 @@ public struct GameView: View {
         self.controlsDescriptionKey = controlsDescriptionKey
         self.shouldStartGame = shouldStartGame
         self.showMenuButton = showMenuButton
+        self.screenshotLayout = screenshotLayout
+        self.screenshotReadinessIdentifier = screenshotReadinessIdentifier
+        self.onScreenshotLayoutReady = onScreenshotLayoutReady
         self.onFinishRequest = onFinishRequest
         self.onMenuRequest = onMenuRequest
         self.onPlayRequest = onPlayRequest
@@ -143,8 +156,12 @@ public struct GameView: View {
         let selectedDifficulty = GameDifficulty.currentSelection(from: InfrastructureDefaults.userDefaults)
         let selectedAudioFeedbackMode = AudioFeedbackMode.currentSelection(from: InfrastructureDefaults.userDefaults)
         let selectedLaneMoveCueStyle = LaneMoveCueStyle.currentSelection(from: InfrastructureDefaults.userDefaults)
-        let selectedBigRivalCarsEnabled = BigCarsPreference.currentSelection(from: InfrastructureDefaults.userDefaults)
-        let selectedRoadVisualStyle = RoadVisualStyle.currentSelection(from: InfrastructureDefaults.userDefaults)
+        let selectedBigRivalCarsEnabled = screenshotLayout == nil
+            ? BigCarsPreference.currentSelection(from: InfrastructureDefaults.userDefaults)
+            : ScreenshotCapturePreferences.gameplayBigCarsEnabled
+        let selectedRoadVisualStyle = screenshotLayout == nil
+            ? RoadVisualStyle.currentSelection(from: InfrastructureDefaults.userDefaults)
+            : ScreenshotCapturePreferences.gameplayRoadVisualStyle
         _model = State(initialValue: GameViewModel(
             leaderboardService: leaderboardService,
             ratingService: ratingService,
@@ -309,16 +326,39 @@ public struct GameView: View {
                     onSwipeInput: { model.recordControlInput(.swipe) },
                     onTogglePause: model.togglePause,
                     onAppearSide: { side in
+                        if side > 0 {
+                            measuredGameSide = side
+                        }
+                        let effectiveSide = effectiveScreenshotCaptureSide(from: side)
+                        if screenshotLayout != nil, effectiveSide > 0 {
+                            lastScreenshotCaptureEffectiveSide = effectiveSide
+                        }
                         AppLog.info(
                             AppLog.lifecycle + AppLog.game,
                             "GAME_LAYOUT_APPEAR",
                             outcome: .completed,
-                            fields: [.double("side", side)]
+                            fields: [.double("side", side), .double("effectiveSide", effectiveSide)]
                         )
-                        model.setupSceneIfNeeded(side: side, volume: selectedSoundEffectsVolume)
+                        model.setupSceneIfNeeded(side: effectiveSide, volume: selectedSoundEffectsVolume)
+                        markScreenshotCaptureReadyIfNeeded()
                     },
                     onResizeSide: { side in
-                        model.updateSceneSizeIfNeeded(side: side)
+                        guard side > 0 else { return }
+                        measuredGameSide = side
+                        let effectiveSide = effectiveScreenshotCaptureSide(from: side)
+                        if screenshotLayout != nil {
+                            if abs(effectiveSide - lastScreenshotCaptureEffectiveSide) > 1 {
+                                lastScreenshotCaptureEffectiveSide = effectiveSide
+                                resetScreenshotCaptureReadiness()
+                            }
+                        } else {
+                            lastScreenshotCaptureEffectiveSide = 0
+                        }
+                        model.updateSceneSizeIfNeeded(side: effectiveSide)
+                        if effectiveSide > 0 {
+                            model.setupSceneIfNeeded(side: effectiveSide, volume: selectedSoundEffectsVolume)
+                            markScreenshotCaptureReadyIfNeeded()
+                        }
                     },
                     gameArea: { _ in
                         gameAreaContent
@@ -332,6 +372,19 @@ public struct GameView: View {
                     isAccessibilityEnabled: !isPausedGridExplorationMode,
                     isDirectTouchEnabled: selectedDirectTouchEnabled
                 )
+
+                screenshotCaptureReadinessOverlay
+            }
+        }
+        .task {
+            guard screenshotLayout != nil else { return }
+            markScreenshotCaptureReadyIfNeeded()
+            for _ in 0..<225 {
+                if isScreenshotCaptureReady { return }
+                if screenshotReadinessTask == nil {
+                    markScreenshotCaptureReadyIfNeeded()
+                }
+                try? await Task.sleep(for: .milliseconds(200))
             }
         }
         #if os(tvOS)
@@ -574,10 +627,16 @@ public struct GameView: View {
     }
 
     private var selectedBigRivalCarsEnabled: Bool {
-        BigCarsPreference.currentSelection(from: InfrastructureDefaults.userDefaults)
+        guard screenshotLayout == nil else {
+            return ScreenshotCapturePreferences.gameplayBigCarsEnabled
+        }
+        return BigCarsPreference.currentSelection(from: InfrastructureDefaults.userDefaults)
     }
 
     private var selectedRoadVisualStyle: RoadVisualStyle {
+        guard screenshotLayout == nil else {
+            return ScreenshotCapturePreferences.gameplayRoadVisualStyle
+        }
         _ = roadVisualStyleRawValue
         return RoadVisualStyle.currentSelection(from: InfrastructureDefaults.userDefaults)
     }
@@ -836,7 +895,7 @@ public struct GameView: View {
         self.helpPresentationContext = nil
     }
 
-    private var selectedSoundEffectsVolume: Double {
+    var selectedSoundEffectsVolume: Double {
         SoundEffectsVolumePreference.currentSelection(from: InfrastructureDefaults.userDefaults)
     }
 

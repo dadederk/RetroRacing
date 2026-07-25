@@ -5,7 +5,11 @@
     "de-DE",
     "nl-NL",
     "it",
-    "fr-FR"
+    "fr-FR",
+    "ja",
+    "ko",
+    "pt-BR",
+    "zh-Hant"
   ],
   "achievements": [
     {
@@ -31,6 +35,26 @@
           "name": "Série 100",
           "earnedDescription": "Tu as dépassé 100 voitures en une partie.",
           "preEarnedDescription": "Dépasse 100 voitures en une partie."
+        },
+        "ja": {
+          "name": "ストリーク 100",
+          "earnedDescription": "1ランで100台追い抜きました。",
+          "preEarnedDescription": "1ランで100台追い抜こう。"
+        },
+        "ko": {
+          "name": "연속 100",
+          "earnedDescription": "한 판에서 100대를 추월했어요.",
+          "preEarnedDescription": "한 판에서 100대를 추월하세요."
+        },
+        "pt-BR": {
+          "name": "Sequência 100",
+          "earnedDescription": "Você ultrapassou 100 carros em uma corrida.",
+          "preEarnedDescription": "Ultrapasse 100 carros em uma corrida."
+        },
+        "zh-Hant": {
+          "name": "連勝 100",
+          "earnedDescription": "你在一局中超車 100 輛。",
+          "preEarnedDescription": "在一局中超車 100 輛。"
         }
       }
     },
@@ -57,6 +81,26 @@
           "name": "Série 200",
           "earnedDescription": "Tu as dépassé 200 voitures en une partie.",
           "preEarnedDescription": "Dépasse 200 voitures en une partie."
+        },
+        "ja": {
+          "name": "ストリーク 200",
+          "earnedDescription": "1ランで200台追い抜きました。",
+          "preEarnedDescription": "1ランで200台追い抜こう。"
+        },
+        "ko": {
+          "name": "연속 200",
+          "earnedDescription": "한 판에서 200대를 추월했어요.",
+          "preEarnedDescription": "한 판에서 200대를 추월하세요."
+        },
+        "pt-BR": {
+          "name": "Sequência 200",
+          "earnedDescription": "Você ultrapassou 200 carros em uma corrida.",
+          "preEarnedDescription": "Ultrapasse 200 carros em uma corrida."
+        },
+        "zh-Hant": {
+          "name": "連勝 200",
+          "earnedDescription": "你在一局中超車 200 輛。",
+          "preEarnedDescription": "在一局中超車 200 輛。"
         }
       }
     },
@@ -83,6 +127,26 @@
           "name": "Série 300",
           "earnedDescription": "Tu as dépassé 300 voitures en une partie.",
           "preEarnedDescription": "Dépasse 300 voitures en une partie."
+        },
+        "ja": {
+          "name": "ストリーク 300",
+          "earnedDescription": "1ランで300台追い抜きました。",
+          "preEarnedDescription": "1ランで300台追い抜こう。"
+        },
+        "ko": {
+          "name": "연속 300",
+          "earnedDescription": "한 판에서 300대를 추월했어요.",
+          "preEarnedDescription": "한 판에서 300대를 추월하세요."
+        },
+        "pt-BR": {
+          "name": "Sequência 300",
+          "earnedDescription": "Você ultrapassou 300 carros em uma corrida.",
+          "preEarnedDescription": "Ultrapasse 300 carros em uma corrida."
+        },
+        "zh-Hant": {
+          "name": "連勝 300",
+          "earnedDescription": "你在一局中超車 300 輛。",
+          "preEarnedDescription": "在一局中超車 300 輛。"
         }
       }
     },
@@ -109,6 +173,26 @@
           "name": "Série 400",
           "earnedDescription": "Tu as dépassé 400 voitures en une partie.",
           "preEarnedDescription": "Dépasse 400 voitures en une partie."
+        },
+        "ja": {
+          "name": "ストリーク 400",
+          "earnedDescription": "1ランで400台追い抜きました。",
+          "preEarnedDescription": "1ランで400台追い抜こう。"
+        },
+        "ko": {
+          "name": "연속 400",
+          "earnedDescription": "한 판에서 400대를 추월했어요.",
+          "preEarnedDescription": "한 판에서 400대를 추월하세요."
+        },
+        "pt-BR": {
+          "name": "Sequência 400",
+          "earnedDescription": "Você ultrapassou 400 carros em uma corrida.",
+          "preEarnedDescription": "Ultrapasse 400 carros em uma corrida."
+        },
+        "zh-Hant": {
+          "name": "連勝 400",
+          "earnedDescription": "你在一局中超車 400 輛。",
+          "preEarnedDescription": "在一局中超車 400 輛。"
         }
       }
     },
@@ -135,6 +219,26 @@
           "name": "Série 500",
           "earnedDescription": "Tu as dépassé 500 voitures en une partie.",
           "preEarnedDescription": "Dépasse 500 voitures en une partie."
+        },
+        "ja": {
+          "name": "ストリーク 500",
+          "earnedDescription": "1ランで500台追い抜きました。",
+          "preEarnedDescription": "1ランで500台追い抜こう。"
+        },
+        "ko": {
+          "name": "연속 500",
+          "earnedDescription": "한 판에서 500대를 추월했어요.",
+          "preEarnedDescription": "한 판에서 500대를 추월하세요."
+        },
+        "pt-BR": {
+          "name": "Sequência 500",
+          "earnedDescription": "Você ultrapassou 500 carros em uma corrida.",
+          "preEarnedDescription": "Ultrapasse 500 carros em uma corrida."
+        },
+        "zh-Hant": {
+          "name": "連勝 500",
+          "earnedDescription": "你在一局中超車 500 輛。",
+          "preEarnedDescription": "在一局中超車 500 輛。"
         }
       }
     },
@@ -161,6 +265,26 @@
           "name": "Série 600",
           "earnedDescription": "Tu as dépassé 600 voitures en une partie.",
           "preEarnedDescription": "Dépasse 600 voitures en une partie."
+        },
+        "ja": {
+          "name": "ストリーク 600",
+          "earnedDescription": "1ランで600台追い抜きました。",
+          "preEarnedDescription": "1ランで600台追い抜こう。"
+        },
+        "ko": {
+          "name": "연속 600",
+          "earnedDescription": "한 판에서 600대를 추월했어요.",
+          "preEarnedDescription": "한 판에서 600대를 추월하세요."
+        },
+        "pt-BR": {
+          "name": "Sequência 600",
+          "earnedDescription": "Você ultrapassou 600 carros em uma corrida.",
+          "preEarnedDescription": "Ultrapasse 600 carros em uma corrida."
+        },
+        "zh-Hant": {
+          "name": "連勝 600",
+          "earnedDescription": "你在一局中超車 600 輛。",
+          "preEarnedDescription": "在一局中超車 600 輛。"
         }
       }
     },
@@ -187,6 +311,26 @@
           "name": "Série 700",
           "earnedDescription": "Tu as dépassé 700 voitures en une partie.",
           "preEarnedDescription": "Dépasse 700 voitures en une partie."
+        },
+        "ja": {
+          "name": "ストリーク 700",
+          "earnedDescription": "1ランで700台追い抜きました。",
+          "preEarnedDescription": "1ランで700台追い抜こう。"
+        },
+        "ko": {
+          "name": "연속 700",
+          "earnedDescription": "한 판에서 700대를 추월했어요.",
+          "preEarnedDescription": "한 판에서 700대를 추월하세요."
+        },
+        "pt-BR": {
+          "name": "Sequência 700",
+          "earnedDescription": "Você ultrapassou 700 carros em uma corrida.",
+          "preEarnedDescription": "Ultrapasse 700 carros em uma corrida."
+        },
+        "zh-Hant": {
+          "name": "連勝 700",
+          "earnedDescription": "你在一局中超車 700 輛。",
+          "preEarnedDescription": "在一局中超車 700 輛。"
         }
       }
     },
@@ -213,6 +357,26 @@
           "name": "Série 800",
           "earnedDescription": "Tu as dépassé 800 voitures en une partie.",
           "preEarnedDescription": "Dépasse 800 voitures en une partie."
+        },
+        "ja": {
+          "name": "ストリーク 800",
+          "earnedDescription": "1ランで800台追い抜きました。",
+          "preEarnedDescription": "1ランで800台追い抜こう。"
+        },
+        "ko": {
+          "name": "연속 800",
+          "earnedDescription": "한 판에서 800대를 추월했어요.",
+          "preEarnedDescription": "한 판에서 800대를 추월하세요."
+        },
+        "pt-BR": {
+          "name": "Sequência 800",
+          "earnedDescription": "Você ultrapassou 800 carros em uma corrida.",
+          "preEarnedDescription": "Ultrapasse 800 carros em uma corrida."
+        },
+        "zh-Hant": {
+          "name": "連勝 800",
+          "earnedDescription": "你在一局中超車 800 輛。",
+          "preEarnedDescription": "在一局中超車 800 輛。"
         }
       }
     },
@@ -239,6 +403,26 @@
           "name": "Overlander 1K",
           "earnedDescription": "Tu as dépassé 1.000 voitures au total.",
           "preEarnedDescription": "Dépasse 1.000 voitures au total."
+        },
+        "ja": {
+          "name": "Overlander 1K",
+          "earnedDescription": "合計1,000台追い抜きました。",
+          "preEarnedDescription": "合計1,000台追い抜こう。"
+        },
+        "ko": {
+          "name": "Overlander 1K",
+          "earnedDescription": "총 1,000대를 추월했어요.",
+          "preEarnedDescription": "총 1,000대를 추월하세요."
+        },
+        "pt-BR": {
+          "name": "Overlander 1K",
+          "earnedDescription": "Você ultrapassou 1,000 carros no total.",
+          "preEarnedDescription": "Ultrapasse 1,000 carros no total."
+        },
+        "zh-Hant": {
+          "name": "Overlander 1K",
+          "earnedDescription": "你總共超車 1,000 輛。",
+          "preEarnedDescription": "總共超車 1,000 輛。"
         }
       }
     },
@@ -265,6 +449,26 @@
           "name": "Overlander 5K",
           "earnedDescription": "Tu as dépassé 5.000 voitures au total.",
           "preEarnedDescription": "Dépasse 5.000 voitures au total."
+        },
+        "ja": {
+          "name": "Overlander 5K",
+          "earnedDescription": "合計5,000台追い抜きました。",
+          "preEarnedDescription": "合計5,000台追い抜こう。"
+        },
+        "ko": {
+          "name": "Overlander 5K",
+          "earnedDescription": "총 5,000대를 추월했어요.",
+          "preEarnedDescription": "총 5,000대를 추월하세요."
+        },
+        "pt-BR": {
+          "name": "Overlander 5K",
+          "earnedDescription": "Você ultrapassou 5,000 carros no total.",
+          "preEarnedDescription": "Ultrapasse 5,000 carros no total."
+        },
+        "zh-Hant": {
+          "name": "Overlander 5K",
+          "earnedDescription": "你總共超車 5,000 輛。",
+          "preEarnedDescription": "總共超車 5,000 輛。"
         }
       }
     },
@@ -291,6 +495,26 @@
           "name": "Overlander 10K",
           "earnedDescription": "Tu as dépassé 10.000 voitures au total.",
           "preEarnedDescription": "Dépasse 10.000 voitures au total."
+        },
+        "ja": {
+          "name": "Overlander 10K",
+          "earnedDescription": "合計10,000台追い抜きました。",
+          "preEarnedDescription": "合計10,000台追い抜こう。"
+        },
+        "ko": {
+          "name": "Overlander 10K",
+          "earnedDescription": "총 10,000대를 추월했어요.",
+          "preEarnedDescription": "총 10,000대를 추월하세요."
+        },
+        "pt-BR": {
+          "name": "Overlander 10K",
+          "earnedDescription": "Você ultrapassou 10,000 carros no total.",
+          "preEarnedDescription": "Ultrapasse 10,000 carros no total."
+        },
+        "zh-Hant": {
+          "name": "Overlander 10K",
+          "earnedDescription": "你總共超車 10,000 輛。",
+          "preEarnedDescription": "總共超車 10,000 輛。"
         }
       }
     },
@@ -317,6 +541,26 @@
           "name": "Overlander 20K",
           "earnedDescription": "Tu as dépassé 20.000 voitures au total.",
           "preEarnedDescription": "Dépasse 20.000 voitures au total."
+        },
+        "ja": {
+          "name": "Overlander 20K",
+          "earnedDescription": "合計20,000台追い抜きました。",
+          "preEarnedDescription": "合計20,000台追い抜こう。"
+        },
+        "ko": {
+          "name": "Overlander 20K",
+          "earnedDescription": "총 20,000대를 추월했어요.",
+          "preEarnedDescription": "총 20,000대를 추월하세요."
+        },
+        "pt-BR": {
+          "name": "Overlander 20K",
+          "earnedDescription": "Você ultrapassou 20,000 carros no total.",
+          "preEarnedDescription": "Ultrapasse 20,000 carros no total."
+        },
+        "zh-Hant": {
+          "name": "Overlander 20K",
+          "earnedDescription": "你總共超車 20,000 輛。",
+          "preEarnedDescription": "總共超車 20,000 輛。"
         }
       }
     },
@@ -343,6 +587,26 @@
           "name": "Overlander 50K",
           "earnedDescription": "Tu as dépassé 50.000 voitures au total.",
           "preEarnedDescription": "Dépasse 50.000 voitures au total."
+        },
+        "ja": {
+          "name": "Overlander 50K",
+          "earnedDescription": "合計50,000台追い抜きました。",
+          "preEarnedDescription": "合計50,000台追い抜こう。"
+        },
+        "ko": {
+          "name": "Overlander 50K",
+          "earnedDescription": "총 50,000대를 추월했어요.",
+          "preEarnedDescription": "총 50,000대를 추월하세요."
+        },
+        "pt-BR": {
+          "name": "Overlander 50K",
+          "earnedDescription": "Você ultrapassou 50,000 carros no total.",
+          "preEarnedDescription": "Ultrapasse 50,000 carros no total."
+        },
+        "zh-Hant": {
+          "name": "Overlander 50K",
+          "earnedDescription": "你總共超車 50,000 輛。",
+          "preEarnedDescription": "總共超車 50,000 輛。"
         }
       }
     },
@@ -369,6 +633,26 @@
           "name": "Overlander 100K",
           "earnedDescription": "Tu as dépassé 100.000 voitures au total.",
           "preEarnedDescription": "Dépasse 100.000 voitures au total."
+        },
+        "ja": {
+          "name": "Overlander 100K",
+          "earnedDescription": "合計100,000台追い抜きました。",
+          "preEarnedDescription": "合計100,000台追い抜こう。"
+        },
+        "ko": {
+          "name": "Overlander 100K",
+          "earnedDescription": "총 100,000대를 추월했어요.",
+          "preEarnedDescription": "총 100,000대를 추월하세요."
+        },
+        "pt-BR": {
+          "name": "Overlander 100K",
+          "earnedDescription": "Você ultrapassou 100,000 carros no total.",
+          "preEarnedDescription": "Ultrapasse 100,000 carros no total."
+        },
+        "zh-Hant": {
+          "name": "Overlander 100K",
+          "earnedDescription": "你總共超車 100,000 輛。",
+          "preEarnedDescription": "總共超車 100,000 輛。"
         }
       }
     },
@@ -395,6 +679,26 @@
           "name": "Overlander 200K",
           "earnedDescription": "Tu as dépassé 200.000 voitures au total.",
           "preEarnedDescription": "Dépasse 200.000 voitures au total."
+        },
+        "ja": {
+          "name": "Overlander 200K",
+          "earnedDescription": "合計200,000台追い抜きました。",
+          "preEarnedDescription": "合計200,000台追い抜こう。"
+        },
+        "ko": {
+          "name": "Overlander 200K",
+          "earnedDescription": "총 200,000대를 추월했어요.",
+          "preEarnedDescription": "총 200,000대를 추월하세요."
+        },
+        "pt-BR": {
+          "name": "Overlander 200K",
+          "earnedDescription": "Você ultrapassou 200,000 carros no total.",
+          "preEarnedDescription": "Ultrapasse 200,000 carros no total."
+        },
+        "zh-Hant": {
+          "name": "Overlander 200K",
+          "earnedDescription": "你總共超車 200,000 輛。",
+          "preEarnedDescription": "總共超車 200,000 輛。"
         }
       }
     },
@@ -421,6 +725,26 @@
           "name": "Commandes tactiles",
           "earnedDescription": "Tu as terminé une partie avec les commandes tactiles.",
           "preEarnedDescription": "Termine une partie avec les commandes tactiles."
+        },
+        "ja": {
+          "name": "タップ操作",
+          "earnedDescription": "タップ操作で1ラン完走しました。",
+          "preEarnedDescription": "タップ操作で1ラン完走しよう。"
+        },
+        "ko": {
+          "name": "탭 조작",
+          "earnedDescription": "탭 조작으로 한 판을 완주했어요.",
+          "preEarnedDescription": "탭 조작으로 한 판을 완주하세요."
+        },
+        "pt-BR": {
+          "name": "Controles de toque",
+          "earnedDescription": "Você completou uma corrida usando toques na tela.",
+          "preEarnedDescription": "Complete uma corrida usando toques na tela."
+        },
+        "zh-Hant": {
+          "name": "點按操作",
+          "earnedDescription": "你使用點按操作完成了一局。",
+          "preEarnedDescription": "使用點按操作完成一局。"
         }
       }
     },
@@ -447,6 +771,26 @@
           "name": "Commandes glisser",
           "earnedDescription": "Tu as terminé une partie avec les commandes glisser.",
           "preEarnedDescription": "Termine une partie avec les commandes glisser."
+        },
+        "ja": {
+          "name": "スワイプ操作",
+          "earnedDescription": "スワイプ操作で1ラン完走しました。",
+          "preEarnedDescription": "スワイプ操作で1ラン完走しよう。"
+        },
+        "ko": {
+          "name": "스와이프 조작",
+          "earnedDescription": "스와이프 조작으로 한 판을 완주했어요.",
+          "preEarnedDescription": "스와이프 조작으로 한 판을 완주하세요."
+        },
+        "pt-BR": {
+          "name": "Controles de deslizar",
+          "earnedDescription": "Você completou uma corrida usando gestos de deslizar.",
+          "preEarnedDescription": "Complete uma corrida usando gestos de deslizar."
+        },
+        "zh-Hant": {
+          "name": "滑動操作",
+          "earnedDescription": "你使用滑動操作完成了一局。",
+          "preEarnedDescription": "使用滑動操作完成一局。"
         }
       }
     },
@@ -473,6 +817,26 @@
           "name": "Commandes clavier",
           "earnedDescription": "Tu as terminé une partie avec le clavier.",
           "preEarnedDescription": "Termine une partie avec le clavier."
+        },
+        "ja": {
+          "name": "キーボード操作",
+          "earnedDescription": "キーボード操作で1ラン完走しました。",
+          "preEarnedDescription": "キーボード操作で1ラン完走しよう。"
+        },
+        "ko": {
+          "name": "키보드 조작",
+          "earnedDescription": "키보드 조작으로 한 판을 완주했어요.",
+          "preEarnedDescription": "키보드 조작으로 한 판을 완주하세요."
+        },
+        "pt-BR": {
+          "name": "Controles de teclado",
+          "earnedDescription": "Você completou uma corrida usando o teclado.",
+          "preEarnedDescription": "Complete uma corrida usando o teclado."
+        },
+        "zh-Hant": {
+          "name": "鍵盤操作",
+          "earnedDescription": "你使用鍵盤操作完成了一局。",
+          "preEarnedDescription": "使用鍵盤操作完成一局。"
         }
       }
     },
@@ -499,6 +863,26 @@
           "name": "Commandes VoiceOver",
           "earnedDescription": "Tu as terminé une partie avec VoiceOver.",
           "preEarnedDescription": "Termine une partie avec VoiceOver."
+        },
+        "ja": {
+          "name": "VoiceOver操作",
+          "earnedDescription": "VoiceOver操作で1ラン完走しました。",
+          "preEarnedDescription": "VoiceOver操作で1ラン完走しよう。"
+        },
+        "ko": {
+          "name": "VoiceOver 조작",
+          "earnedDescription": "VoiceOver 조작으로 한 판을 완주했어요.",
+          "preEarnedDescription": "VoiceOver 조작으로 한 판을 완주하세요."
+        },
+        "pt-BR": {
+          "name": "Controles do VoiceOver",
+          "earnedDescription": "Você completou uma corrida usando controles do VoiceOver.",
+          "preEarnedDescription": "Complete uma corrida usando controles do VoiceOver."
+        },
+        "zh-Hant": {
+          "name": "VoiceOver 操作",
+          "earnedDescription": "你使用 VoiceOver 操作完成了一局。",
+          "preEarnedDescription": "使用 VoiceOver 操作完成一局。"
         }
       }
     },
@@ -525,6 +909,26 @@
           "name": "Commandes Digital Crown",
           "earnedDescription": "Tu as terminé une partie avec Digital Crown.",
           "preEarnedDescription": "Termine une partie avec Digital Crown."
+        },
+        "ja": {
+          "name": "Digital Crown操作",
+          "earnedDescription": "Digital Crown操作で1ラン完走しました。",
+          "preEarnedDescription": "Digital Crown操作で1ラン完走しよう。"
+        },
+        "ko": {
+          "name": "Digital Crown 조작",
+          "earnedDescription": "Digital Crown 조작으로 한 판을 완주했어요.",
+          "preEarnedDescription": "Digital Crown 조작으로 한 판을 완주하세요."
+        },
+        "pt-BR": {
+          "name": "Controles da Digital Crown",
+          "earnedDescription": "Você completou uma corrida usando a Digital Crown.",
+          "preEarnedDescription": "Complete uma corrida usando a Digital Crown."
+        },
+        "zh-Hant": {
+          "name": "Digital Crown 操作",
+          "earnedDescription": "你使用 Digital Crown 操作完成了一局。",
+          "preEarnedDescription": "使用 Digital Crown 操作完成一局。"
         }
       }
     },
@@ -551,6 +955,26 @@
           "name": "Commandes manette",
           "earnedDescription": "Tu as terminé une partie avec une manette.",
           "preEarnedDescription": "Termine une partie avec une manette."
+        },
+        "ja": {
+          "name": "ゲームコントローラー操作",
+          "earnedDescription": "ゲームコントローラー操作で1ラン完走しました。",
+          "preEarnedDescription": "ゲームコントローラー操作で1ラン完走しよう。"
+        },
+        "ko": {
+          "name": "게임 컨트롤러 조작",
+          "earnedDescription": "게임 컨트롤러 조작으로 한 판을 완주했어요.",
+          "preEarnedDescription": "게임 컨트롤러 조작으로 한 판을 완주하세요."
+        },
+        "pt-BR": {
+          "name": "Controles de jogo",
+          "earnedDescription": "Você completou uma corrida usando um controle de jogo.",
+          "preEarnedDescription": "Complete uma corrida usando um controle de jogo."
+        },
+        "zh-Hant": {
+          "name": "遊戲控制器操作",
+          "earnedDescription": "你使用遊戲控制器完成了一局。",
+          "preEarnedDescription": "使用遊戲控制器完成一局。"
         }
       }
     },
@@ -577,6 +1001,26 @@
           "name": "Semaine GAAD Assistive",
           "earnedDescription": "Tu as terminé une partie pendant la semaine GAAD avec une technologie d'assistance.",
           "preEarnedDescription": "Termine une partie pendant la semaine GAAD avec une technologie d'assistance."
+        },
+        "ja": {
+          "name": "GAAD Assistive Week",
+          "earnedDescription": "GAADウィーク中に支援技術を使って1ラン完走しました。",
+          "preEarnedDescription": "GAADウィーク中に支援技術を使って1ラン完走しよう。"
+        },
+        "ko": {
+          "name": "GAAD Assistive Week",
+          "earnedDescription": "GAAD 주간에 보조 기술을 사용해 한 판을 완주했어요.",
+          "preEarnedDescription": "GAAD 주간에 보조 기술을 사용해 한 판을 완주하세요."
+        },
+        "pt-BR": {
+          "name": "Semana GAAD Assistiva",
+          "earnedDescription": "Você completou uma corrida durante a semana GAAD usando tecnologia assistiva.",
+          "preEarnedDescription": "Complete uma corrida durante a semana GAAD usando tecnologia assistiva."
+        },
+        "zh-Hant": {
+          "name": "GAAD 輔助科技週",
+          "earnedDescription": "你在 GAAD 週期間使用輔助科技完成了一局。",
+          "preEarnedDescription": "在 GAAD 週期間使用輔助科技完成一局。"
         }
       }
     }

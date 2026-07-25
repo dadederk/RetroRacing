@@ -95,11 +95,11 @@ Avoid repeating the same indexed term across name, subtitle, and keywords. These
 
 Source: [AppTweak — cross-localization on the App Store](https://www.apptweak.com/en/aso-blog/how-to-benefit-from-cross-localization-on-the-app-store).
 
-The v1.5 draft catalog includes **en-US**, **en-GB**, **en-AU**, **en-CA**, **de-DE**, **nl-NL**, **it**, **fr-FR**, **es-ES**, **ca**, and **es-MX**. Apple indexes **multiple locales per territory**, so keyword fields should be planned as a set, not isolated lists.
+The v1.5 draft catalog includes **en-US**, **en-GB**, **en-AU**, **en-CA**, **de-DE**, **nl-NL**, **it**, **fr-FR**, **es-ES**, **ca**, **es-MX**, **ja**, **ko**, **pt-BR**, and **zh-Hant**. Apple indexes **multiple locales per territory**, so keyword fields should be planned as a set, not isolated lists.
 
 | Territory | Primary locale | Also indexes (relevant to us) | Subtitle + keyword strategy |
 |---|---|---|---|
-| **United States** | English (US) | **Spanish (Mexico)** among others | Core mechanic in **en-US** subtitle (`dodge`, `traffic`, `lanes`). Mexico Spanish in **es-MX** with its own subtitle. |
+| **United States** | English (US) | **Spanish (Mexico)**, **Japanese**, **Korean**, **Brazilian Portuguese**, **Traditional Chinese** among others | Core mechanic in **en-US** subtitle (`dodge`, `traffic`, `lanes`). Local-script discovery in **ja**, **ko**, **pt-BR**, **zh-Hant**; Mexico Spanish in **es-MX**. |
 | **United Kingdom** | English (UK) | **English (Australia)** | Split **en-GB** + **en-AU** subtitles and keyword fields — no duplicate tokens across the pair. |
 | **Canada** | English (Canada) | **English (US)** among others | Split **en-CA** + **en-US** subtitles and keyword fields — no duplicate tokens across the pair. |
 | **Australia** | English (Australia) | **English (UK)** | Same **en-GB** + **en-AU** pair as UK (roles reversed). |
@@ -107,6 +107,10 @@ The v1.5 draft catalog includes **en-US**, **en-GB**, **en-AU**, **en-CA**, **de
 | **France** | French (France) | English (UK) | Split **fr-FR** + **en-GB** subtitles/keywords. |
 | **Italy** | Italian | English (UK) | Split **it** + **en-GB** keywords. |
 | **Netherlands** | Dutch (Netherlands) | English (US) | Split **nl-NL** + **en-US** keywords. |
+| **Japan** | Japanese | English (US) | Split **ja** + **en-US** keywords — local-script terms in **ja**; English coverage on **en-US**. |
+| **Korea** | Korean | English (US) | Split **ko** + **en-US** keywords — local-script terms in **ko**. |
+| **Brazil** | Brazilian Portuguese | English (US) | Split **pt-BR** + **en-US** keywords — Brazilian terms in **pt-BR**, not European Portuguese. |
+| **Taiwan / Hong Kong** | Traditional Chinese | English (US) | Split **zh-Hant** + **en-US** keywords — Taiwan-leaning register in **zh-Hant**. |
 | **Belgium** | Dutch / French | each other | Avoid duplicate FR/NL tokens where both index. |
 | **Switzerland** | German / French / Italian | multiple | De-dupe **de-DE**, **fr-FR**, and **it** globally. |
 | **Spain** | Spanish (Spain) | **Catalan**, English (UK) | Split Spanish and Catalan across **es-ES** and **ca**. **en-GB** adds English search coverage without duplicating Spanish tokens. |

@@ -2,21 +2,39 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>appleApp</key>
+	<dict>
+		<key>bundleId</key>
+		<string>com.accessibilityUpTo11.RetroRacing</string>
+		<key>iconURL</key>
+		<dict>
+			<key>relative</key>
+			<string>https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/7e/41/99/7e419972-21f8-a91b-c706-0f96f9e7c110/RetroRapid.icns/150x150bb.png</string>
+		</dict>
+		<key>id</key>
+		<string>6758641625</string>
+		<key>name</key>
+		<string>RetroRapid: Retro Arcade Racer</string>
+	</dict>
 	<key>baseLanguage</key>
 	<string>en-US</string>
 	<key>localizations</key>
 	<array>
 		<string>en-US</string>
+		<string>ca</string>
+		<string>es-ES</string>
 		<string>en-GB</string>
 		<string>en-AU</string>
 		<string>en-CA</string>
+		<string>es-MX</string>
 		<string>de-DE</string>
 		<string>nl-NL</string>
 		<string>it</string>
 		<string>fr-FR</string>
-		<string>es-ES</string>
-		<string>es-MX</string>
-		<string>ca</string>
+		<string>ja</string>
+		<string>ko</string>
+		<string>pt-BR</string>
+		<string>zh-Hant</string>
 	</array>
 	<key>selectedAppleWatchSpecification</key>
 	<string>appleWatchUltra3</string>

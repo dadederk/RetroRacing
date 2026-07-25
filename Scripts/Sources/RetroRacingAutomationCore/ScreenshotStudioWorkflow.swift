@@ -18,8 +18,30 @@ public enum ScreenshotStudioWorkflow {
         "en-US", "en-GB", "en-AU", "en-CA",
         "de-DE", "nl-NL", "it", "fr-FR",
         "es-ES", "es-MX", "ca",
+        "ja", "ko", "pt-BR", "zh-Hant",
     ]
-    public static let slideCount = 7
+    public static let slideCount = 10
+    public static let macSlideCount = 9
+    public static let watchSlideCount = 5
+
+    public static func slideCount(for platform: String) -> Int {
+        switch AppStoreScreenshotCaptureDefaults.normalizedPlatform(platform) {
+        case "appleWatch":
+            return watchSlideCount
+        case "mac":
+            return macSlideCount
+        default:
+            return slideCount
+        }
+    }
+
+    /// Maps a platform-specific Studio slide index to the canonical copy index in `slides`.
+    static func copySlideIndex(platform: String, slideIndex: Int) -> Int {
+        if AppStoreScreenshotCaptureDefaults.normalizedPlatform(platform) == "mac", slideIndex >= 4 {
+            return slideIndex + 1
+        }
+        return slideIndex
+    }
 
     private static let englishLocales = ["en-US", "en-GB", "en-AU", "en-CA"]
     private static let baseImageLocale = "en-US"
@@ -61,13 +83,15 @@ public enum ScreenshotStudioWorkflow {
 
     public static func localizationEntries(
         slideIndex: Int,
-        watchSequenceOnly: Bool
-    ) -> [[String: String]] {
-        locales.map { locale in
+        watchSequenceOnly: Bool,
+        platform: String = "iphone"
+    ) throws -> [[String: String]] {
+        let copyIndex = copySlideIndex(platform: platform, slideIndex: slideIndex)
+        return try locales.map { locale in
             if watchSequenceOnly, !englishLocales.contains(locale) {
                 return ["language": locale, "title": "", "body": ""]
             }
-            let copy = slides[slideIndex].text(for: locale)
+            let copy = try slides[copyIndex].text(for: locale)
             return [
                 "language": locale,
                 "title": copy.title,
@@ -126,22 +150,23 @@ public enum ScreenshotStudioWorkflow {
         ]
 
         for platform in platforms {
+            let platformSlideCount = slideCount(for: platform)
             artifacts.append(
                 try expectedDataPlist(
                     platform: platform,
-                    slideCount: slideCount,
+                    slideCount: platformSlideCount,
                     studioRoot: studioRoot
                 )
             )
             artifacts += try expectedImageArtifacts(
                 platform: platform,
-                slideCount: slideCount,
+                slideCount: platformSlideCount,
                 studioRoot: studioRoot
             )
         }
 
         artifacts.append(try expectedWatchDataPlist(studioRoot: studioRoot))
-        artifacts += try expectedBaseLocaleImageArtifacts(
+        artifacts += try expectedImageArtifacts(
             platform: "appleWatch",
             slideCount: try loadSlides(
                 platform: "appleWatch",
@@ -186,6 +211,11 @@ public enum ScreenshotStudioWorkflow {
             }
         }
 
+        while platformSlides.count < slideCount {
+            let template = platformSlides.last ?? [:]
+            platformSlides.append(template)
+        }
+
         guard platformSlides.count >= slideCount else {
             throw ScreenshotStudioError.missingSlides(
                 platform: platform,
@@ -196,9 +226,10 @@ public enum ScreenshotStudioWorkflow {
 
         platformSlides = Array(platformSlides.prefix(slideCount))
         for index in platformSlides.indices {
-            platformSlides[index]["localizations"] = localizationEntries(
+            platformSlides[index]["localizations"] = try localizationEntries(
                 slideIndex: index,
-                watchSequenceOnly: false
+                watchSequenceOnly: false,
+                platform: platform
             )
         }
         return .propertyList(url: url, value: platformSlides)
@@ -261,14 +292,18 @@ public enum ScreenshotStudioWorkflow {
             ),
         ]
 
-        for index in 0..<slideCount {
-            artifacts += try sharedImageCopies(
-                imagesDirectory: imagesDirectory,
-                sourceLocale: baseImageLocale,
-                targetLocales: locales.filter { $0 != baseImageLocale },
-                index: index,
-                fileExtension: fileExtension
-            )
+        for (sourceLocale, derivedLocales) in ScreenshotCapturePlan.derivedLocaleMap {
+            let requestedDerivedLocales = derivedLocales.filter { locales.contains($0) }
+            guard requestedDerivedLocales.isEmpty == false else { continue }
+            for index in 0..<slideCount {
+                artifacts += try sharedImageCopies(
+                    imagesDirectory: imagesDirectory,
+                    sourceLocale: sourceLocale,
+                    targetLocales: requestedDerivedLocales,
+                    index: index,
+                    fileExtension: fileExtension
+                )
+            }
         }
         return artifacts
     }
@@ -308,10 +343,11 @@ public enum ScreenshotStudioWorkflow {
         }
         let sourceData = try Data(contentsOf: sourceURL)
         return targetLocales.map { locale in
-            .data(
-                url: imagesDirectory.appending(
-                    path: "\(locale)_\(index)\(fileExtension)"
-                ),
+            let targetURL = imagesDirectory.appending(
+                path: "\(locale)_\(index)\(fileExtension)"
+            )
+            return .data(
+                url: targetURL,
                 value: sourceData
             )
         }
@@ -382,14 +418,14 @@ public enum ScreenshotStudioWorkflow {
 private struct SlideCopy {
     let byLocale: [String: (title: String, body: String)]
 
-    func text(for locale: String) -> (title: String, body: String) {
+    func text(for locale: String) throws -> (title: String, body: String) {
         if let copy = byLocale[locale] {
             return copy
         }
         if locale.hasPrefix("en"), let copy = byLocale["en-US"] {
             return copy
         }
-        preconditionFailure("Missing screenshot copy for \(locale)")
+        throw ScreenshotStudioError.missingScreenshotCopy(locale: locale)
     }
 }
 
@@ -403,68 +439,142 @@ private let slides: [SlideCopy] = [
         "es-ES": ("Esquiva Tráfico Sin Fin", "Esquiva tráfico y consigue adelantamientos en un arcade de carreras retro."),
         "es-MX": ("Esquiva Carros Sin Fin", "Esquiva carros y logra rebases en un arcade de carreras retro."),
         "ca": ("Esquiva Trànsit Sense Fi", "Esquiva trànsit i acumula avançaments en este arcade de carreres retro."),
+        "ja": ("終わりなき交通を走り抜け", "交通を避け、レトロアーケードで追い抜きを狙おう。"),
+        "ko": ("끝없는 교통을 질주", "교통을 피하고 레트로 아케이드에서 추월을 노려보세요."),
+        "pt-BR": ("Corra Pelo Tráfego Infinito", "Desvie do tráfego e busque ultrapassagens neste arcade retrô."),
+        "zh-Hant": ("穿越無盡車流", "閃避車流，在復古街機中追逐超車。"),
     ]),
     SlideCopy(byLocale: [
-        "en-US": ("Simple Controls. Pure Arcade Action", "Move left. Move right. Don't crash. That's the whole game."),
-        "de-DE": ("Einfache Steuerung. Pure Arcade-Action", "Links. Rechts. Nicht crashen. Das ist das ganze Spiel."),
-        "nl-NL": ("Simpele Besturing. Pure Arcade-Actie", "Links. Rechts. Niet crashen. Dat is het hele spel."),
-        "it": ("Controlli Semplici. Pura Azione Arcade", "Sinistra. Destra. Non schiantarti. È tutto il gioco."),
-        "fr-FR": ("Commandes Simples. Action Arcade Pure", "Gauche. Droite. Ne crash pas. C'est tout le jeu."),
-        "es-ES": ("Controles Simples. Acción Arcade Pura", "Izquierda. Derecha. No choques. Eso es todo el juego."),
-        "es-MX": ("Controles Simples. Acción Arcade Pura", "Izquierda. Derecha. No choques. Eso es todo el juego."),
-        "ca": ("Controls Simples. Acció Arcade Pura", "Esquerra. Dreta. No xoques. Això és tot el joc."),
+        "en-US": ("Simple Controls. Pure Arcade Action", "Move left. Move right. Don't crash. Deceptively simple."),
+        "de-DE": ("Einfache Steuerung. Pure Arcade-Action", "Links. Rechts. Nicht crashen. Täuschend einfach."),
+        "nl-NL": ("Simpele Besturing. Pure Arcade-Actie", "Links. Rechts. Niet crashen. Bedrieglijk simpel."),
+        "it": ("Controlli Semplici. Pura Azione Arcade", "Sinistra. Destra. Non schiantarti. Ingannatamente semplice."),
+        "fr-FR": ("Commandes Simples. Action Arcade Pure", "Gauche. Droite. Ne crash pas. D'une simplicité trompeuse."),
+        "es-ES": ("Controles Simples. Acción Arcade Pura", "Izquierda. Derecha. No choques. Engañosamente simple."),
+        "es-MX": ("Controles Simples. Acción Arcade Pura", "Izquierda. Derecha. No choques. Engañosamente simple."),
+        "ca": ("Controls Simples. Acció Arcade Pura", "Esquerra. Dreta. No xoques. Enganyosament simple."),
+        "ja": ("シンプル操作。純粋アーケード", "左へ。右へ。クラッシュ禁止。シンプルなのに奥深い。"),
+        "ko": ("간단한 조작. 순수 아케이드", "왼쪽. 오른쪽. 충돌 금지. 단순하지만 깊어요."),
+        "pt-BR": ("Controles Simples. Ação Arcade", "Esquerda. Direita. Não bata. Simples de enganar."),
+        "zh-Hant": ("簡單操作。純粹街機", "左移。右移。別撞車。看似簡單。"),
     ]),
     SlideCopy(byLocale: [
-        "en-US": ("Built For Accessibility", "VoiceOver, audio cues, haptics, larger text, and adaptable gameplay settings."),
-        "de-DE": ("Für Barrierefreiheit Gebaut", "VoiceOver, Audiohinweise, Haptik und anpassbare Spieleinstellungen."),
-        "nl-NL": ("Gemaakt Voor Toegankelijkheid", "VoiceOver, audiosignalen, haptiek en aanpasbare spelinstellingen."),
-        "it": ("Progettato Per L'Accessibilità", "VoiceOver, segnali audio, haptica e impostazioni di gioco adattabili."),
-        "fr-FR": ("Conçu Pour L'Accessibilité", "VoiceOver, indices audio, haptique et réglages de jeu adaptables."),
-        "es-ES": ("Diseñado para la Accesibilidad", "VoiceOver, pistas de audio, hápticos y ajustes de juego adaptables."),
-        "es-MX": ("Diseñado para la Accesibilidad", "VoiceOver, pistas de audio, hápticos y ajustes de juego adaptables."),
-        "ca": ("Dissenyat per a l'Accessibilitat", "VoiceOver, pistes d'àudio, hàptics i opcions de joc adaptables."),
+        "en-US": ("One Wrong Move. Game Over", "One mistake ends your run. Restart fast, chase your high score!"),
+        "de-DE": ("Ein Fehler. Game Over", "Ein Fehler beendet deine Runde. Schnell neu starten, jag deinen Highscore!"),
+        "nl-NL": ("Één Fout. Game Over", "Één fout beëindigt je run. Snel herstarten, jaag op je highscore!"),
+        "it": ("Un Errore. Game Over", "Un errore termina la partita. Riparti in fretta, punta al tuo record!"),
+        "fr-FR": ("Une Erreur. Game Over", "Une erreur termine ta partie. Recommence vite, vise ton record!"),
+        "es-ES": ("Un Error. Game Over", "Un fallo termina tu partida. Reinicia y persigue tu récord!"),
+        "es-MX": ("Un Error. Game Over", "Un fallo termina tu partida. Reinicia y persigue tu récord!"),
+        "ca": ("Un Error. Game Over", "Un error acaba la teua partida. Reinicia i persegueix el teu rècord!"),
+        "ja": ("一ミスでゲームオーバー", "一つのミスで終了。すぐ再スタート、ハイスコアを狙え！"),
+        "ko": ("한 번의 실수, 게임 오버", "실수 한 번이면 끝. 빠르게 재시작하고 최고 점수에 도전!"),
+        "pt-BR": ("Um Erro. Fim De Jogo", "Um erro encerra a corrida. Reinicie e busque seu recorde!"),
+        "zh-Hant": ("一步失誤，遊戲結束", "一個失誤就結束。快速重來，挑戰最高分！"),
     ]),
     SlideCopy(byLocale: [
-        "en-US": ("One Wrong Move. Game Over", "One mistake ends your run. Restart fast, beat your best."),
-        "de-DE": ("Ein Fehler. Game Over", "Ein Fehler beendet deine Runde. Schnell neu starten, Rekord schlagen."),
-        "nl-NL": ("Één Fout. Game Over", "Één fout beëindigt je run. Snel herstarten, verbeter je record."),
-        "it": ("Un Errore. Game Over", "Un errore termina la partita. Riparti in fretta, batti il tuo record."),
-        "fr-FR": ("Une Erreur. Game Over", "Une erreur termine ta partie. Recommence vite, bats ton record."),
-        "es-ES": ("Un Error. Game Over", "Un fallo termina tu partida. Reinicia y supera tu récord."),
-        "es-MX": ("Un Error. Game Over", "Un fallo termina tu partida. Reinicia y supera tu récord."),
-        "ca": ("Un Error. Game Over", "Un error acaba la teua partida. Reinicia i supera el teu rècord."),
+        "en-US": ("Accessibility Front and Center", "VoiceOver, audio cues, haptics, larger text, and adaptable gameplay settings."),
+        "de-DE": ("Barrierefreiheit Im Mittelpunkt", "VoiceOver, Audiohinweise, Haptik, größerer Text und anpassbare Spieleinstellungen."),
+        "nl-NL": ("Toegankelijkheid Voorop", "VoiceOver, audiosignalen, haptiek, grotere tekst en aanpasbare spelinstellingen."),
+        "it": ("Accessibilità Al Centro", "VoiceOver, segnali audio, haptica, testo più grande e impostazioni di gioco adattabili."),
+        "fr-FR": ("Accessibilité Au Premier Plan", "VoiceOver, indices audio, haptique, texte plus grand et réglages de jeu adaptables."),
+        "es-ES": ("Accesibilidad En Primer Plano", "VoiceOver, pistas de audio, hápticos, texto más grande y ajustes de juego adaptables."),
+        "es-MX": ("Accesibilidad En Primer Plano", "VoiceOver, pistas de audio, hápticos, texto más grande y ajustes de juego adaptables."),
+        "ca": ("Accessibilitat Al Davant", "VoiceOver, pistes d'àudio, hàptics, text més gran i opcions de joc adaptables."),
+        "ja": ("アクセシビリティを前面に", "VoiceOver、音声キュー、触覚、大きい文字、調整可能な設定。"),
+        "ko": ("접근성을 중심에", "VoiceOver, 오디오 큐, 햅틱, 큰 텍스트, 맞춤 설정."),
+        "pt-BR": ("Acessibilidade Em Destaque", "VoiceOver, pistas sonoras, háptico, texto maior e ajustes adaptáveis."),
+        "zh-Hant": ("無障礙設計放首位", "VoiceOver、音效提示、觸覺、較大字體與可調設定。"),
     ]),
     SlideCopy(byLocale: [
-        "en-US": ("Chase Friends On The Road", "Game Center markers show the rival score you're chasing."),
-        "de-DE": ("Jage Freunde Auf Der Strecke", "Game-Center-Marker zeigen den Punktestand, den du jagst."),
-        "nl-NL": ("Jaag Vrienden Op De Baan", "Game Center-markeringen tonen de score die je achtervolgt."),
-        "it": ("Insegue Amici In Pista", "I marcatori Game Center mostrano il punteggio che insegui."),
-        "fr-FR": ("Poursuis Tes Amis Sur La Piste", "Les marqueurs Game Center montrent le score que tu poursuis."),
-        "es-ES": ("Persigue Amigos en Pista", "Los marcadores de Game Center muestran la puntuación que persigues."),
-        "es-MX": ("Persigue Amigos en Pista", "Los marcadores de Game Center muestran la puntuación que persigues."),
-        "ca": ("Persegueix Amistats en Pista", "Els marcadors de Game Center mostren la puntuació que persegueixes."),
+        "en-US": ("Race Friends with SharePlay", "Challenge friends for free. Countdown, compete, rematch."),
+        "de-DE": ("Rase Mit Freunden Per SharePlay", "Fordere Freunde gratis heraus. Countdown, Wettbewerb, Rematch."),
+        "nl-NL": ("Race Met Vrienden Via SharePlay", "Daag vrienden gratis uit. Countdown, strijd, rematch."),
+        "it": ("Corri Con Amici Via SharePlay", "Sfida gli amici gratis. Countdown, gara, rematch."),
+        "fr-FR": ("Course Avec Des Amis Via SharePlay", "Défie tes amis gratuitement. Compte à rebours, course, revanche."),
+        "es-ES": ("Corre Con Amigos Con SharePlay", "Reta a amigos gratis. Cuenta atrás, compite, revancha."),
+        "es-MX": ("Corre Con Amigos Con SharePlay", "Reta a amigos gratis. Cuenta atrás, compite, revancha."),
+        "ca": ("Corre Amb Amics Amb SharePlay", "Desafia amistats gratis. Compte enrere, competeix, revenja."),
+        "ja": ("SharePlayでフレンドとレース", "無料でフレンドに挑戦。カウントダウン、対戦、リマッチ。"),
+        "ko": ("SharePlay로 친구와 레이스", "무료로 친구에게 도전. 카운트다운, 대전, 리매치."),
+        "pt-BR": ("Corra Com Amigos No SharePlay", "Desafie amigos grátis. Contagem, competição, revanche."),
+        "zh-Hant": ("SharePlay 與好友競賽", "免費挑戰好友。倒數、對戰、重賽。"),
     ]),
     SlideCopy(byLocale: [
-        "en-US": ("Choose Your Retro Aesthetic", "Switch between pocket-console green and LCD handheld styles anytime."),
-        "de-DE": ("Wähle Deinen Retro-Look", "Wechsle jederzeit zwischen Pocket-Konsolen-Grün und LCD-Handheld-Stil."),
-        "nl-NL": ("Kies Je Retro-Stijl", "Wissel altijd tussen pocket-console groen en LCD-handheld-stijl."),
-        "it": ("Scegli La Tua Estetica Retro", "Passa dal verde console tascabile allo stile LCD portatile quando vuoi."),
-        "fr-FR": ("Choisis Ton Style Retro", "Passe du vert console de poche au style LCD portable quand tu veux."),
+        "en-US": ("Climb the Leaderboard", "Game Center scores and friend markers keep every run competitive."),
+        "de-DE": ("Erklimme Die Bestenliste", "Game-Center-Punkte und Freundesmarker halten jede Runde spannend."),
+        "nl-NL": ("Klim Op Het Scorebord", "Game Center-scores en vriendenmarkeringen houden elke run spannend."),
+        "it": ("Scala La Classifica", "Punteggi Game Center e marcatori amici rendono ogni gara competitiva."),
+        "fr-FR": ("Grimpe Au Classement", "Scores Game Center et marqueurs d'amis rendent chaque course compétitive."),
+        "es-ES": ("Escala La Clasificación", "Puntuaciones de Game Center y marcadores de amigos mantienen cada partida competitiva."),
+        "es-MX": ("Escala La Clasificación", "Puntuaciones de Game Center y marcadores de amigos mantienen cada partida competitiva."),
+        "ca": ("Puja En La Classificació", "Puntuacions de Game Center i marcadors d'amistats mantenen cada partida competitiva."),
+        "ja": ("ランキングを駆け上がれ", "Game Centerスコアとフレンドマーカーで毎ランが熱い。"),
+        "ko": ("리더보드를 올라가세요", "Game Center 점수와 친구 마커로 매 판이 경쟁적."),
+        "pt-BR": ("Suba No Ranking", "Pontuações do Game Center e marcadores mantêm cada corrida competitiva."),
+        "zh-Hant": ("衝上排行榜", "Game Center 分數與好友標記讓每局都競爭感十足。"),
+    ]),
+    SlideCopy(byLocale: [
+        "en-US": ("Customize Your Experience", "Tune volume, haptics, controls… Go Cruise, Fast, or Rapid!"),
+        "en-GB": ("Customise Your Experience", "Tune volume, haptics, controls… Go Cruise, Fast, or Rapid!"),
+        "en-AU": ("Customise Your Experience", "Tune volume, haptics, controls… Go Cruise, Fast, or Rapid!"),
+        "en-CA": ("Customize Your Experience", "Tune volume, haptics, controls… Go Cruise, Fast, or Rapid!"),
+        "de-DE": ("Passe Dein Erlebnis An", "Lautstärke, Haptik, Steuerung… Cruise, Fast oder Rapid!"),
+        "nl-NL": ("Pas Je Ervaring Aan", "Volume, haptiek, besturing… Cruise, Fast of Rapid!"),
+        "it": ("Personalizza La Tua Esperienza", "Volume, haptica, controlli… Cruise, Fast o Rapid!"),
+        "fr-FR": ("Personnalise Ton Expérience", "Volume, haptique, commandes… Cruise, Fast ou Rapid!"),
+        "es-ES": ("Personaliza Tu Experiencia", "Volumen, hápticos, controles… Cruise, Fast o Rapid!"),
+        "es-MX": ("Personaliza Tu Experiencia", "Volumen, hápticos, controles… Cruise, Fast o Rapid!"),
+        "ca": ("Personalitza La Teua Experiència", "Volum, hàptics, controls… Cruise, Fast o Rapid!"),
+        "ja": ("体験をカスタマイズ", "音量、触覚、操作… Cruise、Fast、Rapid！"),
+        "ko": ("경험을 맞춤 설정", "볼륨, 햅틱, 조작… Cruise, Fast, Rapid!"),
+        "pt-BR": ("Personalize Sua Experiência", "Volume, háptico, controles… Cruise, Fast ou Rapid!"),
+        "zh-Hant": ("自訂你的體驗", "調整音量、觸覺、操作… Cruise、Fast 或 Rapid！"),
+    ]),
+    SlideCopy(byLocale: [
+        "en-US": ("Choose Your Retro Aesthetic", "Switch between pocket-console green and LCD handheld styles."),
+        "en-GB": ("Choose Your Retro Aesthetic", "Switch between pocket-console green and LCD handheld styles."),
+        "en-AU": ("Choose Your Retro Aesthetic", "Switch between pocket-console green and LCD handheld styles."),
+        "en-CA": ("Choose Your Retro Aesthetic", "Switch between pocket-console green and LCD handheld styles."),
+        "de-DE": ("Wähle Deinen Retro-Look", "Wechsle zwischen Pocket-Konsolen-Grün und LCD-Handheld-Stil."),
+        "nl-NL": ("Kies Je Retro-Stijl", "Wissel tussen pocket-console groen en LCD-handheld-stijl."),
+        "it": ("Scegli La Tua Estetica Retro", "Passa dal verde console tascabile allo stile LCD portatile."),
+        "fr-FR": ("Choisis Ton Style Retro", "Passe du vert console de poche au style LCD portable."),
         "es-ES": ("Elige Tu Estética Retro", "Cambia del verde de consola de bolsillo al estilo LCD portátil."),
         "es-MX": ("Elige Tu Estética Retro", "Cambia del verde de consola de bolsillo al estilo LCD portátil."),
         "ca": ("Tria la Teua Estètica Retro", "Canvia del verd de consola de butxaca a l'estil LCD portàtil."),
+        "ja": ("レトロ美学を選ぼう", "ポケットコンソールグリーンとLCD handheldを切り替え。"),
+        "ko": ("레트로 스타일 선택", "포켓 콘솔 그린과 LCD 휴대기 스타일 전환."),
+        "pt-BR": ("Escolha Seu Visual Retro", "Alterne entre verde pocket-console e estilo LCD portátil."),
+        "zh-Hant": ("選擇復古風格", "在掌機綠與 LCD 手持風格間切換。"),
     ]),
     SlideCopy(byLocale: [
-        "en-US": ("Customize Your Experience", "Tune controls, haptics, volume, and visuals to fit your style."),
-        "en-GB": ("Customise Your Experience", "Tune controls, haptics, volume, and visuals to fit your style."),
-        "en-AU": ("Customise Your Experience", "Tune controls, haptics, volume, and visuals to fit your style."),
-        "de-DE": ("Passe Dein Erlebnis An", "Stelle Steuerung, Haptik, Lautstärke und Optik nach deinem Stil ein."),
-        "nl-NL": ("Pas Je Ervaring Aan", "Stel besturing, haptiek, volume en visuals af op jouw stijl."),
-        "it": ("Personalizza La Tua Esperienza", "Regola controlli, haptica, volume e grafica al tuo stile."),
-        "fr-FR": ("Personnalise Ton Expérience", "Ajuste commandes, haptique, volume et visuels à ton style."),
-        "es-ES": ("Personaliza Tu Experiencia", "Ajusta controles, hápticos, volumen y visuales a tu estilo."),
-        "es-MX": ("Personaliza Tu Experiencia", "Ajusta controles, hápticos, volumen y visuales a tu estilo."),
-        "ca": ("Personalitza la Teua Experiència", "Ajusta els controls, hàptics, volum i visuals al teu estil."),
+        "en-US": ("Unlock Retro Achievements", "Earn Game Center trophies as you race and improve."),
+        "de-DE": ("Schalte Retro-Erfolge Frei", "Verdiene Game-Center-Trophäen, während du fährst und dich verbesserst."),
+        "nl-NL": ("Ontgrendel Retro Prestaties", "Verdien Game Center-trofeeën terwijl je rijdt en verbetert."),
+        "it": ("Sblocca Obiettivi Retro", "Ottieni trofei Game Center mentre corri e migliori."),
+        "fr-FR": ("Débloque Des Succès Retro", "Gagne des trophées Game Center en courant et en progressant."),
+        "es-ES": ("Desbloquea Logros Retro", "Gana trofeos de Game Center mientras corres y mejoras."),
+        "es-MX": ("Desbloquea Logros Retro", "Gana trofeos de Game Center mientras corres y mejoras."),
+        "ca": ("Desbloqueja Assoliments Retro", "Guanya trofeus de Game Center mentre correixes i millores."),
+        "ja": ("レトロ実績を解除", "走って上達しながらGame Centerトロフィーを獲得。"),
+        "ko": ("레트로 업적 해제", "레이스하며 성장하고 Game Center 트로피를 획득."),
+        "pt-BR": ("Desbloqueie Conquistas Retro", "Ganhe troféus do Game Center enquanto corre e melhora."),
+        "zh-Hant": ("解鎖復古成就", "競速進步，贏得 Game Center 獎盃。"),
+    ]),
+    SlideCopy(byLocale: [
+        "en-US": ("Play Solo Or With Friends", "Daily free plays, leaderboards, and live friend races."),
+        "de-DE": ("Spiele Solo Oder Mit Freunden", "Tägliche Gratis-Spiele, Bestenlisten und Live-Freundesrennen."),
+        "nl-NL": ("Speel Solo Of Met Vrienden", "Dagelijkse gratis runs, scoreborden en live vriendenraces."),
+        "it": ("Gioca In Solo O Con Amici", "Partite gratis ogni giorno, classifiche e gare live con amici."),
+        "fr-FR": ("Joue Solo Ou Avec Des Amis", "Parties gratuites quotidiennes, classements et courses live entre amis."),
+        "es-ES": ("Juega Solo O Con Amigos", "Partidas gratis diarias, clasificaciones y carreras live con amigos."),
+        "es-MX": ("Juega Solo O Con Amigos", "Partidas gratis diarias, clasificaciones y carreras live con amigos."),
+        "ca": ("Juga En Solitari O Amb Amics", "Partides gratis diàries, classificacions i carreres live amb amics."),
+        "ja": ("ソロでもフレンドでも", "毎日無料プレイ、ランキング、ライブフレンドレース。"),
+        "ko": ("솔로 또는 친구와", "매일 무료 플레이, 리더보드, 라이브 친구 레이스."),
+        "pt-BR": ("Jogue Solo Ou Com Amigos", "Partidas grátis diárias, rankings e corridas live com amigos."),
+        "zh-Hant": ("單人或与好友同玩", "每日免費次數、排行榜與即時好友競賽。"),
     ]),
 ]
 
@@ -538,6 +648,7 @@ public enum ScreenshotStudioError: LocalizedError {
     case invalidPropertyList(String)
     case missingSlides(platform: String, expected: Int, actual: Int)
     case unsupportedPlatform(String)
+    case missingScreenshotCopy(locale: String)
     case projectOutOfDate([String])
 
     public var errorDescription: String? {
@@ -550,6 +661,8 @@ public enum ScreenshotStudioError: LocalizedError {
             "\(platform) has \(actual) slides; expected at least \(expected)."
         case let .unsupportedPlatform(platform):
             "Unsupported Screenshot Studio platform: \(platform)."
+        case let .missingScreenshotCopy(locale):
+            "Missing Screenshot Studio overlay copy for \(locale)."
         case let .projectOutOfDate(paths):
             "Screenshot Studio files are out of date:\n"
                 + paths.joined(separator: "\n")

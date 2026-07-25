@@ -8,6 +8,8 @@ struct ContentView: View {
     let achievementProgressService: AchievementProgressService
     let leaderboardService: LeaderboardService
     let watchBestScoreRelaySender: WatchBestScoreRelaySender
+    var allowsGameLaunch: Bool = true
+    var isGameCenterAuthenticatedOverride: Bool? = nil
     @State private var showGame = false
     @State private var gameID = 0
     @State private var showSettings = false
@@ -19,6 +21,7 @@ struct ContentView: View {
                 Text(GameLocalizedStrings.string("gameName"))
                     .font(fontPreferenceStore.font(textStyle: .headline))
                 Button {
+                    guard allowsGameLaunch else { return }
                     gameID += 1
                     showGame = true
                 } label: {
@@ -64,7 +67,7 @@ struct ContentView: View {
                     hapticController: settingsHapticController,
                     audioCueTutorialPreviewPlayer: previewDependencies.audioCueTutorialPreviewPlayer,
                     speedWarningFeedbackPreviewPlayer: previewDependencies.speedWarningFeedbackPreviewPlayer,
-                    isGameCenterAuthenticated: leaderboardService.isAuthenticated(),
+                    isGameCenterAuthenticated: isGameCenterAuthenticatedOverride ?? leaderboardService.isAuthenticated(),
                     achievementProgressService: achievementProgressService
                 )
             }

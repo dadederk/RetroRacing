@@ -19,8 +19,17 @@ struct GameOverSocialFriendScoreRow: View {
     let avatarSize: CGFloat
     let bodyFont: Font
     let scoreFont: Font
+    /// Matches the in-race friend-milestone badge: grey road-line ring around the avatar.
+    var showsMilestoneRing: Bool = false
 
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+
+    /// Warm gray matching the default LCD road-line tint used by in-race friend markers.
+    private static let milestoneRingColor = Color(
+        red: 140 / 255,
+        green: 134 / 255,
+        blue: 121 / 255
+    )
 
     var body: some View {
         let layout: AnyLayout = dynamicTypeSize.isAccessibilitySize
@@ -38,24 +47,46 @@ struct GameOverSocialFriendScoreRow: View {
     }
 
     private var avatar: some View {
-        Group {
-            if let avatarImage = avatarImage(from: avatarPNGData) {
-                avatarImage
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
+        let content = avatarContent
+            .frame(width: avatarContentSize, height: avatarContentSize)
+            .clipShape(Circle())
+
+        return Group {
+            if showsMilestoneRing {
+                ZStack {
+                    Circle()
+                        .fill(Self.milestoneRingColor)
+                    content
+                }
+                .frame(width: avatarSize, height: avatarSize)
             } else {
-                Circle()
-                    .fill(Color.secondary.opacity(0.18))
-                    .overlay {
-                        Text(initials(for: displayName))
-                            .font(bodyFont)
-                            .foregroundStyle(.secondary)
-                    }
+                content
+                    .frame(width: avatarSize, height: avatarSize)
             }
         }
-        .frame(width: avatarSize, height: avatarSize)
-        .clipShape(Circle())
         .accessibilityHidden(true)
+    }
+
+    private var avatarContentSize: CGFloat {
+        guard showsMilestoneRing else { return avatarSize }
+        return avatarSize * (1 - (FriendMilestoneConfiguration.avatarInsetFactor * 2))
+    }
+
+    @ViewBuilder
+    private var avatarContent: some View {
+        if let avatarImage = avatarImage(from: avatarPNGData) {
+            avatarImage
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+        } else {
+            Circle()
+                .fill(Color.secondary.opacity(0.18))
+                .overlay {
+                    Text(initials(for: displayName))
+                        .font(bodyFont)
+                        .foregroundStyle(.secondary)
+                }
+        }
     }
 
     private func avatarImage(from avatarPNGData: Data?) -> Image? {

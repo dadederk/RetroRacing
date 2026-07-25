@@ -126,6 +126,7 @@ struct MenuContentView: View {
         }
         .retroRacingSecondaryButtonStyle()
         .tint(Color.accentColor)
+        .controlSize(.large)
         .accessibilityHint(GameLocalizedStrings.string("menu_play_with_friends_free_hint"))
     }
 
@@ -142,6 +143,7 @@ struct MenuContentView: View {
             }
         }
         .retroRacingSecondaryButtonStyle()
+        .controlSize(.large)
         .disabled(!isLeaderboardEnabled)
         .alert(authError ?? "", isPresented: Binding(
             get: { authError != nil },
@@ -159,6 +161,7 @@ struct MenuContentView: View {
                 .font(buttonFont)
         }
         .retroRacingSecondaryButtonStyle()
+        .controlSize(.large)
     }
 
     private var menuSupportButton: some View {
@@ -169,5 +172,6 @@ struct MenuContentView: View {
                 .font(buttonFont)
         }
         .retroRacingSecondaryButtonStyle()
+        .controlSize(.large)
     }
 }

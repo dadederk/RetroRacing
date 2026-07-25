@@ -40,7 +40,8 @@ When changing scripts:
 
 1. Read this file and [README.md](README.md).
 2. Keep `main.swift` thin; put logic in library targets.
-3. Add or update Swift tests for changed deterministic behavior.
-4. Run `swift test --package-path Scripts` and any relevant `--check` / `--dry-run` recipes from the README.
+3. When adding a new executable, register it in `ScriptCommandCatalog` and extend `ScriptCommandCatalogTests`.
+4. Add or update Swift tests for changed deterministic behavior.
+5. Run `./retrorapid test package` and any relevant `--check` / `--dry-run` recipes from the README.
 
 Global agent rules in `AGENTS.md` still apply (unit tests must pass, no force unwraps, explicit dependencies).

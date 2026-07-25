@@ -4,13 +4,13 @@ Tap Play with Friends, start a synchronized countdown, dodge traffic together, a
 
 Friend races are free and never use daily plays, even when your solo free plays are used up.
 
-RetroRapid! now speaks German, Dutch, Italian, and French across the app, alongside Spanish and Catalan. Change your device language and menus, settings, and race UI should follow.
+RetroRapid! 1.5 ships with full in-app localization in Catalan, Dutch, French, German, Italian, Japanese, Korean, Brazilian Portuguese, Spanish, and Traditional Chinese. Change your device language and menus, settings, and race UI should follow.
 
 We've also polished settings, paywall clarity, audio, and stability across the app.
 
 What we'd like you to focus on:
 - Start a SharePlay race with a friend on two iPhones or iPads and confirm the countdown stays in sync
-- Switch your device to German, Dutch, Italian, or French and confirm menus, settings, and in-game copy read naturally
+- Switch your device to any supported language above (especially yours) and confirm menus, settings, and in-game copy read naturally
 - Race to the finish, then try Play Again and confirm both players need to confirm before the rematch
 - With zero daily plays left, confirm friend races still start free from Play with Friends
 - On Mac and Apple Watch, confirm solo racing still feels solid

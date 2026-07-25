@@ -294,4 +294,20 @@ public final class SettingsPreferencesStore {
         GameControllerBindingPreference.setProfile(profile, in: userDefaults)
         controllerBindingProfileData = (try? JSONEncoder().encode(profile)) ?? Data()
     }
+
+    /// Applies deterministic screenshot values without touching persisted user defaults.
+    public func applyScreenshotCapturePreset(focus: ScreenshotSettingsFocus) {
+        hasLoaded = true
+        bigCarsConditionalDefault.setUserOverride(BigCarsSetting(isEnabled: false))
+        switch focus {
+        case .accessibility:
+            speedWarningFeedbackConditionalDefault.setUserOverride(.warningSound)
+            directTouchConditionalDefault.setUserOverride(DirectTouchSetting(isEnabled: true))
+            roadVisualStyleRawValue = RoadVisualStyle.detailedRoad.rawValue
+        case .themeAndFont:
+            break
+        case .customize:
+            break
+        }
+    }
 }

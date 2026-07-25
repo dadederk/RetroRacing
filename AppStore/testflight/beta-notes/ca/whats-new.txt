@@ -4,13 +4,13 @@ Toca Juga amb amics, inicia un compte enrere sincronitzat, esquiva el trànsit j
 
 Les curses amb amics són gratis i mai consumeixen partides diàries, fins i tot quan ja has esgotat les partides gratuïtes en solitari.
 
-RetroRapid! ara parla alemany, neerlandès, italià i francès a tota l'app, a més de castellà i català. Canvia l'idioma del dispositiu i menús, ajustos i interfície de cursa haurien de seguir-lo.
+RetroRapid! 1.5 arriba amb localització completa de l'app en català, neerlandès, francès, alemany, italià, japonès, coreà, portuguès del Brasil, castellà i xinès tradicional. Canvia l'idioma del dispositiu i menús, ajustos i interfície de cursa haurien de seguir-lo.
 
 També hem polix ajustos, claredat del paywall, àudio i estabilitat a tota l'app.
 
 En què ens agradaria que et centres:
 - Inicia una cursa SharePlay amb un amic en dos iPhone o iPad i confirma que el compte enrere es manté sincronitzat
-- Canvia el dispositiu a alemany, neerlandès, italià o francès i confirma que menús, ajustos i textos en joc sonen naturals
+- Canvia el dispositiu a català o un altre idioma compatible i confirma que menús, ajustos i textos en joc sonen naturals
 - Corre fins al final, prova Torna a jugar i confirma que els dos jugadors han de confirmar abans de la revança
 - Amb zero partides diàries restants, confirma que les curses amb amics encara s'inicien gratis des de Juga amb amics
 - A Mac i Apple Watch, confirma que les curses en solitari continuen funcionant bé

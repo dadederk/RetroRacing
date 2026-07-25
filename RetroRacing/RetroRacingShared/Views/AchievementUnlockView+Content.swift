@@ -43,13 +43,13 @@ extension AchievementUnlockView {
     }
 
     /// Uses the Game Center achieved description when available,
-    /// falling back to the generic modal subtitle if GC metadata has not loaded yet.
+    /// falling back to the local ASC-aligned achieved description.
     var achievementDescription: String {
         if let description = gcMetadata[achievementID.rawValue]?.achievedDescription,
            description.isEmpty == false {
             return description
         }
-        return GameLocalizedStrings.string("achievement_modal_subtitle")
+        return achievementID.localizedAchievedDescription
     }
 
     var achievementActionButtons: some View {

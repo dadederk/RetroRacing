@@ -815,6 +815,10 @@
 				fr,
 				es,
 				ca,
+				ja,
+				ko,
+				"pt-BR",
+				"zh-Hant",
 				Base,
 			);
 			mainGroup = 21DD46382F2FC956000C9FFA;
@@ -1379,6 +1383,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,7";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RetroRacingUniversal.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/RetroRacingUniversal";
+				"TEST_HOST[sdk=macosx*]" = "$(BUILT_PRODUCTS_DIR)/RetroRapid!.app/Contents/MacOS/RetroRapid!";
 				XROS_DEPLOYMENT_TARGET = 26.0;
 			};
 			name = Debug;
@@ -1406,6 +1411,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,7";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RetroRacingUniversal.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/RetroRacingUniversal";
+				"TEST_HOST[sdk=macosx*]" = "$(BUILT_PRODUCTS_DIR)/RetroRapid!.app/Contents/MacOS/RetroRapid!";
 				XROS_DEPLOYMENT_TARGET = 26.0;
 			};
 			name = Release;
@@ -1413,10 +1419,12 @@
 		21DD466B2F2FC957000C9FFA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = RetroRacingUniversalUITests/RetroRacingUniversalUITests.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = PV9S9FTZF2;
+				"ENABLE_APP_SANDBOX[sdk=macosx*]" = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
@@ -1431,7 +1439,7 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,7";
-				TEST_TARGET_NAME = RetroRacing;
+				TEST_TARGET_NAME = RetroRacingUniversal;
 				XROS_DEPLOYMENT_TARGET = 26.0;
 			};
 			name = Debug;
@@ -1439,10 +1447,12 @@
 		21DD466C2F2FC957000C9FFA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = RetroRacingUniversalUITests/RetroRacingUniversalUITests.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = PV9S9FTZF2;
+				"ENABLE_APP_SANDBOX[sdk=macosx*]" = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
@@ -1457,7 +1467,7 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,7";
-				TEST_TARGET_NAME = RetroRacing;
+				TEST_TARGET_NAME = RetroRacingUniversal;
 				XROS_DEPLOYMENT_TARGET = 26.0;
 			};
 			name = Release;
@@ -2037,6 +2047,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,7";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RetroRacingUniversal.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/RetroRacingUniversal";
+				"TEST_HOST[sdk=macosx*]" = "$(BUILT_PRODUCTS_DIR)/RetroRapid!.app/Contents/MacOS/RetroRapid!";
 				XROS_DEPLOYMENT_TARGET = 26.0;
 			};
 			name = Debug;
@@ -2064,6 +2075,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,7";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RetroRacingUniversal.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/RetroRacingUniversal";
+				"TEST_HOST[sdk=macosx*]" = "$(BUILT_PRODUCTS_DIR)/RetroRapid!.app/Contents/MacOS/RetroRapid!";
 				XROS_DEPLOYMENT_TARGET = 26.0;
 			};
 			name = Release;

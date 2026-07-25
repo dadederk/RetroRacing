@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+interrupt_capture_runs() {
+  pkill -f 'capture-app-store-screenshots' 2>/dev/null || true
+  pkill -f 'xcodebuild.*AppStoreScreenshotTests/testCaptureConfiguredScreenshot' 2>/dev/null || true
+}
+
+on_interrupt() {
+  interrupt_capture_runs
+  exit 130
+}
+
+trap on_interrupt INT TERM
+
+resolve_repository_root() {
+  if git rev-parse --show-toplevel >/dev/null 2>&1; then
+    git rev-parse --show-toplevel
+    return
+  fi
+
+  local current="$PWD"
+  while [[ "$current" != "/" ]]; do
+    if [[ -f "$current/Scripts/Package.swift" ]]; then
+      printf '%s\n' "$current"
+      return
+    fi
+    current="$(dirname "$current")"
+  done
+
+  echo "Could not find RetroRacing repository root (Scripts/Package.swift)." >&2
+  exit 1
+}
+
+ROOT="$(resolve_repository_root)"
+swift run --package-path "$ROOT/Scripts" retrorapid "$@"

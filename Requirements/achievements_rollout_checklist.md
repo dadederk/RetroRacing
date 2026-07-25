@@ -193,7 +193,14 @@ Print a copy-paste checklist:
 swift run --package-path Scripts print-game-center-eu-localizations
 ```
 
-Helm CLI does not yet expose public Game Center achievement localization upload; use App Store Connect UI or the optional `asc` CLI (see [`AppStore/game-center/README.md`](../AppStore/game-center/README.md)).
+Helm CLI does not yet expose public Game Center achievement localization upload. Upload EU copy with:
+
+```bash
+swift run --package-path Scripts apply-game-center-eu-localizations --dry-run
+swift run --package-path Scripts apply-game-center-eu-localizations
+```
+
+See [`AppStore/game-center/README.md`](../AppStore/game-center/README.md).
 
 ## Sign-Off
 

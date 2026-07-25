@@ -62,9 +62,30 @@ If local signing blocks simulator/macOS verification, run with `CODE_SIGNING_ALL
 - SpriteKit diagnostics wiring (`showsFPS`/`showsNodeCount`) toggle propagation from debug settings to active scenes via built-in SKView diagnostics, including reapplying flags when the same debug state is sent again
 - SharePlay competitive mode (see [`shareplay_multiplayer.md`](shareplay_multiplayer.md)): pure `SharePlayMatchStateMachine` transitions, winner/tie computation, retry handshake + 30s timeout, disconnect/session-end abort reasons, and guest speed capture/restore — all fully testable without `GroupActivities`. `SharePlayTwoPeerConvergenceTests` mocks the transport by relaying commands between two independent state machine instances (host + guest), proving both peers converge on an identical finished result, dual-retry reset, and retry-timeout. Separately, `GameViewModelTests` covers the free-play exception (never calling `recordGamePlayed` while a SharePlay match is active, even at zero remaining daily plays), final collision ordering (`scoreUpdate` with `lives: 0` before elimination), and pause-lock behavior for waiting/countdown/recovery/disconnect states. `GeneratedSFXRecipeTests` covers SharePlay countdown recipe durations and once-per-displayed-step cue scheduling. 2-device SharePlay validation (real `GroupActivities` transport, invitation cancellation plus re-tap without a blank presenter, synchronized countdown audio, no false connection-lost flash when the second player joins, dual-retry without stale result-screen flash, in-game menu exit notifying the friend, and disconnect handling) remains manual QA — not automatable.
 
+### App Store screenshot capture tests
+
+`RetroRacingUniversalUITests/AppStoreScreenshotTests` drives the app in screenshot
+capture mode (`RETRORAPID_SCREENSHOT_CAPTURE=1`) with deterministic fixtures from
+`RetroRacingShared/ScreenshotCapture/`. Captures land in a staging directory, then
+`capture-app-store-screenshots` installs them into
+`AppStore/RetroRapid.screenshotstudio/{iphone,ipad,mac}/images/` (via `--platform`)
+and refreshes manifests via `sync-screenshot-studio-localizations`.
+
+Fixture catalog and routing are covered by
+`RetroRacingSharedTests/ScreenshotCaptureConfigurationTests`. See also
+[screenshot_capture.md](screenshot_capture.md) for the capture-mode contract.
+Placement naming and paths are covered in `Scripts` (`ScreenshotStudioPlacementWorkflow`).
+
+```bash
+swift run --package-path Scripts capture-app-store-screenshots --platform ipad --locales en-US --slides 2,5
+swift run --package-path Scripts capture-app-store-screenshots --platform mac --locales en-US --slides 0
+swift run --package-path Scripts sync-screenshot-studio-localizations --check
+```
+
 ### UI Tests (Future)
 
-Not implemented yet. Focus on unit tests for now.
+Beyond App Store screenshot capture, broader UI automation remains future work.
+Focus on unit tests for product logic.
 
 ### Integration Tests (Future)
 

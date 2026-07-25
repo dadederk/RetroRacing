@@ -6,6 +6,9 @@
 //
 
 import SpriteKit
+#if os(iOS)
+import UIKit
+#endif
 
 enum FriendMilestoneConfiguration {
     static let badgeNodeName = "friend_milestone_badge"
@@ -16,6 +19,8 @@ enum FriendMilestoneConfiguration {
     static let minBadgeDiameter: CGFloat = 14
     static let maxBadgeDiameter: CGFloat = 42
     static let baseBadgeDiameterFactor: CGFloat = 0.56
+    /// iPad and Mac use larger cells; double badge size so markers stay readable.
+    static let expandedPlatformDiameterScale: CGFloat = 2
     static let sourceRenderDiameter: CGFloat = 96
     static let pointerHeightFactor: CGFloat = 0.19
     static let pointerBaseHalfWidthFactor: CGFloat = 0.13
@@ -24,6 +29,28 @@ enum FriendMilestoneConfiguration {
     static let avatarInsetFactor: CGFloat = 0.07
     static let carClearanceFactor: CGFloat = 0.009
     static let overlapSpacingFactor: CGFloat = 0.58
+
+    /// Perspective scaling still applies; this only boosts the overall badge size on large screens.
+    static var platformDiameterScale: CGFloat {
+        #if os(iOS)
+        UIDevice.current.userInterfaceIdiom == .pad ? expandedPlatformDiameterScale : 1
+        #elseif os(macOS)
+        expandedPlatformDiameterScale
+        #else
+        1
+        #endif
+    }
+
+    static func clampedBadgeDiameter(
+        scaledDiameter: CGFloat,
+        platformScale: CGFloat = platformDiameterScale
+    ) -> CGFloat {
+        let scaled = scaledDiameter * platformScale
+        return max(
+            minBadgeDiameter * platformScale,
+            min(maxBadgeDiameter * platformScale, scaled)
+        )
+    }
 }
 
 extension GameScene {
@@ -148,11 +175,10 @@ extension GameScene {
 
     private func friendMilestoneBadgeDiameter(row: Int, cellSize: CGSize) -> CGFloat {
         let scaleFactor = spriteScaleFactorForRow(row: row, usesPlayerScale: bigRivalCarsEnabled)
-        let scaledDiameter = cellSize.width * FriendMilestoneConfiguration.baseBadgeDiameterFactor * scaleFactor
-        return max(
-            FriendMilestoneConfiguration.minBadgeDiameter,
-            min(FriendMilestoneConfiguration.maxBadgeDiameter, scaledDiameter)
-        )
+        let scaledDiameter = cellSize.width
+            * FriendMilestoneConfiguration.baseBadgeDiameterFactor
+            * scaleFactor
+        return FriendMilestoneConfiguration.clampedBadgeDiameter(scaledDiameter: scaledDiameter)
     }
 
     private func friendMilestoneCenterY(row: Int, cell: SKShapeNode, badgeDiameter: CGFloat) -> CGFloat {

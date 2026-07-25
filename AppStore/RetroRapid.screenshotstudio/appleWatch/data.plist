@@ -42,7 +42,7 @@
 				<key>centerUnitY</key>
 				<real>0.5</real>
 				<key>circularDiameterUnit</key>
-				<real>0.32000000000000001</real>
+				<real>0.32</real>
 				<key>isEnabled</key>
 				<false/>
 				<key>lensBorderColor</key>
@@ -56,7 +56,7 @@
 				<key>lensDropShadowRadiusPoints</key>
 				<real>8</real>
 				<key>lensDropShadowXOffsetPoints</key>
-				<real>0.0</real>
+				<real>0</real>
 				<key>lensDropShadowYOffsetPoints</key>
 				<real>4</real>
 				<key>lensShape</key>
@@ -64,7 +64,7 @@
 				<key>rectCornerRadiusUnit</key>
 				<real>0.12</real>
 				<key>rectHeightUnit</key>
-				<real>0.45000000000000001</real>
+				<real>0.45</real>
 				<key>rectWidthUnit</key>
 				<real>0.5</real>
 				<key>scaleFactor</key>
@@ -103,7 +103,7 @@
 			<key>titleTextStyle</key>
 			<string>original</string>
 			<key>waveTime</key>
-			<real>0.0</real>
+			<real>0</real>
 		</dict>
 		<key>localizations</key>
 		<array>
@@ -192,6 +192,38 @@
 				<string></string>
 				<key>language</key>
 				<string>fr-FR</string>
+				<key>title</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string></string>
+				<key>language</key>
+				<string>ja</string>
+				<key>title</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string></string>
+				<key>language</key>
+				<string>ko</string>
+				<key>title</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string></string>
+				<key>language</key>
+				<string>pt-BR</string>
+				<key>title</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string></string>
+				<key>language</key>
+				<string>zh-Hant</string>
 				<key>title</key>
 				<string></string>
 			</dict>
@@ -237,7 +269,7 @@
 				<key>centerUnitY</key>
 				<real>0.5</real>
 				<key>circularDiameterUnit</key>
-				<real>0.32000000000000001</real>
+				<real>0.32</real>
 				<key>isEnabled</key>
 				<false/>
 				<key>lensBorderColor</key>
@@ -251,7 +283,7 @@
 				<key>lensDropShadowRadiusPoints</key>
 				<real>8</real>
 				<key>lensDropShadowXOffsetPoints</key>
-				<real>0.0</real>
+				<real>0</real>
 				<key>lensDropShadowYOffsetPoints</key>
 				<real>4</real>
 				<key>lensShape</key>
@@ -259,7 +291,7 @@
 				<key>rectCornerRadiusUnit</key>
 				<real>0.12</real>
 				<key>rectHeightUnit</key>
-				<real>0.45000000000000001</real>
+				<real>0.45</real>
 				<key>rectWidthUnit</key>
 				<real>0.5</real>
 				<key>scaleFactor</key>
@@ -298,7 +330,7 @@
 			<key>titleTextStyle</key>
 			<string>original</string>
 			<key>waveTime</key>
-			<real>0.0</real>
+			<real>0</real>
 		</dict>
 		<key>localizations</key>
 		<array>
@@ -387,6 +419,38 @@
 				<string></string>
 				<key>language</key>
 				<string>fr-FR</string>
+				<key>title</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string></string>
+				<key>language</key>
+				<string>ja</string>
+				<key>title</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string></string>
+				<key>language</key>
+				<string>ko</string>
+				<key>title</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string></string>
+				<key>language</key>
+				<string>pt-BR</string>
+				<key>title</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string></string>
+				<key>language</key>
+				<string>zh-Hant</string>
 				<key>title</key>
 				<string></string>
 			</dict>
@@ -432,7 +496,7 @@
 				<key>centerUnitY</key>
 				<real>0.5</real>
 				<key>circularDiameterUnit</key>
-				<real>0.32000000000000001</real>
+				<real>0.32</real>
 				<key>isEnabled</key>
 				<false/>
 				<key>lensBorderColor</key>
@@ -446,7 +510,7 @@
 				<key>lensDropShadowRadiusPoints</key>
 				<real>8</real>
 				<key>lensDropShadowXOffsetPoints</key>
-				<real>0.0</real>
+				<real>0</real>
 				<key>lensDropShadowYOffsetPoints</key>
 				<real>4</real>
 				<key>lensShape</key>
@@ -454,7 +518,7 @@
 				<key>rectCornerRadiusUnit</key>
 				<real>0.12</real>
 				<key>rectHeightUnit</key>
-				<real>0.45000000000000001</real>
+				<real>0.45</real>
 				<key>rectWidthUnit</key>
 				<real>0.5</real>
 				<key>scaleFactor</key>
@@ -493,7 +557,7 @@
 			<key>titleTextStyle</key>
 			<string>original</string>
 			<key>waveTime</key>
-			<real>0.0</real>
+			<real>0</real>
 		</dict>
 		<key>localizations</key>
 		<array>
@@ -582,6 +646,38 @@
 				<string></string>
 				<key>language</key>
 				<string>fr-FR</string>
+				<key>title</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string></string>
+				<key>language</key>
+				<string>ja</string>
+				<key>title</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string></string>
+				<key>language</key>
+				<string>ko</string>
+				<key>title</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string></string>
+				<key>language</key>
+				<string>pt-BR</string>
+				<key>title</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string></string>
+				<key>language</key>
+				<string>zh-Hant</string>
 				<key>title</key>
 				<string></string>
 			</dict>
@@ -627,7 +723,7 @@
 				<key>centerUnitY</key>
 				<real>0.5</real>
 				<key>circularDiameterUnit</key>
-				<real>0.32000000000000001</real>
+				<real>0.32</real>
 				<key>isEnabled</key>
 				<false/>
 				<key>lensBorderColor</key>
@@ -641,7 +737,7 @@
 				<key>lensDropShadowRadiusPoints</key>
 				<real>8</real>
 				<key>lensDropShadowXOffsetPoints</key>
-				<real>0.0</real>
+				<real>0</real>
 				<key>lensDropShadowYOffsetPoints</key>
 				<real>4</real>
 				<key>lensShape</key>
@@ -649,7 +745,7 @@
 				<key>rectCornerRadiusUnit</key>
 				<real>0.12</real>
 				<key>rectHeightUnit</key>
-				<real>0.45000000000000001</real>
+				<real>0.45</real>
 				<key>rectWidthUnit</key>
 				<real>0.5</real>
 				<key>scaleFactor</key>
@@ -688,7 +784,7 @@
 			<key>titleTextStyle</key>
 			<string>original</string>
 			<key>waveTime</key>
-			<real>0.0</real>
+			<real>0</real>
 		</dict>
 		<key>localizations</key>
 		<array>
@@ -777,6 +873,38 @@
 				<string></string>
 				<key>language</key>
 				<string>fr-FR</string>
+				<key>title</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string></string>
+				<key>language</key>
+				<string>ja</string>
+				<key>title</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string></string>
+				<key>language</key>
+				<string>ko</string>
+				<key>title</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string></string>
+				<key>language</key>
+				<string>pt-BR</string>
+				<key>title</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string></string>
+				<key>language</key>
+				<string>zh-Hant</string>
 				<key>title</key>
 				<string></string>
 			</dict>
@@ -822,7 +950,7 @@
 				<key>centerUnitY</key>
 				<real>0.5</real>
 				<key>circularDiameterUnit</key>
-				<real>0.32000000000000001</real>
+				<real>0.32</real>
 				<key>isEnabled</key>
 				<false/>
 				<key>lensBorderColor</key>
@@ -836,7 +964,7 @@
 				<key>lensDropShadowRadiusPoints</key>
 				<real>8</real>
 				<key>lensDropShadowXOffsetPoints</key>
-				<real>0.0</real>
+				<real>0</real>
 				<key>lensDropShadowYOffsetPoints</key>
 				<real>4</real>
 				<key>lensShape</key>
@@ -844,7 +972,7 @@
 				<key>rectCornerRadiusUnit</key>
 				<real>0.12</real>
 				<key>rectHeightUnit</key>
-				<real>0.45000000000000001</real>
+				<real>0.45</real>
 				<key>rectWidthUnit</key>
 				<real>0.5</real>
 				<key>scaleFactor</key>
@@ -883,7 +1011,7 @@
 			<key>titleTextStyle</key>
 			<string>original</string>
 			<key>waveTime</key>
-			<real>0.0</real>
+			<real>0</real>
 		</dict>
 		<key>localizations</key>
 		<array>
@@ -972,6 +1100,38 @@
 				<string></string>
 				<key>language</key>
 				<string>fr-FR</string>
+				<key>title</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string></string>
+				<key>language</key>
+				<string>ja</string>
+				<key>title</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string></string>
+				<key>language</key>
+				<string>ko</string>
+				<key>title</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string></string>
+				<key>language</key>
+				<string>pt-BR</string>
+				<key>title</key>
+				<string></string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string></string>
+				<key>language</key>
+				<string>zh-Hant</string>
 				<key>title</key>
 				<string></string>
 			</dict>

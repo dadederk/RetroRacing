@@ -14,6 +14,7 @@ extension View {
         buttonStyle(.borderedProminent)
         #else
         buttonStyle(.glassProminent)
+            .buttonBorderShape(.capsule)
         #endif
     }
 
@@ -23,6 +24,7 @@ extension View {
         buttonStyle(.bordered)
         #else
         buttonStyle(.glass)
+            .buttonBorderShape(.capsule)
         #endif
     }
 }

@@ -126,14 +126,23 @@ For each supported language (at least EN, ES, CA, DE, NL, IT, FR):
   - No subscription / one‑time purchase.
 - Avoid **technical details** (StoreKit, receipts, etc.) – that’s for docs, not users.
 
-**Apply EU IAP localizations via Helm** (after editing `AppStore/iap-localizations/6759012658/`):
+**Apply EU IAP localizations** (after editing `AppStore/iap-localizations/6759012658/`):
 
 ```bash
 swift run --package-path Scripts apply-iap-localizations --dry-run
 swift run --package-path Scripts apply-iap-localizations
 ```
 
-The tool tries a direct upload from the repo bundle first. When `helm-asc` cannot read repo files (common even after a Developer-folder grant), it downloads the current IAP bundle into Helm’s artifact directory, merges the repo CSVs there, and uploads from that path. Keep **Helm running** while the command executes.
+The tool tries Helm first. Terminal usually **cannot** write into Helm’s Group Containers folder, so Helm CSV upload often fails even when `helm-asc` can talk to App Store Connect. For automation, prefer the App Store Connect API path:
+
+```bash
+export ASC_KEY_ID=...
+export ASC_ISSUER_ID=...
+export ASC_PRIVATE_KEY=~/path/to/AuthKey_XXXX.p8
+swift run --package-path Scripts apply-iap-localizations --asc-api
+```
+
+Manual fallback: open the repo IAP folder and Helm’s `iap-localizations/6759012658` artifact folder in Finder, drag `de-DE`, `nl-NL`, `it`, and `fr-FR` across, then run `helm-asc inAppPurchase 6759012658 localizations upload --path "<helm folder>" ... --agent`.
 
 CSV bundle uses `<locale>/metadata.csv` with `field,value` rows for `name` and `description`.
 

@@ -40,10 +40,7 @@ public struct GameCenterAchievementLocalizationCatalog: Decodable, Sendable {
         )
         lines.append("")
         lines.append(
-            "Helm CLI: no public gameCenterAchievement upload route in current helm-asc build."
-        )
-        lines.append(
-            "Use App Store Connect UI or asc CLI (see AppStore/game-center/README.md)."
+            "Upload with: swift run --package-path Scripts apply-game-center-eu-localizations"
         )
         lines.append("")
 

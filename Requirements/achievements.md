@@ -236,10 +236,13 @@ descriptions, and artwork can be updated in App Store Connect without requiring 
    on demand via `GKAchievementDescription.loadImage(completionHandler:)`, serialized to PNG
    `Data`, and cached in memory keyed by achievement identifier. In-flight artwork loads are
    deduplicated per identifier. `invalidate()` clears metadata, description, and artwork caches.
-3. Falls back to local `AchievementIdentifier.localizedTitle` / generic modal strings when:
+3. Falls back to local `AchievementIdentifier.localizedTitle` and
+   `AchievementIdentifier.localizedAchievedDescription` when:
    - Player is not authenticated.
    - Game Center returns an error.
    - Metadata has not loaded yet (shows local strings until the async fetch completes).
+   Local fallbacks mirror App Store Connect earned copy for every achievement family
+   (Streak, Overlander, Controls, GAAD).
 4. Injected via the SwiftUI environment using `EnvironmentValues.achievementMetadataService`.
    The default value is `nil`; views fall back to local strings when not set.
 5. `AchievementUnlockView` triggers `fetchAllMetadata()` and `loadArtwork(for:)` in a `.task`

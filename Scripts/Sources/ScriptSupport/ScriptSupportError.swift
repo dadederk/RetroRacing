@@ -13,6 +13,8 @@ public enum ScriptSupportError: LocalizedError {
     case unexpectedArgument(String)
     case unknownFlag(String)
     case commandFailed(String, Int32, String)
+    case commandTimedOut(String, TimeInterval)
+    case unknownCLICommand(String, suggestion: String?)
 
     public var errorDescription: String? {
         switch self {
@@ -29,6 +31,14 @@ public enum ScriptSupportError: LocalizedError {
             Command failed with status \(status): \(command)
             \(output)
             """
+        case let .commandTimedOut(command, timeout):
+            "Command timed out after \(Int(timeout)) seconds: \(command)"
+        case let .unknownCLICommand(command, suggestion):
+            if let suggestion {
+                "Unknown command: \(command). \(suggestion)"
+            } else {
+                "Unknown command: \(command)."
+            }
         }
     }
 }

@@ -12,17 +12,21 @@ public struct ProcessCommand: Equatable, Sendable {
     public let arguments: [String]
     public let currentDirectory: URL?
     public let environment: [String: String]
+    /// When true, connects the child process to the terminal stdin (required for interactive `sudo`).
+    public let usesTerminalInput: Bool
 
     public init(
         executable: String,
         arguments: [String],
         currentDirectory: URL? = nil,
-        environment: [String: String] = [:]
+        environment: [String: String] = [:],
+        usesTerminalInput: Bool = false
     ) {
         self.executable = executable
         self.arguments = arguments
         self.currentDirectory = currentDirectory
         self.environment = environment
+        self.usesTerminalInput = usesTerminalInput
     }
 
     public var rendered: String {
@@ -52,11 +56,46 @@ public struct ProcessCommand: Equatable, Sendable {
 }
 
 public enum ProcessRunner {
+    private final class State: @unchecked Sendable {
+        static let shared = State()
+        var runningProcess: Process?
+        var interruptHandlerInstalled = false
+        let lock = NSLock()
+    }
+
+    public static func installInterruptHandlerIfNeeded() {
+        let state = State.shared
+        state.lock.lock()
+        defer { state.lock.unlock() }
+        guard state.interruptHandlerInstalled == false else { return }
+        state.interruptHandlerInstalled = true
+
+        signal(SIGINT) { _ in
+            ProcessRunner.terminateRunningProcess()
+            exit(130)
+        }
+        signal(SIGTERM) { _ in
+            ProcessRunner.terminateRunningProcess()
+            exit(143)
+        }
+    }
+
+    private static func terminateRunningProcess() {
+        let state = State.shared
+        state.lock.lock()
+        let process = state.runningProcess
+        state.lock.unlock()
+        guard let process, process.isRunning else { return }
+        process.terminate()
+    }
+
     @discardableResult
     public static func run(
         _ command: ProcessCommand,
-        captureOutput: Bool = false
+        captureOutput: Bool = false,
+        timeout: TimeInterval? = nil
     ) throws -> String {
+        installInterruptHandlerIfNeeded()
         let process = Process()
         let standardOutput = Pipe()
         let standardError = Pipe()
@@ -77,8 +116,33 @@ public enum ProcessRunner {
             process.standardError = FileHandle.standardError
         }
 
+        if command.usesTerminalInput {
+            process.standardInput = FileHandle.standardInput
+        }
+
         try process.run()
-        process.waitUntilExit()
+
+        State.shared.lock.lock()
+        State.shared.runningProcess = process
+        State.shared.lock.unlock()
+        defer {
+            State.shared.lock.lock()
+            State.shared.runningProcess = nil
+            State.shared.lock.unlock()
+        }
+
+        if let timeout {
+            let deadline = Date().addingTimeInterval(timeout)
+            while process.isRunning {
+                if Date() >= deadline {
+                    process.terminate()
+                    throw ScriptSupportError.commandTimedOut(command.rendered, timeout)
+                }
+                Thread.sleep(forTimeInterval: 0.25)
+            }
+        } else {
+            process.waitUntilExit()
+        }
 
         let output = captureOutput ? readText(from: standardOutput) : ""
         let errorOutput = captureOutput ? readText(from: standardError) : ""

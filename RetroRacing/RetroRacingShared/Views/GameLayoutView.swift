@@ -45,6 +45,8 @@ struct GameLayoutView<GameArea: View>: View {
         ZStack(alignment: .bottomLeading) {
             if usesLandscapeLayout {
                 landscapeLayout
+            } else if usesRegularWidthWidePlayLayout {
+                regularWidthWidePlayLayout
             } else {
                 portraitLayout
             }
@@ -57,41 +59,92 @@ struct GameLayoutView<GameArea: View>: View {
     private func useLandscapeLayout(containerSize: CGSize) -> Bool {
         #if os(macOS) || os(iOS)
         switch (horizontalSizeClass, verticalSizeClass) {
-        case (.regular, _): return true
-        case (_, .compact): return true
-        case (.compact, .regular): return false
-        default: return containerSize.width > containerSize.height
+        case (.regular, .compact):
+            // Wide but short (e.g. larger iPhone landscape): side-rail HUD + controls.
+            return true
+        case (.regular, _), (.compact, _):
+            // Regular×regular (iPad/Mac) and any compact-width size: full-width top HUD.
+            return false
+        default:
+            return containerSize.width > containerSize.height
         }
         #else
         return containerSize.width > containerSize.height
         #endif
     }
 
+    /// Regular-width and wider-than-tall (iPad landscape / wide Mac): full-width HUD with
+    /// direction buttons flanking the game square.
+    private var usesRegularWidthWidePlayLayout: Bool {
+        #if os(macOS) || os(iOS)
+        horizontalSizeClass == .regular && containerSize.width > containerSize.height
+        #else
+        false
+        #endif
+    }
+
     private var portraitLayout: some View {
         VStack(spacing: 8) {
-            portraitHeader
+            gameHUDHeader
 
+            if shouldVerticallyCenterPortraitPlayArea {
+                Spacer(minLength: 0)
+                portraitPlayArea
+                Spacer(minLength: 0)
+            } else {
+                portraitPlayArea
+            }
+        }
+    }
+
+    private var portraitPlayArea: some View {
+        VStack(spacing: 8) {
             gameAreaWithFullScreenTouch
                 .frame(maxWidth: .infinity)
                 .layoutPriority(1)
 
-            directionButtonsArea
+            if shouldVerticallyCenterPortraitPlayArea {
+                directionButtonsRow
+            } else {
+                directionButtonsArea
+            }
         }
     }
 
-    private var portraitHeader: some View {
+    /// Full-width score/lives header, with left/right controls centered beside the game square.
+    private var regularWidthWidePlayLayout: some View {
+        VStack(spacing: 8) {
+            gameHUDHeader
+            Spacer(minLength: 0)
+            HStack(alignment: .center, spacing: 0) {
+                directionButtonImage(isLeft: true)
+                    .frame(width: landscapeControlsSideRailWidth, height: directionButtonHeight)
+                    .padding(.horizontal, 8)
+                gameAreaWithFullScreenTouch
+                    .frame(maxWidth: .infinity)
+                directionButtonImage(isLeft: false)
+                    .frame(width: landscapeControlsSideRailWidth, height: directionButtonHeight)
+                    .padding(.horizontal, 8)
+            }
+            Spacer(minLength: 0)
+        }
+    }
+
+    private var gameHUDHeader: some View {
         VStack(alignment: .leading, spacing: 6) {
             Group {
                 if shouldUseVerticalPortraitHeader {
-                    AdaptiveStack {
+                    VStack(alignment: .leading, spacing: 6) {
                         headerScoreLabel
                         headerLivesView
                     }
                 } else {
-                    HStack {
+                    HStack(alignment: .firstTextBaseline, spacing: 12) {
                         headerScoreLabel
-                        Spacer()
+                            .layoutPriority(1)
+                        Spacer(minLength: 16)
                         headerLivesView
+                            .layoutPriority(2)
                     }
                 }
             }
@@ -114,11 +167,13 @@ struct GameLayoutView<GameArea: View>: View {
                     .frame(minWidth: 100, minHeight: 80)
                 Spacer(minLength: 8)
             }
-            .frame(width: 160)
+            .frame(width: landscapeScoreSideRailWidth)
             .padding(.horizontal, 8)
             .padding(.vertical, 4)
+
             gameAreaWithFullScreenTouch
                 .frame(maxWidth: .infinity)
+
             VStack(alignment: .trailing, spacing: 0) {
                 headerLivesView
                 Spacer(minLength: 8)
@@ -126,10 +181,19 @@ struct GameLayoutView<GameArea: View>: View {
                     .frame(minWidth: 100, minHeight: 80)
                 Spacer(minLength: 8)
             }
-            .frame(width: 160)
+            .frame(width: landscapeControlsSideRailWidth)
             .padding(.horizontal, 8)
             .padding(.vertical, 4)
         }
+    }
+
+    /// iPhone landscape side rails stay compact; regular-width layouts no longer use side rails.
+    private var landscapeScoreSideRailWidth: CGFloat {
+        160
+    }
+
+    private var landscapeControlsSideRailWidth: CGFloat {
+        160
     }
 
     private var gameAreaWithFullScreenTouch: some View {
@@ -217,15 +281,36 @@ struct GameLayoutView<GameArea: View>: View {
             .font(headerFont)
             .foregroundStyle(.primary)
             .shadow(color: Color.primary.opacity(0.35), radius: 0.5)
-            .lineLimit(usesLandscapeLayout ? nil : 1)
-            .minimumScaleFactor(usesLandscapeLayout ? 1.0 : 0.75)
-            .allowsTightening(!usesLandscapeLayout)
-            .fixedSize(horizontal: false, vertical: usesLandscapeLayout)
+            .lineLimit(scoreLabelLineLimit)
+            .minimumScaleFactor(scoreLabelMinimumScaleFactor)
+            .allowsTightening(scoreLabelAllowsTightening)
+            .fixedSize(horizontal: false, vertical: scoreLabelAllowsVerticalExpansion)
             .multilineTextAlignment(.leading)
             .accessibilityLabel(headerScoreText)
             .accessibilityAddTraits(.isStaticText)
             .accessibilityRespondsToUserInteraction(false)
             .accessibilityHidden(hideHUDFromAccessibility)
+    }
+
+    private var scoreLabelLineLimit: Int? {
+        if shouldUseVerticalPortraitHeader { return nil }
+        if usesLandscapeLayout { return nil }
+        return 1
+    }
+
+    private var scoreLabelMinimumScaleFactor: CGFloat {
+        if shouldUseVerticalPortraitHeader { return 1.0 }
+        if usesLandscapeLayout { return 1.0 }
+        return 0.75
+    }
+
+    private var scoreLabelAllowsTightening: Bool {
+        if shouldUseVerticalPortraitHeader { return false }
+        return !usesLandscapeLayout
+    }
+
+    private var scoreLabelAllowsVerticalExpansion: Bool {
+        usesLandscapeLayout
     }
 
     private var headerScoreText: String {
@@ -329,11 +414,31 @@ struct GameLayoutView<GameArea: View>: View {
     }
 
     private var shouldUseVerticalPortraitHeader: Bool {
-        dynamicTypeSize.isAccessibilitySize || dynamicTypeSize >= .xxLarge
+        // Regular × regular (iPad / typical Mac): always keep score and lives on one full-width
+        // row. Compact-width layouts may still stack at large Dynamic Type.
+        #if os(macOS) || os(iOS)
+        if horizontalSizeClass == .regular, verticalSizeClass == .regular {
+            return false
+        }
+        if horizontalSizeClass == .regular {
+            return dynamicTypeSize.isAccessibilitySize
+        }
+        #endif
+        return dynamicTypeSize.isAccessibilitySize || dynamicTypeSize >= .xxLarge
     }
 
     private var usesLandscapeLayout: Bool {
         useLandscapeLayout(containerSize: containerSize)
+    }
+
+    /// Regular-width taller-than-wide (iPad portrait / tall Mac): pin the full-width HUD and
+    /// vertically center the game square + direction buttons underneath.
+    private var shouldVerticallyCenterPortraitPlayArea: Bool {
+        #if os(macOS) || os(iOS)
+        horizontalSizeClass == .regular && usesRegularWidthWidePlayLayout == false
+        #else
+        false
+        #endif
     }
 
     private var accessibilityLivesLabel: String {

@@ -33,7 +33,8 @@ struct GameOverSocialStatsSection: View {
             friendScoreRow(
                 displayName: nextFriendAhead.displayName,
                 score: nextFriendAhead.score,
-                avatarPNGData: nextFriendAhead.avatarPNGData
+                avatarPNGData: nextFriendAhead.avatarPNGData,
+                showsMilestoneRing: true
             )
         }
     }
@@ -70,7 +71,8 @@ struct GameOverSocialStatsSection: View {
     private func friendScoreRow(
         displayName: String,
         score: Int,
-        avatarPNGData: Data?
+        avatarPNGData: Data?,
+        showsMilestoneRing: Bool = false
     ) -> some View {
         GameOverSocialFriendScoreRow(
             displayName: displayName,
@@ -78,7 +80,8 @@ struct GameOverSocialStatsSection: View {
             avatarPNGData: avatarPNGData,
             avatarSize: avatarSize,
             bodyFont: bodyFont,
-            scoreFont: scoreFont
+            scoreFont: scoreFont,
+            showsMilestoneRing: showsMilestoneRing
         )
     }
 }

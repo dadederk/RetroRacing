@@ -117,6 +117,10 @@ extension GameScene {
         }
 
         if sprite.name == "crash" {
+            if rendersStaticCrashForScreenshot {
+                sprite.alpha = 1.0
+                return
+            }
             let prefersReducedMotion: Bool = {
                 #if os(iOS) || os(tvOS)
                 return UIAccessibility.isReduceMotionEnabled
@@ -204,6 +208,17 @@ extension GameScene {
                 sprite.alpha = 1.0
                 break
             }
+        }
+    }
+
+    func solidifyCrashSpritesForScreenshotCapture() {
+        for sprite in spritesForGivenState where sprite.name == "crash" {
+            sprite.removeAllActions()
+            sprite.alpha = 1.0
+        }
+        enumerateChildNodes(withName: "//crash") { node, _ in
+            node.removeAllActions()
+            node.alpha = 1.0
         }
     }
 }

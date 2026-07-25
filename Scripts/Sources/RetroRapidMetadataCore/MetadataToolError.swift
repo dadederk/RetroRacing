@@ -17,6 +17,7 @@ public enum MetadataToolError: LocalizedError {
     case generatedDocumentsOutOfDate([String])
     case helmNotFound(String)
     case helmFailed(String)
+    case appStoreConnectFailed(String)
     case invalidArguments(String)
 
     public var errorDescription: String? {
@@ -39,6 +40,8 @@ public enum MetadataToolError: LocalizedError {
             "Helm CLI not found at \(path)."
         case let .helmFailed(message):
             "Helm update failed: \(message)"
+        case let .appStoreConnectFailed(message):
+            "App Store Connect API failed: \(message)"
         case let .invalidArguments(message):
             message
         }

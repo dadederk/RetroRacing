@@ -17,12 +17,17 @@ All user-facing copy must be localizable and sourced from shared localization as
 - French: `fr` (covers France and French-Canadian fallback)
 - Spanish (Spain): `es`
 - Catalan: `ca` (translations written in Valencian Meridional style)
+- Japanese: `ja`
+- Korean: `ko`
+- Portuguese (Brazil): `pt-BR`
+- Traditional Chinese: `zh-Hant`
 
 ## Source of Truth
 
 - Shared catalog: `RetroRacing/RetroRacingShared/Localizable.xcstrings`
-- App Store metadata: `AppStore/metadata/retrorapid-v1.5.json` (`de-DE`, `nl-NL`, `it`, `fr-FR`)
+- App Store metadata: `AppStore/metadata/retrorapid-v1.5.json`
 - EU transcreation reference: `Scripts/Resources/eu_localizations.json`
+- APAC/LatAm transcreation reference: `Scripts/Resources/asia_latam_localizations.json`
 - Project regions: `RetroRacing/RetroRacing.xcodeproj/project.pbxproj`
 - App Info.plist overlay: `RetroRacing/Config/RetroRacingUniversalInfo.plist`
 
@@ -49,6 +54,17 @@ Keep these customer-facing terms aligned across in-app copy, IAP display names, 
 
 Reference bundle: `Scripts/Resources/eu_localizations.json`.
 
+### Product terminology (APAC / LatAm locales)
+
+| Locale | Unlimited Plays | Game Center achievements |
+|---|---|---|
+| `ja` | 無制限プレイ | 実績 |
+| `ko` | 무제한 플레이 | 업적 |
+| `pt-BR` | Partidas Ilimitadas | conquistas |
+| `zh-Hant` | 無限暢玩 | 成就 |
+
+Reference bundle: `Scripts/Resources/asia_latam_localizations.json`.
+
 ## Implementation Rules
 
 - Use String Catalog entries for all user-visible text.
@@ -67,7 +83,7 @@ Reference bundle: `Scripts/Resources/eu_localizations.json`.
 
 - The universal app target uses `Config/RetroRacingUniversalInfo.plist` as an overlay while keeping generated Info.plist enabled.
 - Keep `CFBundleAllowMixedLocalizations = true` so localized resources from embedded/shared bundles are resolved correctly.
-- Keep `CFBundleLocalizations = [en, en-GB, en-AU, en-CA, de, nl, it, fr, es, ca]` aligned with project-supported regions.
+- Keep `CFBundleLocalizations = [en, en-GB, en-AU, en-CA, de, nl, it, fr, es, ca, ja, ko, pt-BR, zh-Hant]` aligned with project-supported regions.
 
 ## Valencian Variant Guidelines
 
@@ -81,6 +97,7 @@ Reference bundle: `Scripts/Resources/eu_localizations.json`.
   - German (`de`), Dutch (`nl`), Italian (`it`), French (`fr`)
   - Spanish (`es`)
   - Catalan (`ca`)
+  - Japanese (`ja`), Korean (`ko`), Brazilian Portuguese (`pt-BR`), Traditional Chinese (`zh-Hant`)
 - Keep translation completeness at 100% for required locales in the shared catalog.
 
 ## Maintenance
@@ -92,6 +109,7 @@ Reference bundle: `Scripts/Resources/eu_localizations.json`.
   - `de`, `nl`, `it`, `fr`
   - `es`
   - `ca` (with Valencian Meridional phrasing)
+  - `ja`, `ko`, `pt-BR`, `zh-Hant`
 - Engagement/paywall UX keys for the current menu/settings flow include:
   - `menu_engagement_prompt`
   - `menu_rate_game`

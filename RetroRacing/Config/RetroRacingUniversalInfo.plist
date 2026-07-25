@@ -16,6 +16,10 @@
         <string>fr</string>
         <string>es</string>
         <string>ca</string>
+        <string>ja</string>
+        <string>ko</string>
+        <string>pt-BR</string>
+        <string>zh-Hant</string>
     </array>
 </dict>
 </plist>

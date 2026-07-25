@@ -78,17 +78,18 @@ func fetchFriendLeaderboardSnapshot(for difficulty: GameDifficulty) async -> Fri
 1. Accepts one or two optional `UpcomingFriendMilestone` entries.
 2. Resolves the target car using current score + visible upcoming cars.
 3. Renders compact map-pin style avatar markers above target cars (short, slightly right-leaning solid pointer, road-line tint, perspective-aware size scaling, and initials fallback when no avatar).
-4. Marker visuals are rendered at a high source size and scaled down at placement time to improve edge and avatar quality.
-5. Marker rendering path avoids per-marker repeated color-resolution work and uses lightweight overlap grouping keys to reduce per-frame allocation pressure.
-6. Debug builds can enable SpriteKit frame diagnostics (`FPS` and `node count`) from Settings for in-device performance validation.
-7. Runtime debug diagnostics are enabled via scene-level `SKView` flags (`showsFPS`/`showsNodeCount`) and SpriteKit’s built-in overlay (no custom sampled in-game stats overlay).
-8. Friend-marker rendering is split between `GameScene+FriendMilestones.swift` (placement/progression) and `GameScene+FriendMilestones+Badge.swift` (badge/avatar composition) to keep `GameScene+Grid.swift` focused on grid/road rendering.
+4. Marker diameter stays perspective-aware (smaller near the top row, larger nearer the player). On iPadOS and macOS the overall badge size is 2× the iPhone scale (min/max clamps included); iPhone/tvOS/visionOS keep the base scale.
+5. Marker visuals are rendered at a high source size and scaled down at placement time to improve edge and avatar quality.
+6. Marker rendering path avoids per-marker repeated color-resolution work and uses lightweight overlap grouping keys to reduce per-frame allocation pressure.
+7. Debug builds can enable SpriteKit frame diagnostics (`FPS` and `node count`) from Settings for in-device performance validation.
+8. Runtime debug diagnostics are enabled via scene-level `SKView` flags (`showsFPS`/`showsNodeCount`) and SpriteKit’s built-in overlay (no custom sampled in-game stats overlay).
+9. Friend-marker rendering is split between `GameScene+FriendMilestones.swift` (placement/progression) and `GameScene+FriendMilestones+Badge.swift` (badge/avatar composition) to keep `GameScene+Grid.swift` focused on grid/road rendering.
 
 `GameOverView`:
 
 1. Optional social section below speed row.
-2. Displays next friend ahead (single row with avatar + score).
-3. Displays overtaken friends list capped to 3 plus `+N more` (each row with avatar + score).
+2. Displays next friend ahead (single row with avatar + score); the ahead avatar uses the same grey road-line ring inset as the in-race friend milestone badge.
+3. Displays overtaken friends list capped to 3 plus `+N more` (each row with avatar + score; no milestone ring).
 4. Social score rows expose a combined accessibility element (avatar hidden from accessibility, single row announcement with friend name + score).
 
 ## Accessibility
@@ -105,5 +106,5 @@ Unit tests cover:
 1. `GameCenterService` unauthenticated snapshot behavior.
 2. Friend snapshot normalization (filter, dedupe, sort, baseline retention).
 3. `GameViewModel` baseline selection and social summary computation.
-4. `GameScene` milestone-to-car mapping logic.
+4. `GameScene` milestone-to-car mapping logic and badge diameter clamping (including the 2× iPad/Mac platform scale).
 5. Existing score submission/game-over flows continue to work without social data.

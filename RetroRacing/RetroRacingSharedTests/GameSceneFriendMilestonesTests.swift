@@ -98,6 +98,49 @@ final class GameSceneFriendMilestonesTests: XCTestCase {
         XCTAssertEqual(markers.count, 2)
     }
 
+    func testGivenPhonePlatformScaleWhenClampingBadgeDiameterThenKeepsBaseMinAndMax() {
+        // Given
+        let belowMin = FriendMilestoneConfiguration.minBadgeDiameter - 4
+        let aboveMax = FriendMilestoneConfiguration.maxBadgeDiameter + 10
+        let mid = (FriendMilestoneConfiguration.minBadgeDiameter + FriendMilestoneConfiguration.maxBadgeDiameter) / 2
+
+        // When / Then
+        XCTAssertEqual(
+            FriendMilestoneConfiguration.clampedBadgeDiameter(scaledDiameter: belowMin, platformScale: 1),
+            FriendMilestoneConfiguration.minBadgeDiameter
+        )
+        XCTAssertEqual(
+            FriendMilestoneConfiguration.clampedBadgeDiameter(scaledDiameter: aboveMax, platformScale: 1),
+            FriendMilestoneConfiguration.maxBadgeDiameter
+        )
+        XCTAssertEqual(
+            FriendMilestoneConfiguration.clampedBadgeDiameter(scaledDiameter: mid, platformScale: 1),
+            mid
+        )
+    }
+
+    func testGivenExpandedPlatformScaleWhenClampingBadgeDiameterThenDoublesSizeAndClamps() {
+        // Given
+        let scale = FriendMilestoneConfiguration.expandedPlatformDiameterScale
+        let belowMin = FriendMilestoneConfiguration.minBadgeDiameter - 4
+        let aboveMax = FriendMilestoneConfiguration.maxBadgeDiameter + 10
+        let mid = (FriendMilestoneConfiguration.minBadgeDiameter + FriendMilestoneConfiguration.maxBadgeDiameter) / 2
+
+        // When / Then
+        XCTAssertEqual(
+            FriendMilestoneConfiguration.clampedBadgeDiameter(scaledDiameter: belowMin, platformScale: scale),
+            FriendMilestoneConfiguration.minBadgeDiameter * scale
+        )
+        XCTAssertEqual(
+            FriendMilestoneConfiguration.clampedBadgeDiameter(scaledDiameter: aboveMax, platformScale: scale),
+            FriendMilestoneConfiguration.maxBadgeDiameter * scale
+        )
+        XCTAssertEqual(
+            FriendMilestoneConfiguration.clampedBadgeDiameter(scaledDiameter: mid, platformScale: scale),
+            mid * scale
+        )
+    }
+
     private func makeScene() -> GameScene {
         GameScene(
             size: CGSize(width: 200, height: 200),

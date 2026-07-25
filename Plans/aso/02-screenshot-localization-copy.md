@@ -2,8 +2,8 @@
 
 Part of [ASO & growth plans](README.md). Index: [retrorapid_aso_growth_plan.md](../retrorapid_aso_growth_plan.md).
 
-Last updated: 2026-07-23
-**See also:** [Current storyboard](../../AppStore/docs/06-screenshots.md) · Canonical source: `Scripts/Sources/RetroRacingAutomationCore/ScreenshotStudioWorkflow.swift` · Sync command: `swift run --package-path Scripts sync-screenshot-studio-localizations`
+Last updated: 2026-07-25
+**See also:** [Current storyboard](../../AppStore/docs/06-screenshots.md) · Canonical source: `Scripts/Sources/RetroRacingAutomationCore/ScreenshotStudioWorkflow.swift` · Sync command: `./retrorapid screenshots sync`
 
 ---
 
@@ -11,28 +11,30 @@ Last updated: 2026-07-23
 
 ## 4.1 Positioning Rule
 
-- Slide 1 should sell the game loop.
-- Accessibility should appear early (slide 2/3), but not replace the gameplay hook.
-- Game Center should appear as replayability support, not as headline proposition.
+- Slides 1–3 should sell the game loop.
+- Accessibility appears on slide 4 (after the funnel, before SharePlay).
+- SharePlay is slide 5 on iPhone/iPad only; Mac skips this slide.
+- Game Center competition is slide 6; customization and aesthetic proof follow; achievements and menu close the set.
 - Bodies target **≤ ~10 words** in English; one beat per slide, no repeated ground. Translated bodies may run a word or two longer.
 
 ## 4.2 iPhone Caption Sequence
 
-Current iPhone/iPad/Mac source copy uses this **seven-slide** order. Locales: `en-US`, `en-GB`, `en-AU`, `en-CA`, `de-DE`, `nl-NL`, `it`, `fr-FR`, `es-ES`, `es-MX`, `ca`. For this submission pass, all locales reuse the same `en-US` base captures while keeping localized overlay copy in the generated `data.plist` files. Full per-locale text lives only in the canonical Swift source and generated `data.plist` files — not duplicated per-language below.
-
-Translations use vocabulary consistent with `Localizable.xcstrings` and App Store metadata. CA follows **Valencian Meridional** dialect: `trànsit` for traffic, `teua`/`seua` for feminine possessives, `este`/`esta` for proximal demonstratives, Valencian verb forms (`gaudix`, `resistix`, `valga`).
+Current iPhone/iPad source copy uses this **ten-slide** order. Mac uses **nine slides** (no SharePlay). Locales: `en-US`, `en-GB`, `en-AU`, `en-CA`, `de-DE`, `nl-NL`, `it`, `fr-FR`, `es-ES`, `es-MX`, `ca`. Full per-locale text lives only in the canonical Swift source and generated `data.plist` files.
 
 | # | Title (EN) | Body (EN, ≤ ~10 words) |
 |---|------------|-----------|
 | 1 | `Race Through Endless Traffic` | `Dodge traffic and chase overtakes in a retro arcade racer.` |
-| 2 | `Simple Controls. Pure Arcade Action` | `Move left. Move right. Don't crash. That's the whole game.` |
-| 3 | `Built For Accessibility` | `VoiceOver, audio cues, haptics, larger text, and adaptable gameplay settings.` |
-| 4 | `One Wrong Move. Game Over` | `One mistake ends your run. Restart fast, beat your best.` |
-| 5 | `Chase Friends On The Road` | `Game Center markers show the rival score you're chasing.` |
-| 6 | `Choose Your Retro Aesthetic` | `Switch between pocket-console green and LCD handheld styles anytime.` |
-| 7 | `Customize Your Experience` | `Tune controls, haptics, volume, and visuals to fit your style.` (`Customise` on en-GB/en-AU) |
+| 2 | `Simple Controls. Pure Arcade Action` | `Move left. Move right. Don't crash. Deceptively simple.` |
+| 3 | `One Wrong Move. Game Over` | `One mistake ends your run. Restart fast, chase your high score!` |
+| 4 | `Accessibility Front and Center` | `VoiceOver, audio cues, haptics, larger text, and adaptable gameplay settings.` |
+| 5 | `Race Friends with SharePlay` | `Challenge friends for free. Countdown, compete, rematch.` |
+| 6 | `Climb the Leaderboard` | `Game Center scores and friend markers keep every run competitive.` |
+| 7 | `Customize Your Experience` | `Tune volume, haptics, controls… Go Cruise, Fast, or Rapid!` (`Customise` on en-GB/en-AU) |
+| 8 | `Choose Your Retro Aesthetic` | `Switch between pocket-console green and LCD handheld styles.` |
+| 9 | `Unlock Retro Achievements` | `Earn Game Center trophies as you race and improve.` |
+| 10 | `Play Solo Or With Friends` | `Daily free plays, leaderboards, and live friend races.` |
 
-> **Export status (2026-07-23):** Source `data.plist` copy is synced for iPhone, iPad, Mac, and Apple Watch via the sync script. iPhone has seven `en-US` JPEG captures reused for every locale. Mac has the five existing `en-US` PNG captures reused for every locale; add slides 6-7 base captures and rerun sync. iPad still needs `en-US` base captures, then sync will reuse them for every locale.
+> **Export status (2026-07-25):** Overlay copy synced via `./retrorapid screenshots sync`. Capture new base images for slides 4–5 (SharePlay + shifted friend marker), 8–9 (achievements + menu) on iPhone/iPad; Mac slides 7–8 for achievements + menu.
 
 ## 4.3 Apple Watch Screenshot Approach
 

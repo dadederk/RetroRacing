@@ -83,12 +83,17 @@ public struct GameOverView: View {
             #endif
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .background(.background)
-            .navigationTitle(GameLocalizedStrings.string("game_over_encouragement_title"))
+            .navigationTitle("")
             #if os(iOS) || os(visionOS)
             .navigationBarTitleDisplayMode(.inline)
             #endif
             #if !os(watchOS) && !os(tvOS)
             .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text(GameLocalizedStrings.string("game_over_encouragement_title"))
+                        .font(scoreFont)
+                        .multilineTextAlignment(.center)
+                }
                 ToolbarItem(placement: Self.shareToolbarPlacement) {
                     shareToolbarItem
                 }

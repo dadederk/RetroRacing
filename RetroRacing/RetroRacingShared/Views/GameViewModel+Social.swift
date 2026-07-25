@@ -9,6 +9,8 @@ import Foundation
 
 extension GameViewModel {
     func refreshFriendMilestonesForCurrentRun() async {
+        guard isScreenshotCapturePinned == false else { return }
+
         let requestedDifficulty = selectedDifficulty
 
         guard leaderboardService.isAuthenticated() else {
@@ -38,6 +40,8 @@ extension GameViewModel {
     }
 
     func updateFriendProgress(forScore score: Int) {
+        guard isScreenshotCapturePinned == false else { return }
+
         guard let snapshot = friendSnapshot else {
             currentUpcomingFriendMilestone = nil
             scene?.setUpcomingFriendMilestones([])
@@ -140,6 +144,8 @@ extension GameViewModel {
     }
 
     func clearFriendMilestoneState() {
+        guard isScreenshotCapturePinned == false else { return }
+
         friendSnapshot = nil
         runBaselineBestScore = highestScoreStore.currentBest(for: selectedDifficulty)
         overtakenFriendPlayerIDs.removeAll()

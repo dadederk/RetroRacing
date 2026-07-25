@@ -141,6 +141,7 @@ public struct MenuView: View {
                     specialEventService: specialEventService
                 )
                 .fontPreferenceStore(fontPreferenceStore)
+                .settingsSheetStyle()
             }
             .sheet(item: $paywallTrigger) { trigger in
                 PaywallView(playLimitService: playLimitService, isLimitReached: trigger == .limitReached)

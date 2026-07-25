@@ -32,7 +32,7 @@
 	<key>bodyTextSize</key>
 	<string>xSmall</string>
 	<key>devicePosition</key>
-	<string>overflowBottom</string>
+	<string>fullTop</string>
 	<key>deviceScaleFactor</key>
 	<real>1</real>
 	<key>frameStyle</key>

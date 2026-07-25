@@ -1015,6 +1015,31 @@ final class GameViewModelTests: XCTestCase {
             await Task.yield()
         }
     }
+
+    func testGivenBigCarsEnabledWhenApplyingScreenshotLayoutThenCaptureForcesBigCarsOff() {
+        let imageLoader = MockImageLoader()
+        let soundPlayer = MockSoundPlayer()
+        let laneCuePlayer = MockLaneCuePlayerStub()
+        let scene = GameScene(
+            size: CGSize(width: 300, height: 300),
+            theme: LCDTheme(),
+            imageLoader: imageLoader,
+            soundPlayer: soundPlayer,
+            laneCuePlayer: laneCuePlayer,
+            hapticController: nil,
+            audioFeedbackMode: .retro,
+            laneMoveCueStyle: .laneConfirmationAndSafety,
+            difficulty: .rapid,
+            bigRivalCarsEnabled: true
+        )
+        viewModel.selectedBigRivalCarsEnabled = true
+        viewModel.scene = scene
+
+        viewModel.applyScreenshotLayout(.hookGameplay, to: scene)
+
+        XCTAssertFalse(scene.bigRivalCarsEnabled)
+        XCTAssertFalse(viewModel.selectedBigRivalCarsEnabled)
+    }
 }
 
 // MARK: - Mock Objects

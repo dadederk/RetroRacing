@@ -33,7 +33,8 @@ Single entrypoint for shipped in-app behavior contracts. Plans track remaining w
 | Rating and review prompts | [rating_system.md](rating_system.md) | — |
 | About screen | [about_screen.md](about_screen.md) | — |
 | tvOS parity | [tvos_parity.md](tvos_parity.md) | — |
-| Testing strategy | [testing.md](testing.md) | — |
+| Testing strategy | [testing.md](testing.md) | [screenshot_capture.md](screenshot_capture.md) |
+| App Store screenshot capture mode | [screenshot_capture.md](screenshot_capture.md) | [testing.md](testing.md), [../AppStore/docs/06-screenshots.md](../AppStore/docs/06-screenshots.md) |
 | Archive and distribution | [archive_and_distribution.md](archive_and_distribution.md) | — |
 | App Store rejection fixes | [app_store_rejection_fix.md](app_store_rejection_fix.md) | — |
 | App Store listing, ASO, screenshots | [../AppStore/README.md](../AppStore/README.md) | [../Plans/aso/README.md](../Plans/aso/README.md) |
@@ -89,6 +90,7 @@ Single entrypoint for shipped in-app behavior contracts. Plans track remaining w
 ### Engineering and release
 
 - [testing.md](testing.md) — Unit test strategy and conventions
+- [screenshot_capture.md](screenshot_capture.md) — App Store screenshot capture mode and fixtures
 - [concurrency.md](concurrency.md) — Swift concurrency patterns
 - [folder_structure.md](folder_structure.md) — Target and feature layout
 - [archive_and_distribution.md](archive_and_distribution.md) — Archive and distribution
@@ -124,4 +126,4 @@ Single entrypoint for shipped in-app behavior contracts. Plans track remaining w
 
 ---
 
-**Last updated**: 2026-07-22
+**Last updated**: 2026-07-23

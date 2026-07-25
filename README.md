@@ -46,9 +46,15 @@ Legacy folders (`RetroRacing/RetroRacing*` old pilot layouts) have been removed;
 ## Run tests
 
 In Xcode: choose the **RetroRacingUniversal** scheme and run tests (⌘U).
-From the command line, use `swift run --package-path Scripts run-tests`; add
-`--dry-run` to inspect the resolved commands or `--destination <value>` to
-select another simulator.
+
+From the repository root:
+
+```bash
+./retrorapid test
+./retrorapid test package
+```
+
+Add `--dry-run` to inspect resolved commands, or `--destination <value>` to select another simulator. See [`Scripts/README.md`](Scripts/README.md) for the full command catalog.
 
 ## Guidelines for contributors
 

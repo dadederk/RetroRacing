@@ -25,8 +25,12 @@ let package = Package(
         .executable(name: "generate-metadata-docs", targets: ["GenerateMetadataDocs"]),
         .executable(name: "apply-retrorapid-metadata", targets: ["ApplyRetroRapidMetadata"]),
         .executable(name: "apply-iap-localizations", targets: ["ApplyIAPLocalizations"]),
+        .executable(name: "apply-game-center-eu-localizations", targets: ["ApplyGameCenterEULocalizations"]),
         .executable(name: "print-game-center-eu-localizations", targets: ["PrintGameCenterEULocalizations"]),
         .executable(name: "submit-testflight-build", targets: ["SubmitTestFlightBuild"]),
+        .executable(name: "capture-app-store-screenshots", targets: ["CaptureAppStoreScreenshots"]),
+        .executable(name: "swap-app-store-screenshots", targets: ["SwapAppStoreScreenshots"]),
+        .executable(name: "retrorapid", targets: ["RetroRapidCLI"]),
     ],
     targets: [
         .target(name: "ScriptSupport"),
@@ -67,12 +71,28 @@ let package = Package(
             dependencies: ["RetroRapidMetadataCore", "ScriptSupport"]
         ),
         .executableTarget(
+            name: "ApplyGameCenterEULocalizations",
+            dependencies: ["RetroRapidMetadataCore", "ScriptSupport"]
+        ),
+        .executableTarget(
             name: "PrintGameCenterEULocalizations",
             dependencies: ["RetroRapidMetadataCore", "ScriptSupport"]
         ),
         .executableTarget(
             name: "SubmitTestFlightBuild",
             dependencies: ["RetroRacingAutomationCore", "ScriptSupport"]
+        ),
+        .executableTarget(
+            name: "CaptureAppStoreScreenshots",
+            dependencies: ["RetroRacingAutomationCore", "ScriptSupport"]
+        ),
+        .executableTarget(
+            name: "SwapAppStoreScreenshots",
+            dependencies: ["RetroRapidMetadataCore", "ScriptSupport"]
+        ),
+        .executableTarget(
+            name: "RetroRapidCLI",
+            dependencies: ["ScriptSupport"]
         ),
         .testTarget(
             name: "ScriptSupportTests",

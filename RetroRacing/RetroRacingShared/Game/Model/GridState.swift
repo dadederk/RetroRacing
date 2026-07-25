@@ -8,8 +8,8 @@
 import Foundation
 
 /// In-memory representation of the visible race grid and occupant states.
-public struct GridState {
-    enum CellState: Equatable {
+public struct GridState: Sendable {
+    enum CellState: Equatable, Sendable {
         case Empty
         case Car
         case Player

@@ -1,8 +1,8 @@
 # SharePlay Release Campaign
 
-Last updated: 2026-07-23
+Last updated: 2026-07-25
 
-**Status:** `PLANNED` — SharePlay manual 2-device QA passed on 2026-07-23; one small glitch remains as non-blocking polish.
+**Status:** `READY_FOR_ASC` — SharePlay promo package implemented in repo (fixtures, metadata, screenshots, microsite, featuring + IAE copy). Submit featuring nomination and In-App Event in App Store Connect when launch week is set. Custom Product Page and App Preview deferred.
 
 **Doc ownership:** Campaign strategy, nomination copy, In-App Event metadata, product-page asset plan, and microsite copy candidates live here. Shipped behavior remains in [`../../Requirements/shareplay_multiplayer.md`](../../Requirements/shareplay_multiplayer.md). Canonical App Store metadata remains in [`../../AppStore/metadata/retrorapid-v1.5.json`](../../AppStore/metadata/retrorapid-v1.5.json).
 
@@ -49,8 +49,8 @@ Recommended package:
 | In-App Event | `Friend Race Week`, attached to the featuring nomination once approved or published. |
 | Featuring nomination | Primary `App Enhancements`; mention the In-App Event as the campaign wrapper if it is ready. |
 | Default product page | Keep gameplay/control/accessibility first; add SharePlay copy in iOS description and What's New. |
-| Custom Product Page | Create or revise a social/friend-racing page focused on SharePlay. |
-| App Preview | Strongly recommended if capture quality is good; SharePlay is easier to understand in motion. |
+| Custom Product Page | **Deferred** this pass — default page + featuring nomination carry SharePlay story. |
+| App Preview | **Deferred** this pass. |
 | Microsite | Update `BlogDadederk` RetroRapid app page and publish a short release post. |
 
 ## In-App Event Candidate
@@ -170,8 +170,9 @@ Metadata policy:
 
 Default product page:
 
-- Keep the first three slides gameplay, controls, accessibility unless PPO data says otherwise.
-- Consider adding SharePlay as slide 5 only if it replaces the current Game Center friend-marker slide without weakening the base funnel.
+- iPhone/iPad: **10 slides** — funnel (0–3), SharePlay (4), Game Center leaderboards (5), customize settings (6), pocket aesthetic (7), achievements (8), free-tier menu (9). See [`../../AppStore/docs/06-screenshots.md`](../../AppStore/docs/06-screenshots.md).
+- Mac: **9 slides** — same story minus SharePlay; achievements + menu at indices 7–8.
+- Apple Watch: **5 slides** — sequence-only, no SharePlay overlays.
 - Keep Apple Watch, Mac, accessibility, privacy, and no-data-collection proof visible elsewhere in the page.
 
 SharePlay Custom Product Page candidate:
@@ -204,26 +205,19 @@ App Preview storyboard:
 
 ## Microsite And BlogDadederk
 
-`BlogDadederk` is a separate workspace. Track copy here, then edit that repo in a dedicated pass.
+**Status:** Done (2026-07-25) in `BlogDadederk/AccessibilityUpTo11/AppsData/retrorapid.json`.
 
 Target file:
 
 - `/Users/dadederk/Developer/BlogDadederk/AccessibilityUpTo11/AppsData/retrorapid.json`
 
-Updates to make:
+Shipped updates:
 
-- Hero/subtitle: change `Race like it's 1985` to a line that includes live friend racing.
-- Description: add SharePlay on iPhone/iPad and remove stale future-platform copy.
-- Game Center feature: achievements are no longer "coming soon"; mention leaderboards, achievements, friend markers, and SharePlay separately.
-- Controls feature: controller support is no longer "coming soon"; list supported controls accurately.
-- Cross-platform feature: keep watchOS/iOS/iPadOS/macOS; do not promise tvOS/visionOS here.
-
-Feature card candidate:
-
-```text
-Title: Race Friends Live
-Description: Start a free SharePlay race on iPhone or iPad, dodge traffic together, compare results, and rematch without using daily plays.
-```
+- Hero/subtitle: SharePlay-aware line (`Race friends live. Retro lanes, real speed.`).
+- Description: SharePlay on iPhone/iPad; tvOS/visionOS promises removed.
+- **Race Friends Live** feature card added.
+- Game Center and controller features no longer say "coming soon".
+- Platforms: watchOS, iOS, iPadOS, macOS only.
 
 Release post outline:
 
@@ -232,6 +226,40 @@ Release post outline:
 3. Why friend races are free.
 4. How accessibility carries into multiplayer: clear overlays, friend wording, score/lives information, reduced disruption.
 5. Download link and request for App Store reviews.
+
+## ASC Submission Package
+
+Copy below is ready to paste when launch week is set. Submit the featuring nomination ≥3 weeks before launch; create the In-App Event at T-2 weeks (publish date ≤14 days before event start).
+
+### Featuring nomination
+
+| Field | Paste |
+|---|---|
+| Nomination name | `RetroRapid! - Free SharePlay Friend Races` |
+| Type | App Enhancements |
+| Platforms | iPhone, iPad |
+| In-App Event intent | Yes — attach `Friend Race Week` when media is ready |
+| Description | See § Featuring Nomination (884/1,000) |
+| Helpful Details | See § Featuring Nomination (402/500) |
+
+### In-App Event — Friend Race Week
+
+| Field | Paste |
+|---|---|
+| Reference name | `SharePlay Friend Race Week 2026` |
+| Event name | `Friend Race Week` |
+| Badge | Competition (backup: Major Update) |
+| Short description | `Race friends free with SharePlay` |
+| Long description | `Start a SharePlay race, dodge traffic together, and rematch without using daily plays.` |
+| Purchase required | No |
+| Platforms | iPhone, iPad |
+| Media still needed | 16:9 card + 9:16 detail (see Apple media specs in § Apple Sources) |
+
+### Manual ASC follow-ups
+
+- Set **macOS promotional text** to the non-SharePlay candidate in § App Store Metadata Candidates (Helm apply uses shared iOS-led promo).
+- Export localized screenshot overlays after verifying SharePlay slide text fit in Studio.
+- CPP and App Preview: **deferred** this pass.
 
 ## Timeline
 
@@ -251,15 +279,19 @@ Use absolute dates once the release week is chosen.
 
 - [x] Manual 2-device SharePlay lifecycle QA passed.
 - [ ] Non-blocking glitch triaged and either fixed or documented as known low-risk polish.
-- [ ] `swift test --package-path Scripts` passes.
-- [ ] `swift run --package-path Scripts run-tests` passes.
+- [x] `swift test --package-path Scripts` passes.
+- [x] `swift run --package-path Scripts run-tests` passes.
 - [ ] Release build uploaded to TestFlight and smoke-tested on iPhone and iPad.
-- [ ] iOS metadata updated without leaking SharePlay claims into macOS-only surfaces.
-- [ ] In-App Event media prepared: 16:9 card and 9:16 detail media.
-- [ ] Featuring nomination submitted at least 3 weeks before target launch.
-- [ ] SharePlay product-page assets exported and checked for text fit in all target locales.
-- [ ] Microsite update prepared in `BlogDadederk`.
+- [x] iOS metadata updated (description + SharePlay promo; **apply macOS promo manually in ASC** — shared JSON promo is iOS-led; use macOS candidate in § App Store Metadata Candidates).
+- [x] Default screenshot storyboard expanded to 10 slides (iPhone/iPad) with SharePlay, achievements, and menu fixtures.
+- [x] BlogDadederk microsite copy updated (`AccessibilityUpTo11/AppsData/retrorapid.json`).
+- [x] New screenshot base captures exported (`./retrorapid screenshots capture --slides 4,8,9` iPhone; Mac `7,8`).
+- [ ] In-App Event media prepared: 16:9 card and 9:16 detail media (copy ready in § In-App Event Candidate).
+- [ ] Featuring nomination submitted at least 3 weeks before target launch (copy ready in § Featuring Nomination).
+- [ ] SharePlay screenshot assets checked for text fit in all target locales.
 - [ ] Support/review monitoring window assigned for launch week.
+- [ ] Custom Product Page — **deferred** this pass.
+- [ ] App Preview — **deferred** this pass.
 
 ## Measurement
 

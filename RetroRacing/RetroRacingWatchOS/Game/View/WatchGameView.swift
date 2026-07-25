@@ -51,6 +51,8 @@ struct WatchGameView: View {
     @State private var helpPresentationContext: HelpPresentationContext?
     @State private var pendingGameOverDismissAction: GameOverDismissAction = .none
     @State private var hasEndedGameplaySession = false
+    @State private var isScreenshotCaptureReady = false
+    @State private var screenshotReadinessTask: Task<Void, Never>?
     @FocusState private var isCrownFocused: Bool
     @Environment(\.dismiss) private var dismiss
     @Environment(\.scenePhase) private var scenePhase
@@ -64,6 +66,14 @@ struct WatchGameView: View {
         case none
         case restart
         case finish
+    }
+
+    private let screenshotLayout: GameScreenshotLayout?
+    private let screenshotReadinessIdentifier: String?
+    private let onScreenshotLayoutReady: (() -> Void)?
+
+    private var isScreenshotCaptureMode: Bool {
+        screenshotLayout != nil
     }
 
     private struct HelpPauseSnapshot {
@@ -81,7 +91,10 @@ struct WatchGameView: View {
         highestScoreStore: HighestScoreStore,
         achievementProgressService: AchievementProgressService,
         leaderboardService: LeaderboardService,
-        watchBestScoreRelaySender: WatchBestScoreRelaySender
+        watchBestScoreRelaySender: WatchBestScoreRelaySender,
+        screenshotLayout: GameScreenshotLayout? = nil,
+        screenshotReadinessIdentifier: String? = nil,
+        onScreenshotLayoutReady: (() -> Void)? = nil
     ) {
         self.theme = theme
         self.fontPreferenceStore = fontPreferenceStore
@@ -89,6 +102,9 @@ struct WatchGameView: View {
         self.achievementProgressService = achievementProgressService
         self.leaderboardService = leaderboardService
         self.watchBestScoreRelaySender = watchBestScoreRelaySender
+        self.screenshotLayout = screenshotLayout
+        self.screenshotReadinessIdentifier = screenshotReadinessIdentifier
+        self.onScreenshotLayoutReady = onScreenshotLayoutReady
         let initialDifficulty = GameDifficulty.currentSelection(from: InfrastructureDefaults.userDefaults)
         let initialAudioFeedbackMode = AudioFeedbackMode.currentSelection(from: InfrastructureDefaults.userDefaults)
         let initialLaneMoveCueStyle = LaneMoveCueStyle.currentSelection(from: InfrastructureDefaults.userDefaults)
@@ -257,6 +273,12 @@ struct WatchGameView: View {
                 }
             }
         }
+        .overlay(alignment: .topLeading) {
+            if isScreenshotCaptureReady,
+               let screenshotReadinessIdentifier {
+                ScreenshotCaptureReadinessMarker(identifier: screenshotReadinessIdentifier)
+            }
+        }
         .onAppear {
             AppLog.info(
                 AppLog.lifecycle + AppLog.game,
@@ -267,15 +289,22 @@ struct WatchGameView: View {
             scene.setSoundVolume(selectedSoundEffectsVolume)
             scene.setAudioFeedbackMode(selectedAudioFeedbackMode)
             scene.setLaneMoveCueStyle(selectedLaneMoveCueStyle)
-            scene.setBigRivalCarsEnabled(selectedBigRivalCarsEnabled)
-            scene.setRoadVisualStyle(selectedRoadVisualStyle)
+            if isScreenshotCaptureMode {
+                scene.setBigRivalCarsEnabled(ScreenshotCapturePreferences.gameplayBigCarsEnabled)
+                scene.setRoadVisualStyle(ScreenshotCapturePreferences.gameplayRoadVisualStyle)
+            } else {
+                scene.setBigRivalCarsEnabled(selectedBigRivalCarsEnabled)
+                scene.setRoadVisualStyle(selectedRoadVisualStyle)
+            }
             logWatchAudioConfiguration()
             resetRunAchievementTelemetry()
             score = scene.gameState.score
             lives = scene.gameState.lives
             scenePaused = scene.gameState.isPaused
             inputAdapter = CrownGameInputAdapter(controller: scene, hapticController: watchHapticController)
-            isCrownFocused = true
+            if isScreenshotCaptureMode == false {
+                isCrownFocused = true
+            }
             if delegate == nil {
                 let d = GameSceneDelegateImpl(
                     onScoreUpdate: {
@@ -341,7 +370,11 @@ struct WatchGameView: View {
                 await AppBootstrap.configureAudioSessionAndWait()
                 guard Task.isCancelled == false else { return }
                 scene.start()
-                attemptAutoPresentVoiceOverHelpIfNeeded()
+                if let screenshotLayout {
+                    markScreenshotCaptureReadyIfNeeded(layout: screenshotLayout)
+                } else {
+                    attemptAutoPresentVoiceOverHelpIfNeeded()
+                }
             }
         }
         .sheet(isPresented: $isInGameHelpPresented, onDismiss: handleInGameHelpDismissed) {
@@ -361,6 +394,8 @@ struct WatchGameView: View {
             .interactiveDismissDisabled(true)
         }
         .onDisappear {
+            screenshotReadinessTask?.cancel()
+            screenshotReadinessTask = nil
             if hasEndedGameplaySession == false {
                 scene.stopAllSounds()
             }
@@ -797,6 +832,33 @@ struct WatchGameView: View {
                 GameLocalizedStrings.string("speed_increase_announcement")
             }
         )
+    }
+
+    private func markScreenshotCaptureReadyIfNeeded(layout: GameScreenshotLayout) {
+        guard isScreenshotCaptureReady == false else { return }
+        guard screenshotReadinessTask == nil else { return }
+
+        screenshotReadinessTask = Task { @MainActor in
+            try? await Task.sleep(for: .milliseconds(300))
+            for _ in 0..<100 {
+                guard Task.isCancelled == false else { return }
+                guard scene.isReadyToApplyScreenshotLayout else {
+                    try? await Task.sleep(for: .milliseconds(100))
+                    continue
+                }
+
+                scene.applyScreenshotLayout(layout)
+                scene.setBigRivalCarsEnabled(ScreenshotCapturePreferences.gameplayBigCarsEnabled)
+                scene.setRoadVisualStyle(ScreenshotCapturePreferences.gameplayRoadVisualStyle)
+                score = scene.gameState.score
+                lives = scene.gameState.lives
+                scenePaused = scene.gameState.isPaused
+                isScreenshotCaptureReady = true
+                screenshotReadinessTask = nil
+                onScreenshotLayoutReady?()
+                return
+            }
+        }
     }
 }
 
