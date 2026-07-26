@@ -33,7 +33,7 @@ Last updated: 2026-07-26
 | pt-BR | `RetroRapid: Corrida Arcade` | 26/30 | `Desvie tráfego em 3 faixas` | 26/30 | `ultrapassar,reflexo,pontuacao,haptico,controle,watch,conquista,conexao,recorde,pixel,classico,turbo` | 99/100 |
 | pt-PT | `RetroRapid: Corrida Arcade` | 26/30 | `Desvie o trânsito em 3 faixas` | 29/30 | `ultrapassagem,reflexos,classificacao,comando,relogio,infinito,offline,ipad,ecra,partida,ranking,fast` | 100/100 |
 | zh-Hant | `RetroRapid: 復古街機賽車` | 18/30 | `三線道閃避無盡交通` | 9/30 | `超車競賽,反射神經,離線遊玩,觸覺回饋,控制器,AppleWatch,成就解鎖,排行榜,race` | 100/100 |
-| zh-Hans | `RetroRapid: 复古街机赛车` | 18/30 | `三车道闪避无尽车流` | 9/30 | `超车挑战,反应力,离线模式,触感反馈,手柄支持,无障碍,分数榜,成就系统,watch` | 100/100 |
+| zh-Hans | `RetroRapid: 复古街机赛车` | 18/30 | `三车道闪避无尽车流` | 9/30 | `超车赛,反应力,离线玩,触感反馈,手柄支持,无障碍,分数榜,成就榜,智能手表` | 98/100 |
 
 Notes:
 
@@ -89,7 +89,7 @@ Crash, restart, and beat your best.
 
 Players are saying:
 "I am really a fan of this nice accessible game that I can just pick up and play! Finally, something that also works with the apple watch!"
-— Datafile, App Store review
+- Datafile, App Store review
 
 Featured in Create with Swift, Weekly Newsletter #96 (Indie App of the Week):
 "But beyond the nostalgia and tight gameplay, what truly stands out is its accessibility."
@@ -255,7 +255,7 @@ Choca, reinicia y supera tu marca.
 
 Lo que dicen los jugadores:
 "Un juego simplemente accesible y simplemente entretenido. Muy recomendable."
-— Jonathan Chacón, reseña en el App Store
+- Jonathan Chacón, reseña en el App Store
 
 Destacado en Create with Swift, Boletín semanal n.º 96 (App Indie de la Semana):
 "Más allá de la nostalgia y la jugabilidad ajustada, lo que realmente destaca es su accesibilidad."
@@ -313,7 +313,7 @@ Choca, reinicia y supera tu récord.
 
 Lo que dicen los jugadores:
 "Un juego simplemente accesible y simplemente entretenido. Muy recomendable."
-— Jonathan Chacón, reseña en el App Store
+- Jonathan Chacón, reseña en el App Store
 
 Destacado en Create with Swift, Boletín semanal n.º 96 (App Indie de la Semana):
 "Más allá de la nostalgia y la jugabilidad ajustada, lo que realmente destaca es su accesibilidad."
@@ -490,9 +490,9 @@ Use this shape for the next bug-fix or polish release if there is no larger feat
 ### en-US / en-GB / en-AU / en-CA
 
 ```text
-Race friends live with SharePlay on iPhone and iPad — synchronized countdowns, shared win/loss/tie results, and free rematches that wait until both players are ready.
+Race friends live with SharePlay on iPhone and iPad: synchronized countdowns, shared win/loss/tie results, and free rematches that wait until both players are ready.
 
-This update adds full in-app localization for European Portuguese, Simplified Chinese, and French (Canada).
+This update adds full in-app localization for German, Dutch, Italian, French (France), French (Canada), Japanese, Korean, Brazilian Portuguese, European Portuguese, Traditional Chinese, and Simplified Chinese.
 
 We've also polished settings, audio, and stability across iPhone, iPad, Mac, and Apple Watch.
 
@@ -501,14 +501,14 @@ If you're catching up: recent releases added Game Center achievements, friend ma
 Thanks for racing with us.
 ```
 
-Count: 570/4000 characters.
+Count: 671/4000 characters.
 
 ### de-DE
 
 ```text
-Rase live mit Freunden per SharePlay auf iPhone und iPad — synchronisierte Countdowns, gemeinsame Sieg-/Niederlage-/Unentschieden-Ergebnisse und kostenlose Rematches, die warten, bis beide Spieler bereit sind.
+Rase live mit Freunden per SharePlay auf iPhone und iPad: synchronisierte Countdowns, gemeinsame Sieg-/Niederlage-/Unentschieden-Ergebnisse und kostenlose Rematches, die warten, bis beide Spieler bereit sind.
 
-Dieses Update ergänzt die vollständige App-Lokalisierung um europäisches Portugiesisch, vereinfachtes Chinesisch und Französisch (Kanada).
+Dieses Update ergänzt die vollständige App-Lokalisierung um Deutsch, Niederländisch, Italienisch, Französisch, Französisch (Kanada), Japanisch, Koreanisch, brasilianisches Portugiesisch, europäisches Portugiesisch, traditionelles Chinesisch und vereinfachtes Chinesisch.
 
 Außerdem haben wir Einstellungen, Audio und Stabilität auf iPhone, iPad, Mac und Apple Watch verbessert.
 
@@ -517,14 +517,14 @@ Falls du aufholst: In den letzten Versionen kamen Game-Center-Erfolge, Freundesm
 Danke, dass du mit uns fährst.
 ```
 
-Count: 669/4000 characters.
+Count: 800/4000 characters.
 
 ### nl-NL
 
 ```text
-Race live met vrienden via SharePlay op iPhone en iPad — gesynchroniseerde countdowns, gedeelde winst/verlies/gelijkspel-resultaten en gratis rematches die wachten tot beide spelers klaar zijn.
+Race live met vrienden via SharePlay op iPhone en iPad: gesynchroniseerde countdowns, gedeelde winst/verlies/gelijkspel-resultaten en gratis rematches die wachten tot beide spelers klaar zijn.
 
-Deze update voegt volledige app-localisatie toe voor Europees Portugees, Vereenvoudigd Chinees en Frans (Canada).
+Deze update voegt volledige app-localisatie toe voor Duits, Nederlands, Italiaans, Frans (Frankrijk), Frans (Canada), Japans, Koreaans, Braziliaans Portugees, Europees Portugees, Traditioneel Chinees en Vereenvoudigd Chinees.
 
 We hebben ook instellingen, audio en stabiliteit verbeterd op iPhone, iPad, Mac en Apple Watch.
 
@@ -533,14 +533,14 @@ Als je bij bent: recente releases voegden Game Center-prestaties, vriendenmarker
 Bedankt dat je met ons rijdt.
 ```
 
-Count: 613/4000 characters.
+Count: 724/4000 characters.
 
 ### it
 
 ```text
-Corri in diretta con gli amici tramite SharePlay su iPhone e iPad — countdown sincronizzati, risultati condivisi di vittoria/sconfitta/parità e rematch gratuiti che aspettano che entrambi i giocatori siano pronti.
+Corri in diretta con gli amici tramite SharePlay su iPhone e iPad: countdown sincronizzati, risultati condivisi di vittoria/sconfitta/parità e rematch gratuiti che aspettano che entrambi i giocatori siano pronti.
 
-Questo aggiornamento aggiunge la localizzazione completa dell'app per portoghese europeo, cinese semplificato e francese (Canada).
+Questo aggiornamento aggiunge la localizzazione completa dell'app per tedesco, olandese, italiano, francese (Francia), francese (Canada), giapponese, coreano, portoghese brasiliano, portoghese europeo, cinese tradizionale e cinese semplificato.
 
 Abbiamo anche rifinito impostazioni, audio e stabilità su iPhone, iPad, Mac e Apple Watch.
 
@@ -549,14 +549,14 @@ Se ti stai aggiornando: le versioni recenti hanno aggiunto obiettivi Game Center
 Grazie per correre con noi.
 ```
 
-Count: 655/4000 characters.
+Count: 768/4000 characters.
 
 ### fr-FR
 
 ```text
-Course en direct avec tes amis via SharePlay sur iPhone et iPad — comptes à rebours synchronisés, résultats victoire/défaite/égalité partagés et revanches gratuites qui attendent que les deux joueurs soient prêts.
+Course en direct avec tes amis via SharePlay sur iPhone et iPad : comptes à rebours synchronisés, résultats victoire/défaite/égalité partagés et revanches gratuites qui attendent que les deux joueurs soient prêts.
 
-Cette mise à jour ajoute la localisation complète de l'app en portugais européen, chinois simplifié et français canadien.
+Cette mise à jour ajoute la localisation complète de l'app en allemand, néerlandais, italien, français (France), français canadien, japonais, coréen, portugais brésilien, portugais européen, chinois traditionnel et chinois simplifié.
 
 Nous avons aussi peaufiné les réglages, l'audio et la stabilité sur iPhone, iPad, Mac et Apple Watch.
 
@@ -565,14 +565,14 @@ Si tu rattrapes le train : les versions récentes ont ajouté des succès Game C
 Merci de courir avec nous.
 ```
 
-Count: 671/4000 characters.
+Count: 783/4000 characters.
 
 ### fr-CA
 
 ```text
-Coursez en direct avec vos amis via SharePlay sur iPhone et iPad — comptes à rebours synchronisés, résultats victoire/défaite/égalité partagés et revanches gratuites qui attendent que les deux joueurs soient prêts.
+Coursez en direct avec vos amis via SharePlay sur iPhone et iPad : comptes à rebours synchronisés, résultats victoire/défaite/égalité partagés et revanches gratuites qui attendent que les deux joueurs soient prêts.
 
-Cette mise à jour ajoute la localisation complète de l'app en portugais européen, chinois simplifié et français canadien.
+Cette mise à jour ajoute la localisation complète de l'app en allemand, néerlandais, italien, français (France), français canadien, japonais, coréen, portugais brésilien, portugais européen, chinois traditionnel et chinois simplifié.
 
 Nous avons aussi peaufiné les réglages, l'audio et la stabilité sur iPhone, iPad, Mac et Apple Watch.
 
@@ -581,14 +581,14 @@ Si vous rattrapez le train : les versions récentes ont ajouté des succès Game
 Merci de courir avec nous.
 ```
 
-Count: 674/4000 characters.
+Count: 786/4000 characters.
 
 ### es-ES / es-MX
 
 ```text
 Corre en vivo con amigos gracias a SharePlay en iPhone e iPad: cuenta atrás sincronizada, mismos resultados de victoria, derrota o empate y revanchas gratis que esperan a que ambos jugadores estén listos.
 
-Esta actualización añade la localización completa de la app para portugués europeo, chino simplificado y francés de Canadá.
+Esta actualización añade la localización completa de la app para alemán, neerlandés, italiano, francés (Francia), francés de Canadá, japonés, coreano, portugués de Brasil, portugués europeo, chino tradicional y chino simplificado.
 
 También hemos pulido ajustes, audio y estabilidad en iPhone, iPad, Mac y Apple Watch.
 
@@ -597,30 +597,30 @@ Si te pones al día: versiones recientes añadieron logros de Game Center, marca
 Gracias por correr con nosotros.
 ```
 
-Count: 631/4000 characters.
+Count: 738/4000 characters.
 
 ### ca
 
 ```text
 Corre en viu amb amics amb SharePlay a iPhone i iPad: compte enrere sincronitzat, mateixos resultats de victòria, derrota o empat i revanxes gratuïtes que esperen que els dos jugadors estiguen llestos.
 
-Aquesta actualització afig la localització completa de l'app per a portuguès europeu, xinès simplificat i francès del Canadà.
+Aquesta actualització afig la localització completa de l'app per a alemany, neerlandés, italià, francés (França), francés del Canadà, japonés, coreà, portugués del Brasil, portugués europeu, xinés tradicional i xinés simplificat.
 
-També hem polix ajustos, àudio i estabilitat a iPhone, iPad, Mac i Apple Watch.
+També hem polit ajustos, àudio i estabilitat a iPhone, iPad, Mac i Apple Watch.
 
 Si et poses al dia: versions recents van afegir assoliments de Game Center, marcadors d'amistats en pista i captures de resultats per a compartir, juntament amb millores d'accessibilitat.
 
 Gràcies per córrer amb nosaltres.
 ```
 
-Count: 633/4000 characters.
+Count: 737/4000 characters.
 
 ### ja
 
 ```text
 iPhoneとiPadでSharePlayのライブフレンドレース。同期カウントダウン、勝敗/引き分けの共有結果、両者の準備を待つ無料リマッチ。
 
-このアップデートで、ヨーロッパポルトガル語、簡体字中国語、カナダフランス語のアプリ内ローカライズに完全対応しました。
+このアップデートで、ドイツ語、オランダ語、イタリア語、フランス語、カナダフランス語、日本語、韓国語、ブラジルポルトガル語、ヨーロッパポルトガル語、繁体字中国語、簡体字中国語のアプリ内ローカライズに完全対応しました。
 
 iPhone、iPad、Mac、Apple Watch向けに設定、音声、安定性も改善しました。
 
@@ -629,14 +629,14 @@ iPhone、iPad、Mac、Apple Watch向けに設定、音声、安定性も改善�
 一緒にレースしてくれてありがとう。
 ```
 
-Count: 270/4000 characters.
+Count: 319/4000 characters.
 
 ### ko
 
 ```text
 iPhone과 iPad에서 SharePlay 라이브 친구 레이스, 동기화된 카운트다운, 승/패/무승부 공유 결과, 두 플레이어 준비를 기다리는 무료 리매치.
 
-이번 업데이트로 유럽 포르투갈어, 중국어 간체, 캐나다 프랑스어 앱 현지화가 추가되었습니다.
+이번 업데이트로 독일어, 네덜란드어, 이탈리아어, 프랑스어, 캐나다 프랑스어, 일본어, 한국어, 브라질 포르투갈어, 유럽 포르투갈어, 중국어 번체, 중국어 간체 앱 현지화가 추가되었습니다.
 
 iPhone, iPad, Mac, Apple Watch용 설정, 오디오, 안정성도 다듬었습니다.
 
@@ -645,14 +645,14 @@ iPhone, iPad, Mac, Apple Watch용 설정, 오디오, 안정성도 다듬었습�
 함께 레이스해 주셔서 감사합니다.
 ```
 
-Count: 283/4000 characters.
+Count: 337/4000 characters.
 
 ### pt-BR
 
 ```text
 Corra ao vivo com amigos no SharePlay no iPhone e iPad: contagem regressiva sincronizada, mesmos resultados de vitória, derrota ou empate e revanches grátis que esperam os dois jogadores ficarem prontos.
 
-Esta atualização adiciona localização completa do app para português europeu, chinês simplificado e francês do Canadá.
+Esta atualização adiciona localização completa do app para alemão, neerlandês, italiano, francês (França), francês do Canadá, japonês, coreano, português do Brasil, português europeu, chinês tradicional e chinês simplificado.
 
 Também polimos ajustes, áudio e estabilidade no iPhone, iPad, Mac e Apple Watch.
 
@@ -661,14 +661,14 @@ Se você está se atualizando: versões recentes adicionaram conquistas do Game 
 Obrigado por correr com a gente.
 ```
 
-Count: 628/4000 characters.
+Count: 735/4000 characters.
 
 ### pt-PT
 
 ```text
 Corra ao vivo com amigos no SharePlay no iPhone e iPad: contagem decrescente sincronizada, mesmos resultados de vitória, derrota ou empate e revanches grátis que esperam que os dois jogadores fiquem prontos.
 
-Esta atualização adiciona localização completa da app para português europeu, chinês simplificado e francês do Canadá.
+Esta atualização adiciona localização completa da app para alemão, neerlandês, italiano, francês (França), francês do Canadá, japonês, coreano, português do Brasil, português europeu, chinês tradicional e chinês simplificado.
 
 Também polimos definições, áudio e estabilidade no iPhone, iPad, Mac e Apple Watch.
 
@@ -677,14 +677,14 @@ Se está a atualizar: versões recentes adicionaram conquistas do Game Center, m
 Obrigado por correr connosco.
 ```
 
-Count: 621/4000 characters.
+Count: 728/4000 characters.
 
 ### zh-Hant
 
 ```text
 在 iPhone 與 iPad 上透過 SharePlay 與好友即時競賽：同步倒數、共享勝/負/平結果，以及等待雙方都準備好的免費重賽。
 
-此更新新增 歐洲葡萄牙文、簡體中文與加拿大法文 的完整 App 本地化。
+此更新新增德文、荷蘭文、義大利文、法文、加拿大法文、日文、韓文、巴西葡萄牙文、歐洲葡萄牙文、繁體中文與簡體中文的完整 App 本地化。
 
 我們也改進了 iPhone、iPad、Mac 與 Apple Watch 的設定、音效與穩定性。
 
@@ -693,14 +693,14 @@ Count: 621/4000 characters.
 感謝你與我們一起競速。
 ```
 
-Count: 227/4000 characters.
+Count: 258/4000 characters.
 
 ### zh-Hans
 
 ```text
 在 iPhone 与 iPad 上通过 SharePlay 与好友即时竞赛：同步倒计时、共享胜/负/平结果，以及等待双方都准备好的免费重赛。
 
-此更新新增 欧洲葡萄牙文、简体中文与加拿大法文 的完整 App 本地化。
+此更新新增德文、荷兰文、意大利文、法文、加拿大法文、日文、韩文、巴西葡萄牙文、欧洲葡萄牙文、繁体中文与简体中文的完整 App 本地化。
 
 我们也改进了 iPhone、iPad、Mac 与 Apple Watch 的设置、音效与稳定性。
 
@@ -709,6 +709,6 @@ Count: 227/4000 characters.
 感谢你与我们一起竞速。
 ```
 
-Count: 228/4000 characters.
+Count: 259/4000 characters.
 
 _Generated by `swift run --package-path Scripts generate-metadata-docs`._

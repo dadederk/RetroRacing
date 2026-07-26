@@ -4,13 +4,13 @@ Touchez Jouer avec des amis, lancez le compte à rebours synchronisé, évitez l
 
 Les courses entre amis sont gratuites et n'utilisent jamais les parties quotidiennes.
 
-Cette mise à jour ajoute la localisation complète de l'app en portugais européen, chinois simplifié et français canadien. Changez la langue de l'appareil — surtout une des nouvelles langues — et vérifiez que menus, réglages et interface de course sonnent naturels.
+Cette mise à jour ajoute la localisation complète de l'app en allemand, néerlandais, italien, français (France), français canadien, japonais, coréen, portugais brésilien, portugais européen, chinois traditionnel et chinois simplifié. Changez la langue de l'appareil, surtout pour l'une des nouvelles langues, et vérifiez que menus, réglages et interface de course sonnent naturels.
 
 Nous avons aussi peaufiné les réglages, la clarté du paywall, l'audio et la stabilité.
 
 Axes de test :
 - Lancez une course SharePlay sur deux iPhone/iPad et confirmez le compte à rebours synchronisé
-- Passez en portugais européen, chinois simplifié ou français canadien et évaluez le naturel des traductions
+- Passez en allemand, néerlandais, italien, français (France), français canadien, japonais, coréen, portugais brésilien, portugais européen, chinois traditionnel ou chinois simplifié et évaluez les traductions
 - Après l'arrivée, testez Rejouer et confirmez que les deux doivent confirmer
 - Avec zéro parties quotidiennes, confirmez que les courses entre amis démarrent encore gratuitement
 - Sur Mac et Apple Watch, confirmez la qualité du mode solo

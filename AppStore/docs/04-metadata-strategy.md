@@ -2,7 +2,7 @@
 
 Part of [App Store docs hub](../README.md). Index: [RETRORAPID_APP_STORE_REFERENCE.md](../RETRORAPID_APP_STORE_REFERENCE.md).
 
-Last updated: 2026-07-19
+Last updated: 2026-07-26
 
 **Status:** `READY` strategy; keyword demand validation remains a submission `BLOCKED` item.
 
@@ -59,7 +59,7 @@ Conversion Signals: 7/10  ███████░░░
 
 1. The redundant second "Retro" in `RetroRapid: Retro Arcade Racer` is a low-confidence, low-impact issue — see the 2026-07-19 decision note below; no change made.
 2. Add social proof (review quote + Create with Swift feature) to the description — **done 2026-07-19**, see decision notes below.
-3. Resolve the What's New drift before shipping — **done 2026-07-19**, see decision notes below.
+3. Resolve the What's New drift before shipping. **Updated again on 2026-07-26** to list every new v1.5 language and remove em dashes from public metadata copy; see decision notes below.
 
 **High-impact changes:**
 
@@ -95,7 +95,7 @@ Avoid repeating the same indexed term across name, subtitle, and keywords. These
 
 Source: [AppTweak — cross-localization on the App Store](https://www.apptweak.com/en/aso-blog/how-to-benefit-from-cross-localization-on-the-app-store).
 
-The v1.5 draft catalog includes **en-US**, **en-GB**, **en-AU**, **en-CA**, **de-DE**, **nl-NL**, **it**, **fr-FR**, **es-ES**, **ca**, **es-MX**, **ja**, **ko**, **pt-BR**, and **zh-Hant**. Apple indexes **multiple locales per territory**, so keyword fields should be planned as a set, not isolated lists.
+The v1.5 draft catalog includes **en-US**, **en-GB**, **en-AU**, **en-CA**, **de-DE**, **nl-NL**, **it**, **fr-FR**, **fr-CA**, **es-ES**, **ca**, **es-MX**, **ja**, **ko**, **pt-BR**, **pt-PT**, **zh-Hant**, and **zh-Hans**. Apple indexes **multiple locales per territory**, so keyword fields should be planned as a set, not isolated lists.
 
 | Territory | Primary locale | Also indexes (relevant to us) | Subtitle + keyword strategy |
 |---|---|---|---|
@@ -141,6 +141,7 @@ Field allocation:
 - Use **`offline`** on English (US), **`conexion`** on Spanish (Spain), and **`internet`** on Spanish (Mexico) rather than glued `sinconexion` / `sininternet`. Spell out *sin conexión* / *sin internet* in description bullets where gameplay supports it.
 - Do not add `Game Center` to hidden keywords. It belongs in promotional text, description, and screenshots.
 - Helm/App Store Connect may warn when a keyword token already appears in the name or subtitle. Current fixes: drop `retro` from **en-US** (`RetroRapid` already carries it; use `endless` instead), drop `arcade`/`racer`/`traffic`/`lanes` from English variants, drop `retro` from **ca**, drop `carro` from **es-MX** (subtitle already uses `carros`), add `logros` on **es-ES** / **es-MX** and `puntuacio`/`connexio`/`mac` on **ca**.
+- 2026-07-26 related-language fix: App Store Connect flagged duplicate `watch` in **zh-Hans** and **pt-BR**. Keep `watch` in **pt-BR** for now and replace the Simplified Chinese field with native Chinese tokens (`超车赛,反应力,离线玩,触感反馈,手柄支持,无障碍,分数榜,成就榜,智能手表`) at 98/100 bytes.
 - Treat `retro`, `voiceover`, `haptics`, `handheld`, `lcd`, and `leaderboard` as hypotheses. Keep or replace them based on real popularity, competition, and current rank data.
 
 Useful keyword checks before submission:
@@ -167,6 +168,7 @@ After submission, re-check ranks at 7, 14, and 28 days. Update this section with
 
 - 2026-07-19: Added social proof to the description on all seven locales — an App Store review quote (English: Datafile, "I am really a fan of this nice accessible game..."; Spanish: Jonathan Chacón, "Un juego simplemente accesible y simplemente entretenido...", reused for `es-MX` since it's genuinely Spanish-language and no Mexico-specific review exists yet) plus the Create with Swift "Indie App of the Week" pull-quote (Weekly Newsletter #96: *"But beyond the nostalgia and tight gameplay, what truly stands out is its accessibility."*). `ca` gets the Create with Swift quote only (translated) — no Catalan-language review exists yet, so no player quote was fabricated for that locale. Applied to both iOS and macOS 1.5 drafts via Helm for all seven locales.
 - 2026-07-19: Standardized What's New on *"This update sharpens RetroRapid! with bug fixes and racing polish..."* everywhere — canonical `retrorapid-v1.5.json`, both 1.5 platform drafts (it was already live on the four English App Store locales but still showed old copy on `es-ES`/`ca`/`es-MX` and on all seven macOS locales), and the TestFlight `beta-notes/en-US/whats-new.txt` used for build 28. This resolves the What's New drift flagged in `13-open-questions.md`. Spanish/Catalan translations keep the existing "Game Center sigue siendo la protagonista" phrasing already established in prior release notes.
+- 2026-07-26: Replaced the staged What's New copy across all 18 App Store listing locales so it names the full v1.5 in-app localization set: German, Dutch, Italian, French (France), French (Canada), Japanese, Korean, Brazilian Portuguese, European Portuguese, Traditional Chinese, and Simplified Chinese. Removed em dashes from public App Store metadata copy, including SharePlay release-note lead sentences and review attribution lines. Applied through direct `helm-asc localization <id> update` calls on both iOS and macOS 1.5 drafts after a clean dry run for all 36 localizations.
 - 2026-07-19: Found that `swift run --package-path Scripts apply-retrorapid-metadata` mangles accented characters (`á`, `ñ`, etc. arrive at Apple's API as decomposed combining-mark sequences, rejected with `INVALID_CHARACTERS`) when it shells out to Helm for `es-ES`/`ca`/`es-MX`. English-only locales are unaffected since they have no accents. Worked around by calling `helm-asc localization <id> update` directly with argv-based subprocess calls (no intermediate shell string) for the three Spanish/Catalan locales on both platforms. The Swift tool's shell-invocation path needs a fix (likely in `RetroRacingAutomationCore`'s Helm command construction) before it can be trusted for non-English locales again.
 - 2026-07-19: Considered dropping the redundant second "Retro" in the `en-US`/`en-GB`/`en-AU`/`en-CA` name (`RetroRapid: Retro Arcade Racer`) to free 6 characters. Apple's search algorithm indexes the app name as whole tokens, not as arbitrary substrings, so it is not confirmed that "Retro" is credited from inside the `RetroRapid` brand token — the repeated word is a low-confidence, low-impact issue either way. No change made yet; every strong alternative token (`Game`, `3-Lane`, `Racing`, `Highway`, etc.) already exists somewhere in the keyword/subtitle set, so the marginal ASO gain of a swap is smaller than the screenshot/preview-video gaps below. Revisit only alongside a deliberate PPO/App Store name test, not as a quick edit.
 

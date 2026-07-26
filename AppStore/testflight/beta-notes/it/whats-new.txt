@@ -4,14 +4,14 @@ Tocca Gioca con amici, avvia un countdown sincronizzato, schiva il traffico insi
 
 Le gare con amici sono gratis e non usano mai le partite giornaliere.
 
-Questo aggiornamento aggiunge la localizzazione completa dell'app per portoghese europeo, cinese semplificato e francese (Canada). Cambia la lingua del dispositivo — soprattutto una delle nuove lingue — e verifica che menu, impostazioni e UI di gara suonino naturali.
+Questo aggiornamento aggiunge la localizzazione completa dell'app per tedesco, olandese, italiano, francese (Francia), francese (Canada), giapponese, coreano, portoghese brasiliano, portoghese europeo, cinese tradizionale e cinese semplificato. Cambia la lingua del dispositivo, soprattutto in una delle nuove lingue, e verifica che menu, impostazioni e UI di gara suonino naturali.
 
 Abbiamo anche rifinito impostazioni, chiarezza del paywall, audio e stabilità.
 
 Su cosa concentrarti:
 - Avvia una gara SharePlay su due iPhone/iPad e conferma il countdown sincronizzato
-- Passa a portoghese europeo, cinese semplificato o francese (Canada) e valuta le traduzioni
-- Dopo il traguardo: Gioca di nuovo — entrambi devono confermare
+- Passa a tedesco, olandese, italiano, francese (Francia), francese (Canada), giapponese, coreano, portoghese brasiliano, portoghese europeo, cinese tradizionale o cinese semplificato e valuta le traduzioni
+- Dopo il traguardo: Gioca di nuovo: entrambi devono confermare
 - Con zero partite giornaliere, le gare con amici partono ancora gratis
 - Su Mac e Apple Watch, conferma la qualità del solo
 - Segnala crash, disconnessioni o traduzioni strane

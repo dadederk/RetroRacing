@@ -4,14 +4,14 @@ Tik op Spelen met vrienden, start een gesynchroniseerde countdown, ontwijk samen
 
 Vriendenraces zijn gratis en gebruiken nooit dagelijkse plays.
 
-Deze update voegt volledige app-localisatie toe voor Europees Portugees, Vereenvoudigd Chinees en Frans (Canada). Zet je apparaattaal om — vooral naar een van die nieuwe talen — en controleer of menu's, instellingen en race-UI natuurlijk klinken.
+Deze update voegt volledige app-localisatie toe voor Duits, Nederlands, Italiaans, Frans (Frankrijk), Frans (Canada), Japans, Koreaans, Braziliaans Portugees, Europees Portugees, Traditioneel Chinees en Vereenvoudigd Chinees. Zet je apparaattaal om, vooral naar een van die nieuwe talen, en controleer of menu's, instellingen en race-UI natuurlijk klinken.
 
 We hebben ook instellingen, paywall-duidelijkheid, audio en stabiliteit verbeterd.
 
 Waar we op willen focussen:
 - Start een SharePlay-race op twee iPhones/iPads en bevestig de synchrone countdown
-- Schakel over naar Europees Portugees, Vereenvoudigd Chinees of Frans (Canada) en beoordeel de vertalingen
-- Na de finish: Opnieuw spelen — beide moeten bevestigen
+- Schakel naar Duits, Nederlands, Italiaans, Frans (Frankrijk), Frans (Canada), Japans, Koreaans, Braziliaans Portugees, Europees Portugees, Traditioneel Chinees of Vereenvoudigd Chinees en beoordeel de vertalingen
+- Na de finish: Opnieuw spelen: beide moeten bevestigen
 - Met nul dagelijkse plays starten vriendenraces nog steeds gratis
 - Op Mac en Apple Watch: solo-kwaliteit controleren
 - Meld crashes, verbroken verbindingen of rare vertalingen

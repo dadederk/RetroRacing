@@ -4,14 +4,14 @@ Toca Jugar con amigos, inicia una cuenta atrás sincronizada, esquiva carros jun
 
 Las carreras con amigos son gratis y nunca usan partidas diarias.
 
-Esta actualización añade la localización completa de la app para portugués europeo, chino simplificado y francés de Canadá. Cambia el idioma del dispositivo — especialmente a uno de los nuevos — y confirma que menús, ajustes y la UI de carrera suenan naturales.
+Esta actualización añade la localización completa de la app para alemán, neerlandés, italiano, francés (Francia), francés de Canadá, japonés, coreano, portugués de Brasil, portugués europeo, chino tradicional y chino simplificado. Cambia el idioma del dispositivo, especialmente a uno de los nuevos, y confirma que menús, ajustes y la UI de carrera suenan naturales.
 
 También hemos pulido ajustes, claridad del paywall, audio y estabilidad.
 
 En qué centrarte:
 - Inicia una carrera SharePlay en dos iPhone/iPad y confirma la cuenta atrás sincronizada
 - Cambia a portugués europeo, chino simplificado o francés de Canadá y valora las traducciones
-- Tras la meta, prueba Jugar de nuevo — ambos deben confirmar
+- Tras la meta, prueba Jugar de nuevo: ambos deben confirmar
 - Con cero partidas diarias, las carreras con amigos siguen empezando gratis
 - En Mac y Apple Watch, confirma la calidad del modo en solitario
 - Informa de cierres, desconexiones o traducciones raras

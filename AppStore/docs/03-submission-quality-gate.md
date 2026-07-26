@@ -2,7 +2,7 @@
 
 Part of [App Store docs hub](../README.md). Index: [RETRORAPID_APP_STORE_REFERENCE.md](../RETRORAPID_APP_STORE_REFERENCE.md).
 
-Last updated: 2026-07-19
+Last updated: 2026-07-26
 
 **See also:** [Metadata copy](05-metadata-copy.md) · [Live listing](02-listing-snapshot.md) · [90-day plan](11-execution-90-day.md) · [Swift scripts](../../Scripts/README.md)
 
@@ -10,7 +10,7 @@ Last updated: 2026-07-19
 
 ## Submission Quality Gate
 
-Status on 2026-07-19: `DRAFT_APPLIED`. Name, subtitle, keywords, promotional text, description, and What's New are all applied to both 1.5 drafts across all seven locales, and What's New is also synced to the TestFlight build 28 What to Test copy. Two issues should still be closed before submission:
+Status on 2026-07-26: `DRAFT_APPLIED`. Name, subtitle, keywords, promotional text, description, and What's New are applied to both 1.5 drafts across all 18 App Store listing locales. Today's pass updated What's New to list the full v1.5 localization set, removed em dashes from App Store metadata copy, and replaced the Simplified Chinese hidden keyword `watch` with native Chinese terms to resolve the related-language duplicate with Brazilian Portuguese. TestFlight beta-note source files were updated locally, but no build-level TestFlight notes were changed in App Store Connect in this pass. Two issues should still be closed before submission:
 
 1. **The new keyword fields are not rank-validated yet.** The live fields are now archived, but there is still no Appfigures/Krankie baseline. The staged keywords remain hypotheses until current rankings and demand are captured.
 2. **The public visionOS placeholder remains unresolved.** The staged metadata correctly omits Apple Vision, but the public listing still exposes a "Coming Soon" experience. Decide whether to remove it from sale or complete the gameplay experience.
@@ -34,21 +34,21 @@ Helm CLI path: `/Applications/Helm.app/Contents/Helpers/helm-asc`
 
 Repeatable Swift command: `apply-retrorapid-metadata` in the root `Scripts` package.
 
-On 2026-06-24, `helm-asc` / the apply script updated the editable **1.5** drafts for **iOS** and **macOS** across **en-US**, **en-GB**, **en-AU**, **en-CA**, **es-ES**, **ca**, and **es-MX**. On 2026-07-17, `helm-asc localization <id> update --name ...` applied the new `RetroRapid: Retro Arcade Racer` name for the four English locales — the shared App Info HTTP 409 that blocked this on 2026-06-25 no longer reproduced. Subtitles already matched the staged natural-language values from the earlier pass. On 2026-07-19, description and What's New (plus a re-sync of keywords/promotional text) were applied on **both** iOS and macOS for all seven locales — social proof (review quotes + Create with Swift feature) in the description, and the standardized "sharpens...racing polish" What's New everywhere. `apply-retrorapid-metadata` mangled accented characters for `es-ES`/`ca`/`es-MX` (see `04-metadata-strategy.md` decision notes); those three locales were applied with direct `helm-asc localization <id> update` calls instead. Nothing has been submitted to App Review.
+On 2026-06-24, `helm-asc` / the apply script updated the editable **1.5** drafts for **iOS** and **macOS** across **en-US**, **en-GB**, **en-AU**, **en-CA**, **es-ES**, **ca**, and **es-MX**. On 2026-07-17, `helm-asc localization <id> update --name ...` applied the new `RetroRapid: Retro Arcade Racer` name for the four English locales; the shared App Info HTTP 409 that blocked this on 2026-06-25 no longer reproduced. Subtitles already matched the staged natural-language values from the earlier pass. On 2026-07-19, description and What's New (plus a re-sync of keywords/promotional text) were applied on **both** iOS and macOS for all seven then-active locales, with social proof in the description and the standardized "sharpens...racing polish" What's New everywhere. On 2026-07-26, direct `helm-asc localization <id> update` calls applied the full-locale What's New copy to **all 18 locales** on both platform drafts, updated English and Spanish review attribution punctuation in descriptions, and updated `zh-Hans` keywords. The 2026-07-26 Helm pass used argv-based subprocess calls rather than the Swift apply wrapper because `apply-retrorapid-metadata` previously mangled accented characters for Spanish/Catalan locales (see `04-metadata-strategy.md` decision notes). Nothing has been submitted to App Review.
 
-| Platform | Draft version ID | en-US | en-GB | en-AU | en-CA | es-ES | ca | es-MX |
-|---|---|---|---|---|---|---|---|---|
-| iOS 1.5 | `af16a599-2c7b-4ccb-90bd-9aaa9b8d1e1e` | `232e55bc-…44a8` | `56d24d0e-…1405` | `d809f973-…a1e5` | `6911ddd4-…8a3b` | `47a0349f-…3211` | `2cd5433c-…015f` | `1bc0a5d0-…2919` |
-| macOS 1.5 | `cb14d6f6-5e4e-4088-b6d0-c3e883850398` | `1d3832e5-…2e04` | `b4ac4ead-…000e` | `78af339a-…32c4` | `114533d9-…926f` | `b64f919a-…02a94` | `f01d2437-…50d7e` | `110854bd-…306e` |
+| Platform | Draft version ID | Applied locales |
+|---|---|---|
+| iOS 1.5 | `af16a599-2c7b-4ccb-90bd-9aaa9b8d1e1e` | `en-US`, `en-GB`, `en-AU`, `en-CA`, `de-DE`, `nl-NL`, `it`, `fr-FR`, `fr-CA`, `es-ES`, `ca`, `es-MX`, `ja`, `ko`, `pt-BR`, `pt-PT`, `zh-Hant`, `zh-Hans` |
+| macOS 1.5 | `cb14d6f6-5e4e-4088-b6d0-c3e883850398` | `en-US`, `en-GB`, `en-AU`, `en-CA`, `de-DE`, `nl-NL`, `it`, `fr-FR`, `fr-CA`, `es-ES`, `ca`, `es-MX`, `ja`, `ko`, `pt-BR`, `pt-PT`, `zh-Hant`, `zh-Hans` |
 
 | Field | Status on 1.5 drafts | Notes |
 |---|---|---|
-| **Name** | `DRAFT_APPLIED` | `RetroRapid: Retro Arcade Racer` for en-US/GB/AU/CA (applied 2026-07-17); Spanish/Catalan names unchanged. Shared App Info field — updating any one locale's localization propagates across iOS and macOS automatically. |
-| **Subtitle** | `DRAFT_APPLIED` | Verified against the staged catalog on both platforms for all seven locales. |
-| **Keywords** | `DRAFT_APPLIED` | Applied on iOS and macOS for all seven locales. English variants use split keyword fields for cross-localization. |
+| **Name** | `DRAFT_APPLIED` | `RetroRapid: Retro Arcade Racer` for en-US/GB/AU/CA (applied 2026-07-17); localized names applied for the remaining App Store locales. Shared App Info field updates propagate across iOS and macOS automatically. |
+| **Subtitle** | `DRAFT_APPLIED` | Verified against the staged catalog on both platforms for all 18 locales. |
+| **Keywords** | `DRAFT_APPLIED` | Applied on iOS and macOS for all 18 locales. English variants use split keyword fields for cross-localization. `zh-Hans` no longer repeats `watch` from `pt-BR`. |
 | **Promotional text** | `DRAFT_APPLIED` | Shared English conversion copy; Mexico uses `carros`. |
-| **Description** | `DRAFT_APPLIED` | Includes offline phrasing (*Works offline*, *sin conexión*, *sense connexió*, *sin internet*) plus a review quote and the Create with Swift "Indie App of the Week" pull-quote on all seven locales (applied 2026-07-19). |
-| **What's New** | `DRAFT_APPLIED` | Standardized on "This update sharpens RetroRapid! with bug fixes and racing polish..." across both platforms, all seven locales, and the TestFlight build 28 What to Test copy (applied 2026-07-19). |
+| **Description** | `DRAFT_APPLIED` | Includes offline phrasing plus review/press proof. The 2026-07-26 pass replaced em-dash attribution lines with hyphen attribution in English and Spanish descriptions. |
+| **What's New** | `DRAFT_APPLIED` | Applied across both platforms and all 18 locales. Copy names the full v1.5 localization set: German, Dutch, Italian, French (France), French (Canada), Japanese, Korean, Brazilian Portuguese, European Portuguese, Traditional Chinese, and Simplified Chinese. |
 
 ```bash
 swift run --package-path Scripts generate-metadata-docs --check

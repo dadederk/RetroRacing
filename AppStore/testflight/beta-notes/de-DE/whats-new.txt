@@ -4,14 +4,14 @@ Tippe auf Mit Freunden spielen, starte einen synchronisierten Countdown, weiche 
 
 Freundesrennen sind kostenlos und verbrauchen keine täglichen Spiele.
 
-Dieses Update ergänzt die vollständige App-Lokalisierung um europäisches Portugiesisch, vereinfachtes Chinesisch und Französisch (Kanada). Stelle die Gerätesprache um — besonders auf eine der neuen Sprachen — und prüfe, ob Menüs, Einstellungen und Renn-UI natürlich klingen.
+Dieses Update ergänzt die vollständige App-Lokalisierung um Deutsch, Niederländisch, Italienisch, Französisch, Französisch (Kanada), Japanisch, Koreanisch, brasilianisches Portugiesisch, europäisches Portugiesisch, traditionelles Chinesisch und vereinfachtes Chinesisch. Stelle die Gerätesprache um, besonders auf eine der neuen Sprachen, und prüfe, ob Menüs, Einstellungen und Renn-UI natürlich klingen.
 
 Außerdem haben wir Einstellungen, Paywall-Klarheit, Audio und Stabilität poliert.
 
 Worauf wir uns freuen:
 - Starte ein SharePlay-Rennen auf zwei iPhones/iPads und bestätige den synchronen Countdown
-- Wechsle zu europäischem Portugiesisch, vereinfachtem Chinesisch oder Französisch (Kanada) und bewerte die Übersetzungen
-- Nach dem Ziel: Nochmal spielen — beide müssen bestätigen
+- Wechsle zu Deutsch, Niederländisch, Italienisch, Französisch, Französisch (Kanada), Japanisch, Koreanisch, brasilianischem Portugiesisch, europäischem Portugiesisch, traditionellem Chinesisch oder vereinfachtem Chinesisch und bewerte die Übersetzungen
+- Nach dem Ziel: Nochmal spielen: beide müssen bestätigen
 - Bei null täglichen Spielen: Freundesrennen starten weiterhin kostenlos
 - Auf Mac und Apple Watch: Solo-Qualität prüfen
 - Melde Abstürze, Verbindungsabbrüche oder merkwürdige Übersetzungen

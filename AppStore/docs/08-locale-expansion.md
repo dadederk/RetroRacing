@@ -44,6 +44,7 @@ Last updated: 2026-07-26
 10. **Achievement capture.** Capture mode uses local fallback strings (`NoOpAchievementMetadataService`), not live Game Center English metadata.
 11. **Related-language keywords.** Avoid duplicate tokens across related pairs (e.g. `pt-BR` ↔ `es-MX`); prefer native forms (`recorde` not `record`).
 12. **Manual ASC screenshot upload.** Capture → Studio → **export in Studio → upload in Connect** (not automated).
+13. **Website URLs.** ASC marketing and support websites are localized fields too; reuse the English URLs until localized pages exist.
 
 ---
 
@@ -81,6 +82,7 @@ Work top to bottom. Tick every box before calling the locale done.
 
 - [ ] Add locale block to `AppStore/metadata/retrorapid-v1.5.json` (name, subtitle, keywords, promo, description, what’s new)
 - [ ] Create ASC version localization if missing (`helm-asc version <id> localizations create --locale …`)
+- [ ] Configure ASC marketing website + support website for the locale (reuse `en-US` URLs until localized pages exist)
 - [ ] Record `localizationIds` under `platformDrafts` for **iOS and macOS**
 - [ ] `./retrorapid metadata generate` then `./retrorapid metadata apply` (or `--keywords-only` when only keywords changed)
 - [ ] Check related-language keyword overlaps in your ASO tool

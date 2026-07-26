@@ -4,14 +4,14 @@ Toca Jugar amb amics, inicia un compte enrere sincronitzat, esquiva el trànsit 
 
 Les carreres amb amics són gratis i mai no usen partides diàries.
 
-Aquesta actualització afig la localització completa de l'app per a portuguès europeu, xinès simplificat i francès del Canadà. Canvia l'idioma del dispositiu — sobretot un dels nous — i confirma que menús, ajustos i la UI de carrera sonen naturals.
+Aquesta actualització afig la localització completa de l'app per a alemany, neerlandés, italià, francés (França), francés del Canadà, japonés, coreà, portugués del Brasil, portugués europeu, xinés tradicional i xinés simplificat. Canvia l'idioma del dispositiu, sobretot a un dels nous, i confirma que menús, ajustos i la UI de carrera sonen naturals.
 
 També hem polix ajustos, claredat del paywall, àudio i estabilitat.
 
 En què centrar-te:
 - Inicia una carrera SharePlay en dos iPhone/iPad i confirma el compte enrere sincronitzat
 - Canvia a portuguès europeu, xinès simplificat o francès del Canadà i valora les traduccions
-- Després de la meta, prova Jugar de nou — els dos han de confirmar
+- Després de la meta, prova Jugar de nou: els dos han de confirmar
 - Amb zero partides diàries, les carreres amb amics encara comencen gratis
 - En Mac i Apple Watch, confirma la qualitat del mode en solitari
 - Informa de tancaments, desconnexions o traduccions estranyes
