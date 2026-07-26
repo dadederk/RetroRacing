@@ -11,6 +11,17 @@ import SpriteKit
 @testable import RetroRacingShared
 
 final class ScreenshotCaptureConfigurationTests: XCTestCase {
+    func testGivenCaptureEnvironmentKeysWhenComparedToAutomationPlanThenTheyMatch() {
+        // Keep in sync with Scripts/ScreenshotCapturePlan and UITest ScreenshotCaptureHelper constants.
+        XCTAssertEqual(ScreenshotCaptureIdentifiers.captureEnabledKey, "RETRORAPID_SCREENSHOT_CAPTURE")
+        XCTAssertEqual(ScreenshotCaptureIdentifiers.slideIndexKey, "RETRORAPID_SCREENSHOT_SLIDE")
+        XCTAssertEqual(ScreenshotCaptureIdentifiers.stagingDirectoryKey, "RETRORAPID_SCREENSHOT_STAGING")
+        XCTAssertEqual(ScreenshotCaptureIdentifiers.fileExtensionKey, "RETRORAPID_SCREENSHOT_FILE_EXTENSION")
+        XCTAssertEqual(ScreenshotCaptureIdentifiers.platformKey, "RETRORAPID_SCREENSHOT_PLATFORM")
+        XCTAssertEqual(ScreenshotCaptureIdentifiers.appearanceKey, "RETRORAPID_SCREENSHOT_APPEARANCE")
+        XCTAssertEqual(ScreenshotCaptureIdentifiers.readinessIdentifier(slideIndex: 3), "screenshot-ready-slide-3")
+    }
+
     func testGivenAppStoreLocalesWhenMappingToInAppLanguageThenUsesExpectedIdentifiers() {
         XCTAssertEqual(ScreenshotCaptureLocaleCatalog.inAppLanguageIdentifier(for: "de-DE"), "de")
         XCTAssertEqual(ScreenshotCaptureLocaleCatalog.inAppLanguageIdentifier(for: "en-US"), "en")

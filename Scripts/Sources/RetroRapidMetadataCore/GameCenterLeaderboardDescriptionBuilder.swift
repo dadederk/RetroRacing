@@ -41,6 +41,10 @@ enum GameCenterLeaderboardDescriptionBuilder {
             return "Supera quante più auto possibile in una singola partita."
         case "fr-FR":
             return "Dépasse autant de voitures que possible en une seule partie."
+        case "es-ES":
+            return "Adelanta tantos coches como puedas en una sola partida."
+        case "ca":
+            return "Avança tants cotxes com pugues en una sola partida."
         case "ja":
             return "1ランでできるだけ多くの車を追い抜こう。"
         case "ko":

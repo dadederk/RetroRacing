@@ -5,9 +5,9 @@
 > Narrow tasks may stop here; open the full contract for implementation or review.
 
 - **Scope:** Deterministic in-app screenshot capture mode for App Store base images; env-gated, fixture-driven, UI-test orchestrated.
-- **Must not break:** Capture mode must not activate in Release builds without explicit env flags; fixtures must be deterministic; readiness markers must appear before UI tests capture.
+- **Must not break:** Capture mode is **DEBUG-only** (ignored in Release/App Store binaries); fixtures must be deterministic; readiness markers must appear before UI tests capture.
 - **Key files:** `RetroRacingShared/ScreenshotCapture/`, `RetroRacingUniversal/ScreenshotCapture/`, `RetroRacingWatchOS/ScreenshotCapture/`, `RetroRacingUniversalUITests/AppStoreScreenshotTests.swift`, `RetroRacingWatchOSUITests/AppStoreScreenshotTests.swift`, `Scripts/Sources/RetroRacingAutomationCore/AppStoreScreenshotCaptureWorkflow.swift`.
-- **App Store ops:** [AppStore/docs/06-screenshots.md](../AppStore/docs/06-screenshots.md) · [testing.md](testing.md) (test coverage)
+- **App Store ops:** [Add language / refresh screenshots](../AppStore/docs/08-locale-expansion.md) · [Storyboard](../AppStore/docs/06-screenshots.md) · [testing.md](testing.md)
 
 ## Purpose
 
@@ -96,35 +96,17 @@ macOS UI tests write captured PNGs directly to `.build/screenshot-capture/mac/` 
 
 ## Capture locales
 
-Source locales captured by the CLI: `en-US`, `de-DE`, `nl-NL`, `it`, `fr-FR`, `es-ES`, `ca` (all platforms, including Apple Watch).
+**Source** (UI tests, all platforms): `en-US`, `de-DE`, `nl-NL`, `it`, `fr-FR`, `es-ES`, `ca`, `ja`, `ko`, `pt-BR`, `zh-Hant`.
 
-Derived locales (pixel duplication after capture): `en-GB`, `en-AU`, `en-CA` ← `en-US`; `es-MX` ← `es-ES`.
+**Derived** (pixel copy after capture/sync): `en-GB`/`en-AU`/`en-CA` ← `en-US`; `es-MX` ← `es-ES`.
 
-Watch uses the same source/derived locale plan as iPhone, iPad, and Mac. Before each watch UI test run, the CLI sets `AppleLanguages` / `AppleLocale` on the watch simulator and its paired iPhone via `simctl` (launch arguments alone are not reliable on watchOS). Screenshot Studio overlay copy stays empty (sequence-only); derived English and Latin-American Spanish variants reuse source captures where in-app spelling matches.
+Watch: same locale plan; CLI sets `AppleLanguages` / `AppleLocale` on watch + paired iPhone via `simctl`. Studio overlays stay empty.
 
-## Validation commands
+**Ops checklist** (refresh, install-only, partial re-takes): [`AppStore/docs/08-locale-expansion.md`](../AppStore/docs/08-locale-expansion.md).
 
-```bash
-./retrorapid test package
-./retrorapid check
+`./retrorapid screenshots sync` updates overlays + `contents.json` and copies **derived** pixels only — never overwrite source locales (`de-DE`, `ja`, …) with `en-US`.
 
-# Smoke capture (partial run)
-./retrorapid screenshots capture --locales en-US --slides 0,2,4
-
-# Apple Watch (Ultra 3 simulator, five slides, all locales via source capture + derived copies)
-./retrorapid screenshots capture --platform watch --dry-run
-./retrorapid screenshots capture --platform watch --locales en-US --slides 0 --force
-
-# Fresh captures for every shipping platform and locale (sequential)
-./retrorapid screenshots capture --all-platforms --force
-
-# Verify Screenshot Studio sync without writing
-./retrorapid screenshots sync --check
-```
-
-`./retrorapid screenshots sync` updates overlay copy and `contents.json`, and copies **derived** locale pixels only (`en-GB`/`en-AU`/`en-CA` ← `en-US`, `es-MX` ← `es-ES`). It must **not** overwrite independently captured source locales such as `de-DE`, `ja`, or `zh-Hant`.
-
-Unit tests: `RetroRacingSharedTests/ScreenshotCaptureConfigurationTests.swift`, `Scripts` automation tests for capture planning and placement.
+Unit tests: `ScreenshotCaptureConfigurationTests`, Scripts capture/placement tests.
 
 ## Production constraints
 

@@ -61,6 +61,7 @@ public struct ScreenshotCaptureConfiguration: Equatable, Sendable {
     }
 
     public static var isCaptureModeEnabled: Bool {
+        guard BuildConfiguration.isDebug else { return false }
         if explicitCaptureFlagIsEnabled || explicitCaptureFlagFromLaunchArguments {
             return true
         }

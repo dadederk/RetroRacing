@@ -34,7 +34,10 @@ func givenEnvironmentVariablesWhenLoadingCredentialsThenValuesResolve() throws {
 
 @Test
 func givenMissingKeyIDWhenExplainingCredentialsThenMessageNamesKeyID() {
-    let message = AppStoreConnectCredentialsLoader.missingCredentialsMessage(from: [:])
+    let message = AppStoreConnectCredentialsLoader.missingCredentialsMessage(
+        from: [:],
+        includeKeychain: false
+    )
     #expect(message.contains("missing key ID"))
     #expect(message.contains("ASC_KEY_ID"))
 }

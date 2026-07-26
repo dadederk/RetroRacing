@@ -85,6 +85,10 @@ enum GameCenterLeaderboardDisplayNameBuilder {
             return "Miglior punteggio"
         case "fr-FR":
             return "Meilleur score"
+        case "es-ES":
+            return "Mejor puntuación"
+        case "ca":
+            return "Millor puntuació"
         case "ja":
             return "最高スコア"
         case "ko":
@@ -104,7 +108,7 @@ enum GameCenterLeaderboardDisplayNameBuilder {
             return "Bestscore"
         case "nl-NL":
             return "Highscore"
-        case "it", "fr-FR", "pt-BR":
+        case "it", "fr-FR", "pt-BR", "es-ES", "ca":
             return "Top score"
         case "ja":
             return "ハイスコア"
@@ -133,6 +137,10 @@ enum GameCenterLeaderboardDisplayNameBuilder {
                 return "Veloce"
             case "fr-FR":
                 return "Rapide"
+            case "es-ES":
+                return "Rápido"
+            case "ca":
+                return "Ràpid"
             case "ja":
                 return "ファスト"
             case "ko":

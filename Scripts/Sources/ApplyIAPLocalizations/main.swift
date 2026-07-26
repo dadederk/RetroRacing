@@ -13,11 +13,13 @@ private let defaultIAPID = "6759012658"
 private let defaultBundleRelativePath = "AppStore/iap-localizations/6759012658"
 private let defaultLocales = [
     "de-DE", "nl-NL", "it", "fr-FR",
+    "es-ES", "es-MX", "ca",
     "ja", "ko", "pt-BR", "zh-Hant",
 ]
 
 do {
     let arguments = CLIArguments()
+    CLIHelp.exitIfRequested(arguments, usage: CLIUsageTexts.applyIAPLocalizations)
     try arguments.rejectUnknownFlags(
         allowing: ["--dry-run", "--check", "--asc-api"],
         valueFlags: ["--helm"]

@@ -35,6 +35,28 @@ func givenIPhoneFastWhenBuildingFrenchDisplayNameThenFastLevelMatchesInAppTransl
 }
 
 @Test
+func givenSpanishLocaleWhenBuildingDisplayNameThenUsesMejorPuntuacionAndRapido() {
+    let name = GameCenterLeaderboardDisplayNameBuilder.displayName(
+        platform: "iPhone",
+        difficulty: "fast",
+        locale: "es-ES",
+        englishReferenceName: "iPhone High Score - Fast"
+    )
+    #expect(name == "iPhone Top score - Rápido")
+}
+
+@Test
+func givenCatalanLocaleWhenBuildingDisplayNameThenUsesMillorPuntuacioAndRapid() {
+    let name = GameCenterLeaderboardDisplayNameBuilder.displayName(
+        platform: "iPhone",
+        difficulty: "fast",
+        locale: "ca",
+        englishReferenceName: "iPhone High Score - Fast"
+    )
+    #expect(name == "iPhone Top score - Ràpid")
+}
+
+@Test
 func givenMacBoardWhenEnglishReferenceMissingThenDefaultPlatformPrefixIsUsed() {
     let name = GameCenterLeaderboardDisplayNameBuilder.displayName(
         platform: "macOS",

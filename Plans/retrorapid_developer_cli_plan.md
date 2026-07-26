@@ -73,11 +73,18 @@ Primary entry: `./retrorapid` at repo root (forwards to Swift executable).
 - [x] Add `ScriptCommandCatalogTests`
 - [x] Update `Scripts/README.md`, `Scripts/CONVENTIONS.md`, and `AGENTS.md`
 
+## v2 — Interactive menu (2026-07-25)
+
+- [x] `./retrorapid` with no args opens an interactive menu on TTY (`RetroRapidInteractiveMenu`)
+- [x] `./retrorapid menu` alias
+- [x] `./retrorapid check` includes IAP + Game Center catalog validation
+- [x] Per-command `--help` on delegated executables; subcommand help forwarding fixed
+
 ## Out of scope (v1)
 
 - Global install / `~/bin` symlink packaging
 - Replacing individual executables
-- Interactive TUI or credential prompts
+- Interactive TUI or credential prompts *(v2 adds a lightweight numbered menu on TTY only)*
 - Parallel recipe execution
 - Auto-generating catalog from `Package.swift`
 

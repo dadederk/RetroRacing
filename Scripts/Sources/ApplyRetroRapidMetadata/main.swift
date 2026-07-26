@@ -13,7 +13,9 @@ private let defaultHelmPath =
     "/Applications/Helm.app/Contents/Helpers/helm-asc"
 
 do {
-    let options = try makeApplyOptions(from: CLIArguments())
+    let arguments = CLIArguments()
+    CLIHelp.exitIfRequested(arguments, usage: CLIUsageTexts.applyRetroRapidMetadata)
+    let options = try makeApplyOptions(from: arguments)
     let paths = try MetadataRepositoryPaths.locate()
     let catalog = try MetadataCatalogLoader.loadValidatedCatalog(
         from: paths.defaultCatalog

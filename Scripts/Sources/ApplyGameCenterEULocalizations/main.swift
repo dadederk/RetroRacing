@@ -15,6 +15,7 @@ private let leaderboardsCatalogRelativePath = "AppStore/game-center/leaderboards
 
 do {
     let arguments = CLIArguments()
+    CLIHelp.exitIfRequested(arguments, usage: CLIUsageTexts.applyGameCenterEULocalizations)
     try arguments.rejectUnknownFlags(
         allowing: ["--dry-run", "--check", "--achievements-only", "--leaderboards-only"],
         valueFlags: []

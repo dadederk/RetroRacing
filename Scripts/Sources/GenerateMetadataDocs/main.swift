@@ -7,10 +7,13 @@
 
 import Foundation
 import RetroRapidMetadataCore
+import ScriptSupport
 
 do {
+    let arguments = CLIArguments()
+    CLIHelp.exitIfRequested(arguments, usage: CLIUsageTexts.generateMetadataDocs)
     let paths = try MetadataRepositoryPaths.locate()
-    if CommandLine.arguments.contains("--check") {
+    if arguments.contains("--check") {
         let catalog = try MetadataCatalogLoader.loadValidatedCatalog(
             from: paths.defaultCatalog
         )

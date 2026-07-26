@@ -1,6 +1,6 @@
 # RetroRapid! App Store Docs
 
-Last updated: 2026-07-23
+Last updated: 2026-07-26
 
 Themed documentation for App Store copy, ASO, screenshots, rollout, and execution.
 
@@ -18,12 +18,12 @@ Legacy redirect: [RETRORAPID_APP_STORE_REFERENCE.md](RETRORAPID_APP_STORE_REFERE
 | Copy/paste generated **staged** metadata | [05-metadata-copy.md](docs/05-metadata-copy.md) |
 | Understand ASO rationale, cross-localization, keyword rules | [04-metadata-strategy.md](docs/04-metadata-strategy.md) |
 | Deep-dive Appfigures / Krankie keyword tables | [appendices/README.md](docs/appendices/README.md) (add dated snapshots when captured) |
-| Update ScreenshotStudio captions or storyboard order | [06-screenshots.md](docs/06-screenshots.md) + [ES/CA slide tables](../Plans/aso/02-screenshot-localization-copy.md) |
+| Update Screenshot Studio captions or storyboard | [06-screenshots.md](docs/06-screenshots.md) |
+| **Add a language / refresh screenshots** | [08-locale-expansion.md](docs/08-locale-expansion.md) |
 | Write release notes | [07-release-notes-voice.md](docs/07-release-notes-voice.md) |
 | Copy/paste **staged** What's New for next submit | [05-metadata-copy.md](docs/05-metadata-copy.md#whats-new-candidate) |
 | Check character/byte limits or validation status | [01-limits-and-sources.md](docs/01-limits-and-sources.md) + [12-validation-results.md](docs/12-validation-results.md) — regenerate with `swift run --package-path Scripts generate-metadata-docs --check` |
 | See what's live vs staged | [02-listing-snapshot.md](docs/02-listing-snapshot.md) + [03-submission-quality-gate.md](docs/03-submission-quality-gate.md) |
-| Plan new locales | [08-locale-expansion.md](docs/08-locale-expansion.md) |
 | Run PPO or post-launch measurement | [09-product-page-optimization.md](docs/09-product-page-optimization.md) + [10-aso-improvement-loop.md](docs/10-aso-improvement-loop.md) |
 | Track execution checklists | [11-execution-90-day.md](docs/11-execution-90-day.md) |
 | GAAD featuring / nomination copy | [Plans/aso/06-gaad-featuring.md](../Plans/aso/06-gaad-featuring.md) |
@@ -45,7 +45,7 @@ Legacy redirect: [RETRORAPID_APP_STORE_REFERENCE.md](RETRORAPID_APP_STORE_REFERE
 | 05 | Staged metadata copy (all locales) | [docs/05-metadata-copy.md](docs/05-metadata-copy.md) |
 | 06 | Screenshots & storyboard | [docs/06-screenshots.md](docs/06-screenshots.md) |
 | 07 | Release-note voice & archive | [docs/07-release-notes-voice.md](docs/07-release-notes-voice.md) |
-| 08 | Country & language expansion | [docs/08-locale-expansion.md](docs/08-locale-expansion.md) |
+| 08 | **Add a language** (checklist + screenshot refresh) | [docs/08-locale-expansion.md](docs/08-locale-expansion.md) |
 | 09 | Product Page Optimization (PPO) | [docs/09-product-page-optimization.md](docs/09-product-page-optimization.md) |
 | 10 | Post-submit improvement loop | [docs/10-aso-improvement-loop.md](docs/10-aso-improvement-loop.md) |
 | 11 | 90-day execution plan | [docs/11-execution-90-day.md](docs/11-execution-90-day.md) |

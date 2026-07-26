@@ -30,6 +30,7 @@ public struct ScriptRecipeStep: Sendable, Equatable {
 public enum ScriptDispatchPlan: Sendable, Equatable {
     case help
     case list
+    case interactiveMenu
     case runSwiftExecutable(executable: String, arguments: [String])
     case runSwiftTestPackage(arguments: [String])
     case runCheckRecipe
@@ -105,6 +106,7 @@ public enum ScriptCommandCatalog {
 
     public static let topLevelCommands: [String] = [
         "list",
+        "menu",
         "check",
         "test",
         "docs",
@@ -124,6 +126,8 @@ public enum ScriptCommandCatalog {
         ),
         ScriptRecipeStep(executable: "generate-metadata-docs", arguments: ["--check"]),
         ScriptRecipeStep(executable: "check-documentation"),
+        ScriptRecipeStep(executable: "apply-iap-localizations", arguments: ["--check"]),
+        ScriptRecipeStep(executable: "apply-game-center-eu-localizations", arguments: ["--check"]),
     ]
 
     public static func executable(named name: String) -> ScriptExecutable? {
@@ -153,11 +157,13 @@ public enum ScriptCommandCatalog {
         RetroRapid developer CLI
 
         Usage:
-          ./retrorapid [command] [subcommand] [flags…]
+          ./retroRapidCli [command] [subcommand] [flags…]
+          ./retrorapid …                 # equivalent alias
 
         Commands:
           list                         List executables and common recipes
-          check                        Verify generated masks, screenshots, metadata, and docs
+          menu                         Interactive command menu (same as no args)
+          check                        Verify generated masks, screenshots, metadata, IAP/GC, and docs
           test [flags…]                Run app unit tests (run-tests)
           test package [flags…]        Run Scripts package unit tests
           docs                         Validate documentation links and metadata sync

@@ -187,8 +187,10 @@ App Store metadata pipeline (`generate-metadata-docs`, `apply-retrorapid-metadat
 ## Validation
 
 ```bash
-swift test --package-path Scripts
-swift run --package-path Scripts run-tests
+./retrorapid test package
+./retrorapid check
+./retrorapid test
+./retrorapid docs
 ```
 
-Documentation checks: `swift run --package-path Scripts check-documentation`
+Documentation checks: `./retrorapid docs`

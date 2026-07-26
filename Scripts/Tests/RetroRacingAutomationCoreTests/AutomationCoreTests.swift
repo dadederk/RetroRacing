@@ -902,6 +902,17 @@ func givenDestinationStringWhenParsingSimulatorUDIDThenReturnsIDComponent() {
     )
 }
 
+@Test
+func givenCaptureEnvironmentKeysWhenComparedToSharedIdentifiersThenTheyMatch() {
+    #expect(ScreenshotCapturePlan.platformEnvironmentKey == "RETRORAPID_SCREENSHOT_PLATFORM")
+    #expect(ScreenshotCapturePlan.appearanceEnvironmentKey == "RETRORAPID_SCREENSHOT_APPEARANCE")
+    #expect(ScreenshotCapturePlan.fileExtensionEnvironmentKey == "RETRORAPID_SCREENSHOT_FILE_EXTENSION")
+    #expect(ScreenshotCapturePlan.targetsEnvironmentKey == "RETRORAPID_SCREENSHOT_TARGETS")
+    #expect(ScreenshotCapturePlan.maxRetriesEnvironmentKey == "RETRORAPID_SCREENSHOT_MAX_RETRIES")
+    #expect(ScreenshotCapturePlan.skipExistingEnvironmentKey == "RETRORAPID_SCREENSHOT_SKIP_EXISTING")
+    #expect(ScreenshotCaptureReport.reportFileName == "capture-report.json")
+}
+
 private func testFlightOptions(
     command: TestFlightUploadCommand
 ) -> TestFlightUploadOptions {

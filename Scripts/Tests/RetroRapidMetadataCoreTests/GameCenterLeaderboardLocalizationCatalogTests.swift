@@ -18,7 +18,10 @@ func givenLeaderboardCatalogWhenLoadedThenTwelveShippingBoardsExist() throws {
     let catalog = try GameCenterLeaderboardLocalizationCatalog.load(from: catalogURL)
 
     #expect(catalog.leaderboards.count == 12)
-    #expect(catalog.locales == ["de-DE", "nl-NL", "it", "fr-FR", "ja", "ko", "pt-BR", "zh-Hant"])
+    #expect(catalog.locales == [
+        "de-DE", "nl-NL", "it", "fr-FR", "es-ES", "ca",
+        "ja", "ko", "pt-BR", "zh-Hant",
+    ])
     #expect(catalog.leaderboards.first?.vendorLeaderboardId == "bestios001cruise")
 }
 

@@ -10,7 +10,9 @@ import RetroRapidMetadataCore
 import ScriptSupport
 
 do {
-    let options = try HelmScreenshotSwapOptionsParser.parse(CLIArguments())
+    let arguments = CLIArguments()
+    CLIHelp.exitIfRequested(arguments, usage: CLIUsageTexts.swapAppStoreScreenshots)
+    let options = try HelmScreenshotSwapOptionsParser.parse(arguments)
     _ = try HelmScreenshotSwapWorkflow.run(options: options)
 } catch {
     fputs("\(error.localizedDescription)\n", stderr)

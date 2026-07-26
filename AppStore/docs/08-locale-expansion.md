@@ -1,86 +1,211 @@
-# Country & Language Expansion
+# Adding a Language
 
-Part of [App Store docs hub](../README.md). Index: [RETRORAPID_APP_STORE_REFERENCE.md](../RETRORAPID_APP_STORE_REFERENCE.md).
+Part of [App Store docs hub](../README.md).
 
-Last updated: 2026-07-25
+Last updated: 2026-07-26
 
-**Status:** current storefront coverage is `LIVE`; v1.5 regional metadata is `DRAFT_APPLIED`; EU wave (`de-DE`, `nl-NL`, `it`, `fr-FR`) and APAC/LatAm wave (`ja`, `ko`, `pt-BR`, `zh-Hant`) app strings and metadata are `LIVE` in repo/ASC 1.5 drafts; `fr-CA` and `zh-Hans` remain optional future work.
+**Canonical ops checklist** for shipping a new language end-to-end. In-app string rules: [`Requirements/localization.md`](../../Requirements/localization.md). Capture internals: [`Requirements/screenshot_capture.md`](../../Requirements/screenshot_capture.md).
 
-**See also:** [Cross-localization](04-metadata-strategy.md#cross-localization-strategy) · [Localization requirements](../../Requirements/localization.md)
+## Agent summary
 
+> Load this before adding a locale or refreshing screenshots. Do not invent a partial pipeline.
+
+- **Scope:** One package — app strings, listing metadata, IAP, Game Center, screenshots, TestFlight notes, ASC apply.
+- **Must not break:** Capture mode is DEBUG-only; never let `screenshots sync` overwrite source-locale pixels with `en-US`; credentials live in Keychain (`RetroRapid ASC *`).
+- **Easy to miss:** IAP + Game Center are separate from listing metadata; Watch needs `--install-only` after staging; English variants are **not** needed for IAP/Game Center.
 
 ---
 
-## Country And Language Expansion Strategy
+## Current coverage
 
-Current supported app languages are English (`en`, `en-GB`, `en-AU`, `en-CA`), German (`de`), Dutch (`nl`), Italian (`it`), French (`fr`), Spanish, Catalan, Japanese (`ja`), Korean (`ko`), Brazilian Portuguese (`pt-BR`), and Traditional Chinese (`zh-Hant`). App Store metadata should stay aligned with in-app localization, especially because RetroRapid sells accessibility and settings clarity. For each new market, prepare App Store metadata, screenshots, app strings, IAP display names, Game Center metadata, and support/privacy pages as one localization package.
+| Layer | Locales |
+|---|---|
+| **In-app** | `en`, `en-GB`, `en-AU`, `en-CA`, `de`, `nl`, `it`, `fr`, `es`, `ca`, `ja`, `ko`, `pt-BR`, `zh-Hant` |
+| **Listing metadata** | `en-US`, `en-GB`, `en-AU`, `en-CA`, `de-DE`, `nl-NL`, `it`, `fr-FR`, `es-ES`, `es-MX`, `ca`, `ja`, `ko`, `pt-BR`, `zh-Hant` |
+| **IAP / Game Center** | Same as listing **except** no `en-GB`/`en-AU`/`en-CA` (use `en-US`). IAP also has `es-MX`. |
+| **Screenshot capture (source)** | `en-US`, `de-DE`, `nl-NL`, `it`, `fr-FR`, `es-ES`, `ca`, `ja`, `ko`, `pt-BR`, `zh-Hant` |
+| **Screenshot derived (copy pixels)** | `en-GB`/`en-AU`/`en-CA` ← `en-US`; `es-MX` ← `es-ES` |
 
-### Priority Tiers
+**Next candidates (optional):** `fr-CA`, `zh-Hans` — only when storefront data justifies the work.
 
-| Priority | Locale / market | Why it is interesting | Preparation notes |
-|---|---|---|---|
-| P0 | `en-US`, `en-GB`, `en-AU`, `en-CA`, `es-ES`, `ca` | App strings and existing storefront coverage are `LIVE`; v1.5 regional metadata fields are `DRAFT_APPLIED`. UK ratings remain strong. | Re-export remaining localized screenshots. Compare UK/AU/CA conversion separately in ASC. |
-| P0 | `es-MX` | v1.5 metadata is `DRAFT_APPLIED`; full app localization and rendered screenshots are `PLANNED`. Mexico/LatAm cross-indexes with en-US. | Validate ranks for `carro`, `rebasar`, `internet`, and `control` before submission. |
-| P1 | `de-DE` | Large European App Store market; racing and arcade terms are direct enough to localize well. | **LIVE** in repo + ASC 1.5 drafts (2026-07-23). |
-| P1 | `ja` | Strong game market and good fit for compact arcade gameplay. | **LIVE** in repo + ASC 1.5 drafts (2026-07-25). |
-| P1 | `pt-BR` | Large audience and useful next step after Spanish. | **LIVE** in repo + ASC 1.5 drafts (2026-07-25). Brazilian Portuguese specifically, not generic Portuguese. |
-| P1 | `ko` | Strong mobile gaming market and high engagement potential. | **LIVE** in repo + ASC 1.5 drafts (2026-07-25). |
-| P1 | `zh-Hant` | High upside for Traditional Chinese storefronts; US cross-indexes alongside en-US. | **LIVE** in repo + ASC 1.5 drafts (2026-07-25). Simplified Chinese (`zh-Hans`) deferred. |
-| P2 | `fr-FR` | Large EU market with reasonable localization lift. | **LIVE** in repo + ASC 1.5 drafts (2026-07-23). Optional `fr-CA` deferred. |
-| P3 | `it`, `nl`, `pl`, `tr` | Additional scale after the first wave. | `it` and `nl` are **LIVE** in repo + ASC 1.5 drafts (2026-07-23). |
+---
 
-### Data To Request Before Each Locale
+## Easy to miss
 
-For each candidate market, collect:
+1. **One package.** Shipping only String Catalog + listing metadata leaves paywall and Game Center in English on ASC.
+2. **Locale code split.** In-app often uses `de` / `fr` / `es`; ASC / Studio use `de-DE` / `fr-FR` / `es-ES`. Map carefully (table below).
+3. **Credentials.** `./retrorapid asc iap --asc-api` and `./retrorapid asc game-center` read Keychain services `RetroRapid ASC Key ID`, `Issuer ID`, `Private Key` (env vars still override).
+4. **IAP Helm upload is flaky from agent shells.** Prefer `--asc-api`.
+5. **Game Center has no Helm path.** Always ASC API via `./retrorapid asc game-center`.
+6. **English variants:** needed for listing ASO + screenshot overlays; **not** for IAP/Game Center (identical copy; ASC falls back to `en-US`).
+7. **Screenshots:** `sync` ≠ install. Capture writes staging; install copies into Studio; `sync` only updates manifests/overlays/derived copies. After a partial capture: `--install-only`.
+8. **Watch is easy to skip.** Run watch capture (or `--install-only`) explicitly — iPhone install does not update Watch.
+9. **Slide index shifts.** Inserting a slide (e.g. SharePlay) invalidates later indices for locales not re-captured — re-take from the new slide onward for those locales.
+10. **Achievement capture.** Capture mode uses local fallback strings (`NoOpAchievementMetadataService`), not live Game Center English metadata.
+11. **Related-language keywords.** Avoid duplicate tokens across related pairs (e.g. `pt-BR` ↔ `es-MX`); prefer native forms (`recorde` not `record`).
+12. **Manual ASC screenshot upload.** Capture → Studio → **export in Studio → upload in Connect** (not automated).
 
-- App Store Connect: product page views, conversion rate, units, proceeds, IAP conversion, ratings, and retention by territory.
-- Keyword rank baseline for RetroRapid.
-- Suggested keywords for the local storefront.
-- Competitor keyword exports.
-- Storefront-level revenue and conversion comparison against UK/US baseline.
-- Local review language and support emails, if any.
+---
 
-### Competitors And Adjacent Apps To Track
+## Locale code map
 
-Track both racing games and Apple Watch / accessible-game adjacencies:
+| In-app / catalog | ASC / Studio / IAP / GC |
+|---|---|
+| `en` | `en-US` |
+| `en-GB`, `en-AU`, `en-CA` | same (listing + screenshots only) |
+| `de` | `de-DE` |
+| `nl` | `nl-NL` |
+| `it` | `it` |
+| `fr` | `fr-FR` |
+| `es` | `es-ES` (+ `es-MX` for listing/IAP/screenshots) |
+| `ca` | `ca` |
+| `ja`, `ko`, `pt-BR`, `zh-Hant` | same |
 
-- Retro Highway
-- Traffic Racer
-- WhiskerDash: Retro Watch Game
-- Tunnel Ball: Watch Retro Run 3D
-- Watch Car Race: Carify Highway
-- Pong 360: Retro Watch Arcade
-- Lane Defender: Haptic Arcade
-- Echo Chain: Multiplayer Fun
-- Accessible or VoiceOver-friendly games surfaced by AppleVis/community feedback
+---
 
-Useful English keyword checks:
+## Checklist: add a new language
 
-- `retro racing`
-- `arcade racing`
-- `traffic dodger`
-- `endless racing`
-- `3 lane racing`
-- `watch racing game`
-- `apple watch game`
-- `high score racing`
-- `reflex game`
-- `accessible game`
-- `voiceover game`
-- `haptic game`
-- `controller racing`
+Work top to bottom. Tick every box before calling the locale done.
 
-Useful Spanish checks:
+### 1. In-app strings
 
-- `carreras arcade`
-- `carreras retro`
-- `juego de carreras`
-- `trafico infinito`
-- `esquivar coches`
-- `juego apple watch`
-- `juego accesible`
-- `voiceover juego`
-- `reflejos`
-- `puntuacion`
+- [ ] Add locale to `RetroRacing/RetroRacingShared/Localizable.xcstrings` (100% keys; transcreate, don’t literal-translate)
+- [ ] Align product terms (Unlimited Plays, achievements wording) with IAP/GC copy you’ll upload
+- [ ] Add to `CFBundleLocalizations` in `RetroRacing/Config/RetroRacingUniversalInfo.plist`
+- [ ] Add project region in `RetroRacing.xcodeproj` if required
+- [ ] Extend `ScreenshotCaptureLocaleCatalog.appStoreLocales` + `inAppLanguageIdentifier` mapping
+- [ ] Add locale coverage tests (`GameLocalizedStringsLocaleTests` / shared tests)
+- [ ] Update [`Requirements/localization.md`](../../Requirements/localization.md) supported-language list
 
-Useful Catalan checks will likely have lower volume. Keep Catalan primarily as a quality and regional trust localization unless App Store Connect shows meaningful search demand.
+### 2. App Store listing metadata
+
+- [ ] Add locale block to `AppStore/metadata/retrorapid-v1.5.json` (name, subtitle, keywords, promo, description, what’s new)
+- [ ] Create ASC version localization if missing (`helm-asc version <id> localizations create --locale …`)
+- [ ] Record `localizationIds` under `platformDrafts` for **iOS and macOS**
+- [ ] `./retrorapid metadata generate` then `./retrorapid metadata apply` (or `--keywords-only` when only keywords changed)
+- [ ] Check related-language keyword overlaps in your ASO tool
+
+### 3. IAP (Unlimited Plays)
+
+- [ ] Add `AppStore/iap-localizations/6759012658/<ASC-locale>/metadata.csv` (`name` ≤30, `description` ≤45)
+- [ ] Add locale to `Scripts/Sources/ApplyIAPLocalizations/main.swift` `defaultLocales`
+- [ ] `./retrorapid asc iap --check`
+- [ ] `./retrorapid asc iap --asc-api`
+- [ ] Confirm with `helm-asc inAppPurchase 6759012658 localizations --agent`
+
+### 4. Game Center (achievements + leaderboards)
+
+- [ ] Add locale to `AppStore/game-center/achievements-eu-localizations.json` (all 22 achievements)
+- [ ] Add locale to `AppStore/game-center/leaderboards-eu-localizations.json` (score suffixes; display names built at upload)
+- [ ] Extend `GameCenterLeaderboardDisplayNameBuilder` / `DescriptionBuilder` for the locale
+- [ ] `./retrorapid asc game-center --check`
+- [ ] `./retrorapid asc game-center` (long: ~220 achievement + ~120 leaderboard rows at 10 locales; images copy from `en-US`)
+- [ ] Spot-check one achievement + one leaderboard in ASC for the new locale
+
+### 5. Screenshot Studio overlay copy
+
+- [ ] Add locale to `ScreenshotStudioWorkflow.locales`
+- [ ] Add slide titles/bodies in `ScreenshotStudioWorkflow` `slides` (iPhone storyboard; Mac/Watch derive)
+- [ ] `./retrorapid screenshots sync` (manifests + overlays; does **not** create new pixels)
+
+### 6. Capture & install screenshots
+
+See **Refresh screenshots** below. For a brand-new locale, capture **all platforms** for that locale:
+
+```bash
+./retrorapid screenshots capture --all-platforms --locales <ASC-locale> --force
+```
+
+If staging already has good files but Studio is stale:
+
+```bash
+./retrorapid screenshots capture --platform <iphone|ipad|mac|watch> --install-only
+```
+
+### 7. TestFlight notes
+
+- [ ] Add `AppStore/testflight/beta-notes/<ASC-locale>/whats-new.txt`
+- [ ] Apply to builds via Helm (`build update --locale … --whats-new …`) when shipping a beta
+
+### 8. Final validation
+
+- [ ] `./retrorapid check`
+- [ ] Spot-check Screenshot Studio: in-app UI language matches locale (not English HUD)
+- [ ] Spot-check ASC: listing, IAP, Game Center for the new locale
+- [ ] Export screenshots from Studio and upload to Connect when ready for review
+
+---
+
+## Checklist: refresh screenshots
+
+Use when copy/fixtures/locales already exist and you only need new pixels.
+
+### Before capture
+
+- [ ] Confirm slide → fixture map still matches [`Requirements/screenshot_capture.md`](../../Requirements/screenshot_capture.md) (SharePlay insert shifts indices)
+- [ ] Decide scope: `--locales`, `--slides`, `--platform` / `--all-platforms`, `--force`
+
+### Capture
+
+```bash
+# One platform, selected locales/slides
+./retrorapid screenshots capture --platform iphone --locales ja,ko --slides 4,5,6,7,8 --force
+
+# All shipping platforms
+./retrorapid screenshots capture --all-platforms --force
+```
+
+| Platform | Slides | Notes |
+|---|---|---|
+| iPhone / iPad | 0–9 | JPEG; iPad landscape |
+| Mac | 0–8 | PNG; no SharePlay slide (indices shift after 3) |
+| Watch | 0–4 | JPEG; sequence-only overlays; set simulator locale via CLI |
+
+### After capture
+
+- [ ] Pipeline installs into Studio automatically; if Studio still shows English for a locale that has distinct staging files → `--install-only` for that platform
+- [ ] `./retrorapid screenshots sync --check`
+- [ ] Spot-check **source** locales in Studio (not only `en-US`)
+- [ ] Derived locales (`en-GB`/`en-AU`/`en-CA`/`es-MX`) should match their source after sync — do not re-capture them
+- [ ] Export from Screenshot Studio → upload to App Store Connect (manual)
+
+### Partial re-take rule
+
+If you only re-capture some slides for some locales, **Studio keeps old files for the rest**. After a storyboard insert, re-take from the inserted index through the end for every locale that still has pre-insert captures.
+
+---
+
+## Commands cheat sheet
+
+```bash
+# Docs / metadata
+./retrorapid metadata generate
+./retrorapid metadata apply
+./retrorapid metadata apply --keywords-only
+
+# IAP + Game Center (Keychain credentials)
+./retrorapid asc iap --check && ./retrorapid asc iap --asc-api
+./retrorapid asc game-center --check && ./retrorapid asc game-center
+
+# Screenshots
+./retrorapid screenshots capture --all-platforms --force
+./retrorapid screenshots capture --platform watch --install-only
+./retrorapid screenshots sync --check
+
+# Full package gate
+./retrorapid check
+```
+
+---
+
+## Related
+
+| Topic | Doc |
+|---|---|
+| In-app localization rules | [`Requirements/localization.md`](../../Requirements/localization.md) |
+| Capture mode / fixtures | [`Requirements/screenshot_capture.md`](../../Requirements/screenshot_capture.md) |
+| Storyboard & Studio project | [`06-screenshots.md`](06-screenshots.md) |
+| Cross-localization / keywords | [`04-metadata-strategy.md`](04-metadata-strategy.md) |
+| Game Center upload details | [`../game-center/README.md`](../game-center/README.md) |
+| Script commands | [`../../Scripts/README.md`](../../Scripts/README.md) |
+| Completed waves (history) | [`../../Plans/aso/08-locale-expansion-waves.md`](../../Plans/aso/08-locale-expansion-waves.md) |

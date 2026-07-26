@@ -51,6 +51,7 @@ Do not duplicate task routing tables in this file. Use the index or hub for each
 | — | `Requirements/INDEX.md` | Shipped in-app behavior (task routing + contract files) |
 | INDEX | `Plans/INDEX.md` | Roadmap, themed plans, App Store task routing |
 | README | `AppStore/README.md` | Listing copy, ASO, screenshots, rollout |
+| — | `AppStore/docs/08-locale-expansion.md` | **Add a language** + screenshot refresh checklists |
 | README | `Plans/aso/README.md` | ASO campaigns and featuring playbooks |
 | README | `Scripts/README.md` | Script commands, recipes, mutation safety |
 | — | `Scripts/CONVENTIONS.md` | Script engineering standards and package layout |

@@ -6,6 +6,8 @@
     "nl-NL",
     "it",
     "fr-FR",
+    "es-ES",
+    "ca",
     "ja",
     "ko",
     "pt-BR",
@@ -37,6 +39,16 @@
           "name": "Cruise",
           "formatterSuffixSingular": "dépassement",
           "formatterSuffix": "dépassements"
+        },
+        "es-ES": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "adelantamiento",
+          "formatterSuffix": "adelantamientos"
+        },
+        "ca": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "avançament",
+          "formatterSuffix": "avançaments"
         },
         "ja": {
           "name": "Cruise",
@@ -86,6 +98,16 @@
           "formatterSuffixSingular": "dépassement",
           "formatterSuffix": "dépassements"
         },
+        "es-ES": {
+          "name": "Fast",
+          "formatterSuffixSingular": "adelantamiento",
+          "formatterSuffix": "adelantamientos"
+        },
+        "ca": {
+          "name": "Fast",
+          "formatterSuffixSingular": "avançament",
+          "formatterSuffix": "avançaments"
+        },
         "ja": {
           "name": "ファスト",
           "formatterSuffixSingular": "追い抜き",
@@ -133,6 +155,16 @@
           "name": "Rapid",
           "formatterSuffixSingular": "dépassement",
           "formatterSuffix": "dépassements"
+        },
+        "es-ES": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "adelantamiento",
+          "formatterSuffix": "adelantamientos"
+        },
+        "ca": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "avançament",
+          "formatterSuffix": "avançaments"
         },
         "ja": {
           "name": "Rapid",
@@ -182,6 +214,16 @@
           "formatterSuffixSingular": "dépassement",
           "formatterSuffix": "dépassements"
         },
+        "es-ES": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "adelantamiento",
+          "formatterSuffix": "adelantamientos"
+        },
+        "ca": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "avançament",
+          "formatterSuffix": "avançaments"
+        },
         "ja": {
           "name": "Cruise",
           "formatterSuffixSingular": "追い抜き",
@@ -229,6 +271,16 @@
           "name": "Fast",
           "formatterSuffixSingular": "dépassement",
           "formatterSuffix": "dépassements"
+        },
+        "es-ES": {
+          "name": "Fast",
+          "formatterSuffixSingular": "adelantamiento",
+          "formatterSuffix": "adelantamientos"
+        },
+        "ca": {
+          "name": "Fast",
+          "formatterSuffixSingular": "avançament",
+          "formatterSuffix": "avançaments"
         },
         "ja": {
           "name": "ファスト",
@@ -278,6 +330,16 @@
           "formatterSuffixSingular": "dépassement",
           "formatterSuffix": "dépassements"
         },
+        "es-ES": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "adelantamiento",
+          "formatterSuffix": "adelantamientos"
+        },
+        "ca": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "avançament",
+          "formatterSuffix": "avançaments"
+        },
         "ja": {
           "name": "Rapid",
           "formatterSuffixSingular": "追い抜き",
@@ -325,6 +387,16 @@
           "name": "Cruise",
           "formatterSuffixSingular": "dépassement",
           "formatterSuffix": "dépassements"
+        },
+        "es-ES": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "adelantamiento",
+          "formatterSuffix": "adelantamientos"
+        },
+        "ca": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "avançament",
+          "formatterSuffix": "avançaments"
         },
         "ja": {
           "name": "Cruise",
@@ -374,6 +446,16 @@
           "formatterSuffixSingular": "dépassement",
           "formatterSuffix": "dépassements"
         },
+        "es-ES": {
+          "name": "Fast",
+          "formatterSuffixSingular": "adelantamiento",
+          "formatterSuffix": "adelantamientos"
+        },
+        "ca": {
+          "name": "Fast",
+          "formatterSuffixSingular": "avançament",
+          "formatterSuffix": "avançaments"
+        },
         "ja": {
           "name": "ファスト",
           "formatterSuffixSingular": "追い抜き",
@@ -421,6 +503,16 @@
           "name": "Rapid",
           "formatterSuffixSingular": "dépassement",
           "formatterSuffix": "dépassements"
+        },
+        "es-ES": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "adelantamiento",
+          "formatterSuffix": "adelantamientos"
+        },
+        "ca": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "avançament",
+          "formatterSuffix": "avançaments"
         },
         "ja": {
           "name": "Rapid",
@@ -470,6 +562,16 @@
           "formatterSuffixSingular": "dépassement",
           "formatterSuffix": "dépassements"
         },
+        "es-ES": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "adelantamiento",
+          "formatterSuffix": "adelantamientos"
+        },
+        "ca": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "avançament",
+          "formatterSuffix": "avançaments"
+        },
         "ja": {
           "name": "Cruise",
           "formatterSuffixSingular": "追い抜き",
@@ -518,6 +620,16 @@
           "formatterSuffixSingular": "dépassement",
           "formatterSuffix": "dépassements"
         },
+        "es-ES": {
+          "name": "Fast",
+          "formatterSuffixSingular": "adelantamiento",
+          "formatterSuffix": "adelantamientos"
+        },
+        "ca": {
+          "name": "Fast",
+          "formatterSuffixSingular": "avançament",
+          "formatterSuffix": "avançaments"
+        },
         "ja": {
           "name": "ファスト",
           "formatterSuffixSingular": "追い抜き",
@@ -565,6 +677,16 @@
           "name": "Rapid",
           "formatterSuffixSingular": "dépassement",
           "formatterSuffix": "dépassements"
+        },
+        "es-ES": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "adelantamiento",
+          "formatterSuffix": "adelantamientos"
+        },
+        "ca": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "avançament",
+          "formatterSuffix": "avançaments"
         },
         "ja": {
           "name": "Rapid",

@@ -9,17 +9,23 @@ import Foundation
 
 public enum RetroRapidCLIParser {
     public static func parse(_ arguments: [String]) throws -> ScriptDispatchPlan {
-        if arguments.isEmpty || arguments.contains("--help") || arguments.contains("-h") {
+        if arguments.isEmpty {
+            return .interactiveMenu
+        }
+        if arguments == ["--help"] || arguments == ["-h"] {
             return .help
         }
 
         guard let command = arguments.first else {
-            return .help
+            return .interactiveMenu
         }
 
         let remainder = Array(arguments.dropFirst())
 
         switch command {
+        case "menu":
+            try rejectUnexpectedRouteTail(remainder, command: command)
+            return .interactiveMenu
         case "list":
             try rejectUnexpectedRouteTail(remainder, command: command)
             return .list

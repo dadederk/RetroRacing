@@ -1,68 +1,41 @@
 # Game Center localization (App Store Connect)
 
-Canonical EU catalogs:
+**Add-language checklist:** [`../docs/08-locale-expansion.md`](../docs/08-locale-expansion.md)
 
-- Achievements: [`achievements-eu-localizations.json`](achievements-eu-localizations.json) (`de-DE`, `nl-NL`, `it`, `fr-FR`)
-- Leaderboards: [`leaderboards-eu-localizations.json`](leaderboards-eu-localizations.json) (12 shipping-platform boards × 4 locales)
+## Catalogs
 
-English/Spanish/Catalan achievement payloads remain in [`Requirements/achievements_rollout_checklist.md`](../../Requirements/achievements_rollout_checklist.md).
+| File | Coverage |
+|---|---|
+| [`achievements-eu-localizations.json`](achievements-eu-localizations.json) | 22 achievements × 10 locales |
+| [`leaderboards-eu-localizations.json`](leaderboards-eu-localizations.json) | 12 boards (iPhone/iPad/Mac/Watch × Cruise/Fast/Rapid) × 10 locales |
 
-## Upload via App Store Connect API
+Locales: `de-DE`, `nl-NL`, `it`, `fr-FR`, `es-ES`, `ca`, `ja`, `ko`, `pt-BR`, `zh-Hant`. **No** `en-GB`/`en-AU`/`en-CA` — ASC falls back to `en-US`.
 
-Requires the same credentials as IAP upload (`ASC_KEY_ID`, `ASC_ISSUER_ID`, `ASC_PRIVATE_KEY`).
+English reference tables: [`Requirements/achievements_rollout_checklist.md`](../../Requirements/achievements_rollout_checklist.md).
+
+## Apply
+
+Credentials: Keychain `RetroRapid ASC *` or `ASC_KEY_ID` / `ASC_ISSUER_ID` / `ASC_PRIVATE_KEY`. **No Helm Game Center commands** — ASC API only.
 
 ```bash
+./retrorapid asc game-center --check
 ./retrorapid asc game-center --dry-run
 ./retrorapid asc game-center
-./retrorapid asc game-center --check
 ```
 
-Flags:
+Flags: `--achievements-only`, `--leaderboards-only`. After text upsert, copies **en-US** artwork into locales missing images.
 
-- `--achievements-only` — 22 achievements × 4 locales (88 rows)
-- `--leaderboards-only` — 12 leaderboards × 4 locales (48 rows)
-- `--dry-run` — plan without writes
+## Leaderboard display names
 
-After text upload, the command copies **en-US achievement images** to each EU locale that is missing an image (same artwork, no text). Leaderboard images copy when an en-US source image exists.
+Built at upload time (JSON `name` is a placeholder). Score suffixes in the catalog are authoritative.
 
-## Image naming (en-US source files)
+- Platform prefix from en-US ASC row; **30-character** cap (shortens “High Score” / `Apple Watch` → `Watch` when needed).
+- Translate “High Score”; keep `Cruise`/`Rapid`; localize `Fast` like Settings (`Rápido`, `Ràpid`, …).
+- Descriptions: overtakes in one run (locale defaults in `GameCenterLeaderboardDescriptionBuilder`).
 
-Upload artwork to the **en-US** localization row in App Store Connect. Filenames are for your reference only (ASC stores its own copy); keep them consistent so re-uploads and debugging are easy.
+## Artwork naming (en-US source only)
 
-**Leaderboards** — `Leaderboard{Platform}{Level}.png` (1024×1024):
-
-| Platform | Cruise | Fast | Rapid |
-|---|---|---|---|
-| iPhone | `LeaderboardIphoneCruise.png` | `LeaderboardIphoneFast.png` | `LeaderboardIphoneRapid.png` |
-| iPad | `LeaderboardIpadCruise.png` | `LeaderboardIpadFast.png` | `LeaderboardIpadRapid.png` |
-| macOS | `LeaderboardMacCruise.png` | `LeaderboardMacFast.png` | `LeaderboardMacRapid.png` |
-| watchOS | `LeaderboardAppleWatchCruise.png` | `LeaderboardAppleWatchFast.png` | `LeaderboardAppleWatchRapid.png` |
-
-**Achievements** — `Achievement{ReferenceName}.png` (matches ASC reference name, e.g. `AchievementRunOvertakes100.png` for `runOvertakes100`).
-
-The upload script reads en-US images via the App Store Connect API and duplicates them into EU locales; you do **not** need separate artwork per translated language.
-
-**Important:** `--dry-run` prints the plan only. Leaderboard rows show `[dry-run] CREATE` until you run without `--dry-run`:
-
-```bash
-swift run --package-path Scripts apply-game-center-eu-localizations --leaderboards-only
-```
-
-Print a manual checklist:
-
-## Helm CLI status
-
-The installed `helm-asc` build exposes IAP/version localization upload, but **does not yet ship public `gameCenterAchievement` commands**. Use the ASC API command above instead of Helm file upload for EU Game Center metadata.
-
-## Leaderboard scope
-
-Leaderboard catalog covers shipping platforms only (`iPhone`, `iPad`, `macOS`, `watchOS`). **Display names** are built at upload time:
-
-- **Platform prefix** matches the existing en-US row in App Store Connect (e.g. `iPhone`, `Mac`, `Apple Watch`). ASC caps display names at **30 characters**; longer EU strings shorten automatically (`Miglior punteggio` → `Top score`, `Apple Watch` → `Watch` when needed).
-- **“High Score”** is translated per EU locale (`Bestpunktzahl`, `Highscore`, `Miglior punteggio`, `Meilleur score`).
-- **Speed levels** follow in-app naming: `Cruise` and `Rapid` stay as product terms; `Fast` uses the same localized labels as Settings (`Schnell`, `Snel`, `Veloce`, `Rapide`).
-- **Descriptions** explain ranking in one run (overtakes); built at upload time from the en-US ASC row when present, otherwise EU defaults.
-
-Example: `iPhone Bestpunktzahl - Cruise` (de-DE), `iPhone Meilleur score - Rapide` (fr-FR, Fast board).
-
-The JSON `name` fields are legacy placeholders; score suffixes in the catalog remain authoritative. tvOS boards are omitted from the EU catalog because tvOS is not publicly listed.
+| Kind | Pattern |
+|---|---|
+| Leaderboards | `Leaderboard{Iphone\|Ipad\|Mac\|AppleWatch}{Cruise\|Fast\|Rapid}.png` (1024×1024) |
+| Achievements | `Achievement{ReferenceName}.png` (e.g. `AchievementRunOvertakes100.png`) |

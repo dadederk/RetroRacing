@@ -56,6 +56,12 @@ public enum ScriptCommandRunner {
             print(ScriptCommandCatalog.helpText())
         case .list:
             print(ScriptCommandCatalog.listText())
+        case .interactiveMenu:
+            if RetroRapidInteractiveMenu.shouldUseInteractiveMenu() {
+                try RetroRapidInteractiveMenu.run(repositoryRoot: repositoryRoot)
+            } else {
+                print(ScriptCommandCatalog.helpText())
+            }
         case let .runSwiftExecutable(executable, arguments):
             try run(
                 makeSwiftRunCommand(
@@ -72,15 +78,41 @@ public enum ScriptCommandRunner {
                 )
             )
         case .runCheckRecipe:
-            for step in ScriptCommandCatalog.checkRecipeSteps {
-                try run(
-                    makeSwiftRunCommand(
-                        repositoryRoot: repositoryRoot,
-                        executable: step.executable,
-                        arguments: step.arguments
+            var completedSteps: [String] = []
+            var failedStep: String?
+            do {
+                for step in ScriptCommandCatalog.checkRecipeSteps {
+                    let label = "check: \(step.executable)"
+                    print("\(label)…")
+                    try run(
+                        makeSwiftRunCommand(
+                            repositoryRoot: repositoryRoot,
+                            executable: step.executable,
+                            arguments: step.arguments
+                        )
                     )
-                )
+                    completedSteps.append(label)
+                }
+            } catch {
+                failedStep = ScriptCommandCatalog.checkRecipeSteps[
+                    safe: completedSteps.count
+                ].map { "check: \($0.executable)" }
+                fputs("Check recipe failed.\n", stderr)
+                for step in completedSteps {
+                    fputs("  ✓ \(step)\n", stderr)
+                }
+                if let failedStep {
+                    fputs("  ✗ \(failedStep)\n", stderr)
+                }
+                throw error
             }
         }
+    }
+}
+
+private extension Array {
+    subscript(safe index: Int) -> Element? {
+        guard indices.contains(index) else { return nil }
+        return self[index]
     }
 }

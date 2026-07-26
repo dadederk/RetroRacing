@@ -35,7 +35,10 @@ func givenIAPBundleWhenCheckingThenValidationPassesWithoutCredentials() throws {
         helmPath: HelmCLI.defaultPath,
         iapID: "6759012658",
         bundleRelativePath: "AppStore/iap-localizations/6759012658",
-        locales: ["de-DE", "nl-NL", "it", "fr-FR", "ja", "ko", "pt-BR", "zh-Hant"],
+        locales: [
+            "de-DE", "nl-NL", "it", "fr-FR", "es-ES", "es-MX", "ca",
+            "ja", "ko", "pt-BR", "zh-Hant",
+        ],
         dryRun: false,
         preferAppStoreConnectAPI: false
     )
@@ -48,7 +51,10 @@ func givenIAPBundleWhenCheckingThenValidationPassesWithoutCredentials() throws {
 
 @Test
 func givenMissingCredentialsMessageWhenRenderedThenIncludesRequiredEnvironmentVariables() {
-    let message = AppStoreConnectCredentialsLoader.missingCredentialsMessage()
+    let message = AppStoreConnectCredentialsLoader.missingCredentialsMessage(
+        from: [:],
+        includeKeychain: false
+    )
     #expect(message.contains("ASC_KEY_ID") || message.contains("APP_STORE_CONNECT_KEY_ID"))
     #expect(message.contains("credentials") || message.contains("key ID"))
 }

@@ -169,8 +169,8 @@ public enum IAPLocalizationWorkflow {
             1. Finder copy, then Helm upload:
                open "\(sourceBundle)"
                \(helmArtifactHint)
-               Drag de-DE, nl-NL, it, fr-FR, ja, ko, pt-BR, and zh-Hant into the Helm folder, then run:
-               helm-asc inAppPurchase \(options.iapID) localizations upload --path "<helm folder>" --locale de-DE --locale nl-NL --locale it --locale fr-FR --locale ja --locale ko --locale pt-BR --locale zh-Hant --agent
+               Drag de-DE, nl-NL, it, fr-FR, es-ES, es-MX, ca, ja, ko, pt-BR, and zh-Hant into the Helm folder, then run:
+               helm-asc inAppPurchase \(options.iapID) localizations upload --path "<helm folder>" --locale de-DE --locale nl-NL --locale it --locale fr-FR --locale es-ES --locale es-MX --locale ca --locale ja --locale ko --locale pt-BR --locale zh-Hant --agent
 
             2. App Store Connect API (recommended for automation):
                \(AppStoreConnectCredentialsLoader.missingCredentialsMessage())

@@ -10,6 +10,8 @@ import RetroRacingAutomationCore
 import ScriptSupport
 
 do {
+    let arguments = CLIArguments()
+    CLIHelp.exitIfRequested(arguments, usage: CLIUsageTexts.captureAppStoreScreenshots)
     let repositoryRoot = try RepositoryLocator.locate(
         containing: [
             "AppStore/RetroRapid.screenshotstudio",
@@ -17,7 +19,7 @@ do {
         ]
     )
     let plans = try AppStoreScreenshotCaptureOptions.parsePlans(
-        CLIArguments(),
+        arguments,
         repositoryRoot: repositoryRoot
     )
     for (index, options) in plans.enumerated() {

@@ -1,10 +1,10 @@
 # RetroRapid ASO & Growth Plans
 
+Last updated: 2026-07-26
+
 Campaign context, historical decisions, and specialized playbooks. **Canonical staged metadata and rollout status** live in [AppStore/docs/](../../AppStore/README.md).
 
 Legacy monolith: [retrorapid_aso_growth_plan.md](../retrorapid_aso_growth_plan.md) (redirects here).
-
-Last updated: 2026-07-23
 
 ## Agent quick-start
 
@@ -15,6 +15,7 @@ Last updated: 2026-07-23
 | Generated **staged** metadata to review or copy | [AppStore/docs/05-metadata-copy.md](../../AppStore/docs/05-metadata-copy.md) |
 | Why metadata is shaped this way | [AppStore/docs/04-metadata-strategy.md](../../AppStore/docs/04-metadata-strategy.md) |
 | Screenshot storyboard (current order) | [AppStore/docs/06-screenshots.md](../../AppStore/docs/06-screenshots.md) |
+| **Add a language / refresh screenshots** | [AppStore/docs/08-locale-expansion.md](../../AppStore/docs/08-locale-expansion.md) |
 | ES/CA text for every screenshot slide | [02-screenshot-localization-copy.md](02-screenshot-localization-copy.md) |
 | GAAD nomination copy & timeline | [06-gaad-featuring.md](06-gaad-featuring.md) |
 | **Past featuring nominations & voice guide** | [09-featuring-nominations-submitted.md](09-featuring-nominations-submitted.md) |
@@ -46,7 +47,7 @@ Last updated: 2026-07-23
 | Cross-localization & keyword strategy | [docs/04-metadata-strategy.md](../../AppStore/docs/04-metadata-strategy.md) |
 | Helm rollout & submission blockers | [docs/03-submission-quality-gate.md](../../AppStore/docs/03-submission-quality-gate.md) |
 | 90-day execution checklist | [docs/11-execution-90-day.md](../../AppStore/docs/11-execution-90-day.md) |
-| Locale priority tiers (full) | [docs/08-locale-expansion.md](../../AppStore/docs/08-locale-expansion.md) |
+| Locale priority + **add-language checklist** | [docs/08-locale-expansion.md](../../AppStore/docs/08-locale-expansion.md) |
 
 ## Related
 

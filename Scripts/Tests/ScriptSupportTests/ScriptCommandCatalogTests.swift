@@ -26,12 +26,14 @@ func givenCatalogWhenComparedToPackageProductsThenEveryExecutableIsRegistered() 
 
 @Test
 func givenCheckRecipeWhenResolvedThenStepsMatchReadmeOrder() {
-    #expect(ScriptCommandCatalog.checkRecipeSteps.count == 4)
+    #expect(ScriptCommandCatalog.checkRecipeSteps.count == 6)
     #expect(ScriptCommandCatalog.checkRecipeSteps[0].executable == "generate-road-dash-masks")
     #expect(ScriptCommandCatalog.checkRecipeSteps[0].arguments == ["--check"])
     #expect(ScriptCommandCatalog.checkRecipeSteps[1].executable == "sync-screenshot-studio-localizations")
     #expect(ScriptCommandCatalog.checkRecipeSteps[2].executable == "generate-metadata-docs")
     #expect(ScriptCommandCatalog.checkRecipeSteps[3].executable == "check-documentation")
+    #expect(ScriptCommandCatalog.checkRecipeSteps[4].executable == "apply-iap-localizations")
+    #expect(ScriptCommandCatalog.checkRecipeSteps[5].executable == "apply-game-center-eu-localizations")
 }
 
 @Test
@@ -121,14 +123,35 @@ func givenCheckPlanWhenBuildingCommandsThenEachStepUsesSwiftRun() {
         )
     }
 
-    #expect(commands.count == 4)
+    #expect(commands.count == 6)
     #expect(commands.allSatisfy { $0.arguments.first == "run" })
 }
 
 @Test
-func givenEmptyArgumentsWhenParsingThenHelpPlanIsReturned() throws {
-    #expect(try RetroRapidCLIParser.parse([]) == .help)
+func givenEmptyArgumentsWhenParsingThenInteractiveMenuPlanIsReturned() throws {
+    #expect(try RetroRapidCLIParser.parse([]) == .interactiveMenu)
+}
+
+@Test
+func givenHelpFlagOnlyWhenParsingThenHelpPlanIsReturned() throws {
     #expect(try RetroRapidCLIParser.parse(["--help"]) == .help)
+    #expect(try RetroRapidCLIParser.parse(["-h"]) == .help)
+}
+
+@Test
+func givenMenuRouteWhenParsingThenInteractiveMenuPlanIsReturned() throws {
+    #expect(try RetroRapidCLIParser.parse(["menu"]) == .interactiveMenu)
+}
+
+@Test
+func givenTestFlightHelpWhenParsingThenHelpIsForwardedToExecutable() throws {
+    let plan = try RetroRapidCLIParser.parse(["testflight", "--help"])
+    #expect(
+        plan == .runSwiftExecutable(
+            executable: "submit-testflight-build",
+            arguments: ["--help"]
+        )
+    )
 }
 
 @Test

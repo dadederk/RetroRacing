@@ -29,6 +29,7 @@ Single entrypoint for shipped in-app behavior contracts. Plans track remaining w
 | Accessibility | [accessibility.md](accessibility.md) | — |
 | Audio and haptics | [audio_haptics.md](audio_haptics.md) | — |
 | Localization | [localization.md](localization.md) | — |
+| Add a language / refresh screenshots | [../AppStore/docs/08-locale-expansion.md](../AppStore/docs/08-locale-expansion.md) | [localization.md](localization.md), [screenshot_capture.md](screenshot_capture.md) |
 | Logging | [logging.md](logging.md) | — |
 | Rating and review prompts | [rating_system.md](rating_system.md) | — |
 | About screen | [about_screen.md](about_screen.md) | — |

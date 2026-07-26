@@ -11,6 +11,7 @@ import ScriptSupport
 
 do {
     let arguments = CLIArguments()
+    CLIHelp.exitIfRequested(arguments, usage: CLIUsageTexts.syncScreenshotStudioLocalizations)
     try arguments.rejectUnknownFlags(allowing: ["--check"])
     let repositoryRoot = try RepositoryLocator.locate(
         containing: [

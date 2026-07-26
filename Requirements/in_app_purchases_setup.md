@@ -126,25 +126,14 @@ For each supported language (at least EN, ES, CA, DE, NL, IT, FR):
   - No subscription / one‑time purchase.
 - Avoid **technical details** (StoreKit, receipts, etc.) – that’s for docs, not users.
 
-**Apply EU IAP localizations** (after editing `AppStore/iap-localizations/6759012658/`):
+**Apply IAP localizations** (full checklist: [`AppStore/docs/08-locale-expansion.md`](../AppStore/docs/08-locale-expansion.md)):
 
 ```bash
-swift run --package-path Scripts apply-iap-localizations --dry-run
-swift run --package-path Scripts apply-iap-localizations
+./retrorapid asc iap --check
+./retrorapid asc iap --asc-api
 ```
 
-The tool tries Helm first. Terminal usually **cannot** write into Helm’s Group Containers folder, so Helm CSV upload often fails even when `helm-asc` can talk to App Store Connect. For automation, prefer the App Store Connect API path:
-
-```bash
-export ASC_KEY_ID=...
-export ASC_ISSUER_ID=...
-export ASC_PRIVATE_KEY=~/path/to/AuthKey_XXXX.p8
-swift run --package-path Scripts apply-iap-localizations --asc-api
-```
-
-Manual fallback: open the repo IAP folder and Helm’s `iap-localizations/6759012658` artifact folder in Finder, drag `de-DE`, `nl-NL`, `it`, and `fr-FR` across, then run `helm-asc inAppPurchase 6759012658 localizations upload --path "<helm folder>" ... --agent`.
-
-CSV bundle uses `<locale>/metadata.csv` with `field,value` rows for `name` and `description`.
+Prefer `--asc-api` (Keychain `RetroRapid ASC *` or `ASC_*` env). Helm CSV upload often fails from agent shells. CSV: `<locale>/metadata.csv` with `name` / `description` rows.
 
 ### 2.4 Screenshot for the Product
 

@@ -107,9 +107,11 @@ Run these checks in Game Center sandbox accounts:
 4. Offline/auth-delayed unlocks eventually sync after authentication via replay triggers.
 5. watchOS path qualifies via VoiceOver-only behavior (v1 scope).
 
-## Localization Payload (es-ES + ca-ES Valencian Meridional)
+## Localization Payload (es-ES + ca)
 
-Full localized metadata for all 22 achievements. The GAAD event payload is in its own section above; all other families are here.
+Full localized metadata for all 22 achievements lives in
+[`AppStore/game-center/achievements-eu-localizations.json`](../AppStore/game-center/achievements-eu-localizations.json)
+(locales `es-ES` and `ca`). The tables below are the human-readable source that seeded that catalog.
 
 ### Streak — Spanish (Spain) `es-ES`
 
