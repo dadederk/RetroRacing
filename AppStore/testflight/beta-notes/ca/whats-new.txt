@@ -1,19 +1,19 @@
 Corre en viu amb amics amb SharePlay a iPhone i iPad.
 
-Toca Juga amb amics, inicia un compte enrere sincronitzat, esquiva el trànsit junts i compara el mateix resultat de victòria, derrota o empat al final. Les revanxes comencen només quan els dos jugadors estan llestos.
+Toca Jugar amb amics, inicia un compte enrere sincronitzat, esquiva el trànsit junts i compara el mateix resultat de victòria, derrota o empat. Les revanxes esperen que els dos estiguen llestos.
 
-Les curses amb amics són gratis i mai consumeixen partides diàries, fins i tot quan ja has esgotat les partides gratuïtes en solitari.
+Les carreres amb amics són gratis i mai no usen partides diàries.
 
-RetroRapid! 1.5 arriba amb localització completa de l'app en català, neerlandès, francès, alemany, italià, japonès, coreà, portuguès del Brasil, castellà i xinès tradicional. Canvia l'idioma del dispositiu i menús, ajustos i interfície de cursa haurien de seguir-lo.
+Aquesta actualització afig la localització completa de l'app per a portuguès europeu, xinès simplificat i francès del Canadà. Canvia l'idioma del dispositiu — sobretot un dels nous — i confirma que menús, ajustos i la UI de carrera sonen naturals.
 
-També hem polix ajustos, claredat del paywall, àudio i estabilitat a tota l'app.
+També hem polix ajustos, claredat del paywall, àudio i estabilitat.
 
-En què ens agradaria que et centres:
-- Inicia una cursa SharePlay amb un amic en dos iPhone o iPad i confirma que el compte enrere es manté sincronitzat
-- Canvia el dispositiu a català o un altre idioma compatible i confirma que menús, ajustos i textos en joc sonen naturals
-- Corre fins al final, prova Torna a jugar i confirma que els dos jugadors han de confirmar abans de la revança
-- Amb zero partides diàries restants, confirma que les curses amb amics encara s'inicien gratis des de Juga amb amics
-- A Mac i Apple Watch, confirma que les curses en solitari continuen funcionant bé
-- Informa de qualsevol tancament inesperat, desconnexió, moment confús en multijugador o traducció malament feta
+En què centrar-te:
+- Inicia una carrera SharePlay en dos iPhone/iPad i confirma el compte enrere sincronitzat
+- Canvia a portuguès europeu, xinès simplificat o francès del Canadà i valora les traduccions
+- Després de la meta, prova Jugar de nou — els dos han de confirmar
+- Amb zero partides diàries, les carreres amb amics encara comencen gratis
+- En Mac i Apple Watch, confirma la qualitat del mode en solitari
+- Informa de tancaments, desconnexions o traduccions estranyes
 
 Gràcies per córrer amb nosaltres.

@@ -1,19 +1,19 @@
 Rase live mit Freunden per SharePlay auf iPhone und iPad.
 
-Tippe auf Mit Freunden spielen, starte einen synchronisierten Countdown, weiche gemeinsam dem Verkehr aus und vergleiche am Ende dasselbe Sieg-, Niederlage- oder Unentschieden-Ergebnis. Rematches warten, bis beide Spieler bereit sind.
+Tippe auf Mit Freunden spielen, starte einen synchronisierten Countdown, weiche gemeinsam dem Verkehr aus und vergleiche dasselbe Sieg-, Niederlage- oder Unentschieden-Ergebnis. Rematches warten, bis beide Spieler bereit sind.
 
-Freundesrennen sind kostenlos und verbrauchen nie deine täglichen Solo-Spiele, auch wenn deine Gratis-Spiele aufgebraucht sind.
+Freundesrennen sind kostenlos und verbrauchen keine täglichen Spiele.
 
-RetroRapid! 1.5 liefert vollständige App-Lokalisierung in Katalanisch, Niederländisch, Französisch, Deutsch, Italienisch, Japanisch, Koreanisch, Brasilianisch-Portugiesisch, Spanisch und Traditionellem Chinesisch. Stelle die Gerätesprache um und Menüs, Einstellungen und Renn-UI sollten folgen.
+Dieses Update ergänzt die vollständige App-Lokalisierung um europäisches Portugiesisch, vereinfachtes Chinesisch und Französisch (Kanada). Stelle die Gerätesprache um — besonders auf eine der neuen Sprachen — und prüfe, ob Menüs, Einstellungen und Renn-UI natürlich klingen.
 
-Außerdem haben wir Einstellungen, Paywall-Klarheit, Audio und Stabilität in der gesamten App verbessert.
+Außerdem haben wir Einstellungen, Paywall-Klarheit, Audio und Stabilität poliert.
 
 Worauf wir uns freuen:
-- Starte eine SharePlay-Runde mit einem Freund auf zwei iPhones oder iPads und prüfe, ob der Countdown synchron bleibt
-- Stelle dein Gerät auf Deutsch oder eine andere unterstützte Sprache und prüfe, ob Menüs, Einstellungen und Spieltexte natürlich klingen
-- Fahre bis zum Ziel, tippe dann auf Nochmal spielen und prüfe, ob beide Spieler bestätigen müssen, bevor die Revanche startet
-- Mit null täglichen Spielen: prüfe, ob Freundesrennen weiterhin kostenlos über Mit Freunden spielen starten
-- Auf Mac und Apple Watch: prüfe, ob Solo-Rennen weiterhin solide laufen
-- Melde Abstürze, Verbindungsabbrüche, verwirrende Multiplayer-Momente oder holprige Übersetzungen
+- Starte ein SharePlay-Rennen auf zwei iPhones/iPads und bestätige den synchronen Countdown
+- Wechsle zu europäischem Portugiesisch, vereinfachtem Chinesisch oder Französisch (Kanada) und bewerte die Übersetzungen
+- Nach dem Ziel: Nochmal spielen — beide müssen bestätigen
+- Bei null täglichen Spielen: Freundesrennen starten weiterhin kostenlos
+- Auf Mac und Apple Watch: Solo-Qualität prüfen
+- Melde Abstürze, Verbindungsabbrüche oder merkwürdige Übersetzungen
 
 Danke, dass du mit uns fährst.

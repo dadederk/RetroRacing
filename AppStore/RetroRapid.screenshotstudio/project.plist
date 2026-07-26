@@ -35,6 +35,9 @@
 		<string>ko</string>
 		<string>pt-BR</string>
 		<string>zh-Hant</string>
+		<string>fr-CA</string>
+		<string>pt-PT</string>
+		<string>zh-Hans</string>
 	</array>
 	<key>selectedAppleWatchSpecification</key>
 	<string>appleWatchUltra3</string>

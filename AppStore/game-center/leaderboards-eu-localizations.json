@@ -6,12 +6,15 @@
     "nl-NL",
     "it",
     "fr-FR",
+    "fr-CA",
     "es-ES",
     "ca",
     "ja",
     "ko",
     "pt-BR",
-    "zh-Hant"
+    "pt-PT",
+    "zh-Hant",
+    "zh-Hans"
   ],
   "leaderboards": [
     {
@@ -36,6 +39,11 @@
           "formatterSuffix": "sorpassi"
         },
         "fr-FR": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "dépassement",
+          "formatterSuffix": "dépassements"
+        },
+        "fr-CA": {
           "name": "Cruise",
           "formatterSuffixSingular": "dépassement",
           "formatterSuffix": "dépassements"
@@ -65,10 +73,20 @@
           "formatterSuffixSingular": "ultrapassagem",
           "formatterSuffix": "ultrapassagens"
         },
+        "pt-PT": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "ultrapassagem",
+          "formatterSuffix": "ultrapassagens"
+        },
         "zh-Hant": {
           "name": "Cruise",
           "formatterSuffixSingular": "超車",
           "formatterSuffix": "超車"
+        },
+        "zh-Hans": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "超车",
+          "formatterSuffix": "超车"
         }
       }
     },
@@ -98,6 +116,11 @@
           "formatterSuffixSingular": "dépassement",
           "formatterSuffix": "dépassements"
         },
+        "fr-CA": {
+          "name": "Fast",
+          "formatterSuffixSingular": "dépassement",
+          "formatterSuffix": "dépassements"
+        },
         "es-ES": {
           "name": "Fast",
           "formatterSuffixSingular": "adelantamiento",
@@ -123,10 +146,20 @@
           "formatterSuffixSingular": "ultrapassagem",
           "formatterSuffix": "ultrapassagens"
         },
+        "pt-PT": {
+          "name": "Fast",
+          "formatterSuffixSingular": "ultrapassagem",
+          "formatterSuffix": "ultrapassagens"
+        },
         "zh-Hant": {
           "name": "快速",
           "formatterSuffixSingular": "超車",
           "formatterSuffix": "超車"
+        },
+        "zh-Hans": {
+          "name": "Fast",
+          "formatterSuffixSingular": "超车",
+          "formatterSuffix": "超车"
         }
       }
     },
@@ -156,6 +189,11 @@
           "formatterSuffixSingular": "dépassement",
           "formatterSuffix": "dépassements"
         },
+        "fr-CA": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "dépassement",
+          "formatterSuffix": "dépassements"
+        },
         "es-ES": {
           "name": "Rapid",
           "formatterSuffixSingular": "adelantamiento",
@@ -181,10 +219,20 @@
           "formatterSuffixSingular": "ultrapassagem",
           "formatterSuffix": "ultrapassagens"
         },
+        "pt-PT": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "ultrapassagem",
+          "formatterSuffix": "ultrapassagens"
+        },
         "zh-Hant": {
           "name": "Rapid",
           "formatterSuffixSingular": "超車",
           "formatterSuffix": "超車"
+        },
+        "zh-Hans": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "超车",
+          "formatterSuffix": "超车"
         }
       }
     },
@@ -214,6 +262,11 @@
           "formatterSuffixSingular": "dépassement",
           "formatterSuffix": "dépassements"
         },
+        "fr-CA": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "dépassement",
+          "formatterSuffix": "dépassements"
+        },
         "es-ES": {
           "name": "Cruise",
           "formatterSuffixSingular": "adelantamiento",
@@ -239,10 +292,20 @@
           "formatterSuffixSingular": "ultrapassagem",
           "formatterSuffix": "ultrapassagens"
         },
+        "pt-PT": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "ultrapassagem",
+          "formatterSuffix": "ultrapassagens"
+        },
         "zh-Hant": {
           "name": "Cruise",
           "formatterSuffixSingular": "超車",
           "formatterSuffix": "超車"
+        },
+        "zh-Hans": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "超车",
+          "formatterSuffix": "超车"
         }
       }
     },
@@ -272,6 +335,11 @@
           "formatterSuffixSingular": "dépassement",
           "formatterSuffix": "dépassements"
         },
+        "fr-CA": {
+          "name": "Fast",
+          "formatterSuffixSingular": "dépassement",
+          "formatterSuffix": "dépassements"
+        },
         "es-ES": {
           "name": "Fast",
           "formatterSuffixSingular": "adelantamiento",
@@ -297,10 +365,20 @@
           "formatterSuffixSingular": "ultrapassagem",
           "formatterSuffix": "ultrapassagens"
         },
+        "pt-PT": {
+          "name": "Fast",
+          "formatterSuffixSingular": "ultrapassagem",
+          "formatterSuffix": "ultrapassagens"
+        },
         "zh-Hant": {
           "name": "快速",
           "formatterSuffixSingular": "超車",
           "formatterSuffix": "超車"
+        },
+        "zh-Hans": {
+          "name": "Fast",
+          "formatterSuffixSingular": "超车",
+          "formatterSuffix": "超车"
         }
       }
     },
@@ -330,6 +408,11 @@
           "formatterSuffixSingular": "dépassement",
           "formatterSuffix": "dépassements"
         },
+        "fr-CA": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "dépassement",
+          "formatterSuffix": "dépassements"
+        },
         "es-ES": {
           "name": "Rapid",
           "formatterSuffixSingular": "adelantamiento",
@@ -355,10 +438,20 @@
           "formatterSuffixSingular": "ultrapassagem",
           "formatterSuffix": "ultrapassagens"
         },
+        "pt-PT": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "ultrapassagem",
+          "formatterSuffix": "ultrapassagens"
+        },
         "zh-Hant": {
           "name": "Rapid",
           "formatterSuffixSingular": "超車",
           "formatterSuffix": "超車"
+        },
+        "zh-Hans": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "超车",
+          "formatterSuffix": "超车"
         }
       }
     },
@@ -388,6 +481,11 @@
           "formatterSuffixSingular": "dépassement",
           "formatterSuffix": "dépassements"
         },
+        "fr-CA": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "dépassement",
+          "formatterSuffix": "dépassements"
+        },
         "es-ES": {
           "name": "Cruise",
           "formatterSuffixSingular": "adelantamiento",
@@ -413,10 +511,20 @@
           "formatterSuffixSingular": "ultrapassagem",
           "formatterSuffix": "ultrapassagens"
         },
+        "pt-PT": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "ultrapassagem",
+          "formatterSuffix": "ultrapassagens"
+        },
         "zh-Hant": {
           "name": "Cruise",
           "formatterSuffixSingular": "超車",
           "formatterSuffix": "超車"
+        },
+        "zh-Hans": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "超车",
+          "formatterSuffix": "超车"
         }
       }
     },
@@ -446,6 +554,11 @@
           "formatterSuffixSingular": "dépassement",
           "formatterSuffix": "dépassements"
         },
+        "fr-CA": {
+          "name": "Fast",
+          "formatterSuffixSingular": "dépassement",
+          "formatterSuffix": "dépassements"
+        },
         "es-ES": {
           "name": "Fast",
           "formatterSuffixSingular": "adelantamiento",
@@ -471,10 +584,20 @@
           "formatterSuffixSingular": "ultrapassagem",
           "formatterSuffix": "ultrapassagens"
         },
+        "pt-PT": {
+          "name": "Fast",
+          "formatterSuffixSingular": "ultrapassagem",
+          "formatterSuffix": "ultrapassagens"
+        },
         "zh-Hant": {
           "name": "快速",
           "formatterSuffixSingular": "超車",
           "formatterSuffix": "超車"
+        },
+        "zh-Hans": {
+          "name": "Fast",
+          "formatterSuffixSingular": "超车",
+          "formatterSuffix": "超车"
         }
       }
     },
@@ -504,6 +627,11 @@
           "formatterSuffixSingular": "dépassement",
           "formatterSuffix": "dépassements"
         },
+        "fr-CA": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "dépassement",
+          "formatterSuffix": "dépassements"
+        },
         "es-ES": {
           "name": "Rapid",
           "formatterSuffixSingular": "adelantamiento",
@@ -529,10 +657,20 @@
           "formatterSuffixSingular": "ultrapassagem",
           "formatterSuffix": "ultrapassagens"
         },
+        "pt-PT": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "ultrapassagem",
+          "formatterSuffix": "ultrapassagens"
+        },
         "zh-Hant": {
           "name": "Rapid",
           "formatterSuffixSingular": "超車",
           "formatterSuffix": "超車"
+        },
+        "zh-Hans": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "超车",
+          "formatterSuffix": "超车"
         }
       }
     },
@@ -562,6 +700,11 @@
           "formatterSuffixSingular": "dépassement",
           "formatterSuffix": "dépassements"
         },
+        "fr-CA": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "dépassement",
+          "formatterSuffix": "dépassements"
+        },
         "es-ES": {
           "name": "Cruise",
           "formatterSuffixSingular": "adelantamiento",
@@ -587,10 +730,20 @@
           "formatterSuffixSingular": "ultrapassagem",
           "formatterSuffix": "ultrapassagens"
         },
+        "pt-PT": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "ultrapassagem",
+          "formatterSuffix": "ultrapassagens"
+        },
         "zh-Hant": {
           "name": "Cruise",
           "formatterSuffixSingular": "超車",
           "formatterSuffix": "超車"
+        },
+        "zh-Hans": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "超车",
+          "formatterSuffix": "超车"
         }
       }
     },
@@ -620,6 +773,11 @@
           "formatterSuffixSingular": "dépassement",
           "formatterSuffix": "dépassements"
         },
+        "fr-CA": {
+          "name": "Fast",
+          "formatterSuffixSingular": "dépassement",
+          "formatterSuffix": "dépassements"
+        },
         "es-ES": {
           "name": "Fast",
           "formatterSuffixSingular": "adelantamiento",
@@ -645,10 +803,20 @@
           "formatterSuffixSingular": "ultrapassagem",
           "formatterSuffix": "ultrapassagens"
         },
+        "pt-PT": {
+          "name": "Fast",
+          "formatterSuffixSingular": "ultrapassagem",
+          "formatterSuffix": "ultrapassagens"
+        },
         "zh-Hant": {
           "name": "快速",
           "formatterSuffixSingular": "超車",
           "formatterSuffix": "超車"
+        },
+        "zh-Hans": {
+          "name": "Fast",
+          "formatterSuffixSingular": "超车",
+          "formatterSuffix": "超车"
         }
       }
     },
@@ -678,6 +846,11 @@
           "formatterSuffixSingular": "dépassement",
           "formatterSuffix": "dépassements"
         },
+        "fr-CA": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "dépassement",
+          "formatterSuffix": "dépassements"
+        },
         "es-ES": {
           "name": "Rapid",
           "formatterSuffixSingular": "adelantamiento",
@@ -703,10 +876,20 @@
           "formatterSuffixSingular": "ultrapassagem",
           "formatterSuffix": "ultrapassagens"
         },
+        "pt-PT": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "ultrapassagem",
+          "formatterSuffix": "ultrapassagens"
+        },
         "zh-Hant": {
           "name": "Rapid",
           "formatterSuffixSingular": "超車",
           "formatterSuffix": "超車"
+        },
+        "zh-Hans": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "超车",
+          "formatterSuffix": "超车"
         }
       }
     }

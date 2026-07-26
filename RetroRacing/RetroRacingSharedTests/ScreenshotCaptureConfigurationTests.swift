@@ -29,7 +29,11 @@ final class ScreenshotCaptureConfigurationTests: XCTestCase {
         XCTAssertEqual(ScreenshotCaptureLocaleCatalog.inAppLanguageIdentifier(for: "es-MX"), "es")
         XCTAssertEqual(ScreenshotCaptureLocaleCatalog.inAppLanguageIdentifier(for: "ja"), "ja")
         XCTAssertEqual(ScreenshotCaptureLocaleCatalog.inAppLanguageIdentifier(for: "pt-BR"), "pt-BR")
+        XCTAssertEqual(ScreenshotCaptureLocaleCatalog.inAppLanguageIdentifier(for: "pt-PT"), "pt-PT")
         XCTAssertEqual(ScreenshotCaptureLocaleCatalog.inAppLanguageIdentifier(for: "zh-Hant"), "zh-Hant")
+        XCTAssertEqual(ScreenshotCaptureLocaleCatalog.inAppLanguageIdentifier(for: "zh-Hans"), "zh-Hans")
+        XCTAssertEqual(ScreenshotCaptureLocaleCatalog.inAppLanguageIdentifier(for: "fr-CA"), "fr-CA")
+        XCTAssertEqual(ScreenshotCaptureLocaleCatalog.inAppLanguageIdentifier(for: "fr-FR"), "fr")
     }
 
     func testGivenLanguageListWhenParsingCaptureLocaleThenStripsParentheses() {

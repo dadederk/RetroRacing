@@ -10,9 +10,9 @@ import Foundation
 public enum ScreenshotCaptureLocaleCatalog {
     public static let appStoreLocales = [
         "en-US", "en-GB", "en-AU", "en-CA",
-        "de-DE", "nl-NL", "it", "fr-FR",
+        "de-DE", "nl-NL", "it", "fr-FR", "fr-CA",
         "es-ES", "es-MX", "ca",
-        "ja", "ko", "pt-BR", "zh-Hant",
+        "ja", "ko", "pt-BR", "pt-PT", "zh-Hant", "zh-Hans",
     ]
 
     public static func inAppLanguageIdentifier(for appStoreLocale: String) -> String {
@@ -23,6 +23,8 @@ public enum ScreenshotCaptureLocaleCatalog {
             return "nl"
         case "fr-FR":
             return "fr"
+        case "fr-CA":
+            return "fr-CA"
         case "es-ES", "es-MX":
             return "es"
         case "ca":
@@ -35,6 +37,10 @@ public enum ScreenshotCaptureLocaleCatalog {
             return "en-AU"
         case "en-CA":
             return "en-CA"
+        case "pt-PT":
+            return "pt-PT"
+        case "zh-Hans":
+            return "zh-Hans"
         default:
             return appStoreLocale
         }

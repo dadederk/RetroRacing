@@ -173,6 +173,14 @@
 			</dict>
 			<dict>
 				<key>body</key>
+				<string>Évitez le trafic et enchaînez les dépassements dans cette course arcade rétro.</string>
+				<key>language</key>
+				<string>fr-CA</string>
+				<key>title</key>
+				<string>Foncez Dans Le Trafic Sans Fin</string>
+			</dict>
+			<dict>
+				<key>body</key>
 				<string>Esquiva tráfico y consigue adelantamientos en un arcade de carreras retro.</string>
 				<key>language</key>
 				<string>es-ES</string>
@@ -221,11 +229,27 @@
 			</dict>
 			<dict>
 				<key>body</key>
+				<string>Desvie do trânsito e procure ultrapassagens neste arcade retrô.</string>
+				<key>language</key>
+				<string>pt-PT</string>
+				<key>title</key>
+				<string>Corra Pelo Trânsito Infinito</string>
+			</dict>
+			<dict>
+				<key>body</key>
 				<string>閃避車流，在復古街機中追逐超車。</string>
 				<key>language</key>
 				<string>zh-Hant</string>
 				<key>title</key>
 				<string>穿越無盡車流</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>闪避车流，在复古街机中追逐超车。</string>
+				<key>language</key>
+				<string>zh-Hans</string>
+				<key>title</key>
+				<string>穿越无尽车流</string>
 			</dict>
 		</array>
 	</dict>
@@ -400,6 +424,14 @@
 			</dict>
 			<dict>
 				<key>body</key>
+				<string>Gauche. Droite. Ne crashez pas. D'une simplicité trompeuse.</string>
+				<key>language</key>
+				<string>fr-CA</string>
+				<key>title</key>
+				<string>Commandes Simples. Action Arcade Pure</string>
+			</dict>
+			<dict>
+				<key>body</key>
 				<string>Izquierda. Derecha. No choques. Engañosamente simple.</string>
 				<key>language</key>
 				<string>es-ES</string>
@@ -448,11 +480,27 @@
 			</dict>
 			<dict>
 				<key>body</key>
+				<string>Esquerda. Direita. Não bata. Enganosamente simples.</string>
+				<key>language</key>
+				<string>pt-PT</string>
+				<key>title</key>
+				<string>Controlos Simples. Ação Arcade</string>
+			</dict>
+			<dict>
+				<key>body</key>
 				<string>左移。右移。別撞車。看似簡單。</string>
 				<key>language</key>
 				<string>zh-Hant</string>
 				<key>title</key>
 				<string>簡單操作。純粹街機</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>左移。右移。别撞车。看似简单。</string>
+				<key>language</key>
+				<string>zh-Hans</string>
+				<key>title</key>
+				<string>简单操作。纯粹街机</string>
 			</dict>
 		</array>
 	</dict>
@@ -627,6 +675,14 @@
 			</dict>
 			<dict>
 				<key>body</key>
+				<string>Une erreur termine votre partie. Recommencez vite, visez votre record!</string>
+				<key>language</key>
+				<string>fr-CA</string>
+				<key>title</key>
+				<string>Une Erreur. Game Over</string>
+			</dict>
+			<dict>
+				<key>body</key>
 				<string>Un fallo termina tu partida. Reinicia y persigue tu récord!</string>
 				<key>language</key>
 				<string>es-ES</string>
@@ -675,11 +731,27 @@
 			</dict>
 			<dict>
 				<key>body</key>
+				<string>Um erro acaba a corrida. Reinicie e procure o seu recorde!</string>
+				<key>language</key>
+				<string>pt-PT</string>
+				<key>title</key>
+				<string>Um Erro. Fim De Jogo</string>
+			</dict>
+			<dict>
+				<key>body</key>
 				<string>一個失誤就結束。快速重來，挑戰最高分！</string>
 				<key>language</key>
 				<string>zh-Hant</string>
 				<key>title</key>
 				<string>一步失誤，遊戲結束</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>一个失误就结束。快速重来，挑战最高分！</string>
+				<key>language</key>
+				<string>zh-Hans</string>
+				<key>title</key>
+				<string>一步失误，游戏结束</string>
 			</dict>
 		</array>
 	</dict>
@@ -854,6 +926,14 @@
 			</dict>
 			<dict>
 				<key>body</key>
+				<string>VoiceOver, indices audio, haptique, texte plus grand et réglages de jeu adaptables.</string>
+				<key>language</key>
+				<string>fr-CA</string>
+				<key>title</key>
+				<string>Accessibilité Au Premier Plan</string>
+			</dict>
+			<dict>
+				<key>body</key>
 				<string>VoiceOver, pistas de audio, hápticos, texto más grande y ajustes de juego adaptables.</string>
 				<key>language</key>
 				<string>es-ES</string>
@@ -902,11 +982,27 @@
 			</dict>
 			<dict>
 				<key>body</key>
+				<string>VoiceOver, pistas sonoras, háptico, texto maior e definições adaptáveis.</string>
+				<key>language</key>
+				<string>pt-PT</string>
+				<key>title</key>
+				<string>Acessibilidade Em Destaque</string>
+			</dict>
+			<dict>
+				<key>body</key>
 				<string>VoiceOver、音效提示、觸覺、較大字體與可調設定。</string>
 				<key>language</key>
 				<string>zh-Hant</string>
 				<key>title</key>
 				<string>無障礙設計放首位</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>VoiceOver、音效提示、触觉、较大字体与可调设置。</string>
+				<key>language</key>
+				<string>zh-Hans</string>
+				<key>title</key>
+				<string>无障碍设计放首位</string>
 			</dict>
 		</array>
 	</dict>
@@ -1081,6 +1177,14 @@
 			</dict>
 			<dict>
 				<key>body</key>
+				<string>Défiez vos amis gratuitement. Compte à rebours, course, revanche.</string>
+				<key>language</key>
+				<string>fr-CA</string>
+				<key>title</key>
+				<string>Coursez Avec Des Amis Via SharePlay</string>
+			</dict>
+			<dict>
+				<key>body</key>
 				<string>Reta a amigos gratis. Cuenta atrás, compite, revancha.</string>
 				<key>language</key>
 				<string>es-ES</string>
@@ -1129,11 +1233,27 @@
 			</dict>
 			<dict>
 				<key>body</key>
+				<string>Desafie amigos grátis. Contagem, competição, desforra.</string>
+				<key>language</key>
+				<string>pt-PT</string>
+				<key>title</key>
+				<string>Corra Com Amigos No SharePlay</string>
+			</dict>
+			<dict>
+				<key>body</key>
 				<string>免費挑戰好友。倒數、對戰、重賽。</string>
 				<key>language</key>
 				<string>zh-Hant</string>
 				<key>title</key>
 				<string>SharePlay 與好友競賽</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>免费挑战好友。倒数、对战、重赛。</string>
+				<key>language</key>
+				<string>zh-Hans</string>
+				<key>title</key>
+				<string>SharePlay 与好友竞赛</string>
 			</dict>
 		</array>
 	</dict>
@@ -1308,6 +1428,14 @@
 			</dict>
 			<dict>
 				<key>body</key>
+				<string>Les scores Game Center et les marqueurs d'amis rendent chaque course compétitive.</string>
+				<key>language</key>
+				<string>fr-CA</string>
+				<key>title</key>
+				<string>Grimpez Au Classement</string>
+			</dict>
+			<dict>
+				<key>body</key>
 				<string>Puntuaciones de Game Center y marcadores de amigos mantienen cada partida competitiva.</string>
 				<key>language</key>
 				<string>es-ES</string>
@@ -1356,11 +1484,27 @@
 			</dict>
 			<dict>
 				<key>body</key>
+				<string>Pontuações do Game Center e marcadores mantêm cada corrida competitiva.</string>
+				<key>language</key>
+				<string>pt-PT</string>
+				<key>title</key>
+				<string>Suba Na Classificação</string>
+			</dict>
+			<dict>
+				<key>body</key>
 				<string>Game Center 分數與好友標記讓每局都競爭感十足。</string>
 				<key>language</key>
 				<string>zh-Hant</string>
 				<key>title</key>
 				<string>衝上排行榜</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Game Center 分数与好友标记让每局都竞争感十足。</string>
+				<key>language</key>
+				<string>zh-Hans</string>
+				<key>title</key>
+				<string>冲上排行榜</string>
 			</dict>
 		</array>
 	</dict>
@@ -1535,6 +1679,14 @@
 			</dict>
 			<dict>
 				<key>body</key>
+				<string>Volume, haptique, commandes… Cruise, Fast ou Rapid!</string>
+				<key>language</key>
+				<string>fr-CA</string>
+				<key>title</key>
+				<string>Personnalisez Votre Expérience</string>
+			</dict>
+			<dict>
+				<key>body</key>
 				<string>Volumen, hápticos, controles… Cruise, Fast o Rapid!</string>
 				<key>language</key>
 				<string>es-ES</string>
@@ -1583,11 +1735,27 @@
 			</dict>
 			<dict>
 				<key>body</key>
+				<string>Volume, háptico, controlos… Cruise, Fast ou Rapid!</string>
+				<key>language</key>
+				<string>pt-PT</string>
+				<key>title</key>
+				<string>Personalize A Sua Experiência</string>
+			</dict>
+			<dict>
+				<key>body</key>
 				<string>調整音量、觸覺、操作… Cruise、Fast 或 Rapid！</string>
 				<key>language</key>
 				<string>zh-Hant</string>
 				<key>title</key>
 				<string>自訂你的體驗</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>调整音量、触觉、操作… Cruise、Fast 或 Rapid！</string>
+				<key>language</key>
+				<string>zh-Hans</string>
+				<key>title</key>
+				<string>自定义你的体验</string>
 			</dict>
 		</array>
 	</dict>
@@ -1762,6 +1930,14 @@
 			</dict>
 			<dict>
 				<key>body</key>
+				<string>Passez du vert console de poche au style LCD portable.</string>
+				<key>language</key>
+				<string>fr-CA</string>
+				<key>title</key>
+				<string>Choisissez Votre Style Rétro</string>
+			</dict>
+			<dict>
+				<key>body</key>
 				<string>Cambia del verde de consola de bolsillo al estilo LCD portátil.</string>
 				<key>language</key>
 				<string>es-ES</string>
@@ -1810,11 +1986,27 @@
 			</dict>
 			<dict>
 				<key>body</key>
+				<string>Alterne entre verde pocket-console e estilo LCD portátil.</string>
+				<key>language</key>
+				<string>pt-PT</string>
+				<key>title</key>
+				<string>Escolha O Seu Visual Retrô</string>
+			</dict>
+			<dict>
+				<key>body</key>
 				<string>在掌機綠與 LCD 手持風格間切換。</string>
 				<key>language</key>
 				<string>zh-Hant</string>
 				<key>title</key>
 				<string>選擇復古風格</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>在掌机绿与 LCD 手持风格间切换。</string>
+				<key>language</key>
+				<string>zh-Hans</string>
+				<key>title</key>
+				<string>选择复古风格</string>
 			</dict>
 		</array>
 	</dict>
@@ -1989,6 +2181,14 @@
 			</dict>
 			<dict>
 				<key>body</key>
+				<string>Gagnez des trophées Game Center en courant et en progressant.</string>
+				<key>language</key>
+				<string>fr-CA</string>
+				<key>title</key>
+				<string>Débloquez Des Succès Rétro</string>
+			</dict>
+			<dict>
+				<key>body</key>
 				<string>Gana trofeos de Game Center mientras corres y mejoras.</string>
 				<key>language</key>
 				<string>es-ES</string>
@@ -2037,11 +2237,27 @@
 			</dict>
 			<dict>
 				<key>body</key>
+				<string>Ganhe troféus do Game Center enquanto corre e melhora.</string>
+				<key>language</key>
+				<string>pt-PT</string>
+				<key>title</key>
+				<string>Desbloqueie Conquistas Retrô</string>
+			</dict>
+			<dict>
+				<key>body</key>
 				<string>競速進步，贏得 Game Center 獎盃。</string>
 				<key>language</key>
 				<string>zh-Hant</string>
 				<key>title</key>
 				<string>解鎖復古成就</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>竞速进步，赢得 Game Center 奖杯。</string>
+				<key>language</key>
+				<string>zh-Hans</string>
+				<key>title</key>
+				<string>解锁复古成就</string>
 			</dict>
 		</array>
 	</dict>
@@ -2216,6 +2432,14 @@
 			</dict>
 			<dict>
 				<key>body</key>
+				<string>Parties gratuites quotidiennes, classements et courses en direct entre amis.</string>
+				<key>language</key>
+				<string>fr-CA</string>
+				<key>title</key>
+				<string>Jouez Solo Ou Avec Des Amis</string>
+			</dict>
+			<dict>
+				<key>body</key>
 				<string>Partidas gratis diarias, clasificaciones y carreras live con amigos.</string>
 				<key>language</key>
 				<string>es-ES</string>
@@ -2264,11 +2488,27 @@
 			</dict>
 			<dict>
 				<key>body</key>
+				<string>Partidas grátis diárias, classificações e corridas ao vivo com amigos.</string>
+				<key>language</key>
+				<string>pt-PT</string>
+				<key>title</key>
+				<string>Jogue A Solo Ou Com Amigos</string>
+			</dict>
+			<dict>
+				<key>body</key>
 				<string>每日免費次數、排行榜與即時好友競賽。</string>
 				<key>language</key>
 				<string>zh-Hant</string>
 				<key>title</key>
 				<string>單人或与好友同玩</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>每日免费次数、排行榜与即时好友竞赛。</string>
+				<key>language</key>
+				<string>zh-Hans</string>
+				<key>title</key>
+				<string>单人或与好友同玩</string>
 			</dict>
 		</array>
 	</dict>

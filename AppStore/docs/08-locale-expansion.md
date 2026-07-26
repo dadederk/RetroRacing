@@ -20,13 +20,13 @@ Last updated: 2026-07-26
 
 | Layer | Locales |
 |---|---|
-| **In-app** | `en`, `en-GB`, `en-AU`, `en-CA`, `de`, `nl`, `it`, `fr`, `es`, `ca`, `ja`, `ko`, `pt-BR`, `zh-Hant` |
-| **Listing metadata** | `en-US`, `en-GB`, `en-AU`, `en-CA`, `de-DE`, `nl-NL`, `it`, `fr-FR`, `es-ES`, `es-MX`, `ca`, `ja`, `ko`, `pt-BR`, `zh-Hant` |
+| **In-app** | `en`, `en-GB`, `en-AU`, `en-CA`, `de`, `nl`, `it`, `fr`, `fr-CA`, `es`, `ca`, `ja`, `ko`, `pt-BR`, `pt-PT`, `zh-Hant`, `zh-Hans` |
+| **Listing metadata** | `en-US`, `en-GB`, `en-AU`, `en-CA`, `de-DE`, `nl-NL`, `it`, `fr-FR`, `fr-CA`, `es-ES`, `es-MX`, `ca`, `ja`, `ko`, `pt-BR`, `pt-PT`, `zh-Hant`, `zh-Hans` |
 | **IAP / Game Center** | Same as listing **except** no `en-GB`/`en-AU`/`en-CA` (use `en-US`). IAP also has `es-MX`. |
-| **Screenshot capture (source)** | `en-US`, `de-DE`, `nl-NL`, `it`, `fr-FR`, `es-ES`, `ca`, `ja`, `ko`, `pt-BR`, `zh-Hant` |
+| **Screenshot capture (source)** | `en-US`, `de-DE`, `nl-NL`, `it`, `fr-FR`, `fr-CA`, `es-ES`, `ca`, `ja`, `ko`, `pt-BR`, `pt-PT`, `zh-Hant`, `zh-Hans` |
 | **Screenshot derived (copy pixels)** | `en-GB`/`en-AU`/`en-CA` ← `en-US`; `es-MX` ← `es-ES` |
 
-**Next candidates (optional):** `fr-CA`, `zh-Hans` — only when storefront data justifies the work.
+**Next candidates (optional):** `hi` (Hindi), `tr` (Turkish), `pl` — only when storefront data justifies the work.
 
 ---
 
@@ -56,10 +56,10 @@ Last updated: 2026-07-26
 | `de` | `de-DE` |
 | `nl` | `nl-NL` |
 | `it` | `it` |
-| `fr` | `fr-FR` |
+| `fr` | `fr-FR` (+ `fr-CA` for listing/IAP/GC/screenshots) |
 | `es` | `es-ES` (+ `es-MX` for listing/IAP/screenshots) |
 | `ca` | `ca` |
-| `ja`, `ko`, `pt-BR`, `zh-Hant` | same |
+| `ja`, `ko`, `pt-BR`, `pt-PT`, `zh-Hant`, `zh-Hans` | same |
 
 ---
 

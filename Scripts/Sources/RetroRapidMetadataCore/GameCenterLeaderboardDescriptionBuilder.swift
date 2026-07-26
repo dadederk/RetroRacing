@@ -41,6 +41,8 @@ enum GameCenterLeaderboardDescriptionBuilder {
             return "Supera quante più auto possibile in una singola partita."
         case "fr-FR":
             return "Dépasse autant de voitures que possible en une seule partie."
+        case "fr-CA":
+            return "Dépassez autant de voitures que possible en une seule partie."
         case "es-ES":
             return "Adelanta tantos coches como puedas en una sola partida."
         case "ca":
@@ -51,8 +53,12 @@ enum GameCenterLeaderboardDescriptionBuilder {
             return "한 판에서 최대한 많은 차를 추월하세요."
         case "pt-BR":
             return "Ultrapasse o máximo de carros possível em uma corrida."
+        case "pt-PT":
+            return "Ultrapasse o máximo de carros possível numa corrida."
         case "zh-Hant":
             return "在一局中盡可能超過更多車輛。"
+        case "zh-Hans":
+            return "在一局中尽可能超过更多车辆。"
         default:
             return englishDefaults[0]
         }

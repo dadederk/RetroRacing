@@ -1,0 +1,19 @@
+Teste corridas ao vivo com amigos no SharePlay no iPhone e iPad.
+
+Toque em Jogar com amigos, inicie a contagem decrescente sincronizada, desvie do trânsito juntos e compare o mesmo resultado de vitória, derrota ou empate. As desforras esperam que os dois jogadores fiquem prontos.
+
+Corridas com amigos são grátis e nunca usam partidas diárias.
+
+Esta atualização adiciona localização completa da app para português europeu, chinês simplificado e francês do Canadá. Mude o idioma do dispositivo — especialmente para um dos novos — e confirme se menus, definições e a UI da corrida soam naturais.
+
+Também polimos definições, clareza do paywall, áudio e estabilidade.
+
+Foco do teste:
+- Inicie uma corrida SharePlay em dois iPhones/iPads e confirme a contagem sincronizada
+- Mude para português europeu, chinês simplificado ou francês do Canadá e avalie as traduções
+- Após a chegada, teste Jogar de novo — os dois precisam confirmar
+- Com zero partidas diárias, corridas com amigos ainda começam grátis
+- No Mac e Apple Watch, confirme a qualidade do modo a solo
+- Reporte crashes, desligações ou traduções estranhas
+
+Obrigado por correr connosco.

@@ -19,8 +19,8 @@ func givenEUCatalogWhenLoadedThenTwentyTwoAchievementsAcrossFourLocalesExist() t
 
     #expect(catalog.achievements.count == 22)
     #expect(catalog.locales == [
-        "de-DE", "nl-NL", "it", "fr-FR", "es-ES", "ca",
-        "ja", "ko", "pt-BR", "zh-Hant",
+        "de-DE", "nl-NL", "it", "fr-FR", "fr-CA", "es-ES", "ca",
+        "ja", "ko", "pt-BR", "pt-PT", "zh-Hant", "zh-Hans",
     ])
     #expect(catalog.renderedChecklist().contains("Serie 100"))
     #expect(catalog.renderedChecklist().contains("Racha 100"))

@@ -18,7 +18,7 @@ Last updated: 2026-07-26
 
 | Kind | Locales |
 |---|---|
-| **Source capture** | `en-US`, `de-DE`, `nl-NL`, `it`, `fr-FR`, `es-ES`, `ca`, `ja`, `ko`, `pt-BR`, `zh-Hant` |
+| **Source capture** | `en-US`, `de-DE`, `nl-NL`, `it`, `fr-FR`, `fr-CA`, `es-ES`, `ca`, `ja`, `ko`, `pt-BR`, `pt-PT`, `zh-Hant`, `zh-Hans` |
 | **Derived (pixel copy)** | `en-GB`/`en-AU`/`en-CA` ← `en-US`; `es-MX` ← `es-ES` |
 
 `en-GB`/`en-AU` overlay spelling: British (`Customise…`). `en-CA` matches US. Watch overlays stay empty (sequence-only).

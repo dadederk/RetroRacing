@@ -17,9 +17,14 @@
 | `en-GB`, `en-AU` | British spelling where it differs |
 | `en-CA` | US spelling (matches `en`) |
 | `de`, `nl`, `it`, `fr` | Friendly `du` / `je` / `tu` |
+| `fr-CA` | Canadian French — not a clone of `fr`; courriel / fin de semaine where relevant |
 | `es` | Spain Spanish |
 | `ca` | Valencian Meridional |
-| `ja`, `ko`, `pt-BR`, `zh-Hant` | APAC / LatAm |
+| `ja`, `ko` | APAC |
+| `pt-BR` | Brazilian Portuguese |
+| `pt-PT` | European Portuguese — not a clone of `pt-BR` (`Definições`, `ecrã`, `ficheiro`, …) |
+| `zh-Hant` | Traditional Chinese (Taiwan-leaning) |
+| `zh-Hans` | Simplified Chinese — not a script-only conversion of `zh-Hant` |
 
 ## Source of truth
 
@@ -36,6 +41,7 @@
 - Transcreate for meaning and energy; avoid literal/bureaucratic phrasing.
 - Preserve arcade tone (pit-stop paywall, punchy game-over, warm engagement).
 - Do not translate `RetroRapid` / `RetroRapid!` (`BrandMark.swift`, `AGENTS.md`).
+- Sibling locales (`pt-BR`/`pt-PT`, `zh-Hant`/`zh-Hans`, `fr`/`fr-CA`) must stay **locale-true** — vocabulary and register differ.
 
 ### Product terms (keep aligned with IAP / Game Center)
 
@@ -44,13 +50,15 @@
 | `de` | Unbegrenzte Spiele | Erfolge |
 | `nl` | Onbeperkt spelen | prestaties |
 | `it` | Partite illimitate | obiettivi |
-| `fr` | Parties illimitées | succès |
+| `fr` / `fr-CA` | Parties illimitées | succès |
 | `es` | Partidas ilimitadas | logros |
 | `ca` | Partides il·limitades | assoliments |
 | `ja` | 無制限プレイ | 実績 |
 | `ko` | 무제한 플레이 | 업적 |
 | `pt-BR` | Partidas Ilimitadas | conquistas |
+| `pt-PT` | Partidas Ilimitadas | conquistas |
 | `zh-Hant` | 無限暢玩 | 成就 |
+| `zh-Hans` | 无限畅玩 | 成就 |
 
 ## Implementation
 
@@ -66,7 +74,7 @@
 
 ## New keys
 
-When adding a key, provide all supported locales (`en` + English variants + `de`/`nl`/`it`/`fr`/`es`/`ca`/`ja`/`ko`/`pt-BR`/`zh-Hant`). Then run shared/universal unit tests.
+When adding a key, provide all supported locales. Then run shared/universal unit tests.
 
 SharePlay keys must stay concise, avoid em dashes, and ship real translations (not English placeholders) — see existing `shareplay_*` / `menu_play_with_friends_*` keys in the catalog.
 

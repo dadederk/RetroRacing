@@ -19,7 +19,10 @@
         <string>ja</string>
         <string>ko</string>
         <string>pt-BR</string>
+        <string>pt-PT</string>
         <string>zh-Hant</string>
+        <string>zh-Hans</string>
+        <string>fr-CA</string>
     </array>
 </dict>
 </plist>

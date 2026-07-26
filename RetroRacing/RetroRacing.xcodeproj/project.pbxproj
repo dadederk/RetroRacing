@@ -818,7 +818,10 @@
 				ja,
 				ko,
 				"pt-BR",
+				"pt-PT",
 				"zh-Hant",
+				"zh-Hans",
+				"fr-CA",
 				Base,
 			);
 			mainGroup = 21DD46382F2FC956000C9FFA;
@@ -1240,7 +1243,7 @@
 				CODE_SIGN_ENTITLEMENTS = RetroRacingUniversal/RetroRacingUniversal.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 31;
+				CURRENT_PROJECT_VERSION = 33;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = PV9S9FTZF2;
 				ENABLE_APP_SANDBOX = YES;
@@ -1304,7 +1307,7 @@
 				CODE_SIGN_ENTITLEMENTS = RetroRacingUniversal/RetroRacingUniversal.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 31;
+				CURRENT_PROJECT_VERSION = 33;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = PV9S9FTZF2;
 				ENABLE_APP_SANDBOX = YES;
@@ -1480,7 +1483,7 @@
 				CODE_SIGN_ENTITLEMENTS = RetroRacingWatchOS/RetroRacingWatchOS.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 31;
+				CURRENT_PROJECT_VERSION = 33;
 				DEVELOPMENT_TEAM = PV9S9FTZF2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -1518,7 +1521,7 @@
 				CODE_SIGN_ENTITLEMENTS = RetroRacingWatchOS/RetroRacingWatchOS.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 31;
+				CURRENT_PROJECT_VERSION = 33;
 				DEVELOPMENT_TEAM = PV9S9FTZF2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;

@@ -1,19 +1,19 @@
 Course en direct avec tes amis via SharePlay sur iPhone et iPad.
 
-Touche Jouer avec des amis, lance un compte à rebours synchronisé, esquive le trafic ensemble et compare le même résultat victoire, défaite ou égalité à la fin. Les revanches attendent que les deux joueurs soient prêts.
+Touche Jouer avec des amis, lance un compte à rebours synchronisé, esquive le trafic ensemble et compare le même résultat victoire, défaite ou égalité. Les revanches attendent que les deux joueurs soient prêts.
 
-Les courses entre amis sont gratuites et n'utilisent jamais tes parties solo quotidiennes, même quand tu as épuisé tes parties gratuites.
+Les courses entre amis sont gratuites et n'utilisent jamais tes parties solo quotidiennes.
 
-RetroRapid! 1.5 propose une localisation complète de l'app en catalan, néerlandais, français, allemand, italien, japonais, coréen, portugais brésilien, espagnol et chinois traditionnel. Change la langue de l'appareil et les menus, réglages et interface de course devraient suivre.
+Cette mise à jour ajoute la localisation complète de l'app en portugais européen, chinois simplifié et français canadien. Change la langue de l'appareil — surtout une des nouvelles langues — et vérifie que menus, réglages et interface de course sonnent naturels.
 
-Nous avons aussi peaufiné les réglages, la clarté du paywall, l'audio et la stabilité dans toute l'app.
+Nous avons aussi peaufiné les réglages, la clarté du paywall, l'audio et la stabilité.
 
 Ce sur quoi nous aimerions que tu te concentres :
-- Lance une course SharePlay avec un ami sur deux iPhone ou iPad et vérifie que le compte à rebours reste synchronisé
-- Passe ton appareil en français ou une autre langue prise en charge et vérifie que menus, réglages et textes en jeu sonnent naturels
-- Course jusqu'à la fin, puis essaie Rejouer et vérifie que les deux joueurs doivent confirmer avant la revanche
-- Avec zéro partie quotidienne, vérifie que les courses entre amis démarrent toujours gratuitement depuis Jouer avec des amis
-- Sur Mac et Apple Watch, vérifie que la course solo reste solide
-- Signale les crashs, déconnexions, moments multijoueur confus ou traductions maladroites
+- Lance une course SharePlay sur deux iPhone/iPad et vérifie le compte à rebours synchronisé
+- Passe en portugais européen, chinois simplifié ou français canadien et évalue les traductions
+- Après l'arrivée, essaie Rejouer — les deux doivent confirmer
+- Avec zéro partie quotidienne, les courses entre amis démarrent encore gratuitement
+- Sur Mac et Apple Watch, vérifie le mode solo
+- Signale crashs, déconnexions ou traductions maladroites
 
 Merci de courir avec nous.

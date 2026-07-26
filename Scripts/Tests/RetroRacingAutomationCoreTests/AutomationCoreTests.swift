@@ -272,7 +272,7 @@ func givenEnglishAndSpanishDerivedLocalesWhenResolvingCaptureLocalesThenUsesShar
     let studioLocales = ScreenshotStudioWorkflow.locales
     let captureLocales = ScreenshotCapturePlan.captureLocales(from: studioLocales)
 
-    #expect(captureLocales == ["en-US", "de-DE", "nl-NL", "it", "fr-FR", "es-ES", "ca", "ja", "ko", "pt-BR", "zh-Hant"])
+    #expect(captureLocales == ["en-US", "de-DE", "nl-NL", "it", "fr-FR", "fr-CA", "es-ES", "ca", "ja", "ko", "pt-BR", "pt-PT", "zh-Hant", "zh-Hans"])
     #expect(ScreenshotCapturePlan.sourceLocale(for: "en-GB") == "en-US")
     #expect(ScreenshotCapturePlan.sourceLocale(for: "es-MX") == "es-ES")
 }

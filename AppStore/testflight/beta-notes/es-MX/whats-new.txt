@@ -1,19 +1,19 @@
 Corre en vivo con amigos gracias a SharePlay en iPhone e iPad.
 
-Toca Jugar con amigos, inicia una cuenta atrás sincronizada, esquiva el tráfico juntos y compara el mismo resultado de victoria, derrota o empate al final. Las revanchas empiezan solo cuando ambos jugadores están listos.
+Toca Jugar con amigos, inicia una cuenta atrás sincronizada, esquiva carros juntos y compara el mismo resultado de victoria, derrota o empate. Las revanchas esperan a que ambos estén listos.
 
-Las carreras con amigos son gratis y nunca consumen partidas diarias, incluso cuando ya hayas usado tus partidas gratuitas en solitario.
+Las carreras con amigos son gratis y nunca usan partidas diarias.
 
-RetroRapid! 1.5 llega con localización completa de la app en catalán, neerlandés, francés, alemán, italiano, japonés, coreano, portugués de Brasil, español y chino tradicional. Cambia el idioma del dispositivo y menús, ajustes e interfaz de carrera deberían seguirlo.
+Esta actualización añade la localización completa de la app para portugués europeo, chino simplificado y francés de Canadá. Cambia el idioma del dispositivo — especialmente a uno de los nuevos — y confirma que menús, ajustes y la UI de carrera suenan naturales.
 
-También hemos pulido ajustes, claridad del paywall, audio y estabilidad en toda la app.
+También hemos pulido ajustes, claridad del paywall, audio y estabilidad.
 
-En qué nos gustaría que te centres:
-- Inicia una carrera SharePlay con un amigo en dos iPhone o iPad y confirma que la cuenta atrás sigue sincronizada
-- Cambia el dispositivo a español u otro idioma compatible y confirma que menús, ajustes y textos en juego suenan naturales
-- Corre hasta el final, prueba Jugar otra vez y confirma que ambos jugadores deben confirmar antes de la revancha
-- Con cero partidas diarias restantes, confirma que las carreras con amigos siguen iniciándose gratis desde Jugar con amigos
-- En Mac y Apple Watch, confirma que las carreras en solitario siguen funcionando bien
-- Informa de cierres inesperados, desconexiones, momentos confusos en multijugador o traducciones torpes
+En qué centrarte:
+- Inicia una carrera SharePlay en dos iPhone/iPad y confirma la cuenta atrás sincronizada
+- Cambia a portugués europeo, chino simplificado o francés de Canadá y valora las traducciones
+- Tras la meta, prueba Jugar de nuevo — ambos deben confirmar
+- Con cero partidas diarias, las carreras con amigos siguen empezando gratis
+- En Mac y Apple Watch, confirma la calidad del modo en solitario
+- Informa de cierres, desconexiones o traducciones raras
 
 Gracias por correr con nosotros.

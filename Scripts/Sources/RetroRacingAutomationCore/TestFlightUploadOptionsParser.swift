@@ -11,7 +11,7 @@ import ScriptSupport
 public enum TestFlightUploadOptionsParser {
     public static let defaultAppID = "6758641625"
     public static let defaultVersion = "1.5"
-    public static let defaultBuildNumber = "31"
+    public static let defaultBuildNumber = "33"
     public static let defaultHelmPath = "/Applications/Helm.app/Contents/Helpers/helm-asc"
     public static let defaultDeveloperDirectory = "/Applications/Xcode.app/Contents/Developer"
     public static let defaultExternalGroup = "df40f833-12c7-4411-b28d-122690045c58"

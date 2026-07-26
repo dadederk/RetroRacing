@@ -6,12 +6,15 @@
     "nl-NL",
     "it",
     "fr-FR",
+    "fr-CA",
     "es-ES",
     "ca",
     "ja",
     "ko",
     "pt-BR",
-    "zh-Hant"
+    "pt-PT",
+    "zh-Hant",
+    "zh-Hans"
   ],
   "achievements": [
     {
@@ -38,6 +41,11 @@
           "earnedDescription": "Tu as dépassé 100 voitures en une partie.",
           "preEarnedDescription": "Dépasse 100 voitures en une partie."
         },
+        "fr-CA": {
+          "name": "Série 100",
+          "earnedDescription": "Vous avez dépassé 100 voitures en une partie.",
+          "preEarnedDescription": "Dépassez 100 voitures en une partie."
+        },
         "es-ES": {
           "name": "Racha 100",
           "earnedDescription": "Has adelantado 100 coches en una sola partida.",
@@ -63,10 +71,20 @@
           "earnedDescription": "Você ultrapassou 100 carros em uma corrida.",
           "preEarnedDescription": "Ultrapasse 100 carros em uma corrida."
         },
+        "pt-PT": {
+          "name": "Série 100",
+          "earnedDescription": "Você ultrapassou 100 carros numa corrida.",
+          "preEarnedDescription": "Ultrapasse 100 carros numa corrida."
+        },
         "zh-Hant": {
           "name": "連勝 100",
           "earnedDescription": "你在一局中超車 100 輛。",
           "preEarnedDescription": "在一局中超車 100 輛。"
+        },
+        "zh-Hans": {
+          "name": "连胜 100",
+          "earnedDescription": "你在一局中超车 100 辆。",
+          "preEarnedDescription": "在一局中超车 100 辆。"
         }
       }
     },
@@ -94,6 +112,11 @@
           "earnedDescription": "Tu as dépassé 200 voitures en une partie.",
           "preEarnedDescription": "Dépasse 200 voitures en une partie."
         },
+        "fr-CA": {
+          "name": "Série 200",
+          "earnedDescription": "Vous avez dépassé 200 voitures en une partie.",
+          "preEarnedDescription": "Dépassez 200 voitures en une partie."
+        },
         "es-ES": {
           "name": "Racha 200",
           "earnedDescription": "Has adelantado 200 coches en una sola partida.",
@@ -119,10 +142,20 @@
           "earnedDescription": "Você ultrapassou 200 carros em uma corrida.",
           "preEarnedDescription": "Ultrapasse 200 carros em uma corrida."
         },
+        "pt-PT": {
+          "name": "Série 200",
+          "earnedDescription": "Você ultrapassou 200 carros numa corrida.",
+          "preEarnedDescription": "Ultrapasse 200 carros numa corrida."
+        },
         "zh-Hant": {
           "name": "連勝 200",
           "earnedDescription": "你在一局中超車 200 輛。",
           "preEarnedDescription": "在一局中超車 200 輛。"
+        },
+        "zh-Hans": {
+          "name": "连胜 200",
+          "earnedDescription": "你在一局中超车 200 辆。",
+          "preEarnedDescription": "在一局中超车 200 辆。"
         }
       }
     },
@@ -150,6 +183,11 @@
           "earnedDescription": "Tu as dépassé 300 voitures en une partie.",
           "preEarnedDescription": "Dépasse 300 voitures en une partie."
         },
+        "fr-CA": {
+          "name": "Série 300",
+          "earnedDescription": "Vous avez dépassé 300 voitures en une partie.",
+          "preEarnedDescription": "Dépassez 300 voitures en une partie."
+        },
         "es-ES": {
           "name": "Racha 300",
           "earnedDescription": "Has adelantado 300 coches en una sola partida.",
@@ -175,10 +213,20 @@
           "earnedDescription": "Você ultrapassou 300 carros em uma corrida.",
           "preEarnedDescription": "Ultrapasse 300 carros em uma corrida."
         },
+        "pt-PT": {
+          "name": "Série 300",
+          "earnedDescription": "Você ultrapassou 300 carros numa corrida.",
+          "preEarnedDescription": "Ultrapasse 300 carros numa corrida."
+        },
         "zh-Hant": {
           "name": "連勝 300",
           "earnedDescription": "你在一局中超車 300 輛。",
           "preEarnedDescription": "在一局中超車 300 輛。"
+        },
+        "zh-Hans": {
+          "name": "连胜 300",
+          "earnedDescription": "你在一局中超车 300 辆。",
+          "preEarnedDescription": "在一局中超车 300 辆。"
         }
       }
     },
@@ -206,6 +254,11 @@
           "earnedDescription": "Tu as dépassé 400 voitures en une partie.",
           "preEarnedDescription": "Dépasse 400 voitures en une partie."
         },
+        "fr-CA": {
+          "name": "Série 400",
+          "earnedDescription": "Vous avez dépassé 400 voitures en une partie.",
+          "preEarnedDescription": "Dépassez 400 voitures en une partie."
+        },
         "es-ES": {
           "name": "Racha 400",
           "earnedDescription": "Has adelantado 400 coches en una sola partida.",
@@ -231,10 +284,20 @@
           "earnedDescription": "Você ultrapassou 400 carros em uma corrida.",
           "preEarnedDescription": "Ultrapasse 400 carros em uma corrida."
         },
+        "pt-PT": {
+          "name": "Série 400",
+          "earnedDescription": "Você ultrapassou 400 carros numa corrida.",
+          "preEarnedDescription": "Ultrapasse 400 carros numa corrida."
+        },
         "zh-Hant": {
           "name": "連勝 400",
           "earnedDescription": "你在一局中超車 400 輛。",
           "preEarnedDescription": "在一局中超車 400 輛。"
+        },
+        "zh-Hans": {
+          "name": "连胜 400",
+          "earnedDescription": "你在一局中超车 400 辆。",
+          "preEarnedDescription": "在一局中超车 400 辆。"
         }
       }
     },
@@ -262,6 +325,11 @@
           "earnedDescription": "Tu as dépassé 500 voitures en une partie.",
           "preEarnedDescription": "Dépasse 500 voitures en une partie."
         },
+        "fr-CA": {
+          "name": "Série 500",
+          "earnedDescription": "Vous avez dépassé 500 voitures en une partie.",
+          "preEarnedDescription": "Dépassez 500 voitures en une partie."
+        },
         "es-ES": {
           "name": "Racha 500",
           "earnedDescription": "Has adelantado 500 coches en una sola partida.",
@@ -287,10 +355,20 @@
           "earnedDescription": "Você ultrapassou 500 carros em uma corrida.",
           "preEarnedDescription": "Ultrapasse 500 carros em uma corrida."
         },
+        "pt-PT": {
+          "name": "Série 500",
+          "earnedDescription": "Você ultrapassou 500 carros numa corrida.",
+          "preEarnedDescription": "Ultrapasse 500 carros numa corrida."
+        },
         "zh-Hant": {
           "name": "連勝 500",
           "earnedDescription": "你在一局中超車 500 輛。",
           "preEarnedDescription": "在一局中超車 500 輛。"
+        },
+        "zh-Hans": {
+          "name": "连胜 500",
+          "earnedDescription": "你在一局中超车 500 辆。",
+          "preEarnedDescription": "在一局中超车 500 辆。"
         }
       }
     },
@@ -318,6 +396,11 @@
           "earnedDescription": "Tu as dépassé 600 voitures en une partie.",
           "preEarnedDescription": "Dépasse 600 voitures en une partie."
         },
+        "fr-CA": {
+          "name": "Série 600",
+          "earnedDescription": "Vous avez dépassé 600 voitures en une partie.",
+          "preEarnedDescription": "Dépassez 600 voitures en une partie."
+        },
         "es-ES": {
           "name": "Racha 600",
           "earnedDescription": "Has adelantado 600 coches en una sola partida.",
@@ -343,10 +426,20 @@
           "earnedDescription": "Você ultrapassou 600 carros em uma corrida.",
           "preEarnedDescription": "Ultrapasse 600 carros em uma corrida."
         },
+        "pt-PT": {
+          "name": "Série 600",
+          "earnedDescription": "Você ultrapassou 600 carros numa corrida.",
+          "preEarnedDescription": "Ultrapasse 600 carros numa corrida."
+        },
         "zh-Hant": {
           "name": "連勝 600",
           "earnedDescription": "你在一局中超車 600 輛。",
           "preEarnedDescription": "在一局中超車 600 輛。"
+        },
+        "zh-Hans": {
+          "name": "连胜 600",
+          "earnedDescription": "你在一局中超车 600 辆。",
+          "preEarnedDescription": "在一局中超车 600 辆。"
         }
       }
     },
@@ -374,6 +467,11 @@
           "earnedDescription": "Tu as dépassé 700 voitures en une partie.",
           "preEarnedDescription": "Dépasse 700 voitures en une partie."
         },
+        "fr-CA": {
+          "name": "Série 700",
+          "earnedDescription": "Vous avez dépassé 700 voitures en une partie.",
+          "preEarnedDescription": "Dépassez 700 voitures en une partie."
+        },
         "es-ES": {
           "name": "Racha 700",
           "earnedDescription": "Has adelantado 700 coches en una sola partida.",
@@ -399,10 +497,20 @@
           "earnedDescription": "Você ultrapassou 700 carros em uma corrida.",
           "preEarnedDescription": "Ultrapasse 700 carros em uma corrida."
         },
+        "pt-PT": {
+          "name": "Série 700",
+          "earnedDescription": "Você ultrapassou 700 carros numa corrida.",
+          "preEarnedDescription": "Ultrapasse 700 carros numa corrida."
+        },
         "zh-Hant": {
           "name": "連勝 700",
           "earnedDescription": "你在一局中超車 700 輛。",
           "preEarnedDescription": "在一局中超車 700 輛。"
+        },
+        "zh-Hans": {
+          "name": "连胜 700",
+          "earnedDescription": "你在一局中超车 700 辆。",
+          "preEarnedDescription": "在一局中超车 700 辆。"
         }
       }
     },
@@ -430,6 +538,11 @@
           "earnedDescription": "Tu as dépassé 800 voitures en une partie.",
           "preEarnedDescription": "Dépasse 800 voitures en une partie."
         },
+        "fr-CA": {
+          "name": "Série 800",
+          "earnedDescription": "Vous avez dépassé 800 voitures en une partie.",
+          "preEarnedDescription": "Dépassez 800 voitures en une partie."
+        },
         "es-ES": {
           "name": "Racha 800",
           "earnedDescription": "Has adelantado 800 coches en una sola partida.",
@@ -455,10 +568,20 @@
           "earnedDescription": "Você ultrapassou 800 carros em uma corrida.",
           "preEarnedDescription": "Ultrapasse 800 carros em uma corrida."
         },
+        "pt-PT": {
+          "name": "Série 800",
+          "earnedDescription": "Você ultrapassou 800 carros numa corrida.",
+          "preEarnedDescription": "Ultrapasse 800 carros numa corrida."
+        },
         "zh-Hant": {
           "name": "連勝 800",
           "earnedDescription": "你在一局中超車 800 輛。",
           "preEarnedDescription": "在一局中超車 800 輛。"
+        },
+        "zh-Hans": {
+          "name": "连胜 800",
+          "earnedDescription": "你在一局中超车 800 辆。",
+          "preEarnedDescription": "在一局中超车 800 辆。"
         }
       }
     },
@@ -486,6 +609,11 @@
           "earnedDescription": "Tu as dépassé 1.000 voitures au total.",
           "preEarnedDescription": "Dépasse 1.000 voitures au total."
         },
+        "fr-CA": {
+          "name": "Overlander 1K",
+          "earnedDescription": "Vous avez dépassé 1.000 voitures au total.",
+          "preEarnedDescription": "Dépassez 1.000 voitures au total."
+        },
         "es-ES": {
           "name": "Corredor 1K",
           "earnedDescription": "Has adelantado 1.000 coches en total.",
@@ -511,10 +639,20 @@
           "earnedDescription": "Você ultrapassou 1,000 carros no total.",
           "preEarnedDescription": "Ultrapasse 1,000 carros no total."
         },
+        "pt-PT": {
+          "name": "Overlander 1K",
+          "earnedDescription": "Você ultrapassou 1,000 carros no total.",
+          "preEarnedDescription": "Ultrapasse 1,000 carros no total."
+        },
         "zh-Hant": {
           "name": "Overlander 1K",
           "earnedDescription": "你總共超車 1,000 輛。",
           "preEarnedDescription": "總共超車 1,000 輛。"
+        },
+        "zh-Hans": {
+          "name": "Overlander 1K",
+          "earnedDescription": "你总共超车 1,000 辆。",
+          "preEarnedDescription": "总共超车 1,000 辆。"
         }
       }
     },
@@ -542,6 +680,11 @@
           "earnedDescription": "Tu as dépassé 5.000 voitures au total.",
           "preEarnedDescription": "Dépasse 5.000 voitures au total."
         },
+        "fr-CA": {
+          "name": "Overlander 5K",
+          "earnedDescription": "Vous avez dépassé 5.000 voitures au total.",
+          "preEarnedDescription": "Dépassez 5.000 voitures au total."
+        },
         "es-ES": {
           "name": "Corredor 5K",
           "earnedDescription": "Has adelantado 5.000 coches en total.",
@@ -567,10 +710,20 @@
           "earnedDescription": "Você ultrapassou 5,000 carros no total.",
           "preEarnedDescription": "Ultrapasse 5,000 carros no total."
         },
+        "pt-PT": {
+          "name": "Overlander 5K",
+          "earnedDescription": "Você ultrapassou 5,000 carros no total.",
+          "preEarnedDescription": "Ultrapasse 5,000 carros no total."
+        },
         "zh-Hant": {
           "name": "Overlander 5K",
           "earnedDescription": "你總共超車 5,000 輛。",
           "preEarnedDescription": "總共超車 5,000 輛。"
+        },
+        "zh-Hans": {
+          "name": "Overlander 5K",
+          "earnedDescription": "你总共超车 5,000 辆。",
+          "preEarnedDescription": "总共超车 5,000 辆。"
         }
       }
     },
@@ -598,6 +751,11 @@
           "earnedDescription": "Tu as dépassé 10.000 voitures au total.",
           "preEarnedDescription": "Dépasse 10.000 voitures au total."
         },
+        "fr-CA": {
+          "name": "Overlander 10K",
+          "earnedDescription": "Vous avez dépassé 10.000 voitures au total.",
+          "preEarnedDescription": "Dépassez 10.000 voitures au total."
+        },
         "es-ES": {
           "name": "Corredor 10K",
           "earnedDescription": "Has adelantado 10.000 coches en total.",
@@ -623,10 +781,20 @@
           "earnedDescription": "Você ultrapassou 10,000 carros no total.",
           "preEarnedDescription": "Ultrapasse 10,000 carros no total."
         },
+        "pt-PT": {
+          "name": "Overlander 10K",
+          "earnedDescription": "Você ultrapassou 10,000 carros no total.",
+          "preEarnedDescription": "Ultrapasse 10,000 carros no total."
+        },
         "zh-Hant": {
           "name": "Overlander 10K",
           "earnedDescription": "你總共超車 10,000 輛。",
           "preEarnedDescription": "總共超車 10,000 輛。"
+        },
+        "zh-Hans": {
+          "name": "Overlander 10K",
+          "earnedDescription": "你总共超车 10,000 辆。",
+          "preEarnedDescription": "总共超车 10,000 辆。"
         }
       }
     },
@@ -654,6 +822,11 @@
           "earnedDescription": "Tu as dépassé 20.000 voitures au total.",
           "preEarnedDescription": "Dépasse 20.000 voitures au total."
         },
+        "fr-CA": {
+          "name": "Overlander 20K",
+          "earnedDescription": "Vous avez dépassé 20.000 voitures au total.",
+          "preEarnedDescription": "Dépassez 20.000 voitures au total."
+        },
         "es-ES": {
           "name": "Corredor 20K",
           "earnedDescription": "Has adelantado 20.000 coches en total.",
@@ -679,10 +852,20 @@
           "earnedDescription": "Você ultrapassou 20,000 carros no total.",
           "preEarnedDescription": "Ultrapasse 20,000 carros no total."
         },
+        "pt-PT": {
+          "name": "Overlander 20K",
+          "earnedDescription": "Você ultrapassou 20,000 carros no total.",
+          "preEarnedDescription": "Ultrapasse 20,000 carros no total."
+        },
         "zh-Hant": {
           "name": "Overlander 20K",
           "earnedDescription": "你總共超車 20,000 輛。",
           "preEarnedDescription": "總共超車 20,000 輛。"
+        },
+        "zh-Hans": {
+          "name": "Overlander 20K",
+          "earnedDescription": "你总共超车 20,000 辆。",
+          "preEarnedDescription": "总共超车 20,000 辆。"
         }
       }
     },
@@ -710,6 +893,11 @@
           "earnedDescription": "Tu as dépassé 50.000 voitures au total.",
           "preEarnedDescription": "Dépasse 50.000 voitures au total."
         },
+        "fr-CA": {
+          "name": "Overlander 50K",
+          "earnedDescription": "Vous avez dépassé 50.000 voitures au total.",
+          "preEarnedDescription": "Dépassez 50.000 voitures au total."
+        },
         "es-ES": {
           "name": "Corredor 50K",
           "earnedDescription": "Has adelantado 50.000 coches en total.",
@@ -735,10 +923,20 @@
           "earnedDescription": "Você ultrapassou 50,000 carros no total.",
           "preEarnedDescription": "Ultrapasse 50,000 carros no total."
         },
+        "pt-PT": {
+          "name": "Overlander 50K",
+          "earnedDescription": "Você ultrapassou 50,000 carros no total.",
+          "preEarnedDescription": "Ultrapasse 50,000 carros no total."
+        },
         "zh-Hant": {
           "name": "Overlander 50K",
           "earnedDescription": "你總共超車 50,000 輛。",
           "preEarnedDescription": "總共超車 50,000 輛。"
+        },
+        "zh-Hans": {
+          "name": "Overlander 50K",
+          "earnedDescription": "你总共超车 50,000 辆。",
+          "preEarnedDescription": "总共超车 50,000 辆。"
         }
       }
     },
@@ -766,6 +964,11 @@
           "earnedDescription": "Tu as dépassé 100.000 voitures au total.",
           "preEarnedDescription": "Dépasse 100.000 voitures au total."
         },
+        "fr-CA": {
+          "name": "Overlander 100K",
+          "earnedDescription": "Vous avez dépassé 100.000 voitures au total.",
+          "preEarnedDescription": "Dépassez 100.000 voitures au total."
+        },
         "es-ES": {
           "name": "Corredor 100K",
           "earnedDescription": "Has adelantado 100.000 coches en total.",
@@ -791,10 +994,20 @@
           "earnedDescription": "Você ultrapassou 100,000 carros no total.",
           "preEarnedDescription": "Ultrapasse 100,000 carros no total."
         },
+        "pt-PT": {
+          "name": "Overlander 100K",
+          "earnedDescription": "Você ultrapassou 100,000 carros no total.",
+          "preEarnedDescription": "Ultrapasse 100,000 carros no total."
+        },
         "zh-Hant": {
           "name": "Overlander 100K",
           "earnedDescription": "你總共超車 100,000 輛。",
           "preEarnedDescription": "總共超車 100,000 輛。"
+        },
+        "zh-Hans": {
+          "name": "Overlander 100K",
+          "earnedDescription": "你总共超车 100,000 辆。",
+          "preEarnedDescription": "总共超车 100,000 辆。"
         }
       }
     },
@@ -822,6 +1035,11 @@
           "earnedDescription": "Tu as dépassé 200.000 voitures au total.",
           "preEarnedDescription": "Dépasse 200.000 voitures au total."
         },
+        "fr-CA": {
+          "name": "Overlander 200K",
+          "earnedDescription": "Vous avez dépassé 200.000 voitures au total.",
+          "preEarnedDescription": "Dépassez 200.000 voitures au total."
+        },
         "es-ES": {
           "name": "Corredor 200K",
           "earnedDescription": "Has adelantado 200.000 coches en total.",
@@ -847,10 +1065,20 @@
           "earnedDescription": "Você ultrapassou 200,000 carros no total.",
           "preEarnedDescription": "Ultrapasse 200,000 carros no total."
         },
+        "pt-PT": {
+          "name": "Overlander 200K",
+          "earnedDescription": "Você ultrapassou 200,000 carros no total.",
+          "preEarnedDescription": "Ultrapasse 200,000 carros no total."
+        },
         "zh-Hant": {
           "name": "Overlander 200K",
           "earnedDescription": "你總共超車 200,000 輛。",
           "preEarnedDescription": "總共超車 200,000 輛。"
+        },
+        "zh-Hans": {
+          "name": "Overlander 200K",
+          "earnedDescription": "你总共超车 200,000 辆。",
+          "preEarnedDescription": "总共超车 200,000 辆。"
         }
       }
     },
@@ -878,6 +1106,11 @@
           "earnedDescription": "Tu as terminé une partie avec les commandes tactiles.",
           "preEarnedDescription": "Termine une partie avec les commandes tactiles."
         },
+        "fr-CA": {
+          "name": "Commandes tactiles",
+          "earnedDescription": "Vous avez terminé une partie avec les commandes tactiles.",
+          "preEarnedDescription": "Terminez une partie avec les commandes tactiles."
+        },
         "es-ES": {
           "name": "Controles Táctiles",
           "earnedDescription": "Has completado una partida usando los controles táctiles.",
@@ -903,10 +1136,20 @@
           "earnedDescription": "Você completou uma corrida usando toques na tela.",
           "preEarnedDescription": "Complete uma corrida usando toques na tela."
         },
+        "pt-PT": {
+          "name": "Controlos de toque",
+          "earnedDescription": "Você completou uma corrida usando toques no ecrã.",
+          "preEarnedDescription": "Complete uma corrida usando toques no ecrã."
+        },
         "zh-Hant": {
           "name": "點按操作",
           "earnedDescription": "你使用點按操作完成了一局。",
           "preEarnedDescription": "使用點按操作完成一局。"
+        },
+        "zh-Hans": {
+          "name": "点按操作",
+          "earnedDescription": "你使用点按操作完成了一局。",
+          "preEarnedDescription": "使用点按操作完成一局。"
         }
       }
     },
@@ -934,6 +1177,11 @@
           "earnedDescription": "Tu as terminé une partie avec les commandes glisser.",
           "preEarnedDescription": "Termine une partie avec les commandes glisser."
         },
+        "fr-CA": {
+          "name": "Commandes glisser",
+          "earnedDescription": "Vous avez terminé une partie avec les commandes glisser.",
+          "preEarnedDescription": "Terminez une partie avec les commandes glisser."
+        },
         "es-ES": {
           "name": "Controles Deslizantes",
           "earnedDescription": "Has completado una partida usando los controles deslizantes.",
@@ -959,10 +1207,20 @@
           "earnedDescription": "Você completou uma corrida usando gestos de deslizar.",
           "preEarnedDescription": "Complete uma corrida usando gestos de deslizar."
         },
+        "pt-PT": {
+          "name": "Controlos de deslizar",
+          "earnedDescription": "Você completou uma corrida usando gestos de deslizar.",
+          "preEarnedDescription": "Complete uma corrida usando gestos de deslizar."
+        },
         "zh-Hant": {
           "name": "滑動操作",
           "earnedDescription": "你使用滑動操作完成了一局。",
           "preEarnedDescription": "使用滑動操作完成一局。"
+        },
+        "zh-Hans": {
+          "name": "滑动操作",
+          "earnedDescription": "你使用滑动操作完成了一局。",
+          "preEarnedDescription": "使用滑动操作完成一局。"
         }
       }
     },
@@ -990,6 +1248,11 @@
           "earnedDescription": "Tu as terminé une partie avec le clavier.",
           "preEarnedDescription": "Termine une partie avec le clavier."
         },
+        "fr-CA": {
+          "name": "Commandes clavier",
+          "earnedDescription": "Vous avez terminé une partie avec le clavier.",
+          "preEarnedDescription": "Terminez une partie avec le clavier."
+        },
         "es-ES": {
           "name": "Controles de Teclado",
           "earnedDescription": "Has completado una partida usando el teclado.",
@@ -1015,10 +1278,20 @@
           "earnedDescription": "Você completou uma corrida usando o teclado.",
           "preEarnedDescription": "Complete uma corrida usando o teclado."
         },
+        "pt-PT": {
+          "name": "Controlos de teclado",
+          "earnedDescription": "Você completou uma corrida usando o teclado.",
+          "preEarnedDescription": "Complete uma corrida usando o teclado."
+        },
         "zh-Hant": {
           "name": "鍵盤操作",
           "earnedDescription": "你使用鍵盤操作完成了一局。",
           "preEarnedDescription": "使用鍵盤操作完成一局。"
+        },
+        "zh-Hans": {
+          "name": "键盘操作",
+          "earnedDescription": "你使用键盘操作完成了一局。",
+          "preEarnedDescription": "使用键盘操作完成一局。"
         }
       }
     },
@@ -1046,6 +1319,11 @@
           "earnedDescription": "Tu as terminé une partie avec VoiceOver.",
           "preEarnedDescription": "Termine une partie avec VoiceOver."
         },
+        "fr-CA": {
+          "name": "Commandes VoiceOver",
+          "earnedDescription": "Vous avez terminé une partie avec VoiceOver.",
+          "preEarnedDescription": "Terminez une partie avec VoiceOver."
+        },
         "es-ES": {
           "name": "Controles VoiceOver",
           "earnedDescription": "Has completado una partida usando VoiceOver.",
@@ -1071,7 +1349,17 @@
           "earnedDescription": "Você completou uma corrida usando controles do VoiceOver.",
           "preEarnedDescription": "Complete uma corrida usando controles do VoiceOver."
         },
+        "pt-PT": {
+          "name": "Controlos do VoiceOver",
+          "earnedDescription": "Você completou uma corrida usando controlos do VoiceOver.",
+          "preEarnedDescription": "Complete uma corrida usando controlos do VoiceOver."
+        },
         "zh-Hant": {
+          "name": "VoiceOver 操作",
+          "earnedDescription": "你使用 VoiceOver 操作完成了一局。",
+          "preEarnedDescription": "使用 VoiceOver 操作完成一局。"
+        },
+        "zh-Hans": {
           "name": "VoiceOver 操作",
           "earnedDescription": "你使用 VoiceOver 操作完成了一局。",
           "preEarnedDescription": "使用 VoiceOver 操作完成一局。"
@@ -1102,6 +1390,11 @@
           "earnedDescription": "Tu as terminé une partie avec Digital Crown.",
           "preEarnedDescription": "Termine une partie avec Digital Crown."
         },
+        "fr-CA": {
+          "name": "Commandes Digital Crown",
+          "earnedDescription": "Vous avez terminé une partie avec Digital Crown.",
+          "preEarnedDescription": "Terminez une partie avec Digital Crown."
+        },
         "es-ES": {
           "name": "Controles de Corona Digital",
           "earnedDescription": "Has completado una partida usando la Corona Digital.",
@@ -1127,7 +1420,17 @@
           "earnedDescription": "Você completou uma corrida usando a Digital Crown.",
           "preEarnedDescription": "Complete uma corrida usando a Digital Crown."
         },
+        "pt-PT": {
+          "name": "Controlos da Digital Crown",
+          "earnedDescription": "Você completou uma corrida usando a Digital Crown.",
+          "preEarnedDescription": "Complete uma corrida usando a Digital Crown."
+        },
         "zh-Hant": {
+          "name": "Digital Crown 操作",
+          "earnedDescription": "你使用 Digital Crown 操作完成了一局。",
+          "preEarnedDescription": "使用 Digital Crown 操作完成一局。"
+        },
+        "zh-Hans": {
           "name": "Digital Crown 操作",
           "earnedDescription": "你使用 Digital Crown 操作完成了一局。",
           "preEarnedDescription": "使用 Digital Crown 操作完成一局。"
@@ -1158,6 +1461,11 @@
           "earnedDescription": "Tu as terminé une partie avec une manette.",
           "preEarnedDescription": "Termine une partie avec une manette."
         },
+        "fr-CA": {
+          "name": "Commandes manette",
+          "earnedDescription": "Vous avez terminé une partie avec une manette.",
+          "preEarnedDescription": "Terminez une partie avec une manette."
+        },
         "es-ES": {
           "name": "Controles de Mando",
           "earnedDescription": "Has completado una partida usando un mando.",
@@ -1183,10 +1491,20 @@
           "earnedDescription": "Você completou uma corrida usando um controle de jogo.",
           "preEarnedDescription": "Complete uma corrida usando um controle de jogo."
         },
+        "pt-PT": {
+          "name": "Controlos de jogo",
+          "earnedDescription": "Você completou uma corrida usando um comando de jogo.",
+          "preEarnedDescription": "Complete uma corrida usando um comando de jogo."
+        },
         "zh-Hant": {
           "name": "遊戲控制器操作",
           "earnedDescription": "你使用遊戲控制器完成了一局。",
           "preEarnedDescription": "使用遊戲控制器完成一局。"
+        },
+        "zh-Hans": {
+          "name": "游戏控制器操作",
+          "earnedDescription": "你使用游戏控制器完成了一局。",
+          "preEarnedDescription": "使用游戏控制器完成一局。"
         }
       }
     },
@@ -1214,6 +1532,11 @@
           "earnedDescription": "Tu as terminé une partie pendant la semaine GAAD avec une technologie d'assistance.",
           "preEarnedDescription": "Termine une partie pendant la semaine GAAD avec une technologie d'assistance."
         },
+        "fr-CA": {
+          "name": "Semaine GAAD Assistive",
+          "earnedDescription": "Vous avez terminé une partie pendant la semaine GAAD avec une technologie d'assistance.",
+          "preEarnedDescription": "Terminez une partie pendant la semaine GAAD avec une technologie d'assistance."
+        },
         "es-ES": {
           "name": "Semana GAAD Asistiva",
           "earnedDescription": "Has completado una partida durante la semana de GAAD usando una tecnología de asistencia.",
@@ -1239,10 +1562,20 @@
           "earnedDescription": "Você completou uma corrida durante a semana GAAD usando tecnologia assistiva.",
           "preEarnedDescription": "Complete uma corrida durante a semana GAAD usando tecnologia assistiva."
         },
+        "pt-PT": {
+          "name": "Semana GAAD Assistiva",
+          "earnedDescription": "Você completou uma corrida durante a semana GAAD usando tecnologia assistiva.",
+          "preEarnedDescription": "Complete uma corrida durante a semana GAAD usando tecnologia assistiva."
+        },
         "zh-Hant": {
           "name": "GAAD 輔助科技週",
           "earnedDescription": "你在 GAAD 週期間使用輔助科技完成了一局。",
           "preEarnedDescription": "在 GAAD 週期間使用輔助科技完成一局。"
+        },
+        "zh-Hans": {
+          "name": "GAAD 辅助科技周",
+          "earnedDescription": "你在 GAAD 周期间使用辅助科技完成了一局。",
+          "preEarnedDescription": "在 GAAD 周期间使用辅助科技完成一局。"
         }
       }
     }

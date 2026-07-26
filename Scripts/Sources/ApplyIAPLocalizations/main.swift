@@ -12,9 +12,9 @@ import ScriptSupport
 private let defaultIAPID = "6759012658"
 private let defaultBundleRelativePath = "AppStore/iap-localizations/6759012658"
 private let defaultLocales = [
-    "de-DE", "nl-NL", "it", "fr-FR",
+    "de-DE", "nl-NL", "it", "fr-FR", "fr-CA",
     "es-ES", "es-MX", "ca",
-    "ja", "ko", "pt-BR", "zh-Hant",
+    "ja", "ko", "pt-BR", "pt-PT", "zh-Hant", "zh-Hans",
 ]
 
 do {

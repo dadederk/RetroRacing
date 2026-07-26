@@ -4,15 +4,15 @@ Toque em Jogar com amigos, inicie a contagem regressiva sincronizada, desvie do 
 
 Corridas com amigos são grátis e nunca usam partidas diárias.
 
-RetroRapid! 1.5 chega com localização completa do app em catalão, holandês, francês, alemão, italiano, japonês, coreano, português do Brasil, espanhol e chinês tradicional. Mude o idioma do dispositivo e confira se menus, ajustes e a UI da corrida soam naturais.
+Esta atualização adiciona localização completa do app para português europeu, chinês simplificado e francês do Canadá. Mude o idioma do dispositivo — especialmente para um dos novos — e confira se menus, ajustes e a UI da corrida soam naturais.
 
 Também polimos ajustes, clareza do paywall, áudio e estabilidade.
 
 Foco do teste:
 - Inicie uma corrida SharePlay em dois iPhones/iPads e confirme a contagem sincronizada
-- Mude para português do Brasil ou outro idioma compatível e avalie a naturalidade das traduções
-- Após a chegada, teste Jogar de novo e confirme se os dois precisam confirmar
-- Com zero partidas diárias, confirme que corridas com amigos ainda começam grátis
+- Mude para português europeu, chinês simplificado ou francês do Canadá e avalie as traduções
+- Após a chegada, teste Jogar de novo — os dois precisam confirmar
+- Com zero partidas diárias, corridas com amigos ainda começam grátis
 - No Mac e Apple Watch, confirme a qualidade do modo solo
 - Reporte crashes, desconexões ou traduções estranhas
 

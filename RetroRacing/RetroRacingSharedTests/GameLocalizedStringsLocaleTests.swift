@@ -19,7 +19,10 @@ final class GameLocalizedStringsLocaleTests: XCTestCase {
         "shareplay_activity_title",
     ]
 
-    private let supportedLocales = ["de", "nl", "it", "fr", "es", "ca", "ja", "ko", "pt-BR", "zh-Hant"]
+    private let supportedLocales = [
+        "de", "nl", "it", "fr", "fr-CA", "es", "ca",
+        "ja", "ko", "pt-BR", "pt-PT", "zh-Hant", "zh-Hans",
+    ]
 
     func testGivenSupportedLocalesWhenResolvingCheckpointKeysThenValuesAreNonEmpty() {
         for localeIdentifier in supportedLocales {
@@ -107,9 +110,24 @@ final class GameLocalizedStringsLocaleTests: XCTestCase {
         XCTAssertEqual(value, "Ajustes")
     }
 
+    func testGivenEuropeanPortugueseLocaleWhenResolvingSettingsThenUsesEuropeanCopy() {
+        let value = localizedString("settings", locale: Locale(identifier: "pt-PT"))
+        XCTAssertEqual(value, "Definições")
+    }
+
     func testGivenTraditionalChineseLocaleWhenResolvingPaywallTitleThenUsesChineseCopy() {
         let value = localizedString("paywall_title", locale: Locale(identifier: "zh-Hant"))
         XCTAssertTrue(value.contains("無限"))
+    }
+
+    func testGivenSimplifiedChineseLocaleWhenResolvingPaywallTitleThenUsesSimplifiedCopy() {
+        let value = localizedString("paywall_title", locale: Locale(identifier: "zh-Hans"))
+        XCTAssertTrue(value.contains("无限"))
+    }
+
+    func testGivenCanadianFrenchLocaleWhenResolvingSettingsThenUsesFrenchCopy() {
+        let value = localizedString("settings", locale: Locale(identifier: "fr-CA"))
+        XCTAssertEqual(value, "Réglages")
     }
 
     func testGivenPreferredCaptureLocaleWhenResolvingViaGameLocalizedStringsThenUsesThatLocale() {

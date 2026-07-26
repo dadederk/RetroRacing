@@ -83,7 +83,7 @@ enum GameCenterLeaderboardDisplayNameBuilder {
             return "Highscore"
         case "it":
             return "Miglior punteggio"
-        case "fr-FR":
+        case "fr-FR", "fr-CA":
             return "Meilleur score"
         case "es-ES":
             return "Mejor puntuación"
@@ -93,9 +93,9 @@ enum GameCenterLeaderboardDisplayNameBuilder {
             return "最高スコア"
         case "ko":
             return "최고 점수"
-        case "pt-BR":
+        case "pt-BR", "pt-PT":
             return "Melhor pontuação"
-        case "zh-Hant":
+        case "zh-Hant", "zh-Hans":
             return "最高分"
         default:
             return englishHighScorePhrase
@@ -108,13 +108,13 @@ enum GameCenterLeaderboardDisplayNameBuilder {
             return "Bestscore"
         case "nl-NL":
             return "Highscore"
-        case "it", "fr-FR", "pt-BR", "es-ES", "ca":
+        case "it", "fr-FR", "fr-CA", "pt-BR", "pt-PT", "es-ES", "ca":
             return "Top score"
         case "ja":
             return "ハイスコア"
         case "ko":
             return "하이스코어"
-        case "zh-Hant":
+        case "zh-Hant", "zh-Hans":
             return "高分"
         default:
             return englishHighScorePhrase
@@ -135,7 +135,7 @@ enum GameCenterLeaderboardDisplayNameBuilder {
                 return "Snel"
             case "it":
                 return "Veloce"
-            case "fr-FR":
+            case "fr-FR", "fr-CA":
                 return "Rapide"
             case "es-ES":
                 return "Rápido"
@@ -145,9 +145,9 @@ enum GameCenterLeaderboardDisplayNameBuilder {
                 return "ファスト"
             case "ko":
                 return "패스트"
-            case "pt-BR":
+            case "pt-BR", "pt-PT":
                 return "Rápido"
-            case "zh-Hant":
+            case "zh-Hant", "zh-Hans":
                 return "快速"
             default:
                 return "Fast"

@@ -36,8 +36,8 @@ func givenIAPBundleWhenCheckingThenValidationPassesWithoutCredentials() throws {
         iapID: "6759012658",
         bundleRelativePath: "AppStore/iap-localizations/6759012658",
         locales: [
-            "de-DE", "nl-NL", "it", "fr-FR", "es-ES", "es-MX", "ca",
-            "ja", "ko", "pt-BR", "zh-Hant",
+            "de-DE", "nl-NL", "it", "fr-FR", "fr-CA", "es-ES", "es-MX", "ca",
+            "ja", "ko", "pt-BR", "pt-PT", "zh-Hant", "zh-Hans",
         ],
         dryRun: false,
         preferAppStoreConnectAPI: false
