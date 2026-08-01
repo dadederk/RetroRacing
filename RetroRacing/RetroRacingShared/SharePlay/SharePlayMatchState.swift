@@ -7,6 +7,17 @@
 
 import Foundation
 
+/// Authoritative per-round settings shared by both SharePlay peers.
+public struct SharePlayRoundSettings: Sendable, Equatable, Codable {
+    public let difficulty: GameDifficulty
+    public let trafficSeed: UInt64
+
+    public init(difficulty: GameDifficulty, trafficSeed: UInt64) {
+        self.difficulty = difficulty
+        self.trafficSeed = trafficSeed
+    }
+}
+
 /// Drives all SharePlay UI. `GameView`/`GameOverView` render directly from these cases;
 /// `.idle` means "no SharePlay match in progress" (regular solo gameplay).
 public enum SharePlayMatchState: Sendable, Equatable {
@@ -15,9 +26,9 @@ public enum SharePlayMatchState: Sendable, Equatable {
     /// Session created/joined; waiting for the second participant to be ready.
     case waitingForFriend
     /// Both participants are ready; host-authoritative synchronized countdown before the round starts.
-    case countdown(startAt: Date, difficulty: GameDifficulty)
+    case countdown(startAt: Date, settings: SharePlayRoundSettings)
     /// Round in progress. Each device simulates gameplay locally and mirrors score updates.
-    case inRound(difficulty: GameDifficulty, localScore: Int, remoteScore: Int, remoteLives: Int)
+    case inRound(settings: SharePlayRoundSettings, localScore: Int, remoteScore: Int, remoteLives: Int)
     /// The local player has been eliminated first and is waiting for the opponent to finish,
     /// with a live view of the opponent's current score.
     case waitingAfterLocalLoss(remoteScore: Int, localFinalScore: Int)
@@ -25,7 +36,7 @@ public enum SharePlayMatchState: Sendable, Equatable {
     case finished(SharePlayRoundResult)
     /// Post-result rematch handshake; both players must confirm before a new round starts.
     case retryWaiting(localReady: Bool, remoteReady: Bool, deadline: Date)
-    /// The 30-second retry handshake elapsed without both players confirming.
+    /// The rematch retry handshake elapsed without both players confirming.
     case retryTimedOut
     /// The match ended abnormally (disconnect, retry timeout with no recovery, etc.).
     case aborted(reason: SharePlayAbortReason)

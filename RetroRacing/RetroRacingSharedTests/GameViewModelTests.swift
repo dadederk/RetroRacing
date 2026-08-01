@@ -12,6 +12,7 @@ import SpriteKit
 /// Tests for GameViewModel pause state management, particularly menu overlay behavior.
 @MainActor
 final class GameViewModelTests: XCTestCase {
+    private let sharePlaySettings = SharePlayRoundSettings(difficulty: .rapid, trafficSeed: 12345)
     private var leaderboardService: MockLeaderboardService!
     private var ratingService: MockRatingService!
     private var highestScoreStore: MockHighestScoreStore!
@@ -372,7 +373,7 @@ final class GameViewModelTests: XCTestCase {
             playLimitService: playLimitService,
             specialEventService: nil
         )
-        viewModel.sharePlayState = .inRound(difficulty: .rapid, localScore: 0, remoteScore: 0, remoteLives: 3)
+        viewModel.sharePlayState = .inRound(settings: sharePlaySettings, localScore: 0, remoteScore: 0, remoteLives: 3)
 
         // When
         viewModel.restartGame()
@@ -422,7 +423,7 @@ final class GameViewModelTests: XCTestCase {
         scene.handleCrash()
         scene.handleCrash()
         viewModel.scene = scene
-        viewModel.sharePlayState = .inRound(difficulty: .rapid, localScore: 10, remoteScore: 5, remoteLives: 2)
+        viewModel.sharePlayState = .inRound(settings: sharePlaySettings, localScore: 10, remoteScore: 5, remoteLives: 2)
         XCTAssertEqual(scene.gameState.lives, 0)
 
         // When
@@ -446,7 +447,7 @@ final class GameViewModelTests: XCTestCase {
         scene.handleCrash()
         scene.handleCrash()
         viewModel.scene = scene
-        viewModel.sharePlayState = .inRound(difficulty: .rapid, localScore: 0, remoteScore: 5, remoteLives: 2)
+        viewModel.sharePlayState = .inRound(settings: sharePlaySettings, localScore: 0, remoteScore: 5, remoteLives: 2)
         XCTAssertEqual(scene.gameState.lives, 0)
 
         // When
@@ -469,7 +470,7 @@ final class GameViewModelTests: XCTestCase {
         viewModel.selectedDifficulty = .cruise
         viewModel.applySharePlayState(
             SharePlayUIState(
-                state: .countdown(startAt: Date().addingTimeInterval(3), difficulty: .rapid),
+                state: .countdown(startAt: Date().addingTimeInterval(3), settings: sharePlaySettings),
                 localRole: .guest,
                 opponentDisplayName: "Rita"
             )
@@ -496,10 +497,14 @@ final class GameViewModelTests: XCTestCase {
         let now = Date(timeIntervalSinceReferenceDate: 1_000)
         let pausedStates: [SharePlayMatchState] = [
             .waitingForFriend,
-            .countdown(startAt: now.addingTimeInterval(3), difficulty: .rapid),
+            .countdown(startAt: now.addingTimeInterval(3), settings: sharePlaySettings),
             .waitingAfterLocalLoss(remoteScore: 12, localFinalScore: 8),
             .finished(SharePlayRoundResult(hostScore: 12, guestScore: 8, difficulty: .rapid)),
-            .retryWaiting(localReady: false, remoteReady: false, deadline: now.addingTimeInterval(30)),
+            .retryWaiting(
+                localReady: false,
+                remoteReady: false,
+                deadline: now.addingTimeInterval(SharePlayMatchStateMachine.defaultRetryTimeout)
+            ),
             .retryTimedOut,
             .aborted(reason: .disconnected)
         ]
@@ -514,6 +519,38 @@ final class GameViewModelTests: XCTestCase {
             // Then
             XCTAssertTrue(scene.gameState.isPaused, "\(state) should keep gameplay paused")
         }
+    }
+
+    func testGivenSharePlayRoundStartsWhenDifficultyIsAppliedThenDeterministicTrafficSeedDrivesFirstHazardRow() {
+        // Given
+        let scene = makeScene()
+        scene.createGrid()
+        let expectedSource = IndexedTrafficRowSource(seed: sharePlaySettings.trafficSeed)
+        let expectedRow = expectedSource.nextTrafficRow(numberOfColumns: scene.gridState.numberOfColumns)
+        viewModel.scene = scene
+        viewModel.applySharePlayState(
+            SharePlayUIState(
+                state: .countdown(
+                    startAt: Date(timeIntervalSinceReferenceDate: 1_000),
+                    settings: sharePlaySettings
+                ),
+                localRole: .host,
+                opponentDisplayName: "Rita"
+            )
+        )
+
+        // When
+        viewModel.applySharePlayState(
+            SharePlayUIState(
+                state: .inRound(settings: sharePlaySettings, localScore: 0, remoteScore: 0, remoteLives: 3),
+                localRole: .host,
+                opponentDisplayName: "Rita"
+            )
+        )
+        scene.update(10)
+
+        // Then
+        XCTAssertEqual(scene.gridState.grid[0], expectedRow)
     }
 
     func testGivenActiveEventWhenEvaluatingSupportButtonPolicyThenSupportButtonIsShown() {

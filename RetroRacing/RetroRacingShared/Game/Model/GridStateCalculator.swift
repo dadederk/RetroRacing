@@ -9,11 +9,16 @@ import Foundation
 
 /// Pure grid engine that advances the race lanes and reports scoring or crash effects.
 public final class GridStateCalculator {
-    private let randomSource: RandomSource
+    private let trafficRowSource: TrafficRowSource
     private let timingConfiguration: GridUpdateTimingConfiguration
 
     public init(randomSource: RandomSource, timingConfiguration: GridUpdateTimingConfiguration = .defaultTiming) {
-        self.randomSource = randomSource
+        self.trafficRowSource = RandomTrafficRowSource(randomSource: randomSource)
+        self.timingConfiguration = timingConfiguration
+    }
+
+    init(trafficRowSource: TrafficRowSource, timingConfiguration: GridUpdateTimingConfiguration = .defaultTiming) {
+        self.trafficRowSource = trafficRowSource
         self.timingConfiguration = timingConfiguration
     }
 
@@ -46,9 +51,8 @@ public final class GridStateCalculator {
             var nextEffects = [Effect]()
             switch action {
             case .update:
-                let randomRow = rowWithRandomValues(size: nextGridState.numberOfColumns)
+                let randomRow = trafficRowSource.nextTrafficRow(numberOfColumns: nextGridState.numberOfColumns)
                 (nextGridState, nextEffects) = insert(row: randomRow, at: 0, forPreviousGridState: nextGridState)
-                nextGridState = ensure(requiredNumberOfEmptyCells: 1, atRowIndex: 0, forPreviousGridState: nextGridState)
             case .updateWithEmptyRow:
                 let emptyRow = rowWithEmptyValues(size: nextGridState.numberOfColumns)
                 (nextGridState, nextEffects) = insert(row: emptyRow, at: 0, forPreviousGridState: nextGridState)
@@ -123,52 +127,9 @@ public final class GridStateCalculator {
         return (newGridState, effects)
     }
 
-    /// Ensures the specified row contains at least the required number of empty cells by emptying random non-empty cells.
-    private func ensure(requiredNumberOfEmptyCells: Int, atRowIndex rowIndex: Int, forPreviousGridState previousGridState: GridState) -> GridState {
-        guard rowIndex >= 0 && rowIndex < previousGridState.numberOfRows else { fatalError("Grid row index out of bounds") }
-        let numberOfEmptyCells = previousGridState.grid[rowIndex].reduce(0) { $1 == .Empty ? $0 + 1 : $0 }
-        let cellsToEmpty = requiredNumberOfEmptyCells - numberOfEmptyCells
-        var newGridState = previousGridState
-        var newRow = newGridState.grid[rowIndex]
-
-        if cellsToEmpty > 0 {
-            for _ in 0..<cellsToEmpty {
-                newRow = rowEmptyingRandomCell(row: newRow)
-            }
-        }
-
-        newGridState.grid[rowIndex] = newRow
-
-        return newGridState
-    }
-
-    /// Generates a row of the specified size with random car or empty cell states.
-    private func rowWithRandomValues(size: Int) -> [GridState.CellState] {
-        var newArray = Array(repeating: GridState.CellState.Empty, count: size)
-
-        for (index, _) in newArray.enumerated() {
-            newArray[index] = (randomSource.nextInt(upperBound: 2) == 0) ? .Empty : .Car
-        }
-
-        return newArray
-    }
-
     /// Generates an empty row of the specified size.
     private func rowWithEmptyValues(size: Int) -> [GridState.CellState] {
         Array(repeating: .Empty, count: size)
-    }
-
-    /// Returns a copy of the row with one random non-empty cell set to empty.
-    private func rowEmptyingRandomCell(row: [GridState.CellState]) -> [GridState.CellState] {
-        let indexesOfNonEmptyCells = row.enumerated().filter({ $1 != .Empty }).map({ $0.offset })
-        guard !indexesOfNonEmptyCells.isEmpty else { return row }
-        let randomPositionIndex = randomSource.nextInt(upperBound: indexesOfNonEmptyCells.count)
-        let randomPosition = indexesOfNonEmptyCells[randomPositionIndex]
-        var newRow = row
-
-        newRow[randomPosition] = .Empty
-
-        return newRow
     }
 }
 

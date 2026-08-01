@@ -137,7 +137,7 @@ public struct SharePlayResultView: View {
                     .font(buttonFont)
             }
             .retroRacingPrimaryButtonStyle()
-        case .retryWaiting(let localReady, _, _):
+        case .retryWaiting(let localReady, let remoteReady, _):
             if localReady {
                 Button(action: onLeave) {
                     Text(GameLocalizedStrings.string("shareplay_leave_button"))
@@ -147,7 +147,7 @@ public struct SharePlayResultView: View {
             } else {
                 VStack(spacing: 10) {
                     Button(action: onRetry) {
-                        Text(GameLocalizedStrings.string("shareplay_retry_button"))
+                        Text(retryButtonTitle(remoteReady: remoteReady))
                             .font(buttonFont)
                     }
                     .retroRacingPrimaryButtonStyle()
@@ -249,7 +249,7 @@ public struct SharePlayResultView: View {
         VStack(spacing: 16) {
             resultAssetImage(named: "Rematch")
             ProgressView().progressViewStyle(.circular)
-            Text(GameLocalizedStrings.string("shareplay_retry_waiting_title"))
+            Text(retryWaitingTitle(localReady: localReady, remoteReady: remoteReady))
                 .font(headlineFont)
                 .multilineTextAlignment(.center)
             Text(
@@ -262,6 +262,20 @@ public struct SharePlayResultView: View {
             .multilineTextAlignment(.center)
         }
         .accessibilityElement(children: .combine)
+    }
+
+    private func retryButtonTitle(remoteReady: Bool) -> String {
+        if remoteReady {
+            return GameLocalizedStrings.string("shareplay_accept_challenge_button")
+        }
+        return GameLocalizedStrings.string("shareplay_retry_button")
+    }
+
+    private func retryWaitingTitle(localReady: Bool, remoteReady: Bool) -> String {
+        if remoteReady && localReady == false {
+            return GameLocalizedStrings.string("shareplay_retry_challenge_title")
+        }
+        return GameLocalizedStrings.string("shareplay_retry_waiting_title")
     }
 
     private var retryTimedOutContent: some View {
@@ -309,8 +323,10 @@ public struct SharePlayResultView: View {
 
     private func abortedTitle(for reason: SharePlayAbortReason) -> String {
         switch reason {
-        case .disconnected, .sessionEnded:
+        case .disconnected:
             return GameLocalizedStrings.string("shareplay_disconnected_title")
+        case .sessionEnded:
+            return GameLocalizedStrings.string("shareplay_aborted_title")
         case .retryTimedOut:
             return GameLocalizedStrings.string("shareplay_aborted_title")
         }

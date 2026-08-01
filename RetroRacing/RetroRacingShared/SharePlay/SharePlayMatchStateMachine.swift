@@ -12,6 +12,8 @@ import Foundation
 /// `SharePlayMatchCommand` values, and returns the commands the caller should send to the
 /// remote participant. This makes it fully unit-testable without a real SharePlay session.
 public struct SharePlayMatchStateMachine: Sendable {
+    public static let defaultRetryTimeout: TimeInterval = 90
+
     public private(set) var state: SharePlayMatchState = .idle
     public let localRole: SharePlayPlayerRole
 
@@ -32,7 +34,7 @@ public struct SharePlayMatchStateMachine: Sendable {
     public init(
         localRole: SharePlayPlayerRole,
         countdownDuration: TimeInterval = 3,
-        retryTimeout: TimeInterval = 30,
+        retryTimeout: TimeInterval = Self.defaultRetryTimeout,
         clock: @escaping @Sendable () -> Date = Date.init
     ) {
         self.localRole = localRole
@@ -64,23 +66,24 @@ public struct SharePlayMatchStateMachine: Sendable {
 
     /// Host-only: starts the authoritative countdown once both participants are ready.
     @discardableResult
-    public mutating func hostStartRound(difficulty: GameDifficulty) -> [SharePlayMatchCommand] {
+    public mutating func hostStartRound(difficulty: GameDifficulty, trafficSeed: UInt64) -> [SharePlayMatchCommand] {
         guard localRole == .host else { return [] }
         guard case .waitingForFriend = state else { return [] }
         let startAt = clock().addingTimeInterval(countdownDuration)
-        lastRoundDifficulty = difficulty
-        state = .countdown(startAt: startAt, difficulty: difficulty)
-        return [.roundStart(startAt: startAt, difficulty: difficulty)]
+        let settings = SharePlayRoundSettings(difficulty: difficulty, trafficSeed: trafficSeed)
+        lastRoundDifficulty = settings.difficulty
+        state = .countdown(startAt: startAt, settings: settings)
+        return [.roundStart(startAt: startAt, settings: settings)]
     }
 
     /// Call once the countdown elapses locally and gameplay actually starts.
     public mutating func beginRound() {
-        guard case .countdown(_, let difficulty) = state else { return }
+        guard case .countdown(_, let settings) = state else { return }
         localScore = 0
         remoteScore = 0
         remoteLives = SharePlayMatchCommand.defaultStartingLives
         state = .inRound(
-            difficulty: difficulty,
+            settings: settings,
             localScore: 0,
             remoteScore: 0,
             remoteLives: remoteLives
@@ -91,10 +94,10 @@ public struct SharePlayMatchStateMachine: Sendable {
 
     @discardableResult
     public mutating func updateLocalScore(_ score: Int, lives: Int) -> [SharePlayMatchCommand] {
-        guard case .inRound(let difficulty, _, _, _) = state else { return [] }
+        guard case .inRound(let settings, _, _, _) = state else { return [] }
         localScore = score
         state = .inRound(
-            difficulty: difficulty,
+            settings: settings,
             localScore: score,
             remoteScore: remoteScore,
             remoteLives: remoteLives
@@ -125,10 +128,10 @@ public struct SharePlayMatchStateMachine: Sendable {
         case .sessionReady:
             remoteSessionReady = true
             return []
-        case .roundStart(let startAt, let difficulty):
+        case .roundStart(let startAt, let settings):
             guard localRole == .guest, case .waitingForFriend = state else { return [] }
-            lastRoundDifficulty = difficulty
-            state = .countdown(startAt: startAt, difficulty: difficulty)
+            lastRoundDifficulty = settings.difficulty
+            state = .countdown(startAt: startAt, settings: settings)
             return []
         case .scoreUpdate(let score, let lives):
             return applyRemoteProgress(score: score, lives: lives)
@@ -207,9 +210,9 @@ public struct SharePlayMatchStateMachine: Sendable {
         remoteScore = score
         remoteLives = lives
         switch state {
-        case .inRound(let difficulty, let local, _, _):
+        case .inRound(let settings, let local, _, _):
             state = .inRound(
-                difficulty: difficulty,
+                settings: settings,
                 localScore: local,
                 remoteScore: score,
                 remoteLives: lives
@@ -224,9 +227,9 @@ public struct SharePlayMatchStateMachine: Sendable {
 
     private mutating func applyRemoteEliminationToVisibleState(finalScore: Int) {
         remoteLives = 0
-        guard case .inRound(let difficulty, let local, _, _) = state else { return }
+        guard case .inRound(let settings, let local, _, _) = state else { return }
         state = .inRound(
-            difficulty: difficulty,
+            settings: settings,
             localScore: local,
             remoteScore: finalScore,
             remoteLives: 0

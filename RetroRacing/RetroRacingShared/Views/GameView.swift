@@ -539,7 +539,9 @@ public struct GameView: View {
         let didStartRetry = model.retrySharePlayMatch()
         if didStartRetry, case .finished = model.sharePlayState {
             isSharePlayRetryRequestPending = true
-            optimisticSharePlayRetryDeadline = Date().addingTimeInterval(30)
+            optimisticSharePlayRetryDeadline = Date().addingTimeInterval(
+                SharePlayMatchStateMachine.defaultRetryTimeout
+            )
         }
     }
 

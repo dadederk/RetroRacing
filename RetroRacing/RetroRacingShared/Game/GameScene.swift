@@ -86,9 +86,12 @@ public class GameScene: SKScene {
     var cachedFriendAvatarTextures = [String: SKTexture]()
     var roadDashPhase = 0
     var safetyMarkerRows = [Int]()
+    private var trafficRowSource: TrafficRowSource = RandomTrafficRowSource(
+        randomSource: InfrastructureDefaults.randomSource
+    )
 
-    private var gridCalculator = GridStateCalculator(
-        randomSource: InfrastructureDefaults.randomSource,
+    private lazy var gridCalculator = GridStateCalculator(
+        trafficRowSource: trafficRowSource,
         timingConfiguration: GameDifficulty.defaultDifficulty.timingConfiguration
     )
     var gridState = GridState(
@@ -249,10 +252,7 @@ public class GameScene: SKScene {
     public func applyDifficulty(_ difficulty: GameDifficulty) {
         self.difficulty = difficulty
         speedAlertWindowPoints = difficulty.speedAlertWindowPoints
-        gridCalculator = GridStateCalculator(
-            randomSource: InfrastructureDefaults.randomSource,
-            timingConfiguration: difficulty.timingConfiguration
-        )
+        rebuildGridCalculator()
         let isImminent = GameState.isLevelChangeImminent(
             score: gameState.score,
             windowPoints: speedAlertWindowPoints
@@ -261,6 +261,25 @@ public class GameScene: SKScene {
             lastLevelChangeImminent = isImminent
             gameDelegate?.gameScene(self, levelChangeImminent: isImminent)
         }
+    }
+
+    /// Configures the scene to generate SharePlay hazard rows from a shared deterministic seed.
+    public func configureSharePlayTraffic(seed: UInt64) {
+        trafficRowSource = IndexedTrafficRowSource(seed: seed)
+        rebuildGridCalculator()
+    }
+
+    /// Restores solo traffic generation using the app's normal random source.
+    public func configureRandomTraffic() {
+        trafficRowSource = RandomTrafficRowSource(randomSource: InfrastructureDefaults.randomSource)
+        rebuildGridCalculator()
+    }
+
+    private func rebuildGridCalculator() {
+        gridCalculator = GridStateCalculator(
+            trafficRowSource: trafficRowSource,
+            timingConfiguration: difficulty.timingConfiguration
+        )
     }
 
     public func start() {
@@ -397,6 +416,7 @@ public class GameScene: SKScene {
         lastGameUpdateTime = 0
         roadDashPhase = 0
         safetyMarkerRows.removeAll()
+        trafficRowSource.reset()
         gridState = GridState(
             numberOfRows: GridConfiguration.numberOfRows,
             numberOfColumns: GridConfiguration.numberOfColumns

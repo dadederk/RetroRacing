@@ -39,7 +39,7 @@ extension GameViewModel {
         case .waitingForFriend:
             clearSharePlayResultSocialStats()
             pauseSharePlayGameplayLock()
-        case .countdown(_, let difficulty):
+        case .countdown(_, let settings):
             clearSharePlayResultSocialStats()
             if case .countdown = previousState {
                 // Keep the existing scheduler state while the countdown ticks.
@@ -47,12 +47,12 @@ extension GameViewModel {
                 sharePlayCountdownCueScheduler.reset()
             }
             pauseSharePlayGameplayLock()
-            applyGuestSpeedIfNeeded(sharedDifficulty: difficulty)
-        case .inRound(let difficulty, _, _, _):
+            applyGuestSpeedIfNeeded(sharedDifficulty: settings.difficulty)
+        case .inRound(let settings, _, _, _):
             releaseSharePlayGameplayLock()
             if case .countdown = previousState {
-                updateDifficulty(difficulty)
-                beginSharePlayRound()
+                updateDifficulty(settings.difficulty)
+                beginSharePlayRound(settings: settings)
             }
         case .waitingAfterLocalLoss(_, let localFinalScore):
             captureSharePlayResultSocialStatsIfNeeded(finalScore: localFinalScore)
@@ -147,17 +147,18 @@ extension GameViewModel {
 
     /// Applies the SharePlay start path when a view model is created after the round is already live.
     func startCurrentSharePlayRoundIfNeeded() {
-        guard case .inRound(let difficulty, _, _, _) = sharePlayState else { return }
-        applyGuestSpeedIfNeeded(sharedDifficulty: difficulty)
-        beginSharePlayRound()
+        guard case .inRound(let settings, _, _, _) = sharePlayState else { return }
+        applyGuestSpeedIfNeeded(sharedDifficulty: settings.difficulty)
+        beginSharePlayRound(settings: settings)
     }
 
     /// Resets the round and starts synchronized gameplay once the shared countdown elapses.
     /// Skips daily play-limit recording — SharePlay matches are always free (see
     /// `Requirements/monetization.md`, "SharePlay Exception").
-    private func beginSharePlayRound() {
+    private func beginSharePlayRound(settings: SharePlayRoundSettings) {
         clearSharePlayResultSocialStats()
         releaseSharePlayGameplayLock()
+        scene?.configureSharePlayTraffic(seed: settings.trafficSeed)
         scene?.play(.sharePlayCountdownGo)
         scene?.startImmediately()
         resetRunAchievementTelemetry()

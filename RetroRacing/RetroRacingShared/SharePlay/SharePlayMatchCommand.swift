@@ -14,8 +14,8 @@ public enum SharePlayMatchCommand: Sendable, Equatable, Codable {
     /// Sent by each participant once they are ready to play (session joined, UI presented).
     case sessionReady
     /// Sent by the host once both participants are ready. Carries the authoritative
-    /// start timestamp (for the synchronized countdown) and the shared round difficulty.
-    case roundStart(startAt: Date, difficulty: GameDifficulty)
+    /// start timestamp (for the synchronized countdown) and shared round settings.
+    case roundStart(startAt: Date, settings: SharePlayRoundSettings)
     /// Sent whenever the sender's live score or remaining lives change during a round.
     case scoreUpdate(score: Int, lives: Int)
     /// Sent once when the sender's local run ends (collision/game over), carrying the final score.
@@ -52,6 +52,7 @@ public enum SharePlayMatchCommand: Sendable, Equatable, Codable {
         case kind
         case startAt
         case difficulty
+        case trafficSeed
         case score
         case lives
         case finalScore
@@ -69,9 +70,13 @@ public enum SharePlayMatchCommand: Sendable, Equatable, Codable {
         case .sessionReady:
             self = .sessionReady
         case .roundStart:
+            let trafficSeed = try container.decodeIfPresent(UInt64.self, forKey: .trafficSeed) ?? 0
             self = .roundStart(
                 startAt: try container.decode(Date.self, forKey: .startAt),
-                difficulty: try container.decode(GameDifficulty.self, forKey: .difficulty)
+                settings: SharePlayRoundSettings(
+                    difficulty: try container.decode(GameDifficulty.self, forKey: .difficulty),
+                    trafficSeed: trafficSeed
+                )
             )
         case .scoreUpdate:
             let score = try container.decode(Int.self, forKey: .score)
@@ -95,10 +100,11 @@ public enum SharePlayMatchCommand: Sendable, Equatable, Codable {
         switch self {
         case .sessionReady:
             try container.encode(Kind.sessionReady, forKey: .kind)
-        case .roundStart(let startAt, let difficulty):
+        case .roundStart(let startAt, let settings):
             try container.encode(Kind.roundStart, forKey: .kind)
             try container.encode(startAt, forKey: .startAt)
-            try container.encode(difficulty, forKey: .difficulty)
+            try container.encode(settings.difficulty, forKey: .difficulty)
+            try container.encode(settings.trafficSeed, forKey: .trafficSeed)
         case .scoreUpdate(let score, let lives):
             try container.encode(Kind.scoreUpdate, forKey: .kind)
             try container.encode(score, forKey: .score)

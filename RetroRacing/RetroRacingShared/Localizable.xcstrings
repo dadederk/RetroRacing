@@ -25794,114 +25794,221 @@
         }
       }
     },
-    "shareplay_aborted_disconnected_body": {
+    "shareplay_accept_challenge_button": {
       "extractionState": "manual",
       "localizations": {
         "ca": {
           "stringUnit": {
             "state": "translated",
-            "value": "El teu amic ha sortit de la cursa. Toca Fet per tornar al menú."
+            "value": "Accepta el repte"
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Dein Freund hat die Session verlassen. Tippe auf Fertig, um zurück ins Menü zu gehen."
+            "value": "Challenge annehmen"
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Your friend left the session. Tap Done to head back to the menu."
+            "value": "Accept Challenge"
           }
         },
         "en-AU": {
           "stringUnit": {
             "state": "translated",
-            "value": "Your friend left the session. Tap Done to head back to the menu."
+            "value": "Accept Challenge"
           }
         },
         "en-CA": {
           "stringUnit": {
             "state": "translated",
-            "value": "Your friend left the session. Tap Done to head back to the menu."
+            "value": "Accept Challenge"
           }
         },
         "en-GB": {
           "stringUnit": {
             "state": "translated",
-            "value": "Your friend left the session. Tap Done to head back to the menu."
+            "value": "Accept Challenge"
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tu amigo ha salido de la carrera. Toca Hecho para volver al menú."
+            "value": "Aceptar reto"
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ton ami a quitté la session. Touche Terminé pour revenir au menu."
+            "value": "Accepter le défi"
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Il tuo amico ha lasciato la sessione. Tocca Fine per tornare al menu."
+            "value": "Accetta sfida"
           }
         },
         "nl": {
           "stringUnit": {
             "state": "translated",
-            "value": "Je vriend heeft de sessie verlaten. Tik op Klaar om terug naar het menu te gaan."
+            "value": "Uitdaging accepteren"
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "フレンドがセッションを退出しました。「完了」をタップしてメニューに戻ってください。"
+            "value": "チャレンジを受ける"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "친구가 세션을 나갔어요. 완료를 탭해 메뉴로 돌아가세요."
+            "value": "도전 수락"
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "Seu amigo saiu da sessão. Toque em Concluído para voltar ao menu."
+            "value": "Aceitar desafio"
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "好友已離開連線。點「完成」返回選單。"
+            "value": "接受挑戰"
           }
         },
         "pt-PT": {
           "stringUnit": {
             "state": "translated",
-            "value": "Seu amigo saiu da sessão. Toque em Concluído para voltar ao menu."
+            "value": "Aceitar desafio"
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "好友已离开连接。点“完成”返回选单。"
+            "value": "接受挑战"
           }
         },
         "fr-CA": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ton ami a quitté la session. Touche Terminé pour revenir au menu."
+            "value": "Accepter le défi"
           }
         }
       }
     },
     "shareplay_aborted_session_ended_body": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El teu amic ha acabat per ara. Toca Fet per tornar al menú."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dein Freund ist für den Moment fertig. Tippe auf Fertig, um zum Menü zurückzukehren."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your friend is done playing for now. Tap Done to return to the menu."
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your friend is done playing for now. Tap Done to return to the menu."
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your friend is done playing for now. Tap Done to return to the menu."
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your friend is done playing for now. Tap Done to return to the menu."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tu amigo ha terminado por ahora. Toca Hecho para volver al menú."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ton ami a fini de jouer pour le moment. Touche Terminé pour revenir au menu."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Il tuo amico ha finito per ora. Tocca Fine per tornare al menu."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Je vriend is klaar voor nu. Tik op Klaar om terug naar het menu te gaan."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "フレンドは今回はここまでです。「完了」をタップしてメニューに戻ってください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "친구가 지금은 플레이를 마쳤어요. 완료를 탭해 메뉴로 돌아가세요."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seu amigo terminou por enquanto. Toque em Concluído para voltar ao menu."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "好友暫時玩到這裡。點「完成」返回選單。"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O teu amigo terminou por agora. Toque em Concluído para voltar ao menu."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "好友暂时玩到这里。点“完成”返回选单。"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ton ami a fini de jouer pour le moment. Touche Terminé pour revenir au menu."
+          }
+        }
+      }
+    },
+    "shareplay_aborted_disconnected_body": {
       "extractionState": "manual",
       "localizations": {
         "ca": {
@@ -29539,6 +29646,113 @@
         }
       }
     },
+    "shareplay_retry_challenge_title": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "El teu amic et repta de nou?"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Dein Freund fordert dich wieder heraus?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your friend challenged you again?"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your friend challenged you again?"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your friend challenged you again?"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Your friend challenged you again?"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¿Tu amigo te retó otra vez?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ton ami te défie encore ?"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Il tuo amico ti ha sfidato di nuovo?"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Daagt je vriend je weer uit?"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "フレンドがもう一度挑戦してきました"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "친구가 다시 도전했어요?"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Seu amigo desafiou você de novo?"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "好友又向你挑戰？"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "O teu amigo desafiou-te de novo?"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "好友又向你挑战？"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ton ami te défie encore ?"
+          }
+        }
+      }
+    },
     "shareplay_retry_button": {
       "extractionState": "manual",
       "localizations": {
@@ -29652,103 +29866,103 @@
         "ca": {
           "stringUnit": {
             "state": "translated",
-            "value": "No heu confirmat tots dos a temps. Pots tornar-ho a provar o sortir de la sessió."
+            "value": "No heu confirmat tots dos a temps. Toca Surt per tornar al menú."
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ihr habt beide nicht rechtzeitig bestätigt. Du kannst es erneut versuchen oder die Session verlassen."
+            "value": "Ihr habt beide nicht rechtzeitig bestätigt. Tippe auf Verlassen, um zum Menü zurückzukehren."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "You didn't both confirm in time. You can try again or leave the session."
+            "value": "You didn't both confirm in time. Tap Leave to return to the menu."
           }
         },
         "en-AU": {
           "stringUnit": {
             "state": "translated",
-            "value": "You didn't both confirm in time. You can try again or leave the session."
+            "value": "You didn't both confirm in time. Tap Leave to return to the menu."
           }
         },
         "en-CA": {
           "stringUnit": {
             "state": "translated",
-            "value": "You didn't both confirm in time. You can try again or leave the session."
+            "value": "You didn't both confirm in time. Tap Leave to return to the menu."
           }
         },
         "en-GB": {
           "stringUnit": {
             "state": "translated",
-            "value": "You didn't both confirm in time. You can try again or leave the session."
+            "value": "You didn't both confirm in time. Tap Leave to return to the menu."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "No confirmasteis a tiempo los dos. Puedes intentarlo de nuevo o salir de la sesión."
+            "value": "No confirmasteis a tiempo los dos. Toca Salir para volver al menú."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Vous n'avez pas tous les deux confirmé à temps. Tu peux réessayer ou quitter la session."
+            "value": "Vous n'avez pas tous les deux confirmé à temps. Touche Quitter pour revenir au menu."
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Non avete confermato entrambi in tempo. Puoi riprovare o uscire dalla sessione."
+            "value": "Non avete confermato entrambi in tempo. Tocca Esci per tornare al menu."
           }
         },
         "nl": {
           "stringUnit": {
             "state": "translated",
-            "value": "Jullie hebben allebei niet op tijd bevestigd. Je kunt het opnieuw proberen of de sessie verlaten."
+            "value": "Jullie hebben allebei niet op tijd bevestigd. Tik op Verlaten om terug naar het menu te gaan."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "両者の確認が間に合いませんでした。再試行するかセッションを退出できます。"
+            "value": "両者の確認が間に合いませんでした。「退出」をタップしてメニューに戻ってください。"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "둘 다 확인하지 못했어요. 다시 시도하거나 세션을 나갈 수 있어요."
+            "value": "둘 다 제때 확인하지 못했어요. 나가기를 탭해 메뉴로 돌아가세요."
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "Vocês não confirmaram a tempo. Tente novamente ou saia da sessão."
+            "value": "Vocês não confirmaram a tempo. Toque em Sair para voltar ao menu."
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "你們未及時確認。可再試一次或離開連線。"
+            "value": "你們未及時確認。點「離開」返回選單。"
           }
         },
         "pt-PT": {
           "stringUnit": {
             "state": "translated",
-            "value": "Vocês não confirmaram a tempo. Tente novamente ou saia da sessão."
+            "value": "Vocês não confirmaram a tempo. Toque em Sair para voltar ao menu."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "你们未及时确认。可再试一次或离开连接。"
+            "value": "你们未及时确认。点“离开”返回选单。"
           }
         },
         "fr-CA": {
           "stringUnit": {
             "state": "translated",
-            "value": "Vous n'avez pas tous les deux confirmé à temps. Tu peux réessayer ou quitter la session."
+            "value": "Vous n'avez pas tous les deux confirmé à temps. Touche Quitter pour revenir au menu."
           }
         }
       }
@@ -29973,103 +30187,103 @@
         "ca": {
           "stringUnit": {
             "state": "translated",
-            "value": "El teu amic ja està a punt. Confirma quan vulguis tornar a jugar."
+            "value": "Accepta quan tinguis ganes de la revenja."
           }
         },
         "de": {
           "stringUnit": {
             "state": "translated",
-            "value": "Dein Freund ist bereit. Bestätige, wenn du wieder spielen willst."
+            "value": "Nimm an, wenn du bereit für die Revanche bist."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Your friend is ready. Confirm when you're ready to play again."
+            "value": "Accept when you're ready for the rematch."
           }
         },
         "en-AU": {
           "stringUnit": {
             "state": "translated",
-            "value": "Your friend is ready. Confirm when you're ready to play again."
+            "value": "Accept when you're ready for the rematch."
           }
         },
         "en-CA": {
           "stringUnit": {
             "state": "translated",
-            "value": "Your friend is ready. Confirm when you're ready to play again."
+            "value": "Accept when you're ready for the rematch."
           }
         },
         "en-GB": {
           "stringUnit": {
             "state": "translated",
-            "value": "Your friend is ready. Confirm when you're ready to play again."
+            "value": "Accept when you're ready for the rematch."
           }
         },
         "es": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tu amigo ya está listo. Confirma cuando quieras jugar otra vez."
+            "value": "Acepta cuando estés listo para la revancha."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ton ami est prêt. Confirme quand tu veux rejouer."
+            "value": "Accepte quand tu es prêt pour la revanche."
           }
         },
         "it": {
           "stringUnit": {
             "state": "translated",
-            "value": "Il tuo amico è pronto. Conferma quando vuoi giocare di nuovo."
+            "value": "Accetta quando sei pronto per la rivincita."
           }
         },
         "nl": {
           "stringUnit": {
             "state": "translated",
-            "value": "Je vriend is klaar. Bevestig wanneer je weer wilt spelen."
+            "value": "Accepteer wanneer je klaar bent voor de revanche."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "translated",
-            "value": "フレンドは準備OK。準備できたら確認してください。"
+            "value": "リマッチの準備ができたら受けてください。"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "translated",
-            "value": "친구는 준비됐어요. 준비되면 확인해 주세요."
+            "value": "재대결할 준비가 되면 수락해 주세요."
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "translated",
-            "value": "Seu amigo está pronto. Confirme quando estiver pronto para jogar de novo."
+            "value": "Aceite quando estiver pronto para a revanche."
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "translated",
-            "value": "好友已準備好。準備好後請確認再戰。"
+            "value": "準備好重賽時接受挑戰。"
           }
         },
         "pt-PT": {
           "stringUnit": {
             "state": "translated",
-            "value": "Seu amigo está pronto. Confirme quando estiver pronto para jogar de novo."
+            "value": "Aceite quando estiver pronto para a revanche."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "好友已准备好。准备好后请确认再战。"
+            "value": "准备好重赛时接受挑战。"
           }
         },
         "fr-CA": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ton ami est prêt. Confirme quand tu veux rejouer."
+            "value": "Accepte quand tu es prêt pour la revanche."
           }
         }
       }

@@ -1,6 +1,6 @@
 # SharePlay Deterministic Traffic Plan
 
-**Status:** Planned.
+**Status:** Implemented (2026-08-01).
 
 **See also:** [`Requirements/shareplay_multiplayer.md`](../Requirements/shareplay_multiplayer.md) (current shipped SharePlay behavior) · [`shareplay_competitive_mode_plan.md`](shareplay_competitive_mode_plan.md) (original iOS+iPad planning record)
 
@@ -8,7 +8,7 @@
 
 Make SharePlay races fairer by giving both players the same generated traffic-row sequence for each round.
 
-Use a host-generated `roundSeed`, but do **not** rely on a shared mutable random stream. Instead, derive each traffic row from `(roundSeed, trafficRowIndex)` so row generation is stable even if one device crashes, pauses, inserts a safety row, or advances frames at a slightly different cadence.
+Use a host-generated `trafficSeed`, but do **not** rely on a shared mutable random stream. Instead, derive each traffic row from `(trafficSeed, hazardRowIndex)` so row generation is stable even if one device crashes, pauses, inserts a safety row, or advances frames at a slightly different cadence.
 
 This preserves the current SharePlay model: each device still runs local gameplay, controls, collisions, scoring, lives, leaderboard submission, and final result sync.
 
@@ -23,18 +23,24 @@ This preserves the current SharePlay model: each device still runs local gamepla
 
 ## Key Design
 
-- Add a deterministic traffic row generator in shared gameplay code. Input: `roundSeed`, `trafficRowIndex`, and column count. Output: one `[GridState.CellState]`.
-- Derive row contents from a stable hash or PRNG expansion of `(roundSeed, trafficRowIndex)`, not from previous random calls.
-- Replace SharePlay traffic randomness at the `GridStateCalculator` boundary with indexed row generation. Keep the existing `RandomSource` path for solo gameplay.
-- Extend SharePlay wire/state models so `roundStart` carries the traffic seed through countdown and into `.inRound`.
-- Configure `GameScene` with the SharePlay traffic generator before `startImmediately()` begins the round.
+- Add `TrafficRowSource` in shared gameplay code.
+  `RandomTrafficRowSource` preserves solo behavior, while `IndexedTrafficRowSource(seed:)`
+  derives rows from `trafficSeed`, `hazardRowIndex`, and column count.
+- Derive row contents from a stable hash or PRNG expansion of `(trafficSeed, hazardRowIndex)`,
+  not from previous random calls.
+- Replace SharePlay traffic randomness at the `GridStateCalculator` boundary with indexed row
+  generation. Keep the existing `RandomSource` path for solo gameplay.
+- Extend SharePlay wire/state models so `roundStart` carries `SharePlayRoundSettings` through
+  countdown and into `.inRound`.
+- Configure `GameScene` with the SharePlay traffic generator before `startImmediately()` begins
+  the round.
 
 ## Algorithm Notes
 
 The current row mechanics are compatible with deterministic traffic, but only if the generator is indexed:
 
 ```swift
-let rowSeed = stableHash(roundSeed, trafficRowIndex)
+let rowSeed = stableHash(trafficSeed, hazardRowIndex)
 var row = columns.map { column in
     stableBit(rowSeed, column) ? .Car : .Empty
 }
@@ -49,16 +55,20 @@ A shared mutable seeded PRNG is not robust enough because the current algorithm 
 
 ## Implementation Changes
 
-- `SharePlayMatchCommand.roundStart`: add `trafficSeed`.
-- `SharePlayMatchState`: carry the seed in countdown/in-round states or a round settings model.
-- `SharePlayMatchStateMachine`: host creates and sends a fresh seed for each round start; guest adopts the received seed.
-- `GameScene` / `GridStateCalculator`: support an optional deterministic traffic mode with a resettable `trafficRowIndex`.
-- `GameViewModel+SharePlay`: apply the seed to the scene before starting the SharePlay round.
-- `Requirements/shareplay_multiplayer.md`: update the current "no shared game state beyond score/lives/elimination" wording to include shared traffic seed/row sequence.
+- `SharePlayMatchCommand.roundStart`: carries `SharePlayRoundSettings`, including
+  `trafficSeed`.
+- `SharePlayMatchState`: carries settings in countdown/in-round states.
+- `SharePlayMatchStateMachine`: receives the host-generated seed from the production service;
+  guests adopt the received seed.
+- `GameScene` / `GridStateCalculator`: support deterministic traffic via a resettable
+  `hazardRowIndex`.
+- `GameViewModel+SharePlay`: applies the seed to the scene before starting the SharePlay round.
+- `Requirements/shareplay_multiplayer.md`: documents the shared traffic seed/row sequence as the
+  one shared gameplay-state exception.
 
 ## Test Plan
 
-- Unit test same `(roundSeed, trafficRowIndex)` produces identical rows across independent generators.
+- Unit test same `(trafficSeed, hazardRowIndex)` produces identical rows across independent generators.
 - Unit test different seeds produce different sequences.
 - Unit test all-car repair is deterministic and always leaves at least one empty column.
 - Unit test `.updateWithEmptyRow` does not consume a traffic-row index.

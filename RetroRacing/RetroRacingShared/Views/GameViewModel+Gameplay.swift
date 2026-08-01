@@ -9,6 +9,9 @@ import Foundation
 
 extension GameViewModel {
     func restartGame() {
+        if isSharePlayActive == false {
+            scene?.configureRandomTraffic()
+        }
         scene?.start()
         resetRunAchievementTelemetry()
         if let scene {

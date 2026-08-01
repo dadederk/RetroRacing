@@ -171,4 +171,121 @@ final class GridStateCalculatorTests: XCTestCase {
         XCTAssertGreaterThan(cruiseInterval, fastInterval)
         XCTAssertGreaterThan(fastInterval, rapidInterval)
     }
+
+    func testGivenIndexedTrafficRowSourcesWithSameSeedAndIndexWhenGeneratingRowsThenRowsMatch() {
+        // Given
+        let firstSource = IndexedTrafficRowSource(seed: 12_345)
+        let secondSource = IndexedTrafficRowSource(seed: 12_345)
+
+        // When
+        let firstRows = (0..<20).map { _ in firstSource.nextTrafficRow(numberOfColumns: 3) }
+        let secondRows = (0..<20).map { _ in secondSource.nextTrafficRow(numberOfColumns: 3) }
+
+        // Then
+        XCTAssertEqual(firstRows, secondRows)
+    }
+
+    func testGivenIndexedTrafficRowSourcesWithDifferentSeedsWhenGeneratingRowsThenRowsDiffer() {
+        // Given
+        let firstSource = IndexedTrafficRowSource(seed: 12_345)
+        let secondSource = IndexedTrafficRowSource(seed: 54_321)
+
+        // When
+        let firstRows = (0..<20).map { _ in firstSource.nextTrafficRow(numberOfColumns: 3) }
+        let secondRows = (0..<20).map { _ in secondSource.nextTrafficRow(numberOfColumns: 3) }
+
+        // Then
+        XCTAssertNotEqual(firstRows, secondRows)
+    }
+
+    func testGivenIndexedTrafficRowSourceWhenGeneratingRowsThenEachRowHasAtLeastOneEmptyColumn() {
+        // Given
+        let source = IndexedTrafficRowSource(seed: UInt64.max)
+
+        // When
+        let rows = (0..<200).map { _ in source.nextTrafficRow(numberOfColumns: 3) }
+
+        // Then
+        XCTAssertTrue(rows.allSatisfy { row in row.contains(.Empty) })
+    }
+
+    func testGivenIndexedTrafficRowSourceGeneratesAllCarsWhenRepairingThenStableColumnIsEmptied() {
+        // Given
+        let firstSource = IndexedTrafficRowSource(seed: 9)
+        let secondSource = IndexedTrafficRowSource(seed: 9)
+
+        // When
+        let firstRow = firstSource.nextTrafficRow(numberOfColumns: 3)
+        let secondRow = secondSource.nextTrafficRow(numberOfColumns: 3)
+
+        // Then
+        XCTAssertEqual(firstRow, secondRow)
+        XCTAssertEqual(firstRow.filter { $0 == .Empty }.count, 1)
+        XCTAssertEqual(firstRow.filter { $0 == .Car }.count, 2)
+    }
+
+    func testGivenUpdateWithEmptyRowWhenAdvancingGridThenIndexedTrafficRowSourceDoesNotAdvance() {
+        // Given
+        let source = IndexedTrafficRowSource(seed: 123)
+        let sut = GridStateCalculator(trafficRowSource: source)
+        var gridState = GridState(numberOfRows: 5, numberOfColumns: 3)
+        gridState.grid = [
+            [.Empty, .Empty, .Empty],
+            [.Empty, .Empty, .Empty],
+            [.Empty, .Empty, .Empty],
+            [.Empty, .Empty, .Empty],
+            [.Empty, .Player, .Empty],
+        ]
+
+        // When
+        _ = sut.nextGrid(previousGrid: gridState, actions: [.updateWithEmptyRow])
+
+        // Then
+        XCTAssertEqual(source.generatedRowCount, 0)
+    }
+
+    func testGivenUpdateWhenAdvancingGridThenIndexedTrafficRowSourceAdvancesOnce() {
+        // Given
+        let source = IndexedTrafficRowSource(seed: 123)
+        let sut = GridStateCalculator(trafficRowSource: source)
+        var gridState = GridState(numberOfRows: 5, numberOfColumns: 3)
+        gridState.grid = [
+            [.Empty, .Empty, .Empty],
+            [.Empty, .Empty, .Empty],
+            [.Empty, .Empty, .Empty],
+            [.Empty, .Empty, .Empty],
+            [.Empty, .Player, .Empty],
+        ]
+
+        // When
+        _ = sut.nextGrid(previousGrid: gridState, actions: [.update])
+
+        // Then
+        XCTAssertEqual(source.generatedRowCount, 1)
+    }
+
+    func testGivenTwoCalculatorsWithSameIndexedSeedWhenAdvancingThenTrafficRowsMatch() {
+        // Given
+        let firstCalculator = GridStateCalculator(trafficRowSource: IndexedTrafficRowSource(seed: 123))
+        let secondCalculator = GridStateCalculator(trafficRowSource: IndexedTrafficRowSource(seed: 123))
+        var firstGridState = GridState(numberOfRows: 5, numberOfColumns: 3)
+        var secondGridState = GridState(numberOfRows: 5, numberOfColumns: 3)
+        firstGridState.grid = [
+            [.Empty, .Empty, .Empty],
+            [.Empty, .Empty, .Empty],
+            [.Empty, .Empty, .Empty],
+            [.Empty, .Empty, .Empty],
+            [.Empty, .Player, .Empty],
+        ]
+        secondGridState.grid = firstGridState.grid
+
+        // When
+        for _ in 0..<8 {
+            firstGridState = firstCalculator.nextGrid(previousGrid: firstGridState, actions: [.update]).0
+            secondGridState = secondCalculator.nextGrid(previousGrid: secondGridState, actions: [.update]).0
+        }
+
+        // Then
+        XCTAssertEqual(firstGridState.grid, secondGridState.grid)
+    }
 }

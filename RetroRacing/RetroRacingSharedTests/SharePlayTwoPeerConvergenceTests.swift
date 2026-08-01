@@ -18,9 +18,16 @@ import XCTest
 final class SharePlayTwoPeerConvergenceTests: XCTestCase {
 
     private let fixedNow = Date(timeIntervalSinceReferenceDate: 2_000)
+    private let fastSettings = SharePlayRoundSettings(difficulty: .fast, trafficSeed: 111)
+    private let retrySettings = SharePlayRoundSettings(difficulty: .fast, trafficSeed: 222)
 
     private func makeMachine(role: SharePlayPlayerRole) -> SharePlayMatchStateMachine {
-        SharePlayMatchStateMachine(localRole: role, countdownDuration: 3, retryTimeout: 30, clock: { self.fixedNow })
+        SharePlayMatchStateMachine(
+            localRole: role,
+            countdownDuration: 3,
+            retryTimeout: SharePlayMatchStateMachine.defaultRetryTimeout,
+            clock: { self.fixedNow }
+        )
     }
 
     func testGivenTwoPeersWhenExchangingFullMatchLifecycleThenBothConvergeOnIdenticalFinishedResult() {
@@ -37,7 +44,7 @@ final class SharePlayTwoPeerConvergenceTests: XCTestCase {
         XCTAssertTrue(guest.isRemoteReady)
 
         // When: the host starts the authoritative countdown
-        relay(host.hostStartRound(difficulty: .fast), from: &host, to: &guest)
+        relay(host.hostStartRound(difficulty: .fast, trafficSeed: fastSettings.trafficSeed), from: &host, to: &guest)
 
         // Then: both machines share the identical countdown state
         XCTAssertEqual(host.state, guest.state)
@@ -47,16 +54,16 @@ final class SharePlayTwoPeerConvergenceTests: XCTestCase {
         guest.beginRound()
 
         // Then
-        XCTAssertEqual(host.state, .inRound(difficulty: .fast, localScore: 0, remoteScore: 0, remoteLives: 3))
-        XCTAssertEqual(guest.state, .inRound(difficulty: .fast, localScore: 0, remoteScore: 0, remoteLives: 3))
+        XCTAssertEqual(host.state, .inRound(settings: fastSettings, localScore: 0, remoteScore: 0, remoteLives: 3))
+        XCTAssertEqual(guest.state, .inRound(settings: fastSettings, localScore: 0, remoteScore: 0, remoteLives: 3))
 
         // When: each device mirrors its own live score to the other
         relay(host.updateLocalScore(12, lives: 3), from: &host, to: &guest)
         relay(guest.updateLocalScore(9, lives: 2), from: &guest, to: &host)
 
         // Then: each side sees its own score locally and the opponent's mirrored score
-        XCTAssertEqual(host.state, .inRound(difficulty: .fast, localScore: 12, remoteScore: 9, remoteLives: 2))
-        XCTAssertEqual(guest.state, .inRound(difficulty: .fast, localScore: 9, remoteScore: 12, remoteLives: 3))
+        XCTAssertEqual(host.state, .inRound(settings: fastSettings, localScore: 12, remoteScore: 9, remoteLives: 2))
+        XCTAssertEqual(guest.state, .inRound(settings: fastSettings, localScore: 9, remoteScore: 12, remoteLives: 3))
 
         // When: the guest is eliminated first
         relay(guest.localPlayerEliminated(finalScore: 9), from: &guest, to: &host)
@@ -101,7 +108,7 @@ final class SharePlayTwoPeerConvergenceTests: XCTestCase {
         // Then: both peers recover and the host can start the authoritative countdown.
         XCTAssertTrue(host.isRemoteReady)
         XCTAssertTrue(guest.isRemoteReady)
-        relay(host.hostStartRound(difficulty: .fast), from: &host, to: &guest)
+        relay(host.hostStartRound(difficulty: .fast, trafficSeed: fastSettings.trafficSeed), from: &host, to: &guest)
         XCTAssertEqual(host.state, guest.state)
     }
 
@@ -133,8 +140,9 @@ final class SharePlayTwoPeerConvergenceTests: XCTestCase {
         // Then: both peers are ready for the next round and the host can start the countdown
         XCTAssertEqual(host.state, .waitingForFriend)
         XCTAssertEqual(guest.state, .waitingForFriend)
-        let commands = host.hostStartRound(difficulty: .fast)
+        let commands = host.hostStartRound(difficulty: .fast, trafficSeed: retrySettings.trafficSeed)
         XCTAssertEqual(commands.count, 1)
+        XCTAssertEqual(commands, [.roundStart(startAt: fixedNow.addingTimeInterval(3), settings: retrySettings)])
     }
 
     func testGivenOnlyOnePeerRetriesWhenItsDeadlineElapsesThenBothConvergeOnRetryTimedOut() {
@@ -172,7 +180,7 @@ final class SharePlayTwoPeerConvergenceTests: XCTestCase {
     ) {
         relay(host.startWaitingForFriend(), from: &host, to: &guest)
         relay(guest.startWaitingForFriend(), from: &guest, to: &host)
-        relay(host.hostStartRound(difficulty: .fast), from: &host, to: &guest)
+        relay(host.hostStartRound(difficulty: .fast, trafficSeed: fastSettings.trafficSeed), from: &host, to: &guest)
         host.beginRound()
         guest.beginRound()
         relay(guest.localPlayerEliminated(finalScore: 9), from: &guest, to: &host)

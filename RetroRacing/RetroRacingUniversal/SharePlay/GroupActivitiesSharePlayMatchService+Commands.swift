@@ -33,7 +33,8 @@ extension GroupActivitiesSharePlayMatchService {
                 .string("difficulty", difficulty.rawValue)
             ]
         )
-        let commands = machine.hostStartRound(difficulty: difficulty)
+        let trafficSeed = trafficSeedProvider()
+        let commands = machine.hostStartRound(difficulty: difficulty, trafficSeed: trafficSeed)
         stateMachine = machine
         await sendAll(commands)
         scheduleCountdownCompletion()

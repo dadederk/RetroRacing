@@ -11,9 +11,17 @@ import XCTest
 final class SharePlayMatchStateMachineTests: XCTestCase {
 
     private let fixedNow = Date(timeIntervalSinceReferenceDate: 1_000)
+    private let fastSettings = SharePlayRoundSettings(difficulty: .fast, trafficSeed: 111)
+    private let rapidSettings = SharePlayRoundSettings(difficulty: .rapid, trafficSeed: 222)
+    private let cruiseSettings = SharePlayRoundSettings(difficulty: .cruise, trafficSeed: 333)
 
     private func makeMachine(role: SharePlayPlayerRole) -> SharePlayMatchStateMachine {
-        SharePlayMatchStateMachine(localRole: role, countdownDuration: 3, retryTimeout: 30, clock: { self.fixedNow })
+        SharePlayMatchStateMachine(
+            localRole: role,
+            countdownDuration: 3,
+            retryTimeout: SharePlayMatchStateMachine.defaultRetryTimeout,
+            clock: { self.fixedNow }
+        )
     }
 
     // MARK: - Session lifecycle
@@ -61,7 +69,7 @@ final class SharePlayMatchStateMachineTests: XCTestCase {
         machine.startWaitingForFriend()
 
         // When
-        let commands = machine.hostStartRound(difficulty: .fast)
+        let commands = machine.hostStartRound(difficulty: .fast, trafficSeed: fastSettings.trafficSeed)
 
         // Then
         XCTAssertTrue(commands.isEmpty)
@@ -74,12 +82,12 @@ final class SharePlayMatchStateMachineTests: XCTestCase {
         machine.startWaitingForFriend()
 
         // When
-        let commands = machine.hostStartRound(difficulty: .rapid)
+        let commands = machine.hostStartRound(difficulty: .rapid, trafficSeed: rapidSettings.trafficSeed)
 
         // Then
         let expectedStartAt = fixedNow.addingTimeInterval(3)
-        XCTAssertEqual(machine.state, .countdown(startAt: expectedStartAt, difficulty: .rapid))
-        XCTAssertEqual(commands, [.roundStart(startAt: expectedStartAt, difficulty: .rapid)])
+        XCTAssertEqual(machine.state, .countdown(startAt: expectedStartAt, settings: rapidSettings))
+        XCTAssertEqual(commands, [.roundStart(startAt: expectedStartAt, settings: rapidSettings)])
     }
 
     func testGivenHostNotWaitingWhenHostStartRoundThenNoCommandIsSent() {
@@ -87,7 +95,7 @@ final class SharePlayMatchStateMachineTests: XCTestCase {
         var machine = makeMachine(role: .host)
 
         // When
-        let commands = machine.hostStartRound(difficulty: .rapid)
+        let commands = machine.hostStartRound(difficulty: .rapid, trafficSeed: rapidSettings.trafficSeed)
 
         // Then
         XCTAssertTrue(commands.isEmpty)
@@ -101,37 +109,37 @@ final class SharePlayMatchStateMachineTests: XCTestCase {
         let startAt = fixedNow.addingTimeInterval(3)
 
         // When
-        machine.receive(.roundStart(startAt: startAt, difficulty: .cruise))
+        machine.receive(.roundStart(startAt: startAt, settings: cruiseSettings))
 
         // Then
-        XCTAssertEqual(machine.state, .countdown(startAt: startAt, difficulty: .cruise))
+        XCTAssertEqual(machine.state, .countdown(startAt: startAt, settings: cruiseSettings))
     }
 
     func testGivenGuestAlreadyInRoundWhenReceivingStaleRoundStartThenStateIsUnchanged() {
         // Given
         var machine = makeMachine(role: .guest)
         machine.startWaitingForFriend()
-        machine.receive(.roundStart(startAt: fixedNow, difficulty: .fast))
+        machine.receive(.roundStart(startAt: fixedNow, settings: fastSettings))
         machine.beginRound()
 
         // When
-        machine.receive(.roundStart(startAt: fixedNow.addingTimeInterval(10), difficulty: .rapid))
+        machine.receive(.roundStart(startAt: fixedNow.addingTimeInterval(10), settings: rapidSettings))
 
         // Then
-        XCTAssertEqual(machine.state, .inRound(difficulty: .fast, localScore: 0, remoteScore: 0, remoteLives: 3))
+        XCTAssertEqual(machine.state, .inRound(settings: fastSettings, localScore: 0, remoteScore: 0, remoteLives: 3))
     }
 
     func testGivenCountdownWhenBeginRoundThenStateIsInRoundWithZeroScores() {
         // Given
         var machine = makeMachine(role: .host)
         machine.startWaitingForFriend()
-        machine.hostStartRound(difficulty: .fast)
+        machine.hostStartRound(difficulty: .fast, trafficSeed: fastSettings.trafficSeed)
 
         // When
         machine.beginRound()
 
         // Then
-        XCTAssertEqual(machine.state, .inRound(difficulty: .fast, localScore: 0, remoteScore: 0, remoteLives: 3))
+        XCTAssertEqual(machine.state, .inRound(settings: fastSettings, localScore: 0, remoteScore: 0, remoteLives: 3))
     }
 
     func testGivenSessionReadyReceivedThenIsRemoteReadyBecomesTrue() {
@@ -163,14 +171,14 @@ final class SharePlayMatchStateMachineTests: XCTestCase {
         // Given
         var machine = makeMachine(role: .host)
         machine.startWaitingForFriend()
-        machine.hostStartRound(difficulty: .fast)
+        machine.hostStartRound(difficulty: .fast, trafficSeed: fastSettings.trafficSeed)
         machine.beginRound()
 
         // When
         let commands = machine.updateLocalScore(42, lives: 2)
 
         // Then
-        XCTAssertEqual(machine.state, .inRound(difficulty: .fast, localScore: 42, remoteScore: 0, remoteLives: 3))
+        XCTAssertEqual(machine.state, .inRound(settings: fastSettings, localScore: 42, remoteScore: 0, remoteLives: 3))
         XCTAssertEqual(commands, [.scoreUpdate(score: 42, lives: 2)])
     }
 
@@ -178,7 +186,7 @@ final class SharePlayMatchStateMachineTests: XCTestCase {
         // Given
         var machine = makeMachine(role: .host)
         machine.startWaitingForFriend()
-        machine.hostStartRound(difficulty: .fast)
+        machine.hostStartRound(difficulty: .fast, trafficSeed: fastSettings.trafficSeed)
         machine.beginRound()
         machine.receive(.scoreUpdate(score: 5, lives: 2))
 
@@ -194,7 +202,7 @@ final class SharePlayMatchStateMachineTests: XCTestCase {
         // Given
         var machine = makeMachine(role: .host)
         machine.startWaitingForFriend()
-        machine.hostStartRound(difficulty: .fast)
+        machine.hostStartRound(difficulty: .fast, trafficSeed: fastSettings.trafficSeed)
         machine.beginRound()
         machine.localPlayerEliminated(finalScore: 20)
 
@@ -209,7 +217,7 @@ final class SharePlayMatchStateMachineTests: XCTestCase {
         // Given
         var machine = makeMachine(role: .host)
         machine.startWaitingForFriend()
-        machine.hostStartRound(difficulty: .fast)
+        machine.hostStartRound(difficulty: .fast, trafficSeed: fastSettings.trafficSeed)
         machine.beginRound()
         machine.localPlayerEliminated(finalScore: 30)
 
@@ -226,7 +234,7 @@ final class SharePlayMatchStateMachineTests: XCTestCase {
         // Given
         var machine = makeMachine(role: .host)
         machine.startWaitingForFriend()
-        machine.hostStartRound(difficulty: .fast)
+        machine.hostStartRound(difficulty: .fast, trafficSeed: fastSettings.trafficSeed)
         machine.beginRound()
         machine.updateLocalScore(30, lives: 2)
 
@@ -234,7 +242,7 @@ final class SharePlayMatchStateMachineTests: XCTestCase {
         let commands = machine.receive(.playerEliminated(finalScore: 18))
 
         // Then
-        XCTAssertEqual(machine.state, .inRound(difficulty: .fast, localScore: 30, remoteScore: 18, remoteLives: 0))
+        XCTAssertEqual(machine.state, .inRound(settings: fastSettings, localScore: 30, remoteScore: 18, remoteLives: 0))
         XCTAssertTrue(commands.isEmpty)
     }
 
@@ -242,7 +250,7 @@ final class SharePlayMatchStateMachineTests: XCTestCase {
         // Given
         var machine = makeMachine(role: .guest)
         machine.startWaitingForFriend()
-        machine.receive(.roundStart(startAt: fixedNow, difficulty: .fast))
+        machine.receive(.roundStart(startAt: fixedNow, settings: fastSettings))
         machine.beginRound()
         machine.localPlayerEliminated(finalScore: 18)
 
@@ -259,7 +267,7 @@ final class SharePlayMatchStateMachineTests: XCTestCase {
         // Given
         var machine = makeMachine(role: .guest)
         machine.startWaitingForFriend()
-        machine.receive(.roundStart(startAt: fixedNow, difficulty: .rapid))
+        machine.receive(.roundStart(startAt: fixedNow, settings: rapidSettings))
         machine.beginRound()
         machine.localPlayerEliminated(finalScore: 40)
         let result = SharePlayRoundResult(hostScore: 55, guestScore: 40, difficulty: .rapid)
@@ -281,11 +289,12 @@ final class SharePlayMatchStateMachineTests: XCTestCase {
         machine.receive(.roundResult(staleResult))
 
         // Then
-        guard case .retryWaiting(let localReady, let remoteReady, _) = machine.state else {
+        guard case .retryWaiting(let localReady, let remoteReady, let deadline) = machine.state else {
             return XCTFail("Expected retryWaiting state")
         }
         XCTAssertTrue(localReady)
         XCTAssertFalse(remoteReady)
+        XCTAssertEqual(deadline, fixedNow.addingTimeInterval(SharePlayMatchStateMachine.defaultRetryTimeout))
     }
 
     // MARK: - Winner/tie computation
@@ -348,11 +357,12 @@ final class SharePlayMatchStateMachineTests: XCTestCase {
         machine.receive(.retryReady)
 
         // Then
-        guard case .retryWaiting(let localReady, let remoteReady, _) = machine.state else {
+        guard case .retryWaiting(let localReady, let remoteReady, let deadline) = machine.state else {
             return XCTFail("Expected retryWaiting state")
         }
         XCTAssertFalse(localReady)
         XCTAssertTrue(remoteReady)
+        XCTAssertEqual(deadline, fixedNow.addingTimeInterval(SharePlayMatchStateMachine.defaultRetryTimeout))
     }
 
     func testGivenRemoteRetriedFirstWhenLocalRetriesThenStateResetsToWaitingForFriend() {
@@ -462,9 +472,9 @@ final class SharePlayMatchStateMachineTests: XCTestCase {
         var machine = makeMachine(role: role)
         machine.startWaitingForFriend()
         if role == .host {
-            machine.hostStartRound(difficulty: .fast)
+            machine.hostStartRound(difficulty: .fast, trafficSeed: fastSettings.trafficSeed)
         } else {
-            machine.receive(.roundStart(startAt: fixedNow, difficulty: .fast))
+            machine.receive(.roundStart(startAt: fixedNow, settings: fastSettings))
         }
         machine.beginRound()
         machine.localPlayerEliminated(finalScore: 25)

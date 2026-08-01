@@ -15,6 +15,7 @@ import RetroRacingShared
 /// small collaborators own local activation, notification, and timer bookkeeping.
 public actor GroupActivitiesSharePlayMatchService: SharePlayMatchService {
     let difficultyProvider: @Sendable () -> GameDifficulty
+    let trafficSeedProvider: @Sendable () -> UInt64
     let coordinator = GroupSessionCoordinator()
     let hostActivationController = GroupActivitiesSharePlayHostActivationController()
 
@@ -25,8 +26,12 @@ public actor GroupActivitiesSharePlayMatchService: SharePlayMatchService {
     var isObservingSessions = false
     var timerController = SharePlayMatchTimerController()
 
-    public init(difficultyProvider: @escaping @Sendable () -> GameDifficulty) {
+    public init(
+        difficultyProvider: @escaping @Sendable () -> GameDifficulty,
+        trafficSeedProvider: @escaping @Sendable () -> UInt64 = { UInt64.random(in: UInt64.min...UInt64.max) }
+    ) {
         self.difficultyProvider = difficultyProvider
+        self.trafficSeedProvider = trafficSeedProvider
     }
 }
 

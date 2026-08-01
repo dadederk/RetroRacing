@@ -4,7 +4,7 @@
 
 > Narrow tasks may stop here; open the full contract for implementation or review.
 
-- **Scope:** 2-player SharePlay competitive races on iOS/iPad only (v1); host-authoritative start, local simulation with mirrored events, own-score leaderboard submission, dual-retry with 30s timeout, guest speed restore, free-play exception.
+- **Scope:** 2-player SharePlay competitive races on iOS/iPad only (v1); host-authoritative start with shared deterministic traffic seed, local simulation with mirrored events, own-score leaderboard submission, dual-retry with 90s timeout, guest speed restore, free-play exception.
 - **Must not break:** No `#if os()` in the shared service layer (platform gating stays in the app composition/adapter layer); `SharePlayMatchStateMachine` stays pure/synchronous with no `GroupActivities` import; SharePlay matches never call `PlayLimitService.recordGamePlayed`; each player still submits their own score via the existing `LeaderboardService.submitScore` path.
 - **Key files:** `RetroRacingShared/SharePlay/SharePlayMatchStateMachine.swift`, `RetroRacingUniversal/SharePlay/GroupActivitiesSharePlayMatchService.swift`, `RetroRacingShared/Services/Protocols/SharePlayMatchService.swift`, `RetroRacingShared/Views/GameViewModel+SharePlay.swift`, `RetroRacingShared/Views/SharePlayOverlayView.swift`, `RetroRacingShared/Views/SharePlayResultView.swift`.
 
@@ -51,14 +51,17 @@ transport.
    delivered session reaches `.joined`, the controller is cancelled, or the handoff times out;
    repeated menu taps during that interval cannot present another sharing/replacement flow.
 2. **Waiting** (`.waitingForFriend`): session created/joined; waiting for the second participant.
-3. **Countdown** (`.countdown(startAt:difficulty:)`): once both participants are present, the
+3. **Countdown** (`.countdown(startAt:settings:)`): once both participants are present, the
    **host** starts a synchronized 3-second countdown at the host's currently-selected
-   `GameDifficulty`. The guest adopts this difficulty for the match (see Guest Speed Restore).
-4. **In round** (`.inRound(difficulty:localScore:remoteScore:remoteLives:)`): each device simulates gameplay
+   `GameDifficulty` and host-generated traffic seed. The guest adopts these round settings for
+   the match (see Guest Speed Restore).
+4. **In round** (`.inRound(settings:localScore:remoteScore:remoteLives:)`): each device simulates gameplay
    locally (own `GameScene`) and mirrors score **and remaining lives** updates over the transport.
-   There is no shared game state beyond score/lives/elimination events. The scene stays paused
-   during `.waitingForFriend` and `.countdown`; gameplay starts only when the state enters
-   `.inRound` after the synchronized countdown completes.
+   The only shared gameplay state is the per-round traffic seed, which drives the same ordered
+   sequence of hazardous traffic rows on both devices. Safety rows inserted for local speed
+   increase protection remain local and do not consume the shared hazard-row sequence. The scene
+   stays paused during `.waitingForFriend` and `.countdown`; gameplay starts only when the state
+   enters `.inRound` after the synchronized countdown completes.
 5. **Local elimination** (`.waitingAfterLocalLoss(remoteScore:localFinalScore:)`): the first
    player eliminated waits, with a live view of the friend still racing.
 6. **Finished** (`.finished(SharePlayRoundResult)`): once both players are eliminated, the
@@ -66,7 +69,7 @@ transport.
    computed and mirrored so both devices show identical results.
 7. **Retry handshake** (`.retryWaiting(localReady:remoteReady:deadline:)`): each player taps
    **Play Again** independently; once both confirm, the match resets to `.waitingForFriend` for a
-   new round. A 30-second deadline is enforced; if it elapses before both confirm, the state
+   new round. A 90-second deadline is enforced; if it elapses before both confirm, the state
    becomes `.retryTimedOut`.
 8. **Terminal states**: `.retryTimedOut` and `.aborted(reason:)` (disconnect, session ended, or
    retry timeout with no recovery) end the match; the player can leave the session from
@@ -113,13 +116,16 @@ flowchart TB
 - `SharePlayAbortReason` — `.disconnected`, `.retryTimedOut`, `.sessionEnded`.
 - `SharePlayMatchState` — drives all UI; `.idle` means no SharePlay match is active (regular
   solo gameplay). `isActive` (`self != .idle`) gates the daily play limit and difficulty lock.
+- `SharePlayRoundSettings` — per-round host settings shared by both peers: `GameDifficulty` and
+  deterministic `trafficSeed`.
 - `SharePlayMatchCommand` — wire messages (`sessionReady`, `roundStart`, `scoreUpdate`,
   `playerEliminated`, `roundResult`, `retryReady`, `sessionFinished`, `sessionAborted`).
-  `Codable` + `Sendable` for `GroupSessionMessenger` transport.
+  `roundStart` carries `startAt` and `SharePlayRoundSettings`. `Codable` + `Sendable` for
+  `GroupSessionMessenger` transport.
 - `SharePlayRoundResult` — both players' final scores and difficulty; computes
   `localOutcome(for:)` (won/lost/tie) from either player's perspective.
 - `SharePlayMatchStateMachine` — pure, synchronous `(state, command) -> state` plus the retry
-  handshake and 30-second timeout. **No `GroupActivities` import** — fully unit-testable in
+  handshake and 90-second timeout. **No `GroupActivities` import** — fully unit-testable in
   isolation from the transport.
 - `SharePlayGuestSpeedRestore` — captures the guest's own `GameDifficulty` selection when a
   countdown starts, and restores it on any terminal state (finished/aborted/timed out) so the
@@ -263,6 +269,8 @@ Injected via `SharePlayMatchService+Environment.swift`, matching the existing
   Solo `GameOverView` is suppressed while SharePlay is active. After the local player taps
   **Play Again** from a finished match, the sheet immediately renders retry/waiting content while
   the ordered retry command propagates, so stale win/loss content does not flash during restart.
+  When the friend confirms a rematch first, the waiting sheet frames it as a fresh challenge and
+  changes the primary action to **Accept Challenge**.
 - During `.inRound`, the standard HUD header uses concise score rows (`You: <score>` and
   `<friend name>: <score>` when available, otherwise `Friend: <score>`) plus remote lives below it.
   These rows must not include “overtakes” copy. The remote helmet uses the
@@ -272,6 +280,15 @@ Injected via `SharePlayMatchService+Environment.swift`, matching the existing
   `reportSharePlayEliminationIfActive` (called alongside — not instead of — the existing
   single-player game-over flow in `handleCollision()`), `retrySharePlayMatch`,
   `leaveSharePlayMatch`, and guest speed capture/restore around `applySharePlayState(_:)`.
+- `GameScene` uses normal random traffic for solo play. For SharePlay rounds,
+  `GameViewModel+SharePlay.swift` configures the scene with the round's deterministic traffic
+  seed before `startImmediately()`, and `GameScene.applyDifficulty(_:)` preserves that traffic
+  source when it rebuilds `GridStateCalculator`.
+- SharePlay deterministic traffic is indexed, not stream-based. Each hazardous row is derived
+  from `(trafficSeed, hazardRowIndex)` with one stable car/empty bit per column. If the generated
+  row is all cars, a stable empty column is cleared so every hazardous row remains passable.
+  `.update` consumes one hazard-row index; `.updateWithEmptyRow` inserts a local empty safety row
+  without consuming the index.
 - The host auto-starts countdown only after both conditions are true: the GroupActivities session
   reports two active participants, and the remote peer's ordered `.sessionReady` command has been
   received by the state machine. Each peer sends `.sessionReady` when it joins and re-sends it when
@@ -292,9 +309,12 @@ Injected via `SharePlayMatchService+Environment.swift`, matching the existing
   same bottom action bar and button font treatment.
 - Retry timeout is terminal: `SharePlayResultView` must offer **Leave** only for
   `.retryTimedOut`, not **Play Again**, because the retry state machine no longer accepts retry
-  input after the 30-second deadline has elapsed. When one device's retry timer fires, it sends
+  input after the 90-second deadline has elapsed. When one device's retry timer fires, it sends
   `.sessionAborted(reason: .retryTimedOut)` so the other device converges to `.retryTimedOut` even
   if its local timer is delayed or suspended.
+- Abort copy is reason-specific: `.disconnected` is reserved for genuine SharePlay transport or
+  participant loss and uses connection-lost messaging, while `.sessionEnded` comes from the
+  remote `.sessionFinished` leave command and uses softer "friend is done for now" copy.
 - **Leaderboard submission is unchanged**: each player still submits their own score via the
   existing `LeaderboardService.submitScore` path in `handleCollision()`. No leaderboard protocol
   changes.
@@ -323,16 +343,21 @@ opponent wording.
 ### Unit tests
 
 - `SharePlayMatchStateMachineTests` — session lifecycle, score/elimination, winner/tie
-  computation, retry handshake + 30s timeout, disconnect/session-end.
+  computation, retry handshake + 90s timeout, disconnect/session-end, and round-start seed
+  propagation.
 - `SharePlayGuestSpeedRestoreTests` — capture/restore on normal finish and on abort.
 - `SharePlayTwoPeerConvergenceTests` — mocked-transport integration tests that relay commands
   between two independent `SharePlayMatchStateMachine` instances (host + guest), proving both
-  peers converge on an identical `.finished` result, dual-retry reset, and `.retryTimedOut`
-  without any dependency on `GroupActivities`.
+  peers converge on an identical `.finished` result, dual-retry reset with a fresh seed, and
+  `.retryTimedOut` without any dependency on `GroupActivities`.
+- `GridStateCalculatorTests` — deterministic traffic generation, all-car repair, hazard-row
+  index consumption, empty safety rows that do not advance the index, and matching hazard rows
+  across independent calculators with the same seed.
 - `GameViewModelTests` (SharePlay free-play exception + lifecycle cases) — SharePlay rounds never
   call `recordGamePlayed`, even at zero remaining daily plays; SharePlay collisions do not present
   solo `GameOverView`; final collision sends `lives: 0` before elimination; waiting/countdown/
-  recovery states keep gameplay paused; baseline idle-state behavior is unaffected.
+  recovery states keep gameplay paused; seeded SharePlay traffic is applied before the round
+  starts and survives difficulty application; baseline idle-state behavior is unaffected.
 - `SharePlayPreReadyInvalidationGraceTests` — deferred pre-ready session invalidation grace:
   cancel-before-fire, reschedule-after-cancel, and should-disconnect guard behavior used by
   `GroupSessionCoordinator`.
@@ -356,6 +381,9 @@ considered done:
 
 - Host starts a session from **Play with Friends**; guest joins via the system SharePlay sheet.
 - Countdown is synchronized; both devices start the round at the same shared difficulty.
+- Hazardous traffic rows match on both devices at round start, after one player crashes and
+  resumes locally, and after a successful retry. Empty safety rows may appear locally and must not
+  shift the next hazardous row in the shared sequence.
 - Countdown uses the generated ascending beep sequence plus final “go” beep; per-second
   VoiceOver countdown announcements are not posted.
 - Score mirroring and friend-score HUD update live during the round, including remote lives
@@ -364,7 +392,7 @@ considered done:
   friend overtake lines.
 - Final result (win/lose/tie + both scores) matches on both devices.
 - Dual-retry: both confirm → new round starts without stale win/loss content flashing; only one
-  confirms and the 30s deadline elapses → `.retryTimedOut` recovery UI appears on both devices.
+  confirms and the 90s deadline elapses → `.retryTimedOut` recovery UI appears on both devices.
 - Disconnect mid-match on either device surfaces `.aborted(.disconnected)` on the other.
 - Tapping the in-game menu/close button during a SharePlay match leaves the session and shows the
   other player the connection-lost recovery UI.
@@ -399,4 +427,4 @@ considered done:
 
 ---
 
-**Last updated**: 2026-08-01 (SharePlay object boundary refactor)
+**Last updated**: 2026-08-01 (SharePlay deterministic traffic)
