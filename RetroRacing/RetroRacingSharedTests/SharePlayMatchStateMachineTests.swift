@@ -30,6 +30,31 @@ final class SharePlayMatchStateMachineTests: XCTestCase {
         XCTAssertEqual(commands, [.sessionReady])
     }
 
+    func testGivenWaitingWhenResendingSessionReadyThenSessionReadyIsSentWithoutChangingState() {
+        // Given
+        var machine = makeMachine(role: .host)
+        machine.startWaitingForFriend()
+
+        // When
+        let commands = machine.resendSessionReadyIfWaitingForFriend()
+
+        // Then
+        XCTAssertEqual(machine.state, .waitingForFriend)
+        XCTAssertEqual(commands, [.sessionReady])
+    }
+
+    func testGivenNotWaitingWhenResendingSessionReadyThenNoCommandIsSent() {
+        // Given
+        let machine = makeMachine(role: .host)
+
+        // When
+        let commands = machine.resendSessionReadyIfWaitingForFriend()
+
+        // Then
+        XCTAssertTrue(commands.isEmpty)
+        XCTAssertEqual(machine.state, .idle)
+    }
+
     func testGivenGuestWhenHostStartRoundCalledThenNoCommandsAreSent() {
         // Given
         var machine = makeMachine(role: .guest)
@@ -57,6 +82,18 @@ final class SharePlayMatchStateMachineTests: XCTestCase {
         XCTAssertEqual(commands, [.roundStart(startAt: expectedStartAt, difficulty: .rapid)])
     }
 
+    func testGivenHostNotWaitingWhenHostStartRoundThenNoCommandIsSent() {
+        // Given
+        var machine = makeMachine(role: .host)
+
+        // When
+        let commands = machine.hostStartRound(difficulty: .rapid)
+
+        // Then
+        XCTAssertTrue(commands.isEmpty)
+        XCTAssertEqual(machine.state, .idle)
+    }
+
     func testGivenGuestWhenReceivingRoundStartThenCountdownStateIsSet() {
         // Given
         var machine = makeMachine(role: .guest)
@@ -68,6 +105,20 @@ final class SharePlayMatchStateMachineTests: XCTestCase {
 
         // Then
         XCTAssertEqual(machine.state, .countdown(startAt: startAt, difficulty: .cruise))
+    }
+
+    func testGivenGuestAlreadyInRoundWhenReceivingStaleRoundStartThenStateIsUnchanged() {
+        // Given
+        var machine = makeMachine(role: .guest)
+        machine.startWaitingForFriend()
+        machine.receive(.roundStart(startAt: fixedNow, difficulty: .fast))
+        machine.beginRound()
+
+        // When
+        machine.receive(.roundStart(startAt: fixedNow.addingTimeInterval(10), difficulty: .rapid))
+
+        // Then
+        XCTAssertEqual(machine.state, .inRound(difficulty: .fast, localScore: 0, remoteScore: 0, remoteLives: 3))
     }
 
     func testGivenCountdownWhenBeginRoundThenStateIsInRoundWithZeroScores() {
@@ -171,6 +222,22 @@ final class SharePlayMatchStateMachineTests: XCTestCase {
         XCTAssertEqual(commands, [.roundResult(expectedResult)])
     }
 
+    func testGivenInRoundWhenRemoteEliminatedBeforeLocalThenVisibleRemoteLivesAreZero() {
+        // Given
+        var machine = makeMachine(role: .host)
+        machine.startWaitingForFriend()
+        machine.hostStartRound(difficulty: .fast)
+        machine.beginRound()
+        machine.updateLocalScore(30, lives: 2)
+
+        // When
+        let commands = machine.receive(.playerEliminated(finalScore: 18))
+
+        // Then
+        XCTAssertEqual(machine.state, .inRound(difficulty: .fast, localScore: 30, remoteScore: 18, remoteLives: 0))
+        XCTAssertTrue(commands.isEmpty)
+    }
+
     func testGivenGuestWhenBothPlayersEliminatedThenGuestDoesNotBroadcastRoundResult() {
         // Given
         var machine = makeMachine(role: .guest)
@@ -191,6 +258,10 @@ final class SharePlayMatchStateMachineTests: XCTestCase {
     func testGivenGuestWhenReceivingRoundResultThenStateMirrorsExactHostPayload() {
         // Given
         var machine = makeMachine(role: .guest)
+        machine.startWaitingForFriend()
+        machine.receive(.roundStart(startAt: fixedNow, difficulty: .rapid))
+        machine.beginRound()
+        machine.localPlayerEliminated(finalScore: 40)
         let result = SharePlayRoundResult(hostScore: 55, guestScore: 40, difficulty: .rapid)
 
         // When
@@ -198,6 +269,23 @@ final class SharePlayMatchStateMachineTests: XCTestCase {
 
         // Then
         XCTAssertEqual(machine.state, .finished(result))
+    }
+
+    func testGivenRetryWaitingWhenReceivingStaleRoundResultThenStateIsUnchanged() {
+        // Given
+        var machine = finishedMachine(role: .guest)
+        machine.retryTapped()
+        let staleResult = SharePlayRoundResult(hostScore: 55, guestScore: 40, difficulty: .rapid)
+
+        // When
+        machine.receive(.roundResult(staleResult))
+
+        // Then
+        guard case .retryWaiting(let localReady, let remoteReady, _) = machine.state else {
+            return XCTFail("Expected retryWaiting state")
+        }
+        XCTAssertTrue(localReady)
+        XCTAssertFalse(remoteReady)
     }
 
     // MARK: - Winner/tie computation
@@ -285,10 +373,11 @@ final class SharePlayMatchStateMachineTests: XCTestCase {
         machine.retryTapped()
 
         // When
-        machine.retryTimeoutElapsed()
+        let commands = machine.retryTimeoutElapsed()
 
         // Then
         XCTAssertEqual(machine.state, .retryTimedOut)
+        XCTAssertEqual(commands, [.sessionAborted(reason: .retryTimedOut)])
     }
 
     func testGivenNotRetryWaitingWhenTimeoutElapsedThenStateIsUnchanged() {
@@ -297,10 +386,11 @@ final class SharePlayMatchStateMachineTests: XCTestCase {
         machine.startWaitingForFriend()
 
         // When
-        machine.retryTimeoutElapsed()
+        let commands = machine.retryTimeoutElapsed()
 
         // Then
         XCTAssertEqual(machine.state, .waitingForFriend)
+        XCTAssertTrue(commands.isEmpty)
     }
 
     // MARK: - Disconnect & session end
@@ -342,16 +432,28 @@ final class SharePlayMatchStateMachineTests: XCTestCase {
         XCTAssertEqual(machine.state, .aborted(reason: .sessionEnded))
     }
 
-    func testGivenAnyStateWhenReceivingSessionAbortedThenStateMirrorsGivenReason() {
+    func testGivenAnyStateWhenReceivingSessionAbortedThenStateMirrorsNonRetryReason() {
         // Given
         var machine = makeMachine(role: .guest)
         machine.startWaitingForFriend()
 
         // When
+        machine.receive(.sessionAborted(reason: .disconnected))
+
+        // Then
+        XCTAssertEqual(machine.state, .aborted(reason: .disconnected))
+    }
+
+    func testGivenRetryAbortCommandWhenReceivingThenStateIsRetryTimedOut() {
+        // Given
+        var machine = finishedMachine(role: .guest)
+        machine.retryTapped()
+
+        // When
         machine.receive(.sessionAborted(reason: .retryTimedOut))
 
         // Then
-        XCTAssertEqual(machine.state, .aborted(reason: .retryTimedOut))
+        XCTAssertEqual(machine.state, .retryTimedOut)
     }
 
     // MARK: - Helpers

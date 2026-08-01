@@ -20,6 +20,7 @@ Single status entrypoint for roadmap and themed plans. Requirements define shipp
 | SharePlay release campaign | `aso/10-shareplay-release-campaign.md` | `../AppStore/README.md`, `../Requirements/shareplay_multiplayer.md` |
 | Game Center challenge infrastructure | `challenges_infrastructure_and_asc_admin_plan.md` | `../Requirements/leaderboard_implementation.md` |
 | SharePlay competitive mode | `../Requirements/shareplay_multiplayer.md` | `shareplay_competitive_mode_plan.md` (planning record) |
+| SharePlay deterministic traffic | `shareplay_deterministic_traffic_plan.md` | `../Requirements/shareplay_multiplayer.md`, `shareplay_competitive_mode_plan.md` |
 | SharePlay on macOS | `shareplay_macos_plan.md` | `../Requirements/shareplay_multiplayer.md`, `shareplay_competitive_mode_plan.md` |
 
 ## Themed Plans
@@ -29,6 +30,7 @@ Single status entrypoint for roadmap and themed plans. Requirements define shipp
 | ASO & App Store growth | [aso/README.md](aso/README.md) | Metadata, screenshots, pricing, GAAD featuring |
 | Game Center challenges & ASC admin | [challenges_infrastructure_and_asc_admin_plan.md](challenges_infrastructure_and_asc_admin_plan.md) | Infrastructure IDs, not release copy |
 | SharePlay competitive mode | [shareplay_competitive_mode_plan.md](shareplay_competitive_mode_plan.md) | ✅ Implemented (2026-07-22); manual 2-device QA passed on 2026-07-23. One small glitch remains as non-blocking polish. |
+| SharePlay deterministic traffic | [shareplay_deterministic_traffic_plan.md](shareplay_deterministic_traffic_plan.md) | Planned; give both SharePlay players the same indexed traffic-row sequence per round. |
 | SharePlay on macOS | [shareplay_macos_plan.md](shareplay_macos_plan.md) | Planned; extend iOS/iPad SharePlay to macOS via Universal adapter and AppKit sharing presenter. |
 | SharePlay release campaign | [aso/10-shareplay-release-campaign.md](aso/10-shareplay-release-campaign.md) | Planned App Store launch package for free SharePlay friend races. |
 | Developer CLI (`retrorapid`) | [retrorapid_developer_cli_plan.md](retrorapid_developer_cli_plan.md) | ✅ Done (2026-07-23); unified `./retrorapid` wrapper over Scripts executables and README recipes. |

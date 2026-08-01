@@ -621,6 +621,91 @@ final class GameViewModelTests: XCTestCase {
         XCTAssertFalse(shouldShowButton)
     }
 
+    func testGivenEligibleFreeUserWhenEvaluatingPlayWithFriendsFootnotePolicyThenFootnoteIsShown() {
+        // Given
+        let hasPlayWithFriendsEntryPoint = true
+        let shouldShowFreeTierAffordances = true
+        let isSpecialEventActive = false
+
+        // When
+        let shouldShowFootnote = MenuView.shouldShowPlayWithFriendsFreeFootnotePolicy(
+            hasPlayWithFriendsEntryPoint: hasPlayWithFriendsEntryPoint,
+            shouldShowFreeTierAffordances: shouldShowFreeTierAffordances,
+            isSpecialEventActive: isSpecialEventActive
+        )
+
+        // Then
+        XCTAssertTrue(shouldShowFootnote)
+    }
+
+    func testGivenUnlimitedUserWhenEvaluatingPlayWithFriendsFootnotePolicyThenFootnoteIsHidden() {
+        // Given
+        let hasPlayWithFriendsEntryPoint = true
+        let shouldShowFreeTierAffordances = false
+        let isSpecialEventActive = false
+
+        // When
+        let shouldShowFootnote = MenuView.shouldShowPlayWithFriendsFreeFootnotePolicy(
+            hasPlayWithFriendsEntryPoint: hasPlayWithFriendsEntryPoint,
+            shouldShowFreeTierAffordances: shouldShowFreeTierAffordances,
+            isSpecialEventActive: isSpecialEventActive
+        )
+
+        // Then
+        XCTAssertFalse(shouldShowFootnote)
+    }
+
+    func testGivenUnresolvedEntitlementsWhenEvaluatingPlayWithFriendsFootnotePolicyThenFootnoteIsHidden() {
+        // Given
+        let hasPlayWithFriendsEntryPoint = true
+        let shouldShowFreeTierAffordances = false
+        let isSpecialEventActive = false
+
+        // When
+        let shouldShowFootnote = MenuView.shouldShowPlayWithFriendsFreeFootnotePolicy(
+            hasPlayWithFriendsEntryPoint: hasPlayWithFriendsEntryPoint,
+            shouldShowFreeTierAffordances: shouldShowFreeTierAffordances,
+            isSpecialEventActive: isSpecialEventActive
+        )
+
+        // Then
+        XCTAssertFalse(shouldShowFootnote)
+    }
+
+    func testGivenNoPlayWithFriendsEntryPointWhenEvaluatingPlayWithFriendsFootnotePolicyThenFootnoteIsHidden() {
+        // Given
+        let hasPlayWithFriendsEntryPoint = false
+        let shouldShowFreeTierAffordances = true
+        let isSpecialEventActive = false
+
+        // When
+        let shouldShowFootnote = MenuView.shouldShowPlayWithFriendsFreeFootnotePolicy(
+            hasPlayWithFriendsEntryPoint: hasPlayWithFriendsEntryPoint,
+            shouldShowFreeTierAffordances: shouldShowFreeTierAffordances,
+            isSpecialEventActive: isSpecialEventActive
+        )
+
+        // Then
+        XCTAssertFalse(shouldShowFootnote)
+    }
+
+    func testGivenSpecialEventWhenEvaluatingPlayWithFriendsFootnotePolicyThenFootnoteIsHidden() {
+        // Given
+        let hasPlayWithFriendsEntryPoint = true
+        let shouldShowFreeTierAffordances = true
+        let isSpecialEventActive = true
+
+        // When
+        let shouldShowFootnote = MenuView.shouldShowPlayWithFriendsFreeFootnotePolicy(
+            hasPlayWithFriendsEntryPoint: hasPlayWithFriendsEntryPoint,
+            shouldShowFreeTierAffordances: shouldShowFreeTierAffordances,
+            isSpecialEventActive: isSpecialEventActive
+        )
+
+        // Then
+        XCTAssertFalse(shouldShowFootnote)
+    }
+
     func testGivenGameOverWhenHandlingCollisionThenAchievementProgressRecordsCompletedRun() {
         // Given
         let scene = makeScene()
@@ -1120,30 +1205,28 @@ private actor MockSharePlayMatchServiceForGameViewModel: SharePlayMatchService {
         case playerEliminated(finalScore: Int)
         case retry
         case leave
-        case cancelHostActivation
+        case cancelHostActivation(reason: SharePlayHostActivationReason)
     }
 
     private var events: [Event] = []
-    private var stateChangeHandler: (@Sendable (SharePlayMatchState) -> Void)?
+    private var stateChangeHandler: (@Sendable (SharePlayUIState) async -> Void)?
 
     func recordedEvents() -> [Event] {
         events
     }
 
-    func setStateChangeHandler(_ handler: @escaping @Sendable (SharePlayMatchState) -> Void) async {
+    func setStateChangeHandler(
+        _ handler: @escaping @Sendable (SharePlayUIState) async -> Void
+    ) async {
         stateChangeHandler = handler
     }
 
-    func currentRole() async -> SharePlayPlayerRole? {
-        .host
-    }
+    func prepareHostActivation() async -> Bool { true }
 
-    func startHostSession() async {}
+    func activatePendingHostSession(reason: SharePlayHostActivationReason) async -> Bool { true }
 
-    func prepareHostActivation() async {}
-
-    func cancelHostActivation() async {
-        events.append(.cancelHostActivation)
+    func cancelHostActivation(reason: SharePlayHostActivationReason) async {
+        events.append(.cancelHostActivation(reason: reason))
     }
 
     func observeIncomingSessions() async {}
@@ -1152,10 +1235,6 @@ private actor MockSharePlayMatchServiceForGameViewModel: SharePlayMatchService {
 
     func updateLocalScore(_ score: Int, lives: Int) async {
         events.append(.scoreUpdate(score: score, lives: lives))
-    }
-
-    func currentOpponentDisplayName() async -> String? {
-        nil
     }
 
     func reportLocalElimination(finalScore: Int) async {

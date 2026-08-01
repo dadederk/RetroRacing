@@ -54,10 +54,19 @@ public struct SharePlayMatchStateMachine: Sendable {
         return [.sessionReady]
     }
 
+    /// Returns an idempotent local-ready command while still in the pre-round waiting state.
+    /// Useful when the transport reports that both participants are now present after the initial
+    /// ready command may already have been sent before the remote peer joined.
+    public func resendSessionReadyIfWaitingForFriend() -> [SharePlayMatchCommand] {
+        guard case .waitingForFriend = state else { return [] }
+        return [.sessionReady]
+    }
+
     /// Host-only: starts the authoritative countdown once both participants are ready.
     @discardableResult
     public mutating func hostStartRound(difficulty: GameDifficulty) -> [SharePlayMatchCommand] {
         guard localRole == .host else { return [] }
+        guard case .waitingForFriend = state else { return [] }
         let startAt = clock().addingTimeInterval(countdownDuration)
         lastRoundDifficulty = difficulty
         state = .countdown(startAt: startAt, difficulty: difficulty)
@@ -95,6 +104,8 @@ public struct SharePlayMatchStateMachine: Sendable {
 
     @discardableResult
     public mutating func localPlayerEliminated(finalScore: Int) -> [SharePlayMatchCommand] {
+        guard case .inRound = state else { return [] }
+        guard localFinalScore == nil else { return [] }
         localScore = finalScore
         localFinalScore = finalScore
         var commands: [SharePlayMatchCommand] = [.playerEliminated(finalScore: finalScore)]
@@ -115,20 +126,29 @@ public struct SharePlayMatchStateMachine: Sendable {
             remoteSessionReady = true
             return []
         case .roundStart(let startAt, let difficulty):
-            guard localRole == .guest else { return [] }
+            guard localRole == .guest, case .waitingForFriend = state else { return [] }
             lastRoundDifficulty = difficulty
             state = .countdown(startAt: startAt, difficulty: difficulty)
             return []
         case .scoreUpdate(let score, let lives):
             return applyRemoteProgress(score: score, lives: lives)
         case .playerEliminated(let finalScore):
+            guard remoteFinalScore == nil else { return [] }
+            switch state {
+            case .inRound, .waitingAfterLocalLoss:
+                break
+            default:
+                return []
+            }
             remoteScore = finalScore
             remoteFinalScore = finalScore
             if let localFinalScore {
                 return finalizeRound(localScore: localFinalScore, remoteScore: finalScore)
             }
+            applyRemoteEliminationToVisibleState(finalScore: finalScore)
             return []
         case .roundResult(let result):
+            guard acceptsRoundResult else { return [] }
             state = .finished(result)
             return []
         case .retryReady:
@@ -137,7 +157,11 @@ public struct SharePlayMatchStateMachine: Sendable {
             state = .aborted(reason: .sessionEnded)
             return []
         case .sessionAborted(let reason):
-            state = .aborted(reason: reason)
+            if reason == .retryTimedOut {
+                state = .retryTimedOut
+            } else {
+                state = .aborted(reason: reason)
+            }
             return []
         }
     }
@@ -146,11 +170,12 @@ public struct SharePlayMatchStateMachine: Sendable {
 
     @discardableResult
     public mutating func retryTapped() -> [SharePlayMatchCommand] {
-        localRetryReady = true
         switch state {
         case .finished:
+            localRetryReady = true
             state = .retryWaiting(localReady: true, remoteReady: remoteRetryReady, deadline: clock().addingTimeInterval(retryTimeout))
         case .retryWaiting(_, let remoteReady, let deadline):
+            localRetryReady = true
             state = .retryWaiting(localReady: true, remoteReady: remoteReady, deadline: deadline)
         default:
             return []
@@ -158,9 +183,11 @@ public struct SharePlayMatchStateMachine: Sendable {
         return [.retryReady] + advanceRetryHandshakeIfNeeded()
     }
 
-    public mutating func retryTimeoutElapsed() {
-        guard case .retryWaiting = state else { return }
+    @discardableResult
+    public mutating func retryTimeoutElapsed() -> [SharePlayMatchCommand] {
+        guard case .retryWaiting = state else { return [] }
         state = .retryTimedOut
+        return [.sessionAborted(reason: .retryTimedOut)]
     }
 
     public mutating func disconnected() {
@@ -176,6 +203,7 @@ public struct SharePlayMatchStateMachine: Sendable {
     // MARK: - Helpers
 
     private mutating func applyRemoteProgress(score: Int, lives: Int) -> [SharePlayMatchCommand] {
+        guard remoteFinalScore == nil else { return [] }
         remoteScore = score
         remoteLives = lives
         switch state {
@@ -192,6 +220,31 @@ public struct SharePlayMatchStateMachine: Sendable {
             break
         }
         return []
+    }
+
+    private mutating func applyRemoteEliminationToVisibleState(finalScore: Int) {
+        remoteLives = 0
+        guard case .inRound(let difficulty, let local, _, _) = state else { return }
+        state = .inRound(
+            difficulty: difficulty,
+            localScore: local,
+            remoteScore: finalScore,
+            remoteLives: 0
+        )
+    }
+
+    private var acceptsRoundResult: Bool {
+        switch state {
+        case .inRound, .waitingAfterLocalLoss, .finished:
+            return true
+        case .idle,
+             .waitingForFriend,
+             .countdown,
+             .retryWaiting,
+             .retryTimedOut,
+             .aborted:
+            return false
+        }
     }
 
     private mutating func receiveRemoteRetryReady() -> [SharePlayMatchCommand] {

@@ -104,12 +104,19 @@ This document describes the session model, how the overlay interacts with gamepl
   [`shareplay_multiplayer.md`](shareplay_multiplayer.md)):
   - A second menu button, shown only when the composition root supplies
     `onPlayWithFriendsRequest` (iOS/iPad; hidden on macOS/tvOS).
-  - Tapping it activates the system SharePlay share sheet via
-    `SharePlayMatchService.startHostSession()`, rather than dismissing the menu directly.
+  - Tapping it prepares host activation and checks
+    `GroupStateObserver.isEligibleForGroupSession`. An eligible FaceTime/Messages conversation
+    activates directly; otherwise the app presents `GroupActivitySharingController` so the player
+    can choose people. The menu button remains visually stable and duplicate taps are ignored
+    internally while either route is pending. Controller success is an in-progress session
+    handoff, not a live match. If the controller creates an eligible conversation but no session is
+    delivered after a short settle period, the same pending request makes one automatic direct
+    activation attempt. It never presents a second replacement controller.
   - The menu is dismissed and a fresh session starts (same `sessionID`/`shouldStartGame`
-    mechanics as **Play**) reactively, once the SharePlay match state actually transitions away
-    from `.idle` — covering both host-initiated and system-activated (incoming) sessions through
-    the same code path.
+    mechanics as **Play**) only once an observed `GroupSession` reaches `.joined` and its SharePlay
+    match state transitions away from `.idle`. The SharePlay **Waiting for your friend** HUD is
+    therefore shown inside the game only for an admitted joined session. A provisional session
+    that invalidates before joining remains invisible and does not show **Connection lost**.
   - Unlike **Play**, this entry point **never** checks `PlayLimitService`/`hasPremiumAccess` —
     SharePlay matches are always free (see [`monetization.md`](monetization.md#shareplay-exception)).
 

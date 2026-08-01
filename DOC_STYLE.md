@@ -12,6 +12,7 @@ Keep agent-facing docs high-signal and low-token. Routers (`AGENTS.md`, `Require
 | Playbook (`AGENTS_PLAYBOOKS/`) | under ~80 lines |
 | `Requirements/INDEX.md` | task routing table + minimal catalog |
 | Requirement contract | 40–90 lines (longer files use `Agent summary` until split) |
+| TechDoc (`TechDocs/`) | concise explainer with diagrams when helpful |
 
 ## Router vs Detail
 
@@ -23,6 +24,7 @@ Keep agent-facing docs high-signal and low-token. Routers (`AGENTS.md`, `Require
 | Skill | `.cursor/skills/`, `.agents/skills/` | DI, SpriteKit, conventions, a11y |
 | Examples | `AGENTS_EXAMPLES.md` | Optional patterns — not for routine changes |
 | Contract | `Requirements/*.md` | Shipped behavior for the task area |
+| TechDoc | `TechDocs/*.md` | Durable plain-English architecture and flow explainers |
 
 Do not duplicate routing tables across layers. Reference paths instead of copying rules.
 
@@ -39,6 +41,8 @@ Hub pattern: **Agent quick-start** table first, then optional TOC for humans.
 **Playbooks:** `Purpose` + `Read This When`.
 
 **Requirement contracts:** overview or purpose section. Add `Agent summary` when file exceeds ~90 lines.
+
+**TechDocs:** short purpose paragraph, links to the canonical requirement contract when one exists, and diagrams only where they clarify object relationships or flows.
 
 **Appendices:** appendix header when applicable.
 
@@ -73,3 +77,5 @@ Place after title, before the first major `##` section:
 ## Maintenance
 
 When adding or renaming requirement files, update `Requirements/INDEX.md` in the same change. When behavior changes, update the contract before or with the code change.
+
+Durable explainers belong in `TechDocs/`; keep `Docs/` for drafts that have not been folded into a canonical router.

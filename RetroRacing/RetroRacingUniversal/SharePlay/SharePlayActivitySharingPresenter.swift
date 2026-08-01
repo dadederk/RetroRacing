@@ -22,11 +22,12 @@ import SwiftUI
 import UIKit
 
 /// Presents the system `GroupActivitySharingController` as a native UIKit modal, driven by a
-/// hidden SwiftUI-hosted UIKit presenter on the menu. Used when
-/// the device isn't currently in a FaceTime call or Messages conversation
-/// (`GroupStateObserver.isEligibleForGroupSession == false`); it lets the person pick
-/// participants and starts the call on their behalf. The resulting session is delivered through
-/// the same `RetroRacingGroupActivity.sessions()` stream as a direct `activate()` call.
+/// hidden SwiftUI-hosted UIKit presenter on the menu. It is used when no group conversation is
+/// eligible yet; eligible requests activate directly without presenting another replacement flow.
+/// The system controller owns starting the activity and joining the initiating app. The resulting
+/// session is delivered through the same `RetroRacingGroupActivity.sessions()` stream as
+/// system-activated incoming sessions. The composition root gives that session a settle window
+/// before considering its single eligible-conversation recovery path.
 ///
 /// `GroupActivitySharingController` manages its own sheet chrome and renders incorrectly when
 /// embedded as the content of a SwiftUI `.sheet`. Presenting it via `UIViewController.present`
@@ -34,21 +35,35 @@ import UIKit
 /// SwiftUI cover behind when the system sheet is dismissed.
 public struct SharePlayActivitySharingPresenter: UIViewControllerRepresentable {
     let presentationID: UUID
+    var onSucceeded: (() -> Void)?
     var onUserDismissed: (() -> Void)?
 
-    public init(presentationID: UUID, onUserDismissed: (() -> Void)? = nil) {
+    public init(
+        presentationID: UUID,
+        onSucceeded: (() -> Void)? = nil,
+        onUserDismissed: (() -> Void)? = nil
+    ) {
         self.presentationID = presentationID
+        self.onSucceeded = onSucceeded
         self.onUserDismissed = onUserDismissed
     }
 
     public func makeUIViewController(context: Context) -> SharePlayActivitySharingHostController {
         let host = SharePlayActivitySharingHostController()
-        host.configure(presentationID: presentationID, onUserDismissed: onUserDismissed)
+        host.configure(
+            presentationID: presentationID,
+            onSucceeded: onSucceeded,
+            onUserDismissed: onUserDismissed
+        )
         return host
     }
 
     public func updateUIViewController(_ uiViewController: SharePlayActivitySharingHostController, context: Context) {
-        uiViewController.configure(presentationID: presentationID, onUserDismissed: onUserDismissed)
+        uiViewController.configure(
+            presentationID: presentationID,
+            onSucceeded: onSucceeded,
+            onUserDismissed: onUserDismissed
+        )
     }
 
     public static func dismantleUIViewController(_ uiViewController: SharePlayActivitySharingHostController, coordinator: ()) {
@@ -60,10 +75,11 @@ public struct SharePlayActivitySharingPresenter: UIViewControllerRepresentable {
 /// matching the `AuthContainerViewController` pattern used for Game Center sign-in.
 public final class SharePlayActivitySharingHostController: UIViewController, UIAdaptivePresentationControllerDelegate {
     private var presentationID: UUID?
+    private var onSucceeded: (() -> Void)?
     private var onUserDismissed: (() -> Void)?
     private var sharingResultTask: Task<Void, Never>?
     private var hasAttemptedPresentation = false
-    private var hasReportedDismissal = false
+    private var hasCompletedPresentation = false
     private var isReplacingPresentation = false
 
     public override func viewDidAppear(_ animated: Bool) {
@@ -71,14 +87,19 @@ public final class SharePlayActivitySharingHostController: UIViewController, UIA
         if hasAttemptedPresentation,
            presentedViewController == nil,
            sharingResultTask == nil,
-           hasReportedDismissal == false {
+           hasCompletedPresentation == false {
             notifyUserDismissed()
             return
         }
         presentSharingControllerIfNeeded()
     }
 
-    func configure(presentationID: UUID, onUserDismissed: (() -> Void)?) {
+    func configure(
+        presentationID: UUID,
+        onSucceeded: (() -> Void)?,
+        onUserDismissed: (() -> Void)?
+    ) {
+        self.onSucceeded = onSucceeded
         self.onUserDismissed = onUserDismissed
         guard self.presentationID != presentationID else {
             presentSharingControllerIfNeeded()
@@ -87,7 +108,7 @@ public final class SharePlayActivitySharingHostController: UIViewController, UIA
 
         self.presentationID = presentationID
         hasAttemptedPresentation = false
-        hasReportedDismissal = false
+        hasCompletedPresentation = false
         cancelSharingResultObservation()
 
         guard let presentedViewController else {
@@ -133,6 +154,7 @@ public final class SharePlayActivitySharingHostController: UIViewController, UIA
     }
 
     func prepareForDismantle() {
+        onSucceeded = nil
         onUserDismissed = nil
         cancelSharingResultObservation()
         dismissPresentedSharingControllerIfNeeded()
@@ -151,7 +173,7 @@ public final class SharePlayActivitySharingHostController: UIViewController, UIA
         sharingResultTask = nil
         switch result {
         case .success:
-            hasReportedDismissal = true
+            notifySucceeded()
         case .cancelled:
             notifyUserDismissed()
         @unknown default:
@@ -164,9 +186,27 @@ public final class SharePlayActivitySharingHostController: UIViewController, UIA
         sharingResultTask = nil
     }
 
+    private func notifySucceeded() {
+        guard hasCompletedPresentation == false else { return }
+        hasCompletedPresentation = true
+        AppLog.info(
+            AppLog.lifecycle + AppLog.game,
+            "SHAREPLAY_SHARING_CONTROLLER",
+            outcome: .succeeded,
+            fields: [.string("presentationID", presentationID.map { AppLog.shortID($0) })]
+        )
+        onSucceeded?()
+    }
+
     private func notifyUserDismissed() {
-        guard hasReportedDismissal == false else { return }
-        hasReportedDismissal = true
+        guard hasCompletedPresentation == false else { return }
+        hasCompletedPresentation = true
+        AppLog.info(
+            AppLog.lifecycle + AppLog.game,
+            "SHAREPLAY_SHARING_CONTROLLER",
+            outcome: .cancelled,
+            fields: [.string("presentationID", presentationID.map { AppLog.shortID($0) })]
+        )
         onUserDismissed?()
     }
 }

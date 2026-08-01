@@ -56,11 +56,12 @@ Do not duplicate task routing tables in this file. Use the index or hub for each
 | README | `Scripts/README.md` | Script commands, recipes, mutation safety |
 | — | `Scripts/CONVENTIONS.md` | Script engineering standards and package layout |
 | — | `AGENTS_PLAYBOOKS/` | Cross-cutting operational checklists |
+| README | `TechDocs/README.md` | Durable technical explainers and architecture maps |
 | — | `Docs/` | Working drafts only (see `Docs/README.md`) |
 
 ### Naming conventions
 
-- **Top-level doc trees:** PascalCase (`Requirements`, `Plans`, `AppStore`, `Docs`).
+- **Top-level doc trees:** PascalCase (`Requirements`, `Plans`, `AppStore`, `TechDocs`, `Docs`).
 - **Sub-routers and catalogs:** lowercase (`appendices`, `aso`, `docs`).
 - **Hub files:** `INDEX.md` for plan routers; `README.md` for operational hubs.
 - **Themed reference docs:** numbered kebab-case under `AppStore/docs/`.
@@ -131,6 +132,7 @@ Implementation: `RetroRacingShared/Utilities/BrandMark.swift`.
 ## Workspace Shortcuts
 
 - Requirements: `Requirements/INDEX.md`
+- Tech docs: `TechDocs/README.md`
 - Shared code: `RetroRacing/RetroRacingShared/`
 - Services: `RetroRacing/RetroRacingShared/Services/`
 - Platform UIs: `RetroRacingUniversal/`, `RetroRacingWatchOS/`, `RetroRacingTvOS/`, `RetroRacingVisionOS/`

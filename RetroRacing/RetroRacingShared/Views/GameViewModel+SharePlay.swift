@@ -104,7 +104,9 @@ extension GameViewModel {
     /// No-op when SharePlay isn't active, so regular solo gameplay is unaffected.
     func reportSharePlayScoreIfActive(score: Int, lives: Int) {
         guard case .inRound = sharePlayState, let sharePlayMatchService else { return }
-        Task { await sharePlayMatchService.updateLocalScore(score, lives: lives) }
+        Task { @concurrent in
+            await sharePlayMatchService.updateLocalScore(score, lives: lives)
+        }
     }
 
     /// Reports the local player's elimination to the match service while a round is active.
@@ -112,7 +114,7 @@ extension GameViewModel {
     /// `handleCollision()` — each player still submits their own score to the leaderboard.
     func reportSharePlayEliminationIfActive(finalScore: Int) {
         guard case .inRound = sharePlayState, let sharePlayMatchService else { return }
-        Task {
+        Task { @concurrent in
             await sharePlayMatchService.reportLocalElimination(finalScore: finalScore)
         }
     }
@@ -128,7 +130,9 @@ extension GameViewModel {
     @discardableResult
     func retrySharePlayMatch() -> Bool {
         guard let sharePlayMatchService else { return false }
-        Task { await sharePlayMatchService.retry() }
+        Task { @concurrent in
+            await sharePlayMatchService.retry()
+        }
         return true
     }
 
@@ -136,7 +140,9 @@ extension GameViewModel {
     func leaveSharePlayMatch() {
         guard let sharePlayMatchService else { return }
         restoreGuestSpeedIfNeeded()
-        Task { await sharePlayMatchService.leaveSession() }
+        Task { @concurrent in
+            await sharePlayMatchService.leaveSession()
+        }
     }
 
     /// Applies the SharePlay start path when a view model is created after the round is already live.

@@ -11,30 +11,31 @@ import Combine
 import Foundation
 import RetroRacingShared
 
-/// Owns the lifecycle of a single `GroupSession<RetroRacingGroupActivity>`: joining it,
-/// observing state/participant changes, and wiring a `GroupSessionMessengerTransport`.
-/// `GroupActivitiesSharePlayMatchService` owns one instance and reconfigures it whenever a new
-/// session arrives from `RetroRacingGroupActivity.sessions()`.
-nonisolated final class GroupSessionCoordinator: @unchecked Sendable {
-    private(set) var transport: GroupSessionMessengerTransport?
-    private var session: GroupSession<RetroRacingGroupActivity>?
-    private var stateTask: Task<Void, Never>?
-    private var participantsTask: Task<Void, Never>?
-    private var participantLossTask: Task<Void, Never>?
-    private let preReadyInvalidationGrace = SharePlayPreReadyInvalidationGrace()
-    private let participantLossGraceDuration: TimeInterval
-    private let preReadyInvalidationGraceDuration: TimeInterval
-    private var isIntentionalTeardown = false
-    private var hasObservedTwoParticipants = false
-    private var lastOpponentDisplayName: String?
-    private var observationGeneration = 0
+/// Owns one `GroupSession<RetroRacingGroupActivity>` lifecycle and its observation tasks.
+/// Same-actor extension files keep observation, participant policy, and grace disconnects separate.
+actor GroupSessionCoordinator {
+    var transport: GroupSessionMessengerTransport?
+    var session: GroupSession<RetroRacingGroupActivity>?
+    var stateTask: Task<Void, Never>?
+    var participantsTask: Task<Void, Never>?
+    var participantLossTask: Task<Void, Never>?
+    let preReadyInvalidationGrace = SharePlayPreReadyInvalidationGrace()
+    let participantLossGraceDuration: TimeInterval
+    let preReadyInvalidationGraceDuration: TimeInterval
+    var isIntentionalTeardown = false
+    var hasObservedJoinedState = false
+    var hasObservedTwoParticipants = false
+    var lastOpponentDisplayName: String?
+    var observationGeneration = 0
 
+    /// Called once the locally configured session reaches the joined state.
+    var onSessionJoined: (@Sendable () async -> Void)?
     /// Called once at least 2 participants are active in the session.
-    var onParticipantsReady: (() -> Void)?
+    var onParticipantsReady: (@Sendable () async -> Void)?
     /// Called when the session invalidates (disconnect, remote left, etc.).
-    var onDisconnected: (() -> Void)?
+    var onDisconnected: (@Sendable () async -> Void)?
     /// Called when the remote participant's display name is resolved or cleared.
-    var onOpponentDisplayNameChanged: ((String?) -> Void)?
+    var onOpponentDisplayNameChanged: (@Sendable (String?) async -> Void)?
 
     init(
         participantLossGraceDuration: TimeInterval = 1.5,
@@ -46,7 +47,14 @@ nonisolated final class GroupSessionCoordinator: @unchecked Sendable {
 
     /// Joins the given session and starts observing it. Tears down any previously configured
     /// session first (v1 supports exactly one active SharePlay session at a time).
-    func configure(session: GroupSession<RetroRacingGroupActivity>, onCommand: @escaping (SharePlayMatchCommand) -> Void) {
+    func configure(
+        session: GroupSession<RetroRacingGroupActivity>,
+        onSessionJoined: @escaping @Sendable () async -> Void,
+        onParticipantsReady: @escaping @Sendable () async -> Void,
+        onDisconnected: @escaping @Sendable () async -> Void,
+        onOpponentDisplayNameChanged: @escaping @Sendable (String?) async -> Void,
+        onCommand: @escaping @Sendable (SharePlayMatchCommand) async -> Void
+    ) async {
         AppLog.info(
             AppLog.lifecycle + AppLog.game,
             "SHAREPLAY_COORDINATOR_CONFIGURE",
@@ -59,62 +67,29 @@ nonisolated final class GroupSessionCoordinator: @unchecked Sendable {
             ]
         )
         cancelPreReadyInvalidationDisconnect(reason: "replacement_session")
-        tearDown(reason: "configure_new_session")
+        await tearDown(reason: "configure_new_session")
+        self.onSessionJoined = onSessionJoined
+        self.onParticipantsReady = onParticipantsReady
+        self.onDisconnected = onDisconnected
+        self.onOpponentDisplayNameChanged = onOpponentDisplayNameChanged
         observationGeneration += 1
         let generation = observationGeneration
         self.session = session
+        hasObservedJoinedState = false
         hasObservedTwoParticipants = false
         lastOpponentDisplayName = nil
 
         let transport = GroupSessionMessengerTransport(session: session)
-        transport.startReceiving(onCommand: onCommand)
+        transport.startReceiving { [weak self] command in
+            await self?.handleReceivedCommand(command, generation: generation, onCommand: onCommand)
+        }
         self.transport = transport
 
         stateTask = Task { [weak self] in
             for await state in session.$state.values {
-                guard let self, Task.isCancelled == false, self.isCurrentObservation(generation) else { return }
-                AppLog.debug(
-                    AppLog.lifecycle + AppLog.game,
-                    "SHAREPLAY_GROUP_STATE",
-                    outcome: .completed,
-                    fields: [
-                        .int("generation", generation),
-                        .string("groupState", String(describing: state)),
-                        .bool("intentionalTeardown", self.isIntentionalTeardown)
-                    ]
-                )
-                if case .invalidated = state {
-                    self.cancelParticipantLossDisconnect()
-                    if self.isIntentionalTeardown == false {
-                        if self.hasObservedTwoParticipants {
-                            AppLog.warning(
-                                AppLog.lifecycle + AppLog.game,
-                                "SHAREPLAY_GROUP_INVALIDATED",
-                                outcome: .started,
-                                fields: [
-                                    .int("generation", generation),
-                                    .bool("hasObservedTwoParticipants", self.hasObservedTwoParticipants)
-                                ]
-                            )
-                            self.onDisconnected?()
-                        } else {
-                            self.schedulePreReadyInvalidationDisconnect(for: generation)
-                        }
-                    } else {
-                        AppLog.info(
-                            AppLog.lifecycle + AppLog.game,
-                            "SHAREPLAY_GROUP_INVALIDATED",
-                            outcome: .ignored,
-                            fields: [
-                                .reason("intentional_teardown"),
-                                .int("generation", generation)
-                            ]
-                        )
-                    }
-                    self.tearDown(
-                        reason: "group_invalidated",
-                        cancelsPreReadyInvalidation: self.isIntentionalTeardown || self.hasObservedTwoParticipants
-                    )
+                guard let self, Task.isCancelled == false else { return }
+                let shouldContinue = await self.handleGroupState(state, generation: generation)
+                guard shouldContinue else {
                     return
                 }
             }
@@ -122,54 +97,10 @@ nonisolated final class GroupSessionCoordinator: @unchecked Sendable {
 
         participantsTask = Task { [weak self] in
             for await participants in session.$activeParticipants.values {
-                guard let self, Task.isCancelled == false, self.isCurrentObservation(generation) else { return }
-                // GroupActivities `Participant` exposes only an id in iOS 26 — no public
-                // display-name API. UI falls back to the localized "Your friend" label.
-                self.updateOpponentDisplayNameIfNeeded(nil)
-                AppLog.debug(
-                    AppLog.lifecycle + AppLog.game,
-                    "SHAREPLAY_PARTICIPANTS",
-                    outcome: .completed,
-                    fields: [
-                        .int("generation", generation),
-                        .int("participantCount", participants.count),
-                        .bool("hasObservedTwoParticipants", self.hasObservedTwoParticipants),
-                        .bool("intentionalTeardown", self.isIntentionalTeardown),
-                        .bool("participantLossPending", self.participantLossTask != nil)
-                    ]
-                )
-                if participants.count >= 2 {
-                    self.cancelParticipantLossDisconnect()
-                    if self.hasObservedTwoParticipants == false {
-                        self.hasObservedTwoParticipants = true
-                        AppLog.info(
-                            AppLog.lifecycle + AppLog.game,
-                            "SHAREPLAY_PARTICIPANTS_READY",
-                            outcome: .completed,
-                            fields: [
-                                .int("generation", generation),
-                                .int("participantCount", participants.count)
-                            ]
-                        )
-                        self.onParticipantsReady?()
-                    }
-                } else if self.hasObservedTwoParticipants, self.isIntentionalTeardown == false {
-                    self.scheduleParticipantLossDisconnect(for: generation)
-                } else {
-                    AppLog.debug(
-                        AppLog.lifecycle + AppLog.game,
-                        "SHAREPLAY_PARTICIPANT_LOSS",
-                        outcome: .ignored,
-                        fields: [
-                            .reason(
-                                self.hasObservedTwoParticipants
-                                ? "intentional_teardown"
-                                : "before_ready"
-                            ),
-                            .int("generation", generation),
-                            .int("participantCount", participants.count)
-                        ]
-                    )
+                guard let self, Task.isCancelled == false else { return }
+                let shouldContinue = await self.handleParticipants(participants, generation: generation)
+                guard shouldContinue else {
+                    return
                 }
             }
         }
@@ -189,7 +120,7 @@ nonisolated final class GroupSessionCoordinator: @unchecked Sendable {
     }
 
     /// Leaves the session gracefully (user-initiated exit, not a disconnect).
-    func leave() {
+    func leave() async {
         AppLog.info(
             AppLog.lifecycle + AppLog.game,
             "SHAREPLAY_COORDINATOR_LEAVE",
@@ -200,10 +131,10 @@ nonisolated final class GroupSessionCoordinator: @unchecked Sendable {
             ]
         )
         session?.leave()
-        tearDown(reason: "leave")
+        await tearDown(reason: "leave")
     }
 
-    private func tearDown(reason: String, cancelsPreReadyInvalidation: Bool = true) {
+    func tearDown(reason: String, cancelsPreReadyInvalidation: Bool = true) async {
         let hadSession = session != nil
         AppLog.debug(
             AppLog.lifecycle + AppLog.game,
@@ -231,8 +162,9 @@ nonisolated final class GroupSessionCoordinator: @unchecked Sendable {
         transport?.stop()
         transport = nil
         session = nil
+        hasObservedJoinedState = false
         hasObservedTwoParticipants = false
-        updateOpponentDisplayNameIfNeeded(nil)
+        await updateOpponentDisplayNameIfNeeded(nil)
         isIntentionalTeardown = false
         AppLog.debug(
             AppLog.lifecycle + AppLog.game,
@@ -243,169 +175,6 @@ nonisolated final class GroupSessionCoordinator: @unchecked Sendable {
                 .int("generation", observationGeneration)
             ]
         )
-    }
-
-    private func isCurrentObservation(_ generation: Int) -> Bool {
-        observationGeneration == generation
-    }
-
-    private func schedulePreReadyInvalidationDisconnect(for generation: Int) {
-        guard preReadyInvalidationGrace.hasPendingTask == false else {
-            AppLog.debug(
-                AppLog.lifecycle + AppLog.game,
-                "SHAREPLAY_GROUP_INVALIDATED",
-                outcome: .ignored,
-                fields: [
-                    .reason("pre_ready_already_pending"),
-                    .int("generation", generation)
-                ]
-            )
-            return
-        }
-
-        AppLog.warning(
-            AppLog.lifecycle + AppLog.game,
-            "SHAREPLAY_GROUP_INVALIDATED",
-            outcome: .deferred,
-            fields: [
-                .reason("pre_ready"),
-                .int("generation", generation),
-                .double("graceSeconds", preReadyInvalidationGraceDuration)
-            ]
-        )
-
-        preReadyInvalidationGrace.schedule(
-            graceDuration: preReadyInvalidationGraceDuration,
-            shouldDisconnect: { [weak self] in
-                guard let self else { return false }
-                return self.session == nil
-                    && self.hasObservedTwoParticipants == false
-                    && self.isIntentionalTeardown == false
-            },
-            onDisconnect: { [weak self] in
-                guard let self else { return }
-                AppLog.warning(
-                    AppLog.lifecycle + AppLog.game,
-                    "SHAREPLAY_GROUP_INVALIDATED",
-                    outcome: .started,
-                    fields: [
-                        .reason("pre_ready_grace_elapsed"),
-                        .int("generation", generation),
-                        .int("currentGeneration", self.observationGeneration)
-                    ]
-                )
-                self.onDisconnected?()
-            }
-        )
-    }
-
-    private func cancelPreReadyInvalidationDisconnect(reason: String) {
-        guard preReadyInvalidationGrace.hasPendingTask else { return }
-        AppLog.debug(
-            AppLog.lifecycle + AppLog.game,
-            "SHAREPLAY_GROUP_INVALIDATED",
-            outcome: .cancelled,
-            fields: [
-                .reason(reason),
-                .int("generation", observationGeneration)
-            ]
-        )
-        preReadyInvalidationGrace.cancel()
-    }
-
-    private func scheduleParticipantLossDisconnect(for generation: Int) {
-        guard participantLossTask == nil else {
-            AppLog.debug(
-                AppLog.lifecycle + AppLog.game,
-                "SHAREPLAY_PARTICIPANT_LOSS",
-                outcome: .ignored,
-                fields: [
-                    .reason("already_pending"),
-                    .int("generation", generation)
-                ]
-            )
-            return
-        }
-        AppLog.warning(
-            AppLog.lifecycle + AppLog.game,
-            "SHAREPLAY_PARTICIPANT_LOSS",
-            outcome: .deferred,
-            fields: [
-                .int("generation", generation),
-                .double("graceSeconds", participantLossGraceDuration)
-            ]
-        )
-        let delay = UInt64(max(0, participantLossGraceDuration) * 1_000_000_000)
-        participantLossTask = Task { [weak self] in
-            try? await Task.sleep(nanoseconds: delay)
-            guard let self else { return }
-            guard Task.isCancelled == false else {
-                AppLog.debug(
-                    AppLog.lifecycle + AppLog.game,
-                    "SHAREPLAY_PARTICIPANT_LOSS",
-                    outcome: .cancelled,
-                    fields: [
-                        .reason("task_cancelled"),
-                        .int("generation", generation)
-                    ]
-                )
-                return
-            }
-            guard self.isCurrentObservation(generation),
-                  self.hasObservedTwoParticipants,
-                  self.isIntentionalTeardown == false else {
-                AppLog.warning(
-                    AppLog.lifecycle + AppLog.game,
-                    "SHAREPLAY_PARTICIPANT_LOSS",
-                    outcome: .ignored,
-                    fields: [
-                        .reason("guard_failed_after_grace"),
-                        .int("callbackGeneration", generation),
-                        .int("currentGeneration", self.observationGeneration),
-                        .bool("hasObservedTwoParticipants", self.hasObservedTwoParticipants),
-                        .bool("intentionalTeardown", self.isIntentionalTeardown)
-                    ]
-                )
-                return
-            }
-            self.participantLossTask = nil
-            AppLog.warning(
-                AppLog.lifecycle + AppLog.game,
-                "SHAREPLAY_PARTICIPANT_LOSS",
-                outcome: .started,
-                fields: [.int("generation", generation)]
-            )
-            self.onDisconnected?()
-            self.tearDown(reason: "participant_loss")
-        }
-    }
-
-    private func cancelParticipantLossDisconnect() {
-        if participantLossTask != nil {
-            AppLog.debug(
-                AppLog.lifecycle + AppLog.game,
-                "SHAREPLAY_PARTICIPANT_LOSS",
-                outcome: .cancelled,
-                fields: [.int("generation", observationGeneration)]
-            )
-        }
-        participantLossTask?.cancel()
-        participantLossTask = nil
-    }
-
-    private func updateOpponentDisplayNameIfNeeded(_ displayName: String?) {
-        guard lastOpponentDisplayName != displayName else { return }
-        lastOpponentDisplayName = displayName
-        AppLog.debug(
-            AppLog.lifecycle + AppLog.game,
-            "SHAREPLAY_OPPONENT_NAME",
-            outcome: .completed,
-            fields: [
-                .int("generation", observationGeneration),
-                .string("opponentName", AppLog.redactedPlayer(displayName))
-            ]
-        )
-        onOpponentDisplayNameChanged?(displayName)
     }
 }
 #endif

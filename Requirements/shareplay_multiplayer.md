@@ -13,6 +13,8 @@
 SharePlay Competitive Mode lets two players race head-to-head over FaceTime's Group Activities
 infrastructure. Framing: **"Friend races are free."** — matches are always free and never count
 against the daily play limit (see [`monetization.md`](monetization.md), "SharePlay Exception").
+For a plain-English architecture map, see
+[`TechDocs/play-with-friends-shareplay.md`](../TechDocs/play-with-friends-shareplay.md).
 
 **v1 scope:** iOS and iPad only (`RetroRacingUniversal`). macOS/tvOS/watchOS/visionOS use a
 no-op fallback and do not expose the entry point.
@@ -22,17 +24,32 @@ transport.
 
 ## Match Lifecycle
 
-1. **Entry**: Either player taps **Play with Friends** in `MenuView` (host), or the system
-   activates an incoming SharePlay session for a participant who joined via FaceTime/Messages
+1. **Entry**: Either player taps **Play with Friends** in `MenuView` to start a host flow, or the
+   system activates an incoming SharePlay session for a participant who joined via FaceTime/Messages
    (guest). Both paths converge on the same `SharePlayMatchService.observeIncomingSessions()`
-   stream — see Architecture below. On tap, `RetroRacingApp` checks
-   `GroupStateObserver.isEligibleForGroupSession`: if the device is already in a FaceTime call,
-   `startHostSession()` calls `activate()` directly; otherwise `activate()` cannot present any UI
-   on its own, so `prepareHostActivation()` marks host intent and a `GroupActivitySharingController`
-   is presented natively via UIKit (`SharePlayActivitySharingPresenter`), letting the person invite
-   someone and start the call first. Dismissing the sharing controller without starting a session
-   clears only the pending host activation; SwiftUI teardown after a real session starts must not be
-   treated as user cancellation.
+   stream — see Architecture below. On iOS/iPad, menu-started host flows follow
+   `GroupStateObserver.isEligibleForGroupSession`: an eligible FaceTime/Messages conversation
+   activates the prepared activity directly, while an ineligible device presents the native
+   `GroupActivitySharingController` through `SharePlayActivitySharingPresenter` so the player can
+   choose people first. This prevents an eligible conversation from being routed through another
+   sharing controller and showing a replacement prompt.
+   The menu button keeps its normal **Play with Friends** presentation; it is not the waiting UI.
+   `GroupActivitySharingController` owns starting the activity and joining the initiating app.
+   Sharing-controller success is an in-progress handoff only, not a live match. The app first gives
+   the controller-created session a settle window. If no session arrives and the newly-created
+   conversation becomes eligible, the same pending request performs one guarded direct activation
+   automatically rather than requiring another button tap or presenting a replacement controller.
+   The app enters gameplay only after the session delivered through `sessions()` reaches
+   `GroupSession.State.joined`. A provisional session that invalidates while still waiting is
+   discarded without publishing `.waitingForFriend` or `.aborted` to the UI.
+   Host activation is idempotent: repeated taps while an activation is pending or a session is
+   active are ignored. Dismissing the sharing controller without starting a session clears only the
+   pending host activation; SwiftUI teardown after a real session starts must not be treated as
+   user cancellation. Role assignment comes from `GroupSession.isLocallyInitiated`, not from the
+   pending activation flag, so an invited participant who joins from the system SharePlay prompt
+   stays guest. The service and composition root keep the outgoing host request pending until the
+   delivered session reaches `.joined`, the controller is cancelled, or the handoff times out;
+   repeated menu taps during that interval cannot present another sharing/replacement flow.
 2. **Waiting** (`.waitingForFriend`): session created/joined; waiting for the second participant.
 3. **Countdown** (`.countdown(startAt:difficulty:)`): once both participants are present, the
    **host** starts a synchronized 3-second countdown at the host's currently-selected
@@ -112,20 +129,23 @@ flowchart TB
   `GameView`/`GameViewModel`. HUD/result score rows use the friend's display name when available
   and fall back to a localized `Friend` label when GroupActivities does not expose participant
   display names (iOS 26).
+- `SharePlayParticipantCountPolicy` — pure participant-count classification used by the iOS
+  coordinator: waiting before ready, exactly-two ready/already-ready, unsupported more than two,
+  loss after ready, and ignored intentional teardown.
 
 ### Service protocol (`Services/Protocols/SharePlayMatchService.swift`)
 
 ```swift
 public protocol SharePlayMatchService: AnyObject, Sendable {
-    func setStateChangeHandler(_ handler: @escaping @Sendable (SharePlayMatchState) -> Void) async
-    func currentRole() async -> SharePlayPlayerRole?
-    func startHostSession() async
-    func prepareHostActivation() async
-    func cancelHostActivation() async
+    func setStateChangeHandler(
+        _ handler: @escaping @Sendable (SharePlayUIState) async -> Void
+    ) async
+    func prepareHostActivation() async -> Bool
+    func activatePendingHostSession(reason: SharePlayHostActivationReason) async -> Bool
+    func cancelHostActivation(reason: SharePlayHostActivationReason) async
     func observeIncomingSessions() async
     func hostStartRoundIfReady(difficulty: GameDifficulty) async
     func updateLocalScore(_ score: Int, lives: Int) async
-    func currentOpponentDisplayName() async -> String?
     func reportLocalElimination(finalScore: Int) async
     func retry() async
     func leaveSession() async
@@ -140,39 +160,63 @@ Injected via `SharePlayMatchService+Environment.swift`, matching the existing
 
 - `RetroRacingGroupActivity` — `GroupActivity` conformance; `activityIdentifier`
   `"com.accessibilityUpTo11.RetroRacing.shareplay.competitive"`; localized title
-  (`shareplay_activity_title`).
-- `GroupSessionCoordinator` — manages a single `GroupSession<RetroRacingGroupActivity>`
-  lifecycle: participant readiness, disconnect → abort, and wires
+  (`shareplay_activity_title`), free-race subtitle, and associated-domain fallback URL for system
+  invite handoff.
+- `GroupSessionCoordinator` — actor-isolated owner of a single
+  `GroupSession<RetroRacingGroupActivity>` lifecycle: participant readiness, disconnect → abort,
+  and wires
   `GroupSessionMessengerTransport`. Participant-ready and display-name callbacks are
   edge-triggered so repeated `activeParticipants` emissions do not re-start no-op host checks or
-  invalidate SwiftUI without a visible state change. Stale observer callbacks from prior
-  sessions are ignored. Participant-count loss after readiness uses a short grace window so
-  transient GroupActivities join churn does not flash a false connection-lost screen. A
+  invalidate SwiftUI without a visible state change. Stale observer callbacks and messenger
+  commands from prior sessions are ignored by session generation. Participant readiness requires
+  exactly two active participants; three or more active participants abort locally because v1 has
+  only one remote score/lives slot. Participant-count loss after readiness uses a short grace window
+  so transient GroupActivities join churn does not flash a false connection-lost screen. A
   pre-ready session invalidation is also deferred briefly and cancelled by a replacement session,
   because the system can invalidate the first guest session immediately before delivering the
-  real joined session.
+  real joined session. A delivered session is not admitted to app navigation until its state reaches
+  `.joined`; invalidation before that edge is treated as transport setup churn, not a user-visible
+  disconnect.
 - `GroupSessionMessengerTransport` — thin wrapper around `GroupSessionMessenger` send/receive of
   `SharePlayMatchCommand`.
 - `GroupActivitiesSharePlayMatchService` — the production `SharePlayMatchService`, an **actor**
-  composing the coordinator, messenger, and `SharePlayMatchStateMachine`. Handles both
-  host-activated (`startHostSession()`) and system-activated (`observeIncomingSessions()`)
-  sessions identically — both arrive via `RetroRacingGroupActivity.sessions()` and are
-  distinguished only by whether `pendingHostActivation` was set first (by `startHostSession()` or
-  `prepareHostActivation()`). SharePlay service/coordinator/app-state boundaries emit structured
+  composing the coordinator, host activation controller, state notifier, timer controller, and
+  `SharePlayMatchStateMachine`. Handles both
+  menu-started host sessions and system-activated incoming sessions identically — both arrive via
+  `RetroRacingGroupActivity.sessions()` and assign role from `GroupSession.isLocallyInitiated`,
+  while pending host activation only gates duplicate activation attempts. SharePlay
+  service/coordinator/app-state boundaries emit structured
   `SHAREPLAY_*` logs for session observation, participant counts, delayed disconnect scheduling
   and cancellation, incoming lifecycle commands, and UI state propagation so transient terminal
   flashes can be diagnosed from a two-device log capture without exposing player names.
+  The service applies `SharePlaySessionAdmissionPolicy`: active match states remain quarantined
+  until the coordinator reports `.joined`, and a pre-join invalidation is discarded instead of
+  becoming `.aborted`.
+  After the participant-ready edge, the service re-sends the idempotent local `.sessionReady`
+  command because the first ready message may have been emitted before the remote peer joined the
+  transport.
+- `GroupActivitiesSharePlayHostActivationController` — internal iOS helper owned by the service
+  actor; owns pending/in-flight host activation state, direct `RetroRacingGroupActivity.activate()`
+  calls, cancellation, and activation logging.
+- `SharePlayStateNotifier` — internal iOS helper owned by the service actor; owns state-change
+  handler storage, notification admission, last-notified state caching, and UI-state notification
+  logging.
+- `SharePlayMatchTimerController` — internal iOS helper owned by the service actor; owns countdown
+  and retry timeout `Task` scheduling/cancellation. Timer callbacks re-enter the service actor,
+  which still owns match state transitions and command emission.
 - `SharePlayActivitySharingPresenter` — presents the system `GroupActivitySharingController`
   from an invisible UIKit host embedded in the menu background. It intentionally does not use a
   SwiftUI `.fullScreenCover` for the system sharing sheet, because the extra cover can outlive
   the UIKit sheet and leave a blank, non-interactive screen. Each **Play with Friends** tap
   creates a fresh `SharePlaySharingPresentation` identity, and the hidden UIKit host is keyed and
-  reset from that identity so re-presenting works after dismiss. Used when
-  `GroupStateObserver.isEligibleForGroupSession` is `false`, since `GroupActivity.activate()` only
-  works (and only presents system UI) while already in a FaceTime call/Messages conversation.
-  Dismissal is classified from `GroupActivitySharingController.result`: only `.cancelled`
-  clears pending host activation, while `.success` leaves host activation intact for the session
-  delivered by `RetroRacingGroupActivity.sessions()`.
+  reset from that identity so re-presenting works after dismiss. The iOS/iPad menu uses this system
+  sharing UI only when `GroupStateObserver` reports that no group conversation is eligible;
+  eligible requests activate directly and therefore cannot present a replacement-controller alert.
+  Dismissal is classified from `GroupActivitySharingController.result`: `.cancelled` clears pending
+  host activation as user cancellation, while `.success` marks an invite handoff. The controller
+  normally starts and joins the activity. If no session is delivered after a short settle period
+  and the controller-created conversation is now eligible, the composition root asks the service
+  to perform one idempotent direct-activation recovery.
   `SharePlaySharingPresentation` itself is platform-neutral so non-iOS app targets still compile;
   only the UIKit presenter is iOS-gated.
 - `NoOpSharePlayMatchService` — fallback for macOS/tvOS/watchOS/visionOS, previews, and tests;
@@ -184,11 +228,21 @@ Injected via `SharePlayMatchService+Environment.swift`, matching the existing
   elsewhere — the only `#if os(iOS)` branch; the service layer itself stays `#if os()`-free.
 - Injects via `.sharePlayMatchService(...)` environment modifier.
 - A single long-lived `.task` calls `setStateChangeHandler` (hopping to `@MainActor` before
-  touching `@State`) and `observeIncomingSessions()` for the app's lifetime.
-- `handleSharePlayStateChanged(_:)` mirrors state into `sharePlayUIState` and — the first time
-  the state transitions away from `.idle` while the menu is presented — dismisses the menu and
-  starts a game session exactly like tapping **Play**, but without any daily play-limit/paywall
-  check. This covers host-initiated and system-activated (incoming) sessions identically.
+  touching `@State`) and `observeIncomingSessions()` for the app's lifetime. The handler receives
+  an atomic `SharePlayUIState` snapshot from the service, so state, role, and display-name updates
+  cannot be stitched together from separate actor calls.
+- `handleSharePlayStateChanged(_:)` mirrors service state into `sharePlayUIState`. The first real
+  session transition away from `.idle` starts a game session exactly like tapping **Play**, but
+  without any daily play-limit/paywall check.
+- `SharePlayActivationHandoffCoordinator` owns a short-lived activation request ID. The menu
+  button stays visually stable while duplicate taps are ignored internally. Eligible conversations
+  call `activatePendingHostSession(reason:)`; ineligible devices present the sharing controller. If
+  the sharing controller is dismissed, the pending host activation is cancelled and the menu remains
+  usable. If it succeeds, the app logs `SHAREPLAY_INVITE_HANDOFF`, removes the completed presenter,
+  and awaits the system-delivered session. A controller handoff that becomes eligible but delivers
+  no session gets one delayed direct-activation recovery. The request is cleared only when that
+  session reaches `.joined`, activation fails, or the bounded handoff timeout expires. Activation
+  and cancellation reasons use `SharePlayHostActivationReason` so log/control reasons stay stable.
 - **Entitlement**: `com.apple.developer.group-session` (Boolean) added to
   `RetroRacingUniversal.entitlements` via the **Group Activities** Xcode capability.
 
@@ -220,7 +274,9 @@ Injected via `SharePlayMatchService+Environment.swift`, matching the existing
   `leaveSharePlayMatch`, and guest speed capture/restore around `applySharePlayState(_:)`.
 - The host auto-starts countdown only after both conditions are true: the GroupActivities session
   reports two active participants, and the remote peer's ordered `.sessionReady` command has been
-  received by the state machine.
+  received by the state machine. Each peer sends `.sessionReady` when it joins and re-sends it when
+  the session first reports two active participants; the message is idempotent and prevents a
+  dropped/too-early ready command from deadlocking both players at **Waiting for your friend**.
 - Gameplay is pause-locked while waiting for a friend, during countdown, after local loss, during
   retry waiting/timeout, and after disconnect/abort. The scene unlocks only for `.inRound`.
 - SharePlay round start uses the countdown “go” cue and starts the scene immediately, bypassing
@@ -236,7 +292,9 @@ Injected via `SharePlayMatchService+Environment.swift`, matching the existing
   same bottom action bar and button font treatment.
 - Retry timeout is terminal: `SharePlayResultView` must offer **Leave** only for
   `.retryTimedOut`, not **Play Again**, because the retry state machine no longer accepts retry
-  input after the 30-second deadline has elapsed.
+  input after the 30-second deadline has elapsed. When one device's retry timer fires, it sends
+  `.sessionAborted(reason: .retryTimedOut)` so the other device converges to `.retryTimedOut` even
+  if its local timer is delayed or suspended.
 - **Leaderboard submission is unchanged**: each player still submits their own score via the
   existing `LeaderboardService.submitScore` path in `handleCollision()`. No leaderboard protocol
   changes.
@@ -278,6 +336,16 @@ opponent wording.
 - `SharePlayPreReadyInvalidationGraceTests` — deferred pre-ready session invalidation grace:
   cancel-before-fire, reschedule-after-cancel, and should-disconnect guard behavior used by
   `GroupSessionCoordinator`.
+- `SharePlaySessionAdmissionPolicyTests` — provisional sessions cannot publish waiting/aborted
+  states before `.joined`; pre-join invalidation is discarded while post-join invalidation aborts.
+- `SharePlayHostActivationRoutingPolicyTests` — eligible conversations activate directly,
+  ineligible devices present the sharing controller, and controller recovery is allowed only once
+  for the current eligible request.
+- `SharePlayActivationHandoffCoordinatorTests` — duplicate request ignore, direct activation,
+  sharing-controller presentation, one recovery activation, user dismissal cancellation,
+  incoming-state cleanup, and handoff timeout cancellation.
+- `SharePlayHostActivationReasonTests` — stable raw values for typed host activation and
+  cancellation reasons.
 - `GeneratedSFXRecipeTests` — generated countdown step/go recipes render and have expected
   durations; `SharePlayCountdownCueScheduler` plays once per displayed countdown step.
 
@@ -302,6 +370,11 @@ considered done:
   other player the connection-lost recovery UI.
 - Cancel SharePlay invitation before a session starts; the menu remains usable, tapping
   **Play with Friends** again presents a fresh sharing sheet, and no blank gameplay screen appears.
+- Guest joins from Messages/FaceTime and taps **Play with Friends** while the system-delivered
+  session is pending; the app must join or wait for the incoming session without presenting a
+  system **Replace Existing** prompt or misclassifying the guest as host.
+- A third active participant joins the activity; v1 must fail safely instead of corrupting the
+  two-player score/lives model.
 - Guest's difficulty preference is restored after the match ends (finished, timed out, or
   aborted).
 - Neither player's daily play count is affected, regardless of remaining plays before the match.
@@ -312,7 +385,18 @@ considered done:
 - [`launch_flow.md`](launch_flow.md) — Play with Friends entry point in the menu flow.
 - [`accessibility.md`](accessibility.md) — VoiceOver behavior for SharePlay overlays.
 - [`testing.md`](testing.md) — SharePlay test coverage.
+- [`../TechDocs/play-with-friends-shareplay.md`](../TechDocs/play-with-friends-shareplay.md) —
+  plain-English SharePlay architecture and flow diagrams.
+
+### External References
+
+- [Presenting SharePlay activities from your app's UI](https://developer.apple.com/documentation/groupactivities/promoting-shareplay-activities-from-your-apps-ui) — canonical start/share UI behavior.
+- [Joining and managing a shared activity](https://developer.apple.com/documentation/groupactivities/joining-and-managing-a-shared-activity) — canonical `sessions()`/`join()` lifecycle.
+- [Setting up SharePlay on an iOS app](https://www.polpiella.dev/setting-up-shareplay-on-an-ios-app-from-scratch/) — practical custom-data setup and sharing-controller wrapper notes.
+- [SharePlay Tutorial: Share custom data between iOS and macOS](https://mitemmetim.medium.com/shareplay-tutorial-share-custom-data-between-ios-and-macos-a50bfecf6e64) — cross-platform custom-data pitfalls; revisit before macOS expansion.
+- [Using SharePlay to create a custom shared experience over FaceTime](https://wwdcbysundell.com/2021/using-shareplay-to-create-a-custom-shared-experience/) — concise custom `GroupActivity`, `GroupSessionMessenger`, and message-rate guidance.
+- [Supporting coordinated media playback](https://developer.apple.com/documentation/avfoundation/supporting-coordinated-media-playback) — AVFoundation media-sync sample; mostly non-goal for SpriteKit gameplay but useful for session coordination examples.
 
 ---
 
-**Last updated**: 2026-07-23 (SharePlay UX polish: stable join handling, concise HUD score copy, first-party overlay art, friend wording, menu-exit cancellation)
+**Last updated**: 2026-08-01 (SharePlay object boundary refactor)

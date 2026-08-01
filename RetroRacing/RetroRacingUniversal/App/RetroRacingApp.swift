@@ -54,17 +54,11 @@ struct RetroRacingApp: App {
     private let specialEventService: SpecialEventService
     private let storeKitService: StoreKitService
     private let sharePlayMatchService: any SharePlayMatchService
-    #if canImport(GroupActivities) && os(iOS)
-    /// Reports whether the device is already in a FaceTime call/Messages conversation. When
-    /// `false`, `activate()` cannot present any UI on its own, so a `GroupActivitySharingController`
-    /// sheet must be presented instead (see `handlePlayWithFriendsRequest`).
-    private let groupStateObserver = GroupStateObserver()
-    #endif
     private let controllerInputSource: SystemGameControllerInputSource
     private let controlsDescriptionKey: String
     @State private var isMenuPresented = true
     @State private var isSettingsPresented = false
-    @State private var sharePlaySharingPresentation: SharePlaySharingPresentation?
+    @State private var sharePlayActivationHandoffCoordinator: SharePlayActivationHandoffCoordinator
     /// Controls whether gameplay should be allowed to start for the current session.
     /// On initial launch and after Finish, this is false so that the SpriteKit
     /// scene is not created until the menu overlay is dismissed via Play.
@@ -216,11 +210,30 @@ struct RetroRacingApp: App {
         }
         specialEventService = Self.makeMiamiGrandPrixEventService()
         #if os(iOS)
-        sharePlayMatchService = GroupActivitiesSharePlayMatchService(
+        let groupStateObserver = GroupStateObserver()
+        let sharePlayService = GroupActivitiesSharePlayMatchService(
             difficultyProvider: { GameDifficulty.currentSelection(from: userDefaults) }
         )
+        sharePlayMatchService = sharePlayService
+        _sharePlayActivationHandoffCoordinator = State(
+            initialValue: SharePlayActivationHandoffCoordinator(
+                sharePlayMatchService: sharePlayService,
+                isSharePlayAvailable: true,
+                isEligibleForGroupSession: {
+                    groupStateObserver.isEligibleForGroupSession
+                }
+            )
+        )
         #else
-        sharePlayMatchService = NoOpSharePlayMatchService()
+        let sharePlayService = NoOpSharePlayMatchService()
+        sharePlayMatchService = sharePlayService
+        _sharePlayActivationHandoffCoordinator = State(
+            initialValue: SharePlayActivationHandoffCoordinator(
+                sharePlayMatchService: sharePlayService,
+                isSharePlayAvailable: false,
+                isEligibleForGroupSession: { false }
+            )
+        )
         #endif
         controllerInputSource = SystemGameControllerInputSource(
             platformConfig: .standard,
@@ -333,17 +346,9 @@ struct RetroRacingApp: App {
                 await watchRelayIngestionService?.flushPendingIfPossible(trigger: .appLifecycle)
             }
             .task {
-                await sharePlayMatchService.setStateChangeHandler { state in
-                    Task { @MainActor in
-                        let role = await sharePlayMatchService.currentRole()
-                        let opponentName = await sharePlayMatchService.currentOpponentDisplayName()
-                        handleSharePlayStateChanged(
-                            SharePlayUIState(
-                                state: state,
-                                localRole: role,
-                                opponentDisplayName: opponentName
-                            )
-                        )
+                await sharePlayMatchService.setStateChangeHandler { uiState in
+                    await MainActor.run {
+                        handleSharePlayStateChanged(uiState)
                     }
                 }
                 await sharePlayMatchService.observeIncomingSessions()
@@ -533,9 +538,10 @@ struct RetroRacingApp: App {
         .interactiveDismissDisabled(true)
         #if canImport(GroupActivities) && os(iOS)
         .background {
-            if let sharePlaySharingPresentation {
+            if let sharePlaySharingPresentation = sharePlayActivationHandoffCoordinator.sharingPresentation {
                 SharePlayActivitySharingPresenter(
                     presentationID: sharePlaySharingPresentation.id,
+                    onSucceeded: handleSharePlaySharingSucceeded,
                     onUserDismissed: handleSharePlaySharingUserDismissed
                 )
                     .frame(width: 0, height: 0)
@@ -609,32 +615,14 @@ struct RetroRacingApp: App {
         )
     }
 
-    /// Called from the "Play with Friends" menu button. `activate()` only presents system UI (or
-    /// succeeds at all) when the device is already in a FaceTime call/Messages conversation; if
-    /// not, a `GroupActivitySharingController` sheet must be presented instead to let the person
-    /// invite someone first. Either way, the actual transition into gameplay happens reactively
-    /// in `handleSharePlayStateChanged` once a session (host-initiated or system-activated
-    /// incoming) actually arrives, so the same code path handles both cases.
     private func handlePlayWithFriendsRequest() {
-        AppLog.info(AppLog.lifecycle + AppLog.game, "SHAREPLAY_MENU_REQUEST", outcome: .requested)
-        #if canImport(GroupActivities) && os(iOS)
-        if groupStateObserver.isEligibleForGroupSession {
-            Task { await sharePlayMatchService.startHostSession() }
-        } else {
-            Task {
-                await sharePlayMatchService.prepareHostActivation()
-                await MainActor.run {
-                    sharePlaySharingPresentation = SharePlaySharingPresentation()
-                }
-            }
-        }
-        #else
-        Task { await sharePlayMatchService.startHostSession() }
-        #endif
+        sharePlayActivationHandoffCoordinator.handlePlayWithFriendsRequest(
+            currentState: sharePlayUIState.state
+        )
     }
 
     /// Mirrors `SharePlayMatchService` state into `sharePlayUIState` for `GameView`, and — the
-    /// first time a session transitions away from idle — dismisses the menu and starts a game
+    /// first time a real session transitions away from idle — dismisses the menu and starts a game
     /// session, exactly like tapping Play, but without any daily play-limit/paywall check
     /// (SharePlay matches are always free). Covers host-initiated and system-activated
     /// (incoming) sessions identically, since both arrive via the same state-change handler.
@@ -642,9 +630,12 @@ struct RetroRacingApp: App {
         let wasIdle = sharePlayUIState.state == .idle
         let previousState = sharePlayUIState.state
         logSharePlayUIStateChanged(from: previousState, to: newValue, wasIdle: wasIdle)
+        if newValue.state != .idle {
+            sharePlayActivationHandoffCoordinator.clearActivationRequest(reason: .sharePlayStateArrived)
+        }
         sharePlayUIState = newValue
         if wasIdle, newValue.state != .idle {
-            sharePlaySharingPresentation = nil
+            sharePlayActivationHandoffCoordinator.dismissSharingPresentation()
         }
         guard wasIdle, newValue.state != .idle, isMenuPresented else { return }
         let previousSessionID = applyMenuSessionTransition(
@@ -684,14 +675,22 @@ struct RetroRacingApp: App {
     }
 
     private func handleMenuDismissed() {
-        sharePlaySharingPresentation = nil
+        sharePlayActivationHandoffCoordinator.dismissSharingPresentation()
         AppLog.info(AppLog.lifecycle + AppLog.game, "MENU_DISMISS", outcome: .completed)
     }
 
+    private func handleSharePlaySharingSucceeded() {
+        sharePlayActivationHandoffCoordinator.handleSharePlaySharingSucceeded(
+            isSharePlayIdle: sharePlayUIState.state == .idle,
+            isMenuPresented: isMenuPresented,
+            shouldStartGame: shouldStartGame
+        )
+    }
+
     private func handleSharePlaySharingUserDismissed() {
-        sharePlaySharingPresentation = nil
-        guard sharePlayUIState.state == .idle else { return }
-        Task { await sharePlayMatchService.cancelHostActivation() }
+        sharePlayActivationHandoffCoordinator.handleSharePlaySharingUserDismissed(
+            isSharePlayIdle: sharePlayUIState.state == .idle
+        )
     }
 
     private func handleFinish() {

@@ -14,30 +14,21 @@ import Foundation
 public final class NoOpSharePlayMatchService: SharePlayMatchService, Sendable {
     public init() {}
 
-    public func setStateChangeHandler(_ handler: @escaping @Sendable (SharePlayMatchState) -> Void) async {}
+    public func setStateChangeHandler(
+        _ handler: @escaping @Sendable (SharePlayUIState) async -> Void
+    ) async {}
 
-    public func currentRole() async -> SharePlayPlayerRole? { nil }
+    public func prepareHostActivation() async -> Bool { false }
 
-    public func startHostSession() async {
-        AppLog.info(
-            AppLog.game,
-            "SHAREPLAY_START_HOST_SESSION",
-            outcome: .ignored,
-            fields: [.reason("noop_service")]
-        )
-    }
+    public func activatePendingHostSession(reason: SharePlayHostActivationReason) async -> Bool { false }
 
-    public func prepareHostActivation() async {}
-
-    public func cancelHostActivation() async {}
+    public func cancelHostActivation(reason: SharePlayHostActivationReason) async {}
 
     public func observeIncomingSessions() async {}
 
     public func hostStartRoundIfReady(difficulty: GameDifficulty) async {}
 
     public func updateLocalScore(_ score: Int, lives: Int) async {}
-
-    public func currentOpponentDisplayName() async -> String? { nil }
 
     public func reportLocalElimination(finalScore: Int) async {}
 

@@ -26,7 +26,7 @@ Last updated: 2026-07-26
 | **Screenshot capture (source)** | `en-US`, `de-DE`, `nl-NL`, `it`, `fr-FR`, `fr-CA`, `es-ES`, `ca`, `ja`, `ko`, `pt-BR`, `pt-PT`, `zh-Hant`, `zh-Hans` |
 | **Screenshot derived (copy pixels)** | `en-GB`/`en-AU`/`en-CA` ← `en-US`; `es-MX` ← `es-ES` |
 
-**Next candidates (optional):** `hi` (Hindi), `tr` (Turkish), `pl` — only when storefront data justifies the work.
+**Next candidates (optional):** provisional priority is `tr` (Turkish), `pl` (Polish), `ar` (Arabic), `th` (Thai), `vi` (Vietnamese), then `id` (Indonesian). See [`Plans/aso/08-locale-expansion-waves.md`](../../Plans/aso/08-locale-expansion-waves.md). Hindi (`hi`) remains a later candidate only if India storefront data justifies the work.
 
 ---
 

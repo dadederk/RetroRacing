@@ -113,7 +113,7 @@ public enum DocumentationValidator {
                 && $0.pathExtension == "md"
         }
 
-        for directory in ["AppStore", "Docs", "Plans", "Requirements"] {
+        for directory in ["AppStore", "Docs", "Plans", "Requirements", "TechDocs"] {
             let root = repositoryRoot.appending(path: directory)
             guard let enumerator = fileManager.enumerator(
                 at: root,

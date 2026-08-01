@@ -296,9 +296,19 @@ public struct MenuView: View {
     }
 
     private var shouldShowPlayWithFriendsFreeFootnote: Bool {
-        guard onPlayWithFriendsRequest != nil else { return false }
-        guard storeKit.hasPremiumAccessForGating == false else { return false }
-        return specialEventService?.isEventActive(on: Date()) != true
+        Self.shouldShowPlayWithFriendsFreeFootnotePolicy(
+            hasPlayWithFriendsEntryPoint: onPlayWithFriendsRequest != nil,
+            shouldShowFreeTierAffordances: storeKit.shouldShowFreeTierAffordances,
+            isSpecialEventActive: specialEventService?.isEventActive(on: Date()) == true
+        )
+    }
+
+    static func shouldShowPlayWithFriendsFreeFootnotePolicy(
+        hasPlayWithFriendsEntryPoint: Bool,
+        shouldShowFreeTierAffordances: Bool,
+        isSpecialEventActive: Bool
+    ) -> Bool {
+        hasPlayWithFriendsEntryPoint && shouldShowFreeTierAffordances && !isSpecialEventActive
     }
 
     private var settingsPreviewDependencyFactory: SettingsPreviewDependencyFactory {

@@ -21,13 +21,13 @@ nonisolated final class GroupSessionMessengerTransport {
     }
 
     /// Starts listening for incoming commands. Replaces any previous listener.
-    func startReceiving(onCommand: @escaping (SharePlayMatchCommand) -> Void) {
+    func startReceiving(onCommand: @escaping @Sendable (SharePlayMatchCommand) async -> Void) {
         receiveTask?.cancel()
         let messenger = self.messenger
         receiveTask = Task {
             for await (command, _) in messenger.messages(of: SharePlayMatchCommand.self) {
                 if Task.isCancelled { return }
-                onCommand(command)
+                await onCommand(command)
             }
         }
     }

@@ -9,6 +9,7 @@ import Foundation
 
 /// Defers SharePlay disconnect callbacks for transient pre-ready GroupActivities session invalidation.
 /// A replacement session can cancel the pending disconnect before the grace window elapses.
+/// Safety: all mutable state is guarded by `lock`; callbacks run after the lock is released.
 public final class SharePlayPreReadyInvalidationGrace: @unchecked Sendable {
     private let lock = NSLock()
     private var task: Task<Void, Never>?

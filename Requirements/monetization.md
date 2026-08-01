@@ -72,7 +72,9 @@ they **never consume a daily play**.
   difficulty editing (the round's difficulty is host-authoritative and shared with the guest for
   the match's duration; see `SharePlayGuestSpeedRestore`).
 - **Copy**:
-  - `menu_play_with_friends_free_footer` — visible footer below the Play with Friends button.
+  - `menu_play_with_friends_free_footer` — visible footer below the Play with Friends button only
+    when `StoreKitService.shouldShowFreeTierAffordances` is true, so Unlimited Plays users and
+    unresolved entitlement states do not see free-tier footer copy.
   - `menu_play_with_friends_free_hint` — explicit accessibility hint on the Play with Friends button.
   - `paywall_shareplay_free_notice` — Play with Friends card body in `PaywallView`'s
     limit-triggered "Want to Stay Free?" section, reminding players who hit the daily cap that

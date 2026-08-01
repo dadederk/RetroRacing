@@ -12,30 +12,28 @@ import Foundation
 /// `SharePlayMatchStateMachine`, and report state changes back to the caller via
 /// `setStateChangeHandler`. Views/view models never talk to GroupActivities directly.
 public protocol SharePlayMatchService: AnyObject, Sendable {
-    /// Registers a handler invoked whenever the match state changes. The handler itself hops
-    /// to the main actor before touching UI-bound state (see `GameViewModel+SharePlay.swift`).
-    /// Call once, before starting or observing sessions. Replaces any previously set handler.
-    func setStateChangeHandler(_ handler: @escaping @Sendable (SharePlayMatchState) -> Void) async
+    /// Registers a handler invoked whenever the match UI state changes. The composition root hops
+    /// to the main actor before touching UI-bound state. Call once, before starting or observing
+    /// sessions. Replaces any previously set handler.
+    func setStateChangeHandler(
+        _ handler: @escaping @Sendable (SharePlayUIState) async -> Void
+    ) async
 
-    /// The local participant's role in the active/most recent session, or `nil` before any
-    /// session has started.
-    func currentRole() async -> SharePlayPlayerRole?
+    /// Marks activation intent without presenting system UI or activating the activity. Call
+    /// immediately before either host-start route so duplicate activation requests can be ignored
+    /// until the system delivers or cancels the resulting session.
+    /// Returns `true` only when the caller should continue the host-start request.
+    func prepareHostActivation() async -> Bool
 
-    /// Starts a new SharePlay activity as host. Only succeeds when the device is already in a
-    /// FaceTime call or Messages conversation (`GroupStateObserver.isEligibleForGroupSession`);
-    /// callers must check that first and fall back to presenting a system sharing sheet
-    /// (`prepareHostActivation()`) otherwise.
-    func startHostSession() async
+    /// Activates the already-prepared host request in an eligible FaceTime or Messages
+    /// conversation. Returns `true` when activation started or a session was delivered while the
+    /// activation request was in flight.
+    func activatePendingHostSession(reason: SharePlayHostActivationReason) async -> Bool
 
-    /// Marks host intent without presenting any system UI. Call immediately before presenting a
-    /// `GroupActivitySharingController` sheet (used when the device isn't currently in a
-    /// FaceTime call), so the session that sheet starts — once delivered via
-    /// `observeIncomingSessions()` — is correctly treated as host rather than guest.
-    func prepareHostActivation() async
-
-    /// Clears a pending host activation when the sharing UI is dismissed without starting a
-    /// session (Cancel / swipe-to-dismiss).
-    func cancelHostActivation() async
+    /// Clears a pending host activation request without affecting any real session that may later
+    /// arrive through `observeIncomingSessions()`. The reason is logged by production adapters so
+    /// two-device SharePlay captures can distinguish user cancellation from an invite handoff.
+    func cancelHostActivation(reason: SharePlayHostActivationReason) async
 
     /// Awaits and joins any incoming (system-activated) SharePlay session for this activity.
     /// Intended to run for the lifetime of the app in a single long-lived `.task`.
@@ -47,9 +45,6 @@ public protocol SharePlayMatchService: AnyObject, Sendable {
 
     /// Reports the local player's live score and remaining lives during a round.
     func updateLocalScore(_ score: Int, lives: Int) async
-
-    /// The remote participant's display name when a session is active, or `nil`.
-    func currentOpponentDisplayName() async -> String?
 
     /// Reports that the local player's run ended (collision/game over). Implementations must send
     /// the final `scoreUpdate(score: finalScore, lives: 0)` before the elimination command.

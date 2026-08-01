@@ -81,6 +81,30 @@ final class SharePlayTwoPeerConvergenceTests: XCTestCase {
         XCTAssertEqual(expectedResult.localOutcome(for: .guest), .lost)
     }
 
+    func testGivenInitialSessionReadyIsMissedWhenParticipantsReadyResendsThenPeersCanStartRound() {
+        // Given
+        var host = makeMachine(role: .host)
+        var guest = makeMachine(role: .guest)
+
+        // When: each peer entered the session, but the first readiness messages were missed.
+        _ = host.startWaitingForFriend()
+        _ = guest.startWaitingForFriend()
+
+        // Then
+        XCTAssertFalse(host.isRemoteReady)
+        XCTAssertFalse(guest.isRemoteReady)
+
+        // When: the transport later reports both participants and each peer re-sends readiness.
+        relay(host.resendSessionReadyIfWaitingForFriend(), from: &host, to: &guest)
+        relay(guest.resendSessionReadyIfWaitingForFriend(), from: &guest, to: &host)
+
+        // Then: both peers recover and the host can start the authoritative countdown.
+        XCTAssertTrue(host.isRemoteReady)
+        XCTAssertTrue(guest.isRemoteReady)
+        relay(host.hostStartRound(difficulty: .fast), from: &host, to: &guest)
+        XCTAssertEqual(host.state, guest.state)
+    }
+
     func testGivenTwoPeersAtFinishedStateWhenBothRetryThenBothConvergeOnWaitingForFriend() {
         // Given
         var host = makeMachine(role: .host)
@@ -113,18 +137,17 @@ final class SharePlayTwoPeerConvergenceTests: XCTestCase {
         XCTAssertEqual(commands.count, 1)
     }
 
-    func testGivenOnlyOnePeerRetriesWhenDeadlineElapsesThenBothConvergeOnRetryTimedOut() {
+    func testGivenOnlyOnePeerRetriesWhenItsDeadlineElapsesThenBothConvergeOnRetryTimedOut() {
         // Given
         var host = makeMachine(role: .host)
         var guest = makeMachine(role: .guest)
         playFullRoundToFinished(host: &host, guest: &guest)
 
-        // When: only the host confirms the rematch, and the 30s deadline elapses on both devices
+        // When: only the host confirms the rematch, and only the host's deadline fires
         relay(host.retryTapped(), from: &host, to: &guest)
-        host.retryTimeoutElapsed()
-        guest.retryTimeoutElapsed()
+        relay(host.retryTimeoutElapsed(), from: &host, to: &guest)
 
-        // Then: both machines converge on the timed-out state despite the guest never confirming
+        // Then: both machines converge on the timed-out state despite the guest timer not firing
         XCTAssertEqual(host.state, .retryTimedOut)
         XCTAssertEqual(guest.state, .retryTimedOut)
     }
