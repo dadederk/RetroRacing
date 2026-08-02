@@ -1,238 +1,58 @@
 # SharePlay on macOS Plan
 
-**Status:** Planned.
+**Status:** Implemented in code; manual QA pending.
 
-**See also:** [`Requirements/shareplay_multiplayer.md`](../Requirements/shareplay_multiplayer.md) (shipped iOS/iPad v1 behavior) · [`shareplay_competitive_mode_plan.md`](shareplay_competitive_mode_plan.md) (original iOS+iPad planning record)
+**See also:** [`Requirements/shareplay_multiplayer.md`](../Requirements/shareplay_multiplayer.md) (shipped behavior) · [`shareplay_competitive_mode_plan.md`](shareplay_competitive_mode_plan.md) (original iOS+iPad planning record)
 
 ## Summary
 
-Enable RetroRapid's existing SharePlay competitive mode on macOS by reusing the platform-agnostic shared layer, existing SwiftUI game/menu/result UI, and the current `RetroRacingUniversal` GroupActivities adapter. Add platform-specific native controller hosting only where Apple's SharePlay sharing UI requires it.
+Enable RetroRapid's existing SharePlay competitive mode on macOS by extending the current iOS/iPad implementation seams instead of creating a parallel Mac feature.
 
-This plan also defines the future expansion shape for other SharePlay-capable targets. Immediate implementation scope is macOS; tvOS and visionOS remain no-op until their product status and platform-specific UX are explicitly validated. Rollout timing and App Store copy are out of scope; defer ASO updates until that decision is made ([`aso/10-shareplay-release-campaign.md`](aso/10-shareplay-release-campaign.md) currently says not to claim macOS SharePlay).
+The implementation reuses the shared state machine, deterministic traffic seed, 90-second retry flow, free-play exception, guest speed restore, SwiftUI menu/game/overlay/result UI, activation handoff coordinator, host activation controller, state notifier, timer controller, and GroupActivities transport adapter. AppKit is used only inside the macOS system sharing-controller host.
 
-## Current state
+tvOS and visionOS remain no-op until their product status, system presentation, focus behavior, and manual QA are explicitly planned. watchOS remains no-op unless Apple adds Group Activities capability.
 
-SharePlay v1 is fully implemented for **iPhone/iPad** inside `RetroRacingUniversal`. The shared game layer (`RetroRacingShared/SharePlay/*`, `GameViewModel+SharePlay`, overlays, result UI) is already platform-agnostic.
+## Key Changes
 
-macOS is excluded at the **composition/adapter layer only**:
+- Broaden Universal SharePlay GroupActivities gates from iOS-only to iOS/macOS across the activity, messenger, coordinator, service actor, split service extensions, host activation controller, state notifier, timer controller, and sharing presenter.
+- Keep `SharePlayActivationHandoffCoordinator` as the app-facing host-start owner on iOS and macOS. It owns duplicate-tap handling, sharing-controller success handoff, delayed direct-activation recovery, timeout cleanup, and typed `SharePlayHostActivationReason` logging.
+- Add a macOS branch to `SharePlayActivitySharingPresenter` using `NSViewControllerRepresentable`; keep the SwiftUI-facing API identical to iOS.
+- Wire macOS in `RetroRacingApp` by constructing `GroupActivitiesSharePlayMatchService`, `GroupStateObserver`, and `SharePlayActivationHandoffCoordinator` with SharePlay availability enabled.
+- Pass **Play with Friends** into the macOS `MenuView` overlay and attach the hidden sharing presenter in the Mac menu background, matching the iOS flow.
+- Lock the macOS settings sheet during active SharePlay matches, including `Cmd+,`.
 
-```202:208:RetroRacing/RetroRacingUniversal/App/RetroRacingApp.swift
-        #if os(iOS)
-        sharePlayMatchService = GroupActivitiesSharePlayMatchService(...)
-        #else
-        sharePlayMatchService = NoOpSharePlayMatchService()
-        #endif
-```
+## Future Platform Strategy
 
-The macOS menu branch also omits the entry point and sharing presenter:
+- Do not add `#if os()` to `RetroRacingShared` service logic. Shared policy types remain platform-agnostic.
+- Future tvOS/visionOS enablement should reuse the existing handoff/policy/service seams unless a platform API proves incompatible.
+- Before enabling tvOS, validate system invite/start UI, focus behavior in `MenuView` and `SharePlayResultView`, controller input while pause-locked, and public App Store positioning.
+- Before enabling visionOS, validate windowed presentation first; immersive or spatial SharePlay behavior belongs in a separate plan.
+- Keep `NoOpSharePlayMatchService` for tvOS, watchOS, visionOS, tests, and previews.
 
-```390:413:RetroRacing/RetroRacingUniversal/App/RetroRacingApp.swift
-        #if os(macOS)
-        return MenuView(..., onPlayRequest: ..., onSettingsRequest: ...)
-        // no onPlayWithFriendsRequest, no SharePlayActivitySharingPresenter
-```
+## Testing
 
-All GroupActivities adapter files are compiled out on macOS via `#if canImport(GroupActivities) && os(iOS)`:
-
-- [`RetroRacing/RetroRacingUniversal/SharePlay/RetroRacingGroupActivity.swift`](../RetroRacing/RetroRacingUniversal/SharePlay/RetroRacingGroupActivity.swift)
-- [`RetroRacing/RetroRacingUniversal/SharePlay/GroupSessionCoordinator.swift`](../RetroRacing/RetroRacingUniversal/SharePlay/GroupSessionCoordinator.swift)
-- [`RetroRacing/RetroRacingUniversal/SharePlay/GroupSessionMessengerTransport.swift`](../RetroRacing/RetroRacingUniversal/SharePlay/GroupSessionMessengerTransport.swift)
-- [`RetroRacing/RetroRacingUniversal/SharePlay/GroupActivitiesSharePlayMatchService.swift`](../RetroRacing/RetroRacingUniversal/SharePlay/GroupActivitiesSharePlayMatchService.swift)
-- [`RetroRacing/RetroRacingUniversal/SharePlay/SharePlayActivitySharingPresenter.swift`](../RetroRacing/RetroRacingUniversal/SharePlay/SharePlayActivitySharingPresenter.swift)
-
-**Good news:** [`RetroRacing/RetroRacingUniversal/RetroRacingUniversal.entitlements`](../RetroRacing/RetroRacingUniversal/RetroRacingUniversal.entitlements) already includes `com.apple.developer.group-session`. Apple's `GroupActivitySharingController` and `GroupStateObserver` are available on native macOS, so no new capability is expected—only compile gates and a macOS presenter.
-
-## Target behavior
-
-Parity with iOS/iPad v1 on macOS:
-
-- **Play with Friends** in the menu (never paywalled; same free-play exception)
-- Host flow: menu request → `prepareHostActivation()` → system sharing UI; accepted sessions still arrive through `sessions()`
-- Guest flow: incoming session via `observeIncomingSessions()`
-- Same match lifecycle, HUD, overlays, result sheet, retry handshake, guest speed restore
-- Cross-platform sessions using the existing activity identifier (`com.accessibilityUpTo11.RetroRacing.shareplay.competitive`)
-
-**Out of scope:** tvOS, watchOS, visionOS (remain on `NoOpSharePlayMatchService`).
-
-Future platform intent:
-
-- tvOS and visionOS should reuse the same shared state machine, transport service, game UI states, result UI, and free-play rules if enabled later.
-- Any future platform work should add only the minimum platform presenter/admission glue needed around GroupActivities.
-- watchOS stays no-op unless Apple adds Group Activities capability.
-
-```mermaid
-flowchart TB
-    subgraph shared [RetroRacingShared unchanged]
-        StateMachine[SharePlayMatchStateMachine]
-        Protocol[SharePlayMatchService]
-        UI[GameView overlays and result sheet]
-    end
-    subgraph adapter [RetroRacingUniversal broaden gates]
-        Activity[RetroRacingGroupActivity]
-        Service[GroupActivitiesSharePlayMatchService]
-        PresenterIOS[UIKit sharing presenter]
-        PresenterMac[AppKit sharing presenter]
-    end
-    App[RetroRacingApp composition root]
-    Protocol --> Service
-    StateMachine --> Service
-    App --> Service
-    App --> PresenterIOS
-    App --> PresenterMac
-    UI --> Protocol
-```
-
-## Implementation plan
-
-### 1. Introduce a single platform support model
-
-Add a small Universal-target helper (e.g. `SharePlayPlatformSupport.swift`) that centralizes platform availability and future expansion decisions:
-
-```swift
-#if canImport(GroupActivities) && (os(iOS) || os(macOS))
-enum SharePlayPlatformSupport {
-    static let supportsGroupActivitiesTransport = true
-    static let supportsSystemSharePlayStartUI = true
-    static let showsPlayWithFriendsEntryPoint = true
-}
-#endif
-```
-
-Replace repeated `#if canImport(GroupActivities) && os(iOS)` across adapter files and [`RetroRacingApp.swift`](../RetroRacing/RetroRacingUniversal/App/RetroRacingApp.swift) with the centralized condition. Keep the helper in the Universal target, not `RetroRacingShared`, because platform availability is an app composition concern.
-
-### 2. Broaden the GroupActivities adapter (no logic changes expected)
-
-Update the `#if` wrapper on these files from `os(iOS)` → `os(iOS) || os(macOS)`:
-
-- `RetroRacingGroupActivity.swift`
-- `GroupSessionCoordinator.swift`
-- `GroupSessionMessengerTransport.swift`
-- `GroupActivitiesSharePlayMatchService.swift`
-
-Review comments that say "iOS/iPad only" and update to "iOS/iPad/macOS". **Do not** add `#if os()` inside `RetroRacingShared` services (per [`Requirements/shareplay_multiplayer.md`](../Requirements/shareplay_multiplayer.md)).
-
-The coordinator, messenger, state machine, and service actor should compile unchanged—the GroupActivities APIs used are cross-platform.
-
-### 3. Add a SwiftUI-facing macOS sharing presenter (main new code)
-
-[`SharePlayActivitySharingPresenter.swift`](../RetroRacing/RetroRacingUniversal/SharePlay/SharePlayActivitySharingPresenter.swift) today is UIKit-only. Add a parallel **AppKit** implementation for macOS, mirroring the existing host-controller pattern:
-
-- Keep `SharePlaySharingPresentation` platform-neutral (already is).
-- Keep the app-facing integration SwiftUI-first: `RetroRacingApp` should render one `SharePlayActivitySharingPresenter` view and should not own UIKit/AppKit details.
-- iOS: existing `UIViewControllerRepresentable` + `SharePlayActivitySharingHostController`.
-- macOS: new `NSViewControllerRepresentable` + host controller that:
-  - Presents `GroupActivitySharingController(RetroRacingGroupActivity())` modally from a window-backed host
-  - Observes `controller.result` (`.success` vs `.cancelled`) with the same semantics as iOS
-  - Calls `onUserDismissed` only on user cancellation, not on successful session start
-  - Handles re-present after dismiss (fresh `SharePlaySharingPresentation.id`)
-
-Follow the existing invisible-host precedent in [`OfferCodeRedemptionHostView.swift`](../RetroRacing/RetroRacingShared/Views/OfferCodeRedemptionHostView.swift) and the Game Center `AuthContainerViewController` pattern referenced in the iOS presenter.
-
-Use AppKit only for the native macOS `GroupActivitySharingController` host. Do not fork menu, overlay, result, or gameplay UI for macOS unless manual QA exposes a concrete layout or focus issue.
-
-### 4. Wire SharePlay in the composition root
-
-Changes in [`RetroRacingApp.swift`](../RetroRacing/RetroRacingUniversal/App/RetroRacingApp.swift):
-
-| Area | Change |
-|---|---|
-| Service construction | Use `GroupActivitiesSharePlayMatchService` when SharePlay gate is true (iOS **or** macOS); `NoOpSharePlayMatchService` only for tvOS/watchOS/visionOS |
-| `GroupStateObserver` | Instantiate on macOS too (same eligibility check as iOS) |
-| `handlePlayWithFriendsRequest()` | Use the same routing policy on iOS/macOS: if the device is eligible for an existing group session, call `startHostSession()`; otherwise call `prepareHostActivation()` and present the sharing controller |
-| `menuView` | **Consolidate** the duplicated macOS vs iOS `MenuView` builders: pass `onPlayWithFriendsRequest`, `isSharePlayActive`, and attach the sharing presenter `.background` on both platforms |
-| Sharing presenter placement | Attach to macOS menu overlay the same way as iOS (hidden host in menu background while `sharePlaySharingPresentation != nil`) |
-| macOS settings sheet | Keep difficulty lock accurate during SharePlay: prefer `sharePlayUIState.state.isActive \|\| (shouldStartGame && !isMenuPresented)` in `settingsSheetView` for explicit parity with menu-embedded settings |
-
-No changes expected to the long-lived `.task` that calls `setStateChangeHandler` and `observeIncomingSessions()`—it already runs on all Universal platforms.
-
-### 5. Update fallback service documentation
-
-[`NoOpSharePlayMatchService.swift`](../RetroRacing/RetroRacingShared/Services/Implementations/NoOpSharePlayMatchService.swift): update the header comment from "macOS, tvOS, …" to "tvOS, watchOS, visionOS, tests, previews".
-
-### 6. Shared UI — verify, minimal touch-ups only
-
-Most SharePlay UI already works on macOS:
-
-- [`SharePlayOverlayCardStyle.swift`](../RetroRacing/RetroRacingShared/Views/SharePlayOverlayCardStyle.swift) — macOS uses the `#else` material branch (no `glassEffect` needed)
-- [`SharePlayResultView.swift`](../RetroRacing/RetroRacingShared/Views/SharePlayResultView.swift) — macOS shows inline action buttons via `usesBottomActionBar == false`
-
-Spot-check during manual QA: overlay centering on macOS window sizing, result `.sheet` presentation, keyboard/game-controller input during SharePlay pause lock.
-
-Reuse rule: prefer shared SwiftUI view behavior over platform-specific branches. Add macOS-only UI only when the platform control, windowing model, or accessibility behavior requires it.
-
-### 7. Future platform enablement strategy
-
-Keep future tvOS/visionOS support decision-complete but disabled for this macOS implementation:
-
-- Gate future enablement with `SharePlayPlatformSupport` instead of scattering new `#if os(tvOS)` or `#if os(visionOS)` checks.
-- Reuse the existing activity identifier, `GroupActivitiesSharePlayMatchService`, `GroupSessionCoordinator`, state machine, and shared SwiftUI views unless a platform API proves incompatible.
-- For tvOS, validate system invite/start UI, focus behavior in `MenuView`/`SharePlayResultView`, controller input during pause locks, and App Store public-positioning before enabling the entry point.
-- For visionOS, validate windowed presentation first; defer immersive or spatial SharePlay behavior to a separate plan.
-- Keep watchOS mapped to `NoOpSharePlayMatchService`.
-
-### 8. Requirements and routing docs
-
-Update shipped-behavior contracts (required per `AGENTS.md`):
-
-- [`Requirements/shareplay_multiplayer.md`](../Requirements/shareplay_multiplayer.md) — v1 scope → iOS/iPad/**macOS**; architecture diagram adapter label; manual QA matrix adds macOS scenarios
-- [`Requirements/INDEX.md`](../Requirements/INDEX.md) — scope line
-- [`Requirements/launch_flow.md`](../Requirements/launch_flow.md) — Play with Friends available on macOS menu overlay
-- [`Requirements/monetization.md`](../Requirements/monetization.md) — confirm free-play exception applies on macOS (behavior unchanged; wording only if platform-specific)
-- [`Requirements/testing.md`](../Requirements/testing.md) — note macOS manual QA requirement
-
-## Testing plan
-
-### Automated (unchanged + run on macOS scheme)
-
-Existing shared tests should remain sufficient—no state-machine changes:
+Automated validation:
 
 ```bash
-swift test --package-path Scripts
-swift run --package-path Scripts run-tests
+./retrorapid test package
+./retrorapid check
+./retrorapid test
+xcrun xcodebuild build -project RetroRacing/RetroRacing.xcodeproj -scheme RetroRacingUniversal -destination "platform=macOS"
 ```
 
-Key suites: `SharePlayMatchStateMachineTests`, `SharePlayTwoPeerConvergenceTests`, `SharePlayGuestSpeedRestoreTests`, SharePlay cases in `GameViewModelTests`.
+Manual QA before shipping public Mac SharePlay claims:
 
-### Manual QA (required before shipping macOS SharePlay)
+- Mac host to Mac guest.
+- Mac host to iPhone/iPad guest.
+- iPhone/iPad host to Mac guest.
+- Ineligible Mac invite flow, cancel, and re-tap.
+- Eligible FaceTime/Messages Mac direct activation.
+- Sharing-controller success with delayed session delivery.
+- Menu/close exit mid-match.
+- `Cmd+,` settings during active SharePlay, confirming Speed is locked.
+- Deterministic traffic parity and 90-second retry timeout across Mac/iOS pairs.
 
-Run the checklist from [`Requirements/shareplay_multiplayer.md`](../Requirements/shareplay_multiplayer.md) on macOS, plus cross-platform matrix:
+## Rollout Notes
 
-| Scenario | Devices |
-|---|---|
-| macOS host → macOS guest | 2 Macs |
-| macOS host → iPad/iPhone guest | Mac + iOS device |
-| iOS host → macOS guest | iPhone/iPad + Mac |
-| Not in FaceTime → sharing controller invite flow | macOS |
-| Cancel invite → re-tap Play with Friends | macOS |
-| Cmd+, settings during active SharePlay match | macOS (difficulty locked) |
-| Menu/close exit mid-match | macOS |
-
-Capture paired `SHAREPLAY_*` logs from both devices for any join/disconnect glitches (same diagnostics as iOS).
-
-## Risks and mitigations
-
-| Risk | Mitigation |
-|---|---|
-| `GroupActivitySharingController` presentation quirks on macOS (window/host timing) | Reuse invisible host + `viewDidAppear` gating from iOS; test re-present after cancel |
-| macOS menu is a `ZStack` overlay, not `fullScreenCover` | Ensure sharing host has a valid window before presenting; verify no blank overlay after dismiss |
-| Cross-platform countdown sync | Same activity ID and existing host-authoritative timestamp—validate mac↔iOS manually |
-| Entitlement/provisioning drift | Entitlement already present; confirm macOS provisioning profile includes Group Activities after gate change |
-| Future platform scope creep | Keep tvOS/visionOS disabled in `SharePlayPlatformSupport` until product status, system presentation, focus, and manual QA are complete |
-
-## Suggested PR structure
-
-1. **Adapter + compile gates** — broaden `#if`, add macOS sharing presenter, no app wiring yet (macOS still no-op until step 2)
-2. **Composition root wiring** — service injection, menu consolidation, settings lock
-3. **Docs** — requirements updates only
-
-This keeps review focused and allows building the macOS target after step 1 to catch compile issues early.
-
-## Checklist
-
-- [ ] Add `SharePlayPlatformSupport` helper and broaden GroupActivities adapter `#if` gates to include macOS
-- [ ] Implement AppKit `SharePlayActivitySharingPresenter` mirroring iOS host-controller semantics
-- [ ] Wire `GroupActivitiesSharePlayMatchService`, `GroupStateObserver`, menu Play with Friends, and sharing presenter in `RetroRacingApp` for macOS
-- [ ] Consolidate duplicated macOS/iOS `MenuView` builders and fix macOS settings difficulty lock during SharePlay
-- [ ] Document future tvOS/visionOS enablement through `SharePlayPlatformSupport` while keeping those targets no-op for this change
-- [ ] Update `Requirements/shareplay_multiplayer.md` and routed INDEX/launch_flow/testing/monetization docs
-- [ ] Run Scripts tests plus manual 2-device QA matrix (mac-mac, mac-iOS, iOS-mac)
+- App Store screenshots and metadata remain a separate rollout decision. macOS is a shipping platform, but public SharePlay claims need coordinated ASO updates through `Plans/INDEX.md` and `AppStore/README.md`.
+- Capture paired `SHAREPLAY_*` logs during manual QA for join, disconnect, invite handoff, and retry-timeout issues.

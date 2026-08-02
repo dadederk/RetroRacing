@@ -66,10 +66,10 @@ struct SharePlayActivationHandoffCoordinatorTests {
     @Test func testGivenSuccessfulSharingControllerHandoffWhenConversationBecomesEligibleThenRecoveryActivatesOnce() async {
         // Given
         let service = MockSharePlayMatchServiceForHandoff()
-        var isEligibleForGroupSession = false
+        let eligibilityProbe = SharePlayEligibilityProbe(isEligible: false)
         let coordinator = makeCoordinator(
             service: service,
-            isEligibleForGroupSession: { isEligibleForGroupSession },
+            isEligibleForGroupSession: { eligibilityProbe.isEligible },
             timing: .testFast
         )
 
@@ -78,7 +78,7 @@ struct SharePlayActivationHandoffCoordinatorTests {
         _ = await waitUntil {
             coordinator.sharingPresentation != nil
         }
-        isEligibleForGroupSession = true
+        eligibilityProbe.isEligible = true
         coordinator.handleSharePlaySharingSucceeded(
             isSharePlayIdle: true,
             isMenuPresented: true,
@@ -152,6 +152,15 @@ struct SharePlayActivationHandoffCoordinatorTests {
         // Then
         #expect(coordinator.isActivationPending == false)
         #expect(coordinator.sharingPresentation == nil)
+    }
+}
+
+@MainActor
+private final class SharePlayEligibilityProbe {
+    var isEligible: Bool
+
+    init(isEligible: Bool) {
+        self.isEligible = isEligible
     }
 }
 

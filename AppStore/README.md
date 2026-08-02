@@ -31,6 +31,8 @@ Legacy redirect: [RETRORAPID_APP_STORE_REFERENCE.md](RETRORAPID_APP_STORE_REFERE
 | Past featuring nominations & voice guide | [Plans/aso/09-featuring-nominations-submitted.md](../Plans/aso/09-featuring-nominations-submitted.md) |
 | IAP pricing strategy | [Plans/aso/04-pricing-strategy.md](../Plans/aso/04-pricing-strategy.md) |
 | Upload a TestFlight build with Helm CLI | [14-testflight-helm-upload.md](docs/14-testflight-helm-upload.md) |
+| Archive iOS/watchOS + macOS builds | [15-archive-and-distribution.md](docs/15-archive-and-distribution.md) |
+| Maintain Unlimited Plays IAP | [16-iap-setup.md](docs/16-iap-setup.md) |
 
 ## Table of contents
 
@@ -52,6 +54,8 @@ Legacy redirect: [RETRORAPID_APP_STORE_REFERENCE.md](RETRORAPID_APP_STORE_REFERE
 | 12 | Validation results | [docs/12-validation-results.md](docs/12-validation-results.md) |
 | 13 | Open questions | [docs/13-open-questions.md](docs/13-open-questions.md) |
 | 14 | TestFlight uploads with Helm CLI | [docs/14-testflight-helm-upload.md](docs/14-testflight-helm-upload.md) |
+| 15 | Archive and distribution | [docs/15-archive-and-distribution.md](docs/15-archive-and-distribution.md) |
+| 16 | Unlimited Plays IAP setup | [docs/16-iap-setup.md](docs/16-iap-setup.md) |
 
 ### Campaign & historical plans
 

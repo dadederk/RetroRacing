@@ -15,6 +15,7 @@ Preferred entry point from the repository root (matches Xarra’s `./xarraCli`):
 ./retroRapidCli list
 ./retroRapidCli check
 ./retroRapidCli test package
+./retroRapidCli test parallel-canary --dry-run
 ```
 
 `./retroRapidCli` and `./retrorapid` are equivalent. Both forward to `swift run --package-path Scripts retrorapid`. With **no arguments** on an interactive terminal they open a numbered menu; use `--help` for static reference.
@@ -24,6 +25,7 @@ Preferred entry point from the repository root (matches Xarra’s `./xarraCli`):
 | Command | Purpose | Mutation safety |
 |---|---|---|
 | `run-tests` | Runs the shared and universal iOS unit-test targets | `--dry-run` prints the resolved commands; `--destination <value>` overrides the simulator; `--only-testing <filter>` runs a specific test class or method |
+| `run-xcodebuild-parallel-canary` | Runs shared and universal unit tests with parallel xcodebuild workers as a canary | `--dry-run`; `--workers <n[,n]>`; `--destination <value>` |
 | `check-documentation` | Validates markdown links and App Store metadata sync | Exits non-zero on errors |
 | `generate-road-dash-masks` | Renders the lane and lap-strip mask assets | `--check` compares every generated PNG and `Contents.json` without writing |
 | `sync-screenshot-studio-localizations` | Synchronizes Screenshot Studio copy, manifests, and shared locale images | `--check` reports plist, manifest, and image drift without writing |
@@ -55,6 +57,7 @@ Preview and run app tests:
 ```bash
 ./retrorapid test --dry-run
 ./retrorapid test
+./retrorapid test parallel-canary --workers 2,4
 ```
 
 Capture localized App Store screenshots (iPhone, 7 slides × 11 locales):

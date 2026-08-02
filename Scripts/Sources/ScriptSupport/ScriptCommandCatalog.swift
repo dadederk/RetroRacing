@@ -40,6 +40,7 @@ public enum ScriptCommandCatalog {
     /// Executable product names in `Scripts/Package.swift`, excluding `retrorapid`.
     public static let packageExecutableProductNames: [String] = [
         "run-tests",
+        "run-xcodebuild-parallel-canary",
         "check-documentation",
         "generate-road-dash-masks",
         "sync-screenshot-studio-localizations",
@@ -57,6 +58,10 @@ public enum ScriptCommandCatalog {
         ScriptExecutable(
             name: "run-tests",
             purpose: "Runs the shared and universal iOS unit-test targets"
+        ),
+        ScriptExecutable(
+            name: "run-xcodebuild-parallel-canary",
+            purpose: "Runs shared and universal unit tests with parallel workers as a canary"
         ),
         ScriptExecutable(
             name: "check-documentation",
@@ -165,6 +170,7 @@ public enum ScriptCommandCatalog {
           menu                         Interactive command menu (same as no args)
           check                        Verify generated masks, screenshots, metadata, IAP/GC, and docs
           test [flags…]                Run app unit tests (run-tests)
+          test parallel-canary [flags…] Run app unit tests with parallel workers as a canary
           test package [flags…]        Run Scripts package unit tests
           docs                         Validate documentation links and metadata sync
           metadata generate [--check]  Generate metadata documents
@@ -197,6 +203,7 @@ public enum ScriptCommandCatalog {
         lines.append("Recipes:")
         lines.append("  ./retrorapid check")
         lines.append("  ./retrorapid test")
+        lines.append("  ./retrorapid test parallel-canary --workers 2,4")
         lines.append("  ./retrorapid test package")
         lines.append("  ./retrorapid metadata generate --check")
         lines.append("  ./retrorapid metadata apply --dry-run")

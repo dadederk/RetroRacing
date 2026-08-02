@@ -1,152 +1,91 @@
-# Accessibility Requirements
+# Accessibility
 
 ## Agent summary
 
 > Narrow tasks may stop here; open the full contract for implementation or review.
 
-- **Scope:** Best-effort accessibility across platforms — Reduce Motion, VoiceOver labels, audio cues, and VoiceOver gameplay modes.
-- **Must not break:** Reduce Motion replaces crash blink with fade; all interactive UI has labels; SpriteKit sprites expose meaningful labels; speed-warning and lane-cue settings honor user selection.
-- **Key files:** `GameScene+Effects.swift`, `AboutView`/`Settings` accessibility sections, `FontPreferenceStore`.
+- **Scope:** Cross-platform accessibility behavior: Reduce Motion, VoiceOver, Direct Touch, Voice Control, Dynamic Type, conditional defaults, pause/help flows, and accessible game-over/SharePlay UI.
+- **Must not break:** Reduce Motion replaces crash blink with fade; interactive UI is labeled; gameplay exposes meaningful status/controls; conditional defaults honor system state until the user overrides.
+- **Key files:** `GameScene+Effects`, `AccessibilityNotification`, `ConditionalDefault`, `VoiceOverStatus`, `SettingsView`, `GameView`, `GameOverView`, `SharePlayOverlayView`.
 
-## Overview
+## Reduce Motion and Contrast
 
-RetroRacing aims for best-effort accessibility and adaptability across all platforms. This document describes the best effort we strive for. It covers reduce motion, VoiceOver/labels, and platform-specific considerations.
+- Crash blink animation becomes a fade when Reduce Motion is enabled.
+- Decorative motion should be removed or simplified when system Reduce Motion is active.
+- Gameplay feedback must remain available through non-motion channels.
+- Themes, HUD, road markers, cars, and overlays must remain readable with increased contrast needs; see [theming_system.md](theming_system.md) and [road_markers.md](road_markers.md).
 
-## Reduce Motion
+## VoiceOver Gameplay
 
-The game **must** respect the user’s Reduce Motion preference:
+- Score and lives are exposed as read-only status with localized singular/plural labels.
+- Active gameplay exposes left/right direct-touch regions and hides non-interactive SpriteKit grid content from VoiceOver.
+- Explicit user pause switches to a row-major grid exploration overlay with occupant and coordinate labels.
+- Implicit pauses (crash/start/help/menu/overlay) must not switch to grid exploration or cause disruptive focus jumps.
+- VoiceOver Magic Tap follows the same pause/resume path as the toolbar button.
+- First active VoiceOver gameplay session auto-presents in-game help once per device profile.
 
-- **SpriteKit:** Crash blink animation is replaced with a simple fade when Reduce Motion is enabled (see `GameScene+Effects.swift`). Uses `UIAccessibility.isReduceMotionEnabled` (iOS/tvOS) and `NSAccessibility.isReduceMotionEnabled` (macOS).
-- **SwiftUI:** Prefer `animation(nil)` or shorter/simpler animations when the preference is set; use `@Environment(\.accessibilityReduceMotion)` where available.
-- **General:** Avoid decorative motion that cannot be turned off; keep essential feedback (e.g. score, collision) available without motion.
-- **Game-over celebration:** New-record treatment in the game-over modal should avoid mandatory animation; users with Reduce Motion still receive full record/best-score context.
+## Controls and Voice Control
 
-## VoiceOver and Labels
+- Direct Touch defaults to on where shown and persists user overrides.
+- Voice Control input labels include short and descriptive aliases: Left/Move left and Right/Move right.
+- HUD status and SpriteKit visuals are not Voice Control tap targets.
+- tvOS maps Siri Remote directional input through `onMoveCommand`.
+- macOS disables gameplay trackpad lane swipes while VoiceOver is running.
 
-- **UI (SwiftUI):** All interactive elements and important text use `accessibilityLabel`; use `accessibilityHint` only when it adds meaningful context beyond the label.
-- **SpriteKit nodes:** Game sprites that convey meaning (player car, rival cars, crash) have `accessibilityLabel` set and `isAccessibilityElement = true` (see `GameScene+Effects.addSprite`, labels from `GameLocalizedStrings`: `player_car`, `rival_car`, `crash_sprite`).
-- **Friend milestone marker:** When social milestones are available, up to two in-race avatar markers expose VoiceOver labels with friend name and target score.
-- **Score and lives:** Header labels use `accessibilityLabel` with the same formatted text as the visual (e.g. score, lives remaining) so VoiceOver users get the same information. The helmet icon next to lives is hidden from accessibility and the lives HUD is exposed as a single combined element. Lives VoiceOver copy uses proper singular/plural localization (for example, `1 life remaining` vs `2 lives remaining`).
-- **Speed alert feedback:** The speed-increase overlay appears in the last 3 points before each level step (for example, scores 97–99 before 100 and 197–199 before 200). Before each speed increase, gameplay forecasts the next 4 scoring rows and inserts empty rows only at the two lead offsets that map to the two rows directly ahead of the player at the exact speed-up moment (no already-visible cars are removed). Settings expose a selector for speed warning feedback:
-  - `VoiceOver announcement`: post `speed_increase_announcement` using `AccessibilityNotification.Announcement`.
-  - `Haptic`: trigger warning haptic and skip announcement.
-  - `Sound`: play a dedicated warning chirp (`D4-F4-A4`, repeated twice).
-  - `None`: do not emit speed warning feedback.
-  - Announcement mode uses high announcement priority.
-  - Availability: haptics-supported platforms expose all four options; macOS/tvOS expose announcement/sound/none.
-- **Lane audio cues:** Settings include four audio feedback modes in display order: `Retro audio`, `Audio cues (lane pulses)`, `Audio cues (arpeggio)`, and `Audio cues (chord)`. In cue modes, each grid tick announces safe columns. Move cues are user-selectable as `Lane confirmation`, `Success`, `Lane + success`, or `Haptics` (safe destination -> success haptic, unsafe destination -> move haptic, no move audio cue). Start/fail sounds remain unchanged.
-- **In-game help button:** Gameplay toolbars include a `?` help action (shared platforms and watchOS). It opens a help modal with controls guidance and tutorial content (audio cues, lane cue previews including safe/unsafe haptics where supported, and speed increase warning feedback previews) so users can learn without returning to Settings.
-- **VoiceOver first-run tutorial:** When VoiceOver is running, the in-game help modal is auto-presented once on the first active gameplay session. This behavior is persisted per device profile and can still be overridden by opening help manually.
-- **VoiceOver tutorial copy:** The help modal includes explicit VoiceOver guidance that explains the 3-lane model, left/right movement, lane-safety sounds, and the need to move quickly to avoid crashes.
-- **VoiceOver gameplay mode (universal shared view):** When VoiceOver is running and gameplay is active, expose left/right gameplay touch regions while keeping score/lives accessible as read-only status. Sprite/grid content and gameplay toolbar controls are hidden from VoiceOver in this mode.
-- **Paused grid exploration (universal shared view):** When VoiceOver is running and gameplay is paused by an explicit user pause action, left/right gameplay touch regions are hidden from accessibility and the grid is exposed as an accessibility-only exploration overlay. Score/lives remain accessible as read-only status in paused mode.
-  - Focus order is deterministic row-major: `(0,0)`, `(0,1)`, `(0,2)`, `(1,0)` ... to the bottom-right cell.
-  - Cell announcements use the localized occupant plus coordinates: `No car (row, col)`, `Rival car (row, col)`, `Player car (row, col)`, `Crash (row, col)`.
-- **Implicit pauses keep direct touch active:** Crash/start/help/menu-overlay pauses should not switch to paused-grid exploration; this avoids disruptive VoiceOver focus jumps during non-user pause transitions.
-- **Direct touch controls (iOS/iPadOS, tvOS, watchOS, visionOS):** Gameplay touch regions use `accessibilityDirectTouch(..., options: [.silentOnTouch])` while active input is enabled.
-  - Settings expose a `Direct Touch` toggle under Accessibility on touch-first platforms. macOS omits the toggle because keyboard, mouse, and controller input are primary there.
-  - Default behavior is enabled via conditional-default storage.
-  - User overrides persist per device profile and are applied immediately.
-- **Voice Control aliases (universal shared view):** Left/right gameplay controls include input labels in this order: `Left`, `Move left` and `Right`, `Move right`, so short commands like “Tap left/right” are recognized.
-- **Voice Control interaction scope:** HUD status text (score/lives/speed alert) and SpriteKit grid/cars are non-interactive for Voice Control. Only gameplay controls and explicit buttons should respond to Voice Control tap actions.
-- **Menu engagement CTA stability:** Universal menu content is scrollable when Dynamic Type is enabled so large text remains reachable. The support CTA uses opacity for layout stability but is removed from accessibility focus and hit testing whenever it is visually hidden.
-- **Settings rows (theme + sound volume):**
-  - Universal (non-premium) Theme row is exposed as a single combined accessibility element (`Theme`, current value such as `Pocket`/`LCD`).
-  - Universal (non-premium) Theme section footer includes a localized unlock hint that points users to Purchases for Unlimited Plays.
-  - Sound-effects volume hides decorative edge labels (`0%`, `100%`) from accessibility and exposes one adjustable slider element with the current percentage value (Universal + watchOS).
-  - Settings exposes controls guidance as a single **How to play the game** button row. The sheet presents platform controls copy first; shared controller-supported surfaces include controller remapping pickers after the copy, while watchOS omits remapping.
-- **Game-over modal:** `GameOverView` is presented as a non-interactively dismissable sheet (`interactiveDismissDisabled(true)`) with explicit **Restart** and **Finish** actions. Content is wrapped in a `ScrollView` so all summary rows remain reachable at large Dynamic Type sizes and in compact landscape layouts. On iOS/iPadOS/visionOS, actions are rendered in a bottom overlay action bar (`ignoresSafeArea(.container, edges: .bottom)`) for thumb reach while preserving scroll context. The bar uses a `ConcentricRectangle(corners: .concentric(minimum: 24.0), isUniform: true)` shape and uses `glassEffect` on iOS with material fallback on other platforms. Decorative result artwork is hidden from accessibility while score/best labels remain readable by VoiceOver.
-- **Game-over social recap:** Optional social rows (`next friend ahead`, `friends overtaken this run`) are text-first and included in the same scrollable accessibility order as score and speed.
-- **Game-over social avatars:** Social rows can include friend avatars, but each row is exposed as one combined accessibility element (friend name + score), with avatar visuals hidden from the accessibility tree.
-- **Game-over social row layout:** At accessibility Dynamic Type sizes, social rows stack avatar above score text for better spacing and legibility.
-- **Game-over achievement unlock modal:** When new achievements are unlocked at game over, a second regular modal sheet is presented above the game-over sheet with dismissal controlled by explicit action.
-- **Achievement modal actions:** Achievement modal always includes a semantic `Done` action; `Other achievements` is available on iOS/macOS where Game Center achievement deep links are supported. On iOS/iPadOS/visionOS, actions are rendered in the same bottom overlay action bar model as game over (ignoring bottom safe area), using the same concentric shape and glass/material treatment for consistency.
-- **Game-over typography:** Modal subtitle and speed label use body semantic typography, while score rows and actions use emphasized semantic styles from `FontPreferenceStore`. The speed label is placed between the score summary and action buttons so hierarchy stays clear at all Dynamic Type sizes.
-- **Game-over sharing action:** On iOS/iPadOS/macOS/visionOS, a top-right `Share` toolbar action is exposed with a semantic label on both game-over and achievement sheets. Shared images are rendered from content only (excluding toolbars and action buttons) so accessibility users share the same informational context.
-- **Friend overtake announcement toggle:** Accessibility settings include `Announce friend overtakes` (off by default). When enabled and VoiceOver is running, the game posts an announcement each time the current run overtakes one or more Game Center friend scores.
-- **SharePlay overlays and result screen** (see [`shareplay_multiplayer.md`](shareplay_multiplayer.md)): `SharePlayOverlayView`'s transient status cards (waiting, numeric countdown, waiting-after-loss, disconnected) are centered on the game square, use `FontPreferenceStore` semantic typography, first-party template/illustration assets, and native glass with opaque Reduce Transparency fallback. Each card is a single combined accessibility element (art/icon + title + optional subtitle read together). The countdown keeps a stable accessible card label but does not post per-second VoiceOver announcements; generated ascending SFX communicate the countdown steps instead. During `.inRound`, concise `You: <score>` and `<friend name>: <score>` rows, falling back to `Friend: <score>`, plus friend lives are exposed in the HUD header without “overtakes” row copy; the friend helmet keeps the original artwork and applies desaturation, lower contrast, and opacity so it reads as secondary while preserving detail. `SharePlayResultView` merges match outcome with solo game-over secondary stats, reuses the same avatar social rows and bottom glass action bar as game over on iOS, and posts VoiceOver announcements on major state transitions (waiting, countdown, round start, match finished, disconnect). The result sheet uses `.interactiveDismissDisabled(true)` (explicit **Play Again**/**Leave**/**Done** actions only). Solo `GameOverView` is not presented during SharePlay matches.
-- **Difficulty lock during SharePlay:** While a SharePlay match is active, the Speed setting is disabled (`isGameSessionInProgress`-style plumbing) rather than hidden, so VoiceOver users still see/hear the control exists and understand why it is temporarily non-interactive, consistent with the macOS in-session Settings lock pattern.
+## Audio, Haptics, and Warnings
 
+- Audio feedback modes: Retro audio, lane pulses, arpeggio, chord.
+- Cue modes announce safe columns each grid tick.
+- Move cue style supports lane confirmation, success, lane + success, or haptics where available.
+- Speed warning feedback supports VoiceOver announcement, haptic, sound, or none, with haptics options hidden on unsupported platforms.
+- Speed warning announcement mode uses high-priority accessibility announcements.
+- In-game help includes previews/guidance for controls, audio cues, and speed warnings.
 
-## Conditional Defaults for Accessibility
+## Conditional Defaults
 
-Some settings provide **system-derived defaults** that adapt to the user's accessibility configuration, while allowing explicit user overrides.
+- Conditional settings resolve from system/accessibility state until a user override is stored.
+- `ConditionalDefault<Value>` stores either system-default mode or explicit override.
+- Current conditional defaults include:
+  - Difficulty: Cruise when VoiceOver is running, Rapid otherwise.
+  - Audio feedback: lane pulses with VoiceOver, Retro audio otherwise.
+  - Sound effects volume: 100% with VoiceOver, 80% otherwise.
+  - Speed warning: haptic or announcement with VoiceOver depending on platform, none otherwise.
+  - Big Cars: on for accessibility Dynamic Type sizes, off otherwise.
+  - Direct Touch: on where the setting is shown.
+  - Road visual style: Detailed Road unless overridden; Big Cars forces vertical-only rendering.
 
-### Pattern
+## Dynamic Type and Layout
 
-Each conditional-default setting:
-1. **System default:** Computed from current accessibility or system state (e.g., VoiceOver running, Dynamic Type size, Reduce Motion)
-2. **User override:** Optional explicit choice that takes precedence over the system default
-3. **Storage:** Persisted as either "use system default" or "user chose X" via `ConditionalDefault<Value>`
+- Shared UI uses semantic font APIs so system and retro font modes scale with Dynamic Type.
+- Menu, Settings, game-over, achievement, and paywall content must scroll or reflow rather than clip at large sizes.
+- Portrait gameplay stacks HUD above the game and controls below to avoid overlap.
+- Regular-width compact-height layouts may use side rails; regular-regular and compact-width layouts keep a full-width top HUD.
+- Social rows stack avatar/text at accessibility sizes when needed.
 
-### Infrastructure
+## Game-Over, Achievements, and Sharing
 
-- **`ConditionalDefault<Value>`** (`RetroRacingShared/Settings/ConditionalDefault.swift`): Generic storage type for conditional defaults. Implements `ConditionalDefaultValue` protocol requiring a static `systemDefault` computed property.
-- **UserDefaults integration:** `load(from:key:)` and `save(to:key:)` methods for persistence.
-- **Binding support:** SettingsView uses a `Binding` that reads `effectiveValue` and writes via `setUserOverride(_:)`.
+- Game-over sheets are not interactively dismissible; Restart/Finish are explicit.
+- Decorative artwork and icons are hidden from accessibility when equivalent text exists.
+- Summary rows and social recaps are exposed in logical scroll order.
+- Achievement unlock sheets present above game over and include explicit Done plus Game Center link where supported.
+- Share actions use semantic labels and export content-only images without action chrome.
 
-### Example: Game Difficulty
+## SharePlay Accessibility
 
-**Requirement:** Default to `.cruise` (slowest pace) when VoiceOver is running; otherwise default to `.rapid`. User can explicitly select any difficulty to override.
+- SharePlay overlays are single combined accessibility elements with art/icon, title, and subtitle.
+- Countdown cards keep stable labels and do not post per-second VoiceOver announcements.
+- SharePlay HUD uses concise You/Friend score rows and friend lives without “overtakes” copy.
+- SharePlay result sheets are explicitly dismissed through Play Again, Leave, or Done.
+- Speed settings are disabled, not hidden, while SharePlay is active; see [shareplay_multiplayer.md](shareplay_multiplayer.md).
 
-**Implementation:**
+## Navigation
 
-- `GameDifficulty` conforms to `ConditionalDefaultValue` with `static var systemDefault: GameDifficulty` resolved through shared `VoiceOverStatus.isVoiceOverRunning` across all platforms (including watchOS).
-- `GameDifficulty.currentSelection(from:)` loads the `ConditionalDefault<GameDifficulty>` and returns `effectiveValue`.
-- `SettingsView` displays a `Picker` bound to `difficultySelection: Binding<GameDifficulty>`, which updates the conditional default and persists it.
-- Settings no longer show helper rows describing VoiceOver defaults; defaults are implicit unless the user overrides.
+- Gameplay disables interactive pop gestures where horizontal swipes control the car.
+- Full-screen menu overlays are Play-only dismiss and pause gameplay underneath.
+- macOS menu overlay is modal and hides underlying gameplay from the accessibility tree.
+- watchOS Finish returns to the menu and stops gameplay, haptics, and pending audio callbacks.
 
-**UI behavior:**
+## Testing
 
-- When no override is stored and VoiceOver is on: picker shows Cruise.
-- User selects Fast: override is stored, picker shows Fast.
-- User turns VoiceOver off later: picker still shows Fast (override persists).
-- To reset: future UI could offer "Use system default" button; for now, deleting the stored override returns to system default.
-
-### Future conditional-default settings
-
-- **Audio feedback mode:** Defaults to `Audio cues (lane pulses)` when VoiceOver is running on all supported platforms (including watchOS); otherwise defaults to `Retro audio`.
-- **Sound effects volume:** Defaults to `100%` when VoiceOver is running; otherwise `80%`. Slider updates create an explicit override that persists across VoiceOver changes.
-- **Speed warning feedback:** Defaults to `None` when VoiceOver is off. With VoiceOver on, defaults to `Haptic` on haptics-supported platforms and `VoiceOver announcement` on non-haptics platforms. Explicit user override always wins. Legacy `inGameAnnouncementsEnabled` values are migrated once (`true -> keep system default`, `false -> none`).
-- **Big Cars:** Defaults to `on` when accessibility Dynamic Type sizes are active, otherwise `off`. Settings expose a simple toggle under Accessibility; first user change becomes the stored override.
-  - Visual rendering rule: when Big Cars is enabled, perspective road/lap markers are hidden and two vertical separators are shown as flat dashed segments (non-perspective, 4-on/1-off cadence); horizontal separators remain hidden.
-  - Sprite sizing rule: player/rival/crash render at the same fixed in-cell size with padding so targets are uniform and easier to track.
-- **Road visual style:** Accessibility settings expose `Detailed Road` and `Simplified Grid` options. Default is `Detailed Road` unless the user explicitly changes it.
-  - `Simplified Grid` renders vertical separators only (no dashed/lap markers, no horizontal lines).
-  - `Detailed Road` renders dashed perspective road markers and safety-window lap markers.
-  - Big Cars always takes precedence and forces vertical-only rendering regardless of road visual style.
-- **Direct Touch:** Defaults to `on` on every platform where the setting is shown. The first user change stores an explicit override under conditional-default storage.
-- **Top-down view:** Default to on when large Dynamic Type is active (future feature 7.1).
-
-## Other Dimensions
-
-- **Dynamic Type:** Menu and UI text use semantic font APIs (`font(textStyle:)`) so system and monospaced styles track native Dynamic Type; custom retro font follows comparable growth curves via semantic relative sizing. Gameplay score/lives headers also use semantic styles so they scale automatically in all font modes. In portrait, score is constrained to one line and can downscale modestly to avoid header reflow jumps at larger sizes. Portrait gameplay layout stacks score/lives above the game area and directional controls below to avoid overlap at large sizes, and the lives helmet icon scales with Dynamic Type. Size-class HUD rule: regular width + regular height and any compact-width size use a full-width top HUD; only regular width + compact height uses the side-rail HUD+controls layout. On regular-width wider-than-tall windows (iPad landscape / wide Mac), direction buttons flank the game square and stay vertically centered with it while score/lives stay in the full-width header. Regular × regular always keeps score and lives on a single full-width row (no vertical stack at large Dynamic Type).
-- **High Contrast:** Theme system and requirements (see `theming_system.md`) should support increased contrast where needed.
-- **Platform:** Follow platform HIG and accessibility APIs (iOS/tvOS/watchOS/macOS/visionOS) for focus, gestures, and system settings.
-- **Orientation / window changes:** SpriteKit scenes must persist across rotations and size class changes without restarting gameplay. Resize the existing scene to the new square dimension and redraw the current grid state; do not recreate the scene or reset score/lives during rotation. Scenes should keep their existing `GameState` (score, lives, grid) when re-presented after a rotation.
-
-## Navigation & Gestures
-
-- iOS / iPadOS / macOS (Universal): Disable the interactive pop (edge swipe-back) gesture on the gameplay screen so horizontal drags used for car control are never intercepted by navigation. Users exit gameplay via the in-game **Finish** control, which returns to the full-screen menu overlay, or via an optional in-game **Menu** toolbar button that pauses the game and presents the same overlay.
-- watchOS game-over **Finish** must return to the menu without restarting gameplay in the background; no crash haptics/audio should continue after dismissal.
-- macOS in-window menu overlay uses modal accessibility semantics (`.isModal` trait) and hides the underlying game from the accessibility tree while the overlay is visible.
-- macOS gameplay trackpad lane-swipe gesture is automatically disabled while VoiceOver is running to avoid interference with assistive gesture commands.
-- tvOS: Map Siri Remote directional input to left/right movement using `onMoveCommand`.
-- Menu overlay: When the menu is presented as a full-screen cover on top of `GameView`, gameplay is paused under the hood and `.interactiveDismissDisabled(true)` is used so the overlay is **Play-only dismiss**. This ensures VoiceOver and switch-control users have a clear, explicit way to start or resume gameplay.
-
-## Pause/Resume Control (Universal, watchOS, tvOS)
-
-- Navigation toolbar includes a top-trailing pause/resume button; it must remain accessible with clear labels (`pause` / `resume` strings).
-- watchOS live-menu exit uses the same explicit, accessible menu button but ends the active gameplay session before returning to the menu so gameplay, haptics, and pending crash/start callbacks cannot continue behind the menu.
-- The `?` tutorial action pauses gameplay while presented and restores state appropriately on dismiss (manual open restores prior state; auto VoiceOver open resumes only when it introduced the pause).
-- Button toggles gameplay without resetting grid or score; grid/haptics stay paused while in that state.
-- Keep hints minimal—label alone should be sufficient; rely on localization entries for VoiceOver output.
-- VoiceOver Magic Tap (two-finger double-tap) triggers the same pause/resume toggle path as the toolbar button, including disabled-state rules during non-user pauses.
-- tvOS: the Play/Pause remote button triggers the same toggle.
-- watchOS: header icon toggles pause/resume; keep label present for VoiceOver.
-
-## References
-
-- AGENTS.md – Accessibility Requirements section
-- Apple HIG – Accessibility
-- `/Requirements/theming_system.md` – Visual theme and contrast
+- Unit tests cover conditional defaults, settings migrations, audio/warning routing, direct touch persistence, paused-grid descriptors, VoiceOver/Voice Control scope, Dynamic Type layout guards, and SharePlay accessible state.
+- Manual QA covers VoiceOver, Switch Control, Voice Control, Dynamic Type, Reduce Motion, keyboard/controller/remote/crown input, game-over/achievement sheets, and SharePlay overlays on supported platforms.

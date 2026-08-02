@@ -139,7 +139,7 @@ struct SharePlayOverlayView: View {
             .resizable()
             .aspectRatio(contentMode: .fit)
             .frame(maxWidth: usesTemplate ? 72 : 140)
-            .foregroundStyle(.secondary)
+            .foregroundStyle(.primary)
             .accessibilityHidden(true)
     }
 

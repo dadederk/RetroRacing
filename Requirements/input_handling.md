@@ -4,99 +4,59 @@
 
 > Narrow tasks may stop here; open the full contract for implementation or review.
 
-- **Scope:** Platform UI captures native input and translates to shared `RacingGameController` / adapter layer.
-- **Must not break:** UI layer owns input; no platform flags in shared game logic; watch crown uses `CrownInputProcessor` gating.
-- **Key files:** `WatchGameView`, `CrownGameInputAdapter`, `GameInputAdapter` in `RetroRacingShared`.
-
-## Overview
-
-RetroRacing captures platform-specific input at the UI layer and translates it into shared game actions. Input handling prioritizes responsiveness, consistency, and accessibility while keeping platform differences out of shared game logic.
+- **Scope:** Platform UI captures native input and translates it into shared game controller actions.
+- **Must not break:** UI layer owns platform input; shared game logic stays platform-agnostic; watch crown uses `CrownInputProcessor`; assistive gestures are not intercepted.
+- **Key files:** `GameInputAdapter`, `RacingGameController`, `WatchGameView`, `CrownGameInputAdapter`, `MacTrackpadSwipeInterpreter`, `controller_input.md`.
 
 ## Architecture
 
-- **UI layer owns input**: Each platform view/controller captures its native input (touch, crown, remote, keyboard).
-- **Shared adapters**: UI passes events through `GameInputAdapter` implementations in `RetroRacingShared`.
-- **Shared controller**: Adapters call `RacingGameController` (`GameScene` implements this).
-- **No platform flags in shared code**: Platform differences stay in platform UI.
+- Platform views capture native input.
+- Shared adapters translate to `RacingGameController`.
+- `GameScene` implements the shared controller.
+- Platform differences stay in UI/adapters, not service or gameplay logic.
 
-## Implementation Details
+## Platform Inputs
 
-### watchOS Digital Crown
+- iOS/iPadOS:
+  - touch regions and horizontal drag gestures move lanes
+  - keyboard arrows move; space toggles pause
+  - Direct Touch setting controls `.accessibilityDirectTouch`
+  - VoiceOver Magic Tap toggles pause/resume
+- watchOS:
+  - Digital Crown routes through `CrownInputProcessor`
+  - touch overlay respects Direct Touch
+  - Magic Tap toggles pause/resume
+- tvOS:
+  - Siri Remote movement uses `onMoveCommand`
+  - Play/Pause toggles pause
+- macOS:
+  - arrow keys move; space toggles pause
+  - two-finger horizontal trackpad swipes move one lane per gesture
+  - trackpad lane swipes are disabled while VoiceOver is running
+- Physical controllers:
+  - see [controller_input.md](controller_input.md)
 
-- **Processor**: `CrownInputProcessor` in `RetroRacingShared` encapsulates crown delta accumulation and burst-gating behavior (legacy-compatible threshold profile via `.watchLegacy`).
-- **Threshold**: Crown deltas are accumulated and movement triggers when `abs(accumulatedDelta) > 0.30` (reduces accidental lane changes while still allowing slower turns to register).
-- **Gating**: Only one move per rotation burst. Additional deltas are ignored until the crown is idle.
-- **Idle detection**: SwiftUI has no direct idle callback, so `WatchGameView` uses a debounced reset (`~150ms`) to simulate `crownDidBecomeIdle`.
-- **Delta source**: `digitalCrownRotation` deltas are computed from successive value changes (no manual reset), keeping the stream continuous.
-- **SwiftUI crown sensitivity**: `WatchGameView` uses `.digitalCrownRotation(..., sensitivity: .low, ...)` so larger physical crown turns are required before movement is detected.
-- **Crown haptic cadence**: `WatchGameView` keeps `.digitalCrownRotation(..., isHapticFeedbackEnabled: true, ...)` enabled so rotation provides immediate tactile feedback while steering.
-- **Focus**: `WatchGameView` sets focus with `@FocusState` to keep crown input active during play.
-- **Adapter**: Movement uses `CrownGameInputAdapter` to call `moveLeft()` / `moveRight()` on `GameScene`.
+## Digital Crown Contract
 
-### Physical Game Controllers (iOS, macOS, tvOS)
+- Accumulate crown deltas until `abs(delta) > 0.30`.
+- Emit at most one lane move per rotation burst.
+- Reset burst state after an idle debounce around 150 ms.
+- Use low crown sensitivity and keep crown focus active during play.
+- Haptic crown rotation stays enabled, but gameplay move haptic fires only when a move changes lane.
 
-See [controller_input.md](controller_input.md) for full details. Summary:
-- `GameControllerInputSource` protocol injected into `GameView` at the composition root.
-- `SystemGameControllerInputSource` backed by Apple's `GCController` APIs.
-- D-pad and left stick trigger moves by default on iOS/macOS; not captured on tvOS (handled by `.onMoveCommand`).
-- Start/Menu triggers pause on iOS/macOS; not captured on tvOS (handled by `.onPlayPauseCommand`).
-- Players can remap A/B/X/Y/shoulders/triggers to any of three actions in Settings.
-- Remapped controller buttons replace D-pad/Menu bindings for those actions; left stick remains a directional fallback on iOS/macOS.
-- Directional controller actions are ignored while menu/settings/help overlays are visible.
-- Bindings stored in `UserDefaults`, read on every press — no caching required.
+## Haptic Routing
 
-### Other Platforms (Summary)
+- Normal touch/remote/crown movement triggers move haptic immediately when handled.
+- When cue audio mode is active and lane move cue style is Haptics, adapters suppress immediate move haptic so `GameScene` can emit safe/unsafe-specific feedback.
 
-- **iOS/iPadOS**: Touch areas + drag gestures (see `TouchGameInputAdapter`).
-  - Touch-area taps use `onTapGesture` and horizontal swipes use a `DragGesture` threshold (`20pt`) for lane gestures.
-  - Accessibility settings include a `Direct Touch` toggle backed by conditional-default storage (`on` by default). Gameplay touch regions apply `.accessibilityDirectTouch(..., options: [.silentOnTouch])` only when this setting is enabled.
-  - Hardware keyboard arrows (`Left` / `Right`) and space (`Pause/Resume`) route through the shared UIKit keyboard bridge. The bridge re-requests first responder on view/window moves and marks key commands as `wantsPriorityOverSystemBehavior` so iPad keyboard input remains active after focus/layout changes.
-  - Voice Control aliases on touch regions are ordered as `Left`, `Move left` and `Right`, `Move right` to support short commands like “Tap left/right”.
-  - HUD status labels and SpriteKit grid/cars are non-interactive in Voice Control so command targeting stays limited to gameplay controls.
-  - VoiceOver Magic Tap maps to the same pause/resume toggle used by the in-game pause control.
-- **tvOS**: Remote swipe input via `RemoteGameInputAdapter`.
-- **macOS**:
-  - Arrow keys route through `AppKitHardwareKeyboardInputView`.
-  - Space bar toggles pause/resume via the same pause path as the toolbar control.
-  - Two-finger trackpad horizontal swipes map to lane changes via `MacTrackpadSwipeInterpreter`.
-  - Gesture handling rules:
-    - Horizontal-only: `abs(deltaX) > abs(deltaY)` and minimum horizontal threshold.
-    - One lane move per swipe gesture while phase is active.
-    - For phaseless scroll streams, cooldown reset allows one move after inactivity.
-    - Direction is normalized with `isDirectionInvertedFromDevice` so physical swipe left/right always maps to move left/right regardless of natural scrolling.
-    - Swipe handling is disabled while VoiceOver is running to avoid conflicting with assistive gesture controls.
-- **visionOS**: Platform UI handles gaze/gesture input and forwards to shared controllers.
-- **watchOS**:
-  - VoiceOver Magic Tap maps to the same pause/resume toggle used by the header pause control.
-  - Gameplay touch overlay also respects the `Direct Touch` accessibility setting (`on` by default, persisted user override).
+## Accessibility
 
-### Haptic Routing for Lane Cues
+- Voice Control aliases stay limited to explicit gameplay controls.
+- HUD and SpriteKit grid/cars are not interactive Voice Control targets.
+- Direct Touch defaults to on where exposed and persists user overrides.
+- Assistive gestures must remain available; do not let gameplay drag/swipe recognizers steal VoiceOver/macOS assistive gestures.
 
-- For normal move feedback, `TouchGameInputAdapter` and `RemoteGameInputAdapter` route through the same directional-input core and trigger move haptic immediately when left/right input is handled.
-- When cue audio mode is active and lane move cue style is `Haptics`, adapters suppress immediate move haptic and let `GameScene` decide the haptic:
-  - Safe destination lane: success haptic.
-  - Unsafe destination lane: regular move haptic.
-- This keeps haptic meaning aligned with lane safety without duplicating haptics.
+## Testing
 
-## User Experience
-
-- **watchOS**: A single lane move per crown “turn,” matching the classic feel.
-- **Accessibility**: Crown input remains focusable and works alongside VoiceOver.
-- **Consistency**: Shared game logic remains deterministic and platform-agnostic.
-
-## Testing Strategy
-
-- Unit tests for the processor in `RetroRacingSharedTests/CrownInputProcessorTests.swift`.
-- Unit tests for macOS swipe interpretation in `RetroRacingSharedTests/MacTrackpadSwipeInterpreterTests.swift`.
-- Watch UI should be verified manually to ensure the “one move per burst” feel.
-
-## Known Issues
-
-- Idle detection uses a debounce timer because SwiftUI lacks a direct crown idle callback.
-- If the crown is rotated extremely slowly, the debounce window may need tuning.
-
-## References
-
-- [controller_input.md](controller_input.md)
-- [accessibility.md](accessibility.md)
-- [testing.md](testing.md)
+- Unit tests cover crown processing, macOS swipe interpretation, haptic routing, keyboard bridge focus behavior, and controller routing.
+- Manual validation covers watch crown feel, iOS touch/keyboard, tvOS remote, macOS keyboard/trackpad, and controller hardware.

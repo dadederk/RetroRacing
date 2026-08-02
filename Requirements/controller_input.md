@@ -4,183 +4,55 @@
 
 > Narrow tasks may stop here; open the full contract for implementation or review.
 
-- **Scope:** Physical game controller support via `GameController` on iOS, iPadOS, macOS, tvOS with remappable bindings.
-- **Must not break:** tvOS defers directional/pause to Siri Remote commands; remapping persisted in Settings; injected `GameControllerInputSource` at composition root.
-- **Key files:** `SystemGameControllerInputSource`, `GameView` injection, Settings controller section.
+- **Scope:** Physical game controller support via GameController on iOS, iPadOS, macOS, and tvOS, including remappable bindings.
+- **Must not break:** tvOS directional/pause input stays routed through Siri Remote commands; remaps persist globally; `GameControllerInputSource` is injected at composition roots.
+- **Key files:** `GameControllerInputSource`, `SystemGameControllerInputSource`, `GameControllerBindingProfile`, `GameControllerActionRouter`, `GameView`, `SettingsView`.
 
-## Overview
+## Platform Behavior
 
-RetroRacing supports physical game controllers (MFI, Xbox, PlayStation) via Apple's `GameController` framework on iOS, iPadOS, macOS, and tvOS.
+| Platform | Directional input | Pause |
+|---|---|---|
+| iOS / iPadOS / macOS | D-pad and left stick | Start/Menu button |
+| tvOS | `.onMoveCommand` | `.onPlayPauseCommand` |
 
-Platforms in scope: iOS, iPadOS, macOS, tvOS.  
-Platforms out of scope: watchOS (no GCController support), visionOS (stub).
+- tvOS does not capture controller directional/menu input to avoid double-triggering with Siri Remote behavior.
+- watchOS is out of scope. visionOS remains stubbed until planned.
 
----
+## Remapping
 
-## Default Behaviour
+- Settings lets players remap Move Left, Move Right, and Pause/Resume.
+- Supported remap buttons: A, B, X, Y, left/right shoulder, left/right trigger, Menu, or none where supported by the model.
+- One button maps to one action. Assigning a used button clears the previous action.
+- One global binding profile applies to all connected controllers.
+- Left stick remains a directional backup on iOS/iPadOS/macOS even when D-pad/menu actions are remapped.
+- Bindings are stored as JSON under `gameControllerBindingProfile`; corrupt or missing data falls back to defaults.
 
-| Platform | Default directional input | Default pause |
-|----------|--------------------------|---------------|
-| iOS / macOS | D-pad + left stick | Start/Menu button |
-| tvOS | Handled by `.onMoveCommand` (Siri Remote); not captured from controller | Handled by `.onPlayPauseCommand`; not captured from controller |
+## Input Source Contract
 
-On tvOS, the system remote commands take precedence. Controller input on tvOS is limited to remapped face buttons only — no directional or menu capture — to prevent double-triggering.
+- `GameControllerInputSource.start(handler:)` begins observation and emits `GameControllerAction` on the main actor.
+- `stop()` detaches handlers and clears per-controller stick state.
+- `SystemGameControllerInputSource` observes connect/disconnect notifications and reads the current binding from UserDefaults on every press so Settings changes apply immediately.
+- Stick hysteresis prevents repeated lane moves while held: trigger at +/-0.5, reset inside +/-0.2.
 
----
+## Routing
 
-## Button Remapping
-
-Players can remap up to three actions to any face button or shoulder/trigger button in **Settings → Controller**:
-
-| Action | Default binding | Remappable buttons |
-|--------|----------------|-------------------|
-| Move Left | D-pad left, left stick left | A, B, X, Y, Left Shoulder, Right Shoulder, Left Trigger, Right Trigger, Menu |
-| Move Right | D-pad right, left stick right | Same set |
-| Pause/Resume | Start/Menu | Same set |
-
-Rules:
-- One button cannot be assigned to multiple actions. Assigning a button that is already in use clears the previous assignment (last-assigned wins).
-- Bindings are global — one profile applies to all connected controllers.
-- There is no per-device mapping in v1.
-- Remaps replace D-pad and Menu bindings. Reassigning these actions changes which physical buttons trigger them.
-- Left stick on iOS/macOS remains a directional backup regardless of remapping.
-
----
-
-## Architecture
-
-### Protocol: `GameControllerInputSource`
-
-```swift
-public protocol GameControllerInputSource: AnyObject {
-    func start(handler: @escaping @MainActor @Sendable (GameControllerAction) -> Void)
-    func stop()
-}
-```
-
-Injected into `GameView` at the composition root. The protocol keeps the shared view platform-agnostic. Swap the implementation for testing or new platforms without changing game logic.
-
-### System implementation: `SystemGameControllerInputSource`
-
-- Configured with `GameControllerPlatformConfig` (two flags: `capturesDirectionalInput`, `capturesMenuButton`).
-- Observes `GCControllerDidConnect` / `GCControllerDidDisconnect` notifications.
-- Attaches per-controller button handlers on connection and cleans up stick state on disconnect.
-- **Remapped button binding is read from `UserDefaults` on every press** — no caching. Changes made in Settings take effect immediately without any cross-store synchronisation.
-
-### Stick hysteresis (`StickHysteresisState`)
-
-Prevents repeated lane moves while the stick is held:
-- Trigger threshold: ±0.5
-- Reset zone: ±0.2 (both sides must return before another trigger fires in the same direction)
-- Hysteresis state tracked per connected controller via `ObjectIdentifier`.
-
-### Router: `GameControllerActionRouter`
-
-Pure function that maps `(GameControllerAction, isMenuOverlayVisible: Bool)` to `GameControllerRouteResult`:
+`GameControllerActionRouter` is pure:
 
 | Action | Menu hidden | Menu visible |
-|--------|------------|--------------|
-| `.moveLeft` | `.moveLeft` | `.ignored` |
-| `.moveRight` | `.moveRight` | `.ignored` |
-| `.pauseResume` | `.togglePause` | `.requestPlay` |
+|---|---|---|
+| Move left/right | lane move | ignored |
+| Pause/resume | toggle pause | request Play |
 
-### Data model: `GameControllerBindingProfile`
+- Routed controller play requests use the same session-aware play path as menu Play.
+- Every routed gameplay action records `AchievementControlInput.gameController` for the completed run.
 
-- `leftButton: GameControllerRemapButton`
-- `rightButton: GameControllerRemapButton`
-- `pauseButton: GameControllerRemapButton`
-- `Codable`, `Equatable`, `Sendable`
-- Mutation via `settingLeft(_:)`, `settingRight(_:)`, `settingPause(_:)` — each returns a new profile with conflicts resolved.
+## Settings and Localization
 
-### Storage: `GameControllerBindingPreference`
-
-- `storageKey = "gameControllerBindingProfile"`
-- JSON-encoded `GameControllerBindingProfile` stored in `UserDefaults`.
-- `currentProfile(from:)` returns `.default` on missing or corrupt data.
-- `SettingsPreferencesStore` holds a `controllerBindingProfileData: Data` backing property for reactive UI updates.
-
----
-
-## `GameView` Integration
-
-`GameView` receives two new parameters:
-
-```swift
-controllerInputSource: any GameControllerInputSource
-onPlayRequest: (() -> Void)?
-```
-
-- On `onAppear`: `controllerInputSource.start(handler:)` is called with a closure that routes actions via `GameControllerActionRouter`.
-- On `onDisappear`: `controllerInputSource.stop()` is called before `model.tearDown()`.
-- `onPlayRequest` is called when `.requestPlay` is routed (Start/Menu while menu overlay is visible).
-- Every routed controller action (`moveLeft`, `moveRight`, `togglePause`, `requestPlay`) records `AchievementControlInput.gameController` in per-run telemetry for local achievement progress.
-
----
-
-## Composition Root
-
-### Universal (iOS/macOS)
-
-- `controllerInputSource = SystemGameControllerInputSource(platformConfig: .standard, userDefaults: userDefaults)`
-- `handlePlayRequest()` is session-aware:
-  - If `shouldStartGame == true` (session active): just dismiss the menu overlay.
-  - If `shouldStartGame == false` (no active session): create new `sessionID`, set `shouldStartGame = true`, dismiss.
-
-### tvOS
-
-- `controllerInputSource = SystemGameControllerInputSource(platformConfig: .tvOS, userDefaults: userDefaults)`
-- `handleControllerPlayRequest()` simply dismisses the menu without resetting the session.
-
----
-
-## Settings UI
-
-`SettingsView` shows a **Controls** section with a **How to play the game** row. The row opens a Settings help sheet that shows the platform controls copy first, then a **Controller** mapping section. On macOS the sheet uses a `ScrollView` layout so the controls copy renders reliably in the settings window; other platforms keep a `List`. The mapping section contains three `Picker` rows (Move Left, Move Right, Pause/Resume), each offering all `GameControllerRemapButton` cases. A footer explains that remapped buttons replace D-pad/Menu bindings while keeping keyboard controls unaffected.
-
-`SettingsPreferencesStore` exposes:
-- `controllerLeftButtonSelection: Binding<GameControllerRemapButton>`
-- `controllerRightButtonSelection: Binding<GameControllerRemapButton>`
-- `controllerPauseButtonSelection: Binding<GameControllerRemapButton>`
-- `selectedControllerBindingProfile: GameControllerBindingProfile` (computed, reads from observable backing data)
-- `setControllerBindingProfile(_:)` (writes to both `UserDefaults` and the backing `Data` property)
-
----
-
-## Localization
-
-New string keys (English / Spanish / Catalan):
-
-| Key | Purpose |
-|-----|---------|
-| `settings_controller` | Section header |
-| `settings_controller_move_left` | Picker label |
-| `settings_controller_move_right` | Picker label |
-| `settings_controller_pause_resume` | Picker label |
-| `settings_controller_footnote` | Remap behavior note |
-| `settings_controls_how_to_play` | Controls help sheet row and title |
-| `controller_button_none` | "None" option |
-| `controller_button_a` … `controller_button_menu` | Button names |
-
-Controls description strings (`settings_controls_ios`, `settings_controls_macos`, `settings_controls_tvos`) updated to mention controller support.
-
----
+- Controls settings expose a “How to play the game” row, then controller mapping on supported shared surfaces.
+- macOS uses a scroll layout for reliable settings-window rendering.
+- Controller labels and footer copy live in the shared string catalog.
 
 ## Testing
 
-Unit tests cover:
-- `GameControllerBindingProfileTests` — defaults, setters, conflict resolution, Codable round-trip.
-- `GameControllerBindingPreferenceTests` — persist/load round-trip, default fallback, corrupt data.
-- `GameControllerActionRouterTests` — all routing combinations (directional ignored while overlay is visible; pause with menu visible/hidden).
-
-Manual validation required (hardware gate):
-- iOS + Xbox Adaptive Controller: D-pad, Start, remapped A/B.
-- tvOS + controller: Siri Remote direction unchanged, face button remaps work, Play/Pause unchanged.
-- macOS + controller: D-pad/stick movement, Start pause, keyboard/mouse unchanged.
-
----
-
-## Future Work (Out of Scope for v1)
-
-- Per-device binding profiles.
-- watchOS game controller support (watchOS 7+ has limited GCController but Apple Watch is not commonly used with physical controllers).
-- visionOS controller support.
+- Unit tests cover binding defaults, conflict resolution, persistence fallback, router combinations, and immediate remap behavior.
+- Manual hardware validation covers iOS/iPadOS, macOS, and tvOS controllers, including adaptive/Xbox/PlayStation-style devices where available.

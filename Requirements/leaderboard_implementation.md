@@ -1,424 +1,74 @@
-# Leaderboard Implementation
+# Leaderboards
 
 ## Agent summary
 
 > Narrow tasks may stop here; open the full contract for implementation or review.
 
-- **Scope:** Game Center leaderboards per platform and difficulty (Cruise/Fast/Rapid) with DI and shared ID catalog.
-- **Must not break:** No `#if os()` in services; platform configs delegate to `LeaderboardIDCatalog`; watch relay uses shared watch mapping.
-- **Key files:** `LeaderboardConfiguration` implementations, `GameCenterService`, `LeaderboardIDCatalog`.
+- **Scope:** Game Center leaderboards per platform and difficulty, friend leaderboard snapshots, pending score replay, and watch fallback relay.
+- **Must not break:** No `#if os()` in services; platform configs delegate to `LeaderboardIDCatalog`; debug builds do not submit scores unless explicitly allowed; watch relay submits to watch leaderboard IDs.
+- **Key files:** `LeaderboardIDCatalog`, `LeaderboardConfiguration*`, `GameCenterService`, `PendingLeaderboardScoreStore`, `BestScoreSyncService`.
 
-## Overview
+## Leaderboard Scope
 
-Game Center leaderboard system with dependency injection, zero compiler flags in services, and maximum code reuse across platforms.
+- Leaderboards are per platform and speed: Cruise, Fast, Rapid.
+- Assistive technology users share the same platform/speed leaderboards.
+- Current App Store Connect status: iPhone, iPad, macOS, and watchOS boards are created. tvOS and visionOS IDs remain configured in code for later setup.
+- Speed pacing:
+  - Rapid: baseline (`initialInterval: 0.6`)
+  - Fast: middle pace (`initialInterval: 0.96`)
+  - Cruise: slowest (`initialInterval: 1.44`)
 
-**Scope:** Leaderboards are **per platform** (iOS, iPad, macOS, tvOS, watchOS) and **per level** (Cruise, Fast, Rapid). We do not use separate leaderboards for assistive technologies (e.g. VoiceOver); all users compete on the same per-platform, per-level leaderboards.
-
-**Speed pacing mapping (current):**
-- `Rapid` (default): baseline game speed (`initialInterval: 0.6`)
-- `Fast`: middle pace between Rapid and Cruise (`initialInterval: 0.96`)
-- `Cruise`: slowest pace (`initialInterval: 1.44`)
-
-**App Store Connect status:** Leaderboards are created for **iPhone, iPad, macOS, watchOS** (three per platform: Cruise, Fast, Rapid). **tvOS** and **visionOS** leaderboards are deferred for a later release; the app still has configuration for those platforms (IDs in code), so when you create those leaderboards in ASC later, no code change is needed.
-
-## Architecture
-
-### Configuration Layer
-
-**`LeaderboardConfiguration` Protocol**
-```swift
-protocol LeaderboardConfiguration {
-    func leaderboardID(for difficulty: GameDifficulty) -> String
-}
-```
-
-**Single source of truth:**
-- `LeaderboardIDCatalog` (shared) owns all platform + speed leaderboard IDs.
-- Platform-specific configurations delegate to this catalog to avoid drift between targets.
-- `LeaderboardConfigurationWatchOS` now lives in shared code so watch app and iPhone relay use identical watch leaderboard mapping.
-
-**Platform Implementations (sandbox IDs per speed):**
-- iPhone (`LeaderboardConfigurationUniversal`)
-  - Cruise → `bestios001cruise`
-  - Fast → `bestios001fast`
-  - Rapid → `bestios001test`
-- iPad (`LeaderboardConfigurationIPad`)
-  - Cruise → `bestipad001cruise`
-  - Fast → `bestipad001fast`
-  - Rapid → `bestipad001test`
-- macOS (`LeaderboardConfigurationMac`)
-  - Cruise → `bestmacos001cruise`
-  - Fast → `bestmacos001fast`
-  - Rapid → `bestmacos001test`
-- tvOS (`LeaderboardConfigurationTvOS`)
-  - Cruise → `besttvos001cruise`
-  - Fast → `besttvos001fast`
-  - Rapid → `besttvos001`
-- watchOS (`LeaderboardConfigurationWatchOS`)
-  - Cruise → `bestwatchos001cruise`
-  - Fast → `bestwatchos001fast`
-  - Rapid → `bestwatchos001test`
-
-### Service Layer
-
-**`LeaderboardService` Protocol**
-```swift
-protocol LeaderboardService {
-    func submitScore(_ score: Int, difficulty: GameDifficulty)
-    func isAuthenticated() -> Bool
-    func fetchLocalPlayerBestScore(for difficulty: GameDifficulty) async -> Int?
-    func fetchFriendLeaderboardSnapshot(for difficulty: GameDifficulty) async -> FriendLeaderboardSnapshot?
-}
-```
-
-**`GameCenterService` Implementation**
-- Accepts `LeaderboardConfiguration` via initializer
-- Accepts `GameCenterFriendSnapshotServicing` via initializer (friend pagination + avatar hydration lives in `GameCenterFriendSnapshotService`)
-- Accepts injected build-mode flag (`isDebugBuild`) via initializer
-- Accepts optional debug-submit override (`allowDebugScoreSubmission`) for sandbox diagnostics
-- **No compiler flags** for platform detection
-- Handles all Game Center authentication and presentation
-- Manages view controller lifecycle and delegation
-- Fetches and submits against the leaderboard mapped to the selected speed level
-- By default skips `submitScore(_:difficulty:)` in debug builds; this can be explicitly overridden at composition root for diagnostics
-- Supports friend snapshot fetch (`friends` scope, all-time) for social milestone UI.
-
-### watchOS fallback relay (companion iPhone)
-
-- watchOS keeps direct `GameCenterService.submitScore` on game over.
-- When a game-over score becomes a **new local best**, watchOS also relays that best score to iPhone via `WatchConnectivity.transferUserInfo`.
-- iPhone ingests relayed scores, keeps one **pending max per speed**, and submits to the **watchOS leaderboard IDs** via `GameCenterService(configuration: LeaderboardConfigurationWatchOS(), friendSnapshotService: GameCenterFriendSnapshotService(avatarCache: GameCenterAvatarCache()), ...)`.
-- Verification is **single-shot per trigger** (no timer loops):
-  - trigger: relay received
-  - trigger: app lifecycle active/launch
-  - trigger: Game Center auth state change
-- If verification cannot confirm remote persistence, pending best remains for a later natural trigger.
-
-### Pending score queue (offline / unauthenticated)
-
-When `submitScore` is called while the player is not authenticated, the score is stored as a
-pending best in `PendingLeaderboardScoreStore` (backed by `UserDefaultsPendingLeaderboardScoreStore`).
-Only the best pending score per difficulty is retained.
-
-`GameCenterService.flushPendingScoresIfPossible()` submits all pending scores to Game Center
-once authenticated. It is called in the same auth-change and lifecycle handlers as
-`replayAchievedAchievements()`.
-
-If `verifyRemoteBestAfterSubmit` fails all three verification attempts (submitted score cannot
-be read back from Game Center), the score is also re-queued as pending so a future trigger
-can retry it.
-
-### Best-Score Sync
-
-- `BestScoreSyncService` syncs local best score from Game Center when available:
-  - Resolves the currently selected speed (`selectedDifficulty`)
-  - Calls `leaderboardService.fetchLocalPlayerBestScore(for:)`
-  - Calls `highestScoreStore.syncFromRemote(bestScore:for:)` when a remote value exists
-- Sync timing:
-  - On app startup (`.task`)
-  - On Game Center authentication state change callbacks
-- Scope:
-  - Leaderboards remain **per platform + speed** (Cruise/Fast/Rapid for each platform)
-  - Best score sync is per active platform/speed leaderboard, not cross-platform-global
-
-### Friend social milestones (Universal + tvOS)
-
-- Live gameplay can show up to two upcoming friend-score markers at a time (avatar badges above mapped rival cars).
-- `GameOverView` can show:
-  - next friend ahead
-  - friends overtaken in that run
-- Baseline for game-over comparisons:
-  - remote Game Center best when available
-  - fallback to local best otherwise
-- In-race marker milestone selection uses current run score (not baseline), so friend markers can appear every run.
-- Social UI is hidden if friend data is unavailable (unauthenticated, fetch failure, or empty friend set).
-- watchOS is intentionally out of scope for v1.
-
-### View Layer (SwiftUI)
-
-**Platform Integration:**
-- iOS/macOS: `MenuView` (SwiftUI) in main app target; composition root in `RetroRacingApp.swift` injects `GameCenterService` and `LeaderboardConfiguration`.
-- tvOS: `tvOSMenuView` (SwiftUI) in tvOS target; composition root in `RetroRacingTvOSApp.swift`.
-- watchOS: `ContentView` (SwiftUI) as main menu; `RetroRacingWatchOSApp.swift` as composition root. `GameCenterService` is injected with `LeaderboardConfigurationWatchOS`; `WatchGameView` calls `leaderboardService.submitScore(score, difficulty:)` on game over so scores land on the selected speed leaderboard. No Leaderboard button on menu; leaderboard info is in Settings.
-- watchOS fallback sender (`WatchBestScoreRelaySender`) is injected from composition root and called only when local best improves; it does not replace direct watch submit.
-- visionOS: TBD
-
-View layer characteristics:
-- Zero GameKit imports in most of the view layer (exceptions: leaderboard presentation surfaces such as `LeaderboardView` and macOS menu trigger).
-- Only calls service methods (`leaderboardService.submitScore(_:difficulty:)`, `gameCenterService.isAuthenticated`, etc.)
-- `MenuAuthModel.startAuthentication(startedByUser:)` runs on macOS as well (not only UIKit platforms) so `GKLocalPlayer.authenticateHandler` is registered and shared score submit/best-sync paths can observe authenticated state.
-- Leaderboard presentation:
-  - iOS / tvOS / macOS leaderboard button resolves the selected speed and opens that leaderboard ID
-  - iOS / tvOS: via `LeaderboardView` using `GKAccessPoint.shared.trigger(leaderboardID:...)` (iOS 26+ / tvOS 26+)
-  - macOS: direct `GKAccessPoint.shared.trigger(leaderboardID:...)` call from menu action (no placeholder SwiftUI sheet wrapper)
-  - watchOS: no in-app leaderboard UI (Apple does not provide a watch-appropriate leaderboard sheet). Scores are submitted to Game Center via the same `GameCenterService` and `LeaderboardConfiguration` (watch ID `bestwatchos001test`). Users see “Scores are submitted to Game Center. View leaderboards on iPhone or iPad.” in Settings.
-
-## App Store Connect: Create leaderboards
-
-Create one Classic leaderboard in App Store Connect for each **Leaderboard ID** the app uses. The app submits scores to the ID returned by `LeaderboardConfiguration.leaderboardID(for: difficulty)` per platform. IDs are **case-sensitive** and must match exactly.
-
-### Steps
-
-1. **App Store Connect** → [appstoreconnect.apple.com](https://appstoreconnect.apple.com) → **Apps** → your app.
-2. **Game Center** → In the app's sidebar: **Services** → **Game Center** (or **App** → **Game Center**).
-3. **Leaderboards** → Under Game Center, open **Leaderboards**.
-4. **Leaderboard Set (optional)**  
-   Create a **Leaderboard Set** (e.g. "RetroRapid! Leaderboards") if you want one entry that groups Cruise / Fast / Rapid. Add leaderboards to the set. Otherwise create **Classic Leaderboards** directly.
-5. **Create each leaderboard**  
-   For each ID below (or each platform × difficulty you ship):
-   - Click **+** / **Add Leaderboard**.
-   - **Type:** Classic.
-   - **Reference Name:** Internal only (e.g. "iOS Cruise", "watchOS Rapid").
-   - **Leaderboard ID:** Copy exactly from the table below (e.g. `bestios001cruise`). Do not change case or spelling.
-   - **Score format:** Integer; submission type **Best** (highest score wins).
-   - **Localization:** Add at least one language; set **Display Name** (e.g. "Cruise", "Fast", "Rapid") and **Score Format** (e.g. "%d Overtakes").
-6. **Version / build**  
-   Ensure the build is attached to a version with **Game Center** enabled and the correct leaderboard set selected (if using a set).
-
-### Leaderboard IDs (must match app config)
+## ID Contract
 
 | Platform | Cruise | Fast | Rapid |
-| -------- | ------ | ---- | ----- |
+|---|---|---|---|
 | iPhone | `bestios001cruise` | `bestios001fast` | `bestios001test` |
 | iPad | `bestipad001cruise` | `bestipad001fast` | `bestipad001test` |
 | macOS | `bestmacos001cruise` | `bestmacos001fast` | `bestmacos001test` |
 | tvOS | `besttvos001cruise` | `besttvos001fast` | `besttvos001` |
 | watchOS | `bestwatchos001cruise` | `bestwatchos001fast` | `bestwatchos001test` |
 
-Create only the leaderboards for platforms you ship (e.g. if you ship iPhone + watchOS, create the six IDs for those two rows). If you change an ID in the app's `LeaderboardConfiguration`, create a new leaderboard in App Store Connect with that ID and retire or leave the old one unused.
+- `LeaderboardIDCatalog` is the single source of truth for platform/speed IDs.
+- Platform-specific `LeaderboardConfiguration` types must delegate to the catalog.
+- `LeaderboardConfigurationWatchOS` lives in shared code so direct watch submit and iPhone relay use the same mapping.
 
-## Known Issues
+## Runtime Behavior
 
-### Game Center (iOS 26 / tvOS 26)
+- `GameCenterService` receives `LeaderboardConfiguration`, `GameCenterFriendSnapshotServicing`, build-mode flag, and optional debug-submit override through initialization.
+- Debug builds skip score submission by default and log the skip; diagnostics may explicitly enable debug submission at the composition root.
+- If the player is unauthenticated, pending score storage keeps only the best pending score per difficulty.
+- Pending scores flush on Game Center authentication and lifecycle triggers.
+- If read-after-write verification cannot confirm remote persistence, the score is re-queued.
+- `BestScoreSyncService` syncs the active platform/speed remote best into the local highest-score store when available.
 
-**Resolved:** `GKGameCenterViewController` and `GKGameCenterControllerDelegate` were deprecated in iOS 26 / tvOS 26 with replacement **GKAccessPoint**. The app now uses `GKAccessPoint.shared.trigger(leaderboardID:playerScope:timeScope:handler:)` to present leaderboards on iOS/tvOS and macOS.
+## Presentation
 
-### Localization for Score Units
+- iOS, tvOS, and macOS open the selected-speed leaderboard through `GKAccessPoint`.
+- watchOS has no in-app leaderboard sheet; it submits scores and tells players to view leaderboards on iPhone or iPad.
+- Views should depend on leaderboard services, not direct GameKit APIs, except narrow presentation surfaces.
 
-- English-only for sandbox: score suffix singular `overtake`, plural `Overtakes`. Applied to every leaderboard localization in App Store Connect (set + boards). Non-English suffix copy lives in [`AppStore/game-center/leaderboards-eu-localizations.json`](../AppStore/game-center/leaderboards-eu-localizations.json); upload with `./retrorapid asc game-center` (checklist: [`AppStore/docs/08-locale-expansion.md`](../AppStore/docs/08-locale-expansion.md)). Display names translate **High Score** only; speed levels match in-app labels (`Cruise` / `Rapid` unchanged; `Fast` localized where Settings localizes it). Display names must stay within ASC’s **30-character** limit; the upload script shortens platform or “High Score” phrasing when a literal translation would overflow. Descriptions are uploaded with the same command.
+## watchOS Fallback Relay
 
-### Debugging score submission
+- watchOS submits directly on game over.
+- When a watch score becomes a new local best, it also relays the best score to iPhone via WatchConnectivity.
+- iPhone stores one pending max per speed and submits to watchOS leaderboard IDs.
+- Verification is single-shot per natural trigger: relay received, app active/launch, or auth-state change.
 
-- Leaderboard/Game Center logs follow the canonical contract in [logging.md](logging.md), with primary domain `LEADERBOARD` (`🏆`) and structured `outcome` + key/value fields.
-- On successful submit, `GameCenterService` performs read-after-write verification (`fetchLocalPlayerBestScore(for:)`) with bounded retry attempts and logs `SCORE_VERIFY_REMOTE_BEST`.
-- Leaderboard load diagnostics include structured metadata fields (`releaseState`, `isHidden`, `activityIdentifier`) to diagnose App Store Connect visibility/configuration mismatches.
-- Failure diagnostics use structured error fields (`errorDomain`, `errorCode`, `errorDescription`) instead of raw `userInfo` dumps.
-- Debug builds (direct Xcode runs) emit `SCORE_SUBMIT outcome=skipped reason=debug_build` and do not post scores unless explicitly allowed. The `isDebugBuild` guard in `GameCenterService.isScoreSubmissionEnabled` enforces this.
-- For current watch/iPhone fallback diagnostics, composition roots set `allowDebugScoreSubmission = true` temporarily; revert to default (`false`) when diagnostics end.
-- `GKLeaderboard.submitScore` uses an **offline-first cache strategy**: it queues the score locally and fires the completion handler with `nil` error immediately — before the score reaches the server. A `"Successfully submitted"` log does **not** guarantee the score reached Game Center. The read-back verification step (`verifyRemoteBestAfterSubmit`) is the signal of server-side success. If it consistently fails with `GKErrorNotAuthenticated` (code 6), the app-level Game Center session is invalid and the score likely never persisted.
-- **watchOS: `GKErrorGameUnrecognized` (code 15)**: If you see this error on watchOS in any environment (dev, TestFlight, App Store), the watchOS app's bundle ID is not being matched to a valid Game Center profile. Possible causes: (1) `WKRunsIndependentlyOfCompanionApp = YES` causes Game Center to look for a standalone profile that doesn't exist for this bundle ID; (2) the App Store Connect Game Center configuration is in the wrong app entry relative to the watchOS submission structure; (3) the companion iOS app's Game Center session needs to be active first. Test by temporarily setting `WKRunsIndependentlyOfCompanionApp = NO` — if `GKErrorGameUnrecognized` disappears, the standalone/companion mismatch is the cause.
-- `GKLocalPlayer.local.isAuthenticated` returning `true` does not imply the app-level Game Center session is valid. It reflects the player's cached auth state. Game Center API calls (`loadLeaderboards`, `submitScore`) may still fail if the app is unrecognised.
+## Friend Social Milestones
 
-## Testing Strategy
+- Live gameplay can show up to two upcoming friend markers.
+- Game over can show the next friend ahead and friends overtaken in that run.
+- Baseline uses remote Game Center best when available, with local best fallback.
+- Social UI is hidden when friend data is unavailable or empty.
+- watchOS is out of scope for v1 friend milestone UI.
 
-### Unit Tests (Priority)
+## Operations
 
-**Configuration Tests:**
-```swift
-func testConfigurationReturnsCorrectLeaderboardID() {
-    let config = LeaderboardConfigurationUniversal()
-    XCTAssertEqual(config.leaderboardID(for: .cruise), "bestios001cruise")
-    XCTAssertEqual(config.leaderboardID(for: .fast), "bestios001fast")
-    XCTAssertEqual(config.leaderboardID(for: .rapid), "bestios001test")
-}
-```
+- App Store Connect leaderboard creation and localization live in [AppStore/game-center/README.md](../AppStore/game-center/README.md).
+- Do not change a leaderboard ID in code without creating the corresponding ASC leaderboard and retiring the old one intentionally.
+- Logs follow [logging.md](logging.md), domain `LEADERBOARD`.
 
-**Service Tests with Mock Configuration:**
-```swift
-struct MockLeaderboardConfiguration: LeaderboardConfiguration {
-    func leaderboardID(for difficulty: GameDifficulty) -> String {
-        switch difficulty {
-        case .cruise: return "test_cruise"
-        case .fast: return "test_fast"
-        case .rapid: return "test_rapid"
-        }
-    }
-}
+## Testing
 
-func testServiceUsesInjectedConfiguration() {
-    let mockConfig = MockLeaderboardConfiguration()
-    let service = GameCenterService(
-        configuration: mockConfig,
-        friendSnapshotService: GameCenterFriendSnapshotService(avatarCache: GameCenterAvatarCache()),
-        authenticationPresenter: nil,
-        authenticateHandlerSetter: nil,
-        isDebugBuild: false,
-        allowDebugScoreSubmission: false
-    )
-    // Test service behavior
-}
-```
-
-**View/Integration Tests with Mock Service:**
-```swift
-final class MockLeaderboardService: LeaderboardService {
-    var submittedScores: [Int] = []
-    var authenticated = true
-    
-    func submitScore(_ score: Int, difficulty: GameDifficulty) {
-        submittedScores.append(score)
-    }
-    
-    func isAuthenticated() -> Bool {
-        return authenticated
-    }
-}
-
-func testScoreSubmission() {
-    let mockService = MockLeaderboardService()
-    // Inject into MenuView/GameView or game-over flow; assert mockService.submittedScores
-    XCTAssertEqual(mockService.submittedScores, [100])
-}
-```
-
-## watchOS Implementation
-
-watchOS uses Game Center but has critical platform-specific differences:
-
-```swift
-// RetroRacingWatchOSApp.swift
-@main
-struct RetroRacingWatchOSApp: App {
-    private let leaderboardService: GameCenterService
-    private let watchBestScoreRelaySender: WatchBestScoreRelaySender
-    
-    init() {
-        // Initialize service with no authentication presenter (watchOS has no UI for this)
-        let configuration = LeaderboardConfigurationWatchOS()
-        leaderboardService = GameCenterService(
-            configuration: configuration,
-            friendSnapshotService: GameCenterFriendSnapshotService(avatarCache: GameCenterAvatarCache()),
-            authenticationPresenter: nil,
-            authenticateHandlerSetter: nil,
-            isDebugBuild: BuildConfiguration.isDebug,
-            allowDebugScoreSubmission: false
-        )
-        watchBestScoreRelaySender = WatchConnectivityBestScoreRelaySender()
-    }
-    
-    var body: some Scene {
-        WindowGroup {
-            ContentView(leaderboardService: leaderboardService, ...)
-                .onAppear {
-                    setupGameCenterAuthentication {
-                        Task { await bestScoreSyncService.syncIfPossible() }
-                    }
-                    Task { await bestScoreSyncService.syncIfPossible() }
-                }
-        }
-    }
-    
-    private func setupGameCenterAuthentication(onAuthStateChanged: @escaping () -> Void) {
-        // CRITICAL: watchOS authenticateHandler signature differs from iOS/tvOS/macOS
-        // iOS/tvOS/macOS: (UIViewController?, Error?) -> Void
-        // watchOS:        (Error?) -> Void (no view controller parameter)
-        GKLocalPlayer.local.authenticateHandler = { error in
-            if let error = error {
-                AppLog.error(
-                    AppLog.leaderboard + AppLog.lifecycle,
-                    "AUTH_RESULT",
-                    outcome: .failed,
-                    fields: [.reason("gamekit_error")] + AppLog.Field.error(error)
-                )
-                onAuthStateChanged()
-                return
-            }
-            if GKLocalPlayer.local.isAuthenticated {
-                AppLog.info(
-                    AppLog.leaderboard + AppLog.lifecycle,
-                    "AUTH_RESULT",
-                    outcome: .succeeded,
-                    fields: [.string("player", AppLog.redactedPlayer(GKLocalPlayer.local.displayName))]
-                )
-            } else {
-                AppLog.info(
-                    AppLog.leaderboard + AppLog.lifecycle,
-                    "AUTH_RESULT",
-                    outcome: .blocked,
-                    fields: [.reason("player_not_authenticated")]
-                )
-            }
-            onAuthStateChanged()
-        }
-    }
-}
-
-// WatchGameView.swift  
-func handleGameOver() {
-    let finalScore = gameScene?.gameState.score ?? 0
-    leaderboardService.submitScore(finalScore, difficulty: selectedDifficulty)
-    if finalScore > localBest {
-        watchBestScoreRelaySender.relayBestScore(finalScore, difficulty: selectedDifficulty)
-    }
-}
-```
-
-**Key watchOS differences:**
-- **Authentication handler signature**: watchOS only takes `Error?` (no view controller parameter)
-- Authentication setup happens in `onAppear` rather than via `authenticateHandlerSetter` closure
-- Best-score sync is triggered from auth-state callbacks and `GKPlayerAuthenticationDidChangeNotificationName` updates so late auth transitions still refresh local best.
-- On `GKErrorGameUnrecognized` (code 15), watchOS performs bounded retry attempts with delay before giving up, because this error can occur transiently at launch.
-- No in-app leaderboard UI (users view leaderboards on iPhone/iPad)
-- Settings view displays conditional text based on authentication status
-- Score submission happens automatically on game over
-- Companion fallback relay is best-score-only and event-driven (no timer retries)
-
-**Debugging score submission:**
-
-Use the 🏆 emoji to filter logs:
-```bash
-# Watch logs for authentication
-log stream --predicate 'eventMessage CONTAINS "🏆"' --level debug
-
-# Common issues:
-# - "player not authenticated" → User must sign in to Game Center on paired iPhone
-# - "authentication error" → Check Game Center capability in Xcode project
-```
-
-## Migration Guide
-
-To add a new platform:
-
-1. **Create Configuration**
-```swift
-// RetroRacing macOS/Configuration/macOSLeaderboardConfiguration.swift
-struct macOSLeaderboardConfiguration: LeaderboardConfiguration {
-    func leaderboardID(for difficulty: GameDifficulty) -> String {
-        switch difficulty {
-        case .cruise: return "bestmacos001cruise"
-        case .fast: return "bestmacos001fast"
-        case .rapid: return "bestmacos001test"
-        }
-    }
-}
-```
-
-2. **Update View Layer**
-```swift
-// In app entry (e.g. RetroRacingApp or platform App struct):
-let config = macOSLeaderboardConfiguration()
-let service = GameCenterService(
-    configuration: config,
-    friendSnapshotService: GameCenterFriendSnapshotService(avatarCache: GameCenterAvatarCache()),
-    authenticationPresenter: nil,
-    authenticateHandlerSetter: nil,
-    isDebugBuild: false,
-    allowDebugScoreSubmission: false
-)
-MenuView(
-    leaderboardService: service,
-    gameCenterService: service,
-    // ... other injected dependencies
-)
-```
-
-3. **Done!** No changes to `GameCenterService` required.
-
-## Benefits Achieved
-
-✅ **Dependency Injection**: All dependencies passed explicitly, no hidden globals  
-✅ **Zero Compiler Flags**: Configuration injected, service platform-agnostic  
-✅ **Maximum Code Reuse**: View controllers/views share identical logic  
-✅ **Testability**: Easy to mock with protocol-based design  
-✅ **Clear Separation**: Configuration → Service → View layer  
-✅ **Self-Documenting**: Code structure is clear and intentional
+- Unit tests cover platform/speed ID mapping, pending score max retention, debug submission guard, auth-triggered flushing, read-after-write requeue, best-score sync, watch relay parsing/max guard, friend snapshot normalization, and social milestone selection.
+- Sandbox/manual diagnostics should focus on authentication failures, ASC visibility/configuration mismatches, and watchOS `GKErrorGameUnrecognized` cases.

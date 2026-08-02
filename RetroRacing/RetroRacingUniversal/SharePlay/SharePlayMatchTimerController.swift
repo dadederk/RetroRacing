@@ -5,13 +5,24 @@
 //  Created by Dani Devesa on 01/08/2026.
 //
 
-#if canImport(GroupActivities) && os(iOS)
+#if canImport(GroupActivities) && (os(iOS) || os(macOS))
 import Foundation
 import RetroRacingShared
 
 nonisolated struct SharePlayMatchTimerController {
+    typealias SleepOperation = @Sendable (_ nanoseconds: UInt64) async -> Void
+
     private var countdownTask: Task<Void, Never>?
     private var retryTimeoutTask: Task<Void, Never>?
+    private let sleep: SleepOperation
+
+    init(
+        sleep: @escaping SleepOperation = { nanoseconds in
+            try? await Task.sleep(nanoseconds: nanoseconds)
+        }
+    ) {
+        self.sleep = sleep
+    }
 
     var hasPendingCountdown: Bool {
         countdownTask != nil
@@ -37,8 +48,9 @@ nonisolated struct SharePlayMatchTimerController {
                 .double("delaySeconds", delay)
             ]
         )
+        let sleep = self.sleep
         countdownTask = Task { @concurrent in
-            try? await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000))
+            await sleep(UInt64(delay * 1_000_000_000))
             guard Task.isCancelled == false else { return }
             await onComplete(generation, startAt)
         }
@@ -60,8 +72,9 @@ nonisolated struct SharePlayMatchTimerController {
                 .double("delaySeconds", delay)
             ]
         )
+        let sleep = self.sleep
         retryTimeoutTask = Task { @concurrent in
-            try? await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000))
+            await sleep(UInt64(delay * 1_000_000_000))
             guard Task.isCancelled == false else { return }
             await onComplete(generation, deadline)
         }

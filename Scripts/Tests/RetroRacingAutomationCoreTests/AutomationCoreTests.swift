@@ -54,6 +54,38 @@ func givenOnlyTestingFilterWhenBuildingCommandsThenSingleFilteredCommandIsReturn
 }
 
 @Test
+func givenParallelCanaryConfigurationWhenBuildingStepsThenWorkerCommandsAreParallelAndFilteredToUnitTargets() throws {
+    let root = URL(fileURLWithPath: "/repository")
+    let configuration = try ParallelTestCanaryConfiguration.parse([
+        "--workers", "2,4",
+        "--destination", "platform=iOS Simulator,name=iPhone 17 Pro",
+    ])
+
+    let steps = ParallelTestCanaryWorkflow.makeSteps(
+        repositoryRoot: root,
+        configuration: configuration
+    )
+
+    #expect(steps.map(\.workerCount) == [2, 4])
+    #expect(steps[0].command.arguments.contains("-only-testing:RetroRacingSharedTests"))
+    #expect(steps[0].command.arguments.contains("-only-testing:RetroRacingUniversalTests"))
+    #expect(steps[0].command.arguments.contains("-parallel-testing-enabled"))
+    #expect(steps[0].command.arguments.contains("YES"))
+    #expect(steps[0].command.arguments.contains("-parallel-testing-worker-count"))
+    #expect(steps[0].command.arguments.contains("2"))
+    #expect(steps[0].command.arguments.contains("-enableCodeCoverage"))
+    #expect(steps[0].command.arguments.contains("NO"))
+    #expect(steps[0].command.arguments.contains("-test-timeouts-enabled"))
+}
+
+@Test
+func givenInvalidParallelCanaryWorkerCountWhenParsingThenErrorIsThrown() {
+    #expect(throws: ParallelTestCanaryError.self) {
+        _ = try ParallelTestCanaryConfiguration.parse(["--workers", "0"])
+    }
+}
+
+@Test
 func givenTestEnvironmentWhenBuildingCommandsThenEnvironmentIsForwarded() {
     let root = URL(fileURLWithPath: "/repository")
     let options = TestRunnerOptions(

@@ -57,6 +57,49 @@ final class ScreenshotCaptureConfigurationTests: XCTestCase {
         XCTAssertTrue(dutch?.identifier.contains("NL") == true || dutch?.identifier.contains("nl") == true)
     }
 
+    func testGivenCaptureLocaleWhenAppliedThenLanguageDefaultsAreVolatileOnly() throws {
+        let suiteName = "ScreenshotCaptureLocaleCatalogTests.\(UUID().uuidString)"
+        let userDefaults = try XCTUnwrap(UserDefaults(suiteName: suiteName))
+        defer {
+            userDefaults.removeVolatileDomain(forName: UserDefaults.argumentDomain)
+            userDefaults.removePersistentDomain(forName: suiteName)
+        }
+
+        ScreenshotCaptureLocaleCatalog.applyCaptureLocale(
+            languageList: "(fr)",
+            localeIdentifier: "fr_FR",
+            userDefaults: userDefaults
+        )
+
+        let argumentDomain = userDefaults.volatileDomain(forName: UserDefaults.argumentDomain)
+        XCTAssertEqual(argumentDomain["AppleLanguages"] as? [String], ["fr"])
+        XCTAssertEqual(argumentDomain["AppleLocale"] as? String, "fr-FR")
+        XCTAssertNil(userDefaults.persistentDomain(forName: suiteName)?["AppleLanguages"])
+        XCTAssertNil(userDefaults.persistentDomain(forName: suiteName)?["AppleLocale"])
+    }
+
+    func testGivenLegacyPersistedCaptureLocaleWhenCaptureIsInactiveThenCleanupRemovesIt() throws {
+        #if DEBUG
+        let suiteName = "ScreenshotCaptureLocaleCatalogTests.\(UUID().uuidString)"
+        let userDefaults = try XCTUnwrap(UserDefaults(suiteName: suiteName))
+        defer {
+            userDefaults.removePersistentDomain(forName: suiteName)
+        }
+
+        userDefaults.set(["fr"], forKey: "AppleLanguages")
+        userDefaults.set("fr-FR", forKey: "AppleLocale")
+
+        ScreenshotCaptureLocaleCatalog.removePersistedCaptureLocaleIfNeeded(
+            userDefaults: userDefaults,
+            isCaptureModeEnabled: false,
+            hasLaunchLocaleArgument: false
+        )
+
+        XCTAssertNil(userDefaults.persistentDomain(forName: suiteName)?["AppleLanguages"])
+        XCTAssertNil(userDefaults.persistentDomain(forName: suiteName)?["AppleLocale"])
+        #endif
+    }
+
     func testGivenScreenshotAppearanceWhenReadingDefaultThenIsLight() {
         XCTAssertEqual(ScreenshotCaptureAppearance.default, .light)
         XCTAssertEqual(ScreenshotCaptureAppearance.light.colorScheme, .light)

@@ -48,7 +48,7 @@ final class GameViewModel {
     var debugForcedAchievementIdentifier: AchievementIdentifier?
     var debugShowsSpriteKitFrameStats = false
 
-    /// Optional SharePlay match service. `nil` outside the v1 iOS/iPad scope, in previews, and
+    /// Optional SharePlay match service. `nil` outside the v1 iOS/iPad/macOS scope, in previews, and
     /// in tests. Used to report local score/elimination and to drive retry/leave actions.
     let sharePlayMatchService: (any SharePlayMatchService)?
     /// Mirrors the app-level SharePlay state. `GameViewModel` is recreated every session, so the

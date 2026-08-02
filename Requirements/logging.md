@@ -5,109 +5,55 @@
 > Narrow tasks may stop here; open the full contract for implementation or review.
 
 - **Scope:** Canonical `AppLog` structured logging grammar, domains, outcomes, and privacy rules.
-- **Must not break:** Machine-queryable shape; privacy-safe (no raw player names/URLs/paths); emoji domain consistency.
-- **Key files:** `AppLog` in `RetroRacingShared`, feature log call sites.
+- **Must not break:** Machine-queryable shape; privacy-safe fields; stable domain emojis; errors use structured fields.
+- **Key files:** `AppLog` and feature log call sites.
 
-## Purpose
-
-Define the canonical runtime logging contract for RetroRacing across shared code and platform targets.
-
-## Behavior Contract
-
-- Runtime logs must use `AppLog` structured APIs only.
-- Log lines must follow canonical grammar and be machine-queryable.
-- Log levels and domain emojis must stay consistent across features.
-- Logs must be privacy-safe: no raw player names, full URLs, or full filesystem paths.
-- Bug capture should start with emoji/domain filtering and only widen scope when needed.
-
-## Canonical Message Shape
+## Message Shape
 
 ```text
 <emoji> <DOMAIN> <EVENT_NAME>: outcome=<state> key=value key=value
 ```
 
-Rules:
-- `<emoji>`: required; one primary domain emoji, optional secondary emoji for true cross-domain overlap.
-- `<DOMAIN>`: required; uppercase snake-case domain token from `AppLog.Domain`.
-- `<EVENT_NAME>`: required; uppercase snake-case stable event name.
-- `outcome=` should be first body field when present.
-- Use compact key/value fields (booleans, numbers, enums, short IDs, redacted metadata).
+- Use `AppLog` structured APIs for runtime logs.
+- Domain is an uppercase stable token from `AppLog.Domain`.
+- Event name is uppercase snake case.
+- `outcome=` is first when present.
+- Use compact fields: booleans, numbers, enums, short IDs, redacted metadata.
 
 ## Outcomes
 
-Allowed outcomes:
-- `requested`
-- `started`
-- `succeeded`
-- `completed`
-- `failed`
-- `blocked`
-- `ignored`
-- `skipped`
-- `deferred`
-- `cancelled`
+Allowed outcomes: `requested`, `started`, `succeeded`, `completed`, `failed`, `blocked`, `ignored`, `skipped`, `deferred`, `cancelled`.
 
-Failure-like outcomes should include `reason=<snake_case>`.
+- Failure-like outcomes include `reason=<snake_case>`.
+- Errors prefer `AppLog.Field.error(_:)` or equivalent domain/code/description fields.
 
-## Domains & Emoji Map
+## Domains
 
-Core domains:
-- `ASSETS` `🖼️`
-- `SOUND` `🔊`
-- `FONT` `🔤`
-- `LOCALIZATION` `🌐`
-- `THEME` `🎨`
-- `GAME` `🎮`
-- `LEADERBOARD` `🏆`
-- `ACHIEVEMENT` `🏅`
-- `MONETIZATION` `💰`
-- `INPUT` `🎛️`
-- `ACCESSIBILITY` `♿`
-- `LIFECYCLE` `📱`
-- `STORE` `🛒`
-- `RATING` `⭐`
+Core domains include assets, sound, font, localization, theme, game, leaderboard, achievement, monetization, input, accessibility, lifecycle, store, rating, and SharePlay/lifecycle diagnostics where implemented.
 
-## Level Policy
+- Keep emoji/domain mappings stable once log consumers depend on them.
+- Use one primary emoji/domain; add secondary only for true cross-domain overlap.
 
-- `debug`: high-frequency traces and diagnostics (input deltas, cache hits, graph dirty/rebuild internals).
-- `info`: normal lifecycle transitions and successful operations.
-- `warning`: recoverable or deferred paths (ignored/blocked/skipped that are expected but noteworthy).
-- `error`: operation failures.
-- `critical`: invariant or system-breaking failures requiring immediate attention.
+## Privacy
 
-## Redaction Policy
+Use redaction helpers for:
 
-Use `AppLog` redaction helpers for sensitive fields:
-- `AppLog.shortID(_:)`
-- `AppLog.redactedURL(_:)`
-- `AppLog.redactedPath(_:)`
-- `AppLog.redactedPlayer(_:)`
+- player display names
+- URLs
+- filesystem paths
+- long or sensitive identifiers
 
-Never log raw values for:
-- player display names,
-- full URL strings (`absoluteString`),
-- full local paths.
+Never log raw player names, full URLs, full local paths, or App Store credential material.
 
-For errors, prefer structured domain/code fields via `AppLog.Field.error(_:)`.
+## Bug Capture
 
-## Bug-Capture Workflow
-
-1. Start with the smallest emoji/domain set relevant to the issue.
-2. Capture filtered logs first; widen only if needed.
-3. Keep user instructions targeted and minimal.
+- Start with the smallest relevant domain/emoji filter.
+- Widen only when the filtered capture lacks the needed context.
+- Keep user-facing capture instructions short and task-specific.
 
 Examples:
 
 ```bash
-# Leaderboard / Game Center
-log stream --predicate 'eventMessage CONTAINS "🏆"' --level debug
-
-# Input / controls
-log stream --predicate 'eventMessage CONTAINS "🎛️"' --level debug
-
-# Audio
-log stream --predicate 'eventMessage CONTAINS "🔊"' --level debug
-
-# SharePlay lifecycle / connection diagnostics
+log stream --predicate 'eventMessage CONTAINS "LEADERBOARD"' --level debug
 log stream --predicate 'eventMessage CONTAINS "SHAREPLAY"' --level debug
 ```

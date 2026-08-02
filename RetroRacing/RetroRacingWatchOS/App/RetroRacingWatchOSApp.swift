@@ -101,7 +101,7 @@ struct RetroRacingWatchOSApp: App {
     }
 
     init() {
-        ScreenshotCaptureLocaleCatalog.applyCaptureLocaleFromLaunchArgumentsIfNeeded()
+        ScreenshotCaptureLocaleCatalog.configureCaptureLocaleDefaultsForLaunch()
         ScreenshotCaptureAppearance.applySystemInterfaceStyleIfNeeded()
         AppBootstrap.configureAudioSession()
         SettingsPreferenceMigration.runIfNeeded(

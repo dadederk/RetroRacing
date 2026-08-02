@@ -1,0 +1,19 @@
+Race friends live with SharePlay on iPhone and iPad.
+
+Tap Play with Friends, start a synchronized countdown, dodge traffic together, and compare the same win, loss, or tie result at the end. Rematches wait until both players are ready.
+
+Friend races are free and never use daily plays, even when your solo free plays are used up.
+
+This update adds full in-app localization for German, Dutch, Italian, French (France), French (Canada), Japanese, Korean, Brazilian Portuguese, European Portuguese, Traditional Chinese, and Simplified Chinese. Change your device language, especially to one of those new languages, and confirm menus, settings, and race UI read naturally.
+
+We've also polished settings, paywall clarity, audio, and stability across the app.
+
+What we'd like you to focus on:
+- Start a SharePlay race with a friend on two iPhones or iPads and confirm the countdown stays in sync
+- Switch your device to German, Dutch, Italian, French (France), French (Canada), Japanese, Korean, Brazilian Portuguese, European Portuguese, Traditional Chinese, or Simplified Chinese and confirm the translations feel natural
+- Race to the finish, then try Play Again and confirm both players need to confirm before the rematch
+- With zero daily plays left, confirm friend races still start free from Play with Friends
+- On Mac and Apple Watch, confirm solo racing still feels solid
+- Report any crashes, disconnects, confusing multiplayer moments, or awkward translations
+
+Thanks for racing with us.

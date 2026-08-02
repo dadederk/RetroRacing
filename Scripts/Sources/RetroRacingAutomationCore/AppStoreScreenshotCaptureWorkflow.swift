@@ -339,7 +339,12 @@ public enum AppStoreScreenshotCaptureWorkflow {
             repositoryRoot: repositoryRoot,
             options: placementOptions
         )
-        printPlacementSummary(placementResult)
+        printPlacementSummary(placementResult, dryRun: options.dryRun)
+
+        if options.dryRun {
+            print("Dry run complete; no files were written.")
+            return
+        }
 
         if options.dryRun == false, options.checkOnly == false {
             try ScreenshotStudioWorkflow.run(repositoryRoot: repositoryRoot, mode: .write)
@@ -422,16 +427,20 @@ public enum AppStoreScreenshotCaptureWorkflow {
 
     private static func capture(repositoryRoot: URL, options: AppStoreScreenshotCaptureOptions) throws {
         let options = try resolveSimulatorDestinationIfNeeded(options)
-        try FileManager.default.createDirectory(
-            at: options.stagingDirectory,
-            withIntermediateDirectories: true
-        )
+        if options.dryRun == false {
+            try FileManager.default.createDirectory(
+                at: options.stagingDirectory,
+                withIntermediateDirectories: true
+            )
+        }
 
         let fileExtension = ScreenshotStudioWorkflow.imageExtension(for: options.platform) ?? ".jpeg"
-        try ScreenshotCapturePlan.reconcileReport(
-            in: options.stagingDirectory,
-            fileExtension: fileExtension
-        )
+        if options.dryRun == false {
+            try ScreenshotCapturePlan.reconcileReport(
+                in: options.stagingDirectory,
+                fileExtension: fileExtension
+            )
+        }
         let requestedTargets = options.requestedTargets
         let captureTargets = options.captureTargets
         let targetsToCapture: [ScreenshotCaptureTarget]
@@ -475,7 +484,7 @@ public enum AppStoreScreenshotCaptureWorkflow {
             )
         }
 
-        let duplicated = duplicatesDerivedLocales(for: options.platform)
+        let duplicated = options.dryRun == false && duplicatesDerivedLocales(for: options.platform)
             ? try ScreenshotCapturePlan.duplicateDerivedCaptures(
                 in: options.stagingDirectory,
                 studioLocales: options.studioLocales,
@@ -497,13 +506,15 @@ public enum AppStoreScreenshotCaptureWorkflow {
             }
         }
 
-        try ScreenshotCapturePlan.reconcileReport(
-            in: options.stagingDirectory,
-            fileExtension: fileExtension
-        )
+        if options.dryRun == false {
+            try ScreenshotCapturePlan.reconcileReport(
+                in: options.stagingDirectory,
+                fileExtension: fileExtension
+            )
 
-        let report = ScreenshotCapturePlan.loadReport(from: options.stagingDirectory)
-        printCaptureReport(report)
+            let report = ScreenshotCapturePlan.loadReport(from: options.stagingDirectory)
+            printCaptureReport(report)
+        }
 
         let stillMissing = missingStagedFileNames(
             options: options,
@@ -615,7 +626,6 @@ public enum AppStoreScreenshotCaptureWorkflow {
 
         for (index, target) in targetsToCapture.enumerated() {
             print("[\(index + 1)/\(targetsToCapture.count)] \(target.stem)")
-            let outputURL = options.stagingDirectory.appending(path: target.stagedFileName(fileExtension: fileExtension))
 
             var succeeded = false
             for attempt in 1...options.maxRetries {
@@ -641,15 +651,17 @@ public enum AppStoreScreenshotCaptureWorkflow {
                     }
                 }
 
-                try ScreenshotCapturePlan.writeFilePlan(
-                    stagingDirectory: options.stagingDirectory,
-                    platform: options.platform,
-                    targets: [target],
-                    maxRetries: 1,
-                    skipExisting: false,
-                    fileExtension: fileExtension
-                )
                 print("  plan -> \(ScreenshotCapturePlan.activeFilePlanURL().path) (\(target.stem))")
+                if options.dryRun == false {
+                    try ScreenshotCapturePlan.writeFilePlan(
+                        stagingDirectory: options.stagingDirectory,
+                        platform: options.platform,
+                        targets: [target],
+                        maxRetries: 1,
+                        skipExisting: false,
+                        fileExtension: fileExtension
+                    )
+                }
 
                 let environment = ScreenshotCapturePlan.captureEnvironment(
                     targets: [target],
@@ -846,9 +858,9 @@ public enum AppStoreScreenshotCaptureWorkflow {
         }
     }
 
-    private static func printPlacementSummary(_ result: ScreenshotStudioPlacementResult) {
+    private static func printPlacementSummary(_ result: ScreenshotStudioPlacementResult, dryRun: Bool) {
         if result.installed.isEmpty == false {
-            print("Installed screenshot captures:")
+            print(dryRun ? "Would install screenshot captures:" : "Installed screenshot captures:")
             for entry in result.installed {
                 print("  \(entry)")
             }

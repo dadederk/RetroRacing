@@ -70,6 +70,18 @@ func givenTestPackageRouteWhenParsingThenDispatchPlanRunsSwiftTestPackage() thro
 }
 
 @Test
+func givenTestParallelCanaryRouteWhenParsingThenDispatchPlanTargetsCanaryTool() throws {
+    let plan = try RetroRapidCLIParser.parse(["test", "parallel-canary", "--workers", "2,4"])
+
+    #expect(
+        plan == .runSwiftExecutable(
+            executable: "run-xcodebuild-parallel-canary",
+            arguments: ["--workers", "2,4"]
+        )
+    )
+}
+
+@Test
 func givenASCGameCenterPrintRouteWhenParsingThenDispatchPlanTargetsPrintTool() throws {
     let plan = try RetroRapidCLIParser.parse(["asc", "game-center", "print"])
 
@@ -210,6 +222,28 @@ func givenScreenshotsCaptureRouteWhenParsingThenDispatchPlanTargetsCaptureTool()
         plan == .runSwiftExecutable(
             executable: "capture-app-store-screenshots",
             arguments: ["--dry-run"]
+        )
+    )
+}
+
+@Test
+func givenScreenshotsAllPlatformsDryRunRouteWhenParsingThenLocalesAndSlidesAreForwarded() throws {
+    let plan = try RetroRapidCLIParser.parse([
+        "screenshots", "capture",
+        "--all-platforms",
+        "--locales", "en-US,de-DE,es-MX,ja",
+        "--slides", "0",
+        "--dry-run",
+    ])
+    #expect(
+        plan == .runSwiftExecutable(
+            executable: "capture-app-store-screenshots",
+            arguments: [
+                "--all-platforms",
+                "--locales", "en-US,de-DE,es-MX,ja",
+                "--slides", "0",
+                "--dry-run",
+            ]
         )
     )
 }

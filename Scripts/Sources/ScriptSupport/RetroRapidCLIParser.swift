@@ -36,6 +36,12 @@ public enum RetroRapidCLIParser {
             if remainder.first == "package" {
                 return .runSwiftTestPackage(arguments: Array(remainder.dropFirst()))
             }
+            if remainder.first == "parallel-canary" {
+                return .runSwiftExecutable(
+                    executable: "run-xcodebuild-parallel-canary",
+                    arguments: Array(remainder.dropFirst())
+                )
+            }
             return .runSwiftExecutable(executable: "run-tests", arguments: remainder)
         case "docs":
             return .runSwiftExecutable(

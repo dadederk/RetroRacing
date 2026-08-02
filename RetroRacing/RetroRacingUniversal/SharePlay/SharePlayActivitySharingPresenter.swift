@@ -211,3 +211,189 @@ public final class SharePlayActivitySharingHostController: UIViewController, UIA
     }
 }
 #endif
+
+#if canImport(GroupActivities) && os(macOS)
+import AppKit
+import GroupActivities
+import SwiftUI
+
+/// Presents the system `GroupActivitySharingController` as a native AppKit sheet, driven by a
+/// hidden SwiftUI-hosted AppKit presenter on the menu. The app-facing integration intentionally
+/// matches the iOS presenter so `RetroRacingApp` can render one SwiftUI type.
+public struct SharePlayActivitySharingPresenter: NSViewControllerRepresentable {
+    let presentationID: UUID
+    var onSucceeded: (() -> Void)?
+    var onUserDismissed: (() -> Void)?
+
+    public init(
+        presentationID: UUID,
+        onSucceeded: (() -> Void)? = nil,
+        onUserDismissed: (() -> Void)? = nil
+    ) {
+        self.presentationID = presentationID
+        self.onSucceeded = onSucceeded
+        self.onUserDismissed = onUserDismissed
+    }
+
+    public func makeNSViewController(context: Context) -> SharePlayActivitySharingHostController {
+        let host = SharePlayActivitySharingHostController()
+        host.configure(
+            presentationID: presentationID,
+            onSucceeded: onSucceeded,
+            onUserDismissed: onUserDismissed
+        )
+        return host
+    }
+
+    public func updateNSViewController(_ nsViewController: SharePlayActivitySharingHostController, context: Context) {
+        nsViewController.configure(
+            presentationID: presentationID,
+            onSucceeded: onSucceeded,
+            onUserDismissed: onUserDismissed
+        )
+    }
+
+    public static func dismantleNSViewController(_ nsViewController: SharePlayActivitySharingHostController, coordinator: ()) {
+        nsViewController.prepareForDismantle()
+    }
+}
+
+/// Invisible host that owns the AppKit presentation of `GroupActivitySharingController`.
+public final class SharePlayActivitySharingHostController: NSViewController {
+    private var presentationID: UUID?
+    private var onSucceeded: (() -> Void)?
+    private var onUserDismissed: (() -> Void)?
+    private var sharingResultTask: Task<Void, Never>?
+    private var sharingController: NSViewController?
+    private var hasAttemptedPresentation = false
+    private var hasCompletedPresentation = false
+    private var isReplacingPresentation = false
+
+    public override func loadView() {
+        view = NSView(frame: .zero)
+    }
+
+    public override func viewDidAppear() {
+        super.viewDidAppear()
+        if hasAttemptedPresentation,
+           sharingController == nil,
+           sharingResultTask == nil,
+           hasCompletedPresentation == false {
+            notifyUserDismissed()
+            return
+        }
+        presentSharingControllerIfNeeded()
+    }
+
+    func configure(
+        presentationID: UUID,
+        onSucceeded: (() -> Void)?,
+        onUserDismissed: (() -> Void)?
+    ) {
+        self.onSucceeded = onSucceeded
+        self.onUserDismissed = onUserDismissed
+        guard self.presentationID != presentationID else {
+            presentSharingControllerIfNeeded()
+            return
+        }
+
+        self.presentationID = presentationID
+        hasAttemptedPresentation = false
+        hasCompletedPresentation = false
+        cancelSharingResultObservation()
+
+        guard let sharingController else {
+            presentSharingControllerIfNeeded()
+            return
+        }
+
+        isReplacingPresentation = true
+        dismiss(sharingController)
+        self.sharingController = nil
+        isReplacingPresentation = false
+        presentSharingControllerIfNeeded()
+    }
+
+    private func presentSharingControllerIfNeeded() {
+        guard hasAttemptedPresentation == false else { return }
+        guard sharingController == nil else { return }
+        guard view.window != nil else { return }
+        hasAttemptedPresentation = true
+
+        guard let controller = try? GroupActivitySharingController(RetroRacingGroupActivity()) else {
+            AppLog.error(.game, "SHAREPLAY_SHARING_CONTROLLER", outcome: .failed)
+            notifyUserDismissed()
+            return
+        }
+
+        sharingController = controller
+        observeResult(for: controller)
+        presentAsSheet(controller)
+    }
+
+    func dismissPresentedSharingControllerIfNeeded() {
+        guard let sharingController else { return }
+        dismiss(sharingController)
+        self.sharingController = nil
+    }
+
+    func prepareForDismantle() {
+        onSucceeded = nil
+        onUserDismissed = nil
+        cancelSharingResultObservation()
+        dismissPresentedSharingControllerIfNeeded()
+    }
+
+    private func observeResult(for controller: GroupActivitySharingController) {
+        cancelSharingResultObservation()
+        sharingResultTask = Task { [weak self, controller] in
+            let result = await controller.result
+            guard Task.isCancelled == false else { return }
+            self?.handleSharingResult(result)
+        }
+    }
+
+    private func handleSharingResult(_ result: GroupActivitySharingResult) {
+        sharingResultTask = nil
+        sharingController = nil
+        switch result {
+        case .success:
+            notifySucceeded()
+        case .cancelled:
+            notifyUserDismissed()
+        @unknown default:
+            notifyUserDismissed()
+        }
+    }
+
+    private func cancelSharingResultObservation() {
+        sharingResultTask?.cancel()
+        sharingResultTask = nil
+    }
+
+    private func notifySucceeded() {
+        guard hasCompletedPresentation == false else { return }
+        hasCompletedPresentation = true
+        AppLog.info(
+            AppLog.lifecycle + AppLog.game,
+            "SHAREPLAY_SHARING_CONTROLLER",
+            outcome: .succeeded,
+            fields: [.string("presentationID", presentationID.map { AppLog.shortID($0) })]
+        )
+        onSucceeded?()
+    }
+
+    private func notifyUserDismissed() {
+        guard isReplacingPresentation == false else { return }
+        guard hasCompletedPresentation == false else { return }
+        hasCompletedPresentation = true
+        AppLog.info(
+            AppLog.lifecycle + AppLog.game,
+            "SHAREPLAY_SHARING_CONTROLLER",
+            outcome: .cancelled,
+            fields: [.string("presentationID", presentationID.map { AppLog.shortID($0) })]
+        )
+        onUserDismissed?()
+    }
+}
+#endif

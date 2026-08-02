@@ -1,304 +1,84 @@
-# Testing Requirements
+# Testing
 
 ## Agent summary
 
 > Narrow tasks may stop here; open the full contract for implementation or review.
 
-- **Scope:** Unit-test-first strategy, naming conventions, coverage goals, and validation commands for shared logic and app targets.
-- **Must not break:** Unit tests must pass after code changes; `testGivenWhenThen` naming with Given/When/Then comments; mocks via protocol implementations.
-- **Key files:** `RetroRacingSharedTests/`, `RetroRacingUniversalTests/`, `Scripts` test recipes.
+- **Scope:** Validation commands, test naming, unit-test priorities, screenshot automation, and manual-QA boundaries.
+- **Must not break:** Unit tests pass after code changes; tests use `testGivenWhenThen` naming with Given/When/Then comments; mocks use protocol implementations.
+- **Key files:** `RetroRacingSharedTests/`, `RetroRacingUniversalTests/`, `Scripts/`, `./retrorapid`.
 
-## Testing Philosophy
+## Required Validation
 
-RetroRacing follows a **unit-test-first** approach with comprehensive coverage of business logic, models, and services.
-
-## Testing Strategy
-
-### Unit Tests (Priority)
-
-**Target:** ⚠️ **ALWAYS run unit tests after code changes** — tests must pass
-
-**Build flags:** All schemes compile with `SWIFT_DEFAULT_ACTOR_ISOLATION=MainActor` and `SWIFT_STRICT_CONCURRENCY=targeted`. Keep tests green under these flags; raise to `complete` once warnings are zero.
+Run the relevant smallest validation after a change, and the full app validation before shipping-risk changes:
 
 ```bash
-swift run --package-path Scripts run-tests --dry-run
-swift run --package-path Scripts run-tests
-cd RetroRacing && xcrun xcodebuild build -scheme RetroRacingUniversal -destination "platform=macOS"
+./retrorapid test package
+./retrorapid check
+./retrorapid test
 ```
-The test recipe resolves the `RetroRacingUniversal` scheme and runs
-`RetroRacingSharedTests` followed by `RetroRacingUniversalTests`. Override the
-simulator with `--destination <xcodebuild-destination>` when needed.
 
-If local signing blocks simulator/macOS verification, run with `CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO` for CI-like compile/test validation.
+- `./retrorapid test package` validates the Scripts Swift package.
+- `./retrorapid check` verifies generated assets/docs/metadata and other non-mutating checks.
+- `./retrorapid test` runs shared and universal app unit tests through the Scripts runner.
+- Use `./retrorapid test --dry-run` to inspect resolved commands.
+- If signing blocks local verification, use the documented CI-like no-signing flags only for compile/test validation.
 
-**Focus Areas:**
-- Game logic (`GridStateCalculator`, `GameState`, `GridState`)
-- Services (mocked protocol implementations)
-- Configuration objects
-- Utilities and extensions
-- Accessibility audio behavior (retro vs cue-mode routing, move-cue style routing, conditional-default overrides)
-- Cross-platform conditional-default parity for audio mode and difficulty (VoiceOver on/off matrix)
-- Audio event semantics parity checks (tick/move/start/fail/speed-warning mapping) across selected feedback modes
-- Accessibility speed warning feedback mode behavior (announcement vs warning haptic vs warning sound vs none)
-- Speed warning default resolver matrix (VoiceOver/capability aware) and override precedence
-- Accessibility announcement utility routing (`AccessibilityNotification.Announcement`, high-priority speed warning)
-- Paused VoiceOver grid accessibility descriptors (row-major order and occupant/coordinate labels)
-- VoiceOver/Voice Control scope in gameplay (score/lives exposed as read-only status, cars/HUD not treated as interactive controls)
-- Direct Touch conditional-default behavior (default-on resolution, persisted override resolution, and settings-store binding updates)
-- Portrait Dynamic Type HUD reflow (adaptive score/lives stack and non-overlapping directional controls)
-- Big Cars conditional-default behavior and rival-car sprite scaling mode
-- Settings migration coverage (`inGameAnnouncementsEnabled` -> speed warning selector, `sfxVolume` -> conditional default)
-- Generated SFX behavior (recipe rendering, fail-tail repeat tuning, playback completion/fade behavior)
-- Difficulty timing behavior (clear pacing separation for cruise/fast/rapid and conditional-default wiring)
-- Platform filtering (hide haptics-only options on unsupported platforms)
-- Settings/tutorial state behavior (audio tutorial visibility in retro, speed preview disable for announcement+VoiceOver off, configured-state apply labels)
-- Leaderboard fallback relay behavior (watch best-score relay payload parsing, per-speed max guard store, single-shot ingestion flush verification)
-- Friend leaderboard snapshot behavior (unauthenticated path, normalization/filtering/deduping, and remote-best baseline retention)
-- Social milestone gameplay behavior (up to two upcoming marker progression and game-over next-ahead / overtaken-friends summaries)
-- VoiceOver friend-overtake announcement behavior (off-by-default preference, singular vs multiple announcement payloads, and one-shot consumption semantics)
-- Achievements infrastructure behavior (one-time max/sum backfill, completed-run updates, control telemetry unlocks, GAAD week window evaluation, replay sync of achieved IDs, and game-over unlock-modal state wiring)
-- Debug achievement QA behavior (forced achievement picker injects local game-over unlock UI state without changing reported achievement submissions)
-- Game-over/achievement share behavior (content-only snapshot without action chrome, 4:3 output geometry, and light/dark rendering parity)
-- SpriteKit diagnostics wiring (`showsFPS`/`showsNodeCount`) toggle propagation from debug settings to active scenes via built-in SKView diagnostics, including reapplying flags when the same debug state is sent again
-- SharePlay competitive mode (see [`shareplay_multiplayer.md`](shareplay_multiplayer.md)): pure `SharePlayMatchStateMachine` transitions, stale command no-ops, winner/tie computation, retry handshake + 90s timeout, disconnect/session-end abort reasons, retry-timeout broadcast convergence, participant-count classification, and guest speed capture/restore — all fully testable without `GroupActivities`. `SharePlayTwoPeerConvergenceTests` mocks the transport by relaying commands between two independent state machine instances (host + guest), proving both peers converge on an identical finished result, dual-retry reset, and retry-timeout even when only one peer's timer fires. Separately, `GameViewModelTests` covers the free-play exception (never calling `recordGamePlayed` while a SharePlay match is active, even at zero remaining daily plays), final collision ordering (`scoreUpdate` with `lives: 0` before elimination), and pause-lock behavior for waiting/countdown/recovery/disconnect states. `SharePlayActivationHandoffCoordinatorTests` covers duplicate taps, direct activation, invite-sheet handoff recovery, dismissal cancellation, incoming-state cleanup, and handoff timeout cancellation; `GroupActivitiesSharePlayHostActivationControllerTests` covers pending/in-flight activation, direct activation success/failure, delivered-session short-circuit, and cancellation; `SharePlayMatchTimerControllerTests` covers countdown/retry timer fire and cancellation; `SharePlayHostActivationReasonTests` guards typed activation reason raw values. `GeneratedSFXRecipeTests` covers SharePlay countdown recipe durations and once-per-displayed-step cue scheduling. 2-device SharePlay validation (real `GroupActivities` transport, invitation cancellation plus re-tap without a blank presenter, synchronized countdown audio, no false connection-lost flash when the second player joins, guest Messages join without **Replace Existing**, dual-retry without stale result-screen flash, in-game menu exit notifying the friend, third-participant fail-safe behavior, and disconnect handling) remains manual QA — not automatable.
+## Unit-Test Priorities
 
-### App Store screenshot capture tests
+- Prefer pure, deterministic tests for shared game logic, services, settings stores, configuration, accessibility defaults, audio recipes, and state machines.
+- Mock through protocols rather than concrete service substitution.
+- Keep platform-agnostic behavior in `RetroRacingSharedTests`.
+- Keep app-target integration behavior in `RetroRacingUniversalTests`.
+- Add regression tests when fixing bugs in play limits, StoreKit gating, Game Center reporting, achievements, SharePlay, accessibility defaults, generated audio, screenshot fixtures, or localization routing.
 
-`RetroRacingUniversalUITests/AppStoreScreenshotTests` drives the app in screenshot
-capture mode (`RETRORAPID_SCREENSHOT_CAPTURE=1`) with deterministic fixtures from
-`RetroRacingShared/ScreenshotCapture/`. Captures land in a staging directory, then
-`capture-app-store-screenshots` installs them into
-`AppStore/RetroRapid.screenshotstudio/{iphone,ipad,mac}/images/` (via `--platform`)
-and refreshes manifests via `sync-screenshot-studio-localizations`.
+## Naming and Structure
 
-Fixture catalog and routing are covered by
-`RetroRacingSharedTests/ScreenshotCaptureConfigurationTests`. See also
-[screenshot_capture.md](screenshot_capture.md) for the capture-mode contract.
-Placement naming and paths are covered in `Scripts` (`ScreenshotStudioPlacementWorkflow`).
+- Test names use camelCase `testGivenWhenThen`.
+- The “Then” phrase must name the concrete outcome, not “works” or “is correct”.
+- Test bodies use exactly these section comments when helpful:
+
+```swift
+// Given
+// When
+// Then
+```
+
+- Keep helper names specific to behavior, and avoid hidden global state.
+- Tests under Swift’s main-actor defaults must stay explicit about async boundaries and actor isolation.
+
+## Screenshot Capture Tests
+
+- App Store screenshot capture uses `RetroRacingUniversalUITests/AppStoreScreenshotTests`.
+- Capture mode is activated with `RETRORAPID_SCREENSHOT_CAPTURE=1`.
+- Fixtures live under `RetroRacingShared/ScreenshotCapture/`; behavior contract lives in [screenshot_capture.md](screenshot_capture.md).
+- Common commands:
 
 ```bash
-swift run --package-path Scripts capture-app-store-screenshots --platform ipad --locales en-US --slides 2,5
-swift run --package-path Scripts capture-app-store-screenshots --platform mac --locales en-US --slides 0
-swift run --package-path Scripts sync-screenshot-studio-localizations --check
+./retrorapid screenshots capture --dry-run
+./retrorapid screenshots capture --platform ipad --locales en-US --slides 2,5
+./retrorapid screenshots capture --all-platforms --locales en-US,de-DE,es-MX,ja --slides 0 --dry-run
+./retrorapid screenshots sync --check
 ```
 
-### UI Tests (Future)
+## Manual QA Boundary
 
-Beyond App Store screenshot capture, broader UI automation remains future work.
-Focus on unit tests for product logic.
+Keep manual QA focused on behavior that cannot be proven by unit tests:
 
-### Integration Tests (Future)
+- real Game Center sandbox visibility, auth, leaderboard/achievement ASC configuration
+- StoreKit sandbox purchase, restore, refund/revocation, and App Review fresh-install path
+- real GroupActivities SharePlay transport across two devices/Macs
+- platform accessibility smoke tests with VoiceOver, Switch Control, Dynamic Type, keyboard, remote, controller, and Digital Crown
+- App Store screenshots and TestFlight/App Review submission flows
 
-Not implemented yet. Consider for:
-- Game Center sandbox testing
-- StoreKit sandbox testing
+Manual checklists belong in the relevant operational hub or feature contract, not in this general testing file.
 
-## Testing Conventions
+## Parallel Canary
 
-### Test Naming Convention
+Use the parallel canary only when auditing test isolation or preparing to change defaults:
 
-Use `testGivenWhenThen` format in **camelCase** (no underscores):
-
-- **Given** describes the initial state/context
-- **When** describes the action/trigger
-- **Then** describes the **specific expected outcome** (be concrete, not generic)
-
-❌ **Avoid generic outcomes**: `returnsTheExpectedValue`, `isCorrect`, `worksAsExpected`  
-✅ **Use specific outcomes**: `scoreIsSentToLeaderboard`, `playerMovesLeft`, `sectionIsHidden`
-
-### Test Structure
-
-Use `// Given`, `// When`, `// Then` comments with **no extra explanations**:
-
-```swift
-func testGivenUserIsAuthenticatedWhenSubmittingScoreThenScoreIsSentToLeaderboard() {
-    // Given
-    let mockLeaderboard = MockLeaderboardService()
-    mockLeaderboard.authenticated = true
-    let viewController = GameViewController(leaderboardService: mockLeaderboard)
-    
-    // When
-    viewController.gameOver(score: 150)
-    
-    // Then
-    XCTAssertEqual(mockLeaderboard.submittedScores, [150])
-}
+```bash
+./retrorapid test parallel-canary --workers 2,4
 ```
 
-## Testing Patterns
-
-### Protocol-Based Mocking
-
-All services use protocols for easy mocking:
-
-```swift
-final class MockLeaderboardService: LeaderboardService {
-    var submittedScores: [Int] = []
-    var authenticated = true
-    
-    func submitScore(_ score: Int) {
-        if authenticated {
-            submittedScores.append(score)
-        }
-    }
-    
-    func isAuthenticated() -> Bool {
-        return authenticated
-    }
-}
-```
-
-### Testing Game Logic
-
-Game logic should be pure and deterministic:
-
-```swift
-func testGivenPlayerInCenterWhenMovingLeftThenPlayerMovesToLeftColumn() {
-    // Given
-    let calculator = GridStateCalculator()
-    let initialState = GridState(numberOfRows: 5, numberOfColumns: 3)
-    
-    // When
-    let (newState, effects) = calculator.nextGrid(
-        previousGrid: initialState,
-        actions: [.moveCar(direction: .left)]
-    )
-    
-    // Then
-    XCTAssertEqual(newState.playerColumn, initialState.playerColumn - 1)
-    XCTAssertEqual(effects, [])
-}
-
-func testGivenPlayerInSameColumnAsCarWhenUpdatingGridThenCrashEffectIsTriggered() {
-    // Given
-    let calculator = GridStateCalculator()
-    var state = GridState(numberOfRows: 5, numberOfColumns: 3)
-    state.grid[0][1] = .Player
-    state.grid[1][1] = .Car
-    
-    // When
-    let (newState, effects) = calculator.nextGrid(
-        previousGrid: state,
-        actions: [.update]
-    )
-    
-    // Then
-    XCTAssertTrue(effects.contains(where: { 
-        if case .crashed = $0 { return true }
-        return false
-    }))
-}
-```
-
-### Testing Configuration
-
-```swift
-func testGivenUniversalConfigurationWhenAccessingLeaderboardIDThenReturnsIOSLeaderboardID() {
-    // Given
-    let config = LeaderboardConfigurationUniversal()
-    
-    // When
-    let leaderboardID = config.leaderboardID
-    
-    // Then
-    XCTAssertEqual(leaderboardID, "bestios001test")
-}
-
-func testGivenTvOSConfigurationWhenAccessingLeaderboardIDThenReturnsTvOSLeaderboardID() {
-    // Given
-    let config = LeaderboardConfigurationTvOS()
-    
-    // When
-    let leaderboardID = config.leaderboardID
-    
-    // Then
-    XCTAssertEqual(leaderboardID, "besttvos001")
-}
-```
-
-### Testing Theme System (Future)
-
-```swift
-func testGivenPocketThemeWhenGettingColorsForStateThenReturnsPocketPalette() {
-    // Given
-    let pocketTheme = PocketTheme()
-    let state = GameState()
-    
-    // When
-    let colors = pocketTheme.colors(for: state)
-    
-    // Then
-    XCTAssertEqual(colors.background, Color(red: 0.608, green: 0.737, blue: 0.059))
-    XCTAssertEqual(colors.foreground, Color(red: 0.059, green: 0.220, blue: 0.059))
-}
-
-func testGivenLockedPremiumThemeWhenUnlockingThemeThenThemeBecomesAvailable() {
-    // Given
-    let manager = ThemeManager()
-    XCTAssertFalse(manager.isThemeAvailable(.lcd))
-    
-    // When
-    manager.unlockTheme(.lcd)
-    
-    // Then
-    XCTAssertTrue(manager.isThemeAvailable(.lcd))
-}
-```
-
-## Test Organization
-
-```
-RetroRacingTests/
-├── GameLogic/
-│   ├── GridStateCalculatorTests.swift
-│   ├── GameStateTests.swift
-│   └── GridStateTests.swift
-├── Services/
-│   ├── LeaderboardServiceTests.swift
-│   ├── RatingServiceTests.swift
-│   └── ThemeManagerTests.swift
-├── Configuration/
-│   ├── LeaderboardConfigurationTests.swift
-│   └── ThemeConfigurationTests.swift
-├── Utilities/
-│   └── ExtensionTests.swift
-└── Mocks/
-    ├── MockLeaderboardService.swift
-    ├── MockRatingService.swift
-    └── MockThemeManager.swift
-```
-
-## Coverage Goals
-
-**Target Coverage:**
-- Game logic: 90%+ (critical path)
-- Services: 80%+ (business logic)
-- Configuration: 100% (simple validation)
-- UI layers: Not measured (focus on unit tests)
-
-## Testing Anti-Patterns to Avoid
-
-❌ **Don't test private implementation details** — test public API  
-❌ **Don't test UI layout** — use preview snapshots for visual regression  
-❌ **Don't use real services in unit tests** — always mock protocols  
-❌ **Don't write flaky tests** — avoid timing, threading, randomness  
-❌ **Don't skip tests** — if a test is flaky, fix it or delete it  
-
-## Pre-Commit Checklist
-
-Before committing code:
-
-1. ✅ All unit tests pass
-2. ✅ New code has corresponding tests
-3. ✅ Mocks are updated if protocols changed
-4. ✅ No tests are disabled/skipped
-5. ✅ Test names follow `testGivenWhenThen` convention (camelCase, specific outcomes)
-6. ✅ Test structure uses `// Given`, `// When`, `// Then` comments
-
-## Continuous Integration (Future)
-
-Consider GitHub Actions or Xcode Cloud for:
-- Run tests on every PR
-- Test on multiple simulator versions
-- Generate coverage reports
-- Block merges if tests fail
+The stable recipe remains serial unless the canary proves the relevant targets are isolated.

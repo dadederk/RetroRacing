@@ -86,7 +86,7 @@ final class LoggingContractTests: XCTestCase {
 
         // When
         let offenders = try files.filter { fileURL in
-            let content = try String(contentsOf: fileURL)
+            let content = try sourceContents(of: fileURL)
             return content.contains("AppLog.log(")
         }
 
@@ -102,7 +102,7 @@ final class LoggingContractTests: XCTestCase {
         // When
         var offenders = [String]()
         for fileURL in files {
-            let content = try String(contentsOf: fileURL)
+            let content = try sourceContents(of: fileURL)
             let lines = content.split(separator: "\n", omittingEmptySubsequences: false)
             for (index, line) in lines.enumerated() {
                 guard line.contains("AppLog."), line.contains("\"") else { continue }
@@ -123,7 +123,7 @@ final class LoggingContractTests: XCTestCase {
         // When
         var offenders = [String]()
         for fileURL in files {
-            let content = try String(contentsOf: fileURL)
+            let content = try sourceContents(of: fileURL)
             let lines = content.split(separator: "\n", omittingEmptySubsequences: false)
             for (index, line) in lines.enumerated() {
                 guard line.contains("AppLog.") else { continue }
@@ -157,7 +157,7 @@ final class LoggingContractTests: XCTestCase {
         // When
         var offenders = [String]()
         for fileURL in files {
-            let content = try String(contentsOf: fileURL)
+            let content = try sourceContents(of: fileURL)
             let nsContent = content as NSString
             let fullRange = NSRange(location: 0, length: nsContent.length)
             let matches = invocationRegex.matches(in: content, options: [], range: fullRange)
@@ -183,7 +183,7 @@ final class LoggingContractTests: XCTestCase {
         // When
         var offenders = [String]()
         for fileURL in files {
-            let content = try String(contentsOf: fileURL)
+            let content = try sourceContents(of: fileURL)
             let nsContent = content as NSString
             let fullRange = NSRange(location: 0, length: nsContent.length)
             let matches = eventRegex.matches(in: content, options: [], range: fullRange)
@@ -228,6 +228,10 @@ final class LoggingContractTests: XCTestCase {
             files.append(fileURL)
         }
         return files
+    }
+
+    private func sourceContents(of fileURL: URL) throws -> String {
+        try String(contentsOf: fileURL, encoding: .utf8)
     }
 
     private func repositoryRoot() -> URL {

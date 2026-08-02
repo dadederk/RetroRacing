@@ -11,11 +11,22 @@ import Foundation
 /// A replacement session can cancel the pending disconnect before the grace window elapses.
 /// Safety: all mutable state is guarded by `lock`; callbacks run after the lock is released.
 public final class SharePlayPreReadyInvalidationGrace: @unchecked Sendable {
+    typealias SleepOperation = @Sendable (_ nanoseconds: UInt64) async -> Void
+
     private let lock = NSLock()
     private var task: Task<Void, Never>?
     private var generation = 0
+    private let sleep: SleepOperation
 
-    public init() {}
+    public init() {
+        self.sleep = { nanoseconds in
+            try? await Task.sleep(nanoseconds: nanoseconds)
+        }
+    }
+
+    init(sleep: @escaping SleepOperation) {
+        self.sleep = sleep
+    }
 
     public var hasPendingTask: Bool {
         lock.withLock { task != nil }
@@ -32,8 +43,9 @@ public final class SharePlayPreReadyInvalidationGrace: @unchecked Sendable {
             generation += 1
             let scheduledGeneration = generation
             let delay = UInt64(max(0, graceDuration) * 1_000_000_000)
+            let sleep = self.sleep
             task = Task { [weak self] in
-                try? await Task.sleep(nanoseconds: delay)
+                await sleep(delay)
                 guard let self, Task.isCancelled == false else { return }
                 self.completeScheduledGrace(
                     scheduledGeneration: scheduledGeneration,

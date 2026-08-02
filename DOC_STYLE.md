@@ -11,7 +11,7 @@ Keep agent-facing docs high-signal and low-token. Routers (`AGENTS.md`, `Require
 | `AGENTS.md` | under ~150 lines |
 | Playbook (`AGENTS_PLAYBOOKS/`) | under ~80 lines |
 | `Requirements/INDEX.md` | task routing table + minimal catalog |
-| Requirement contract | 40–90 lines (longer files use `Agent summary` until split) |
+| Requirement contract | 40–90 lines; split or move detail when a file grows beyond that |
 | TechDoc (`TechDocs/`) | concise explainer with diagrams when helpful |
 
 ## Router vs Detail
@@ -27,6 +27,19 @@ Keep agent-facing docs high-signal and low-token. Routers (`AGENTS.md`, `Require
 | TechDoc | `TechDocs/*.md` | Durable plain-English architecture and flow explainers |
 
 Do not duplicate routing tables across layers. Reference paths instead of copying rules.
+
+## Content Ownership
+
+| Content | Canonical home |
+|---|---|
+| Shipped runtime behavior and invariants | `Requirements/` |
+| App Store Connect, TestFlight, screenshots, IAP, Game Center operations | `AppStore/` |
+| Future work, campaigns, historical plans | `Plans/` |
+| Durable architecture maps and onboarding explainers | `TechDocs/` |
+| Drafts not yet folded into a canonical hub | `Docs/` |
+| Repository automation commands and mutation safety | `Scripts/` |
+
+Delete or link to historical detail instead of preserving it inside requirements. Use git history for old implementation reports, verification transcripts, and changelogs.
 
 ## Routing Over TOC
 
@@ -73,6 +86,9 @@ Place after title, before the first major `##` section:
 - One behavior or invariant per bullet.
 - Reference `AGENTS.md` and skills — do not copy their full rule text.
 - Mark open decisions clearly so agents do not implement without instruction.
+- Avoid code snippets in requirements unless the exact API shape is itself the contract.
+- Avoid full test inventories in requirements; name behavior classes of tests instead.
+- Avoid “Last updated”, author, and changelog blocks in requirements unless generated tooling requires them.
 
 ## Maintenance
 

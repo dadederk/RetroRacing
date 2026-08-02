@@ -30,7 +30,7 @@ final class MockLeaderboardService: LeaderboardService {
     }
 }
 
-final class MockRandomSource: RandomSource {
+final class StubRandomSource: RandomSource {
     private var values: [Int]
 
     init(values: [Int] = []) {

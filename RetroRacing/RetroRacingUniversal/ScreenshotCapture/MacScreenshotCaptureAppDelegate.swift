@@ -25,7 +25,7 @@ final class MacScreenshotCaptureAppDelegate: NSObject, NSApplicationDelegate {
 
     private func openInitialWindowIfNeeded() {
         guard NSApplication.shared.windows.contains(where: \.isVisible) == false else { return }
-        NSApp.sendAction(Selector(("newDocument:")), to: nil, from: nil)
+        NSApp.sendAction(#selector(NSDocumentController.newDocument(_:)), to: nil, from: nil)
         if NSApplication.shared.windows.contains(where: \.isVisible) == false {
             NSApp.sendAction(#selector(NSApplication.newWindowForTab(_:)), to: nil, from: nil)
         }

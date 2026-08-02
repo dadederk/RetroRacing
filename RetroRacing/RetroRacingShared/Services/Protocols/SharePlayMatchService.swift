@@ -8,7 +8,7 @@
 import Foundation
 
 /// Drives a single 2-player SharePlay competitive match. Implementations own the transport
-/// (GroupActivities on iOS/iPad in production, no-op elsewhere) and the underlying
+/// (GroupActivities on iOS/iPad/macOS in production, no-op elsewhere) and the underlying
 /// `SharePlayMatchStateMachine`, and report state changes back to the caller via
 /// `setStateChangeHandler`. Views/view models never talk to GroupActivities directly.
 public protocol SharePlayMatchService: AnyObject, Sendable {

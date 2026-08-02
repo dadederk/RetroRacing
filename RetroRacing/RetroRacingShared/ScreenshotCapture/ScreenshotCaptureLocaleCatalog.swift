@@ -8,6 +8,9 @@
 import Foundation
 
 public enum ScreenshotCaptureLocaleCatalog {
+    private static let appleLanguagesKey = "AppleLanguages"
+    private static let appleLocaleKey = "AppleLocale"
+
     public static let appStoreLocales = [
         "en-US", "en-GB", "en-AU", "en-CA",
         "de-DE", "nl-NL", "it", "fr-FR", "fr-CA",
@@ -65,6 +68,12 @@ public enum ScreenshotCaptureLocaleCatalog {
         )
     }
 
+    /// Applies launch-time locale setup for screenshot capture without leaving sticky app defaults.
+    public static func configureCaptureLocaleDefaultsForLaunch() {
+        removePersistedCaptureLocaleIfNeeded()
+        applyCaptureLocaleFromLaunchArgumentsIfNeeded()
+    }
+
     /// Applies `-AppleLanguages` / `-AppleLocale` launch arguments to `UserDefaults` during capture.
     /// watchOS often ignores launch-argument locale unless the simulator language is also set.
     public static func applyCaptureLocaleFromLaunchArgumentsIfNeeded() {
@@ -76,13 +85,40 @@ public enum ScreenshotCaptureLocaleCatalog {
     }
 
     public static func applyCaptureLocale(languageList: String?, localeIdentifier: String?) {
+        applyCaptureLocale(
+            languageList: languageList,
+            localeIdentifier: localeIdentifier,
+            userDefaults: .standard
+        )
+    }
+
+    static func applyCaptureLocale(
+        languageList: String?,
+        localeIdentifier: String?,
+        userDefaults: UserDefaults
+    ) {
         guard let languageList, let localeIdentifier else { return }
         let languages = parseLanguageList(languageList)
         guard languages.isEmpty == false else { return }
 
-        UserDefaults.standard.set(languages, forKey: "AppleLanguages")
-        UserDefaults.standard.set(normalizedLocaleIdentifier(localeIdentifier), forKey: "AppleLocale")
-        UserDefaults.standard.synchronize()
+        var argumentDomain = userDefaults.volatileDomain(forName: UserDefaults.argumentDomain)
+        argumentDomain[appleLanguagesKey] = languages
+        argumentDomain[appleLocaleKey] = normalizedLocaleIdentifier(localeIdentifier)
+        userDefaults.setVolatileDomain(argumentDomain, forName: UserDefaults.argumentDomain)
+    }
+
+    static func removePersistedCaptureLocaleIfNeeded(
+        userDefaults: UserDefaults = .standard,
+        isCaptureModeEnabled: Bool = ScreenshotCaptureConfiguration.isCaptureModeEnabled,
+        hasLaunchLocaleArgument: Bool = launchArgumentValue(following: "-AppleLanguages") != nil
+            || launchArgumentValue(following: "-AppleLocale") != nil
+    ) {
+        guard BuildConfiguration.isDebug else { return }
+        guard isCaptureModeEnabled == false else { return }
+        guard hasLaunchLocaleArgument == false else { return }
+
+        userDefaults.removeObject(forKey: appleLanguagesKey)
+        userDefaults.removeObject(forKey: appleLocaleKey)
     }
 
     static func locale(languageList: String?, localeIdentifier: String?) -> Locale? {

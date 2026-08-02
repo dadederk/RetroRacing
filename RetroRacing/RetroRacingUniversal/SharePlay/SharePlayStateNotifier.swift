@@ -5,7 +5,7 @@
 //  Created by Dani Devesa on 01/08/2026.
 //
 
-#if canImport(GroupActivities) && os(iOS)
+#if canImport(GroupActivities) && (os(iOS) || os(macOS))
 import Foundation
 import RetroRacingShared
 

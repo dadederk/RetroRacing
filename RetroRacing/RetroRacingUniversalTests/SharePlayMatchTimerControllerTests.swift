@@ -12,9 +12,9 @@ import Testing
 @MainActor
 struct SharePlayMatchTimerControllerTests {
     @Test func testGivenCountdownTimerWhenDeadlineArrivesThenCallbackFires() async {
-        var controller = SharePlayMatchTimerController()
+        var controller = SharePlayMatchTimerController(sleep: { _ in })
         let recorder = TimerCallbackRecorder<Date>()
-        let startAt = Date().addingTimeInterval(0.01)
+        let startAt = Date().addingTimeInterval(60)
 
         controller.scheduleCountdown(generation: 7, startAt: startAt) { generation, startAt in
             await recorder.record(generation: generation, value: startAt)
@@ -28,9 +28,9 @@ struct SharePlayMatchTimerControllerTests {
     }
 
     @Test func testGivenRetryTimerWhenDeadlineArrivesThenCallbackFires() async {
-        var controller = SharePlayMatchTimerController()
+        var controller = SharePlayMatchTimerController(sleep: { _ in })
         let recorder = TimerCallbackRecorder<Date>()
-        let deadline = Date().addingTimeInterval(0.01)
+        let deadline = Date().addingTimeInterval(60)
 
         controller.scheduleRetryTimeout(generation: 11, deadline: deadline) { generation, deadline in
             await recorder.record(generation: generation, value: deadline)
@@ -44,30 +44,44 @@ struct SharePlayMatchTimerControllerTests {
     }
 
     @Test func testGivenCountdownTimerWhenCancelledThenCallbackDoesNotFire() async {
-        var controller = SharePlayMatchTimerController()
+        let sleeper = RecordingTimerSleeper()
+        var controller = SharePlayMatchTimerController(
+            sleep: { nanoseconds in
+                await sleeper.sleep(nanoseconds: nanoseconds)
+            }
+        )
         let recorder = TimerCallbackRecorder<Date>()
         let startAt = Date().addingTimeInterval(0.04)
 
         controller.scheduleCountdown(generation: 3, startAt: startAt) { generation, startAt in
             await recorder.record(generation: generation, value: startAt)
         }
+        await sleeper.waitForSleepRequest()
         controller.cancelCountdown()
-        try? await Task.sleep(nanoseconds: 70_000_000)
+        await sleeper.releaseAll()
+        await Task.yield()
 
         #expect(await recorder.events.isEmpty)
         #expect(controller.hasPendingCountdown == false)
     }
 
     @Test func testGivenRetryTimerWhenCancelledThenCallbackDoesNotFire() async {
-        var controller = SharePlayMatchTimerController()
+        let sleeper = RecordingTimerSleeper()
+        var controller = SharePlayMatchTimerController(
+            sleep: { nanoseconds in
+                await sleeper.sleep(nanoseconds: nanoseconds)
+            }
+        )
         let recorder = TimerCallbackRecorder<Date>()
         let deadline = Date().addingTimeInterval(0.04)
 
         controller.scheduleRetryTimeout(generation: 5, deadline: deadline) { generation, deadline in
             await recorder.record(generation: generation, value: deadline)
         }
+        await sleeper.waitForSleepRequest()
         controller.cancelRetryTimeout()
-        try? await Task.sleep(nanoseconds: 70_000_000)
+        await sleeper.releaseAll()
+        await Task.yield()
 
         #expect(await recorder.events.isEmpty)
         #expect(controller.hasPendingRetryTimeout == false)
@@ -104,5 +118,34 @@ private actor TimerCallbackRecorder<Value: Equatable> {
 
     func record(generation: Int, value: Value) {
         recordedEvents.append(TimerCallbackEvent(generation: generation, value: value))
+    }
+}
+
+private actor RecordingTimerSleeper {
+    private var sleepRequests: [UInt64] = []
+    private var sleepRequestContinuation: CheckedContinuation<Void, Never>?
+    private var releaseContinuations: [CheckedContinuation<Void, Never>] = []
+
+    func sleep(nanoseconds: UInt64) async {
+        sleepRequests.append(nanoseconds)
+        sleepRequestContinuation?.resume()
+        sleepRequestContinuation = nil
+
+        await withCheckedContinuation { continuation in
+            releaseContinuations.append(continuation)
+        }
+    }
+
+    func waitForSleepRequest() async {
+        guard sleepRequests.isEmpty else { return }
+        await withCheckedContinuation { continuation in
+            sleepRequestContinuation = continuation
+        }
+    }
+
+    func releaseAll() {
+        let continuations = releaseContinuations
+        releaseContinuations = []
+        continuations.forEach { $0.resume() }
     }
 }

@@ -16,6 +16,7 @@ let package = Package(
         .library(name: "RetroRapidMetadataCore", targets: ["RetroRapidMetadataCore"]),
         .library(name: "RetroRacingAutomationCore", targets: ["RetroRacingAutomationCore"]),
         .executable(name: "run-tests", targets: ["RunTests"]),
+        .executable(name: "run-xcodebuild-parallel-canary", targets: ["RunXcodebuildParallelCanary"]),
         .executable(name: "check-documentation", targets: ["CheckDocumentation"]),
         .executable(name: "generate-road-dash-masks", targets: ["GenerateRoadDashMasks"]),
         .executable(
@@ -48,6 +49,10 @@ let package = Package(
         ),
         .executableTarget(
             name: "RunTests",
+            dependencies: ["RetroRacingAutomationCore"]
+        ),
+        .executableTarget(
+            name: "RunXcodebuildParallelCanary",
             dependencies: ["RetroRacingAutomationCore"]
         ),
         .executableTarget(

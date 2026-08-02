@@ -8,10 +8,11 @@
 |---|---|
 | [`achievements-eu-localizations.json`](achievements-eu-localizations.json) | 22 achievements × 10 locales |
 | [`leaderboards-eu-localizations.json`](leaderboards-eu-localizations.json) | 12 boards (iPhone/iPad/Mac/Watch × Cruise/Fast/Rapid) × 10 locales |
+| [achievements-rollout.md](achievements-rollout.md) | ASC achievement rollout constraints and sandbox checks |
 
 Locales: `de-DE`, `nl-NL`, `it`, `fr-FR`, `es-ES`, `ca`, `ja`, `ko`, `pt-BR`, `zh-Hant`. **No** `en-GB`/`en-AU`/`en-CA` — ASC falls back to `en-US`.
 
-English reference tables: [`Requirements/achievements_rollout_checklist.md`](../../Requirements/achievements_rollout_checklist.md).
+Runtime achievement behavior: [`Requirements/achievements.md`](../../Requirements/achievements.md).
 
 ## Apply
 

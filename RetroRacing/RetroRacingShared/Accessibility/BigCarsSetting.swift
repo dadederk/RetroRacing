@@ -41,9 +41,10 @@ public enum BigCarsPreference {
 private enum AccessibilityTextSizeStatus {
     static var isAccessibilityTextSize: Bool {
         #if canImport(UIKit) && !os(watchOS)
-        UIApplication.shared.preferredContentSizeCategory.isAccessibilityCategory
+        guard Thread.isMainThread else { return false }
+        return UIApplication.shared.preferredContentSizeCategory.isAccessibilityCategory
         #else
-        false
+        return false
         #endif
     }
 }

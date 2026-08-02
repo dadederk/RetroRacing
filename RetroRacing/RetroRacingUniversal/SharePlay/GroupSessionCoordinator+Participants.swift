@@ -5,7 +5,7 @@
 //  Created by Dani Devesa on 31/07/2026.
 //
 
-#if canImport(GroupActivities) && os(iOS)
+#if canImport(GroupActivities) && (os(iOS) || os(macOS))
 import GroupActivities
 import Combine
 import Foundation
@@ -17,7 +17,7 @@ extension GroupSessionCoordinator {
         generation: Int
     ) async -> Bool {
         guard isCurrentObservation(generation) else { return false }
-        // GroupActivities `Participant` exposes only an id in iOS 26 — no public
+        // GroupActivities `Participant` exposes only an id in the current SDK — no public
         // display-name API. UI falls back to the localized "Your friend" label.
         await updateOpponentDisplayNameIfNeeded(nil)
         AppLog.debug(

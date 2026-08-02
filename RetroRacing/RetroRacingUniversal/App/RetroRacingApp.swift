@@ -14,7 +14,7 @@ import UIKit
 #if canImport(UIKit) && !os(tvOS) && !os(watchOS)
 import CoreHaptics
 #endif
-#if canImport(GroupActivities) && os(iOS)
+#if canImport(GroupActivities) && (os(iOS) || os(macOS))
 import GroupActivities
 #endif
 import GameController
@@ -70,7 +70,7 @@ struct RetroRacingApp: App {
     @State private var sharePlayUIState: SharePlayUIState = .idle
 
     init() {
-        ScreenshotCaptureLocaleCatalog.applyCaptureLocaleFromLaunchArgumentsIfNeeded()
+        ScreenshotCaptureLocaleCatalog.configureCaptureLocaleDefaultsForLaunch()
         #if os(macOS)
         if ScreenshotCaptureConfiguration.isCaptureModeEnabled {
             NSApplication.shared.setActivationPolicy(.regular)
@@ -209,7 +209,7 @@ struct RetroRacingApp: App {
             }
         }
         specialEventService = Self.makeMiamiGrandPrixEventService()
-        #if os(iOS)
+        #if canImport(GroupActivities) && (os(iOS) || os(macOS))
         let groupStateObserver = GroupStateObserver()
         let sharePlayService = GroupActivitiesSharePlayMatchService(
             difficultyProvider: { GameDifficulty.currentSelection(from: userDefaults) }
@@ -507,9 +507,25 @@ struct RetroRacingApp: App {
             showRateButton: true,
             inputAdapterFactory: TouchInputAdapterFactory(),
             onPlayRequest: handlePlayRequest,
-            onSettingsRequest: handleSettingsRequest
+            onSettingsRequest: handleSettingsRequest,
+            onPlayWithFriendsRequest: handlePlayWithFriendsRequest,
+            isSharePlayActive: sharePlayUIState.state.isActive
         )
         .interactiveDismissDisabled(true)
+        #if canImport(GroupActivities) && os(macOS)
+        .background {
+            if let sharePlaySharingPresentation = sharePlayActivationHandoffCoordinator.sharingPresentation {
+                SharePlayActivitySharingPresenter(
+                    presentationID: sharePlaySharingPresentation.id,
+                    onSucceeded: handleSharePlaySharingSucceeded,
+                    onUserDismissed: handleSharePlaySharingUserDismissed
+                )
+                    .frame(width: 0, height: 0)
+                    .id(sharePlaySharingPresentation.id)
+                    .accessibilityHidden(true)
+            }
+        }
+        #endif
         #else
         return MenuView(
             leaderboardService: gameCenterService,
@@ -580,7 +596,7 @@ struct RetroRacingApp: App {
                 controlsDescriptionKey: controlsDescriptionKey,
                 style: .universal,
                 achievementProgressService: achievementProgressService,
-                isGameSessionInProgress: shouldStartGame && !isMenuPresented,
+                isGameSessionInProgress: sharePlayUIState.state.isActive || (shouldStartGame && !isMenuPresented),
                 playLimitService: playLimitService,
                 specialEventService: specialEventService
             )

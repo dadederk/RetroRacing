@@ -2,7 +2,8 @@ import XCTest
 @testable import RetroRacingShared
 
 final class GridStateCalculatorTests: XCTestCase {
-    func testMoveLeftMovesPlayersCarFromCenterToTheLeft() throws {
+    func testGivenPlayerInCenterWhenMovingLeftThenPlayerMovesToLeftColumn() throws {
+        // Given
         var gridState = GridState(numberOfRows: 5, numberOfColumns: 3)
         gridState.grid = [
             [.Empty, .Car, .Car],
@@ -11,13 +12,17 @@ final class GridStateCalculatorTests: XCTestCase {
             [.Empty, .Car, .Empty],
             [.Empty, .Player, .Car],
         ]
-        let sut = GridStateCalculator(randomSource: MockRandomSource())
+        let sut = GridStateCalculator(randomSource: StubRandomSource())
+
+        // When
         let (newGridState, _) = sut.nextGrid(previousGrid: gridState, actions: [.moveCar(direction: .left)])
 
+        // Then
         XCTAssertEqual(newGridState.grid[4][0], .Player)
     }
 
-    func testMoveRightMovesPlayersCarFromCenterToTheRight() throws {
+    func testGivenPlayerInCenterWhenMovingRightThenPlayerMovesToRightColumn() throws {
+        // Given
         var gridState = GridState(numberOfRows: 5, numberOfColumns: 3)
         gridState.grid = [
             [.Empty, .Car, .Car],
@@ -26,12 +31,17 @@ final class GridStateCalculatorTests: XCTestCase {
             [.Empty, .Car, .Empty],
             [.Empty, .Player, .Empty],
         ]
-        let sut = GridStateCalculator(randomSource: MockRandomSource())
+        let sut = GridStateCalculator(randomSource: StubRandomSource())
+
+        // When
         let (newGridState, _) = sut.nextGrid(previousGrid: gridState, actions: [.moveCar(direction: .right)])
+
+        // Then
         XCTAssertEqual(newGridState.grid[4][2], .Player)
     }
 
-    func testMoveLeftAtLeftmostColumnDoesNotMove() {
+    func testGivenPlayerAtLeftmostColumnWhenMovingLeftThenPlayerStaysInLeftColumn() {
+        // Given
         var gridState = GridState(numberOfRows: 5, numberOfColumns: 3)
         gridState.grid = [
             [.Car, .Empty, .Empty],
@@ -40,12 +50,17 @@ final class GridStateCalculatorTests: XCTestCase {
             [.Empty, .Car, .Empty],
             [.Player, .Empty, .Car],
         ]
-        let sut = GridStateCalculator(randomSource: MockRandomSource())
+        let sut = GridStateCalculator(randomSource: StubRandomSource())
+
+        // When
         let (newGridState, _) = sut.nextGrid(previousGrid: gridState, actions: [.moveCar(direction: .left)])
+
+        // Then
         XCTAssertEqual(newGridState.grid[4][0], .Player)
     }
 
-    func testMoveRightAtRightmostColumnDoesNotMove() {
+    func testGivenPlayerAtRightmostColumnWhenMovingRightThenPlayerStaysInRightColumn() {
+        // Given
         var gridState = GridState(numberOfRows: 5, numberOfColumns: 3)
         gridState.grid = [
             [.Car, .Empty, .Car],
@@ -54,12 +69,17 @@ final class GridStateCalculatorTests: XCTestCase {
             [.Empty, .Car, .Empty],
             [.Empty, .Empty, .Player],
         ]
-        let sut = GridStateCalculator(randomSource: MockRandomSource())
+        let sut = GridStateCalculator(randomSource: StubRandomSource())
+
+        // When
         let (newGridState, _) = sut.nextGrid(previousGrid: gridState, actions: [.moveCar(direction: .right)])
+
+        // Then
         XCTAssertEqual(newGridState.grid[4][2], .Player)
     }
 
-    func testPlayersCarMovesToSameColumnAsCarCrashesOnUpdate() {
+    func testGivenPlayerMovesIntoCarColumnWhenUpdatingGridThenCrashCellIsCreated() {
+        // Given
         var gridState = GridState(numberOfRows: 5, numberOfColumns: 3)
         gridState.grid = [
             [.Empty, .Empty, .Empty],
@@ -68,12 +88,17 @@ final class GridStateCalculatorTests: XCTestCase {
             [.Car, .Empty, .Empty],
             [.Empty, .Player, .Empty],
         ]
-        let sut = GridStateCalculator(randomSource: MockRandomSource())
+        let sut = GridStateCalculator(randomSource: StubRandomSource())
+
+        // When
         let (newGridState, _) = sut.nextGrid(previousGrid: gridState, actions: [.moveCar(direction: .left), .update])
+
+        // Then
         XCTAssertEqual(newGridState.grid[4][0], .Crash)
     }
 
-    func testPlayersCarMovesToColumnWithNoCarOnPreviousRowScoresPointsOnUpdate() {
+    func testGivenPlayerMovesIntoSafeColumnWhenUpdatingGridThenScoreEffectIsProduced() {
+        // Given
         var gridState = GridState(numberOfRows: 5, numberOfColumns: 3)
         gridState.grid = [
             [.Empty, .Empty, .Empty],
@@ -82,7 +107,9 @@ final class GridStateCalculatorTests: XCTestCase {
             [.Empty, .Car, .Empty],
             [.Empty, .Player, .Empty],
         ]
-        let sut = GridStateCalculator(randomSource: MockRandomSource())
+        let sut = GridStateCalculator(randomSource: StubRandomSource())
+
+        // When
         let (_, effects) = sut.nextGrid(previousGrid: gridState, actions: [.moveCar(direction: .left), .update])
         let scoredPoints = effects.reduce(0) { partialResult, effect in
             if case GridStateCalculator.Effect.scored(points: let points) = effect {
@@ -90,16 +117,21 @@ final class GridStateCalculatorTests: XCTestCase {
             }
             return partialResult
         }
+
+        // Then
         XCTAssertGreaterThan(scoredPoints, 0)
     }
 
-    func testUpdateIntervalDecreasesAsLevelIncreases() {
+    func testGivenHigherLevelWhenResolvingUpdateIntervalThenIntervalIsShorter() {
+        // Given
         let config = GridUpdateTimingConfiguration(initialInterval: 0.6, logDivider: 4)
-        let calculator = GridStateCalculator(randomSource: MockRandomSource(), timingConfiguration: config)
+        let calculator = GridStateCalculator(randomSource: StubRandomSource(), timingConfiguration: config)
 
+        // When
         let level1 = calculator.intervalForLevel(1)
         let level5 = calculator.intervalForLevel(5)
 
+        // Then
         XCTAssertGreaterThan(level1, level5)
         XCTAssertGreaterThan(level1, 0)
         XCTAssertGreaterThan(level5, 0)
@@ -115,7 +147,7 @@ final class GridStateCalculatorTests: XCTestCase {
             [.Car, .Empty, .Empty],
             [.Empty, .Player, .Empty],
         ]
-        let sut = GridStateCalculator(randomSource: MockRandomSource())
+        let sut = GridStateCalculator(randomSource: StubRandomSource())
 
         // When
         let (newGridState, effects) = sut.nextGrid(previousGrid: gridState, actions: [.updateWithEmptyRow])
@@ -137,7 +169,7 @@ final class GridStateCalculatorTests: XCTestCase {
             [.Empty, .Player, .Empty],
         ]
         let expectedShiftedRow = gridState.grid[0]
-        let sut = GridStateCalculator(randomSource: MockRandomSource())
+        let sut = GridStateCalculator(randomSource: StubRandomSource())
 
         // When
         let (newGridState, _) = sut.nextGrid(previousGrid: gridState, actions: [.updateWithEmptyRow])
@@ -150,15 +182,15 @@ final class GridStateCalculatorTests: XCTestCase {
     func testGivenDifficultyTimingWhenComparingLevelOneIntervalsThenCruiseIsSlowestAndRapidIsFastest() {
         // Given
         let cruiseCalculator = GridStateCalculator(
-            randomSource: MockRandomSource(),
+            randomSource: StubRandomSource(),
             timingConfiguration: GameDifficulty.cruise.timingConfiguration
         )
         let fastCalculator = GridStateCalculator(
-            randomSource: MockRandomSource(),
+            randomSource: StubRandomSource(),
             timingConfiguration: GameDifficulty.fast.timingConfiguration
         )
         let rapidCalculator = GridStateCalculator(
-            randomSource: MockRandomSource(),
+            randomSource: StubRandomSource(),
             timingConfiguration: GameDifficulty.rapid.timingConfiguration
         )
 

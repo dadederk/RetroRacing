@@ -120,12 +120,13 @@ struct MenuContentView: View {
             Label {
                 Text(GameLocalizedStrings.string("menu_play_with_friends"))
                     .font(buttonFont)
+                    .foregroundStyle(Color.accentColor)
             } icon: {
                 Image(systemName: "shareplay")
+                    .foregroundStyle(Color.accentColor)
             }
         }
         .retroRacingSecondaryButtonStyle()
-        .tint(Color.accentColor)
         .controlSize(.large)
         .accessibilityHint(GameLocalizedStrings.string("menu_play_with_friends_free_hint"))
     }

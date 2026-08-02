@@ -5,7 +5,7 @@
 //  Created by Dani Devesa on 22/07/2026.
 //
 
-#if canImport(GroupActivities) && os(iOS)
+#if canImport(GroupActivities) && (os(iOS) || os(macOS))
 import CoreTransferable
 import Foundation
 import GroupActivities

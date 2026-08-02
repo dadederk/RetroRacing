@@ -5,13 +5,13 @@
 //  Created by Dani Devesa on 22/07/2026.
 //
 
-#if canImport(GroupActivities) && os(iOS)
+#if canImport(GroupActivities) && (os(iOS) || os(macOS))
 import GroupActivities
 import Foundation
 import RetroRacingShared
 
-/// Production `SharePlayMatchService` backed by the GroupActivities framework (iOS/iPad only,
-/// per v1 scope). This actor owns the match state machine and session runtime state, while
+/// Production `SharePlayMatchService` backed by the GroupActivities framework on iOS/iPad/macOS.
+/// This actor owns the match state machine and session runtime state, while
 /// small collaborators own local activation, notification, and timer bookkeeping.
 public actor GroupActivitiesSharePlayMatchService: SharePlayMatchService {
     let difficultyProvider: @Sendable () -> GameDifficulty

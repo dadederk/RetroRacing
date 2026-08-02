@@ -40,7 +40,7 @@ public struct MenuView: View {
     private let onPlayRequest: (() -> Void)?
     private let onSettingsRequest: (() -> Void)?
     /// Present only when non-nil. The composition root only supplies this on the v1 SharePlay
-    /// scope (iOS/iPad); other platforms omit it and the button stays hidden.
+    /// scope (iOS/iPad/macOS); other platforms omit it and the button stays hidden.
     private let onPlayWithFriendsRequest: (() -> Void)?
     /// True while a SharePlay match is active. Locks difficulty editing in the Settings sheet
     /// presented from this menu, since the difficulty is shared/synchronized between both

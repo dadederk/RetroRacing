@@ -16,7 +16,7 @@ private struct SharePlayMatchServiceKey: EnvironmentKey {
 extension EnvironmentValues {
     /// Access the current `SharePlayMatchService` from the environment.
     /// Returns `nil` on platforms/builds without a SharePlay integration (e.g. previews, tests,
-    /// or platforms outside the v1 iOS/iPad scope); callers should treat SharePlay as unavailable.
+    /// or platforms outside the v1 iOS/iPad/macOS scope); callers should treat SharePlay as unavailable.
     public var sharePlayMatchService: (any SharePlayMatchService)? {
         get { self[SharePlayMatchServiceKey.self] }
         set { self[SharePlayMatchServiceKey.self] = newValue }

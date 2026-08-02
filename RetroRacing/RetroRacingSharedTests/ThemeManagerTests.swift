@@ -34,29 +34,38 @@ private struct StubTheme: GameTheme {
 @MainActor
 final class ThemeManagerTests: XCTestCase {
 
-    func testInitialThemeIsFirstWhenNoStoredSelection() {
+    func testGivenNoStoredSelectionWhenInitializingThenFirstThemeIsSelected() {
+        // Given
         let defaults = UserDefaults(suiteName: "ThemeManagerTests.initial")!
         defaults.removeObject(forKey: "selectedThemeID")
         defer { defaults.removeObject(forKey: "selectedThemeID") }
 
         let themes: [GameTheme] = [StubTheme(id: "a"), StubTheme(id: "b")]
+
+        // When
         let manager = ThemeManager(initialThemes: themes, defaultThemeID: "a", userDefaults: defaults)
 
+        // Then
         XCTAssertEqual(manager.currentTheme.id, "a")
     }
 
-    func testDefaultThemeIDUsedWhenNoStoredSelection() {
+    func testGivenDefaultThemeIDWhenNoStoredSelectionThenDefaultThemeIsSelected() {
+        // Given
         let defaults = UserDefaults(suiteName: "ThemeManagerTests.defaultID")!
         defaults.removeObject(forKey: "selectedThemeID")
         defer { defaults.removeObject(forKey: "selectedThemeID") }
 
         let themes: [GameTheme] = [StubTheme(id: "a"), StubTheme(id: "b")]
+
+        // When
         let manager = ThemeManager(initialThemes: themes, defaultThemeID: "b", userDefaults: defaults)
 
+        // Then
         XCTAssertEqual(manager.currentTheme.id, "b")
     }
 
-    func testSetThemeUpdatesCurrentAndPersists() {
+    func testGivenThemeSelectionWhenSettingThemeThenCurrentThemeAndStorageAreUpdated() {
+        // Given
         let defaults = UserDefaults(suiteName: "ThemeManagerTests.setTheme")!
         defaults.removeObject(forKey: "selectedThemeID")
         defer { defaults.removeObject(forKey: "selectedThemeID") }
@@ -64,28 +73,37 @@ final class ThemeManagerTests: XCTestCase {
         let themes: [GameTheme] = [StubTheme(id: "a"), StubTheme(id: "b")]
         let manager = ThemeManager(initialThemes: themes, defaultThemeID: "a", userDefaults: defaults)
 
+        // When
         manager.setTheme(themes[1])
 
+        // Then
         XCTAssertEqual(manager.currentTheme.id, "b")
         XCTAssertEqual(defaults.string(forKey: "selectedThemeID"), "b")
     }
 
-    func testIsThemeAvailableFreeThemeReturnsTrue() {
+    func testGivenFreeThemeWhenCheckingAvailabilityThenThemeIsAvailable() {
+        // Given
         let themes: [GameTheme] = [StubTheme(id: "free", isPremium: false)]
         let manager = ThemeManager(initialThemes: themes, defaultThemeID: "free", userDefaults: UserDefaults(suiteName: "ThemeManagerTests.free")!)
 
+        // When / Then
         XCTAssertTrue(manager.isThemeAvailable(themes[0]))
     }
 
-    func testIsThemeAvailablePremiumUnlockedReturnsTrue() {
+    func testGivenUnlockedPremiumThemeWhenCheckingAvailabilityThenThemeIsAvailable() {
+        // Given
         let premium = StubTheme(id: "premium", isPremium: true)
         let manager = ThemeManager(initialThemes: [StubTheme(id: "free"), premium], defaultThemeID: "free", userDefaults: UserDefaults(suiteName: "ThemeManagerTests.premium")!)
+
+        // When
         manager.unlockTheme(premium)
 
+        // Then
         XCTAssertTrue(manager.isThemeAvailable(premium))
     }
 
-    func testUnlockPremiumThemesAddsAllPremiumIDs() {
+    func testGivenPremiumThemesWhenUnlockingPremiumThemesThenAllPremiumIDsAreStored() {
+        // Given
         let defaults = UserDefaults(suiteName: "ThemeManagerTests.unlockPremium")!
         defaults.removeObject(forKey: "unlockedThemes")
         defer { defaults.removeObject(forKey: "unlockedThemes") }
@@ -95,8 +113,10 @@ final class ThemeManagerTests: XCTestCase {
         let p2 = StubTheme(id: "p2", isPremium: true)
         let manager = ThemeManager(initialThemes: [free, p1, p2], defaultThemeID: "free", userDefaults: defaults)
 
+        // When
         manager.unlockPremiumThemes()
 
+        // Then
         XCTAssertTrue(manager.unlockedThemeIDs.contains("p1"))
         XCTAssertTrue(manager.unlockedThemeIDs.contains("p2"))
     }

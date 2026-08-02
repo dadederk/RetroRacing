@@ -10,32 +10,45 @@ import SwiftUI
 @MainActor
 final class FontPreferenceStoreTests: XCTestCase {
 
-    func testInitialStyleIsCustomWhenNoStoredValue() {
+    func testGivenNoStoredFontStyleWhenInitializingThenCustomStyleIsSelected() {
+        // Given
         let defaults = UserDefaults(suiteName: "FontPreferenceStoreTests.initial")!
         defaults.removeObject(forKey: AppFontStyle.storageKey)
         defer { defaults.removeObject(forKey: AppFontStyle.storageKey) }
 
+        // When
         let store = FontPreferenceStore(userDefaults: defaults, customFontAvailable: true)
+
+        // Then
         XCTAssertEqual(store.currentStyle, .custom)
     }
 
-    func testSetStyleUpdatesAndPersists() {
+    func testGivenFontStyleStoreWhenSettingStyleThenSelectionIsPersisted() {
+        // Given
         let defaults = UserDefaults(suiteName: "FontPreferenceStoreTests.set")!
         defaults.removeObject(forKey: AppFontStyle.storageKey)
         defer { defaults.removeObject(forKey: AppFontStyle.storageKey) }
 
         let store = FontPreferenceStore(userDefaults: defaults, customFontAvailable: true)
+
+        // When
         store.currentStyle = .systemMonospaced
+
+        // Then
         XCTAssertEqual(store.currentStyle, .systemMonospaced)
         XCTAssertEqual(defaults.string(forKey: AppFontStyle.storageKey), AppFontStyle.systemMonospaced.rawValue)
     }
 
-    func testWhenCustomFontUnavailableStoredCustomFallsBackToSystem() {
+    func testGivenStoredCustomStyleWhenCustomFontIsUnavailableThenSystemStyleIsSelected() {
+        // Given
         let defaults = UserDefaults(suiteName: "FontPreferenceStoreTests.unavailable")!
         defaults.set(AppFontStyle.custom.rawValue, forKey: AppFontStyle.storageKey)
         defer { defaults.removeObject(forKey: AppFontStyle.storageKey) }
 
+        // When
         let store = FontPreferenceStore(userDefaults: defaults, customFontAvailable: false)
+
+        // Then
         XCTAssertEqual(store.currentStyle, .system)
         XCTAssertFalse(store.isCustomFontAvailable)
     }
