@@ -1,15 +1,43 @@
 {
-  "images" : [
+  "images": [
     {
-      "filename" : "WaitingForFriendToJoin.png",
-      "idiom" : "universal"
+      "filename": "WaitingForFriendToJoin-iphone-1x.png",
+      "idiom": "iphone",
+      "scale": "1x"
+    },
+    {
+      "filename": "WaitingForFriendToJoin-iphone-2x.png",
+      "idiom": "iphone",
+      "scale": "2x"
+    },
+    {
+      "filename": "WaitingForFriendToJoin-iphone-3x.png",
+      "idiom": "iphone",
+      "scale": "3x"
+    },
+    {
+      "filename": "WaitingForFriendToJoin-mac-1x.png",
+      "idiom": "mac",
+      "scale": "1x"
+    },
+    {
+      "filename": "WaitingForFriendToJoin-mac-2x.png",
+      "idiom": "mac",
+      "scale": "2x"
+    },
+    {
+      "filename": "WaitingForFriendToJoin-ipad-1x.png",
+      "idiom": "ipad",
+      "scale": "1x"
+    },
+    {
+      "filename": "WaitingForFriendToJoin-ipad-2x.png",
+      "idiom": "ipad",
+      "scale": "2x"
     }
   ],
-  "info" : {
-    "author" : "xcode",
-    "version" : 1
-  },
-  "properties" : {
-    "template-rendering-intent" : "template"
+  "info": {
+    "author": "xcode",
+    "version": 1
   }
 }

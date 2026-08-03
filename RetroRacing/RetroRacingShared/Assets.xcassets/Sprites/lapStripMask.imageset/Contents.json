@@ -1,15 +1,23 @@
 {
   "images" : [
     {
-      "filename" : "lapStripMask.png",
-      "idiom" : "universal"
+      "filename" : "lapStripMask-iphone.png",
+      "idiom" : "iphone"
     },
     {
-      "filename" : "lapStripMask 1.png",
+      "filename" : "lapStripMask-ipad.png",
+      "idiom" : "ipad"
+    },
+    {
+      "filename" : "lapStripMask-mac.png",
+      "idiom" : "mac"
+    },
+    {
+      "filename" : "lapStripMask-watch.png",
       "idiom" : "watch"
     },
     {
-      "filename" : "lapStripMask 2.png",
+      "filename" : "lapStripMask-tv.png",
       "idiom" : "tv"
     }
   ],

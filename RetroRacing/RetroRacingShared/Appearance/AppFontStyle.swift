@@ -51,6 +51,10 @@ extension AppFontStyle {
 
     static func defaultCustomPointSize(for textStyle: Font.TextStyle) -> CGFloat {
         switch textStyle {
+        case .extraLargeTitle:
+            return 44
+        case .extraLargeTitle2:
+            return 36
         case .largeTitle:
             return 34
         case .title:

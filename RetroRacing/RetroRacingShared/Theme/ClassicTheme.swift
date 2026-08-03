@@ -10,11 +10,18 @@ import SwiftUI
 
 /// Default LCD theme: pastel beige grid with LCD sprite family (playersCar-LCD, etc.).
 public struct LCDTheme: GameTheme {
-    public init() {}
+    public let isPremium: Bool
 
-    public var id: String { "lcd" }
+    public init() {
+        self.init(isPremium: false)
+    }
+
+    public init(isPremium: Bool) {
+        self.isPremium = isPremium
+    }
+
+    public var id: ThemeID { .lcd }
     public var name: String { "LCD" }
-    public var isPremium: Bool { false }
 
     public func backgroundColor(for state: GameState) -> Color {
         Color(red: 154 / 255, green: 220 / 255, blue: 38 / 255)
@@ -47,6 +54,7 @@ public struct LCDTheme: GameTheme {
     public func rivalCarSprite() -> String? { "rivalsCar-LCD" }
     public func crashSprite() -> String? { "crash-LCD" }
     public func lifeSprite() -> String? { "life-LCD" }
+    public func friendLifeSprite() -> String? { "friendLife-LCD" }
 }
 
 /// Backward compatibility: ClassicTheme was renamed to LCDTheme (default LCD theme).

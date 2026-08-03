@@ -85,6 +85,8 @@
 	<string>none</string>
 	<key>textColorStyle</key>
 	<string>manual</string>
+	<key>textVerticalAlignment</key>
+	<string>center</string>
 	<key>titleColor</key>
 	<string>#FFFFFF</string>
 	<key>titleFontName</key>

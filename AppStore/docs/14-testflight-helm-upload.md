@@ -1,10 +1,11 @@
 # TestFlight Uploads With Helm CLI
 
-Agent playbook for RetroRapid! TestFlight uploads.
+Agent playbook for RetroRapid! TestFlight uploads. Prefer [17-xcode-cloud-releases.md](17-xcode-cloud-releases.md) for Xcode Cloud release archives once the workflow is configured; use this document for local fallback uploads and Helm-side build metadata, group attachment, and beta review steps after either archive path.
 
 ## Rules
 
 - Use Xcode 26 for TestFlight/App Store archives until iOS 27 ships in September 2026. Do not submit archives built with Xcode 27 beta.
+- Xcode Cloud release archives should still continue here after internal TestFlight processing: poll for build IDs, set export compliance and What to Test copy, attach external groups, and submit for beta review only when requested.
 - Resolve `helm-asc` once per session; examples use `/Applications/Helm.app/Contents/Helpers/helm-asc`.
 - Prefer the Swift script. It uploads with Xcode, then uses Helm for App Store Connect build metadata, groups, and beta review.
 - Pass `--agent` to Helm commands. Avoid `jq`, pipelines, and command substitution in agent flows.

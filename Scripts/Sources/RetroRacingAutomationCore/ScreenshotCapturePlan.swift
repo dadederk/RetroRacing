@@ -56,6 +56,7 @@ public struct ScreenshotCaptureReport: Codable, Equatable, Sendable {
 }
 
 public enum ScreenshotCapturePlan {
+    public static let captureEnabledEnvironmentKey = "RETRORAPID_SCREENSHOT_CAPTURE"
     public static let targetsEnvironmentKey = "RETRORAPID_SCREENSHOT_TARGETS"
     public static let maxRetriesEnvironmentKey = "RETRORAPID_SCREENSHOT_MAX_RETRIES"
     public static let skipExistingEnvironmentKey = "RETRORAPID_SCREENSHOT_SKIP_EXISTING"
@@ -154,6 +155,7 @@ public enum ScreenshotCapturePlan {
         appearance: String = AppStoreScreenshotAppearance.default.rawValue
     ) -> [String: String] {
         [
+            captureEnabledEnvironmentKey: "1",
             "RETRORAPID_SCREENSHOT_STAGING": stagingDirectory.path,
             targetsEnvironmentKey: encode(targets),
             maxRetriesEnvironmentKey: String(maxRetries),

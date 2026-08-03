@@ -1,8 +1,48 @@
 {
   "images" : [
     {
-      "filename" : "profilePicRetroRapid.png",
-      "idiom" : "universal"
+      "filename" : "profilePicRetroRapid-iphone-1x.png",
+      "idiom" : "iphone",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "profilePicRetroRapid-iphone-2x.png",
+      "idiom" : "iphone",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "profilePicRetroRapid-iphone-3x.png",
+      "idiom" : "iphone",
+      "scale" : "3x"
+    },
+    {
+      "filename" : "profilePicRetroRapid-ipad-1x.png",
+      "idiom" : "ipad",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "profilePicRetroRapid-ipad-2x.png",
+      "idiom" : "ipad",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "profilePicRetroRapid-mac-1x.png",
+      "idiom" : "mac",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "profilePicRetroRapid-mac-2x.png",
+      "idiom" : "mac",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "profilePicRetroRapid-tv.png",
+      "idiom" : "tv",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "tv",
+      "scale" : "2x"
     }
   ],
   "info" : {

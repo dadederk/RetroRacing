@@ -1,6 +1,6 @@
 # Archive and Distribution
 
-Operational reference for TestFlight and App Store archive shape. For Helm upload steps, see [14-testflight-helm-upload.md](14-testflight-helm-upload.md).
+Operational reference for TestFlight and App Store archive shape. For Xcode Cloud release workflows, see [17-xcode-cloud-releases.md](17-xcode-cloud-releases.md). For Helm upload steps, see [14-testflight-helm-upload.md](14-testflight-helm-upload.md).
 
 ## Required Archive Shape
 
@@ -32,3 +32,4 @@ Operational reference for TestFlight and App Store archive shape. For Helm uploa
 - Attach both iOS and macOS builds to the same App Store Connect version.
 - Confirm App Store platform availability matches public status in [../README.md](../README.md) and repo rules in [../../AGENTS.md](../../AGENTS.md).
 - Confirm macOS screenshots and metadata parity before submitting public Mac claims.
+- Xcode Cloud release builds should arrive in Internal Testing first; promote to external beta or App Store review only after manual feedback and release-gate checks pass.

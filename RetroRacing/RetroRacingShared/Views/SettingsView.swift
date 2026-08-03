@@ -1005,9 +1005,9 @@ private struct SettingsFooterTextStyle: ViewModifier {
     )
     SettingsView(
         themeManager: ThemeManager(
-            initialThemes: [LCDTheme(), PocketTheme()],
-            defaultThemeID: "lcd",
-            userDefaults: UserDefaults.standard
+            configuration: .iPhone,
+            userDefaults: UserDefaults.standard,
+            hasPremiumAccess: true
         ),
         fontPreferenceStore: FontPreferenceStore(
             userDefaults: UserDefaults.standard,

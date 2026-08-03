@@ -34,15 +34,13 @@ struct RetroRacingTvOSApp: App {
             supportsHaptics: false
         )
         storeKitService = StoreKitService(userDefaults: userDefaults)
-        let themeConfig = ThemePlatformConfig(
-            defaultThemeID: "lcd",
-            availableThemes: [LCDTheme(), PocketTheme()]
+        let themeConfig = ThemePlatformConfig.tvOS
+        let configuredThemeManager = ThemeManager(
+            configuration: themeConfig,
+            userDefaults: userDefaults,
+            hasPremiumAccess: storeKitService.hasPremiumAccessForGating
         )
-        themeManager = ThemeManager(
-            initialThemes: themeConfig.availableThemes,
-            defaultThemeID: themeConfig.defaultThemeID,
-            userDefaults: userDefaults
-        )
+        themeManager = configuredThemeManager
         fontPreferenceStore = FontPreferenceStore(userDefaults: userDefaults, customFontAvailable: customFontAvailable)
         hapticController = RetroRacingTvOSApp.makeHapticsController()
         let leaderboardConfig = LeaderboardPlatformConfig(
@@ -97,6 +95,9 @@ struct RetroRacingTvOSApp: App {
             } else {
                 playLimit.clearUnlimitedAccess()
             }
+        }
+        storeKitService.onPremiumAccessForGatingUpdated = { hasPremiumAccessForGating in
+            configuredThemeManager.syncPremiumAccess(hasPremiumAccessForGating)
         }
         specialEventService = Self.makeMiamiGrandPrixEventService()
 

@@ -1,5 +1,10 @@
 import XCTest
 import SpriteKit
+#if canImport(UIKit)
+import UIKit
+#elseif canImport(AppKit)
+import AppKit
+#endif
 @testable import RetroRacingShared
 
 @MainActor
@@ -713,6 +718,195 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         // Then
         XCTAssertGreaterThan(lineOverlayCount(named: "road_dash_line"), 0)
         XCTAssertEqual(lineOverlayCount(named: "vertical_grid_line"), 0)
+    }
+
+    func testGivenEightBitDetailedRoadWhenRenderingThenRoadSurfaceUsesDistinctExteriorColor() {
+        // Given
+        let theme = EightBitTheme()
+        guard let exteriorColor = theme.roadExteriorColor()?.skColor else {
+            XCTFail("Expected 8-Bit theme to provide a road exterior color")
+            return
+        }
+        let roadColor = theme.gridCellColor().skColor
+        let themedScene = makeThemedScene(theme: theme, roadVisualStyle: .detailedRoad)
+
+        // When
+        themedScene.gridStateDidUpdate(themedScene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
+        let roadSurfaceNodes = roadSurfaceNodes(in: themedScene)
+
+        // Then
+        XCTAssertEqual(roadSurfaceNodes.count, themedScene.gridState.numberOfRows)
+        for cell in allGridCells(in: themedScene) {
+            assertColor(cell.fillColor, equals: exteriorColor)
+        }
+        for surface in roadSurfaceNodes {
+            assertColor(surface.fillColor, equals: roadColor)
+        }
+        let surfacesByDepth = roadSurfaceNodes.sorted { $0.frame.midY > $1.frame.midY }
+        guard let topSurface = surfacesByDepth.first,
+              let bottomSurface = surfacesByDepth.last else {
+            XCTFail("Expected road surface nodes")
+            return
+        }
+        XCTAssertLessThan(topSurface.frame.width, bottomSurface.frame.width)
+        assertRoadSurfaceNodesOverhangOuterLines(in: themedScene)
+    }
+
+    func testGivenPersistentRoadSurfaceWhenGridTicksAndLaneMovesThenNodeIdentityIsStable() {
+        // Given
+        let themedScene = makeThemedScene(theme: EightBitTheme(), roadVisualStyle: .detailedRoad)
+        let initialNodes = roadSurfaceNodes(in: themedScene)
+
+        // When
+        themedScene.gridStateDidUpdate(
+            themedScene.gridState,
+            shouldPlayFeedback: false,
+            notifyDelegate: false
+        )
+        themedScene.moveLeft()
+        let updatedNodes = roadSurfaceNodes(in: themedScene)
+
+        // Then
+        XCTAssertEqual(updatedNodes.count, initialNodes.count)
+        XCTAssertTrue(zip(initialNodes, updatedNodes).allSatisfy { $0 === $1 })
+    }
+
+    func testGivenPersistentRoadSurfaceWhenSceneSizeChangesThenNodesAreRebuilt() {
+        // Given
+        let themedScene = makeThemedScene(theme: EightBitTheme(), roadVisualStyle: .detailedRoad)
+        let initialNodes = roadSurfaceNodes(in: themedScene)
+
+        // When
+        themedScene.resizeScene(to: CGSize(width: 320, height: 240))
+        let resizedNodes = roadSurfaceNodes(in: themedScene)
+
+        // Then
+        XCTAssertEqual(resizedNodes.count, initialNodes.count)
+        XCTAssertTrue(zip(initialNodes, resizedNodes).allSatisfy { $0 !== $1 })
+    }
+
+    func testGivenPersistentRoadSurfaceWhenThemeOrStyleChangesThenCacheIsInvalidated() {
+        // Given
+        let themedScene = makeThemedScene(theme: EightBitTheme(), roadVisualStyle: .detailedRoad)
+        let eightBitNodes = roadSurfaceNodes(in: themedScene)
+
+        // When
+        themedScene.theme = SixteenBitTheme()
+        themedScene.gridStateDidUpdate(
+            themedScene.gridState,
+            shouldPlayFeedback: false,
+            notifyDelegate: false
+        )
+        let sixteenBitNodes = roadSurfaceNodes(in: themedScene)
+        themedScene.setRoadVisualStyle(.simplifiedGrid)
+
+        // Then
+        XCTAssertTrue(zip(eightBitNodes, sixteenBitNodes).allSatisfy { $0 !== $1 })
+        XCTAssertTrue(roadSurfaceNodes(in: themedScene).isEmpty)
+    }
+
+    func testGivenEightBitSimplifiedGridWhenRenderingThenRoadSurfaceUsesSingleRoadColor() {
+        // Given
+        let theme = EightBitTheme()
+        let themedScene = makeThemedScene(theme: theme, roadVisualStyle: .simplifiedGrid)
+
+        // When
+        themedScene.gridStateDidUpdate(themedScene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
+
+        // Then
+        XCTAssertEqual(roadSurfaceNodes(in: themedScene).count, 0)
+        for cell in allGridCells(in: themedScene) {
+            assertColor(cell.fillColor, equals: theme.gridCellColor().skColor)
+        }
+    }
+
+    func testGivenSixteenBitDetailedRoadWhenRenderingThenGrassExteriorSurroundsPerspectiveRoad() {
+        // Given
+        let theme = SixteenBitTheme()
+        guard let exteriorColor = theme.roadExteriorColor()?.skColor else {
+            XCTFail("Expected 16-Bit theme to provide a road exterior color")
+            return
+        }
+        let themedScene = makeThemedScene(theme: theme, roadVisualStyle: .detailedRoad)
+
+        // When
+        themedScene.gridStateDidUpdate(themedScene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
+        let roadSurfaceNodes = roadSurfaceNodes(in: themedScene)
+
+        // Then
+        XCTAssertEqual(roadSurfaceNodes.count, themedScene.gridState.numberOfRows)
+        for cell in allGridCells(in: themedScene) {
+            assertColor(cell.fillColor, equals: exteriorColor)
+        }
+        for surface in roadSurfaceNodes {
+            assertColor(surface.fillColor, equals: theme.gridCellColor().skColor)
+        }
+        let surfacesByDepth = roadSurfaceNodes.sorted { $0.frame.midY > $1.frame.midY }
+        guard let topSurface = surfacesByDepth.first,
+              let bottomSurface = surfacesByDepth.last else {
+            XCTFail("Expected 16-Bit road surface nodes")
+            return
+        }
+        XCTAssertLessThan(topSurface.frame.width, bottomSurface.frame.width)
+        assertRoadSurfaceNodesOverhangOuterLines(in: themedScene)
+    }
+
+    func testGivenSixteenBitSimplifiedGridWhenRenderingThenEveryCellUsesGreyRoadColor() {
+        // Given
+        let theme = SixteenBitTheme()
+        let themedScene = makeThemedScene(theme: theme, roadVisualStyle: .simplifiedGrid)
+
+        // When
+        themedScene.gridStateDidUpdate(themedScene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
+
+        // Then
+        XCTAssertEqual(roadSurfaceNodes(in: themedScene).count, 0)
+        for cell in allGridCells(in: themedScene) {
+            assertColor(cell.fillColor, equals: theme.gridCellColor().skColor)
+        }
+    }
+
+    func testGivenSixteenBitBigCarsWhenRenderingDetailedRoadThenFlatRoadAndDashesRemainVisible() {
+        // Given
+        let theme = SixteenBitTheme()
+        let themedScene = makeThemedScene(
+            theme: theme,
+            roadVisualStyle: .detailedRoad,
+            bigRivalCarsEnabled: true
+        )
+
+        // When
+        themedScene.gridStateDidUpdate(themedScene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
+
+        // Then
+        XCTAssertEqual(roadSurfaceNodes(in: themedScene).count, 0)
+        XCTAssertTrue(allGridCells(in: themedScene).allSatisfy { $0.lineWidth == 0 })
+        XCTAssertTrue(allGridCells(in: themedScene).allSatisfy { cell in
+            guard let components = rgbComponents(from: cell.fillColor),
+                  let expected = rgbComponents(from: theme.gridCellColor().skColor) else {
+                return false
+            }
+            return abs(components.red - expected.red) < 0.001
+                && abs(components.green - expected.green) < 0.001
+                && abs(components.blue - expected.blue) < 0.001
+        })
+        XCTAssertGreaterThan(themedScene.lineOverlayNodes.filter { $0.name == "road_dash_line" }.count, 0)
+        XCTAssertEqual(themedScene.lineOverlayNodes.filter { $0.name == "vertical_grid_line" }.count, 0)
+    }
+
+    func testGivenLCDDetailedRoadWhenRenderingThenRoadSurfaceUsesSingleRoadColor() {
+        // Given
+        let theme = LCDTheme()
+        let themedScene = makeThemedScene(theme: theme, roadVisualStyle: .detailedRoad)
+
+        // When
+        themedScene.gridStateDidUpdate(themedScene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
+
+        // Then
+        XCTAssertEqual(roadSurfaceNodes(in: themedScene).count, 0)
+        for cell in allGridCells(in: themedScene) {
+            assertColor(cell.fillColor, equals: theme.gridCellColor().skColor)
+        }
     }
 
     func testGivenBigCarsEnabledWhenRenderingThenFlatDashedSeparatorsAreVisibleAndContinuousSeparatorsAreHidden() {
@@ -1452,13 +1646,67 @@ final class GameSceneAudioHapticsTests: XCTestCase {
     }
 
     private func allGridCells() -> [SKShapeNode] {
+        allGridCells(in: scene)
+    }
+
+    private func allGridCells(in targetScene: GameScene) -> [SKShapeNode] {
         var cells: [SKShapeNode] = []
-        for row in 0..<scene.gridState.numberOfRows {
-            for column in 0..<scene.gridState.numberOfColumns {
-                cells.append(scene.gridCell(column: column, row: row))
+        for row in 0..<targetScene.gridState.numberOfRows {
+            for column in 0..<targetScene.gridState.numberOfColumns {
+                cells.append(targetScene.gridCell(column: column, row: row))
             }
         }
         return cells
+    }
+
+    private func roadSurfaceNodes(in targetScene: GameScene) -> [SKShapeNode] {
+        targetScene.roadSurfaceNodes
+    }
+
+    private func assertRoadSurfaceNodesOverhangOuterLines(
+        in targetScene: GameScene,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) {
+        let surfacesByDepth = roadSurfaceNodes(in: targetScene).sorted { $0.frame.midY > $1.frame.midY }
+        XCTAssertEqual(surfacesByDepth.count, targetScene.gridState.numberOfRows, file: file, line: line)
+
+        for row in 0..<targetScene.gridState.numberOfRows {
+            let expectedBounds = expectedRoadSurfaceBounds(forRow: row, in: targetScene)
+            let surface = surfacesByDepth[row]
+            XCTAssertEqual(surface.frame.minX, expectedBounds.lowerBound, accuracy: 0.75, file: file, line: line)
+            XCTAssertEqual(surface.frame.maxX, expectedBounds.upperBound, accuracy: 0.75, file: file, line: line)
+
+            let unexpandedBounds = expectedRoadSurfaceBounds(
+                forRow: row,
+                in: targetScene,
+                overhangFactor: 0
+            )
+            XCTAssertLessThan(surface.frame.minX, unexpandedBounds.lowerBound, file: file, line: line)
+            XCTAssertGreaterThan(surface.frame.maxX, unexpandedBounds.upperBound, file: file, line: line)
+        }
+    }
+
+    private func makeThemedScene(
+        theme: any GameTheme,
+        roadVisualStyle: RoadVisualStyle,
+        bigRivalCarsEnabled: Bool = false
+    ) -> GameScene {
+        let loader = PlatformFactories.makeImageLoader()
+        let testScene = GameScene.scene(
+            size: CGSize(width: 200, height: 200),
+            difficulty: .rapid,
+            theme: theme,
+            imageLoader: loader,
+            soundPlayer: MockSoundEffectPlayer(),
+            laneCuePlayer: MockLaneCuePlayer(),
+            hapticController: nil,
+            audioFeedbackMode: .retro,
+            bigRivalCarsEnabled: bigRivalCarsEnabled,
+            roadVisualStyle: roadVisualStyle
+        )
+        testScene.setUpScene()
+        return testScene
     }
 
     private func dashedLineRowsByY() -> [[CGFloat]] {
@@ -1521,22 +1769,53 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         return bounds.lowerBound + (laneWidth * (CGFloat(column) + 0.5))
     }
 
+    private func expectedRoadSurfaceBounds(
+        forRow row: Int,
+        in targetScene: GameScene,
+        overhangFactor: CGFloat = 2.6
+    ) -> ClosedRange<CGFloat> {
+        let rowFrame = targetScene.gridCell(column: 1, row: row).frame
+        let topY = min(targetScene.size.height, rowFrame.maxY)
+        let bottomY = max(0, rowFrame.minY)
+        let topBounds = expectedRoadBounds(atSceneY: topY, in: targetScene)
+        let bottomBounds = expectedRoadBounds(atSceneY: bottomY, in: targetScene)
+        let topOverhang = expectedLaneLineWidth(atSceneY: topY, in: targetScene) * overhangFactor
+        let bottomOverhang = expectedLaneLineWidth(atSceneY: bottomY, in: targetScene) * overhangFactor
+        let minX = min(
+            max(0, topBounds.lowerBound - topOverhang),
+            max(0, bottomBounds.lowerBound - bottomOverhang)
+        )
+        let maxX = max(
+            min(targetScene.size.width, topBounds.upperBound + topOverhang),
+            min(targetScene.size.width, bottomBounds.upperBound + bottomOverhang)
+        )
+        return minX...maxX
+    }
+
     private func expectedRoadBounds(forRow row: Int) -> ClosedRange<CGFloat> {
         let y = scene.gridCell(column: 1, row: row).frame.midY
-        let depthFromTop = max(0, min(1, (scene.size.height - y) / scene.size.height))
+        return expectedRoadBounds(atSceneY: y, in: scene)
+    }
+
+    private func expectedRoadBounds(atSceneY y: CGFloat, in targetScene: GameScene) -> ClosedRange<CGFloat> {
+        let depthFromTop = max(0, min(1, (targetScene.size.height - y) / targetScene.size.height))
         let widthRatio = 0.38 + ((0.94 - 0.38) * depthFromTop)
-        let roadWidth = scene.size.width * widthRatio
+        let roadWidth = targetScene.size.width * widthRatio
         let halfRoadWidth = roadWidth / 2
-        let centerX = scene.size.width / 2
+        let centerX = targetScene.size.width / 2
         return (centerX - halfRoadWidth)...(centerX + halfRoadWidth)
     }
 
     private func expectedLaneLineWidth(forRow row: Int) -> CGFloat {
         let y = scene.gridCell(column: 1, row: row).frame.midY
-        let depthFromTop = max(0, min(1, (scene.size.height - y) / scene.size.height))
+        return expectedLaneLineWidth(atSceneY: y, in: scene)
+    }
+
+    private func expectedLaneLineWidth(atSceneY y: CGFloat, in targetScene: GameScene) -> CGFloat {
+        let depthFromTop = max(0, min(1, (targetScene.size.height - y) / targetScene.size.height))
         let widthFactor = 0.043 + ((0.078 - 0.043) * depthFromTop)
-        let bounds = expectedRoadBounds(forRow: row)
-        let laneWidth = (bounds.upperBound - bounds.lowerBound) / CGFloat(scene.gridState.numberOfColumns)
+        let bounds = expectedRoadBounds(atSceneY: y, in: targetScene)
+        let laneWidth = (bounds.upperBound - bounds.lowerBound) / CGFloat(targetScene.gridState.numberOfColumns)
         return max(1.25, laneWidth * widthFactor)
     }
 

@@ -55,6 +55,30 @@ final class GameViewModelTests: XCTestCase {
         leaderboardService = nil
         super.tearDown()
     }
+
+    func testGivenActiveSceneWhenThemeChangesThenModelAndSceneUpdateWithoutRestarting() {
+        // Given
+        let scene = GameScene(
+            size: CGSize(width: 100, height: 100),
+            theme: EightBitTheme(),
+            imageLoader: MockImageLoader(),
+            soundPlayer: MockSoundPlayer(),
+            laneCuePlayer: MockLaneCuePlayerStub(),
+            hapticController: nil,
+            audioFeedbackMode: .retro,
+            laneMoveCueStyle: .laneConfirmationAndSafety,
+            difficulty: .rapid
+        )
+        viewModel.scene = scene
+
+        // When
+        viewModel.updateTheme(ClassicTheme())
+
+        // Then
+        XCTAssertTrue(viewModel.scene === scene)
+        XCTAssertEqual(viewModel.theme?.id, .lcd)
+        XCTAssertEqual(scene.theme?.id, .lcd)
+    }
     
     func testGivenMenuOverlayNotPresentedWhenSettingOverlayPauseThenGameIsPaused() {
         // Given
@@ -1214,7 +1238,7 @@ private struct MockInputAdapter: GameInputAdapter {
 }
 
 private final class MockImageLoader: ImageLoader {
-    func loadTexture(imageNamed name: String, bundle: Bundle) -> SKTexture {
+    func loadTexture(imageNamed name: String, bundle: Bundle) -> SKTexture? {
         SKTexture()
     }
 }

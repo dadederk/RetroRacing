@@ -65,6 +65,13 @@ One folder per feature; under each feature, subfolders by role: **View**, **Mode
 - **Logging/** – `AppLog.swift`
 - **Resources/**, **Assets.xcassets/** – unchanged
 
+### Asset Source Archives
+
+- Canonical and superseded full-resolution runtime artwork lives under top-level `AssetSources/`, outside every Xcode target root. Dated snapshots remain immutable; later canonical revisions use a new dated source archive.
+- Rejected but visually distinct palette, silhouette, and perspective experiments live under top-level `DiscardedAssets/`. Decoded duplicate artwork and `.DS_Store` files are prohibited.
+- Shipping app/shared folders must not contain source-only artwork, `.DS_Store`, or flat raster fallbacks under `RetroRacingShared/Resources`.
+- Runtime asset membership is guarded by `./retrorapid assets audit --check`, which rejects source archives in Xcode membership and validates asset-catalog idioms, pixel ceilings, and compiled catalog budgets. `--full --check` also rejects archives in Release products and verifies framework embedding.
+
 ## File Naming Consistency
 
 - Prefer the same file name across targets for the same feature (e.g. `MenuView.swift`, `GameView.swift`); use the **module** to distinguish.

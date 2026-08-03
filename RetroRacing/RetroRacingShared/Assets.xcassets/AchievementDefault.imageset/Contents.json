@@ -1,12 +1,28 @@
 {
-  "images" : [
+  "images": [
     {
-      "filename" : "AchievementDefault.png",
-      "idiom" : "universal"
+      "filename": "AchievementDefault-iphone.png",
+      "idiom": "iphone"
+    },
+    {
+      "filename": "AchievementDefault-ipad.png",
+      "idiom": "ipad"
+    },
+    {
+      "filename": "AchievementDefault-mac.png",
+      "idiom": "mac"
+    },
+    {
+      "filename": "AchievementDefault-watch.png",
+      "idiom": "watch"
+    },
+    {
+      "filename": "AchievementDefault-tv.png",
+      "idiom": "tv"
     }
   ],
-  "info" : {
-    "author" : "xcode",
-    "version" : 1
+  "info": {
+    "author": "xcode",
+    "version": 1
   }
 }

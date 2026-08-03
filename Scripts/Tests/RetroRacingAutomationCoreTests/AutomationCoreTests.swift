@@ -172,6 +172,7 @@ func givenCaptureEnvironmentWhenBuildingCommandThenTargetsAndRetriesAreForwarded
     )
 
     #expect(commands.count == 1)
+    #expect(commands[0].environment["RETRORAPID_SCREENSHOT_CAPTURE"] == "1")
     #expect(commands[0].environment["RETRORAPID_SCREENSHOT_TARGETS"] == "fr-FR_3")
     #expect(commands[0].environment["RETRORAPID_SCREENSHOT_MAX_RETRIES"] == "3")
     #expect(commands[0].environment["RETRORAPID_SCREENSHOT_SKIP_EXISTING"] == "1")
@@ -446,22 +447,14 @@ func givenBuildLookupJSONArrayWhenParsingThenFirstBuildIDIsReturned() throws {
 }
 
 @Test
-func givenRoadMaskDescriptorsWhenResolvingSizesThenLapAndLaneSizesDiffer() throws {
-    let lane = try #require(
-        RoadMaskWorkflow.descriptors.first { !$0.isLapMask }
-    )
-    let lap = try #require(
-        RoadMaskWorkflow.descriptors.first { $0.isLapMask }
-    )
+func givenRoadMaskDescriptorsWhenResolvingSizesThenOnlyLapStripSizesAreGenerated() throws {
+    let descriptor = try #require(RoadMaskWorkflow.descriptors.first)
+    let sizes = RoadMaskWorkflow.renderSizes(for: descriptor)
 
-    #expect(
-        RoadMaskWorkflow.renderSizes(for: lane).universal
-            == RoadMaskRenderSize(width: 600, height: 360)
-    )
-    #expect(
-        RoadMaskWorkflow.renderSizes(for: lap).universal
-            == RoadMaskRenderSize(width: 1600, height: 240)
-    )
+    #expect(RoadMaskWorkflow.descriptors.count == 1)
+    #expect(descriptor.imagesetName == "lapStripMask.imageset")
+    #expect(sizes.large == RoadMaskRenderSize(width: 1600, height: 240))
+    #expect(sizes.watch == RoadMaskRenderSize(width: 800, height: 120))
 }
 
 @Test
@@ -473,9 +466,287 @@ func givenRoadMaskDescriptorsWhenRenderingThenEveryExpectedFileIsProduced() thro
     let firstPNG = try #require(pngFiles.first)
     let image = try #require(NSBitmapImageRep(data: firstPNG.data))
 
-    #expect(files.count == RoadMaskWorkflow.descriptors.count * 5)
+    #expect(files.count == 6)
+    #expect(pngFiles.count == 5)
+    #expect(files.contains { $0.url.lastPathComponent == "Contents.json" })
     #expect(image.pixelsWide > 0)
     #expect(image.pixelsHigh > 0)
+}
+
+@Test
+func testGivenRuntimeAssetManifestWhenLoadingThenPlatformBudgetsArePresent() throws {
+    let repositoryRoot = try RepositoryLocator.locate(
+        containing: ["Scripts/Resources/runtime_asset_manifest.json"]
+    )
+    let manifest = try AssetAuditWorkflow.loadManifest(repositoryRoot: repositoryRoot)
+
+    #expect(manifest.schemaVersion == 2)
+    #expect(manifest.compiledCatalogBudgets.map(\.platform) == ["iphone", "mac", "watch", "tv", "vision"])
+    #expect(manifest.compiledCatalogBudgets.allSatisfy { $0.maximumAssetsCarBytes > 0 })
+}
+
+@Test
+func testGivenSharePlayAssetRulesWhenLoadingManifestThenWatchTVAndVisionAreExcluded() throws {
+    let repositoryRoot = try RepositoryLocator.locate(
+        containing: ["Scripts/Resources/runtime_asset_manifest.json"]
+    )
+    let manifest = try AssetAuditWorkflow.loadManifest(repositoryRoot: repositoryRoot)
+    let sharePlayRule = try #require(
+        manifest.assets.first { $0.path == "WinWithFriend.imageset" }
+    )
+
+    #expect(sharePlayRule.allowedIdioms == ["iphone", "ipad", "mac"])
+    #expect(sharePlayRule.requiredIdioms == ["iphone", "ipad", "mac"])
+    #expect(sharePlayRule.maximumLongEdge["iphone"] == 768)
+    #expect(sharePlayRule.scalesByIdiom?["iphone"] == ["2x", "3x"])
+}
+
+@Test
+func testGivenHelmetAssetRulesWhenLoadingManifestThenNormalizedGeometryIsRequired() throws {
+    let repositoryRoot = try RepositoryLocator.locate(
+        containing: ["Scripts/Resources/runtime_asset_manifest.json"]
+    )
+    let manifest = try AssetAuditWorkflow.loadManifest(repositoryRoot: repositoryRoot)
+    let helmetRules = manifest.assets.filter {
+        $0.geometryProfile == .helmet || $0.geometryProfile == .sixteenBitHelmet
+    }
+
+    #expect(helmetRules.count == 8)
+    #expect(helmetRules.allSatisfy { $0.allowedIdioms == ["iphone", "ipad", "mac", "watch", "tv"] })
+}
+
+@Test
+func testGivenFilenameLessPlaceholdersWhenValidatingThenOnlyPopulatedEntriesAreChecked() throws {
+    // Given
+    let fixture = try makeAssetCatalogFixture(
+        images: [
+            AssetCatalogImage(idiom: "iphone", scale: "1x"),
+            AssetCatalogImage(filename: "asset-2x.png", idiom: "iphone", scale: "2x"),
+            AssetCatalogImage(filename: "asset-3x.png", idiom: "iphone", scale: "3x"),
+        ],
+        files: ["asset-2x.png": CGSize(width: 8, height: 8), "asset-3x.png": CGSize(width: 12, height: 12)]
+    )
+    defer { try? FileManager.default.removeItem(at: fixture) }
+    let rule = RuntimeAssetRule(
+        path: "Fixture.imageset",
+        allowedIdioms: ["iphone"],
+        requiredIdioms: ["iphone"],
+        maximumLongEdge: ["iphone": 12],
+        scalesByIdiom: ["iphone": ["2x", "3x"]]
+    )
+
+    // When
+    let issues = try AssetCatalogValidator.issues(for: rule, imageSet: fixture)
+
+    // Then
+    #expect(issues.isEmpty)
+}
+
+@Test
+func testGivenSixteenBitAssetRulesWhenLoadingManifestThenOpticalFramingIsRequired() throws {
+    let repositoryRoot = try RepositoryLocator.locate(
+        containing: ["Scripts/Resources/runtime_asset_manifest.json"]
+    )
+    let manifest = try AssetAuditWorkflow.loadManifest(repositoryRoot: repositoryRoot)
+    let sixteenBitRules = manifest.assets.filter { $0.path.hasPrefix("Sprites/16Bit/") }
+    let profilesByPath = Dictionary(
+        uniqueKeysWithValues: sixteenBitRules.compactMap { rule in
+            rule.geometryProfile.map { (rule.path, $0) }
+        }
+    )
+
+    #expect(sixteenBitRules.count == 5)
+    #expect(profilesByPath["Sprites/16Bit/playersCar-16Bit.imageset"] == .sixteenBitPlayerCar)
+    #expect(profilesByPath["Sprites/16Bit/rivalsCar-16Bit.imageset"] == .sixteenBitRivalCar)
+    #expect(profilesByPath["Sprites/16Bit/crash-16Bit.imageset"] == .sixteenBitCrash)
+    #expect(profilesByPath["Sprites/16Bit/life-16Bit.imageset"] == .sixteenBitHelmet)
+    #expect(profilesByPath["Sprites/16Bit/friendLife-16Bit.imageset"] == .sixteenBitHelmet)
+}
+
+@Test
+func testGivenMissingRequiredIdiomAndScaleWhenValidatingThenBothIssuesAreReported() throws {
+    // Given
+    let fixture = try makeAssetCatalogFixture(
+        images: [AssetCatalogImage(filename: "asset-2x.png", idiom: "iphone", scale: "2x")],
+        files: ["asset-2x.png": CGSize(width: 8, height: 8)]
+    )
+    defer { try? FileManager.default.removeItem(at: fixture) }
+    let rule = RuntimeAssetRule(
+        path: "Fixture.imageset",
+        allowedIdioms: ["iphone", "ipad"],
+        requiredIdioms: ["iphone", "ipad"],
+        maximumLongEdge: ["iphone": 12, "ipad": 12],
+        scalesByIdiom: ["iphone": ["2x", "3x"]]
+    )
+
+    // When
+    let issues = try AssetCatalogValidator.issues(for: rule, imageSet: fixture)
+
+    // Then
+    #expect(issues.contains { $0.contains("missing required idiom 'ipad'") })
+    #expect(issues.contains { $0.contains("scales [\"2x\"] do not match [\"2x\", \"3x\"]") })
+}
+
+@Test
+func testGivenInvalidManifestRelationshipsWhenValidatingThenCoherenceIssuesAreReported() {
+    // Given
+    let manifest = RuntimeAssetManifest(
+        schemaVersion: 1,
+        compiledCatalogBudgets: [],
+        assets: [
+            RuntimeAssetRule(
+                path: "Fixture.imageset",
+                allowedIdioms: ["iphone"],
+                requiredIdioms: ["tv"],
+                maximumLongEdge: ["ipad": 0],
+                scalesByIdiom: ["watch": []]
+            )
+        ]
+    )
+
+    // When
+    let issues = AssetManifestValidator.issues(in: manifest)
+
+    // Then
+    #expect(issues.contains { $0.contains("schema must be 2") })
+    #expect(issues.contains { $0.contains("required idioms must be a subset") })
+    #expect(issues.contains { $0.contains("pixel cap for every allowed idiom") })
+    #expect(issues.contains { $0.contains("scale rules must reference allowed idioms") })
+    #expect(issues.contains { $0.contains("pixel caps must be positive") })
+    #expect(issues.contains { $0.contains("scale rules must not be empty") })
+}
+
+@Test
+func testGivenMissingAndOversizedFilesWhenValidatingThenFileAndPixelIssuesAreReported() throws {
+    // Given
+    let fixture = try makeAssetCatalogFixture(
+        images: [
+            AssetCatalogImage(filename: "missing.png", idiom: "iphone"),
+            AssetCatalogImage(filename: "oversized.png", idiom: "ipad"),
+        ],
+        files: ["oversized.png": CGSize(width: 32, height: 16)]
+    )
+    defer { try? FileManager.default.removeItem(at: fixture) }
+    let rule = RuntimeAssetRule(
+        path: "Fixture.imageset",
+        allowedIdioms: ["iphone", "ipad"],
+        requiredIdioms: ["iphone", "ipad"],
+        maximumLongEdge: ["iphone": 16, "ipad": 16]
+    )
+
+    // When
+    let issues = try AssetCatalogValidator.issues(for: rule, imageSet: fixture)
+
+    // Then
+    #expect(issues.contains { $0.contains("references missing file missing.png") })
+    #expect(issues.contains { $0.contains("long edge 32 exceeds 16") })
+}
+
+@Test
+func testGivenHelmetWithWrongCanvasWhenValidatingThenExactDimensionsAreReported() throws {
+    // Given
+    let fixture = try makeAssetCatalogFixture(
+        images: [AssetCatalogImage(filename: "helmet.png", idiom: "iphone")],
+        files: ["helmet.png": CGSize(width: 256, height: 100)]
+    )
+    defer { try? FileManager.default.removeItem(at: fixture) }
+    let rule = RuntimeAssetRule(
+        path: "Helmet.imageset",
+        allowedIdioms: ["iphone"],
+        requiredIdioms: ["iphone"],
+        maximumLongEdge: ["iphone": 256],
+        geometryProfile: .helmet
+    )
+
+    // When
+    let issues = try AssetCatalogValidator.issues(for: rule, imageSet: fixture)
+
+    // Then
+    #expect(issues.contains { $0.contains("must be 256x222") })
+}
+
+@Test
+func testGivenArchiveProjectMembershipAndReleaseEmbeddingWhenValidatingThenBothAreRejected() throws {
+    // Given
+    let repository = try makeRepositoryFixture(
+        projectContents: "AssetSources DiscardedAssets"
+    )
+    defer { try? FileManager.default.removeItem(at: repository) }
+    let product = repository.appending(path: "Product.app")
+    try FileManager.default.createDirectory(
+        at: product.appending(path: "AssetSources"),
+        withIntermediateDirectories: true
+    )
+
+    // When
+    let repositoryIssues = try RepositoryAssetValidator.issues(repositoryRoot: repository)
+    let releaseIssues = ReleasePackagingValidator.archiveIssues(inReleaseProduct: product)
+
+    // Then
+    #expect(repositoryIssues.contains { $0.contains("'AssetSources' from the Xcode project") })
+    #expect(repositoryIssues.contains { $0.contains("'DiscardedAssets' from the Xcode project") })
+    #expect(releaseIssues == ["embeds non-target archive 'AssetSources'"])
+}
+
+@Test
+func testGivenTemporaryReleaseDerivedDataWhenOperationCompletesThenDirectoryIsRemoved() throws {
+    // Given
+    let repository = FileManager.default.temporaryDirectory.appending(
+        path: "ReleasePackagingFixture-\(UUID().uuidString)"
+    )
+    defer { try? FileManager.default.removeItem(at: repository) }
+    var derivedData: URL?
+
+    // When
+    try ReleasePackagingValidator.withTemporaryDerivedData(
+        repositoryRoot: repository,
+        platform: "fixture"
+    ) { url in
+        derivedData = url
+        try FileManager.default.createDirectory(at: url, withIntermediateDirectories: true)
+        try Data("build-artifact".utf8).write(to: url.appending(path: "artifact"))
+    }
+
+    // Then
+    let releasedURL = try #require(derivedData)
+    #expect(FileManager.default.fileExists(atPath: releasedURL.path) == false)
+}
+
+@Test
+func testGivenExactDiscardedDuplicatesWhenValidatingThenRegressionIsReported() throws {
+    // Given
+    let repository = try makeRepositoryFixture(projectContents: "// no archive membership")
+    defer { try? FileManager.default.removeItem(at: repository) }
+    let archive = repository.appending(path: "DiscardedAssets")
+    try FileManager.default.createDirectory(at: archive, withIntermediateDirectories: true)
+    let duplicate = try makePNGData(size: CGSize(width: 8, height: 8))
+    try duplicate.write(to: archive.appending(path: "one.png"))
+    try duplicate.write(to: archive.appending(path: "two.png"))
+
+    // When
+    let issues = try RepositoryAssetValidator.issues(repositoryRoot: repository)
+
+    // Then
+    #expect(issues.contains { $0.contains("DiscardedAssets contains decoded artwork duplicates") })
+}
+
+@Test
+func testGivenArtworkThatDiffersOnOnlyVisibleRowWhenValidatingThenItIsNotADuplicate() throws {
+    // Given
+    let repository = try makeRepositoryFixture(projectContents: "// no archive membership")
+    defer { try? FileManager.default.removeItem(at: repository) }
+    let archive = repository.appending(path: "DiscardedAssets")
+    try FileManager.default.createDirectory(at: archive, withIntermediateDirectories: true)
+    try makePNGData(size: CGSize(width: 1, height: 1), rgba: [255, 0, 0, 255])
+        .write(to: archive.appending(path: "red.png"))
+    try makePNGData(size: CGSize(width: 1, height: 1), rgba: [0, 0, 255, 255])
+        .write(to: archive.appending(path: "blue.png"))
+
+    // When
+    let issues = try RepositoryAssetValidator.issues(repositoryRoot: repository)
+
+    // Then
+    #expect(issues.contains { $0.contains("decoded artwork duplicates") } == false)
 }
 
 @Test
@@ -936,6 +1207,7 @@ func givenDestinationStringWhenParsingSimulatorUDIDThenReturnsIDComponent() {
 
 @Test
 func givenCaptureEnvironmentKeysWhenComparedToSharedIdentifiersThenTheyMatch() {
+    #expect(ScreenshotCapturePlan.captureEnabledEnvironmentKey == "RETRORAPID_SCREENSHOT_CAPTURE")
     #expect(ScreenshotCapturePlan.platformEnvironmentKey == "RETRORAPID_SCREENSHOT_PLATFORM")
     #expect(ScreenshotCapturePlan.appearanceEnvironmentKey == "RETRORAPID_SCREENSHOT_APPEARANCE")
     #expect(ScreenshotCapturePlan.fileExtensionEnvironmentKey == "RETRORAPID_SCREENSHOT_FILE_EXTENSION")
@@ -960,4 +1232,69 @@ private func testFlightOptions(
         pollIntervalSeconds: 1,
         dryRun: true
     )
+}
+
+private enum AssetFixtureError: Error {
+    case couldNotCreateImage
+}
+
+private func makeAssetCatalogFixture(
+    images: [AssetCatalogImage],
+    files: [String: CGSize]
+) throws -> URL {
+    let directory = FileManager.default.temporaryDirectory.appending(
+        path: "AssetCatalogFixture-\(UUID().uuidString).imageset"
+    )
+    try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+    let contents = AssetCatalogContents(
+        images: images,
+        info: AssetCatalogInfo(author: "xcode", version: 1)
+    )
+    try JSONEncoder().encode(contents).write(to: directory.appending(path: "Contents.json"))
+    for (filename, size) in files {
+        try makePNGData(size: size).write(to: directory.appending(path: filename))
+    }
+    return directory
+}
+
+private func makePNGData(size: CGSize) throws -> Data {
+    try makePNGData(size: size, rgba: nil)
+}
+
+private func makePNGData(size: CGSize, rgba: [UInt8]?) throws -> Data {
+    guard let representation = NSBitmapImageRep(
+        bitmapDataPlanes: nil,
+        pixelsWide: Int(size.width),
+        pixelsHigh: Int(size.height),
+        bitsPerSample: 8,
+        samplesPerPixel: 4,
+        hasAlpha: true,
+        isPlanar: false,
+        colorSpaceName: .deviceRGB,
+        bytesPerRow: 0,
+        bitsPerPixel: 0
+    ) else {
+        throw AssetFixtureError.couldNotCreateImage
+    }
+    if let rgba, rgba.count == 4, let bitmapData = representation.bitmapData {
+        for (index, component) in rgba.enumerated() {
+            bitmapData[index] = component
+        }
+    }
+    guard let data = representation.representation(using: .png, properties: [:]) else {
+        throw AssetFixtureError.couldNotCreateImage
+    }
+    return data
+}
+
+private func makeRepositoryFixture(projectContents: String) throws -> URL {
+    let repository = FileManager.default.temporaryDirectory.appending(
+        path: "AssetRepositoryFixture-\(UUID().uuidString)"
+    )
+    let projectDirectory = repository.appending(path: "RetroRacing/RetroRacing.xcodeproj")
+    try FileManager.default.createDirectory(at: projectDirectory, withIntermediateDirectories: true)
+    try Data(projectContents.utf8).write(
+        to: projectDirectory.appending(path: "project.pbxproj")
+    )
+    return repository
 }

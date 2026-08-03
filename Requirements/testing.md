@@ -14,12 +14,16 @@ Run the relevant smallest validation after a change, and the full app validation
 
 ```bash
 ./retrorapid test package
+./retrorapid assets optimize --check
+./retrorapid assets audit --check
 ./retrorapid check
 ./retrorapid test
 ```
 
 - `./retrorapid test package` validates the Scripts Swift package.
-- `./retrorapid check` verifies generated assets/docs/metadata and other non-mutating checks.
+- `./retrorapid assets optimize --check` regenerates into temporary storage and compares pixels and catalog JSON without mutating tracked files.
+- `./retrorapid assets audit --check` validates runtime asset idioms, pixel caps, forbidden shipping resources, and compiled catalog byte ceilings.
+- `./retrorapid check` verifies asset footprint, generated assets/docs/metadata, and other non-mutating checks.
 - `./retrorapid test` runs shared and universal app unit tests through the Scripts runner.
 - Use `./retrorapid test --dry-run` to inspect resolved commands.
 - If signing blocks local verification, use the documented CI-like no-signing flags only for compile/test validation.
@@ -30,7 +34,7 @@ Run the relevant smallest validation after a change, and the full app validation
 - Mock through protocols rather than concrete service substitution.
 - Keep platform-agnostic behavior in `RetroRacingSharedTests`.
 - Keep app-target integration behavior in `RetroRacingUniversalTests`.
-- Add regression tests when fixing bugs in play limits, StoreKit gating, Game Center reporting, achievements, SharePlay, accessibility defaults, generated audio, screenshot fixtures, or localization routing.
+- Add regression tests when fixing bugs in play limits, StoreKit gating, Game Center reporting, achievements, SharePlay, accessibility defaults, generated audio, runtime asset packaging, screenshot fixtures, or localization routing.
 
 ## Naming and Structure
 
@@ -50,7 +54,8 @@ Run the relevant smallest validation after a change, and the full app validation
 ## Screenshot Capture Tests
 
 - App Store screenshot capture uses `RetroRacingUniversalUITests/AppStoreScreenshotTests`.
-- Capture mode is activated with `RETRORAPID_SCREENSHOT_CAPTURE=1`.
+- Screenshot UI tests require `RETRORAPID_SCREENSHOT_CAPTURE=1` and skip themselves during regular Xcode scheme runs.
+- `./retrorapid test` remains limited to shared and universal unit tests; run localized, multi-platform screenshot capture manually when preparing a release after significant UI changes.
 - Fixtures live under `RetroRacingShared/ScreenshotCapture/`; behavior contract lives in [screenshot_capture.md](screenshot_capture.md).
 - Common commands:
 

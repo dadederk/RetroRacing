@@ -109,7 +109,7 @@ See `Requirements/input_handling.md` and `Requirements/controller_input.md`.
 
 ## Theming
 
-Protocol-based theme system. Free: Classic, Pocket. Premium (IAP): LCD, 8-Bit, Neon. Platform recommendations and accessibility overrides in `Requirements/theming_system.md`.
+The canonical ordered catalog is Pocket, LCD, 8-Bit, and 16-Bit. Platform defaults/free-theme policies and Unlimited Plays access rules are defined in `Requirements/theming_system.md`; do not duplicate or revive obsolete Classic/Neon summaries here.
 
 ---
 

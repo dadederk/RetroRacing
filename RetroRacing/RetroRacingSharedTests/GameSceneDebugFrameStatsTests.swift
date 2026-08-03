@@ -92,7 +92,7 @@ final class GameSceneDebugFrameStatsTests: XCTestCase {
 }
 
 private final class DebugStatsMockImageLoader: ImageLoader {
-    func loadTexture(imageNamed name: String, bundle: Bundle) -> SKTexture {
+    func loadTexture(imageNamed name: String, bundle: Bundle) -> SKTexture? {
         SKTexture()
     }
 }

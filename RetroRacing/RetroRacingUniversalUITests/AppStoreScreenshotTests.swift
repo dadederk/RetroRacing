@@ -18,6 +18,10 @@ final class AppStoreScreenshotTests: XCTestCase {
     private let landscapeVisualSettle: TimeInterval = 1.5
 
     override func setUpWithError() throws {
+        try XCTSkipUnless(
+            ProcessInfo.processInfo.environment[AppStoreScreenshotCaptureConstants.captureEnabledKey] == "1",
+            "App Store screenshot UI tests run only through ./retrorapid screenshots capture."
+        )
         continueAfterFailure = false
         #if os(iOS)
         if ScreenshotCaptureHelper.prefersLandscapeCapture() {

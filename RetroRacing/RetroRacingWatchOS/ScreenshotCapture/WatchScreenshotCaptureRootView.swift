@@ -144,7 +144,7 @@ struct WatchScreenshotCaptureRootView: View {
     }
 
     private var gameplayTheme: any GameTheme {
-        configuration.fixture.usesPocketTheme ? PocketTheme() : LCDTheme()
+        PocketTheme()
     }
 
     private var settingsPreviewDependencyFactory: SettingsPreviewDependencyFactory {

@@ -22,7 +22,7 @@ final class GameViewModel {
 
     let leaderboardService: LeaderboardService
     let ratingService: RatingService
-    let theme: (any GameTheme)?
+    private(set) var theme: (any GameTheme)?
     let hapticController: HapticFeedbackController?
     let highestScoreStore: HighestScoreStore
     let achievementProgressService: AchievementProgressService
@@ -113,5 +113,11 @@ final class GameViewModel {
 
     var pauseButtonDisabled: Bool {
         pause.pauseButtonDisabled
+    }
+
+    func updateTheme(_ theme: (any GameTheme)?) {
+        guard self.theme?.id != theme?.id else { return }
+        self.theme = theme
+        scene?.updateTheme(theme)
     }
 }

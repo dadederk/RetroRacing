@@ -293,10 +293,35 @@ public enum RetroRapidInteractiveMenu {
         execute: (ScriptDispatchPlan, URL) throws -> Void,
         repositoryRoot: URL
     ) throws {
-        write("1. masks  2. testflight")
+        write("1. audit  2. optimize  3. masks  4. testflight")
         guard let option = readLine()?.trimmingCharacters(in: .whitespacesAndNewlines) else { return }
         switch option {
         case "1":
+            let mode = promptMutationMode(supportsCheck: true, supportsDryRun: false, readLine: readLine, write: write)
+            var args = mutationFlags(for: mode)
+            write("Full Release packaging audit? [n]: ")
+            if readLine()?.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() == "y" {
+                args.append("--full")
+            }
+            try confirmAndRun(
+                plan: .runSwiftExecutable(executable: "asset-audit", arguments: args),
+                label: "./retrorapid assets audit",
+                readLine: readLine,
+                write: write,
+                execute: execute,
+                repositoryRoot: repositoryRoot
+            )
+        case "2":
+            let mode = promptMutationMode(supportsCheck: true, supportsDryRun: true, readLine: readLine, write: write)
+            try confirmAndRun(
+                plan: .runSwiftExecutable(executable: "optimize-runtime-assets", arguments: mutationFlags(for: mode)),
+                label: "./retrorapid assets optimize",
+                readLine: readLine,
+                write: write,
+                execute: execute,
+                repositoryRoot: repositoryRoot
+            )
+        case "3":
             let mode = promptMutationMode(supportsCheck: true, supportsDryRun: false, readLine: readLine, write: write)
             try confirmAndRun(
                 plan: .runSwiftExecutable(executable: "generate-road-dash-masks", arguments: mutationFlags(for: mode)),
@@ -306,7 +331,7 @@ public enum RetroRapidInteractiveMenu {
                 execute: execute,
                 repositoryRoot: repositoryRoot
             )
-        case "2":
+        case "4":
             write("TestFlight subcommand [all --dry-run]: ")
             let subcommand = readLine()?.split(separator: " ").map(String.init) ?? ["all", "--dry-run"]
             try confirmAndRun(

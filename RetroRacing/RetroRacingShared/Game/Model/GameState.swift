@@ -9,6 +9,7 @@ import Foundation
 
 /// Mutable gameplay snapshot tracking progression, pause state, and scoring.
 public struct GameState {
+    public static let initialLives = 3
     /// Points per level; must match the divisor used for `level` in score's didSet.
     public static let levelStep = 100
     /// Default number of points before level-up to show the speed-increasing alert.
@@ -16,7 +17,7 @@ public struct GameState {
 
     public private(set) var level = 1
     public var isPaused = false
-    public var lives = 3
+    public var lives = Self.initialLives
     public var score = 0 {
         didSet {
             level = (score / Self.levelStep) + 1

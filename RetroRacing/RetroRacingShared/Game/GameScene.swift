@@ -41,9 +41,22 @@ enum AudioFeedbackEvent {
     case move(destinationColumn: Int)
 }
 
-enum LineMode {
+enum LineMode: Equatable {
     case detailedRoad
     case verticalOnly
+}
+
+struct RoadSurfaceRenderSignature: Equatable {
+    let sceneSize: CGSize
+    let themeID: ThemeID?
+    let roadVisualStyle: RoadVisualStyle
+    let bigRivalCarsEnabled: Bool
+    let lineMode: LineMode
+}
+
+struct TextureResolutionKey: Hashable {
+    let requestedName: String
+    let fallbackName: String
 }
 
 /// SpriteKit scene that owns shared gameplay flow, grid updates, and sound feedback for RetroRacing.
@@ -81,9 +94,12 @@ public class GameScene: SKScene {
     #endif
 
     var spritesForGivenState = [SKSpriteNode]()
+    var roadSurfaceNodes = [SKShapeNode]()
+    var roadSurfaceRenderSignature: RoadSurfaceRenderSignature?
     var lineOverlayNodes = [SKNode]()
     var friendMilestoneOverlayNodes = [SKNode]()
     var cachedFriendAvatarTextures = [String: SKTexture]()
+    var resolvedThemeTextures = [TextureResolutionKey: SKTexture]()
     var roadDashPhase = 0
     var safetyMarkerRows = [Int]()
     private var trafficRowSource: TrafficRowSource = RandomTrafficRowSource(
@@ -118,11 +134,28 @@ public class GameScene: SKScene {
     public var speedAlertWindowPoints: Int = GameState.defaultSpeedAlertWindowPoints
 
     /// When set, sprite asset names and grid cell color come from the theme; otherwise LCD defaults.
-    public var theme: (any GameTheme)?
+    public var theme: (any GameTheme)? {
+        didSet {
+            guard oldValue?.id != theme?.id else { return }
+            resolvedThemeTextures.removeAll()
+            roadSurfaceRenderSignature = nil
+        }
+    }
 
     /// Loads sprite images from the bundle. Injected so shared code has no UIKit/AppKit conditionals.
     /// Optional so scene can be created before assignment; e.g. on watchOS sceneDidLoad() may run early.
-    public var imageLoader: (any ImageLoader)?
+    public var imageLoader: (any ImageLoader)? {
+        didSet { resolvedThemeTextures.removeAll() }
+    }
+
+    /// Applies a theme change to the active scene without restarting gameplay state.
+    public func updateTheme(_ theme: (any GameTheme)?) {
+        guard self.theme?.id != theme?.id else { return }
+        self.theme = theme
+        if hasConfiguredScene {
+            updateGrid(withGridState: gridState)
+        }
+    }
 
     public weak var gameDelegate: GameSceneDelegate?
 
@@ -782,6 +815,8 @@ public class GameScene: SKScene {
 
         removeAllChildren()
         spritesForGivenState.removeAll()
+        roadSurfaceNodes.removeAll()
+        roadSurfaceRenderSignature = nil
         lineOverlayNodes.removeAll()
         friendMilestoneOverlayNodes.removeAll()
 

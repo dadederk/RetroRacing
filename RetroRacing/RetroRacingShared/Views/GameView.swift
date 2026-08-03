@@ -206,6 +206,9 @@ public struct GameView: View {
                 )
                 model.shouldStartGame = newValue
             }
+            .onChange(of: theme?.id) { _, _ in
+                model.updateTheme(theme)
+            }
             .onChange(of: difficultyStorageData) { _, _ in
                 model.updateDifficulty(selectedDifficulty)
             }
@@ -305,61 +308,79 @@ public struct GameView: View {
             ZStack {
                 GameLayoutView(
                     containerSize: outer.size,
-                    style: style,
-                    score: model.hud.score,
-                    lives: model.hud.lives,
-                    showSpeedAlert: model.hud.speedIncreaseImminent,
-                    lifeAssetName: theme?.lifeSprite() ?? "life",
-                    bundle: Self.sharedBundle,
-                    hideHUDFromAccessibility: false,
-                    leftButtonDown: model.controls.leftButtonDown,
-                    rightButtonDown: model.controls.rightButtonDown,
-                    directionButtonHeight: directionButtonHeight,
-                    headerFont: headerFont(textStyle: style.hudTextStyle),
-                    sharePlayOpponentName: model.sharePlayOpponentDisplayName,
-                    sharePlayOpponentScore: sharePlayOpponentScore,
-                    sharePlayOpponentLives: sharePlayOpponentLives,
-                    inputAdapter: model.inputAdapter,
-                    onMoveLeft: { model.flashButton(.left) },
-                    onMoveRight: { model.flashButton(.right) },
-                    onKeyboardInput: { model.recordControlInput(.keyboard) },
-                    onSwipeInput: { model.recordControlInput(.swipe) },
-                    onTogglePause: model.togglePause,
-                    onAppearSide: { side in
-                        if side > 0 {
-                            measuredGameSide = side
-                        }
-                        let effectiveSide = effectiveScreenshotCaptureSide(from: side)
-                        if screenshotLayout != nil, effectiveSide > 0 {
-                            lastScreenshotCaptureEffectiveSide = effectiveSide
-                        }
-                        AppLog.info(
-                            AppLog.lifecycle + AppLog.game,
-                            "GAME_LAYOUT_APPEAR",
-                            outcome: .completed,
-                            fields: [.double("side", side), .double("effectiveSide", effectiveSide)]
-                        )
-                        model.setupSceneIfNeeded(side: effectiveSide, volume: selectedSoundEffectsVolume)
-                        markScreenshotCaptureReadyIfNeeded()
-                    },
-                    onResizeSide: { side in
-                        guard side > 0 else { return }
-                        measuredGameSide = side
-                        let effectiveSide = effectiveScreenshotCaptureSide(from: side)
-                        if screenshotLayout != nil {
-                            if abs(effectiveSide - lastScreenshotCaptureEffectiveSide) > 1 {
-                                lastScreenshotCaptureEffectiveSide = effectiveSide
-                                resetScreenshotCaptureReadiness()
+                    hud: GameHUDInput(
+                        style: style,
+                        score: model.hud.score,
+                        lives: model.hud.lives,
+                        showsSpeedAlert: model.hud.speedIncreaseImminent,
+                        lifeAssetName: theme?.lifeSprite() ?? "life-LCD",
+                        friendLifeAssetName: theme?.resolvedFriendLifeSprite() ?? "life-LCD",
+                        bundle: Self.sharedBundle,
+                        hidesFromAccessibility: false,
+                        headerFont: headerFont(textStyle: style.hudTextStyle),
+                        friendHeaderFont: headerFont(textStyle: style.friendHUDTextStyle),
+                        sharePlayOpponentName: model.sharePlayOpponentDisplayName,
+                        sharePlayOpponentScore: sharePlayOpponentScore,
+                        sharePlayOpponentLives: sharePlayOpponentLives
+                    ),
+                    controls: GameControlInput(
+                        leftButtonDown: model.controls.leftButtonDown,
+                        rightButtonDown: model.controls.rightButtonDown,
+                        directionButtonHeight: directionButtonHeight,
+                        bundle: Self.sharedBundle,
+                        inputAdapter: model.inputAdapter,
+                        onMoveLeft: { model.flashButton(.left) },
+                        onMoveRight: { model.flashButton(.right) },
+                        onKeyboardInput: { model.recordControlInput(.keyboard) },
+                        onSwipeInput: { model.recordControlInput(.swipe) },
+                        onTogglePause: model.togglePause
+                    ),
+                    lifecycle: GameAreaLifecycleCallbacks(
+                        onAppearSide: { side in
+                            if side > 0 {
+                                measuredGameSide = side
                             }
-                        } else {
-                            lastScreenshotCaptureEffectiveSide = 0
-                        }
-                        model.updateSceneSizeIfNeeded(side: effectiveSide)
-                        if effectiveSide > 0 {
-                            model.setupSceneIfNeeded(side: effectiveSide, volume: selectedSoundEffectsVolume)
+                            let effectiveSide = effectiveScreenshotCaptureSide(from: side)
+                            if screenshotLayout != nil, effectiveSide > 0 {
+                                lastScreenshotCaptureEffectiveSide = effectiveSide
+                            }
+                            AppLog.info(
+                                AppLog.lifecycle + AppLog.game,
+                                "GAME_LAYOUT_APPEAR",
+                                outcome: .completed,
+                                fields: [
+                                    .double("side", side),
+                                    .double("effectiveSide", effectiveSide)
+                                ]
+                            )
+                            model.setupSceneIfNeeded(
+                                side: effectiveSide,
+                                volume: selectedSoundEffectsVolume
+                            )
                             markScreenshotCaptureReadyIfNeeded()
+                        },
+                        onResizeSide: { side in
+                            guard side > 0 else { return }
+                            measuredGameSide = side
+                            let effectiveSide = effectiveScreenshotCaptureSide(from: side)
+                            if screenshotLayout != nil {
+                                if abs(effectiveSide - lastScreenshotCaptureEffectiveSide) > 1 {
+                                    lastScreenshotCaptureEffectiveSide = effectiveSide
+                                    resetScreenshotCaptureReadiness()
+                                }
+                            } else {
+                                lastScreenshotCaptureEffectiveSide = 0
+                            }
+                            model.updateSceneSizeIfNeeded(side: effectiveSide)
+                            if effectiveSide > 0 {
+                                model.setupSceneIfNeeded(
+                                    side: effectiveSide,
+                                    volume: selectedSoundEffectsVolume
+                                )
+                                markScreenshotCaptureReadyIfNeeded()
+                            }
                         }
-                    },
+                    ),
                     gameArea: { _ in
                         gameAreaContent
                     }

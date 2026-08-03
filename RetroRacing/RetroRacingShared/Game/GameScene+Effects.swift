@@ -22,13 +22,20 @@ private enum SpritePerspectiveConfiguration {
 /// Visual and accessibility effects applied to sprites within GameScene.
 extension GameScene {
 
-    func spriteNode(imageNamed name: String) -> SKSpriteNode {
-        let texture = texture(imageNamed: name)
+    func spriteNode(imageNamed name: String, fallbackImageNamed: String) -> SKSpriteNode {
+        let texture = texture(imageNamed: name, fallbackImageNamed: fallbackImageNamed)
         return SKSpriteNode(texture: texture)
     }
 
     /// Loads texture via injected imageLoader so shared code has no UIKit/AppKit conditionals.
-    func texture(imageNamed name: String) -> SKTexture {
+    func texture(imageNamed name: String, fallbackImageNamed: String) -> SKTexture {
+        let resolutionKey = TextureResolutionKey(
+            requestedName: name,
+            fallbackName: fallbackImageNamed
+        )
+        if let resolvedTexture = resolvedThemeTextures[resolutionKey] {
+            return resolvedTexture
+        }
         guard let imageLoader else {
             AppLog.warning(
                 AppLog.assets + AppLog.game,
@@ -41,7 +48,42 @@ extension GameScene {
             )
             return SKTexture()
         }
-        return imageLoader.loadTexture(imageNamed: name, bundle: Self.sharedBundle)
+        if let requestedTexture = imageLoader.loadTexture(
+            imageNamed: name,
+            bundle: Self.sharedBundle
+        ) {
+            resolvedThemeTextures[resolutionKey] = requestedTexture
+            return requestedTexture
+        }
+        if fallbackImageNamed != name,
+           let fallbackTexture = imageLoader.loadTexture(
+            imageNamed: fallbackImageNamed,
+            bundle: Self.sharedBundle
+           ) {
+            AppLog.warning(
+                AppLog.assets + AppLog.game,
+                "TEXTURE_FALLBACK",
+                outcome: .completed,
+                fields: [
+                    .reason("requested_asset_not_found"),
+                    .string("assetName", name),
+                    .string("fallbackAssetName", fallbackImageNamed)
+                ]
+            )
+            resolvedThemeTextures[resolutionKey] = fallbackTexture
+            return fallbackTexture
+        }
+        AppLog.error(
+            AppLog.assets + AppLog.game,
+            "TEXTURE_FALLBACK",
+            outcome: .failed,
+            fields: [
+                .reason("requested_and_fallback_assets_not_found"),
+                .string("assetName", name),
+                .string("fallbackAssetName", fallbackImageNamed)
+            ]
+        )
+        return SKTexture()
     }
 
     func addSprite(

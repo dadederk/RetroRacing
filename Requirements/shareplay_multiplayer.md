@@ -69,6 +69,8 @@
 
 - SharePlay copy uses friend wording rather than opponent wording and avoids em dashes.
 - HUD rows are concise: `You: <score>` and `<friend>: <score>` or `Friend: <score>`.
+- The friend row keeps the friend name and score on the left and a right-aligned strip of three full-color helmets. The friend's score uses one semantic text style below the player's score, and its helmets scale from that same style. At accessibility sizes the score and right-aligned helmet strip may reflow onto separate lines rather than clip. Consumed friend lives fade from left to right using the same `3 → 0` presentation as local lives.
+- Friend helmets are unmarked and use the rival-driver palette from the viewer's locally selected theme. Theme asset names are never transported or synchronized; missing friend art safely reuses the local player-life art.
 - Overlay and result assets come from the first-party SharePlay artwork set.
 - VoiceOver countdown announcements are not posted for each second; generated countdown cues provide the audio timing.
 

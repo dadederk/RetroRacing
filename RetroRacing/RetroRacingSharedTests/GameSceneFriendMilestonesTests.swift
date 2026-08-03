@@ -166,7 +166,7 @@ final class GameSceneFriendMilestonesTests: XCTestCase {
 }
 
 private final class MilestoneMockImageLoader: ImageLoader {
-    func loadTexture(imageNamed name: String, bundle: Bundle) -> SKTexture {
+    func loadTexture(imageNamed name: String, bundle: Bundle) -> SKTexture? {
         SKTexture()
     }
 }

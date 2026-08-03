@@ -20,6 +20,12 @@ Preferred entry point from the repository root (matches Xarra’s `./xarraCli`):
 
 `./retroRapidCli` and `./retrorapid` are equivalent. Both forward to `swift run --package-path Scripts retrorapid`. With **no arguments** on an interactive terminal they open a numbered menu; use `--help` for static reference.
 
+Runtime asset optimization requires the pinned ImageMagick **7.1.2-3** release
+(`brew install imagemagick`). Apply and check modes preflight `magick -version` and
+stop before reading or mutating generated assets when the tool is absent or has a
+different version. This pins resizing behavior across developer machines and CI;
+`--check` remains the pixel-level reproducibility gate.
+
 ## Commands
 
 | Command | Purpose | Mutation safety |
@@ -27,9 +33,11 @@ Preferred entry point from the repository root (matches Xarra’s `./xarraCli`):
 | `run-tests` | Runs the shared and universal iOS unit-test targets | `--dry-run` prints the resolved commands; `--destination <value>` overrides the simulator; `--only-testing <filter>` runs a specific test class or method |
 | `run-xcodebuild-parallel-canary` | Runs shared and universal unit tests with parallel xcodebuild workers as a canary | `--dry-run`; `--workers <n[,n]>`; `--destination <value>` |
 | `check-documentation` | Validates markdown links and App Store metadata sync | Exits non-zero on errors |
-| `generate-road-dash-masks` | Renders the lane and lap-strip mask assets | `--check` compares every generated PNG and `Contents.json` without writing |
+| `asset-audit` | Audits runtime asset idioms/scales, files, dimensions, archive exclusion, decoded duplicate discards, compiled catalog byte budgets, and optional Release packaging | `--check` enforces schema v2 and compiled-size ceilings; `--full --check` additionally builds Release products and verifies shared framework embedding/archive exclusion |
+| `optimize-runtime-assets` | Regenerates runtime asset-catalog renditions from canonical source archives | Default invocation applies the deterministic plan; `--dry-run` prints it; `--check` renders to temporary storage and compares pixels/catalog JSON without changing tracked files |
+| `generate-road-dash-masks` | Renders the generated lap-strip mask asset | `--check` compares every generated PNG and `Contents.json` without writing |
 | `sync-screenshot-studio-localizations` | Synchronizes Screenshot Studio copy, manifests, and shared locale images | `--check` reports plist, manifest, and image drift without writing |
-| `capture-app-store-screenshots` | Captures localized iPhone, iPad, Mac, or Apple Watch screenshots via UI tests, stages them, installs each capture into Screenshot Studio as it completes, then syncs manifests | `--platform iphone|ipad|mac|watch` (default `iphone`); `--all-platforms` runs iphone → ipad → mac → watch sequentially (incompatible with `--platform`, `--destination`, and `--staging-dir`). iPad resolves the newest available `iPad Pro 13-inch` simulator (prefers M5 on the latest iOS runtime, falls back to M4); Mac uses landscape window capture to PNG; Watch uses Ultra 3 and five slides. All platforms default to eleven Screenshot Studio locales: UI tests capture seven source locales and duplicate derived variants (`en-GB`/`en-AU`/`en-CA` from `en-US`, `es-MX` from `es-ES`). `--install-only` moves an existing staging dir; `--staging-dir`, `--locales`, `--slides`, `--destination`, `--retries`, `--force`, `--appearance light|dark` (default `light`), `--no-status-bar-override`, `--status-bar-override`, `--dry-run`, and `--check` filter or validate runs. Re-runs skip staged files and only capture missing ones; `--force` recaptures every requested target even when staging already has files. iPhone/iPad apply marketing status bar `9:41` via `simctl` by default; Watch leaves the clock alone by default (pass `--status-bar-override` only if you intentionally want the disruptive host-clock marketing time). |
+| `capture-app-store-screenshots` | Captures localized iPhone, iPad, Mac, or Apple Watch screenshots via UI tests, stages them, installs each capture into Screenshot Studio as it completes, then syncs manifests | `--platform iphone|ipad|mac|watch` (default `iphone`); `--all-platforms` runs iphone → ipad → mac → watch sequentially (incompatible with `--platform`, `--destination`, and `--staging-dir`). iPad resolves the newest available `iPad Pro 13-inch` simulator (prefers M5 on the latest iOS runtime, falls back to M4); Mac uses landscape window capture to PNG; Watch uses Ultra 3 and five slides. All platforms default to 18 Screenshot Studio locales: UI tests capture 14 source locales and duplicate four derived variants (`en-GB`/`en-AU`/`en-CA` from `en-US`, `es-MX` from `es-ES`). `--install-only` moves an existing staging dir; `--staging-dir`, `--locales`, `--slides`, `--destination`, `--retries`, `--force`, `--appearance light|dark` (default `light`), `--no-status-bar-override`, `--status-bar-override`, `--dry-run`, and `--check` filter or validate runs. Re-runs skip staged files and only capture missing ones; `--force` recaptures every requested target even when staging already has files. iPhone/iPad apply marketing status bar `9:41` via `simctl` by default; Watch leaves the clock alone by default (pass `--status-bar-override` only if you intentionally want the disruptive host-clock marketing time). |
 | `generate-metadata-docs` | Generates metadata copy and validation documents from the canonical JSON catalog | `--check` verifies generated documents without writing |
 | `apply-retrorapid-metadata` | Applies validated metadata through Helm | `--dry-run` reports the plan without changing App Store Connect |
 | `apply-iap-localizations` | Uploads EU Unlimited Plays IAP localizations through Helm, with App Store Connect API fallback | `--check` validates CSV bundles without ASC calls; `--dry-run` plans without writes; `--asc-api` skips Helm file upload |
@@ -49,6 +57,8 @@ Run the complete script test suite:
 Verify generated repository content:
 
 ```bash
+./retrorapid assets optimize --check
+./retrorapid assets audit --check
 ./retrorapid check
 ```
 
@@ -60,7 +70,7 @@ Preview and run app tests:
 ./retrorapid test parallel-canary --workers 2,4
 ```
 
-Capture localized App Store screenshots (iPhone, 7 slides × 11 locales):
+Capture localized App Store screenshots (iPhone, 10 slides × 18 locales: 14 source captures + 4 derived copies):
 
 ```bash
 ./retrorapid screenshots capture --dry-run
@@ -80,6 +90,21 @@ Run debug simulation isolation checks before App Store submission:
 swift run --package-path Scripts run-tests \
   --only-testing RetroRacingSharedTests/DebugSimulationProductionIsolationTests
 ```
+
+Audit runtime asset footprint:
+
+```bash
+./retrorapid assets optimize --dry-run
+./retrorapid assets optimize --check
+./retrorapid assets audit
+./retrorapid assets audit --check
+./retrorapid assets audit --full --check
+```
+
+The historical `AssetSources/RuntimeFootprint2026-08-02/optimize-runtime-assets.mjs`
+is inert provenance and is not a supported command. Use only
+`./retrorapid assets optimize`; see [AssetSources/README.md](../AssetSources/README.md)
+for immutable snapshot and source-archive rules.
 
 Edit and apply App Store metadata:
 

@@ -6,7 +6,7 @@
 
 - **Scope:** DEBUG-only StoreKit and play-limit simulation for testing free vs Unlimited Plays flows.
 - **Must not break:** Release builds use real StoreKit entitlements only; Debug UI is hidden outside `BuildConfiguration.shouldShowDebugFeatures`; freemium simulation forces play-limit behavior even on devices with cached Unlimited Plays.
-- **Key files:** `BuildConfiguration`, `StoreKitService`, `UserDefaultsPlayLimitService`, shared Settings debug section.
+- **Key files:** `BuildConfiguration`, `StoreKitService`, `UserDefaultsPlayLimitService`, `ThemeManager`, shared Settings debug section.
 
 ## Behavior Contract
 
@@ -18,7 +18,8 @@
 - Attempts to set simulation in production must revert to `.productionDefault`.
 - `BuildConfiguration.shouldShowDebugFeatures` controls the Settings Debug section and is false in Release builds.
 - `.freemium` writes the `PlayLimit.debugForceFreemium` override so play-limit checks ignore any stored unlimited-access flag.
-- `.unlimitedPlays` makes premium gating, purchased-state checks, and paywall UI behave as owned without making StoreKit transactions.
+- `.unlimitedPlays` makes premium gating, gated theme access, purchased-state checks, and paywall UI behave as owned without making StoreKit transactions.
+- Simulation changes must notify effective premium gating observers so theme selection availability matches Settings UI state.
 - `.productionDefault` must be the default mode for fresh services and app launches.
 
 ## Production Safety
@@ -40,6 +41,7 @@
   - production mode changes reverting to `.productionDefault`
   - `hasPremiumAccess` and `hasPurchased(_:)` in all three modes
   - `PlayLimit.debugForceFreemium` synchronization
+  - effective premium gating callbacks for theme access
   - Release/production simulation isolation
   - Settings visibility through `BuildConfiguration.shouldShowDebugFeatures`
 - Run targeted isolation tests before release-risk changes:

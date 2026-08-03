@@ -5,13 +5,14 @@
 > Narrow tasks may stop here; open the full contract for implementation or review.
 
 - **Scope:** Road-marker overlay rendering, road-style modes, Big Cars precedence, lap marker timing, and contrast.
-- **Must not break:** Rendering stays in `GameScene+Grid.swift`; overlays clear/redraw each grid refresh; Big Cars forces vertical-only markers; generated mask assets are verified through Scripts.
+- **Must not break:** Rendering stays in `GameScene+Grid.swift`; transient line overlays clear/redraw each grid refresh; persistent road surfaces rebuild only when their render signature changes; Big Cars forces vertical-only markers; generated lap-strip mask assets are verified through Scripts.
 - **Key files:** `GameScene+Grid.swift`, `generate-road-dash-masks`, theme road-line colors.
 
 ## Behavior Contract
 
-- Cell fills still come from `theme.gridCellColor()`.
-- Line visuals are overlays tracked by `lineOverlayNodes`.
+- Road surface fills come from `theme.gridCellColor()`.
+- Themes can optionally provide `theme.roadExteriorColor()` for the field outside the perspective road.
+- Transient line/lap visuals are tracked by `lineOverlayNodes`; persistent perspective fills are tracked separately by `roadSurfaceNodes`.
 - Precedence:
   1. Big Cars on: vertical-only dashed separators.
   2. Big Cars off + Simplified Grid: vertical-only continuous separators.
@@ -22,19 +23,22 @@
 ## Detailed Road
 
 - Uses one shared perspective road model from top width ratio `0.38` to bottom width ratio `0.94`.
+- Themes with a road-exterior color draw row-by-row perspective road-surface overlays from that model, expanded past the outer lane boundaries so the road color sits under the full outer lines with a generous overhang.
+- Road surfaces are cached by scene size, theme identity, road style, Big Cars state, and line mode. Grid ticks and lane moves preserve node identity; resize, theme/style, or mode changes rebuild them.
 - Each visible row renders four trapezoid marker segments: outer-left, inner-left, inner-right, outer-right.
 - Marker thickness and car/rival/crash scaling follow depth so lane alignment remains centered.
 - Dashed markers are suppressed where lap strips render.
 
 ## Lap Markers
 
-- `lapStripMask` is a generated shared white mask with universal/watch/tv variants.
+- `lapStripMask` is a generated shared white mask with explicit iPhone, iPad, Mac, Apple Watch, and Apple TV variants. visionOS does not ship this gameplay mask while it remains a placeholder.
 - Lap strips render only during the two-row safety empty window before a speed increase.
 - Safety marker rows shift with grid movement and retain one off-screen sentinel so the strip exits smoothly.
 - Verify generated assets without rewriting:
 
 ```bash
 swift run --package-path Scripts generate-road-dash-masks --check
+./retrorapid assets audit --check
 ```
 
 ## Big Cars and Simplified Grid
@@ -45,13 +49,13 @@ swift run --package-path Scripts generate-road-dash-masks --check
 
 ## Contrast
 
-- Marker tint comes from `theme.roadLineColor(isIncreaseContrastEnabled:)`.
+- Road-line tint comes from `theme.roadLineColor(isIncreaseContrastEnabled:)`; finish/lap strips use `theme.lapMarkerColor(isIncreaseContrastEnabled:)`.
 - Increase Contrast must switch to dedicated high-contrast road-line colors.
-- Road line colors should target approximately 4.5:1 contrast against road fills.
+- Non-text road and finish/lap markers must maintain at least 3:1 contrast against road fills.
 
 ## Testing
 
-- Tests cover dash phase, Big Cars precedence, simplified/detailed modes, lap strip timing/continuity, hidden horizontal lines, lane-center alignment, depth convergence, generated mask drift, and contrast resolver output.
+- Tests cover dash phase, Big Cars precedence, simplified/detailed modes, persistent surface identity/invalidation, lap strip timing/continuity, hidden horizontal lines, lane-center alignment, depth convergence, generated mask drift, asset-footprint drift, and contrast resolver output.
 
 ## Related
 

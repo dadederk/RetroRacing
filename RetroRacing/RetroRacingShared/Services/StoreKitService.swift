@@ -64,6 +64,9 @@ public final class StoreKitService {
     /// (`!purchasedProductIDs.isEmpty`), not the debug-simulated `hasPremiumAccess`.
     public var onEntitlementsUpdated: (@MainActor (Bool) -> Void)?
 
+    /// Invoked whenever effective premium gating access changes, including debug simulation.
+    public var onPremiumAccessForGatingUpdated: (@MainActor (Bool) -> Void)?
+
     private let userDefaults: UserDefaults
     private let isDebugSimulationEnabled: Bool
 
@@ -77,9 +80,11 @@ public final class StoreKitService {
                     return
                 }
                 syncPlayLimitDebugMode()
+                notifyPremiumAccessForGatingUpdated()
                 return
             }
             syncPlayLimitDebugMode()
+            notifyPremiumAccessForGatingUpdated()
         }
     }
 
@@ -273,6 +278,7 @@ public final class StoreKitService {
         hasResolvedInitialEntitlements = true
         persistPremiumCache(isPremium: !purchased.isEmpty)
         onEntitlementsUpdated?(!purchased.isEmpty)
+        notifyPremiumAccessForGatingUpdated()
     }
 
     private func persistPremiumCache(isPremium: Bool) {
@@ -296,5 +302,9 @@ public final class StoreKitService {
             shouldForceFreemium,
             forKey: DebugStorageKeys.forceFreemiumPlayLimit
         )
+    }
+
+    private func notifyPremiumAccessForGatingUpdated() {
+        onPremiumAccessForGatingUpdated?(hasPremiumAccessForGating)
     }
 }

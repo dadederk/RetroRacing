@@ -1,8 +1,48 @@
 {
   "images" : [
     {
-      "filename" : "HeyHo.png",
-      "idiom" : "universal"
+      "filename" : "HeyHo-iphone-1x.png",
+      "idiom" : "iphone",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "HeyHo-iphone-2x.png",
+      "idiom" : "iphone",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "HeyHo-iphone-3x.png",
+      "idiom" : "iphone",
+      "scale" : "3x"
+    },
+    {
+      "filename" : "HeyHo-ipad-1x.png",
+      "idiom" : "ipad",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "HeyHo-ipad-2x.png",
+      "idiom" : "ipad",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "HeyHo-mac-1x.png",
+      "idiom" : "mac",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "HeyHo-mac-2x.png",
+      "idiom" : "mac",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "HeyHo-tv.png",
+      "idiom" : "tv",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "tv",
+      "scale" : "2x"
     }
   ],
   "info" : {

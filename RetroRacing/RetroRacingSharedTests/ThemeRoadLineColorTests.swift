@@ -59,54 +59,147 @@ final class ThemeRoadLineColorTests: XCTestCase {
         assertColor(roadLineColor, equals: SKColor(red: 110 / 255, green: 106 / 255, blue: 95 / 255, alpha: 1))
     }
 
-    private func assertColor(
-        _ color: SKColor,
-        equals expected: SKColor,
-        file: StaticString = #filePath,
-        line: UInt = #line
-    ) {
-        guard let actualRGB = rgbComponents(from: color),
-              let expectedRGB = rgbComponents(from: expected) else {
-            XCTFail("Expected RGB-compatible colors", file: file, line: line)
-            return
-        }
+    func testGivenEightBitThemeWhenIncreaseContrastIsDisabledThenRoadLineColorMatchesPalette() {
+        // Given
+        let theme = EightBitTheme()
 
-        XCTAssertEqual(actualRGB.red, expectedRGB.red, accuracy: 0.001, file: file, line: line)
-        XCTAssertEqual(actualRGB.green, expectedRGB.green, accuracy: 0.001, file: file, line: line)
-        XCTAssertEqual(actualRGB.blue, expectedRGB.blue, accuracy: 0.001, file: file, line: line)
+        // When
+        let roadLineColor = theme.roadLineColor(isIncreaseContrastEnabled: false).skColor
+
+        // Then
+        assertColor(roadLineColor, equals: SKColor(red: 255 / 255, green: 255 / 255, blue: 0 / 255, alpha: 1))
     }
 
-    private func rgbComponents(from color: SKColor) -> (red: CGFloat, green: CGFloat, blue: CGFloat)? {
-        #if canImport(UIKit)
-        var red: CGFloat = 0
-        var green: CGFloat = 0
-        var blue: CGFloat = 0
-        var alpha: CGFloat = 0
-        if color.getRed(&red, green: &green, blue: &blue, alpha: &alpha) {
-            return (red, green, blue)
-        }
-        guard let colorSpace = CGColorSpace(name: CGColorSpace.sRGB),
-              let convertedColor = UIColor(cgColor: color.cgColor).cgColor.converted(
-            to: colorSpace,
-            intent: .defaultIntent,
-            options: nil
-        ),
-              let components = convertedColor.components,
-              components.count >= 3 else {
-            return nil
-        }
-        return (components[0], components[1], components[2])
-        #elseif canImport(AppKit)
-        guard let sRGBColor = color.usingColorSpace(.sRGB) else {
-            return nil
-        }
-        return (
-            sRGBColor.redComponent,
-            sRGBColor.greenComponent,
-            sRGBColor.blueComponent
+    func testGivenEightBitThemeWhenIncreaseContrastIsEnabledThenRoadLineColorMatchesHighContrastPalette() {
+        // Given
+        let theme = EightBitTheme()
+
+        // When
+        let roadLineColor = theme.roadLineColor(isIncreaseContrastEnabled: true).skColor
+
+        // Then
+        assertColor(roadLineColor, equals: SKColor(red: 255 / 255, green: 255 / 255, blue: 102 / 255, alpha: 1))
+    }
+
+    func testGivenEightBitThemeWhenCheckingRoadSurfaceThenRoadColorMatchesGreyPalette() {
+        // Given
+        let theme = EightBitTheme()
+
+        // When
+        let roadColor = theme.gridCellColor().skColor
+
+        // Then
+        assertColor(roadColor, equals: SKColor(red: 136 / 255, green: 141 / 255, blue: 149 / 255, alpha: 1))
+    }
+
+    func testGivenEightBitThemeWhenCheckingRoadExteriorThenExteriorColorMatchesLightGreyPalette() throws {
+        // Given
+        let theme = EightBitTheme()
+
+        // When
+        let exteriorColor = try XCTUnwrap(theme.roadExteriorColor()?.skColor)
+
+        // Then
+        assertColor(exteriorColor, equals: SKColor(red: 174 / 255, green: 179 / 255, blue: 187 / 255, alpha: 1))
+    }
+
+    func testGivenSixteenBitThemeWhenCheckingRoadPaletteThenItTemporarilyMatchesEightBitRoadAndLinesWithGrassExterior() throws {
+        // Given
+        let theme = SixteenBitTheme()
+        let eightBitTheme = EightBitTheme()
+
+        // When / Then
+        assertColor(theme.gridCellColor().skColor, equals: eightBitTheme.gridCellColor().skColor)
+        assertColor(
+            theme.roadLineColor(isIncreaseContrastEnabled: false).skColor,
+            equals: eightBitTheme.roadLineColor(isIncreaseContrastEnabled: false).skColor
         )
-        #else
-        return nil
-        #endif
+        assertColor(
+            theme.roadLineColor(isIncreaseContrastEnabled: true).skColor,
+            equals: eightBitTheme.roadLineColor(isIncreaseContrastEnabled: true).skColor
+        )
+        assertColor(
+            theme.lapMarkerColor(isIncreaseContrastEnabled: false).skColor,
+            equals: eightBitTheme.lapMarkerColor(isIncreaseContrastEnabled: false).skColor
+        )
+        assertColor(
+            theme.lapMarkerColor(isIncreaseContrastEnabled: true).skColor,
+            equals: eightBitTheme.lapMarkerColor(isIncreaseContrastEnabled: true).skColor
+        )
+        assertColor(
+            try XCTUnwrap(theme.roadExteriorColor()).skColor,
+            equals: SKColor(red: 58 / 255, green: 151 / 255, blue: 76 / 255, alpha: 1)
+        )
     }
+
+    func testGivenHandheldThemesWhenCheckingRoadExteriorThenTheyUseSingleRoadColor() {
+        // Given
+        let themes: [GameTheme] = [PocketTheme(), LCDTheme()]
+
+        // When / Then
+        XCTAssertTrue(themes.allSatisfy { $0.roadExteriorColor() == nil })
+    }
+
+    func testGivenEightBitThemeWhenIncreaseContrastIsDisabledThenLapMarkerColorMatchesFinishPalette() {
+        // Given
+        let theme = EightBitTheme()
+
+        // When
+        let lapMarkerColor = theme.lapMarkerColor(isIncreaseContrastEnabled: false).skColor
+
+        // Then
+        assertColor(lapMarkerColor, equals: SKColor(red: 255 / 255, green: 248 / 255, blue: 232 / 255, alpha: 1))
+    }
+
+    func testGivenEightBitThemeWhenIncreaseContrastIsEnabledThenLapMarkerColorMatchesHighContrastFinishPalette() {
+        // Given
+        let theme = EightBitTheme()
+
+        // When
+        let lapMarkerColor = theme.lapMarkerColor(isIncreaseContrastEnabled: true).skColor
+
+        // Then
+        assertColor(lapMarkerColor, equals: SKColor.white)
+    }
+
+    func testGivenEightBitThemeWhenIncreaseContrastIsDisabledThenRoadLinesMeetMinimumContrast() {
+        // Given
+        let theme = EightBitTheme()
+        let roadColor = theme.gridCellColor().skColor
+
+        // When
+        let roadLineContrast = ContrastColorResolver.contrastRatio(
+            between: roadColor,
+            and: theme.roadLineColor(isIncreaseContrastEnabled: false).skColor
+        )
+        let lapMarkerContrast = ContrastColorResolver.contrastRatio(
+            between: roadColor,
+            and: theme.lapMarkerColor(isIncreaseContrastEnabled: false).skColor
+        )
+
+        // Then
+        XCTAssertTrue(roadLineContrast >= 3)
+        XCTAssertTrue(lapMarkerContrast >= 3)
+    }
+
+    func testGivenEightBitThemeWhenIncreaseContrastIsEnabledThenRoadLinesMeetMinimumContrast() {
+        // Given
+        let theme = EightBitTheme()
+        let roadColor = theme.gridCellColor().skColor
+
+        // When
+        let roadLineContrast = ContrastColorResolver.contrastRatio(
+            between: roadColor,
+            and: theme.roadLineColor(isIncreaseContrastEnabled: true).skColor
+        )
+        let lapMarkerContrast = ContrastColorResolver.contrastRatio(
+            between: roadColor,
+            and: theme.lapMarkerColor(isIncreaseContrastEnabled: true).skColor
+        )
+
+        // Then
+        XCTAssertTrue(roadLineContrast >= 3)
+        XCTAssertTrue(lapMarkerContrast >= 3)
+    }
+
 }

@@ -1,0 +1,20 @@
+{
+  "images" : [
+    {
+      "filename" : "rivalsCar-GameBoy.png",
+      "idiom" : "universal"
+    },
+    {
+      "filename" : "rivalsCar-GameBoy 1.png",
+      "idiom" : "watch"
+    },
+    {
+      "filename" : "rivalsCar-GameBoy 2.png",
+      "idiom" : "tv"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

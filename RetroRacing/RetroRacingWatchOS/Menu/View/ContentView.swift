@@ -97,9 +97,9 @@ struct ContentView: View {
 #Preview {
     ContentView(
         themeManager: ThemeManager(
-            initialThemes: [LCDTheme(), PocketTheme()],
-            defaultThemeID: "pocket",
-            userDefaults: InfrastructureDefaults.userDefaults
+            configuration: .watchOS,
+            userDefaults: InfrastructureDefaults.userDefaults,
+            hasPremiumAccess: false
         ),
         fontPreferenceStore: FontPreferenceStore(
             userDefaults: InfrastructureDefaults.userDefaults,

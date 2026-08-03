@@ -96,6 +96,8 @@
 			<string>topToBottom</string>
 			<key>textBackgroundStyle</key>
 			<string>none</string>
+			<key>textVerticalAlignment</key>
+			<string>center</string>
 			<key>titleColor</key>
 			<string>#1D1C1F</string>
 			<key>titleHighlightColor</key>
@@ -347,6 +349,8 @@
 			<string>topToBottom</string>
 			<key>textBackgroundStyle</key>
 			<string>none</string>
+			<key>textVerticalAlignment</key>
+			<string>center</string>
 			<key>titleColor</key>
 			<string>#1D1C1F</string>
 			<key>titleHighlightColor</key>
@@ -598,6 +602,8 @@
 			<string>topToBottom</string>
 			<key>textBackgroundStyle</key>
 			<string>none</string>
+			<key>textVerticalAlignment</key>
+			<string>center</string>
 			<key>titleColor</key>
 			<string>#1D1C1F</string>
 			<key>titleHighlightColor</key>
@@ -849,6 +855,8 @@
 			<string>topToBottom</string>
 			<key>textBackgroundStyle</key>
 			<string>none</string>
+			<key>textVerticalAlignment</key>
+			<string>center</string>
 			<key>titleColor</key>
 			<string>#1D1C1F</string>
 			<key>titleHighlightColor</key>
@@ -1100,6 +1108,8 @@
 			<string>topToBottom</string>
 			<key>textBackgroundStyle</key>
 			<string>none</string>
+			<key>textVerticalAlignment</key>
+			<string>center</string>
 			<key>titleColor</key>
 			<string>#1D1C1F</string>
 			<key>titleHighlightColor</key>

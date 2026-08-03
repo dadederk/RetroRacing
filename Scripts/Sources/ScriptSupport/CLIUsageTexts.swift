@@ -8,6 +8,32 @@
 import Foundation
 
 public enum CLIUsageTexts {
+    public static func assetAudit() -> String {
+        """
+        asset-audit — runtime asset footprint validation
+
+        Usage:
+          ./retrorapid assets audit [flags…]
+
+        Flags:
+          --check    Enforce manifest rules and compiled catalog byte ceilings
+          --full     Also run Release packaging builds and framework-embedding checks
+        """
+    }
+
+    public static func optimizeRuntimeAssets() -> String {
+        """
+        optimize-runtime-assets — regenerate runtime asset-catalog renditions
+
+        Usage:
+          ./retrorapid assets optimize [flags…]
+
+        Flags:
+          --check      Compare generated pixels and catalog JSON without writing
+          --dry-run    Print the resolved mutation plan without writing
+        """
+    }
+
     public static func captureAppStoreScreenshots() -> String {
         """
         capture-app-store-screenshots — localized App Store screenshots via UI tests

@@ -10,7 +10,7 @@ import SwiftUI
 
 /// Visual theme contract defining colors, typography, and optional sprite assets.
 public protocol GameTheme {
-    var id: String { get }
+    var id: ThemeID { get }
     var name: String { get }
     var isPremium: Bool { get }
 
@@ -18,8 +18,12 @@ public protocol GameTheme {
     func gridLineColor() -> Color
     /// Road/lap line tint color. Uses high-contrast variant when Increase Contrast is enabled.
     func roadLineColor(isIncreaseContrastEnabled: Bool) -> Color
-    /// Grid cell fill color. Convert to SKColor in scene via `color.skColor`.
+    /// Finish/lap marker tint color. Uses high-contrast variant when Increase Contrast is enabled.
+    func lapMarkerColor(isIncreaseContrastEnabled: Bool) -> Color
+    /// Road surface fill color. Convert to SKColor in scene via `color.skColor`.
     func gridCellColor() -> Color
+    /// Optional field color outside a perspective road. Nil keeps the full grid on the road surface color.
+    func roadExteriorColor() -> Color?
     func playerCarColor() -> Color
     func rivalCarColor() -> Color
     func crashColor() -> Color
@@ -34,21 +38,35 @@ public protocol GameTheme {
     func rivalCarSprite() -> String?
     /// Image asset name for crash; nil uses default.
     func crashSprite() -> String?
-    /// Image asset name for life/hearts in header; nil uses default.
+    /// Image asset name for the player's X-marked life helmet; nil uses default.
     func lifeSprite() -> String?
+    /// Image asset name for the unmarked, rival-colored SharePlay friend helmet.
+    func friendLifeSprite() -> String?
 }
 
 // Default implementations stay internal; conforming types can be public.
 extension GameTheme {
-    /// Default grid cell color (pastel beige).
+    /// Default road surface color (pastel beige).
     public func gridCellColor() -> Color {
         Color(red: 202 / 255, green: 220 / 255, blue: 159 / 255)
     }
+    public func roadExteriorColor() -> Color? {
+        nil
+    }
     public func roadLineColor(isIncreaseContrastEnabled: Bool) -> Color {
         gridLineColor()
+    }
+    public func lapMarkerColor(isIncreaseContrastEnabled: Bool) -> Color {
+        roadLineColor(isIncreaseContrastEnabled: isIncreaseContrastEnabled)
     }
     public func playerCarSprite() -> String? { nil }
     public func rivalCarSprite() -> String? { nil }
     public func crashSprite() -> String? { nil }
     public func lifeSprite() -> String? { nil }
+    public func friendLifeSprite() -> String? { nil }
+
+    /// Keeps custom themes safe by reusing player art, then the built-in LCD helmet.
+    public func resolvedFriendLifeSprite() -> String {
+        friendLifeSprite() ?? lifeSprite() ?? "life-LCD"
+    }
 }

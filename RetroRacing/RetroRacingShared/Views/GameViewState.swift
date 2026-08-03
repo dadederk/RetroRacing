@@ -10,7 +10,7 @@ import Foundation
 /// Bundles HUD-related state for clarity and predictable updates.
 struct HUDState {
     var score: Int = 0
-    var lives: Int = 3
+    var lives: Int = GameState.initialLives
     var showGameOver: Bool = false
     var gameOverScore: Int = 0
     var gameOverBestScore: Int = 0

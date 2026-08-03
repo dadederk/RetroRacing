@@ -25,15 +25,18 @@ func givenCatalogWhenComparedToPackageProductsThenEveryExecutableIsRegistered() 
 }
 
 @Test
-func givenCheckRecipeWhenResolvedThenStepsMatchReadmeOrder() {
-    #expect(ScriptCommandCatalog.checkRecipeSteps.count == 6)
-    #expect(ScriptCommandCatalog.checkRecipeSteps[0].executable == "generate-road-dash-masks")
+func testGivenCheckRecipeWhenResolvedThenStepsMatchReadmeOrder() {
+    #expect(ScriptCommandCatalog.checkRecipeSteps.count == 8)
+    #expect(ScriptCommandCatalog.checkRecipeSteps[0].executable == "optimize-runtime-assets")
     #expect(ScriptCommandCatalog.checkRecipeSteps[0].arguments == ["--check"])
-    #expect(ScriptCommandCatalog.checkRecipeSteps[1].executable == "sync-screenshot-studio-localizations")
-    #expect(ScriptCommandCatalog.checkRecipeSteps[2].executable == "generate-metadata-docs")
-    #expect(ScriptCommandCatalog.checkRecipeSteps[3].executable == "check-documentation")
-    #expect(ScriptCommandCatalog.checkRecipeSteps[4].executable == "apply-iap-localizations")
-    #expect(ScriptCommandCatalog.checkRecipeSteps[5].executable == "apply-game-center-eu-localizations")
+    #expect(ScriptCommandCatalog.checkRecipeSteps[1].executable == "asset-audit")
+    #expect(ScriptCommandCatalog.checkRecipeSteps[1].arguments == ["--check"])
+    #expect(ScriptCommandCatalog.checkRecipeSteps[2].executable == "generate-road-dash-masks")
+    #expect(ScriptCommandCatalog.checkRecipeSteps[3].executable == "sync-screenshot-studio-localizations")
+    #expect(ScriptCommandCatalog.checkRecipeSteps[4].executable == "generate-metadata-docs")
+    #expect(ScriptCommandCatalog.checkRecipeSteps[5].executable == "check-documentation")
+    #expect(ScriptCommandCatalog.checkRecipeSteps[6].executable == "apply-iap-localizations")
+    #expect(ScriptCommandCatalog.checkRecipeSteps[7].executable == "apply-game-center-eu-localizations")
 }
 
 @Test
@@ -124,7 +127,7 @@ func givenRepositoryRootWhenBuildingSwiftRunCommandThenPackagePathIsResolved() {
 }
 
 @Test
-func givenCheckPlanWhenBuildingCommandsThenEachStepUsesSwiftRun() {
+func testGivenCheckPlanWhenBuildingCommandsThenEachStepUsesSwiftRun() {
     let repositoryRoot = URL(fileURLWithPath: "/tmp/RetroRacing", isDirectory: true)
 
     let commands = ScriptCommandCatalog.checkRecipeSteps.map { step in
@@ -135,7 +138,7 @@ func givenCheckPlanWhenBuildingCommandsThenEachStepUsesSwiftRun() {
         )
     }
 
-    #expect(commands.count == 6)
+    #expect(commands.count == 8)
     #expect(commands.allSatisfy { $0.arguments.first == "run" })
 }
 
@@ -265,6 +268,28 @@ func givenAssetsMasksRouteWhenParsingThenDispatchPlanTargetsMaskGenerator() thro
     #expect(
         plan == .runSwiftExecutable(
             executable: "generate-road-dash-masks",
+            arguments: ["--check"]
+        )
+    )
+}
+
+@Test
+func testGivenAssetsAuditRouteWhenParsingThenDispatchPlanTargetsAssetAudit() throws {
+    let plan = try RetroRapidCLIParser.parse(["assets", "audit", "--full", "--check"])
+    #expect(
+        plan == .runSwiftExecutable(
+            executable: "asset-audit",
+            arguments: ["--full", "--check"]
+        )
+    )
+}
+
+@Test
+func testGivenAssetsOptimizeRouteWhenParsingThenDispatchPlanTargetsSwiftOptimizer() throws {
+    let plan = try RetroRapidCLIParser.parse(["assets", "optimize", "--check"])
+    #expect(
+        plan == .runSwiftExecutable(
+            executable: "optimize-runtime-assets",
             arguments: ["--check"]
         )
     )

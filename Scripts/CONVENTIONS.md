@@ -23,6 +23,13 @@ For commands and recipes, see [README.md](README.md).
 
 Repository root discovery uses `ScriptSupport.RepositoryLocator` so commands work from any directory inside the repo.
 
+Archived automation under a dated `AssetSources/` snapshot is provenance, not an executable exception. Active asset generation must remain in the Swift package and be routed through `./retrorapid assets optimize`.
+
+The runtime-asset optimizer's declared external dependency is ImageMagick
+7.1.2-3. The workflow must preflight that exact version through its injected
+process dependency before apply/check work; update the implementation, tests,
+and `README.md` together when intentionally advancing the pinned version.
+
 ## Mutation safety
 
 Mutating tools must support a non-destructive preflight:

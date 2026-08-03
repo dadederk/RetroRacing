@@ -6,26 +6,33 @@
 //
 
 import XCTest
+import Foundation
 @testable import RetroRacingShared
 
 @MainActor
 final class StoreKitServiceTests: XCTestCase {
     private let suiteName = "StoreKitServiceTests"
-    private var userDefaults: UserDefaults = .standard
+    private var storedUserDefaults: UserDefaults?
 
-    override func setUp() {
-        super.setUp()
-        guard let suiteDefaults = UserDefaults(suiteName: suiteName) else {
-            XCTFail("Failed to create UserDefaults suite: \(suiteName)")
-            return
+    private var userDefaults: UserDefaults {
+        guard let storedUserDefaults else {
+            XCTFail("Test UserDefaults accessed outside XCTest setup")
+            return UserDefaults()
         }
-        userDefaults = suiteDefaults
-        userDefaults.removePersistentDomain(forName: suiteName)
+        return storedUserDefaults
     }
 
-    override func tearDown() {
-        userDefaults.removePersistentDomain(forName: suiteName)
-        super.tearDown()
+    override func setUpWithError() throws {
+        try super.setUpWithError()
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suiteName))
+        defaults.removePersistentDomain(forName: suiteName)
+        storedUserDefaults = defaults
+    }
+
+    override func tearDownWithError() throws {
+        storedUserDefaults?.removePersistentDomain(forName: suiteName)
+        storedUserDefaults = nil
+        try super.tearDownWithError()
     }
 
     private func makeService(isDebugSimulationEnabled: Bool = true) -> StoreKitService {
@@ -45,8 +52,8 @@ final class StoreKitServiceTests: XCTestCase {
         let expectedPremium = !service.purchasedProductIDs.isEmpty
         
         // Then
-        XCTAssertEqual(service.debugPremiumSimulationMode, .productionDefault)
-        XCTAssertEqual(hasPremium, expectedPremium)
+        XCTAssertTrue(service.debugPremiumSimulationMode == .productionDefault)
+        XCTAssertTrue(hasPremium == expectedPremium)
     }
 
     func testGivenCachedPremiumWhenDebugFreemiumGatingThenCacheDoesNotGrantAccess() {
@@ -58,7 +65,7 @@ final class StoreKitServiceTests: XCTestCase {
         service.debugPremiumSimulationMode = .freemium
 
         // Then
-        XCTAssertFalse(service.hasPremiumAccessForGating)
+        XCTAssertTrue(service.hasPremiumAccessForGating == false)
     }
     
     func testGivenUnlimitedSimulationModeWhenCheckingPremiumAccessThenReturnsTrue() {
@@ -82,7 +89,7 @@ final class StoreKitServiceTests: XCTestCase {
         let hasPremium = service.hasPremiumAccess
         
         // Then
-        XCTAssertFalse(hasPremium)
+        XCTAssertTrue(hasPremium == false)
     }
     
     func testGivenUnlimitedSimulationModeWhenSwitchingToProductionThenPremiumAccessMatchesEntitlements() {
@@ -96,8 +103,8 @@ final class StoreKitServiceTests: XCTestCase {
         let expectedPremium = !service.purchasedProductIDs.isEmpty
         
         // Then
-        XCTAssertEqual(service.debugPremiumSimulationMode, .productionDefault)
-        XCTAssertEqual(service.hasPremiumAccess, expectedPremium)
+        XCTAssertTrue(service.debugPremiumSimulationMode == .productionDefault)
+        XCTAssertTrue(service.hasPremiumAccess == expectedPremium)
     }
     
     func testGivenProductionSimulationModeWhenCheckingPremiumAccessThenPremiumMatchesEntitlements() {
@@ -110,7 +117,7 @@ final class StoreKitServiceTests: XCTestCase {
         let expectedPremium = !service.purchasedProductIDs.isEmpty
         
         // Then
-        XCTAssertEqual(hasPremium, expectedPremium)
+        XCTAssertTrue(hasPremium == expectedPremium)
     }
     
     func testGivenProductIDEnumWhenAccessingRawValueThenReturnsCorrectBundleIdentifier() {
@@ -121,7 +128,7 @@ final class StoreKitServiceTests: XCTestCase {
         let rawValue = productID.rawValue
         
         // Then
-        XCTAssertEqual(rawValue, "com.accessibilityUpTo11.RetroRacing.unlimitedPlays")
+        XCTAssertTrue(rawValue == "com.accessibilityUpTo11.RetroRacing.unlimitedPlays")
     }
     
     func testGivenProductIDEnumWhenCheckingAllCasesThenReturnsOnlyUnlimitedPlays() {
@@ -132,8 +139,8 @@ final class StoreKitServiceTests: XCTestCase {
         let count = allProducts.count
         
         // Then
-        XCTAssertEqual(count, 1)
-        XCTAssertEqual(allProducts.first, .unlimitedPlays)
+        XCTAssertTrue(count == 1)
+        XCTAssertTrue(allProducts.first == .unlimitedPlays)
     }
 
     func testGivenSimulationModeEnumWhenCheckingAllCasesThenReturnsThreeModes() {
@@ -144,9 +151,9 @@ final class StoreKitServiceTests: XCTestCase {
         let count = allModes.count
 
         // Then
-        XCTAssertEqual(count, 3)
-        XCTAssertEqual(allModes.first, .productionDefault)
-        XCTAssertEqual(allModes.last, .freemium)
+        XCTAssertTrue(count == 3)
+        XCTAssertTrue(allModes.first == .productionDefault)
+        XCTAssertTrue(allModes.last == .freemium)
     }
 
     func testGivenFreemiumSimulationWhenSyncingPlayLimitOverrideThenDebugKeyIsTrue() {
@@ -169,7 +176,7 @@ final class StoreKitServiceTests: XCTestCase {
         service.debugPremiumSimulationMode = .productionDefault
 
         // Then
-        XCTAssertFalse(userDefaults.bool(forKey: StoreKitService.DebugStorageKeys.forceFreemiumPlayLimit))
+        XCTAssertTrue(userDefaults.bool(forKey: StoreKitService.DebugStorageKeys.forceFreemiumPlayLimit) == false)
     }
 
     func testGivenSimulationDisabledWhenSettingFreemiumThenModeResetsToProductionAndDebugKeyIsFalse() {
@@ -180,9 +187,9 @@ final class StoreKitServiceTests: XCTestCase {
         service.debugPremiumSimulationMode = .freemium
 
         // Then
-        XCTAssertEqual(service.debugPremiumSimulationMode, .productionDefault)
-        XCTAssertFalse(userDefaults.bool(forKey: StoreKitService.DebugStorageKeys.forceFreemiumPlayLimit))
-        XCTAssertEqual(service.hasPremiumAccess, !service.purchasedProductIDs.isEmpty)
+        XCTAssertTrue(service.debugPremiumSimulationMode == .productionDefault)
+        XCTAssertTrue(userDefaults.bool(forKey: StoreKitService.DebugStorageKeys.forceFreemiumPlayLimit) == false)
+        XCTAssertTrue(service.hasPremiumAccess == !service.purchasedProductIDs.isEmpty)
     }
 
     func testGivenSimulationDisabledWhenSettingUnlimitedThenPremiumStillMatchesEntitlements() {
@@ -193,8 +200,8 @@ final class StoreKitServiceTests: XCTestCase {
         service.debugPremiumSimulationMode = .unlimitedPlays
 
         // Then
-        XCTAssertEqual(service.debugPremiumSimulationMode, .productionDefault)
-        XCTAssertEqual(service.hasPremiumAccess, !service.purchasedProductIDs.isEmpty)
+        XCTAssertTrue(service.debugPremiumSimulationMode == .productionDefault)
+        XCTAssertTrue(service.hasPremiumAccess == !service.purchasedProductIDs.isEmpty)
     }
 
     // MARK: - hasPurchased simulation tests
@@ -208,7 +215,7 @@ final class StoreKitServiceTests: XCTestCase {
         let result = service.hasPurchased(StoreKitService.ProductID.unlimitedPlays.rawValue)
 
         // Then
-        XCTAssertFalse(result)
+        XCTAssertTrue(result == false)
     }
 
     func testGivenUnlimitedSimulationModeWhenCheckingHasPurchasedForUnlimitedPlaysThenReturnsTrue() {
@@ -232,7 +239,7 @@ final class StoreKitServiceTests: XCTestCase {
         let result = service.hasPurchased("com.some.other.product")
 
         // Then
-        XCTAssertFalse(result)
+        XCTAssertTrue(result == false)
     }
 
     func testGivenProductionDefaultModeWithNoEntitlementsWhenCheckingHasPurchasedThenReturnsFalse() {
@@ -244,7 +251,7 @@ final class StoreKitServiceTests: XCTestCase {
         let result = service.hasPurchased(StoreKitService.ProductID.unlimitedPlays.rawValue)
 
         // Then – purchasedProductIDs is empty in the test environment (no real transactions)
-        XCTAssertFalse(result)
+        XCTAssertTrue(result == false)
     }
 
     func testGivenSimulationDisabledWhenCheckingHasPurchasedThenReturnsRealEntitlementState() {
@@ -255,7 +262,7 @@ final class StoreKitServiceTests: XCTestCase {
         let result = service.hasPurchased(StoreKitService.ProductID.unlimitedPlays.rawValue)
 
         // Then – simulation is off so result matches purchasedProductIDs (empty in test env)
-        XCTAssertEqual(result, service.purchasedProductIDs.contains(StoreKitService.ProductID.unlimitedPlays.rawValue))
+        XCTAssertTrue(result == service.purchasedProductIDs.contains(StoreKitService.ProductID.unlimitedPlays.rawValue))
     }
 
     // MARK: - Premium cache / gating
@@ -282,7 +289,7 @@ final class StoreKitServiceTests: XCTestCase {
 
         // Then
         XCTAssertTrue(hasPremiumForGating)
-        XCTAssertFalse(shouldShowFreeTier)
+        XCTAssertTrue(shouldShowFreeTier == false)
     }
 
     func testGivenNoEntitlementCheckYetWhenCheckingFreeTierAffordancesThenLocksAreWithheld() {
@@ -293,8 +300,8 @@ final class StoreKitServiceTests: XCTestCase {
         let shouldShowFreeTier = service.shouldShowFreeTierAffordances
 
         // Then
-        XCTAssertFalse(service.hasResolvedInitialEntitlements)
-        XCTAssertFalse(shouldShowFreeTier)
+        XCTAssertTrue(service.hasResolvedInitialEntitlements == false)
+        XCTAssertTrue(shouldShowFreeTier == false)
     }
 
     func testGivenEntitlementsRefreshedWhenCheckingFreeTierAffordancesThenFollowsLiveAccess() async {
@@ -306,10 +313,7 @@ final class StoreKitServiceTests: XCTestCase {
 
         // Then
         XCTAssertTrue(service.hasResolvedInitialEntitlements)
-        XCTAssertEqual(
-            service.shouldShowFreeTierAffordances,
-            !service.hasPremiumAccess
-        )
+        XCTAssertTrue(service.shouldShowFreeTierAffordances == !service.hasPremiumAccess)
     }
 
     func testGivenEntitlementsRefreshedWhenCheckingGatingThenFollowsLiveAccess() async {
@@ -321,7 +325,7 @@ final class StoreKitServiceTests: XCTestCase {
         await service.refreshPurchasedProducts()
 
         // Then
-        XCTAssertEqual(service.hasPremiumAccessForGating, service.hasPremiumAccess)
+        XCTAssertTrue(service.hasPremiumAccessForGating == service.hasPremiumAccess)
     }
 
     func testGivenEntitlementsUpdatedCallbackWhenRefreshingThenReceivesRealEntitlementState() async {
@@ -334,7 +338,22 @@ final class StoreKitServiceTests: XCTestCase {
         await service.refreshPurchasedProducts()
 
         // Then
-        XCTAssertEqual(receivedValues, [!service.purchasedProductIDs.isEmpty])
+        XCTAssertTrue(receivedValues == [!service.purchasedProductIDs.isEmpty])
+    }
+
+    func testGivenDebugSimulationModeChangesWhenObservingGatingThenReceivesEffectivePremiumAccess() {
+        // Given
+        let service = makeService()
+        var receivedValues: [Bool] = []
+        service.onPremiumAccessForGatingUpdated = { receivedValues.append($0) }
+
+        // When
+        service.debugPremiumSimulationMode = .unlimitedPlays
+        service.debugPremiumSimulationMode = .freemium
+        service.debugPremiumSimulationMode = .productionDefault
+
+        // Then
+        XCTAssertTrue(receivedValues == [true, false, false])
     }
 
     func testGivenUnlimitedSimulationWhenRefreshingThenPersistedCacheUsesRealEntitlements() async {
@@ -346,6 +365,6 @@ final class StoreKitServiceTests: XCTestCase {
         await service.refreshPurchasedProducts()
 
         // Then
-        XCTAssertFalse(userDefaults.bool(forKey: StoreKitService.StorageKeys.cachedPremiumAccess))
+        XCTAssertTrue(userDefaults.bool(forKey: StoreKitService.StorageKeys.cachedPremiumAccess) == false)
     }
 }

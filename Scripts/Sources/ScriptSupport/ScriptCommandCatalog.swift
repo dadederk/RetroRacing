@@ -42,6 +42,8 @@ public enum ScriptCommandCatalog {
         "run-tests",
         "run-xcodebuild-parallel-canary",
         "check-documentation",
+        "asset-audit",
+        "optimize-runtime-assets",
         "generate-road-dash-masks",
         "sync-screenshot-studio-localizations",
         "capture-app-store-screenshots",
@@ -66,6 +68,14 @@ public enum ScriptCommandCatalog {
         ScriptExecutable(
             name: "check-documentation",
             purpose: "Validates markdown links and App Store metadata sync"
+        ),
+        ScriptExecutable(
+            name: "asset-audit",
+            purpose: "Audits runtime asset idioms, pixel caps, and compiled catalog budgets"
+        ),
+        ScriptExecutable(
+            name: "optimize-runtime-assets",
+            purpose: "Regenerates optimized runtime asset-catalog renditions"
         ),
         ScriptExecutable(
             name: "generate-road-dash-masks",
@@ -124,6 +134,8 @@ public enum ScriptCommandCatalog {
     ]
 
     public static let checkRecipeSteps: [ScriptRecipeStep] = [
+        ScriptRecipeStep(executable: "optimize-runtime-assets", arguments: ["--check"]),
+        ScriptRecipeStep(executable: "asset-audit", arguments: ["--check"]),
         ScriptRecipeStep(executable: "generate-road-dash-masks", arguments: ["--check"]),
         ScriptRecipeStep(
             executable: "sync-screenshot-studio-localizations",
@@ -168,7 +180,7 @@ public enum ScriptCommandCatalog {
         Commands:
           list                         List executables and common recipes
           menu                         Interactive command menu (same as no args)
-          check                        Verify generated masks, screenshots, metadata, IAP/GC, and docs
+          check                        Verify assets, generated masks, screenshots, metadata, IAP/GC, and docs
           test [flags…]                Run app unit tests (run-tests)
           test parallel-canary [flags…] Run app unit tests with parallel workers as a canary
           test package [flags…]        Run Scripts package unit tests
@@ -181,6 +193,8 @@ public enum ScriptCommandCatalog {
           asc screenshots swap [flags…] Swap two screenshot positions through Helm
           screenshots capture [flags…] Capture App Store screenshots
           screenshots sync [flags…]    Sync Screenshot Studio localizations
+          assets audit [flags…]        Audit runtime asset footprint
+          assets optimize [flags…]     Generate or check optimized runtime assets
           assets masks [flags…]        Generate or check road dash mask assets
           testflight [args…]           Archive and upload TestFlight builds
           run <executable> [flags…]    Run any cataloged executable directly
@@ -202,6 +216,8 @@ public enum ScriptCommandCatalog {
         }
         lines.append("Recipes:")
         lines.append("  ./retrorapid check")
+        lines.append("  ./retrorapid assets audit --check")
+        lines.append("  ./retrorapid assets optimize --check")
         lines.append("  ./retrorapid test")
         lines.append("  ./retrorapid test parallel-canary --workers 2,4")
         lines.append("  ./retrorapid test package")

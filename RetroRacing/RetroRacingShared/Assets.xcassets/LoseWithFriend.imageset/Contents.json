@@ -1,8 +1,37 @@
 {
   "images" : [
     {
-      "filename" : "LoseWithFriend.png",
-      "idiom" : "universal"
+      "idiom" : "iphone",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "LoseWithFriend-iphone-2x.png",
+      "idiom" : "iphone",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "LoseWithFriend-iphone-3x.png",
+      "idiom" : "iphone",
+      "scale" : "3x"
+    },
+    {
+      "idiom" : "ipad",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "LoseWithFriend-ipad-2x.png",
+      "idiom" : "ipad",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "LoseWithFriend-mac-1x.png",
+      "idiom" : "mac",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "LoseWithFriend-mac-2x.png",
+      "idiom" : "mac",
+      "scale" : "2x"
     }
   ],
   "info" : {

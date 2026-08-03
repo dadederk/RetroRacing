@@ -30,7 +30,7 @@ Current iPhone/iPad source copy uses this **ten-slide** order. Mac uses **nine s
 | 5 | `Race Friends with SharePlay` | `Challenge friends for free. Countdown, compete, rematch.` |
 | 6 | `Climb the Leaderboard` | `Game Center scores and friend markers keep every run competitive.` |
 | 7 | `Customize Your Experience` | `Tune volume, haptics, controls… Go Cruise, Fast, or Rapid!` (`Customise` on en-GB/en-AU) |
-| 8 | `Choose Your Retro Aesthetic` | `Switch between pocket-console green and LCD handheld styles.` |
+| 8 | `Choose Your Retro Aesthetic` | `Switch between four retro eras, from Pocket to 16-Bit.` |
 | 9 | `Unlock Retro Achievements` | `Earn Game Center trophies as you race and improve.` |
 | 10 | `Play Solo Or With Friends` | `Daily free plays, leaderboards, and live friend races.` |
 

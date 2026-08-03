@@ -4,15 +4,16 @@
 //
 
 import XCTest
+import Foundation
 import SwiftUI
 @testable import RetroRacingShared
 
 @MainActor
 final class FontPreferenceStoreTests: XCTestCase {
 
-    func testGivenNoStoredFontStyleWhenInitializingThenCustomStyleIsSelected() {
+    func testGivenNoStoredFontStyleWhenInitializingThenCustomStyleIsSelected() throws {
         // Given
-        let defaults = UserDefaults(suiteName: "FontPreferenceStoreTests.initial")!
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: "FontPreferenceStoreTests.initial"))
         defaults.removeObject(forKey: AppFontStyle.storageKey)
         defer { defaults.removeObject(forKey: AppFontStyle.storageKey) }
 
@@ -20,12 +21,12 @@ final class FontPreferenceStoreTests: XCTestCase {
         let store = FontPreferenceStore(userDefaults: defaults, customFontAvailable: true)
 
         // Then
-        XCTAssertEqual(store.currentStyle, .custom)
+        XCTAssertTrue(store.currentStyle == .custom)
     }
 
-    func testGivenFontStyleStoreWhenSettingStyleThenSelectionIsPersisted() {
+    func testGivenFontStyleStoreWhenSettingStyleThenSelectionIsPersisted() throws {
         // Given
-        let defaults = UserDefaults(suiteName: "FontPreferenceStoreTests.set")!
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: "FontPreferenceStoreTests.set"))
         defaults.removeObject(forKey: AppFontStyle.storageKey)
         defer { defaults.removeObject(forKey: AppFontStyle.storageKey) }
 
@@ -35,13 +36,13 @@ final class FontPreferenceStoreTests: XCTestCase {
         store.currentStyle = .systemMonospaced
 
         // Then
-        XCTAssertEqual(store.currentStyle, .systemMonospaced)
-        XCTAssertEqual(defaults.string(forKey: AppFontStyle.storageKey), AppFontStyle.systemMonospaced.rawValue)
+        XCTAssertTrue(store.currentStyle == .systemMonospaced)
+        XCTAssertTrue(defaults.string(forKey: AppFontStyle.storageKey) == AppFontStyle.systemMonospaced.rawValue)
     }
 
-    func testGivenStoredCustomStyleWhenCustomFontIsUnavailableThenSystemStyleIsSelected() {
+    func testGivenStoredCustomStyleWhenCustomFontIsUnavailableThenSystemStyleIsSelected() throws {
         // Given
-        let defaults = UserDefaults(suiteName: "FontPreferenceStoreTests.unavailable")!
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: "FontPreferenceStoreTests.unavailable"))
         defaults.set(AppFontStyle.custom.rawValue, forKey: AppFontStyle.storageKey)
         defer { defaults.removeObject(forKey: AppFontStyle.storageKey) }
 
@@ -49,13 +50,13 @@ final class FontPreferenceStoreTests: XCTestCase {
         let store = FontPreferenceStore(userDefaults: defaults, customFontAvailable: false)
 
         // Then
-        XCTAssertEqual(store.currentStyle, .system)
-        XCTAssertFalse(store.isCustomFontAvailable)
+        XCTAssertTrue(store.currentStyle == .system)
+        XCTAssertTrue(store.isCustomFontAvailable == false)
     }
 
     func testGivenSemanticTextStylesWhenRequestingCustomBaseSizesThenExpectedLegacySizesAreUsed() {
         // Given
-        let expected: [(Font.TextStyle, CGFloat)] = [
+        var expected: [(Font.TextStyle, CGFloat)] = [
             (.caption2, 11),
             (.caption, 12),
             (.subheadline, 15),
@@ -63,6 +64,12 @@ final class FontPreferenceStoreTests: XCTestCase {
             (.headline, 17),
             (.title, 28)
         ]
+        #if os(macOS)
+        expected.append(contentsOf: [
+            (.extraLargeTitle2, 36),
+            (.extraLargeTitle, 44)
+        ])
+        #endif
 
         // When
         let actual = expected.map { style, _ in
@@ -70,7 +77,7 @@ final class FontPreferenceStoreTests: XCTestCase {
         }
 
         // Then
-        XCTAssertEqual(actual.map(\.1), expected.map(\.1))
+        XCTAssertTrue(actual.map(\.1) == expected.map(\.1))
     }
 
     func testGivenEachFontStyleWhenRequestingSemanticBodyFontThenFontCanBeConstructed() {
@@ -81,10 +88,10 @@ final class FontPreferenceStoreTests: XCTestCase {
         let fonts = styles.map { AppFontStyle.semanticFont(for: $0, textStyle: .body) }
 
         // Then
-        XCTAssertEqual(fonts.count, styles.count)
+        XCTAssertTrue(fonts.count == styles.count)
     }
 
-    func testGivenUniversalGameViewStyleWhenReadingHUDTextStyleThenSubheadlineIsUsed() {
+    func testGivenUniversalGameViewStyleWhenReadingHUDTextStyleThenTitleThreeIsUsed() {
         // Given
         let style = GameViewStyle.universal
 
@@ -92,7 +99,35 @@ final class FontPreferenceStoreTests: XCTestCase {
         let hudTextStyle = style.hudTextStyle
 
         // Then
-        XCTAssertEqual(hudTextStyle, .subheadline)
+        XCTAssertTrue(hudTextStyle == .title3)
+    }
+
+    func testGivenGameViewStylesWhenComparingHUDTextAndLifeIconsThenBaseSizesMatch() {
+        // Given
+        let styles = [GameViewStyle.universal, .tvOS]
+
+        // When
+        let baseSizesMatch = styles.map {
+            $0.lifeIconSize == AppFontStyle.defaultCustomPointSize(for: $0.hudTextStyle)
+        }
+
+        // Then
+        XCTAssertTrue(baseSizesMatch.allSatisfy { $0 })
+    }
+
+    func testGivenGameViewStylesWhenReadingFriendHUDThenItUsesTheNextLowerTextStyle() {
+        // Given
+        let styles = [GameViewStyle.universal, .tvOS]
+
+        // When
+        let friendTextStyles = styles.map(\.friendHUDTextStyle)
+        let friendBaseSizesMatch = styles.map {
+            $0.friendLifeIconSize == AppFontStyle.defaultCustomPointSize(for: $0.friendHUDTextStyle)
+        }
+
+        // Then
+        XCTAssertTrue(friendTextStyles == [.headline, .title2])
+        XCTAssertTrue(friendBaseSizesMatch.allSatisfy { $0 })
     }
 
     func testGivenTvOSGameViewStyleWhenReadingHUDTextStyleThenTitleIsUsed() {
@@ -103,6 +138,6 @@ final class FontPreferenceStoreTests: XCTestCase {
         let hudTextStyle = style.hudTextStyle
 
         // Then
-        XCTAssertEqual(hudTextStyle, .title)
+        XCTAssertTrue(hudTextStyle == .title)
     }
 }

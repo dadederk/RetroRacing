@@ -33,6 +33,7 @@ Legacy redirect: [RETRORAPID_APP_STORE_REFERENCE.md](RETRORAPID_APP_STORE_REFERE
 | Upload a TestFlight build with Helm CLI | [14-testflight-helm-upload.md](docs/14-testflight-helm-upload.md) |
 | Archive iOS/watchOS + macOS builds | [15-archive-and-distribution.md](docs/15-archive-and-distribution.md) |
 | Maintain Unlimited Plays IAP | [16-iap-setup.md](docs/16-iap-setup.md) |
+| Configure Xcode Cloud release and merge-gate workflows | [17-xcode-cloud-releases.md](docs/17-xcode-cloud-releases.md) |
 
 ## Table of contents
 
@@ -56,6 +57,7 @@ Legacy redirect: [RETRORAPID_APP_STORE_REFERENCE.md](RETRORAPID_APP_STORE_REFERE
 | 14 | TestFlight uploads with Helm CLI | [docs/14-testflight-helm-upload.md](docs/14-testflight-helm-upload.md) |
 | 15 | Archive and distribution | [docs/15-archive-and-distribution.md](docs/15-archive-and-distribution.md) |
 | 16 | Unlimited Plays IAP setup | [docs/16-iap-setup.md](docs/16-iap-setup.md) |
+| 17 | Xcode Cloud releases | [docs/17-xcode-cloud-releases.md](docs/17-xcode-cloud-releases.md) |
 
 ### Campaign & historical plans
 

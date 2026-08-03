@@ -33,7 +33,7 @@ struct WatchGameView: View {
     @State private var crownIdleTask: Task<Void, Never>?
     @State private var audioSessionStartTask: Task<Void, Never>?
     @State private var score: Int = 0
-    @State private var lives: Int = 3
+    @State private var lives: Int = GameState.initialLives
     @State private var scenePaused: Bool = false
     @State private var isUserPaused: Bool = false
     @State private var showGameOver = false
@@ -56,6 +56,7 @@ struct WatchGameView: View {
     @FocusState private var isCrownFocused: Bool
     @Environment(\.dismiss) private var dismiss
     @Environment(\.scenePhase) private var scenePhase
+    @ScaledMetric(relativeTo: .caption2) private var lifeHelmetVisibleHeight: CGFloat = 11
 
     private enum HelpPresentationContext {
         case manual(snapshot: HelpPauseSnapshot)
@@ -134,8 +135,9 @@ struct WatchGameView: View {
         _crownProcessor = State(initialValue: CrownInputProcessor(configuration: .watchLegacy))
     }
 
-    private func headerFont(size: CGFloat = 10) -> Font {
-        fontPreferenceStore?.font(fixedSize: size) ?? .custom("PressStart2P-Regular", size: size)
+    private var headerFont: Font {
+        fontPreferenceStore?.font(textStyle: .caption2)
+            ?? .custom("PressStart2P-Regular", size: 11, relativeTo: .caption2)
     }
 
     private static let sharedBundle = Bundle(for: GameScene.self)
@@ -145,23 +147,18 @@ struct WatchGameView: View {
     var body: some View {
         VStack(spacing: 4) {
             HStack {
-                Text(GameLocalizedStrings.format("score %lld", Int64(score)))
-                    .font(headerFont(size: 10))
+                GameScoreStatusView(score: score, font: headerFont)
                     .lineLimit(1)
                     .minimumScaleFactor(0.7)
                     .allowsTightening(true)
                 Spacer()
-                HStack(spacing: 2) {
-                    Image(theme.lifeSprite() ?? "life", bundle: Self.sharedBundle)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 16, height: 16)
-                    Text(GameLocalizedStrings.format("lives_count", Int64(lives)))
-                        .font(headerFont(size: 10))
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.7)
-                        .allowsTightening(true)
-                }
+                GameLivesStatusView(
+                    lives: lives,
+                    lifeAssetName: theme.lifeSprite() ?? "life-LCD",
+                    bundle: Self.sharedBundle,
+                    visibleHeight: lifeHelmetVisibleHeight,
+                    spacing: 2
+                )
             }
             .frame(minHeight: 20)
             .layoutPriority(1)

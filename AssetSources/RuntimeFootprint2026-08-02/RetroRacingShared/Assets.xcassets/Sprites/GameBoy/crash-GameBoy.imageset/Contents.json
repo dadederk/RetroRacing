@@ -1,0 +1,20 @@
+{
+  "images" : [
+    {
+      "filename" : "crash-GameBoy.png",
+      "idiom" : "universal"
+    },
+    {
+      "filename" : "crash-GameBoy 1.png",
+      "idiom" : "watch"
+    },
+    {
+      "filename" : "crash-GameBoy 2.png",
+      "idiom" : "tv"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

@@ -1,8 +1,48 @@
 {
   "images" : [
     {
-      "filename" : "ButtonUp.png",
-      "idiom" : "universal"
+      "filename" : "ButtonUp-iphone-1x.png",
+      "idiom" : "iphone",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "ButtonUp-iphone-2x.png",
+      "idiom" : "iphone",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "ButtonUp-iphone-3x.png",
+      "idiom" : "iphone",
+      "scale" : "3x"
+    },
+    {
+      "filename" : "ButtonUp-ipad-1x.png",
+      "idiom" : "ipad",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "ButtonUp-ipad-2x.png",
+      "idiom" : "ipad",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "ButtonUp-mac-1x.png",
+      "idiom" : "mac",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "ButtonUp-mac-2x.png",
+      "idiom" : "mac",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "ButtonUp-tv.png",
+      "idiom" : "tv",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "tv",
+      "scale" : "2x"
     }
   ],
   "info" : {

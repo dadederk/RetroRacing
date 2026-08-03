@@ -96,6 +96,8 @@
 			<string>topToBottom</string>
 			<key>textBackgroundStyle</key>
 			<string>none</string>
+			<key>textVerticalAlignment</key>
+			<string>center</string>
 			<key>titleColor</key>
 			<string>#1D1C1F</string>
 			<key>titleHighlightColor</key>
@@ -347,6 +349,8 @@
 			<string>topToBottom</string>
 			<key>textBackgroundStyle</key>
 			<string>none</string>
+			<key>textVerticalAlignment</key>
+			<string>center</string>
 			<key>titleColor</key>
 			<string>#1D1C1F</string>
 			<key>titleHighlightColor</key>
@@ -598,6 +602,8 @@
 			<string>topToBottom</string>
 			<key>textBackgroundStyle</key>
 			<string>none</string>
+			<key>textVerticalAlignment</key>
+			<string>center</string>
 			<key>titleColor</key>
 			<string>#1D1C1F</string>
 			<key>titleHighlightColor</key>
@@ -849,6 +855,8 @@
 			<string>topToBottom</string>
 			<key>textBackgroundStyle</key>
 			<string>none</string>
+			<key>textVerticalAlignment</key>
+			<string>center</string>
 			<key>titleColor</key>
 			<string>#1D1C1F</string>
 			<key>titleHighlightColor</key>
@@ -1100,6 +1108,8 @@
 			<string>topToBottom</string>
 			<key>textBackgroundStyle</key>
 			<string>none</string>
+			<key>textVerticalAlignment</key>
+			<string>center</string>
 			<key>titleColor</key>
 			<string>#1D1C1F</string>
 			<key>titleHighlightColor</key>
@@ -1351,6 +1361,8 @@
 			<string>topToBottom</string>
 			<key>textBackgroundStyle</key>
 			<string>none</string>
+			<key>textVerticalAlignment</key>
+			<string>center</string>
 			<key>titleColor</key>
 			<string>#1D1C1F</string>
 			<key>titleHighlightColor</key>
@@ -1602,6 +1614,8 @@
 			<string>topToBottom</string>
 			<key>textBackgroundStyle</key>
 			<string>none</string>
+			<key>textVerticalAlignment</key>
+			<string>center</string>
 			<key>titleColor</key>
 			<string>#1D1C1F</string>
 			<key>titleHighlightColor</key>
@@ -1615,7 +1629,7 @@
 		<array>
 			<dict>
 				<key>body</key>
-				<string>Switch between pocket-console green and LCD handheld styles.</string>
+				<string>Switch between four retro eras, from Pocket to 16-Bit.</string>
 				<key>language</key>
 				<string>en-US</string>
 				<key>title</key>
@@ -1623,7 +1637,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Switch between pocket-console green and LCD handheld styles.</string>
+				<string>Switch between four retro eras, from Pocket to 16-Bit.</string>
 				<key>language</key>
 				<string>en-GB</string>
 				<key>title</key>
@@ -1631,7 +1645,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Switch between pocket-console green and LCD handheld styles.</string>
+				<string>Switch between four retro eras, from Pocket to 16-Bit.</string>
 				<key>language</key>
 				<string>en-AU</string>
 				<key>title</key>
@@ -1639,7 +1653,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Switch between pocket-console green and LCD handheld styles.</string>
+				<string>Switch between four retro eras, from Pocket to 16-Bit.</string>
 				<key>language</key>
 				<string>en-CA</string>
 				<key>title</key>
@@ -1647,7 +1661,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Wechsle zwischen Pocket-Konsolen-Grün und LCD-Handheld-Stil.</string>
+				<string>Wechsle zwischen vier Retro-Epochen, von Pocket bis 16-Bit.</string>
 				<key>language</key>
 				<string>de-DE</string>
 				<key>title</key>
@@ -1655,7 +1669,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Wissel tussen pocket-console groen en LCD-handheld-stijl.</string>
+				<string>Wissel tussen vier retro-tijdperken, van Pocket tot 16-Bit.</string>
 				<key>language</key>
 				<string>nl-NL</string>
 				<key>title</key>
@@ -1663,7 +1677,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Passa dal verde console tascabile allo stile LCD portatile.</string>
+				<string>Passa tra quattro epoche retrò, da Pocket a 16-Bit.</string>
 				<key>language</key>
 				<string>it</string>
 				<key>title</key>
@@ -1671,7 +1685,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Passe du vert console de poche au style LCD portable.</string>
+				<string>Passe entre quatre époques rétro, de Pocket à 16-Bit.</string>
 				<key>language</key>
 				<string>fr-FR</string>
 				<key>title</key>
@@ -1679,7 +1693,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Passez du vert console de poche au style LCD portable.</string>
+				<string>Passez entre quatre époques rétro, de Pocket à 16-Bit.</string>
 				<key>language</key>
 				<string>fr-CA</string>
 				<key>title</key>
@@ -1687,7 +1701,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Cambia del verde de consola de bolsillo al estilo LCD portátil.</string>
+				<string>Cambia entre cuatro eras retro, desde Pocket hasta 16-Bit.</string>
 				<key>language</key>
 				<string>es-ES</string>
 				<key>title</key>
@@ -1695,7 +1709,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Cambia del verde de consola de bolsillo al estilo LCD portátil.</string>
+				<string>Cambia entre cuatro eras retro, desde Pocket hasta 16-Bit.</string>
 				<key>language</key>
 				<string>es-MX</string>
 				<key>title</key>
@@ -1703,7 +1717,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Canvia del verd de consola de butxaca a l'estil LCD portàtil.</string>
+				<string>Canvia entre quatre èpoques retro, de Pocket a 16-Bit.</string>
 				<key>language</key>
 				<string>ca</string>
 				<key>title</key>
@@ -1711,7 +1725,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>ポケットコンソールグリーンとLCD handheldを切り替え。</string>
+				<string>Pocketから16-Bitまで、4つのレトロ時代を切り替え。</string>
 				<key>language</key>
 				<string>ja</string>
 				<key>title</key>
@@ -1719,7 +1733,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>포켓 콘솔 그린과 LCD 휴대기 스타일 전환.</string>
+				<string>Pocket부터 16-Bit까지 네 가지 레트로 시대를 전환하세요.</string>
 				<key>language</key>
 				<string>ko</string>
 				<key>title</key>
@@ -1727,7 +1741,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Alterne entre verde pocket-console e estilo LCD portátil.</string>
+				<string>Alterne entre quatro eras retrô, de Pocket a 16-Bit.</string>
 				<key>language</key>
 				<string>pt-BR</string>
 				<key>title</key>
@@ -1735,7 +1749,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Alterne entre verde pocket-console e estilo LCD portátil.</string>
+				<string>Alterne entre quatro eras retro, de Pocket a 16-Bit.</string>
 				<key>language</key>
 				<string>pt-PT</string>
 				<key>title</key>
@@ -1743,7 +1757,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>在掌機綠與 LCD 手持風格間切換。</string>
+				<string>在四個復古時代間切換，從 Pocket 到 16-Bit。</string>
 				<key>language</key>
 				<string>zh-Hant</string>
 				<key>title</key>
@@ -1751,7 +1765,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>在掌机绿与 LCD 手持风格间切换。</string>
+				<string>在四个复古时代间切换，从 Pocket 到 16-Bit。</string>
 				<key>language</key>
 				<string>zh-Hans</string>
 				<key>title</key>
@@ -1853,6 +1867,8 @@
 			<string>topToBottom</string>
 			<key>textBackgroundStyle</key>
 			<string>none</string>
+			<key>textVerticalAlignment</key>
+			<string>center</string>
 			<key>titleColor</key>
 			<string>#1D1C1F</string>
 			<key>titleHighlightColor</key>
@@ -2104,6 +2120,8 @@
 			<string>topToBottom</string>
 			<key>textBackgroundStyle</key>
 			<string>none</string>
+			<key>textVerticalAlignment</key>
+			<string>center</string>
 			<key>titleColor</key>
 			<string>#1D1C1F</string>
 			<key>titleHighlightColor</key>

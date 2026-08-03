@@ -17,7 +17,15 @@
 
 ## VoiceOver Gameplay
 
-- Score and lives are exposed as read-only status with localized singular/plural labels.
+- The solo HUD shows the score as a numeric value without a visible prefix and shows three
+  helmet icons for lives. Consumed helmets fade in order from left to right while the remaining
+  helmets stay fully visible.
+- SharePlay presents the same three-helmet lives model for the friend. Friend helmets are
+  decorative within the row's combined score/lives accessibility element and are not announced
+  individually.
+- Score and lives remain exposed as read-only status with localized labels; the frequently
+  updating score must not interrupt VoiceOver gameplay.
+- Score rolling motion and helmet fade animation are disabled when Reduce Motion is enabled.
 - Active gameplay exposes left/right direct-touch regions and hides non-interactive SpriteKit grid content from VoiceOver.
 - Explicit user pause switches to a row-major grid exploration overlay with occupant and coordinate labels.
 - Implicit pauses (crash/start/help/menu/overlay) must not switch to grid exploration or cause disruptive focus jumps.
@@ -57,6 +65,12 @@
 ## Dynamic Type and Layout
 
 - Shared UI uses semantic font APIs so system and retro font modes scale with Dynamic Type.
+- The universal gameplay score uses Title 3; the SharePlay friend's score uses Headline. Helmet
+  icons scale relative to their adjacent semantic text style at every Dynamic Type size. Both
+  player and friend helmets compensate for their normalized safety inset so their visible artwork,
+  rather than a square fit or the full transparent canvas, matches the corresponding score height.
+- The SharePlay friend row reflows its score and right-aligned helmet strip at accessibility sizes
+  when the horizontal presentation would clip.
 - Menu, Settings, game-over, achievement, and paywall content must scroll or reflow rather than clip at large sizes.
 - Portrait gameplay stacks HUD above the game and controls below to avoid overlap.
 - Regular-width compact-height layouts may use side rails; regular-regular and compact-width layouts keep a full-width top HUD.
@@ -74,7 +88,8 @@
 
 - SharePlay overlays are single combined accessibility elements with art/icon, title, and subtitle.
 - Countdown cards keep stable labels and do not post per-second VoiceOver announcements.
-- SharePlay HUD uses concise You/Friend score rows and friend lives without “overtakes” copy.
+- SharePlay HUD uses concise You/Friend score rows and three friend helmets without “overtakes”
+  copy. The friend row remains one combined score/lives accessibility element.
 - SharePlay result sheets are explicitly dismissed through Play Again, Leave, or Done.
 - Speed settings are disabled, not hidden, while SharePlay is active; see [shareplay_multiplayer.md](shareplay_multiplayer.md).
 

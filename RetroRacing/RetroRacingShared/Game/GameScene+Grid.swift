@@ -22,6 +22,12 @@ private enum RoadLineConfiguration {
     static let lapStripHeightFactor: CGFloat = 0.42
 }
 
+private enum RoadSurfaceConfiguration {
+    static let surfaceNodeName = "road_surface"
+    static let surfaceZPosition: CGFloat = 1.1
+    static let outerLineOverhangFactor: CGFloat = 2.6
+}
+
 private enum CarPerspectiveConfiguration {
     static let sideLaneConvergenceFactor: CGFloat = 0
 }
@@ -51,8 +57,20 @@ extension GameScene {
     }
 
     func gridCellFillColor() -> SKColor {
+        if usesDistinctRoadExteriorColor,
+           let exteriorColor = theme?.roadExteriorColor() {
+            return exteriorColor.skColor
+        }
+        return roadSurfaceFillColor()
+    }
+
+    private func roadSurfaceFillColor() -> SKColor {
         guard let theme else { return gameBackgroundColor }
         return theme.gridCellColor().skColor
+    }
+
+    private var usesDistinctRoadExteriorColor: Bool {
+        lineMode == .detailedRoad && theme?.roadExteriorColor() != nil
     }
 
     func createCell(column: Int, row: Int) -> SKShapeNode {
@@ -158,6 +176,7 @@ extension GameScene {
         anchorPoint = CGPoint(x: 0, y: 0)
         scaleMode = .aspectFit
 
+        clearRoadSurfaceCache()
         removeAllChildren()
         spritesForGivenState.removeAll()
         lineOverlayNodes.removeAll()
@@ -169,6 +188,7 @@ extension GameScene {
     func updateGrid(withGridState gridState: GridState) {
         resetScene()
         styleGridCells()
+        renderRoadSurfaceIfNeeded()
         renderLineOverlays()
         renderCarSprites(gridState: gridState)
         renderUpcomingFriendMilestoneMarkers()
@@ -183,6 +203,62 @@ extension GameScene {
                 cell.lineWidth = 0
             }
         }
+    }
+
+    private func renderRoadSurfaceIfNeeded() {
+        guard usesDistinctRoadExteriorColor else {
+            clearRoadSurfaceCache()
+            return
+        }
+        let signature = RoadSurfaceRenderSignature(
+            sceneSize: size,
+            themeID: theme?.id,
+            roadVisualStyle: roadVisualStyle,
+            bigRivalCarsEnabled: bigRivalCarsEnabled,
+            lineMode: lineMode
+        )
+        if roadSurfaceRenderSignature == signature,
+           roadSurfaceNodes.allSatisfy({ $0.parent === self }) {
+            return
+        }
+
+        clearRoadSurfaceCache()
+        let surfaceColor = roadSurfaceFillColor()
+        for row in 0..<gridState.numberOfRows {
+            addRoadSurfaceSegment(forRow: row, fillColor: surfaceColor)
+        }
+        roadSurfaceRenderSignature = signature
+    }
+
+    func clearRoadSurfaceCache() {
+        roadSurfaceNodes.forEach { $0.removeFromParent() }
+        roadSurfaceNodes.removeAll()
+        roadSurfaceRenderSignature = nil
+    }
+
+    private func addRoadSurfaceSegment(forRow row: Int, fillColor: SKColor) {
+        let rowFrame = virtualCellFrame(column: 1, row: row)
+        let topY = min(size.height, rowFrame.maxY)
+        let bottomY = max(0, rowFrame.minY)
+        guard topY > bottomY else { return }
+
+        let topBounds = roadSurfaceBounds(atSceneY: topY)
+        let bottomBounds = roadSurfaceBounds(atSceneY: bottomY)
+        let path = CGMutablePath()
+        path.move(to: CGPoint(x: topBounds.lowerBound, y: topY))
+        path.addLine(to: CGPoint(x: topBounds.upperBound, y: topY))
+        path.addLine(to: CGPoint(x: bottomBounds.upperBound, y: bottomY))
+        path.addLine(to: CGPoint(x: bottomBounds.lowerBound, y: bottomY))
+        path.closeSubpath()
+
+        let surfaceNode = SKShapeNode(path: path)
+        surfaceNode.name = RoadSurfaceConfiguration.surfaceNodeName
+        surfaceNode.fillColor = fillColor
+        surfaceNode.strokeColor = .clear
+        surfaceNode.lineWidth = 0
+        surfaceNode.zPosition = RoadSurfaceConfiguration.surfaceZPosition
+        roadSurfaceNodes.append(surfaceNode)
+        addChild(surfaceNode)
     }
 
     private func renderLineOverlays() {
@@ -319,7 +395,7 @@ extension GameScene {
             return
         }
 
-        let tintColor = roadLineColor()
+        let tintColor = lapMarkerColor()
         addLapMarker(layout: layout, tintColor: tintColor)
     }
 
@@ -415,7 +491,7 @@ extension GameScene {
         mirroredVertically: Bool,
         tintColor: SKColor
     ) {
-        let sprite = spriteNode(imageNamed: assetName)
+        let sprite = spriteNode(imageNamed: assetName, fallbackImageNamed: assetName)
         sprite.name = RoadLineConfiguration.lapMarkerNodeName
         sprite.position = position
         sprite.size = size
@@ -469,6 +545,12 @@ extension GameScene {
         return minX...maxX
     }
 
+    private func roadSurfaceBounds(atSceneY y: CGFloat) -> ClosedRange<CGFloat> {
+        let bounds = roadBounds(atSceneY: y)
+        let overhang = laneLineWidth(atSceneY: y) * RoadSurfaceConfiguration.outerLineOverhangFactor
+        return max(0, bounds.lowerBound - overhang)...min(size.width, bounds.upperBound + overhang)
+    }
+
     private func normalizedDepthFromTop(sceneY y: CGFloat) -> CGFloat {
         guard size.height > 0 else { return 0 }
         let normalized = (size.height - y) / size.height
@@ -508,13 +590,22 @@ extension GameScene {
     func roadLineColor() -> SKColor {
         guard let theme else {
             return ContrastColorResolver.minimumDarkerColor(
-                against: gridCellFillColor(),
+                against: roadSurfaceFillColor(),
                 minimumContrast: RoadLineConfiguration.minimumContrast
             )
         }
 
         let increaseContrastEnabled = isSystemIncreaseContrastEnabled()
         return theme.roadLineColor(isIncreaseContrastEnabled: increaseContrastEnabled).skColor
+    }
+
+    func lapMarkerColor() -> SKColor {
+        guard let theme else {
+            return roadLineColor()
+        }
+
+        let increaseContrastEnabled = isSystemIncreaseContrastEnabled()
+        return theme.lapMarkerColor(isIncreaseContrastEnabled: increaseContrastEnabled).skColor
     }
 
     private func isSystemIncreaseContrastEnabled() -> Bool {
@@ -537,7 +628,10 @@ extension GameScene {
                 switch cellState {
                 case .Car:
                     addSprite(
-                        spriteNode(imageNamed: theme?.rivalCarSprite() ?? "rivalsCar-LCD"),
+                        spriteNode(
+                            imageNamed: theme?.rivalCarSprite() ?? "rivalsCar-LCD",
+                            fallbackImageNamed: "rivalsCar-LCD"
+                        ),
                         toCell: cell,
                         row: row,
                         column: column,
@@ -548,7 +642,10 @@ extension GameScene {
                     )
                 case .Player:
                     addSprite(
-                        spriteNode(imageNamed: theme?.playerCarSprite() ?? "playersCar-LCD"),
+                        spriteNode(
+                            imageNamed: theme?.playerCarSprite() ?? "playersCar-LCD",
+                            fallbackImageNamed: "playersCar-LCD"
+                        ),
                         toCell: cell,
                         row: row,
                         column: column,
@@ -557,7 +654,10 @@ extension GameScene {
                         laneCenterSceneX: laneCenter
                     )
                 case .Crash:
-                    let crashSprite = spriteNode(imageNamed: theme?.crashSprite() ?? "crash-LCD")
+                    let crashSprite = spriteNode(
+                        imageNamed: theme?.crashSprite() ?? "crash-LCD",
+                        fallbackImageNamed: "crash-LCD"
+                    )
                     crashSprite.name = "crash"
                     addSprite(
                         crashSprite,

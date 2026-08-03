@@ -1,0 +1,20 @@
+{
+  "images" : [
+    {
+      "filename" : "crash-8Bit.png",
+      "idiom" : "universal"
+    },
+    {
+      "filename" : "crash-8Bit 1.png",
+      "idiom" : "watch"
+    },
+    {
+      "filename" : "crash-8Bit 2.png",
+      "idiom" : "tv"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

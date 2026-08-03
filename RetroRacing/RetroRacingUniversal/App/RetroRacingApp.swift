@@ -137,15 +137,21 @@ struct RetroRacingApp: App {
         #else
         ratingService = StoreReviewService(userDefaults: userDefaults, ratingProvider: RatingServiceProviderMac())
         #endif
-        let themeConfig = ThemePlatformConfig(
-            defaultThemeID: "lcd",
-            availableThemes: [LCDTheme(), PocketTheme()]
+        #if os(macOS)
+        let themeConfig = ThemePlatformConfig.macOS
+        #elseif canImport(UIKit)
+        let themeConfig = UIDevice.current.userInterfaceIdiom == .pad
+            ? ThemePlatformConfig.iPad
+            : ThemePlatformConfig.iPhone
+        #else
+        let themeConfig = ThemePlatformConfig.iPhone
+        #endif
+        let configuredThemeManager = ThemeManager(
+            configuration: themeConfig,
+            userDefaults: userDefaults,
+            hasPremiumAccess: storeKitService.hasPremiumAccessForGating
         )
-        themeManager = ThemeManager(
-            initialThemes: themeConfig.availableThemes,
-            defaultThemeID: themeConfig.defaultThemeID,
-            userDefaults: userDefaults
-        )
+        themeManager = configuredThemeManager
         fontPreferenceStore = FontPreferenceStore(userDefaults: userDefaults, customFontAvailable: customFontAvailable)
         let hapticsConfig = HapticsPlatformConfig(
             supportsHaptics: supportsHaptics,
@@ -207,6 +213,9 @@ struct RetroRacingApp: App {
             } else {
                 playLimit.clearUnlimitedAccess()
             }
+        }
+        storeKitService.onPremiumAccessForGatingUpdated = { hasPremiumAccessForGating in
+            configuredThemeManager.syncPremiumAccess(hasPremiumAccessForGating)
         }
         specialEventService = Self.makeMiamiGrandPrixEventService()
         #if canImport(GroupActivities) && (os(iOS) || os(macOS))

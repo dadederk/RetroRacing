@@ -72,36 +72,46 @@ public struct SettingsViewStyle {
 public struct GameViewStyle {
     public let hudFontSize: CGFloat
     public let hudTextStyle: Font.TextStyle
+    public let friendHUDTextStyle: Font.TextStyle
     public let pauseButtonFontSize: CGFloat
     public let lifeIconSize: CGFloat
+    public let friendLifeIconSize: CGFloat
     public let headerPadding: CGFloat
 
     public init(
         hudFontSize: CGFloat,
         hudTextStyle: Font.TextStyle,
+        friendHUDTextStyle: Font.TextStyle,
         pauseButtonFontSize: CGFloat,
         lifeIconSize: CGFloat,
+        friendLifeIconSize: CGFloat,
         headerPadding: CGFloat
     ) {
         self.hudFontSize = hudFontSize
         self.hudTextStyle = hudTextStyle
+        self.friendHUDTextStyle = friendHUDTextStyle
         self.pauseButtonFontSize = pauseButtonFontSize
         self.lifeIconSize = lifeIconSize
+        self.friendLifeIconSize = friendLifeIconSize
         self.headerPadding = headerPadding
     }
 
     public static let universal = GameViewStyle(
-        hudFontSize: 14,
-        hudTextStyle: .subheadline,
+        hudFontSize: 20,
+        hudTextStyle: .title3,
+        friendHUDTextStyle: .headline,
         pauseButtonFontSize: 16,
         lifeIconSize: 20,
+        friendLifeIconSize: 17,
         headerPadding: 16
     )
     public static let tvOS = GameViewStyle(
         hudFontSize: 28,
         hudTextStyle: .title,
+        friendHUDTextStyle: .title2,
         pauseButtonFontSize: 22,
         lifeIconSize: 28,
+        friendLifeIconSize: 22,
         headerPadding: 60
     )
 }

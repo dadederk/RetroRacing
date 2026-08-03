@@ -1,0 +1,1068 @@
+{
+  "schemaVersion": 2,
+  "compiledCatalogBudgets": [
+    {
+      "platform": "iphone",
+      "displayName": "iPhone and iPad",
+      "actoolPlatform": "iphoneos",
+      "targetDevices": [
+        "iphone",
+        "ipad"
+      ],
+      "maximumAssetsCarBytes": 17464214
+    },
+    {
+      "platform": "mac",
+      "displayName": "macOS",
+      "actoolPlatform": "macosx",
+      "targetDevices": [
+        "mac"
+      ],
+      "maximumAssetsCarBytes": 8202693
+    },
+    {
+      "platform": "watch",
+      "displayName": "watchOS",
+      "actoolPlatform": "watchos",
+      "targetDevices": [
+        "watch"
+      ],
+      "maximumAssetsCarBytes": 1383220
+    },
+    {
+      "platform": "tv",
+      "displayName": "tvOS",
+      "actoolPlatform": "appletvos",
+      "targetDevices": [
+        "tv"
+      ],
+      "maximumAssetsCarBytes": 2800422
+    },
+    {
+      "platform": "vision",
+      "displayName": "visionOS",
+      "actoolPlatform": "xros",
+      "targetDevices": [
+        "vision"
+      ],
+      "maximumAssetsCarBytes": 1048576
+    }
+  ],
+  "assets": [
+    {
+      "path": "WinWithFriend.imageset",
+      "allowedIdioms": [
+        "iphone",
+        "ipad",
+        "mac"
+      ],
+      "maximumLongEdge": {
+        "iphone": 768,
+        "ipad": 512,
+        "mac": 512
+      },
+      "scalesByIdiom": {
+        "iphone": [
+          "2x",
+          "3x"
+        ],
+        "ipad": [
+          "2x"
+        ],
+        "mac": [
+          "1x",
+          "2x"
+        ]
+      },
+      "requiredIdioms": [
+        "iphone",
+        "ipad",
+        "mac"
+      ]
+    },
+    {
+      "path": "LoseWithFriend.imageset",
+      "allowedIdioms": [
+        "iphone",
+        "ipad",
+        "mac"
+      ],
+      "maximumLongEdge": {
+        "iphone": 768,
+        "ipad": 512,
+        "mac": 512
+      },
+      "scalesByIdiom": {
+        "iphone": [
+          "2x",
+          "3x"
+        ],
+        "ipad": [
+          "2x"
+        ],
+        "mac": [
+          "1x",
+          "2x"
+        ]
+      },
+      "requiredIdioms": [
+        "iphone",
+        "ipad",
+        "mac"
+      ]
+    },
+    {
+      "path": "Tie.imageset",
+      "allowedIdioms": [
+        "iphone",
+        "ipad",
+        "mac"
+      ],
+      "maximumLongEdge": {
+        "iphone": 768,
+        "ipad": 512,
+        "mac": 512
+      },
+      "scalesByIdiom": {
+        "iphone": [
+          "2x",
+          "3x"
+        ],
+        "ipad": [
+          "2x"
+        ],
+        "mac": [
+          "1x",
+          "2x"
+        ]
+      },
+      "requiredIdioms": [
+        "iphone",
+        "ipad",
+        "mac"
+      ]
+    },
+    {
+      "path": "Rematch.imageset",
+      "allowedIdioms": [
+        "iphone",
+        "ipad",
+        "mac"
+      ],
+      "maximumLongEdge": {
+        "iphone": 768,
+        "ipad": 512,
+        "mac": 512
+      },
+      "scalesByIdiom": {
+        "iphone": [
+          "2x",
+          "3x"
+        ],
+        "ipad": [
+          "2x"
+        ],
+        "mac": [
+          "1x",
+          "2x"
+        ]
+      },
+      "requiredIdioms": [
+        "iphone",
+        "ipad",
+        "mac"
+      ]
+    },
+    {
+      "path": "ConnectionLost.imageset",
+      "allowedIdioms": [
+        "iphone",
+        "ipad",
+        "mac"
+      ],
+      "maximumLongEdge": {
+        "iphone": 768,
+        "ipad": 512,
+        "mac": 512
+      },
+      "scalesByIdiom": {
+        "iphone": [
+          "2x",
+          "3x"
+        ],
+        "ipad": [
+          "2x"
+        ],
+        "mac": [
+          "1x",
+          "2x"
+        ]
+      },
+      "requiredIdioms": [
+        "iphone",
+        "ipad",
+        "mac"
+      ]
+    },
+    {
+      "path": "Finished.imageset",
+      "allowedIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ],
+      "maximumLongEdge": {
+        "iphone": 858,
+        "ipad": 858,
+        "mac": 858,
+        "watch": 512,
+        "tv": 384
+      },
+      "requiredIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ]
+    },
+    {
+      "path": "NewRecord.imageset",
+      "allowedIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ],
+      "maximumLongEdge": {
+        "iphone": 710,
+        "ipad": 710,
+        "mac": 710,
+        "watch": 512,
+        "tv": 384
+      },
+      "requiredIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ]
+    },
+    {
+      "path": "AchievementDefault.imageset",
+      "allowedIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ],
+      "maximumLongEdge": {
+        "iphone": 842,
+        "ipad": 842,
+        "mac": 842,
+        "watch": 512,
+        "tv": 384
+      },
+      "requiredIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ]
+    },
+    {
+      "path": "ScreenshotFixtures/johnAppleseedAvatar.imageset",
+      "allowedIdioms": [
+        "iphone",
+        "ipad",
+        "mac"
+      ],
+      "maximumLongEdge": {
+        "iphone": 226,
+        "ipad": 226,
+        "mac": 226
+      },
+      "requiredIdioms": [
+        "iphone",
+        "ipad",
+        "mac"
+      ]
+    },
+    {
+      "path": "Icons/GetReady.imageset",
+      "allowedIdioms": [
+        "iphone",
+        "ipad",
+        "mac"
+      ],
+      "maximumLongEdge": {
+        "iphone": 256,
+        "ipad": 256,
+        "mac": 256
+      },
+      "scalesByIdiom": {
+        "iphone": [
+          "1x",
+          "2x",
+          "3x"
+        ],
+        "ipad": [
+          "1x",
+          "2x"
+        ],
+        "mac": [
+          "1x",
+          "2x"
+        ]
+      },
+      "requiredIdioms": [
+        "iphone",
+        "ipad",
+        "mac"
+      ]
+    },
+    {
+      "path": "Icons/WaitingForFriendToFinish.imageset",
+      "allowedIdioms": [
+        "iphone",
+        "ipad",
+        "mac"
+      ],
+      "maximumLongEdge": {
+        "iphone": 256,
+        "ipad": 256,
+        "mac": 256
+      },
+      "scalesByIdiom": {
+        "iphone": [
+          "1x",
+          "2x",
+          "3x"
+        ],
+        "ipad": [
+          "1x",
+          "2x"
+        ],
+        "mac": [
+          "1x",
+          "2x"
+        ]
+      },
+      "requiredIdioms": [
+        "iphone",
+        "ipad",
+        "mac"
+      ]
+    },
+    {
+      "path": "Icons/WaitingForFriendToJoin.imageset",
+      "allowedIdioms": [
+        "iphone",
+        "ipad",
+        "mac"
+      ],
+      "maximumLongEdge": {
+        "iphone": 256,
+        "ipad": 256,
+        "mac": 256
+      },
+      "scalesByIdiom": {
+        "iphone": [
+          "1x",
+          "2x",
+          "3x"
+        ],
+        "ipad": [
+          "1x",
+          "2x"
+        ],
+        "mac": [
+          "1x",
+          "2x"
+        ]
+      },
+      "requiredIdioms": [
+        "iphone",
+        "ipad",
+        "mac"
+      ]
+    },
+    {
+      "path": "profilePicRetroRapid.imageset",
+      "allowedIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "tv"
+      ],
+      "maximumLongEdge": {
+        "iphone": 480,
+        "ipad": 480,
+        "mac": 480,
+        "tv": 480
+      },
+      "scalesByIdiom": {
+        "iphone": [
+          "1x",
+          "2x",
+          "3x"
+        ],
+        "ipad": [
+          "1x",
+          "2x"
+        ],
+        "mac": [
+          "1x",
+          "2x"
+        ],
+        "tv": [
+          "1x"
+        ]
+      },
+      "requiredIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "tv"
+      ]
+    },
+    {
+      "path": "Sprites/ButtonUp.imageset",
+      "allowedIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "tv"
+      ],
+      "maximumLongEdge": {
+        "iphone": 768,
+        "ipad": 768,
+        "mac": 768,
+        "tv": 512
+      },
+      "scalesByIdiom": {
+        "iphone": [
+          "1x",
+          "2x",
+          "3x"
+        ],
+        "ipad": [
+          "1x",
+          "2x"
+        ],
+        "mac": [
+          "1x",
+          "2x"
+        ],
+        "tv": [
+          "1x"
+        ]
+      },
+      "requiredIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "tv"
+      ]
+    },
+    {
+      "path": "Sprites/ButtonDown.imageset",
+      "allowedIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "tv"
+      ],
+      "maximumLongEdge": {
+        "iphone": 768,
+        "ipad": 768,
+        "mac": 768,
+        "tv": 512
+      },
+      "scalesByIdiom": {
+        "iphone": [
+          "1x",
+          "2x",
+          "3x"
+        ],
+        "ipad": [
+          "1x",
+          "2x"
+        ],
+        "mac": [
+          "1x",
+          "2x"
+        ],
+        "tv": [
+          "1x"
+        ]
+      },
+      "requiredIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "tv"
+      ]
+    },
+    {
+      "path": "Sprites/HeyHo.imageset",
+      "allowedIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "tv"
+      ],
+      "maximumLongEdge": {
+        "iphone": 768,
+        "ipad": 768,
+        "mac": 768,
+        "tv": 512
+      },
+      "scalesByIdiom": {
+        "iphone": [
+          "1x",
+          "2x",
+          "3x"
+        ],
+        "ipad": [
+          "1x",
+          "2x"
+        ],
+        "mac": [
+          "1x",
+          "2x"
+        ],
+        "tv": [
+          "1x"
+        ]
+      },
+      "requiredIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "tv"
+      ]
+    },
+    {
+      "path": "Sprites/lapStripMask.imageset",
+      "allowedIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ],
+      "maximumLongEdge": {
+        "iphone": 1600,
+        "ipad": 1600,
+        "mac": 1600,
+        "watch": 800,
+        "tv": 1600
+      },
+      "requiredIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ]
+    },
+    {
+      "path": "Sprites/LCD/playersCar-LCD.imageset",
+      "allowedIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ],
+      "maximumLongEdge": {
+        "iphone": 768,
+        "ipad": 768,
+        "mac": 1024,
+        "watch": 256,
+        "tv": 512
+      },
+      "requiredIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ]
+    },
+    {
+      "path": "Sprites/LCD/rivalsCar-LCD.imageset",
+      "allowedIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ],
+      "maximumLongEdge": {
+        "iphone": 768,
+        "ipad": 768,
+        "mac": 1024,
+        "watch": 256,
+        "tv": 512
+      },
+      "requiredIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ]
+    },
+    {
+      "path": "Sprites/LCD/crash-LCD.imageset",
+      "allowedIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ],
+      "maximumLongEdge": {
+        "iphone": 768,
+        "ipad": 768,
+        "mac": 1024,
+        "watch": 256,
+        "tv": 512
+      },
+      "requiredIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ]
+    },
+    {
+      "path": "Sprites/LCD/life-LCD.imageset",
+      "allowedIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ],
+      "maximumLongEdge": {
+        "iphone": 256,
+        "ipad": 256,
+        "mac": 256,
+        "watch": 64,
+        "tv": 256
+      },
+      "geometryProfile": "helmet",
+      "requiredIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ]
+    },
+    {
+      "path": "Sprites/LCD/friendLife-LCD.imageset",
+      "allowedIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ],
+      "maximumLongEdge": {
+        "iphone": 256,
+        "ipad": 256,
+        "mac": 256,
+        "watch": 64,
+        "tv": 256
+      },
+      "geometryProfile": "helmet",
+      "requiredIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ]
+    },
+    {
+      "path": "Sprites/GameBoy/playersCar-GameBoy.imageset",
+      "allowedIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ],
+      "maximumLongEdge": {
+        "iphone": 768,
+        "ipad": 768,
+        "mac": 1024,
+        "watch": 256,
+        "tv": 512
+      },
+      "requiredIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ]
+    },
+    {
+      "path": "Sprites/GameBoy/rivalsCar-GameBoy.imageset",
+      "allowedIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ],
+      "maximumLongEdge": {
+        "iphone": 768,
+        "ipad": 768,
+        "mac": 1024,
+        "watch": 256,
+        "tv": 512
+      },
+      "requiredIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ]
+    },
+    {
+      "path": "Sprites/GameBoy/crash-GameBoy.imageset",
+      "allowedIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ],
+      "maximumLongEdge": {
+        "iphone": 768,
+        "ipad": 768,
+        "mac": 1024,
+        "watch": 256,
+        "tv": 512
+      },
+      "requiredIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ]
+    },
+    {
+      "path": "Sprites/GameBoy/life-GameBoy.imageset",
+      "allowedIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ],
+      "maximumLongEdge": {
+        "iphone": 256,
+        "ipad": 256,
+        "mac": 256,
+        "watch": 64,
+        "tv": 256
+      },
+      "geometryProfile": "helmet",
+      "requiredIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ]
+    },
+    {
+      "path": "Sprites/GameBoy/friendLife-GameBoy.imageset",
+      "allowedIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ],
+      "maximumLongEdge": {
+        "iphone": 256,
+        "ipad": 256,
+        "mac": 256,
+        "watch": 64,
+        "tv": 256
+      },
+      "geometryProfile": "helmet",
+      "requiredIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ]
+    },
+    {
+      "path": "Sprites/8Bit/playersCar-8Bit.imageset",
+      "allowedIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ],
+      "maximumLongEdge": {
+        "iphone": 768,
+        "ipad": 768,
+        "mac": 1024,
+        "watch": 256,
+        "tv": 512
+      },
+      "requiredIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ]
+    },
+    {
+      "path": "Sprites/8Bit/rivalsCar-8Bit.imageset",
+      "allowedIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ],
+      "maximumLongEdge": {
+        "iphone": 768,
+        "ipad": 768,
+        "mac": 1024,
+        "watch": 256,
+        "tv": 512
+      },
+      "requiredIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ]
+    },
+    {
+      "path": "Sprites/8Bit/crash-8Bit.imageset",
+      "allowedIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ],
+      "maximumLongEdge": {
+        "iphone": 768,
+        "ipad": 768,
+        "mac": 1024,
+        "watch": 256,
+        "tv": 512
+      },
+      "requiredIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ]
+    },
+    {
+      "path": "Sprites/8Bit/life-8Bit.imageset",
+      "allowedIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ],
+      "maximumLongEdge": {
+        "iphone": 256,
+        "ipad": 256,
+        "mac": 256,
+        "watch": 64,
+        "tv": 256
+      },
+      "geometryProfile": "helmet",
+      "requiredIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ]
+    },
+    {
+      "path": "Sprites/8Bit/friendLife-8Bit.imageset",
+      "allowedIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ],
+      "maximumLongEdge": {
+        "iphone": 256,
+        "ipad": 256,
+        "mac": 256,
+        "watch": 64,
+        "tv": 256
+      },
+      "geometryProfile": "helmet",
+      "requiredIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ]
+    },
+    {
+      "path": "Sprites/16Bit/playersCar-16Bit.imageset",
+      "allowedIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ],
+      "maximumLongEdge": {
+        "iphone": 768,
+        "ipad": 768,
+        "mac": 1024,
+        "watch": 256,
+        "tv": 512
+      },
+      "geometryProfile": "sixteenBitPlayerCar",
+      "requiredIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ]
+    },
+    {
+      "path": "Sprites/16Bit/rivalsCar-16Bit.imageset",
+      "allowedIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ],
+      "maximumLongEdge": {
+        "iphone": 768,
+        "ipad": 768,
+        "mac": 1024,
+        "watch": 256,
+        "tv": 512
+      },
+      "geometryProfile": "sixteenBitRivalCar",
+      "requiredIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ]
+    },
+    {
+      "path": "Sprites/16Bit/crash-16Bit.imageset",
+      "allowedIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ],
+      "maximumLongEdge": {
+        "iphone": 768,
+        "ipad": 768,
+        "mac": 1024,
+        "watch": 256,
+        "tv": 512
+      },
+      "geometryProfile": "sixteenBitCrash",
+      "requiredIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ]
+    },
+    {
+      "path": "Sprites/16Bit/life-16Bit.imageset",
+      "allowedIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ],
+      "maximumLongEdge": {
+        "iphone": 256,
+        "ipad": 256,
+        "mac": 256,
+        "watch": 64,
+        "tv": 256
+      },
+      "geometryProfile": "sixteenBitHelmet",
+      "requiredIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ]
+    },
+    {
+      "path": "Sprites/16Bit/friendLife-16Bit.imageset",
+      "allowedIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ],
+      "maximumLongEdge": {
+        "iphone": 256,
+        "ipad": 256,
+        "mac": 256,
+        "watch": 64,
+        "tv": 256
+      },
+      "geometryProfile": "sixteenBitHelmet",
+      "requiredIdioms": [
+        "iphone",
+        "ipad",
+        "mac",
+        "watch",
+        "tv"
+      ]
+    }
+  ]
+}

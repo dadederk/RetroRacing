@@ -1,20 +1,28 @@
 {
-  "images" : [
+  "images": [
     {
-      "filename" : "rivalsCar-GameBoy.png",
-      "idiom" : "universal"
+      "filename": "rivalsCar-GameBoy-iphone.png",
+      "idiom": "iphone"
     },
     {
-      "filename" : "rivalsCar-GameBoy 1.png",
-      "idiom" : "watch"
+      "filename": "rivalsCar-GameBoy-ipad.png",
+      "idiom": "ipad"
     },
     {
-      "filename" : "rivalsCar-GameBoy 2.png",
-      "idiom" : "tv"
+      "filename": "rivalsCar-GameBoy-mac.png",
+      "idiom": "mac"
+    },
+    {
+      "filename": "rivalsCar-GameBoy-tv.png",
+      "idiom": "tv"
+    },
+    {
+      "filename": "rivalsCar-GameBoy-watch.png",
+      "idiom": "watch"
     }
   ],
-  "info" : {
-    "author" : "xcode",
-    "version" : 1
+  "info": {
+    "author": "xcode",
+    "version": 1
   }
 }

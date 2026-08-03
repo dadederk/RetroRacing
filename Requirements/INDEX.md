@@ -32,7 +32,7 @@ Single entrypoint for shipped in-app behavior contracts. Requirements describe w
 | tvOS parity | [tvos_parity.md](tvos_parity.md) | — |
 | Testing strategy | [testing.md](testing.md) | [screenshot_capture.md](screenshot_capture.md) |
 | App Store screenshot capture mode | [screenshot_capture.md](screenshot_capture.md) | [../AppStore/docs/06-screenshots.md](../AppStore/docs/06-screenshots.md) |
-| Archive, TestFlight, distribution | [../AppStore/docs/15-archive-and-distribution.md](../AppStore/docs/15-archive-and-distribution.md) | [../AppStore/docs/14-testflight-helm-upload.md](../AppStore/docs/14-testflight-helm-upload.md) |
+| Archive, TestFlight, distribution | [../AppStore/docs/15-archive-and-distribution.md](../AppStore/docs/15-archive-and-distribution.md) | [../AppStore/docs/17-xcode-cloud-releases.md](../AppStore/docs/17-xcode-cloud-releases.md), [../AppStore/docs/14-testflight-helm-upload.md](../AppStore/docs/14-testflight-helm-upload.md) |
 | App Store listing, ASO, screenshots | [../AppStore/README.md](../AppStore/README.md) | [../Plans/aso/README.md](../Plans/aso/README.md) |
 
 ## Catalog

@@ -1,0 +1,28 @@
+{
+  "images": [
+    {
+      "filename": "rivalsCar-8Bit-iphone.png",
+      "idiom": "iphone"
+    },
+    {
+      "filename": "rivalsCar-8Bit-ipad.png",
+      "idiom": "ipad"
+    },
+    {
+      "filename": "rivalsCar-8Bit-mac.png",
+      "idiom": "mac"
+    },
+    {
+      "filename": "rivalsCar-8Bit-tv.png",
+      "idiom": "tv"
+    },
+    {
+      "filename": "rivalsCar-8Bit-watch.png",
+      "idiom": "watch"
+    }
+  ],
+  "info": {
+    "author": "xcode",
+    "version": 1
+  }
+}

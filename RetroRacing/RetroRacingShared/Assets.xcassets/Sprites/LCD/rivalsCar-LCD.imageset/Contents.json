@@ -1,20 +1,28 @@
 {
-  "images" : [
+  "images": [
     {
-      "filename" : "RivalCar2.png",
-      "idiom" : "universal"
+      "filename": "rivalsCar-LCD-iphone.png",
+      "idiom": "iphone"
     },
     {
-      "filename" : "RivalCar2 1.png",
-      "idiom" : "watch"
+      "filename": "rivalsCar-LCD-ipad.png",
+      "idiom": "ipad"
     },
     {
-      "filename" : "RivalCar2 2.png",
-      "idiom" : "tv"
+      "filename": "rivalsCar-LCD-mac.png",
+      "idiom": "mac"
+    },
+    {
+      "filename": "rivalsCar-LCD-tv.png",
+      "idiom": "tv"
+    },
+    {
+      "filename": "rivalsCar-LCD-watch.png",
+      "idiom": "watch"
     }
   ],
-  "info" : {
-    "author" : "xcode",
-    "version" : 1
+  "info": {
+    "author": "xcode",
+    "version": 1
   }
 }

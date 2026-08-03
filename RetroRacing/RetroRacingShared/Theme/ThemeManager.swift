@@ -6,64 +6,106 @@
 //
 
 import Foundation
-import SwiftUI
 import Observation
 
-/// Manages theme selection, availability, and premium unlock persistence.
+/// Manages theme selection and derives availability from the Unlimited Plays entitlement.
 @Observable
 @MainActor
 public final class ThemeManager {
-    public private(set) var currentTheme: GameTheme
-    public private(set) var availableThemes: [GameTheme]
-    public private(set) var unlockedThemeIDs: Set<String>
+    public private(set) var currentTheme: any GameTheme
+    public private(set) var selectedThemeID: ThemeID
+    public private(set) var availableThemes: [any GameTheme]
 
+    private let configuration: ThemePlatformConfig
     private let userDefaults: UserDefaults
-    private let selectedThemeKey = "selectedThemeID"
-    private let unlockedThemesKey = "unlockedThemes"
+    private var hasPremiumAccess: Bool
 
-    public init(initialThemes: [GameTheme], defaultThemeID: String, userDefaults: UserDefaults) {
+    private static let selectedThemeKey = "selectedThemeID"
+    private static let obsoleteUnlockedThemesKey = "unlockedThemes"
+
+    public init(
+        configuration: ThemePlatformConfig,
+        userDefaults: UserDefaults,
+        hasPremiumAccess: Bool
+    ) {
+        self.configuration = configuration
         self.userDefaults = userDefaults
-        self.availableThemes = initialThemes
-        let freeIDs = Set(initialThemes.filter { !$0.isPremium }.map(\.id))
-        let storedUnlocked = userDefaults.stringArray(forKey: unlockedThemesKey) ?? []
-        self.unlockedThemeIDs = freeIDs.union(storedUnlocked)
-        let selectedID = userDefaults.string(forKey: selectedThemeKey) ?? defaultThemeID
-        let selected = initialThemes.first { $0.id == selectedID } ?? initialThemes[0]
-        self.currentTheme = selected
+        self.hasPremiumAccess = hasPremiumAccess
+        self.availableThemes = configuration.availableThemes
+
+        userDefaults.removeObject(forKey: Self.obsoleteUnlockedThemesKey)
+        let storedID = userDefaults.string(forKey: Self.selectedThemeKey).map(ThemeID.init(rawValue:))
+        let selectedID = storedID.flatMap { candidate in
+            configuration.availableThemes.contains(where: { $0.id == candidate })
+                ? candidate
+                : nil
+        } ?? configuration.defaultThemeID
+        self.selectedThemeID = selectedID
+        self.currentTheme = Self.resolveTheme(
+            preferredID: selectedID,
+            configuration: configuration,
+            hasPremiumAccess: hasPremiumAccess
+        )
+
+        if storedID != nil, storedID != selectedID {
+            userDefaults.set(selectedID.rawValue, forKey: Self.selectedThemeKey)
+        }
     }
 
-    public func setTheme(_ theme: GameTheme) {
+    public func setTheme(_ theme: any GameTheme) {
         guard isThemeAvailable(theme) else { return }
+        selectedThemeID = theme.id
         currentTheme = theme
-        userDefaults.set(theme.id, forKey: selectedThemeKey)
+        userDefaults.set(theme.id.rawValue, forKey: Self.selectedThemeKey)
     }
 
-    public func isThemeAvailable(_ theme: GameTheme) -> Bool {
-        !theme.isPremium || unlockedThemeIDs.contains(theme.id)
+    public func isThemeAvailable(_ theme: any GameTheme) -> Bool {
+        theme.isPremium == false || hasPremiumAccess
     }
 
-    /// Returns true when a theme with the given identifier is accessible
-    /// to the current user, taking into account free vs premium status.
-    public func isThemeAccessible(id: String) -> Bool {
+    public func isThemeAccessible(id: ThemeID) -> Bool {
         guard let theme = availableThemes.first(where: { $0.id == id }) else {
             return false
         }
         return isThemeAvailable(theme)
     }
 
-    public func unlockTheme(_ theme: GameTheme) {
-        var ids = Array(unlockedThemeIDs)
-        if !ids.contains(theme.id) {
-            ids.append(theme.id)
-            unlockedThemeIDs = Set(ids)
-            userDefaults.set(ids, forKey: unlockedThemesKey)
-        }
+    /// Re-resolves the displayed theme without overwriting the user's selection.
+    public func syncPremiumAccess(_ hasPremiumAccess: Bool) {
+        guard self.hasPremiumAccess != hasPremiumAccess else { return }
+        self.hasPremiumAccess = hasPremiumAccess
+        currentTheme = Self.resolveTheme(
+            preferredID: selectedThemeID,
+            configuration: configuration,
+            hasPremiumAccess: hasPremiumAccess
+        )
     }
 
-    /// Call after successful premium purchase to unlock all premium themes.
-    public func unlockPremiumThemes() {
-        let premiumIDs = availableThemes.filter(\.isPremium).map(\.id)
-        unlockedThemeIDs = unlockedThemeIDs.union(premiumIDs)
-        userDefaults.set(Array(unlockedThemeIDs), forKey: unlockedThemesKey)
+    private static func resolveTheme(
+        preferredID: ThemeID,
+        configuration: ThemePlatformConfig,
+        hasPremiumAccess: Bool
+    ) -> any GameTheme {
+        if let preferred = configuration.availableThemes.first(where: {
+            $0.id == preferredID && isTheme($0, availableWith: hasPremiumAccess)
+        }) {
+            return preferred
+        }
+        if isTheme(configuration.defaultTheme, availableWith: hasPremiumAccess) {
+            return configuration.defaultTheme
+        }
+        if let firstFreeTheme = configuration.availableThemes.first(where: {
+            isTheme($0, availableWith: hasPremiumAccess)
+        }) {
+            return firstFreeTheme
+        }
+        return configuration.defaultTheme
+    }
+
+    private static func isTheme(
+        _ theme: any GameTheme,
+        availableWith hasPremiumAccess: Bool
+    ) -> Bool {
+        theme.isPremium == false || hasPremiumAccess
     }
 }

@@ -29,16 +29,6 @@ public struct LeaderboardPlatformConfig {
     }
 }
 
-public struct ThemePlatformConfig {
-    public let defaultThemeID: String
-    public let availableThemes: [GameTheme]
-
-    public init(defaultThemeID: String, availableThemes: [GameTheme]) {
-        self.defaultThemeID = defaultThemeID
-        self.availableThemes = availableThemes
-    }
-}
-
 public struct HapticsPlatformConfig {
     public let supportsHaptics: Bool
     public let controllerProvider: () -> HapticFeedbackController

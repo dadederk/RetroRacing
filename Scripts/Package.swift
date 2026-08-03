@@ -18,6 +18,8 @@ let package = Package(
         .executable(name: "run-tests", targets: ["RunTests"]),
         .executable(name: "run-xcodebuild-parallel-canary", targets: ["RunXcodebuildParallelCanary"]),
         .executable(name: "check-documentation", targets: ["CheckDocumentation"]),
+        .executable(name: "asset-audit", targets: ["AssetAudit"]),
+        .executable(name: "optimize-runtime-assets", targets: ["OptimizeRuntimeAssets"]),
         .executable(name: "generate-road-dash-masks", targets: ["GenerateRoadDashMasks"]),
         .executable(
             name: "sync-screenshot-studio-localizations",
@@ -45,6 +47,14 @@ let package = Package(
         ),
         .executableTarget(
             name: "CheckDocumentation",
+            dependencies: ["RetroRacingAutomationCore"]
+        ),
+        .executableTarget(
+            name: "AssetAudit",
+            dependencies: ["RetroRacingAutomationCore"]
+        ),
+        .executableTarget(
+            name: "OptimizeRuntimeAssets",
             dependencies: ["RetroRacingAutomationCore"]
         ),
         .executableTarget(

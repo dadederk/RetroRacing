@@ -11,14 +11,11 @@ import ScriptSupport
 
 public struct RoadMaskDescriptor: Equatable, Sendable {
     public let imagesetName: String
-    public let universalFilename: String
+    public let iPhoneFilename: String
+    public let iPadFilename: String
+    public let macFilename: String
     public let watchFilename: String
     public let televisionFilename: String
-    public let isLapMask: Bool
-    public let bottomCenterX: CGFloat
-    public let topCenterX: CGFloat
-    public let bottomWidth: CGFloat
-    public let topWidth: CGFloat
 }
 
 public struct RoadMaskRenderSize: Equatable, Sendable {
@@ -34,37 +31,12 @@ public enum RoadMaskMode: Sendable {
 public enum RoadMaskWorkflow {
     public static let descriptors: [RoadMaskDescriptor] = [
         RoadMaskDescriptor(
-            imagesetName: "laneInnerMask.imageset",
-            universalFilename: "laneInnerMask.png",
-            watchFilename: "laneInnerMask 1.png",
-            televisionFilename: "laneInnerMask 2.png",
-            isLapMask: false,
-            bottomCenterX: 0.24,
-            topCenterX: 0.29,
-            bottomWidth: 0.08,
-            topWidth: 0.06
-        ),
-        RoadMaskDescriptor(
-            imagesetName: "laneOuterMask.imageset",
-            universalFilename: "laneOuterMask.png",
-            watchFilename: "laneOuterMask 1.png",
-            televisionFilename: "laneOuterMask 2.png",
-            isLapMask: false,
-            bottomCenterX: 0.10,
-            topCenterX: 0.29,
-            bottomWidth: 0.10,
-            topWidth: 0.06
-        ),
-        RoadMaskDescriptor(
             imagesetName: "lapStripMask.imageset",
-            universalFilename: "lapStripMask.png",
-            watchFilename: "lapStripMask 1.png",
-            televisionFilename: "lapStripMask 2.png",
-            isLapMask: true,
-            bottomCenterX: 0,
-            topCenterX: 0,
-            bottomWidth: 0,
-            topWidth: 0
+            iPhoneFilename: "lapStripMask-iphone.png",
+            iPadFilename: "lapStripMask-ipad.png",
+            macFilename: "lapStripMask-mac.png",
+            watchFilename: "lapStripMask-watch.png",
+            televisionFilename: "lapStripMask-tv.png"
         ),
     ]
 
@@ -91,28 +63,33 @@ public enum RoadMaskWorkflow {
         let spritesDirectory = repositoryRoot.appending(
             path: "RetroRacing/RetroRacingShared/Assets.xcassets/Sprites"
         )
-        let fallbackDirectory = repositoryRoot.appending(
-            path: "RetroRacing/RetroRacingShared/Resources/Sprites"
-        )
 
         return try descriptors.flatMap { descriptor in
             let imagesetDirectory = spritesDirectory.appending(
                 path: descriptor.imagesetName
             )
             let sizes = renderSizes(for: descriptor)
-            let universalImage = try renderMask(descriptor, size: sizes.universal)
+            let largeImage = try renderMask(descriptor, size: sizes.large)
             let watchImage = try renderMask(descriptor, size: sizes.watch)
-            let televisionImage = try renderMask(
-                descriptor,
-                size: sizes.television
-            )
 
             return [
                 GeneratedFile(
                     url: imagesetDirectory.appending(
-                        path: descriptor.universalFilename
+                        path: descriptor.iPhoneFilename
                     ),
-                    data: universalImage
+                    data: largeImage
+                ),
+                GeneratedFile(
+                    url: imagesetDirectory.appending(
+                        path: descriptor.iPadFilename
+                    ),
+                    data: largeImage
+                ),
+                GeneratedFile(
+                    url: imagesetDirectory.appending(
+                        path: descriptor.macFilename
+                    ),
+                    data: largeImage
                 ),
                 GeneratedFile(
                     url: imagesetDirectory.appending(
@@ -124,13 +101,7 @@ public enum RoadMaskWorkflow {
                     url: imagesetDirectory.appending(
                         path: descriptor.televisionFilename
                     ),
-                    data: televisionImage
-                ),
-                GeneratedFile(
-                    url: fallbackDirectory.appending(
-                        path: descriptor.universalFilename
-                    ),
-                    data: universalImage
+                    data: largeImage
                 ),
                 GeneratedFile(
                     url: imagesetDirectory.appending(path: "Contents.json"),
@@ -143,21 +114,12 @@ public enum RoadMaskWorkflow {
     public static func renderSizes(
         for descriptor: RoadMaskDescriptor
     ) -> (
-        universal: RoadMaskRenderSize,
-        watch: RoadMaskRenderSize,
-        television: RoadMaskRenderSize
+        large: RoadMaskRenderSize,
+        watch: RoadMaskRenderSize
     ) {
-        if descriptor.isLapMask {
-            return (
-                RoadMaskRenderSize(width: 1600, height: 240),
-                RoadMaskRenderSize(width: 800, height: 120),
-                RoadMaskRenderSize(width: 1600, height: 240)
-            )
-        }
         return (
-            RoadMaskRenderSize(width: 600, height: 360),
-            RoadMaskRenderSize(width: 300, height: 180),
-            RoadMaskRenderSize(width: 600, height: 360)
+            RoadMaskRenderSize(width: 1600, height: 240),
+            RoadMaskRenderSize(width: 800, height: 120)
         )
     }
 
@@ -175,12 +137,7 @@ public enum RoadMaskWorkflow {
         NSGraphicsContext.saveGraphicsState()
         NSGraphicsContext.current = context
         clearCanvas(size: size)
-
-        if descriptor.isLapMask {
-            drawLapMask(size: size)
-        } else {
-            drawLaneMask(descriptor, size: size)
-        }
+        drawLapMask(size: size)
 
         NSGraphicsContext.restoreGraphicsState()
         guard let data = bitmap.representation(using: .png, properties: [:]) else {
@@ -216,29 +173,6 @@ public enum RoadMaskWorkflow {
                 height: CGFloat(size.height)
             )
         ).fill()
-    }
-
-    private static func drawLaneMask(
-        _ descriptor: RoadMaskDescriptor,
-        size: RoadMaskRenderSize
-    ) {
-        let width = CGFloat(size.width)
-        let height = CGFloat(size.height)
-        let bottomY = height * 0.08
-        let topY = height * 0.92
-        let bottomHalfWidth = descriptor.bottomWidth * width / 2
-        let topHalfWidth = descriptor.topWidth * width / 2
-        let bottomCenterX = descriptor.bottomCenterX * width
-        let topCenterX = descriptor.topCenterX * width
-
-        let path = NSBezierPath()
-        path.move(to: NSPoint(x: bottomCenterX - bottomHalfWidth, y: bottomY))
-        path.line(to: NSPoint(x: bottomCenterX + bottomHalfWidth, y: bottomY))
-        path.line(to: NSPoint(x: topCenterX + topHalfWidth, y: topY))
-        path.line(to: NSPoint(x: topCenterX - topHalfWidth, y: topY))
-        path.close()
-        NSColor.white.setFill()
-        path.fill()
     }
 
     private static func drawLapMask(size: RoadMaskRenderSize) {
@@ -419,8 +353,16 @@ public enum RoadMaskWorkflow {
             {
               "images" : [
                 {
-                  "filename" : "\(descriptor.universalFilename)",
-                  "idiom" : "universal"
+                  "filename" : "\(descriptor.iPhoneFilename)",
+                  "idiom" : "iphone"
+                },
+                {
+                  "filename" : "\(descriptor.iPadFilename)",
+                  "idiom" : "ipad"
+                },
+                {
+                  "filename" : "\(descriptor.macFilename)",
+                  "idiom" : "mac"
                 },
                 {
                   "filename" : "\(descriptor.watchFilename)",

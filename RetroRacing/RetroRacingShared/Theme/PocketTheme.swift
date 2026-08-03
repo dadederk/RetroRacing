@@ -10,11 +10,18 @@ import SwiftUI
 
 /// Free theme capturing the monochrome green handheld console aesthetic.
 public struct PocketTheme: GameTheme {
-    public init() {}
+    public let isPremium: Bool
 
-    public var id: String { "pocket" }
+    public init() {
+        self.init(isPremium: false)
+    }
+
+    public init(isPremium: Bool) {
+        self.isPremium = isPremium
+    }
+
+    public var id: ThemeID { .pocket }
     public var name: String { "Pocket" }
-    public var isPremium: Bool { false }
 
     /// Lightened handheld-inspired background for better contrast with car sprites.
     public func backgroundColor(for state: GameState) -> Color {
@@ -61,4 +68,5 @@ public struct PocketTheme: GameTheme {
     public func rivalCarSprite() -> String? { "rivalsCar-GameBoy" }
     public func crashSprite() -> String? { "crash-GameBoy" }
     public func lifeSprite() -> String? { "life-GameBoy" }
+    public func friendLifeSprite() -> String? { "friendLife-GameBoy" }
 }

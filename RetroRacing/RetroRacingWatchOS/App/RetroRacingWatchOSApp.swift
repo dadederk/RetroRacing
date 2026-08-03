@@ -17,14 +17,11 @@ struct RetroRacingWatchOSApp: App {
     private static let authenticationRetryDelay: Duration = .seconds(2)
 
     private let themeManager: ThemeManager = {
-        let config = ThemePlatformConfig(
-            defaultThemeID: "pocket",
-            availableThemes: [LCDTheme(), PocketTheme()]
-        )
+        let config = ThemePlatformConfig.watchOS
         return ThemeManager(
-            initialThemes: config.availableThemes,
-            defaultThemeID: config.defaultThemeID,
-            userDefaults: InfrastructureDefaults.userDefaults
+            configuration: config,
+            userDefaults: InfrastructureDefaults.userDefaults,
+            hasPremiumAccess: false
         )
     }()
     private let leaderboardService: GameCenterService
