@@ -91,7 +91,7 @@ final class FontPreferenceStoreTests: XCTestCase {
         XCTAssertTrue(fonts.count == styles.count)
     }
 
-    func testGivenUniversalGameViewStyleWhenReadingHUDTextStyleThenTitleThreeIsUsed() {
+    func testGivenUniversalGameViewStyleWhenReadingHUDTextStyleThenTitleIsUsed() {
         // Given
         let style = GameViewStyle.universal
 
@@ -99,7 +99,7 @@ final class FontPreferenceStoreTests: XCTestCase {
         let hudTextStyle = style.hudTextStyle
 
         // Then
-        XCTAssertTrue(hudTextStyle == .title3)
+        XCTAssertTrue(hudTextStyle == .title)
     }
 
     func testGivenGameViewStylesWhenComparingHUDTextAndLifeIconsThenBaseSizesMatch() {
@@ -115,7 +115,7 @@ final class FontPreferenceStoreTests: XCTestCase {
         XCTAssertTrue(baseSizesMatch.allSatisfy { $0 })
     }
 
-    func testGivenGameViewStylesWhenReadingFriendHUDThenItUsesTheNextLowerTextStyle() {
+    func testGivenGameViewStylesWhenReadingFriendHUDThenItUsesTitleTwo() {
         // Given
         let styles = [GameViewStyle.universal, .tvOS]
 
@@ -126,7 +126,7 @@ final class FontPreferenceStoreTests: XCTestCase {
         }
 
         // Then
-        XCTAssertTrue(friendTextStyles == [.headline, .title2])
+        XCTAssertTrue(friendTextStyles == [.title2, .title2])
         XCTAssertTrue(friendBaseSizesMatch.allSatisfy { $0 })
     }
 

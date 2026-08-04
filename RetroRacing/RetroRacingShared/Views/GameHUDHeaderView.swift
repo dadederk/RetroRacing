@@ -22,9 +22,7 @@ struct GameHUDHeaderView: View {
     @Environment(\.verticalSizeClass) private var verticalSizeClass
     #endif
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
-    @ScaledMetric(relativeTo: .title3) private var titleThreeLifeIconScale: CGFloat = 1
     @ScaledMetric(relativeTo: .title) private var titleLifeIconScale: CGFloat = 1
-    @ScaledMetric(relativeTo: .headline) private var headlineLifeIconScale: CGFloat = 1
     @ScaledMetric(relativeTo: .title2) private var titleTwoLifeIconScale: CGFloat = 1
 
     @ViewBuilder
@@ -193,19 +191,11 @@ struct GameHUDHeaderView: View {
     }
 
     private var lifeIconScale: CGFloat {
-        #if os(tvOS)
         titleLifeIconScale
-        #else
-        titleThreeLifeIconScale
-        #endif
     }
 
     private var friendLifeIconScale: CGFloat {
-        #if os(tvOS)
         titleTwoLifeIconScale
-        #else
-        headlineLifeIconScale
-        #endif
     }
 
     private var shouldUseVerticalHeader: Bool {

@@ -21,23 +21,25 @@ struct GameLayoutView<GameArea: View>: View {
 
     var body: some View {
         ZStack(alignment: .bottomLeading) {
-            if usesCompactLandscapeLayout {
+            let resolvedLayoutKind = layoutKind
+            switch resolvedLayoutKind {
+            case .compactLandscape:
                 CompactLandscapeGameLayout(
                     hud: hud,
                     controls: controls,
                     gameArea: gameAreaContainer
                 )
-            } else if usesRegularWidthWidePlayLayout {
+            case .regularWidthWidePlay:
                 RegularWidthGameLayout(
                     hud: hud,
                     controls: controls,
                     gameArea: gameAreaContainer
                 )
-            } else {
+            case .portrait, .portraitCentered:
                 PortraitGameLayout(
                     hud: hud,
                     controls: controls,
-                    centersPlayArea: shouldVerticallyCenterPortraitPlayArea,
+                    centersPlayArea: resolvedLayoutKind == .portraitCentered,
                     gameArea: gameAreaContainer
                 )
             }
@@ -58,34 +60,49 @@ struct GameLayoutView<GameArea: View>: View {
         )
     }
 
+    private var layoutKind: GameLayoutKind {
+        #if os(macOS) || os(iOS)
+        GameLayoutKind.resolve(
+            containerSize: containerSize,
+            horizontalSizeClass: horizontalSizeClass,
+            verticalSizeClass: verticalSizeClass
+        )
+        #else
+        GameLayoutKind.resolve(
+            containerSize: containerSize,
+            horizontalSizeClass: nil,
+            verticalSizeClass: nil
+        )
+        #endif
+    }
+
     private var usesCompactLandscapeLayout: Bool {
-        #if os(macOS) || os(iOS)
-        switch (horizontalSizeClass, verticalSizeClass) {
-        case (.regular, .compact):
-            true
-        case (.regular, _), (.compact, _):
-            false
-        default:
-            containerSize.width > containerSize.height
+        layoutKind == .compactLandscape
+    }
+}
+
+enum GameLayoutKind: Equatable {
+    case compactLandscape
+    case regularWidthWidePlay
+    case portrait
+    case portraitCentered
+
+    static func resolve(
+        containerSize: CGSize,
+        horizontalSizeClass: UserInterfaceSizeClass?,
+        verticalSizeClass: UserInterfaceSizeClass?
+    ) -> GameLayoutKind {
+        let isWide = containerSize.width > containerSize.height
+        guard isWide else {
+            return horizontalSizeClass == .regular ? .portraitCentered : .portrait
         }
-        #else
-        containerSize.width > containerSize.height
-        #endif
-    }
 
-    private var usesRegularWidthWidePlayLayout: Bool {
-        #if os(macOS) || os(iOS)
-        horizontalSizeClass == .regular && containerSize.width > containerSize.height
-        #else
-        false
-        #endif
-    }
-
-    private var shouldVerticallyCenterPortraitPlayArea: Bool {
-        #if os(macOS) || os(iOS)
-        horizontalSizeClass == .regular && usesRegularWidthWidePlayLayout == false
-        #else
-        false
-        #endif
+        if verticalSizeClass == .compact {
+            return .compactLandscape
+        }
+        if horizontalSizeClass == .regular {
+            return .regularWidthWidePlay
+        }
+        return .compactLandscape
     }
 }

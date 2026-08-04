@@ -21,7 +21,7 @@
 
 - iPhone/iPad slides 0-9: hook gameplay, action gameplay, game over, accessibility settings, SharePlay waiting, friend marker, theme settings, Pocket gameplay, achievement unlock, free-user menu.
 - Mac slides 0-8: same story without SharePlay slide; later indices shift accordingly.
-- Watch slides 0-4: hook gameplay, menu, action gameplay, Pocket gameplay, settings.
+- Watch slides 0-4: hook gameplay, menu, action gameplay, LCD theme gameplay, settings.
 - Fixture definitions live in `ScreenshotSlideFixture` and `WatchScreenshotSlideFixture`.
 - Screenshot-only raster fixtures in the shared asset catalog must be scoped to the platforms that render them and must pass `./retrorapid assets audit --check`; Release builds must not gain flat fixture copies under `RetroRacingShared/Resources`.
 
@@ -31,7 +31,7 @@
 - Derived copies: `en-GB`, `en-AU`, `en-CA` from `en-US`; `es-MX` from `es-ES`.
 - `./retrorapid screenshots sync` may copy derived pixels and overlays but must never replace source locale captures with English.
 - iPhone/iPad default to light appearance and marketing status bar unless flags override.
-- Gameplay fixtures resolve platform-era defaults deterministically: LCD on iPhone, 8-Bit on iPad, 16-Bit on Mac, and Pocket on Apple Watch. The dedicated Pocket gameplay fixture remains Pocket on every platform.
+- Gameplay fixtures resolve platform-era defaults deterministically: LCD on iPhone, 8-Bit on iPad, 16-Bit on Mac, and Pocket on Apple Watch. Capture applies that default through a volatile preference so persisted developer state cannot change the settings fixture. The dedicated theme showcase uses Pocket on iPhone, iPad, and Mac, and LCD on Apple Watch.
 - Watch leaves marketing clock override off by default.
 - Mac writes PNG captures and uses capture-specific window sizing.
 

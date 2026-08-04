@@ -146,9 +146,14 @@ struct RetroRacingApp: App {
         #else
         let themeConfig = ThemePlatformConfig.iPhone
         #endif
+        let themeUserDefaults = ScreenshotCaptureConfiguration.isCaptureModeEnabled
+            ? ScreenshotCaptureThemePolicy.makeCaptureUserDefaults(
+                platform: ScreenshotCaptureConfiguration.capturePlatform
+            ) ?? userDefaults
+            : userDefaults
         let configuredThemeManager = ThemeManager(
             configuration: themeConfig,
-            userDefaults: userDefaults,
+            userDefaults: themeUserDefaults,
             hasPremiumAccess: storeKitService.hasPremiumAccessForGating
         )
         themeManager = configuredThemeManager

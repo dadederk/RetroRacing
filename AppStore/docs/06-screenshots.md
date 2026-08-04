@@ -2,7 +2,7 @@
 
 Part of [App Store docs hub](../README.md).
 
-Last updated: 2026-07-26
+Last updated: 2026-08-03
 
 **Status:** localized base captures via `./retrorapid screenshots capture`. Studio **export** and Connect **upload** stay **manual**.
 
@@ -27,7 +27,7 @@ Last updated: 2026-07-26
 
 ## Storyboard (iPhone / iPad)
 
-Bodies ≤ ~10 English words. Mac omits SharePlay (nine slides; indices shift after 3). Watch: five sequence slides — see capture contract.
+Bodies ≤ ~10 English words. Mac omits SharePlay (nine slides; indices shift after 3). Watch: five sequence slides; its default gameplay uses Pocket and its theme showcase uses LCD — see capture contract.
 
 | # | Title | English body | Purpose |
 |---:|---|---|---|

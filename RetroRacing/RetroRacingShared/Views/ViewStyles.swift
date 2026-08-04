@@ -97,12 +97,12 @@ public struct GameViewStyle {
     }
 
     public static let universal = GameViewStyle(
-        hudFontSize: 20,
-        hudTextStyle: .title3,
-        friendHUDTextStyle: .headline,
+        hudFontSize: 28,
+        hudTextStyle: .title,
+        friendHUDTextStyle: .title2,
         pauseButtonFontSize: 16,
-        lifeIconSize: 20,
-        friendLifeIconSize: 17,
+        lifeIconSize: 28,
+        friendLifeIconSize: 22,
         headerPadding: 16
     )
     public static let tvOS = GameViewStyle(

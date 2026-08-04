@@ -86,7 +86,7 @@ func givenInvalidParallelCanaryWorkerCountWhenParsingThenErrorIsThrown() {
 }
 
 @Test
-func givenTestEnvironmentWhenBuildingCommandsThenEnvironmentIsForwarded() {
+func testGivenTestEnvironmentWhenBuildingCommandsThenEnvironmentIsForwarded() {
     let root = URL(fileURLWithPath: "/repository")
     let options = TestRunnerOptions(
         destination: "platform=iOS Simulator,name=iPhone 17 Pro Max",
@@ -105,8 +105,9 @@ func givenTestEnvironmentWhenBuildingCommandsThenEnvironmentIsForwarded() {
     )
 
     #expect(commands.count == 1)
+    #expect(commands[0].environment["RETRORAPID_SCREENSHOT_STAGING"] == nil)
     #expect(
-        commands[0].environment["RETRORAPID_SCREENSHOT_STAGING"]
+        commands[0].environment["TEST_RUNNER_RETRORAPID_SCREENSHOT_STAGING"]
             == "/repository/.build/screenshot-capture"
     )
 }
@@ -142,7 +143,7 @@ func givenExistingStagedFilesWhenComputingMissingTargetsThenOnlyAbsentOnesAreRet
 }
 
 @Test
-func givenCaptureEnvironmentWhenBuildingCommandThenTargetsAndRetriesAreForwarded() {
+func testGivenCaptureEnvironmentWhenBuildingCommandThenTargetsAndRetriesAreForwarded() {
     let root = URL(fileURLWithPath: "/repository")
     let staging = root.appending(path: ".build/screenshot-capture")
     let targets = [
@@ -172,13 +173,51 @@ func givenCaptureEnvironmentWhenBuildingCommandThenTargetsAndRetriesAreForwarded
     )
 
     #expect(commands.count == 1)
-    #expect(commands[0].environment["RETRORAPID_SCREENSHOT_CAPTURE"] == "1")
-    #expect(commands[0].environment["RETRORAPID_SCREENSHOT_TARGETS"] == "fr-FR_3")
-    #expect(commands[0].environment["RETRORAPID_SCREENSHOT_MAX_RETRIES"] == "3")
-    #expect(commands[0].environment["RETRORAPID_SCREENSHOT_SKIP_EXISTING"] == "1")
-    #expect(commands[0].environment["RETRORAPID_SCREENSHOT_STAGING"] == staging.path)
-    #expect(commands[0].environment["RETRORAPID_SCREENSHOT_FILE_EXTENSION"] == ".jpeg")
-    #expect(commands[0].environment["RETRORAPID_SCREENSHOT_PLATFORM"] == "iphone")
+    let runnerEnvironment = commands[0].environment
+    #expect(runnerEnvironment["TEST_RUNNER_RETRORAPID_SCREENSHOT_CAPTURE"] == "1")
+    #expect(runnerEnvironment["TEST_RUNNER_RETRORAPID_SCREENSHOT_TARGETS"] == "fr-FR_3")
+    #expect(runnerEnvironment["TEST_RUNNER_RETRORAPID_SCREENSHOT_MAX_RETRIES"] == "3")
+    #expect(runnerEnvironment["TEST_RUNNER_RETRORAPID_SCREENSHOT_SKIP_EXISTING"] == "1")
+    #expect(runnerEnvironment["TEST_RUNNER_RETRORAPID_SCREENSHOT_STAGING"] == staging.path)
+    #expect(runnerEnvironment["TEST_RUNNER_RETRORAPID_SCREENSHOT_FILE_EXTENSION"] == ".jpeg")
+    #expect(runnerEnvironment["TEST_RUNNER_RETRORAPID_SCREENSHOT_PLATFORM"] == "iphone")
+}
+
+@Test
+func testGivenAlreadyPrefixedTestEnvironmentWhenBuildingCommandsThenPrefixIsNotDuplicated() {
+    let root = URL(fileURLWithPath: "/repository")
+    let options = TestRunnerOptions(
+        destination: "platform=iOS Simulator,name=iPhone 17 Pro Max",
+        dryRun: true,
+        onlyTesting: ["RetroRacingUniversalUITests"],
+        environment: ["TEST_RUNNER_CAPTURE_MODE": "1"]
+    )
+
+    let command = TestRunnerWorkflow.commands(repositoryRoot: root, options: options)[0]
+
+    #expect(command.environment["TEST_RUNNER_CAPTURE_MODE"] == "1")
+    #expect(command.environment["TEST_RUNNER_TEST_RUNNER_CAPTURE_MODE"] == nil)
+}
+
+@Test
+func testGivenScreenshotSchemeWhenBuildingCommandThenSchemeIsForwarded() {
+    let root = URL(fileURLWithPath: "/repository")
+    let derivedDataPath = "/repository/.build/screenshot-capture/DerivedData/mac"
+    let options = TestRunnerOptions(
+        destination: "platform=macOS",
+        dryRun: true,
+        onlyTesting: ["RetroRacingUniversalUITests"],
+        buildMode: .buildForTesting,
+        scheme: "RetroRacingScreenshots",
+        derivedDataPath: derivedDataPath
+    )
+
+    let command = TestRunnerWorkflow.commands(repositoryRoot: root, options: options)[0]
+
+    #expect(command.arguments.contains("RetroRacingScreenshots"))
+    #expect(command.arguments.contains("build-for-testing"))
+    #expect(command.arguments.contains("-derivedDataPath"))
+    #expect(command.arguments.contains(derivedDataPath))
 }
 
 @Test
@@ -353,7 +392,7 @@ func givenLocalizedSourceCapturesWhenSyncingScreenshotStudioThenOnlyDerivedLocal
     )
     try projectData.write(to: studioRoot.appending(path: "project.plist"))
 
-    let iphoneSlides = try Array(repeating: ["localizations": []] as [String: Any], count: 10)
+    let iphoneSlides = Array(repeating: ["localizations": []] as [String: Any], count: 10)
     let iphoneData = try PropertyListSerialization.data(
         fromPropertyList: iphoneSlides,
         format: .xml,

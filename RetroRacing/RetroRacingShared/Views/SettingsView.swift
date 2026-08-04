@@ -133,7 +133,7 @@ public struct SettingsView: View {
             ScrollViewReader { scrollProxy in
                 List {
                     playLimitSection
-                    purchasesSection
+                    topPurchasesSection
                     themeSection
                     fontSection
                     speedSection
@@ -142,6 +142,7 @@ public struct SettingsView: View {
                     controlsSection
                     accessibilitySection
                     aboutSection
+                    bottomPurchasesSection
                     debugSection
                 }
                 .modifier(SettingsScreenshotListChromeModifier(screenshotFocus: screenshotFocus))
@@ -194,6 +195,28 @@ public struct SettingsView: View {
             }
             #endif
         }
+    }
+
+    @ViewBuilder
+    private var topPurchasesSection: some View {
+        if Self.shouldPlacePurchasesSectionAtBottom(
+            hasPremiumAccessForGating: storeKit.hasPremiumAccessForGating
+        ) == false {
+            purchasesSection
+        }
+    }
+
+    @ViewBuilder
+    private var bottomPurchasesSection: some View {
+        if Self.shouldPlacePurchasesSectionAtBottom(
+            hasPremiumAccessForGating: storeKit.hasPremiumAccessForGating
+        ) {
+            purchasesSection
+        }
+    }
+
+    static func shouldPlacePurchasesSectionAtBottom(hasPremiumAccessForGating: Bool) -> Bool {
+        hasPremiumAccessForGating
     }
 
     @ViewBuilder

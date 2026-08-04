@@ -20,11 +20,13 @@ Preferred entry point from the repository root (matches Xarra’s `./xarraCli`):
 
 `./retroRapidCli` and `./retrorapid` are equivalent. Both forward to `swift run --package-path Scripts retrorapid`. With **no arguments** on an interactive terminal they open a numbered menu; use `--help` for static reference.
 
-Runtime asset optimization requires the pinned ImageMagick **7.1.2-3** release
-(`brew install imagemagick`). Apply and check modes preflight `magick -version` and
-stop before reading or mutating generated assets when the tool is absent or has a
-different version. This pins resizing behavior across developer machines and CI;
-`--check` remains the pixel-level reproducibility gate.
+Runtime asset optimization requires the pinned ImageMagick **7.1.2-3** release.
+Provision that exact release through the same versioned developer/CI toolchain;
+an unversioned `brew install imagemagick` is suitable only when it resolves to
+7.1.2-3. Confirm with `magick -version`. Apply and check modes parse and preflight
+the exact reported version, stopping before generated assets are read or mutated
+when the tool is absent or differs. `--check` remains the pixel-level
+reproducibility gate.
 
 ## Commands
 

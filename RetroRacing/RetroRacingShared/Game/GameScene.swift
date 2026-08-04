@@ -46,6 +46,49 @@ enum LineMode: Equatable {
     case verticalOnly
 }
 
+enum LaneMoveRenderPath: String {
+    case unchanged
+    case incremental
+    case fullRenderFallback = "full_render_fallback"
+}
+
+enum GameSpriteNodeName {
+    static let playerCar = "player_car"
+    static let crash = "crash"
+}
+
+private enum LaneMovePerformanceDiagnostics {
+    @discardableResult
+    static func measure(
+        direction: String,
+        operation: () -> LaneMoveRenderPath
+    ) -> LaneMoveRenderPath {
+        #if DEBUG
+        let start = ContinuousClock.now
+        let renderPath = operation()
+        let duration = ContinuousClock.now - start
+        guard duration >= .milliseconds(16) else { return renderPath }
+
+        let components = duration.components
+        let milliseconds = (Double(components.seconds) * 1_000)
+            + (Double(components.attoseconds) / 1_000_000_000_000_000)
+        AppLog.warning(
+            AppLog.input + AppLog.game,
+            "LANE_MOVE_EXCEEDED_FRAME_BUDGET",
+            outcome: .completed,
+            fields: [
+                .string("direction", direction),
+                .string("renderPath", renderPath.rawValue),
+                .double("durationMilliseconds", milliseconds)
+            ]
+        )
+        return renderPath
+        #else
+        return operation()
+        #endif
+    }
+}
+
 struct RoadSurfaceRenderSignature: Equatable {
     let sceneSize: CGSize
     let themeID: ThemeID?
@@ -94,6 +137,7 @@ public class GameScene: SKScene {
     #endif
 
     var spritesForGivenState = [SKSpriteNode]()
+    var playerSpriteNode: SKSpriteNode?
     var roadSurfaceNodes = [SKShapeNode]()
     var roadSurfaceRenderSignature: RoadSurfaceRenderSignature?
     var lineOverlayNodes = [SKNode]()
@@ -815,6 +859,7 @@ public class GameScene: SKScene {
 
         removeAllChildren()
         spritesForGivenState.removeAll()
+        playerSpriteNode = nil
         roadSurfaceNodes.removeAll()
         roadSurfaceRenderSignature = nil
         lineOverlayNodes.removeAll()
@@ -835,48 +880,34 @@ extension GameScene: RacingGameController {
         guard !gameState.isPaused else { return }
 
         let previousColumn = lastPlayerColumn
-        (gridState, _) = gridCalculator.nextGrid(previousGrid: gridState, actions: [.moveCar(direction: .left)])
-        lastPlayerColumn = gridState.playerRow().firstIndex(of: .Player) ?? lastPlayerColumn
-
-        AppLog.debug(
-            AppLog.input + AppLog.game,
-            "MOVE_LEFT",
-            outcome: .completed,
-            fields: [
-                .int("from", previousColumn),
-                .int("to", lastPlayerColumn)
-            ]
-        )
-        gridStateDidUpdate(
-            gridState,
-            shouldPlayFeedback: true,
-            notifyDelegate: false,
-            feedbackEvent: .move(destinationColumn: lastPlayerColumn)
-        )
+        LaneMovePerformanceDiagnostics.measure(direction: "left") {
+            (gridState, _) = gridCalculator.nextGrid(
+                previousGrid: gridState,
+                actions: [.moveCar(direction: .left)]
+            )
+            lastPlayerColumn = gridState.playerRow().firstIndex(of: .Player) ?? lastPlayerColumn
+            return playerLaneDidUpdate(
+                fromColumn: previousColumn,
+                toColumn: lastPlayerColumn
+            )
+        }
     }
 
     public func moveRight() {
         guard !gameState.isPaused else { return }
 
         let previousColumn = lastPlayerColumn
-        (gridState, _) = gridCalculator.nextGrid(previousGrid: gridState, actions: [.moveCar(direction: .right)])
-        lastPlayerColumn = gridState.playerRow().firstIndex(of: .Player) ?? lastPlayerColumn
-
-        AppLog.debug(
-            AppLog.input + AppLog.game,
-            "MOVE_RIGHT",
-            outcome: .completed,
-            fields: [
-                .int("from", previousColumn),
-                .int("to", lastPlayerColumn)
-            ]
-        )
-        gridStateDidUpdate(
-            gridState,
-            shouldPlayFeedback: true,
-            notifyDelegate: false,
-            feedbackEvent: .move(destinationColumn: lastPlayerColumn)
-        )
+        LaneMovePerformanceDiagnostics.measure(direction: "right") {
+            (gridState, _) = gridCalculator.nextGrid(
+                previousGrid: gridState,
+                actions: [.moveCar(direction: .right)]
+            )
+            lastPlayerColumn = gridState.playerRow().firstIndex(of: .Player) ?? lastPlayerColumn
+            return playerLaneDidUpdate(
+                fromColumn: previousColumn,
+                toColumn: lastPlayerColumn
+            )
+        }
     }
 }
 
@@ -893,17 +924,19 @@ private struct DirectionalGameInputAdapterCore {
     let hapticController: HapticFeedbackController?
 
     func handleLeft() {
-        if shouldUseSceneManagedMoveHaptics == false {
+        let shouldTriggerMoveHaptic = shouldUseSceneManagedMoveHaptics == false
+        controller.moveLeft()
+        if shouldTriggerMoveHaptic {
             hapticController?.triggerMoveHaptic()
         }
-        controller.moveLeft()
     }
 
     func handleRight() {
-        if shouldUseSceneManagedMoveHaptics == false {
+        let shouldTriggerMoveHaptic = shouldUseSceneManagedMoveHaptics == false
+        controller.moveRight()
+        if shouldTriggerMoveHaptic {
             hapticController?.triggerMoveHaptic()
         }
-        controller.moveRight()
     }
 
     func handleDrag(translation: CGSize) {

@@ -17,14 +17,14 @@ public enum WatchScreenshotSlideFixture: Int, CaseIterable, Sendable {
     case hookGameplay = 0
     case menu = 1
     case actionGameplay = 2
-    case pocketGameplay = 3
+    case themeGameplay = 3
     case settings = 4
 
     public var slideIndex: Int { rawValue }
 
     public var route: WatchScreenshotCaptureRoute {
         switch self {
-        case .hookGameplay, .actionGameplay, .pocketGameplay:
+        case .hookGameplay, .actionGameplay, .themeGameplay:
             return .gameplay
         case .menu:
             return .menu
@@ -35,7 +35,7 @@ public enum WatchScreenshotSlideFixture: Int, CaseIterable, Sendable {
 
     public var layout: GameScreenshotLayout? {
         switch self {
-        case .hookGameplay, .pocketGameplay:
+        case .hookGameplay, .themeGameplay:
             return .hookGameplay
         case .actionGameplay:
             return .actionGameplay
@@ -44,8 +44,13 @@ public enum WatchScreenshotSlideFixture: Int, CaseIterable, Sendable {
         }
     }
 
-    public var usesPocketTheme: Bool {
-        self == .pocketGameplay
+    public var themeID: ThemeID {
+        switch self {
+        case .themeGameplay:
+            return .lcd
+        case .hookGameplay, .menu, .actionGameplay, .settings:
+            return .pocket
+        }
     }
 
     public var presentsSettingsSheet: Bool {

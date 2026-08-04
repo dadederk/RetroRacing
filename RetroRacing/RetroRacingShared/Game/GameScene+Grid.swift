@@ -147,11 +147,53 @@ extension GameScene {
         }
     }
 
+    func playerLaneDidUpdate(fromColumn: Int, toColumn: Int) -> LaneMoveRenderPath {
+        let renderPath: LaneMoveRenderPath
+        if fromColumn == toColumn {
+            renderPath = .unchanged
+        } else if relocatePlayerSprite(fromColumn: fromColumn, toColumn: toColumn) {
+            renderPath = .incremental
+        } else {
+            updateGrid(withGridState: gridState)
+            renderPath = .fullRenderFallback
+        }
+
+        playFeedback(event: .move(destinationColumn: toColumn))
+        return renderPath
+    }
+
+    private func relocatePlayerSprite(fromColumn: Int, toColumn: Int) -> Bool {
+        let playerRow = gridState.playerRowIndex
+        guard (0..<gridState.numberOfColumns).contains(fromColumn),
+              (0..<gridState.numberOfColumns).contains(toColumn),
+              gridState.grid[playerRow][toColumn] == .Player else {
+            return false
+        }
+
+        let destinationCell = gridCell(column: toColumn, row: playerRow)
+        guard let sprite = playerSpriteNode,
+              sprite.scene === self else {
+            return false
+        }
+
+        // Grid-cell paths use scene coordinates, so lane changes only need a position update.
+        // Keeping the attached node's parent and scale intact avoids transient texture-size rendering.
+        sprite.position = spritePosition(
+            inCell: destinationCell,
+            row: playerRow,
+            column: toColumn,
+            spriteSize: sprite.size,
+            laneCenterSceneX: bigRivalCarsEnabled ? nil : laneCenterX(forColumn: toColumn, row: playerRow)
+        )
+        return true
+    }
+
     func resetScene() {
         for sprite in spritesForGivenState {
             sprite.removeFromParent()
         }
         spritesForGivenState.removeAll()
+        playerSpriteNode = nil
 
         for lineOverlay in lineOverlayNodes {
             lineOverlay.removeFromParent()
@@ -179,6 +221,7 @@ extension GameScene {
         clearRoadSurfaceCache()
         removeAllChildren()
         spritesForGivenState.removeAll()
+        playerSpriteNode = nil
         lineOverlayNodes.removeAll()
         friendMilestoneOverlayNodes.removeAll()
         createGrid()
@@ -641,11 +684,14 @@ extension GameScene {
                         sideLaneConvergenceFactor: bigRivalCarsEnabled ? 0 : CarPerspectiveConfiguration.sideLaneConvergenceFactor
                     )
                 case .Player:
+                    let playerSprite = spriteNode(
+                        imageNamed: theme?.playerCarSprite() ?? "playersCar-LCD",
+                        fallbackImageNamed: "playersCar-LCD"
+                    )
+                    playerSprite.name = GameSpriteNodeName.playerCar
+                    playerSpriteNode = playerSprite
                     addSprite(
-                        spriteNode(
-                            imageNamed: theme?.playerCarSprite() ?? "playersCar-LCD",
-                            fallbackImageNamed: "playersCar-LCD"
-                        ),
+                        playerSprite,
                         toCell: cell,
                         row: row,
                         column: column,
@@ -658,7 +704,7 @@ extension GameScene {
                         imageNamed: theme?.crashSprite() ?? "crash-LCD",
                         fallbackImageNamed: "crash-LCD"
                     )
-                    crashSprite.name = "crash"
+                    crashSprite.name = GameSpriteNodeName.crash
                     addSprite(
                         crashSprite,
                         toCell: cell,

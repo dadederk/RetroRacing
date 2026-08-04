@@ -27,6 +27,8 @@ public struct SystemRuntimeAssetProcessRunner: RuntimeAssetProcessRunning {
 }
 
 public struct ImageMagickRuntimeAssetTransformer: RuntimeAssetImageTransforming {
+    private static let supportedVersion = "7.1.2-3"
+
     private let processRunner: any RuntimeAssetProcessRunning
 
     public init(processRunner: any RuntimeAssetProcessRunning) {
@@ -45,9 +47,9 @@ public struct ImageMagickRuntimeAssetTransformer: RuntimeAssetImageTransforming 
                 "ImageMagick is unavailable. Install the pinned 7.1.2-3 release before optimizing assets."
             )
         }
-        guard output.contains("ImageMagick 7.1.2-3") else {
+        guard Self.reportedVersion(in: output) == Self.supportedVersion else {
             throw RuntimeAssetOptimizationError.unsupportedImageMagick(
-                "Expected ImageMagick 7.1.2-3, but `magick -version` reported: \(output)"
+                "Expected ImageMagick \(Self.supportedVersion), but `magick -version` reported: \(output)"
             )
         }
     }
@@ -155,6 +157,15 @@ public struct ImageMagickRuntimeAssetTransformer: RuntimeAssetImageTransforming 
             try FileManager.default.removeItem(at: destination)
         }
         try FileManager.default.copyItem(at: source, to: destination)
+    }
+
+    private static func reportedVersion(in output: String) -> String? {
+        let fields = output.split(whereSeparator: { $0.isWhitespace })
+        guard let productIndex = fields.firstIndex(of: "ImageMagick"),
+              fields.indices.contains(productIndex + 1) else {
+            return nil
+        }
+        return String(fields[productIndex + 1])
     }
 }
 

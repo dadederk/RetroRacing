@@ -23,7 +23,7 @@ public enum AppBootstrap {
 
     /// Configures access point location but keeps it hidden; the app presents Game Center explicitly.
     public static func configureGameCenterAccessPoint() {
-        #if canImport(UIKit) && !os(watchOS)
+        #if (canImport(UIKit) && !os(watchOS)) || os(macOS)
         GKAccessPoint.shared.location = .topTrailing
         GKAccessPoint.shared.isActive = false
         #endif

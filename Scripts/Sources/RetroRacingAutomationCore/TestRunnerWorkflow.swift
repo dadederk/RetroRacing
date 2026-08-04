@@ -22,6 +22,7 @@ public struct TestRunnerOptions: Equatable, Sendable {
     public let timeout: TimeInterval?
     public let buildMode: BuildMode
     public let scheme: String
+    public let derivedDataPath: String?
 
     public init(
         destination: String,
@@ -30,7 +31,8 @@ public struct TestRunnerOptions: Equatable, Sendable {
         environment: [String: String] = [:],
         timeout: TimeInterval? = nil,
         buildMode: BuildMode = .test,
-        scheme: String = "RetroRacingUniversal"
+        scheme: String = "RetroRacingUniversal",
+        derivedDataPath: String? = nil
     ) {
         self.destination = destination
         self.dryRun = dryRun
@@ -39,6 +41,7 @@ public struct TestRunnerOptions: Equatable, Sendable {
         self.timeout = timeout
         self.buildMode = buildMode
         self.scheme = scheme
+        self.derivedDataPath = derivedDataPath
     }
 
     public static func parse(_ arguments: CLIArguments) throws -> TestRunnerOptions {
@@ -72,7 +75,8 @@ public enum TestRunnerWorkflow {
                     onlyTesting: options.onlyTesting,
                     environment: options.environment,
                     buildMode: options.buildMode,
-                    scheme: options.scheme
+                    scheme: options.scheme,
+                    derivedDataPath: options.derivedDataPath
                 ),
             ]
         }
@@ -84,7 +88,8 @@ public enum TestRunnerWorkflow {
                 onlyTesting: ["RetroRacingSharedTests"],
                 environment: options.environment,
                 buildMode: options.buildMode,
-                scheme: options.scheme
+                scheme: options.scheme,
+                derivedDataPath: options.derivedDataPath
             ),
             xcodebuildCommand(
                 project: project,
@@ -92,7 +97,8 @@ public enum TestRunnerWorkflow {
                 onlyTesting: ["RetroRacingUniversalTests"],
                 environment: options.environment,
                 buildMode: options.buildMode,
-                scheme: options.scheme
+                scheme: options.scheme,
+                derivedDataPath: options.derivedDataPath
             ),
         ]
     }
@@ -105,7 +111,8 @@ public enum TestRunnerWorkflow {
             "RetroRacingUniversalUITests/AppStoreScreenshotTests/testCaptureConfiguredScreenshot",
         ],
         dryRun: Bool = false,
-        timeout: TimeInterval? = nil
+        timeout: TimeInterval? = nil,
+        derivedDataPath: String? = nil
     ) throws {
         let options = TestRunnerOptions(
             destination: destination,
@@ -113,7 +120,8 @@ public enum TestRunnerWorkflow {
             onlyTesting: onlyTesting,
             timeout: timeout,
             buildMode: .buildForTesting,
-            scheme: scheme
+            scheme: scheme,
+            derivedDataPath: derivedDataPath
         )
         try run(repositoryRoot: repositoryRoot, options: options)
     }
@@ -136,7 +144,8 @@ public enum TestRunnerWorkflow {
         onlyTesting: [String],
         environment: [String: String] = [:],
         buildMode: TestRunnerOptions.BuildMode = .test,
-        scheme: String = "RetroRacingUniversal"
+        scheme: String = "RetroRacingUniversal",
+        derivedDataPath: String? = nil
     ) -> ProcessCommand {
         let action: String
         switch buildMode {
@@ -158,6 +167,10 @@ public enum TestRunnerWorkflow {
             "-destination",
             destination,
         ]
+        if let derivedDataPath {
+            arguments.append("-derivedDataPath")
+            arguments.append(derivedDataPath)
+        }
         for filter in onlyTesting {
             arguments.append("-only-testing:\(filter)")
         }
@@ -168,8 +181,23 @@ public enum TestRunnerWorkflow {
         return ProcessCommand(
             executable: "/usr/bin/xcrun",
             arguments: arguments,
-            environment: environment
+            environment: testRunnerEnvironment(environment)
         )
+    }
+
+    /// `xcodebuild` only forwards variables prefixed with `TEST_RUNNER_` to XCTest.
+    /// XCTest strips that prefix before exposing the values through `ProcessInfo`.
+    private static func testRunnerEnvironment(
+        _ environment: [String: String]
+    ) -> [String: String] {
+        var forwarded: [String: String] = [:]
+        for (key, value) in environment {
+            let forwardedKey = key.hasPrefix("TEST_RUNNER_")
+                ? key
+                : "TEST_RUNNER_\(key)"
+            forwarded[forwardedKey] = value
+        }
+        return forwarded
     }
 
     private static func testCommand(

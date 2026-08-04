@@ -33,6 +33,9 @@ struct GameAreaKeyboardModifier: ViewModifier {
             .background(
                 HardwareKeyboardInputView(
                     onKeyboardLeft: {
+                        inputAdapter?.handleLeft()
+                        onKeyboardInput?()
+                        onMoveLeft?()
                         AppLog.debug(
                             AppLog.input + AppLog.game,
                             "KEYBOARD_INPUT_RECEIVED",
@@ -42,11 +45,11 @@ struct GameAreaKeyboardModifier: ViewModifier {
                                 .string("key", "left_arrow")
                             ]
                         )
-                        onKeyboardInput?()
-                        onMoveLeft?()
-                        inputAdapter?.handleLeft()
                     },
                     onKeyboardRight: {
+                        inputAdapter?.handleRight()
+                        onKeyboardInput?()
+                        onMoveRight?()
                         AppLog.debug(
                             AppLog.input + AppLog.game,
                             "KEYBOARD_INPUT_RECEIVED",
@@ -56,11 +59,11 @@ struct GameAreaKeyboardModifier: ViewModifier {
                                 .string("key", "right_arrow")
                             ]
                         )
-                        onKeyboardInput?()
-                        onMoveRight?()
-                        inputAdapter?.handleRight()
                     },
                     onSwipeLeft: {
+                        inputAdapter?.handleLeft()
+                        onSwipeInput?()
+                        onMoveLeft?()
                         AppLog.debug(
                             AppLog.input + AppLog.game,
                             "TRACKPAD_SWIPE_RECEIVED",
@@ -70,11 +73,11 @@ struct GameAreaKeyboardModifier: ViewModifier {
                                 .string("direction", "left")
                             ]
                         )
-                        onSwipeInput?()
-                        onMoveLeft?()
-                        inputAdapter?.handleLeft()
                     },
                     onSwipeRight: {
+                        inputAdapter?.handleRight()
+                        onSwipeInput?()
+                        onMoveRight?()
                         AppLog.debug(
                             AppLog.input + AppLog.game,
                             "TRACKPAD_SWIPE_RECEIVED",
@@ -84,9 +87,6 @@ struct GameAreaKeyboardModifier: ViewModifier {
                                 .string("direction", "right")
                             ]
                         )
-                        onSwipeInput?()
-                        onMoveRight?()
-                        inputAdapter?.handleRight()
                     },
                     onPauseToggle: {
                         AppLog.debug(

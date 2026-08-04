@@ -20,7 +20,7 @@ public final class ThemeManager {
     private let userDefaults: UserDefaults
     private var hasPremiumAccess: Bool
 
-    private static let selectedThemeKey = "selectedThemeID"
+    nonisolated static let selectedThemeKey = "selectedThemeID"
     private static let obsoleteUnlockedThemesKey = "unlockedThemes"
 
     public init(

@@ -133,6 +133,13 @@ public enum ScreenshotSlideFixture: Equatable, Sendable, CaseIterable {
         self == .pocketGameplay
     }
 
+    public func themeID(for platform: String?) -> ThemeID {
+        if usesPocketTheme {
+            return .pocket
+        }
+        return ThemePlatformConfig.screenshotCapture(platform: platform).defaultThemeID
+    }
+
     private static func universalFixture(for slideIndex: Int) -> ScreenshotSlideFixture? {
         switch slideIndex {
         case 0: return .hookGameplay

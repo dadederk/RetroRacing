@@ -1075,6 +1075,7 @@
 		};
 		21DD469E2F2FCA97000C9FFA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
+			platformFilter = ios;
 			target = 21DD467E2F2FCA96000C9FFA /* RetroRacingWatchOS */;
 			targetProxy = 21DD469D2F2FCA97000C9FFA /* PBXContainerItemProxy */;
 		};
@@ -1495,6 +1496,7 @@
 				DEVELOPMENT_TEAM = PV9S9FTZF2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Config/RetroRacingWatchOSInfo.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "RetroRapid!";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.accessibilityUpTo11.RetroRacing;
@@ -1533,6 +1535,7 @@
 				DEVELOPMENT_TEAM = PV9S9FTZF2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Config/RetroRacingWatchOSInfo.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "RetroRapid!";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.accessibilityUpTo11.RetroRacing;

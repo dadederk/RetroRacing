@@ -63,6 +63,7 @@ Friend races are free. SharePlay competitive matches in [`shareplay_multiplayer.
 - Settings:
   - Play Limit section is visible only for resolved free users.
   - Purchases section exposes Get Unlimited Plays, Restore Purchases, and supported redeem-code UI.
+  - Purchases appears near the top for users without Unlimited Plays; after purchase it moves below About, while DEBUG-only controls remain last in debug builds.
   - Debug simulation controls are DEBUG-only; see [debug_simulation.md](debug_simulation.md).
 
 ## App Store and Operations

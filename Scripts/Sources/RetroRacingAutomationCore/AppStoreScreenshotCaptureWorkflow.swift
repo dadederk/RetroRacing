@@ -291,9 +291,9 @@ public enum AppStoreScreenshotCaptureWorkflow {
     private static func captureScheme(for platform: String) -> String {
         switch AppStoreScreenshotCaptureDefaults.normalizedPlatform(platform) {
         case "appleWatch":
-            return "RetroRacingWatchOS"
+            return "RetroRacingWatchOSScreenshots"
         default:
-            return "RetroRacingUniversal"
+            return "RetroRacingScreenshots"
         }
     }
 
@@ -304,6 +304,16 @@ public enum AppStoreScreenshotCaptureWorkflow {
         default:
             return universalScreenshotTestName
         }
+    }
+
+    private static func captureDerivedDataPath(
+        repositoryRoot: URL,
+        platform: String
+    ) -> String {
+        repositoryRoot
+            .appending(path: ".build/screenshot-capture/DerivedData")
+            .appending(path: AppStoreScreenshotCaptureDefaults.normalizedPlatform(platform))
+            .path
     }
 
     private static func duplicatesDerivedLocales(for platform: String) -> Bool {
@@ -541,7 +551,11 @@ public enum AppStoreScreenshotCaptureWorkflow {
                 destination: options.destination,
                 scheme: captureScheme(for: options.platform),
                 onlyTesting: [screenshotTestName(for: options.platform)],
-                timeout: screenshotTestTimeout
+                timeout: screenshotTestTimeout,
+                derivedDataPath: captureDerivedDataPath(
+                    repositoryRoot: repositoryRoot,
+                    platform: options.platform
+                )
             )
         } else {
             print("Dry run: would build UI test runner once, then capture without rebuilding.")
@@ -680,7 +694,11 @@ public enum AppStoreScreenshotCaptureWorkflow {
                     environment: environment,
                     timeout: screenshotTestTimeout,
                     buildMode: .testWithoutBuilding,
-                    scheme: captureScheme(for: options.platform)
+                    scheme: captureScheme(for: options.platform),
+                    derivedDataPath: captureDerivedDataPath(
+                        repositoryRoot: repositoryRoot,
+                        platform: options.platform
+                    )
                 )
 
                 if options.dryRun {

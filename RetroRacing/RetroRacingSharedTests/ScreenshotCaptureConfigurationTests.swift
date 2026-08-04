@@ -106,6 +106,31 @@ final class ScreenshotCaptureConfigurationTests: XCTestCase {
         XCTAssertEqual(ScreenshotCaptureAppearance.dark.colorScheme, .dark)
     }
 
+    func testGivenStoredThemeWhenApplyingCapturePolicyThenUsesVolatilePlatformDefault() throws {
+        let suiteName = "ScreenshotCaptureThemePolicyTests.\(UUID().uuidString)"
+        let userDefaults = try XCTUnwrap(UserDefaults(suiteName: suiteName))
+        defer {
+            userDefaults.removePersistentDomain(forName: suiteName)
+            userDefaults.removePersistentDomain(forName: ScreenshotCaptureThemePolicy.captureSuiteName)
+        }
+        userDefaults.set(ThemeID.lcd.rawValue, forKey: ThemeManager.selectedThemeKey)
+
+        let captureDefaults = try XCTUnwrap(
+            ScreenshotCaptureThemePolicy.makeCaptureUserDefaults(platform: "mac")
+        )
+
+        XCTAssertEqual(captureDefaults.string(forKey: "selectedThemeID"), ThemeID.sixteenBit.rawValue)
+        XCTAssertEqual(
+            userDefaults.persistentDomain(forName: suiteName)?[ThemeManager.selectedThemeKey] as? String,
+            ThemeID.lcd.rawValue
+        )
+        XCTAssertNil(
+            captureDefaults.persistentDomain(forName: ScreenshotCaptureThemePolicy.captureSuiteName)?[
+                ThemeManager.selectedThemeKey
+            ]
+        )
+    }
+
     func testGivenMacLandscapeWindowConfigurationWhenReadingSizeThenMatchesScreenshotStudioBaseCapture() {
         XCTAssertEqual(ScreenshotCaptureWindowConfiguration.macLandscapeContentSize.width, 1012)
         XCTAssertEqual(ScreenshotCaptureWindowConfiguration.macLandscapeContentSize.height, 784)
@@ -120,6 +145,10 @@ final class ScreenshotCaptureConfigurationTests: XCTestCase {
         XCTAssertEqual(ScreenshotSlideFixture.fixture(for: 5)?.route, .gameplay)
         XCTAssertEqual(ScreenshotSlideFixture.fixture(for: 6)?.route, .settings(.customize))
         XCTAssertTrue(ScreenshotSlideFixture.pocketGameplay.usesPocketTheme)
+        XCTAssertEqual(ScreenshotSlideFixture.hookGameplay.themeID(for: "iphone"), .lcd)
+        XCTAssertEqual(ScreenshotSlideFixture.hookGameplay.themeID(for: "ipad"), .eightBit)
+        XCTAssertEqual(ScreenshotSlideFixture.hookGameplay.themeID(for: "mac"), .sixteenBit)
+        XCTAssertEqual(ScreenshotSlideFixture.pocketGameplay.themeID(for: "ipad"), .pocket)
         XCTAssertTrue(ScreenshotSlideFixture.accessibilitySettings.presentsSettingsSheet)
         XCTAssertTrue(ScreenshotSlideFixture.gameOver.presentsGameOverSheet)
         XCTAssertEqual(ScreenshotSlideFixture.fixture(for: 8)?.route, .achievementUnlock)
@@ -148,7 +177,8 @@ final class ScreenshotCaptureConfigurationTests: XCTestCase {
         XCTAssertEqual(WatchScreenshotSlideFixture.hookGameplay.layout?.score, GameScreenshotLayout.hookGameplay.score)
         XCTAssertEqual(WatchScreenshotSlideFixture.actionGameplay.layout?.score, GameScreenshotLayout.actionGameplay.score)
         XCTAssertNil(WatchScreenshotSlideFixture.menu.layout)
-        XCTAssertTrue(WatchScreenshotSlideFixture.pocketGameplay.usesPocketTheme)
+        XCTAssertEqual(WatchScreenshotSlideFixture.hookGameplay.themeID, .pocket)
+        XCTAssertEqual(WatchScreenshotSlideFixture.themeGameplay.themeID, .lcd)
         XCTAssertTrue(WatchScreenshotSlideFixture.settings.presentsSettingsSheet)
         XCTAssertEqual(WatchScreenshotSlideFixture.slideCount, 5)
     }

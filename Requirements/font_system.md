@@ -19,8 +19,8 @@
 ## Usage Rules
 
 - Use semantic font APIs for titles, labels, buttons, HUD text, and compact controls.
-- Use Title 3 for the universal gameplay score and Headline for the SharePlay friend's score.
-  On tvOS, preserve the same one-step hierarchy with Title and Title 2. Size each life helmet
+- Use Title 1 for the universal gameplay score and Title 2 for the SharePlay friend's score.
+  On tvOS, preserve the same Title 1 and Title 2 hierarchy. Size each life helmet
   from its normalized visible artwork height and scale it relative to the adjacent semantic text
   style so the wider canvas and safety inset do not reduce its optical height. Keep compact
   watchOS HUD sizing appropriate for its viewing context while retaining Dynamic Type scaling.

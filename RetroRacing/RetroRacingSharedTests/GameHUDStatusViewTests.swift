@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 import XCTest
 @testable import RetroRacingShared
 
@@ -47,5 +48,50 @@ final class GameHUDStatusViewTests: XCTestCase {
 
         // Then
         XCTAssertEqual(renderedVisibleHeight, requestedVisibleHeight, accuracy: 0.001)
+    }
+
+    func testGivenRegularHorizontalCompactHeightLandscapeWhenResolvingLayoutThenControlsUseSideRails() {
+        // Given
+        let containerSize = CGSize(width: 852, height: 393)
+
+        // When
+        let layout = GameLayoutKind.resolve(
+            containerSize: containerSize,
+            horizontalSizeClass: .regular,
+            verticalSizeClass: .compact
+        )
+
+        // Then
+        XCTAssertEqual(layout, .compactLandscape)
+    }
+
+    func testGivenCompactHorizontalCompactHeightLandscapeWhenResolvingLayoutThenControlsUseSideRails() {
+        // Given
+        let containerSize = CGSize(width: 667, height: 375)
+
+        // When
+        let layout = GameLayoutKind.resolve(
+            containerSize: containerSize,
+            horizontalSizeClass: .compact,
+            verticalSizeClass: .compact
+        )
+
+        // Then
+        XCTAssertEqual(layout, .compactLandscape)
+    }
+
+    func testGivenRegularLandscapeWithRegularHeightWhenResolvingLayoutThenUsesWidePlayLayout() {
+        // Given
+        let containerSize = CGSize(width: 1366, height: 1024)
+
+        // When
+        let layout = GameLayoutKind.resolve(
+            containerSize: containerSize,
+            horizontalSizeClass: .regular,
+            verticalSizeClass: .regular
+        )
+
+        // Then
+        XCTAssertEqual(layout, .regularWidthWidePlay)
     }
 }

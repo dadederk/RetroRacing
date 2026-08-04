@@ -743,8 +743,6 @@ public struct GameView: View {
             case .ignored:
                 return
             case .moveLeft:
-                capturedModel.recordControlInput(.gameController)
-                capturedModel.flashButton(.left)
                 guard let inputAdapter = capturedModel.inputAdapter else {
                     AppLog.warning(
                         AppLog.input + AppLog.game,
@@ -755,9 +753,9 @@ public struct GameView: View {
                     return
                 }
                 inputAdapter.handleLeft()
-            case .moveRight:
                 capturedModel.recordControlInput(.gameController)
-                capturedModel.flashButton(.right)
+                capturedModel.flashButton(.left)
+            case .moveRight:
                 guard let inputAdapter = capturedModel.inputAdapter else {
                     AppLog.warning(
                         AppLog.input + AppLog.game,
@@ -768,6 +766,8 @@ public struct GameView: View {
                     return
                 }
                 inputAdapter.handleRight()
+                capturedModel.recordControlInput(.gameController)
+                capturedModel.flashButton(.right)
             case .togglePause:
                 capturedModel.recordControlInput(.gameController)
                 capturedModel.togglePause()
@@ -787,29 +787,29 @@ public struct GameView: View {
     }
 
     private func handleDrag(translation: CGSize) {
+        model.inputAdapter?.handleDrag(translation: translation)
         model.recordControlInput(.swipe)
         if translation.width < 0 {
             model.flashButton(.left)
         } else {
             model.flashButton(.right)
         }
-        model.inputAdapter?.handleDrag(translation: translation)
     }
 
     private func handleDirectionalMoveLeft(recordControlInput: AchievementControlInput?) {
+        model.inputAdapter?.handleLeft()
         if let recordControlInput {
             model.recordControlInput(recordControlInput)
         }
         model.flashButton(.left)
-        model.inputAdapter?.handleLeft()
     }
 
     private func handleDirectionalMoveRight(recordControlInput: AchievementControlInput?) {
+        model.inputAdapter?.handleRight()
         if let recordControlInput {
             model.recordControlInput(recordControlInput)
         }
         model.flashButton(.right)
-        model.inputAdapter?.handleRight()
     }
 
     private func handleRestartFromGameOver() {

@@ -146,7 +146,7 @@ Accessibility patterns follow the **ios-accessibility** skill. Project overlays:
 
 ## Testing Conventions
 
-- App tests (`RetroRacingShared`, `RetroRacingUniversal`): XCTest today.
+- App tests (`RetroRacingShared`, `RetroRacingUniversal`): use XCTest for all new or changed suites. A small legacy Swift Testing baseline remains migration-only; do not expand it.
 - Scripts package: Swift Testing — follow **swift-testing-expert** for new script tests.
 - Run after changes:
 

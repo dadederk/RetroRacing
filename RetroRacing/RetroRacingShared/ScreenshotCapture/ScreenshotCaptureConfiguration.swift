@@ -7,6 +7,24 @@
 
 import Foundation
 
+public enum ScreenshotCaptureThemePolicy {
+    static let captureSuiteName = "com.accessibilityUpTo11.RetroRapid.ScreenshotCaptureTheme"
+
+    public static func makeCaptureUserDefaults(platform: String?) -> UserDefaults? {
+        guard let userDefaults = UserDefaults(suiteName: captureSuiteName) else {
+            return nil
+        }
+        userDefaults.removePersistentDomain(forName: captureSuiteName)
+        userDefaults.register(defaults: [
+            ThemeManager.selectedThemeKey: ThemePlatformConfig
+                .screenshotCapture(platform: platform)
+                .defaultThemeID
+                .rawValue,
+        ])
+        return userDefaults
+    }
+}
+
 public struct ScreenshotCaptureConfiguration: Equatable, Sendable {
     public let slideIndex: Int
     public let fixture: ScreenshotSlideFixture

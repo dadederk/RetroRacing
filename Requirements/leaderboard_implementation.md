@@ -43,7 +43,7 @@
 
 ## Presentation
 
-- iOS, tvOS, and macOS open the selected-speed leaderboard through `GKAccessPoint`.
+- iOS, tvOS, and macOS keep the ambient `GKAccessPoint` hidden and open the selected-speed leaderboard explicitly through it.
 - watchOS has no in-app leaderboard sheet; it submits scores and tells players to view leaderboards on iPhone or iPad.
 - Views should depend on leaderboard services, not direct GameKit APIs, except narrow presentation surfaces.
 

@@ -33,11 +33,19 @@ func testGivenImageMagickVersionWhenPreflightingThenOnlyPinnedReleaseIsAccepted(
             output: "Version: ImageMagick 7.2.0-0 Q16-HDRI aarch64"
         )
     )
+    let misleadingPrefix = ImageMagickRuntimeAssetTransformer(
+        processRunner: StubRuntimeAssetProcessRunner(
+            output: "Version: ImageMagick 7.1.2-30 Q16-HDRI aarch64"
+        )
+    )
 
     // When / Then
     try supported.validateEnvironment()
     #expect(throws: RuntimeAssetOptimizationError.self) {
         try unsupported.validateEnvironment()
+    }
+    #expect(throws: RuntimeAssetOptimizationError.self) {
+        try misleadingPrefix.validateEnvironment()
     }
 }
 

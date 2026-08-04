@@ -14,6 +14,8 @@ struct SettingsView: View {
     /// When true, show "scores submitted…"; when false, show "sign in to Game Center on iPhone…".
     let isGameCenterAuthenticated: Bool
     let achievementProgressService: AchievementProgressService
+    let screenshotFocus: ScreenshotSettingsFocus?
+    let onScreenshotLayoutReady: (() -> Void)?
     @Environment(\.dismiss) private var dismiss
     @State private var preferencesStore: SettingsPreferencesStore
     @AppStorage(HapticFeedbackPreference.storageKey) private var hapticFeedbackEnabled: Bool = true
@@ -42,7 +44,9 @@ struct SettingsView: View {
         audioCueTutorialPreviewPlayer: AudioCueTutorialPreviewPlayer,
         speedWarningFeedbackPreviewPlayer: any SpeedIncreaseWarningFeedbackPlaying,
         isGameCenterAuthenticated: Bool,
-        achievementProgressService: AchievementProgressService
+        achievementProgressService: AchievementProgressService,
+        screenshotFocus: ScreenshotSettingsFocus? = nil,
+        onScreenshotLayoutReady: (() -> Void)? = nil
     ) {
         self.themeManager = themeManager
         self.fontPreferenceStore = fontPreferenceStore
@@ -52,6 +56,8 @@ struct SettingsView: View {
         self.speedWarningFeedbackPreviewPlayer = speedWarningFeedbackPreviewPlayer
         self.isGameCenterAuthenticated = isGameCenterAuthenticated
         self.achievementProgressService = achievementProgressService
+        self.screenshotFocus = screenshotFocus
+        self.onScreenshotLayoutReady = onScreenshotLayoutReady
         _preferencesStore = State(initialValue: SettingsPreferencesStore(
             userDefaults: InfrastructureDefaults.userDefaults,
             supportsHaptics: supportsHapticFeedback,
@@ -71,18 +77,23 @@ struct SettingsView: View {
                 controlsSection
                 accessibilitySection
             }
-            .navigationTitle(GameLocalizedStrings.string("settings"))
+            .onAppear {
+                preferencesStore.loadIfNeeded()
+                prepareScreenshotLayout()
+            }
+            .navigationTitle(
+                screenshotFocus == nil ? GameLocalizedStrings.string("settings") : ""
+            )
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(GameLocalizedStrings.string("done")) {
                         dismiss()
                     }
-                    .font(fontForLabels)
+                    .font(.body)
                     .buttonStyle(.glass)
                 }
             }
-            .onAppear { preferencesStore.loadIfNeeded() }
             .sheet(item: $presentedSettingsSheet, onDismiss: {
                 preferencesStore.reloadFromStorage()
             }) { sheet in
@@ -127,12 +138,18 @@ struct SettingsView: View {
                 )) {
                     Text(GameLocalizedStrings.string("font_style_custom"))
                         .font(fontForLabels)
+                        .lineLimit(2)
+                        .minimumScaleFactor(0.6)
                         .tag(AppFontStyle.custom)
                     Text(GameLocalizedStrings.string("font_style_system"))
                         .font(fontForLabels)
+                        .lineLimit(2)
+                        .minimumScaleFactor(0.6)
                         .tag(AppFontStyle.system)
                     Text(GameLocalizedStrings.string("font_style_system_monospaced"))
                         .font(fontForLabels)
+                        .lineLimit(2)
+                        .minimumScaleFactor(0.6)
                         .tag(AppFontStyle.systemMonospaced)
                 } label: {
                     Text(GameLocalizedStrings.string("settings_font"))
@@ -343,8 +360,22 @@ struct SettingsView: View {
 
     @ViewBuilder
     private func settingsSectionHeader(_ key: String) -> some View {
-        Text(GameLocalizedStrings.string(key))
-            .retroSectionHeader(font: sectionHeaderFont)
+        if screenshotFocus != nil {
+            Text(GameLocalizedStrings.string(key))
+                .retroSectionHeader(font: sectionHeaderFont)
+                .lineLimit(1)
+                .minimumScaleFactor(0.6)
+        } else {
+            Text(GameLocalizedStrings.string(key))
+                .retroSectionHeader(font: sectionHeaderFont)
+        }
+    }
+
+    private func prepareScreenshotLayout() {
+        guard screenshotFocus == .themeAndFont else { return }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
+            onScreenshotLayoutReady?()
+        }
     }
 
     @ViewBuilder

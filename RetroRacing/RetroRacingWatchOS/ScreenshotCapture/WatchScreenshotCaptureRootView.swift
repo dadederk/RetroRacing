@@ -58,11 +58,6 @@ struct WatchScreenshotCaptureRootView: View {
             }
             .sheet(isPresented: $isSettingsSheetPresented) {
                 settingsView
-                    .onAppear {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
-                            handleSheetLayoutReady()
-                        }
-                    }
             }
     }
 
@@ -138,13 +133,18 @@ struct WatchScreenshotCaptureRootView: View {
             audioCueTutorialPreviewPlayer: previewDependencies.audioCueTutorialPreviewPlayer,
             speedWarningFeedbackPreviewPlayer: previewDependencies.speedWarningFeedbackPreviewPlayer,
             isGameCenterAuthenticated: true,
-            achievementProgressService: dependencies.achievementProgressService
+            achievementProgressService: dependencies.achievementProgressService,
+            screenshotFocus: .themeAndFont,
+            onScreenshotLayoutReady: handleSheetLayoutReady
         )
         .fontPreferenceStore(dependencies.fontPreferenceStore)
     }
 
     private var gameplayTheme: any GameTheme {
-        PocketTheme()
+        let platformConfig = ThemePlatformConfig.watchOS
+        return platformConfig.availableThemes.first {
+            $0.id == configuration.fixture.themeID
+        } ?? platformConfig.defaultTheme
     }
 
     private var settingsPreviewDependencyFactory: SettingsPreviewDependencyFactory {

@@ -707,6 +707,62 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         XCTAssertEqual(scene.roadDashPhase, baselinePhase)
     }
 
+    func testGivenRapidSequentialLaneInputsWhenMovingAcrossTwoColumnsThenEveryMoveUsesStableNodes() throws {
+        // Given
+        scene.unpauseGameplay()
+        scene.gridState.grid[0][0] = .Car
+        scene.gridStateDidUpdate(scene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
+        let adapter = TouchGameInputAdapter(controller: scene, hapticController: haptics)
+        adapter.handleRight()
+        let playerSprite = try XCTUnwrap(scene.playerSpriteNode)
+        let playerParent = try XCTUnwrap(playerSprite.parent)
+        let playerSize = playerSprite.size
+        let playerXScale = playerSprite.xScale
+        let playerYScale = playerSprite.yScale
+        let initialSprites = scene.spritesForGivenState
+        let initialLineOverlays = scene.lineOverlayNodes
+
+        // When
+        adapter.handleLeft()
+        adapter.handleLeft()
+
+        // Then
+        XCTAssertEqual(scene.lastPlayerColumn, 0)
+        XCTAssertEqual(scene.gridState.playerRow().firstIndex(of: .Player), 0)
+        XCTAssertTrue(scene.playerSpriteNode === playerSprite)
+        XCTAssertTrue(playerSprite.parent === playerParent)
+        XCTAssertEqual(playerSprite.size, playerSize)
+        XCTAssertEqual(playerSprite.xScale, playerXScale)
+        XCTAssertEqual(playerSprite.yScale, playerYScale)
+        XCTAssertEqual(
+            playerSprite.position.x,
+            scene.laneCenterX(forColumn: 0, row: scene.gridState.playerRowIndex),
+            accuracy: 0.01
+        )
+        XCTAssertEqual(scene.spritesForGivenState.count, initialSprites.count)
+        XCTAssertTrue(zip(scene.spritesForGivenState, initialSprites).allSatisfy { $0 === $1 })
+        XCTAssertEqual(scene.lineOverlayNodes.count, initialLineOverlays.count)
+        XCTAssertTrue(zip(scene.lineOverlayNodes, initialLineOverlays).allSatisfy { $0 === $1 })
+    }
+
+    func testGivenMissingPlayerSpriteWhenMovingLaneThenFullRenderRestoresPlayer() throws {
+        // Given
+        scene.unpauseGameplay()
+        let originalPlayerSprite = try XCTUnwrap(scene.playerSpriteNode)
+        originalPlayerSprite.removeFromParent()
+
+        // When
+        scene.moveLeft()
+
+        // Then
+        let replacementPlayerSprite = try XCTUnwrap(scene.playerSpriteNode)
+        XCTAssertFalse(replacementPlayerSprite === originalPlayerSprite)
+        XCTAssertEqual(scene.lastPlayerColumn, 0)
+        XCTAssertTrue(
+            replacementPlayerSprite.parent === scene.gridCell(column: 0, row: scene.gridState.playerRowIndex)
+        )
+    }
+
     func testGivenBigCarsDisabledWhenRenderingThenDashedRoadLinesAreVisibleAndVerticalSeparatorsAreHidden() {
         // Given
         scene.setBigRivalCarsEnabled(false)

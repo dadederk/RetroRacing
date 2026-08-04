@@ -102,37 +102,15 @@ extension GameScene {
             sprite.isAccessibilityElement = true
         }
         #endif
-        let cellSize = cell.frame.size
-        let sizeFactor = spritePerspectiveScaleFactor(row: row, usesPlayerScale: usesPlayerScale)
-        let spriteSize = CGSize(width: cellSize.width * sizeFactor, height: cellSize.height * sizeFactor)
-
-        var horizontalTranslationFactor: CGFloat = 0.0
-        let gap = cellSize.width - spriteSize.width
-        if sideLaneConvergenceFactor > 0 {
-            let depthDenominator = max(CGFloat(gridState.playerRowIndex), 1)
-            let depth = CGFloat(gridState.playerRowIndex - row) / depthDenominator
-            let convergenceOffset = (gap * 0.5) * depth * sideLaneConvergenceFactor
-            if column < (gridState.numberOfColumns / 2) {
-                horizontalTranslationFactor = convergenceOffset
-            } else if column > (gridState.numberOfColumns / 2) {
-                horizontalTranslationFactor = -convergenceOffset
-            }
-        }
-
-        let cellOriginInLocal = cell.frame.origin
-        let laneCenterX = laneCenterSceneX ?? (cellOriginInLocal.x + (cellSize.width / 2))
-        let spritePosInCell = CGPoint(
-            x: laneCenterX + horizontalTranslationFactor,
-            y: cellOriginInLocal.y + cellSize.height / 2.0
+        let layout = configureSpriteLayout(
+            sprite,
+            inCell: cell,
+            row: row,
+            column: column,
+            usesPlayerScale: usesPlayerScale,
+            laneCenterSceneX: laneCenterSceneX,
+            sideLaneConvergenceFactor: sideLaneConvergenceFactor
         )
-        sprite.position = spritePosInCell
-        if usesPlayerScale {
-            // Big Cars mode prioritizes equal, high-legibility targets across player/rival/crash.
-            sprite.size = spriteSize
-        } else {
-            sprite.aspectFitToSize(spriteSize)
-        }
-        sprite.zPosition = 2
         spritesForGivenState.append(sprite)
         cell.addChild(sprite)
 
@@ -145,12 +123,12 @@ extension GameScene {
                 fields: [
                     .int("row", row),
                     .int("column", column),
-                    .double("cellWidth", cellSize.width),
-                    .double("cellHeight", cellSize.height),
-                    .double("spriteWidth", spriteSize.width),
-                    .double("spriteHeight", spriteSize.height),
-                    .double("positionX", spritePosInCell.x),
-                    .double("positionY", spritePosInCell.y),
+                    .double("cellWidth", cell.frame.size.width),
+                    .double("cellHeight", cell.frame.size.height),
+                    .double("spriteWidth", layout.targetSize.width),
+                    .double("spriteHeight", layout.targetSize.height),
+                    .double("positionX", layout.position.x),
+                    .double("positionY", layout.position.y),
                     .double("textureWidth", texSize.width),
                     .double("textureHeight", texSize.height),
                     .double("scale", sprite.xScale)
@@ -158,7 +136,7 @@ extension GameScene {
             )
         }
 
-        if sprite.name == "crash" {
+        if sprite.name == GameSpriteNodeName.crash {
             if rendersStaticCrashForScreenshot {
                 sprite.alpha = 1.0
                 return
@@ -183,6 +161,68 @@ extension GameScene {
                 sprite.run(blinkThreeTimes)
             }
         }
+    }
+
+    @discardableResult
+    func configureSpriteLayout(
+        _ sprite: SKSpriteNode,
+        inCell cell: SKShapeNode,
+        row: Int,
+        column: Int,
+        usesPlayerScale: Bool = false,
+        laneCenterSceneX: CGFloat? = nil,
+        sideLaneConvergenceFactor: CGFloat = 0
+    ) -> (targetSize: CGSize, position: CGPoint) {
+        let cellSize = cell.frame.size
+        let sizeFactor = spritePerspectiveScaleFactor(row: row, usesPlayerScale: usesPlayerScale)
+        let spriteSize = CGSize(width: cellSize.width * sizeFactor, height: cellSize.height * sizeFactor)
+        let spritePosInCell = spritePosition(
+            inCell: cell,
+            row: row,
+            column: column,
+            spriteSize: spriteSize,
+            laneCenterSceneX: laneCenterSceneX,
+            sideLaneConvergenceFactor: sideLaneConvergenceFactor
+        )
+        sprite.position = spritePosInCell
+        if usesPlayerScale {
+            // Big Cars mode prioritizes equal, high-legibility targets across player/rival/crash.
+            sprite.size = spriteSize
+        } else {
+            sprite.aspectFitToSize(spriteSize)
+        }
+        sprite.zPosition = 2
+        return (spriteSize, spritePosInCell)
+    }
+
+    func spritePosition(
+        inCell cell: SKShapeNode,
+        row: Int,
+        column: Int,
+        spriteSize: CGSize,
+        laneCenterSceneX: CGFloat? = nil,
+        sideLaneConvergenceFactor: CGFloat = 0
+    ) -> CGPoint {
+        let cellSize = cell.frame.size
+        var horizontalTranslationFactor: CGFloat = 0.0
+        let gap = cellSize.width - spriteSize.width
+        if sideLaneConvergenceFactor > 0 {
+            let depthDenominator = max(CGFloat(gridState.playerRowIndex), 1)
+            let depth = CGFloat(gridState.playerRowIndex - row) / depthDenominator
+            let convergenceOffset = (gap * 0.5) * depth * sideLaneConvergenceFactor
+            if column < (gridState.numberOfColumns / 2) {
+                horizontalTranslationFactor = convergenceOffset
+            } else if column > (gridState.numberOfColumns / 2) {
+                horizontalTranslationFactor = -convergenceOffset
+            }
+        }
+
+        let cellOriginInLocal = cell.frame.origin
+        let laneCenterX = laneCenterSceneX ?? (cellOriginInLocal.x + (cellSize.width / 2))
+        return CGPoint(
+            x: laneCenterX + horizontalTranslationFactor,
+            y: cellOriginInLocal.y + cellSize.height / 2.0
+        )
     }
 
     private func spritePerspectiveScaleFactor(row: Int, usesPlayerScale: Bool) -> CGFloat {

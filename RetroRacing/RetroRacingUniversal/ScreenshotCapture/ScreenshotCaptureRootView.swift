@@ -307,16 +307,16 @@ struct ScreenshotCaptureRootView: View {
         return nil
     }
 
-    private var gameplayTheme: (any GameTheme)? {
-        if configuration.fixture.usesPocketTheme {
-            return PocketTheme()
-        }
+    private var gameplayTheme: any GameTheme {
         let platformConfig = ThemePlatformConfig.screenshotCapture(
             platform: ScreenshotCaptureConfiguration.capturePlatform
         )
+        let themeID = configuration.fixture.themeID(
+            for: ScreenshotCaptureConfiguration.capturePlatform
+        )
         return platformConfig.availableThemes.first {
-            $0.id == platformConfig.defaultThemeID
-        }
+            $0.id == themeID
+        } ?? platformConfig.defaultTheme
     }
 
     private var sharePlayUIState: SharePlayUIState {

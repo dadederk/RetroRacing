@@ -16,14 +16,7 @@ struct RetroRacingWatchOSApp: App {
     private static let maxAuthenticationRetries = 3
     private static let authenticationRetryDelay: Duration = .seconds(2)
 
-    private let themeManager: ThemeManager = {
-        let config = ThemePlatformConfig.watchOS
-        return ThemeManager(
-            configuration: config,
-            userDefaults: InfrastructureDefaults.userDefaults,
-            hasPremiumAccess: false
-        )
-    }()
+    private let themeManager: ThemeManager
     private let leaderboardService: GameCenterService
     private let bestScoreSyncService: BestScoreSyncService
     private let fontPreferenceStore: FontPreferenceStore
@@ -101,13 +94,24 @@ struct RetroRacingWatchOSApp: App {
         ScreenshotCaptureLocaleCatalog.configureCaptureLocaleDefaultsForLaunch()
         ScreenshotCaptureAppearance.applySystemInterfaceStyleIfNeeded()
         AppBootstrap.configureAudioSession()
+        let userDefaults = InfrastructureDefaults.userDefaults
+        let themeUserDefaults = ScreenshotCaptureConfiguration.isCaptureModeEnabled
+            ? ScreenshotCaptureThemePolicy.makeCaptureUserDefaults(
+                platform: ScreenshotCaptureConfiguration.capturePlatform
+            ) ?? userDefaults
+            : userDefaults
+        themeManager = ThemeManager(
+            configuration: .watchOS,
+            userDefaults: themeUserDefaults,
+            hasPremiumAccess: false
+        )
         SettingsPreferenceMigration.runIfNeeded(
-            userDefaults: InfrastructureDefaults.userDefaults,
+            userDefaults: userDefaults,
             supportsHaptics: true
         )
         let customFontAvailable = FontRegistrar.registerPressStart2P(additionalBundles: [Bundle.main])
         fontPreferenceStore = FontPreferenceStore(
-            userDefaults: InfrastructureDefaults.userDefaults,
+            userDefaults: userDefaults,
             customFontAvailable: customFontAvailable
         )
         

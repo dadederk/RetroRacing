@@ -14,6 +14,8 @@
 - Shared adapters translate to `RacingGameController`.
 - `GameScene` implements the shared controller.
 - Platform differences stay in UI/adapters, not service or gameplay logic.
+- Directional handlers apply the logical lane move before optional telemetry, control-button animation, and adapter-managed haptics.
+- A lane-only move repositions the existing player sprite. Full grid rendering remains the fallback for missing/stale sprite state and is still used for ticks, theme/style changes, and scene resizing.
 
 ## Platform Inputs
 
@@ -58,5 +60,5 @@
 
 ## Testing
 
-- Unit tests cover crown processing, macOS swipe interpretation, haptic routing, keyboard bridge focus behavior, and controller routing.
+- Unit tests cover rapid consecutive lane moves, stable SpriteKit node identity during lane-only moves, full-render recovery, crown processing, macOS swipe interpretation, haptic routing, keyboard bridge focus behavior, and controller routing.
 - Manual validation covers watch crown feel, iOS touch/keyboard, tvOS remote, macOS keyboard/trackpad, and controller hardware.
