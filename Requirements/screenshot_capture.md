@@ -21,13 +21,13 @@
 
 - iPhone/iPad slides 0-9: hook gameplay, action gameplay, game over, accessibility settings, SharePlay waiting, friend marker, theme settings, Pocket gameplay, achievement unlock, free-user menu.
 - Mac slides 0-8: same story without SharePlay slide; later indices shift accordingly.
-- Watch slides 0-4: hook gameplay, menu, action gameplay, LCD theme gameplay, settings.
+- Watch slides 0-6: hook gameplay, game over/new best score, action gameplay, achievement unlock, LCD theme gameplay, menu, settings.
 - Fixture definitions live in `ScreenshotSlideFixture` and `WatchScreenshotSlideFixture`.
 - Screenshot-only raster fixtures in the shared asset catalog must be scoped to the platforms that render them and must pass `./retrorapid assets audit --check`; Release builds must not gain flat fixture copies under `RetroRacingShared/Resources`.
 
 ## Locale and Platform Rules
 
-- Source locales: `en-US`, `de-DE`, `nl-NL`, `it`, `fr-FR`, `fr-CA`, `es-ES`, `ca`, `ja`, `ko`, `pt-BR`, `pt-PT`, `zh-Hant`, `zh-Hans`.
+- Source locales: `en-US`, `de-DE`, `nl-NL`, `it`, `fr-FR`, `fr-CA`, `es-ES`, `ca`, `ja`, `ko`, `pt-BR`, `pt-PT`, `zh-Hant`, `zh-Hans`, plus planned 1.6 locales `tr` and `pl` after native review.
 - Derived copies: `en-GB`, `en-AU`, `en-CA` from `en-US`; `es-MX` from `es-ES`.
 - `./retrorapid screenshots sync` may copy derived pixels and overlays but must never replace source locale captures with English.
 - iPhone/iPad default to light appearance and marketing status bar unless flags override.
@@ -41,6 +41,7 @@
 - Capture root views may use in-memory preferences and no-op services to stabilize screenshots.
 - Capture fixtures must avoid persisted user-default writes except explicit capture configuration paths.
 - Game Center/social refreshes are pinned where needed so fixtures stay deterministic.
+- Capture mode skips live Game Center bootstrap and lifecycle refresh work so host account state cannot appear in App Store screenshots.
 
 ## Operations
 

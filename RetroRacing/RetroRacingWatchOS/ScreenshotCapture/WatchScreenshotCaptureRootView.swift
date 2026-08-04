@@ -79,6 +79,10 @@ struct WatchScreenshotCaptureRootView: View {
             gameplayCaptureView
         case .menu, .settings:
             menuCaptureView
+        case .gameOver:
+            gameOverCaptureView
+        case .achievementUnlock:
+            achievementUnlockCaptureView
         @unknown default:
             EmptyView()
         }
@@ -115,6 +119,37 @@ struct WatchScreenshotCaptureRootView: View {
                 screenshotReadinessIdentifier: configuration.readinessIdentifier,
                 onScreenshotLayoutReady: handleGameplayLayoutReady
             )
+        }
+    }
+
+    private var gameOverCaptureView: some View {
+        GameOverView(
+            score: ScreenshotFixtureCatalog.gameOverBestScore,
+            bestScore: ScreenshotFixtureCatalog.gameOverBestScore,
+            difficulty: .fast,
+            isNewRecord: true,
+            previousBestScore: ScreenshotFixtureCatalog.gameOverPreviousBestScore,
+            onRestart: {},
+            onFinish: {}
+        )
+        .fontPreferenceStore(dependencies.fontPreferenceStore)
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
+                handleSheetLayoutReady()
+            }
+        }
+    }
+
+    private var achievementUnlockCaptureView: some View {
+        AchievementUnlockView(
+            achievementID: .controlVoiceOver,
+            onDone: {}
+        )
+        .fontPreferenceStore(dependencies.fontPreferenceStore)
+        .onAppear {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
+                handleSheetLayoutReady()
+            }
         }
     }
 
@@ -178,6 +213,8 @@ struct WatchScreenshotCaptureRootView: View {
     private func updateCaptureReadiness() {
         let shouldBeReady: Bool
         if configuration.fixture.presentsSettingsSheet {
+            shouldBeReady = isSheetReady
+        } else if configuration.fixture.route == .gameOver || configuration.fixture.route == .achievementUnlock {
             shouldBeReady = isSheetReady
         } else if configuration.fixture.route == .menu {
             shouldBeReady = isGameplayReady

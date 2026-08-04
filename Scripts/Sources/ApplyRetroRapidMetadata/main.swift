@@ -17,8 +17,9 @@ do {
     CLIHelp.exitIfRequested(arguments, usage: CLIUsageTexts.applyRetroRapidMetadata)
     let options = try makeApplyOptions(from: arguments)
     let paths = try MetadataRepositoryPaths.locate()
+    let catalogURL = paths.catalogURL(for: try arguments.value(after: "--catalog"))
     let catalog = try MetadataCatalogLoader.loadValidatedCatalog(
-        from: paths.defaultCatalog
+        from: catalogURL
     )
 
     try HelmMetadataWorkflow.applyCatalog(catalog, options: options)
@@ -32,7 +33,7 @@ private func makeApplyOptions(
 ) throws -> MetadataApplyOptions {
     try arguments.rejectUnknownFlags(
         allowing: ["--keywords-only", "--include-app-info", "--dry-run"],
-        valueFlags: ["--helm"]
+        valueFlags: ["--helm", "--catalog"]
     )
     let keywordsOnly = arguments.contains("--keywords-only")
     let includeAppInfo = arguments.contains("--include-app-info")

@@ -28,3 +28,19 @@ func givenMissingEnglishReferenceWhenBuildingFrenchDescriptionThenDefaultCopyIsU
 
     #expect(description == "Dépasse autant de voitures que possible en une seule partie.")
 }
+
+@Test(arguments: [
+    ("tr", "Tek yarışta olabildiğince çok araba solla."),
+    ("pl", "Wyprzedź jak najwięcej aut w jednym przejeździe."),
+])
+func givenNewLocaleWhenBuildingDescriptionThenOvertakeCopyIsLocalized(
+    locale: String,
+    expected: String
+) {
+    #expect(
+        GameCenterLeaderboardDescriptionBuilder.description(
+            locale: locale,
+            englishReferenceDescription: nil
+        ) == expected
+    )
+}

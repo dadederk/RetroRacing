@@ -2,7 +2,7 @@
 
 Part of [App Store docs hub](../README.md).
 
-Last updated: 2026-08-03
+Last updated: 2026-08-04
 
 **Status:** localized base captures via `./retrorapid screenshots capture`. Studio **export** and Connect **upload** stay **manual**.
 
@@ -18,7 +18,7 @@ Last updated: 2026-08-03
 
 | Kind | Locales |
 |---|---|
-| **Source capture** | `en-US`, `de-DE`, `nl-NL`, `it`, `fr-FR`, `fr-CA`, `es-ES`, `ca`, `ja`, `ko`, `pt-BR`, `pt-PT`, `zh-Hant`, `zh-Hans` |
+| **Source capture** | `en-US`, `de-DE`, `nl-NL`, `it`, `fr-FR`, `fr-CA`, `es-ES`, `ca`, `ja`, `ko`, `pt-BR`, `pt-PT`, `zh-Hant`, `zh-Hans`, plus review-gated `tr` and `pl` |
 | **Derived (pixel copy)** | `en-GB`/`en-AU`/`en-CA` ← `en-US`; `es-MX` ← `es-ES` |
 
 `en-GB`/`en-AU` overlay spelling: British (`Customise…`). `en-CA` matches US. Watch overlays stay empty (sequence-only).
@@ -27,7 +27,7 @@ Last updated: 2026-08-03
 
 ## Storyboard (iPhone / iPad)
 
-Bodies ≤ ~10 English words. Mac omits SharePlay (nine slides; indices shift after 3). Watch: five sequence slides; its default gameplay uses Pocket and its theme showcase uses LCD — see capture contract.
+Bodies ≤ ~10 English words. Mac omits SharePlay (nine slides; indices shift after 3). Watch: seven sequence slides ordered as hook gameplay, game over/new-best, action gameplay, achievement unlock, LCD/theme gameplay, menu, and settings — see capture contract.
 
 | # | Title | English body | Purpose |
 |---:|---|---|---|

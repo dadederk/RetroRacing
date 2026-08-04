@@ -37,6 +37,7 @@ struct RetroRacingApp: App {
     private let authenticationPresenter = NoOpAuthenticationPresenter()
     #endif
     private let gameCenterService: GameCenterService
+    private let screenshotGameCenterService: GameCenterService
     private let ratingService: RatingService
     private let themeManager: ThemeManager
     private let fontPreferenceStore: FontPreferenceStore
@@ -81,7 +82,9 @@ struct RetroRacingApp: App {
         #endif
         ScreenshotCaptureAppearance.applySystemInterfaceStyleIfNeeded()
         AppBootstrap.configureAudioSession()
-        AppBootstrap.configureGameCenterAccessPoint()
+        if ScreenshotCaptureConfiguration.isCaptureModeEnabled == false {
+            AppBootstrap.configureGameCenterAccessPoint()
+        }
         let customFontAvailable = AppBootstrap.registerCustomFont()
         let userDefaults = InfrastructureDefaults.userDefaults
         let supportsHaptics = Self.deviceSupportsHapticFeedback()
@@ -131,6 +134,9 @@ struct RetroRacingApp: App {
             isDebugBuild: BuildConfiguration.isDebug,
             allowDebugScoreSubmission: true,
             pendingScoreStore: pendingLeaderboardScoreStore
+        )
+        screenshotGameCenterService = Self.makeScreenshotGameCenterService(
+            leaderboardConfiguration: leaderboardConfiguration
         )
         #if canImport(UIKit)
         ratingService = StoreReviewService(userDefaults: userDefaults, ratingProvider: RatingServiceProviderUniversal())
@@ -355,11 +361,13 @@ struct RetroRacingApp: App {
             .achievementMetadataService(resolvedAchievementMetadataService)
             .sharePlayMatchService(sharePlayMatchService)
             .task {
+                guard ScreenshotCaptureConfiguration.isCaptureModeEnabled == false else { return }
                 await storeKitService.loadProducts()
                 await bestScoreSyncService.syncIfPossible()
                 await watchRelayIngestionService?.flushPendingIfPossible(trigger: .appLifecycle)
             }
             .task {
+                guard ScreenshotCaptureConfiguration.isCaptureModeEnabled == false else { return }
                 await sharePlayMatchService.setStateChangeHandler { uiState in
                     await MainActor.run {
                         handleSharePlayStateChanged(uiState)
@@ -375,6 +383,7 @@ struct RetroRacingApp: App {
                 handleUniversalLink(url, source: "SwiftUI.onOpenURL")
             }
             .onReceive(NotificationCenter.default.publisher(for: .GKPlayerAuthenticationDidChangeNotificationName)) { _ in
+                guard ScreenshotCaptureConfiguration.isCaptureModeEnabled == false else { return }
                 Task {
                     await bestScoreSyncService.syncIfPossible()
                     await watchRelayIngestionService?.flushPendingIfPossible(trigger: .gameCenterAuthChanged)
@@ -390,6 +399,7 @@ struct RetroRacingApp: App {
                     ScreenshotCaptureMacWindowLayout.applyLandscapeCaptureSize()
                 }
                 #endif
+                guard ScreenshotCaptureConfiguration.isCaptureModeEnabled == false else { return }
                 Task {
                     await watchRelayIngestionService?.flushPendingIfPossible(trigger: .appLifecycle)
                 }
@@ -443,8 +453,8 @@ struct RetroRacingApp: App {
         ScreenshotCaptureRootView(
             configuration: configuration,
             dependencies: ScreenshotCaptureDependencies(
-                leaderboardService: gameCenterService,
-                gameCenterService: gameCenterService,
+                leaderboardService: screenshotGameCenterService,
+                gameCenterService: screenshotGameCenterService,
                 leaderboardConfiguration: leaderboardConfiguration,
                 authenticationPresenter: authenticationPresenter,
                 ratingService: ratingService,
@@ -464,6 +474,21 @@ struct RetroRacingApp: App {
                     hapticController: hapticController
                 )
             )
+        )
+    }
+
+    private static func makeScreenshotGameCenterService(
+        leaderboardConfiguration: LeaderboardConfiguration
+    ) -> GameCenterService {
+        GameCenterService(
+            configuration: leaderboardConfiguration,
+            friendSnapshotService: ScreenshotNoOpFriendSnapshotService(),
+            authenticationPresenter: nil,
+            authenticateHandlerSetter: nil,
+            isDebugBuild: true,
+            allowDebugScoreSubmission: false,
+            isAuthenticatedProvider: { false },
+            pendingScoreStore: nil
         )
     }
 
@@ -789,5 +814,14 @@ struct RetroRacingApp: App {
             store.currentStyle = .custom
         }
         return store
+    }
+}
+
+private struct ScreenshotNoOpFriendSnapshotService: GameCenterFriendSnapshotServicing {
+    func fetchFriendSnapshot(
+        from leaderboard: GKLeaderboard,
+        remoteBestScore: Int?
+    ) async -> FriendLeaderboardSnapshot? {
+        nil
     }
 }

@@ -17,23 +17,35 @@ import GameKit
 
 extension AchievementUnlockView {
     var achievementMainContent: some View {
-        VStack(spacing: 18) {
-            achievementArtwork(maxWidth: 250)
+        VStack(spacing: achievementContentSpacing) {
+            achievementArtwork(maxWidth: achievementArtworkMaxWidth)
+
+            #if os(watchOS)
+            Text(GameLocalizedStrings.string("achievement_modal_title"))
+                .font(bodyFont)
+                .multilineTextAlignment(.center)
+                .lineLimit(2)
+                .minimumScaleFactor(0.65)
+            #endif
 
             Text(achievementTitle)
                 .font(scoreFont)
                 .multilineTextAlignment(.center)
+                .lineLimit(3)
+                .minimumScaleFactor(0.65)
 
             Text(achievementDescription)
                 .font(bodyFont)
                 .multilineTextAlignment(.center)
                 .foregroundStyle(.secondary)
+                .lineLimit(4)
+                .minimumScaleFactor(0.65)
 
             if !usesBottomActionBar {
                 achievementActionButtons
             }
         }
-        .padding(20)
+        .padding(achievementContentPadding)
         .frame(maxWidth: .infinity, alignment: .top)
     }
 
@@ -149,5 +161,29 @@ extension AchievementUnlockView {
 
     var buttonFont: Font {
         fontPreferenceStore?.font(textStyle: .body) ?? .body
+    }
+
+    var achievementContentSpacing: CGFloat {
+        #if os(watchOS)
+        8
+        #else
+        18
+        #endif
+    }
+
+    var achievementContentPadding: CGFloat {
+        #if os(watchOS)
+        10
+        #else
+        20
+        #endif
+    }
+
+    var achievementArtworkMaxWidth: CGFloat {
+        #if os(watchOS)
+        125
+        #else
+        250
+        #endif
     }
 }

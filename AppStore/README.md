@@ -12,7 +12,7 @@ Legacy redirect: [RETRORAPID_APP_STORE_REFERENCE.md](RETRORAPID_APP_STORE_REFERE
 
 | If you need to… | Read |
 |---|---|
-| Edit the canonical v1.5 metadata | [`metadata/retrorapid-v1.5.json`](metadata/retrorapid-v1.5.json), then run `swift run --package-path Scripts generate-metadata-docs` |
+| Edit the canonical v1.6 metadata | [`metadata/retrorapid-v1.6.json`](metadata/retrorapid-v1.6.json), then run `swift run --package-path Scripts generate-metadata-docs` |
 | Apply staged metadata to App Store Connect | [03-submission-quality-gate.md](docs/03-submission-quality-gate.md) + [Scripts/README.md](../Scripts/README.md) |
 | Review **live** public facts, name, subtitle, and keywords | [02-listing-snapshot.md](docs/02-listing-snapshot.md) |
 | Copy/paste generated **staged** metadata | [05-metadata-copy.md](docs/05-metadata-copy.md) |
@@ -58,6 +58,7 @@ Legacy redirect: [RETRORAPID_APP_STORE_REFERENCE.md](RETRORAPID_APP_STORE_REFERE
 | 15 | Archive and distribution | [docs/15-archive-and-distribution.md](docs/15-archive-and-distribution.md) |
 | 16 | Unlimited Plays IAP setup | [docs/16-iap-setup.md](docs/16-iap-setup.md) |
 | 17 | Xcode Cloud releases | [docs/17-xcode-cloud-releases.md](docs/17-xcode-cloud-releases.md) |
+| 18 | Turkish and Polish 1.6 native-review gate | [docs/18-turkish-polish-review.md](docs/18-turkish-polish-review.md) |
 
 ### Campaign & historical plans
 
@@ -96,7 +97,8 @@ See [`../AGENTS.md`](../AGENTS.md) Brand Mark section and `RetroRacingShared/Uti
 
 ## Scripts & assets
 
-- `metadata/retrorapid-v1.5.json` — canonical source for staged metadata, draft IDs, limits, and field status
+- `metadata/retrorapid-v1.6.json` — canonical planned source; draft IDs remain empty until iOS/macOS 1.6 exist
+- `metadata/retrorapid-v1.5.json` — immutable 1.5 applied-catalog snapshot
 - Repository automation lives at repo-root [`Scripts/`](../Scripts/) (Swift package for generating/validating docs and applying canonical metadata via Helm); see [Scripts/README.md](../Scripts/README.md)
 - `RetroRapid.screenshotstudio/` — Screenshot Studio project (see [Legacy technical names](#legacy-technical-names))
 
@@ -117,7 +119,8 @@ Historical material uses **Historical** or **Superseded** and is never an active
 | Source | Status |
 |---|---|
 | `docs/02-listing-snapshot.md` | `LIVE` metadata currently in App Store Connect (v1.4.2 snapshot from 2026-06-24) |
-| `metadata/retrorapid-v1.5.json` | Canonical v1.5 candidate; version fields are `DRAFT_APPLIED`, name/subtitle are `BLOCKED` |
+| `metadata/retrorapid-v1.6.json` | Canonical 1.6 candidate; all fields are `PLANNED` pending native review and draft creation |
+| `metadata/retrorapid-v1.5.json` | Historical 1.5 applied-catalog snapshot |
 | `docs/05-metadata-copy.md` + `docs/12-validation-results.md` | Generated human-readable views of the canonical catalog |
 | `docs/04-metadata-strategy.md` | Current rationale and keyword strategy |
 | `docs/07-release-notes-voice.md` | Voice guide + shipped What's New archive |

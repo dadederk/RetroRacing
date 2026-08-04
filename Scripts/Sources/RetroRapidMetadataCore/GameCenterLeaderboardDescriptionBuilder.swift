@@ -59,6 +59,10 @@ enum GameCenterLeaderboardDescriptionBuilder {
             return "在一局中盡可能超過更多車輛。"
         case "zh-Hans":
             return "在一局中尽可能超过更多车辆。"
+        case "tr":
+            return "Tek yarışta olabildiğince çok araba solla."
+        case "pl":
+            return "Wyprzedź jak najwięcej aut w jednym przejeździe."
         default:
             return englishDefaults[0]
         }

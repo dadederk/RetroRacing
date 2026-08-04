@@ -19,10 +19,11 @@ public enum ScreenshotStudioWorkflow {
         "de-DE", "nl-NL", "it", "fr-FR", "fr-CA",
         "es-ES", "es-MX", "ca",
         "ja", "ko", "pt-BR", "pt-PT", "zh-Hant", "zh-Hans",
+        "tr", "pl",
     ]
     public static let slideCount = 10
     public static let macSlideCount = 9
-    public static let watchSlideCount = 5
+    public static let watchSlideCount = 7
 
     public static func slideCount(for platform: String) -> Int {
         switch AppStoreScreenshotCaptureDefaults.normalizedPlatform(platform) {
@@ -250,6 +251,10 @@ public enum ScreenshotStudioWorkflow {
                 actual: 0
             )
         }
+        while watchSlides.count < watchSlideCount {
+            watchSlides.append(watchSlides.last ?? [:])
+        }
+        watchSlides = Array(watchSlides.prefix(watchSlideCount))
         for index in watchSlides.indices {
             watchSlides[index]["localizations"] = emptyLocalizationEntries(
                 preservingOrderFrom: watchSlides[index]["localizations"]
@@ -446,6 +451,8 @@ private let slides: [SlideCopy] = [
         "pt-PT": ("Corra Pelo Trânsito Infinito", "Desvie do trânsito e procure ultrapassagens neste arcade retrô."),
         "zh-Hant": ("穿越無盡車流", "閃避車流，在復古街機中追逐超車。"),
         "zh-Hans": ("穿越无尽车流", "闪避车流，在复古街机中追逐超车。"),
+        "tr": ("Sonsuz Trafikte Yarış", "Trafikten kaç, retro arcade yarışında sollamaları kovala."),
+        "pl": ("Pędź Przez Niekończący Się Ruch", "Omijaj ruch i wyprzedzaj w wyścigowej grze retro."),
     ]),
     SlideCopy(byLocale: [
         "en-US": ("Simple Controls. Pure Arcade Action", "Move left. Move right. Don't crash. Deceptively simple."),
@@ -463,6 +470,8 @@ private let slides: [SlideCopy] = [
         "pt-PT": ("Controlos Simples. Ação Arcade", "Esquerda. Direita. Não bata. Enganosamente simples."),
         "zh-Hant": ("簡單操作。純粹街機", "左移。右移。別撞車。看似簡單。"),
         "zh-Hans": ("简单操作。纯粹街机", "左移。右移。别撞车。看似简单。"),
+        "tr": ("Basit Kontroller. Saf Arcade", "Sola git. Sağa git. Çarpma. Göründüğünden zor."),
+        "pl": ("Proste Sterowanie. Czyste Arcade", "W lewo. W prawo. Nie rozbij się. Pozornie proste."),
     ]),
     SlideCopy(byLocale: [
         "en-US": ("One Wrong Move. Game Over", "One mistake ends your run. Restart fast, chase your high score!"),
@@ -480,6 +489,8 @@ private let slides: [SlideCopy] = [
         "pt-PT": ("Um Erro. Fim De Jogo", "Um erro acaba a corrida. Reinicie e procure o seu recorde!"),
         "zh-Hant": ("一步失誤，遊戲結束", "一個失誤就結束。快速重來，挑戰最高分！"),
         "zh-Hans": ("一步失误，游戏结束", "一个失误就结束。快速重来，挑战最高分！"),
+        "tr": ("Tek Hata. Oyun Bitti", "Bir hata yarışı bitirir. Hızla başla, rekorunu kovala!"),
+        "pl": ("Jeden Błąd. Koniec Gry", "Jeden błąd kończy przejazd. Szybki restart i pogoń za rekordem!"),
     ]),
     SlideCopy(byLocale: [
         "en-US": ("Accessibility Front and Center", "VoiceOver, audio cues, haptics, larger text, and adaptable gameplay settings."),
@@ -497,6 +508,8 @@ private let slides: [SlideCopy] = [
         "pt-PT": ("Acessibilidade Em Destaque", "VoiceOver, pistas sonoras, háptico, texto maior e definições adaptáveis."),
         "zh-Hant": ("無障礙設計放首位", "VoiceOver、音效提示、觸覺、較大字體與可調設定。"),
         "zh-Hans": ("无障碍设计放首位", "VoiceOver、音效提示、触觉、较大字体与可调设置。"),
+        "tr": ("Erişilebilirlik Her Şeyden Önce", "VoiceOver, ses ipuçları, dokunsal geri bildirim, büyük metin ve uyarlanabilir ayarlar."),
+        "pl": ("Dostępność Na Pierwszym Planie", "VoiceOver, wskazówki dźwiękowe, haptyka, większy tekst i ustawienia adaptacyjne."),
     ]),
     SlideCopy(byLocale: [
         "en-US": ("Race Friends with SharePlay", "Challenge friends for free. Countdown, compete, rematch."),
@@ -514,6 +527,8 @@ private let slides: [SlideCopy] = [
         "pt-PT": ("Corra Com Amigos No SharePlay", "Desafie amigos grátis. Contagem, competição, desforra."),
         "zh-Hant": ("SharePlay 與好友競賽", "免費挑戰好友。倒數、對戰、重賽。"),
         "zh-Hans": ("SharePlay 与好友竞赛", "免费挑战好友。倒数、对战、重赛。"),
+        "tr": ("SharePlay ile Arkadaşlarınla Yarış", "Arkadaşlarına ücretsiz meydan oku. Geri sayım, yarış, rövanş."),
+        "pl": ("Ścigaj Się ze Znajomymi przez SharePlay", "Rzuć znajomym bezpłatne wyzwanie. Odliczanie, wyścig, rewanż."),
     ]),
     SlideCopy(byLocale: [
         "en-US": ("Climb the Leaderboard", "Game Center scores and friend markers keep every run competitive."),
@@ -531,6 +546,8 @@ private let slides: [SlideCopy] = [
         "pt-PT": ("Suba Na Classificação", "Pontuações do Game Center e marcadores mantêm cada corrida competitiva."),
         "zh-Hant": ("衝上排行榜", "Game Center 分數與好友標記讓每局都競爭感十足。"),
         "zh-Hans": ("冲上排行榜", "Game Center 分数与好友标记让每局都竞争感十足。"),
+        "tr": ("Liderlik Tablosunda Yüksel", "Game Center skorları ve arkadaş işaretleri her yarışı rekabetçi kılar."),
+        "pl": ("Wspinaj Się w Rankingu", "Wyniki Game Center i znaczniki znajomych podkręcają każdy przejazd."),
     ]),
     SlideCopy(byLocale: [
         "en-US": ("Customize Your Experience", "Tune volume, haptics, controls… Go Cruise, Fast, or Rapid!"),
@@ -551,6 +568,8 @@ private let slides: [SlideCopy] = [
         "pt-PT": ("Personalize A Sua Experiência", "Volume, háptico, controlos… Cruise, Fast ou Rapid!"),
         "zh-Hant": ("自訂你的體驗", "調整音量、觸覺、操作… Cruise、Fast 或 Rapid！"),
         "zh-Hans": ("自定义你的体验", "调整音量、触觉、操作… Cruise、Fast 或 Rapid！"),
+        "tr": ("Deneyimini Özelleştir", "Ses, dokunsal geri bildirim, kontroller… Cruise, Hızlı veya Rapid!"),
+        "pl": ("Dostosuj Rozgrywkę", "Głośność, haptyka, sterowanie… Cruise, Szybki albo Rapid!"),
     ]),
     SlideCopy(byLocale: [
         "en-US": ("Choose Your Retro Aesthetic", "Switch between four retro eras, from Pocket to 16-Bit."),
@@ -571,6 +590,8 @@ private let slides: [SlideCopy] = [
         "pt-PT": ("Escolha O Seu Visual Retrô", "Alterne entre quatro eras retro, de Pocket a 16-Bit."),
         "zh-Hant": ("選擇復古風格", "在四個復古時代間切換，從 Pocket 到 16-Bit。"),
         "zh-Hans": ("选择复古风格", "在四个复古时代间切换，从 Pocket 到 16-Bit。"),
+        "tr": ("Retro Tarzını Seç", "Pocket'tan 16-Bit'e dört retro dönem arasında geçiş yap."),
+        "pl": ("Wybierz Swój Styl Retro", "Przełączaj cztery epoki retro, od Pocket po 16-Bit."),
     ]),
     SlideCopy(byLocale: [
         "en-US": ("Unlock Retro Achievements", "Earn Game Center trophies as you race and improve."),
@@ -588,6 +609,8 @@ private let slides: [SlideCopy] = [
         "pt-PT": ("Desbloqueie Conquistas Retrô", "Ganhe troféus do Game Center enquanto corre e melhora."),
         "zh-Hant": ("解鎖復古成就", "競速進步，贏得 Game Center 獎盃。"),
         "zh-Hans": ("解锁复古成就", "竞速进步，赢得 Game Center 奖杯。"),
+        "tr": ("Retro Başarımları Aç", "Yarışıp geliştikçe Game Center kupaları kazan."),
+        "pl": ("Odblokuj Osiągnięcia Retro", "Zdobywaj trofea Game Center podczas wyścigów i rozwoju."),
     ]),
     SlideCopy(byLocale: [
         "en-US": ("Play Solo Or With Friends", "Daily free plays, leaderboards, and live friend races."),
@@ -605,6 +628,8 @@ private let slides: [SlideCopy] = [
         "pt-PT": ("Jogue A Solo Ou Com Amigos", "Partidas grátis diárias, classificações e corridas ao vivo com amigos."),
         "zh-Hant": ("單人或与好友同玩", "每日免費次數、排行榜與即時好友競賽。"),
         "zh-Hans": ("单人或与好友同玩", "每日免费次数、排行榜与即时好友竞赛。"),
+        "tr": ("Tek Başına veya Arkadaşlarınla Oyna", "Günlük ücretsiz oyunlar, liderlik tabloları ve canlı arkadaş yarışları."),
+        "pl": ("Graj Solo lub ze Znajomymi", "Codzienne bezpłatne gry, rankingi i wyścigi ze znajomymi na żywo."),
     ]),
 ]
 

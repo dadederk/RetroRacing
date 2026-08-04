@@ -42,8 +42,8 @@ public enum MetadataCopyRenderer {
                 + "status in `12-validation-results.md`.",
             "",
             "**Canonical source:** "
-                + "[metadata/retrorapid-v1.5.json]"
-                + "(../metadata/retrorapid-v1.5.json). "
+                + "[metadata/\(catalog.sourceURL.lastPathComponent)]"
+                + "(../metadata/\(catalog.sourceURL.lastPathComponent)). "
                 + "Do not edit generated copy directly.",
             "",
             "**See also:** [Strategy](04-metadata-strategy.md) · "

@@ -12,10 +12,15 @@ import ScriptSupport
 do {
     let arguments = CLIArguments()
     CLIHelp.exitIfRequested(arguments, usage: CLIUsageTexts.generateMetadataDocs)
+    try arguments.rejectUnknownFlags(
+        allowing: ["--check"],
+        valueFlags: ["--catalog"]
+    )
     let paths = try MetadataRepositoryPaths.locate()
+    let catalogURL = paths.catalogURL(for: try arguments.value(after: "--catalog"))
     if arguments.contains("--check") {
         let catalog = try MetadataCatalogLoader.loadValidatedCatalog(
-            from: paths.defaultCatalog
+            from: catalogURL
         )
         try MetadataDocumentWorkflow.verifyDocumentsAreCurrent(
             for: catalog,
@@ -23,15 +28,11 @@ do {
         )
     } else {
         let catalog = try MetadataCatalogLoader.loadCatalog(
-            from: paths.defaultCatalog
+            from: catalogURL
         )
-        let repositoryRoot = paths.defaultCatalog
-            .deletingLastPathComponent()
-            .deletingLastPathComponent()
-            .deletingLastPathComponent()
         let validationErrors = MetadataCatalogValidator.validationErrors(
             in: catalog,
-            repositoryRoot: repositoryRoot,
+            repositoryRoot: paths.repositoryRoot,
             copyDocument: nil,
             validationDocument: nil
         )

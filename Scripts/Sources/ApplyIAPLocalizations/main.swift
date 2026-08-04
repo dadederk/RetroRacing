@@ -15,6 +15,7 @@ private let defaultLocales = [
     "de-DE", "nl-NL", "it", "fr-FR", "fr-CA",
     "es-ES", "es-MX", "ca",
     "ja", "ko", "pt-BR", "pt-PT", "zh-Hant", "zh-Hans",
+    "tr", "pl",
 ]
 
 do {

@@ -38,6 +38,8 @@
 		<string>fr-CA</string>
 		<string>pt-PT</string>
 		<string>zh-Hans</string>
+		<string>tr</string>
+		<string>pl</string>
 	</array>
 	<key>selectedAppleWatchSpecification</key>
 	<string>appleWatchUltra3</string>

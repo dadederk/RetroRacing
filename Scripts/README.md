@@ -39,7 +39,7 @@ reproducibility gate.
 | `optimize-runtime-assets` | Regenerates runtime asset-catalog renditions from canonical source archives | Default invocation applies the deterministic plan; `--dry-run` prints it; `--check` renders to temporary storage and compares pixels/catalog JSON without changing tracked files |
 | `generate-road-dash-masks` | Renders the generated lap-strip mask asset | `--check` compares every generated PNG and `Contents.json` without writing |
 | `sync-screenshot-studio-localizations` | Synchronizes Screenshot Studio copy, manifests, and shared locale images | `--check` reports plist, manifest, and image drift without writing |
-| `capture-app-store-screenshots` | Captures localized iPhone, iPad, Mac, or Apple Watch screenshots via UI tests, stages them, installs each capture into Screenshot Studio as it completes, then syncs manifests | `--platform iphone|ipad|mac|watch` (default `iphone`); `--all-platforms` runs iphone → ipad → mac → watch sequentially (incompatible with `--platform`, `--destination`, and `--staging-dir`). iPad resolves the newest available `iPad Pro 13-inch` simulator (prefers M5 on the latest iOS runtime, falls back to M4); Mac uses landscape window capture to PNG; Watch uses Ultra 3 and five slides. All platforms default to 18 Screenshot Studio locales: UI tests capture 14 source locales and duplicate four derived variants (`en-GB`/`en-AU`/`en-CA` from `en-US`, `es-MX` from `es-ES`). `--install-only` moves an existing staging dir; `--staging-dir`, `--locales`, `--slides`, `--destination`, `--retries`, `--force`, `--appearance light|dark` (default `light`), `--no-status-bar-override`, `--status-bar-override`, `--dry-run`, and `--check` filter or validate runs. Re-runs skip staged files and only capture missing ones; `--force` recaptures every requested target even when staging already has files. iPhone/iPad apply marketing status bar `9:41` via `simctl` by default; Watch leaves the clock alone by default (pass `--status-bar-override` only if you intentionally want the disruptive host-clock marketing time). |
+| `capture-app-store-screenshots` | Captures localized iPhone, iPad, Mac, or Apple Watch screenshots via UI tests, stages them, installs each capture into Screenshot Studio as it completes, then syncs manifests | `--platform iphone|ipad|mac|watch` (default `iphone`); `--all-platforms` runs iphone → ipad → mac → watch sequentially (incompatible with `--platform`, `--destination`, and `--staging-dir`). iPad resolves the newest available `iPad Pro 13-inch` simulator (prefers M5 on the latest iOS runtime, falls back to M4); Mac uses landscape window capture to PNG; Watch uses Ultra 3 and seven slides. All platforms default to 20 Screenshot Studio locales: UI tests capture 16 source locales and duplicate four derived variants (`en-GB`/`en-AU`/`en-CA` from `en-US`, `es-MX` from `es-ES`). `--install-only` moves an existing staging dir; `--staging-dir`, `--locales`, `--slides`, `--destination`, `--retries`, `--force`, `--appearance light|dark` (default `light`), `--no-status-bar-override`, `--status-bar-override`, `--dry-run`, and `--check` filter or validate runs. Re-runs skip staged files and only capture missing ones; `--force` recaptures every requested target even when staging already has files. iPhone/iPad apply marketing status bar `9:41` via `simctl` by default; Watch leaves the clock alone by default (pass `--status-bar-override` only if you intentionally want the disruptive host-clock marketing time). |
 | `generate-metadata-docs` | Generates metadata copy and validation documents from the canonical JSON catalog | `--check` verifies generated documents without writing |
 | `apply-retrorapid-metadata` | Applies validated metadata through Helm | `--dry-run` reports the plan without changing App Store Connect |
 | `apply-iap-localizations` | Uploads EU Unlimited Plays IAP localizations through Helm, with App Store Connect API fallback | `--check` validates CSV bundles without ASC calls; `--dry-run` plans without writes; `--asc-api` skips Helm file upload |
@@ -108,7 +108,7 @@ is inert provenance and is not a supported command. Use only
 `./retrorapid assets optimize`; see [AssetSources/README.md](../AssetSources/README.md)
 for immutable snapshot and source-archive rules.
 
-Edit and apply App Store metadata:
+Edit and apply App Store metadata (the default catalog is the planned 1.6 release):
 
 ```bash
 ./retrorapid metadata generate
@@ -118,6 +118,7 @@ Edit and apply App Store metadata:
 
 Optional metadata flags:
 
+- `--catalog <path>` selects another release catalog; relative paths resolve from the repository root.
 - `--keywords-only` updates only hidden keywords.
 - `--include-app-info` explicitly retries shared name/subtitle fields.
 - `--helm <path>` overrides the Helm CLI path.

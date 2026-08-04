@@ -32,6 +32,8 @@ public enum HelmMetadataWorkflow {
         _ catalog: MetadataCatalog,
         options: MetadataApplyOptions
     ) throws {
+        try validateDraftConfiguration(in: catalog)
+
         if options.dryRun {
             printApplyPlan(catalog: catalog, options: options)
             return
@@ -42,6 +44,27 @@ public enum HelmMetadataWorkflow {
 
         if options.includeAppInfo {
             try applySharedAppInformation(catalog: catalog, options: options)
+        }
+    }
+
+    public static func validateDraftConfiguration(in catalog: MetadataCatalog) throws {
+        let requiredPlatforms = ["iOS", "macOS"]
+        let missingPlatforms = requiredPlatforms.filter { catalog.platformDrafts[$0] == nil }
+        guard missingPlatforms.isEmpty else {
+            throw MetadataToolError.missingPlatformDrafts(missingPlatforms)
+        }
+
+        for platform in requiredPlatforms {
+            guard let draft = catalog.platformDrafts[platform] else { continue }
+            let missingLocales = catalog.localeOrder.filter {
+                draft.localizationIDs[$0] == nil
+            }
+            guard missingLocales.isEmpty else {
+                throw MetadataToolError.missingPlatformLocalizationIDs(
+                    platform: platform,
+                    locales: missingLocales
+                )
+            }
         }
     }
 

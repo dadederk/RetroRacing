@@ -4,7 +4,7 @@ Last updated: 2026-07-25
 
 **Status:** `READY_FOR_ASC` — SharePlay promo package implemented in repo (fixtures, metadata, screenshots, microsite, featuring + IAE copy). Submit featuring nomination and In-App Event in App Store Connect when launch week is set. Custom Product Page and App Preview deferred.
 
-**Doc ownership:** Campaign strategy, nomination copy, In-App Event metadata, product-page asset plan, and microsite copy candidates live here. Shipped behavior remains in [`../../Requirements/shareplay_multiplayer.md`](../../Requirements/shareplay_multiplayer.md). Canonical App Store metadata remains in [`../../AppStore/metadata/retrorapid-v1.5.json`](../../AppStore/metadata/retrorapid-v1.5.json).
+**Doc ownership:** Campaign strategy, nomination copy, In-App Event metadata, product-page asset plan, and microsite copy candidates live here. Shipped behavior remains in [`../../Requirements/shareplay_multiplayer.md`](../../Requirements/shareplay_multiplayer.md). Canonical staged App Store metadata is [`../../AppStore/metadata/retrorapid-v1.6.json`](../../AppStore/metadata/retrorapid-v1.6.json); the 1.5 catalog remains a historical snapshot.
 
 **See also:** [Submitted nominations voice guide](09-featuring-nominations-submitted.md) · [Product Page Optimization](../../AppStore/docs/09-product-page-optimization.md) · [Screenshots](../../AppStore/docs/06-screenshots.md) · [Submission gate](../../AppStore/docs/03-submission-quality-gate.md)
 
@@ -128,7 +128,7 @@ A share of proceeds supports AMMEC, advancing autonomy and social inclusion for 
 
 ## App Store Metadata Candidates
 
-Do not edit [`../../AppStore/docs/05-metadata-copy.md`](../../AppStore/docs/05-metadata-copy.md) directly; update `retrorapid-v1.5.json` and regenerate when these are approved.
+Do not edit [`../../AppStore/docs/05-metadata-copy.md`](../../AppStore/docs/05-metadata-copy.md) directly; update `retrorapid-v1.6.json` and regenerate when these are approved.
 
 Recommended iOS promotional text (125/170):
 

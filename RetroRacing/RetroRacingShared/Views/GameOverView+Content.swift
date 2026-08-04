@@ -9,7 +9,7 @@ import SwiftUI
 
 extension GameOverView {
     var gameOverMainContent: some View {
-        VStack(spacing: 18) {
+        VStack(spacing: gameOverContentSpacing) {
             heroImage
             subtitleText
             scoreRows
@@ -19,7 +19,7 @@ extension GameOverView {
                 actionButtons
             }
         }
-        .padding(20)
+        .padding(gameOverContentPadding)
         .frame(maxWidth: .infinity, alignment: .top)
     }
 
@@ -27,7 +27,7 @@ extension GameOverView {
         Image(isNewRecord ? "NewRecord" : "Finished", bundle: Self.sharedBundle)
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .frame(maxWidth: 220)
+            .frame(maxWidth: gameOverHeroImageMaxWidth)
             .accessibilityHidden(true)
     }
 
@@ -42,6 +42,15 @@ extension GameOverView {
     var scoreRows: some View {
         VStack(spacing: 8) {
             if isNewRecord {
+                #if os(watchOS)
+                Text(GameLocalizedStrings.format("game_over_new_record_value %lld", Int64(bestScore)))
+                Text(
+                    GameLocalizedStrings.format(
+                        "game_over_previous_best %lld",
+                        Int64(previousBestScore ?? 0)
+                    )
+                )
+                #else
                 Text(
                     GameLocalizedStrings.format(
                         "game_over_previous_best %lld",
@@ -49,6 +58,7 @@ extension GameOverView {
                     )
                 )
                 Text(GameLocalizedStrings.format("game_over_new_record_value %lld", Int64(bestScore)))
+                #endif
             } else {
                 Text(GameLocalizedStrings.format("score %lld", Int64(score)))
                 Text(GameLocalizedStrings.format("game_over_best %lld", Int64(bestScore)))
@@ -115,5 +125,29 @@ extension GameOverView {
 
     var buttonFont: Font {
         fontPreferenceStore?.font(textStyle: .headline) ?? .headline
+    }
+
+    var gameOverContentSpacing: CGFloat {
+        #if os(watchOS)
+        8
+        #else
+        18
+        #endif
+    }
+
+    var gameOverContentPadding: CGFloat {
+        #if os(watchOS)
+        10
+        #else
+        20
+        #endif
+    }
+
+    var gameOverHeroImageMaxWidth: CGFloat {
+        #if os(watchOS)
+        125
+        #else
+        220
+        #endif
     }
 }

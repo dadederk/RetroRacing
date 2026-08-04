@@ -42,7 +42,7 @@
 				<key>centerUnitY</key>
 				<real>0.5</real>
 				<key>circularDiameterUnit</key>
-				<real>0.32</real>
+				<real>0.32000000000000001</real>
 				<key>isEnabled</key>
 				<false/>
 				<key>lensBorderColor</key>
@@ -56,7 +56,7 @@
 				<key>lensDropShadowRadiusPoints</key>
 				<real>8</real>
 				<key>lensDropShadowXOffsetPoints</key>
-				<real>0</real>
+				<real>0.0</real>
 				<key>lensDropShadowYOffsetPoints</key>
 				<real>4</real>
 				<key>lensShape</key>
@@ -64,7 +64,7 @@
 				<key>rectCornerRadiusUnit</key>
 				<real>0.12</real>
 				<key>rectHeightUnit</key>
-				<real>0.45</real>
+				<real>0.45000000000000001</real>
 				<key>rectWidthUnit</key>
 				<real>0.5</real>
 				<key>scaleFactor</key>
@@ -105,7 +105,7 @@
 			<key>titleTextStyle</key>
 			<string>original</string>
 			<key>waveTime</key>
-			<real>0</real>
+			<real>0.0</real>
 		</dict>
 		<key>localizations</key>
 		<array>
@@ -253,6 +253,22 @@
 				<key>title</key>
 				<string>穿越无尽车流</string>
 			</dict>
+			<dict>
+				<key>body</key>
+				<string>Trafikten kaç, retro arcade yarışında sollamaları kovala.</string>
+				<key>language</key>
+				<string>tr</string>
+				<key>title</key>
+				<string>Sonsuz Trafikte Yarış</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Omijaj ruch i wyprzedzaj w wyścigowej grze retro.</string>
+				<key>language</key>
+				<string>pl</string>
+				<key>title</key>
+				<string>Pędź Przez Niekończący Się Ruch</string>
+			</dict>
 		</array>
 	</dict>
 	<dict>
@@ -295,7 +311,7 @@
 				<key>centerUnitY</key>
 				<real>0.5</real>
 				<key>circularDiameterUnit</key>
-				<real>0.32</real>
+				<real>0.32000000000000001</real>
 				<key>isEnabled</key>
 				<false/>
 				<key>lensBorderColor</key>
@@ -309,7 +325,7 @@
 				<key>lensDropShadowRadiusPoints</key>
 				<real>8</real>
 				<key>lensDropShadowXOffsetPoints</key>
-				<real>0</real>
+				<real>0.0</real>
 				<key>lensDropShadowYOffsetPoints</key>
 				<real>4</real>
 				<key>lensShape</key>
@@ -317,7 +333,7 @@
 				<key>rectCornerRadiusUnit</key>
 				<real>0.12</real>
 				<key>rectHeightUnit</key>
-				<real>0.45</real>
+				<real>0.45000000000000001</real>
 				<key>rectWidthUnit</key>
 				<real>0.5</real>
 				<key>scaleFactor</key>
@@ -358,7 +374,7 @@
 			<key>titleTextStyle</key>
 			<string>original</string>
 			<key>waveTime</key>
-			<real>0</real>
+			<real>0.0</real>
 		</dict>
 		<key>localizations</key>
 		<array>
@@ -506,6 +522,22 @@
 				<key>title</key>
 				<string>简单操作。纯粹街机</string>
 			</dict>
+			<dict>
+				<key>body</key>
+				<string>Sola git. Sağa git. Çarpma. Göründüğünden zor.</string>
+				<key>language</key>
+				<string>tr</string>
+				<key>title</key>
+				<string>Basit Kontroller. Saf Arcade</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>W lewo. W prawo. Nie rozbij się. Pozornie proste.</string>
+				<key>language</key>
+				<string>pl</string>
+				<key>title</key>
+				<string>Proste Sterowanie. Czyste Arcade</string>
+			</dict>
 		</array>
 	</dict>
 	<dict>
@@ -528,7 +560,7 @@
 			<key>bodyHighlightColor</key>
 			<string>#FFCC00</string>
 			<key>devicePosition</key>
-			<string>overflowTop</string>
+			<string>overflowBottom</string>
 			<key>deviceScaleFactor</key>
 			<real>1</real>
 			<key>glitchDirection</key>
@@ -548,7 +580,7 @@
 				<key>centerUnitY</key>
 				<real>0.5</real>
 				<key>circularDiameterUnit</key>
-				<real>0.32</real>
+				<real>0.32000000000000001</real>
 				<key>isEnabled</key>
 				<false/>
 				<key>lensBorderColor</key>
@@ -562,7 +594,7 @@
 				<key>lensDropShadowRadiusPoints</key>
 				<real>8</real>
 				<key>lensDropShadowXOffsetPoints</key>
-				<real>0</real>
+				<real>0.0</real>
 				<key>lensDropShadowYOffsetPoints</key>
 				<real>4</real>
 				<key>lensShape</key>
@@ -570,7 +602,7 @@
 				<key>rectCornerRadiusUnit</key>
 				<real>0.12</real>
 				<key>rectHeightUnit</key>
-				<real>0.45</real>
+				<real>0.45000000000000001</real>
 				<key>rectWidthUnit</key>
 				<real>0.5</real>
 				<key>scaleFactor</key>
@@ -611,7 +643,7 @@
 			<key>titleTextStyle</key>
 			<string>original</string>
 			<key>waveTime</key>
-			<real>0</real>
+			<real>0.0</real>
 		</dict>
 		<key>localizations</key>
 		<array>
@@ -759,6 +791,22 @@
 				<key>title</key>
 				<string>一步失误，游戏结束</string>
 			</dict>
+			<dict>
+				<key>body</key>
+				<string>Bir hata yarışı bitirir. Hızla başla, rekorunu kovala!</string>
+				<key>language</key>
+				<string>tr</string>
+				<key>title</key>
+				<string>Tek Hata. Oyun Bitti</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Jeden błąd kończy przejazd. Szybki restart i pogoń za rekordem!</string>
+				<key>language</key>
+				<string>pl</string>
+				<key>title</key>
+				<string>Jeden Błąd. Koniec Gry</string>
+			</dict>
 		</array>
 	</dict>
 	<dict>
@@ -781,7 +829,7 @@
 			<key>bodyHighlightColor</key>
 			<string>#FFD600</string>
 			<key>devicePosition</key>
-			<string>overflowBottom</string>
+			<string>overflowTop</string>
 			<key>deviceScaleFactor</key>
 			<real>1</real>
 			<key>glitchDirection</key>
@@ -801,7 +849,7 @@
 				<key>centerUnitY</key>
 				<real>0.5</real>
 				<key>circularDiameterUnit</key>
-				<real>0.32</real>
+				<real>0.32000000000000001</real>
 				<key>isEnabled</key>
 				<false/>
 				<key>lensBorderColor</key>
@@ -815,7 +863,7 @@
 				<key>lensDropShadowRadiusPoints</key>
 				<real>8</real>
 				<key>lensDropShadowXOffsetPoints</key>
-				<real>0</real>
+				<real>0.0</real>
 				<key>lensDropShadowYOffsetPoints</key>
 				<real>4</real>
 				<key>lensShape</key>
@@ -823,7 +871,7 @@
 				<key>rectCornerRadiusUnit</key>
 				<real>0.12</real>
 				<key>rectHeightUnit</key>
-				<real>0.45</real>
+				<real>0.45000000000000001</real>
 				<key>rectWidthUnit</key>
 				<real>0.5</real>
 				<key>scaleFactor</key>
@@ -864,7 +912,7 @@
 			<key>titleTextStyle</key>
 			<string>original</string>
 			<key>waveTime</key>
-			<real>0</real>
+			<real>0.0</real>
 		</dict>
 		<key>localizations</key>
 		<array>
@@ -1012,6 +1060,22 @@
 				<key>title</key>
 				<string>无障碍设计放首位</string>
 			</dict>
+			<dict>
+				<key>body</key>
+				<string>VoiceOver, ses ipuçları, dokunsal geri bildirim, büyük metin ve uyarlanabilir ayarlar.</string>
+				<key>language</key>
+				<string>tr</string>
+				<key>title</key>
+				<string>Erişilebilirlik Her Şeyden Önce</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>VoiceOver, wskazówki dźwiękowe, haptyka, większy tekst i ustawienia adaptacyjne.</string>
+				<key>language</key>
+				<string>pl</string>
+				<key>title</key>
+				<string>Dostępność Na Pierwszym Planie</string>
+			</dict>
 		</array>
 	</dict>
 	<dict>
@@ -1054,7 +1118,7 @@
 				<key>centerUnitY</key>
 				<real>0.5</real>
 				<key>circularDiameterUnit</key>
-				<real>0.32</real>
+				<real>0.32000000000000001</real>
 				<key>isEnabled</key>
 				<false/>
 				<key>lensBorderColor</key>
@@ -1068,7 +1132,7 @@
 				<key>lensDropShadowRadiusPoints</key>
 				<real>8</real>
 				<key>lensDropShadowXOffsetPoints</key>
-				<real>0</real>
+				<real>0.0</real>
 				<key>lensDropShadowYOffsetPoints</key>
 				<real>4</real>
 				<key>lensShape</key>
@@ -1076,7 +1140,7 @@
 				<key>rectCornerRadiusUnit</key>
 				<real>0.12</real>
 				<key>rectHeightUnit</key>
-				<real>0.45</real>
+				<real>0.45000000000000001</real>
 				<key>rectWidthUnit</key>
 				<real>0.5</real>
 				<key>scaleFactor</key>
@@ -1117,7 +1181,7 @@
 			<key>titleTextStyle</key>
 			<string>original</string>
 			<key>waveTime</key>
-			<real>0</real>
+			<real>0.0</real>
 		</dict>
 		<key>localizations</key>
 		<array>
@@ -1265,6 +1329,22 @@
 				<key>title</key>
 				<string>SharePlay 与好友竞赛</string>
 			</dict>
+			<dict>
+				<key>body</key>
+				<string>Arkadaşlarına ücretsiz meydan oku. Geri sayım, yarış, rövanş.</string>
+				<key>language</key>
+				<string>tr</string>
+				<key>title</key>
+				<string>SharePlay ile Arkadaşlarınla Yarış</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Rzuć znajomym bezpłatne wyzwanie. Odliczanie, wyścig, rewanż.</string>
+				<key>language</key>
+				<string>pl</string>
+				<key>title</key>
+				<string>Ścigaj Się ze Znajomymi przez SharePlay</string>
+			</dict>
 		</array>
 	</dict>
 	<dict>
@@ -1307,7 +1387,7 @@
 				<key>centerUnitY</key>
 				<real>0.5</real>
 				<key>circularDiameterUnit</key>
-				<real>0.32</real>
+				<real>0.32000000000000001</real>
 				<key>isEnabled</key>
 				<false/>
 				<key>lensBorderColor</key>
@@ -1321,7 +1401,7 @@
 				<key>lensDropShadowRadiusPoints</key>
 				<real>8</real>
 				<key>lensDropShadowXOffsetPoints</key>
-				<real>0</real>
+				<real>0.0</real>
 				<key>lensDropShadowYOffsetPoints</key>
 				<real>4</real>
 				<key>lensShape</key>
@@ -1329,7 +1409,7 @@
 				<key>rectCornerRadiusUnit</key>
 				<real>0.12</real>
 				<key>rectHeightUnit</key>
-				<real>0.45</real>
+				<real>0.45000000000000001</real>
 				<key>rectWidthUnit</key>
 				<real>0.5</real>
 				<key>scaleFactor</key>
@@ -1370,7 +1450,7 @@
 			<key>titleTextStyle</key>
 			<string>original</string>
 			<key>waveTime</key>
-			<real>0</real>
+			<real>0.0</real>
 		</dict>
 		<key>localizations</key>
 		<array>
@@ -1518,6 +1598,22 @@
 				<key>title</key>
 				<string>冲上排行榜</string>
 			</dict>
+			<dict>
+				<key>body</key>
+				<string>Game Center skorları ve arkadaş işaretleri her yarışı rekabetçi kılar.</string>
+				<key>language</key>
+				<string>tr</string>
+				<key>title</key>
+				<string>Liderlik Tablosunda Yüksel</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Wyniki Game Center i znaczniki znajomych podkręcają każdy przejazd.</string>
+				<key>language</key>
+				<string>pl</string>
+				<key>title</key>
+				<string>Wspinaj Się w Rankingu</string>
+			</dict>
 		</array>
 	</dict>
 	<dict>
@@ -1560,7 +1656,7 @@
 				<key>centerUnitY</key>
 				<real>0.5</real>
 				<key>circularDiameterUnit</key>
-				<real>0.32</real>
+				<real>0.32000000000000001</real>
 				<key>isEnabled</key>
 				<false/>
 				<key>lensBorderColor</key>
@@ -1574,7 +1670,7 @@
 				<key>lensDropShadowRadiusPoints</key>
 				<real>8</real>
 				<key>lensDropShadowXOffsetPoints</key>
-				<real>0</real>
+				<real>0.0</real>
 				<key>lensDropShadowYOffsetPoints</key>
 				<real>4</real>
 				<key>lensShape</key>
@@ -1582,7 +1678,7 @@
 				<key>rectCornerRadiusUnit</key>
 				<real>0.12</real>
 				<key>rectHeightUnit</key>
-				<real>0.45</real>
+				<real>0.45000000000000001</real>
 				<key>rectWidthUnit</key>
 				<real>0.5</real>
 				<key>scaleFactor</key>
@@ -1623,7 +1719,7 @@
 			<key>titleTextStyle</key>
 			<string>original</string>
 			<key>waveTime</key>
-			<real>0</real>
+			<real>0.0</real>
 		</dict>
 		<key>localizations</key>
 		<array>
@@ -1771,6 +1867,22 @@
 				<key>title</key>
 				<string>自定义你的体验</string>
 			</dict>
+			<dict>
+				<key>body</key>
+				<string>Ses, dokunsal geri bildirim, kontroller… Cruise, Hızlı veya Rapid!</string>
+				<key>language</key>
+				<string>tr</string>
+				<key>title</key>
+				<string>Deneyimini Özelleştir</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Głośność, haptyka, sterowanie… Cruise, Szybki albo Rapid!</string>
+				<key>language</key>
+				<string>pl</string>
+				<key>title</key>
+				<string>Dostosuj Rozgrywkę</string>
+			</dict>
 		</array>
 	</dict>
 	<dict>
@@ -1813,7 +1925,7 @@
 				<key>centerUnitY</key>
 				<real>0.5</real>
 				<key>circularDiameterUnit</key>
-				<real>0.32</real>
+				<real>0.32000000000000001</real>
 				<key>isEnabled</key>
 				<false/>
 				<key>lensBorderColor</key>
@@ -1827,7 +1939,7 @@
 				<key>lensDropShadowRadiusPoints</key>
 				<real>8</real>
 				<key>lensDropShadowXOffsetPoints</key>
-				<real>0</real>
+				<real>0.0</real>
 				<key>lensDropShadowYOffsetPoints</key>
 				<real>4</real>
 				<key>lensShape</key>
@@ -1835,7 +1947,7 @@
 				<key>rectCornerRadiusUnit</key>
 				<real>0.12</real>
 				<key>rectHeightUnit</key>
-				<real>0.45</real>
+				<real>0.45000000000000001</real>
 				<key>rectWidthUnit</key>
 				<real>0.5</real>
 				<key>scaleFactor</key>
@@ -1876,7 +1988,7 @@
 			<key>titleTextStyle</key>
 			<string>original</string>
 			<key>waveTime</key>
-			<real>0</real>
+			<real>0.0</real>
 		</dict>
 		<key>localizations</key>
 		<array>
@@ -2024,6 +2136,22 @@
 				<key>title</key>
 				<string>选择复古风格</string>
 			</dict>
+			<dict>
+				<key>body</key>
+				<string>Pocket'tan 16-Bit'e dört retro dönem arasında geçiş yap.</string>
+				<key>language</key>
+				<string>tr</string>
+				<key>title</key>
+				<string>Retro Tarzını Seç</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Przełączaj cztery epoki retro, od Pocket po 16-Bit.</string>
+				<key>language</key>
+				<string>pl</string>
+				<key>title</key>
+				<string>Wybierz Swój Styl Retro</string>
+			</dict>
 		</array>
 	</dict>
 	<dict>
@@ -2066,7 +2194,7 @@
 				<key>centerUnitY</key>
 				<real>0.5</real>
 				<key>circularDiameterUnit</key>
-				<real>0.32</real>
+				<real>0.32000000000000001</real>
 				<key>isEnabled</key>
 				<false/>
 				<key>lensBorderColor</key>
@@ -2080,7 +2208,7 @@
 				<key>lensDropShadowRadiusPoints</key>
 				<real>8</real>
 				<key>lensDropShadowXOffsetPoints</key>
-				<real>0</real>
+				<real>0.0</real>
 				<key>lensDropShadowYOffsetPoints</key>
 				<real>4</real>
 				<key>lensShape</key>
@@ -2088,7 +2216,7 @@
 				<key>rectCornerRadiusUnit</key>
 				<real>0.12</real>
 				<key>rectHeightUnit</key>
-				<real>0.45</real>
+				<real>0.45000000000000001</real>
 				<key>rectWidthUnit</key>
 				<real>0.5</real>
 				<key>scaleFactor</key>
@@ -2129,7 +2257,7 @@
 			<key>titleTextStyle</key>
 			<string>original</string>
 			<key>waveTime</key>
-			<real>0</real>
+			<real>0.0</real>
 		</dict>
 		<key>localizations</key>
 		<array>
@@ -2277,6 +2405,22 @@
 				<key>title</key>
 				<string>解锁复古成就</string>
 			</dict>
+			<dict>
+				<key>body</key>
+				<string>Yarışıp geliştikçe Game Center kupaları kazan.</string>
+				<key>language</key>
+				<string>tr</string>
+				<key>title</key>
+				<string>Retro Başarımları Aç</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Zdobywaj trofea Game Center podczas wyścigów i rozwoju.</string>
+				<key>language</key>
+				<string>pl</string>
+				<key>title</key>
+				<string>Odblokuj Osiągnięcia Retro</string>
+			</dict>
 		</array>
 	</dict>
 	<dict>
@@ -2319,7 +2463,7 @@
 				<key>centerUnitY</key>
 				<real>0.5</real>
 				<key>circularDiameterUnit</key>
-				<real>0.32</real>
+				<real>0.32000000000000001</real>
 				<key>isEnabled</key>
 				<false/>
 				<key>lensBorderColor</key>
@@ -2333,7 +2477,7 @@
 				<key>lensDropShadowRadiusPoints</key>
 				<real>8</real>
 				<key>lensDropShadowXOffsetPoints</key>
-				<real>0</real>
+				<real>0.0</real>
 				<key>lensDropShadowYOffsetPoints</key>
 				<real>4</real>
 				<key>lensShape</key>
@@ -2341,7 +2485,7 @@
 				<key>rectCornerRadiusUnit</key>
 				<real>0.12</real>
 				<key>rectHeightUnit</key>
-				<real>0.45</real>
+				<real>0.45000000000000001</real>
 				<key>rectWidthUnit</key>
 				<real>0.5</real>
 				<key>scaleFactor</key>
@@ -2382,7 +2526,7 @@
 			<key>titleTextStyle</key>
 			<string>original</string>
 			<key>waveTime</key>
-			<real>0</real>
+			<real>0.0</real>
 		</dict>
 		<key>localizations</key>
 		<array>
@@ -2529,6 +2673,22 @@
 				<string>zh-Hans</string>
 				<key>title</key>
 				<string>单人或与好友同玩</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Günlük ücretsiz oyunlar, liderlik tabloları ve canlı arkadaş yarışları.</string>
+				<key>language</key>
+				<string>tr</string>
+				<key>title</key>
+				<string>Tek Başına veya Arkadaşlarınla Oyna</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Codzienne bezpłatne gry, rankingi i wyścigi ze znajomymi na żywo.</string>
+				<key>language</key>
+				<string>pl</string>
+				<key>title</key>
+				<string>Graj Solo lub ze Znajomymi</string>
 			</dict>
 		</array>
 	</dict>

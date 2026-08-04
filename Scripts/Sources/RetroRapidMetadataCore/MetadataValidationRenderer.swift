@@ -42,8 +42,8 @@ public enum MetadataValidationRenderer {
                 + "for any remaining non-metadata blockers.",
             "",
             "**Canonical source:** "
-                + "[metadata/retrorapid-v1.5.json]"
-                + "(../metadata/retrorapid-v1.5.json).",
+                + "[metadata/\(catalog.sourceURL.lastPathComponent)]"
+                + "(../metadata/\(catalog.sourceURL.lastPathComponent)).",
             "",
             "**See also:** [Metadata copy](05-metadata-copy.md) · "
                 + "[Limits](01-limits-and-sources.md) · "

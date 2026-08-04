@@ -4,7 +4,7 @@
 
 **→ [App Store docs hub (start here)](README.md)**
 
-Canonical staged metadata lives in [`metadata/retrorapid-v1.5.json`](metadata/retrorapid-v1.5.json); docs 05 and 12 are generated views.
+Canonical staged metadata lives in [`metadata/retrorapid-v1.6.json`](metadata/retrorapid-v1.6.json); docs 05 and 12 are generated views. The 1.5 catalog remains an immutable historical snapshot.
 
 ## Quick links
 

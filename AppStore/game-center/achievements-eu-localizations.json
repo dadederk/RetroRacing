@@ -14,7 +14,9 @@
     "pt-BR",
     "pt-PT",
     "zh-Hant",
-    "zh-Hans"
+    "zh-Hans",
+    "tr",
+    "pl"
   ],
   "achievements": [
     {
@@ -85,6 +87,16 @@
           "name": "连胜 100",
           "earnedDescription": "你在一局中超车 100 辆。",
           "preEarnedDescription": "在一局中超车 100 辆。"
+        },
+        "tr": {
+          "name": "Seri 100",
+          "earnedDescription": "Tek yarışta 100 araba solladın.",
+          "preEarnedDescription": "Tek yarışta 100 araba solla."
+        },
+        "pl": {
+          "name": "Seria 100",
+          "earnedDescription": "Wyprzedzono 100 aut w jednym przejeździe.",
+          "preEarnedDescription": "Wyprzedź 100 aut w jednym przejeździe."
         }
       }
     },
@@ -156,6 +168,16 @@
           "name": "连胜 200",
           "earnedDescription": "你在一局中超车 200 辆。",
           "preEarnedDescription": "在一局中超车 200 辆。"
+        },
+        "tr": {
+          "name": "Seri 200",
+          "earnedDescription": "Tek yarışta 200 araba solladın.",
+          "preEarnedDescription": "Tek yarışta 200 araba solla."
+        },
+        "pl": {
+          "name": "Seria 200",
+          "earnedDescription": "Wyprzedzono 200 aut w jednym przejeździe.",
+          "preEarnedDescription": "Wyprzedź 200 aut w jednym przejeździe."
         }
       }
     },
@@ -227,6 +249,16 @@
           "name": "连胜 300",
           "earnedDescription": "你在一局中超车 300 辆。",
           "preEarnedDescription": "在一局中超车 300 辆。"
+        },
+        "tr": {
+          "name": "Seri 300",
+          "earnedDescription": "Tek yarışta 300 araba solladın.",
+          "preEarnedDescription": "Tek yarışta 300 araba solla."
+        },
+        "pl": {
+          "name": "Seria 300",
+          "earnedDescription": "Wyprzedzono 300 aut w jednym przejeździe.",
+          "preEarnedDescription": "Wyprzedź 300 aut w jednym przejeździe."
         }
       }
     },
@@ -298,6 +330,16 @@
           "name": "连胜 400",
           "earnedDescription": "你在一局中超车 400 辆。",
           "preEarnedDescription": "在一局中超车 400 辆。"
+        },
+        "tr": {
+          "name": "Seri 400",
+          "earnedDescription": "Tek yarışta 400 araba solladın.",
+          "preEarnedDescription": "Tek yarışta 400 araba solla."
+        },
+        "pl": {
+          "name": "Seria 400",
+          "earnedDescription": "Wyprzedzono 400 aut w jednym przejeździe.",
+          "preEarnedDescription": "Wyprzedź 400 aut w jednym przejeździe."
         }
       }
     },
@@ -369,6 +411,16 @@
           "name": "连胜 500",
           "earnedDescription": "你在一局中超车 500 辆。",
           "preEarnedDescription": "在一局中超车 500 辆。"
+        },
+        "tr": {
+          "name": "Seri 500",
+          "earnedDescription": "Tek yarışta 500 araba solladın.",
+          "preEarnedDescription": "Tek yarışta 500 araba solla."
+        },
+        "pl": {
+          "name": "Seria 500",
+          "earnedDescription": "Wyprzedzono 500 aut w jednym przejeździe.",
+          "preEarnedDescription": "Wyprzedź 500 aut w jednym przejeździe."
         }
       }
     },
@@ -440,6 +492,16 @@
           "name": "连胜 600",
           "earnedDescription": "你在一局中超车 600 辆。",
           "preEarnedDescription": "在一局中超车 600 辆。"
+        },
+        "tr": {
+          "name": "Seri 600",
+          "earnedDescription": "Tek yarışta 600 araba solladın.",
+          "preEarnedDescription": "Tek yarışta 600 araba solla."
+        },
+        "pl": {
+          "name": "Seria 600",
+          "earnedDescription": "Wyprzedzono 600 aut w jednym przejeździe.",
+          "preEarnedDescription": "Wyprzedź 600 aut w jednym przejeździe."
         }
       }
     },
@@ -511,6 +573,16 @@
           "name": "连胜 700",
           "earnedDescription": "你在一局中超车 700 辆。",
           "preEarnedDescription": "在一局中超车 700 辆。"
+        },
+        "tr": {
+          "name": "Seri 700",
+          "earnedDescription": "Tek yarışta 700 araba solladın.",
+          "preEarnedDescription": "Tek yarışta 700 araba solla."
+        },
+        "pl": {
+          "name": "Seria 700",
+          "earnedDescription": "Wyprzedzono 700 aut w jednym przejeździe.",
+          "preEarnedDescription": "Wyprzedź 700 aut w jednym przejeździe."
         }
       }
     },
@@ -582,6 +654,16 @@
           "name": "连胜 800",
           "earnedDescription": "你在一局中超车 800 辆。",
           "preEarnedDescription": "在一局中超车 800 辆。"
+        },
+        "tr": {
+          "name": "Seri 800",
+          "earnedDescription": "Tek yarışta 800 araba solladın.",
+          "preEarnedDescription": "Tek yarışta 800 araba solla."
+        },
+        "pl": {
+          "name": "Seria 800",
+          "earnedDescription": "Wyprzedzono 800 aut w jednym przejeździe.",
+          "preEarnedDescription": "Wyprzedź 800 aut w jednym przejeździe."
         }
       }
     },
@@ -653,6 +735,16 @@
           "name": "Overlander 1K",
           "earnedDescription": "你总共超车 1,000 辆。",
           "preEarnedDescription": "总共超车 1,000 辆。"
+        },
+        "tr": {
+          "name": "Yol Fatihi 1K",
+          "earnedDescription": "Toplam 1.000 araba solladın.",
+          "preEarnedDescription": "Toplam 1.000 araba solla."
+        },
+        "pl": {
+          "name": "Pogromca Dróg 1K",
+          "earnedDescription": "Łącznie wyprzedzono 1 000 aut.",
+          "preEarnedDescription": "Wyprzedź łącznie 1 000 aut."
         }
       }
     },
@@ -724,6 +816,16 @@
           "name": "Overlander 5K",
           "earnedDescription": "你总共超车 5,000 辆。",
           "preEarnedDescription": "总共超车 5,000 辆。"
+        },
+        "tr": {
+          "name": "Yol Fatihi 5K",
+          "earnedDescription": "Toplam 5.000 araba solladın.",
+          "preEarnedDescription": "Toplam 5.000 araba solla."
+        },
+        "pl": {
+          "name": "Pogromca Dróg 5K",
+          "earnedDescription": "Łącznie wyprzedzono 5 000 aut.",
+          "preEarnedDescription": "Wyprzedź łącznie 5 000 aut."
         }
       }
     },
@@ -795,6 +897,16 @@
           "name": "Overlander 10K",
           "earnedDescription": "你总共超车 10,000 辆。",
           "preEarnedDescription": "总共超车 10,000 辆。"
+        },
+        "tr": {
+          "name": "Yol Fatihi 10K",
+          "earnedDescription": "Toplam 10.000 araba solladın.",
+          "preEarnedDescription": "Toplam 10.000 araba solla."
+        },
+        "pl": {
+          "name": "Pogromca Dróg 10K",
+          "earnedDescription": "Łącznie wyprzedzono 10 000 aut.",
+          "preEarnedDescription": "Wyprzedź łącznie 10 000 aut."
         }
       }
     },
@@ -866,6 +978,16 @@
           "name": "Overlander 20K",
           "earnedDescription": "你总共超车 20,000 辆。",
           "preEarnedDescription": "总共超车 20,000 辆。"
+        },
+        "tr": {
+          "name": "Yol Fatihi 20K",
+          "earnedDescription": "Toplam 20.000 araba solladın.",
+          "preEarnedDescription": "Toplam 20.000 araba solla."
+        },
+        "pl": {
+          "name": "Pogromca Dróg 20K",
+          "earnedDescription": "Łącznie wyprzedzono 20 000 aut.",
+          "preEarnedDescription": "Wyprzedź łącznie 20 000 aut."
         }
       }
     },
@@ -937,6 +1059,16 @@
           "name": "Overlander 50K",
           "earnedDescription": "你总共超车 50,000 辆。",
           "preEarnedDescription": "总共超车 50,000 辆。"
+        },
+        "tr": {
+          "name": "Yol Fatihi 50K",
+          "earnedDescription": "Toplam 50.000 araba solladın.",
+          "preEarnedDescription": "Toplam 50.000 araba solla."
+        },
+        "pl": {
+          "name": "Pogromca Dróg 50K",
+          "earnedDescription": "Łącznie wyprzedzono 50 000 aut.",
+          "preEarnedDescription": "Wyprzedź łącznie 50 000 aut."
         }
       }
     },
@@ -1008,6 +1140,16 @@
           "name": "Overlander 100K",
           "earnedDescription": "你总共超车 100,000 辆。",
           "preEarnedDescription": "总共超车 100,000 辆。"
+        },
+        "tr": {
+          "name": "Yol Fatihi 100K",
+          "earnedDescription": "Toplam 100.000 araba solladın.",
+          "preEarnedDescription": "Toplam 100.000 araba solla."
+        },
+        "pl": {
+          "name": "Pogromca Dróg 100K",
+          "earnedDescription": "Łącznie wyprzedzono 100 000 aut.",
+          "preEarnedDescription": "Wyprzedź łącznie 100 000 aut."
         }
       }
     },
@@ -1079,6 +1221,16 @@
           "name": "Overlander 200K",
           "earnedDescription": "你总共超车 200,000 辆。",
           "preEarnedDescription": "总共超车 200,000 辆。"
+        },
+        "tr": {
+          "name": "Yol Fatihi 200K",
+          "earnedDescription": "Toplam 200.000 araba solladın.",
+          "preEarnedDescription": "Toplam 200.000 araba solla."
+        },
+        "pl": {
+          "name": "Pogromca Dróg 200K",
+          "earnedDescription": "Łącznie wyprzedzono 200 000 aut.",
+          "preEarnedDescription": "Wyprzedź łącznie 200 000 aut."
         }
       }
     },
@@ -1150,6 +1302,16 @@
           "name": "点按操作",
           "earnedDescription": "你使用点按操作完成了一局。",
           "preEarnedDescription": "使用点按操作完成一局。"
+        },
+        "tr": {
+          "name": "Dokunma Kontrolleri",
+          "earnedDescription": "Dokunma kontrolleriyle bir yarış tamamladın.",
+          "preEarnedDescription": "Dokunma kontrolleriyle bir yarış tamamla."
+        },
+        "pl": {
+          "name": "Sterowanie Dotykiem",
+          "earnedDescription": "Ukończono przejazd sterowaniem dotykowym.",
+          "preEarnedDescription": "Ukończ przejazd sterowaniem dotykowym."
         }
       }
     },
@@ -1221,6 +1383,16 @@
           "name": "滑动操作",
           "earnedDescription": "你使用滑动操作完成了一局。",
           "preEarnedDescription": "使用滑动操作完成一局。"
+        },
+        "tr": {
+          "name": "Kaydırma Kontrolleri",
+          "earnedDescription": "Kaydırma kontrolleriyle bir yarış tamamladın.",
+          "preEarnedDescription": "Kaydırma kontrolleriyle bir yarış tamamla."
+        },
+        "pl": {
+          "name": "Sterowanie Gestem",
+          "earnedDescription": "Ukończono przejazd gestami przesunięcia.",
+          "preEarnedDescription": "Ukończ przejazd gestami przesunięcia."
         }
       }
     },
@@ -1292,6 +1464,16 @@
           "name": "键盘操作",
           "earnedDescription": "你使用键盘操作完成了一局。",
           "preEarnedDescription": "使用键盘操作完成一局。"
+        },
+        "tr": {
+          "name": "Klavye Kontrolleri",
+          "earnedDescription": "Klavye kontrolleriyle bir yarış tamamladın.",
+          "preEarnedDescription": "Klavye kontrolleriyle bir yarış tamamla."
+        },
+        "pl": {
+          "name": "Sterowanie Klawiaturą",
+          "earnedDescription": "Ukończono przejazd klawiaturą.",
+          "preEarnedDescription": "Ukończ przejazd klawiaturą."
         }
       }
     },
@@ -1363,6 +1545,16 @@
           "name": "VoiceOver 操作",
           "earnedDescription": "你使用 VoiceOver 操作完成了一局。",
           "preEarnedDescription": "使用 VoiceOver 操作完成一局。"
+        },
+        "tr": {
+          "name": "VoiceOver Kontrolleri",
+          "earnedDescription": "VoiceOver kontrolleriyle bir yarış tamamladın.",
+          "preEarnedDescription": "VoiceOver kontrolleriyle bir yarış tamamla."
+        },
+        "pl": {
+          "name": "Sterowanie VoiceOver",
+          "earnedDescription": "Ukończono przejazd z VoiceOver.",
+          "preEarnedDescription": "Ukończ przejazd z VoiceOver."
         }
       }
     },
@@ -1434,6 +1626,16 @@
           "name": "Digital Crown 操作",
           "earnedDescription": "你使用 Digital Crown 操作完成了一局。",
           "preEarnedDescription": "使用 Digital Crown 操作完成一局。"
+        },
+        "tr": {
+          "name": "Digital Crown Kontrolleri",
+          "earnedDescription": "Digital Crown kontrolleriyle bir yarış tamamladın.",
+          "preEarnedDescription": "Digital Crown kontrolleriyle bir yarış tamamla."
+        },
+        "pl": {
+          "name": "Sterowanie Digital Crown",
+          "earnedDescription": "Ukończono przejazd z Digital Crown.",
+          "preEarnedDescription": "Ukończ przejazd z Digital Crown."
         }
       }
     },
@@ -1505,6 +1707,16 @@
           "name": "游戏控制器操作",
           "earnedDescription": "你使用游戏控制器完成了一局。",
           "preEarnedDescription": "使用游戏控制器完成一局。"
+        },
+        "tr": {
+          "name": "Oyun Kumandası Kontrolleri",
+          "earnedDescription": "Oyun kumandası kontrolleriyle bir yarış tamamladın.",
+          "preEarnedDescription": "Oyun kumandası kontrolleriyle bir yarış tamamla."
+        },
+        "pl": {
+          "name": "Sterowanie Kontrolerem",
+          "earnedDescription": "Ukończono przejazd kontrolerem.",
+          "preEarnedDescription": "Ukończ przejazd kontrolerem."
         }
       }
     },
@@ -1576,6 +1788,16 @@
           "name": "GAAD 辅助科技周",
           "earnedDescription": "你在 GAAD 周期间使用辅助科技完成了一局。",
           "preEarnedDescription": "在 GAAD 周期间使用辅助科技完成一局。"
+        },
+        "tr": {
+          "name": "GAAD Destek Haftası",
+          "earnedDescription": "GAAD haftasında destek teknolojisiyle bir yarış tamamladın.",
+          "preEarnedDescription": "GAAD haftasında destek teknolojisiyle bir yarış tamamla."
+        },
+        "pl": {
+          "name": "Tydzień Wsparcia GAAD",
+          "earnedDescription": "Ukończono przejazd podczas tygodnia GAAD z technologią asystującą.",
+          "preEarnedDescription": "Ukończ przejazd podczas tygodnia GAAD z technologią asystującą."
         }
       }
     }

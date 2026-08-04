@@ -36,7 +36,7 @@ Last updated: 2026-07-26
 
 ### External Audit (aso-audit skill, 2026-07-19)
 
-Grounded in `metadata/retrorapid-v1.5.json`, this strategy doc, `06-screenshots.md`, `09-product-page-optimization.md`, `Requirements/rating_system.md`, and live App Store Connect data pulled read-only via `helm-asc` (app `6758641625`, iOS + macOS 1.5 drafts).
+Grounded in the staged `metadata/retrorapid-v1.6.json`, the immutable 1.5 snapshot, this strategy doc, `06-screenshots.md`, `09-product-page-optimization.md`, `Requirements/rating_system.md`, and live App Store Connect data pulled read-only via `helm-asc` (app `6758641625`, iOS + macOS 1.5 drafts).
 
 ```
 Overall ASO Score: 69/100  (weights normalized to 100%)

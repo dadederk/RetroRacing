@@ -1,0 +1,235 @@
+{
+  "schemaVersion": 1,
+  "release": {
+    "version": "1.6",
+    "lastUpdated": "2026-08-05",
+    "submissionStatus": "PLANNED",
+    "fieldStatuses": {
+      "name": "PLANNED",
+      "subtitle": "PLANNED",
+      "keywords": "PLANNED",
+      "promotionalText": "PLANNED",
+      "description": "PLANNED",
+      "whatsNew": "PLANNED"
+    }
+  },
+  "limits": {
+    "nameCharacters": 30,
+    "subtitleCharacters": 30,
+    "promotionalTextCharacters": 170,
+    "descriptionCharacters": 4000,
+    "keywordBytes": 100,
+    "whatsNewCharacters": 4000
+  },
+  "localeOrder": [
+    "en-US",
+    "en-GB",
+    "en-AU",
+    "en-CA",
+    "de-DE",
+    "nl-NL",
+    "it",
+    "fr-FR",
+    "fr-CA",
+    "es-ES",
+    "ca",
+    "es-MX",
+    "ja",
+    "ko",
+    "pt-BR",
+    "pt-PT",
+    "zh-Hant",
+    "zh-Hans",
+    "tr",
+    "pl"
+  ],
+  "sharedCopy": {
+    "english": {
+      "promotionalText": "Race friends free with SharePlay on iPhone and iPad. Dodge traffic together, rematch fast, and keep solo runs quick anywhere.",
+      "description": "RetroRapid! is a fast 3-lane arcade racer built for quick sessions and high-score chasing.\n\nDodge traffic and survive as speed keeps rising. Controls are easy to learn and hard to master, so every run becomes a reflex challenge.\n\nWhy players keep coming back:\n- Quick, one-more-run arcade gameplay\n- Live two-player SharePlay races on iPhone and iPad\n- Friend races are free and never use daily plays\n- Game Center leaderboards, achievements, and friend markers\n- Play on iPhone, iPad, Mac, and Apple Watch\n- Touch, swipe, keyboard, Digital Crown, and supported game controllers\n- VoiceOver, audio cues, haptics, larger text, high contrast, and Reduce Motion support\n- Works offline for quick races anytime\n- Play free every day, or unlock Unlimited Plays once; no subscription\n- No data collection\n\nCrash, restart, and beat your best.\n\nPlayers are saying:\n\"I am really a fan of this nice accessible game that I can just pick up and play! Finally, something that also works with the apple watch!\"\n- Datafile, App Store review\n\nFeatured in Create with Swift, Weekly Newsletter #96 (Indie App of the Week):\n\"But beyond the nostalgia and tight gameplay, what truly stands out is its accessibility.\"",
+      "whatsNew": "Discover two new visual styles: bold 8-Bit and richly detailed 16-Bit. The new Style Gallery makes it easy to preview every theme before choosing your favorite.\n\nSharePlay friend races now work on Mac too, alongside iPhone and iPad.\n\nThis update also improves performance, refines landscape layouts, polishes menus and game-over screens, and makes cars and helmets clearer across themes.\n\nRetroRapid! is now fully localized in Turkish and Polish.\n\nThanks for racing with us."
+    }
+  },
+  "locales": {
+    "en-US": {
+      "label": "English (US)",
+      "copyGroup": "english",
+      "name": "RetroRapid: Retro Arcade Racer",
+      "subtitle": "Dodge Traffic Across 3 Lanes",
+      "keywords": "car,high,score,overtake,reflex,offline,voiceover,haptics,controller,leaderboard,handheld,lcd,friends"
+    },
+    "en-GB": {
+      "label": "English (UK)",
+      "copyGroup": "english",
+      "name": "RetroRapid: Retro Arcade Racer",
+      "subtitle": "Dodge Traffic Across 3 Lanes",
+      "keywords": "endless,accessible,swift,highway,skill,vintage,drive,watch,game,nostalgia,pixel,boost,classic,reflex"
+    },
+    "en-AU": {
+      "label": "English (Australia)",
+      "copyGroup": "english",
+      "name": "RetroRapid: Retro Arcade Racer",
+      "subtitle": "Overtake Rivals. Beat Records",
+      "keywords": "chase,mobile,quick,offline,voiceover,haptic,controller,handheld,lcd,leaderboard,high,score,ipad,mac"
+    },
+    "en-CA": {
+      "label": "English (Canada)",
+      "copyGroup": "english",
+      "name": "RetroRapid: Retro Arcade Racer",
+      "subtitle": "Chase Records in Quick Races",
+      "keywords": "scoreboard,watch,game,classic,pixel,vintage,boost,nostalgia,ipad,mobile,haptic,lane,mac,drive,swift"
+    },
+    "de-DE": {
+      "label": "German (Germany)",
+      "name": "RetroRapid: Arcade Rennspiel",
+      "subtitle": "Weiche Verkehr auf 3 Spuren",
+      "keywords": "rekord,controller,uhr,reaktion,klassisch,endlos,punkte,barrierefrei,erfolge,mac,ipad,wagen,rennen",
+      "promotionalText": "Weiche Verkehr aus und jage Highscores in schnellen Retro-Rennen – mit Game Center, Apple Watch und barrierefreien Steuerungen.",
+      "description": "RetroRapid! ist ein schnelles 3-Spuren-Arcade-Rennspiel für kurze Sessions und die Jagd nach Highscores.\n\nWeiche dem Verkehr aus und halte durch, wenn das Tempo steigt. Die Steuerung ist leicht zu lernen und schwer zu meistern – jede Runde wird zur Reflexprüfung.\n\nWarum Spieler wiederkommen:\n- Schnelles Arcade-Gameplay für \"noch eine Runde\"\n- Live-Zweispieler-SharePlay-Rennen auf iPhone und iPad\n- Freundesrennen sind gratis und verbrauchen keine Tages-Spiele\n- Game-Center-Bestenlisten, Erfolge und Freundesmarker\n- Spiele auf iPhone, iPad, Mac und Apple Watch\n- Touch, Wischen, Tastatur, Digital Crown und unterstützte Controller\n- VoiceOver, Audiohinweise, Haptik, größerer Text, hoher Kontrast und Bewegung reduzieren\n- Funktioniert offline für schnelle Runden jederzeit\n- Spiele jeden Tag gratis oder schalte Unbegrenzte Spiele einmal frei – kein Abo\n- Keine Datenerfassung\n\nCrash, neu starten und schlage deinen Rekord.\n\nFeatured in Create with Swift, Weekly Newsletter #96 (Indie App of the Week):\n\"Doch abgesehen von der Nostalgie und dem straffen Gameplay sticht vor allem die Barrierefreiheit hervor.\"",
+      "whatsNew": "Entdecke zwei neue Grafikstile: markantes 8-Bit und detailreiches 16-Bit. In der neuen Stilgalerie kannst du jedes Theme ansehen, bevor du deinen Favoriten auswählst.\n\nSharePlay-Rennen mit Freunden funktionieren jetzt auch auf dem Mac sowie auf iPhone und iPad.\n\nDieses Update verbessert außerdem die Leistung und Querformat-Layouts, verfeinert Menüs und Game-Over-Bildschirme und macht Autos und Helme in allen Themes deutlicher.\n\nRetroRapid! ist jetzt vollständig auf Türkisch und Polnisch lokalisiert.\n\nDanke, dass du mit uns fährst."
+    },
+    "nl-NL": {
+      "label": "Dutch (Netherlands)",
+      "name": "RetroRapid: Arcade Race Spel",
+      "subtitle": "Ontwijk verkeer in 3 banen",
+      "keywords": "reflex,controller,horloge,reactie,klassiek,oneindig,toegankelijk,prestaties,mac,ipad,snelheid,baan",
+      "promotionalText": "Ontwijk verkeer en jaag op highscores in snelle retro-races, met Game Center, Apple Watch en toegankelijke besturing.",
+      "description": "RetroRapid! is een snelle 3-baans arcade-racer voor korte sessies en highscore-jagen.\n\nOntwijk verkeer en houd vol terwijl het tempo stijgt. Besturing is makkelijk te leren en moeilijk te beheersen, dus elke run wordt een reflextest.\n\nWaarom spelers blijven terugkomen:\n- Snel arcade-gameplay voor \"nog eentje dan\"\n- Live SharePlay-races voor twee spelers op iPhone en iPad\n- Vriendenraces zijn gratis en gebruiken geen dagelijkse spelen\n- Game Center-ranglijsten, prestaties en vriendenmarkeringen\n- Speel op iPhone, iPad, Mac en Apple Watch\n- Touch, vegen, toetsenbord, Digital Crown en ondersteunde controllers\n- VoiceOver, audiosignalen, haptiek, grotere tekst, hoog contrast en Verminder beweging\n- Werkt offline voor snelle races wanneer je wilt\n- Speel elke dag gratis of ontgrendel Onbeperkt spelen eenmalig – geen abonnement\n- Geen gegevensverzameling\n\nCrash, herstart en verbeter je record.\n\nFeatured in Create with Swift, Weekly Newsletter #96 (Indie App of the Week):\n\"Maar naast de nostalgie en strakke gameplay valt vooral de toegankelijkheid op.\"",
+      "whatsNew": "Ontdek twee nieuwe visuele stijlen: krachtige 8-Bit en rijk gedetailleerde 16-Bit. In de nieuwe Stijlgalerij kun je elk thema bekijken voordat je je favoriet kiest.\n\nSharePlay-races met vrienden werken nu ook op de Mac, naast iPhone en iPad.\n\nDeze update verbetert ook de prestaties en liggende lay-outs, verfijnt menu's en game-over-schermen en maakt auto's en helmen duidelijker in alle thema's.\n\nRetroRapid! is nu volledig gelokaliseerd in het Turks en Pools.\n\nBedankt dat je met ons rijdt."
+    },
+    "it": {
+      "label": "Italian",
+      "name": "RetroRapid: Retro Corse Arcade",
+      "subtitle": "Schiva il traffico in 3 corsie",
+      "keywords": "record,controller,orologio,reazione,classico,infinito,punteggio,successi,riflessi,ipad,veloce,mac",
+      "promotionalText": "Schiva il traffico e punta al record in corse retrò veloci, con Game Center, Apple Watch e controlli accessibili.",
+      "description": "RetroRapid! è un arcade di corse a 3 corsie pensato per sessioni rapide e per inseguire il tuo miglior punteggio.\n\nSchiva il traffico e resisti mentre la velocità aumenta. I controlli sono facili da imparare e difficili da padroneggiare, quindi ogni partita mette alla prova i tuoi riflessi.\n\nPerché i giocatori tornano:\n- Gameplay arcade veloce da \"ancora una\"\n- Corse SharePlay live per due giocatori su iPhone e iPad\n- Le gare con amici sono gratis e non consumano partite giornaliere\n- Classifiche, obiettivi e marcatori amici di Game Center\n- Gioca su iPhone, iPad, Mac e Apple Watch\n- Tocco, swipe, tastiera, Digital Crown e controller supportati\n- VoiceOver, segnali audio, haptica, testo più grande, alto contrasto e Riduci movimento\n- Funziona offline per corse veloci in qualsiasi momento\n- Gioca gratis ogni giorno o sblocca Partite illimitate con un solo acquisto – nessun abbonamento\n- Nessuna raccolta dati\n\nSchianto, riparti e batti il tuo record.\n\nFeatured in Create with Swift, Weekly Newsletter #96 (Indie App of the Week):\n\"Ma oltre alla nostalgia e al gameplay serrato, ciò che davvero spicca è l'accessibilità.\"",
+      "whatsNew": "Scopri due nuovi stili visivi: un deciso 8-Bit e un ricco 16-Bit. La nuova Galleria stili permette di vedere ogni tema prima di scegliere il tuo preferito.\n\nLe corse SharePlay con gli amici ora funzionano anche su Mac, oltre che su iPhone e iPad.\n\nQuesto aggiornamento migliora anche prestazioni e layout orizzontali, rifinisce menu e schermate di fine partita e rende auto e caschi più chiari in tutti i temi.\n\nRetroRapid! è ora completamente localizzato in turco e polacco.\n\nGrazie per correre con noi."
+    },
+    "fr-FR": {
+      "label": "French (France)",
+      "name": "RetroRapid: Retro Course Autos",
+      "subtitle": "Esquive le trafic, 3 voies",
+      "keywords": "reflexes,manette,montre,reaction,classique,infini,accessibilite,mac,ipad,succes,classement,horsligne",
+      "promotionalText": "Esquive le trafic et bats ton record dans des courses rétro rapides, avec Game Center, Apple Watch et des commandes accessibles.",
+      "description": "RetroRapid! est un arcade de course à 3 voies pensé pour des parties rapides et pour chasser ton meilleur score.\n\nEsquive le trafic et tiens bon quand la vitesse monte. Les commandes sont faciles à apprendre et difficiles à maîtriser, donc chaque partie teste tes réflexes.\n\nPourquoi les joueurs reviennent :\n- Gameplay arcade rapide \"encore une\"\n- Courses SharePlay en direct à deux joueurs sur iPhone et iPad\n- Les courses entre amis sont gratuites et n'utilisent pas les parties quotidiennes\n- Classements, succès et marqueurs d'amis Game Center\n- Joue sur iPhone, iPad, Mac et Apple Watch\n- Toucher, glisser, clavier, Digital Crown et manettes compatibles\n- VoiceOver, indices audio, haptique, texte plus grand, contraste élevé et Réduire les animations\n- Fonctionne hors ligne pour des courses rapides à tout moment\n- Joue gratuitement chaque jour ou débloque Parties illimitées en un seul achat – pas d'abonnement\n- Aucune collecte de données\n\nCrash, redémarre et bats ton record.\n\nFeatured in Create with Swift, Weekly Newsletter #96 (Indie App of the Week) :\n\"Au-delà de la nostalgie et du gameplay serré, ce qui ressort vraiment, c'est l'accessibilité.\"",
+      "whatsNew": "Découvre deux nouveaux styles visuels : un 8 bits audacieux et un 16 bits riche en détails. La nouvelle galerie de styles permet de prévisualiser chaque thème avant de choisir ton préféré.\n\nLes courses SharePlay entre amis fonctionnent maintenant aussi sur Mac, en plus de l'iPhone et de l'iPad.\n\nCette mise à jour améliore aussi les performances et les dispositions en mode paysage, peaufine les menus et les écrans de fin de partie, et rend les voitures et les casques plus nets dans tous les thèmes.\n\nRetroRapid! est maintenant entièrement localisé en turc et en polonais.\n\nMerci de courir avec nous."
+    },
+    "es-ES": {
+      "label": "Spanish (Spain)",
+      "name": "RetroRapid: Carreras Arcade",
+      "subtitle": "Esquiva tráfico en 3 carriles",
+      "keywords": "coche,record,adelantar,reflejos,clasico,mando,ranking,infinito,puntuacion,conexion,voiceover,logros",
+      "promotionalText": "Esquiva tráfico y supera tu récord en carreras retro rápidas, con Game Center, Apple Watch y controles accesibles.",
+      "description": "RetroRapid! es un arcade de carreras de 3 carriles pensado para partidas rápidas y para perseguir tu mejor puntuación.\n\nEsquiva tráfico y aguanta cuando la velocidad sube. Los controles son fáciles de aprender y difíciles de dominar, así que cada partida pone a prueba tus reflejos.\n\nPor qué engancha:\n- Jugabilidad arcade rápida de \"una más\"\n- Carreras SharePlay en vivo para dos jugadores en iPhone e iPad\n- Las carreras con amigos son gratis y no consumen partidas diarias\n- Clasificaciones, logros y marcadores de amigos de Game Center\n- Juega en iPhone, iPad, Mac y Apple Watch\n- Toque, deslizamiento, teclado, Digital Crown y mandos compatibles\n- VoiceOver, pistas de audio, hápticos, texto más grande, alto contraste y reducción de movimiento\n- Juega sin conexión para partidas rápidas en cualquier momento\n- Juega gratis cada día o desbloquea Partidas ilimitadas con una sola compra; sin suscripción\n- No se recopilan datos\n\nChoca, reinicia y supera tu marca.\n\nLo que dicen los jugadores:\n\"Un juego simplemente accesible y simplemente entretenido. Muy recomendable.\"\n- Jonathan Chacón, reseña en el App Store\n\nDestacado en Create with Swift, Boletín semanal n.º 96 (App Indie de la Semana):\n\"Más allá de la nostalgia y la jugabilidad ajustada, lo que realmente destaca es su accesibilidad.\"",
+      "whatsNew": "Descubre dos nuevos estilos visuales: un atrevido 8-Bit y un detallado 16-Bit. La nueva Galería de estilos te permite ver cada tema antes de elegir tu favorito.\n\nLas carreras SharePlay con amigos ahora también funcionan en Mac, además de iPhone y iPad.\n\nEsta actualización también mejora el rendimiento y los diseños horizontales, pule los menús y las pantallas de fin de partida y hace que los coches y los cascos se vean más claros en todos los temas.\n\nRetroRapid! ya está completamente localizado en turco y polaco.\n\nGracias por correr con nosotros."
+    },
+    "ca": {
+      "label": "Catalan (Valencian)",
+      "name": "RetroRapid: Carreres Arcade",
+      "subtitle": "Esquiva trànsit en 3 carrils",
+      "keywords": "cotxe,avancaments,reflexos,comandament,lcd,accessibilitat,joc,reloj,puntuacio,connexio,velocitat,mac",
+      "promotionalText": "Esquiva trànsit i supera el teu rècord en carreres retro ràpides, amb Game Center, Apple Watch i controls accessibles.",
+      "description": "RetroRapid! és un arcade de carreres de 3 carrils pensat per a partides ràpides i per a perseguir la teua millor puntuació.\n\nEsquiva trànsit i resistix quan la velocitat puja. Els controls són fàcils d'aprendre i difícils de dominar, aixina que cada partida posa a prova els teus reflexos.\n\nPer què enganxa:\n- Jugabilitat arcade ràpida de \"una més\"\n- Carreres SharePlay en viu per a dos jugadors a iPhone i iPad\n- Les carreres amb amics són gratuïtes i no consumeixen partides diàries\n- Classificacions, assoliments i marcadors d'amistats de Game Center\n- Juga en iPhone, iPad, Mac i Apple Watch\n- Toc, lliscament, teclat, Digital Crown i comandaments compatibles\n- VoiceOver, pistes d'àudio, hàptics, text més gran, alt contrast i reducció de moviment\n- Juga sense connexió per a partides ràpides en qualsevol moment\n- Juga gratis cada dia o desbloqueja Partides il·limitades amb una sola compra; sense subscripció\n- No es recopilen dades\n\nXoca, reinicia i supera la teua marca.\n\nDestacat a Create with Swift, Butlletí setmanal núm. 96 (App Indie de la Setmana):\n\"Més enllà de la nostàlgia i la jugabilitat ajustada, allò que realment destaca és la seua accessibilitat.\"",
+      "whatsNew": "Descobrix dos estils visuals nous: un 8-Bit atrevit i un 16-Bit ple de detalls. La nova Galeria d'estils et permet vore cada tema abans de triar el teu preferit.\n\nLes carreres SharePlay amb amistats ara també funcionen a Mac, a més d'iPhone i iPad.\n\nAquesta actualització també millora el rendiment i els dissenys horitzontals, polix els menús i les pantalles de final de partida i fa que els cotxes i els cascos es vegen més clars en tots els temes.\n\nRetroRapid! ja està completament localitzat en turc i polonés.\n\nGràcies per córrer amb nosaltres."
+    },
+    "es-MX": {
+      "label": "Spanish (Mexico)",
+      "name": "RetroRapid: Carreras Arcade",
+      "subtitle": "Esquiva carros en 3 carriles",
+      "keywords": "rebasar,reflejos,record,control,ranking,clasico,infinito,puntuacion,reloj,internet,trafico,logros",
+      "promotionalText": "Esquiva carros y supera tu récord en carreras retro rápidas, con Game Center, Apple Watch y controles accesibles.",
+      "description": "RetroRapid! es un arcade de carreras de 3 carriles pensado para partidas rápidas y para perseguir tu mejor récord.\n\nEsquiva carros y rebasa cuando la velocidad sube. Los controles son fáciles de aprender y difíciles de dominar, así que cada partida pone a prueba tus reflejos.\n\nPor qué engancha:\n- Jugabilidad arcade rápida de \"una más\"\n- Carreras SharePlay en vivo para dos jugadores en iPhone e iPad\n- Las carreras con amigos son gratis y no consumen partidas diarias\n- Clasificaciones, logros y marcadores de amigos de Game Center\n- Juega en iPhone, iPad, Mac y Apple Watch\n- Toque, deslizamiento, teclado, Digital Crown y controles compatibles\n- VoiceOver, pistas de audio, hápticos, texto más grande, alto contraste y reducción de movimiento\n- Juega sin internet para partidas rápidas en cualquier momento\n- Juega gratis cada día o desbloquea Partidas ilimitadas con una sola compra; sin suscripción\n- No se recopilan datos\n\nChoca, reinicia y supera tu récord.\n\nLo que dicen los jugadores:\n\"Un juego simplemente accesible y simplemente entretenido. Muy recomendable.\"\n- Jonathan Chacón, reseña en el App Store\n\nDestacado en Create with Swift, Boletín semanal n.º 96 (App Indie de la Semana):\n\"Más allá de la nostalgia y la jugabilidad ajustada, lo que realmente destaca es su accesibilidad.\"",
+      "whatsNew": "Descubre dos nuevos estilos visuales: un atrevido 8-Bit y un detallado 16-Bit. La nueva Galería de estilos te permite ver cada tema antes de elegir tu favorito.\n\nLas carreras SharePlay con amigos ahora también funcionan en Mac, además de iPhone y iPad.\n\nEsta actualización también mejora el rendimiento y los diseños horizontales, pule los menús y las pantallas de fin de partida y hace que los carros y los cascos se vean más claros en todos los temas.\n\nRetroRapid! ya está completamente localizado en turco y polaco.\n\nGracias por correr con nosotros."
+    },
+    "ja": {
+      "label": "Japanese",
+      "name": "RetroRapid: レトロアーケード",
+      "subtitle": "3レーン交通回避レース",
+      "keywords": "追い抜き,反射神経,無制限,オフライン,実績解除,ハイスコア,ランキング",
+      "promotionalText": "iPhoneとiPadでSharePlayのフレンドレースが無料。3レーンのレトロアーケードで交通を避け、ハイスコアを狙おう。",
+      "description": "RetroRapid!は、短時間プレイとハイスコア更新に最適な3レーンのアーケードレースゲームです。\n\n交通を避け、スピードが上がるほど生き残れ。操作は覚えやすく、極めるのは難しい。だから毎ラウンドが反射神経の勝負になります。\n\nプレイヤーが戻ってくる理由:\n- 「もう1回」が止まらない高速アーケード\n- iPhone/iPadでのSharePlayライブ2人対戦\n- フレンドレースは無料でデイリープレイを消費しない\n- Game Centerランキング、実績、フレンドマーカー\n- iPhone、iPad、Mac、Apple Watchでプレイ\n- タッチ、スワイプ、キーボード、Digital Crown、対応コントローラ\n- VoiceOver、音声キュー、触覚、大きい文字、高コントラスト、視差効果を減らす\n- オフラインでもすぐレース可能\n- 毎日無料プレイ、または買い切りで無制限プレイ（サブスクなし）\n- データ収集なし\n\nクラッシュして、すぐ再スタート。ベストを更新しよう。\n\nFeatured in Create with Swift, Weekly Newsletter #96 (Indie App of the Week):\n「ノスタルジーと手触りの良いゲームプレイに加え、特に際立つのがアクセシビリティ。」",
+      "whatsNew": "新しい2つのビジュアルスタイル、鮮やかな8-Bitと細部まで豊かな16-Bitを追加しました。新しいスタイルギャラリーでは、お気に入りを選ぶ前にすべてのテーマをプレビューできます。\n\nSharePlayのフレンドレースがiPhoneとiPadに加えてMacでも楽しめるようになりました。\n\nパフォーマンスと横向きレイアウトを改善し、メニューとゲームオーバー画面を磨き、すべてのテーマで車とヘルメットをより見やすくしました。\n\nRetroRapid!がトルコ語とポーランド語に完全対応しました。\n\n一緒にレースしてくれてありがとう。"
+    },
+    "ko": {
+      "label": "Korean",
+      "name": "RetroRapid: 레트로 아케이드",
+      "subtitle": "3차선 교통 회피 레이싱",
+      "keywords": "추월하기,반사신경,무제한,오프라인,햅틱피드백,컨트롤러,업적달성,SharePlay",
+      "promotionalText": "iPhone과 iPad에서 SharePlay 친구 레이스가 무료예요. 3차선 레트로 아케이드에서 교통을 피하고 하이스코어에 도전하세요.",
+      "description": "RetroRapid!는 짧은 세션과 하이스코어 도전에 맞춘 3차선 아케이드 레이싱 게임이에요.\n\n교통을 피하고 속도가 올라갈수록 버텨 보세요. 조작은 배우기 쉽고 마스터하기 어려워서 매 판이 반사 신경 테스트가 됩니다.\n\n플레이어가 계속 돌아오는 이유:\n- \"한 판 더\"가 멈추지 않는 빠른 아케이드\n- iPhone/iPad SharePlay 라이브 2인 레이스\n- 친구 레이스는 무료이며 일일 플레이를 사용하지 않음\n- Game Center 리더보드, 업적, 친구 마커\n- iPhone, iPad, Mac, Apple Watch에서 플레이\n- 터치, 스와이프, 키보드, Digital Crown, 지원 컨트롤러\n- VoiceOver, 오디오 큐, 햅틱, 큰 텍스트, 고대비, 동작 줄이기\n- 오프라인에서도 빠른 레이스 가능\n- 매일 무료 플레이 또는 1회 구매로 무제한 플레이, 구독 없음\n- 데이터 수집 없음\n\n충돌하고, 다시 시작하고, 최고 기록을 갱신하세요.\n\nFeatured in Create with Swift, Weekly Newsletter #96 (Indie App of the Week):\n\"향수와 탄탄한 게임플레이를 넘어, 진짜 돋보이는 건 접근성이에요.\"",
+      "whatsNew": "선명한 8-Bit와 풍부한 디테일의 16-Bit, 두 가지 새로운 비주얼 스타일을 만나 보세요. 새로운 스타일 갤러리에서 좋아하는 테마를 고르기 전에 모두 미리 볼 수 있어요.\n\nSharePlay 친구 레이스를 이제 iPhone과 iPad뿐 아니라 Mac에서도 즐길 수 있어요.\n\n성능과 가로 레이아웃을 개선하고, 메뉴와 게임 오버 화면을 다듬고, 모든 테마의 자동차와 헬멧을 더 선명하게 만들었어요.\n\nRetroRapid!가 터키어와 폴란드어를 완벽하게 지원해요.\n\n함께 레이스해 주셔서 감사합니다."
+    },
+    "pt-BR": {
+      "label": "Portuguese (Brazil)",
+      "name": "RetroRapid: Corrida Arcade",
+      "subtitle": "Desvie tráfego em 3 faixas",
+      "keywords": "ultrapassar,reflexo,pontuacao,haptico,controle,watch,conquista,conexao,recorde,pixel,classico,turbo",
+      "promotionalText": "Corridas com amigos grátis no SharePlay no iPhone e iPad. Desvie tráfego em um arcade retrô de 3 faixas e busque seu recorde.",
+      "description": "RetroRapid! é um arcade de corrida de 3 faixas feito para sessões rápidas e para perseguir seu recorde.\n\nDesvie do tráfego e aguente enquanto a velocidade sobe. Os controles são fáceis de aprender e difíceis de dominar, então cada corrida vira um teste de reflexos.\n\nPor que os jogadores voltam:\n- Gameplay arcade rápido de \"só mais uma\"\n- Corridas SharePlay ao vivo para dois jogadores no iPhone e iPad\n- Corridas com amigos são grátis e não usam partidas diárias\n- Rankings, conquistas e marcadores de amigos do Game Center\n- Jogue no iPhone, iPad, Mac e Apple Watch\n- Toque, deslize, teclado, Digital Crown e controles compatíveis\n- VoiceOver, pistas sonoras, háptico, texto maior, alto contraste e Reduzir Movimento\n- Funciona offline para corridas rápidas a qualquer hora\n- Jogue grátis todo dia ou desbloqueie Partidas Ilimitadas com compra única, sem assinatura\n- Sem coleta de dados\n\nBata, reinicie e supere seu recorde.\n\nFeatured in Create with Swift, Weekly Newsletter #96 (Indie App of the Week):\n\"Além da nostalgia e da jogabilidade precisa, o que realmente se destaca é a acessibilidade.\"",
+      "whatsNew": "Descubra dois novos estilos visuais: um 8-Bit marcante e um 16-Bit cheio de detalhes. A nova Galeria de Estilos permite ver cada tema antes de escolher o seu favorito.\n\nAs corridas SharePlay com amigos agora também funcionam no Mac, além do iPhone e iPad.\n\nEsta atualização também melhora o desempenho e os layouts horizontais, refina menus e telas de fim de jogo e deixa carros e capacetes mais nítidos em todos os temas.\n\nRetroRapid! agora está totalmente localizado em turco e polonês.\n\nObrigado por correr com a gente."
+    },
+    "zh-Hant": {
+      "label": "Traditional Chinese",
+      "name": "RetroRapid: 復古街機賽車",
+      "subtitle": "三線道閃避無盡交通",
+      "keywords": "超車競賽,反射神經,離線遊玩,觸覺回饋,控制器,AppleWatch,成就解鎖,排行榜,race",
+      "promotionalText": "在 iPhone 與 iPad 上透過 SharePlay 免費與好友競賽。在三線道復古街機中閃避車流，挑戰最高分。",
+      "description": "RetroRapid! 是一款快節奏的三線道街機賽車，適合短局遊玩與挑戰最高分。\n\n閃避車流並在速度提升時撐下去。操作好學難精，因此每一局都是反射神經的考驗。\n\n玩家會一再回來的原因：\n- 快節奏「再來一局」街機玩法\n- iPhone/iPad 上的 SharePlay 即時雙人競賽\n- 好友對戰免費，且不消耗每日次數\n- Game Center 排行榜、成就與好友標記\n- 可在 iPhone、iPad、Mac 與 Apple Watch 上遊玩\n- 支援觸控、滑動、鍵盤、Digital Crown 與相容控制器\n- VoiceOver、音效提示、觸覺回饋、較大字體、高對比與減少動態效果\n- 離線也能隨時快速開跑\n- 每天免費遊玩，或以一次性購買解鎖無限暢玩，無訂閱\n- 不收集資料\n\n撞車、重來，刷新你的最佳成績。\n\nFeatured in Create with Swift, Weekly Newsletter #96 (Indie App of the Week)：\n「除了懷舊感與緊湊玩法，真正突出的是無障礙設計。」",
+      "whatsNew": "探索兩種全新視覺風格：醒目的 8-Bit 與細節豐富的 16-Bit。全新的風格藝廊讓你在選擇最愛之前預覽每個主題。\n\nSharePlay 好友競賽現在除了 iPhone 與 iPad，也能在 Mac 上進行。\n\n此更新也提升效能與橫向版面，改善選單和遊戲結束畫面，並讓所有主題中的車輛與頭盔更加清晰。\n\nRetroRapid! 現已完整支援土耳其文與波蘭文。\n\n感謝你與我們一起競速。"
+    },
+    "pt-PT": {
+      "label": "Portuguese (Portugal)",
+      "name": "RetroRapid: Corrida Arcade",
+      "subtitle": "Desvie o trânsito em 3 faixas",
+      "keywords": "ultrapassagem,reflexos,classificacao,comando,relogio,infinito,offline,ipad,ecra,partida,ranking,fast",
+      "promotionalText": "Corridas com amigos grátis no SharePlay no iPhone e iPad. Desvie o trânsito num arcade retrô de 3 faixas, com VoiceOver e Partidas Ilimitadas.",
+      "description": "RetroRapid! é um arcade de corrida de 3 faixas feito para sessões rápidas e para perseguir o seu recorde.\n\nDesvie do trânsito e aguente enquanto a velocidade sobe. Os controlos são fáceis de aprender e difíceis de dominar, por isso cada corrida vira um teste de reflexos.\n\nPorque os jogadores voltam:\n- Gameplay arcade rápido de \"só mais uma\"\n- Corridas SharePlay ao vivo para dois jogadores no iPhone e iPad\n- Corridas com amigos são grátis e não usam partidas diárias\n- Rankings, conquistas e marcadores de amigos do Game Center\n- Jogue no iPhone, iPad, Mac e Apple Watch\n- Toque, deslize, teclado, Digital Crown e comandos compatíveis\n- VoiceOver, pistas sonoras, háptico, texto maior, alto contraste e Reduzir Movimento\n- Funciona offline para corridas rápidas a qualquer hora\n- Jogue grátis todos os dias ou desbloqueie Partidas Ilimitadas com compra única, sem assinatura\n- Sem recolha de dados\n\nBata, reinicie e ultrapasse o seu recorde.\n\nFeatured in Create with Swift, Weekly Newsletter #96 (Indie App of the Week):\n\"Além da nostalgia e da jogabilidade precisa, o que realmente se destaca é a acessibilidade.\"",
+      "whatsNew": "Descubra dois novos estilos visuais: um 8-Bit marcante e um 16-Bit cheio de detalhes. A nova Galeria de Estilos permite ver cada tema antes de escolher o seu favorito.\n\nAs corridas SharePlay com amigos agora também funcionam no Mac, além do iPhone e iPad.\n\nEsta atualização também melhora o desempenho e os esquemas horizontais, refina menus e ecrãs de fim de jogo e deixa carros e capacetes mais nítidos em todos os temas.\n\nRetroRapid! está agora totalmente localizado em turco e polaco.\n\nObrigado por correr connosco."
+    },
+    "zh-Hans": {
+      "label": "Simplified Chinese",
+      "name": "RetroRapid: 复古街机赛车",
+      "subtitle": "三车道闪避无尽车流",
+      "keywords": "超车赛,反应力,离线玩,触感反馈,手柄支持,无障碍,分数榜,成就榜,智能手表",
+      "promotionalText": "在 iPhone 与 iPad 上通过 SharePlay 免费与好友竞赛。三车道复古街机闪避车流，支持 VoiceOver，可解锁无限畅玩。",
+      "description": "RetroRapid! 是一款快节奏的三车道街机赛车，适合短局游玩与挑战最高分。\n\n闪避车流并在速度提升时撑下去。操作好学难精，因此每一局都是反应力的考验。\n\n玩家会一再回来的原因：\n- 快节奏「再来一局」街机玩法\n- iPhone/iPad 上的 SharePlay 即时双人竞赛\n- 好友对战免费，且不消耗每日次数\n- Game Center 排行榜、成就与好友标记\n- 可在 iPhone、iPad、Mac 与 Apple Watch 上玩\n- 支持触控、滑动、键盘、Digital Crown 与兼容手柄\n- VoiceOver、音效提示、触感反馈、较大字体、高对比与减少动态效果\n- 离线也能随时快速开跑\n- 每天免费游玩，或以一次性购买解锁无限畅玩，无订阅\n- 不收集数据\n\n撞车、重来，刷新你的最佳成绩。\n\nFeatured in Create with Swift, Weekly Newsletter #96 (Indie App of the Week)：\n「除了怀旧感与紧凑玩法，真正突出的是无障碍设计。」",
+      "whatsNew": "探索两种全新视觉风格：醒目的 8-Bit 与细节丰富的 16-Bit。全新的风格画廊让你在选择最爱之前预览每个主题。\n\nSharePlay 好友竞赛现在除了 iPhone 与 iPad，也能在 Mac 上进行。\n\n此更新也提升性能与横向布局，改进菜单和游戏结束画面，并让所有主题中的车辆与头盔更加清晰。\n\nRetroRapid! 现已完整支持土耳其语与波兰语。\n\n感谢你与我们一起竞速。"
+    },
+    "fr-CA": {
+      "label": "French (Canada)",
+      "name": "RetroRapid: Course Autos Retro",
+      "subtitle": "Évitez le trafic, 3 voies",
+      "keywords": "evitement,haptique,partage,amis,parties,illimite,score,reflexe,competitif,vivant,duo,watch,arcade",
+      "promotionalText": "Courses entre amis gratuites avec SharePlay sur iPhone et iPad. Évitez le trafic dans un arcade rétro à 3 voies, avec VoiceOver et Parties illimitées.",
+      "description": "RetroRapid! est un arcade de course à 3 voies pensé pour des parties rapides et pour chasser votre meilleur score.\n\nÉvitez le trafic et tenez bon quand la vitesse monte. Les commandes sont faciles à apprendre et difficiles à maîtriser, donc chaque partie teste vos réflexes.\n\nPourquoi les joueurs reviennent :\n- Gameplay arcade rapide « encore une »\n- Courses SharePlay en direct à deux joueurs sur iPhone et iPad\n- Les courses entre amis sont gratuites et n'utilisent pas les parties quotidiennes\n- Classements, succès et marqueurs d'amis Game Center\n- Jouez sur iPhone, iPad, Mac et Apple Watch\n- Toucher, glisser, clavier, Digital Crown et manettes compatibles\n- VoiceOver, indices audio, haptique, texte plus grand, contraste élevé et Réduire le mouvement\n- Fonctionne hors ligne pour des courses rapides en tout temps\n- Jouez gratuitement chaque jour ou débloquez Parties illimitées en un seul achat – pas d'abonnement\n- Aucune collecte de données\n\nCrash, redémarrez et battez votre record.\n\nFeatured in Create with Swift, Weekly Newsletter #96 (Indie App of the Week) :\n« Au-delà de la nostalgie et du gameplay serré, ce qui ressort vraiment, c'est l'accessibilité. »",
+      "whatsNew": "Découvrez deux nouveaux styles visuels : un style 8 bits audacieux et un style 16 bits richement détaillé. La nouvelle galerie de styles permet de prévisualiser facilement chaque thème avant de choisir votre préféré.\n\nLes courses SharePlay entre amis fonctionnent maintenant aussi sur Mac, en plus de l'iPhone et de l'iPad.\n\nCette mise à jour améliore aussi les performances et les dispositions en mode paysage, peaufine les menus et les écrans de fin de partie, et rend les voitures et les casques plus nets dans tous les thèmes.\n\nRetroRapid! est maintenant entièrement localisé en turc et en polonais.\n\nMerci de courir avec nous."
+    },
+    "tr": {
+      "label": "Turkish",
+      "name": "RetroRapid: Retro Yarış Oyunu",
+      "subtitle": "3 Şeritte Trafikten Kaç",
+      "keywords": "araba,skor,refleks,çevrimdışı,erişilebilir,liderlik,kontrol,nostalji,piksel,hız,arkadaş",
+      "promotionalText": "iPhone, iPad ve Mac'te SharePlay ile arkadaşlarınla ücretsiz yarış. Üç şeritli retro arcade trafikten kaç, rekorunu geliştir.",
+      "description": "RetroRapid!, kısa oyunlar ve yüksek skor peşinde koşmak için tasarlanmış, hızlı tempolu üç şeritli bir arcade yarış oyunudur.\n\nTrafikten kaç ve hız arttıkça dayanmaya çalış. Kontrolleri öğrenmek kolay, ustalaşmak zordur; bu yüzden her yarış reflekslerini sınar.\n\nOyuncular neden geri dönüyor:\n- Bir el daha dedirten hızlı arcade oynanışı\n- iPhone, iPad ve Mac'te iki kişilik canlı SharePlay yarışları\n- Arkadaş yarışları ücretsizdir ve günlük oyun hakkını kullanmaz\n- Game Center liderlik tabloları, başarımlar ve arkadaş işaretleri\n- iPhone, iPad, Mac ve Apple Watch'ta oyna\n- Dokunma, kaydırma, klavye, Digital Crown ve desteklenen kumandalar\n- VoiceOver, ses ipuçları, dokunsal geri bildirim, büyük metin, yüksek kontrast ve Hareketi Azalt desteği\n- Hızlı yarışlar için çevrimdışı çalışır\n- Her gün ücretsiz oyna veya tek seferlik satın alımla Sınırsız Oyun'u aç; abonelik yok\n- Veri toplama yok\n\nÇarp, yeniden başla ve en iyi skorunu geç.\n\nCreate with Swift, Weekly Newsletter #96'da Haftanın Bağımsız Uygulaması olarak öne çıkarıldı:\n\"Nostalji ve sıkı oynanışın ötesinde gerçekten öne çıkan şey erişilebilirlik.\"",
+      "whatsNew": "İki yeni görsel tarzı keşfet: cesur 8-Bit ve ayrıntılı 16-Bit. Yeni Tarz Galerisi, favorini seçmeden önce her temayı kolayca önizlemeni sağlar.\n\nSharePlay arkadaş yarışları artık iPhone ve iPad'in yanı sıra Mac'te de çalışıyor.\n\nBu güncelleme ayrıca performansı artırıyor, yatay düzenleri iyileştiriyor, menüler ile oyun sonu ekranlarını parlatıyor ve tüm temalarda arabaları ve kaskları daha belirgin hâle getiriyor.\n\nRetroRapid! artık Türkçe ve Lehçe olarak tamamen yerelleştirildi.\n\nBizimle yarıştığın için teşekkürler."
+    },
+    "pl": {
+      "label": "Polish",
+      "name": "RetroRapid: Wyścigi Retro",
+      "subtitle": "Omijaj Ruch na 3 Pasach",
+      "keywords": "samochód,wynik,refleks,offline,dostępność,ranking,kontroler,nostalgia,prędkość,znajomi",
+      "promotionalText": "Ścigaj się ze znajomymi przez SharePlay na iPhonie, iPadzie i Macu. Omijaj ruch w trzytorowej grze retro i pobijaj rekordy.",
+      "description": "RetroRapid! to szybka, trzytorowa gra wyścigowa w stylu arcade, stworzona do krótkich sesji i bicia rekordów.\n\nOmijaj ruch i wytrzymaj, gdy tempo rośnie. Sterowanie jest łatwe do opanowania, ale trudne do mistrzowskiego wykorzystania, więc każdy przejazd sprawdza refleks.\n\nDlaczego gracze wracają:\n- Szybka rozgrywka arcade, która zachęca do jeszcze jednej próby\n- Wyścigi SharePlay na żywo dla dwóch osób na iPhonie, iPadzie i Macu\n- Wyścigi ze znajomymi są bezpłatne i nie zużywają dziennych prób\n- Rankingi Game Center, osiągnięcia i znaczniki znajomych\n- Graj na iPhonie, iPadzie, Macu i Apple Watch\n- Dotyk, gesty, klawiatura, Digital Crown i obsługiwane kontrolery\n- VoiceOver, wskazówki dźwiękowe, haptyka, większy tekst, wysoki kontrast i Ogranicz ruch\n- Gra offline, idealna na szybkie wyścigi w każdej chwili\n- Graj codziennie za darmo lub odblokuj Nielimitowane Gry jednorazowym zakupem; bez subskrypcji\n- Bez zbierania danych\n\nRozbij się, zacznij od nowa i pobij swój rekord.\n\nWyróżniono w Create with Swift, Weekly Newsletter #96 jako niezależną aplikację tygodnia:\n\"Poza nostalgią i dopracowaną rozgrywką naprawdę wyróżnia się dostępność.\"",
+      "whatsNew": "Odkryj dwa nowe style graficzne: wyrazisty 8-Bit i bogaty w szczegóły 16-Bit. Nowa Galeria Stylów pozwala łatwo obejrzeć każdy motyw przed wyborem ulubionego.\n\nWyścigi SharePlay ze znajomymi działają teraz także na Macu, obok iPhone'a i iPada.\n\nAktualizacja poprawia również wydajność, dopracowuje układy poziome, menu i ekrany końca gry oraz zwiększa czytelność samochodów i kasków we wszystkich motywach.\n\nRetroRapid! jest teraz w pełni dostępny po turecku i polsku.\n\nDziękujemy za wspólne wyścigi."
+    }
+  },
+  "allowedShortKeywords": [],
+  "screenshotProfiles": {
+    "iphone": 10,
+    "ipad": 10,
+    "mac": 9,
+    "appleWatch": 7
+  },
+  "platformDrafts": {}
+}

@@ -13,6 +13,8 @@ public enum MetadataToolError: LocalizedError {
     case missingLocale(String)
     case missingCopy(field: String, locale: String)
     case missingLocalizationIDs([String])
+    case missingPlatformDrafts([String])
+    case missingPlatformLocalizationIDs(platform: String, locales: [String])
     case validationFailed([String])
     case generatedDocumentsOutOfDate([String])
     case helmNotFound(String)
@@ -32,6 +34,12 @@ public enum MetadataToolError: LocalizedError {
             "Missing \(field) copy for \(locale)."
         case let .missingLocalizationIDs(locales):
             "Missing App Store localization IDs: \(locales.joined(separator: ", "))."
+        case let .missingPlatformDrafts(platforms):
+            "Cannot apply planned metadata before these App Store drafts exist: "
+                + platforms.joined(separator: ", ") + "."
+        case let .missingPlatformLocalizationIDs(platform, locales):
+            "Cannot apply \(platform) metadata before localization IDs are recorded for: "
+                + locales.joined(separator: ", ") + "."
         case let .validationFailed(errors):
             "Metadata validation failed:\n\(errors.joined(separator: "\n"))"
         case let .generatedDocumentsOutOfDate(paths):

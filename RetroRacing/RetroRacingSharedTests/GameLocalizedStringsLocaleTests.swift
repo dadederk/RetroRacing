@@ -22,6 +22,7 @@ final class GameLocalizedStringsLocaleTests: XCTestCase {
     private let supportedLocales = [
         "de", "nl", "it", "fr", "fr-CA", "es", "ca",
         "ja", "ko", "pt-BR", "pt-PT", "zh-Hant", "zh-Hans",
+        "tr", "pl",
     ]
 
     func testGivenSupportedLocalesWhenResolvingCheckpointKeysThenValuesAreNonEmpty() {
@@ -128,6 +129,16 @@ final class GameLocalizedStringsLocaleTests: XCTestCase {
     func testGivenCanadianFrenchLocaleWhenResolvingSettingsThenUsesFrenchCopy() {
         let value = localizedString("settings", locale: Locale(identifier: "fr-CA"))
         XCTAssertEqual(value, "Réglages")
+    }
+
+    func testGivenTurkishLocaleWhenResolvingUnlimitedPlaysThenUsesApprovedTerm() {
+        let value = localizedString("product_unlimited_plays", locale: Locale(identifier: "tr"))
+        XCTAssertEqual(value, "Sınırsız Oyun")
+    }
+
+    func testGivenPolishLocaleWhenResolvingUnlimitedPlaysThenUsesApprovedTerm() {
+        let value = localizedString("product_unlimited_plays", locale: Locale(identifier: "pl"))
+        XCTAssertEqual(value, "Nielimitowane Gry")
     }
 
     func testGivenPreferredCaptureLocaleWhenResolvingViaGameLocalizedStringsThenUsesThatLocale() {

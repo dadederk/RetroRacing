@@ -44,6 +44,18 @@
             "state": "translated",
             "value": ""
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": ""
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": ""
+          }
         }
       }
     },
@@ -148,6 +160,18 @@
         "fr-CA": {
           "stringUnit": {
             "state": "translated",
+            "value": "%1$@%2$@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%1$@%2$@"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "%1$@%2$@"
           }
         }
@@ -256,6 +280,18 @@
             "state": "translated",
             "value": "%1$@%2$@%3$@"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%1$@%2$@%3$@"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%1$@%2$@%3$@"
+          }
         }
       }
     },
@@ -325,6 +361,18 @@
           "stringUnit": {
             "state": "translated",
             "value": ""
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%lld"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%lld"
           }
         }
       }
@@ -433,6 +481,18 @@
             "state": "translated",
             "value": "%lld vie restante"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%lld can kaldı"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pozostało żyć: %lld"
+          }
         }
       }
     },
@@ -540,6 +600,18 @@
             "state": "translated",
             "value": "%lld vies restantes"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%lld can kaldı"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pozostało żyć: %lld"
+          }
         }
       }
     },
@@ -645,6 +717,18 @@
         "fr-CA": {
           "stringUnit": {
             "state": "translated",
+            "value": "0%"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "0%"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "0%"
           }
         }
@@ -754,6 +838,18 @@
             "state": "translated",
             "value": "100%"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "100%"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "100%"
+          }
         }
       }
     },
@@ -860,6 +956,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Nous soutenons aussi"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ayrıca Desteklenenler"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wspieramy również"
           }
         }
       }
@@ -968,6 +1076,18 @@
             "state": "translated",
             "value": "10 % des recettes vont à AMMEC, une association qui promeut l'autonomie et l'intégration sociale des personnes en situation de handicap physique, en soutenant les familles et en renforçant la communauté."
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Gelirin %10'u, fiziksel engelli bireylerin bağımsızlığını ve toplumsal katılımını destekleyen, ailelere yardım eden ve topluluk oluşturan AMMEC'e bağışlanır."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "10% przychodów trafia do AMMEC, stowarzyszenia wspierającego samodzielność i integrację społeczną osób z niepełnosprawnościami ruchowymi, ich rodziny oraz lokalną społeczność."
+          }
         }
       }
     },
@@ -1073,6 +1193,18 @@
         "fr-CA": {
           "stringUnit": {
             "state": "translated",
+            "value": "AMMEC"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "AMMEC"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "AMMEC"
           }
         }
@@ -1182,6 +1314,18 @@
             "state": "translated",
             "value": "Infos sur l'app, astuces et aide"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Uygulama bilgileri, ipuçları ve yardım"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Informacje o aplikacji, wskazówki i pomoc"
+          }
         }
       }
     },
@@ -1287,6 +1431,18 @@
         "fr-CA": {
           "stringUnit": {
             "state": "translated",
+            "value": "RetroRapid!"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "RetroRapid!"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "RetroRapid!"
           }
         }
@@ -1396,6 +1552,18 @@
             "state": "translated",
             "value": "Pour la conférence la plus cool"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "En havalı konferans olduğu için"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Za bycie najfajniejszą konferencją"
+          }
         }
       }
     },
@@ -1501,6 +1669,18 @@
         "fr-CA": {
           "stringUnit": {
             "state": "translated",
+            "value": "ARCtic Conference"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ARCtic Conference"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "ARCtic Conference"
           }
         }
@@ -1610,6 +1790,18 @@
             "state": "translated",
             "value": "Restons en contact !"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Bağlantı kuralım!"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Bądźmy w kontakcie!"
+          }
         }
       }
     },
@@ -1716,6 +1908,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Crédits"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Emeği Geçenler"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Twórcy"
           }
         }
       }
@@ -1824,6 +2028,18 @@
             "state": "translated",
             "value": "Sous licence SIL Open Font License 1.1"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "SIL Open Font License 1.1 kapsamında lisanslanmıştır"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Na licencji SIL Open Font License 1.1"
+          }
         }
       }
     },
@@ -1929,6 +2145,18 @@
         "fr-CA": {
           "stringUnit": {
             "state": "translated",
+            "value": "Press Start 2P"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Press Start 2P"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Press Start 2P"
           }
         }
@@ -2038,6 +2266,18 @@
             "state": "translated",
             "value": "Oulu, Finlande"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Oulu, Finlandiya"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Oulu, Finlandia"
+          }
         }
       }
     },
@@ -2144,6 +2384,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Publié avec amour ❤️ depuis ARCtic"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ARCtic'ten sevgiyle yayınlandı ❤️"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wydano z miłością ❤️ z ARCtic"
           }
         }
       }
@@ -2252,6 +2504,18 @@
             "state": "translated",
             "value": "Merci à tous ceux qui ont joué et m'ont encouragé à appuyer sur le bouton."
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Oyunu oynayan ve yayınlama düğmesine basmam için beni cesaretlendiren herkese teşekkürler."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Dziękuję wszystkim, którzy zagrali i zachęcili mnie do naciśnięcia przycisku publikacji."
+          }
         }
       }
     },
@@ -2358,6 +2622,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Redonner"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Topluma Katkı"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pomagamy innym"
           }
         }
       }
@@ -2466,6 +2742,18 @@
             "state": "translated",
             "value": "Une app native pour gérer App Store Connect"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "App Store Connect'i yönetmek için yerel bir uygulama"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Natywna aplikacja do zarządzania App Store Connect"
+          }
         }
       }
     },
@@ -2573,6 +2861,18 @@
             "state": "translated",
             "value": "Shipped with Helm!"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Helm ile yayınlandı!"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wydano z Helm!"
+          }
         }
       }
     },
@@ -2678,6 +2978,18 @@
         "fr-CA": {
           "stringUnit": {
             "state": "translated",
+            "value": "Accessibility up to 11!"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Accessibility up to 11!"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Accessibility up to 11!"
           }
         }
@@ -2787,6 +3099,18 @@
             "state": "translated",
             "value": "BlueSky"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "BlueSky"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "BlueSky"
+          }
         }
       }
     },
@@ -2892,6 +3216,18 @@
         "fr-CA": {
           "stringUnit": {
             "state": "translated",
+            "value": "LinkedIn"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "LinkedIn"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "LinkedIn"
           }
         }
@@ -3001,6 +3337,18 @@
             "state": "translated",
             "value": "Mastodon"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Mastodon"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Mastodon"
+          }
         }
       }
     },
@@ -3106,6 +3454,18 @@
         "fr-CA": {
           "stringUnit": {
             "state": "translated",
+            "value": "X (Twitter)"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "X (Twitter)"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "X (Twitter)"
           }
         }
@@ -3215,6 +3575,18 @@
             "state": "translated",
             "value": "Ouvre la page d'évaluation sur l'App Store"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "App Store değerlendirme sayfasını açar"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Otwiera stronę oceny w App Store"
+          }
         }
       }
     },
@@ -3322,6 +3694,18 @@
             "state": "translated",
             "value": "Note RetroRapid !"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "RetroRapid!'i Değerlendir"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Oceń RetroRapid!"
+          }
         }
       }
     },
@@ -3427,6 +3811,18 @@
         "fr-CA": {
           "stringUnit": {
             "state": "translated",
+            "value": "Swift for Swifts"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Swift for Swifts"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Swift for Swifts"
           }
         }
@@ -3536,6 +3932,18 @@
             "state": "translated",
             "value": "À propos"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Hakkında"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "O aplikacji"
+          }
         }
       }
     },
@@ -3641,6 +4049,18 @@
         "fr-CA": {
           "stringUnit": {
             "state": "translated",
+            "value": "Digital Crown"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Digital Crown"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Digital Crown"
           }
         }
@@ -3750,6 +4170,18 @@
             "state": "translated",
             "value": "Manette"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Oyun Kumandası"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Kontroler"
+          }
         }
       }
     },
@@ -3856,6 +4288,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Clavier"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Klavye"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Klawiatura"
           }
         }
       }
@@ -3964,6 +4408,18 @@
             "state": "translated",
             "value": "Glissement"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Kaydırma"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Gest przesunięcia"
+          }
         }
       }
     },
@@ -4071,6 +4527,18 @@
             "state": "translated",
             "value": "Toucher"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Dokunma"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Dotyk"
+          }
         }
       }
     },
@@ -4176,6 +4644,18 @@
         "fr-CA": {
           "stringUnit": {
             "state": "translated",
+            "value": "VoiceOver"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "VoiceOver"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "VoiceOver"
           }
         }
@@ -4285,6 +4765,18 @@
             "state": "translated",
             "value": "+%lld autres succès"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "+%lld başarım daha"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "+%lld więcej osiągnięć"
+          }
         }
       }
     },
@@ -4391,6 +4883,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Autres succès"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Diğer başarımlar"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Inne osiągnięcia"
           }
         }
       }
@@ -4499,6 +5003,18 @@
             "state": "translated",
             "value": "Bravo ! Tu as débloqué :"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Tebrikler! Şunu açtın:"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Gratulacje! Odblokowano:"
+          }
         }
       }
     },
@@ -4605,6 +5121,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Succès débloqué !"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Başarım Tamamlandı!"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Osiągnięcie zdobyte!"
           }
         }
       }
@@ -4713,6 +5241,18 @@
             "state": "translated",
             "value": "Commandes %@"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%@ Kontrolleri"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sterowanie: %@"
+          }
         }
       }
     },
@@ -4819,6 +5359,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Semaine GAAD Assistive"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "GAAD Destek Teknolojileri Haftası"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Tydzień technologii asystujących GAAD"
           }
         }
       }
@@ -4927,6 +5479,18 @@
             "state": "translated",
             "value": "Série %lld"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%lld'lik Seri"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Seria %lld"
+          }
         }
       }
     },
@@ -5033,6 +5597,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Overlander %lld"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Yol Fatihi %lld"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pogromca Dróg %lld"
           }
         }
       }
@@ -5141,6 +5717,18 @@
             "state": "translated",
             "value": "Fermer"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Kapat"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Zamknij"
+          }
         }
       }
     },
@@ -5248,6 +5836,18 @@
             "state": "translated",
             "value": "Bientôt"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Yakında"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wkrótce"
+          }
         }
       }
     },
@@ -5353,6 +5953,18 @@
         "fr-CA": {
           "stringUnit": {
             "state": "translated",
+            "value": "A"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "A"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "A"
           }
         }
@@ -5462,6 +6074,18 @@
             "state": "translated",
             "value": "B"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "B"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "B"
+          }
         }
       }
     },
@@ -5568,6 +6192,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "D-pad gauche"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Yön Tuşu Sol"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "D-pad w lewo"
           }
         }
       }
@@ -5676,6 +6312,18 @@
             "state": "translated",
             "value": "D-pad droite"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Yön Tuşu Sağ"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "D-pad w prawo"
+          }
         }
       }
     },
@@ -5782,6 +6430,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Gâchette gauche (shoulder)"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sol Üst Düğme"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Lewy bumper"
           }
         }
       }
@@ -5890,6 +6550,18 @@
             "state": "translated",
             "value": "Gâchette gauche (trigger)"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sol Tetik"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Lewy spust"
+          }
         }
       }
     },
@@ -5995,6 +6667,18 @@
         "fr-CA": {
           "stringUnit": {
             "state": "translated",
+            "value": "Menu"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Menü"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Menu"
           }
         }
@@ -6104,6 +6788,18 @@
             "state": "translated",
             "value": "Aucun"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Yok"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Brak"
+          }
         }
       }
     },
@@ -6210,6 +6906,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Gâchette droite (shoulder)"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sağ Üst Düğme"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Prawy bumper"
           }
         }
       }
@@ -6318,6 +7026,18 @@
             "state": "translated",
             "value": "Gâchette droite (trigger)"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sağ Tetik"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Prawy spust"
+          }
         }
       }
     },
@@ -6423,6 +7143,18 @@
         "fr-CA": {
           "stringUnit": {
             "state": "translated",
+            "value": "X"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "X"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "X"
           }
         }
@@ -6532,6 +7264,18 @@
             "state": "translated",
             "value": "Y"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Y"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Y"
+          }
         }
       }
     },
@@ -6638,6 +7382,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Crash"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Çarpışma"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Kraksa"
           }
         }
       }
@@ -6746,6 +7502,18 @@
             "state": "translated",
             "value": "False"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Yanlış"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Fałsz"
+          }
         }
       }
     },
@@ -6852,6 +7620,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "True"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Doğru"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Prawda"
           }
         }
       }
@@ -6960,6 +7740,18 @@
             "state": "translated",
             "value": "Aucun succès forcé"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Zorunlu başarım yok"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Bez wymuszonego osiągnięcia"
+          }
         }
       }
     },
@@ -7066,6 +7858,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Affiche le succès sélectionné dans l'écran Game Over sans l'envoyer."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Seçilen başarımı bildirmeden Oyun Sonu arayüzünde gösterir."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wyświetla wybrane osiągnięcie na ekranie końca gry bez zgłaszania go."
           }
         }
       }
@@ -7174,6 +7978,18 @@
             "state": "translated",
             "value": "Forcer le déblocage d'un succès"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Başarım açmayı zorla"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wymuś odblokowanie osiągnięcia"
+          }
         }
       }
     },
@@ -7280,6 +8096,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Technologies d'assistance actives"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Etkin Destek Teknolojileri"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Aktywne technologie asystujące"
           }
         }
       }
@@ -7388,6 +8216,18 @@
             "state": "translated",
             "value": "Aucune"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Yok"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Brak"
+          }
         }
       }
     },
@@ -7495,6 +8335,18 @@
             "state": "translated",
             "value": "Switch Control"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Anahtarla Denetim"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sterowanie przełącznikami"
+          }
         }
       }
     },
@@ -7600,6 +8452,18 @@
         "fr-CA": {
           "stringUnit": {
             "state": "translated",
+            "value": "VoiceOver"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "VoiceOver"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "VoiceOver"
           }
         }
@@ -7709,6 +8573,18 @@
             "state": "translated",
             "value": "Heure actuelle"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Geçerli Saat"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Bieżący czas"
+          }
         }
       }
     },
@@ -7815,6 +8691,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Pendant la GAAD Week"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "GAAD Haftası İçinde"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "W trakcie tygodnia GAAD"
           }
         }
       }
@@ -7923,6 +8811,18 @@
             "state": "translated",
             "value": "Succès GAAD marqué comme obtenu"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "GAAD Başarımı Kazanıldı Olarak İşaretlendi"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Osiągnięcie GAAD oznaczone jako zdobyte"
+          }
         }
       }
     },
@@ -8029,6 +8929,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "QA succès GAAD"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "GAAD Başarımı Kalite Kontrolü"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Kontrola jakości osiągnięcia GAAD"
           }
         }
       }
@@ -8137,6 +9049,18 @@
             "state": "translated",
             "value": "Mode de qualification"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Uygunluk Modu"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Tryb kwalifikacji"
+          }
         }
       }
     },
@@ -8243,6 +9167,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "VoiceOver uniquement (watchOS v1)"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Yalnızca VoiceOver (watchOS v1)"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Tylko VoiceOver (watchOS v1)"
           }
         }
       }
@@ -8351,6 +9287,18 @@
             "state": "translated",
             "value": "VoiceOver + Switch Control (v1)"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "VoiceOver + Anahtarla Denetim (v1)"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "VoiceOver + Sterowanie przełącznikami (v1)"
+          }
         }
       }
     },
@@ -8457,6 +9405,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Serait qualifié si la partie se terminait maintenant"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Yarış Şimdi Biterse Uygun Olur"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Spełni warunki, jeśli przejazd zakończy się teraz"
           }
         }
       }
@@ -8565,6 +9525,18 @@
             "state": "translated",
             "value": "Signal de fin GAAD verrouillé"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "GAAD Tamamlama Sinyali Kilitlendi"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sygnał ukończenia GAAD został zatrzaśnięty"
+          }
         }
       }
     },
@@ -8671,6 +9643,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Fenêtre GAAD Week"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "GAAD Haftası Aralığı"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Okno tygodnia GAAD"
           }
         }
       }
@@ -8779,6 +9763,18 @@
             "state": "translated",
             "value": "Indisponible"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Kullanılamıyor"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Niedostępne"
+          }
         }
       }
     },
@@ -8885,6 +9881,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Debug"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Hata Ayıklama"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Debugowanie"
           }
         }
       }
@@ -8993,6 +10001,18 @@
             "state": "translated",
             "value": "Afficher les FPS SpriteKit et le nombre de nœuds"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "SpriteKit FPS ve düğüm sayısını göster"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pokaż FPS SpriteKit i liczbę węzłów"
+          }
         }
       }
     },
@@ -9099,6 +10119,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Simuler les parties illimitées"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sınırsız Oyun'u Simüle Et"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Symuluj Nielimitowane Gry"
           }
         }
       }
@@ -9207,6 +10239,18 @@
             "state": "translated",
             "value": "Par défaut, comportement de production. Parties illimitées force l'accès complet. Freemium simule que Parties illimitées n'a pas été acheté."
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Varsayılan, üretim davranışını kullanır. Sınırsız Oyun tam erişimi zorlar. Ücretsiz mod, Sınırsız Oyun satın alınmamış gibi davranır."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Tryb domyślny używa zachowania produkcyjnego. Nielimitowane Gry wymuszają pełny dostęp. Tryb bezpłatny symuluje brak zakupu Nielimitowanych Gier."
+          }
         }
       }
     },
@@ -9313,6 +10357,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Par défaut"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Varsayılan"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Domyślny"
           }
         }
       }
@@ -9421,6 +10477,18 @@
             "state": "translated",
             "value": "Freemium"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ücretsiz"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Bezpłatny"
+          }
         }
       }
     },
@@ -9527,6 +10595,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Parties illimitées"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sınırsız Oyun"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Nielimitowane Gry"
           }
         }
       }
@@ -9635,6 +10715,18 @@
             "state": "translated",
             "value": "FPS %@ · Nœuds %@"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "FPS %@ · Düğüm %@"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "FPS %@ · Węzły %@"
+          }
         }
       }
     },
@@ -9741,6 +10833,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Terminé"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Bitti"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Gotowe"
           }
         }
       }
@@ -9849,6 +10953,18 @@
             "state": "translated",
             "value": "Impossible de charger les produits. Vérifie ta connexion Internet."
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ürünler yüklenemedi. Lütfen internet bağlantını kontrol et."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Nie można wczytać produktów. Sprawdź połączenie z internetem."
+          }
         }
       }
     },
@@ -9955,6 +11071,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Réessayer"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Yeniden Dene"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Spróbuj ponownie"
           }
         }
       }
@@ -10063,6 +11191,18 @@
             "state": "translated",
             "value": "Illimité jusqu'au %@, pour célébrer %@ 🏎"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%@ tarihine kadar sınırsız; %@ kutlaması 🏎"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Bez limitu do %@ z okazji %@ 🏎"
+          }
         }
       }
     },
@@ -10169,6 +11309,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Parties illimitées"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sınırsız Oyun"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Nielimitowane Gry"
           }
         }
       }
@@ -10277,6 +11429,18 @@
             "state": "translated",
             "value": "Terminer"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Bitir"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Zakończ"
+          }
         }
       }
     },
@@ -10382,6 +11546,18 @@
         "fr-CA": {
           "stringUnit": {
             "state": "translated",
+            "value": "Retro (Press Start 2P)"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Retro (Press Start 2P)"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Retro (Press Start 2P)"
           }
         }
@@ -10491,6 +11667,18 @@
             "state": "translated",
             "value": "Système"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sistem"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Systemowa"
+          }
         }
       }
     },
@@ -10597,6 +11785,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Système monospace"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sistem eş aralıklı"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Systemowa stałej szerokości"
           }
         }
       }
@@ -10705,6 +11905,18 @@
             "state": "translated",
             "value": "Score d'ami à venir : %@, %lld"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sıradaki arkadaş skoru: %@, %lld"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Najbliższy wynik znajomego: %@, %lld"
+          }
         }
       }
     },
@@ -10811,6 +12023,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tu as dépassé %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%@ geçildi"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wyprzedzono: %@"
           }
         }
       }
@@ -10919,6 +12143,18 @@
             "state": "translated",
             "value": "Tu as dépassé %lld amis"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%lld arkadaş geçildi"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wyprzedzono znajomych: %lld"
+          }
         }
       }
     },
@@ -11025,6 +12261,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Game Center n'est pas disponible pour ce compte."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Game Center bu hesap için kullanılamıyor."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Game Center jest niedostępne dla tego konta."
           }
         }
       }
@@ -11133,6 +12381,18 @@
             "state": "translated",
             "value": "Le classement Game Center est disponible sur iOS et tvOS."
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Game Center liderlik tablosu iOS ve tvOS'te kullanılabilir."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ranking Game Center jest dostępny na iOS i tvOS."
+          }
         }
       }
     },
@@ -11239,6 +12499,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Le classement Game Center n'est pas disponible sur cet appareil."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Game Center liderlik tablosu bu aygıtta kullanılamıyor."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ranking Game Center jest niedostępny na tym urządzeniu."
           }
         }
       }
@@ -11347,6 +12619,18 @@
             "state": "translated",
             "value": "Meilleur : %lld"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "En iyi: %lld"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Najlepszy: %lld"
+          }
         }
       }
     },
@@ -11453,6 +12737,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Le prochain tour pourrait être ton meilleur."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Bir sonraki tur şimdiye kadarki en iyin olabilir."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Następna próba może być najlepsza."
           }
         }
       }
@@ -11561,6 +12857,18 @@
             "state": "translated",
             "value": "Bien joué !"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "İyi oynadın!"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Dobra jazda!"
+          }
         }
       }
     },
@@ -11666,6 +12974,18 @@
         "fr-CA": {
           "stringUnit": {
             "state": "translated",
+            "value": "%@: %lld"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%@: %lld"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "%@: %lld"
           }
         }
@@ -11775,6 +13095,18 @@
             "state": "translated",
             "value": "Super course ! Tu as battu ton meilleur score."
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Harika sürüş! En iyi skorunu geçtin."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Świetna jazda! Udało Ci się pobić rekord."
+          }
         }
       }
     },
@@ -11881,6 +13213,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Nouveau record !"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Yeni Rekor!"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Nowy Rekord!"
           }
         }
       }
@@ -11989,6 +13333,18 @@
             "state": "translated",
             "value": "Nouveau record : %lld"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Yeni rekor: %lld"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Nowy rekord: %lld"
+          }
         }
       }
     },
@@ -12095,6 +13451,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Prochain ami devant toi"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Öndeki sıradaki arkadaş"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Następny znajomy przed Tobą"
           }
         }
       }
@@ -12203,6 +13571,18 @@
             "state": "translated",
             "value": "+%lld de plus"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "+%lld daha"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "+%lld więcej"
+          }
         }
       }
     },
@@ -12309,6 +13689,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Amis dépassés dans cette partie"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Bu yarışta geçilen arkadaşlar"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Znajomi wyprzedzeni w tym przejeździe"
           }
         }
       }
@@ -12417,6 +13809,18 @@
             "state": "translated",
             "value": "Meilleur précédent : %lld"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Önceki en iyi: %lld"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Poprzedni rekord: %lld"
+          }
         }
       }
     },
@@ -12523,6 +13927,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vitesse : %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Hız: %@"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Prędkość: %@"
           }
         }
       }
@@ -12631,6 +14047,18 @@
             "state": "translated",
             "value": "Ton meilleur : %lld"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "En iyin: %lld"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Twój rekord: %lld"
+          }
         }
       }
     },
@@ -12736,6 +14164,18 @@
         "fr-CA": {
           "stringUnit": {
             "state": "translated",
+            "value": "RetroRapid!"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "RetroRapid!"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "RetroRapid!"
           }
         }
@@ -12845,6 +14285,18 @@
             "state": "translated",
             "value": "Game Over"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Oyun Bitti"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Koniec Gry"
+          }
         }
       }
     },
@@ -12950,6 +14402,18 @@
         "fr-CA": {
           "stringUnit": {
             "state": "translated",
+            "value": "%@ (%lld, %lld)"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%@ (%lld, %lld)"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "%@ (%lld, %lld)"
           }
         }
@@ -13059,6 +14523,18 @@
             "state": "translated",
             "value": "Classement"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Liderlik Tablosu"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ranking"
+          }
         }
       }
     },
@@ -13164,6 +14640,18 @@
         "fr-CA": {
           "stringUnit": {
             "state": "translated",
+            "value": " x%lld"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": " x%lld"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": " x%lld"
           }
         }
@@ -13273,6 +14761,18 @@
             "state": "translated",
             "value": "Menu"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Menü"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Menu"
+          }
         }
       }
     },
@@ -13379,6 +14879,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tu aimes le jeu ? Tu peux aider RetroRapid !"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Oyunu sevdin mi? RetroRapid!'e destek olabilirsin!"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Podoba Ci się gra? Możesz wesprzeć RetroRapid!"
           }
         }
       }
@@ -13487,6 +14999,18 @@
             "state": "translated",
             "value": "Tu aimes le jeu ?"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Oyunu sevdin mi?"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Podoba Ci się gra?"
+          }
         }
       }
     },
@@ -13593,6 +15117,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Jouer avec des amis"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Arkadaşlarla Oyna"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Graj ze Znajomymi"
           }
         }
       }
@@ -13701,6 +15237,18 @@
             "state": "translated",
             "value": "Les courses entre amis sont gratuites."
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Arkadaş yarışları ücretsizdir."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wyścigi ze znajomymi są bezpłatne."
+          }
         }
       }
     },
@@ -13807,6 +15355,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Les parties SharePlay n'utilisent pas tes essais quotidiens."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "SharePlay yarışları günlük oyun hakkını kullanmaz."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wyścigi SharePlay nie zużywają dziennych prób."
           }
         }
       }
@@ -13915,6 +15475,18 @@
             "state": "translated",
             "value": "Noter"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Değerlendir"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Oceń grę"
+          }
         }
       }
     },
@@ -14021,6 +15593,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Soutenir le jeu"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Oyunu Destekle"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wesprzyj grę"
           }
         }
       }
@@ -14129,6 +15713,18 @@
             "state": "translated",
             "value": "Aller à gauche"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sola git"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Jedź w lewo"
+          }
         }
       }
     },
@@ -14235,6 +15831,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Double-touche pour déplacer la voiture à gauche"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Arabayı sola taşımak için çift dokun"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Stuknij dwukrotnie, aby przesunąć samochód w lewo"
           }
         }
       }
@@ -14343,6 +15951,18 @@
             "state": "translated",
             "value": "Aller à droite"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sağa git"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Jedź w prawo"
+          }
         }
       }
     },
@@ -14449,6 +16069,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Double-touche pour déplacer la voiture à droite"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Arabayı sağa taşımak için çift dokun"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Stuknij dwukrotnie, aby przesunąć samochód w prawo"
           }
         }
       }
@@ -14557,6 +16189,18 @@
             "state": "translated",
             "value": "Nouveau record ! %lld dépassements"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Yeni yüksek skor! %lld sollama"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Nowy rekord! Wyprzedzenia: %lld"
+          }
         }
       }
     },
@@ -14664,6 +16308,18 @@
             "state": "translated",
             "value": "Pas de voiture"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Araba yok"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Brak samochodu"
+          }
         }
       }
     },
@@ -14769,6 +16425,18 @@
         "fr-CA": {
           "stringUnit": {
             "state": "translated",
+            "value": "OK"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Tamam"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "OK"
           }
         }
@@ -14878,6 +16546,18 @@
             "state": "translated",
             "value": "Ouvre l'invite d'évaluation de l'app"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Uygulama değerlendirme istemini açar"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Otwiera prośbę o ocenę aplikacji"
+          }
         }
       }
     },
@@ -14984,6 +16664,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Pause"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Duraklat"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pauza"
           }
         }
       }
@@ -15092,6 +16784,18 @@
             "state": "translated",
             "value": "Portrait en pixel art d'un homme souriant barbu, casquette plate et pull bleu marine, sur un circuit rétro avec tribunes, feux de départ et petites voitures vertes dans un style de jeu 16 bits coloré."
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Renkli 16-bit oyun tarzında, retro yarış pisti, tribünler, start ışıkları ve küçük yeşil arabalar önünde, kasket ve lacivert kazak giyen gülümseyen sakallı bir adamın piksel sanat portresi."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pikselowy portret uśmiechniętego brodatego mężczyzny w kaszkiecie i granatowym swetrze, na tle toru retro z trybunami, światłami startowymi i małymi zielonymi samochodami w barwnym stylu 16-bitowym."
+          }
         }
       }
     },
@@ -15198,6 +16902,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Salut ! Je suis Dani. Pense à débloquer Parties illimitées pour m'offrir un café. La caféine m'aide à créer de nouvelles fonctionnalités qui, je l'espère, te plairont."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Merhaba! Ben Dani. Bana bir kahve ısmarlamanın bir yolu olarak Sınırsız Oyun'u açmayı düşünebilirsin. Kafein, seveceğini umduğum yeni özellikler geliştirmeme yardımcı oluyor."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cześć! Jestem Dani. Odblokowanie Nielimitowanych Gier możesz potraktować jak postawienie mi kawy. Kofeina pomaga mi tworzyć nowe funkcje, które mam nadzieję polubisz."
           }
         }
       }
@@ -15306,6 +17022,18 @@
             "state": "translated",
             "value": "Fermer"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Kapat"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Zamknij"
+          }
         }
       }
     },
@@ -15412,6 +17140,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Achat unique. Pas d'abonnement. Débloque des parties illimitées pour toujours."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Tek seferlik satın alım. Abonelik yok. Sınırsız oyunu kalıcı olarak açar."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Zakup jednorazowy. Bez subskrypcji. Odblokowuje nielimitowaną grę na zawsze."
           }
         }
       }
@@ -15520,6 +17260,18 @@
             "state": "translated",
             "value": "10 % des recettes vont à **AMMEC**, une association qui promeut l'autonomie et l'intégration sociale des personnes en situation de handicap physique, en soutenant les familles et en renforçant la communauté."
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Gelirin %10'u, fiziksel engelli bireylerin bağımsızlığını ve toplumsal katılımını destekleyen, ailelere yardım eden ve topluluk oluşturan **AMMEC**'e bağışlanır."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "10% przychodów trafia do **AMMEC**, stowarzyszenia wspierającego samodzielność i integrację społeczną osób z niepełnosprawnościami ruchowymi, ich rodziny oraz lokalną społeczność."
+          }
         }
       }
     },
@@ -15626,6 +17378,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Redonner"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Topluma Katkı"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pomagamy innym"
           }
         }
       }
@@ -15734,6 +17498,18 @@
             "state": "translated",
             "value": "Sans limites"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sınırsıza Geç"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Graj Bez Limitu"
+          }
         }
       }
     },
@@ -15840,6 +17616,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "En savoir plus"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Daha Fazla Bilgi"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Dowiedz się więcej"
           }
         }
       }
@@ -15948,6 +17736,18 @@
             "state": "translated",
             "value": "Arrêt aux stands ! Tu as utilisé toutes tes parties du jour. Reviens demain pour plus de parties gratuites. Ou passe en illimité : un café pour moi, des parties illimitées pour toi !"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pit stop! Bugünkü tüm oyun haklarını kullandın. Daha fazla ücretsiz oyun için yarın gel. Ya da sınırsıza geç: Bana bir kahve, sana sınırsız oyun!"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pit stop! Wszystkie dzisiejsze próby zostały wykorzystane. Wróć jutro po kolejne bezpłatne gry. Albo graj bez limitu: kawa dla mnie, nielimitowane gry dla Ciebie!"
+          }
         }
       }
     },
@@ -16054,6 +17854,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Les courses entre amis sont gratuites avec SharePlay !"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "SharePlay ile arkadaş yarışları ücretsiz!"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wyścigi ze znajomymi przez SharePlay są bezpłatne!"
           }
         }
       }
@@ -16162,6 +17974,18 @@
             "state": "translated",
             "value": "Ta limite quotidienne se réinitialise à minuit."
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Günlük sınırın gece yarısı yenilenir."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Dzienny limit odnawia się o północy."
+          }
         }
       }
     },
@@ -16268,6 +18092,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Pas de souci !"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sorun değil!"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Bez obaw!"
           }
         }
       }
@@ -16376,6 +18212,18 @@
             "state": "translated",
             "value": "Rester en gratuit ?"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ücretsiz Devam Etmek İster misin?"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Chcesz grać bezpłatnie?"
+          }
         }
       }
     },
@@ -16483,6 +18331,18 @@
             "state": "translated",
             "value": "Joue autant que tu veux sur ton Apple Watch."
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Apple Watch'unda istediğin kadar oynamaya devam et."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Na Apple Watch możesz grać bez ograniczeń."
+          }
         }
       }
     },
@@ -16588,6 +18448,18 @@
         "fr-CA": {
           "stringUnit": {
             "state": "translated",
+            "value": "Apple Watch"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Apple Watch"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Apple Watch"
           }
         }
@@ -16697,6 +18569,18 @@
             "state": "translated",
             "value": "Obtenir des parties illimitées"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sınırsız Oyun'u Aç"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Odblokuj Nielimitowane Gry"
+          }
         }
       }
     },
@@ -16803,6 +18687,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Parties illimitées pour toujours. Choisis parmi les thèmes visuels disponibles. Soutiens le développement."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sonsuza kadar sınırsız oyun. Mevcut görsel temalardan istediğini seç. Geliştirmeyi destekle."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Nielimitowana gra na zawsze. Wybieraj dostępne motywy graficzne. Wesprzyj rozwój gry."
           }
         }
       }
@@ -16911,6 +18807,18 @@
             "state": "translated",
             "value": "Jouer"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Oyna"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Graj"
+          }
         }
       }
     },
@@ -17017,6 +18925,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Restantes : %lld sur %lld"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Kalan: %lld/%lld"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pozostało: %lld z %lld"
           }
         }
       }
@@ -17125,6 +19045,18 @@
             "state": "translated",
             "value": "Réinitialisation dans %lld heures"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%lld saat içinde yenilenir"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Odnowienie za %lld godz."
+          }
         }
       }
     },
@@ -17231,6 +19163,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Réinitialisation dans 1 heure"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "1 saat içinde yenilenir"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Odnowienie za 1 godzinę"
           }
         }
       }
@@ -17339,6 +19283,18 @@
             "state": "translated",
             "value": "Réinitialisation demain à 00:00"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Yarın 00.00'da yenilenir"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Odnowienie jutro o 00:00"
+          }
         }
       }
     },
@@ -17445,6 +19401,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "%lld parties gratuites par jour sans Parties illimitées."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sınırsız Oyun olmadan her gün %lld ücretsiz oyun."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%lld bezpłatnych gier dziennie bez Nielimitowanych Gier."
           }
         }
       }
@@ -17553,6 +19521,18 @@
             "state": "translated",
             "value": "%lld parties gratuites par jour sans Parties illimitées. Bonus de bienvenue : %lld parties gratuites le premier jour."
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sınırsız Oyun olmadan her gün %lld ücretsiz oyun. Hoş geldin bonusu: İlk gününde %lld ücretsiz oyun."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%lld bezpłatnych gier dziennie bez Nielimitowanych Gier. Premia powitalna: %lld bezpłatnych gier pierwszego dnia."
+          }
         }
       }
     },
@@ -17659,6 +19639,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Merci pour ton soutien !"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Desteğin için teşekkürler!"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Dziękujemy za wsparcie!"
           }
         }
       }
@@ -17767,6 +19759,18 @@
             "state": "translated",
             "value": "Limite de parties"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Oyun Sınırı"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Limit Gier"
+          }
         }
       }
     },
@@ -17873,6 +19877,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "♾️ Illimité"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "♾️ Sınırsız"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "♾️ Bez Limitu"
           }
         }
       }
@@ -17981,6 +19997,18 @@
             "state": "translated",
             "value": "Voiture du joueur"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Oyuncu arabası"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Samochód gracza"
+          }
         }
       }
     },
@@ -18087,6 +20115,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Parties illimitées"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sınırsız Oyun"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Nielimitowane Gry"
           }
         }
       }
@@ -18195,6 +20235,18 @@
             "state": "translated",
             "value": "Achat échoué"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Satın Alma Başarısız"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Zakup Nieudany"
+          }
         }
       }
     },
@@ -18301,6 +20353,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Impossible de restaurer les achats : %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Satın alımlar geri yüklenemedi: %@"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Nie udało się odtworzyć zakupów: %@"
           }
         }
       }
@@ -18409,6 +20473,18 @@
             "state": "translated",
             "value": "Aucun achat à restaurer."
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Geri yüklenecek satın alım bulunamadı."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Nie znaleziono zakupów do odtworzenia."
+          }
         }
       }
     },
@@ -18515,6 +20591,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Achat restauré avec succès !"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Satın alım başarıyla geri yüklendi!"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Zakup został odtworzony!"
           }
         }
       }
@@ -18623,6 +20711,18 @@
             "state": "translated",
             "value": "Tu as maintenant des parties illimitées !"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Artık sınırsız oyunun var!"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Możesz już grać bez limitu!"
+          }
         }
       }
     },
@@ -18729,6 +20829,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Achat réussi"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Satın Alma Başarılı"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Zakup Udany"
           }
         }
       }
@@ -18837,6 +20949,18 @@
             "state": "translated",
             "value": "Utiliser un code"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Kodu Kullan"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Zrealizuj Kod"
+          }
         }
       }
     },
@@ -18943,6 +21067,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Rejouer"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Tekrar oyna"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Zagraj ponownie"
           }
         }
       }
@@ -19051,6 +21187,18 @@
             "state": "translated",
             "value": "Restaurer les achats"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Satın Alımları Geri Yükle"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Odtwórz Zakupy"
+          }
         }
       }
     },
@@ -19157,6 +21305,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Reprendre"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sürdür"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wznów"
           }
         }
       }
@@ -19265,6 +21425,18 @@
             "state": "translated",
             "value": "Voiture rivale"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Rakip araba"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Samochód rywala"
+          }
         }
       }
     },
@@ -19371,6 +21543,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Score"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Skor"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wynik"
           }
         }
       }
@@ -19479,6 +21663,18 @@
             "state": "translated",
             "value": "Score: %lld"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Skor: %lld"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wynik: %lld"
+          }
         }
       }
     },
@@ -19584,6 +21780,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Capture d'écran prête"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ekran görüntüsü çekimine hazır"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Gotowe do wykonania zrzutu ekranu"
           }
         }
       }
@@ -19692,6 +21900,18 @@
             "state": "translated",
             "value": "Réglages"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ayarlar"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ustawienia"
+          }
         }
       }
     },
@@ -19798,6 +22018,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Accessibilité"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Erişilebilirlik"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Dostępność"
           }
         }
       }
@@ -19906,6 +22138,18 @@
             "state": "translated",
             "value": "Tutoriel des indices audio"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ses ipucu öğreticisi"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Samouczek wskazówek dźwiękowych"
+          }
         }
       }
     },
@@ -20012,6 +22256,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Mode de retour audio"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sesli geri bildirim modu"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Tryb informacji dźwiękowej"
           }
         }
       }
@@ -20120,6 +22376,18 @@
             "state": "translated",
             "value": "Indices audio (arpège)"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ses ipuçları (arpej)"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wskazówki dźwiękowe (arpeggio)"
+          }
         }
       }
     },
@@ -20226,6 +22494,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Indices audio (accord)"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ses ipuçları (akor)"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wskazówki dźwiękowe (akord)"
           }
         }
       }
@@ -20334,6 +22614,18 @@
             "state": "translated",
             "value": "Indices audio (pulsations de voie)"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ses ipuçları (şerit darbeleri)"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wskazówki dźwiękowe (impulsy pasów)"
+          }
         }
       }
     },
@@ -20440,6 +22732,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Audio rétro"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Retro ses"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Dźwięk retro"
           }
         }
       }
@@ -20548,6 +22852,18 @@
             "state": "translated",
             "value": "Indices audio (arpège) (par défaut quand VoiceOver est activé)"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ses ipuçları (arpej) kullanılıyor (VoiceOver açıkken varsayılan)"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wskazówki dźwiękowe (arpeggio) (domyślne przy włączonym VoiceOver)"
+          }
         }
       }
     },
@@ -20654,6 +22970,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Grandes voitures"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Büyük Arabalar"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Duże Samochody"
           }
         }
       }
@@ -20762,6 +23090,18 @@
             "state": "translated",
             "value": "Réglages bientôt disponibles"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ayarlar yakında"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ustawienia już wkrótce"
+          }
         }
       }
     },
@@ -20868,6 +23208,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Manette"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Kumanda"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Kontroler"
           }
         }
       }
@@ -20976,6 +23328,18 @@
             "state": "translated",
             "value": "Les boutons remappés remplacent les assignations D-pad/Menu par défaut pour ces actions. Le stick gauche reste une option gauche/droite. Les touches fléchées restent actives sur Mac."
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Yeniden atanan düğmeler, bu eylemler için varsayılan yön tuşu/Menü eşlemelerinin yerini alır. Sol çubuk, sol/sağ yedeği olarak kalır. Ok tuşları Mac'te etkin kalır."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Przypisane przyciski zastępują domyślne ustawienia D-pada/Menu dla tych działań. Lewy drążek nadal działa jako zapasowe sterowanie lewo/prawo. Klawisze strzałek pozostają aktywne na Macu."
+          }
         }
       }
     },
@@ -21082,6 +23446,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Bouton gauche"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sola Git Düğmesi"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Przycisk jazdy w lewo"
           }
         }
       }
@@ -21190,6 +23566,18 @@
             "state": "translated",
             "value": "Bouton droite"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sağa Git Düğmesi"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Przycisk jazdy w prawo"
+          }
         }
       }
     },
@@ -21296,6 +23684,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Bouton pause/reprendre"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Duraklat/Sürdür Düğmesi"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Przycisk pauzy/wznowienia"
           }
         }
       }
@@ -21404,6 +23804,18 @@
             "state": "translated",
             "value": "Commandes"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Kontroller"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sterowanie"
+          }
         }
       }
     },
@@ -21510,6 +23922,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Comment jouer"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Nasıl oynanır"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Jak grać"
           }
         }
       }
@@ -21618,6 +24042,18 @@
             "state": "translated",
             "value": "• Glisse à gauche ou à droite pour te déplacer.\n• Touche la moitié gauche ou droite de l'écran.\n• Utilise les touches fléchées gauche et droite quand un clavier est connecté.\n• Avec une manette, le D-pad et le stick gauche déplacent par défaut ; tu peux remapper les boutons dans Réglages Manette."
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "• Hareket etmek için sola veya sağa kaydır.\n• Ekranın sol veya sağ yarısına dokun.\n• Klavye bağlıyken sol ve sağ ok tuşlarını kullan.\n• Kumandayla yön tuşu ve sol çubuk varsayılan olarak hareket eder; düğmeleri Kumanda ayarlarından değiştirebilirsin."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "• Przesuń palcem w lewo lub w prawo.\n• Stuknij lewą lub prawą połowę ekranu.\n• Po podłączeniu klawiatury używaj strzałek w lewo i w prawo.\n• Na kontrolerze domyślnie działa D-pad i lewy drążek; przyciski możesz zmienić w ustawieniach kontrolera."
+          }
         }
       }
     },
@@ -21724,6 +24160,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "• Utilise les touches fléchées gauche et droite du clavier pour te déplacer.\n• Clique sur la moitié gauche ou droite de la fenêtre avec le trackpad ou la souris.\n• Appuie sur la barre d'espace pour mettre en pause ou reprendre.\n• Avec une manette, le D-pad et le stick gauche déplacent par défaut ; tu peux remapper les boutons dans Réglages Manette."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "• Hareket etmek için klavyedeki sol ve sağ ok tuşlarını kullan.\n• İzleme dörtgeni veya fareyle pencerenin sol ya da sağ yarısına tıkla.\n• Duraklatmak veya sürdürmek için boşluk tuşuna bas.\n• Kumandayla yön tuşu ve sol çubuk varsayılan olarak hareket eder; düğmeleri Kumanda ayarlarından değiştirebilirsin."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "• Używaj strzałek w lewo i w prawo na klawiaturze.\n• Kliknij lewą lub prawą połowę okna gładzikiem albo myszą.\n• Naciśnij spację, aby wstrzymać lub wznowić grę.\n• Na kontrolerze domyślnie działa D-pad i lewy drążek; przyciski możesz zmienić w ustawieniach kontrolera."
           }
         }
       }
@@ -21832,6 +24280,18 @@
             "state": "translated",
             "value": "• Glisse à gauche ou à droite avec la Siri Remote pour te déplacer.\n• Appuie sur le bouton lecture pour sélectionner.\n• Avec une manette, tu peux remapper les boutons dans Réglages Manette."
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "• Hareket etmek için Siri Remote'da sola veya sağa kaydır.\n• Seçmek için oynat düğmesine bas.\n• Kumandayla düğme eşlemelerini Kumanda ayarlarından değiştirebilirsin."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "• Przesuń palcem w lewo lub w prawo na Siri Remote.\n• Naciśnij przycisk odtwarzania, aby wybrać.\n• Na kontrolerze możesz zmienić przypisanie przycisków w jego ustawieniach."
+          }
         }
       }
     },
@@ -21938,6 +24398,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "• Tourne la Digital Crown vers le haut pour aller à droite et vers le bas pour aller à gauche.\n• Touche le côté gauche de l'écran pour aller à gauche et le côté droit pour aller à droite.\n• Glisse à gauche pour aller à gauche et à droite pour aller à droite."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "• Sağa gitmek için Digital Crown'u yukarı, sola gitmek için aşağı çevir.\n• Sola gitmek için ekranın soluna, sağa gitmek için sağına dokun.\n• Sola gitmek için sola, sağa gitmek için sağa kaydır."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "• Obróć Digital Crown w górę, aby jechać w prawo, i w dół, aby jechać w lewo.\n• Stuknij lewą stronę ekranu, aby jechać w lewo, lub prawą, aby jechać w prawo.\n• Przesuń w lewo albo w prawo, aby zmienić pas."
           }
         }
       }
@@ -22046,6 +24518,18 @@
             "state": "translated",
             "value": "Direct Touch"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Doğrudan Dokunma"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Dotyk Bezpośredni"
+          }
         }
       }
     },
@@ -22152,6 +24636,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Police"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Yazı Tipi"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Czcionka"
           }
         }
       }
@@ -22260,6 +24756,18 @@
             "state": "translated",
             "value": "Retour haptique"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Dokunsal geri bildirim"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Informacje haptyczne"
+          }
         }
       }
     },
@@ -22366,6 +24874,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Annonces en jeu"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Oyun içi duyurular"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Komunikaty w grze"
           }
         }
       }
@@ -22474,6 +24994,18 @@
             "state": "translated",
             "value": "Indice de changement de voie"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Şerit değiştirme ipucu"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sygnał zmiany pasa"
+          }
         }
       }
     },
@@ -22580,6 +25112,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Haptique"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Dokunsal"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Haptyka"
           }
         }
       }
@@ -22688,6 +25232,18 @@
             "state": "translated",
             "value": "Voie + succès"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Şerit + başarı"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pas + powodzenie"
+          }
         }
       }
     },
@@ -22794,6 +25350,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Confirmation de voie"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Şerit onayı"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Potwierdzenie pasa"
           }
         }
       }
@@ -22902,6 +25470,18 @@
             "state": "translated",
             "value": "Succès"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Başarı"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Powodzenie"
+          }
         }
       }
     },
@@ -23008,6 +25588,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Les scores sont envoyés à Game Center."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Skorlar Game Center'a gönderilir."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wyniki są wysyłane do Game Center."
           }
         }
       }
@@ -23116,6 +25708,18 @@
             "state": "translated",
             "value": "Connecte-toi à Game Center sur ton iPhone pour envoyer des scores depuis la montre."
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Saatten skor göndermek için iPhone'unda Game Center'a giriş yap."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Zaloguj się do Game Center na iPhonie, aby wysyłać wyniki z zegarka."
+          }
         }
       }
     },
@@ -23223,6 +25827,18 @@
             "state": "translated",
             "value": "Obtenir des parties illimitées"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sınırsız Oyun'u Aç"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Odblokuj Nielimitowane Gry"
+          }
         }
       }
     },
@@ -23328,6 +25944,18 @@
         "fr-CA": {
           "stringUnit": {
             "state": "translated",
+            "value": "%lld%%"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%lld%%"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "%lld%%"
           }
         }
@@ -23437,6 +26065,18 @@
             "state": "translated",
             "value": "Parties illimitées"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sınırsız Oyun"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Nielimitowane Gry"
+          }
         }
       }
     },
@@ -23543,6 +26183,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Joue sans limite et choisis ton thème préféré."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sınırsız oyna ve favori temanı seç."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Graj bez limitu i wybierz ulubiony motyw."
           }
         }
       }
@@ -23651,6 +26303,18 @@
             "state": "translated",
             "value": "Achats"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Satın Alımlar"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Zakupy"
+          }
         }
       }
     },
@@ -23757,6 +26421,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Si tu as acheté Parties illimitées sur un autre appareil, touche Restaurer les achats."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sınırsız Oyun'u başka bir aygıtta satın aldıysan Satın Alımları Geri Yükle'ye dokun."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Jeśli Nielimitowane Gry kupiono na innym urządzeniu, stuknij Odtwórz Zakupy."
           }
         }
       }
@@ -23865,6 +26541,18 @@
             "state": "translated",
             "value": "Style de route"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Yol Tarzı"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Styl Drogi"
+          }
         }
       }
     },
@@ -23971,6 +26659,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Route détaillée"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ayrıntılı Yol"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Szczegółowa Droga"
           }
         }
       }
@@ -24079,6 +26779,18 @@
             "state": "translated",
             "value": "Grille simplifiée"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Basit Izgara"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Uproszczona Siatka"
+          }
         }
       }
     },
@@ -24185,6 +26897,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Son"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ses"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Dźwięk"
           }
         }
       }
@@ -24293,6 +27017,18 @@
             "state": "translated",
             "value": "Volume des effets sonores"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ses efektleri düzeyi"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Głośność efektów"
+          }
         }
       }
     },
@@ -24399,6 +27135,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vitesse"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Hız"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Prędkość"
           }
         }
       }
@@ -24507,6 +27255,18 @@
             "state": "translated",
             "value": "Cruise (par défaut quand VoiceOver est activé)"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cruise kullanılıyor (VoiceOver açıkken varsayılan)"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cruise (domyślne przy włączonym VoiceOver)"
+          }
         }
       }
     },
@@ -24613,6 +27373,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Retour d'avertissement d'accélération"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Hız artışı uyarı geri bildirimi"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ostrzeżenie o wzroście prędkości"
           }
         }
       }
@@ -24721,6 +27493,18 @@
             "state": "translated",
             "value": "Annonce VoiceOver"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "VoiceOver duyurusu"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Komunikat VoiceOver"
+          }
         }
       }
     },
@@ -24827,6 +27611,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Aucun"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Yok"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Brak"
           }
         }
       }
@@ -24935,6 +27731,18 @@
             "state": "translated",
             "value": "Aperçu de l'avertissement"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Uyarıyı önizle"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Odtwórz ostrzeżenie"
+          }
         }
       }
     },
@@ -25041,6 +27849,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Haptique"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Dokunsal"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Haptyka"
           }
         }
       }
@@ -25149,6 +27969,18 @@
             "state": "translated",
             "value": "Son"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ses"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Dźwięk"
+          }
         }
       }
     },
@@ -25255,6 +28087,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Thème"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Tema"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Motyw"
           }
         }
       }
@@ -25363,6 +28207,18 @@
             "state": "translated",
             "value": "Galerie des styles"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Tarz Galerisi"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Galeria Stylów"
+          }
         }
       }
     },
@@ -25469,6 +28325,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Aperçu du thème %@. Affiche les deux voitures, les deux casques, l’explosion et les couleurs de la route."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%@ teması önizlemesi. İki arabayı, iki kaskı, patlamayı ve yol renklerini gösterir."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Podgląd motywu %@. Pokazuje oba samochody, oba kaski, wybuch i kolory drogi."
           }
         }
       }
@@ -25577,6 +28445,18 @@
             "state": "translated",
             "value": "Aperçu du thème 8-Bit. Éclat de console de salon: deux voitures pixel audacieuses, deux casques punchy, un crash orange brûlant et une route arcade grise aux lignes jaune vif."
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "8-Bit tema önizlemesi. Ev konsolu ışıltısı: iki cesur piksel araba, iki çarpıcı kask, sıcak turuncu çarpışma ve parlak sarı çizgili gri arcade yolu."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Podgląd motywu 8-Bit. Blask domowej konsoli: dwa wyraziste pikselowe auta, dwa mocne kaski, gorąca pomarańczowa kraksa i szara droga arcade z jasnożółtymi liniami."
+          }
         }
       }
     },
@@ -25683,6 +28563,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Aperçu du thème LCD. Ambiance calculatrice arcade: deux voitures nettes, deux casques propres, un crash lumineux et une route pâle pour les records au soleil."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "LCD tema önizlemesi. Hesap makinesi arcade havası: iki net yarışçı, iki sade kask, parlak bir çarpışma ve güneşli yüksek skor yarışları için açık renkli yol paleti."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Podgląd motywu LCD. Klimat kalkulatora arcade: dwa wyraźne auta, dwa czyste kaski, jasna kraksa i blada paleta drogi do słonecznych prób bicia rekordu."
           }
         }
       }
@@ -25791,6 +28683,18 @@
             "state": "translated",
             "value": "Aperçu du thème Pocket. Ambiance mini-console: deux voitures vert mousse, deux casques trapus, un crash croustillant et une palette de route feutrée venue d'un vieil écran de poche."
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pocket tema önizlemesi. Minik el konsolu havası: iki yosun yeşili yarışçı, iki iri pikselli kask, çıtır bir çarpışma ve eski cep ekranından soluk yol paleti."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Podgląd motywu Pocket. Klimat małej konsoli przenośnej: dwa zielone auta, dwa masywne kaski, chrupiąca kraksa i stonowana paleta drogi ze starego kieszonkowego ekranu."
+          }
         }
       }
     },
@@ -25897,6 +28801,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Aperçu du thème 16-Bit. Drame arcade rétro: deux voitures pixel plus riches, deux casques brillants, un crash flamboyant et une route grise rapide entre l'herbe verte."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "16-Bit tema önizlemesi. Erken dönem arcade heyecanı: daha zengin iki piksel araba, iki parlak kask, alevli bir çarpışma ve yeşil çimlerin arasından geçen hızlı gri yol."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Podgląd motywu 16-Bit. Dramat wczesnych gier arcade: dwa bogatsze pikselowe auta, dwa lśniące kaski, ognista kraksa i szybka szara droga przecinająca zieloną trawę."
           }
         }
       }
@@ -26005,6 +28921,18 @@
             "state": "translated",
             "value": "Galerie des styles"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Tarz Galerisi"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Galeria Stylów"
+          }
         }
       }
     },
@@ -26111,6 +29039,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Style"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Tarz"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Styl"
           }
         }
       }
@@ -26219,6 +29159,18 @@
             "state": "translated",
             "value": "Tu veux changer de thème, profiter de Parties illimitées et soutenir aussi le développement du jeu ?"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Temaları değiştirmek, Sınırsız Oyun'u almak ve oyunun geliştirilmesini desteklemek ister misin?"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Chcesz zmieniać motywy, odblokować Nielimitowane Gry i wesprzeć rozwój gry?"
+          }
         }
       }
     },
@@ -26325,6 +29277,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tu veux changer de thème ? Débloque Parties illimitées dans Achats."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Temaları değiştirmek ister misin? Satın Alımlar'dan Sınırsız Oyun'u aç."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Chcesz zmieniać motywy? Odblokuj Nielimitowane Gry w sekcji Zakupy."
           }
         }
       }
@@ -26433,6 +29397,18 @@
             "state": "translated",
             "value": "Vibration"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Titreşim"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wibracje"
+          }
         }
       }
     },
@@ -26539,6 +29515,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Annoncer les dépassements d'amis"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Arkadaş sollamalarını duyur"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ogłaszaj wyprzedzenie znajomych"
           }
         }
       }
@@ -26647,6 +29635,18 @@
             "state": "translated",
             "value": "Partager"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Paylaş"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Udostępnij"
+          }
         }
       }
     },
@@ -26753,6 +29753,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Accepter le défi"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Meydan Okumayı Kabul Et"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Przyjmij Wyzwanie"
           }
         }
       }
@@ -26861,6 +29873,18 @@
             "state": "translated",
             "value": "Ton ami a fini de jouer pour le moment. Touche Terminé pour revenir au menu."
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Arkadaşın şimdilik oynamayı bitirdi. Menüye dönmek için Bitti'ye dokun."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Znajomy kończy na razie grę. Stuknij Gotowe, aby wrócić do menu."
+          }
         }
       }
     },
@@ -26967,6 +29991,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "La connexion a été perdue. Touche Terminé pour revenir au menu."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Bağlantı kesildi. Menüye dönmek için Bitti'ye dokun."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Połączenie zostało przerwane. Stuknij Gotowe, aby wrócić do menu."
           }
         }
       }
@@ -27075,6 +30111,18 @@
             "state": "translated",
             "value": "Session terminée"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Oturum Bitti"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sesja Zakończona"
+          }
         }
       }
     },
@@ -27181,6 +30229,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "RetroRapid! Course multijoueur"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "RetroRapid! Çok Oyunculu Yarış"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wyścig Wieloosobowy RetroRapid!"
           }
         }
       }
@@ -27289,6 +30349,18 @@
             "state": "translated",
             "value": "Prépare-toi ! La course va commencer."
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Hazır ol! Yarış başlamak üzere."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Przygotuj się! Wyścig zaraz się zacznie."
+          }
         }
       }
     },
@@ -27395,6 +30467,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ton ami s'est déconnecté."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Arkadaşının bağlantısı kesildi."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Znajomy się rozłączył."
           }
         }
       }
@@ -27503,6 +30587,18 @@
             "state": "translated",
             "value": "Tu as perdu avec %lld dépassements. Ton ami : %lld."
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%lld sollamayla kaybettin. Arkadaşın: %lld."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Przegrywasz z wynikiem %lld wyprzedzeń. Znajomy: %lld."
+          }
         }
       }
     },
@@ -27609,6 +30705,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "C'est parti !"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Başla!"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Start!"
           }
         }
       }
@@ -27717,6 +30825,18 @@
             "state": "translated",
             "value": "La session SharePlay est terminée."
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "SharePlay oturumu sona erdi."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sesja SharePlay dobiegła końca."
+          }
         }
       }
     },
@@ -27823,6 +30943,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Match nul avec %lld dépassements chacun."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Berabere! İkiniz de %lld sollama yaptınız."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Remis! Po %lld wyprzedzeń."
           }
         }
       }
@@ -27931,6 +31063,18 @@
             "state": "translated",
             "value": "En attente que ton ami rejoigne."
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Arkadaşının katılması bekleniyor."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Czekamy, aż znajomy dołączy."
+          }
         }
       }
     },
@@ -28037,6 +31181,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "En attente que ton ami termine."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Arkadaşının bitirmesi bekleniyor."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Czekamy, aż znajomy skończy."
           }
         }
       }
@@ -28145,6 +31301,18 @@
             "state": "translated",
             "value": "Tu as gagné avec %lld dépassements. Ton ami : %lld."
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%lld sollamayla kazandın. Arkadaşın: %lld."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wygrywasz z wynikiem %lld wyprzedzeń. Znajomy: %lld."
+          }
         }
       }
     },
@@ -28251,6 +31419,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Départ dans %lld"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%lld içinde başlıyor"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Start za %lld"
           }
         }
       }
@@ -28359,6 +31539,18 @@
             "state": "translated",
             "value": "Prépare-toi !"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Hazır Ol!"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Przygotuj Się!"
+          }
         }
       }
     },
@@ -28465,6 +31657,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Connexion perdue"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Bağlantı Kesildi"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Utracono Połączenie"
           }
         }
       }
@@ -28573,6 +31777,18 @@
             "state": "translated",
             "value": "Terminé"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Bitti"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Gotowe"
+          }
         }
       }
     },
@@ -28679,6 +31895,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Toi : %lld  Ami : %lld"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sen: %lld  Arkadaşın: %lld"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ty: %lld  Znajomy: %lld"
           }
         }
       }
@@ -28787,6 +32015,18 @@
             "state": "translated",
             "value": "De ton ami : %lld"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Arkadaşının: %lld"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Znajomy: %lld"
+          }
         }
       }
     },
@@ -28893,6 +32133,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Quitter"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ayrıl"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Opuść"
           }
         }
       }
@@ -29001,6 +32253,18 @@
             "state": "translated",
             "value": "Toi"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sen"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ty"
+          }
         }
       }
     },
@@ -29107,6 +32371,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ton ami"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Arkadaşın"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Znajomy"
           }
         }
       }
@@ -29215,6 +32491,18 @@
             "state": "translated",
             "value": "%@, %lld dépassements, %lld vies restantes"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%@, %lld sollama, %lld can kaldı"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%@, wyprzedzenia: %lld, pozostało żyć: %lld"
+          }
         }
       }
     },
@@ -29321,6 +32609,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "%@ : %lld dépassements"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%@: %lld sollama"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%@: %lld wyprzedzeń"
           }
         }
       }
@@ -29429,6 +32729,18 @@
             "state": "translated",
             "value": "Score de l'ami : %lld"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Arkadaş skoru: %lld"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wynik znajomego: %lld"
+          }
         }
       }
     },
@@ -29535,6 +32847,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ami"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Arkadaş"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Znajomy"
           }
         }
       }
@@ -29643,6 +32967,18 @@
             "state": "translated",
             "value": "Ami"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Arkadaş"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Znajomy"
+          }
         }
       }
     },
@@ -29749,6 +33085,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "%@ : %lld dépassements"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%@: %lld sollama"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%@: %lld wyprzedzeń"
           }
         }
       }
@@ -29857,6 +33205,18 @@
             "state": "translated",
             "value": "Pas de chance !"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Şansına Küs!"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pech!"
+          }
         }
       }
     },
@@ -29963,6 +33323,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Le prochain tour pourrait te sourire."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Bir sonraki tur senin olabilir."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Następna runda może należeć do Ciebie."
           }
         }
       }
@@ -30071,6 +33443,18 @@
             "state": "translated",
             "value": "Match nul !"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Berabere!"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Remis!"
+          }
         }
       }
     },
@@ -30177,6 +33561,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Quelle course. Vous vous êtes égalés dépassement après dépassement."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ne yarıştı ama. Sollama sollamaya eşleştiniz."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Co za wyścig. Wyprzedzenie za wyprzedzenie."
           }
         }
       }
@@ -30285,6 +33681,18 @@
             "state": "translated",
             "value": "Résultat du match"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Yarış Sonucu"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wynik Wyścigu"
+          }
         }
       }
     },
@@ -30391,6 +33799,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tu as gagné !"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Kazandın!"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wygrywasz!"
           }
         }
       }
@@ -30499,6 +33919,18 @@
             "state": "translated",
             "value": "Beau travail. Tu as franchi la ligne en premier !"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Harika iş. Bitiş çizgisini önce sen geçtin!"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Dobra robota. Pierwsza osoba na mecie!"
+          }
         }
       }
     },
@@ -30605,6 +34037,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Ton ami te défie encore ?"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Arkadaşın tekrar meydan okudu?"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Znajomy znów rzuca Ci wyzwanie?"
           }
         }
       }
@@ -30713,6 +34157,18 @@
             "state": "translated",
             "value": "Rejouer"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Tekrar Oyna"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Zagraj Ponownie"
+          }
         }
       }
     },
@@ -30819,6 +34275,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Vous n'avez pas tous les deux confirmé à temps. Touche Quitter pour revenir au menu."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "İkiniz de zamanında onaylamadınız. Menüye dönmek için Ayrıl'a dokun."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Nie udało się potwierdzić na czas. Stuknij Opuść, aby wrócić do menu."
           }
         }
       }
@@ -30927,6 +34395,18 @@
             "state": "translated",
             "value": "Revanche expirée"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Rövanş Süresi Doldu"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Minął Czas na Rewanż"
+          }
         }
       }
     },
@@ -31033,6 +34513,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "En attente de la confirmation de ton ami..."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Arkadaşının onayı bekleniyor..."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Czekamy na potwierdzenie znajomego..."
           }
         }
       }
@@ -31141,6 +34633,18 @@
             "state": "translated",
             "value": "Accepte quand tu es prêt pour la revanche."
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Rövanşa hazır olduğunda kabul et."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Przyjmij, gdy będziesz gotowy na rewanż."
+          }
         }
       }
     },
@@ -31247,6 +34751,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Revanche ?"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Rövanş?"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Rewanż?"
           }
         }
       }
@@ -31355,6 +34871,18 @@
             "state": "translated",
             "value": "%@, %lld points, %lld vies restantes"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%@, %lld puan, %lld can kaldı"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%@, punkty: %lld, pozostało żyć: %lld"
+          }
         }
       }
     },
@@ -31461,6 +34989,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "%@ : %lld"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%@: %lld"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%@: %lld"
           }
         }
       }
@@ -31569,6 +35109,18 @@
             "state": "translated",
             "value": "Tes dépassements : %lld. Ami : %lld"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Senin sollamaların: %lld. Arkadaşın: %lld"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Twoje wyprzedzenia: %lld. Znajomy: %lld"
+          }
         }
       }
     },
@@ -31675,6 +35227,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tes dépassements : %lld. Ami : %lld"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Senin sollamaların: %lld. Arkadaşın: %lld"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Twoje wyprzedzenia: %lld. Znajomy: %lld"
           }
         }
       }
@@ -31783,6 +35347,18 @@
             "state": "translated",
             "value": "En attente que ton ami termine..."
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Arkadaşının bitirmesi bekleniyor..."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Czekamy, aż znajomy skończy..."
+          }
         }
       }
     },
@@ -31889,6 +35465,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "En attente de ton ami..."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Arkadaşın bekleniyor..."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Czekamy na znajomego..."
           }
         }
       }
@@ -31997,6 +35585,18 @@
             "state": "translated",
             "value": "Tes dépassements : %lld"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sollamaların: %lld"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Twoje wyprzedzenia: %lld"
+          }
         }
       }
     },
@@ -32103,6 +35703,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Toi : %lld"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sen: %lld"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ty: %lld"
           }
         }
       }
@@ -32211,6 +35823,18 @@
             "state": "translated",
             "value": "Affiche le classement Game Center"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Game Center liderlik tablosunu gösterir"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pokazuje ranking Game Center"
+          }
         }
       }
     },
@@ -32317,6 +35941,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Connecte-toi à Game Center pour voir le classement."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Liderlik tablosunu görmek için Game Center'a giriş yap."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Zaloguj się do Game Center, aby zobaczyć ranking."
           }
         }
       }
@@ -32425,6 +36061,18 @@
             "state": "translated",
             "value": "Hey Ho!"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Hey Ho!"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Hej ho!"
+          }
         }
       }
     },
@@ -32531,6 +36179,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Hey Ho! La vitesse augmente !"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Hey Ho! Hız artıyor!"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Hej ho! Prędkość rośnie!"
           }
         }
       }
@@ -32639,6 +36299,18 @@
             "state": "translated",
             "value": "La vitesse augmente !"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Hız artıyor!"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Prędkość rośnie!"
+          }
         }
       }
     },
@@ -32744,6 +36416,18 @@
         "fr-CA": {
           "stringUnit": {
             "state": "translated",
+            "value": "Cruise"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cruise"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Cruise"
           }
         }
@@ -32853,6 +36537,18 @@
             "state": "translated",
             "value": "Rapide"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Hızlı"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Szybki"
+          }
         }
       }
     },
@@ -32958,6 +36654,18 @@
         "fr-CA": {
           "stringUnit": {
             "state": "translated",
+            "value": "Rapid"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Rapid"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "Rapid"
           }
         }
@@ -33067,6 +36775,18 @@
             "state": "translated",
             "value": "Lance la partie"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Oyunu başlatır"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Rozpoczyna grę"
+          }
         }
       }
     },
@@ -33173,6 +36893,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Toutes les voies sûres"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Tüm şeritler güvenli"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wszystkie pasy bezpieczne"
           }
         }
       }
@@ -33281,6 +37013,18 @@
             "state": "translated",
             "value": "Centre"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Orta"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Środek"
+          }
         }
       }
     },
@@ -33387,6 +37131,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Centre et droite"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Orta ve sağ"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Środek i prawy"
           }
         }
       }
@@ -33495,6 +37251,18 @@
             "state": "translated",
             "value": "Gauche"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sol"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Lewy"
+          }
         }
       }
     },
@@ -33601,6 +37369,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Gauche et centre"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sol ve orta"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Lewy i środkowy"
           }
         }
       }
@@ -33709,6 +37489,18 @@
             "state": "translated",
             "value": "Gauche et droite"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sol ve sağ"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Lewy i prawy"
+          }
         }
       }
     },
@@ -33815,6 +37607,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Variantes d'indices de voie"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Şerit ipucu çeşitleri"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Warianty wskazówek pasa"
           }
         }
       }
@@ -33923,6 +37727,18 @@
             "state": "translated",
             "value": "Droite"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sağ"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Prawy"
+          }
         }
       }
     },
@@ -34029,6 +37845,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Joue les voies sûres une note après l'autre, de gauche à droite."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Güvenli şeritleri soldan sağa, notaları art arda çalarak bildirir."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Odtwarza bezpieczne pasy kolejno, po jednej nucie od lewej do prawej."
           }
         }
       }
@@ -34137,6 +37965,18 @@
             "state": "translated",
             "value": "Joue toutes les voies sûres en même temps comme un accord."
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Tüm güvenli şeritleri aynı anda bir akor olarak çalar."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Odtwarza wszystkie bezpieczne pasy jednocześnie jako akord."
+          }
         }
       }
     },
@@ -34243,6 +38083,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Joue de courtes pulsations par position de voie ; une pulsation active indique une voie sûre."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Şerit konumlarında kısa darbeler çalar; etkin darbe güvenli şeridi gösterir."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Odtwarza krótkie impulsy w pozycjach pasów; aktywny impuls oznacza bezpieczny pas."
           }
         }
       }
@@ -34351,6 +38203,18 @@
             "state": "translated",
             "value": "Variantes d'indices de changement de voie"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Şerit değiştirme ipucu çeşitleri"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Warianty sygnału zmiany pasa"
+          }
         }
       }
     },
@@ -34457,6 +38321,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Joue un retour haptique de succès pour une voie sûre et un retour de mouvement pour une voie dangereuse."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Güvenli şeritte başarı, güvensiz şeritte hareket dokunuşu verir."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Odtwarza haptykę powodzenia dla bezpiecznego pasa i ruchu dla niebezpiecznego."
           }
         }
       }
@@ -34565,6 +38441,18 @@
             "state": "translated",
             "value": "Joue la confirmation de voie suivie d'un ton de succès ou d'échec."
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Şerit onayının ardından başarı veya başarısızlık tonu çalar."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Odtwarza potwierdzenie pasa, a następnie dźwięk powodzenia lub błędu."
+          }
         }
       }
     },
@@ -34671,6 +38559,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Joue uniquement la note de la voie de destination quand tu te déplaces à gauche ou à droite, pour la faire correspondre à l'indice audio."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sola veya sağa giderken yalnızca hedef şerit notasını çalar; böylece ses ipucuyla eşleştirebilirsin."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Podczas ruchu w lewo lub w prawo odtwarza tylko nutę docelowego pasa, aby można ją było dopasować do wskazówki dźwiękowej."
           }
         }
       }
@@ -34779,6 +38679,18 @@
             "state": "translated",
             "value": "Joue uniquement un ton de succès ou d'échec."
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Yalnızca başarı veya başarısızlık tonu çalar."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Odtwarza tylko dźwięk powodzenia lub błędu."
+          }
         }
       }
     },
@@ -34885,6 +38797,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Lire"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Oynat"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Odtwórz"
           }
         }
       }
@@ -34993,6 +38917,18 @@
             "state": "translated",
             "value": "Échec"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Başarısız"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Błąd"
+          }
         }
       }
     },
@@ -35099,6 +39035,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Sûr"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Güvenli"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Bezpiecznie"
           }
         }
       }
@@ -35207,6 +39155,18 @@
             "state": "translated",
             "value": "Voie sûre"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Güvenli şerit"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Bezpieczny pas"
+          }
         }
       }
     },
@@ -35313,6 +39273,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Dangereux"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Güvensiz"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Niebezpiecznie"
           }
         }
       }
@@ -35421,6 +39393,18 @@
             "state": "translated",
             "value": "Voie dangereuse"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Güvensiz şerit"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Niebezpieczny pas"
+          }
         }
       }
     },
@@ -35527,6 +39511,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tutoriel des indices audio"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ses ipucu öğreticisi"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Samouczek wskazówek dźwiękowych"
           }
         }
       }
@@ -35635,6 +39631,18 @@
             "state": "translated",
             "value": "%@ configuré"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%@ yapılandırıldı"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Skonfigurowano: %@"
+          }
         }
       }
     },
@@ -35741,6 +39749,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tutoriel"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Öğretici"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Samouczek"
           }
         }
       }
@@ -35849,6 +39869,18 @@
             "state": "translated",
             "value": "Tutoriel"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Öğretici"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Samouczek"
+          }
         }
       }
     },
@@ -35955,6 +39987,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Mode de retour audio"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sesli geri bildirim modu"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Tryb informacji dźwiękowej"
           }
         }
       }
@@ -36063,6 +40107,18 @@
             "state": "translated",
             "value": "Description"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Açıklama"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Opis"
+          }
         }
       }
     },
@@ -36169,6 +40225,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Indice de changement de voie"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Şerit değiştirme ipucu"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sygnał zmiany pasa"
           }
         }
       }
@@ -36277,6 +40345,18 @@
             "state": "translated",
             "value": "Retour d'avertissement d'accélération"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Hız artışı uyarı geri bildirimi"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ostrzeżenie o wzroście prędkości"
+          }
         }
       }
     },
@@ -36383,6 +40463,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Définir %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%@ olarak ayarla"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ustaw: %@"
           }
         }
       }
@@ -36491,6 +40583,18 @@
             "state": "translated",
             "value": "Annonce l'accélération avec VoiceOver."
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Hız artışını VoiceOver ile duyurur."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ogłasza wzrost prędkości przez VoiceOver."
+          }
         }
       }
     },
@@ -36597,6 +40701,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Joue un retour haptique d'avertissement avant l'accélération."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Hız artışından önce uyarı dokunuşu verir."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Odtwarza ostrzegawczą haptykę przed wzrostem prędkości."
           }
         }
       }
@@ -36705,6 +40821,18 @@
             "state": "translated",
             "value": "Ne joue aucun avertissement d'accélération."
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Hız artışından önce uyarı vermez."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Nie odtwarza ostrzeżenia o wzroście prędkości."
+          }
         }
       }
     },
@@ -36811,6 +40939,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Joue un court avertissement ascendant de trois notes."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Kısa, yükselen üç notalı bir uyarı sesi çalar."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Odtwarza krótki, rosnący, trzytonowy sygnał ostrzegawczy."
           }
         }
       }
@@ -36919,6 +41059,18 @@
             "state": "translated",
             "value": "RetroRapid! est un jeu de course à 3 voies. Déplace-toi à gauche ou à droite entre les trois positions. Nous jouons des sons pour indiquer quelles voies sont sûres, et tu dois te déplacer rapidement vers une voie sûre pour dépasser les voitures et éviter les crashs."
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "RetroRapid!, üç şeritli bir yarış oyunudur. Üç konum arasında sola veya sağa git. Hangi şeritlerin güvenli olduğunu seslerle bildiririz; arabaları sollamak ve çarpmamak için hızla güvenli bir şeride geçmelisin."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "RetroRapid! to trzytorowa gra wyścigowa. Poruszaj się w lewo lub w prawo między trzema pozycjami. Dźwięki wskazują bezpieczne pasy; szybko wjedź na jeden z nich, aby wyprzedzać samochody i unikać zderzeń."
+          }
         }
       }
     },
@@ -37024,6 +41176,18 @@
         "fr-CA": {
           "stringUnit": {
             "state": "translated",
+            "value": "x%lld"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "x%lld"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
             "value": "x%lld"
           }
         }
@@ -37133,6 +41297,18 @@
             "state": "translated",
             "value": "Commandes tactiles"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Dokunma Kontrolleri"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sterowanie Dotykiem"
+          }
         }
       }
     },
@@ -37239,6 +41415,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Commandes glisser"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Kaydırma Kontrolleri"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sterowanie Gestem"
           }
         }
       }
@@ -37347,6 +41535,18 @@
             "state": "translated",
             "value": "Commandes clavier"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Klavye Kontrolleri"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sterowanie Klawiaturą"
+          }
         }
       }
     },
@@ -37453,6 +41653,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Commandes VoiceOver"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "VoiceOver Kontrolleri"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sterowanie VoiceOver"
           }
         }
       }
@@ -37561,6 +41773,18 @@
             "state": "translated",
             "value": "Commandes Digital Crown"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Digital Crown Kontrolleri"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sterowanie Digital Crown"
+          }
         }
       }
     },
@@ -37667,6 +41891,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Commandes manette"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Oyun Kumandası Kontrolleri"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sterowanie Kontrolerem"
           }
         }
       }
@@ -37775,6 +42011,18 @@
             "state": "translated",
             "value": "Tu as terminé une partie avec les commandes tactiles."
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Dokunma kontrollerini kullanarak bir yarış tamamladın."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ukończono przejazd przy użyciu sterowania dotykiem."
+          }
         }
       }
     },
@@ -37881,6 +42129,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tu as terminé une partie avec les commandes glisser."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Kaydırma kontrollerini kullanarak bir yarış tamamladın."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ukończono przejazd przy użyciu gestów przesunięcia."
           }
         }
       }
@@ -37989,6 +42249,18 @@
             "state": "translated",
             "value": "Tu as terminé une partie avec le clavier."
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Klavye kontrollerini kullanarak bir yarış tamamladın."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ukończono przejazd przy użyciu klawiatury."
+          }
         }
       }
     },
@@ -38095,6 +42367,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tu as terminé une partie avec VoiceOver."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "VoiceOver kontrollerini kullanarak bir yarış tamamladın."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ukończono przejazd przy użyciu VoiceOver."
           }
         }
       }
@@ -38203,6 +42487,18 @@
             "state": "translated",
             "value": "Tu as terminé une partie avec la Digital Crown."
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Digital Crown kontrollerini kullanarak bir yarış tamamladın."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ukończono przejazd przy użyciu Digital Crown."
+          }
         }
       }
     },
@@ -38309,6 +42605,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tu as terminé une partie avec une manette."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Oyun Kumandası kontrollerini kullanarak bir yarış tamamladın."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ukończono przejazd przy użyciu kontrolera."
           }
         }
       }
@@ -38417,6 +42725,18 @@
             "state": "translated",
             "value": "Overlander %@"
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Yol Fatihi %@"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pogromca Dróg %@"
+          }
         }
       }
     },
@@ -38523,6 +42843,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tu as dépassé %@ voitures en une partie."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Tek yarışta %@ araba solladın."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wyprzedzono %@ samochodów w jednym przejeździe."
           }
         }
       }
@@ -38631,6 +42963,18 @@
             "state": "translated",
             "value": "Tu as dépassé %@ voitures au total."
           }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Toplam %@ araba solladın."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Łącznie wyprzedzono %@ samochodów."
+          }
         }
       }
     },
@@ -38737,6 +43081,18 @@
           "stringUnit": {
             "state": "translated",
             "value": "Tu as terminé une partie pendant la semaine GAAD avec une technologie d'assistance."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "GAAD haftasında destek teknolojisi kullanarak bir yarış tamamladın."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ukończono przejazd podczas tygodnia GAAD przy użyciu technologii asystującej."
           }
         }
       }

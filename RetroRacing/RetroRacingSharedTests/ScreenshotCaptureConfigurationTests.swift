@@ -34,6 +34,8 @@ final class ScreenshotCaptureConfigurationTests: XCTestCase {
         XCTAssertEqual(ScreenshotCaptureLocaleCatalog.inAppLanguageIdentifier(for: "zh-Hans"), "zh-Hans")
         XCTAssertEqual(ScreenshotCaptureLocaleCatalog.inAppLanguageIdentifier(for: "fr-CA"), "fr-CA")
         XCTAssertEqual(ScreenshotCaptureLocaleCatalog.inAppLanguageIdentifier(for: "fr-FR"), "fr")
+        XCTAssertEqual(ScreenshotCaptureLocaleCatalog.inAppLanguageIdentifier(for: "tr"), "tr")
+        XCTAssertEqual(ScreenshotCaptureLocaleCatalog.inAppLanguageIdentifier(for: "pl"), "pl")
     }
 
     func testGivenLanguageListWhenParsingCaptureLocaleThenStripsParentheses() {
@@ -170,17 +172,28 @@ final class ScreenshotCaptureConfigurationTests: XCTestCase {
     }
 
     func testGivenWatchSlideFixturesWhenReadingRoutesThenMatchesStoryboard() {
+        XCTAssertEqual(WatchScreenshotSlideFixture.fixture(for: 0), .hookGameplay)
+        XCTAssertEqual(WatchScreenshotSlideFixture.fixture(for: 1), .gameOver)
+        XCTAssertEqual(WatchScreenshotSlideFixture.fixture(for: 2), .actionGameplay)
+        XCTAssertEqual(WatchScreenshotSlideFixture.fixture(for: 3), .achievementUnlock)
+        XCTAssertEqual(WatchScreenshotSlideFixture.fixture(for: 4), .themeGameplay)
+        XCTAssertEqual(WatchScreenshotSlideFixture.fixture(for: 5), .menu)
+        XCTAssertEqual(WatchScreenshotSlideFixture.fixture(for: 6), .settings)
         XCTAssertEqual(WatchScreenshotSlideFixture.hookGameplay.route, .gameplay)
         XCTAssertEqual(WatchScreenshotSlideFixture.menu.route, .menu)
         XCTAssertEqual(WatchScreenshotSlideFixture.actionGameplay.route, .gameplay)
         XCTAssertEqual(WatchScreenshotSlideFixture.settings.route, .settings)
+        XCTAssertEqual(WatchScreenshotSlideFixture.gameOver.route, .gameOver)
+        XCTAssertEqual(WatchScreenshotSlideFixture.achievementUnlock.route, .achievementUnlock)
         XCTAssertEqual(WatchScreenshotSlideFixture.hookGameplay.layout?.score, GameScreenshotLayout.hookGameplay.score)
         XCTAssertEqual(WatchScreenshotSlideFixture.actionGameplay.layout?.score, GameScreenshotLayout.actionGameplay.score)
         XCTAssertNil(WatchScreenshotSlideFixture.menu.layout)
+        XCTAssertNil(WatchScreenshotSlideFixture.gameOver.layout)
+        XCTAssertNil(WatchScreenshotSlideFixture.achievementUnlock.layout)
         XCTAssertEqual(WatchScreenshotSlideFixture.hookGameplay.themeID, .pocket)
         XCTAssertEqual(WatchScreenshotSlideFixture.themeGameplay.themeID, .lcd)
         XCTAssertTrue(WatchScreenshotSlideFixture.settings.presentsSettingsSheet)
-        XCTAssertEqual(WatchScreenshotSlideFixture.slideCount, 5)
+        XCTAssertEqual(WatchScreenshotSlideFixture.slideCount, 7)
     }
 
     func testGivenScreenshotCapturePreferencesWhenReadingGameplayDefaultsThenBigCarsStayOff() {

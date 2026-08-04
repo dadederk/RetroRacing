@@ -2,11 +2,11 @@
 
 Part of [App Store docs hub](../README.md).
 
-Last updated: 2026-07-26
+Last updated: 2026-08-05
 
-**Status:** `DRAFT_APPLIED` — see field-level status in `12-validation-results.md`.
+**Status:** `PLANNED` — see field-level status in `12-validation-results.md`.
 
-**Canonical source:** [metadata/retrorapid-v1.5.json](../metadata/retrorapid-v1.5.json). Do not edit generated copy directly.
+**Canonical source:** [metadata/retrorapid-v1.6.json](../metadata/retrorapid-v1.6.json). Do not edit generated copy directly.
 
 **See also:** [Strategy](04-metadata-strategy.md) · [Validation](12-validation-results.md) · [Apply script](../../Scripts/README.md)
 
@@ -34,6 +34,8 @@ Last updated: 2026-07-26
 | pt-PT | `RetroRapid: Corrida Arcade` | 26/30 | `Desvie o trânsito em 3 faixas` | 29/30 | `ultrapassagem,reflexos,classificacao,comando,relogio,infinito,offline,ipad,ecra,partida,ranking,fast` | 100/100 |
 | zh-Hant | `RetroRapid: 復古街機賽車` | 18/30 | `三線道閃避無盡交通` | 9/30 | `超車競賽,反射神經,離線遊玩,觸覺回饋,控制器,AppleWatch,成就解鎖,排行榜,race` | 100/100 |
 | zh-Hans | `RetroRapid: 复古街机赛车` | 18/30 | `三车道闪避无尽车流` | 9/30 | `超车赛,反应力,离线玩,触感反馈,手柄支持,无障碍,分数榜,成就榜,智能手表` | 98/100 |
+| tr | `RetroRapid: Retro Yarış Oyunu` | 29/30 | `3 Şeritte Trafikten Kaç` | 23/30 | `araba,skor,refleks,çevrimdışı,erişilebilir,liderlik,kontrol,nostalji,piksel,hız,arkadaş` | 94/100 |
+| pl | `RetroRapid: Wyścigi Retro` | 25/30 | `Omijaj Ruch na 3 Pasach` | 23/30 | `samochód,wynik,refleks,offline,dostępność,ranking,kontroler,nostalgia,prędkość,znajomi` | 93/100 |
 
 Notes:
 
@@ -63,6 +65,8 @@ Notes:
 | pt-PT | `Corridas com amigos grátis no SharePlay no iPhone e iPad. Desvie o trânsito num arcade retrô de 3 faixas, com VoiceOver e Partidas Ilimitadas.` | 142/170 |
 | zh-Hant | `在 iPhone 與 iPad 上透過 SharePlay 免費與好友競賽。在三線道復古街機中閃避車流，挑戰最高分。` | 58/170 |
 | zh-Hans | `在 iPhone 与 iPad 上通过 SharePlay 免费与好友竞赛。三车道复古街机闪避车流，支持 VoiceOver，可解锁无限畅玩。` | 71/170 |
+| tr | `iPhone, iPad ve Mac'te SharePlay ile arkadaşlarınla ücretsiz yarış. Üç şeritli retro arcade trafikten kaç, rekorunu geliştir.` | 125/170 |
+| pl | `Ścigaj się ze znajomymi przez SharePlay na iPhonie, iPadzie i Macu. Omijaj ruch w trzytorowej grze retro i pobijaj rekordy.` | 123/170 |
 
 ## Description Candidate
 
@@ -483,6 +487,60 @@ Featured in Create with Swift, Weekly Newsletter #96 (Indie App of the Week)：
 
 Count: 464/4000 characters.
 
+### tr
+
+```text
+RetroRapid!, kısa oyunlar ve yüksek skor peşinde koşmak için tasarlanmış, hızlı tempolu üç şeritli bir arcade yarış oyunudur.
+
+Trafikten kaç ve hız arttıkça dayanmaya çalış. Kontrolleri öğrenmek kolay, ustalaşmak zordur; bu yüzden her yarış reflekslerini sınar.
+
+Oyuncular neden geri dönüyor:
+- Bir el daha dedirten hızlı arcade oynanışı
+- iPhone, iPad ve Mac'te iki kişilik canlı SharePlay yarışları
+- Arkadaş yarışları ücretsizdir ve günlük oyun hakkını kullanmaz
+- Game Center liderlik tabloları, başarımlar ve arkadaş işaretleri
+- iPhone, iPad, Mac ve Apple Watch'ta oyna
+- Dokunma, kaydırma, klavye, Digital Crown ve desteklenen kumandalar
+- VoiceOver, ses ipuçları, dokunsal geri bildirim, büyük metin, yüksek kontrast ve Hareketi Azalt desteği
+- Hızlı yarışlar için çevrimdışı çalışır
+- Her gün ücretsiz oyna veya tek seferlik satın alımla Sınırsız Oyun'u aç; abonelik yok
+- Veri toplama yok
+
+Çarp, yeniden başla ve en iyi skorunu geç.
+
+Create with Swift, Weekly Newsletter #96'da Haftanın Bağımsız Uygulaması olarak öne çıkarıldı:
+"Nostalji ve sıkı oynanışın ötesinde gerçekten öne çıkan şey erişilebilirlik."
+```
+
+Count: 1117/4000 characters.
+
+### pl
+
+```text
+RetroRapid! to szybka, trzytorowa gra wyścigowa w stylu arcade, stworzona do krótkich sesji i bicia rekordów.
+
+Omijaj ruch i wytrzymaj, gdy tempo rośnie. Sterowanie jest łatwe do opanowania, ale trudne do mistrzowskiego wykorzystania, więc każdy przejazd sprawdza refleks.
+
+Dlaczego gracze wracają:
+- Szybka rozgrywka arcade, która zachęca do jeszcze jednej próby
+- Wyścigi SharePlay na żywo dla dwóch osób na iPhonie, iPadzie i Macu
+- Wyścigi ze znajomymi są bezpłatne i nie zużywają dziennych prób
+- Rankingi Game Center, osiągnięcia i znaczniki znajomych
+- Graj na iPhonie, iPadzie, Macu i Apple Watch
+- Dotyk, gesty, klawiatura, Digital Crown i obsługiwane kontrolery
+- VoiceOver, wskazówki dźwiękowe, haptyka, większy tekst, wysoki kontrast i Ogranicz ruch
+- Gra offline, idealna na szybkie wyścigi w każdej chwili
+- Graj codziennie za darmo lub odblokuj Nielimitowane Gry jednorazowym zakupem; bez subskrypcji
+- Bez zbierania danych
+
+Rozbij się, zacznij od nowa i pobij swój rekord.
+
+Wyróżniono w Create with Swift, Weekly Newsletter #96 jako niezależną aplikację tygodnia:
+"Poza nostalgią i dopracowaną rozgrywką naprawdę wyróżnia się dostępność."
+```
+
+Count: 1154/4000 characters.
+
 ## What's New Candidate
 
 Use this shape for the next bug-fix or polish release if there is no larger feature to lead with.
@@ -490,225 +548,273 @@ Use this shape for the next bug-fix or polish release if there is no larger feat
 ### en-US / en-GB / en-AU / en-CA
 
 ```text
-Race friends live with SharePlay on iPhone and iPad: synchronized countdowns, shared win/loss/tie results, and free rematches that wait until both players are ready.
+Discover two new visual styles: bold 8-Bit and richly detailed 16-Bit. The new Style Gallery makes it easy to preview every theme before choosing your favorite.
 
-This update adds full in-app localization for German, Dutch, Italian, French (France), French (Canada), Japanese, Korean, Brazilian Portuguese, European Portuguese, Traditional Chinese, and Simplified Chinese.
+SharePlay friend races now work on Mac too, alongside iPhone and iPad.
 
-We've also polished settings, audio, and stability across iPhone, iPad, Mac, and Apple Watch.
+This update also improves performance, refines landscape layouts, polishes menus and game-over screens, and makes cars and helmets clearer across themes.
 
-If you're catching up: recent releases added Game Center achievements, friend markers during races, and shareable result snapshots, along with accessibility improvements.
+RetroRapid! is now fully localized in Turkish and Polish.
 
 Thanks for racing with us.
 ```
 
-Count: 671/4000 characters.
+Count: 474/4000 characters.
 
 ### de-DE
 
 ```text
-Rase live mit Freunden per SharePlay auf iPhone und iPad: synchronisierte Countdowns, gemeinsame Sieg-/Niederlage-/Unentschieden-Ergebnisse und kostenlose Rematches, die warten, bis beide Spieler bereit sind.
+Entdecke zwei neue Grafikstile: markantes 8-Bit und detailreiches 16-Bit. In der neuen Stilgalerie kannst du jedes Theme ansehen, bevor du deinen Favoriten auswählst.
 
-Dieses Update ergänzt die vollständige App-Lokalisierung um Deutsch, Niederländisch, Italienisch, Französisch, Französisch (Kanada), Japanisch, Koreanisch, brasilianisches Portugiesisch, europäisches Portugiesisch, traditionelles Chinesisch und vereinfachtes Chinesisch.
+SharePlay-Rennen mit Freunden funktionieren jetzt auch auf dem Mac sowie auf iPhone und iPad.
 
-Außerdem haben wir Einstellungen, Audio und Stabilität auf iPhone, iPad, Mac und Apple Watch verbessert.
+Dieses Update verbessert außerdem die Leistung und Querformat-Layouts, verfeinert Menüs und Game-Over-Bildschirme und macht Autos und Helme in allen Themes deutlicher.
 
-Falls du aufholst: In den letzten Versionen kamen Game-Center-Erfolge, Freundesmarker auf der Strecke und teilbare Ergebnis-Screenshots hinzu, dazu Barrierefreiheitsverbesserungen.
+RetroRapid! ist jetzt vollständig auf Türkisch und Polnisch lokalisiert.
 
 Danke, dass du mit uns fährst.
 ```
 
-Count: 800/4000 characters.
+Count: 536/4000 characters.
 
 ### nl-NL
 
 ```text
-Race live met vrienden via SharePlay op iPhone en iPad: gesynchroniseerde countdowns, gedeelde winst/verlies/gelijkspel-resultaten en gratis rematches die wachten tot beide spelers klaar zijn.
+Ontdek twee nieuwe visuele stijlen: krachtige 8-Bit en rijk gedetailleerde 16-Bit. In de nieuwe Stijlgalerij kun je elk thema bekijken voordat je je favoriet kiest.
 
-Deze update voegt volledige app-localisatie toe voor Duits, Nederlands, Italiaans, Frans (Frankrijk), Frans (Canada), Japans, Koreaans, Braziliaans Portugees, Europees Portugees, Traditioneel Chinees en Vereenvoudigd Chinees.
+SharePlay-races met vrienden werken nu ook op de Mac, naast iPhone en iPad.
 
-We hebben ook instellingen, audio en stabiliteit verbeterd op iPhone, iPad, Mac en Apple Watch.
+Deze update verbetert ook de prestaties en liggende lay-outs, verfijnt menu's en game-over-schermen en maakt auto's en helmen duidelijker in alle thema's.
 
-Als je bij bent: recente releases voegden Game Center-prestaties, vriendenmarkeringen tijdens races en deelbare resultaat-screenshots toe, plus toegankelijkheidsverbeteringen.
+RetroRapid! is nu volledig gelokaliseerd in het Turks en Pools.
 
 Bedankt dat je met ons rijdt.
 ```
 
-Count: 724/4000 characters.
+Count: 493/4000 characters.
 
 ### it
 
 ```text
-Corri in diretta con gli amici tramite SharePlay su iPhone e iPad: countdown sincronizzati, risultati condivisi di vittoria/sconfitta/parità e rematch gratuiti che aspettano che entrambi i giocatori siano pronti.
+Scopri due nuovi stili visivi: un deciso 8-Bit e un ricco 16-Bit. La nuova Galleria stili permette di vedere ogni tema prima di scegliere il tuo preferito.
 
-Questo aggiornamento aggiunge la localizzazione completa dell'app per tedesco, olandese, italiano, francese (Francia), francese (Canada), giapponese, coreano, portoghese brasiliano, portoghese europeo, cinese tradizionale e cinese semplificato.
+Le corse SharePlay con gli amici ora funzionano anche su Mac, oltre che su iPhone e iPad.
 
-Abbiamo anche rifinito impostazioni, audio e stabilità su iPhone, iPad, Mac e Apple Watch.
+Questo aggiornamento migliora anche prestazioni e layout orizzontali, rifinisce menu e schermate di fine partita e rende auto e caschi più chiari in tutti i temi.
 
-Se ti stai aggiornando: le versioni recenti hanno aggiunto obiettivi Game Center, marcatori amici in gara e screenshot condivisibili dei risultati, oltre a miglioramenti di accessibilità.
+RetroRapid! è ora completamente localizzato in turco e polacco.
 
 Grazie per correre con noi.
 ```
 
-Count: 768/4000 characters.
+Count: 504/4000 characters.
 
 ### fr-FR
 
 ```text
-Course en direct avec tes amis via SharePlay sur iPhone et iPad : comptes à rebours synchronisés, résultats victoire/défaite/égalité partagés et revanches gratuites qui attendent que les deux joueurs soient prêts.
+Découvre deux nouveaux styles visuels : un 8 bits audacieux et un 16 bits riche en détails. La nouvelle galerie de styles permet de prévisualiser chaque thème avant de choisir ton préféré.
 
-Cette mise à jour ajoute la localisation complète de l'app en allemand, néerlandais, italien, français (France), français canadien, japonais, coréen, portugais brésilien, portugais européen, chinois traditionnel et chinois simplifié.
+Les courses SharePlay entre amis fonctionnent maintenant aussi sur Mac, en plus de l'iPhone et de l'iPad.
 
-Nous avons aussi peaufiné les réglages, l'audio et la stabilité sur iPhone, iPad, Mac et Apple Watch.
+Cette mise à jour améliore aussi les performances et les dispositions en mode paysage, peaufine les menus et les écrans de fin de partie, et rend les voitures et les casques plus nets dans tous les thèmes.
 
-Si tu rattrapes le train : les versions récentes ont ajouté des succès Game Center, des marqueurs d'amis en course et des captures de résultats partageables, ainsi que des améliorations d'accessibilité.
+RetroRapid! est maintenant entièrement localisé en turc et en polonais.
 
 Merci de courir avec nous.
 ```
 
-Count: 783/4000 characters.
+Count: 603/4000 characters.
 
 ### fr-CA
 
 ```text
-Coursez en direct avec vos amis via SharePlay sur iPhone et iPad : comptes à rebours synchronisés, résultats victoire/défaite/égalité partagés et revanches gratuites qui attendent que les deux joueurs soient prêts.
+Découvrez deux nouveaux styles visuels : un style 8 bits audacieux et un style 16 bits richement détaillé. La nouvelle galerie de styles permet de prévisualiser facilement chaque thème avant de choisir votre préféré.
 
-Cette mise à jour ajoute la localisation complète de l'app en allemand, néerlandais, italien, français (France), français canadien, japonais, coréen, portugais brésilien, portugais européen, chinois traditionnel et chinois simplifié.
+Les courses SharePlay entre amis fonctionnent maintenant aussi sur Mac, en plus de l'iPhone et de l'iPad.
 
-Nous avons aussi peaufiné les réglages, l'audio et la stabilité sur iPhone, iPad, Mac et Apple Watch.
+Cette mise à jour améliore aussi les performances et les dispositions en mode paysage, peaufine les menus et les écrans de fin de partie, et rend les voitures et les casques plus nets dans tous les thèmes.
 
-Si vous rattrapez le train : les versions récentes ont ajouté des succès Game Center, des marqueurs d'amis en course et des captures de résultats partageables, ainsi que des améliorations d'accessibilité.
+RetroRapid! est maintenant entièrement localisé en turc et en polonais.
 
 Merci de courir avec nous.
 ```
 
-Count: 786/4000 characters.
+Count: 631/4000 characters.
 
-### es-ES / es-MX
+### es-ES
 
 ```text
-Corre en vivo con amigos gracias a SharePlay en iPhone e iPad: cuenta atrás sincronizada, mismos resultados de victoria, derrota o empate y revanchas gratis que esperan a que ambos jugadores estén listos.
+Descubre dos nuevos estilos visuales: un atrevido 8-Bit y un detallado 16-Bit. La nueva Galería de estilos te permite ver cada tema antes de elegir tu favorito.
 
-Esta actualización añade la localización completa de la app para alemán, neerlandés, italiano, francés (Francia), francés de Canadá, japonés, coreano, portugués de Brasil, portugués europeo, chino tradicional y chino simplificado.
+Las carreras SharePlay con amigos ahora también funcionan en Mac, además de iPhone y iPad.
 
-También hemos pulido ajustes, audio y estabilidad en iPhone, iPad, Mac y Apple Watch.
+Esta actualización también mejora el rendimiento y los diseños horizontales, pule los menús y las pantallas de fin de partida y hace que los coches y los cascos se vean más claros en todos los temas.
 
-Si te pones al día: versiones recientes añadieron logros de Game Center, marcadores de amigos en pista y capturas de resultados para compartir, junto con mejoras de accesibilidad.
+RetroRapid! ya está completamente localizado en turco y polaco.
 
 Gracias por correr con nosotros.
 ```
 
-Count: 738/4000 characters.
+Count: 552/4000 characters.
 
 ### ca
 
 ```text
-Corre en viu amb amics amb SharePlay a iPhone i iPad: compte enrere sincronitzat, mateixos resultats de victòria, derrota o empat i revanxes gratuïtes que esperen que els dos jugadors estiguen llestos.
+Descobrix dos estils visuals nous: un 8-Bit atrevit i un 16-Bit ple de detalls. La nova Galeria d'estils et permet vore cada tema abans de triar el teu preferit.
 
-Aquesta actualització afig la localització completa de l'app per a alemany, neerlandés, italià, francés (França), francés del Canadà, japonés, coreà, portugués del Brasil, portugués europeu, xinés tradicional i xinés simplificat.
+Les carreres SharePlay amb amistats ara també funcionen a Mac, a més d'iPhone i iPad.
 
-També hem polit ajustos, àudio i estabilitat a iPhone, iPad, Mac i Apple Watch.
+Aquesta actualització també millora el rendiment i els dissenys horitzontals, polix els menús i les pantalles de final de partida i fa que els cotxes i els cascos es vegen més clars en tots els temes.
 
-Si et poses al dia: versions recents van afegir assoliments de Game Center, marcadors d'amistats en pista i captures de resultats per a compartir, juntament amb millores d'accessibilitat.
+RetroRapid! ja està completament localitzat en turc i polonés.
 
 Gràcies per córrer amb nosaltres.
 ```
 
-Count: 737/4000 characters.
+Count: 549/4000 characters.
+
+### es-MX
+
+```text
+Descubre dos nuevos estilos visuales: un atrevido 8-Bit y un detallado 16-Bit. La nueva Galería de estilos te permite ver cada tema antes de elegir tu favorito.
+
+Las carreras SharePlay con amigos ahora también funcionan en Mac, además de iPhone y iPad.
+
+Esta actualización también mejora el rendimiento y los diseños horizontales, pule los menús y las pantallas de fin de partida y hace que los carros y los cascos se vean más claros en todos los temas.
+
+RetroRapid! ya está completamente localizado en turco y polaco.
+
+Gracias por correr con nosotros.
+```
+
+Count: 552/4000 characters.
 
 ### ja
 
 ```text
-iPhoneとiPadでSharePlayのライブフレンドレース。同期カウントダウン、勝敗/引き分けの共有結果、両者の準備を待つ無料リマッチ。
+新しい2つのビジュアルスタイル、鮮やかな8-Bitと細部まで豊かな16-Bitを追加しました。新しいスタイルギャラリーでは、お気に入りを選ぶ前にすべてのテーマをプレビューできます。
 
-このアップデートで、ドイツ語、オランダ語、イタリア語、フランス語、カナダフランス語、日本語、韓国語、ブラジルポルトガル語、ヨーロッパポルトガル語、繁体字中国語、簡体字中国語のアプリ内ローカライズに完全対応しました。
+SharePlayのフレンドレースがiPhoneとiPadに加えてMacでも楽しめるようになりました。
 
-iPhone、iPad、Mac、Apple Watch向けに設定、音声、安定性も改善しました。
+パフォーマンスと横向きレイアウトを改善し、メニューとゲームオーバー画面を磨き、すべてのテーマで車とヘルメットをより見やすくしました。
 
-最近の更新ではGame Center実績、レース中のフレンドマーカー、結果スナップショットの共有、アクセシビリティ改善が追加されています。
+RetroRapid!がトルコ語とポーランド語に完全対応しました。
 
 一緒にレースしてくれてありがとう。
 ```
 
-Count: 319/4000 characters.
+Count: 265/4000 characters.
 
 ### ko
 
 ```text
-iPhone과 iPad에서 SharePlay 라이브 친구 레이스, 동기화된 카운트다운, 승/패/무승부 공유 결과, 두 플레이어 준비를 기다리는 무료 리매치.
+선명한 8-Bit와 풍부한 디테일의 16-Bit, 두 가지 새로운 비주얼 스타일을 만나 보세요. 새로운 스타일 갤러리에서 좋아하는 테마를 고르기 전에 모두 미리 볼 수 있어요.
 
-이번 업데이트로 독일어, 네덜란드어, 이탈리아어, 프랑스어, 캐나다 프랑스어, 일본어, 한국어, 브라질 포르투갈어, 유럽 포르투갈어, 중국어 번체, 중국어 간체 앱 현지화가 추가되었습니다.
+SharePlay 친구 레이스를 이제 iPhone과 iPad뿐 아니라 Mac에서도 즐길 수 있어요.
 
-iPhone, iPad, Mac, Apple Watch용 설정, 오디오, 안정성도 다듬었습니다.
+성능과 가로 레이아웃을 개선하고, 메뉴와 게임 오버 화면을 다듬고, 모든 테마의 자동차와 헬멧을 더 선명하게 만들었어요.
 
-최근 업데이트에는 Game Center 업적, 레이스 중 친구 마커, 결과 스냅샷 공유, 접근성 개선이 추가되었습니다.
+RetroRapid!가 터키어와 폴란드어를 완벽하게 지원해요.
 
 함께 레이스해 주셔서 감사합니다.
 ```
 
-Count: 337/4000 characters.
+Count: 280/4000 characters.
 
 ### pt-BR
 
 ```text
-Corra ao vivo com amigos no SharePlay no iPhone e iPad: contagem regressiva sincronizada, mesmos resultados de vitória, derrota ou empate e revanches grátis que esperam os dois jogadores ficarem prontos.
+Descubra dois novos estilos visuais: um 8-Bit marcante e um 16-Bit cheio de detalhes. A nova Galeria de Estilos permite ver cada tema antes de escolher o seu favorito.
 
-Esta atualização adiciona localização completa do app para alemão, neerlandês, italiano, francês (França), francês do Canadá, japonês, coreano, português do Brasil, português europeu, chinês tradicional e chinês simplificado.
+As corridas SharePlay com amigos agora também funcionam no Mac, além do iPhone e iPad.
 
-Também polimos ajustes, áudio e estabilidade no iPhone, iPad, Mac e Apple Watch.
+Esta atualização também melhora o desempenho e os layouts horizontais, refina menus e telas de fim de jogo e deixa carros e capacetes mais nítidos em todos os temas.
 
-Se você está se atualizando: versões recentes adicionaram conquistas do Game Center, marcadores de amigos na pista, capturas de resultados para compartilhar e melhorias de acessibilidade.
+RetroRapid! agora está totalmente localizado em turco e polonês.
 
 Obrigado por correr com a gente.
 ```
 
-Count: 735/4000 characters.
+Count: 522/4000 characters.
 
 ### pt-PT
 
 ```text
-Corra ao vivo com amigos no SharePlay no iPhone e iPad: contagem decrescente sincronizada, mesmos resultados de vitória, derrota ou empate e revanches grátis que esperam que os dois jogadores fiquem prontos.
+Descubra dois novos estilos visuais: um 8-Bit marcante e um 16-Bit cheio de detalhes. A nova Galeria de Estilos permite ver cada tema antes de escolher o seu favorito.
 
-Esta atualização adiciona localização completa da app para alemão, neerlandês, italiano, francês (França), francês do Canadá, japonês, coreano, português do Brasil, português europeu, chinês tradicional e chinês simplificado.
+As corridas SharePlay com amigos agora também funcionam no Mac, além do iPhone e iPad.
 
-Também polimos definições, áudio e estabilidade no iPhone, iPad, Mac e Apple Watch.
+Esta atualização também melhora o desempenho e os esquemas horizontais, refina menus e ecrãs de fim de jogo e deixa carros e capacetes mais nítidos em todos os temas.
 
-Se está a atualizar: versões recentes adicionaram conquistas do Game Center, marcadores de amigos na pista, capturas de resultados para partilhar e melhorias de acessibilidade.
+RetroRapid! está agora totalmente localizado em turco e polaco.
 
 Obrigado por correr connosco.
 ```
 
-Count: 728/4000 characters.
+Count: 519/4000 characters.
 
 ### zh-Hant
 
 ```text
-在 iPhone 與 iPad 上透過 SharePlay 與好友即時競賽：同步倒數、共享勝/負/平結果，以及等待雙方都準備好的免費重賽。
+探索兩種全新視覺風格：醒目的 8-Bit 與細節豐富的 16-Bit。全新的風格藝廊讓你在選擇最愛之前預覽每個主題。
 
-此更新新增德文、荷蘭文、義大利文、法文、加拿大法文、日文、韓文、巴西葡萄牙文、歐洲葡萄牙文、繁體中文與簡體中文的完整 App 本地化。
+SharePlay 好友競賽現在除了 iPhone 與 iPad，也能在 Mac 上進行。
 
-我們也改進了 iPhone、iPad、Mac 與 Apple Watch 的設定、音效與穩定性。
+此更新也提升效能與橫向版面，改善選單和遊戲結束畫面，並讓所有主題中的車輛與頭盔更加清晰。
 
-若你剛回來：近期版本新增了 Game Center 成就、賽道上的好友標記、可分享的結果截圖，以及無障礙改進。
+RetroRapid! 現已完整支援土耳其文與波蘭文。
 
 感謝你與我們一起競速。
 ```
 
-Count: 258/4000 characters.
+Count: 193/4000 characters.
 
 ### zh-Hans
 
 ```text
-在 iPhone 与 iPad 上通过 SharePlay 与好友即时竞赛：同步倒计时、共享胜/负/平结果，以及等待双方都准备好的免费重赛。
+探索两种全新视觉风格：醒目的 8-Bit 与细节丰富的 16-Bit。全新的风格画廊让你在选择最爱之前预览每个主题。
 
-此更新新增德文、荷兰文、意大利文、法文、加拿大法文、日文、韩文、巴西葡萄牙文、欧洲葡萄牙文、繁体中文与简体中文的完整 App 本地化。
+SharePlay 好友竞赛现在除了 iPhone 与 iPad，也能在 Mac 上进行。
 
-我们也改进了 iPhone、iPad、Mac 与 Apple Watch 的设置、音效与稳定性。
+此更新也提升性能与横向布局，改进菜单和游戏结束画面，并让所有主题中的车辆与头盔更加清晰。
 
-若你刚回来：近期版本新增了 Game Center 成就、赛道上的好友标记、可分享的结果截图，以及无障碍改进。
+RetroRapid! 现已完整支持土耳其语与波兰语。
 
 感谢你与我们一起竞速。
 ```
 
-Count: 259/4000 characters.
+Count: 193/4000 characters.
+
+### tr
+
+```text
+İki yeni görsel tarzı keşfet: cesur 8-Bit ve ayrıntılı 16-Bit. Yeni Tarz Galerisi, favorini seçmeden önce her temayı kolayca önizlemeni sağlar.
+
+SharePlay arkadaş yarışları artık iPhone ve iPad'in yanı sıra Mac'te de çalışıyor.
+
+Bu güncelleme ayrıca performansı artırıyor, yatay düzenleri iyileştiriyor, menüler ile oyun sonu ekranlarını parlatıyor ve tüm temalarda arabaları ve kaskları daha belirgin hâle getiriyor.
+
+RetroRapid! artık Türkçe ve Lehçe olarak tamamen yerelleştirildi.
+
+Bizimle yarıştığın için teşekkürler.
+```
+
+Count: 522/4000 characters.
+
+### pl
+
+```text
+Odkryj dwa nowe style graficzne: wyrazisty 8-Bit i bogaty w szczegóły 16-Bit. Nowa Galeria Stylów pozwala łatwo obejrzeć każdy motyw przed wyborem ulubionego.
+
+Wyścigi SharePlay ze znajomymi działają teraz także na Macu, obok iPhone'a i iPada.
+
+Aktualizacja poprawia również wydajność, dopracowuje układy poziome, menu i ekrany końca gry oraz zwiększa czytelność samochodów i kasków we wszystkich motywach.
+
+RetroRapid! jest teraz w pełni dostępny po turecku i polsku.
+
+Dziękujemy za wspólne wyścigi.
+```
+
+Count: 500/4000 characters.
 
 _Generated by `swift run --package-path Scripts generate-metadata-docs`._

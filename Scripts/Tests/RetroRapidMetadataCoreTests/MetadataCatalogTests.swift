@@ -103,6 +103,38 @@ func givenAllowlistedShortKeywordWhenValidatingThenItIsAccepted() {
     #expect(errors.isEmpty)
 }
 
+@Test
+func givenRelativeCatalogPathWhenResolvingThenRepositoryRootIsUsed() throws {
+    let paths = try repositoryPaths()
+
+    #expect(
+        paths.catalogURL(for: "AppStore/metadata/retrorapid-v1.5.json")
+            == paths.repositoryRoot.appending(path: "AppStore/metadata/retrorapid-v1.5.json")
+    )
+}
+
+@Test
+func givenPlannedCatalogWithoutDraftsWhenApplyingThenOperationIsRejected() throws {
+    let catalog = try loadCanonicalCatalog()
+    let plannedCatalog = MetadataCatalog(
+        sourceURL: catalog.sourceURL,
+        version: catalog.version,
+        lastUpdated: catalog.lastUpdated,
+        submissionStatus: catalog.submissionStatus,
+        fieldStatuses: catalog.fieldStatuses,
+        limits: catalog.limits,
+        localeOrder: catalog.localeOrder,
+        locales: catalog.locales,
+        platformDrafts: [:],
+        allowedShortKeywords: catalog.allowedShortKeywords,
+        screenshotProfiles: catalog.screenshotProfiles
+    )
+
+    #expect(throws: MetadataToolError.self) {
+        try HelmMetadataWorkflow.validateDraftConfiguration(in: plannedCatalog)
+    }
+}
+
 private func loadCanonicalCatalog() throws -> MetadataCatalog {
     let paths = try repositoryPaths()
     return try MetadataCatalogLoader.loadValidatedCatalog(

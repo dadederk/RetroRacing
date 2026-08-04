@@ -325,7 +325,7 @@ struct ScreenshotCaptureRootView: View {
     }
 
     private var showsPlayWithFriendsOnMenu: Bool {
-        #if os(iOS)
+        #if os(iOS) || os(macOS)
         configuration.fixture.showsPlayWithFriendsOnMenu
         #else
         false

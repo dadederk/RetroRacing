@@ -23,7 +23,7 @@ enum AppStoreScreenshotCaptureConstants {
     static let activeFilePlanFileName = "retrorapid-capture-plan-active.json"
     static let filePlanFileName = "capture-plan.json"
     static let reportFileName = "capture-report.json"
-    static let watchSlideCount = 5
+    static let watchSlideCount = 7
     static let defaultMaxRetries = 3
 
     static func readinessIdentifier(slideIndex: Int) -> String {

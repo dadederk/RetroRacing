@@ -58,6 +58,6 @@ swift run --package-path Scripts apply-retrorapid-metadata --keywords-only
 swift run --package-path Scripts apply-retrorapid-metadata --include-app-info
 ```
 
-The Swift tool reads `AppStore/metadata/retrorapid-v1.5.json` and validates it before calling Helm. By default it applies only version-localization fields. Use `--keywords-only` for a keyword-only sync, `--dry-run` for a non-mutating preflight, and `--include-app-info` to sync the shared name field (now confirmed working).
+The Swift tool defaults to `AppStore/metadata/retrorapid-v1.6.json` and validates it before calling Helm. Planned catalogs may omit draft IDs for local generation, but apply and dry-run commands fail until complete iOS and macOS version-localization IDs are recorded. Use `--catalog` to select another release, `--keywords-only` for a keyword-only sync, and `--include-app-info` to sync shared name/subtitle fields.
 
 Do not submit until keyword ranks are baselined and the screenshot story is finalized.

@@ -11,14 +11,18 @@ public enum WatchScreenshotCaptureRoute: Equatable, Sendable {
     case gameplay
     case menu
     case settings
+    case gameOver
+    case achievementUnlock
 }
 
 public enum WatchScreenshotSlideFixture: Int, CaseIterable, Sendable {
     case hookGameplay = 0
-    case menu = 1
+    case gameOver = 1
     case actionGameplay = 2
-    case themeGameplay = 3
-    case settings = 4
+    case achievementUnlock = 3
+    case themeGameplay = 4
+    case menu = 5
+    case settings = 6
 
     public var slideIndex: Int { rawValue }
 
@@ -30,6 +34,10 @@ public enum WatchScreenshotSlideFixture: Int, CaseIterable, Sendable {
             return .menu
         case .settings:
             return .settings
+        case .gameOver:
+            return .gameOver
+        case .achievementUnlock:
+            return .achievementUnlock
         }
     }
 
@@ -39,7 +47,7 @@ public enum WatchScreenshotSlideFixture: Int, CaseIterable, Sendable {
             return .hookGameplay
         case .actionGameplay:
             return .actionGameplay
-        case .menu, .settings:
+        case .menu, .settings, .gameOver, .achievementUnlock:
             return nil
         }
     }
@@ -48,7 +56,7 @@ public enum WatchScreenshotSlideFixture: Int, CaseIterable, Sendable {
         switch self {
         case .themeGameplay:
             return .lcd
-        case .hookGameplay, .menu, .actionGameplay, .settings:
+        case .hookGameplay, .menu, .actionGameplay, .settings, .gameOver, .achievementUnlock:
             return .pocket
         }
     }
@@ -57,7 +65,7 @@ public enum WatchScreenshotSlideFixture: Int, CaseIterable, Sendable {
         route == .settings
     }
 
-    public static let slideCount = 5
+    public static let slideCount = 7
 
     public static func fixture(for slideIndex: Int) -> WatchScreenshotSlideFixture? {
         WatchScreenshotSlideFixture(rawValue: slideIndex)

@@ -25,13 +25,14 @@
 | `pt-PT` | European Portuguese — not a clone of `pt-BR` (`Definições`, `ecrã`, `ficheiro`, …) |
 | `zh-Hant` | Traditional Chinese (Taiwan-leaning) |
 | `zh-Hans` | Simplified Chinese — not a script-only conversion of `zh-Hant` |
+| `tr`, `pl` | Turkish and Polish — 1.6 candidates pending fluent native review |
 
 ## Source of truth
 
 | Asset | Path |
 |---|---|
 | Shared catalog | `RetroRacing/RetroRacingShared/Localizable.xcstrings` |
-| Listing metadata | `AppStore/metadata/retrorapid-v1.5.json` |
+| Listing metadata | `AppStore/metadata/retrorapid-v1.6.json` |
 | EU transcreation reference | `Scripts/Resources/eu_localizations.json` |
 | APAC/LatAm reference | `Scripts/Resources/asia_latam_localizations.json` |
 | Bundle localizations | `RetroRacing/Config/RetroRacingUniversalInfo.plist` (`CFBundleLocalizations`, `CFBundleAllowMixedLocalizations = true`) |
@@ -59,6 +60,8 @@
 | `pt-PT` | Partidas Ilimitadas | conquistas |
 | `zh-Hant` | 無限暢玩 | 成就 |
 | `zh-Hans` | 无限畅玩 | 成就 |
+| `tr` | Sınırsız Oyun | başarımlar |
+| `pl` | Nielimitowane Gry | osiągnięcia |
 
 ## Implementation
 

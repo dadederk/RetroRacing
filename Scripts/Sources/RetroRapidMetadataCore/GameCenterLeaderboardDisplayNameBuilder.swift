@@ -97,6 +97,10 @@ enum GameCenterLeaderboardDisplayNameBuilder {
             return "Melhor pontuação"
         case "zh-Hant", "zh-Hans":
             return "最高分"
+        case "tr":
+            return "En Yüksek Skor"
+        case "pl":
+            return "Najlepszy Wynik"
         default:
             return englishHighScorePhrase
         }
@@ -116,6 +120,10 @@ enum GameCenterLeaderboardDisplayNameBuilder {
             return "하이스코어"
         case "zh-Hant", "zh-Hans":
             return "高分"
+        case "tr":
+            return "Rekor"
+        case "pl":
+            return "Rekord"
         default:
             return englishHighScorePhrase
         }
@@ -149,6 +157,10 @@ enum GameCenterLeaderboardDisplayNameBuilder {
                 return "Rápido"
             case "zh-Hant", "zh-Hans":
                 return "快速"
+            case "tr":
+                return "Hızlı"
+            case "pl":
+                return "Szybki"
             default:
                 return "Fast"
             }

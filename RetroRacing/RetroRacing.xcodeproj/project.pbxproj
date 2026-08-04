@@ -830,6 +830,8 @@
 				"zh-Hant",
 				"zh-Hans",
 				"fr-CA",
+				tr,
+				pl,
 				Base,
 			);
 			mainGroup = 21DD46382F2FC956000C9FFA;

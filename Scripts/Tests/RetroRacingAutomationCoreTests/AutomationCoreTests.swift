@@ -344,9 +344,17 @@ func givenEnglishAndSpanishDerivedLocalesWhenResolvingCaptureLocalesThenUsesShar
     let studioLocales = ScreenshotStudioWorkflow.locales
     let captureLocales = ScreenshotCapturePlan.captureLocales(from: studioLocales)
 
-    #expect(captureLocales == ["en-US", "de-DE", "nl-NL", "it", "fr-FR", "fr-CA", "es-ES", "ca", "ja", "ko", "pt-BR", "pt-PT", "zh-Hant", "zh-Hans"])
+    #expect(captureLocales == ["en-US", "de-DE", "nl-NL", "it", "fr-FR", "fr-CA", "es-ES", "ca", "ja", "ko", "pt-BR", "pt-PT", "zh-Hant", "zh-Hans", "tr", "pl"])
     #expect(ScreenshotCapturePlan.sourceLocale(for: "en-GB") == "en-US")
     #expect(ScreenshotCapturePlan.sourceLocale(for: "es-MX") == "es-ES")
+}
+
+@Test
+func givenScreenshotStudioLocaleCatalogWhenCheckingLocalesThenEveryEntryIsUnique() {
+    let locales = ScreenshotStudioWorkflow.locales
+
+    #expect(locales.count == 20)
+    #expect(Set(locales).count == locales.count)
 }
 
 @Test
@@ -925,7 +933,7 @@ func givenAllPlatformsFlagWhenParsingPlansThenReturnsIphoneIpadMacWatch() throws
     #expect(plans[3].statusBarOverrideEnabled == false)
     #expect(plans[0].slideIndexes.count == 10)
     #expect(plans[2].slideIndexes.count == 9)
-    #expect(plans[3].slideIndexes.count == 5)
+    #expect(plans[3].slideIndexes.count == 7)
 }
 
 @Test
@@ -1013,6 +1021,8 @@ func givenWatchCaptureLocaleWhenMappingAppStoreLocaleThenUsesLanguageAndRegion()
     #expect(WatchScreenshotCaptureLocaleWorkflow.inAppLanguageIdentifier(for: "ja") == "ja")
     #expect(WatchScreenshotCaptureLocaleWorkflow.inAppLanguageIdentifier(for: "pt-BR") == "pt-BR")
     #expect(WatchScreenshotCaptureLocaleWorkflow.inAppLanguageIdentifier(for: "zh-Hant") == "zh-Hant")
+    #expect(WatchScreenshotCaptureLocaleWorkflow.inAppLanguageIdentifier(for: "tr") == "tr")
+    #expect(WatchScreenshotCaptureLocaleWorkflow.inAppLanguageIdentifier(for: "pl") == "pl")
     #expect(WatchScreenshotCaptureLocaleWorkflow.appleLocaleArgument(for: "de-DE") == "de_DE")
     #expect(WatchScreenshotCaptureLocaleWorkflow.appleLocaleArgument(for: "pt-BR") == "pt_BR")
 }

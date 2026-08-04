@@ -9,6 +9,8 @@ import Foundation
 import ScriptSupport
 
 public struct MetadataRepositoryPaths: Sendable {
+    public static let defaultCatalogRelativePath = "AppStore/metadata/retrorapid-v1.6.json"
+
     public let repositoryRoot: URL
 
     public init(repositoryRoot: URL) {
@@ -16,7 +18,17 @@ public struct MetadataRepositoryPaths: Sendable {
     }
 
     public var defaultCatalog: URL {
-        repositoryRoot.appending(path: "AppStore/metadata/retrorapid-v1.5.json")
+        repositoryRoot.appending(path: Self.defaultCatalogRelativePath)
+    }
+
+    public func catalogURL(for path: String?) -> URL {
+        guard let path, path.isEmpty == false else {
+            return defaultCatalog
+        }
+        if path.hasPrefix("/") {
+            return URL(fileURLWithPath: path)
+        }
+        return repositoryRoot.appending(path: path)
     }
 
     public var metadataCopyDocument: URL {
@@ -38,7 +50,7 @@ public struct MetadataRepositoryPaths: Sendable {
         )
     ) throws -> MetadataRepositoryPaths {
         let repositoryRoot = try RepositoryLocator.locate(
-            containing: ["AppStore/metadata/retrorapid-v1.5.json"],
+            containing: [Self.defaultCatalogRelativePath],
             startingAt: directory
         )
         return MetadataRepositoryPaths(repositoryRoot: repositoryRoot)

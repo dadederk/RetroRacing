@@ -93,6 +93,25 @@ func givenAppleWatchFrenchBoardWhenBuildingDisplayNameThenPlatformAndPhraseAreCo
     #expect(name.count <= GameCenterLeaderboardDisplayNameBuilder.maxDisplayNameLength)
 }
 
+@Test(arguments: [
+    ("tr", "Apple Watch Rekor - Hızlı"),
+    ("pl", "Apple Watch Rekord - Szybki"),
+])
+func givenNewLocaleWhenBuildingWatchFastNameThenLocalizedCompactNameFits(
+    locale: String,
+    expected: String
+) {
+    let name = GameCenterLeaderboardDisplayNameBuilder.displayName(
+        platform: "watchOS",
+        difficulty: "fast",
+        locale: locale,
+        englishReferenceName: "Apple Watch High Score - Fast"
+    )
+
+    #expect(name == expected)
+    #expect(name.count <= GameCenterLeaderboardDisplayNameBuilder.maxDisplayNameLength)
+}
+
 @Test
 func givenShippingLeaderboardCatalogWhenBuildingAllEUDisplayNamesThenEachFitsAscLimit() throws {
     let repositoryRoot = try MetadataRepositoryPaths.locate().repositoryRoot

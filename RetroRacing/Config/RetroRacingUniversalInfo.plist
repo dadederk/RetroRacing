@@ -22,7 +22,9 @@
         <string>pt-PT</string>
         <string>zh-Hant</string>
         <string>zh-Hans</string>
-        <string>fr-CA</string>
-    </array>
+		<string>fr-CA</string>
+		<string>tr</string>
+		<string>pl</string>
+	</array>
 </dict>
 </plist>

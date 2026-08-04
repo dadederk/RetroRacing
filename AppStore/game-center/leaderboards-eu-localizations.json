@@ -14,7 +14,9 @@
     "pt-BR",
     "pt-PT",
     "zh-Hant",
-    "zh-Hans"
+    "zh-Hans",
+    "tr",
+    "pl"
   ],
   "leaderboards": [
     {
@@ -87,6 +89,16 @@
           "name": "Cruise",
           "formatterSuffixSingular": "超车",
           "formatterSuffix": "超车"
+        },
+        "tr": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "sollama",
+          "formatterSuffix": "sollama"
+        },
+        "pl": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "wyprzedzenie",
+          "formatterSuffix": "wyprzedzenia"
         }
       }
     },
@@ -160,6 +172,16 @@
           "name": "Fast",
           "formatterSuffixSingular": "超车",
           "formatterSuffix": "超车"
+        },
+        "tr": {
+          "name": "Hızlı",
+          "formatterSuffixSingular": "sollama",
+          "formatterSuffix": "sollama"
+        },
+        "pl": {
+          "name": "Szybki",
+          "formatterSuffixSingular": "wyprzedzenie",
+          "formatterSuffix": "wyprzedzenia"
         }
       }
     },
@@ -233,6 +255,16 @@
           "name": "Rapid",
           "formatterSuffixSingular": "超车",
           "formatterSuffix": "超车"
+        },
+        "tr": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "sollama",
+          "formatterSuffix": "sollama"
+        },
+        "pl": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "wyprzedzenie",
+          "formatterSuffix": "wyprzedzenia"
         }
       }
     },
@@ -306,6 +338,16 @@
           "name": "Cruise",
           "formatterSuffixSingular": "超车",
           "formatterSuffix": "超车"
+        },
+        "tr": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "sollama",
+          "formatterSuffix": "sollama"
+        },
+        "pl": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "wyprzedzenie",
+          "formatterSuffix": "wyprzedzenia"
         }
       }
     },
@@ -379,6 +421,16 @@
           "name": "Fast",
           "formatterSuffixSingular": "超车",
           "formatterSuffix": "超车"
+        },
+        "tr": {
+          "name": "Hızlı",
+          "formatterSuffixSingular": "sollama",
+          "formatterSuffix": "sollama"
+        },
+        "pl": {
+          "name": "Szybki",
+          "formatterSuffixSingular": "wyprzedzenie",
+          "formatterSuffix": "wyprzedzenia"
         }
       }
     },
@@ -452,6 +504,16 @@
           "name": "Rapid",
           "formatterSuffixSingular": "超车",
           "formatterSuffix": "超车"
+        },
+        "tr": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "sollama",
+          "formatterSuffix": "sollama"
+        },
+        "pl": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "wyprzedzenie",
+          "formatterSuffix": "wyprzedzenia"
         }
       }
     },
@@ -525,6 +587,16 @@
           "name": "Cruise",
           "formatterSuffixSingular": "超车",
           "formatterSuffix": "超车"
+        },
+        "tr": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "sollama",
+          "formatterSuffix": "sollama"
+        },
+        "pl": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "wyprzedzenie",
+          "formatterSuffix": "wyprzedzenia"
         }
       }
     },
@@ -598,6 +670,16 @@
           "name": "Fast",
           "formatterSuffixSingular": "超车",
           "formatterSuffix": "超车"
+        },
+        "tr": {
+          "name": "Hızlı",
+          "formatterSuffixSingular": "sollama",
+          "formatterSuffix": "sollama"
+        },
+        "pl": {
+          "name": "Szybki",
+          "formatterSuffixSingular": "wyprzedzenie",
+          "formatterSuffix": "wyprzedzenia"
         }
       }
     },
@@ -671,6 +753,16 @@
           "name": "Rapid",
           "formatterSuffixSingular": "超车",
           "formatterSuffix": "超车"
+        },
+        "tr": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "sollama",
+          "formatterSuffix": "sollama"
+        },
+        "pl": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "wyprzedzenie",
+          "formatterSuffix": "wyprzedzenia"
         }
       }
     },
@@ -744,6 +836,16 @@
           "name": "Cruise",
           "formatterSuffixSingular": "超车",
           "formatterSuffix": "超车"
+        },
+        "tr": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "sollama",
+          "formatterSuffix": "sollama"
+        },
+        "pl": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "wyprzedzenie",
+          "formatterSuffix": "wyprzedzenia"
         }
       }
     },
@@ -817,6 +919,16 @@
           "name": "Fast",
           "formatterSuffixSingular": "超车",
           "formatterSuffix": "超车"
+        },
+        "tr": {
+          "name": "Hızlı",
+          "formatterSuffixSingular": "sollama",
+          "formatterSuffix": "sollama"
+        },
+        "pl": {
+          "name": "Szybki",
+          "formatterSuffixSingular": "wyprzedzenie",
+          "formatterSuffix": "wyprzedzenia"
         }
       }
     },
@@ -890,6 +1002,16 @@
           "name": "Rapid",
           "formatterSuffixSingular": "超车",
           "formatterSuffix": "超车"
+        },
+        "tr": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "sollama",
+          "formatterSuffix": "sollama"
+        },
+        "pl": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "wyprzedzenie",
+          "formatterSuffix": "wyprzedzenia"
         }
       }
     }

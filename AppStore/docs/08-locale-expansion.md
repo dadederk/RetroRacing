@@ -20,13 +20,13 @@ Last updated: 2026-07-26
 
 | Layer | Locales |
 |---|---|
-| **In-app** | `en`, `en-GB`, `en-AU`, `en-CA`, `de`, `nl`, `it`, `fr`, `fr-CA`, `es`, `ca`, `ja`, `ko`, `pt-BR`, `pt-PT`, `zh-Hant`, `zh-Hans` |
-| **Listing metadata** | `en-US`, `en-GB`, `en-AU`, `en-CA`, `de-DE`, `nl-NL`, `it`, `fr-FR`, `fr-CA`, `es-ES`, `es-MX`, `ca`, `ja`, `ko`, `pt-BR`, `pt-PT`, `zh-Hant`, `zh-Hans` |
+| **In-app** | `en`, `en-GB`, `en-AU`, `en-CA`, `de`, `nl`, `it`, `fr`, `fr-CA`, `es`, `ca`, `ja`, `ko`, `pt-BR`, `pt-PT`, `zh-Hant`, `zh-Hans`; `tr`/`pl` are 1.6 candidates pending native review |
+| **Listing metadata** | 18 existing locales plus planned 1.6 `tr`/`pl`; no 1.6 ASC draft IDs yet |
 | **IAP / Game Center** | Same as listing **except** no `en-GB`/`en-AU`/`en-CA` (use `en-US`). IAP also has `es-MX`. |
-| **Screenshot capture (source)** | `en-US`, `de-DE`, `nl-NL`, `it`, `fr-FR`, `fr-CA`, `es-ES`, `ca`, `ja`, `ko`, `pt-BR`, `pt-PT`, `zh-Hant`, `zh-Hans` |
+| **Screenshot capture (source)** | `en-US`, `de-DE`, `nl-NL`, `it`, `fr-FR`, `fr-CA`, `es-ES`, `ca`, `ja`, `ko`, `pt-BR`, `pt-PT`, `zh-Hant`, `zh-Hans`, plus planned `tr`/`pl` |
 | **Screenshot derived (copy pixels)** | `en-GB`/`en-AU`/`en-CA` ← `en-US`; `es-MX` ← `es-ES` |
 
-**Next candidates (optional):** provisional priority is `tr` (Turkish), `pl` (Polish), `ar` (Arabic), `th` (Thai), `vi` (Vietnamese), then `id` (Indonesian). See [`Plans/aso/08-locale-expansion-waves.md`](../../Plans/aso/08-locale-expansion-waves.md). Hindi (`hi`) remains a later candidate only if India storefront data justifies the work.
+**Next candidates after the 1.6 Turkish/Polish review gate:** `ar` (Arabic) as a dedicated RTL wave, then `th` (Thai), `vi` (Vietnamese), and `id` (Indonesian). See [`Plans/aso/08-locale-expansion-waves.md`](../../Plans/aso/08-locale-expansion-waves.md). Hindi (`hi`) remains a later candidate only if India storefront data justifies the work.
 
 ---
 
@@ -80,7 +80,7 @@ Work top to bottom. Tick every box before calling the locale done.
 
 ### 2. App Store listing metadata
 
-- [ ] Add locale block to `AppStore/metadata/retrorapid-v1.5.json` (name, subtitle, keywords, promo, description, what’s new)
+- [ ] Add locale block to the canonical version catalog (currently `AppStore/metadata/retrorapid-v1.6.json`) with name, subtitle, keywords, promo, description, and what’s new
 - [ ] Create ASC version localization if missing (`helm-asc version <id> localizations create --locale …`)
 - [ ] Configure ASC marketing website + support website for the locale (reuse `en-US` URLs until localized pages exist)
 - [ ] Record `localizationIds` under `platformDrafts` for **iOS and macOS**

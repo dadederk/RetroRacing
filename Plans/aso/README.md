@@ -10,7 +10,7 @@ Legacy monolith: [retrorapid_aso_growth_plan.md](../retrorapid_aso_growth_plan.m
 
 | If you need to… | Read |
 |---|---|
-| Canonical staged metadata source | [AppStore/metadata/retrorapid-v1.5.json](../../AppStore/metadata/retrorapid-v1.5.json) |
+| Canonical staged metadata source | [AppStore/metadata/retrorapid-v1.6.json](../../AppStore/metadata/retrorapid-v1.6.json) |
 | Current **live** metadata in App Store Connect | [AppStore/docs/02-listing-snapshot.md](../../AppStore/docs/02-listing-snapshot.md) |
 | Generated **staged** metadata to review or copy | [AppStore/docs/05-metadata-copy.md](../../AppStore/docs/05-metadata-copy.md) |
 | Why metadata is shaped this way | [AppStore/docs/04-metadata-strategy.md](../../AppStore/docs/04-metadata-strategy.md) |
@@ -42,7 +42,7 @@ Legacy monolith: [retrorapid_aso_growth_plan.md](../retrorapid_aso_growth_plan.m
 | Topic | Canonical location |
 |---|---|
 | Live public facts, name/subtitle/keywords | [docs/02-listing-snapshot.md](../../AppStore/docs/02-listing-snapshot.md) |
-| Canonical staged metadata | [metadata/retrorapid-v1.5.json](../../AppStore/metadata/retrorapid-v1.5.json) |
+| Canonical staged metadata | [metadata/retrorapid-v1.6.json](../../AppStore/metadata/retrorapid-v1.6.json) |
 | Generated staged copy | [docs/05-metadata-copy.md](../../AppStore/docs/05-metadata-copy.md) |
 | Cross-localization & keyword strategy | [docs/04-metadata-strategy.md](../../AppStore/docs/04-metadata-strategy.md) |
 | Helm rollout & submission blockers | [docs/03-submission-quality-gate.md](../../AppStore/docs/03-submission-quality-gate.md) |
