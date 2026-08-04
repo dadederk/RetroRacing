@@ -8,34 +8,25 @@
 import SwiftUI
 
 struct GameLayoutView<GameArea: View>: View {
-    let containerSize: CGSize
-    let safeAreaInsets: GameLayoutSafeAreaInsets
-    let expandsGameAreaIntoTopSafeArea: Bool
+    let layoutPolicy: GameLayoutPolicy
+    let topSafeAreaInset: CGFloat
     let hud: GameHUDInput
     let controls: GameControlInput
     let lifecycle: GameAreaLifecycleCallbacks
     @ViewBuilder let gameArea: (CGFloat) -> GameArea
 
-    #if os(macOS) || os(iOS)
-    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
-    @Environment(\.verticalSizeClass) private var verticalSizeClass
-    #endif
-
     var body: some View {
         ZStack(alignment: .bottomLeading) {
-            let resolvedLayoutKind = layoutKind
             let gameAreaLayoutConfiguration = GameAreaLayoutConfiguration.resolve(
-                layoutKind: resolvedLayoutKind,
-                expandsIntoTopSafeArea: expandsGameAreaIntoTopSafeArea
+                policy: layoutPolicy,
+                topSafeAreaInset: topSafeAreaInset
             )
-            switch resolvedLayoutKind {
+            switch layoutPolicy.kind {
             case .compactLandscape:
                 CompactLandscapeGameLayout(
                     hud: hud,
                     controls: controls,
-                    topSafeAreaInset: gameAreaLayoutConfiguration.reappliesTopSafeArea
-                        ? safeAreaInsets.top
-                        : 0,
+                    topSafeAreaInset: gameAreaLayoutConfiguration.topSafeAreaInset,
                     gameArea: gameAreaContainer(configuration: gameAreaLayoutConfiguration)
                 )
             case .regularWidthWidePlay:
@@ -48,14 +39,14 @@ struct GameLayoutView<GameArea: View>: View {
                 PortraitGameLayout(
                     hud: hud,
                     controls: controls,
-                    centersPlayArea: resolvedLayoutKind == .portraitCentered,
+                    centersPlayArea: layoutPolicy.kind == .portraitCentered,
                     gameArea: gameAreaContainer(configuration: gameAreaLayoutConfiguration)
                 )
             }
             if hud.showsSpeedAlert {
                 GameSpeedAlertView(
                     input: hud,
-                    usesCompactLandscapeLayout: usesCompactLandscapeLayout
+                    usesCompactLandscapeLayout: layoutPolicy.kind == .compactLandscape
                 )
             }
         }
@@ -69,25 +60,36 @@ struct GameLayoutView<GameArea: View>: View {
             content: gameArea
         )
     }
+}
 
-    private var layoutKind: GameLayoutKind {
-        #if os(macOS) || os(iOS)
-        GameLayoutKind.resolve(
+struct GameLayoutPolicy: Equatable {
+    let kind: GameLayoutKind
+    let expandsGameAreaIntoTopSafeArea: Bool
+
+    private init(kind: GameLayoutKind, expandsGameAreaIntoTopSafeArea: Bool) {
+        self.kind = kind
+        self.expandsGameAreaIntoTopSafeArea = expandsGameAreaIntoTopSafeArea
+    }
+
+    static func resolve(
+        containerSize: CGSize,
+        horizontalSizeClass: UserInterfaceSizeClass?,
+        verticalSizeClass: UserInterfaceSizeClass?,
+        platformSupportsTopSafeAreaExpansion: Bool,
+        isScreenshotCapture: Bool
+    ) -> GameLayoutPolicy {
+        let kind = GameLayoutKind.resolve(
             containerSize: containerSize,
             horizontalSizeClass: horizontalSizeClass,
             verticalSizeClass: verticalSizeClass
         )
-        #else
-        GameLayoutKind.resolve(
-            containerSize: containerSize,
-            horizontalSizeClass: nil,
-            verticalSizeClass: nil
+        let expandsGameAreaIntoTopSafeArea = platformSupportsTopSafeAreaExpansion
+            && !isScreenshotCapture
+            && kind == .compactLandscape
+        return GameLayoutPolicy(
+            kind: kind,
+            expandsGameAreaIntoTopSafeArea: expandsGameAreaIntoTopSafeArea
         )
-        #endif
-    }
-
-    private var usesCompactLandscapeLayout: Bool {
-        layoutKind == .compactLandscape
     }
 }
 

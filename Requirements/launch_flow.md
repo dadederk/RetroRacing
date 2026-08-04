@@ -31,7 +31,7 @@
 ## Platform Notes
 
 - iOS/iPadOS: menu button during gameplay may reopen the overlay and starts a new run when Play is tapped again.
-- iOS/iPadOS compact landscape: the game square may extend into the top safe area to maximize play space; toolbar-adjacent chrome reapplies the measured top safe-area inset and screenshot capture keeps deterministic sizing.
+- iOS/iPadOS compact landscape: the game square may extend into the top safe area to maximize play space without becoming smaller than the safe-area-constrained square; toolbar-adjacent chrome reapplies the measured top safe-area inset and screenshot capture keeps deterministic sizing.
 - macOS: minimum window size is 820 x 620; `Cmd+,` opens root-owned Settings; underlying gameplay is hidden from accessibility while the modal overlay is visible.
 - tvOS: movement uses `onMoveCommand`; Play/Pause remote button toggles pause.
 - watchOS and visionOS may keep different navigation patterns unless explicitly migrated.
@@ -58,3 +58,4 @@
 - Verify Finish resets session state and returns to the menu.
 - Verify overlay pause/resume respects explicit user pause.
 - Verify SharePlay entry starts without paywall and only after admitted joined session.
+- Verify top-safe-area expansion is limited to compact landscape outside screenshot capture, preserves the prior square size in width-limited layouts, and keeps side-rail chrome below the measured top inset.

@@ -10,6 +10,7 @@ import SwiftUI
 public struct MenuViewStyle {
     public let titleFontSize: CGFloat
     public let titleBottomPadding: CGFloat
+    public let compactHeightTitleTopPadding: CGFloat?
     public let menuSpacing: CGFloat
     public let buttonSpacing: CGFloat
     public let buttonFontSize: CGFloat
@@ -19,6 +20,7 @@ public struct MenuViewStyle {
     public init(
         titleFontSize: CGFloat,
         titleBottomPadding: CGFloat,
+        compactHeightTitleTopPadding: CGFloat? = nil,
         menuSpacing: CGFloat,
         buttonSpacing: CGFloat,
         buttonFontSize: CGFloat,
@@ -27,6 +29,7 @@ public struct MenuViewStyle {
     ) {
         self.titleFontSize = titleFontSize
         self.titleBottomPadding = titleBottomPadding
+        self.compactHeightTitleTopPadding = compactHeightTitleTopPadding
         self.menuSpacing = menuSpacing
         self.buttonSpacing = buttonSpacing
         self.buttonFontSize = buttonFontSize
@@ -37,6 +40,7 @@ public struct MenuViewStyle {
     public static let universal = MenuViewStyle(
         titleFontSize: 27,
         titleBottomPadding: 40,
+        compactHeightTitleTopPadding: 0,
         menuSpacing: 24,
         buttonSpacing: 24,
         buttonFontSize: 18,
@@ -46,6 +50,14 @@ public struct MenuViewStyle {
 
     /// Top padding for the title, matching the total gap between title and buttons (titleBottomPadding + menuSpacing).
     public var titleTopPadding: CGFloat { titleBottomPadding + menuSpacing }
+
+    public func titleTopPadding(verticalSizeClass: UserInterfaceSizeClass?) -> CGFloat {
+        guard verticalSizeClass == .compact, let compactHeightTitleTopPadding else {
+            return titleTopPadding
+        }
+
+        return compactHeightTitleTopPadding
+    }
 
     public static let tvOS = MenuViewStyle(
         titleFontSize: 42,

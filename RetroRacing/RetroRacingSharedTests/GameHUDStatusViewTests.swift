@@ -50,6 +50,21 @@ final class GameHUDStatusViewTests: XCTestCase {
         XCTAssertEqual(renderedVisibleHeight, requestedVisibleHeight, accuracy: 0.001)
     }
 
+    func testGivenHelmetCanvasHeightsWhenCalculatingConsumedOutlineThenOffsetIsClamped() {
+        // Given
+        let canvasHeights: [CGFloat] = [10, 40, 100]
+
+        // When
+        let offsets = canvasHeights.map {
+            GameLivesStatusView.consumedOutlineOffset(forCanvasHeight: $0)
+        }
+
+        // Then
+        XCTAssertEqual(offsets[0], 0.75, accuracy: 0.001)
+        XCTAssertEqual(offsets[1], 1.4, accuracy: 0.001)
+        XCTAssertEqual(offsets[2], 2, accuracy: 0.001)
+    }
+
     func testGivenRegularHorizontalCompactHeightLandscapeWhenResolvingLayoutThenControlsUseSideRails() {
         // Given
         let containerSize = CGSize(width: 852, height: 393)

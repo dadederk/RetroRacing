@@ -79,7 +79,7 @@ extension RuntimeAssetOptimizationActionBuilder {
             ("Sprites/GameBoy/crash-GameBoy.imageset", legacySpriteSources(path: "Sprites/GameBoy/crash-GameBoy.imageset", universal: "crash-GameBoy.png", watch: "crash-GameBoy 1.png", tv: "crash-GameBoy 2.png"), false),
             ("Sprites/GameBoy/life-GameBoy.imageset", legacySpriteSources(path: "Sprites/GameBoy/life-GameBoy.imageset", universal: "life-GameBoy.png", watch: "life-GameBoy 1.png", tv: "life-GameBoy 2.png", currentWatch: "GameBoy/life-GameBoy-watch.png"), true),
             ("Sprites/GameBoy/friendLife-GameBoy.imageset", curatedCatalogSources(path: "Sprites/GameBoy/friendLife-GameBoy.imageset"), true),
-            ("Sprites/8Bit/playersCar-8Bit.imageset", currentPlayerSources(theme: "8Bit", baseName: "playersCar-8Bit"), false),
+            ("Sprites/8Bit/playersCar-8Bit.imageset", eightBitPlayerSources(), false),
             ("Sprites/8Bit/rivalsCar-8Bit.imageset", legacySpriteSources(path: "Sprites/8Bit/rivalsCar-8Bit.imageset", universal: "rivalsCar-8Bit.png", watch: "rivalsCar-8Bit 1.png", tv: "rivalsCar-8Bit 2.png"), false),
             ("Sprites/8Bit/crash-8Bit.imageset", legacySpriteSources(path: "Sprites/8Bit/crash-8Bit.imageset", universal: "crash-8Bit.png", watch: "crash-8Bit 1.png", tv: "crash-8Bit 2.png"), false),
             ("Sprites/8Bit/life-8Bit.imageset", legacySpriteSources(path: "Sprites/8Bit/life-8Bit.imageset", universal: "life-8Bit.png", watch: "life-8Bit 1.png", tv: "life-8Bit 2.png", currentWatch: "8Bit/life-8Bit-watch.png"), true),
@@ -93,7 +93,18 @@ extension RuntimeAssetOptimizationActionBuilder {
     }
 
     private func currentPlayerSources(theme: String, baseName: String) -> [String: URL] {
-        let root = currentMasterRoot.appending(path: theme)
+        let root = runtimeMasters20260803Root.appending(path: theme)
+        return playerSources(root: root, baseName: baseName)
+    }
+
+    private func eightBitPlayerSources() -> [String: URL] {
+        playerSources(
+            root: runtimeMasters20260804Root.appending(path: "8Bit"),
+            baseName: "playersCar-8Bit"
+        )
+    }
+
+    private func playerSources(root: URL, baseName: String) -> [String: URL] {
         return [
             "iphone": root.appending(path: "\(baseName)-iphone.png"),
             "ipad": root.appending(path: "\(baseName)-iphone.png"),
@@ -104,7 +115,7 @@ extension RuntimeAssetOptimizationActionBuilder {
     }
 
     private func curatedCatalogSources(path: String) -> [String: URL] {
-        let root = currentMasterRoot.appending(path: "CuratedCatalog/\(path)")
+        let root = runtimeMasters20260803Root.appending(path: "CuratedCatalog/\(path)")
         let baseName = assetBaseName(for: path)
         return Dictionary(uniqueKeysWithValues: ["iphone", "ipad", "mac", "tv", "watch"].map {
             ($0, root.appending(path: "\(baseName)-\($0).png"))
@@ -125,7 +136,7 @@ extension RuntimeAssetOptimizationActionBuilder {
             "ipad": universalURL,
             "mac": universalURL,
             "tv": root.appending(path: tv),
-            "watch": currentWatch.map { currentMasterRoot.appending(path: $0) }
+            "watch": currentWatch.map { runtimeMasters20260803Root.appending(path: $0) }
                 ?? root.appending(path: watch),
         ]
     }

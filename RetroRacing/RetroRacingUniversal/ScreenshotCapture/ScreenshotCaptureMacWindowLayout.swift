@@ -38,9 +38,24 @@ enum ScreenshotCaptureMacWindowLayout {
 
         let contentSize = ScreenshotCaptureWindowConfiguration.macLandscapeContentSize
         window.setContentSize(contentSize)
-        window.center()
+        placeWindowOnPrimaryDisplay(window)
         window.makeKeyAndOrderFront(nil)
         window.orderFrontRegardless()
+    }
+
+    private static func placeWindowOnPrimaryDisplay(_ window: NSWindow) {
+        guard let screen = NSScreen.screens.first else {
+            window.center()
+            return
+        }
+
+        let visibleFrame = screen.visibleFrame
+        let windowFrame = window.frame
+        let origin = NSPoint(
+            x: visibleFrame.midX - windowFrame.width / 2,
+            y: visibleFrame.midY - windowFrame.height / 2
+        )
+        window.setFrameOrigin(origin)
     }
 }
 #endif

@@ -22,6 +22,8 @@ struct MenuContentView: View {
     var showPlayWithFriendsFreeFootnote: Bool = false
     var onPlayWithFriends: () -> Void = {}
 
+    @Environment(\.verticalSizeClass) private var verticalSizeClass
+
     var body: some View {
         VStack(spacing: style.menuSpacing) {
             titleView
@@ -35,16 +37,20 @@ struct MenuContentView: View {
             Text(GameLocalizedStrings.string("gameName"))
                 .font(fontPreferenceStore.font(textStyle: .largeTitle))
                 .dynamicTypeSize(.xSmall ... .xxxLarge)
-                .padding(.top, style.titleTopPadding)
+                .padding(.top, titleTopPadding)
                 .padding(.bottom, style.titleBottomPadding)
                 .accessibilityAddTraits(.isHeader)
         } else {
             Text(GameLocalizedStrings.string("gameName"))
                 .font(fontPreferenceStore.font(fixedSize: style.titleFontSize))
-                .padding(.top, style.titleTopPadding)
+                .padding(.top, titleTopPadding)
                 .padding(.bottom, style.titleBottomPadding)
                 .accessibilityAddTraits(.isHeader)
         }
+    }
+
+    private var titleTopPadding: CGFloat {
+        style.titleTopPadding(verticalSizeClass: verticalSizeClass)
     }
 
     private var buttonsStack: some View {

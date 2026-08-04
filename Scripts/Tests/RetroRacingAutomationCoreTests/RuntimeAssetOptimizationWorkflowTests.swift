@@ -66,6 +66,29 @@ func testGivenRepositoryOptimizationPlanWhenComparedWithManifestThenPoliciesMatc
 }
 
 @Test
+func testGivenOptimizationPlanWhenSelectingEightBitPlayerThenUses20260804MasterArchive() throws {
+    // Given
+    let repositoryRoot = try RepositoryLocator.locate(
+        containing: ["Scripts/Resources/runtime_asset_manifest.json"]
+    )
+
+    // When
+    let sources = RuntimeAssetOptimizationPlanBuilder.make(repositoryRoot: repositoryRoot)
+        .actions
+        .compactMap { action -> URL? in
+            guard case let .render(source, destination, _) = action,
+                  destination.contains("Sprites/8Bit/playersCar-8Bit.imageset") else {
+                return nil
+            }
+            return source
+        }
+
+    // Then
+    #expect(sources.count == 5)
+    #expect(sources.allSatisfy { $0.path.contains("RuntimeMasters2026-08-04/8Bit") })
+}
+
+@Test
 func testGivenOptimizationPlanWhenDryRunningThenFilesAndTransformerRemainUntouched() throws {
     // Given
     let fixture = try OptimizationFixture()

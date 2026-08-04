@@ -19,17 +19,13 @@ struct GameOverSocialFriendScoreRow: View {
     let avatarSize: CGFloat
     let bodyFont: Font
     let scoreFont: Font
-    /// Matches the in-race friend-milestone badge: grey road-line ring around the avatar.
+    /// Adds an adaptive milestone ring around the avatar.
     var showsMilestoneRing: Bool = false
 
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
-    /// Warm gray matching the default LCD road-line tint used by in-race friend markers.
-    private static let milestoneRingColor = Color(
-        red: 140 / 255,
-        green: 134 / 255,
-        blue: 121 / 255
-    )
+    /// Adapts to the sheet appearance so the milestone ring remains visible.
+    private static let milestoneRingColor = Color.primary
 
     var body: some View {
         let layout: AnyLayout = dynamicTypeSize.isAccessibilitySize

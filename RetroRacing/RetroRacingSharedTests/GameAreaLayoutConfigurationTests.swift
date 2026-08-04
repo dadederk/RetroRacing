@@ -13,8 +13,8 @@ final class GameAreaLayoutConfigurationTests: XCTestCase {
     func testGivenCompactLandscapeExpansionWhenCalculatingSideThenAppliesEdgePadding() {
         // Given
         let configuration = GameAreaLayoutConfiguration.resolve(
-            layoutKind: .compactLandscape,
-            expandsIntoTopSafeArea: true
+            policy: expandedCompactLandscapePolicy,
+            topSafeAreaInset: 44
         )
 
         // When
@@ -24,11 +24,29 @@ final class GameAreaLayoutConfigurationTests: XCTestCase {
         XCTAssertEqual(side, 377)
     }
 
+    func testGivenCompactLandscapeExpansionWhenResolvingConfigurationThenReappliesTopSafeArea() {
+        // When
+        let configuration = GameAreaLayoutConfiguration.resolve(
+            policy: expandedCompactLandscapePolicy,
+            topSafeAreaInset: 44
+        )
+
+        // Then
+        XCTAssertTrue(configuration.reappliesTopSafeArea)
+        XCTAssertEqual(configuration.topSafeAreaInset, 44)
+    }
+
     func testGivenCompactLandscapeWithoutExpansionWhenCalculatingSideThenUsesFullAvailableSide() {
         // Given
         let configuration = GameAreaLayoutConfiguration.resolve(
-            layoutKind: .compactLandscape,
-            expandsIntoTopSafeArea: false
+            policy: GameLayoutPolicy.resolve(
+                containerSize: CGSize(width: 852, height: 393),
+                horizontalSizeClass: .regular,
+                verticalSizeClass: .compact,
+                platformSupportsTopSafeAreaExpansion: true,
+                isScreenshotCapture: true
+            ),
+            topSafeAreaInset: 44
         )
 
         // When
@@ -38,11 +56,17 @@ final class GameAreaLayoutConfigurationTests: XCTestCase {
         XCTAssertEqual(side, 393)
     }
 
-    func testGivenPortraitExpansionFlagWhenResolvingConfigurationThenUsesStandardSizing() {
+    func testGivenPortraitPolicyWhenResolvingConfigurationThenUsesStandardSizing() {
         // When
         let configuration = GameAreaLayoutConfiguration.resolve(
-            layoutKind: .portrait,
-            expandsIntoTopSafeArea: true
+            policy: GameLayoutPolicy.resolve(
+                containerSize: CGSize(width: 393, height: 852),
+                horizontalSizeClass: .compact,
+                verticalSizeClass: .regular,
+                platformSupportsTopSafeAreaExpansion: true,
+                isScreenshotCapture: false
+            ),
+            topSafeAreaInset: 44
         )
 
         // Then
@@ -52,8 +76,8 @@ final class GameAreaLayoutConfigurationTests: XCTestCase {
     func testGivenTinyAvailableSizeWhenCalculatingExpandedSideThenDoesNotReturnNegativeValue() {
         // Given
         let configuration = GameAreaLayoutConfiguration.resolve(
-            layoutKind: .compactLandscape,
-            expandsIntoTopSafeArea: true
+            policy: expandedCompactLandscapePolicy,
+            topSafeAreaInset: 44
         )
 
         // When
@@ -63,19 +87,90 @@ final class GameAreaLayoutConfigurationTests: XCTestCase {
         XCTAssertEqual(side, 0)
     }
 
-    func testGivenSafeAreaInsetsWhenTopInsetIsZeroThenZeroIsPreserved() {
+    func testGivenWidthLimitedExpandedLayoutWhenCalculatingSideThenPreservesUnexpandedSide() {
         // Given
-        let insets = GameLayoutSafeAreaInsets(top: 0)
+        let configuration = GameAreaLayoutConfiguration.resolve(
+            policy: expandedCompactLandscapePolicy,
+            topSafeAreaInset: 44
+        )
+
+        // When
+        let side = configuration.side(for: CGSize(width: 315, height: 375))
 
         // Then
-        XCTAssertEqual(insets.top, 0)
+        XCTAssertEqual(side, 315)
     }
 
-    func testGivenSafeAreaInsetsWhenTopInsetIsProvidedThenValueIsPreserved() {
+    func testGivenCompactHeightPortraitWindowWhenResolvingPolicyThenTopSafeAreaIsPreserved() {
         // Given
-        let insets = GameLayoutSafeAreaInsets(top: 60)
+        let containerSize = CGSize(width: 375, height: 667)
+
+        // When
+        let policy = GameLayoutPolicy.resolve(
+            containerSize: containerSize,
+            horizontalSizeClass: .compact,
+            verticalSizeClass: .compact,
+            platformSupportsTopSafeAreaExpansion: true,
+            isScreenshotCapture: false
+        )
 
         // Then
-        XCTAssertEqual(insets.top, 60)
+        XCTAssertEqual(policy.kind, .portrait)
+        XCTAssertFalse(policy.expandsGameAreaIntoTopSafeArea)
+    }
+
+    func testGivenCompactLandscapeScreenshotWhenResolvingPolicyThenTopSafeAreaIsPreserved() {
+        // When
+        let policy = GameLayoutPolicy.resolve(
+            containerSize: CGSize(width: 852, height: 393),
+            horizontalSizeClass: .regular,
+            verticalSizeClass: .compact,
+            platformSupportsTopSafeAreaExpansion: true,
+            isScreenshotCapture: true
+        )
+
+        // Then
+        XCTAssertEqual(policy.kind, .compactLandscape)
+        XCTAssertFalse(policy.expandsGameAreaIntoTopSafeArea)
+    }
+
+    func testGivenCompactLandscapeOnUnsupportedPlatformWhenResolvingPolicyThenTopSafeAreaIsPreserved() {
+        // When
+        let policy = GameLayoutPolicy.resolve(
+            containerSize: CGSize(width: 852, height: 393),
+            horizontalSizeClass: .regular,
+            verticalSizeClass: .compact,
+            platformSupportsTopSafeAreaExpansion: false,
+            isScreenshotCapture: false
+        )
+
+        // Then
+        XCTAssertEqual(policy.kind, .compactLandscape)
+        XCTAssertFalse(policy.expandsGameAreaIntoTopSafeArea)
+    }
+
+    func testGivenCompactLandscapeOnIOSWhenResolvingPolicyThenTopSafeAreaExpands() {
+        // When
+        let policy = GameLayoutPolicy.resolve(
+            containerSize: CGSize(width: 852, height: 393),
+            horizontalSizeClass: .regular,
+            verticalSizeClass: .compact,
+            platformSupportsTopSafeAreaExpansion: true,
+            isScreenshotCapture: false
+        )
+
+        // Then
+        XCTAssertEqual(policy.kind, .compactLandscape)
+        XCTAssertTrue(policy.expandsGameAreaIntoTopSafeArea)
+    }
+
+    private var expandedCompactLandscapePolicy: GameLayoutPolicy {
+        GameLayoutPolicy.resolve(
+            containerSize: CGSize(width: 852, height: 393),
+            horizontalSizeClass: .regular,
+            verticalSizeClass: .compact,
+            platformSupportsTopSafeAreaExpansion: true,
+            isScreenshotCapture: false
+        )
     }
 }

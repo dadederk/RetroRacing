@@ -56,8 +56,12 @@ struct RuntimeAssetOptimizationActionBuilder {
         )
     }
 
-    var currentMasterRoot: URL {
+    var runtimeMasters20260803Root: URL {
         repositoryRoot.appending(path: "AssetSources/RuntimeMasters2026-08-03")
+    }
+
+    var runtimeMasters20260804Root: URL {
+        repositoryRoot.appending(path: "AssetSources/RuntimeMasters2026-08-04")
     }
 
     func destinationDirectory(for imageSetPath: String) -> String {

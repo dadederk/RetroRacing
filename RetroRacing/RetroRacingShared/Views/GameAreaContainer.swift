@@ -77,24 +77,38 @@ struct GameAreaContainer<Content: View>: View {
 struct GameAreaLayoutConfiguration: Equatable {
     static let compactLandscapeExpandedEdgePadding: CGFloat = 8
 
-    static let standard = GameAreaLayoutConfiguration(edgePadding: 0)
+    static let standard = GameAreaLayoutConfiguration(
+        edgePadding: 0,
+        topSafeAreaInset: 0
+    )
 
     let edgePadding: CGFloat
+    let topSafeAreaInset: CGFloat
 
     var reappliesTopSafeArea: Bool {
         edgePadding > 0
     }
 
     static func resolve(
-        layoutKind: GameLayoutKind,
-        expandsIntoTopSafeArea: Bool
+        policy: GameLayoutPolicy,
+        topSafeAreaInset: CGFloat
     ) -> GameAreaLayoutConfiguration {
-        guard expandsIntoTopSafeArea, layoutKind == .compactLandscape else { return .standard }
-        return GameAreaLayoutConfiguration(edgePadding: compactLandscapeExpandedEdgePadding)
+        guard policy.expandsGameAreaIntoTopSafeArea else { return .standard }
+        return GameAreaLayoutConfiguration(
+            edgePadding: compactLandscapeExpandedEdgePadding,
+            topSafeAreaInset: max(0, topSafeAreaInset)
+        )
     }
 
     func side(for availableSize: CGSize) -> CGFloat {
-        let rawSide = min(availableSize.width, availableSize.height)
-        return max(0, rawSide - edgePadding * 2)
+        let availableWidth = max(0, availableSize.width)
+        let availableHeight = max(0, availableSize.height)
+        let rawSide = min(availableWidth, availableHeight)
+        guard reappliesTopSafeArea else { return rawSide }
+
+        let paddedExpandedSide = max(0, rawSide - edgePadding * 2)
+        let unexpandedHeight = max(0, availableHeight - topSafeAreaInset)
+        let unexpandedSide = min(availableWidth, unexpandedHeight)
+        return max(paddedExpandedSide, unexpandedSide)
     }
 }

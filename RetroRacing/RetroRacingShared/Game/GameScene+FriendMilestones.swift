@@ -81,7 +81,7 @@ extension GameScene {
         let candidates = friendMilestoneRenderCandidates()
         guard candidates.isEmpty == false else { return }
 
-        let pinTintColor = roadLineColor()
+        let pinTintColor = SKColor.black
         let fallbackAvatarBackgroundColor = gridCellFillColor()
         let xOffsets = friendMilestoneXOffsets(candidates: candidates)
 

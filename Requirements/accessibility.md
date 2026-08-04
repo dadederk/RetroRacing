@@ -18,8 +18,8 @@
 ## VoiceOver Gameplay
 
 - The solo HUD shows the score as a numeric value without a visible prefix and shows three
-  helmet icons for lives. Consumed helmets fade in order from left to right while the remaining
-  helmets stay fully visible.
+  helmet icons for lives. Consumed helmets fade in order from left to right and keep a
+  primary-contrast outline while the remaining helmets stay fully visible.
 - SharePlay presents the same three-helmet lives model for the friend. Friend helmets are
   decorative within the row's combined score/lives accessibility element and are not announced
   individually.

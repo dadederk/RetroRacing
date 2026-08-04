@@ -69,14 +69,13 @@ public struct GameLivesStatusView: View {
     public var body: some View {
         HStack(spacing: spacing) {
             ForEach(0..<GameState.initialLives, id: \.self) { position in
-                Image(decorative: lifeAssetName, bundle: bundle)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(
-                        width: helmetCanvasHeight * Self.helmetCanvasAspectRatio,
-                        height: helmetCanvasHeight
-                    )
-                    .opacity(Self.isConsumed(position, lives: lives) ? 0.3 : 1)
+                LifeHelmetIconView(
+                    assetName: lifeAssetName,
+                    bundle: bundle,
+                    canvasSize: helmetCanvasSize,
+                    outlineColor: Self.consumedOutlineColor,
+                    isConsumed: Self.isConsumed(position, lives: lives)
+                )
             }
         }
         .animation(reduceMotion ? nil : .easeOut(duration: 0.2), value: displayedLives)
@@ -94,9 +93,22 @@ public struct GameLivesStatusView: View {
         Self.canvasHeight(forVisibleHeight: visibleHeight)
     }
 
+    private var helmetCanvasSize: CGSize {
+        CGSize(
+            width: helmetCanvasHeight * Self.helmetCanvasAspectRatio,
+            height: helmetCanvasHeight
+        )
+    }
+
     static func canvasHeight(forVisibleHeight visibleHeight: CGFloat) -> CGFloat {
         visibleHeight / helmetVisibleHeightRatio
     }
+
+    static func consumedOutlineOffset(forCanvasHeight canvasHeight: CGFloat) -> CGFloat {
+        min(2, max(0.75, canvasHeight * 0.035))
+    }
+
+    private static let consumedOutlineColor = Color.primary
 
     private static var helmetCanvasAspectRatio: CGFloat {
         #if os(watchOS)
@@ -128,5 +140,70 @@ public struct GameLivesStatusView: View {
             return GameLocalizedStrings.format("%lld life remaining", Int64(displayedLives))
         }
         return GameLocalizedStrings.format("%lld lives remaining", Int64(displayedLives))
+    }
+}
+
+private struct LifeHelmetIconView: View {
+    let assetName: String
+    let bundle: Bundle
+    let canvasSize: CGSize
+    let outlineColor: Color
+    let isConsumed: Bool
+
+    private static let consumedOpacity: Double = 0.3
+    private static let outlineDirections: [OutlineDirection] = [
+        OutlineDirection(id: 0, xMultiplier: -1, yMultiplier: 0),
+        OutlineDirection(id: 1, xMultiplier: 1, yMultiplier: 0),
+        OutlineDirection(id: 2, xMultiplier: 0, yMultiplier: -1),
+        OutlineDirection(id: 3, xMultiplier: 0, yMultiplier: 1),
+        OutlineDirection(id: 4, xMultiplier: -1, yMultiplier: -1),
+        OutlineDirection(id: 5, xMultiplier: -1, yMultiplier: 1),
+        OutlineDirection(id: 6, xMultiplier: 1, yMultiplier: -1),
+        OutlineDirection(id: 7, xMultiplier: 1, yMultiplier: 1),
+    ]
+
+    var body: some View {
+        ZStack {
+            if isConsumed {
+                outlineLayer
+                    .transition(.opacity)
+            }
+            helmetImage()
+                .opacity(isConsumed ? Self.consumedOpacity : 1)
+        }
+        .frame(width: canvasSize.width, height: canvasSize.height)
+    }
+
+    private var outlineLayer: some View {
+        let offset = GameLivesStatusView.consumedOutlineOffset(forCanvasHeight: canvasSize.height)
+
+        return ForEach(Self.outlineDirections) { direction in
+            helmetImage(renderingMode: .template)
+                .foregroundStyle(outlineColor)
+                .offset(
+                    x: offset * direction.xMultiplier,
+                    y: offset * direction.yMultiplier
+                )
+        }
+        .overlay {
+            helmetImage(renderingMode: .template)
+                .foregroundStyle(.black)
+                .blendMode(.destinationOut)
+        }
+        .compositingGroup()
+    }
+
+    private func helmetImage(renderingMode: Image.TemplateRenderingMode? = nil) -> some View {
+        Image(decorative: assetName, bundle: bundle)
+            .renderingMode(renderingMode)
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(width: canvasSize.width, height: canvasSize.height)
+    }
+
+    private struct OutlineDirection: Identifiable {
+        let id: Int
+        let xMultiplier: CGFloat
+        let yMultiplier: CGFloat
     }
 }
