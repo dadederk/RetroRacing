@@ -37,6 +37,7 @@
 - Direct Touch defaults to on where shown and persists user overrides.
 - Voice Control input labels include short and descriptive aliases: Left/Move left and Right/Move right.
 - HUD status and SpriteKit visuals are not Voice Control tap targets.
+- Settings Style Gallery rows are semantic buttons with localized theme descriptions. The currently selected style exposes the selected accessibility trait in addition to its visual checkmark.
 - tvOS maps Siri Remote directional input through `onMoveCommand`.
 - macOS disables gameplay trackpad lane swipes while VoiceOver is running.
 

@@ -46,9 +46,13 @@ struct BottomActionBar<Content: View>: View {
     private let contentHorizontalPadding: CGFloat = 20
     private let contentTopPadding: CGFloat = 20
     private let contentBottomPadding: CGFloat = 20
+    private let minimumCornerRadius: CGFloat = 24
 
     var body: some View {
-        let shape = ConcentricRectangle(corners: .concentric, isUniform: true)
+        let shape = ConcentricRectangle(
+            corners: .concentric(minimum: .fixed(minimumCornerRadius)),
+            isUniform: true
+        )
 
         content()
             .controlSize(.large)

@@ -76,6 +76,9 @@ public struct GameView: View {
     @ScaledMetric(relativeTo: .largeTitle) private var directionButtonHeight: CGFloat = 120
     @Environment(\.dismiss) private var dismiss
     @Environment(StoreKitService.self) private var storeKit
+    #if os(iOS)
+    @Environment(\.verticalSizeClass) private var verticalSizeClass
+    #endif
     @State private var isPaywallPresented = false
     @State private var pendingFinishRequestAfterGameOverDismiss = false
     @State private var isInGameHelpPresented = false
@@ -304,98 +307,104 @@ public struct GameView: View {
     }
 
     private var gameViewCore: some View {
-        GeometryReader { outer in
-            ZStack {
-                GameLayoutView(
-                    containerSize: outer.size,
-                    hud: GameHUDInput(
-                        style: style,
-                        score: model.hud.score,
-                        lives: model.hud.lives,
-                        showsSpeedAlert: model.hud.speedIncreaseImminent,
-                        lifeAssetName: theme?.lifeSprite() ?? "life-LCD",
-                        friendLifeAssetName: theme?.resolvedFriendLifeSprite() ?? "life-LCD",
-                        bundle: Self.sharedBundle,
-                        hidesFromAccessibility: false,
-                        headerFont: headerFont(textStyle: style.hudTextStyle),
-                        friendHeaderFont: headerFont(textStyle: style.friendHUDTextStyle),
-                        sharePlayOpponentName: model.sharePlayOpponentDisplayName,
-                        sharePlayOpponentScore: sharePlayOpponentScore,
-                        sharePlayOpponentLives: sharePlayOpponentLives
-                    ),
-                    controls: GameControlInput(
-                        leftButtonDown: model.controls.leftButtonDown,
-                        rightButtonDown: model.controls.rightButtonDown,
-                        directionButtonHeight: directionButtonHeight,
-                        bundle: Self.sharedBundle,
-                        inputAdapter: model.inputAdapter,
-                        onMoveLeft: { model.flashButton(.left) },
-                        onMoveRight: { model.flashButton(.right) },
-                        onKeyboardInput: { model.recordControlInput(.keyboard) },
-                        onSwipeInput: { model.recordControlInput(.swipe) },
-                        onTogglePause: model.togglePause
-                    ),
-                    lifecycle: GameAreaLifecycleCallbacks(
-                        onAppearSide: { side in
-                            if side > 0 {
-                                measuredGameSide = side
-                            }
-                            let effectiveSide = effectiveScreenshotCaptureSide(from: side)
-                            if screenshotLayout != nil, effectiveSide > 0 {
-                                lastScreenshotCaptureEffectiveSide = effectiveSide
-                            }
-                            AppLog.info(
-                                AppLog.lifecycle + AppLog.game,
-                                "GAME_LAYOUT_APPEAR",
-                                outcome: .completed,
-                                fields: [
-                                    .double("side", side),
-                                    .double("effectiveSide", effectiveSide)
-                                ]
-                            )
-                            model.setupSceneIfNeeded(
-                                side: effectiveSide,
-                                volume: selectedSoundEffectsVolume
-                            )
-                            markScreenshotCaptureReadyIfNeeded()
-                        },
-                        onResizeSide: { side in
-                            guard side > 0 else { return }
-                            measuredGameSide = side
-                            let effectiveSide = effectiveScreenshotCaptureSide(from: side)
-                            if screenshotLayout != nil {
-                                if abs(effectiveSide - lastScreenshotCaptureEffectiveSide) > 1 {
-                                    lastScreenshotCaptureEffectiveSide = effectiveSide
-                                    resetScreenshotCaptureReadiness()
+        GeometryReader { safeAreaReader in
+            GeometryReader { outer in
+                ZStack {
+                    GameLayoutView(
+                        containerSize: outer.size,
+                        safeAreaInsets: GameLayoutSafeAreaInsets(safeAreaReader.safeAreaInsets),
+                        expandsGameAreaIntoTopSafeArea: shouldExpandGameSquareIntoTopSafeArea,
+                        hud: GameHUDInput(
+                            style: style,
+                            score: model.hud.score,
+                            lives: model.hud.lives,
+                            showsSpeedAlert: model.hud.speedIncreaseImminent,
+                            lifeAssetName: theme?.lifeSprite() ?? "life-LCD",
+                            friendLifeAssetName: theme?.resolvedFriendLifeSprite() ?? "life-LCD",
+                            bundle: Self.sharedBundle,
+                            hidesFromAccessibility: false,
+                            headerFont: headerFont(textStyle: style.hudTextStyle),
+                            speedAlertFont: headerFont(textStyle: .callout),
+                            friendHeaderFont: headerFont(textStyle: style.friendHUDTextStyle),
+                            sharePlayOpponentName: model.sharePlayOpponentDisplayName,
+                            sharePlayOpponentScore: sharePlayOpponentScore,
+                            sharePlayOpponentLives: sharePlayOpponentLives
+                        ),
+                        controls: GameControlInput(
+                            leftButtonDown: model.controls.leftButtonDown,
+                            rightButtonDown: model.controls.rightButtonDown,
+                            directionButtonHeight: directionButtonHeight,
+                            bundle: Self.sharedBundle,
+                            inputAdapter: model.inputAdapter,
+                            onMoveLeft: { model.flashButton(.left) },
+                            onMoveRight: { model.flashButton(.right) },
+                            onKeyboardInput: { model.recordControlInput(.keyboard) },
+                            onSwipeInput: { model.recordControlInput(.swipe) },
+                            onTogglePause: model.togglePause
+                        ),
+                        lifecycle: GameAreaLifecycleCallbacks(
+                            onAppearSide: { side in
+                                if side > 0 {
+                                    measuredGameSide = side
                                 }
-                            } else {
-                                lastScreenshotCaptureEffectiveSide = 0
-                            }
-                            model.updateSceneSizeIfNeeded(side: effectiveSide)
-                            if effectiveSide > 0 {
+                                let effectiveSide = effectiveScreenshotCaptureSide(from: side)
+                                if screenshotLayout != nil, effectiveSide > 0 {
+                                    lastScreenshotCaptureEffectiveSide = effectiveSide
+                                }
+                                AppLog.info(
+                                    AppLog.lifecycle + AppLog.game,
+                                    "GAME_LAYOUT_APPEAR",
+                                    outcome: .completed,
+                                    fields: [
+                                        .double("side", side),
+                                        .double("effectiveSide", effectiveSide)
+                                    ]
+                                )
                                 model.setupSceneIfNeeded(
                                     side: effectiveSide,
                                     volume: selectedSoundEffectsVolume
                                 )
                                 markScreenshotCaptureReadyIfNeeded()
+                            },
+                            onResizeSide: { side in
+                                guard side > 0 else { return }
+                                measuredGameSide = side
+                                let effectiveSide = effectiveScreenshotCaptureSide(from: side)
+                                if screenshotLayout != nil {
+                                    if abs(effectiveSide - lastScreenshotCaptureEffectiveSide) > 1 {
+                                        lastScreenshotCaptureEffectiveSide = effectiveSide
+                                        resetScreenshotCaptureReadiness()
+                                    }
+                                } else {
+                                    lastScreenshotCaptureEffectiveSide = 0
+                                }
+                                model.updateSceneSizeIfNeeded(side: effectiveSide)
+                                if effectiveSide > 0 {
+                                    model.setupSceneIfNeeded(
+                                        side: effectiveSide,
+                                        volume: selectedSoundEffectsVolume
+                                    )
+                                    markScreenshotCaptureReadyIfNeeded()
+                                }
                             }
+                        ),
+                        gameArea: { _ in
+                            gameAreaContent
                         }
-                    ),
-                    gameArea: { _ in
-                        gameAreaContent
-                    }
-                )
-                GameInputOverlay(
-                    onLeftTap: handleLeftTap,
-                    onRightTap: handleRightTap,
-                    onDrag: handleDrag,
-                    isInputEnabled: !isPausedGridExplorationMode,
-                    isAccessibilityEnabled: !isPausedGridExplorationMode,
-                    isDirectTouchEnabled: selectedDirectTouchEnabled
-                )
+                    )
+                    GameInputOverlay(
+                        onLeftTap: handleLeftTap,
+                        onRightTap: handleRightTap,
+                        onDrag: handleDrag,
+                        isInputEnabled: !isPausedGridExplorationMode,
+                        isAccessibilityEnabled: !isPausedGridExplorationMode,
+                        isDirectTouchEnabled: selectedDirectTouchEnabled
+                    )
 
-                screenshotCaptureReadinessOverlay
+                    screenshotCaptureReadinessOverlay
+                }
             }
+            .ignoresSafeArea(edges: ignoredSafeAreaEdges)
         }
         .task {
             guard screenshotLayout != nil else { return }
@@ -422,7 +431,6 @@ public struct GameView: View {
             }
         }
         #endif
-        .ignoresSafeArea(edges: .bottom)
         #if os(iOS)
         .persistentSystemOverlays(.hidden)
         .background(InteractivePopGestureDisabler())
@@ -605,6 +613,22 @@ public struct GameView: View {
 
     private var sharePlayOpponentLives: Int? {
         model.sharePlayRemoteLives
+    }
+
+    private var ignoredSafeAreaEdges: Edge.Set {
+        #if os(iOS)
+        return shouldExpandGameSquareIntoTopSafeArea ? [.top, .bottom] : .bottom
+        #else
+        return .bottom
+        #endif
+    }
+
+    private var shouldExpandGameSquareIntoTopSafeArea: Bool {
+        #if os(iOS)
+        screenshotLayout == nil && verticalSizeClass == .compact
+        #else
+        false
+        #endif
     }
 
     @ViewBuilder

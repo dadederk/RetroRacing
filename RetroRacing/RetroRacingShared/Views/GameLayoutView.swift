@@ -9,6 +9,8 @@ import SwiftUI
 
 struct GameLayoutView<GameArea: View>: View {
     let containerSize: CGSize
+    let safeAreaInsets: GameLayoutSafeAreaInsets
+    let expandsGameAreaIntoTopSafeArea: Bool
     let hud: GameHUDInput
     let controls: GameControlInput
     let lifecycle: GameAreaLifecycleCallbacks
@@ -22,25 +24,32 @@ struct GameLayoutView<GameArea: View>: View {
     var body: some View {
         ZStack(alignment: .bottomLeading) {
             let resolvedLayoutKind = layoutKind
+            let gameAreaLayoutConfiguration = GameAreaLayoutConfiguration.resolve(
+                layoutKind: resolvedLayoutKind,
+                expandsIntoTopSafeArea: expandsGameAreaIntoTopSafeArea
+            )
             switch resolvedLayoutKind {
             case .compactLandscape:
                 CompactLandscapeGameLayout(
                     hud: hud,
                     controls: controls,
-                    gameArea: gameAreaContainer
+                    topSafeAreaInset: gameAreaLayoutConfiguration.reappliesTopSafeArea
+                        ? safeAreaInsets.top
+                        : 0,
+                    gameArea: gameAreaContainer(configuration: gameAreaLayoutConfiguration)
                 )
             case .regularWidthWidePlay:
                 RegularWidthGameLayout(
                     hud: hud,
                     controls: controls,
-                    gameArea: gameAreaContainer
+                    gameArea: gameAreaContainer(configuration: gameAreaLayoutConfiguration)
                 )
             case .portrait, .portraitCentered:
                 PortraitGameLayout(
                     hud: hud,
                     controls: controls,
                     centersPlayArea: resolvedLayoutKind == .portraitCentered,
-                    gameArea: gameAreaContainer
+                    gameArea: gameAreaContainer(configuration: gameAreaLayoutConfiguration)
                 )
             }
             if hud.showsSpeedAlert {
@@ -52,8 +61,9 @@ struct GameLayoutView<GameArea: View>: View {
         }
     }
 
-    private var gameAreaContainer: some View {
+    private func gameAreaContainer(configuration: GameAreaLayoutConfiguration) -> some View {
         GameAreaContainer(
+            layoutConfiguration: configuration,
             controls: controls,
             lifecycle: lifecycle,
             content: gameArea

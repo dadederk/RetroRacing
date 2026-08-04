@@ -46,7 +46,7 @@ struct GameSpeedAlertView: View {
 
     private var alertText: some View {
         Text(GameLocalizedStrings.string("speed_increasing_alert"))
-            .font(input.headerFont)
+            .font(input.speedAlertFont)
             .foregroundStyle(.primary)
             .shadow(color: Color.primary.opacity(0.35), radius: 0.5)
     }

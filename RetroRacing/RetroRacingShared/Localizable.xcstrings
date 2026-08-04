@@ -25259,6 +25259,755 @@
         }
       }
     },
+    "settings_theme_gallery_preview": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Galeria d'estils"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stilgalerie"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Style Gallery"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Style Gallery"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Style Gallery"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Style Gallery"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Galería de estilos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Galerie des styles"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Galleria degli stili"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stijlgalerij"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "スタイルギャラリー"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "스타일 갤러리"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Galeria de estilos"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "風格圖庫"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Galeria de estilos"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "风格图库"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Galerie des styles"
+          }
+        }
+      }
+    },
+    "settings_theme_gallery_preview_accessibility %@": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Previsualització del tema %@. Mostra els dos cotxes, els dos cascos, l'explosió i els colors de la carretera."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Theme-Vorschau für %@. Zeigt beide Autos, beide Helme, die Explosion und die Straßenfarben."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Theme preview for %@. Shows both cars, both helmets, the explosion, and the road colors."
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Theme preview for %@. Shows both cars, both helmets, the explosion, and the road colours."
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Theme preview for %@. Shows both cars, both helmets, the explosion, and the road colors."
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Theme preview for %@. Shows both cars, both helmets, the explosion, and the road colours."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vista previa del tema %@. Muestra los dos coches, los dos cascos, la explosión y los colores de la carretera."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aperçu du thème %@. Affiche les deux voitures, les deux casques, l’explosion et les couleurs de la route."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anteprima del tema %@. Mostra entrambe le auto, entrambi i caschi, l'esplosione e i colori della strada."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Themapreview voor %@. Toont beide auto's, beide helmen, de explosie en de wegkleuren."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@テーマのプレビュー。2台の車、2つのヘルメット、爆発、道路の色を表示します。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ 테마 미리보기. 두 자동차, 두 헬멧, 폭발, 도로 색상을 보여 줍니다."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prévia do tema %@. Mostra os dois carros, os dois capacetes, a explosão e as cores da pista."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ 主題預覽。顯示兩台車、兩頂頭盔、爆炸和道路顏色。"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pré-visualização do tema %@. Mostra os dois carros, os dois capacetes, a explosão e as cores da estrada."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ 主题预览。显示两辆车、两顶头盔、爆炸和道路颜色。"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aperçu du thème %@. Affiche les deux voitures, les deux casques, l’explosion et les couleurs de la route."
+          }
+        }
+      }
+    },
+    "settings_theme_gallery_preview_accessibility_eight_bit": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Previsualització del tema 8-Bit. Espurna de consola de saló: dos cotxes de píxels valents, dos cascos amb força, una explosió taronja calenta i una carretera grisa arcade amb línies grogues."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vorschau für das 8-Bit-Theme. Heimkonsolen-Funkeln: zwei kräftige Pixelautos, zwei markante Helme, ein heißer orangener Crash und eine graue Arcade-Straße mit leuchtend gelben Linien."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "8-Bit theme preview. Home-console sparkle: two bold pixel cars, two punchy helmets, a hot orange crash, and a gray arcade road with bright yellow lines."
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "8-Bit theme preview. Home-console sparkle: two bold pixel cars, two punchy helmets, a hot orange crash, and a grey arcade road with bright yellow lines."
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "8-Bit theme preview. Home-console sparkle: two bold pixel cars, two punchy helmets, a hot orange crash, and a gray arcade road with bright yellow lines."
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "8-Bit theme preview. Home-console sparkle: two bold pixel cars, two punchy helmets, a hot orange crash, and a grey arcade road with bright yellow lines."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vista previa del tema 8-Bit. Brillo de consola de salón: dos coches pixelados atrevidos, dos cascos con carácter, una explosión naranja intensa y una carretera arcade gris con líneas amarillas."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aperçu du thème 8-Bit. Éclat de console de salon: deux voitures pixel audacieuses, deux casques punchy, un crash orange brûlant et une route arcade grise aux lignes jaune vif."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anteprima del tema 8-Bit. Scintilla da console di casa: due auto pixel decise, due caschi grintosi, uno schianto arancione acceso e una strada arcade grigia con linee gialle."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Themapreview voor 8-Bit. Huiskamerconsole-energie: twee stoere pixelauto's, twee pittige helmen, een hete oranje crash en een grijze arcadeweg met felgele lijnen."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "8-Bitテーマのプレビュー。家庭用コンソールのきらめき。太いピクセルカー2台、パンチのあるヘルメット2つ、熱いオレンジのクラッシュ、鮮やかな黄色ラインのグレーのアーケード道路。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "8-Bit 테마 미리보기. 가정용 콘솔의 반짝임: 굵직한 픽셀 자동차 두 대, 강렬한 헬멧 두 개, 뜨거운 주황색 충돌, 선명한 노란 선이 있는 회색 아케이드 도로."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prévia do tema 8-Bit. Brilho de console de casa: dois carros pixelados marcantes, dois capacetes cheios de atitude, uma batida laranja quente e uma pista arcade cinza com linhas amarelas."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "8-Bit 主題預覽。家用主機的閃亮感：兩台大膽像素車、兩頂有力頭盔、熱烈橘色撞擊，以及有亮黃線條的灰色街機道路。"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pré-visualização do tema 8-Bit. Brilho de consola caseira: dois carros pixelizados marcantes, dois capacetes cheios de atitude, um embate laranja quente e uma estrada arcade cinzenta com linhas amarelas."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "8-Bit 主题预览。家用主机的闪亮感：两辆大胆像素车、两顶有力头盔、热烈橙色撞击，以及带亮黄线条的灰色街机道路。"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aperçu du thème 8-Bit. Éclat de console de salon: deux voitures pixel audacieuses, deux casques punchy, un crash orange brûlant et une route arcade grise aux lignes jaune vif."
+          }
+        }
+      }
+    },
+    "settings_theme_gallery_preview_accessibility_lcd": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Previsualització del tema LCD. Ambient de calculadora arcade: dos cotxes nítids, dos cascos nets, una explosió lluminosa i una carretera clara per a rècords al sol."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vorschau für das LCD-Theme. Taschenrechner-Arcade-Stimmung: zwei klare Rennwagen, zwei saubere Helme, ein heller Crash und eine helle Straße für sonnige Highscore-Runden."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "LCD theme preview. Calculator-arcade vibes: two crisp racers, two clean helmets, a bright crash, and a pale road palette built for sunny high-score runs."
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "LCD theme preview. Calculator-arcade vibes: two crisp racers, two clean helmets, a bright crash, and a pale road palette built for sunny high-score runs."
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "LCD theme preview. Calculator-arcade vibes: two crisp racers, two clean helmets, a bright crash, and a pale road palette built for sunny high-score runs."
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "LCD theme preview. Calculator-arcade vibes: two crisp racers, two clean helmets, a bright crash, and a pale road palette built for sunny high-score runs."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vista previa del tema LCD. Ambiente de calculadora arcade: dos coches nítidos, dos cascos limpios, una explosión brillante y una carretera clara para récords bajo el sol."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aperçu du thème LCD. Ambiance calculatrice arcade: deux voitures nettes, deux casques propres, un crash lumineux et une route pâle pour les records au soleil."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anteprima del tema LCD. Atmosfera da calcolatrice arcade: due auto nitide, due caschi puliti, uno schianto luminoso e una strada chiara per record sotto il sole."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Themapreview voor LCD. Rekenmachine-arcadesfeer: twee strakke raceauto's, twee nette helmen, een felle crash en een lichte weg voor zonnige highscore-rondes."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "LCDテーマのプレビュー。電卓アーケードのムード。くっきりしたレーサー2台、すっきりしたヘルメット2つ、明るいクラッシュ、太陽の下でハイスコアを狙う淡い道路パレット。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "LCD 테마 미리보기. 계산기 아케이드 감성: 또렷한 레이서 두 대, 깔끔한 헬멧 두 개, 밝은 충돌 효과, 햇살 속 최고 점수에 어울리는 연한 도로 팔레트."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prévia do tema LCD. Clima de calculadora arcade: dois carros nítidos, dois capacetes limpos, uma batida brilhante e uma pista clara para recordes ao sol."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "LCD 主題預覽。計算機街機氛圍：兩台俐落賽車、兩頂乾淨頭盔、明亮撞擊效果，以及適合陽光高分賽道的淡色道路配色。"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pré-visualização do tema LCD. Ambiente de calculadora arcade: dois carros nítidos, dois capacetes limpos, um embate luminoso e uma estrada clara para recordes ao sol."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "LCD 主题预览。计算器街机氛围：两辆利落赛车、两顶干净头盔、明亮撞击效果，以及适合阳光高分赛道的淡色道路配色。"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aperçu du thème LCD. Ambiance calculatrice arcade: deux voitures nettes, deux casques propres, un crash lumineux et une route pâle pour les records au soleil."
+          }
+        }
+      }
+    },
+    "settings_theme_gallery_preview_accessibility_pocket": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Previsualització del tema Pocket. Ambient de consola de butxaca: dos cotxes verd molsa, dos cascos robustos, un esclat cruixent i una paleta de carretera apagada d'una pantalla clàssica."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vorschau für das Pocket-Theme. Kleine Handheld-Vibes: zwei moosgrüne Rennwagen, zwei kantige Helme, ein knackiger Crash und eine gedämpfte Straßenpalette wie auf einem alten Taschendisplay."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pocket theme preview. Tiny handheld vibes: two moss-green racers, two chunky helmets, a crunchy crash, and a muted road palette from an old pocket screen."
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pocket theme preview. Tiny handheld vibes: two moss-green racers, two chunky helmets, a crunchy crash, and a muted road palette from an old pocket screen."
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pocket theme preview. Tiny handheld vibes: two moss-green racers, two chunky helmets, a crunchy crash, and a muted road palette from an old pocket screen."
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pocket theme preview. Tiny handheld vibes: two moss-green racers, two chunky helmets, a crunchy crash, and a muted road palette from an old pocket screen."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vista previa del tema Pocket. Vibras de consola de bolsillo: dos coches verde musgo, dos cascos robustos, un choque crujiente y una paleta de carretera apagada de una pantalla clásica."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aperçu du thème Pocket. Ambiance mini-console: deux voitures vert mousse, deux casques trapus, un crash croustillant et une palette de route feutrée venue d'un vieil écran de poche."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anteprima del tema Pocket. Atmosfera da mini console: due auto verde muschio, due caschi robusti, uno schianto croccante e una palette stradale attenuata da vecchio schermo tascabile."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Themapreview voor Pocket. Mini-handheldsfeer: twee mosgroene raceauto's, twee stevige helmen, een knetterende crash en een gedempt wegpalet van een oud zakscherm."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pocketテーマのプレビュー。小さな携帯ゲーム機のムード。苔色のレーサー2台、ずんぐりしたヘルメット2つ、ザクッとしたクラッシュ、昔のポケット画面みたいな渋い道路パレット。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pocket 테마 미리보기. 작은 휴대용 게임기 감성: 이끼빛 레이서 두 대, 큼직한 헬멧 두 개, 바삭한 충돌 효과, 오래된 포켓 화면 같은 차분한 도로 팔레트."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prévia do tema Pocket. Clima de portátil de bolso: dois carros verde-musgo, dois capacetes parrudos, uma batida crocante e uma paleta de pista suave de tela antiga."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pocket 主題預覽。掌上遊戲機氛圍：兩台苔綠色賽車、兩頂厚實頭盔、清脆的撞擊效果，以及像老式口袋螢幕的柔和道路配色。"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pré-visualização do tema Pocket. Ambiente de portátil de bolso: dois carros verde-musgo, dois capacetes robustos, um embate crocante e uma paleta de estrada suave de um ecrã antigo."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pocket 主题预览。掌上游戏机氛围：两辆苔绿色赛车、两顶厚实头盔、清脆的撞击效果，以及像老式口袋屏幕的柔和道路配色。"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aperçu du thème Pocket. Ambiance mini-console: deux voitures vert mousse, deux casques trapus, un crash croustillant et une palette de route feutrée venue d'un vieil écran de poche."
+          }
+        }
+      }
+    },
+    "settings_theme_gallery_preview_accessibility_sixteen_bit": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Previsualització del tema 16-Bit. Drama arcade dels noranta: dos cotxes de píxels més rics, dos cascos brillants, una explosió de foc i una carretera grisa ràpida entre gespa verda."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vorschau für das 16-Bit-Theme. Frühe Arcade-Dramatik: zwei detailreichere Pixelautos, zwei glänzende Helme, ein feuriger Crash und eine schnelle graue Straße durch grünes Gras."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "16-Bit theme preview. Early arcade drama: two richer pixel cars, two glossy helmets, a fiery crash, and a fast gray road cutting through green grass."
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "16-Bit theme preview. Early arcade drama: two richer pixel cars, two glossy helmets, a fiery crash, and a fast grey road cutting through green grass."
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "16-Bit theme preview. Early arcade drama: two richer pixel cars, two glossy helmets, a fiery crash, and a fast gray road cutting through green grass."
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "16-Bit theme preview. Early arcade drama: two richer pixel cars, two glossy helmets, a fiery crash, and a fast grey road cutting through green grass."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vista previa del tema 16-Bit. Drama arcade noventero: dos coches pixelados más ricos, dos cascos brillantes, una explosión ardiente y una carretera gris rápida entre hierba verde."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aperçu du thème 16-Bit. Drame arcade rétro: deux voitures pixel plus riches, deux casques brillants, un crash flamboyant et une route grise rapide entre l'herbe verte."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Anteprima del tema 16-Bit. Dramma arcade d'altri tempi: due auto pixel più ricche, due caschi lucidi, uno schianto infuocato e una strada grigia veloce nell'erba verde."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Themapreview voor 16-Bit. Vroege arcadedrama: twee rijkere pixelauto's, twee glanzende helmen, een vurige crash en een snelle grijze weg door groen gras."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "16-Bitテーマのプレビュー。初期アーケードのドラマ。濃いピクセルカー2台、つやのあるヘルメット2つ、燃えるクラッシュ、緑の芝生を切り裂く速いグレーの道路。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "16-Bit 테마 미리보기. 초기 아케이드 드라마: 더 풍부한 픽셀 자동차 두 대, 반짝이는 헬멧 두 개, 불타는 충돌, 초록 잔디를 가르는 빠른 회색 도로."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Prévia do tema 16-Bit. Drama arcade clássico: dois carros pixelados mais ricos, dois capacetes brilhantes, uma batida flamejante e uma pista cinza veloz cortando a grama verde."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "16-Bit 主題預覽。早期街機戲劇感：兩台更細緻的像素車、兩頂亮面頭盔、火焰般的撞擊，以及穿過綠草的高速灰色道路。"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pré-visualização do tema 16-Bit. Drama arcade clássico: dois carros pixelizados mais ricos, dois capacetes brilhantes, um embate flamejante e uma estrada cinzenta veloz a cortar a relva verde."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "16-Bit 主题预览。早期街机戏剧感：两辆更细致的像素车、两顶亮面头盔、火焰般的撞击，以及穿过绿草的高速灰色道路。"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Aperçu du thème 16-Bit. Drame arcade rétro: deux voitures pixel plus riches, deux casques brillants, un crash flamboyant et une route grise rapide entre l'herbe verte."
+          }
+        }
+      }
+    },
+    "settings_theme_gallery_title": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Galeria d'estils"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stilgalerie"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Style Gallery"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Style Gallery"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Style Gallery"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Style Gallery"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Galería de estilos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Galerie des styles"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Galleria degli stili"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Stijlgalerij"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "スタイルギャラリー"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "스타일 갤러리"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Galeria de estilos"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "風格圖庫"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Galeria de estilos"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "风格图库"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Galerie des styles"
+          }
+        }
+      }
+    },
     "settings_theme_style": {
       "extractionState": "manual",
       "localizations": {
@@ -25362,6 +26111,113 @@
           "stringUnit": {
             "state": "translated",
             "value": "Style"
+          }
+        }
+      }
+    },
+    "settings_theme_gallery_unlock_body": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vols canviar de tema, aconseguir Partides il·limitades i també donar suport al desenvolupament del joc?"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Willst du Themes wechseln, Unbegrenzte Spiele bekommen und die Entwicklung des Spiels unterstützen?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Want to change themes, get Unlimited Plays, and support the game's development too?"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Want to change themes, get Unlimited Plays, and support the game's development too?"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Want to change themes, get Unlimited Plays, and support the game's development too?"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Want to change themes, get Unlimited Plays, and support the game's development too?"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "¿Quieres cambiar de tema, conseguir Partidas ilimitadas y apoyar también el desarrollo del juego?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tu veux changer de thème, profiter de Parties illimitées et soutenir aussi le développement du jeu ?"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Vuoi cambiare tema, ottenere Partite illimitate e sostenere anche lo sviluppo del gioco?"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Wil je thema's wijzigen, Onbeperkt spelen krijgen en ook de ontwikkeling van de game steunen?"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "テーマを変更して、無制限プレイを手に入れて、ゲーム開発も応援しませんか？"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "테마도 바꾸고, 무제한 플레이도 얻고, 게임 개발도 응원하고 싶나요?"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quer mudar de tema, liberar Partidas Ilimitadas e também apoiar o desenvolvimento do jogo?"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "想更換主題、取得無限暢玩，並支持遊戲開發嗎？"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Quer mudar de tema, desbloquear Partidas Ilimitadas e também apoiar o desenvolvimento do jogo?"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "想更换主题、取得无限畅玩，并支持游戏开发吗？"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tu veux changer de thème, profiter de Parties illimitées et soutenir aussi le développement du jeu ?"
           }
         }
       }

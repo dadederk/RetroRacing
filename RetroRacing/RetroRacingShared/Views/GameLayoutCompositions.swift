@@ -72,10 +72,12 @@ struct RegularWidthGameLayout<GameArea: View>: View {
 struct CompactLandscapeGameLayout<GameArea: View>: View {
     let hud: GameHUDInput
     let controls: GameControlInput
+    let topSafeAreaInset: CGFloat
     let gameArea: GameArea
 
     private let scoreSideRailWidth: CGFloat = 160
     private let controlsSideRailWidth: CGFloat = 160
+    private let railVerticalPadding: CGFloat = 4
 
     var body: some View {
         HStack(spacing: 0) {
@@ -88,7 +90,8 @@ struct CompactLandscapeGameLayout<GameArea: View>: View {
             }
             .frame(width: scoreSideRailWidth)
             .padding(.horizontal, 8)
-            .padding(.vertical, 4)
+            .padding(.top, railTopPadding)
+            .padding(.bottom, railVerticalPadding)
 
             gameArea.frame(maxWidth: .infinity)
 
@@ -101,7 +104,12 @@ struct CompactLandscapeGameLayout<GameArea: View>: View {
             }
             .frame(width: controlsSideRailWidth)
             .padding(.horizontal, 8)
-            .padding(.vertical, 4)
+            .padding(.top, railTopPadding)
+            .padding(.bottom, railVerticalPadding)
         }
+    }
+
+    private var railTopPadding: CGFloat {
+        railVerticalPadding + topSafeAreaInset
     }
 }

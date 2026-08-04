@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct GameAreaContainer<Content: View>: View {
+    let layoutConfiguration: GameAreaLayoutConfiguration
     let controls: GameControlInput
     let lifecycle: GameAreaLifecycleCallbacks
     let content: (CGFloat) -> Content
@@ -17,8 +18,25 @@ struct GameAreaContainer<Content: View>: View {
     #endif
 
     var body: some View {
+        measuredContainer
+            .aspectRatio(1, contentMode: .fit)
+        #if os(macOS) || os(iOS)
+            .focusable()
+            .focused($isFocused)
+            .onChange(of: isFocused) { _, newValue in
+                AppLog.debug(
+                    AppLog.input + AppLog.game,
+                    "GAME_AREA_FOCUS_CHANGED",
+                    outcome: .completed,
+                    fields: [.bool("isFocused", newValue)]
+                )
+            }
+        #endif
+    }
+
+    private var measuredContainer: some View {
         GeometryReader { geometry in
-            let side = min(geometry.size.width, geometry.size.height)
+            let side = layoutConfiguration.side(for: geometry.size)
             content(side)
                 .frame(width: side, height: side)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -35,24 +53,11 @@ struct GameAreaContainer<Content: View>: View {
                     lifecycle.onAppearSide(side)
                 }
                 .onChange(of: geometry.size) { _, newSize in
-                    let side = min(newSize.width, newSize.height)
+                    let side = layoutConfiguration.side(for: newSize)
                     lifecycle.onAppearSide(side)
                     lifecycle.onResizeSide(side)
                 }
         }
-        .aspectRatio(1, contentMode: .fit)
-        #if os(macOS) || os(iOS)
-        .focusable()
-        .focused($isFocused)
-        .onChange(of: isFocused) { _, newValue in
-            AppLog.debug(
-                AppLog.input + AppLog.game,
-                "GAME_AREA_FOCUS_CHANGED",
-                outcome: .completed,
-                fields: [.bool("isFocused", newValue)]
-            )
-        }
-        #endif
     }
 
     #if os(macOS) || os(iOS)
@@ -67,4 +72,29 @@ struct GameAreaContainer<Content: View>: View {
     #else
     private func setFocusForGameArea() { }
     #endif
+}
+
+struct GameAreaLayoutConfiguration: Equatable {
+    static let compactLandscapeExpandedEdgePadding: CGFloat = 8
+
+    static let standard = GameAreaLayoutConfiguration(edgePadding: 0)
+
+    let edgePadding: CGFloat
+
+    var reappliesTopSafeArea: Bool {
+        edgePadding > 0
+    }
+
+    static func resolve(
+        layoutKind: GameLayoutKind,
+        expandsIntoTopSafeArea: Bool
+    ) -> GameAreaLayoutConfiguration {
+        guard expandsIntoTopSafeArea, layoutKind == .compactLandscape else { return .standard }
+        return GameAreaLayoutConfiguration(edgePadding: compactLandscapeExpandedEdgePadding)
+    }
+
+    func side(for availableSize: CGSize) -> CGFloat {
+        let rawSide = min(availableSize.width, availableSize.height)
+        return max(0, rawSide - edgePadding * 2)
+    }
 }

@@ -389,16 +389,21 @@ public struct SettingsView: View {
                         .font(fontForLabels)
                 }
                 .disabled(isGameSessionInProgress)
+
+                themeGalleryLink
             } else {
-                HStack {
-                    Text(GameLocalizedStrings.string("settings_theme_style"))
-                        .font(fontForLabels)
-                    Spacer()
-                    Text(themeManager.currentTheme.name)
-                        .font(fontForLabels)
-                        .foregroundStyle(.secondary)
+                NavigationLink {
+                    themeGalleryView
+                } label: {
+                    HStack {
+                        Text(GameLocalizedStrings.string("settings_theme_style"))
+                            .font(fontForLabels)
+                        Spacer()
+                        Text(themeManager.currentTheme.name)
+                            .font(fontForLabels)
+                            .foregroundStyle(.secondary)
+                    }
                 }
-                .accessibilityElement(children: .ignore)
                 .accessibilityLabel(Text(GameLocalizedStrings.string("settings_theme_style")))
                 .accessibilityValue(Text(themeManager.currentTheme.name))
             }
@@ -413,6 +418,20 @@ public struct SettingsView: View {
             }
         }
         .accessibilityIdentifier(ScreenshotCaptureIdentifiers.settingsThemeSection)
+    }
+
+    private var themeGalleryLink: some View {
+        NavigationLink {
+            themeGalleryView
+        } label: {
+            Text(GameLocalizedStrings.string("settings_theme_gallery_preview"))
+                .font(fontForLabels)
+        }
+    }
+
+    private var themeGalleryView: some View {
+        ThemeGalleryView(themeManager: themeManager, playLimitService: playLimitService)
+            .fontPreferenceStore(fontPreferenceStore)
     }
 
     @ViewBuilder

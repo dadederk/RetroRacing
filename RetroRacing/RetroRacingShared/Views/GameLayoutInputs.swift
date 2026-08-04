@@ -7,6 +7,34 @@
 
 import SwiftUI
 
+struct GameLayoutSafeAreaInsets: Equatable {
+    let top: CGFloat
+    let leading: CGFloat
+    let bottom: CGFloat
+    let trailing: CGFloat
+
+    init(
+        top: CGFloat = 0,
+        leading: CGFloat = 0,
+        bottom: CGFloat = 0,
+        trailing: CGFloat = 0
+    ) {
+        self.top = top
+        self.leading = leading
+        self.bottom = bottom
+        self.trailing = trailing
+    }
+
+    init(_ edgeInsets: EdgeInsets) {
+        self.init(
+            top: edgeInsets.top,
+            leading: edgeInsets.leading,
+            bottom: edgeInsets.bottom,
+            trailing: edgeInsets.trailing
+        )
+    }
+}
+
 struct GameHUDInput {
     let style: GameViewStyle
     let score: Int
@@ -17,6 +45,7 @@ struct GameHUDInput {
     let bundle: Bundle
     let hidesFromAccessibility: Bool
     let headerFont: Font
+    let speedAlertFont: Font
     let friendHeaderFont: Font
     let sharePlayOpponentName: String?
     let sharePlayOpponentScore: Int?
