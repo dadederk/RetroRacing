@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		210D69C32F3BFEA000EDECA3 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 210D69C22F3BFEA000EDECA3 /* StoreKit.framework */; };
-		210D69C52F3BFEAB00EDECA3 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 210D69C42F3BFEAB00EDECA3 /* StoreKit.framework */; };
 		21472B102F57A8700002E56A /* RetroRacingShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21DD46FE2F2FCB02000C9FFA /* RetroRacingShared.framework */; };
 		21AA00000000000000000001 /* ArcadeAudioKit in Frameworks */ = {isa = PBXBuildFile; productRef = 21AA00000000000000000003 /* ArcadeAudioKit */; };
 		21CE00022F3C0000000000A2 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21CE00012F3C0000000000A1 /* GameController.framework */; platformFilters = (ios, maccatalyst, macos, tvos, visionos, ); };
@@ -177,7 +176,6 @@
 
 /* Begin PBXFileReference section */
 		210D69C22F3BFEA000EDECA3 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
-		210D69C42F3BFEAB00EDECA3 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS26.0.sdk/System/Library/Frameworks/StoreKit.framework; sourceTree = DEVELOPER_DIR; };
 		21CE00012F3C0000000000A1 /* GameController.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameController.framework; path = System/Library/Frameworks/GameController.framework; sourceTree = SDKROOT; };
 		21DD46412F2FC956000C9FFA /* RetroRapid!.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RetroRapid!.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		21DD46502F2FC957000C9FFA /* RetroRacingUniversalTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RetroRacingUniversalTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -304,7 +302,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				21DD47C02F2FCA96000C9FFA /* RetroRacingShared.framework in Frameworks */,
-				210D69C52F3BFEAB00EDECA3 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -382,7 +379,6 @@
 		210D69C12F3BFEA000EDECA3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				210D69C42F3BFEAB00EDECA3 /* StoreKit.framework */,
 				210D69C22F3BFEA000EDECA3 /* StoreKit.framework */,
 				21CE00012F3C0000000000A1 /* GameController.framework */,
 			);
