@@ -2,7 +2,7 @@
 
 Part of [App Store docs hub](../README.md).
 
-Last updated: 2026-08-04
+Last updated: 2026-08-05
 
 **Status:** localized base captures via `./retrorapid screenshots capture`. Studio **export** and Connect **upload** stay **manual**.
 
@@ -18,12 +18,14 @@ Last updated: 2026-08-04
 
 | Kind | Locales |
 |---|---|
-| **Source capture** | `en-US`, `de-DE`, `nl-NL`, `it`, `fr-FR`, `fr-CA`, `es-ES`, `ca`, `ja`, `ko`, `pt-BR`, `pt-PT`, `zh-Hant`, `zh-Hans`, plus review-gated `tr` and `pl` |
-| **Derived (pixel copy)** | `en-GB`/`en-AU`/`en-CA` ← `en-US`; `es-MX` ← `es-ES` |
+| **Source capture** | `en-US`, `de-DE`, `nl-NL`, `it`, `fr-FR`, `fr-CA`, `es-ES`, `es-MX`, `ca`, `ja`, `ko`, `pt-BR`, `pt-PT`, `zh-Hant`, `zh-Hans`, `tr`, `pl` |
+| **Derived (pixel copy)** | `en-GB`/`en-AU`/`en-CA` ← `en-US` |
 
 `en-GB`/`en-AU` overlay spelling: British (`Customise…`). `en-CA` matches US. Watch overlays stay empty (sequence-only).
 
 **Do not** let sync overwrite source-locale pixels with `en-US`. Staging: `.build/screenshot-capture/{iphone,ipad,mac,appleWatch}/`.
+
+The 20-locale model uses 17 independent sources plus three English-derived locales. `es-MX` is a source locale with Mexican Spanish in-app pixels; only `en-GB`, `en-AU`, and `en-CA` derive from `en-US`. Recapture a source locale only after its fluent reviewer approves the current digest in [`../localization/review-status.json`](../localization/review-status.json), and keep existing Studio assets until the replacements pass visual inspection.
 
 ## Storyboard (iPhone / iPad)
 

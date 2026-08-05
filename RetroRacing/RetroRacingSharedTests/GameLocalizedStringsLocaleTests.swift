@@ -20,7 +20,7 @@ final class GameLocalizedStringsLocaleTests: XCTestCase {
     ]
 
     private let supportedLocales = [
-        "de", "nl", "it", "fr", "fr-CA", "es", "ca",
+        "de", "nl", "it", "fr", "fr-CA", "es", "es-MX", "ca",
         "ja", "ko", "pt-BR", "pt-PT", "zh-Hant", "zh-Hans",
         "tr", "pl",
     ]

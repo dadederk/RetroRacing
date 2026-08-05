@@ -2,7 +2,7 @@
 
 Part of [App Store docs hub](../README.md).
 
-Last updated: 2026-07-26
+Last updated: 2026-08-05
 
 **Canonical ops checklist** for shipping a new language end-to-end. In-app string rules: [`Requirements/localization.md`](../../Requirements/localization.md). Capture internals: [`Requirements/screenshot_capture.md`](../../Requirements/screenshot_capture.md).
 
@@ -21,10 +21,11 @@ Last updated: 2026-07-26
 | Layer | Locales |
 |---|---|
 | **In-app** | `en`, `en-GB`, `en-AU`, `en-CA`, `de`, `nl`, `it`, `fr`, `fr-CA`, `es`, `ca`, `ja`, `ko`, `pt-BR`, `pt-PT`, `zh-Hant`, `zh-Hans`; `tr`/`pl` are 1.6 candidates pending native review |
-| **Listing metadata** | 18 existing locales plus planned 1.6 `tr`/`pl`; no 1.6 ASC draft IDs yet |
+| **Listing metadata** | 20 staged locales; no 1.6 ASC draft IDs yet |
 | **IAP / Game Center** | Same as listing **except** no `en-GB`/`en-AU`/`en-CA` (use `en-US`). IAP also has `es-MX`. |
 | **Screenshot capture (source)** | `en-US`, `de-DE`, `nl-NL`, `it`, `fr-FR`, `fr-CA`, `es-ES`, `ca`, `ja`, `ko`, `pt-BR`, `pt-PT`, `zh-Hant`, `zh-Hans`, plus planned `tr`/`pl` |
-| **Screenshot derived (copy pixels)** | `en-GB`/`en-AU`/`en-CA` ← `en-US`; `es-MX` ← `es-ES` |
+| **Screenshot source (capture pixels)** | 17 locales, including independent `es-MX` |
+| **Screenshot derived (copy pixels)** | `en-GB`/`en-AU`/`en-CA` ← `en-US` |
 
 **Next candidates after the 1.6 Turkish/Polish review gate:** `ar` (Arabic) as a dedicated RTL wave, then `th` (Thai), `vi` (Vietnamese), and `id` (Indonesian). See [`Plans/aso/08-locale-expansion-waves.md`](../../Plans/aso/08-locale-expansion-waves.md). Hindi (`hi`) remains a later candidate only if India storefront data justifies the work.
 
@@ -57,10 +58,11 @@ Last updated: 2026-07-26
 | `de` | `de-DE` |
 | `nl` | `nl-NL` |
 | `it` | `it` |
-| `fr` | `fr-FR` (+ `fr-CA` for listing/IAP/GC/screenshots) |
-| `es` | `es-ES` (+ `es-MX` for listing/IAP/screenshots) |
+| `fr`, `fr-CA` | `fr-FR`, `fr-CA` |
+| `es`, `es-MX` | `es-ES`, `es-MX` |
 | `ca` | `ca` |
 | `ja`, `ko`, `pt-BR`, `pt-PT`, `zh-Hant`, `zh-Hans` | same |
+| `tr`, `pl` | same |
 
 ---
 
@@ -70,13 +72,16 @@ Work top to bottom. Tick every box before calling the locale done.
 
 ### 1. In-app strings
 
-- [ ] Add locale to `RetroRacing/RetroRacingShared/Localizable.xcstrings` (100% keys; transcreate, don’t literal-translate)
+- [ ] Add locale to `RetroRacing/RetroRacingShared/Localizable.xcstrings` (100% keys; transcreate, don’t literal-translate; new/changed copy stays `needs_review`)
 - [ ] Align product terms (Unlimited Plays, achievements wording) with IAP/GC copy you’ll upload
 - [ ] Add to `CFBundleLocalizations` in `RetroRacing/Config/RetroRacingUniversalInfo.plist`
 - [ ] Add project region in `RetroRacing.xcodeproj` if required
 - [ ] Extend `ScreenshotCaptureLocaleCatalog.appStoreLocales` + `inAppLanguageIdentifier` mapping
 - [ ] Add locale coverage tests (`GameLocalizedStringsLocaleTests` / shared tests)
 - [ ] Update [`Requirements/localization.md`](../../Requirements/localization.md) supported-language list
+- [ ] Add tone/register guidance and `NEEDS_REVIEW` state to `AppStore/localization/review-status.json`
+- [ ] Generate the locale CSV with `./retrorapid localization reviews --locale <ASC-locale>`
+- [ ] Record a fluent reviewer, date, and the exact approved digest before capture or release readiness
 
 ### 2. App Store listing metadata
 
@@ -168,7 +173,8 @@ Use when copy/fixtures/locales already exist and you only need new pixels.
 - [ ] Pipeline installs into Studio automatically; if Studio still shows English for a locale that has distinct staging files → `--install-only` for that platform
 - [ ] `./retrorapid screenshots sync --check`
 - [ ] Spot-check **source** locales in Studio (not only `en-US`)
-- [ ] Derived locales (`en-GB`/`en-AU`/`en-CA`/`es-MX`) should match their source after sync — do not re-capture them
+- [ ] Derived locales (`en-GB`/`en-AU`/`en-CA`) should match `en-US` after sync — do not re-capture them
+- [ ] Capture `es-MX` independently and confirm Mexican Spanish in-app UI (never Spain Spanish pixels)
 - [ ] Export from Screenshot Studio → upload to App Store Connect (manual)
 
 ### Partial re-take rule

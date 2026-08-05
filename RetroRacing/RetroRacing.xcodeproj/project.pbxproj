@@ -822,6 +822,7 @@
 				it,
 				fr,
 				es,
+				"es-MX",
 				ca,
 				ja,
 				ko,

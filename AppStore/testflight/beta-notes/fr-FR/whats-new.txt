@@ -1,19 +1,16 @@
-Course en direct avec tes amis via SharePlay sur iPhone et iPad.
+Découvre deux nouveaux styles visuels : un 8 bits audacieux et un 16 bits riche en détails. La nouvelle galerie de styles permet de prévisualiser chaque thème avant de choisir ton préféré.
 
-Touche Jouer avec des amis, lance un compte à rebours synchronisé, esquive le trafic ensemble et compare le même résultat victoire, défaite ou égalité. Les revanches attendent que les deux joueurs soient prêts.
+Les courses SharePlay entre amis fonctionnent maintenant aussi sur Mac, en plus de l'iPhone et de l'iPad.
 
-Les courses entre amis sont gratuites et n'utilisent jamais tes parties solo quotidiennes.
+Cette mise à jour améliore aussi les performances et les dispositions en mode paysage, peaufine les menus et les écrans de fin de partie, et rend les voitures et les casques plus nets dans tous les thèmes.
 
-Cette mise à jour ajoute la localisation complète de l'app en allemand, néerlandais, italien, français (France), français canadien, japonais, coréen, portugais brésilien, portugais européen, chinois traditionnel et chinois simplifié. Change la langue de l'appareil, surtout pour l'une des nouvelles langues, et vérifie que menus, réglages et interface de course sonnent naturels.
-
-Nous avons aussi peaufiné les réglages, la clarté du paywall, l'audio et la stabilité.
-
-Ce sur quoi nous aimerions que tu te concentres :
-- Lance une course SharePlay sur deux iPhone/iPad et vérifie le compte à rebours synchronisé
-- Passe en allemand, néerlandais, italien, français (France), français canadien, japonais, coréen, portugais brésilien, portugais européen, chinois traditionnel ou chinois simplifié et évalue les traductions
-- Après l'arrivée, essaie Rejouer: les deux doivent confirmer
-- Avec zéro partie quotidienne, les courses entre amis démarrent encore gratuitement
-- Sur Mac et Apple Watch, vérifie le mode solo
-- Signale crashs, déconnexions ou traductions maladroites
+RetroRapid! est maintenant entièrement localisé en turc et en polonais.
 
 Merci de courir avec nous.
+
+Points à tester :
+- Prévisualise chaque thème dans la galerie de styles et vérifie la netteté des voitures et des casques
+- Lance une course SharePlay avec un ami sur iPhone, iPad ou Mac
+- Compare les performances avant et après de longues parties
+- Teste le mode paysage, les menus et l'écran de fin de partie
+- Termine une partie avec VoiceOver et vérifie chaque annonce

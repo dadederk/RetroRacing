@@ -27,8 +27,8 @@
 
 ## Locale and Platform Rules
 
-- Source locales: `en-US`, `de-DE`, `nl-NL`, `it`, `fr-FR`, `fr-CA`, `es-ES`, `ca`, `ja`, `ko`, `pt-BR`, `pt-PT`, `zh-Hant`, `zh-Hans`, plus planned 1.6 locales `tr` and `pl` after native review.
-- Derived copies: `en-GB`, `en-AU`, `en-CA` from `en-US`; `es-MX` from `es-ES`.
+- Source locales (17): `en-US`, `de-DE`, `nl-NL`, `it`, `fr-FR`, `fr-CA`, `es-ES`, `es-MX`, `ca`, `ja`, `ko`, `pt-BR`, `pt-PT`, `zh-Hant`, `zh-Hans`, `tr`, and `pl`.
+- Derived locales (3): `en-GB`, `en-AU`, and `en-CA` copy in-app pixels from `en-US`. Mexican Spanish is never derived from Spain Spanish.
 - `./retrorapid screenshots sync` may copy derived pixels and overlays but must never replace source locale captures with English.
 - iPhone/iPad default to light appearance and marketing status bar unless flags override.
 - Gameplay fixtures resolve platform-era defaults deterministically: LCD on iPhone, 8-Bit on iPad, 16-Bit on Mac, and Pocket on Apple Watch. Capture applies that default through a volatile preference so persisted developer state cannot change the settings fixture. The dedicated theme showcase uses Pocket on iPhone, iPad, and Mac, and LCD on Apple Watch.
@@ -46,6 +46,7 @@
 ## Operations
 
 - Run full localized, multi-platform capture manually during release preparation when significant UI changes require refreshed screenshots.
+- Do not declare a locale's captures final until its exact content digest has fluent approval. Preserve the prior Studio assets as the recoverable baseline until replacement captures pass visual inspection.
 - Storyboard and copy: [../AppStore/docs/06-screenshots.md](../AppStore/docs/06-screenshots.md).
 - Add language / refresh checklist: [../AppStore/docs/08-locale-expansion.md](../AppStore/docs/08-locale-expansion.md).
 - Common canary:

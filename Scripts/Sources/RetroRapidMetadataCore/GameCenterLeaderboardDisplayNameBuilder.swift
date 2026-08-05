@@ -9,13 +9,13 @@ import Foundation
 
 /// Builds Game Center leaderboard display names to match in-app speed-level naming:
 /// platform prefix + localized "High Score" phrase + untranslated Cruise/Rapid (and localized Fast).
-enum GameCenterLeaderboardDisplayNameBuilder {
-    static let maxDisplayNameLength = 30
+public enum GameCenterLeaderboardDisplayNameBuilder {
+    public static let maxDisplayNameLength = 30
 
     private static let englishHighScorePhrase = "High Score"
     private static let englishSeparator = " - "
 
-    static func displayName(
+    public static func displayName(
         platform: String,
         difficulty: String,
         locale: String,
@@ -85,7 +85,7 @@ enum GameCenterLeaderboardDisplayNameBuilder {
             return "Miglior punteggio"
         case "fr-FR", "fr-CA":
             return "Meilleur score"
-        case "es-ES":
+        case "es-ES", "es-MX":
             return "Mejor puntuación"
         case "ca":
             return "Millor puntuació"
@@ -112,7 +112,7 @@ enum GameCenterLeaderboardDisplayNameBuilder {
             return "Bestscore"
         case "nl-NL":
             return "Highscore"
-        case "it", "fr-FR", "fr-CA", "pt-BR", "pt-PT", "es-ES", "ca":
+        case "it", "fr-FR", "fr-CA", "pt-BR", "pt-PT", "es-ES", "es-MX", "ca":
             return "Top score"
         case "ja":
             return "ハイスコア"
@@ -145,7 +145,7 @@ enum GameCenterLeaderboardDisplayNameBuilder {
                 return "Veloce"
             case "fr-FR", "fr-CA":
                 return "Rapide"
-            case "es-ES":
+            case "es-ES", "es-MX":
                 return "Rápido"
             case "ca":
                 return "Ràpid"

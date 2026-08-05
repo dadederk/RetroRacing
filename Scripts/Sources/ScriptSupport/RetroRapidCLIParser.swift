@@ -54,6 +54,8 @@ public enum RetroRapidCLIParser {
             return try parseASCRoute(remainder)
         case "screenshots":
             return try parseScreenshotsRoute(remainder)
+        case "localization":
+            return try parseLocalizationRoute(remainder)
         case "assets":
             return try parseAssetsRoute(remainder)
         case "testflight":
@@ -151,6 +153,19 @@ public enum RetroRapidCLIParser {
         default:
             throw unknownSubcommandError("screenshots", subcommand)
         }
+    }
+
+    private static func parseLocalizationRoute(_ remainder: [String]) throws -> ScriptDispatchPlan {
+        guard let subcommand = remainder.first else {
+            throw ScriptSupportError.unexpectedArgument("localization requires audit or reviews")
+        }
+        guard subcommand == "audit" || subcommand == "reviews" else {
+            throw unknownSubcommandError("localization", subcommand)
+        }
+        return .runSwiftExecutable(
+            executable: "localization-workflow",
+            arguments: remainder
+        )
     }
 
     private static func parseAssetsRoute(_ remainder: [String]) throws -> ScriptDispatchPlan {

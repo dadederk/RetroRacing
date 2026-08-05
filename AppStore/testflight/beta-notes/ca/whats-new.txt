@@ -1,19 +1,16 @@
-Corre en viu amb amics amb SharePlay a iPhone i iPad.
+Descobrix dos estils visuals nous: un 8-Bit atrevit i un 16-Bit ple de detalls. La nova Galeria d'estils et permet vore cada tema abans de triar el teu preferit.
 
-Toca Jugar amb amics, inicia un compte enrere sincronitzat, esquiva el trànsit junts i compara el mateix resultat de victòria, derrota o empat. Les revanxes esperen que els dos estiguen llestos.
+Les carreres SharePlay amb amistats ara també funcionen a Mac, a més d'iPhone i iPad.
 
-Les carreres amb amics són gratis i mai no usen partides diàries.
+Esta actualització també millora el rendiment i els dissenys horitzontals, polix els menús i les pantalles de final de partida i fa que els cotxes i els cascos es vegen més clars en tots els temes.
 
-Aquesta actualització afig la localització completa de l'app per a alemany, neerlandés, italià, francés (França), francés del Canadà, japonés, coreà, portugués del Brasil, portugués europeu, xinés tradicional i xinés simplificat. Canvia l'idioma del dispositiu, sobretot a un dels nous, i confirma que menús, ajustos i la UI de carrera sonen naturals.
-
-També hem polix ajustos, claredat del paywall, àudio i estabilitat.
-
-En què centrar-te:
-- Inicia una carrera SharePlay en dos iPhone/iPad i confirma el compte enrere sincronitzat
-- Canvia a portuguès europeu, xinès simplificat o francès del Canadà i valora les traduccions
-- Després de la meta, prova Jugar de nou: els dos han de confirmar
-- Amb zero partides diàries, les carreres amb amics encara comencen gratis
-- En Mac i Apple Watch, confirma la qualitat del mode en solitari
-- Informa de tancaments, desconnexions o traduccions estranyes
+RetroRapid! ja està completament localitzat en turc i polonés.
 
 Gràcies per córrer amb nosaltres.
+
+Aspectes que cal provar:
+- Previsualitza cada tema en la Galeria d'estils i comprova que cotxes i cascos es vegen nítids
+- Inicia una carrera SharePlay amb una amistat en iPhone, iPad o Mac
+- Compara el rendiment abans i després de partides llargues
+- Prova els dissenys horitzontals, els menús i la pantalla de final de partida
+- Completa una partida amb VoiceOver i comprova tots els anuncis

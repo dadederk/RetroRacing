@@ -1,14 +1,16 @@
-İki yeni görsel tarzı keşfet: 8-Bit ve 16-Bit. Yeni Tarz Galerisi'nde tüm temaları önizleyebilirsin.
+İki yeni görsel tarzı keşfet: cesur 8-Bit ve ayrıntılı 16-Bit. Yeni Tarz Galerisi, favorini seçmeden önce her temayı kolayca önizlemeni sağlar.
 
-SharePlay arkadaş yarışları artık iPhone ve iPad'in yanı sıra Mac'te de çalışıyor. Performans, yatay düzenler, menüler ve oyun sonu ekranları da iyileştirildi.
+SharePlay arkadaş yarışları artık iPhone ve iPad'in yanı sıra Mac'te de çalışıyor.
 
-RetroRapid! artık tamamen Türkçe.
+Bu güncelleme ayrıca performansı artırıyor, yatay düzenleri iyileştiriyor, menüler ile oyun sonu ekranlarını parlatıyor ve tüm temalarda arabaları ve kaskları daha belirgin hâle getiriyor.
 
-Özellikle şunları denemeni rica ediyoruz:
-- Aygıt dilini Türkçe yap; menülerin, ayarların, yarış arayüzünün ve ödeme ekranının doğal göründüğünü kontrol et
-- Her temayı Tarz Galerisi'nde önizle ve arabalarla kaskların net göründüğünü doğrula
-- iPhone, iPad veya Mac'te bir arkadaşınla SharePlay yarışı başlat
-- VoiceOver ile ses ipuçlarını, başarım ekranını ve oyun sonu sonuçlarını dinle
-- Kesilen metinleri, garip çevirileri, yanlış Türkçe büyük/küçük harf kullanımını veya çökmeleri bildir
+RetroRapid! artık Türkçe ve Lehçe olarak tamamen yerelleştirildi.
 
 Bizimle yarıştığın için teşekkürler.
+
+Test odağı:
+- Tarz Galerisi'nde her temayı önizle ve arabalarla kaskların net kaldığını doğrula
+- iPhone, iPad veya Mac'te bir arkadaşınla SharePlay yarışı başlat
+- Uzun yarışlardan önceki ve sonraki performansı karşılaştır
+- Yatay düzenleri, menüleri ve oyun sonu akışını dene
+- VoiceOver ile bir yarışı tamamla ve tüm duyuruların anlaşılır olduğunu doğrula

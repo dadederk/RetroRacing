@@ -20,6 +20,8 @@ Legacy redirect: [RETRORAPID_APP_STORE_REFERENCE.md](RETRORAPID_APP_STORE_REFERE
 | Deep-dive Appfigures / Krankie keyword tables | [appendices/README.md](docs/appendices/README.md) (add dated snapshots when captured) |
 | Update Screenshot Studio captions or storyboard | [06-screenshots.md](docs/06-screenshots.md) |
 | **Add a language / refresh screenshots** | [08-locale-expansion.md](docs/08-locale-expansion.md) |
+| Review localisation quality and approvals | [localization/README.md](localization/README.md) |
+| Localisation quality review procedure | [docs/19-localization-quality-review.md](docs/19-localization-quality-review.md) |
 | Write release notes | [07-release-notes-voice.md](docs/07-release-notes-voice.md) |
 | Copy/paste **staged** What's New for next submit | [05-metadata-copy.md](docs/05-metadata-copy.md#whats-new-candidate) |
 | Check character/byte limits or validation status | [01-limits-and-sources.md](docs/01-limits-and-sources.md) + [12-validation-results.md](docs/12-validation-results.md) — regenerate with `swift run --package-path Scripts generate-metadata-docs --check` |
@@ -58,6 +60,8 @@ Legacy redirect: [RETRORAPID_APP_STORE_REFERENCE.md](RETRORAPID_APP_STORE_REFERE
 | 15 | Archive and distribution | [docs/15-archive-and-distribution.md](docs/15-archive-and-distribution.md) |
 | 16 | Unlimited Plays IAP setup | [docs/16-iap-setup.md](docs/16-iap-setup.md) |
 | 17 | Xcode Cloud releases | [docs/17-xcode-cloud-releases.md](docs/17-xcode-cloud-releases.md) |
+| 18 | Turkish and Polish review history | [docs/18-turkish-polish-review.md](docs/18-turkish-polish-review.md) |
+| 19 | Localisation quality review | [docs/19-localization-quality-review.md](docs/19-localization-quality-review.md) |
 | 18 | Turkish and Polish 1.6 native-review gate | [docs/18-turkish-polish-review.md](docs/18-turkish-polish-review.md) |
 
 ### Campaign & historical plans

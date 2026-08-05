@@ -26,7 +26,7 @@ func givenCatalogWhenComparedToPackageProductsThenEveryExecutableIsRegistered() 
 
 @Test
 func testGivenCheckRecipeWhenResolvedThenStepsMatchReadmeOrder() {
-    #expect(ScriptCommandCatalog.checkRecipeSteps.count == 8)
+    #expect(ScriptCommandCatalog.checkRecipeSteps.count == 9)
     #expect(ScriptCommandCatalog.checkRecipeSteps[0].executable == "optimize-runtime-assets")
     #expect(ScriptCommandCatalog.checkRecipeSteps[0].arguments == ["--check"])
     #expect(ScriptCommandCatalog.checkRecipeSteps[1].executable == "asset-audit")
@@ -34,9 +34,11 @@ func testGivenCheckRecipeWhenResolvedThenStepsMatchReadmeOrder() {
     #expect(ScriptCommandCatalog.checkRecipeSteps[2].executable == "generate-road-dash-masks")
     #expect(ScriptCommandCatalog.checkRecipeSteps[3].executable == "sync-screenshot-studio-localizations")
     #expect(ScriptCommandCatalog.checkRecipeSteps[4].executable == "generate-metadata-docs")
-    #expect(ScriptCommandCatalog.checkRecipeSteps[5].executable == "check-documentation")
-    #expect(ScriptCommandCatalog.checkRecipeSteps[6].executable == "apply-iap-localizations")
-    #expect(ScriptCommandCatalog.checkRecipeSteps[7].executable == "apply-game-center-eu-localizations")
+    #expect(ScriptCommandCatalog.checkRecipeSteps[5].executable == "localization-workflow")
+    #expect(ScriptCommandCatalog.checkRecipeSteps[5].arguments == ["audit"])
+    #expect(ScriptCommandCatalog.checkRecipeSteps[6].executable == "check-documentation")
+    #expect(ScriptCommandCatalog.checkRecipeSteps[7].executable == "apply-iap-localizations")
+    #expect(ScriptCommandCatalog.checkRecipeSteps[8].executable == "apply-game-center-eu-localizations")
 }
 
 @Test
@@ -59,6 +61,34 @@ func givenMetadataApplyRouteWhenParsingThenDispatchPlanTargetsApplyMetadata() th
         plan == .runSwiftExecutable(
             executable: "apply-retrorapid-metadata",
             arguments: ["--dry-run"]
+        )
+    )
+}
+
+@Test
+func givenLocalizationAuditRouteWhenParsingThenFlagsAreForwarded() throws {
+    let plan = try RetroRapidCLIParser.parse([
+        "localization", "audit", "--locale", "fr-CA", "--require-approval",
+    ])
+
+    #expect(
+        plan == .runSwiftExecutable(
+            executable: "localization-workflow",
+            arguments: ["audit", "--locale", "fr-CA", "--require-approval"]
+        )
+    )
+}
+
+@Test
+func givenLocalizationReviewsRouteWhenParsingThenCheckIsForwarded() throws {
+    let plan = try RetroRapidCLIParser.parse([
+        "localization", "reviews", "--all", "--check",
+    ])
+
+    #expect(
+        plan == .runSwiftExecutable(
+            executable: "localization-workflow",
+            arguments: ["reviews", "--all", "--check"]
         )
     )
 }
@@ -138,7 +168,7 @@ func testGivenCheckPlanWhenBuildingCommandsThenEachStepUsesSwiftRun() {
         )
     }
 
-    #expect(commands.count == 8)
+    #expect(commands.count == 9)
     #expect(commands.allSatisfy { $0.arguments.first == "run" })
 }
 

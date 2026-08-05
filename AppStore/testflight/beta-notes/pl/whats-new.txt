@@ -1,14 +1,16 @@
-Odkryj dwa nowe style graficzne: 8-Bit i 16-Bit. Nowa Galeria Stylów pozwala obejrzeć wszystkie motywy przed wyborem.
+Odkryj dwa nowe style graficzne: wyrazisty 8-Bit i bogaty w szczegóły 16-Bit. Nowa Galeria Stylów pozwala łatwo obejrzeć każdy motyw przed wyborem ulubionego.
 
-Wyścigi SharePlay ze znajomymi działają teraz także na Macu, obok iPhone'a i iPada. Poprawiliśmy też wydajność, układy poziome, menu i ekrany końca gry.
+Wyścigi SharePlay ze znajomymi działają teraz także na Macu, obok iPhone'a i iPada.
 
-RetroRapid! jest teraz w pełni dostępny po polsku.
+Aktualizacja poprawia również wydajność, dopracowuje układy poziome, menu i ekrany końca gry oraz zwiększa czytelność samochodów i kasków we wszystkich motywach.
 
-Prosimy zwrócić szczególną uwagę na:
-- Ustaw język polski i sprawdź, czy menu, ustawienia, interfejs wyścigu i ekran zakupu brzmią naturalnie
-- Obejrzyj każdy motyw w Galerii Stylów i sprawdź czytelność samochodów oraz kasków
-- Rozpocznij wyścig SharePlay ze znajomym na iPhonie, iPadzie lub Macu
-- Z VoiceOver sprawdź wskazówki dźwiękowe, ekran osiągnięcia i wyniki końca gry
-- Zgłoś ucięty tekst, niezręczne tłumaczenia, błędną odmianę lub awarie
+RetroRapid! jest teraz w pełni dostępny po turecku i polsku.
 
 Dziękujemy za wspólne wyścigi.
+
+Co przetestować:
+- Obejrzyj każdy motyw w Galerii stylów i sprawdź, czy samochody oraz kaski są wyraźne
+- Rozpocznij wyścig SharePlay ze znajomym na iPhonie, iPadzie lub Macu
+- Porównaj wydajność przed dłuższym przejazdem i po nim
+- Sprawdź układy poziome, menu i ekran końca gry
+- Ukończ przejazd z VoiceOver i sprawdź, czy wszystkie komunikaty są zrozumiałe

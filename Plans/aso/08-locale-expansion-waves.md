@@ -2,7 +2,7 @@
 
 Part of [ASO & growth plans](README.md).
 
-Last updated: 2026-07-26
+Last updated: 2026-08-05
 
 > **Ops checklist (canonical):** [`AppStore/docs/08-locale-expansion.md`](../../AppStore/docs/08-locale-expansion.md) — add-language + screenshot refresh.
 
@@ -14,6 +14,8 @@ Last updated: 2026-07-26
 | 2026-07-25 | `ja`, `ko`, `pt-BR`, `zh-Hant` | Same + IAP/Game Center catalogs |
 | 2026-07-25 | `es-ES`, `es-MX`, `ca` IAP; `es-ES`, `ca` Game Center | Closed gap (listing/strings already existed) |
 | 2026-07-26 | `pt-PT`, `zh-Hans`, `fr-CA` | Full package (locale-true; all three source capture) |
+| 2026-08-05 | `tr`, `pl`; promoted `es-MX` | Complete 1.6 package staged locally; `es-MX` now has 363 in-app strings, Game Center coverage, and independent source capture |
+| 2026-08-05 | All 16 non-English locales | Editorial quality pass opened with digest-bound fluent approval; no locale is release-ready until its review manifest entry is approved |
 
 ## In preparation
 

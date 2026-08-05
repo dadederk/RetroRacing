@@ -1,19 +1,16 @@
-Rase live mit Freunden per SharePlay auf iPhone und iPad.
+Entdecke zwei neue Grafikstile: markantes 8-Bit und detailreiches 16-Bit. In der neuen Stilgalerie kannst du jedes Theme ansehen, bevor du deinen Favoriten auswählst.
 
-Tippe auf Mit Freunden spielen, starte einen synchronisierten Countdown, weiche gemeinsam dem Verkehr aus und vergleiche dasselbe Sieg-, Niederlage- oder Unentschieden-Ergebnis. Rematches warten, bis beide Spieler bereit sind.
+SharePlay-Rennen mit Freunden funktionieren jetzt auch auf dem Mac sowie auf iPhone und iPad.
 
-Freundesrennen sind kostenlos und verbrauchen keine täglichen Spiele.
+Dieses Update verbessert außerdem die Leistung und Querformat-Layouts, verfeinert Menüs und Game-Over-Bildschirme und macht Autos und Helme in allen Themes deutlicher.
 
-Dieses Update ergänzt die vollständige App-Lokalisierung um Deutsch, Niederländisch, Italienisch, Französisch, Französisch (Kanada), Japanisch, Koreanisch, brasilianisches Portugiesisch, europäisches Portugiesisch, traditionelles Chinesisch und vereinfachtes Chinesisch. Stelle die Gerätesprache um, besonders auf eine der neuen Sprachen, und prüfe, ob Menüs, Einstellungen und Renn-UI natürlich klingen.
-
-Außerdem haben wir Einstellungen, Paywall-Klarheit, Audio und Stabilität poliert.
-
-Worauf wir uns freuen:
-- Starte ein SharePlay-Rennen auf zwei iPhones/iPads und bestätige den synchronen Countdown
-- Wechsle zu Deutsch, Niederländisch, Italienisch, Französisch, Französisch (Kanada), Japanisch, Koreanisch, brasilianischem Portugiesisch, europäischem Portugiesisch, traditionellem Chinesisch oder vereinfachtem Chinesisch und bewerte die Übersetzungen
-- Nach dem Ziel: Nochmal spielen: beide müssen bestätigen
-- Bei null täglichen Spielen: Freundesrennen starten weiterhin kostenlos
-- Auf Mac und Apple Watch: Solo-Qualität prüfen
-- Melde Abstürze, Verbindungsabbrüche oder merkwürdige Übersetzungen
+RetroRapid! ist jetzt vollständig auf Türkisch und Polnisch lokalisiert.
 
 Danke, dass du mit uns fährst.
+
+Testschwerpunkte:
+- Sieh dir jedes Theme in der Stilgalerie an und prüfe, ob Autos und Helme klar erkennbar bleiben
+- Starte ein SharePlay-Rennen mit einem Freund auf iPhone, iPad oder Mac
+- Vergleiche die Leistung vor und nach längeren Runden
+- Teste Querformat, Menüs und den Game-Over-Ablauf
+- Schließe mit VoiceOver eine Runde ab und prüfe alle Ansagen

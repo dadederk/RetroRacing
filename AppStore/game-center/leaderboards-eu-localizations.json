@@ -8,6 +8,7 @@
     "fr-FR",
     "fr-CA",
     "es-ES",
+    "es-MX",
     "ca",
     "ja",
     "ko",
@@ -99,6 +100,11 @@
           "name": "Cruise",
           "formatterSuffixSingular": "wyprzedzenie",
           "formatterSuffix": "wyprzedzenia"
+        },
+        "es-MX": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "rebase",
+          "formatterSuffix": "rebases"
         }
       }
     },
@@ -182,6 +188,11 @@
           "name": "Szybki",
           "formatterSuffixSingular": "wyprzedzenie",
           "formatterSuffix": "wyprzedzenia"
+        },
+        "es-MX": {
+          "name": "Fast",
+          "formatterSuffixSingular": "rebase",
+          "formatterSuffix": "rebases"
         }
       }
     },
@@ -265,6 +276,11 @@
           "name": "Rapid",
           "formatterSuffixSingular": "wyprzedzenie",
           "formatterSuffix": "wyprzedzenia"
+        },
+        "es-MX": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "rebase",
+          "formatterSuffix": "rebases"
         }
       }
     },
@@ -348,6 +364,11 @@
           "name": "Cruise",
           "formatterSuffixSingular": "wyprzedzenie",
           "formatterSuffix": "wyprzedzenia"
+        },
+        "es-MX": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "rebase",
+          "formatterSuffix": "rebases"
         }
       }
     },
@@ -431,6 +452,11 @@
           "name": "Szybki",
           "formatterSuffixSingular": "wyprzedzenie",
           "formatterSuffix": "wyprzedzenia"
+        },
+        "es-MX": {
+          "name": "Fast",
+          "formatterSuffixSingular": "rebase",
+          "formatterSuffix": "rebases"
         }
       }
     },
@@ -514,6 +540,11 @@
           "name": "Rapid",
           "formatterSuffixSingular": "wyprzedzenie",
           "formatterSuffix": "wyprzedzenia"
+        },
+        "es-MX": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "rebase",
+          "formatterSuffix": "rebases"
         }
       }
     },
@@ -597,6 +628,11 @@
           "name": "Cruise",
           "formatterSuffixSingular": "wyprzedzenie",
           "formatterSuffix": "wyprzedzenia"
+        },
+        "es-MX": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "rebase",
+          "formatterSuffix": "rebases"
         }
       }
     },
@@ -680,6 +716,11 @@
           "name": "Szybki",
           "formatterSuffixSingular": "wyprzedzenie",
           "formatterSuffix": "wyprzedzenia"
+        },
+        "es-MX": {
+          "name": "Fast",
+          "formatterSuffixSingular": "rebase",
+          "formatterSuffix": "rebases"
         }
       }
     },
@@ -763,6 +804,11 @@
           "name": "Rapid",
           "formatterSuffixSingular": "wyprzedzenie",
           "formatterSuffix": "wyprzedzenia"
+        },
+        "es-MX": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "rebase",
+          "formatterSuffix": "rebases"
         }
       }
     },
@@ -846,6 +892,11 @@
           "name": "Cruise",
           "formatterSuffixSingular": "wyprzedzenie",
           "formatterSuffix": "wyprzedzenia"
+        },
+        "es-MX": {
+          "name": "Cruise",
+          "formatterSuffixSingular": "rebase",
+          "formatterSuffix": "rebases"
         }
       }
     },
@@ -929,6 +980,11 @@
           "name": "Szybki",
           "formatterSuffixSingular": "wyprzedzenie",
           "formatterSuffix": "wyprzedzenia"
+        },
+        "es-MX": {
+          "name": "Fast",
+          "formatterSuffixSingular": "rebase",
+          "formatterSuffix": "rebases"
         }
       }
     },
@@ -1012,6 +1068,11 @@
           "name": "Rapid",
           "formatterSuffixSingular": "wyprzedzenie",
           "formatterSuffix": "wyprzedzenia"
+        },
+        "es-MX": {
+          "name": "Rapid",
+          "formatterSuffixSingular": "rebase",
+          "formatterSuffix": "rebases"
         }
       }
     }

@@ -33,6 +33,7 @@ let package = Package(
         .executable(name: "submit-testflight-build", targets: ["SubmitTestFlightBuild"]),
         .executable(name: "capture-app-store-screenshots", targets: ["CaptureAppStoreScreenshots"]),
         .executable(name: "swap-app-store-screenshots", targets: ["SwapAppStoreScreenshots"]),
+        .executable(name: "localization-workflow", targets: ["LocalizationWorkflow"]),
         .executable(name: "retrorapid", targets: ["RetroRapidCLI"]),
     ],
     targets: [
@@ -104,6 +105,10 @@ let package = Package(
         .executableTarget(
             name: "SwapAppStoreScreenshots",
             dependencies: ["RetroRapidMetadataCore", "ScriptSupport"]
+        ),
+        .executableTarget(
+            name: "LocalizationWorkflow",
+            dependencies: ["RetroRacingAutomationCore", "ScriptSupport"]
         ),
         .executableTarget(
             name: "RetroRapidCLI",

@@ -143,11 +143,11 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Weiche Verkehr aus und hol dir Überholungen in diesem Retro-Arcade-Rennen.</string>
+				<string>Weiche dem Verkehr aus und hol dir Überholungen in diesem Retro-Arcade-Rennen.</string>
 				<key>language</key>
 				<string>de-DE</string>
 				<key>title</key>
-				<string>Rase Durch Endlosen Verkehr</string>
+				<string>Rase durch endlosen Verkehr</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -155,7 +155,7 @@
 				<key>language</key>
 				<string>nl-NL</string>
 				<key>title</key>
-				<string>Race Door Eindeloos Verkeer</string>
+				<string>Race door eindeloos verkeer</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -163,7 +163,7 @@
 				<key>language</key>
 				<string>it</string>
 				<key>title</key>
-				<string>Corri Nel Traffico Infinito</string>
+				<string>Corri nel traffico infinito</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -171,7 +171,7 @@
 				<key>language</key>
 				<string>fr-FR</string>
 				<key>title</key>
-				<string>Fonce Dans Le Trafic Sans Fin</string>
+				<string>Fonce dans le trafic sans fin</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -179,7 +179,7 @@
 				<key>language</key>
 				<string>fr-CA</string>
 				<key>title</key>
-				<string>Foncez Dans Le Trafic Sans Fin</string>
+				<string>Foncez dans le trafic sans fin</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -187,7 +187,7 @@
 				<key>language</key>
 				<string>es-ES</string>
 				<key>title</key>
-				<string>Esquiva Tráfico Sin Fin</string>
+				<string>Esquiva tráfico sin fin</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -195,7 +195,7 @@
 				<key>language</key>
 				<string>es-MX</string>
 				<key>title</key>
-				<string>Esquiva Carros Sin Fin</string>
+				<string>Esquiva carros sin fin</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -203,7 +203,7 @@
 				<key>language</key>
 				<string>ca</string>
 				<key>title</key>
-				<string>Esquiva Trànsit Sense Fi</string>
+				<string>Esquiva trànsit sense fi</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -227,15 +227,15 @@
 				<key>language</key>
 				<string>pt-BR</string>
 				<key>title</key>
-				<string>Corra Pelo Tráfego Infinito</string>
+				<string>Corra pelo tráfego infinito</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Desvie do trânsito e procure ultrapassagens neste arcade retrô.</string>
+				<string>Desvie do trânsito e procure ultrapassagens neste arcade retro.</string>
 				<key>language</key>
 				<string>pt-PT</string>
 				<key>title</key>
-				<string>Corra Pelo Trânsito Infinito</string>
+				<string>Corra pelo trânsito infinito</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -259,7 +259,7 @@
 				<key>language</key>
 				<string>tr</string>
 				<key>title</key>
-				<string>Sonsuz Trafikte Yarış</string>
+				<string>Sonsuz trafikte yarış</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -267,7 +267,7 @@
 				<key>language</key>
 				<string>pl</string>
 				<key>title</key>
-				<string>Pędź Przez Niekończący Się Ruch</string>
+				<string>Pędź przez niekończący się ruch</string>
 			</dict>
 		</array>
 	</dict>
@@ -424,7 +424,7 @@
 				<key>language</key>
 				<string>nl-NL</string>
 				<key>title</key>
-				<string>Simpele Besturing. Pure Arcade-Actie</string>
+				<string>Simpele besturing. Pure arcade-actie</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -432,7 +432,7 @@
 				<key>language</key>
 				<string>it</string>
 				<key>title</key>
-				<string>Controlli Semplici. Pura Azione Arcade</string>
+				<string>Controlli semplici. Pura azione arcade</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -440,7 +440,7 @@
 				<key>language</key>
 				<string>fr-FR</string>
 				<key>title</key>
-				<string>Commandes Simples. Action Arcade Pure</string>
+				<string>Commandes simples. Action arcade pure</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -448,7 +448,7 @@
 				<key>language</key>
 				<string>fr-CA</string>
 				<key>title</key>
-				<string>Commandes Simples. Action Arcade Pure</string>
+				<string>Commandes simples. Action arcade pure</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -456,7 +456,7 @@
 				<key>language</key>
 				<string>es-ES</string>
 				<key>title</key>
-				<string>Controles Simples. Acción Arcade Pura</string>
+				<string>Controles simples. Acción arcade pura</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -464,7 +464,7 @@
 				<key>language</key>
 				<string>es-MX</string>
 				<key>title</key>
-				<string>Controles Simples. Acción Arcade Pura</string>
+				<string>Controles simples. Acción arcade pura</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -472,7 +472,7 @@
 				<key>language</key>
 				<string>ca</string>
 				<key>title</key>
-				<string>Controls Simples. Acció Arcade Pura</string>
+				<string>Controls simples. Acció arcade pura</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -496,7 +496,7 @@
 				<key>language</key>
 				<string>pt-BR</string>
 				<key>title</key>
-				<string>Controles Simples. Ação Arcade</string>
+				<string>Controles simples. Ação arcade</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -504,7 +504,7 @@
 				<key>language</key>
 				<string>pt-PT</string>
 				<key>title</key>
-				<string>Controlos Simples. Ação Arcade</string>
+				<string>Controlos simples. Ação arcade</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -528,7 +528,7 @@
 				<key>language</key>
 				<string>tr</string>
 				<key>title</key>
-				<string>Basit Kontroller. Saf Arcade</string>
+				<string>Basit kontroller. Saf arcade</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -536,7 +536,7 @@
 				<key>language</key>
 				<string>pl</string>
 				<key>title</key>
-				<string>Proste Sterowanie. Czyste Arcade</string>
+				<string>Proste sterowanie. Czyste arcade</string>
 			</dict>
 		</array>
 	</dict>
@@ -693,7 +693,7 @@
 				<key>language</key>
 				<string>nl-NL</string>
 				<key>title</key>
-				<string>Één Fout. Game Over</string>
+				<string>Één fout. Game Over</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -701,7 +701,7 @@
 				<key>language</key>
 				<string>it</string>
 				<key>title</key>
-				<string>Un Errore. Game Over</string>
+				<string>Un errore. Game Over</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -709,7 +709,7 @@
 				<key>language</key>
 				<string>fr-FR</string>
 				<key>title</key>
-				<string>Une Erreur. Game Over</string>
+				<string>Une erreur. Game Over</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -717,7 +717,7 @@
 				<key>language</key>
 				<string>fr-CA</string>
 				<key>title</key>
-				<string>Une Erreur. Game Over</string>
+				<string>Une erreur. Game Over</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -725,7 +725,7 @@
 				<key>language</key>
 				<string>es-ES</string>
 				<key>title</key>
-				<string>Un Error. Game Over</string>
+				<string>Un error. Game Over</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -733,15 +733,15 @@
 				<key>language</key>
 				<string>es-MX</string>
 				<key>title</key>
-				<string>Un Error. Game Over</string>
+				<string>Un error. Game Over</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Un error acaba la teua partida. Reinicia i persegueix el teu rècord!</string>
+				<string>Un error acaba la teua partida. Reinicia i perseguix el teu rècord!</string>
 				<key>language</key>
 				<string>ca</string>
 				<key>title</key>
-				<string>Un Error. Game Over</string>
+				<string>Un error. Game Over</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -765,7 +765,7 @@
 				<key>language</key>
 				<string>pt-BR</string>
 				<key>title</key>
-				<string>Um Erro. Fim De Jogo</string>
+				<string>Um erro. Fim de jogo</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -773,7 +773,7 @@
 				<key>language</key>
 				<string>pt-PT</string>
 				<key>title</key>
-				<string>Um Erro. Fim De Jogo</string>
+				<string>Um erro. Fim de jogo</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -797,7 +797,7 @@
 				<key>language</key>
 				<string>tr</string>
 				<key>title</key>
-				<string>Tek Hata. Oyun Bitti</string>
+				<string>Tek hata. Oyun bitti</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -805,7 +805,7 @@
 				<key>language</key>
 				<string>pl</string>
 				<key>title</key>
-				<string>Jeden Błąd. Koniec Gry</string>
+				<string>Jeden błąd. Koniec gry</string>
 			</dict>
 		</array>
 	</dict>
@@ -954,7 +954,7 @@
 				<key>language</key>
 				<string>de-DE</string>
 				<key>title</key>
-				<string>Barrierefreiheit Im Mittelpunkt</string>
+				<string>Barrierefreiheit im Mittelpunkt</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -962,7 +962,7 @@
 				<key>language</key>
 				<string>nl-NL</string>
 				<key>title</key>
-				<string>Toegankelijkheid Voorop</string>
+				<string>Toegankelijkheid voorop</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -970,7 +970,7 @@
 				<key>language</key>
 				<string>it</string>
 				<key>title</key>
-				<string>Accessibilità Al Centro</string>
+				<string>Accessibilità al centro</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -978,7 +978,7 @@
 				<key>language</key>
 				<string>fr-FR</string>
 				<key>title</key>
-				<string>Accessibilité Au Premier Plan</string>
+				<string>Accessibilité au premier plan</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -986,7 +986,7 @@
 				<key>language</key>
 				<string>fr-CA</string>
 				<key>title</key>
-				<string>Accessibilité Au Premier Plan</string>
+				<string>Accessibilité au premier plan</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -994,7 +994,7 @@
 				<key>language</key>
 				<string>es-ES</string>
 				<key>title</key>
-				<string>Accesibilidad En Primer Plano</string>
+				<string>Accesibilidad en primer plano</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -1002,7 +1002,7 @@
 				<key>language</key>
 				<string>es-MX</string>
 				<key>title</key>
-				<string>Accesibilidad En Primer Plano</string>
+				<string>Accesibilidad en primer plano</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -1010,7 +1010,7 @@
 				<key>language</key>
 				<string>ca</string>
 				<key>title</key>
-				<string>Accessibilitat Al Davant</string>
+				<string>Accessibilitat al davant</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -1034,7 +1034,7 @@
 				<key>language</key>
 				<string>pt-BR</string>
 				<key>title</key>
-				<string>Acessibilidade Em Destaque</string>
+				<string>Acessibilidade em destaque</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -1042,7 +1042,7 @@
 				<key>language</key>
 				<string>pt-PT</string>
 				<key>title</key>
-				<string>Acessibilidade Em Destaque</string>
+				<string>Acessibilidade em destaque</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -1066,7 +1066,7 @@
 				<key>language</key>
 				<string>tr</string>
 				<key>title</key>
-				<string>Erişilebilirlik Her Şeyden Önce</string>
+				<string>Erişilebilirlik her şeyden önce</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -1074,7 +1074,7 @@
 				<key>language</key>
 				<string>pl</string>
 				<key>title</key>
-				<string>Dostępność Na Pierwszym Planie</string>
+				<string>Dostępność na pierwszym planie</string>
 			</dict>
 		</array>
 	</dict>
@@ -1223,7 +1223,7 @@
 				<key>language</key>
 				<string>de-DE</string>
 				<key>title</key>
-				<string>Rase Mit Freunden Per SharePlay</string>
+				<string>Rase mit Freunden per SharePlay</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -1231,7 +1231,7 @@
 				<key>language</key>
 				<string>nl-NL</string>
 				<key>title</key>
-				<string>Race Met Vrienden Via SharePlay</string>
+				<string>Race met vrienden via SharePlay</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -1239,7 +1239,7 @@
 				<key>language</key>
 				<string>it</string>
 				<key>title</key>
-				<string>Corri Con Amici Via SharePlay</string>
+				<string>Corri con amici via SharePlay</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -1247,7 +1247,7 @@
 				<key>language</key>
 				<string>fr-FR</string>
 				<key>title</key>
-				<string>Course Avec Des Amis Via SharePlay</string>
+				<string>Course avec des amis via SharePlay</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -1255,7 +1255,7 @@
 				<key>language</key>
 				<string>fr-CA</string>
 				<key>title</key>
-				<string>Coursez Avec Des Amis Via SharePlay</string>
+				<string>Coursez avec des amis via SharePlay</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -1263,7 +1263,7 @@
 				<key>language</key>
 				<string>es-ES</string>
 				<key>title</key>
-				<string>Corre Con Amigos Con SharePlay</string>
+				<string>Corre con amigos con SharePlay</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -1271,7 +1271,7 @@
 				<key>language</key>
 				<string>es-MX</string>
 				<key>title</key>
-				<string>Corre Con Amigos Con SharePlay</string>
+				<string>Corre con amigos con SharePlay</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -1279,7 +1279,7 @@
 				<key>language</key>
 				<string>ca</string>
 				<key>title</key>
-				<string>Corre Amb Amics Amb SharePlay</string>
+				<string>Corre amb amics amb SharePlay</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -1303,7 +1303,7 @@
 				<key>language</key>
 				<string>pt-BR</string>
 				<key>title</key>
-				<string>Corra Com Amigos No SharePlay</string>
+				<string>Corra com amigos no SharePlay</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -1311,7 +1311,7 @@
 				<key>language</key>
 				<string>pt-PT</string>
 				<key>title</key>
-				<string>Corra Com Amigos No SharePlay</string>
+				<string>Corra com amigos no SharePlay</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -1335,7 +1335,7 @@
 				<key>language</key>
 				<string>tr</string>
 				<key>title</key>
-				<string>SharePlay ile Arkadaşlarınla Yarış</string>
+				<string>SharePlay ile arkadaşlarınla yarış</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -1343,7 +1343,7 @@
 				<key>language</key>
 				<string>pl</string>
 				<key>title</key>
-				<string>Ścigaj Się ze Znajomymi przez SharePlay</string>
+				<string>Ścigaj się ze znajomymi przez SharePlay</string>
 			</dict>
 		</array>
 	</dict>
@@ -1492,7 +1492,7 @@
 				<key>language</key>
 				<string>de-DE</string>
 				<key>title</key>
-				<string>Erklimme Die Bestenliste</string>
+				<string>Erklimme die Bestenliste</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -1500,7 +1500,7 @@
 				<key>language</key>
 				<string>nl-NL</string>
 				<key>title</key>
-				<string>Klim Op Het Scorebord</string>
+				<string>Klim op het scorebord</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -1508,7 +1508,7 @@
 				<key>language</key>
 				<string>it</string>
 				<key>title</key>
-				<string>Scala La Classifica</string>
+				<string>Scala la classifica</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -1516,7 +1516,7 @@
 				<key>language</key>
 				<string>fr-FR</string>
 				<key>title</key>
-				<string>Grimpe Au Classement</string>
+				<string>Grimpe au classement</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -1524,7 +1524,7 @@
 				<key>language</key>
 				<string>fr-CA</string>
 				<key>title</key>
-				<string>Grimpez Au Classement</string>
+				<string>Grimpez au classement</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -1532,7 +1532,7 @@
 				<key>language</key>
 				<string>es-ES</string>
 				<key>title</key>
-				<string>Escala La Clasificación</string>
+				<string>Escala la clasificación</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -1540,7 +1540,7 @@
 				<key>language</key>
 				<string>es-MX</string>
 				<key>title</key>
-				<string>Escala La Clasificación</string>
+				<string>Escala la clasificación</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -1548,7 +1548,7 @@
 				<key>language</key>
 				<string>ca</string>
 				<key>title</key>
-				<string>Puja En La Classificació</string>
+				<string>Puja en la classificació</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -1572,7 +1572,7 @@
 				<key>language</key>
 				<string>pt-BR</string>
 				<key>title</key>
-				<string>Suba No Ranking</string>
+				<string>Suba no ranking</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -1580,7 +1580,7 @@
 				<key>language</key>
 				<string>pt-PT</string>
 				<key>title</key>
-				<string>Suba Na Classificação</string>
+				<string>Suba na classificação</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -1604,7 +1604,7 @@
 				<key>language</key>
 				<string>tr</string>
 				<key>title</key>
-				<string>Liderlik Tablosunda Yüksel</string>
+				<string>Liderlik tablosunda yüksel</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -1612,7 +1612,7 @@
 				<key>language</key>
 				<string>pl</string>
 				<key>title</key>
-				<string>Wspinaj Się w Rankingu</string>
+				<string>Wspinaj się w rankingu</string>
 			</dict>
 		</array>
 	</dict>
@@ -1761,7 +1761,7 @@
 				<key>language</key>
 				<string>de-DE</string>
 				<key>title</key>
-				<string>Passe Dein Erlebnis An</string>
+				<string>Passe dein Erlebnis an</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -1769,7 +1769,7 @@
 				<key>language</key>
 				<string>nl-NL</string>
 				<key>title</key>
-				<string>Pas Je Ervaring Aan</string>
+				<string>Pas je ervaring aan</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -1777,7 +1777,7 @@
 				<key>language</key>
 				<string>it</string>
 				<key>title</key>
-				<string>Personalizza La Tua Esperienza</string>
+				<string>Personalizza la tua esperienza</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -1785,7 +1785,7 @@
 				<key>language</key>
 				<string>fr-FR</string>
 				<key>title</key>
-				<string>Personnalise Ton Expérience</string>
+				<string>Personnalise ton expérience</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -1793,7 +1793,7 @@
 				<key>language</key>
 				<string>fr-CA</string>
 				<key>title</key>
-				<string>Personnalisez Votre Expérience</string>
+				<string>Personnalisez votre expérience</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -1801,7 +1801,7 @@
 				<key>language</key>
 				<string>es-ES</string>
 				<key>title</key>
-				<string>Personaliza Tu Experiencia</string>
+				<string>Personaliza tu experiencia</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -1809,7 +1809,7 @@
 				<key>language</key>
 				<string>es-MX</string>
 				<key>title</key>
-				<string>Personaliza Tu Experiencia</string>
+				<string>Personaliza tu experiencia</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -1817,7 +1817,7 @@
 				<key>language</key>
 				<string>ca</string>
 				<key>title</key>
-				<string>Personalitza La Teua Experiència</string>
+				<string>Personalitza la teua experiència</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -1841,7 +1841,7 @@
 				<key>language</key>
 				<string>pt-BR</string>
 				<key>title</key>
-				<string>Personalize Sua Experiência</string>
+				<string>Personalize sua experiência</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -1849,7 +1849,7 @@
 				<key>language</key>
 				<string>pt-PT</string>
 				<key>title</key>
-				<string>Personalize A Sua Experiência</string>
+				<string>Personalize a sua experiência</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -1873,7 +1873,7 @@
 				<key>language</key>
 				<string>tr</string>
 				<key>title</key>
-				<string>Deneyimini Özelleştir</string>
+				<string>Deneyimini özelleştir</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -1881,7 +1881,7 @@
 				<key>language</key>
 				<string>pl</string>
 				<key>title</key>
-				<string>Dostosuj Rozgrywkę</string>
+				<string>Dostosuj rozgrywkę</string>
 			</dict>
 		</array>
 	</dict>
@@ -2030,7 +2030,7 @@
 				<key>language</key>
 				<string>de-DE</string>
 				<key>title</key>
-				<string>Wähle Deinen Retro-Look</string>
+				<string>Wähle deinen Retro-Look</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -2038,7 +2038,7 @@
 				<key>language</key>
 				<string>nl-NL</string>
 				<key>title</key>
-				<string>Kies Je Retro-Stijl</string>
+				<string>Kies je retro-stijl</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -2046,7 +2046,7 @@
 				<key>language</key>
 				<string>it</string>
 				<key>title</key>
-				<string>Scegli La Tua Estetica Retro</string>
+				<string>Scegli la tua estetica retro</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -2054,7 +2054,7 @@
 				<key>language</key>
 				<string>fr-FR</string>
 				<key>title</key>
-				<string>Choisis Ton Style Retro</string>
+				<string>Choisis ton style retro</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -2062,7 +2062,7 @@
 				<key>language</key>
 				<string>fr-CA</string>
 				<key>title</key>
-				<string>Choisissez Votre Style Rétro</string>
+				<string>Choisissez votre style rétro</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -2070,7 +2070,7 @@
 				<key>language</key>
 				<string>es-ES</string>
 				<key>title</key>
-				<string>Elige Tu Estética Retro</string>
+				<string>Elige tu estética retro</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -2078,7 +2078,7 @@
 				<key>language</key>
 				<string>es-MX</string>
 				<key>title</key>
-				<string>Elige Tu Estética Retro</string>
+				<string>Elige tu estética retro</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -2086,7 +2086,7 @@
 				<key>language</key>
 				<string>ca</string>
 				<key>title</key>
-				<string>Tria la Teua Estètica Retro</string>
+				<string>Tria la teua estètica retro</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -2110,7 +2110,7 @@
 				<key>language</key>
 				<string>pt-BR</string>
 				<key>title</key>
-				<string>Escolha Seu Visual Retro</string>
+				<string>Escolha seu visual retro</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -2118,7 +2118,7 @@
 				<key>language</key>
 				<string>pt-PT</string>
 				<key>title</key>
-				<string>Escolha O Seu Visual Retrô</string>
+				<string>Escolha o seu visual retro</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -2142,7 +2142,7 @@
 				<key>language</key>
 				<string>tr</string>
 				<key>title</key>
-				<string>Retro Tarzını Seç</string>
+				<string>Retro tarzını seç</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -2150,7 +2150,7 @@
 				<key>language</key>
 				<string>pl</string>
 				<key>title</key>
-				<string>Wybierz Swój Styl Retro</string>
+				<string>Wybierz swój styl retro</string>
 			</dict>
 		</array>
 	</dict>
@@ -2299,7 +2299,7 @@
 				<key>language</key>
 				<string>de-DE</string>
 				<key>title</key>
-				<string>Schalte Retro-Erfolge Frei</string>
+				<string>Schalte Retro-Erfolge frei</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -2307,7 +2307,7 @@
 				<key>language</key>
 				<string>nl-NL</string>
 				<key>title</key>
-				<string>Ontgrendel Retro Prestaties</string>
+				<string>Ontgrendel retro prestaties</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -2315,7 +2315,7 @@
 				<key>language</key>
 				<string>it</string>
 				<key>title</key>
-				<string>Sblocca Obiettivi Retro</string>
+				<string>Sblocca obiettivi retro</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -2323,7 +2323,7 @@
 				<key>language</key>
 				<string>fr-FR</string>
 				<key>title</key>
-				<string>Débloque Des Succès Retro</string>
+				<string>Débloque des succès retro</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -2331,7 +2331,7 @@
 				<key>language</key>
 				<string>fr-CA</string>
 				<key>title</key>
-				<string>Débloquez Des Succès Rétro</string>
+				<string>Débloquez des succès rétro</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -2339,7 +2339,7 @@
 				<key>language</key>
 				<string>es-ES</string>
 				<key>title</key>
-				<string>Desbloquea Logros Retro</string>
+				<string>Desbloquea logros retro</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -2347,15 +2347,15 @@
 				<key>language</key>
 				<string>es-MX</string>
 				<key>title</key>
-				<string>Desbloquea Logros Retro</string>
+				<string>Desbloquea logros retro</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Guanya trofeus de Game Center mentre correixes i millores.</string>
+				<string>Guanya trofeus de Game Center mentre corres i millores.</string>
 				<key>language</key>
 				<string>ca</string>
 				<key>title</key>
-				<string>Desbloqueja Assoliments Retro</string>
+				<string>Desbloqueja assoliments retro</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -2379,7 +2379,7 @@
 				<key>language</key>
 				<string>pt-BR</string>
 				<key>title</key>
-				<string>Desbloqueie Conquistas Retro</string>
+				<string>Desbloqueie conquistas retro</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -2387,7 +2387,7 @@
 				<key>language</key>
 				<string>pt-PT</string>
 				<key>title</key>
-				<string>Desbloqueie Conquistas Retrô</string>
+				<string>Desbloqueie conquistas retro</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -2411,7 +2411,7 @@
 				<key>language</key>
 				<string>tr</string>
 				<key>title</key>
-				<string>Retro Başarımları Aç</string>
+				<string>Retro başarımları aç</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -2419,7 +2419,7 @@
 				<key>language</key>
 				<string>pl</string>
 				<key>title</key>
-				<string>Odblokuj Osiągnięcia Retro</string>
+				<string>Odblokuj osiągnięcia retro</string>
 			</dict>
 		</array>
 	</dict>
@@ -2568,7 +2568,7 @@
 				<key>language</key>
 				<string>de-DE</string>
 				<key>title</key>
-				<string>Spiele Solo Oder Mit Freunden</string>
+				<string>Spiele solo oder mit Freunden</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -2576,7 +2576,7 @@
 				<key>language</key>
 				<string>nl-NL</string>
 				<key>title</key>
-				<string>Speel Solo Of Met Vrienden</string>
+				<string>Speel solo of met vrienden</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -2584,7 +2584,7 @@
 				<key>language</key>
 				<string>it</string>
 				<key>title</key>
-				<string>Gioca In Solo O Con Amici</string>
+				<string>Gioca in solo o con amici</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -2592,7 +2592,7 @@
 				<key>language</key>
 				<string>fr-FR</string>
 				<key>title</key>
-				<string>Joue Solo Ou Avec Des Amis</string>
+				<string>Joue solo ou avec des amis</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -2600,7 +2600,7 @@
 				<key>language</key>
 				<string>fr-CA</string>
 				<key>title</key>
-				<string>Jouez Solo Ou Avec Des Amis</string>
+				<string>Jouez solo ou avec des amis</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -2608,7 +2608,7 @@
 				<key>language</key>
 				<string>es-ES</string>
 				<key>title</key>
-				<string>Juega Solo O Con Amigos</string>
+				<string>Juega solo o con amigos</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -2616,7 +2616,7 @@
 				<key>language</key>
 				<string>es-MX</string>
 				<key>title</key>
-				<string>Juega Solo O Con Amigos</string>
+				<string>Juega solo o con amigos</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -2624,7 +2624,7 @@
 				<key>language</key>
 				<string>ca</string>
 				<key>title</key>
-				<string>Juga En Solitari O Amb Amics</string>
+				<string>Juga en solitari o amb amics</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -2648,7 +2648,7 @@
 				<key>language</key>
 				<string>pt-BR</string>
 				<key>title</key>
-				<string>Jogue Solo Ou Com Amigos</string>
+				<string>Jogue solo ou com amigos</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -2656,7 +2656,7 @@
 				<key>language</key>
 				<string>pt-PT</string>
 				<key>title</key>
-				<string>Jogue A Solo Ou Com Amigos</string>
+				<string>Jogue a solo ou com amigos</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -2664,7 +2664,7 @@
 				<key>language</key>
 				<string>zh-Hant</string>
 				<key>title</key>
-				<string>單人或与好友同玩</string>
+				<string>單人或與好友同玩</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -2680,7 +2680,7 @@
 				<key>language</key>
 				<string>tr</string>
 				<key>title</key>
-				<string>Tek Başına veya Arkadaşlarınla Oyna</string>
+				<string>Tek başına veya arkadaşlarınla oyna</string>
 			</dict>
 			<dict>
 				<key>body</key>
@@ -2688,7 +2688,7 @@
 				<key>language</key>
 				<string>pl</string>
 				<key>title</key>
-				<string>Graj Solo lub ze Znajomymi</string>
+				<string>Graj solo lub ze znajomymi</string>
 			</dict>
 		</array>
 	</dict>

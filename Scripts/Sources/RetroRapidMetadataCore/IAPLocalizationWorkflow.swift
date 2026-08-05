@@ -347,8 +347,8 @@ private final class ResultBox<T: Sendable>: @unchecked Sendable {
     )
 }
 
-enum CSVDictionaryReader {
-    static func read(url: URL) throws -> [String: String] {
+public enum CSVDictionaryReader {
+    public static func read(url: URL) throws -> [String: String] {
         let contents = try String(contentsOf: url, encoding: .utf8)
         var values: [String: String] = [:]
         for line in contents.split(whereSeparator: \.isNewline) {

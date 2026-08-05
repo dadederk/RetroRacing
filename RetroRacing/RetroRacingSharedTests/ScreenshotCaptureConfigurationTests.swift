@@ -26,7 +26,7 @@ final class ScreenshotCaptureConfigurationTests: XCTestCase {
         XCTAssertEqual(ScreenshotCaptureLocaleCatalog.inAppLanguageIdentifier(for: "de-DE"), "de")
         XCTAssertEqual(ScreenshotCaptureLocaleCatalog.inAppLanguageIdentifier(for: "en-US"), "en")
         XCTAssertEqual(ScreenshotCaptureLocaleCatalog.inAppLanguageIdentifier(for: "en-GB"), "en-GB")
-        XCTAssertEqual(ScreenshotCaptureLocaleCatalog.inAppLanguageIdentifier(for: "es-MX"), "es")
+        XCTAssertEqual(ScreenshotCaptureLocaleCatalog.inAppLanguageIdentifier(for: "es-MX"), "es-MX")
         XCTAssertEqual(ScreenshotCaptureLocaleCatalog.inAppLanguageIdentifier(for: "ja"), "ja")
         XCTAssertEqual(ScreenshotCaptureLocaleCatalog.inAppLanguageIdentifier(for: "pt-BR"), "pt-BR")
         XCTAssertEqual(ScreenshotCaptureLocaleCatalog.inAppLanguageIdentifier(for: "pt-PT"), "pt-PT")

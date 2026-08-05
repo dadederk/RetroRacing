@@ -4,13 +4,13 @@ Part of [App Store docs hub](../README.md).
 
 Last updated: 2026-08-05
 
-**Status:** `BLOCKED` — initial copy is complete, but captures and App Store Connect writes require fluent Turkish and Polish approval.
+**Status:** Superseded by the digest-bound all-locale process in [19-localization-quality-review.md](19-localization-quality-review.md). Turkish and Polish remain `NEEDS_REVIEW` in the shared manifest.
 
 ## Reviewer terminology
 
 | Concept | Turkish (`tr`) | Polish (`pl`) |
 |---|---|---|
-| Unlimited Plays | Sınırsız Oyun | Nielimitowane Gry |
+| Unlimited Plays | Sınırsız oyun | Nielimitowane gry |
 | Achievements | başarımlar | osiągnięcia |
 | High score | yüksek skor / rekor | najlepszy wynik / rekord |
 | Overtake | sollama | wyprzedzenie |
@@ -43,11 +43,4 @@ Keep `RetroRapid!`, `SharePlay`, `Game Center`, `VoiceOver`, `Digital Crown`, `P
 - [ ] All requested corrections have been applied consistently to in-app, store, IAP, Game Center, screenshots, and TestFlight copy.
 - [ ] Reviewer name/date and approval are recorded below.
 
-## Approval record
-
-| Locale | Reviewer | Date | Status | Notes |
-|---|---|---|---|---|
-| `tr` | — | — | `PENDING` | Do not capture as final or apply remotely. |
-| `pl` | — | — | `PENDING` | Do not capture as final or apply remotely. |
-
-After approval, change all corresponding String Catalog states from `needs_review` to `translated`, run the complete validation gate, capture both locales on every shipping platform, and only then populate 1.6 App Store Connect IDs.
+Approval records now live only in `AppStore/localization/review-status.json`; current digests and review sheets are generated in `AppStore/localization/`.

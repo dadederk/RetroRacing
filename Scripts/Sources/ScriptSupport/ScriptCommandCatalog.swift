@@ -54,6 +54,7 @@ public enum ScriptCommandCatalog {
         "print-game-center-eu-localizations",
         "submit-testflight-build",
         "swap-app-store-screenshots",
+        "localization-workflow",
     ]
 
     public static let executables: [ScriptExecutable] = [
@@ -117,6 +118,10 @@ public enum ScriptCommandCatalog {
             name: "swap-app-store-screenshots",
             purpose: "Swaps two screenshot positions in App Store Connect through Helm"
         ),
+        ScriptExecutable(
+            name: "localization-workflow",
+            purpose: "Audits localisation coverage, approvals, and generated review sheets"
+        ),
     ]
 
     public static let topLevelCommands: [String] = [
@@ -128,6 +133,7 @@ public enum ScriptCommandCatalog {
         "metadata",
         "asc",
         "screenshots",
+        "localization",
         "assets",
         "testflight",
         "run",
@@ -142,6 +148,7 @@ public enum ScriptCommandCatalog {
             arguments: ["--check"]
         ),
         ScriptRecipeStep(executable: "generate-metadata-docs", arguments: ["--check"]),
+        ScriptRecipeStep(executable: "localization-workflow", arguments: ["audit"]),
         ScriptRecipeStep(executable: "check-documentation"),
         ScriptRecipeStep(executable: "apply-iap-localizations", arguments: ["--check"]),
         ScriptRecipeStep(executable: "apply-game-center-eu-localizations", arguments: ["--check"]),
@@ -193,6 +200,8 @@ public enum ScriptCommandCatalog {
           asc screenshots swap [flags…] Swap two screenshot positions through Helm
           screenshots capture [flags…] Capture App Store screenshots
           screenshots sync [flags…]    Sync Screenshot Studio localizations
+          localization audit [flags…]  Audit all canonical localisation layers
+          localization reviews [flags…] Generate or check per-locale review sheets
           assets audit [flags…]        Audit runtime asset footprint
           assets optimize [flags…]     Generate or check optimized runtime assets
           assets masks [flags…]        Generate or check road dash mask assets
@@ -229,6 +238,9 @@ public enum ScriptCommandCatalog {
         lines.append("  ./retrorapid asc screenshots swap --first 3 --second 4 --dry-run")
         lines.append("  ./retrorapid screenshots capture --dry-run")
         lines.append("  ./retrorapid screenshots capture --all-platforms --force")
+        lines.append("  ./retrorapid localization audit")
+        lines.append("  ./retrorapid localization audit --require-approval")
+        lines.append("  ./retrorapid localization reviews --all --check")
         lines.append("  ./retrorapid testflight all --dry-run")
         return lines.joined(separator: "\n")
     }

@@ -20,13 +20,13 @@ Last updated: 2026-08-05
 | en-GB | `RetroRapid: Retro Arcade Racer` | 30/30 | `Dodge Traffic Across 3 Lanes` | 28/30 | `endless,accessible,swift,highway,skill,vintage,drive,watch,game,nostalgia,pixel,boost,classic,reflex` | 100/100 |
 | en-AU | `RetroRapid: Retro Arcade Racer` | 30/30 | `Overtake Rivals. Beat Records` | 29/30 | `chase,mobile,quick,offline,voiceover,haptic,controller,handheld,lcd,leaderboard,high,score,ipad,mac` | 99/100 |
 | en-CA | `RetroRapid: Retro Arcade Racer` | 30/30 | `Chase Records in Quick Races` | 28/30 | `scoreboard,watch,game,classic,pixel,vintage,boost,nostalgia,ipad,mobile,haptic,lane,mac,drive,swift` | 99/100 |
-| de-DE | `RetroRapid: Arcade Rennspiel` | 28/30 | `Weiche Verkehr auf 3 Spuren` | 27/30 | `rekord,controller,uhr,reaktion,klassisch,endlos,punkte,barrierefrei,erfolge,mac,ipad,wagen,rennen` | 97/100 |
-| nl-NL | `RetroRapid: Arcade Race Spel` | 28/30 | `Ontwijk verkeer in 3 banen` | 26/30 | `reflex,controller,horloge,reactie,klassiek,oneindig,toegankelijk,prestaties,mac,ipad,snelheid,baan` | 98/100 |
+| de-DE | `RetroRapid: Retro-Rennspiel` | 27/30 | `Weiche dem Verkehr aus` | 22/30 | `rekord,controller,uhr,reaktion,klassisch,endlos,punkte,barrierefrei,erfolge,mac,ipad,wagen,rennen` | 97/100 |
+| nl-NL | `RetroRapid: Arcade-racegame` | 27/30 | `Ontwijk verkeer in 3 banen` | 26/30 | `reflex,controller,horloge,reactie,klassiek,oneindig,toegankelijk,prestaties,mac,ipad,snelheid,baan` | 98/100 |
 | it | `RetroRapid: Retro Corse Arcade` | 30/30 | `Schiva il traffico in 3 corsie` | 30/30 | `record,controller,orologio,reazione,classico,infinito,punteggio,successi,riflessi,ipad,veloce,mac` | 97/100 |
-| fr-FR | `RetroRapid: Retro Course Autos` | 30/30 | `Esquive le trafic, 3 voies` | 26/30 | `reflexes,manette,montre,reaction,classique,infini,accessibilite,mac,ipad,succes,classement,horsligne` | 100/100 |
-| fr-CA | `RetroRapid: Course Autos Retro` | 30/30 | `Évitez le trafic, 3 voies` | 25/30 | `evitement,haptique,partage,amis,parties,illimite,score,reflexe,competitif,vivant,duo,watch,arcade` | 97/100 |
+| fr-FR | `RetroRapid: Course rétro` | 24/30 | `Esquive le trafic, 3 voies` | 26/30 | `reflexes,manette,montre,reaction,classique,infini,accessibilite,mac,ipad,succes,classement,horsligne` | 100/100 |
+| fr-CA | `RetroRapid: Course rétro` | 24/30 | `Évitez le trafic, 3 voies` | 25/30 | `evitement,haptique,partage,amis,parties,illimite,score,reflexe,competitif,vivant,duo,watch,arcade` | 97/100 |
 | es-ES | `RetroRapid: Carreras Arcade` | 27/30 | `Esquiva tráfico en 3 carriles` | 29/30 | `coche,record,adelantar,reflejos,clasico,mando,ranking,infinito,puntuacion,conexion,voiceover,logros` | 99/100 |
-| ca | `RetroRapid: Carreres Arcade` | 27/30 | `Esquiva trànsit en 3 carrils` | 28/30 | `cotxe,avancaments,reflexos,comandament,lcd,accessibilitat,joc,reloj,puntuacio,connexio,velocitat,mac` | 100/100 |
+| ca | `RetroRapid: Carreres arcade` | 27/30 | `Esquiva trànsit en 3 carrils` | 28/30 | `cotxe,avancaments,reflexos,comandament,lcd,accessibilitat,joc,rellotge,puntuacio,connexio,velocitat` | 99/100 |
 | es-MX | `RetroRapid: Carreras Arcade` | 27/30 | `Esquiva carros en 3 carriles` | 28/30 | `rebasar,reflejos,record,control,ranking,clasico,infinito,puntuacion,reloj,internet,trafico,logros` | 97/100 |
 | ja | `RetroRapid: レトロアーケード` | 20/30 | `3レーン交通回避レース` | 11/30 | `追い抜き,反射神経,無制限,オフライン,実績解除,ハイスコア,ランキング` | 96/100 |
 | ko | `RetroRapid: 레트로 아케이드` | 20/30 | `3차선 교통 회피 레이싱` | 13/30 | `추월하기,반사신경,무제한,오프라인,햅틱피드백,컨트롤러,업적달성,SharePlay` | 100/100 |
@@ -34,8 +34,8 @@ Last updated: 2026-08-05
 | pt-PT | `RetroRapid: Corrida Arcade` | 26/30 | `Desvie o trânsito em 3 faixas` | 29/30 | `ultrapassagem,reflexos,classificacao,comando,relogio,infinito,offline,ipad,ecra,partida,ranking,fast` | 100/100 |
 | zh-Hant | `RetroRapid: 復古街機賽車` | 18/30 | `三線道閃避無盡交通` | 9/30 | `超車競賽,反射神經,離線遊玩,觸覺回饋,控制器,AppleWatch,成就解鎖,排行榜,race` | 100/100 |
 | zh-Hans | `RetroRapid: 复古街机赛车` | 18/30 | `三车道闪避无尽车流` | 9/30 | `超车赛,反应力,离线玩,触感反馈,手柄支持,无障碍,分数榜,成就榜,智能手表` | 98/100 |
-| tr | `RetroRapid: Retro Yarış Oyunu` | 29/30 | `3 Şeritte Trafikten Kaç` | 23/30 | `araba,skor,refleks,çevrimdışı,erişilebilir,liderlik,kontrol,nostalji,piksel,hız,arkadaş` | 94/100 |
-| pl | `RetroRapid: Wyścigi Retro` | 25/30 | `Omijaj Ruch na 3 Pasach` | 23/30 | `samochód,wynik,refleks,offline,dostępność,ranking,kontroler,nostalgia,prędkość,znajomi` | 93/100 |
+| tr | `RetroRapid: Retro yarış oyunu` | 29/30 | `3 şeritte trafikten kaç` | 23/30 | `araba,skor,refleks,çevrimdışı,erişilebilir,liderlik,kontrol,nostalji,piksel,hız,arkadaş` | 94/100 |
+| pl | `RetroRapid: Wyścigi retro` | 25/30 | `Omijaj ruch na 3 pasach` | 23/30 | `samochód,wynik,refleks,offline,dostępność,ranking,kontroler,nostalgia,prędkość,znajomi` | 93/100 |
 
 Notes:
 
@@ -51,7 +51,7 @@ Notes:
 | Locale | Promotional text | Count |
 |---|---|---:|
 | en-US / en-GB / en-AU / en-CA | `Race friends free with SharePlay on iPhone and iPad. Dodge traffic together, rematch fast, and keep solo runs quick anywhere.` | 125/170 |
-| de-DE | `Weiche Verkehr aus und jage Highscores in schnellen Retro-Rennen – mit Game Center, Apple Watch und barrierefreien Steuerungen.` | 127/170 |
+| de-DE | `Weiche dem Verkehr aus und jage Highscores in schnellen Retro-Rennen – mit Game Center, Apple Watch und barrierefreien Steuerungen.` | 131/170 |
 | nl-NL | `Ontwijk verkeer en jaag op highscores in snelle retro-races, met Game Center, Apple Watch en toegankelijke besturing.` | 117/170 |
 | it | `Schiva il traffico e punta al record in corse retrò veloci, con Game Center, Apple Watch e controlli accessibili.` | 113/170 |
 | fr-FR | `Esquive le trafic et bats ton record dans des courses rétro rapides, avec Game Center, Apple Watch et des commandes accessibles.` | 128/170 |
@@ -62,7 +62,7 @@ Notes:
 | ja | `iPhoneとiPadでSharePlayのフレンドレースが無料。3レーンのレトロアーケードで交通を避け、ハイスコアを狙おう。` | 63/170 |
 | ko | `iPhone과 iPad에서 SharePlay 친구 레이스가 무료예요. 3차선 레트로 아케이드에서 교통을 피하고 하이스코어에 도전하세요.` | 75/170 |
 | pt-BR | `Corridas com amigos grátis no SharePlay no iPhone e iPad. Desvie tráfego em um arcade retrô de 3 faixas e busque seu recorde.` | 125/170 |
-| pt-PT | `Corridas com amigos grátis no SharePlay no iPhone e iPad. Desvie o trânsito num arcade retrô de 3 faixas, com VoiceOver e Partidas Ilimitadas.` | 142/170 |
+| pt-PT | `Corridas com amigos grátis no SharePlay no iPhone e iPad. Desvie o trânsito num arcade retro de 3 faixas, com VoiceOver e Partidas Ilimitadas.` | 142/170 |
 | zh-Hant | `在 iPhone 與 iPad 上透過 SharePlay 免費與好友競賽。在三線道復古街機中閃避車流，挑戰最高分。` | 58/170 |
 | zh-Hans | `在 iPhone 与 iPad 上通过 SharePlay 免费与好友竞赛。三车道复古街机闪避车流，支持 VoiceOver，可解锁无限畅玩。` | 71/170 |
 | tr | `iPhone, iPad ve Mac'te SharePlay ile arkadaşlarınla ücretsiz yarış. Üç şeritli retro arcade trafikten kaç, rekorunu geliştir.` | 125/170 |
@@ -428,10 +428,10 @@ Porque os jogadores voltam:
 Bata, reinicie e ultrapasse o seu recorde.
 
 Featured in Create with Swift, Weekly Newsletter #96 (Indie App of the Week):
-"Além da nostalgia e da jogabilidade precisa, o que realmente se destaca é a acessibilidade."
+"Além da nostalgia e da experiência de jogo precisa, o que realmente se destaca é a acessibilidade."
 ```
 
-Count: 1117/4000 characters.
+Count: 1124/4000 characters.
 
 ### zh-Hant
 
@@ -664,14 +664,14 @@ Descobrix dos estils visuals nous: un 8-Bit atrevit i un 16-Bit ple de detalls. 
 
 Les carreres SharePlay amb amistats ara també funcionen a Mac, a més d'iPhone i iPad.
 
-Aquesta actualització també millora el rendiment i els dissenys horitzontals, polix els menús i les pantalles de final de partida i fa que els cotxes i els cascos es vegen més clars en tots els temes.
+Esta actualització també millora el rendiment i els dissenys horitzontals, polix els menús i les pantalles de final de partida i fa que els cotxes i els cascos es vegen més clars en tots els temes.
 
 RetroRapid! ja està completament localitzat en turc i polonés.
 
 Gràcies per córrer amb nosaltres.
 ```
 
-Count: 549/4000 characters.
+Count: 546/4000 characters.
 
 ### es-MX
 

@@ -1,19 +1,16 @@
-Race live met vrienden via SharePlay op iPhone en iPad.
+Ontdek twee nieuwe visuele stijlen: krachtige 8-Bit en rijk gedetailleerde 16-Bit. In de nieuwe Stijlgalerij kun je elk thema bekijken voordat je je favoriet kiest.
 
-Tik op Spelen met vrienden, start een gesynchroniseerde countdown, ontwijk samen verkeer en vergelijk hetzelfde winst-, verlies- of gelijkspelresultaat. Rematches wachten tot beide spelers klaar zijn.
+SharePlay-races met vrienden werken nu ook op de Mac, naast iPhone en iPad.
 
-Vriendenraces zijn gratis en gebruiken nooit dagelijkse plays.
+Deze update verbetert ook de prestaties en liggende lay-outs, verfijnt menu's en game-over-schermen en maakt auto's en helmen duidelijker in alle thema's.
 
-Deze update voegt volledige app-localisatie toe voor Duits, Nederlands, Italiaans, Frans (Frankrijk), Frans (Canada), Japans, Koreaans, Braziliaans Portugees, Europees Portugees, Traditioneel Chinees en Vereenvoudigd Chinees. Zet je apparaattaal om, vooral naar een van die nieuwe talen, en controleer of menu's, instellingen en race-UI natuurlijk klinken.
-
-We hebben ook instellingen, paywall-duidelijkheid, audio en stabiliteit verbeterd.
-
-Waar we op willen focussen:
-- Start een SharePlay-race op twee iPhones/iPads en bevestig de synchrone countdown
-- Schakel naar Duits, Nederlands, Italiaans, Frans (Frankrijk), Frans (Canada), Japans, Koreaans, Braziliaans Portugees, Europees Portugees, Traditioneel Chinees of Vereenvoudigd Chinees en beoordeel de vertalingen
-- Na de finish: Opnieuw spelen: beide moeten bevestigen
-- Met nul dagelijkse plays starten vriendenraces nog steeds gratis
-- Op Mac en Apple Watch: solo-kwaliteit controleren
-- Meld crashes, verbroken verbindingen of rare vertalingen
+RetroRapid! is nu volledig gelokaliseerd in het Turks en Pools.
 
 Bedankt dat je met ons rijdt.
+
+Aandachtspunten voor het testen:
+- Bekijk elk thema in de stijlgalerij en controleer of auto's en helmen duidelijk blijven
+- Start een SharePlay-race met een vriend op iPhone, iPad of Mac
+- Vergelijk de prestaties voor en na langere runs
+- Probeer liggende lay-outs, menu's en het game-over-scherm
+- Voltooi een run met VoiceOver en controleer alle aankondigingen

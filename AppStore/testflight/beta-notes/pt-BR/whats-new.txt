@@ -1,19 +1,16 @@
-Teste corridas ao vivo com amigos no SharePlay no iPhone e iPad.
+Descubra dois novos estilos visuais: um 8-Bit marcante e um 16-Bit cheio de detalhes. A nova Galeria de Estilos permite ver cada tema antes de escolher o seu favorito.
 
-Toque em Jogar com amigos, inicie a contagem regressiva sincronizada, desvie do tráfego juntos e compare o mesmo resultado de vitória, derrota ou empate. Revanches esperam os dois jogadores ficarem prontos.
+As corridas SharePlay com amigos agora também funcionam no Mac, além do iPhone e iPad.
 
-Corridas com amigos são grátis e nunca usam partidas diárias.
+Esta atualização também melhora o desempenho e os layouts horizontais, refina menus e telas de fim de jogo e deixa carros e capacetes mais nítidos em todos os temas.
 
-Esta atualização adiciona localização completa do app para alemão, neerlandês, italiano, francês (França), francês do Canadá, japonês, coreano, português do Brasil, português europeu, chinês tradicional e chinês simplificado. Mude o idioma do dispositivo, especialmente para um dos novos, e confira se menus, ajustes e a UI da corrida soam naturais.
-
-Também polimos ajustes, clareza do paywall, áudio e estabilidade.
-
-Foco do teste:
-- Inicie uma corrida SharePlay em dois iPhones/iPads e confirme a contagem sincronizada
-- Mude para alemão, neerlandês, italiano, francês (França), francês do Canadá, japonês, coreano, português do Brasil, português europeu, chinês tradicional ou chinês simplificado e avalie as traduções
-- Após a chegada, teste Jogar de novo: os dois precisam confirmar
-- Com zero partidas diárias, corridas com amigos ainda começam grátis
-- No Mac e Apple Watch, confirme a qualidade do modo solo
-- Reporte crashes, desconexões ou traduções estranhas
+RetroRapid! agora está totalmente localizado em turco e polonês.
 
 Obrigado por correr com a gente.
+
+Pontos para testar:
+- Veja cada tema na Galeria de Estilos e confira se carros e capacetes continuam nítidos
+- Inicie uma corrida SharePlay com um amigo no iPhone, iPad ou Mac
+- Compare o desempenho antes e depois de partidas longas
+- Teste layouts horizontais, menus e a tela de fim de jogo
+- Termine uma partida com VoiceOver e confira todos os anúncios

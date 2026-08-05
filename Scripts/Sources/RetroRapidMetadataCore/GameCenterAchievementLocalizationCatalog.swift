@@ -12,6 +12,16 @@ public struct GameCenterAchievementLocalizationCatalog: Decodable, Sendable {
         public let name: String
         public let earnedDescription: String
         public let preEarnedDescription: String
+
+        public init(
+            name: String,
+            earnedDescription: String,
+            preEarnedDescription: String
+        ) {
+            self.name = name
+            self.earnedDescription = earnedDescription
+            self.preEarnedDescription = preEarnedDescription
+        }
     }
 
     public struct Achievement: Decodable, Sendable {

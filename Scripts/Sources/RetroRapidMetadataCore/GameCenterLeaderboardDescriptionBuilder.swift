@@ -9,13 +9,13 @@ import Foundation
 
 /// Builds Game Center leaderboard descriptions to match en-US ASC copy:
 /// a short line explaining that ranking is based on overtakes in one run.
-enum GameCenterLeaderboardDescriptionBuilder {
+public enum GameCenterLeaderboardDescriptionBuilder {
     private static let englishDefaults = [
         "Overtake as many cars as you can in one run.",
         "Overtake as many cars as possible in one run.",
     ]
 
-    static func description(
+    public static func description(
         locale: String,
         englishReferenceDescription: String?
     ) -> String {
@@ -31,7 +31,7 @@ enum GameCenterLeaderboardDescriptionBuilder {
         return defaultDescription(for: locale)
     }
 
-    static func defaultDescription(for locale: String) -> String {
+    public static func defaultDescription(for locale: String) -> String {
         switch locale {
         case "de-DE":
             return "Überhole so viele Autos wie möglich in einem Lauf."
@@ -45,6 +45,8 @@ enum GameCenterLeaderboardDescriptionBuilder {
             return "Dépassez autant de voitures que possible en une seule partie."
         case "es-ES":
             return "Adelanta tantos coches como puedas en una sola partida."
+        case "es-MX":
+            return "Rebasa tantos carros como puedas en una sola partida."
         case "ca":
             return "Avança tants cotxes com pugues en una sola partida."
         case "ja":

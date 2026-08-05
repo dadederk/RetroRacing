@@ -1,19 +1,16 @@
-Corre en vivo con amigos gracias a SharePlay en iPhone e iPad.
+Descubre dos nuevos estilos visuales: un atrevido 8-Bit y un detallado 16-Bit. La nueva Galería de estilos te permite ver cada tema antes de elegir tu favorito.
 
-Toca Jugar con amigos, inicia una cuenta atrás sincronizada, esquiva el tráfico juntos y compara el mismo resultado de victoria, derrota o empate. Las revanchas esperan a que ambos estén listos.
+Las carreras SharePlay con amigos ahora también funcionan en Mac, además de iPhone y iPad.
 
-Las carreras con amigos son gratis y nunca usan partidas diarias.
+Esta actualización también mejora el rendimiento y los diseños horizontales, pule los menús y las pantallas de fin de partida y hace que los coches y los cascos se vean más claros en todos los temas.
 
-Esta actualización añade la localización completa de la app para alemán, neerlandés, italiano, francés (Francia), francés de Canadá, japonés, coreano, portugués de Brasil, portugués europeo, chino tradicional y chino simplificado. Cambia el idioma del dispositivo, especialmente a uno de los nuevos, y confirma que menús, ajustes y la UI de carrera suenan naturales.
-
-También hemos pulido ajustes, claridad del paywall, audio y estabilidad.
-
-En qué centrarte:
-- Inicia una carrera SharePlay en dos iPhone/iPad y confirma la cuenta atrás sincronizada
-- Cambia a portugués europeo, chino simplificado o francés de Canadá y valora las traducciones
-- Tras la meta, prueba Jugar de nuevo: ambos deben confirmar
-- Con cero partidas diarias, las carreras con amigos siguen empezando gratis
-- En Mac y Apple Watch, confirma la calidad del modo en solitario
-- Informa de cierres, desconexiones o traducciones raras
+RetroRapid! ya está completamente localizado en turco y polaco.
 
 Gracias por correr con nosotros.
+
+Aspectos que probar:
+- Previsualiza cada tema en la Galería de estilos y comprueba que coches y cascos se vean nítidos
+- Inicia una carrera SharePlay con un amigo en iPhone, iPad o Mac
+- Compara el rendimiento antes y después de partidas largas
+- Prueba el modo horizontal, los menús y la pantalla de fin de partida
+- Completa una partida con VoiceOver y comprueba todos los anuncios

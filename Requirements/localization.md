@@ -17,15 +17,16 @@
 | `en-GB`, `en-AU` | British spelling where it differs |
 | `en-CA` | US spelling (matches `en`) |
 | `de`, `nl`, `it`, `fr` | Friendly `du` / `je` / `tu` |
-| `fr-CA` | Canadian French — not a clone of `fr`; courriel / fin de semaine where relevant |
+| `fr-CA` | Canadian French — consistently formal `vous`, not a clone of `fr`; Canadian vocabulary where relevant |
 | `es` | Spain Spanish |
+| `es-MX` | Mexican Spanish — `carro`, `rebase`, and an independent in-app/capture locale |
 | `ca` | Valencian Meridional |
 | `ja`, `ko` | APAC |
 | `pt-BR` | Brazilian Portuguese |
-| `pt-PT` | European Portuguese — not a clone of `pt-BR` (`Definições`, `ecrã`, `ficheiro`, …) |
+| `pt-PT` | European Portuguese — neutral third-person forms without explicit `você`/`vocês`; not a clone of `pt-BR` (`Definições`, `ecrã`, `ficheiro`, …) |
 | `zh-Hant` | Traditional Chinese (Taiwan-leaning) |
 | `zh-Hans` | Simplified Chinese — not a script-only conversion of `zh-Hant` |
-| `tr`, `pl` | Turkish and Polish — 1.6 candidates pending fluent native review |
+| `tr`, `pl` | Turkish and Polish |
 
 ## Source of truth
 
@@ -33,8 +34,8 @@
 |---|---|
 | Shared catalog | `RetroRacing/RetroRacingShared/Localizable.xcstrings` |
 | Listing metadata | `AppStore/metadata/retrorapid-v1.6.json` |
-| EU transcreation reference | `Scripts/Resources/eu_localizations.json` |
-| APAC/LatAm reference | `Scripts/Resources/asia_latam_localizations.json` |
+| Review status and approved digests | `AppStore/localization/review-status.json` |
+| Generated reviewer sheets | `AppStore/localization/README.md` and `AppStore/localization/reviews/*.csv` |
 | Bundle localizations | `RetroRacing/Config/RetroRacingUniversalInfo.plist` (`CFBundleLocalizations`, `CFBundleAllowMixedLocalizations = true`) |
 
 ## Voice
@@ -43,6 +44,10 @@
 - Preserve arcade tone (pit-stop paywall, punchy game-over, warm engagement).
 - Do not translate `RetroRapid` / `RetroRapid!` (`BrandMark.swift`, `AGENTS.md`).
 - Sibling locales (`pt-BR`/`pt-PT`, `zh-Hant`/`zh-Hans`, `fr`/`fr-CA`) must stay **locale-true** — vocabulary and register differ.
+- French Canadian uses formal `vous` throughout; French for France remains friendly `tu`.
+- European Portuguese uses neutral third-person forms without explicit Brazilian `você`/`vocês`.
+- Catalan uses Valencian Meridional consistently: prefer `teua`/`seua`, `hui`, `este`/`esta`, `ací`, appropriate `-ix` forms, `rellotge`, and `avançament`.
+- Screenshot headlines use locale-appropriate casing, not mechanically copied English title casing.
 
 ### Product terms (keep aligned with IAP / Game Center)
 
@@ -52,16 +57,16 @@
 | `nl` | Onbeperkt spelen | prestaties |
 | `it` | Partite illimitate | obiettivi |
 | `fr` / `fr-CA` | Parties illimitées | succès |
-| `es` | Partidas ilimitadas | logros |
+| `es` / `es-MX` | Partidas ilimitadas | logros |
 | `ca` | Partides il·limitades | assoliments |
 | `ja` | 無制限プレイ | 実績 |
 | `ko` | 무제한 플레이 | 업적 |
-| `pt-BR` | Partidas Ilimitadas | conquistas |
-| `pt-PT` | Partidas Ilimitadas | conquistas |
+| `pt-BR` | Partidas ilimitadas | conquistas |
+| `pt-PT` | Partidas ilimitadas | conquistas |
 | `zh-Hant` | 無限暢玩 | 成就 |
 | `zh-Hans` | 无限畅玩 | 成就 |
-| `tr` | Sınırsız Oyun | başarımlar |
-| `pl` | Nielimitowane Gry | osiągnięcia |
+| `tr` | Sınırsız oyun | başarımlar |
+| `pl` | Nielimitowane gry | osiągnięcia |
 
 ## Implementation
 
@@ -74,6 +79,10 @@
 
 - Locale resolution tests cover every supported in-app language above.
 - Keep translation completeness at 100% for required locales.
+- `./retrorapid localization audit` performs the structural check used by `./retrorapid check`.
+- `./retrorapid localization reviews --all` regenerates deterministic UTF-8 reviewer CSVs and their digest index.
+- `./retrorapid localization audit --require-approval` is the release-readiness gate. Every non-English locale requires a fluent reviewer, date, `APPROVED` status, matching content digest, and no `needs_review` String Catalog entries.
+- Any source or translation change changes the digest and invalidates the recorded approval.
 
 ## New keys
 

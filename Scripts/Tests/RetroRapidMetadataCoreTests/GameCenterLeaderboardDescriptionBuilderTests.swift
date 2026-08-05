@@ -30,6 +30,7 @@ func givenMissingEnglishReferenceWhenBuildingFrenchDescriptionThenDefaultCopyIsU
 }
 
 @Test(arguments: [
+    ("es-MX", "Rebasa tantos carros como puedas en una sola partida."),
     ("tr", "Tek yarışta olabildiğince çok araba solla."),
     ("pl", "Wyprzedź jak najwięcej aut w jednym przejeździe."),
 ])

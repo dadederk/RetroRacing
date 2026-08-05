@@ -340,13 +340,13 @@ func givenCapturedTargetWhenInstallingIncrementallyThenCopiesSingleStudioImage()
 }
 
 @Test
-func givenEnglishAndSpanishDerivedLocalesWhenResolvingCaptureLocalesThenUsesSharedSources() {
+func givenOnlyEnglishDerivedLocalesWhenResolvingCaptureLocalesThenMexicanSpanishIsASource() {
     let studioLocales = ScreenshotStudioWorkflow.locales
     let captureLocales = ScreenshotCapturePlan.captureLocales(from: studioLocales)
 
-    #expect(captureLocales == ["en-US", "de-DE", "nl-NL", "it", "fr-FR", "fr-CA", "es-ES", "ca", "ja", "ko", "pt-BR", "pt-PT", "zh-Hant", "zh-Hans", "tr", "pl"])
+    #expect(captureLocales == ["en-US", "de-DE", "nl-NL", "it", "fr-FR", "fr-CA", "es-ES", "es-MX", "ca", "ja", "ko", "pt-BR", "pt-PT", "zh-Hant", "zh-Hans", "tr", "pl"])
     #expect(ScreenshotCapturePlan.sourceLocale(for: "en-GB") == "en-US")
-    #expect(ScreenshotCapturePlan.sourceLocale(for: "es-MX") == "es-ES")
+    #expect(ScreenshotCapturePlan.sourceLocale(for: "es-MX") == nil)
 }
 
 @Test

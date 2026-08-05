@@ -68,7 +68,6 @@ public enum ScreenshotCapturePlan {
     /// App Store locales whose in-app screenshot pixels match another locale and can be copied.
     public static let derivedLocaleMap: [String: [String]] = [
         "en-US": ["en-GB", "en-AU", "en-CA"],
-        "es-ES": ["es-MX"],
     ]
 
     public static func sourceLocale(for appStoreLocale: String) -> String? {

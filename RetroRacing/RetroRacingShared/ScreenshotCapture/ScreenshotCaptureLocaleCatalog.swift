@@ -29,8 +29,10 @@ public enum ScreenshotCaptureLocaleCatalog {
             return "fr"
         case "fr-CA":
             return "fr-CA"
-        case "es-ES", "es-MX":
+        case "es-ES":
             return "es"
+        case "es-MX":
+            return "es-MX"
         case "ca":
             return "ca"
         case "en-US":

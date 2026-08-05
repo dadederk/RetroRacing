@@ -1,19 +1,16 @@
-Testez les courses en direct avec des amis via SharePlay sur iPhone et iPad.
+Découvrez deux nouveaux styles visuels : un style 8 bits audacieux et un style 16 bits richement détaillé. La nouvelle galerie de styles permet de prévisualiser facilement chaque thème avant de choisir votre préféré.
 
-Touchez Jouer avec des amis, lancez le compte à rebours synchronisé, évitez le trafic ensemble et comparez le même résultat victoire, défaite ou égalité. Les revanches attendent que les deux joueurs soient prêts.
+Les courses SharePlay entre amis fonctionnent maintenant aussi sur Mac, en plus de l'iPhone et de l'iPad.
 
-Les courses entre amis sont gratuites et n'utilisent jamais les parties quotidiennes.
+Cette mise à jour améliore aussi les performances et les dispositions en mode paysage, peaufine les menus et les écrans de fin de partie, et rend les voitures et les casques plus nets dans tous les thèmes.
 
-Cette mise à jour ajoute la localisation complète de l'app en allemand, néerlandais, italien, français (France), français canadien, japonais, coréen, portugais brésilien, portugais européen, chinois traditionnel et chinois simplifié. Changez la langue de l'appareil, surtout pour l'une des nouvelles langues, et vérifiez que menus, réglages et interface de course sonnent naturels.
-
-Nous avons aussi peaufiné les réglages, la clarté du paywall, l'audio et la stabilité.
-
-Axes de test :
-- Lancez une course SharePlay sur deux iPhone/iPad et confirmez le compte à rebours synchronisé
-- Passez en allemand, néerlandais, italien, français (France), français canadien, japonais, coréen, portugais brésilien, portugais européen, chinois traditionnel ou chinois simplifié et évaluez les traductions
-- Après l'arrivée, testez Rejouer et confirmez que les deux doivent confirmer
-- Avec zéro parties quotidiennes, confirmez que les courses entre amis démarrent encore gratuitement
-- Sur Mac et Apple Watch, confirmez la qualité du mode solo
-- Signalez les plantages, déconnexions ou traductions étranges
+RetroRapid! est maintenant entièrement localisé en turc et en polonais.
 
 Merci de courir avec nous.
+
+Points à tester :
+- Prévisualisez chaque thème dans la galerie de styles et vérifiez la netteté des autos et des casques
+- Lancez une course SharePlay avec un ami sur iPhone, iPad ou Mac
+- Comparez les performances avant et après de longues parties
+- Testez le mode paysage, les menus et l'écran de fin de partie
+- Terminez une partie avec VoiceOver et vérifiez chaque annonce

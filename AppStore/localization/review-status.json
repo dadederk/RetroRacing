@@ -1,0 +1,185 @@
+{
+  "schemaVersion": 1,
+  "locales": {
+    "en-US": {
+      "catalogLocale": "en",
+      "guidance": "Canonical English source. Direct, compact arcade copy with sentence casing and consistent product terminology.",
+      "status": "NEEDS_REVIEW",
+      "reviewer": null,
+      "reviewedAt": null,
+      "notes": "Freeze and approve English before approving translations.",
+      "approvedContentDigest": null
+    },
+    "en-GB": {
+      "catalogLocale": "en",
+      "guidance": "Natural British English where regional copy differs; preserve the compact arcade voice.",
+      "status": "NEEDS_REVIEW",
+      "reviewer": null,
+      "reviewedAt": null,
+      "notes": null,
+      "approvedContentDigest": null
+    },
+    "en-AU": {
+      "catalogLocale": "en",
+      "guidance": "Natural Australian English where regional copy differs; avoid forced slang.",
+      "status": "NEEDS_REVIEW",
+      "reviewer": null,
+      "reviewedAt": null,
+      "notes": null,
+      "approvedContentDigest": null
+    },
+    "en-CA": {
+      "catalogLocale": "en",
+      "guidance": "Natural Canadian English where regional copy differs; preserve the compact arcade voice.",
+      "status": "NEEDS_REVIEW",
+      "reviewer": null,
+      "reviewedAt": null,
+      "notes": null,
+      "approvedContentDigest": null
+    },
+    "de-DE": {
+      "catalogLocale": "de",
+      "guidance": "Friendly informal du, idiomatic German, correct cases, and German sentence casing rather than English title casing.",
+      "status": "NEEDS_REVIEW",
+      "reviewer": null,
+      "reviewedAt": null,
+      "notes": null,
+      "approvedContentDigest": null
+    },
+    "nl-NL": {
+      "catalogLocale": "nl",
+      "guidance": "Friendly informal Dutch with natural compounds and sentence casing; avoid literal English arcade phrasing.",
+      "status": "NEEDS_REVIEW",
+      "reviewer": null,
+      "reviewedAt": null,
+      "notes": null,
+      "approvedContentDigest": null
+    },
+    "it": {
+      "catalogLocale": "it",
+      "guidance": "Energetic informal Italian with idiomatic racing vocabulary and sentence casing.",
+      "status": "NEEDS_REVIEW",
+      "reviewer": null,
+      "reviewedAt": null,
+      "notes": null,
+      "approvedContentDigest": null
+    },
+    "fr-FR": {
+      "catalogLocale": "fr",
+      "guidance": "Friendly informal tu for France, idiomatic arcade vocabulary, French punctuation, and sentence casing.",
+      "status": "NEEDS_REVIEW",
+      "reviewer": null,
+      "reviewedAt": null,
+      "notes": null,
+      "approvedContentDigest": null
+    },
+    "fr-CA": {
+      "catalogLocale": "fr-CA",
+      "guidance": "Genuinely Canadian French, consistently formal vous, Canadian vocabulary where natural, French punctuation, and sentence casing.",
+      "status": "NEEDS_REVIEW",
+      "reviewer": null,
+      "reviewedAt": null,
+      "notes": "Must not be a mechanical clone of fr-FR.",
+      "approvedContentDigest": null
+    },
+    "es-ES": {
+      "catalogLocale": "es",
+      "guidance": "Friendly informal European Spanish with coche, adelantamiento, partida, and natural sentence casing.",
+      "status": "NEEDS_REVIEW",
+      "reviewer": null,
+      "reviewedAt": null,
+      "notes": null,
+      "approvedContentDigest": null
+    },
+    "es-MX": {
+      "catalogLocale": "es-MX",
+      "guidance": "Friendly Mexican Spanish with carro, rebase, partida, and natural local idiom; do not inherit European Spanish UI pixels.",
+      "status": "NEEDS_REVIEW",
+      "reviewer": null,
+      "reviewedAt": null,
+      "notes": "New complete in-app and independent source-capture locale.",
+      "approvedContentDigest": null
+    },
+    "ca": {
+      "catalogLocale": "ca",
+      "guidance": "Valencian Meridional throughout: teua/seua, hui, este/esta, ací, appropriate -ix forms, rellotge, and avançament.",
+      "status": "NEEDS_REVIEW",
+      "reviewer": null,
+      "reviewedAt": null,
+      "notes": "Reject Central Catalan and Spanish leakage.",
+      "approvedContentDigest": null
+    },
+    "ja": {
+      "catalogLocale": "ja",
+      "guidance": "Compact, inviting Japanese game copy with consistent politeness and natural arcade terminology.",
+      "status": "NEEDS_REVIEW",
+      "reviewer": null,
+      "reviewedAt": null,
+      "notes": null,
+      "approvedContentDigest": null
+    },
+    "ko": {
+      "catalogLocale": "ko",
+      "guidance": "Natural Korean game copy with consistent 해요-style politeness and compact UI phrasing.",
+      "status": "NEEDS_REVIEW",
+      "reviewer": null,
+      "reviewedAt": null,
+      "notes": null,
+      "approvedContentDigest": null
+    },
+    "pt-BR": {
+      "catalogLocale": "pt-BR",
+      "guidance": "Friendly Brazilian Portuguese with consistent você forms and Brazilian racing vocabulary.",
+      "status": "NEEDS_REVIEW",
+      "reviewer": null,
+      "reviewedAt": null,
+      "notes": null,
+      "approvedContentDigest": null
+    },
+    "pt-PT": {
+      "catalogLocale": "pt-PT",
+      "guidance": "European Portuguese using neutral third-person forms without explicit você/vocês; use European vocabulary and orthography.",
+      "status": "NEEDS_REVIEW",
+      "reviewer": null,
+      "reviewedAt": null,
+      "notes": "Reject Brazilian terms such as mouse where rato is intended and mixed address forms.",
+      "approvedContentDigest": null
+    },
+    "zh-Hant": {
+      "catalogLocale": "zh-Hant",
+      "guidance": "Traditional Chinese throughout, compact Taiwan-friendly game phrasing, and no Simplified Chinese character leakage.",
+      "status": "NEEDS_REVIEW",
+      "reviewer": null,
+      "reviewedAt": null,
+      "notes": null,
+      "approvedContentDigest": null
+    },
+    "zh-Hans": {
+      "catalogLocale": "zh-Hans",
+      "guidance": "Simplified Chinese throughout with compact, natural arcade phrasing and no Traditional character leakage.",
+      "status": "NEEDS_REVIEW",
+      "reviewer": null,
+      "reviewedAt": null,
+      "notes": null,
+      "approvedContentDigest": null
+    },
+    "tr": {
+      "catalogLocale": "tr",
+      "guidance": "Natural informal Turkish, dotted/dotless-I correctness, stable terminology, and locale-appropriate casing.",
+      "status": "NEEDS_REVIEW",
+      "reviewer": null,
+      "reviewedAt": null,
+      "notes": null,
+      "approvedContentDigest": null
+    },
+    "pl": {
+      "catalogLocale": "pl",
+      "guidance": "Natural Polish with correct inflection and plurals, stable terminology, and sentence casing rather than English title casing.",
+      "status": "NEEDS_REVIEW",
+      "reviewer": null,
+      "reviewedAt": null,
+      "notes": null,
+      "approvedContentDigest": null
+    }
+  }
+}
