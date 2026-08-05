@@ -1047,6 +1047,27 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         XCTAssertGreaterThan(rightOuterDrift, rightInnerDrift)
     }
 
+    func testGivenDetailedRoadWhenRenderingThenPerspectiveDashesUseAntialiasedTintedEdges() {
+        // Given
+        scene.setBigRivalCarsEnabled(false)
+        scene.setRoadVisualStyle(.detailedRoad)
+
+        // When
+        scene.gridStateDidUpdate(scene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
+
+        // Then
+        let dashNodes = scene.lineOverlayNodes.compactMap { node -> SKShapeNode? in
+            guard node.name == "road_dash_line" else { return nil }
+            return node as? SKShapeNode
+        }
+        XCTAssertFalse(dashNodes.isEmpty)
+        XCTAssertTrue(dashNodes.allSatisfy(\.isAntialiased))
+        XCTAssertTrue(dashNodes.allSatisfy { $0.lineWidth == 1 })
+        for dashNode in dashNodes {
+            assertColor(dashNode.strokeColor, equals: dashNode.fillColor)
+        }
+    }
+
     func testGivenBigCarsOffWhenRoadStyleSimplifiedWhenRenderingThenVerticalSeparatorsVisibleAndDetailedMarkersHidden() {
         // Given
         scene.setBigRivalCarsEnabled(false)

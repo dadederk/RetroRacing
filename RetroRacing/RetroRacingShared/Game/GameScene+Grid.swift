@@ -20,6 +20,7 @@ private enum RoadLineConfiguration {
     static let lineZPosition: CGFloat = 1.5
     static let minimumContrast: Double = 4.5
     static let lapStripHeightFactor: CGFloat = 0.42
+    static let perspectiveDashEdgeStrokeWidth: CGFloat = 1
 }
 
 private enum RoadSurfaceConfiguration {
@@ -375,8 +376,11 @@ extension GameScene {
         lineNode.name = RoadLineConfiguration.dashedLineNodeName
         lineNode.position = CGPoint(x: centerX, y: centerY)
         lineNode.fillColor = tintColor
-        lineNode.strokeColor = .clear
-        lineNode.lineWidth = 0
+        // SKShapeNode only guarantees antialiasing for stroked edges. A thin,
+        // matching stroke smooths these filled trapezoids on watch-sized displays.
+        lineNode.strokeColor = tintColor
+        lineNode.lineWidth = RoadLineConfiguration.perspectiveDashEdgeStrokeWidth
+        lineNode.isAntialiased = true
         lineNode.zPosition = RoadLineConfiguration.lineZPosition
         lineOverlayNodes.append(lineNode)
         addChild(lineNode)

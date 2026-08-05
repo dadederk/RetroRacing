@@ -26,6 +26,7 @@
 - Themes with a road-exterior color draw row-by-row perspective road-surface overlays from that model, expanded past the outer lane boundaries so the road color sits under the full outer lines with a generous overhang.
 - Road surfaces are cached by scene size, theme identity, road style, Big Cars state, and line mode. Grid ticks and lane moves preserve node identity; resize, theme/style, or mode changes rebuild them.
 - Each visible row renders four trapezoid marker segments: outer-left, inner-left, inner-right, outer-right.
+- Perspective marker trapezoids use an antialiased matching edge stroke so their diagonal edges remain smooth on watch-sized displays.
 - Marker thickness and car/rival/crash scaling follow depth so lane alignment remains centered.
 - Dashed markers are suppressed where lap strips render.
 
