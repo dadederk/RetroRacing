@@ -19,6 +19,10 @@
     {
       "filename" : "playersCar-64Bit-watch.png",
       "idiom" : "watch"
+    },
+    {
+      "filename" : "playersCar-64Bit-vision.png",
+      "idiom" : "vision"
     }
   ],
   "info" : {

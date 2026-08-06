@@ -738,6 +738,8 @@ func testGivenSixtyFourBitAssetRulesWhenLoadingManifestThenOpticalFramingIsRequi
             rule.geometryProfile.map { (rule.path, $0) }
         }
     )
+    let playerRule = rules.first { $0.path == "Sprites/64Bit/playersCar-64Bit.imageset" }
+    let rivalRule = rules.first { $0.path == "Sprites/64Bit/rivalsCar-64Bit.imageset" }
 
     #expect(rules.count == 5)
     #expect(profilesByPath["Sprites/64Bit/playersCar-64Bit.imageset"] == .sixtyFourBitPlayerCar)
@@ -745,6 +747,8 @@ func testGivenSixtyFourBitAssetRulesWhenLoadingManifestThenOpticalFramingIsRequi
     #expect(profilesByPath["Sprites/64Bit/crash-64Bit.imageset"] == .sixtyFourBitCrash)
     #expect(profilesByPath["Sprites/64Bit/life-64Bit.imageset"] == .sixtyFourBitHelmet)
     #expect(profilesByPath["Sprites/64Bit/friendLife-64Bit.imageset"] == .sixtyFourBitHelmet)
+    #expect(playerRule?.requiredIdioms.contains("vision") == true)
+    #expect(rivalRule?.requiredIdioms.contains("vision") == true)
 }
 
 @Test

@@ -48,8 +48,8 @@ The visionOS vertical slice presents one solo RetroRapid! run as either a Classi
 
 ## 64-Bit Assets
 
-- The dated player USDA, dedicated rival USDA composition, and checked-in camera configuration remain canonical for the two visionOS car models and their fixed-camera projections. The shared runtime catalog contains optimized player, rival, crash, player-life, and friend-life 64-Bit sprite families for every supported platform idiom.
-- The canonical rival model reuses the proven boxed player geometry while baking the cyan material family, removing the helmet `X` and player lamps, activating one vertical two-lamp stack on each side, and retaining exactly four exhaust tubes. The fixed-camera rival sprite and all five platform renditions are rendered from that composed model rather than an ImageGen or hue-shifted raster.
+- The dated player USDA, dedicated rival USDA composition, and checked-in camera configuration remain canonical for the two visionOS car models and their fixed-camera projections. The shared runtime catalog contains optimized player, rival, crash, player-life, and friend-life 64-Bit sprite families for every supported platform idiom, including the visionOS player and rival projections used by Classic.
+- The canonical rival model reuses the proven boxed player geometry while baking the cyan material family, removing the helmet `X` and player lamps, activating one vertical two-lamp stack on each side, and retaining exactly four exhaust tubes. The fixed-camera visionOS rival sprite and all five additional platform renditions are rendered from that composed model rather than an ImageGen or hue-shifted raster.
 - The runtime loads and validates the distinct player and rival entities once, then clones a fixed pool of one player and fifteen rivals. Render updates retain direct entity references.
 - Model-load or validation failure never silently substitutes shipping geometry: the app logs the typed failure, restores a usable Classic race, and exposes a localized retry message.
 - The generated player car becomes a release candidate only after physical-device scale, lighting, silhouette, 2D/3D correspondence, and comfort approval.

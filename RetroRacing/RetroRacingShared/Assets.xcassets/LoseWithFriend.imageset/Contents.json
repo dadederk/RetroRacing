@@ -1,6 +1,10 @@
 {
   "images" : [
     {
+      "idiom" : "iphone",
+      "scale" : "1x"
+    },
+    {
       "filename" : "LoseWithFriend-iphone-2x.png",
       "idiom" : "iphone",
       "scale" : "2x"
@@ -9,6 +13,10 @@
       "filename" : "LoseWithFriend-iphone-3x.png",
       "idiom" : "iphone",
       "scale" : "3x"
+    },
+    {
+      "idiom" : "ipad",
+      "scale" : "1x"
     },
     {
       "filename" : "LoseWithFriend-ipad-2x.png",

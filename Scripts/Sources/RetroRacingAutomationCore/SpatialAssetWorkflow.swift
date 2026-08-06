@@ -27,7 +27,8 @@ public enum SpatialAssetWorkflow {
             print("  - Compose and validate distinct player and rival USDA sources")
             print("  - Package player-car-64bit.usdz and rival-car-64bit.usdz")
             print("  - Render the rival sprite from its composed 3D model with the fixed camera")
-            print("  - Derive the five shared-platform rival projections")
+            print("  - Install the visionOS projections in the shared catalog")
+            print("  - Derive the five additional shared-platform rival projections")
             print("  - Validate RealityKit import, target membership, budgets, and output drift")
             return
         }
@@ -144,21 +145,26 @@ public enum SpatialAssetWorkflow {
         configuration: SpatialAssetConfiguration,
         repositoryRoot: URL
     ) throws {
-        let outputPrefix = "RetroRacing/RetroRacingVisionOS/"
-        let shippingOutputs = [
+        let visionOutputPrefix = "RetroRacing/RetroRacingVisionOS/"
+        let sharedOutputPrefix = "RetroRacing/RetroRacingShared/"
+        let modelOutputs = [
             configuration.models.player.output,
             configuration.models.rival.output,
+        ]
+        let spriteOutputs = [
             configuration.outputs.playerSprite,
             configuration.outputs.rivalSprite,
         ]
-        var issues = shippingOutputs.filter { $0.hasPrefix(outputPrefix) == false }
-            .map { "Shipping output is outside the visionOS synchronized target: \($0)" }
+        var issues = modelOutputs.filter { $0.hasPrefix(visionOutputPrefix) == false }
+            .map { "Model output is outside the visionOS synchronized target: \($0)" }
+        issues += spriteOutputs.filter { $0.hasPrefix(sharedOutputPrefix) == false }
+            .map { "Sprite output is outside the shared synchronized target: \($0)" }
         let projectURL = repositoryRoot.appending(path: "RetroRacing/RetroRacing.xcodeproj/project.pbxproj")
         let project = try String(contentsOf: projectURL, encoding: .utf8)
         if project.contains("VisionOS64BitPrototype2026-08-05") {
             issues.append("Canonical source archive must be excluded from Xcode targets.")
         }
-        for file in [configuration.outputs.playerSprite, configuration.outputs.rivalSprite] {
+        for file in spriteOutputs {
             let output = repositoryRoot.appending(path: file)
             let contentsURL = output.deletingLastPathComponent().appending(path: "Contents.json")
             let contents = try String(contentsOf: contentsURL, encoding: .utf8)

@@ -86,8 +86,8 @@
     }
   },
   "outputs": {
-    "playerSprite": "RetroRacing/RetroRacingVisionOS/Assets.xcassets/Sprites/64Bit/playersCar-64Bit.imageset/playersCar-64Bit.png",
-    "rivalSprite": "RetroRacing/RetroRacingVisionOS/Assets.xcassets/Sprites/64Bit/rivalsCar-64Bit.imageset/rivalsCar-64Bit.png",
+    "playerSprite": "RetroRacing/RetroRacingShared/Assets.xcassets/Sprites/64Bit/playersCar-64Bit.imageset/playersCar-64Bit-vision.png",
+    "rivalSprite": "RetroRacing/RetroRacingShared/Assets.xcassets/Sprites/64Bit/rivalsCar-64Bit.imageset/rivalsCar-64Bit-vision.png",
     "rivalSpriteMaster": "AssetSources/VisionOS64BitPrototype2026-08-05/RivalCar/Previews/rival-car-64bit-sprite.png",
     "rivalCuratedVisionOS": "AssetSources/RuntimeMasters2026-08-06/CuratedVisionOS/rivalsCar-64Bit.png",
     "rivalCuratedCatalog": "AssetSources/RuntimeMasters2026-08-06/CuratedCatalog/Sprites/64Bit/rivalsCar-64Bit.imageset"

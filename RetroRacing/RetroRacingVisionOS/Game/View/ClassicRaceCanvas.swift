@@ -98,7 +98,7 @@ struct ClassicRaceCanvas: View {
     }
 
     private func drawCars(in context: inout GraphicsContext, size: CGSize) {
-        let spriteBundle = VisionThemeSpriteAssets.bundle(for: theme)
+        let spriteBundle = VisionThemeSpriteAssets.bundle
         let playerAssetName = theme.playerCarSprite() ?? "playersCar-LCD"
         let playerImage = context.resolve(Image(
             decorative: playerAssetName,

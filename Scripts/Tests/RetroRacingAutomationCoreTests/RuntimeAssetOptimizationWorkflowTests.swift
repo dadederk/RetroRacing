@@ -124,9 +124,19 @@ func testGivenOptimizationPlanWhenSelectingSixtyFourBitSpritesThenUses20260806Ma
             return source
         }
 
-    #expect(sources.count == 25)
-    #expect(sources.allSatisfy {
+    let platformSources = sources.filter {
         $0.path.contains("RuntimeMasters2026-08-06/CuratedCatalog/Sprites/64Bit")
+    }
+    let visionSources = sources.filter { platformSources.contains($0) == false }
+
+    #expect(sources.count == 27)
+    #expect(platformSources.count == 25)
+    #expect(visionSources.count == 2)
+    #expect(visionSources.contains {
+        $0.path.hasSuffix("PlayerCar/Previews/player-car-64bit-sprite.png")
+    })
+    #expect(visionSources.contains {
+        $0.path.hasSuffix("RuntimeMasters2026-08-06/CuratedVisionOS/rivalsCar-64Bit.png")
     })
 }
 

@@ -1196,14 +1196,16 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ],
       "maximumLongEdge": {
         "iphone": 768,
         "ipad": 768,
         "mac": 1024,
         "watch": 256,
-        "tv": 512
+        "tv": 512,
+        "vision": 768
       },
       "geometryProfile": "sixtyFourBitPlayerCar",
       "requiredIdioms": [
@@ -1211,7 +1213,8 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ]
     },
     {
@@ -1221,14 +1224,16 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ],
       "maximumLongEdge": {
         "iphone": 768,
         "ipad": 768,
         "mac": 1024,
         "watch": 256,
-        "tv": 512
+        "tv": 512,
+        "vision": 768
       },
       "geometryProfile": "sixtyFourBitRivalCar",
       "requiredIdioms": [
@@ -1236,7 +1241,8 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ]
     },
     {

@@ -56,7 +56,7 @@ private struct VisionPlayView: View {
         VStack(spacing: 24) {
             Image(
                 theme.playerCarSprite() ?? "playersCar-LCD",
-                bundle: VisionThemeSpriteAssets.bundle(for: theme)
+                bundle: VisionThemeSpriteAssets.bundle
             )
                 .resizable()
                 .scaledToFit()

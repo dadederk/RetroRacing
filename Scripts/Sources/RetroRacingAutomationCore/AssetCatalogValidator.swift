@@ -122,7 +122,7 @@ enum AssetCatalogValidator {
         switch profile {
         case .helmet, .sixteenBitHelmet, .thirtyTwoBitHelmet, .sixtyFourBitHelmet:
             return idiom == "watch" ? (64, 55) : (256, 222)
-        case .sixteenBitPlayerCar, .thirtyTwoBitPlayerCar, .sixtyFourBitPlayerCar:
+        case .sixteenBitPlayerCar, .thirtyTwoBitPlayerCar:
             return dimensionsByIdiom(
                 idiom,
                 iphoneAndIPad: (768, 536),
@@ -130,7 +130,17 @@ enum AssetCatalogValidator {
                 tv: (512, 357),
                 watch: (256, 179)
             )
-        case .sixteenBitRivalCar, .thirtyTwoBitRivalCar, .sixtyFourBitRivalCar:
+        case .sixtyFourBitPlayerCar:
+            return idiom == "vision"
+                ? (768, 600)
+                : dimensionsByIdiom(
+                    idiom,
+                    iphoneAndIPad: (768, 536),
+                    mac: (863, 602),
+                    tv: (512, 357),
+                    watch: (256, 179)
+                )
+        case .sixteenBitRivalCar, .thirtyTwoBitRivalCar:
             return dimensionsByIdiom(
                 idiom,
                 iphoneAndIPad: (768, 496),
@@ -138,6 +148,16 @@ enum AssetCatalogValidator {
                 tv: (512, 331),
                 watch: (256, 165)
             )
+        case .sixtyFourBitRivalCar:
+            return idiom == "vision"
+                ? (768, 600)
+                : dimensionsByIdiom(
+                    idiom,
+                    iphoneAndIPad: (768, 496),
+                    mac: (918, 593),
+                    tv: (512, 331),
+                    watch: (256, 165)
+                )
         case .sixteenBitCrash, .thirtyTwoBitCrash, .sixtyFourBitCrash:
             return dimensionsByIdiom(
                 idiom,

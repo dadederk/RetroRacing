@@ -12,10 +12,14 @@ extension RuntimeAssetOptimizationActionBuilder {
         let spriteVariants = platformSpriteVariants(standard: 768, mac: 1_024, watch: 256, tv: 512)
         let lifeVariants = platformSpriteVariants(standard: 256, mac: 256, watch: 64, tv: 256)
         for definition in spriteDefinitions {
+            var variants = definition.isLife ? lifeVariants : spriteVariants
+            if definition.sources["vision"] != nil {
+                variants.append(visionSpriteVariant())
+            }
             addSpriteImageset(
                 path: definition.path,
                 sources: definition.sources,
-                variants: definition.isLife ? lifeVariants : spriteVariants
+                variants: variants
             )
         }
     }
@@ -65,6 +69,15 @@ extension RuntimeAssetOptimizationActionBuilder {
             RuntimeAssetOptimizationVariant(name: "tv", idiom: "tv", sourceKey: "tv", maximumLongEdge: tv),
             RuntimeAssetOptimizationVariant(name: "watch", idiom: "watch", sourceKey: "watch", maximumLongEdge: watch),
         ]
+    }
+
+    private func visionSpriteVariant() -> RuntimeAssetOptimizationVariant {
+        RuntimeAssetOptimizationVariant(
+            name: "vision",
+            idiom: "vision",
+            sourceKey: "vision",
+            maximumLongEdge: 768
+        )
     }
 
     private var spriteDefinitions: [(path: String, sources: [String: URL], isLife: Bool)] {
@@ -143,9 +156,22 @@ extension RuntimeAssetOptimizationActionBuilder {
     private func sixtyFourBitCatalogSources(path: String) -> [String: URL] {
         let root = runtimeMasters20260806Root.appending(path: "CuratedCatalog/\(path)")
         let baseName = assetBaseName(for: path)
-        return Dictionary(uniqueKeysWithValues: ["iphone", "ipad", "mac", "tv", "watch"].map {
+        var sources = Dictionary(uniqueKeysWithValues: ["iphone", "ipad", "mac", "tv", "watch"].map {
             ($0, root.appending(path: "\(baseName)-\($0).png"))
         })
+        switch baseName {
+        case "playersCar-64Bit":
+            sources["vision"] = repositoryRoot.appending(
+                path: "AssetSources/VisionOS64BitPrototype2026-08-05/PlayerCar/Previews/player-car-64bit-sprite.png"
+            )
+        case "rivalsCar-64Bit":
+            sources["vision"] = runtimeMasters20260806Root.appending(
+                path: "CuratedVisionOS/rivalsCar-64Bit.png"
+            )
+        default:
+            break
+        }
+        return sources
     }
 
     private func legacySpriteSources(

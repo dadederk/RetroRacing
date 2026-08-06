@@ -13,11 +13,11 @@ import XCTest
 
 @MainActor
 final class VisionGameSessionCoordinatorTests: XCTestCase {
-    func testGivenSixtyFourBitThemeWhenResolvingClassicSpritesThenVisionBundleAssetsExist() {
+    func testGivenSixtyFourBitThemeWhenResolvingClassicSpritesThenSharedBundleAssetsExist() {
         let theme = SixtyFourBitTheme()
-        let bundle = VisionThemeSpriteAssets.bundle(for: theme)
+        let bundle = VisionThemeSpriteAssets.bundle
 
-        XCTAssertEqual(bundle.bundleURL, Bundle.main.bundleURL)
+        XCTAssertEqual(bundle.bundleURL, Bundle(for: GameScene.self).bundleURL)
         XCTAssertNotNil(UIImage(named: "playersCar-64Bit", in: bundle, compatibleWith: nil))
         XCTAssertNotNil(UIImage(named: "rivalsCar-64Bit", in: bundle, compatibleWith: nil))
         XCTAssertEqual(VisionThemeSpriteAssets.crashAssetName(for: theme), "playersCar-64Bit")

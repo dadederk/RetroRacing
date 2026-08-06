@@ -9,9 +9,7 @@ import Foundation
 import RetroRacingShared
 
 enum VisionThemeSpriteAssets {
-    static func bundle(for theme: any GameTheme) -> Bundle {
-        theme.id == .sixtyFourBit ? .main : Bundle(for: GameScene.self)
-    }
+    static let bundle = Bundle(for: GameScene.self)
 
     static func crashAssetName(for theme: any GameTheme) -> String {
         guard theme.id != .sixtyFourBit else {
