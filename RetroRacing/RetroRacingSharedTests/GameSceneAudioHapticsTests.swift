@@ -202,15 +202,15 @@ final class GameSceneAudioHapticsTests: XCTestCase {
 
     func testGivenRunningSceneAtLeftBoundaryWhenCrownHandlingLeftInputThenMoveHapticIsNotTriggered() {
         // Given
-        scene.unpauseGameplay()
-        scene.gridState.grid = [
+        var gridState = scene.gridState
+        gridState.grid = [
             [.Empty, .Empty, .Empty],
             [.Empty, .Empty, .Empty],
             [.Empty, .Empty, .Empty],
             [.Empty, .Car, .Empty],
             [.Player, .Empty, .Empty]
         ]
-        scene.lastPlayerColumn = 0
+        applyTestGrid(gridState, to: scene)
         let adapter = CrownGameInputAdapter(controller: scene, hapticController: haptics)
         let baselineMoves = haptics.moves
 
@@ -240,7 +240,7 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         // Given
 
         // When
-        scene.update(1.0) // dt > initial threshold
+        advanceTestScene(scene, by: 1.0)
 
         // Then
         XCTAssertFalse(soundPlayer.playedEffects.contains(.bip))
@@ -256,7 +256,7 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         scene.setAudioFeedbackMode(.cueChord)
 
         // When
-        scene.update(1.0)
+        advanceTestScene(scene, by: 1.0)
 
         // Then
         XCTAssertFalse(soundPlayer.playedEffects.contains(.bip))
@@ -339,17 +339,17 @@ final class GameSceneAudioHapticsTests: XCTestCase {
 
     func testGivenCueModeWithHapticsStyleWhenMovingToSafeLaneThenSuccessHapticPlaysWithoutMoveCueAudio() {
         // Given
-        scene.unpauseGameplay()
         scene.setAudioFeedbackMode(.cueLanePulses)
         scene.setLaneMoveCueStyle(.haptics)
-        scene.gridState.grid = [
+        var gridState = scene.gridState
+        gridState.grid = [
             [.Empty, .Empty, .Empty],
             [.Empty, .Empty, .Empty],
             [.Empty, .Empty, .Empty],
             [.Car, .Car, .Empty],
             [.Empty, .Player, .Empty]
         ]
-        scene.lastPlayerColumn = 1
+        applyTestGrid(gridState, to: scene)
         let adapter = TouchGameInputAdapter(controller: scene, hapticController: haptics)
 
         // When
@@ -363,17 +363,17 @@ final class GameSceneAudioHapticsTests: XCTestCase {
 
     func testGivenCueModeWithHapticsStyleWhenRemoteMovingToSafeLaneThenSuccessHapticPlaysWithoutMoveCueAudio() {
         // Given
-        scene.unpauseGameplay()
         scene.setAudioFeedbackMode(.cueLanePulses)
         scene.setLaneMoveCueStyle(.haptics)
-        scene.gridState.grid = [
+        var gridState = scene.gridState
+        gridState.grid = [
             [.Empty, .Empty, .Empty],
             [.Empty, .Empty, .Empty],
             [.Empty, .Empty, .Empty],
             [.Car, .Car, .Empty],
             [.Empty, .Player, .Empty]
         ]
-        scene.lastPlayerColumn = 1
+        applyTestGrid(gridState, to: scene)
         let adapter = RemoteGameInputAdapter(controller: scene, hapticController: haptics)
 
         // When
@@ -387,17 +387,17 @@ final class GameSceneAudioHapticsTests: XCTestCase {
 
     func testGivenCueModeWithHapticsStyleWhenCrownMovingToSafeLaneThenSuccessHapticPlaysWithoutMoveCueAudio() {
         // Given
-        scene.unpauseGameplay()
         scene.setAudioFeedbackMode(.cueLanePulses)
         scene.setLaneMoveCueStyle(.haptics)
-        scene.gridState.grid = [
+        var gridState = scene.gridState
+        gridState.grid = [
             [.Empty, .Empty, .Empty],
             [.Empty, .Empty, .Empty],
             [.Empty, .Empty, .Empty],
             [.Car, .Car, .Empty],
             [.Empty, .Player, .Empty]
         ]
-        scene.lastPlayerColumn = 1
+        applyTestGrid(gridState, to: scene)
         let adapter = CrownGameInputAdapter(controller: scene, hapticController: haptics)
 
         // When
@@ -411,17 +411,17 @@ final class GameSceneAudioHapticsTests: XCTestCase {
 
     func testGivenCueModeWithHapticsStyleWhenMovingToUnsafeLaneThenMoveHapticPlaysWithoutMoveCueAudio() {
         // Given
-        scene.unpauseGameplay()
         scene.setAudioFeedbackMode(.cueLanePulses)
         scene.setLaneMoveCueStyle(.haptics)
-        scene.gridState.grid = [
+        var gridState = scene.gridState
+        gridState.grid = [
             [.Empty, .Empty, .Empty],
             [.Empty, .Empty, .Empty],
             [.Empty, .Empty, .Empty],
             [.Empty, .Empty, .Car],
             [.Empty, .Player, .Empty]
         ]
-        scene.lastPlayerColumn = 1
+        applyTestGrid(gridState, to: scene)
         let adapter = TouchGameInputAdapter(controller: scene, hapticController: haptics)
 
         // When
@@ -477,7 +477,7 @@ final class GameSceneAudioHapticsTests: XCTestCase {
     func testGivenSceneReadyWhenApplyingStartPulseThenPulseMethodsAreCallable() {
         // Given
         scene.start()
-        scene.update(1.0) // Ensure sprites are created
+        advanceTestScene(scene, by: 1.0)
         
         // When - verify methods can be called without crashing
         scene.applyStartPulseToPlayerCar()
@@ -540,11 +540,54 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         XCTAssertEqual(fallbackDelegate.crashes, 1)
     }
 
+    func testGivenEngineCollisionWhenFailSoundIsPlayingThenCrashStateWaitsForCompletion() {
+        // Given
+        let delayedPlayer = MockSoundEffectPlayer()
+        let engine = GameEngine(
+            randomSource: CollisionSequenceRandomSource(),
+            difficulty: .rapid
+        )
+        let testScene = GameScene.scene(
+            size: CGSize(width: 200, height: 200),
+            difficulty: .rapid,
+            gameEngine: engine,
+            theme: nil,
+            imageLoader: PlatformFactories.makeImageLoader(),
+            soundPlayer: delayedPlayer,
+            laneCuePlayer: MockLaneCuePlayer(),
+            hapticController: nil,
+            audioFeedbackMode: .retro
+        )
+        let testDelegate = MockGameSceneDelegate(haptics: MockHapticFeedbackController())
+        testScene.gameDelegate = testDelegate
+        testScene.setUpScene()
+        delayedPlayer.shouldCallCompletion = false
+        var currentTime: TimeInterval = 0
+
+        // When
+        advanceTestScene(testScene, currentTime: &currentTime, by: 3.2)
+        advanceTestScene(testScene, currentTime: &currentTime, by: 2.0)
+
+        // Then
+        XCTAssertEqual(engine.snapshot.phase, .collision)
+        XCTAssertTrue(testScene.gridState.hasCrashed)
+        XCTAssertEqual(testDelegate.crashes, 0)
+
+        // When
+        let didComplete = delayedPlayer.completePending(for: .fail)
+
+        // Then
+        XCTAssertTrue(didComplete)
+        XCTAssertEqual(engine.snapshot.phase, .running)
+        XCTAssertFalse(testScene.gridState.hasCrashed)
+        XCTAssertEqual(testDelegate.crashes, 1)
+    }
+
     func testGivenRunningSceneWhenGridTicksThenMoveHapticIsNotTriggered() {
         // Given
 
         // When
-        scene.update(1.0) // dt > initial threshold
+        advanceTestScene(scene, by: 1.0)
 
         // Then
         XCTAssertFalse(soundPlayer.playedEffects.contains(.bip))
@@ -555,18 +598,19 @@ final class GameSceneAudioHapticsTests: XCTestCase {
 
     func testGivenImminentSpeedIncreaseWhenUpdatingThenExistingCarsAreNotRemoved() {
         // Given
-        scene.unpauseGameplay()
         scene.speedAlertWindowPoints = 99
-        scene.gridState.grid = [
+        var gridState = scene.gridState
+        gridState.grid = [
             [.Car, .Empty, .Car],
             [.Car, .Car, .Car],
             [.Car, .Car, .Car],
             [.Car, .Empty, .Car],
             [.Empty, .Player, .Empty],
         ]
+        applyTestGrid(gridState, to: scene)
 
         // When
-        scene.update(1.0)
+        advanceTestScene(scene, by: 1.0)
 
         // Then
         XCTAssertEqual(scene.gridState.grid[3][1], .Car)
@@ -682,10 +726,11 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         // Given
         scene.unpauseGameplay()
         var emptyRows: [Int] = []
+        var currentTime: TimeInterval = 0
 
         // When
-        for tick in 1...5 {
-            scene.update(TimeInterval(tick))
+        for _ in 1...5 {
+            advanceTestScene(scene, currentTime: &currentTime, by: 0.61)
             emptyRows.append(scene.roadDashEmptyRowIndex)
         }
 
@@ -696,7 +741,7 @@ final class GameSceneAudioHapticsTests: XCTestCase {
     func testGivenLaneMoveWhenRenderingThenRoadDashPhaseDoesNotChange() {
         // Given
         scene.unpauseGameplay()
-        scene.update(1.0)
+        advanceTestScene(scene, by: 1.0)
         let baselinePhase = scene.roadDashPhase
         let adapter = TouchGameInputAdapter(controller: scene, hapticController: haptics)
 
@@ -1376,14 +1421,15 @@ final class GameSceneAudioHapticsTests: XCTestCase {
     func testGivenRunningSceneWhenEndingGameplaySessionThenUpdatesNoLongerTriggerFeedback() {
         // Given
         scene.unpauseGameplay()
-        scene.update(1.0)
+        var currentTime: TimeInterval = 0
+        advanceTestScene(scene, currentTime: &currentTime, by: 1.0)
         let gridUpdates = delegate.gridUpdatesCount
         let hapticUpdates = haptics.gridUpdates
         let tickCalls = laneCuePlayer.tickCalls
 
         // When
         scene.endGameplaySession(fadeDuration: 0)
-        scene.update(3.0)
+        advanceTestScene(scene, currentTime: &currentTime, by: 2.0)
 
         // Then
         XCTAssertTrue(scene.gameState.isPaused)
@@ -1633,7 +1679,7 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         testView.presentScene(testScene)
 
         // When
-        testScene.update(1.0)
+        advanceTestScene(testScene, by: 1.0)
 
         // Then
         XCTAssertEqual(fallbackDelegate.gridUpdatesCount, 1)
@@ -1663,7 +1709,7 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         testView.presentScene(testScene)
 
         // When
-        testScene.update(1.0)
+        advanceTestScene(testScene, by: 1.0)
 
         // Then
         XCTAssertEqual(fallbackDelegate.gridUpdatesCount, 1)
@@ -1938,6 +1984,18 @@ final class MockSoundEffectPlayer: SoundEffectPlayer {
         pendingCompletions[effect] = completions
         completion()
         return true
+    }
+}
+
+private final class CollisionSequenceRandomSource: RandomSource {
+    private let values = [0, 1, 0]
+    private var index = 0
+
+    func nextInt(upperBound: Int) -> Int {
+        guard upperBound > 0 else { return 0 }
+        let value = values[index % values.count]
+        index += 1
+        return min(value, upperBound - 1)
     }
 }
 

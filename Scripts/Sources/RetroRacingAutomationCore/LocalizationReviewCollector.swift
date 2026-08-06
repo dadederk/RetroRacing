@@ -256,7 +256,7 @@ public enum LocalizationReviewCollector {
                 LocalizationReviewItem(layer: "Game Center", identifier: "\(prefix).earnedDescription", english: english.earnedDescription, translation: copy.earnedDescription, limit: "≤ 200 characters", state: outputState),
             ]
         }
-        for leaderboard in leaderboards.leaderboards {
+        for leaderboard in leaderboards.leaderboards where leaderboard.templateVendorLeaderboardId == nil {
             let englishName = GameCenterLeaderboardDisplayNameBuilder.displayName(
                 platform: leaderboard.platform,
                 difficulty: leaderboard.difficulty,
@@ -278,7 +278,10 @@ public enum LocalizationReviewCollector {
             let copy: GameCenterLeaderboardLocalizationCatalog.LocalizationCopy?
             if usesEnglish {
                 copy = nil
-            } else if let localized = leaderboard.localizations[locale] {
+            } else if let localized = leaderboards.localizationCopy(
+                for: locale,
+                leaderboard: leaderboard
+            ) {
                 copy = localized
             } else {
                 throw LocalizationReviewError.missingGameCenterCopy(

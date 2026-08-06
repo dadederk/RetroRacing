@@ -15,6 +15,7 @@ public struct GameCenterEULocalizationApplyOptions: Sendable {
     public let includeAchievements: Bool
     public let includeLeaderboards: Bool
     public let dryRun: Bool
+    public let ensureLeaderboards: Bool
     public let sourceImageLocale: String
     public let copyImagesFromSourceLocale: Bool
 
@@ -25,6 +26,7 @@ public struct GameCenterEULocalizationApplyOptions: Sendable {
         includeAchievements: Bool,
         includeLeaderboards: Bool,
         dryRun: Bool,
+        ensureLeaderboards: Bool = false,
         sourceImageLocale: String = "en-US",
         copyImagesFromSourceLocale: Bool = true
     ) {
@@ -34,6 +36,7 @@ public struct GameCenterEULocalizationApplyOptions: Sendable {
         self.includeAchievements = includeAchievements
         self.includeLeaderboards = includeLeaderboards
         self.dryRun = dryRun
+        self.ensureLeaderboards = ensureLeaderboards
         self.sourceImageLocale = sourceImageLocale
         self.copyImagesFromSourceLocale = copyImagesFromSourceLocale
     }
@@ -119,6 +122,7 @@ public enum GameCenterEULocalizationWorkflow {
                     catalog: catalog,
                     credentials: credentials,
                     dryRun: options.dryRun,
+                    ensureMissingLeaderboards: options.ensureLeaderboards,
                     sourceImageLocale: options.sourceImageLocale,
                     copyImagesFromSourceLocale: options.copyImagesFromSourceLocale
                 )
@@ -213,8 +217,24 @@ public enum GameCenterEULocalizationWorkflow {
                     "Duplicate leaderboard vendorLeaderboardId: \(leaderboard.vendorLeaderboardId).",
                 ])
             }
+            if let templateVendorLeaderboardId = leaderboard.templateVendorLeaderboardId {
+                guard templateVendorLeaderboardId != leaderboard.vendorLeaderboardId else {
+                    throw MetadataToolError.validationFailed([
+                        "Leaderboard \(leaderboard.referenceName) cannot template itself.",
+                    ])
+                }
+                guard catalog.leaderboards.contains(where: {
+                    $0.vendorLeaderboardId == templateVendorLeaderboardId
+                        && $0.difficulty == leaderboard.difficulty
+                }) else {
+                    throw MetadataToolError.validationFailed([
+                        "Leaderboard \(leaderboard.referenceName) has no same-difficulty template " +
+                            "for vendor ID \(templateVendorLeaderboardId).",
+                    ])
+                }
+            }
             for locale in catalog.locales {
-                guard let copy = leaderboard.localizations[locale] else {
+                guard let copy = catalog.localizationCopy(for: locale, leaderboard: leaderboard) else {
                     throw MetadataToolError.missingCopy(
                         field: "leaderboard localization",
                         locale: "\(leaderboard.referenceName)/\(locale)"

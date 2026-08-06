@@ -68,6 +68,26 @@ func givenMacBoardWhenEnglishReferenceMissingThenDefaultPlatformPrefixIsUsed() {
     #expect(name == "Mac Highscore - Rapid")
 }
 
+@Test(arguments: [
+    ("cruise", "Apple TV High Score - Cruise"),
+    ("fast", "Apple TV High Score - Fast"),
+    ("rapid", "Apple TV High Score - Rapid"),
+])
+func givenAppleTVBoardWhenEnglishReferenceMissingThenAppleTVPrefixIsUsed(
+    difficulty: String,
+    expected: String
+) {
+    let name = GameCenterLeaderboardDisplayNameBuilder.displayName(
+        platform: "tvOS",
+        difficulty: difficulty,
+        locale: "en-US",
+        englishReferenceName: nil
+    )
+
+    #expect(name == expected)
+    #expect(name.count <= GameCenterLeaderboardDisplayNameBuilder.maxDisplayNameLength)
+}
+
 @Test
 func givenItalianIPhoneBoardWhenBuildingDisplayNameThenShortHighScorePhraseIsUsed() {
     let name = GameCenterLeaderboardDisplayNameBuilder.displayName(
@@ -124,6 +144,7 @@ func givenShippingLeaderboardCatalogWhenBuildingAllEUDisplayNamesThenEachFitsAsc
         "iPad": "iPad High Score - Cruise",
         "macOS": "Mac High Score - Cruise",
         "watchOS": "Apple Watch High Score - Cruise",
+        "tvOS": "Apple TV High Score - Cruise",
     ]
 
     for leaderboard in catalog.leaderboards {

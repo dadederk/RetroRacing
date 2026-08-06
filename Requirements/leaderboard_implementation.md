@@ -12,7 +12,7 @@
 
 - Leaderboards are per platform and speed: Cruise, Fast, Rapid.
 - Assistive technology users share the same platform/speed leaderboards.
-- Current App Store Connect status: iPhone, iPad, macOS, and watchOS boards are created. tvOS and visionOS IDs remain configured in code for later setup.
+- Current App Store Connect status: iPhone, iPad, macOS, tvOS, and watchOS boards are created and released. The three tvOS boards remain catalogued for idempotent validation and localization updates from their matching iPhone templates. visionOS IDs remain configured in code for later setup.
 - Speed pacing:
   - Rapid: baseline (`initialInterval: 0.6`)
   - Fast: middle pace (`initialInterval: 0.96`)
@@ -44,6 +44,7 @@
 ## Presentation
 
 - iOS, tvOS, and macOS keep the ambient `GKAccessPoint` hidden and open the selected-speed leaderboard explicitly through it.
+- iOS and tvOS automatically request authentication once per menu instance; dismissing the system authentication UI must not create a presentation loop.
 - watchOS has no in-app leaderboard sheet; it submits scores and tells players to view leaderboards on iPhone or iPad.
 - Views should depend on leaderboard services, not direct GameKit APIs, except narrow presentation surfaces.
 
@@ -65,6 +66,7 @@
 ## Operations
 
 - App Store Connect leaderboard creation and localization live in [AppStore/game-center/README.md](../AppStore/game-center/README.md).
+- `./retrorapid asc game-center --leaderboards-only --ensure-leaderboards` creates missing catalogued tvOS boards, validates existing configurations against their templates, ensures live releases, and uploads localizations. Always inspect its `--dry-run` first.
 - Do not change a leaderboard ID in code without creating the corresponding ASC leaderboard and retiring the old one intentionally.
 - Logs follow [logging.md](logging.md), domain `LEADERBOARD`.
 

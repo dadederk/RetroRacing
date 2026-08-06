@@ -19,7 +19,33 @@ public struct GameCenterLeaderboardLocalizationCatalog: Decodable, Sendable {
         public let vendorLeaderboardId: String
         public let platform: String
         public let difficulty: String
+        public let templateVendorLeaderboardId: String?
         public let localizations: [String: LocalizationCopy]
+
+        private enum CodingKeys: String, CodingKey {
+            case referenceName
+            case vendorLeaderboardId
+            case platform
+            case difficulty
+            case templateVendorLeaderboardId
+            case localizations
+        }
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            referenceName = try container.decode(String.self, forKey: .referenceName)
+            vendorLeaderboardId = try container.decode(String.self, forKey: .vendorLeaderboardId)
+            platform = try container.decode(String.self, forKey: .platform)
+            difficulty = try container.decode(String.self, forKey: .difficulty)
+            templateVendorLeaderboardId = try container.decodeIfPresent(
+                String.self,
+                forKey: .templateVendorLeaderboardId
+            )
+            localizations = try container.decodeIfPresent(
+                [String: LocalizationCopy].self,
+                forKey: .localizations
+            ) ?? [:]
+        }
     }
 
     public let schemaVersion: Int
@@ -33,5 +59,21 @@ public struct GameCenterLeaderboardLocalizationCatalog: Decodable, Sendable {
             GameCenterLeaderboardLocalizationCatalog.self,
             from: data
         )
+    }
+
+    public func localizationCopy(
+        for locale: String,
+        leaderboard: Leaderboard
+    ) -> LocalizationCopy? {
+        if let copy = leaderboard.localizations[locale] {
+            return copy
+        }
+        guard let templateVendorLeaderboardId = leaderboard.templateVendorLeaderboardId,
+              let template = leaderboards.first(where: {
+                  $0.vendorLeaderboardId == templateVendorLeaderboardId
+              }) else {
+            return nil
+        }
+        return template.localizations[locale]
     }
 }

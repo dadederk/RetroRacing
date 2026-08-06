@@ -8,6 +8,21 @@
 import Foundation
 
 public enum AppStoreConnectGameCenterClient {
+    private struct LeaderboardConfiguration: Equatable, Sendable {
+        let defaultFormatter: String
+        let submissionType: String
+        let scoreSortType: String
+        let scoreRangeStart: String?
+        let scoreRangeEnd: String?
+    }
+
+    private struct LeaderboardResource: Sendable {
+        let id: String
+        let referenceName: String
+        let vendorIdentifier: String
+        let configuration: LeaderboardConfiguration
+    }
+
     private static func logProgress(_ message: String, to messages: inout [String]) {
         messages.append(message)
         print(message)
@@ -113,38 +128,157 @@ public enum AppStoreConnectGameCenterClient {
         catalog: GameCenterLeaderboardLocalizationCatalog,
         credentials: AppStoreConnectCredentials,
         dryRun: Bool,
+        ensureMissingLeaderboards: Bool = false,
         sourceImageLocale: String = "en-US",
         copyImagesFromSourceLocale: Bool = true
     ) async throws -> [String] {
         let token = try AppStoreConnectJWT.makeToken(credentials: credentials)
         let detailID = try await fetchGameCenterDetailID(appID: appID, token: token)
-        let leaderboardsByVendorID = try await fetchLeaderboardsByVendorID(
+        var leaderboardsByVendorID = try await fetchLeaderboardResourcesByVendorID(
             detailID: detailID,
             token: token
         )
+        var releasedLeaderboardIDs = ensureMissingLeaderboards
+            ? try await fetchReleasedLeaderboardIDs(detailID: detailID, token: token)
+            : []
 
         var messages: [String] = []
-        for leaderboard in catalog.leaderboards {
-            guard let leaderboardID = leaderboardsByVendorID[leaderboard.vendorLeaderboardId] else {
+        let leaderboards = selectedLeaderboards(
+            in: catalog,
+            ensureMissingLeaderboards: ensureMissingLeaderboards
+        )
+        for leaderboard in leaderboards {
+            let templateResource = leaderboard.templateVendorLeaderboardId.flatMap {
+                leaderboardsByVendorID[$0]
+            }
+            if let templateVendorLeaderboardId = leaderboard.templateVendorLeaderboardId,
+               templateResource == nil {
                 throw MetadataToolError.invalidArguments(
-                    "Missing Game Center leaderboard in ASC for vendor ID " +
-                        "\(leaderboard.vendorLeaderboardId) (\(leaderboard.referenceName))."
+                    "Missing Game Center template leaderboard in ASC for vendor ID " +
+                        "\(templateVendorLeaderboardId)."
                 )
             }
+            let resource: LeaderboardResource
+            let isDryRunCreation: Bool
+            if let existingResource = leaderboardsByVendorID[leaderboard.vendorLeaderboardId] {
+                if templateResource != nil {
+                    try validateExistingLeaderboard(
+                        existingResource,
+                        expectedReferenceName: leaderboard.referenceName,
+                        templateResource: templateResource
+                    )
+                }
+                resource = existingResource
+                isDryRunCreation = false
+            } else {
+                guard ensureMissingLeaderboards,
+                      let templateVendorLeaderboardId = leaderboard.templateVendorLeaderboardId,
+                      let templateResource else {
+                    throw MetadataToolError.invalidArguments(
+                        "Missing Game Center leaderboard in ASC for vendor ID " +
+                            "\(leaderboard.vendorLeaderboardId) (\(leaderboard.referenceName)). " +
+                            "Use --ensure-leaderboards for catalog entries with a template."
+                    )
+                }
+                if dryRun {
+                    resource = LeaderboardResource(
+                        id: "dry-run-\(leaderboard.vendorLeaderboardId)",
+                        referenceName: leaderboard.referenceName,
+                        vendorIdentifier: leaderboard.vendorLeaderboardId,
+                        configuration: templateResource.configuration
+                    )
+                    isDryRunCreation = true
+                    logProgress(
+                        "[dry-run] CREATE leaderboard \(leaderboard.referenceName) " +
+                            "from \(templateVendorLeaderboardId)",
+                        to: &messages
+                    )
+                } else {
+                    resource = try await createLeaderboard(
+                        detailID: detailID,
+                        leaderboard: leaderboard,
+                        template: templateResource,
+                        token: token
+                    )
+                    isDryRunCreation = false
+                    leaderboardsByVendorID[leaderboard.vendorLeaderboardId] = resource
+                    logProgress(
+                        "Created leaderboard \(leaderboard.referenceName).",
+                        to: &messages
+                    )
+                }
+            }
 
-            var existingByLocale = try await fetchLeaderboardLocalizationIDsByLocale(
-                leaderboardID: leaderboardID,
-                token: token
-            )
-            let metadataByLocale = try await fetchLeaderboardLocalizationMetadataByLocale(
-                leaderboardID: leaderboardID,
-                token: token
-            )
+            var existingByLocale = isDryRunCreation
+                ? [:]
+                : try await fetchLeaderboardLocalizationIDsByLocale(
+                    leaderboardID: resource.id,
+                    token: token
+                )
+            var metadataByLocale = isDryRunCreation
+                ? [:]
+                : try await fetchLeaderboardLocalizationMetadataByLocale(
+                    leaderboardID: resource.id,
+                    token: token
+                )
+            let templateMetadataByLocale: [String: LeaderboardLocalizationMetadata]
+            if let templateResource {
+                templateMetadataByLocale = try await fetchLeaderboardLocalizationMetadataByLocale(
+                    leaderboardID: templateResource.id,
+                    token: token
+                )
+            } else {
+                templateMetadataByLocale = [:]
+            }
+
+            if leaderboard.templateVendorLeaderboardId != nil,
+               existingByLocale[sourceImageLocale] == nil {
+                let englishCopy = LeaderboardLocalizationPayload(
+                    name: GameCenterLeaderboardDisplayNameBuilder.displayName(
+                        platform: leaderboard.platform,
+                        difficulty: leaderboard.difficulty,
+                        locale: sourceImageLocale,
+                        englishReferenceName: nil
+                    ),
+                    description: GameCenterLeaderboardDescriptionBuilder.description(
+                        locale: sourceImageLocale,
+                        englishReferenceDescription: templateMetadataByLocale[sourceImageLocale]?.description
+                    ),
+                    formatterSuffixSingular: "car",
+                    formatterSuffix: "cars"
+                )
+                if dryRun {
+                    logProgress(
+                        "[dry-run] CREATE leaderboard \(leaderboard.referenceName) \(sourceImageLocale)",
+                        to: &messages
+                    )
+                } else {
+                    let localizationID = try await createLeaderboardLocalization(
+                        leaderboardID: resource.id,
+                        locale: sourceImageLocale,
+                        copy: englishCopy,
+                        token: token
+                    )
+                    existingByLocale[sourceImageLocale] = localizationID
+                    metadataByLocale[sourceImageLocale] = LeaderboardLocalizationMetadata(
+                        name: englishCopy.name,
+                        description: englishCopy.description
+                    )
+                    logProgress(
+                        "Created leaderboard \(leaderboard.referenceName) [\(sourceImageLocale)].",
+                        to: &messages
+                    )
+                }
+            }
+
             let englishReferenceName = metadataByLocale[sourceImageLocale]?.name
             let englishReferenceDescription = metadataByLocale[sourceImageLocale]?.description
+                ?? templateMetadataByLocale[sourceImageLocale]?.description
 
             for locale in catalog.locales {
-                guard let copy = leaderboard.localizations[locale] else { continue }
+                guard let copy = catalog.localizationCopy(for: locale, leaderboard: leaderboard) else {
+                    continue
+                }
                 let resolvedCopy = LeaderboardLocalizationPayload(
                     name: GameCenterLeaderboardDisplayNameBuilder.displayName(
                         platform: leaderboard.platform,
@@ -188,7 +322,7 @@ public enum AppStoreConnectGameCenterClient {
                         localizationID = ""
                     } else {
                         localizationID = try await createLeaderboardLocalization(
-                            leaderboardID: leaderboardID,
+                            leaderboardID: resource.id,
                             locale: locale,
                             copy: resolvedCopy,
                             token: token
@@ -202,11 +336,12 @@ public enum AppStoreConnectGameCenterClient {
                 }
 
                 if copyImagesFromSourceLocale,
+                   isDryRunCreation == false,
                    locale != sourceImageLocale,
                    dryRun || localizationID.isEmpty == false {
                     if let imageMessage = try await AppStoreConnectGameCenterImageClient.copyImageFromSourceLocaleIfNeeded(
                         kind: .leaderboard,
-                        parentID: leaderboardID,
+                        parentID: resource.id,
                         targetLocalizationID: localizationID,
                         localizationIDsByLocale: existingByLocale,
                         sourceLocale: sourceImageLocale,
@@ -219,8 +354,38 @@ public enum AppStoreConnectGameCenterClient {
                     }
                 }
             }
+
+            if ensureMissingLeaderboards,
+               leaderboard.templateVendorLeaderboardId != nil,
+               releasedLeaderboardIDs.contains(resource.id) == false {
+                if dryRun {
+                    logProgress(
+                        "[dry-run] RELEASE leaderboard \(leaderboard.referenceName)",
+                        to: &messages
+                    )
+                } else {
+                    try await createLeaderboardRelease(
+                        detailID: detailID,
+                        leaderboardID: resource.id,
+                        token: token
+                    )
+                    releasedLeaderboardIDs.insert(resource.id)
+                    logProgress(
+                        "Released leaderboard \(leaderboard.referenceName).",
+                        to: &messages
+                    )
+                }
+            }
         }
         return messages
+    }
+
+    static func selectedLeaderboards(
+        in catalog: GameCenterLeaderboardLocalizationCatalog,
+        ensureMissingLeaderboards: Bool
+    ) -> [GameCenterLeaderboardLocalizationCatalog.Leaderboard] {
+        guard ensureMissingLeaderboards else { return catalog.leaderboards }
+        return catalog.leaderboards.filter { $0.templateVendorLeaderboardId != nil }
     }
 
     private static func fetchGameCenterDetailID(
@@ -274,10 +439,10 @@ public enum AppStoreConnectGameCenterClient {
         return byVendorID
     }
 
-    private static func fetchLeaderboardsByVendorID(
+    private static func fetchLeaderboardResourcesByVendorID(
         detailID: String,
         token: String
-    ) async throws -> [String: String] {
+    ) async throws -> [String: LeaderboardResource] {
         var components = URLComponents(
             url: AppStoreConnectHTTPClient.v1BaseURL.appending(
                 path: "gameCenterDetails/\(detailID)/gameCenterLeaderboards"
@@ -288,7 +453,8 @@ public enum AppStoreConnectGameCenterClient {
             URLQueryItem(name: "limit", value: "200"),
             URLQueryItem(
                 name: "fields[gameCenterLeaderboards]",
-                value: "vendorIdentifier"
+                value: "defaultFormatter,referenceName,vendorIdentifier,submissionType," +
+                    "scoreSortType,scoreRangeStart,scoreRangeEnd"
             ),
         ]
         guard let url = components?.url else {
@@ -296,18 +462,195 @@ public enum AppStoreConnectGameCenterClient {
         }
 
         let json = try await AppStoreConnectHTTPClient.get(url: url, token: token)
-        var byVendorID: [String: String] = [:]
+        var byVendorID: [String: LeaderboardResource] = [:]
         for row in AppStoreConnectHTTPClient.resourceRows(from: json) {
             guard let id = row["id"] as? String,
                   let vendorID = AppStoreConnectHTTPClient.stringAttribute(
                     named: "vendorIdentifier",
                     in: row
+                  ),
+                  let referenceName = AppStoreConnectHTTPClient.stringAttribute(
+                    named: "referenceName",
+                    in: row
+                  ),
+                  let submissionType = AppStoreConnectHTTPClient.stringAttribute(
+                    named: "submissionType",
+                    in: row
+                  ),
+                  let scoreSortType = AppStoreConnectHTTPClient.stringAttribute(
+                    named: "scoreSortType",
+                    in: row
                   ) else {
                 continue
             }
-            byVendorID[vendorID] = id
+            byVendorID[vendorID] = LeaderboardResource(
+                id: id,
+                referenceName: referenceName,
+                vendorIdentifier: vendorID,
+                configuration: LeaderboardConfiguration(
+                    defaultFormatter: AppStoreConnectHTTPClient.stringAttribute(
+                        named: "defaultFormatter",
+                        in: row
+                    ) ?? "INTEGER",
+                    submissionType: submissionType,
+                    scoreSortType: scoreSortType,
+                    scoreRangeStart: normalizedNumberAttribute(named: "scoreRangeStart", in: row),
+                    scoreRangeEnd: normalizedNumberAttribute(named: "scoreRangeEnd", in: row)
+                )
+            )
         }
         return byVendorID
+    }
+
+    private static func normalizedNumberAttribute(
+        named name: String,
+        in resource: [String: Any]
+    ) -> String? {
+        guard let attributes = resource["attributes"] as? [String: Any],
+              let value = attributes[name] else {
+            return nil
+        }
+        if let string = value as? String {
+            return string
+        }
+        if let number = value as? NSNumber {
+            return number.stringValue
+        }
+        return nil
+    }
+
+    private static func validateExistingLeaderboard(
+        _ resource: LeaderboardResource,
+        expectedReferenceName: String,
+        templateResource: LeaderboardResource?
+    ) throws {
+        guard resource.referenceName == expectedReferenceName else {
+            throw MetadataToolError.validationFailed([
+                "Leaderboard \(resource.vendorIdentifier) has reference name " +
+                    "'\(resource.referenceName)'; expected '\(expectedReferenceName)'.",
+            ])
+        }
+        guard let templateResource else { return }
+        guard resource.configuration == templateResource.configuration else {
+            throw MetadataToolError.validationFailed([
+                "Leaderboard \(resource.vendorIdentifier) does not match score configuration " +
+                    "from template \(templateResource.vendorIdentifier).",
+            ])
+        }
+    }
+
+    private static func createLeaderboard(
+        detailID: String,
+        leaderboard: GameCenterLeaderboardLocalizationCatalog.Leaderboard,
+        template: LeaderboardResource,
+        token: String
+    ) async throws -> LeaderboardResource {
+        var attributes: [String: Any] = [
+            "referenceName": leaderboard.referenceName,
+            "vendorIdentifier": leaderboard.vendorLeaderboardId,
+            "defaultFormatter": template.configuration.defaultFormatter,
+            "submissionType": template.configuration.submissionType,
+            "scoreSortType": template.configuration.scoreSortType,
+        ]
+        if let scoreRangeStart = template.configuration.scoreRangeStart {
+            attributes["scoreRangeStart"] = scoreRangeStart
+        }
+        if let scoreRangeEnd = template.configuration.scoreRangeEnd {
+            attributes["scoreRangeEnd"] = scoreRangeEnd
+        }
+        let body: [String: Any] = [
+            "data": [
+                "type": "gameCenterLeaderboards",
+                "attributes": attributes,
+                "relationships": [
+                    "gameCenterDetail": [
+                        "data": [
+                            "type": "gameCenterDetails",
+                            "id": detailID,
+                        ],
+                    ],
+                ],
+            ],
+        ]
+        let json = try await AppStoreConnectHTTPClient.post(
+            path: "gameCenterLeaderboards",
+            body: body,
+            token: token
+        )
+        guard let id = AppStoreConnectHTTPClient.resourceID(from: json) else {
+            throw MetadataToolError.appStoreConnectFailed(
+                "App Store Connect did not return a leaderboard ID for " +
+                    "\(leaderboard.referenceName)."
+            )
+        }
+        return LeaderboardResource(
+            id: id,
+            referenceName: leaderboard.referenceName,
+            vendorIdentifier: leaderboard.vendorLeaderboardId,
+            configuration: template.configuration
+        )
+    }
+
+    private static func fetchReleasedLeaderboardIDs(
+        detailID: String,
+        token: String
+    ) async throws -> Set<String> {
+        var components = URLComponents(
+            url: AppStoreConnectHTTPClient.v1BaseURL.appending(
+                path: "gameCenterDetails/\(detailID)/leaderboardReleases"
+            ),
+            resolvingAgainstBaseURL: false
+        )
+        components?.queryItems = [
+            URLQueryItem(name: "limit", value: "200"),
+            URLQueryItem(name: "filter[live]", value: "true"),
+            URLQueryItem(name: "include", value: "gameCenterLeaderboard"),
+        ]
+        guard let url = components?.url else {
+            throw MetadataToolError.appStoreConnectFailed(
+                "Could not build gameCenter leaderboard releases URL."
+            )
+        }
+        let json = try await AppStoreConnectHTTPClient.get(url: url, token: token)
+        return Set(AppStoreConnectHTTPClient.resourceRows(from: json).compactMap { row in
+            guard let relationships = row["relationships"] as? [String: Any],
+                  let leaderboard = relationships["gameCenterLeaderboard"] as? [String: Any],
+                  let data = leaderboard["data"] as? [String: Any] else {
+                return nil
+            }
+            return data["id"] as? String
+        })
+    }
+
+    private static func createLeaderboardRelease(
+        detailID: String,
+        leaderboardID: String,
+        token: String
+    ) async throws {
+        let body: [String: Any] = [
+            "data": [
+                "type": "gameCenterLeaderboardReleases",
+                "relationships": [
+                    "gameCenterDetail": [
+                        "data": [
+                            "type": "gameCenterDetails",
+                            "id": detailID,
+                        ],
+                    ],
+                    "gameCenterLeaderboard": [
+                        "data": [
+                            "type": "gameCenterLeaderboards",
+                            "id": leaderboardID,
+                        ],
+                    ],
+                ],
+            ],
+        ]
+        _ = try await AppStoreConnectHTTPClient.post(
+            path: "gameCenterLeaderboardReleases",
+            body: body,
+            token: token
+        )
     }
 
     private static func fetchAchievementLocalizationIDsByLocale(

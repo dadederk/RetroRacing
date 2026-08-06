@@ -32,7 +32,7 @@
 
 ## Lap Markers
 
-- `lapStripMask` is a generated shared white mask with explicit iPhone, iPad, Mac, Apple Watch, and Apple TV variants. visionOS does not ship this gameplay mask while it remains a placeholder.
+- `lapStripMask` is a generated shared white mask with explicit iPhone, iPad, Mac, Apple Watch, and Apple TV variants. The visionOS vertical slice renders equivalent safety markers directly in Canvas and RealityKit rather than shipping this SpriteKit mask.
 - Lap strips render only during the two-row safety empty window before a speed increase.
 - Safety marker rows shift with grid movement and retain one off-screen sentinel so the strip exits smoothly.
 - Verify generated assets without rewriting:

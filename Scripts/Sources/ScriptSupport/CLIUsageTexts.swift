@@ -127,6 +127,7 @@ public enum CLIUsageTexts {
           --dry-run             Print planned operations without writes
           --achievements-only   Upload achievements only
           --leaderboards-only   Upload leaderboards only
+          --ensure-leaderboards Create and release missing templated leaderboards
         """
     }
 

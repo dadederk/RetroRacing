@@ -10,6 +10,7 @@ import SwiftUI
 import XCTest
 @testable import RetroRacingShared
 
+@MainActor
 final class GameHUDStatusViewTests: XCTestCase {
     func testGivenLivesValuesWhenResolvingHelmetsThenTheyAreConsumedFromLeftToRight() {
         // Given

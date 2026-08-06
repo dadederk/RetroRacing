@@ -7,13 +7,14 @@
 
 import SwiftUI
 
-/// In-game help modal with controls and audio cue tutorial.
+/// In-game help surface with controls and audio cue tutorial.
 public struct InGameHelpView: View {
     public let controlsDescriptionKey: String
     public let supportsHapticFeedback: Bool
     public let hapticController: HapticFeedbackController?
     public let audioCueTutorialPreviewPlayer: AudioCueTutorialPreviewPlayer
     public let speedWarningFeedbackPreviewPlayer: any SpeedIncreaseWarningFeedbackPlaying
+    public let presentation: NavigationSurfacePresentation
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.fontPreferenceStore) private var fontPreferenceStore
@@ -27,13 +28,15 @@ public struct InGameHelpView: View {
         supportsHapticFeedback: Bool,
         hapticController: HapticFeedbackController?,
         audioCueTutorialPreviewPlayer: AudioCueTutorialPreviewPlayer,
-        speedWarningFeedbackPreviewPlayer: any SpeedIncreaseWarningFeedbackPlaying
+        speedWarningFeedbackPreviewPlayer: any SpeedIncreaseWarningFeedbackPlaying,
+        presentation: NavigationSurfacePresentation = .modal
     ) {
         self.controlsDescriptionKey = controlsDescriptionKey
         self.supportsHapticFeedback = supportsHapticFeedback
         self.hapticController = hapticController
         self.audioCueTutorialPreviewPlayer = audioCueTutorialPreviewPlayer
         self.speedWarningFeedbackPreviewPlayer = speedWarningFeedbackPreviewPlayer
+        self.presentation = presentation
     }
 
     private var sectionHeaderFont: Font {
@@ -41,78 +44,86 @@ public struct InGameHelpView: View {
     }
 
     public var body: some View {
-        NavigationStack {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 24) {
-                    if VoiceOverStatus.isVoiceOverRunning {
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text(GameLocalizedStrings.string("tutorial_section_description"))
-                                .font(sectionHeaderFont)
-                                .accessibilityAddTraits(.isHeader)
-                                .accessibilityHeading(.h1)
-
-                            Text(GameLocalizedStrings.string("tutorial_voiceover_intro"))
-                                .font(fontPreferenceStore?.font(textStyle: .body) ?? .body)
-                                .foregroundStyle(.secondary)
-                                .fixedSize(horizontal: false, vertical: true)
+        if presentation == .modal {
+            NavigationStack {
+                helpContent
+                    .toolbar {
+                        ToolbarItem(placement: Self.doneToolbarPlacement) {
+                            Button(GameLocalizedStrings.string("done")) {
+                                dismiss()
+                            }
+                            .font(fontPreferenceStore?.font(textStyle: .body) ?? .body)
                         }
                     }
+            }
+        } else {
+            helpContent
+        }
+    }
 
+    private var helpContent: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 24) {
+                if VoiceOverStatus.isVoiceOverRunning {
                     VStack(alignment: .leading, spacing: 8) {
-                        Text(GameLocalizedStrings.string("settings_controls"))
+                        Text(GameLocalizedStrings.string("tutorial_section_description"))
                             .font(sectionHeaderFont)
                             .accessibilityAddTraits(.isHeader)
                             .accessibilityHeading(.h1)
 
-                        ControlsHelpContentView(controlsDescriptionKey: controlsDescriptionKey, showTitle: false)
-                    }
-
-                    if selectedAudioFeedbackMode.supportsAudioCueTutorial {
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text(GameLocalizedStrings.string("tutorial_audio_title"))
-                                .font(sectionHeaderFont)
-                                .accessibilityAddTraits(.isHeader)
-                                .accessibilityHeading(.h1)
-
-                            AudioCueTutorialContentView(
-                                previewPlayer: audioCueTutorialPreviewPlayer,
-                                speedWarningFeedbackPreviewPlayer: speedWarningFeedbackPreviewPlayer,
-                                supportsHapticFeedback: supportsHapticFeedback,
-                                hapticController: hapticController,
-                                showAudioCueSections: true
-                            )
-                        }
-                    } else if selectedSpeedWarningFeedbackMode != .none {
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text(GameLocalizedStrings.string("settings_speed_warning_feedback"))
-                                .font(sectionHeaderFont)
-                                .accessibilityAddTraits(.isHeader)
-                                .accessibilityHeading(.h1)
-
-                            AudioCueTutorialContentView(
-                                previewPlayer: audioCueTutorialPreviewPlayer,
-                                speedWarningFeedbackPreviewPlayer: speedWarningFeedbackPreviewPlayer,
-                                supportsHapticFeedback: supportsHapticFeedback,
-                                hapticController: hapticController,
-                                showAudioCueSections: false,
-                                showSpeedWarningSectionHeader: false
-                            )
-                        }
+                        Text(GameLocalizedStrings.string("tutorial_voiceover_intro"))
+                            .font(fontPreferenceStore?.font(textStyle: .body) ?? .body)
+                            .foregroundStyle(.secondary)
+                            .fixedSize(horizontal: false, vertical: true)
                     }
                 }
-                .padding()
-            }
-            .navigationTitle(GameLocalizedStrings.string("tutorial_help_title"))
-            .modifier(InGameHelpNavigationTitleStyle())
-            .toolbar {
-                ToolbarItem(placement: Self.doneToolbarPlacement) {
-                    Button(GameLocalizedStrings.string("done")) {
-                        dismiss()
+
+                VStack(alignment: .leading, spacing: 8) {
+                    Text(GameLocalizedStrings.string("settings_controls"))
+                        .font(sectionHeaderFont)
+                        .accessibilityAddTraits(.isHeader)
+                        .accessibilityHeading(.h1)
+
+                    ControlsHelpContentView(controlsDescriptionKey: controlsDescriptionKey, showTitle: false)
+                }
+
+                if selectedAudioFeedbackMode.supportsAudioCueTutorial {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text(GameLocalizedStrings.string("tutorial_audio_title"))
+                            .font(sectionHeaderFont)
+                            .accessibilityAddTraits(.isHeader)
+                            .accessibilityHeading(.h1)
+
+                        AudioCueTutorialContentView(
+                            previewPlayer: audioCueTutorialPreviewPlayer,
+                            speedWarningFeedbackPreviewPlayer: speedWarningFeedbackPreviewPlayer,
+                            supportsHapticFeedback: supportsHapticFeedback,
+                            hapticController: hapticController,
+                            showAudioCueSections: true
+                        )
                     }
-                    .font(fontPreferenceStore?.font(textStyle: .body) ?? .body)
+                } else if selectedSpeedWarningFeedbackMode != .none {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text(GameLocalizedStrings.string("settings_speed_warning_feedback"))
+                            .font(sectionHeaderFont)
+                            .accessibilityAddTraits(.isHeader)
+                            .accessibilityHeading(.h1)
+
+                        AudioCueTutorialContentView(
+                            previewPlayer: audioCueTutorialPreviewPlayer,
+                            speedWarningFeedbackPreviewPlayer: speedWarningFeedbackPreviewPlayer,
+                            supportsHapticFeedback: supportsHapticFeedback,
+                            hapticController: hapticController,
+                            showAudioCueSections: false,
+                            showSpeedWarningSectionHeader: false
+                        )
+                    }
                 }
             }
+            .padding()
         }
+        .navigationTitle(GameLocalizedStrings.string("tutorial_help_title"))
+        .modifier(InGameHelpNavigationTitleStyle())
     }
 
     private var selectedAudioFeedbackMode: AudioFeedbackMode {

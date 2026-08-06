@@ -1,28 +1,28 @@
 {
-  "images": [
+  "images" : [
     {
-      "filename": "crash-8Bit-iphone.png",
-      "idiom": "iphone"
+      "filename" : "crash-8Bit-iphone.png",
+      "idiom" : "iphone"
     },
     {
-      "filename": "crash-8Bit-ipad.png",
-      "idiom": "ipad"
+      "filename" : "crash-8Bit-ipad.png",
+      "idiom" : "ipad"
     },
     {
-      "filename": "crash-8Bit-mac.png",
-      "idiom": "mac"
+      "filename" : "crash-8Bit-mac.png",
+      "idiom" : "mac"
     },
     {
-      "filename": "crash-8Bit-tv.png",
-      "idiom": "tv"
+      "filename" : "crash-8Bit-tv.png",
+      "idiom" : "tv"
     },
     {
-      "filename": "crash-8Bit-watch.png",
-      "idiom": "watch"
+      "filename" : "crash-8Bit-watch.png",
+      "idiom" : "watch"
     }
   ],
-  "info": {
-    "author": "xcode",
-    "version": 1
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
   }
 }

@@ -46,6 +46,7 @@
 - watchOS activates and re-activates its audio session on app start, gameplay appear, foregrounding, route/interruption/media reset, and live-menu exit.
 - watchOS haptic timing should align with actual lane changes and native semantic patterns.
 - macOS and tvOS do not expose haptics-only options.
+- The visionOS gameplay vertical slice does not yet route gameplay audio or haptics; visual and accessible status feedback remain available in both presentations.
 - Temporary Xcode 26 archive behavior uses the legacy audio activation path; see [../Docs/xcode-27-sdk-restore.md](../Docs/xcode-27-sdk-restore.md).
 
 ## Testing

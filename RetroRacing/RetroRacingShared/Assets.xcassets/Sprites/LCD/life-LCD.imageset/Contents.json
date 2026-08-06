@@ -1,28 +1,28 @@
 {
-  "images": [
+  "images" : [
     {
-      "filename": "life-LCD-iphone.png",
-      "idiom": "iphone"
+      "filename" : "life-LCD-iphone.png",
+      "idiom" : "iphone"
     },
     {
-      "filename": "life-LCD-ipad.png",
-      "idiom": "ipad"
+      "filename" : "life-LCD-ipad.png",
+      "idiom" : "ipad"
     },
     {
-      "filename": "life-LCD-mac.png",
-      "idiom": "mac"
+      "filename" : "life-LCD-mac.png",
+      "idiom" : "mac"
     },
     {
-      "filename": "life-LCD-tv.png",
-      "idiom": "tv"
+      "filename" : "life-LCD-tv.png",
+      "idiom" : "tv"
     },
     {
-      "filename": "life-LCD-watch.png",
-      "idiom": "watch"
+      "filename" : "life-LCD-watch.png",
+      "idiom" : "watch"
     }
   ],
-  "info": {
-    "author": "xcode",
-    "version": 1
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
   }
 }

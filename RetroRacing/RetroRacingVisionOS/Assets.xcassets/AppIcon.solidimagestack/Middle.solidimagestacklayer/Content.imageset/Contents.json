@@ -1,6 +1,7 @@
 {
   "images" : [
     {
+      "filename" : "visionos-icon-middle@2x.png",
       "idiom" : "vision",
       "scale" : "2x"
     }

@@ -121,6 +121,10 @@ struct WatchGameView: View {
         _scene = State(initialValue: GameScene.scene(
             size: size,
             difficulty: initialDifficulty,
+            gameEngine: GameEngine(
+                randomSource: InfrastructureDefaults.randomSource,
+                difficulty: initialDifficulty
+            ),
             theme: theme,
             imageLoader: PlatformFactories.makeImageLoader(),
             soundPlayer: soundPlayer,

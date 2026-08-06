@@ -67,7 +67,8 @@ final class GameViewModelTests: XCTestCase {
             hapticController: nil,
             audioFeedbackMode: .retro,
             laneMoveCueStyle: .laneConfirmationAndSafety,
-            difficulty: .rapid
+            difficulty: .rapid,
+            gameEngine: makeGameEngine()
         )
         viewModel.scene = scene
 
@@ -82,20 +83,7 @@ final class GameViewModelTests: XCTestCase {
     
     func testGivenMenuOverlayNotPresentedWhenSettingOverlayPauseThenGameIsPaused() {
         // Given
-        let imageLoader = MockImageLoader()
-        let soundPlayer = MockSoundPlayer()
-        let laneCuePlayer = MockLaneCuePlayerStub()
-        let scene = GameScene(
-            size: CGSize(width: 100, height: 100),
-            theme: nil,
-            imageLoader: imageLoader,
-            soundPlayer: soundPlayer,
-            laneCuePlayer: laneCuePlayer,
-            hapticController: nil,
-            audioFeedbackMode: .retro,
-            laneMoveCueStyle: .laneConfirmationAndSafety,
-            difficulty: .rapid
-        )
+        let scene = makeScene()
         // Unpause the scene so we can test overlay pause behavior
         scene.unpauseGameplay()
         viewModel.scene = scene
@@ -109,20 +97,7 @@ final class GameViewModelTests: XCTestCase {
     
     func testGivenMenuOverlayPresentedWhenDismissingOverlayThenGameResumes() {
         // Given
-        let imageLoader = MockImageLoader()
-        let soundPlayer = MockSoundPlayer()
-        let laneCuePlayer = MockLaneCuePlayerStub()
-        let scene = GameScene(
-            size: CGSize(width: 100, height: 100),
-            theme: nil,
-            imageLoader: imageLoader,
-            soundPlayer: soundPlayer,
-            laneCuePlayer: laneCuePlayer,
-            hapticController: nil,
-            audioFeedbackMode: .retro,
-            laneMoveCueStyle: .laneConfirmationAndSafety,
-            difficulty: .rapid
-        )
+        let scene = makeScene()
         scene.unpauseGameplay()
         viewModel.scene = scene
         viewModel.setOverlayPause(isPresented: true)
@@ -136,20 +111,7 @@ final class GameViewModelTests: XCTestCase {
     
     func testGivenUserPausedGameWhenDismissingOverlayThenGameStaysPaused() {
         // Given
-        let imageLoader = MockImageLoader()
-        let soundPlayer = MockSoundPlayer()
-        let laneCuePlayer = MockLaneCuePlayerStub()
-        let scene = GameScene(
-            size: CGSize(width: 100, height: 100),
-            theme: nil,
-            imageLoader: imageLoader,
-            soundPlayer: soundPlayer,
-            laneCuePlayer: laneCuePlayer,
-            hapticController: nil,
-            audioFeedbackMode: .retro,
-            laneMoveCueStyle: .laneConfirmationAndSafety,
-            difficulty: .rapid
-        )
+        let scene = makeScene()
         scene.pauseGameplay()
         viewModel.scene = scene
         viewModel.pause.isUserPaused = true
@@ -186,20 +148,7 @@ final class GameViewModelTests: XCTestCase {
 
     func testGivenRunningSceneWhenPresentingAndDismissingManualHelpThenOriginalPauseStateIsRestored() {
         // Given
-        let imageLoader = MockImageLoader()
-        let soundPlayer = MockSoundPlayer()
-        let laneCuePlayer = MockLaneCuePlayerStub()
-        let scene = GameScene(
-            size: CGSize(width: 100, height: 100),
-            theme: nil,
-            imageLoader: imageLoader,
-            soundPlayer: soundPlayer,
-            laneCuePlayer: laneCuePlayer,
-            hapticController: nil,
-            audioFeedbackMode: .retro,
-            laneMoveCueStyle: .laneConfirmationAndSafety,
-            difficulty: .rapid
-        )
+        let scene = makeScene()
         scene.unpauseGameplay()
         viewModel.scene = scene
         viewModel.pause.scenePaused = false
@@ -216,20 +165,7 @@ final class GameViewModelTests: XCTestCase {
 
     func testGivenPausedByUserWhenPresentingAndDismissingManualHelpThenPauseStateStaysUserPaused() {
         // Given
-        let imageLoader = MockImageLoader()
-        let soundPlayer = MockSoundPlayer()
-        let laneCuePlayer = MockLaneCuePlayerStub()
-        let scene = GameScene(
-            size: CGSize(width: 100, height: 100),
-            theme: nil,
-            imageLoader: imageLoader,
-            soundPlayer: soundPlayer,
-            laneCuePlayer: laneCuePlayer,
-            hapticController: nil,
-            audioFeedbackMode: .retro,
-            laneMoveCueStyle: .laneConfirmationAndSafety,
-            difficulty: .rapid
-        )
+        let scene = makeScene()
         scene.pauseGameplay()
         viewModel.scene = scene
         viewModel.pause.scenePaused = true
@@ -442,10 +378,7 @@ final class GameViewModelTests: XCTestCase {
 
     func testGivenActiveSharePlayMatchWhenHandlingCollisionThenGameOverSheetIsNotShown() {
         // Given
-        let scene = makeScene()
-        scene.handleCrash()
-        scene.handleCrash()
-        scene.handleCrash()
+        let scene = makeGameOverScene()
         viewModel.scene = scene
         viewModel.sharePlayState = .inRound(settings: sharePlaySettings, localScore: 10, remoteScore: 5, remoteLives: 2)
         XCTAssertEqual(scene.gameState.lives, 0)
@@ -466,10 +399,7 @@ final class GameViewModelTests: XCTestCase {
             specialEventService: nil,
             sharePlayMatchService: sharePlayMatchService
         )
-        let scene = makeScene()
-        scene.handleCrash()
-        scene.handleCrash()
-        scene.handleCrash()
+        let scene = makeGameOverScene()
         viewModel.scene = scene
         viewModel.sharePlayState = .inRound(settings: sharePlaySettings, localScore: 0, remoteScore: 5, remoteLives: 2)
         XCTAssertEqual(scene.gameState.lives, 0)
@@ -571,7 +501,7 @@ final class GameViewModelTests: XCTestCase {
                 opponentDisplayName: "Rita"
             )
         )
-        scene.update(10)
+        advanceTestScene(scene, by: 0.61)
 
         // Then
         XCTAssertEqual(scene.gridState.grid[0], expectedRow)
@@ -769,10 +699,7 @@ final class GameViewModelTests: XCTestCase {
 
     func testGivenGameOverWhenHandlingCollisionThenAchievementProgressRecordsCompletedRun() {
         // Given
-        let scene = makeScene()
-        scene.handleCrash()
-        scene.handleCrash()
-        scene.handleCrash()
+        let scene = makeGameOverScene()
         viewModel.scene = scene
         viewModel.recordControlInput(.tap)
         let expectedOvertakes = scene.gameState.score
@@ -789,10 +716,7 @@ final class GameViewModelTests: XCTestCase {
 
     func testGivenGameOverWhenHandlingCollisionAfterControllerInputThenAchievementProgressIncludesControllerUsage() {
         // Given
-        let scene = makeScene()
-        scene.handleCrash()
-        scene.handleCrash()
-        scene.handleCrash()
+        let scene = makeGameOverScene()
         viewModel.scene = scene
         viewModel.recordControlInput(.gameController)
         XCTAssertEqual(scene.gameState.lives, 0)
@@ -807,10 +731,7 @@ final class GameViewModelTests: XCTestCase {
 
     func testGivenGameOverWhenHandlingCollisionAfterSwitchControlTelemetryThenAchievementProgressIncludesAssistiveTelemetry() {
         // Given
-        let scene = makeScene()
-        scene.handleCrash()
-        scene.handleCrash()
-        scene.handleCrash()
+        let scene = makeGameOverScene()
         viewModel.scene = scene
         viewModel.runInputTelemetry.recordAssistiveTechnology(.switchControl)
         XCTAssertEqual(scene.gameState.lives, 0)
@@ -825,10 +746,7 @@ final class GameViewModelTests: XCTestCase {
 
     func testGivenGameOverWithNewAchievementsWhenHandlingCollisionThenGameOverStateStoresNewAchievementIDs() {
         // Given
-        let scene = makeScene()
-        scene.handleCrash()
-        scene.handleCrash()
-        scene.handleCrash()
+        let scene = makeGameOverScene()
         viewModel.scene = scene
         achievementProgressService.newlyAchievedAchievementIDsToReturn = [.eventGAADAssistive, .controlTap]
         XCTAssertEqual(scene.gameState.lives, 0)
@@ -845,10 +763,7 @@ final class GameViewModelTests: XCTestCase {
 
     func testGivenDebugForcedAchievementWhenHandlingCollisionThenForcedAchievementAppearsInGameOverList() {
         // Given
-        let scene = makeScene()
-        scene.handleCrash()
-        scene.handleCrash()
-        scene.handleCrash()
+        let scene = makeGameOverScene()
         viewModel.scene = scene
         viewModel.setDebugForcedAchievementIdentifier(.controlGameController)
         XCTAssertEqual(scene.gameState.lives, 0)
@@ -862,10 +777,7 @@ final class GameViewModelTests: XCTestCase {
 
     func testGivenDebugForcedAchievementAlreadyInNewAchievementsWhenHandlingCollisionThenAchievementIsNotDuplicated() {
         // Given
-        let scene = makeScene()
-        scene.handleCrash()
-        scene.handleCrash()
-        scene.handleCrash()
+        let scene = makeGameOverScene()
         viewModel.scene = scene
         viewModel.setDebugForcedAchievementIdentifier(.controlGameController)
         achievementProgressService.newlyAchievedAchievementIDsToReturn = [.controlGameController]
@@ -1111,7 +1023,9 @@ final class GameViewModelTests: XCTestCase {
     }
 
     private func makeScene() -> GameScene {
-        GameScene(
+        let gameEngine = makeGameEngine()
+        gameEngine.handle(.start)
+        return GameScene(
             size: CGSize(width: 100, height: 100),
             theme: nil,
             imageLoader: MockImageLoader(),
@@ -1120,8 +1034,15 @@ final class GameViewModelTests: XCTestCase {
             hapticController: nil,
             audioFeedbackMode: .retro,
             laneMoveCueStyle: .laneConfirmationAndSafety,
-            difficulty: .rapid
+            difficulty: .rapid,
+            gameEngine: gameEngine
         )
+    }
+
+    private func makeGameOverScene() -> GameScene {
+        let scene = makeScene()
+        scene.applyScreenshotLayout(.gameOverBackground)
+        return scene
     }
 
     private func makeViewModel(
@@ -1176,7 +1097,8 @@ final class GameViewModelTests: XCTestCase {
             audioFeedbackMode: .retro,
             laneMoveCueStyle: .laneConfirmationAndSafety,
             difficulty: .rapid,
-            bigRivalCarsEnabled: true
+            bigRivalCarsEnabled: true,
+            gameEngine: makeGameEngine()
         )
         viewModel.selectedBigRivalCarsEnabled = true
         viewModel.scene = scene
@@ -1185,6 +1107,10 @@ final class GameViewModelTests: XCTestCase {
 
         XCTAssertFalse(scene.bigRivalCarsEnabled)
         XCTAssertFalse(viewModel.selectedBigRivalCarsEnabled)
+    }
+
+    private func makeGameEngine() -> GameEngine {
+        makeDeterministicTestEngine()
     }
 }
 

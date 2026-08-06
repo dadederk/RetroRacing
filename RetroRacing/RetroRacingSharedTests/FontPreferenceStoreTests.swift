@@ -102,20 +102,18 @@ final class FontPreferenceStoreTests: XCTestCase {
         XCTAssertTrue(hudTextStyle == .title)
     }
 
-    func testGivenGameViewStylesWhenComparingHUDTextAndLifeIconsThenBaseSizesMatch() {
+    func testGivenUniversalGameViewStyleWhenComparingHUDTextAndLifeIconsThenBaseSizesMatch() {
         // Given
-        let styles = [GameViewStyle.universal, .tvOS]
+        let style = GameViewStyle.universal
 
         // When
-        let baseSizesMatch = styles.map {
-            $0.lifeIconSize == AppFontStyle.defaultCustomPointSize(for: $0.hudTextStyle)
-        }
+        let baseSizesMatch = style.lifeIconSize == AppFontStyle.defaultCustomPointSize(for: style.hudTextStyle)
 
         // Then
-        XCTAssertTrue(baseSizesMatch.allSatisfy { $0 })
+        XCTAssertTrue(baseSizesMatch)
     }
 
-    func testGivenGameViewStylesWhenReadingFriendHUDThenItUsesTitleTwo() {
+    func testGivenGameViewStylesWhenReadingFriendHUDThenItUsesPlatformScale() {
         // Given
         let styles = [GameViewStyle.universal, .tvOS]
 
@@ -126,11 +124,11 @@ final class FontPreferenceStoreTests: XCTestCase {
         }
 
         // Then
-        XCTAssertTrue(friendTextStyles == [.title2, .title2])
-        XCTAssertTrue(friendBaseSizesMatch.allSatisfy { $0 })
+        XCTAssertTrue(friendTextStyles == [.title2, .largeTitle])
+        XCTAssertTrue(friendBaseSizesMatch == [true, false])
     }
 
-    func testGivenTvOSGameViewStyleWhenReadingHUDTextStyleThenTitleIsUsed() {
+    func testGivenTvOSGameViewStyleWhenReadingHUDMetricsThenFixedLargeTitleScaleIsUsed() {
         // Given
         let style = GameViewStyle.tvOS
 
@@ -138,6 +136,33 @@ final class FontPreferenceStoreTests: XCTestCase {
         let hudTextStyle = style.hudTextStyle
 
         // Then
-        XCTAssertTrue(hudTextStyle == .title)
+        XCTAssertTrue(hudTextStyle == .largeTitle)
+        XCTAssertTrue(style.usesFixedHUDMetrics)
+        XCTAssertEqual(style.hudFontSize, 44)
+        XCTAssertEqual(style.lifeIconSize, 56)
+        XCTAssertEqual(style.compactSideRailWidth, 300)
+        XCTAssertFalse(style.showsGameplayToolbarControls)
+        XCTAssertTrue(style.preservesVerticalSafeAreaMargins)
+        XCTAssertFalse(GameViewStyle.universal.preservesVerticalSafeAreaMargins)
+    }
+
+    func testGivenPlatformMenuStylesWhenReadingUtilityPresentationThenTvOSUsesContentNavigation() {
+        XCTAssertFalse(MenuViewStyle.universal.showsHelpAction)
+        XCTAssertEqual(MenuViewStyle.universal.utilityActionPlacement, .toolbar)
+        XCTAssertEqual(MenuViewStyle.universal.destinationPresentation, .sheet)
+
+        XCTAssertTrue(MenuViewStyle.tvOS.showsHelpAction)
+        XCTAssertEqual(MenuViewStyle.tvOS.utilityActionPlacement, .content)
+        XCTAssertEqual(MenuViewStyle.tvOS.destinationPresentation, .navigation)
+    }
+
+    func testGivenPlatformSettingsStylesWhenReadingLayoutThenOnlyTvOSUsesCategories() {
+        XCTAssertEqual(SettingsViewStyle.universal.layout, .sections)
+        XCTAssertEqual(SettingsViewStyle.universal.presentation, .modal)
+        XCTAssertTrue(SettingsViewStyle.universal.showsDirectTouch)
+
+        XCTAssertEqual(SettingsViewStyle.tvOS.layout, .categories)
+        XCTAssertEqual(SettingsViewStyle.tvOS.presentation, .navigationDestination)
+        XCTAssertFalse(SettingsViewStyle.tvOS.showsDirectTouch)
     }
 }

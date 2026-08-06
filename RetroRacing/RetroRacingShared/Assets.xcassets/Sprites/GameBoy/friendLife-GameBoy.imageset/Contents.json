@@ -1,28 +1,28 @@
 {
-  "images": [
+  "images" : [
     {
-      "filename": "friendLife-GameBoy-iphone.png",
-      "idiom": "iphone"
+      "filename" : "friendLife-GameBoy-iphone.png",
+      "idiom" : "iphone"
     },
     {
-      "filename": "friendLife-GameBoy-ipad.png",
-      "idiom": "ipad"
+      "filename" : "friendLife-GameBoy-ipad.png",
+      "idiom" : "ipad"
     },
     {
-      "filename": "friendLife-GameBoy-mac.png",
-      "idiom": "mac"
+      "filename" : "friendLife-GameBoy-mac.png",
+      "idiom" : "mac"
     },
     {
-      "filename": "friendLife-GameBoy-tv.png",
-      "idiom": "tv"
+      "filename" : "friendLife-GameBoy-tv.png",
+      "idiom" : "tv"
     },
     {
-      "filename": "friendLife-GameBoy-watch.png",
-      "idiom": "watch"
+      "filename" : "friendLife-GameBoy-watch.png",
+      "idiom" : "watch"
     }
   ],
-  "info": {
-    "author": "xcode",
-    "version": 1
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
   }
 }

@@ -27,6 +27,8 @@ final class MenuAuthModel {
     var authState: AuthState = .idle
     var authError: String?
     private var authTimeoutTask: Task<Void, Never>?
+    private var hasAttemptedAutomaticAuthentication = false
+    private var acceptsAuthenticationPresentation = true
 
     #if canImport(UIKit) && !os(watchOS)
     var authViewControllerToPresent: UIViewController?
@@ -59,8 +61,22 @@ final class MenuAuthModel {
     func configurePresentationHandler() {
         guard let presenter = authenticationPresenter as? UIKitAuthenticationPresenter else { return }
         presenter.setPresentationHandler { [weak self] viewController in
-            self?.authViewControllerToPresent = viewController
+            guard let self, self.acceptsAuthenticationPresentation else {
+                AppLog.info(
+                    AppLog.leaderboard + AppLog.lifecycle,
+                    "AUTH_PRESENTATION",
+                    outcome: .skipped,
+                    fields: [.reason("previous_presentation_dismissed")]
+                )
+                return
+            }
+            self.authViewControllerToPresent = viewController
         }
+    }
+
+    func authenticationPresentationDidDismiss() {
+        acceptsAuthenticationPresentation = false
+        authViewControllerToPresent = nil
     }
     #else
     func configurePresentationHandler() { }
@@ -85,7 +101,21 @@ final class MenuAuthModel {
 
     func startAuthentication(startedByUser: Bool) {
         refreshAuthState()
-        guard authState != .authenticated else { return }
+        guard authState != .authenticated, authState != .failed else { return }
+        if startedByUser == false {
+            guard hasAttemptedAutomaticAuthentication == false else {
+                AppLog.info(
+                    AppLog.leaderboard + AppLog.lifecycle,
+                    "AUTH_REQUEST",
+                    outcome: .skipped,
+                    fields: [.reason("automatic_attempt_already_completed")]
+                )
+                return
+            }
+            hasAttemptedAutomaticAuthentication = true
+        } else {
+            acceptsAuthenticationPresentation = true
+        }
         authState = .authenticating
         if startedByUser {
             AppLog.info(
@@ -107,7 +137,7 @@ final class MenuAuthModel {
     }
 
     func refreshAuthState() {
-        if GKLocalPlayer.local.isAuthenticated {
+        if gameCenterService.isAuthenticated() {
             authState = .authenticated
             authError = nil
             AppLog.info(
@@ -164,8 +194,13 @@ final class MenuAuthModel {
 
 #if canImport(UIKit) && !os(watchOS)
 struct IdentifiableVC: Identifiable {
-    let id = UUID()
+    let id: ObjectIdentifier
     let vc: UIViewController
+
+    init(vc: UIViewController) {
+        self.id = ObjectIdentifier(vc)
+        self.vc = vc
+    }
 }
 #endif
 

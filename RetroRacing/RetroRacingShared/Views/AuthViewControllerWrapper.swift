@@ -32,17 +32,36 @@ struct AuthViewControllerWrapper: UIViewControllerRepresentable {
 final class AuthContainerViewController: UIViewController, UIAdaptivePresentationControllerDelegate {
     weak var authViewController: UIViewController?
     var onDismiss: (() -> Void)?
+    private var hasPresentedAuthentication = false
+    private var hasFinishedAuthentication = false
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .black
+    }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if let vc = authViewController, presentedViewController == nil {
-            present(vc, animated: true) { [weak self] in
-                vc.presentationController?.delegate = self
-            }
+        guard hasFinishedAuthentication == false else { return }
+        if hasPresentedAuthentication {
+            guard presentedViewController == nil else { return }
+            finishAuthenticationPresentation()
+            return
+        }
+        guard let vc = authViewController, presentedViewController == nil else { return }
+        hasPresentedAuthentication = true
+        present(vc, animated: true) { [weak self] in
+            vc.presentationController?.delegate = self
         }
     }
 
     func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        finishAuthenticationPresentation()
+    }
+
+    private func finishAuthenticationPresentation() {
+        guard hasFinishedAuthentication == false else { return }
+        hasFinishedAuthentication = true
         onDismiss?()
     }
 }

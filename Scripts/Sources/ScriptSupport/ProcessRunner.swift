@@ -97,8 +97,8 @@ public enum ProcessRunner {
     ) throws -> String {
         installInterruptHandlerIfNeeded()
         let process = Process()
-        let standardOutput = Pipe()
-        let standardError = Pipe()
+        let capturedOutput = try captureOutput ? CapturedProcessOutput() : nil
+        defer { capturedOutput?.removeTemporaryFiles() }
 
         process.executableURL = URL(fileURLWithPath: command.executable)
         process.arguments = command.arguments
@@ -108,9 +108,9 @@ public enum ProcessRunner {
                 .merging(command.environment) { _, new in new }
         }
 
-        if captureOutput {
-            process.standardOutput = standardOutput
-            process.standardError = standardError
+        if let capturedOutput {
+            process.standardOutput = capturedOutput.standardOutput
+            process.standardError = capturedOutput.standardError
         } else {
             process.standardOutput = FileHandle.standardOutput
             process.standardError = FileHandle.standardError
@@ -144,8 +144,8 @@ public enum ProcessRunner {
             process.waitUntilExit()
         }
 
-        let output = captureOutput ? readText(from: standardOutput) : ""
-        let errorOutput = captureOutput ? readText(from: standardError) : ""
+        let output = try capturedOutput?.readStandardOutput() ?? ""
+        let errorOutput = try capturedOutput?.readStandardError() ?? ""
         guard process.terminationStatus == 0 else {
             throw ScriptSupportError.commandFailed(
                 command.rendered,
@@ -156,10 +156,58 @@ public enum ProcessRunner {
         return output
     }
 
-    private static func readText(from pipe: Pipe) -> String {
-        String(
-            data: pipe.fileHandleForReading.readDataToEndOfFile(),
-            encoding: .utf8
-        )?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+    /// Capturing into regular files avoids filling a pipe while the parent waits for the child.
+    /// Some tools, including `assetutil -I`, can emit more than the platform pipe buffer.
+    private final class CapturedProcessOutput {
+        let standardOutput: FileHandle
+        let standardError: FileHandle
+
+        private let standardOutputURL: URL
+        private let standardErrorURL: URL
+        private var handlesAreClosed = false
+
+        init(fileManager: FileManager = .default) throws {
+            let directory = fileManager.temporaryDirectory
+            standardOutputURL = directory.appending(path: "retrorapid-stdout-\(UUID().uuidString)")
+            standardErrorURL = directory.appending(path: "retrorapid-stderr-\(UUID().uuidString)")
+            try Data().write(to: standardOutputURL, options: .atomic)
+            do {
+                try Data().write(to: standardErrorURL, options: .atomic)
+                standardOutput = try FileHandle(forWritingTo: standardOutputURL)
+                standardError = try FileHandle(forWritingTo: standardErrorURL)
+            } catch {
+                try? fileManager.removeItem(at: standardOutputURL)
+                try? fileManager.removeItem(at: standardErrorURL)
+                throw error
+            }
+        }
+
+        func readStandardOutput() throws -> String {
+            closeHandlesIfNeeded()
+            return try readText(from: standardOutputURL)
+        }
+
+        func readStandardError() throws -> String {
+            closeHandlesIfNeeded()
+            return try readText(from: standardErrorURL)
+        }
+
+        func removeTemporaryFiles(fileManager: FileManager = .default) {
+            closeHandlesIfNeeded()
+            try? fileManager.removeItem(at: standardOutputURL)
+            try? fileManager.removeItem(at: standardErrorURL)
+        }
+
+        private func closeHandlesIfNeeded() {
+            guard handlesAreClosed == false else { return }
+            try? standardOutput.close()
+            try? standardError.close()
+            handlesAreClosed = true
+        }
+
+        private func readText(from url: URL) throws -> String {
+            String(data: try Data(contentsOf: url), encoding: .utf8)?
+                .trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        }
     }
 }

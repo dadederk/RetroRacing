@@ -70,6 +70,8 @@ public enum GameCenterLeaderboardDisplayNameBuilder {
             return "Mac"
         case "watchOS":
             return "Apple Watch"
+        case "tvOS":
+            return "Apple TV"
         default:
             return platform
         }
@@ -195,6 +197,9 @@ public enum GameCenterLeaderboardDisplayNameBuilder {
     private static func compactPlatformPrefix(from prefix: String) -> String? {
         if prefix == "Apple Watch" {
             return "Watch"
+        }
+        if prefix == "Apple TV" {
+            return "TV"
         }
         return nil
     }

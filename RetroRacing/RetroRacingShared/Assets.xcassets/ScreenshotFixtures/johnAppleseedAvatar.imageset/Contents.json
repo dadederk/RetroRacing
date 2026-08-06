@@ -1,20 +1,20 @@
 {
-  "images": [
+  "images" : [
     {
-      "filename": "johnAppleseedAvatar-iphone.png",
-      "idiom": "iphone"
+      "filename" : "johnAppleseedAvatar-iphone.png",
+      "idiom" : "iphone"
     },
     {
-      "filename": "johnAppleseedAvatar-ipad.png",
-      "idiom": "ipad"
+      "filename" : "johnAppleseedAvatar-ipad.png",
+      "idiom" : "ipad"
     },
     {
-      "filename": "johnAppleseedAvatar-mac.png",
-      "idiom": "mac"
+      "filename" : "johnAppleseedAvatar-mac.png",
+      "idiom" : "mac"
     }
   ],
-  "info": {
-    "author": "xcode",
-    "version": 1
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
   }
 }

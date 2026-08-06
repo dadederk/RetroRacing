@@ -8,6 +8,7 @@
 import Foundation
 
 /// Factory for creating the platform-appropriate input adapter.
+@MainActor
 public protocol GameInputAdapterFactory {
     func makeAdapter(controller: RacingGameController, hapticController: HapticFeedbackController?) -> GameInputAdapter
 }

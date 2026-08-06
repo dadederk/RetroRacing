@@ -31,7 +31,7 @@
 - Derived locales (3): `en-GB`, `en-AU`, and `en-CA` copy in-app pixels from `en-US`. Mexican Spanish is never derived from Spain Spanish.
 - `./retrorapid screenshots sync` may copy derived pixels and overlays but must never replace source locale captures with English.
 - iPhone/iPad default to light appearance and marketing status bar unless flags override.
-- Gameplay fixtures resolve platform-era defaults deterministically: LCD on iPhone, 8-Bit on iPad, 16-Bit on Mac, and Pocket on Apple Watch. Capture applies that default through a volatile preference so persisted developer state cannot change the settings fixture. The dedicated theme showcase uses Pocket on iPhone, iPad, and Mac, and LCD on Apple Watch.
+- Gameplay fixtures resolve platform-era defaults deterministically: LCD on iPhone, Cartridge on iPad, CRT on Mac, and Pocket on Apple Watch. Capture applies that default through a volatile preference so persisted developer state cannot change the settings fixture. The dedicated theme showcase uses Pocket on iPhone, iPad, and Mac, and LCD on Apple Watch.
 - Watch leaves marketing clock override off by default.
 - Mac writes PNG captures and uses capture-specific window sizing.
 

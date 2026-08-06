@@ -1725,7 +1725,7 @@
 		<array>
 			<dict>
 				<key>body</key>
-				<string>Switch between four retro eras, from Pocket to 16-Bit.</string>
+				<string>Switch between four retro eras, from Pocket to CRT.</string>
 				<key>language</key>
 				<string>en-US</string>
 				<key>title</key>
@@ -1733,7 +1733,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Switch between four retro eras, from Pocket to 16-Bit.</string>
+				<string>Switch between four retro eras, from Pocket to CRT.</string>
 				<key>language</key>
 				<string>en-GB</string>
 				<key>title</key>
@@ -1741,7 +1741,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Switch between four retro eras, from Pocket to 16-Bit.</string>
+				<string>Switch between four retro eras, from Pocket to CRT.</string>
 				<key>language</key>
 				<string>en-AU</string>
 				<key>title</key>
@@ -1749,7 +1749,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Switch between four retro eras, from Pocket to 16-Bit.</string>
+				<string>Switch between four retro eras, from Pocket to CRT.</string>
 				<key>language</key>
 				<string>en-CA</string>
 				<key>title</key>
@@ -1757,7 +1757,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Wechsle zwischen vier Retro-Epochen, von Pocket bis 16-Bit.</string>
+				<string>Wechsle zwischen vier Retro-Epochen, von Pocket bis CRT.</string>
 				<key>language</key>
 				<string>de-DE</string>
 				<key>title</key>
@@ -1765,7 +1765,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Wissel tussen vier retro-tijdperken, van Pocket tot 16-Bit.</string>
+				<string>Wissel tussen vier retro-tijdperken, van Pocket tot CRT.</string>
 				<key>language</key>
 				<string>nl-NL</string>
 				<key>title</key>
@@ -1773,7 +1773,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Passa tra quattro epoche retrò, da Pocket a 16-Bit.</string>
+				<string>Passa tra quattro epoche retrò, da Pocket a CRT.</string>
 				<key>language</key>
 				<string>it</string>
 				<key>title</key>
@@ -1781,7 +1781,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Passe entre quatre époques rétro, de Pocket à 16-Bit.</string>
+				<string>Passe entre quatre époques rétro, de Pocket à CRT.</string>
 				<key>language</key>
 				<string>fr-FR</string>
 				<key>title</key>
@@ -1789,7 +1789,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Passez entre quatre époques rétro, de Pocket à 16-Bit.</string>
+				<string>Passez entre quatre époques rétro, de Pocket à CRT.</string>
 				<key>language</key>
 				<string>fr-CA</string>
 				<key>title</key>
@@ -1797,7 +1797,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Cambia entre cuatro eras retro, desde Pocket hasta 16-Bit.</string>
+				<string>Cambia entre cuatro eras retro, desde Pocket hasta CRT.</string>
 				<key>language</key>
 				<string>es-ES</string>
 				<key>title</key>
@@ -1805,7 +1805,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Cambia entre cuatro eras retro, desde Pocket hasta 16-Bit.</string>
+				<string>Cambia entre cuatro eras retro, desde Pocket hasta CRT.</string>
 				<key>language</key>
 				<string>es-MX</string>
 				<key>title</key>
@@ -1813,7 +1813,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Canvia entre quatre èpoques retro, de Pocket a 16-Bit.</string>
+				<string>Canvia entre quatre èpoques retro, de Pocket a CRT.</string>
 				<key>language</key>
 				<string>ca</string>
 				<key>title</key>
@@ -1821,7 +1821,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Pocketから16-Bitまで、4つのレトロ時代を切り替え。</string>
+				<string>PocketからCRTまで、4つのレトロ時代を切り替え。</string>
 				<key>language</key>
 				<string>ja</string>
 				<key>title</key>
@@ -1829,7 +1829,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Pocket부터 16-Bit까지 네 가지 레트로 시대를 전환하세요.</string>
+				<string>Pocket부터 CRT까지 네 가지 레트로 시대를 전환하세요.</string>
 				<key>language</key>
 				<string>ko</string>
 				<key>title</key>
@@ -1837,7 +1837,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Alterne entre quatro eras retrô, de Pocket a 16-Bit.</string>
+				<string>Alterne entre quatro eras retrô, de Pocket a CRT.</string>
 				<key>language</key>
 				<string>pt-BR</string>
 				<key>title</key>
@@ -1845,7 +1845,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Alterne entre quatro eras retro, de Pocket a 16-Bit.</string>
+				<string>Alterne entre quatro eras retro, de Pocket a CRT.</string>
 				<key>language</key>
 				<string>pt-PT</string>
 				<key>title</key>
@@ -1853,7 +1853,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>在四個復古時代間切換，從 Pocket 到 16-Bit。</string>
+				<string>在四個復古時代間切換，從 Pocket 到 CRT。</string>
 				<key>language</key>
 				<string>zh-Hant</string>
 				<key>title</key>
@@ -1861,7 +1861,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>在四个复古时代间切换，从 Pocket 到 16-Bit。</string>
+				<string>在四个复古时代间切换，从 Pocket 到 CRT。</string>
 				<key>language</key>
 				<string>zh-Hans</string>
 				<key>title</key>
@@ -1869,7 +1869,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Pocket'tan 16-Bit'e dört retro dönem arasında geçiş yap.</string>
+				<string>Pocket'tan CRT'ye dört retro dönem arasında geçiş yap.</string>
 				<key>language</key>
 				<string>tr</string>
 				<key>title</key>
@@ -1877,7 +1877,7 @@
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Przełączaj cztery epoki retro, od Pocket po 16-Bit.</string>
+				<string>Przełączaj cztery epoki retro, od Pocket po CRT.</string>
 				<key>language</key>
 				<string>pl</string>
 				<key>title</key>

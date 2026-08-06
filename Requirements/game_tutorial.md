@@ -6,7 +6,7 @@ RetroRacing provides in-game help so players can learn controls and audio cues w
 
 ## Entry Points
 
-- Gameplay toolbar includes a `?` help button on shared platforms and watchOS.
+- Gameplay toolbar includes a `?` help button on iOS, iPadOS, macOS, visionOS, and watchOS. tvOS presents a labeled Tutorial action immediately before Settings in the menu's top-right focus section because gameplay uses the Siri Remote for pause and menu actions.
 - Tapping `?` opens a help modal with:
   - Controls guidance (same platform-specific controls copy used in Settings).
   - Audio cue tutorial with interactive previews.

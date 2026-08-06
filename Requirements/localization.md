@@ -43,6 +43,7 @@
 - Transcreate for meaning and energy; avoid literal/bureaucratic phrasing.
 - Preserve arcade tone (pit-stop paywall, punchy game-over, warm engagement).
 - Do not translate `RetroRapid` / `RetroRapid!` (`BrandMark.swift`, `AGENTS.md`).
+- Keep the style titles `Pocket`, `LCD`, `Cartridge`, `CRT`, `Disc`, and `Polygon` unchanged across locales; localize the surrounding description.
 - Sibling locales (`pt-BR`/`pt-PT`, `zh-Hant`/`zh-Hans`, `fr`/`fr-CA`) must stay **locale-true** — vocabulary and register differ.
 - French Canadian uses formal `vous` throughout; French for France remains friendly `tu`.
 - European Portuguese uses neutral third-person forms without explicit Brazilian `você`/`vocês`.

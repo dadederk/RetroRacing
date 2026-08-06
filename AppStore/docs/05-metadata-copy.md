@@ -2,7 +2,7 @@
 
 Part of [App Store docs hub](../README.md).
 
-Last updated: 2026-08-05
+Last updated: 2026-08-06
 
 **Status:** `PLANNED` — see field-level status in `12-validation-results.md`.
 
@@ -548,7 +548,7 @@ Use this shape for the next bug-fix or polish release if there is no larger feat
 ### en-US / en-GB / en-AU / en-CA
 
 ```text
-Discover two new visual styles: bold 8-Bit and richly detailed 16-Bit. The new Style Gallery makes it easy to preview every theme before choosing your favorite.
+Discover two new visual styles: Cartridge and CRT. The new Style Gallery makes it easy to preview every theme before choosing your favorite.
 
 SharePlay friend races now work on Mac too, alongside iPhone and iPad.
 
@@ -559,12 +559,12 @@ RetroRapid! is now fully localized in Turkish and Polish.
 Thanks for racing with us.
 ```
 
-Count: 474/4000 characters.
+Count: 454/4000 characters.
 
 ### de-DE
 
 ```text
-Entdecke zwei neue Grafikstile: markantes 8-Bit und detailreiches 16-Bit. In der neuen Stilgalerie kannst du jedes Theme ansehen, bevor du deinen Favoriten auswählst.
+Entdecke zwei neue Grafikstile: Cartridge und CRT. In der neuen Stilgalerie kannst du jedes Theme ansehen, bevor du deinen Favoriten auswählst.
 
 SharePlay-Rennen mit Freunden funktionieren jetzt auch auf dem Mac sowie auf iPhone und iPad.
 
@@ -575,12 +575,12 @@ RetroRapid! ist jetzt vollständig auf Türkisch und Polnisch lokalisiert.
 Danke, dass du mit uns fährst.
 ```
 
-Count: 536/4000 characters.
+Count: 513/4000 characters.
 
 ### nl-NL
 
 ```text
-Ontdek twee nieuwe visuele stijlen: krachtige 8-Bit en rijk gedetailleerde 16-Bit. In de nieuwe Stijlgalerij kun je elk thema bekijken voordat je je favoriet kiest.
+Ontdek twee nieuwe visuele stijlen: Cartridge en CRT. In de nieuwe Stijlgalerij kun je elk thema bekijken voordat je je favoriet kiest.
 
 SharePlay-races met vrienden werken nu ook op de Mac, naast iPhone en iPad.
 
@@ -591,12 +591,12 @@ RetroRapid! is nu volledig gelokaliseerd in het Turks en Pools.
 Bedankt dat je met ons rijdt.
 ```
 
-Count: 493/4000 characters.
+Count: 464/4000 characters.
 
 ### it
 
 ```text
-Scopri due nuovi stili visivi: un deciso 8-Bit e un ricco 16-Bit. La nuova Galleria stili permette di vedere ogni tema prima di scegliere il tuo preferito.
+Scopri due nuovi stili visivi: Cartridge e CRT. La nuova Galleria stili permette di vedere ogni tema prima di scegliere il tuo preferito.
 
 Le corse SharePlay con gli amici ora funzionano anche su Mac, oltre che su iPhone e iPad.
 
@@ -607,12 +607,12 @@ RetroRapid! è ora completamente localizzato in turco e polacco.
 Grazie per correre con noi.
 ```
 
-Count: 504/4000 characters.
+Count: 486/4000 characters.
 
 ### fr-FR
 
 ```text
-Découvre deux nouveaux styles visuels : un 8 bits audacieux et un 16 bits riche en détails. La nouvelle galerie de styles permet de prévisualiser chaque thème avant de choisir ton préféré.
+Découvre deux nouveaux styles visuels : Cartridge et CRT. La nouvelle galerie de styles permet de prévisualiser chaque thème avant de choisir ton préféré.
 
 Les courses SharePlay entre amis fonctionnent maintenant aussi sur Mac, en plus de l'iPhone et de l'iPad.
 
@@ -623,12 +623,12 @@ RetroRapid! est maintenant entièrement localisé en turc et en polonais.
 Merci de courir avec nous.
 ```
 
-Count: 603/4000 characters.
+Count: 569/4000 characters.
 
 ### fr-CA
 
 ```text
-Découvrez deux nouveaux styles visuels : un style 8 bits audacieux et un style 16 bits richement détaillé. La nouvelle galerie de styles permet de prévisualiser facilement chaque thème avant de choisir votre préféré.
+Découvrez deux nouveaux styles visuels : Cartridge et CRT. La nouvelle galerie de styles permet de prévisualiser facilement chaque thème avant de choisir votre préféré.
 
 Les courses SharePlay entre amis fonctionnent maintenant aussi sur Mac, en plus de l'iPhone et de l'iPad.
 
@@ -639,12 +639,12 @@ RetroRapid! est maintenant entièrement localisé en turc et en polonais.
 Merci de courir avec nous.
 ```
 
-Count: 631/4000 characters.
+Count: 583/4000 characters.
 
 ### es-ES
 
 ```text
-Descubre dos nuevos estilos visuales: un atrevido 8-Bit y un detallado 16-Bit. La nueva Galería de estilos te permite ver cada tema antes de elegir tu favorito.
+Descubre dos nuevos estilos visuales: Cartridge y CRT. La nueva Galería de estilos te permite ver cada tema antes de elegir tu favorito.
 
 Las carreras SharePlay con amigos ahora también funcionan en Mac, además de iPhone y iPad.
 
@@ -655,12 +655,12 @@ RetroRapid! ya está completamente localizado en turco y polaco.
 Gracias por correr con nosotros.
 ```
 
-Count: 552/4000 characters.
+Count: 528/4000 characters.
 
 ### ca
 
 ```text
-Descobrix dos estils visuals nous: un 8-Bit atrevit i un 16-Bit ple de detalls. La nova Galeria d'estils et permet vore cada tema abans de triar el teu preferit.
+Descobrix dos estils visuals nous: Cartridge i CRT. La nova Galeria d'estils et permet vore cada tema abans de triar el teu preferit.
 
 Les carreres SharePlay amb amistats ara també funcionen a Mac, a més d'iPhone i iPad.
 
@@ -671,12 +671,12 @@ RetroRapid! ja està completament localitzat en turc i polonés.
 Gràcies per córrer amb nosaltres.
 ```
 
-Count: 546/4000 characters.
+Count: 518/4000 characters.
 
 ### es-MX
 
 ```text
-Descubre dos nuevos estilos visuales: un atrevido 8-Bit y un detallado 16-Bit. La nueva Galería de estilos te permite ver cada tema antes de elegir tu favorito.
+Descubre dos nuevos estilos visuales: Cartridge y CRT. La nueva Galería de estilos te permite ver cada tema antes de elegir tu favorito.
 
 Las carreras SharePlay con amigos ahora también funcionan en Mac, además de iPhone y iPad.
 
@@ -687,12 +687,12 @@ RetroRapid! ya está completamente localizado en turco y polaco.
 Gracias por correr con nosotros.
 ```
 
-Count: 552/4000 characters.
+Count: 528/4000 characters.
 
 ### ja
 
 ```text
-新しい2つのビジュアルスタイル、鮮やかな8-Bitと細部まで豊かな16-Bitを追加しました。新しいスタイルギャラリーでは、お気に入りを選ぶ前にすべてのテーマをプレビューできます。
+CartridgeとCRT、2つの新しいビジュアルスタイルを追加しました。新しいスタイルギャラリーでは、お気に入りを選ぶ前にすべてのテーマをプレビューできます。
 
 SharePlayのフレンドレースがiPhoneとiPadに加えてMacでも楽しめるようになりました。
 
@@ -703,12 +703,12 @@ RetroRapid!がトルコ語とポーランド語に完全対応しました。
 一緒にレースしてくれてありがとう。
 ```
 
-Count: 265/4000 characters.
+Count: 255/4000 characters.
 
 ### ko
 
 ```text
-선명한 8-Bit와 풍부한 디테일의 16-Bit, 두 가지 새로운 비주얼 스타일을 만나 보세요. 새로운 스타일 갤러리에서 좋아하는 테마를 고르기 전에 모두 미리 볼 수 있어요.
+Cartridge와 CRT, 두 가지 새로운 비주얼 스타일을 만나 보세요. 새로운 스타일 갤러리에서 좋아하는 테마를 고르기 전에 모두 미리 볼 수 있어요.
 
 SharePlay 친구 레이스를 이제 iPhone과 iPad뿐 아니라 Mac에서도 즐길 수 있어요.
 
@@ -719,12 +719,12 @@ RetroRapid!가 터키어와 폴란드어를 완벽하게 지원해요.
 함께 레이스해 주셔서 감사합니다.
 ```
 
-Count: 280/4000 characters.
+Count: 268/4000 characters.
 
 ### pt-BR
 
 ```text
-Descubra dois novos estilos visuais: um 8-Bit marcante e um 16-Bit cheio de detalhes. A nova Galeria de Estilos permite ver cada tema antes de escolher o seu favorito.
+Descubra dois novos estilos visuais: Cartridge e CRT. A nova Galeria de Estilos permite ver cada tema antes de escolher o seu favorito.
 
 As corridas SharePlay com amigos agora também funcionam no Mac, além do iPhone e iPad.
 
@@ -735,12 +735,12 @@ RetroRapid! agora está totalmente localizado em turco e polonês.
 Obrigado por correr com a gente.
 ```
 
-Count: 522/4000 characters.
+Count: 490/4000 characters.
 
 ### pt-PT
 
 ```text
-Descubra dois novos estilos visuais: um 8-Bit marcante e um 16-Bit cheio de detalhes. A nova Galeria de Estilos permite ver cada tema antes de escolher o seu favorito.
+Descubra dois novos estilos visuais: Cartridge e CRT. A nova Galeria de Estilos permite ver cada tema antes de escolher o seu favorito.
 
 As corridas SharePlay com amigos agora também funcionam no Mac, além do iPhone e iPad.
 
@@ -751,12 +751,12 @@ RetroRapid! está agora totalmente localizado em turco e polaco.
 Obrigado por correr connosco.
 ```
 
-Count: 519/4000 characters.
+Count: 487/4000 characters.
 
 ### zh-Hant
 
 ```text
-探索兩種全新視覺風格：醒目的 8-Bit 與細節豐富的 16-Bit。全新的風格藝廊讓你在選擇最愛之前預覽每個主題。
+探索 Cartridge 與 CRT 兩種全新視覺風格。全新的風格藝廊讓你在選擇最愛之前預覽每個主題。
 
 SharePlay 好友競賽現在除了 iPhone 與 iPad，也能在 Mac 上進行。
 
@@ -767,12 +767,12 @@ RetroRapid! 現已完整支援土耳其文與波蘭文。
 感謝你與我們一起競速。
 ```
 
-Count: 193/4000 characters.
+Count: 186/4000 characters.
 
 ### zh-Hans
 
 ```text
-探索两种全新视觉风格：醒目的 8-Bit 与细节丰富的 16-Bit。全新的风格画廊让你在选择最爱之前预览每个主题。
+探索 Cartridge 与 CRT 两种全新视觉风格。全新的风格画廊让你在选择最爱之前预览每个主题。
 
 SharePlay 好友竞赛现在除了 iPhone 与 iPad，也能在 Mac 上进行。
 
@@ -783,12 +783,12 @@ RetroRapid! 现已完整支持土耳其语与波兰语。
 感谢你与我们一起竞速。
 ```
 
-Count: 193/4000 characters.
+Count: 186/4000 characters.
 
 ### tr
 
 ```text
-İki yeni görsel tarzı keşfet: cesur 8-Bit ve ayrıntılı 16-Bit. Yeni Tarz Galerisi, favorini seçmeden önce her temayı kolayca önizlemeni sağlar.
+İki yeni görsel tarzı keşfet: Cartridge ve CRT. Yeni Tarz Galerisi, favorini seçmeden önce her temayı kolayca önizlemeni sağlar.
 
 SharePlay arkadaş yarışları artık iPhone ve iPad'in yanı sıra Mac'te de çalışıyor.
 
@@ -799,12 +799,12 @@ RetroRapid! artık Türkçe ve Lehçe olarak tamamen yerelleştirildi.
 Bizimle yarıştığın için teşekkürler.
 ```
 
-Count: 522/4000 characters.
+Count: 507/4000 characters.
 
 ### pl
 
 ```text
-Odkryj dwa nowe style graficzne: wyrazisty 8-Bit i bogaty w szczegóły 16-Bit. Nowa Galeria Stylów pozwala łatwo obejrzeć każdy motyw przed wyborem ulubionego.
+Odkryj dwa nowe style graficzne: Cartridge i CRT. Nowa Galeria Stylów pozwala łatwo obejrzeć każdy motyw przed wyborem ulubionego.
 
 Wyścigi SharePlay ze znajomymi działają teraz także na Macu, obok iPhone'a i iPada.
 
@@ -815,6 +815,6 @@ RetroRapid! jest teraz w pełni dostępny po turecku i polsku.
 Dziękujemy za wspólne wyścigi.
 ```
 
-Count: 500/4000 characters.
+Count: 472/4000 characters.
 
 _Generated by `swift run --package-path Scripts generate-metadata-docs`._

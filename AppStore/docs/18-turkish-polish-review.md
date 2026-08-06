@@ -17,13 +17,13 @@ Last updated: 2026-08-05
 | Cruise / Fast / Rapid | Cruise / Hızlı / Rapid | Cruise / Szybki / Rapid |
 | Style Gallery | Tarz Galerisi | Galeria Stylów |
 
-Keep `RetroRapid!`, `SharePlay`, `Game Center`, `VoiceOver`, `Digital Crown`, `Pocket`, `LCD`, `8-Bit`, `16-Bit`, `Cruise`, and `Rapid` unchanged.
+Keep `RetroRapid!`, `SharePlay`, `Game Center`, `VoiceOver`, `Digital Crown`, `Pocket`, `LCD`, `Cartridge`, `CRT`, `Disc`, `Polygon`, `Cruise`, and `Rapid` unchanged.
 
 ## Review package
 
 | Layer | Source | Expected coverage |
 |---|---|---:|
-| In-app UI | `RetroRacing/RetroRacingShared/Localizable.xcstrings` | 363 keys per locale; state remains `needs_review` until approval |
+| In-app UI | `RetroRacing/RetroRacingShared/Localizable.xcstrings` | 365 keys per locale; state remains `needs_review` until approval |
 | Listing | `AppStore/metadata/retrorapid-v1.6.json` | name, subtitle, keywords, promo, description, What's New |
 | Unlimited Plays | `AppStore/iap-localizations/6759012658/<locale>/metadata.csv` | name ≤30, description ≤45 |
 | Game Center | `AppStore/game-center/*.json` | 22 achievements and 12 leaderboards |

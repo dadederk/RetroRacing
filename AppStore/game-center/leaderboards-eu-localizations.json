@@ -1075,6 +1075,27 @@
           "formatterSuffix": "rebases"
         }
       }
+    },
+    {
+      "referenceName": "Apple TV Cruise",
+      "vendorLeaderboardId": "besttvos001cruise",
+      "platform": "tvOS",
+      "difficulty": "cruise",
+      "templateVendorLeaderboardId": "bestios001cruise"
+    },
+    {
+      "referenceName": "Apple TV Fast",
+      "vendorLeaderboardId": "besttvos001fast",
+      "platform": "tvOS",
+      "difficulty": "fast",
+      "templateVendorLeaderboardId": "bestios001fast"
+    },
+    {
+      "referenceName": "Apple TV Rapid",
+      "vendorLeaderboardId": "besttvos001",
+      "platform": "tvOS",
+      "difficulty": "rapid",
+      "templateVendorLeaderboardId": "bestios001test"
     }
   ]
 }

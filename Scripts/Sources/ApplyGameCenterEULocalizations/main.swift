@@ -17,13 +17,24 @@ do {
     let arguments = CLIArguments()
     CLIHelp.exitIfRequested(arguments, usage: CLIUsageTexts.applyGameCenterEULocalizations)
     try arguments.rejectUnknownFlags(
-        allowing: ["--dry-run", "--check", "--achievements-only", "--leaderboards-only"],
+        allowing: [
+            "--dry-run",
+            "--check",
+            "--achievements-only",
+            "--leaderboards-only",
+            "--ensure-leaderboards",
+        ],
         valueFlags: []
     )
 
     if arguments.contains("--achievements-only") && arguments.contains("--leaderboards-only") {
         throw MetadataToolError.invalidArguments(
             "Use only one of --achievements-only or --leaderboards-only."
+        )
+    }
+    if arguments.contains("--ensure-leaderboards") && arguments.contains("--achievements-only") {
+        throw MetadataToolError.invalidArguments(
+            "--ensure-leaderboards cannot be combined with --achievements-only."
         )
     }
 
@@ -37,7 +48,8 @@ do {
         leaderboardsCatalogRelativePath: leaderboardsCatalogRelativePath,
         includeAchievements: includeAchievements,
         includeLeaderboards: includeLeaderboards,
-        dryRun: arguments.contains("--dry-run")
+        dryRun: arguments.contains("--dry-run"),
+        ensureLeaderboards: arguments.contains("--ensure-leaderboards")
     )
 
     if arguments.contains("--check") {

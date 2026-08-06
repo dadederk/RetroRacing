@@ -10,6 +10,7 @@ import CoreGraphics
 import SpriteKit
 @testable import RetroRacingShared
 
+@MainActor
 final class GameSceneDebugFrameStatsTests: XCTestCase {
     func testGivenDebugFrameStatsDisabledWhenSceneMovesToViewThenBuiltInSpriteKitStatsAreDisabled() {
         // Given
@@ -86,7 +87,8 @@ final class GameSceneDebugFrameStatsTests: XCTestCase {
             hapticController: nil,
             audioFeedbackMode: .retro,
             laneMoveCueStyle: .laneConfirmationAndSafety,
-            difficulty: .rapid
+            difficulty: .rapid,
+            gameEngine: makeDeterministicTestEngine()
         )
     }
 }

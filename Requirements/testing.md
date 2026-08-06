@@ -15,16 +15,22 @@ Run the relevant smallest validation after a change, and the full app validation
 ```bash
 ./retrorapid test package
 ./retrorapid assets optimize --check
+./retrorapid assets spatial --check
 ./retrorapid assets audit --check
 ./retrorapid check
 ./retrorapid test
 ```
 
+- `./retrorapid test` defaults to the Universal iOS suite and resolves an installed simulator instead of naming a fixed device.
+- `./retrorapid test --platform vision` runs `RetroRacingVisionOSTests`; `--platform all` runs Shared, Universal, and visionOS tests with per-platform destinations.
+- `--destination` is a single-platform override and is rejected with `--platform all`.
+
 - `./retrorapid test package` validates the Scripts Swift package.
 - `./retrorapid assets optimize --check` regenerates into temporary storage and compares pixels and catalog JSON without mutating tracked files.
+- `./retrorapid assets spatial --check` regenerates the visionOS USDZ and sprites in temporary storage, validates RealityKit import and budgets, and compares bytes without mutating tracked outputs.
 - `./retrorapid assets audit --check` validates runtime asset idioms, pixel caps, forbidden shipping resources, and compiled catalog byte ceilings.
 - `./retrorapid check` verifies asset footprint, generated assets/docs/metadata, and other non-mutating checks.
-- `./retrorapid test` runs shared and universal app unit tests through the Scripts runner.
+- `./retrorapid test` runs shared and Universal app unit tests through the Scripts runner; select visionOS or both app platforms with `--platform`.
 - Use `./retrorapid test --dry-run` to inspect resolved commands.
 - If signing blocks local verification, use the documented CI-like no-signing flags only for compile/test validation.
 
@@ -34,6 +40,8 @@ Run the relevant smallest validation after a change, and the full app validation
 - Mock through protocols rather than concrete service substitution.
 - Keep platform-agnostic behavior in `RetroRacingSharedTests`.
 - Keep app-target integration behavior in `RetroRacingUniversalTests`.
+- Keep visionOS session, presentation-handoff, and RealityKit asset integration behavior in `RetroRacingVisionOSTests`.
+- Keep deterministic spatial-asset and simulator-resolution behavior in the Scripts package tests.
 - Add regression tests when fixing bugs in play limits, StoreKit gating, Game Center reporting, achievements, SharePlay, accessibility defaults, generated audio, runtime asset packaging, screenshot fixtures, or localization routing.
 
 ## Naming and Structure
@@ -55,7 +63,7 @@ Run the relevant smallest validation after a change, and the full app validation
 
 - App Store screenshot capture uses `RetroRacingUniversalUITests/AppStoreScreenshotTests`.
 - Screenshot UI tests require `RETRORAPID_SCREENSHOT_CAPTURE=1` and skip themselves during regular Xcode scheme runs.
-- `./retrorapid test` remains limited to shared and universal unit tests; run localized, multi-platform screenshot capture manually when preparing a release after significant UI changes.
+- `./retrorapid test` remains limited to unit-test targets (including optional visionOS coverage); run localized, multi-platform screenshot capture manually when preparing a release after significant UI changes.
 - Fixtures live under `RetroRacingShared/ScreenshotCapture/`; behavior contract lives in [screenshot_capture.md](screenshot_capture.md).
 - Common commands:
 

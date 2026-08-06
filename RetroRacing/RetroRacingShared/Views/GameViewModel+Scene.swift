@@ -187,6 +187,10 @@ extension GameViewModel {
         return GameScene.scene(
             size: CGSize(width: side, height: side),
             difficulty: difficulty,
+            gameEngine: GameEngine(
+                randomSource: InfrastructureDefaults.randomSource,
+                difficulty: difficulty
+            ),
             theme: theme,
             imageLoader: loader,
             soundPlayer: soundPlayer,

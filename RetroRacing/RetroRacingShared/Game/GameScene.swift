@@ -19,11 +19,6 @@ private enum GridConfiguration {
     static let numberOfColumns = 3
 }
 
-private enum SpeedIncreaseConfiguration {
-    static let preLevelForecastRows = 4
-    static let safetyRowOffsetsBeforeLevelChange: Set<Int> = [2, 3]
-}
-
 private enum AudioFallbackConfiguration {
     static let startUnpauseSeconds: TimeInterval = 2.0
     // Keep above fail-sound duration for missing-completion edge cases.
@@ -31,6 +26,7 @@ private enum AudioFallbackConfiguration {
 }
 
 /// Input commands for the game. Named to avoid shadowing the GameController framework (physical controllers).
+@MainActor
 public protocol RacingGameController {
     func moveLeft()
     func moveRight()
@@ -102,7 +98,8 @@ struct TextureResolutionKey: Hashable {
     let fallbackName: String
 }
 
-/// SpriteKit scene that owns shared gameplay flow, grid updates, and sound feedback for RetroRacing.
+/// SpriteKit renderer that adapts shared engine snapshots and owns platform feedback.
+@MainActor
 public class GameScene: SKScene {
     /// Bundle containing all game assets (sprites, sounds). Assets live only in RetroRacingShared; load from here.
     static let sharedBundle = Bundle(for: GameScene.self)
@@ -121,13 +118,13 @@ public class GameScene: SKScene {
     public private(set) var bigRivalCarsEnabled = false
     public private(set) var roadVisualStyle: RoadVisualStyle = .defaultStyle
 
-    private var initialDtForGameUpdate = 0.6
-    private var lastGameUpdateTime: TimeInterval = 0
+    private var lastGameUpdateTime: TimeInterval?
     private var hasConfiguredScene = false
     var lastConfiguredSize: CGSize?
     private var startUnpauseFallbackTask: Task<Void, Never>?
     private var crashResolutionFallbackTask: Task<Void, Never>?
     private var isWaitingForCrashResolution = false
+    private var isEngineManagedCollision = false
     private var isOverlayPauseLocked = false
     /// When true, crash sprites render fully opaque without the gameplay blink animation.
     var rendersStaticCrashForScreenshot = false
@@ -146,14 +143,8 @@ public class GameScene: SKScene {
     var resolvedThemeTextures = [TextureResolutionKey: SKTexture]()
     var roadDashPhase = 0
     var safetyMarkerRows = [Int]()
-    private var trafficRowSource: TrafficRowSource = RandomTrafficRowSource(
-        randomSource: InfrastructureDefaults.randomSource
-    )
-
-    private lazy var gridCalculator = GridStateCalculator(
-        trafficRowSource: trafficRowSource,
-        timingConfiguration: GameDifficulty.defaultDifficulty.timingConfiguration
-    )
+    private var gameEngine: (any GameEngineProtocol)?
+    private var hasLoggedMissingEngine = false
     var gridState = GridState(
         numberOfRows: GridConfiguration.numberOfRows,
         numberOfColumns: GridConfiguration.numberOfColumns
@@ -225,8 +216,10 @@ public class GameScene: SKScene {
         laneMoveCueStyle: LaneMoveCueStyle,
         difficulty: GameDifficulty,
         bigRivalCarsEnabled: Bool = false,
-        roadVisualStyle: RoadVisualStyle = .defaultStyle
+        roadVisualStyle: RoadVisualStyle = .defaultStyle,
+        gameEngine: any GameEngineProtocol
     ) {
+        self.gameEngine = gameEngine
         super.init(size: size)
         self.theme = theme
         self.imageLoader = imageLoader
@@ -241,17 +234,17 @@ public class GameScene: SKScene {
     }
 
     public override init(size: CGSize) {
+        gameEngine = nil
         super.init(size: size)
         audioFeedbackMode = .defaultMode
         laneMoveCueStyle = .defaultStyle
-        applyDifficulty(.defaultDifficulty)
     }
 
     public required init?(coder aDecoder: NSCoder) {
+        gameEngine = nil
         super.init(coder: aDecoder)
         audioFeedbackMode = .defaultMode
         laneMoveCueStyle = .defaultStyle
-        applyDifficulty(.defaultDifficulty)
     }
 
     deinit {
@@ -268,9 +261,10 @@ public class GameScene: SKScene {
     public static func scene(
         size: CGSize,
         difficulty: GameDifficulty,
+        gameEngine: any GameEngineProtocol,
         theme: (any GameTheme)? = nil,
         imageLoader: some ImageLoader,
-        soundPlayer: SoundEffectPlayer = PlatformFactories.makeSoundPlayer(),
+        soundPlayer: SoundEffectPlayer,
         laneCuePlayer: LaneCuePlayer? = nil,
         hapticController: HapticFeedbackController? = nil,
         audioFeedbackMode: AudioFeedbackMode = .defaultMode,
@@ -289,7 +283,8 @@ public class GameScene: SKScene {
             laneMoveCueStyle: laneMoveCueStyle,
             difficulty: difficulty,
             bigRivalCarsEnabled: bigRivalCarsEnabled,
-            roadVisualStyle: roadVisualStyle
+            roadVisualStyle: roadVisualStyle,
+            gameEngine: gameEngine
         )
         scene.anchorPoint = CGPoint(x: 0, y: 0)
         scene.scaleMode = .aspectFit
@@ -300,8 +295,9 @@ public class GameScene: SKScene {
     /// Caller must set imageLoader before presenting the scene if using this initializer.
     public class func newGameScene(
         difficulty: GameDifficulty,
+        gameEngine: any GameEngineProtocol,
         imageLoader: some ImageLoader,
-        soundPlayer: SoundEffectPlayer = PlatformFactories.makeSoundPlayer(),
+        soundPlayer: SoundEffectPlayer,
         laneCuePlayer: LaneCuePlayer? = nil,
         hapticController: HapticFeedbackController? = nil,
         audioFeedbackMode: AudioFeedbackMode = .defaultMode,
@@ -313,6 +309,7 @@ public class GameScene: SKScene {
         return scene(
             size: defaultSize,
             difficulty: difficulty,
+            gameEngine: gameEngine,
             theme: nil,
             imageLoader: imageLoader,
             soundPlayer: soundPlayer,
@@ -329,7 +326,7 @@ public class GameScene: SKScene {
     public func applyDifficulty(_ difficulty: GameDifficulty) {
         self.difficulty = difficulty
         speedAlertWindowPoints = difficulty.speedAlertWindowPoints
-        rebuildGridCalculator()
+        processEngineEvents(handleEngineCommand(.setDifficulty(difficulty)))
         let isImminent = GameState.isLevelChangeImminent(
             score: gameState.score,
             windowPoints: speedAlertWindowPoints
@@ -342,21 +339,12 @@ public class GameScene: SKScene {
 
     /// Configures the scene to generate SharePlay hazard rows from a shared deterministic seed.
     public func configureSharePlayTraffic(seed: UInt64) {
-        trafficRowSource = IndexedTrafficRowSource(seed: seed)
-        rebuildGridCalculator()
+        processEngineEvents(handleEngineCommand(.setTrafficMode(.seeded(seed))))
     }
 
     /// Restores solo traffic generation using the app's normal random source.
     public func configureRandomTraffic() {
-        trafficRowSource = RandomTrafficRowSource(randomSource: InfrastructureDefaults.randomSource)
-        rebuildGridCalculator()
-    }
-
-    private func rebuildGridCalculator() {
-        gridCalculator = GridStateCalculator(
-            trafficRowSource: trafficRowSource,
-            timingConfiguration: difficulty.timingConfiguration
-        )
+        processEngineEvents(handleEngineCommand(.setTrafficMode(.random)))
     }
 
     public func start() {
@@ -371,23 +359,29 @@ public class GameScene: SKScene {
 
     /// Pauses gameplay without resetting grid or score. Used by user-facing pause control.
     public func pauseGameplay() {
-        updatePauseState(true)
+        let reason: GamePauseReason = isOverlayPauseLocked ? .overlay : .user
+        processEngineEvents(handleEngineCommand(.setPause(reason: reason, isActive: true)))
+        synchronizeFromEngine()
     }
 
     /// Resumes gameplay after a user pause without resetting the grid.
     public func unpauseGameplay() {
-        updatePauseState(false)
+        processEngineEvents(handleEngineCommand(.setPause(reason: .user, isActive: false)))
+        synchronizeFromEngine()
     }
 
     /// Locks or unlocks pause state while the menu overlay is visible.
     public func setOverlayPauseLock(_ isLocked: Bool) {
         isOverlayPauseLocked = isLocked
+        processEngineEvents(handleEngineCommand(.setPause(reason: .overlay, isActive: isLocked)))
+        synchronizeFromEngine()
     }
 
     /// Stops gameplay permanently for a view/session dismissal.
     public func endGameplaySession(fadeDuration: TimeInterval) {
         isOverlayPauseLocked = true
-        updatePauseState(true)
+        handleEngineCommand(.setPause(reason: .overlay, isActive: true))
+        synchronizeFromEngine()
         isPaused = true
         cancelStartPlaybackIfNeeded()
         cancelCrashResolutionIfNeeded()
@@ -397,13 +391,8 @@ public class GameScene: SKScene {
 
     public func resume() {
         cancelCrashResolutionIfNeeded()
-        roadDashPhase = 0
-        safetyMarkerRows.removeAll()
-        gridState = GridState(
-            numberOfRows: GridConfiguration.numberOfRows,
-            numberOfColumns: GridConfiguration.numberOfColumns
-        )
-        lastPlayerColumn = gridState.playerRow().firstIndex(of: .Player) ?? lastPlayerColumn
+        handleEngineCommand(.setPause(reason: .user, isActive: false))
+        synchronizeFromEngine()
         gridStateDidUpdate(gridState, shouldPlayFeedback: false, notifyDelegate: false)
         playStartThenUnpause()
     }
@@ -455,51 +444,111 @@ public class GameScene: SKScene {
 #endif
 
     public override func update(_ currentTime: TimeInterval) {
-        guard gameState.isPaused == false else { return }
+        guard gameEngine != nil else {
+            logMissingEngineIfNeeded(operation: "tick")
+            return
+        }
+        guard let previousUpdateTime = lastGameUpdateTime else {
+            self.lastGameUpdateTime = currentTime
+            return
+        }
+        let elapsedTime = currentTime - previousUpdateTime
+        self.lastGameUpdateTime = currentTime
+        guard elapsedTime.isFinite, elapsedTime > 0 else { return }
+        guard isWaitingForCrashResolution == false else { return }
 
-        let dtGameUpdate = currentTime - lastGameUpdateTime
-        let dtForGameUpdate = gridCalculator.intervalForLevel(gameState.level)
+        let acceptedElapsedTime = min(elapsedTime, 0.25)
+        guard let previousSnapshot = gameEngine?.snapshot else { return }
+        let events = handleEngineCommand(.tick(elapsedTime: acceptedElapsedTime))
+        guard let currentSnapshot = gameEngine?.snapshot else { return }
+        guard previousSnapshot != currentSnapshot || events.isEmpty == false else { return }
 
-        if dtGameUpdate > dtForGameUpdate {
-            lastGameUpdateTime = currentTime
+        synchronizeFromEngine()
+        processEngineEvents(events)
+        gridStateDidUpdate(gridState)
+    }
 
-            let updateAction: GridStateCalculator.Action = shouldInsertSafetyRowBeforeNextLevel() ? .updateWithEmptyRow : .update
-            var effects: [GridStateCalculator.Effect]
-            (gridState, effects) = gridCalculator.nextGrid(previousGrid: gridState, actions: [updateAction])
-            advanceRoadDashPhase(for: updateAction)
-            updateSafetyMarkerRows(for: updateAction)
-
-            for effect in effects {
-                switch effect {
-                case .scored(points: let points):
-                    gameState.score += points
-                    gameDelegate?.gameScene(self, didUpdateScore: gameState.score)
-                    let isImminent = GameState.isLevelChangeImminent(score: gameState.score, windowPoints: speedAlertWindowPoints)
-                    if isImminent != lastLevelChangeImminent {
-                        lastLevelChangeImminent = isImminent
-                        gameDelegate?.gameScene(self, levelChangeImminent: isImminent)
-                    }
-                case .crashed:
-                    ensureCrashSpriteAtLastPlayerColumn()
-                    handleCrash()
+    private func synchronizeFromEngine() {
+        guard let engineSnapshot = gameEngine?.snapshot else {
+            logMissingEngineIfNeeded(operation: "synchronize")
+            return
+        }
+        let wasPaused = gameState.isPaused
+        var synchronizedGrid = GridState(
+            numberOfRows: engineSnapshot.numberOfRows,
+            numberOfColumns: engineSnapshot.numberOfColumns
+        )
+        synchronizedGrid.grid = engineSnapshot.grid.map { row in
+            row.map { occupant in
+                switch occupant {
+                case .empty: .Empty
+                case .rival: .Car
+                case .player: .Player
+                case .crash: .Crash
                 }
             }
+        }
+        gridState = synchronizedGrid
+        gameState.score = engineSnapshot.score
+        gameState.lives = engineSnapshot.lives
+        gameState.isPaused = engineSnapshot.isPaused
+        roadDashPhase = engineSnapshot.roadPhase
+        safetyMarkerRows = engineSnapshot.safetyMarkerRows
+        difficulty = engineSnapshot.difficulty
+        lastPlayerColumn = engineSnapshot.playerColumn
+        if wasPaused != gameState.isPaused {
+            gameDelegate?.gameScene(self, didUpdatePauseState: gameState.isPaused)
+        }
+    }
 
-            gridStateDidUpdate(gridState)
+    @discardableResult
+    private func handleEngineCommand(_ command: GameCommand) -> [GameEvent] {
+        guard let gameEngine else {
+            logMissingEngineIfNeeded(operation: "command")
+            return []
+        }
+        return gameEngine.handle(command)
+    }
+
+    private func logMissingEngineIfNeeded(operation: String) {
+        guard hasLoggedMissingEngine == false else { return }
+        hasLoggedMissingEngine = true
+        AppLog.critical(
+            AppLog.game,
+            "GAME_ENGINE_CONFIGURATION",
+            outcome: .failed,
+            fields: [
+                .reason("missing_injected_engine"),
+                .string("operation", operation)
+            ]
+        )
+    }
+
+    private func processEngineEvents(_ events: [GameEvent]) {
+        for event in events {
+            switch event {
+            case .scoreChanged(let score):
+                gameDelegate?.gameScene(self, didUpdateScore: score)
+            case .collision:
+                isEngineManagedCollision = true
+                handleCrash()
+            case .collisionResolved, .gameOver:
+                finishEngineManagedCollisionIfNeeded()
+            case .levelChangeImminent(let isImminent):
+                lastLevelChangeImminent = isImminent
+                gameDelegate?.gameScene(self, levelChangeImminent: isImminent)
+            case .started, .laneChanged, .pauseChanged, .restarted, .finished:
+                break
+            }
         }
     }
 
     private func initialiseGame(playsStartSound: Bool) {
-        lastGameUpdateTime = 0
-        roadDashPhase = 0
-        safetyMarkerRows.removeAll()
-        trafficRowSource.reset()
-        gridState = GridState(
-            numberOfRows: GridConfiguration.numberOfRows,
-            numberOfColumns: GridConfiguration.numberOfColumns
-        )
-        lastPlayerColumn = gridState.playerRow().firstIndex(of: .Player) ?? 1
-        gameState = GameState()
+        lastGameUpdateTime = nil
+        handleEngineCommand(.start)
+        handleEngineCommand(.setPause(reason: .startup, isActive: playsStartSound))
+        handleEngineCommand(.setPause(reason: .overlay, isActive: isOverlayPauseLocked))
+        synchronizeFromEngine()
         if lastLevelChangeImminent {
             lastLevelChangeImminent = false
             gameDelegate?.gameScene(self, levelChangeImminent: false)
@@ -518,12 +567,9 @@ public class GameScene: SKScene {
         isWaitingForCrashResolution = true
         startUnpauseFallbackTask?.cancel()
         startUnpauseFallbackTask = nil
-        updatePauseState(true)
-        gameState.lives -= 1
+        synchronizeFromEngine()
         hapticController?.triggerCrashHaptic()
-        play(.fail) { [weak self] in
-            self?.resolveCrashIfNeeded()
-        }
+        updatePauseState(true)
         crashResolutionFallbackTask?.cancel()
         crashResolutionFallbackTask = Task { [weak self] in
             guard let self else { return }
@@ -531,65 +577,9 @@ public class GameScene: SKScene {
             guard !Task.isCancelled else { return }
             self.resolveCrashIfNeeded()
         }
-    }
-
-    private func shouldInsertSafetyRowBeforeNextLevel() -> Bool {
-        let upcomingRowPoints = (1...SpeedIncreaseConfiguration.preLevelForecastRows).map { rowOffset in
-            carsCount(inRow: gridState.playerRowIndex - rowOffset)
+        play(.fail) { [weak self] in
+            self?.resolveCrashIfNeeded()
         }
-        guard let levelChangeOffset = GameState.updatesUntilNextLevelChange(
-            score: gameState.score,
-            upcomingRowPoints: upcomingRowPoints
-        ) else {
-            return false
-        }
-        return SpeedIncreaseConfiguration.safetyRowOffsetsBeforeLevelChange.contains(levelChangeOffset)
-    }
-
-    private func advanceRoadDashPhase(for action: GridStateCalculator.Action) {
-        switch action {
-        case .update, .updateWithEmptyRow:
-            roadDashPhase = (roadDashPhase + 1) % GridConfiguration.numberOfRows
-        case .moveCar:
-            break
-        }
-    }
-
-    private func updateSafetyMarkerRows(for action: GridStateCalculator.Action) {
-        switch action {
-        case .update:
-            safetyMarkerRows = shiftedSafetyMarkerRows()
-            safetyMarkerRows = Array(safetyMarkerRows.prefix(2))
-        case .updateWithEmptyRow:
-            safetyMarkerRows = shiftedSafetyMarkerRows()
-            safetyMarkerRows.insert(0, at: 0)
-            safetyMarkerRows = Array(safetyMarkerRows.prefix(2))
-        case .moveCar:
-            break
-        }
-    }
-
-    /// Moves tracked safety rows one step toward the player and keeps one off-screen
-    /// sentinel row so lap markers can visually exit the screen without popping.
-    private func shiftedSafetyMarkerRows() -> [Int] {
-        safetyMarkerRows.compactMap { row -> Int? in
-            guard row <= (GridConfiguration.numberOfRows - 1) else { return nil }
-            return row + 1
-        }
-    }
-
-    private func carsCount(inRow rowIndex: Int) -> Int {
-        guard rowIndex >= 0 && rowIndex < gridState.numberOfRows else { return 0 }
-        return gridState.grid[rowIndex].reduce(0) { partialResult, cell in
-            (cell == .Car) ? (partialResult + 1) : partialResult
-        }
-    }
-
-    private func ensureCrashSpriteAtLastPlayerColumn() {
-        guard lastPlayerColumn < gridState.numberOfColumns else { return }
-        let crashRow = gridState.playerRowIndex
-        gridState.grid[crashRow] = Array(repeating: .Empty, count: gridState.numberOfColumns)
-        gridState.grid[crashRow][lastPlayerColumn] = .Crash
     }
 
     func play(_ effect: SoundEffect, completion: (() -> Void)? = nil) {
@@ -704,7 +694,8 @@ public class GameScene: SKScene {
         isPaused = false
         stopStartPulseOnPlayerCar()
         cancelStartPlaybackIfNeeded()
-        updatePauseState(isOverlayPauseLocked)
+        processEngineEvents(handleEngineCommand(.setPause(reason: .startup, isActive: false)))
+        synchronizeFromEngine()
     }
 
     private func finishStartPlaybackIfNeeded() {
@@ -712,12 +703,30 @@ public class GameScene: SKScene {
         guard isOverlayPauseLocked == false else { return }
         stopStartPulseOnPlayerCar()
         cancelStartPlaybackIfNeeded()
-        updatePauseState(false)
+        processEngineEvents(handleEngineCommand(.setPause(reason: .startup, isActive: false)))
+        synchronizeFromEngine()
     }
 
     private func resolveCrashIfNeeded() {
         guard isWaitingForCrashResolution else { return }
+        if isEngineManagedCollision {
+            let events = handleEngineCommand(.resolveCollision)
+            synchronizeFromEngine()
+            processEngineEvents(events)
+            gridStateDidUpdate(gridState, shouldPlayFeedback: false)
+            return
+        }
+
         isWaitingForCrashResolution = false
+        crashResolutionFallbackTask?.cancel()
+        crashResolutionFallbackTask = nil
+        gameDelegate?.gameSceneDidDetectCollision(self)
+    }
+
+    private func finishEngineManagedCollisionIfNeeded() {
+        guard isEngineManagedCollision else { return }
+        isWaitingForCrashResolution = false
+        isEngineManagedCollision = false
         crashResolutionFallbackTask?.cancel()
         crashResolutionFallbackTask = nil
         gameDelegate?.gameSceneDidDetectCollision(self)
@@ -725,6 +734,7 @@ public class GameScene: SKScene {
 
     private func cancelCrashResolutionIfNeeded() {
         isWaitingForCrashResolution = false
+        isEngineManagedCollision = false
         crashResolutionFallbackTask?.cancel()
         crashResolutionFallbackTask = nil
     }
@@ -818,11 +828,48 @@ public class GameScene: SKScene {
 
     public func applyScreenshotLayout(_ layout: GameScreenshotLayout) {
         prepareGridForScreenshotLayout(expectedState: layout.gridState)
-        gridState = layout.gridState
-        safetyMarkerRows = layout.safetyMarkerRows
-        gameState.score = layout.score
-        gameState.lives = layout.lives
-        lastPlayerColumn = gridState.playerRow().firstIndex(of: .Player) ?? 1
+        let playerColumn = layout.gridState.playerRow().firstIndex(of: .Player)
+            ?? layout.gridState.playerRow().firstIndex(of: .Crash)
+            ?? 1
+        let snapshot = GameSnapshot.fixture(
+            phase: layout.gridState.hasCrashed ? .collision : .paused,
+            grid: layout.gridState.grid.map { row in
+                row.map { cell in
+                    switch cell {
+                    case .Empty: .empty
+                    case .Car: .rival
+                    case .Player: .player
+                    case .Crash: .crash
+                    }
+                }
+            },
+            playerColumn: playerColumn,
+            score: layout.score,
+            lives: layout.lives,
+            level: (layout.score / GameState.levelStep) + 1,
+            roadPhase: 0,
+            safetyMarkerRows: layout.safetyMarkerRows,
+            difficulty: difficulty,
+            activePauseReasons: [.overlay]
+        )
+        if let snapshot,
+           let fixtureEngine = gameEngine as? GameEngine,
+           fixtureEngine.applyFixture(snapshot) {
+            synchronizeFromEngine()
+        } else {
+            gridState = layout.gridState
+            safetyMarkerRows = layout.safetyMarkerRows
+            gameState.score = layout.score
+            gameState.lives = layout.lives
+            gameState.isPaused = true
+            lastPlayerColumn = playerColumn
+            AppLog.warning(
+                AppLog.game,
+                "GAME_ENGINE_SCREENSHOT_FIXTURE",
+                outcome: .failed,
+                fields: [.reason("fixture_engine_unavailable")]
+            )
+        }
         setUpcomingFriendMilestones(layout.upcomingMilestones)
         rendersStaticCrashForScreenshot = layout.gridState.hasCrashed
         gridStateDidUpdate(
@@ -881,11 +928,9 @@ extension GameScene: RacingGameController {
 
         let previousColumn = lastPlayerColumn
         LaneMovePerformanceDiagnostics.measure(direction: "left") {
-            (gridState, _) = gridCalculator.nextGrid(
-                previousGrid: gridState,
-                actions: [.moveCar(direction: .left)]
-            )
-            lastPlayerColumn = gridState.playerRow().firstIndex(of: .Player) ?? lastPlayerColumn
+            let events = handleEngineCommand(.move(.left))
+            synchronizeFromEngine()
+            processEngineEvents(events)
             return playerLaneDidUpdate(
                 fromColumn: previousColumn,
                 toColumn: lastPlayerColumn
@@ -898,11 +943,9 @@ extension GameScene: RacingGameController {
 
         let previousColumn = lastPlayerColumn
         LaneMovePerformanceDiagnostics.measure(direction: "right") {
-            (gridState, _) = gridCalculator.nextGrid(
-                previousGrid: gridState,
-                actions: [.moveCar(direction: .right)]
-            )
-            lastPlayerColumn = gridState.playerRow().firstIndex(of: .Player) ?? lastPlayerColumn
+            let events = handleEngineCommand(.move(.right))
+            synchronizeFromEngine()
+            processEngineEvents(events)
             return playerLaneDidUpdate(
                 fromColumn: previousColumn,
                 toColumn: lastPlayerColumn
@@ -913,12 +956,14 @@ extension GameScene: RacingGameController {
 
 // MARK: - Input adapters
 
+@MainActor
 public protocol GameInputAdapter {
     func handleLeft()
     func handleRight()
     func handleDrag(translation: CGSize)
 }
 
+@MainActor
 private struct DirectionalGameInputAdapterCore {
     let controller: RacingGameController
     let hapticController: HapticFeedbackController?

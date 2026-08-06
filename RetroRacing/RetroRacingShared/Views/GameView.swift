@@ -76,6 +76,10 @@ public struct GameView: View {
     @ScaledMetric(relativeTo: .largeTitle) private var directionButtonHeight: CGFloat = 120
     @Environment(\.dismiss) private var dismiss
     @Environment(StoreKitService.self) private var storeKit
+    #if os(tvOS)
+    @Environment(\.resetFocus) private var resetFocus
+    @Namespace private var gameFocusScope
+    #endif
     #if os(macOS) || os(iOS)
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Environment(\.verticalSizeClass) private var verticalSizeClass
@@ -84,6 +88,8 @@ public struct GameView: View {
     @State private var pendingFinishRequestAfterGameOverDismiss = false
     @State private var isInGameHelpPresented = false
     @State private var helpPresentationContext: HelpPresentationContext?
+    @State private var isExitConfirmationPresented = false
+    @State private var isCompletingExitConfirmation = false
     @State private var isSharePlayRetryRequestPending = false
     @State private var optimisticSharePlayRetryDeadline: Date?
     @State var measuredGameSide: CGFloat = 0
@@ -259,6 +265,19 @@ public struct GameView: View {
 
     private var gameViewWithPresentation: some View {
         gameViewCore
+            .alert(
+                GameLocalizedStrings.string("game_exit_confirmation_title"),
+                isPresented: exitConfirmationBinding
+            ) {
+                Button(GameLocalizedStrings.string("game_exit_confirmation_keep_playing"), role: .cancel) {
+                    keepPlayingAfterExitConfirmation()
+                }
+                Button(GameLocalizedStrings.string("game_exit_confirmation_finish"), role: .destructive) {
+                    finishFromExitConfirmation()
+                }
+            } message: {
+                Text(GameLocalizedStrings.string("game_exit_confirmation_message"))
+            }
             .sheet(isPresented: $isInGameHelpPresented, onDismiss: handleInGameHelpDismissed) {
                 makeInGameHelpView()
             }
@@ -323,7 +342,7 @@ public struct GameView: View {
                         friendLifeAssetName: theme?.resolvedFriendLifeSprite() ?? "life-LCD",
                         bundle: Self.sharedBundle,
                         hidesFromAccessibility: false,
-                        headerFont: headerFont(textStyle: style.hudTextStyle),
+                        headerFont: hudHeaderFont,
                         speedAlertFont: headerFont(textStyle: .callout),
                         friendHeaderFont: headerFont(textStyle: style.friendHUDTextStyle),
                         sharePlayOpponentName: model.sharePlayOpponentDisplayName,
@@ -418,17 +437,11 @@ public struct GameView: View {
         }
         #if os(tvOS)
         .focusable()
-        .onPlayPauseCommand(perform: model.togglePause)
-        .onMoveCommand { direction in
-            switch direction {
-            case .left:
-                handleDirectionalMoveLeft(recordControlInput: nil)
-            case .right:
-                handleDirectionalMoveRight(recordControlInput: nil)
-            default:
-                break
-            }
-        }
+        .prefersDefaultFocus(shouldStartGame, in: gameFocusScope)
+        .focusScope(gameFocusScope)
+        .onPlayPauseCommand(perform: handlePlayPauseCommand)
+        .onMoveCommand(perform: handleMoveCommand)
+        .onExitCommand(perform: presentExitConfirmation)
         #endif
         #if os(iOS)
         .persistentSystemOverlays(.hidden)
@@ -463,66 +476,68 @@ public struct GameView: View {
         }
         #endif
         .toolbar {
-            if showMenuButton && shouldShowMenuToolbarButton {
-                ToolbarItem(placement: Self.menuToolbarPlacement) {
+            if style.showsGameplayToolbarControls {
+                if showMenuButton && shouldShowMenuToolbarButton {
+                    ToolbarItem(placement: Self.menuToolbarPlacement) {
+                        Button {
+                            handleMenuToolbarTap()
+                        } label: {
+                            Label(
+                                GameLocalizedStrings.string("menu_button"),
+                                systemImage: "xmark"
+                            )
+                            .font(pauseButtonFont)
+                        }
+                        .accessibilityLabel(GameLocalizedStrings.string("menu_button"))
+                        .accessibilityHidden(shouldHideGameplayChromeFromAccessibility)
+                        .disabled(toolbarControlsDisabled)
+                        .opacity(toolbarControlsDisabled ? 0.4 : 1)
+                    }
+                }
+                ToolbarItemGroup(placement: Self.pauseToolbarPlacement) {
                     Button {
-                        handleMenuToolbarTap()
+                        presentManualHelp()
                     } label: {
                         Label(
-                            GameLocalizedStrings.string("menu_button"),
-                            systemImage: "xmark"
+                            GameLocalizedStrings.string("tutorial_help_button"),
+                            systemImage: "questionmark.circle"
                         )
                         .font(pauseButtonFont)
                     }
-                    .accessibilityLabel(GameLocalizedStrings.string("menu_button"))
+                    .accessibilityLabel(GameLocalizedStrings.string("tutorial_help_button"))
                     .accessibilityHidden(shouldHideGameplayChromeFromAccessibility)
                     .disabled(toolbarControlsDisabled)
                     .opacity(toolbarControlsDisabled ? 0.4 : 1)
-                }
-            }
-            ToolbarItemGroup(placement: Self.pauseToolbarPlacement) {
-                Button {
-                    presentManualHelp()
-                } label: {
-                    Label(
-                        GameLocalizedStrings.string("tutorial_help_button"),
-                        systemImage: "questionmark.circle"
-                    )
-                    .font(pauseButtonFont)
-                }
-                .accessibilityLabel(GameLocalizedStrings.string("tutorial_help_button"))
-                .accessibilityHidden(shouldHideGameplayChromeFromAccessibility)
-                .disabled(toolbarControlsDisabled)
-                .opacity(toolbarControlsDisabled ? 0.4 : 1)
-                
-                Button {
-                    model.togglePause()
-                } label: {
-                    Label(
-                        GameLocalizedStrings.string(model.pause.isUserPaused ? "resume" : "pause"),
-                        systemImage: model.pause.isUserPaused ? "play.fill" : "pause.fill"
-                    )
-                    .font(pauseButtonFont)
-                }
-                .accessibilityLabel(GameLocalizedStrings.string(model.pause.isUserPaused ? "resume" : "pause"))
-                .accessibilityHidden(shouldHideGameplayChromeFromAccessibility)
-                .disabled(model.pauseButtonDisabled || toolbarControlsDisabled)
-                .opacity((model.pauseButtonDisabled || toolbarControlsDisabled) ? 0.4 : 1)
 
-                #if os(macOS)
-                if shouldShowDisabledSettingsToolbarButton {
-                    Button(action: {}) {
+                    Button {
+                        model.togglePause()
+                    } label: {
                         Label(
-                            GameLocalizedStrings.string("settings"),
-                            systemImage: "gearshape"
+                            GameLocalizedStrings.string(model.pause.isUserPaused ? "resume" : "pause"),
+                            systemImage: model.pause.isUserPaused ? "play.fill" : "pause.fill"
                         )
                         .font(pauseButtonFont)
                     }
-                    .accessibilityLabel(GameLocalizedStrings.string("settings"))
-                    .disabled(true)
-                    .opacity(0.4)
+                    .accessibilityLabel(GameLocalizedStrings.string(model.pause.isUserPaused ? "resume" : "pause"))
+                    .accessibilityHidden(shouldHideGameplayChromeFromAccessibility)
+                    .disabled(model.pauseButtonDisabled || toolbarControlsDisabled)
+                    .opacity((model.pauseButtonDisabled || toolbarControlsDisabled) ? 0.4 : 1)
+
+                    #if os(macOS)
+                    if shouldShowDisabledSettingsToolbarButton {
+                        Button(action: {}) {
+                            Label(
+                                GameLocalizedStrings.string("settings"),
+                                systemImage: "gearshape"
+                            )
+                            .font(pauseButtonFont)
+                        }
+                        .accessibilityLabel(GameLocalizedStrings.string("settings"))
+                        .disabled(true)
+                        .opacity(0.4)
+                    }
+                    #endif
                 }
-                #endif
             }
         }
     }
@@ -598,6 +613,14 @@ public struct GameView: View {
         fontPreferenceStore?.font(textStyle: textStyle) ?? .system(textStyle, design: .default)
     }
 
+    private var hudHeaderFont: Font {
+        guard style.usesFixedHUDMetrics else {
+            return headerFont(textStyle: style.hudTextStyle)
+        }
+        return fontPreferenceStore?.font(fixedSize: style.hudFontSize)
+            ?? .custom("PressStart2P-Regular", size: style.hudFontSize)
+    }
+
     private var showGameOverBinding: Binding<Bool> {
         Binding(
             get: { model.hud.showGameOver && model.isSharePlayActive == false },
@@ -615,7 +638,9 @@ public struct GameView: View {
     }
 
     private func ignoredSafeAreaEdges(for policy: GameLayoutPolicy) -> Edge.Set {
-        policy.expandsGameAreaIntoTopSafeArea ? [.top, .bottom] : .bottom
+        guard style.preservesVerticalSafeAreaMargins == false else { return [] }
+        guard policy.expandsGameAreaIntoTopSafeArea else { return .bottom }
+        return [.top, .bottom]
     }
 
     private func gameLayoutPolicy(containerSize: CGSize) -> GameLayoutPolicy {
@@ -884,9 +909,91 @@ public struct GameView: View {
             handleSharePlayLeave()
             return
         }
+        #if os(tvOS)
+        presentExitConfirmation()
+        #else
         model.setOverlayPause(isPresented: true)
         onMenuRequest?()
+        #endif
     }
+
+    private var exitConfirmationBinding: Binding<Bool> {
+        Binding(
+            get: { isExitConfirmationPresented },
+            set: { isPresented in
+                guard isPresented != isExitConfirmationPresented else { return }
+                isExitConfirmationPresented = isPresented
+                if isPresented == false, isCompletingExitConfirmation == false {
+                    model.setOverlayPause(isPresented: false)
+                }
+            }
+        )
+    }
+
+    private func presentExitConfirmation() {
+        guard shouldStartGame,
+              model.scene != nil,
+              model.hud.showGameOver == false,
+              isInGameHelpPresented == false,
+              isPaywallPresented == false,
+              isExitConfirmationPresented == false else {
+            return
+        }
+        isCompletingExitConfirmation = false
+        model.setOverlayPause(isPresented: true)
+        isExitConfirmationPresented = true
+    }
+
+    private func keepPlayingAfterExitConfirmation() {
+        isCompletingExitConfirmation = false
+        isExitConfirmationPresented = false
+        model.setOverlayPause(isPresented: false)
+        restoreTVOSGameFocus()
+    }
+
+    private func restoreTVOSGameFocus() {
+        #if os(tvOS)
+        Task { @MainActor in
+            await Task.yield()
+            resetFocus(in: gameFocusScope)
+        }
+        #endif
+    }
+
+    private func finishFromExitConfirmation() {
+        isCompletingExitConfirmation = true
+        isExitConfirmationPresented = false
+        if let onFinishRequest {
+            onFinishRequest()
+        } else if let onMenuRequest {
+            onMenuRequest()
+        } else {
+            dismiss()
+        }
+    }
+
+    #if os(tvOS)
+    private func handlePlayPauseCommand() {
+        guard shouldStartGame,
+              model.scene != nil,
+              isExitConfirmationPresented == false else {
+            return
+        }
+        model.togglePause()
+    }
+
+    private func handleMoveCommand(_ direction: MoveCommandDirection) {
+        guard shouldStartGame, isExitConfirmationPresented == false else { return }
+        switch direction {
+        case .left:
+            handleDirectionalMoveLeft(recordControlInput: nil)
+        case .right:
+            handleDirectionalMoveRight(recordControlInput: nil)
+        default:
+            break
+        }
+    }
+    #endif
 
     private func handleSharePlayLeave() {
         model.leaveSharePlayMatch()

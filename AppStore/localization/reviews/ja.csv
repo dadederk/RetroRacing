@@ -469,7 +469,7 @@ Featured in Create with Swift, Weekly Newsletter #96 (Indie App of the Week):
 
 Featured in Create with Swift, Weekly Newsletter #96 (Indie App of the Week):
 「ノスタルジーと手触りの良いゲームプレイに加え、特に際立つのがアクセシビリティ。」",App Store metadata,description,≤ 4000 characters,needs_review,
-"Discover two new visual styles: bold 8-Bit and richly detailed 16-Bit. The new Style Gallery makes it easy to preview every theme before choosing your favorite.
+"Discover two new visual styles: Cartridge and CRT. The new Style Gallery makes it easy to preview every theme before choosing your favorite.
 
 SharePlay friend races now work on Mac too, alongside iPhone and iPad.
 
@@ -477,7 +477,7 @@ This update also improves performance, refines landscape layouts, polishes menus
 
 RetroRapid! is now fully localized in Turkish and Polish.
 
-Thanks for racing with us.","新しい2つのビジュアルスタイル、鮮やかな8-Bitと細部まで豊かな16-Bitを追加しました。新しいスタイルギャラリーでは、お気に入りを選ぶ前にすべてのテーマをプレビューできます。
+Thanks for racing with us.","CartridgeとCRT、2つの新しいビジュアルスタイルを追加しました。新しいスタイルギャラリーでは、お気に入りを選ぶ前にすべてのテーマをプレビューできます。
 
 SharePlayのフレンドレースがiPhoneとiPadに加えてMacでも楽しめるようになりました。
 
@@ -629,12 +629,12 @@ Game Center scores and friend markers keep every run competitive.,Game Centerス
 Customize Your Experience,体験をカスタマイズ,Screenshots,slide.6.title,,needs_review,
 "Tune volume, haptics, controls… Go Cruise, Fast, or Rapid!",音量、触覚、操作… Cruise、Fast、Rapid！,Screenshots,slide.6.body,,needs_review,
 Choose Your Retro Aesthetic,レトロ美学を選ぼう,Screenshots,slide.7.title,,needs_review,
-"Switch between four retro eras, from Pocket to 16-Bit.",Pocketから16-Bitまで、4つのレトロ時代を切り替え。,Screenshots,slide.7.body,,needs_review,
+"Switch between four retro eras, from Pocket to CRT.",PocketからCRTまで、4つのレトロ時代を切り替え。,Screenshots,slide.7.body,,needs_review,
 Unlock Retro Achievements,レトロ実績を解除,Screenshots,slide.8.title,,needs_review,
 Earn Game Center trophies as you race and improve.,走って上達しながらGame Centerトロフィーを獲得。,Screenshots,slide.8.body,,needs_review,
 Play Solo Or With Friends,ソロでもフレンドでも,Screenshots,slide.9.title,,needs_review,
 "Daily free plays, leaderboards, and live friend races.",毎日無料プレイ、ランキング、ライブフレンドレース。,Screenshots,slide.9.body,,needs_review,
-"Discover two new visual styles: bold 8-Bit and richly detailed 16-Bit. The new Style Gallery makes it easy to preview every theme before choosing your favorite.
+"Discover two new visual styles: Cartridge and CRT. The new Style Gallery makes it easy to preview every theme before choosing your favorite.
 
 SharePlay friend races now work on Mac too, alongside iPhone and iPad.
 
@@ -649,7 +649,7 @@ Testing focus:
 - Start a SharePlay race with a friend on iPhone, iPad, or Mac
 - Compare performance before and after longer runs
 - Try landscape layouts, menus, and the game-over flow
-- Complete a run with VoiceOver and confirm every announcement is clear","新しい2つのビジュアルスタイル、鮮やかな8-Bitと細部まで豊かな16-Bitを追加しました。新しいスタイルギャラリーでは、お気に入りを選ぶ前にすべてのテーマをプレビューできます。
+- Complete a run with VoiceOver and confirm every announcement is clear","CartridgeとCRT、2つの新しいビジュアルスタイルを追加しました。新しいスタイルギャラリーでは、お気に入りを選ぶ前にすべてのテーマをプレビューできます。
 
 SharePlayのフレンドレースがiPhoneとiPadに加えてMacでも楽しめるようになりました。
 

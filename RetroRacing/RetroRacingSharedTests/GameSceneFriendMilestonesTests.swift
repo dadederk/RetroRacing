@@ -10,6 +10,7 @@ import CoreGraphics
 import SpriteKit
 @testable import RetroRacingShared
 
+@MainActor
 final class GameSceneFriendMilestonesTests: XCTestCase {
     func testGivenVisibleCarsWhenResolvingUpcomingMilestonePositionThenReturnsMatchingCarCell() {
         // Given
@@ -151,7 +152,8 @@ final class GameSceneFriendMilestonesTests: XCTestCase {
             hapticController: nil,
             audioFeedbackMode: .retro,
             laneMoveCueStyle: .laneConfirmationAndSafety,
-            difficulty: .rapid
+            difficulty: .rapid,
+            gameEngine: makeDeterministicTestEngine()
         )
     }
 

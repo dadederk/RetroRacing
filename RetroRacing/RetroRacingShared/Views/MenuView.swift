@@ -16,6 +16,11 @@ enum PaywallTrigger: Identifiable {
     var id: Self { self }
 }
 
+private enum MenuNavigationDestination: Hashable {
+    case help
+    case settings
+}
+
 /// Root menu for launching gameplay, viewing leaderboards, and accessing settings.
 @MainActor
 public struct MenuView: View {
@@ -53,8 +58,11 @@ public struct MenuView: View {
     @State private var showGame = false
     @State private var showLeaderboard = false
     @State private var showSettings = false
+    @State private var showHelp = false
+    @State private var navigationPath = NavigationPath()
     @State private var paywallTrigger: PaywallTrigger? = nil
     @State private var authModel: MenuAuthModel
+    @Namespace private var menuFocusScope
 
     public init(
         leaderboardService: LeaderboardService,
@@ -109,38 +117,51 @@ public struct MenuView: View {
     }
 
     public var body: some View {
-        NavigationStack {
+        NavigationStack(path: $navigationPath) {
             menuContentContainer
-            .fontPreferenceStore(fontPreferenceStore)
-            .toolbar {
-                ToolbarItem(placement: Self.settingsToolbarPlacement) {
-                    Button {
-                        presentSettings()
-                    } label: {
-                        Image(systemName: "gearshape")
-                    }
-                    .accessibilityLabel(GameLocalizedStrings.string("settings"))
-                }
-            }
-            .sheet(isPresented: $showSettings) {
-                let previewDependencies = settingsPreviewDependencyFactory.make(
-                    hapticController: hapticController
-                )
-                SettingsView(
-                    themeManager: themeManager,
-                    fontPreferenceStore: fontPreferenceStore,
-                    supportsHapticFeedback: supportsHapticFeedback,
-                    hapticController: hapticController,
-                    audioCueTutorialPreviewPlayer: previewDependencies.audioCueTutorialPreviewPlayer,
-                    speedWarningFeedbackPreviewPlayer: previewDependencies.speedWarningFeedbackPreviewPlayer,
-                    controlsDescriptionKey: controlsDescriptionKey,
-                    style: settingsStyle,
-                    achievementProgressService: achievementProgressService,
-                    isGameSessionInProgress: isSharePlayActive,
-                    playLimitService: playLimitService,
-                    specialEventService: specialEventService
-                )
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .fontPreferenceStore(fontPreferenceStore)
+                .overlay(alignment: .topTrailing) {
+                    if style.utilityActionPlacement == .content {
+                        MenuUtilityActionsView(
+                            showsHelp: style.showsHelpAction,
+                            font: fontPreferenceStore.font(fixedSize: style.utilityActionFontSize),
+                            onHelp: presentHelp,
+                            onSettings: presentSettings
+                        )
+                        .padding(.top, style.utilityActionPadding)
+                        .padding(.trailing, style.utilityActionPadding)
+                        .modifier(MenuUtilityNavigationRegionModifier())
+                    }
+                }
+            #if os(tvOS)
+                .focusScope(menuFocusScope)
+            #endif
+                .toolbar {
+                    if style.utilityActionPlacement == .toolbar {
+                        ToolbarItemGroup(placement: Self.settingsToolbarPlacement) {
+                            if style.showsHelpAction {
+                                Button {
+                                    presentHelp()
+                                } label: {
+                                    Image(systemName: "questionmark.circle")
+                                }
+                                .accessibilityLabel(GameLocalizedStrings.string("tutorial_help_button"))
+                            }
+                            Button {
+                                presentSettings()
+                            } label: {
+                                Image(systemName: "gearshape")
+                            }
+                            .accessibilityLabel(GameLocalizedStrings.string("settings"))
+                        }
+                    }
+                }
+            .sheet(isPresented: helpSheetBinding) {
+                helpSurface(presentation: .modal)
+            }
+            .sheet(isPresented: settingsSheetBinding) {
+                settingsSurface
                 .settingsSheetStyle()
             }
             .sheet(item: $paywallTrigger) { trigger in
@@ -148,22 +169,15 @@ public struct MenuView: View {
                     .fontPreferenceStore(fontPreferenceStore)
             }
             .navigationDestination(isPresented: $showGame) {
-                GameView(
-                    leaderboardService: leaderboardService,
-                    ratingService: ratingService,
-                    theme: themeManager.currentTheme,
-                    hapticController: hapticController,
-                    supportsHapticFeedback: supportsHapticFeedback,
-                    fontPreferenceStore: fontPreferenceStore,
-                    highestScoreStore: highestScoreStore,
-                    achievementProgressService: achievementProgressService,
-                    playLimitService: playLimitService,
-                    specialEventService: specialEventService,
-                    style: gameViewStyle,
-                    inputAdapterFactory: inputAdapterFactory,
-                    controllerInputSource: NoOpGameControllerInputSource(),
-                    controlsDescriptionKey: controlsDescriptionKey
-                )
+                fallbackGameDestination
+            }
+            .navigationDestination(for: MenuNavigationDestination.self) { destination in
+                switch destination {
+                case .help:
+                    helpSurface(presentation: .navigationDestination)
+                case .settings:
+                    settingsSurface
+                }
             }
             .modifier(LeaderboardPresentationModifier(
                 isPresented: $showLeaderboard,
@@ -172,11 +186,14 @@ public struct MenuView: View {
             #if canImport(UIKit) && !os(watchOS)
             .fullScreenCover(item: authVCItem) { item in
                 AuthViewControllerWrapper(viewController: item.vc) {
-                    authModel.authViewControllerToPresent = nil
+                    authModel.authenticationPresentationDidDismiss()
                 }
             }
             #endif
         }
+        #if os(tvOS)
+        .onExitCommand(perform: handleTVOSExitCommand)
+        #endif
         .onAppear {
             authModel.configurePresentationHandler()
             authModel.startAuthentication(startedByUser: false)
@@ -219,6 +236,7 @@ public struct MenuView: View {
         MenuContentView(
             style: style,
             fontPreferenceStore: fontPreferenceStore,
+            menuFocusScope: menuFocusScope,
             showRateButton: shouldShowRateButton,
             showSupportButton: shouldShowSupportButton,
             isLeaderboardEnabled: authModel.isAuthenticated,
@@ -234,6 +252,94 @@ public struct MenuView: View {
             showPlayWithFriendsFreeFootnote: shouldShowPlayWithFriendsFreeFootnote,
             onPlayWithFriends: { onPlayWithFriendsRequest?() }
         )
+    }
+
+    private func helpSurface(
+        presentation: NavigationSurfacePresentation
+    ) -> some View {
+        let previewDependencies = settingsPreviewDependencyFactory.make(
+            hapticController: hapticController
+        )
+        return InGameHelpView(
+            controlsDescriptionKey: controlsDescriptionKey,
+            supportsHapticFeedback: supportsHapticFeedback,
+            hapticController: hapticController,
+            audioCueTutorialPreviewPlayer: previewDependencies.audioCueTutorialPreviewPlayer,
+            speedWarningFeedbackPreviewPlayer: previewDependencies.speedWarningFeedbackPreviewPlayer,
+            presentation: presentation
+        )
+        .fontPreferenceStore(fontPreferenceStore)
+    }
+
+    private var settingsSurface: some View {
+        let previewDependencies = settingsPreviewDependencyFactory.make(
+            hapticController: hapticController
+        )
+        return SettingsView(
+            themeManager: themeManager,
+            fontPreferenceStore: fontPreferenceStore,
+            supportsHapticFeedback: supportsHapticFeedback,
+            hapticController: hapticController,
+            audioCueTutorialPreviewPlayer: previewDependencies.audioCueTutorialPreviewPlayer,
+            speedWarningFeedbackPreviewPlayer: previewDependencies.speedWarningFeedbackPreviewPlayer,
+            controlsDescriptionKey: controlsDescriptionKey,
+            style: settingsStyle,
+            achievementProgressService: achievementProgressService,
+            isGameSessionInProgress: isSharePlayActive,
+            playLimitService: playLimitService,
+            specialEventService: specialEventService
+        )
+        .fontPreferenceStore(fontPreferenceStore)
+    }
+
+    private var helpSheetBinding: Binding<Bool> {
+        presentationBinding(
+            state: Binding(get: { showHelp }, set: { showHelp = $0 }),
+            matches: style.destinationPresentation == .sheet
+        )
+    }
+
+    private var settingsSheetBinding: Binding<Bool> {
+        presentationBinding(
+            state: Binding(get: { showSettings }, set: { showSettings = $0 }),
+            matches: style.destinationPresentation == .sheet
+        )
+    }
+
+    private func presentationBinding(
+        state: Binding<Bool>,
+        matches: Bool
+    ) -> Binding<Bool> {
+        Binding(
+            get: { matches && state.wrappedValue },
+            set: { isPresented in
+                if isPresented == false {
+                    state.wrappedValue = false
+                }
+            }
+        )
+    }
+
+    @ViewBuilder
+    private var fallbackGameDestination: some View {
+        if onPlayRequest == nil {
+            GameView(
+                leaderboardService: leaderboardService,
+                ratingService: ratingService,
+                theme: themeManager.currentTheme,
+                hapticController: hapticController,
+                supportsHapticFeedback: supportsHapticFeedback,
+                fontPreferenceStore: fontPreferenceStore,
+                highestScoreStore: highestScoreStore,
+                achievementProgressService: achievementProgressService,
+                playLimitService: playLimitService,
+                specialEventService: specialEventService,
+                style: gameViewStyle,
+                inputAdapterFactory: inputAdapterFactory,
+                controllerInputSource: NoOpGameControllerInputSource(),
+                controlsDescriptionKey: controlsDescriptionKey
+            )
+        }
     }
 
     private func handleLeaderboardTap() {
@@ -262,7 +368,24 @@ public struct MenuView: View {
             onSettingsRequest()
             return
         }
-        showSettings = true
+        if style.destinationPresentation == .navigation {
+            navigationPath.append(MenuNavigationDestination.settings)
+        } else {
+            showSettings = true
+        }
+    }
+
+    private func presentHelp() {
+        if style.destinationPresentation == .navigation {
+            navigationPath.append(MenuNavigationDestination.help)
+        } else {
+            showHelp = true
+        }
+    }
+
+    private func handleTVOSExitCommand() {
+        guard navigationPath.isEmpty == false else { return }
+        navigationPath.removeLast()
     }
 
     private func handlePlayTap() {
@@ -371,4 +494,16 @@ public struct MenuView: View {
         )
     }
     #endif
+}
+
+private struct MenuUtilityNavigationRegionModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        #if os(tvOS)
+        content
+            .frame(maxWidth: .infinity, alignment: .trailing)
+            .focusSection()
+        #else
+        content
+        #endif
+    }
 }

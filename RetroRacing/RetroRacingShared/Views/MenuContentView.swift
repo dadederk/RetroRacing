@@ -10,6 +10,7 @@ import SwiftUI
 struct MenuContentView: View {
     let style: MenuViewStyle
     let fontPreferenceStore: FontPreferenceStore
+    let menuFocusScope: Namespace.ID
     let showRateButton: Bool
     let showSupportButton: Bool
     let isLeaderboardEnabled: Bool
@@ -25,6 +26,10 @@ struct MenuContentView: View {
     @Environment(\.verticalSizeClass) private var verticalSizeClass
 
     var body: some View {
+        menuStack
+    }
+
+    private var menuStack: some View {
         VStack(spacing: style.menuSpacing) {
             titleView
             buttonsStack
@@ -117,6 +122,11 @@ struct MenuContentView: View {
         }
         .retroRacingPrimaryButtonStyle()
         .controlSize(.large)
+        #if os(tvOS)
+        .frame(maxWidth: .infinity)
+        .focusSection()
+        .prefersDefaultFocus(true, in: menuFocusScope)
+        #endif
     }
 
     private var menuPlayWithFriendsButton: some View {

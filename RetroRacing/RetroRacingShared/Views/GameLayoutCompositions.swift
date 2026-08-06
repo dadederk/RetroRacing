@@ -75,8 +75,6 @@ struct CompactLandscapeGameLayout<GameArea: View>: View {
     let topSafeAreaInset: CGFloat
     let gameArea: GameArea
 
-    private let scoreSideRailWidth: CGFloat = 160
-    private let controlsSideRailWidth: CGFloat = 160
     private let railVerticalPadding: CGFloat = 4
 
     var body: some View {
@@ -88,7 +86,7 @@ struct CompactLandscapeGameLayout<GameArea: View>: View {
                     .frame(minWidth: 100, minHeight: 80)
                 Spacer(minLength: 8)
             }
-            .frame(width: scoreSideRailWidth)
+            .frame(width: hud.style.compactSideRailWidth)
             .padding(.horizontal, 8)
             .padding(.top, railTopPadding)
             .padding(.bottom, railVerticalPadding)
@@ -102,7 +100,7 @@ struct CompactLandscapeGameLayout<GameArea: View>: View {
                     .frame(minWidth: 100, minHeight: 80)
                 Spacer(minLength: 8)
             }
-            .frame(width: controlsSideRailWidth)
+            .frame(width: hud.style.compactSideRailWidth)
             .padding(.horizontal, 8)
             .padding(.top, railTopPadding)
             .padding(.bottom, railVerticalPadding)

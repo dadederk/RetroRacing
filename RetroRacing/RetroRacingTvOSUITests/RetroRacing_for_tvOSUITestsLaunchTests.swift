@@ -5,7 +5,7 @@
 
 import XCTest
 
-final class RetroRacingTvOSUITestsLaunchTests: XCTestCase {
+final class RetroRacingForTvOSUITestsLaunchTests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true

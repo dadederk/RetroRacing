@@ -10,6 +10,7 @@ import SwiftUI
 import SpriteKit
 @testable import RetroRacingShared
 
+@MainActor
 final class ScreenshotCaptureConfigurationTests: XCTestCase {
     func testGivenCaptureEnvironmentKeysWhenComparedToAutomationPlanThenTheyMatch() {
         // Keep in sync with Scripts/ScreenshotCapturePlan and UITest ScreenshotCaptureHelper constants.
@@ -220,8 +221,10 @@ final class ScreenshotCaptureConfigurationTests: XCTestCase {
         let scene = GameScene.scene(
             size: CGSize(width: 300, height: 300),
             difficulty: .rapid,
+            gameEngine: makeGameEngine(),
             theme: LCDTheme(),
-            imageLoader: loader
+            imageLoader: loader,
+            soundPlayer: MockSoundEffectPlayer()
         )
         scene.applyScreenshotLayout(.actionGameplay)
 
@@ -234,8 +237,10 @@ final class ScreenshotCaptureConfigurationTests: XCTestCase {
         let scene = GameScene.scene(
             size: CGSize(width: 300, height: 300),
             difficulty: .rapid,
+            gameEngine: makeGameEngine(),
             theme: LCDTheme(),
-            imageLoader: loader
+            imageLoader: loader,
+            soundPlayer: MockSoundEffectPlayer()
         )
         scene.applyScreenshotLayout(.actionGameplay)
 
@@ -260,8 +265,10 @@ final class ScreenshotCaptureConfigurationTests: XCTestCase {
         let scene = GameScene.scene(
             size: CGSize(width: 300, height: 300),
             difficulty: .rapid,
+            gameEngine: makeGameEngine(),
             theme: LCDTheme(),
-            imageLoader: loader
+            imageLoader: loader,
+            soundPlayer: MockSoundEffectPlayer()
         )
         scene.applyScreenshotLayout(GameScreenshotLayout.friendMarkerGameplay())
 
@@ -283,8 +290,10 @@ final class ScreenshotCaptureConfigurationTests: XCTestCase {
         let scene = GameScene.scene(
             size: CGSize(width: 300, height: 300),
             difficulty: .rapid,
+            gameEngine: makeGameEngine(),
             theme: LCDTheme(),
-            imageLoader: loader
+            imageLoader: loader,
+            soundPlayer: MockSoundEffectPlayer()
         )
 
         scene.applyScreenshotLayout(.hookGameplay)
@@ -299,13 +308,19 @@ final class ScreenshotCaptureConfigurationTests: XCTestCase {
         let scene = GameScene.scene(
             size: CGSize(width: 300, height: 300),
             difficulty: .rapid,
+            gameEngine: makeGameEngine(),
             theme: LCDTheme(),
-            imageLoader: loader
+            imageLoader: loader,
+            soundPlayer: MockSoundEffectPlayer()
         )
         scene.setBigRivalCarsEnabled(true)
         scene.applyScreenshotLayout(.hookGameplay)
         scene.setBigRivalCarsEnabled(ScreenshotCapturePreferences.gameplayBigCarsEnabled)
 
         XCTAssertFalse(scene.bigRivalCarsEnabled)
+    }
+
+    private func makeGameEngine() -> GameEngine {
+        makeDeterministicTestEngine()
     }
 }

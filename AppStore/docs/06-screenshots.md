@@ -40,7 +40,7 @@ Bodies ≤ ~10 English words. Mac omits SharePlay (nine slides; indices shift af
 | 5 | Race Friends with SharePlay | Challenge friends for free. Countdown, compete, rematch. | SharePlay (iPhone/iPad) |
 | 6 | Climb the Leaderboard | Game Center scores and friend markers keep every run competitive. | Competition |
 | 7 | Customize Your Experience | Tune volume, haptics, controls… Go Cruise, Fast, or Rapid! | Personalization |
-| 8 | Choose Your Retro Aesthetic | Switch between four retro eras, from Pocket to 16-Bit. | Theme |
+| 8 | Choose Your Retro Aesthetic | Switch between four retro eras, from Pocket to CRT. | Theme |
 | 9 | Unlock Retro Achievements | Earn Game Center trophies as you race and improve. | Achievements |
 | 10 | Play Solo Or With Friends | Daily free plays, leaderboards, and live friend races. | Menu / breadth |
 

@@ -20,9 +20,12 @@
 
 ## Overlay and Pause
 
-- iOS/iPadOS/tvOS use `.fullScreenCover` for the menu.
+- iOS/iPadOS use `.fullScreenCover` for the menu. tvOS keeps `GameView` mounted beneath an app-owned opaque menu overlay so remote Back cannot dismiss the menu into an unstarted game.
 - macOS uses an in-window overlay, not a menu sheet.
 - Opening menu/settings while gameplay is active pauses gameplay immediately.
+- On tvOS, Menu/Back first opens a finish confirmation and applies the same overlay pause lock.
+- Choosing Keep Playing dismisses that confirmation and resumes only when the user had not explicitly paused.
+- Choosing Finish applies the normal finish transition: stop the current race, create a fresh session identity, and return to the pre-game menu.
 - Overlay-driven pause is separate from user-driven pause.
 - Dismissing an overlay resumes only when the user did not explicitly pause.
 - Deferred audio/start callbacks must not clear an active overlay pause lock.
@@ -33,8 +36,8 @@
 - iOS/iPadOS: menu button during gameplay may reopen the overlay and starts a new run when Play is tapped again.
 - iOS/iPadOS compact landscape: the game square may extend into the top safe area to maximize play space without becoming smaller than the safe-area-constrained square; toolbar-adjacent chrome reapplies the measured top safe-area inset and screenshot capture keeps deterministic sizing.
 - macOS: minimum window size is 820 x 620; `Cmd+,` opens root-owned Settings; underlying gameplay is hidden from accessibility while the modal overlay is visible.
-- tvOS: movement uses `onMoveCommand`; Play/Pause remote button toggles pause.
-- watchOS and visionOS may keep different navigation patterns unless explicitly migrated.
+- tvOS: movement uses `onMoveCommand`; Play/Pause toggles pause; Menu/Back confirms before finishing the race and pops one menu-owned Tutorial or Settings destination at a time. Menu/Back is inert at the menu root.
+- watchOS keeps its platform navigation. visionOS uses a Play screen and one shared-session coordinator across unique Classic/Tabletop windows; app inactivity pauses the engine and resets scheduler wall-time before resuming. See [visionos_gameplay.md](visionos_gameplay.md).
 
 ## Play with Friends
 
@@ -47,7 +50,7 @@
 
 ## Accessibility
 
-- Full-screen menu covers are `.interactiveDismissDisabled(true)` so Play is the explicit start path.
+- iOS/iPadOS full-screen menu covers are `.interactiveDismissDisabled(true)` so Play is the explicit start path. The tvOS app-owned overlay has no system dismissal path.
 - When the macOS menu overlay is visible, it is modal and the underlying game is hidden from the accessibility tree.
 - VoiceOver users should land back on a clean menu state after Finish.
 

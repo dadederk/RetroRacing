@@ -1,28 +1,28 @@
 {
-  "images": [
+  "images" : [
     {
-      "filename": "playersCar-16Bit-iphone.png",
-      "idiom": "iphone"
+      "filename" : "playersCar-16Bit-iphone.png",
+      "idiom" : "iphone"
     },
     {
-      "filename": "playersCar-16Bit-ipad.png",
-      "idiom": "ipad"
+      "filename" : "playersCar-16Bit-ipad.png",
+      "idiom" : "ipad"
     },
     {
-      "filename": "playersCar-16Bit-mac.png",
-      "idiom": "mac"
+      "filename" : "playersCar-16Bit-mac.png",
+      "idiom" : "mac"
     },
     {
-      "filename": "playersCar-16Bit-tv.png",
-      "idiom": "tv"
+      "filename" : "playersCar-16Bit-tv.png",
+      "idiom" : "tv"
     },
     {
-      "filename": "playersCar-16Bit-watch.png",
-      "idiom": "watch"
+      "filename" : "playersCar-16Bit-watch.png",
+      "idiom" : "watch"
     }
   ],
-  "info": {
-    "author": "xcode",
-    "version": 1
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
   }
 }
