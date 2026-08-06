@@ -1,0 +1,28 @@
+{
+  "images": [
+    {
+      "filename": "crash-32Bit-iphone.png",
+      "idiom": "iphone"
+    },
+    {
+      "filename": "crash-32Bit-ipad.png",
+      "idiom": "ipad"
+    },
+    {
+      "filename": "crash-32Bit-mac.png",
+      "idiom": "mac"
+    },
+    {
+      "filename": "crash-32Bit-tv.png",
+      "idiom": "tv"
+    },
+    {
+      "filename": "crash-32Bit-watch.png",
+      "idiom": "watch"
+    }
+  ],
+  "info": {
+    "author": "xcode",
+    "version": 1
+  }
+}

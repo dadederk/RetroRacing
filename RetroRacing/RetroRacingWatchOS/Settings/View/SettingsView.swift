@@ -19,6 +19,10 @@ struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var preferencesStore: SettingsPreferencesStore
     @AppStorage(HapticFeedbackPreference.storageKey) private var hapticFeedbackEnabled: Bool = true
+    @AppStorage(DebugGameplayStorageKeys.experimentalThirtyTwoBitThemeEnabled)
+    private var debugExperimentalThirtyTwoBitThemeEnabled = false
+    @AppStorage(DebugGameplayStorageKeys.experimentalSixtyFourBitThemeEnabled)
+    private var debugExperimentalSixtyFourBitThemeEnabled = false
     @State private var presentedSettingsSheet: PresentedSettingsSheet?
 
     private var fontForLabels: Font {
@@ -76,6 +80,7 @@ struct SettingsView: View {
                 vibrationSection
                 controlsSection
                 accessibilitySection
+                debugSection
             }
             .onAppear {
                 preferencesStore.loadIfNeeded()
@@ -300,6 +305,40 @@ struct SettingsView: View {
         } header: {
             settingsSectionHeader("settings_accessibility")
         }
+    }
+
+    @ViewBuilder
+    private var debugSection: some View {
+        if BuildConfiguration.shouldShowDebugFeatures {
+            Section {
+                Toggle(isOn: $debugExperimentalThirtyTwoBitThemeEnabled) {
+                    Text(GameLocalizedStrings.string("debug_enable_experimental_thirty_two_bit_theme"))
+                        .font(fontForLabels)
+                }
+                .tint(.accentColor)
+                .onChange(of: debugExperimentalThirtyTwoBitThemeEnabled) {
+                    applyExperimentalThemes()
+                }
+
+                Toggle(isOn: $debugExperimentalSixtyFourBitThemeEnabled) {
+                    Text(GameLocalizedStrings.string("debug_enable_experimental_sixty_four_bit_theme"))
+                        .font(fontForLabels)
+                }
+                .tint(.accentColor)
+                .onChange(of: debugExperimentalSixtyFourBitThemeEnabled) {
+                    applyExperimentalThemes()
+                }
+            } header: {
+                settingsSectionHeader("debug_section_title")
+            }
+        }
+    }
+
+    private func applyExperimentalThemes() {
+        themeManager.applyExperimentalThemes(ExperimentalThemeConfiguration(
+            isThirtyTwoBitEnabled: debugExperimentalThirtyTwoBitThemeEnabled,
+            isSixtyFourBitEnabled: debugExperimentalSixtyFourBitThemeEnabled
+        ))
     }
 
     @ViewBuilder

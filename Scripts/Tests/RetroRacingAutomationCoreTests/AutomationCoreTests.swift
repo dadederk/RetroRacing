@@ -30,6 +30,98 @@ func givenDefaultTestOptionsWhenBuildingCommandsThenBothTestTargetsAreIncluded()
 }
 
 @Test
+func givenVisionPlatformWhenParsingTestOptionsThenDestinationIsResolvedLater() throws {
+    let options = try TestRunnerOptions.parse(CLIArguments(["--platform", "vision", "--dry-run"]))
+
+    #expect(options.platform == .vision)
+    #expect(options.destination.isEmpty)
+    #expect(options.dryRun)
+}
+
+@Test
+func givenAllPlatformsAndDestinationWhenParsingThenActionableErrorIsThrown() {
+    #expect(throws: TestRunnerError.destinationWithAll) {
+        _ = try TestRunnerOptions.parse(CLIArguments([
+            "--platform", "all",
+            "--destination", "platform=iOS Simulator,id=device",
+        ]))
+    }
+}
+
+@Test
+func givenAllPlatformsWhenBuildingTestCommandsThenSharedRunsOnceAndVisionUsesItsScheme() {
+    let root = URL(fileURLWithPath: "/repository")
+    let options = TestRunnerOptions(
+        destination: "",
+        dryRun: true,
+        platform: .all
+    )
+    let commands = TestRunnerWorkflow.commands(
+        repositoryRoot: root,
+        options: options,
+        automaticDestinations: [
+            .universal: "platform=iOS Simulator,id=ios",
+            .vision: "platform=visionOS Simulator,id=vision",
+        ]
+    )
+
+    #expect(commands.count == 3)
+    #expect(commands.filter { $0.arguments.contains("-only-testing:RetroRacingSharedTests") }.count == 1)
+    #expect(commands[2].arguments.contains("RetroRacingVisionOS"))
+    #expect(commands[2].arguments.contains("platform=visionOS Simulator,id=vision"))
+}
+
+@Test
+func givenSpatialManifestSourceWhenValidatingThenProductionBudgetsAndBoundsPass() throws {
+    let root = try RepositoryLocator.locate(containing: [SpatialAssetWorkflow.configurationPath])
+    let configuration = try JSONDecoder().decode(
+        SpatialAssetConfiguration.self,
+        from: Data(contentsOf: root.appending(path: SpatialAssetWorkflow.configurationPath))
+    )
+    let temporaryRoot = FileManager.default.temporaryDirectory.appending(
+        path: "retrorapid-spatial-test-\(UUID().uuidString)",
+        directoryHint: .isDirectory
+    )
+    defer { try? FileManager.default.removeItem(at: temporaryRoot) }
+    try FileManager.default.createDirectory(at: temporaryRoot, withIntermediateDirectories: true)
+    func composedSource(for model: SpatialAssetConfiguration.Model, name: String) throws -> String {
+        let output = temporaryRoot.appending(path: "\(name).usda")
+        try ProcessRunner.run(ProcessCommand(
+            executable: "/usr/bin/usdcat",
+            arguments: [root.appending(path: model.sourceUSDA).path, "--flatten", "-o", output.path]
+        ))
+        return try String(contentsOf: output, encoding: .utf8)
+    }
+    let playerSource = try composedSource(for: configuration.models.player, name: "player")
+    let rivalSource = try composedSource(for: configuration.models.rival, name: "rival")
+    let playerSprite = root.appending(path: configuration.sourcePlayerSprite)
+
+    let playerMetrics = try SpatialAssetSourceValidator.validate(
+        source: playerSource,
+        validation: configuration.models.player.validation
+    )
+    let rivalMetrics = try SpatialAssetSourceValidator.validate(
+        source: rivalSource,
+        validation: configuration.models.rival.validation
+    )
+
+    #expect(playerMetrics.triangles == 1264)
+    #expect(rivalMetrics.triangles == 1224)
+    #expect(playerMetrics.minimumBounds == [-1.4685, 0, -2.15])
+    #expect(rivalMetrics.maximumBounds == [1.4685, 1.86, 1.9355])
+    #expect(FileManager.default.fileExists(atPath: playerSprite.path))
+    #expect(rivalSource.contains("Ivory_HelmetX") == false)
+    #expect(rivalSource.components(separatedBy: "def Mesh \"Steel_Exhaust").count - 1 == 4)
+}
+
+@Test
+func givenSpatialCheckAndDryRunWhenParsingThenModesAreRejected() {
+    #expect(throws: SpatialAssetError.incompatibleModes) {
+        _ = try SpatialAssetOptions.parse(CLIArguments(["--check", "--dry-run"]))
+    }
+}
+
+@Test
 func givenOnlyTestingFilterWhenBuildingCommandsThenSingleFilteredCommandIsReturned() {
     let root = URL(fileURLWithPath: "/repository")
     let options = TestRunnerOptions(
@@ -555,10 +647,13 @@ func testGivenHelmetAssetRulesWhenLoadingManifestThenNormalizedGeometryIsRequire
     )
     let manifest = try AssetAuditWorkflow.loadManifest(repositoryRoot: repositoryRoot)
     let helmetRules = manifest.assets.filter {
-        $0.geometryProfile == .helmet || $0.geometryProfile == .sixteenBitHelmet
+        $0.geometryProfile == .helmet
+            || $0.geometryProfile == .sixteenBitHelmet
+            || $0.geometryProfile == .thirtyTwoBitHelmet
+            || $0.geometryProfile == .sixtyFourBitHelmet
     }
 
-    #expect(helmetRules.count == 8)
+    #expect(helmetRules.count == 12)
     #expect(helmetRules.allSatisfy { $0.allowedIdioms == ["iphone", "ipad", "mac", "watch", "tv"] })
 }
 
@@ -608,6 +703,48 @@ func testGivenSixteenBitAssetRulesWhenLoadingManifestThenOpticalFramingIsRequire
     #expect(profilesByPath["Sprites/16Bit/crash-16Bit.imageset"] == .sixteenBitCrash)
     #expect(profilesByPath["Sprites/16Bit/life-16Bit.imageset"] == .sixteenBitHelmet)
     #expect(profilesByPath["Sprites/16Bit/friendLife-16Bit.imageset"] == .sixteenBitHelmet)
+}
+
+@Test
+func testGivenThirtyTwoBitAssetRulesWhenLoadingManifestThenOpticalFramingIsRequired() throws {
+    let repositoryRoot = try RepositoryLocator.locate(
+        containing: ["Scripts/Resources/runtime_asset_manifest.json"]
+    )
+    let manifest = try AssetAuditWorkflow.loadManifest(repositoryRoot: repositoryRoot)
+    let rules = manifest.assets.filter { $0.path.hasPrefix("Sprites/32Bit/") }
+    let profilesByPath = Dictionary(
+        uniqueKeysWithValues: rules.compactMap { rule in
+            rule.geometryProfile.map { (rule.path, $0) }
+        }
+    )
+
+    #expect(rules.count == 5)
+    #expect(profilesByPath["Sprites/32Bit/playersCar-32Bit.imageset"] == .thirtyTwoBitPlayerCar)
+    #expect(profilesByPath["Sprites/32Bit/rivalsCar-32Bit.imageset"] == .thirtyTwoBitRivalCar)
+    #expect(profilesByPath["Sprites/32Bit/crash-32Bit.imageset"] == .thirtyTwoBitCrash)
+    #expect(profilesByPath["Sprites/32Bit/life-32Bit.imageset"] == .thirtyTwoBitHelmet)
+    #expect(profilesByPath["Sprites/32Bit/friendLife-32Bit.imageset"] == .thirtyTwoBitHelmet)
+}
+
+@Test
+func testGivenSixtyFourBitAssetRulesWhenLoadingManifestThenOpticalFramingIsRequired() throws {
+    let repositoryRoot = try RepositoryLocator.locate(
+        containing: ["Scripts/Resources/runtime_asset_manifest.json"]
+    )
+    let manifest = try AssetAuditWorkflow.loadManifest(repositoryRoot: repositoryRoot)
+    let rules = manifest.assets.filter { $0.path.hasPrefix("Sprites/64Bit/") }
+    let profilesByPath = Dictionary(
+        uniqueKeysWithValues: rules.compactMap { rule in
+            rule.geometryProfile.map { (rule.path, $0) }
+        }
+    )
+
+    #expect(rules.count == 5)
+    #expect(profilesByPath["Sprites/64Bit/playersCar-64Bit.imageset"] == .sixtyFourBitPlayerCar)
+    #expect(profilesByPath["Sprites/64Bit/rivalsCar-64Bit.imageset"] == .sixtyFourBitRivalCar)
+    #expect(profilesByPath["Sprites/64Bit/crash-64Bit.imageset"] == .sixtyFourBitCrash)
+    #expect(profilesByPath["Sprites/64Bit/life-64Bit.imageset"] == .sixtyFourBitHelmet)
+    #expect(profilesByPath["Sprites/64Bit/friendLife-64Bit.imageset"] == .sixtyFourBitHelmet)
 }
 
 @Test
@@ -1173,6 +1310,81 @@ func givenInstalledSimulatorsWhenResolvingIPadDestinationThenPrefersLatestM5Runt
     )
 
     #expect(destination == "platform=iOS Simulator,id=m5-27")
+}
+
+@Test
+func givenCompatibleBootedSimulatorWhenResolvingTestsThenItWinsOverNewerShutdownRuntime() throws {
+    let json = Data("""
+    {
+      "devices": {
+        "com.apple.CoreSimulator.SimRuntime.iOS-26-5": [
+          { "name": "Booted Phone", "udid": "booted", "state": "Booted", "isAvailable": true }
+        ],
+        "com.apple.CoreSimulator.SimRuntime.iOS-27-0": [
+          { "name": "New Phone", "udid": "new", "state": "Shutdown", "isAvailable": true }
+        ]
+      }
+    }
+    """.utf8)
+
+    let candidate = try SimulatorDestinationResolver.resolveTestingCandidate(
+        platformFamily: .iOS,
+        minimumMajorVersion: 26,
+        devicesJSON: json
+    )
+
+    #expect(candidate?.udid == "booted")
+}
+
+@Test
+func givenVisionSimulatorsWhenNoneIsBootedThenNewestCompatibleRuntimeIsSelected() throws {
+    let json = Data("""
+    {
+      "devices": {
+        "com.apple.CoreSimulator.SimRuntime.xrOS-2-5": [
+          { "name": "Legacy", "udid": "legacy", "state": "Shutdown", "isAvailable": true }
+        ],
+        "com.apple.CoreSimulator.SimRuntime.xrOS-26-0": [
+          { "name": "Vision 26", "udid": "vision-26", "state": "Shutdown", "isAvailable": true }
+        ],
+        "com.apple.CoreSimulator.SimRuntime.xrOS-26-5": [
+          { "name": "Vision 26.5", "udid": "vision-26-5", "state": "Shutdown", "isAvailable": true }
+        ]
+      }
+    }
+    """.utf8)
+
+    let candidate = try SimulatorDestinationResolver.resolveTestingCandidate(
+        platformFamily: .visionOS,
+        minimumMajorVersion: 26,
+        devicesJSON: json
+    )
+
+    #expect(candidate?.destination == "platform=visionOS Simulator,id=vision-26-5")
+}
+
+@Test
+func givenAvailableSimulatorWithMissingDataDirectoryWhenResolvingTestsThenGhostIsIgnored() throws {
+    let json = Data("""
+    {
+      "devices": {
+        "com.apple.CoreSimulator.SimRuntime.iOS-27-0": [
+          { "name": "Ghost", "udid": "ghost", "state": "Shutdown", "isAvailable": true, "dataPath": "/path/that/does/not/exist" }
+        ],
+        "com.apple.CoreSimulator.SimRuntime.iOS-26-5": [
+          { "name": "Usable", "udid": "usable", "state": "Shutdown", "isAvailable": true }
+        ]
+      }
+    }
+    """.utf8)
+
+    let candidate = try SimulatorDestinationResolver.resolveTestingCandidate(
+        platformFamily: .iOS,
+        minimumMajorVersion: 26,
+        devicesJSON: json
+    )
+
+    #expect(candidate?.udid == "usable")
 }
 
 @Test

@@ -1,0 +1,28 @@
+{
+  "images" : [
+    {
+      "filename" : "life-64Bit-iphone.png",
+      "idiom" : "iphone"
+    },
+    {
+      "filename" : "life-64Bit-ipad.png",
+      "idiom" : "ipad"
+    },
+    {
+      "filename" : "life-64Bit-mac.png",
+      "idiom" : "mac"
+    },
+    {
+      "filename" : "life-64Bit-tv.png",
+      "idiom" : "tv"
+    },
+    {
+      "filename" : "life-64Bit-watch.png",
+      "idiom" : "watch"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

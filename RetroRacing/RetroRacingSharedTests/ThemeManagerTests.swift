@@ -52,13 +52,13 @@ final class ThemeManagerTests: XCTestCase {
 
     func testGivenPlatformThemeCatalogsWhenInspectingDefaultsThenAccessMatchesPlatformRules() {
         // Given
-        let platforms: [ThemePlatformConfig] = [.iPhone, .iPad, .macOS, .tvOS, .watchOS]
+        let establishedCatalogs: [ThemePlatformConfig] = [.iPhone, .iPad, .macOS, .watchOS]
 
         // When
-        let themeCounts = platforms.map(\.availableThemes.count)
+        let establishedThemeCounts = establishedCatalogs.map(\.availableThemes.count)
 
         // Then
-        XCTAssertTrue(themeCounts.allSatisfy { $0 == 4 })
+        XCTAssertTrue(establishedThemeCounts.allSatisfy { $0 == 4 })
         assertThemeCatalog(
             .iPhone,
             defaultThemeID: .lcd,
@@ -76,14 +76,56 @@ final class ThemeManagerTests: XCTestCase {
         )
         assertThemeCatalog(
             .tvOS,
-            defaultThemeID: .sixteenBit,
-            premiumThemeIDs: [.pocket, .lcd, .eightBit]
+            defaultThemeID: .thirtyTwoBit,
+            premiumThemeIDs: [.pocket, .lcd, .eightBit, .sixteenBit],
+            expectedThemeIDs: [.pocket, .lcd, .eightBit, .sixteenBit, .thirtyTwoBit]
         )
         assertThemeCatalog(
             .watchOS,
             defaultThemeID: .pocket,
             premiumThemeIDs: []
         )
+        assertThemeCatalog(
+            .visionOS,
+            defaultThemeID: .sixtyFourBit,
+            premiumThemeIDs: [],
+            expectedThemeIDs: [.sixtyFourBit]
+        )
+    }
+
+    func testGivenExperimentalThemesWhenBuildingCatalogsThenTheyAreFreeAndPlatformDefaultsRemainStable() {
+        let experiments = ExperimentalThemeConfiguration(
+            isThirtyTwoBitEnabled: true,
+            isSixtyFourBitEnabled: true
+        )
+
+        assertThemeCatalog(
+            .configuration(for: .iPhone, experimentalThemes: experiments),
+            defaultThemeID: .lcd,
+            premiumThemeIDs: [.pocket, .eightBit, .sixteenBit],
+            expectedThemeIDs: [.pocket, .lcd, .eightBit, .sixteenBit, .thirtyTwoBit, .sixtyFourBit]
+        )
+        assertThemeCatalog(
+            .configuration(for: .tvOS, experimentalThemes: experiments),
+            defaultThemeID: .thirtyTwoBit,
+            premiumThemeIDs: [.pocket, .lcd, .eightBit, .sixteenBit],
+            expectedThemeIDs: [.pocket, .lcd, .eightBit, .sixteenBit, .thirtyTwoBit, .sixtyFourBit]
+        )
+        assertThemeCatalog(
+            .configuration(for: .visionOS, experimentalThemes: experiments),
+            defaultThemeID: .sixtyFourBit,
+            premiumThemeIDs: [],
+            expectedThemeIDs: [.thirtyTwoBit, .sixtyFourBit]
+        )
+    }
+
+    func testGivenPlatformWhenInspectingExperimentalToggleVisibilityThenDefaultThemesStayHidden() {
+        XCTAssertFalse(ThemeCatalogPlatform.tvOS.showsExperimentalToggle(for: .thirtyTwoBit))
+        XCTAssertTrue(ThemeCatalogPlatform.tvOS.showsExperimentalToggle(for: .sixtyFourBit))
+        XCTAssertTrue(ThemeCatalogPlatform.visionOS.showsExperimentalToggle(for: .thirtyTwoBit))
+        XCTAssertFalse(ThemeCatalogPlatform.visionOS.showsExperimentalToggle(for: .sixtyFourBit))
+        XCTAssertTrue(ThemeCatalogPlatform.iPhone.showsExperimentalToggle(for: .thirtyTwoBit))
+        XCTAssertTrue(ThemeCatalogPlatform.iPhone.showsExperimentalToggle(for: .sixtyFourBit))
     }
 
     func testGivenScreenshotCapturePlatformWhenResolvingCatalogThenExpectedEraIsDefault() {
@@ -99,6 +141,7 @@ final class ThemeManagerTests: XCTestCase {
         XCTAssertTrue(ThemePlatformConfig.screenshotCapture(platform: "ipad").defaultThemeID == .eightBit)
         XCTAssertTrue(ThemePlatformConfig.screenshotCapture(platform: "mac").defaultThemeID == .sixteenBit)
         XCTAssertTrue(ThemePlatformConfig.screenshotCapture(platform: "watch").defaultThemeID == .pocket)
+        XCTAssertTrue(ThemePlatformConfig.screenshotCapture(platform: "tv").defaultThemeID == .thirtyTwoBit)
     }
 
     func testGivenDuplicateCatalogIDsWhenConfiguringThenOrderIsUniqueAndDefaultIsPresent() {
@@ -191,6 +234,163 @@ final class ThemeManagerTests: XCTestCase {
         XCTAssertTrue(defaults.string(forKey: "selectedThemeID") == "b")
     }
 
+    func testGivenTvOSThemeManagerWhenSixtyFourBitIsEnabledThenItJoinsTheSelectableCatalog() throws {
+        // Given
+        let defaults = try cleanDefaults(named: "ThemeManagerTests.experimentalTvOS")
+        defaults.set(ThemeID.thirtyTwoBit.rawValue, forKey: ThemeManager.selectedThemeKey)
+        defer { clean(defaults) }
+        let manager = ThemeManager(
+            configuration: .tvOS,
+            userDefaults: defaults,
+            hasPremiumAccess: false
+        )
+
+        // When
+        manager.applyExperimentalThemes(ExperimentalThemeConfiguration(
+            isThirtyTwoBitEnabled: false,
+            isSixtyFourBitEnabled: true
+        ))
+
+        // Then
+        XCTAssertEqual(manager.currentTheme.id, .thirtyTwoBit)
+        XCTAssertEqual(manager.selectedThemeID, .thirtyTwoBit)
+        XCTAssertEqual(manager.availableThemes.map(\.id), [
+            .pocket,
+            .lcd,
+            .eightBit,
+            .sixteenBit,
+            .thirtyTwoBit,
+            .sixtyFourBit,
+        ])
+        XCTAssertEqual(defaults.string(forKey: "selectedThemeID"), ThemeID.thirtyTwoBit.rawValue)
+    }
+
+    func testGivenExperimentalThemeSelectedWhenItIsDisabledThenPlatformDefaultIsRestored() throws {
+        // Given
+        let defaults = try cleanDefaults(named: "ThemeManagerTests.stableTvOS")
+        defer { clean(defaults) }
+        let manager = ThemeManager(
+            configuration: ThemePlatformConfig.configuration(
+                for: .iPhone,
+                experimentalThemes: ExperimentalThemeConfiguration(
+                    isThirtyTwoBitEnabled: true,
+                    isSixtyFourBitEnabled: false
+                )
+            ),
+            userDefaults: defaults,
+            hasPremiumAccess: false
+        )
+        let experimentalTheme = try XCTUnwrap(
+            manager.availableThemes.first { $0.id == .thirtyTwoBit }
+        )
+        manager.setTheme(experimentalTheme)
+
+        // When
+        manager.applyExperimentalThemes(.disabled)
+
+        // Then
+        XCTAssertEqual(manager.currentTheme.id, .lcd)
+        XCTAssertEqual(manager.selectedThemeID, .lcd)
+        XCTAssertFalse(manager.availableThemes.contains { $0.id == .thirtyTwoBit })
+        XCTAssertEqual(defaults.string(forKey: "selectedThemeID"), ThemeID.lcd.rawValue)
+    }
+
+    func testGivenLocalThemeOptOutsWhenDebugFeaturesAreDisallowedThenPlatformDefaultsWin() throws {
+        // Given
+        let defaults = try cleanDefaults(named: "ThemeManagerTests.experimentalFlagIsolation")
+        defaults.set(false, forKey: DebugGameplayStorageKeys.experimentalThirtyTwoBitThemeEnabled)
+        defaults.set(false, forKey: DebugGameplayStorageKeys.experimentalSixtyFourBitThemeEnabled)
+        defer { clean(defaults) }
+
+        // When / Then
+        XCTAssertTrue(
+            DebugGameplayStorageKeys.isExperimentalThirtyTwoBitThemeEnabled(
+                userDefaults: defaults,
+                debugFeaturesAllowed: false,
+                platform: .tvOS
+            )
+        )
+        XCTAssertFalse(
+            DebugGameplayStorageKeys.isExperimentalThirtyTwoBitThemeEnabled(
+                userDefaults: defaults,
+                debugFeaturesAllowed: true,
+                platform: .tvOS
+            )
+        )
+        XCTAssertTrue(
+            DebugGameplayStorageKeys.isExperimentalSixtyFourBitThemeEnabled(
+                userDefaults: defaults,
+                debugFeaturesAllowed: false,
+                platform: .visionOS
+            )
+        )
+        XCTAssertFalse(
+            DebugGameplayStorageKeys.isExperimentalSixtyFourBitThemeEnabled(
+                userDefaults: defaults,
+                debugFeaturesAllowed: true,
+                platform: .visionOS
+            )
+        )
+    }
+
+    func testGivenNoExperimentalThemeFlagsWhenDebugFeaturesAreAllowedThenOnlyPlatformDefaultsAreOn() throws {
+        // Given
+        let defaults = try cleanDefaults(named: "ThemeManagerTests.experimentalFlagDefault")
+        defer { clean(defaults) }
+
+        // When
+        let isEnabled = DebugGameplayStorageKeys.isExperimentalThirtyTwoBitThemeEnabled(
+            userDefaults: defaults,
+            debugFeaturesAllowed: true,
+            platform: .tvOS
+        )
+        let isSixtyFourBitEnabled = DebugGameplayStorageKeys.isExperimentalSixtyFourBitThemeEnabled(
+            userDefaults: defaults,
+            debugFeaturesAllowed: true,
+            platform: .visionOS
+        )
+        let isThirtyTwoBitEnabledOnIPhone = DebugGameplayStorageKeys.isExperimentalThirtyTwoBitThemeEnabled(
+            userDefaults: defaults,
+            debugFeaturesAllowed: true,
+            platform: .iPhone
+        )
+        let isSixtyFourBitEnabledOnIPhone = DebugGameplayStorageKeys.isExperimentalSixtyFourBitThemeEnabled(
+            userDefaults: defaults,
+            debugFeaturesAllowed: true,
+            platform: .iPhone
+        )
+
+        // Then
+        XCTAssertTrue(isEnabled)
+        XCTAssertTrue(isSixtyFourBitEnabled)
+        XCTAssertFalse(isThirtyTwoBitEnabledOnIPhone)
+        XCTAssertFalse(isSixtyFourBitEnabledOnIPhone)
+    }
+
+    func testGivenExperimentalThemeFlagsDisabledWhenDebugFeaturesAreAllowedThenFlagsRemainOff() throws {
+        // Given
+        let defaults = try cleanDefaults(named: "ThemeManagerTests.experimentalFlagDisabled")
+        defaults.set(false, forKey: DebugGameplayStorageKeys.experimentalThirtyTwoBitThemeEnabled)
+        defaults.set(false, forKey: DebugGameplayStorageKeys.experimentalSixtyFourBitThemeEnabled)
+        defer { clean(defaults) }
+
+        // When
+        let isEnabled = DebugGameplayStorageKeys.isExperimentalThirtyTwoBitThemeEnabled(
+            userDefaults: defaults,
+            debugFeaturesAllowed: true,
+            platform: .tvOS
+        )
+        let isSixtyFourBitEnabled = DebugGameplayStorageKeys.isExperimentalSixtyFourBitThemeEnabled(
+            userDefaults: defaults,
+            debugFeaturesAllowed: true,
+            platform: .visionOS
+        )
+
+        // Then
+        XCTAssertFalse(isEnabled)
+        XCTAssertFalse(isSixtyFourBitEnabled)
+    }
+
     func testGivenPremiumThemeWhenAccessIsAbsentThenSelectionIsRejected() throws {
         // Given
         let defaults = try cleanDefaults(named: "ThemeManagerTests.premium")
@@ -267,20 +467,17 @@ final class ThemeManagerTests: XCTestCase {
     private func assertThemeCatalog(
         _ configuration: ThemePlatformConfig,
         defaultThemeID: ThemeID,
-        premiumThemeIDs: Set<ThemeID>
+        premiumThemeIDs: Set<ThemeID>,
+        expectedThemeIDs: [ThemeID] = [.pocket, .lcd, .eightBit, .sixteenBit]
     ) {
         XCTAssertTrue(configuration.defaultThemeID == defaultThemeID)
-        XCTAssertTrue(configuration.availableThemes.map(\.id) == [
-            .pocket,
-            .lcd,
-            .eightBit,
-            .sixteenBit,
-        ])
+        XCTAssertTrue(configuration.availableThemes.map(\.id) == expectedThemeIDs)
         XCTAssertTrue(Set(configuration.availableThemes.filter(\.isPremium).map(\.id)) == premiumThemeIDs)
     }
 
     private func cleanDefaults(named name: String) throws -> UserDefaults {
-        let defaults = try XCTUnwrap(UserDefaults(suiteName: name))
+        let isolatedName = "\(name).\(ProcessInfo.processInfo.processIdentifier)"
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: isolatedName))
         clean(defaults)
         return defaults
     }
@@ -288,5 +485,7 @@ final class ThemeManagerTests: XCTestCase {
     private func clean(_ defaults: UserDefaults) {
         defaults.removeObject(forKey: "selectedThemeID")
         defaults.removeObject(forKey: "unlockedThemes")
+        defaults.removeObject(forKey: DebugGameplayStorageKeys.experimentalThirtyTwoBitThemeEnabled)
+        defaults.removeObject(forKey: DebugGameplayStorageKeys.experimentalSixtyFourBitThemeEnabled)
     }
 }

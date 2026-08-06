@@ -1,0 +1,28 @@
+{
+  "images": [
+    {
+      "filename": "rivalsCar-32Bit-iphone.png",
+      "idiom": "iphone"
+    },
+    {
+      "filename": "rivalsCar-32Bit-ipad.png",
+      "idiom": "ipad"
+    },
+    {
+      "filename": "rivalsCar-32Bit-mac.png",
+      "idiom": "mac"
+    },
+    {
+      "filename": "rivalsCar-32Bit-tv.png",
+      "idiom": "tv"
+    },
+    {
+      "filename": "rivalsCar-32Bit-watch.png",
+      "idiom": "watch"
+    }
+  ],
+  "info": {
+    "author": "xcode",
+    "version": 1
+  }
+}

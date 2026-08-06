@@ -89,6 +89,16 @@ extension RuntimeAssetOptimizationActionBuilder {
             ("Sprites/16Bit/crash-16Bit.imageset", curatedCatalogSources(path: "Sprites/16Bit/crash-16Bit.imageset"), false),
             ("Sprites/16Bit/life-16Bit.imageset", curatedCatalogSources(path: "Sprites/16Bit/life-16Bit.imageset"), true),
             ("Sprites/16Bit/friendLife-16Bit.imageset", curatedCatalogSources(path: "Sprites/16Bit/friendLife-16Bit.imageset"), true),
+            ("Sprites/32Bit/playersCar-32Bit.imageset", thirtyTwoBitCatalogSources(path: "Sprites/32Bit/playersCar-32Bit.imageset"), false),
+            ("Sprites/32Bit/rivalsCar-32Bit.imageset", thirtyTwoBitCatalogSources(path: "Sprites/32Bit/rivalsCar-32Bit.imageset"), false),
+            ("Sprites/32Bit/crash-32Bit.imageset", thirtyTwoBitCatalogSources(path: "Sprites/32Bit/crash-32Bit.imageset"), false),
+            ("Sprites/32Bit/life-32Bit.imageset", thirtyTwoBitCatalogSources(path: "Sprites/32Bit/life-32Bit.imageset"), true),
+            ("Sprites/32Bit/friendLife-32Bit.imageset", thirtyTwoBitCatalogSources(path: "Sprites/32Bit/friendLife-32Bit.imageset"), true),
+            ("Sprites/64Bit/playersCar-64Bit.imageset", sixtyFourBitCatalogSources(path: "Sprites/64Bit/playersCar-64Bit.imageset"), false),
+            ("Sprites/64Bit/rivalsCar-64Bit.imageset", sixtyFourBitCatalogSources(path: "Sprites/64Bit/rivalsCar-64Bit.imageset"), false),
+            ("Sprites/64Bit/crash-64Bit.imageset", sixtyFourBitCatalogSources(path: "Sprites/64Bit/crash-64Bit.imageset"), false),
+            ("Sprites/64Bit/life-64Bit.imageset", sixtyFourBitCatalogSources(path: "Sprites/64Bit/life-64Bit.imageset"), true),
+            ("Sprites/64Bit/friendLife-64Bit.imageset", sixtyFourBitCatalogSources(path: "Sprites/64Bit/friendLife-64Bit.imageset"), true),
         ]
     }
 
@@ -116,6 +126,22 @@ extension RuntimeAssetOptimizationActionBuilder {
 
     private func curatedCatalogSources(path: String) -> [String: URL] {
         let root = runtimeMasters20260803Root.appending(path: "CuratedCatalog/\(path)")
+        let baseName = assetBaseName(for: path)
+        return Dictionary(uniqueKeysWithValues: ["iphone", "ipad", "mac", "tv", "watch"].map {
+            ($0, root.appending(path: "\(baseName)-\($0).png"))
+        })
+    }
+
+    private func thirtyTwoBitCatalogSources(path: String) -> [String: URL] {
+        let root = runtimeMasters20260805Root.appending(path: "CuratedCatalog/\(path)")
+        let baseName = assetBaseName(for: path)
+        return Dictionary(uniqueKeysWithValues: ["iphone", "ipad", "mac", "tv", "watch"].map {
+            ($0, root.appending(path: "\(baseName)-\($0).png"))
+        })
+    }
+
+    private func sixtyFourBitCatalogSources(path: String) -> [String: URL] {
+        let root = runtimeMasters20260806Root.appending(path: "CuratedCatalog/\(path)")
         let baseName = assetBaseName(for: path)
         return Dictionary(uniqueKeysWithValues: ["iphone", "ipad", "mac", "tv", "watch"].map {
             ($0, root.appending(path: "\(baseName)-\($0).png"))

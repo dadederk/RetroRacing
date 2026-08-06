@@ -88,6 +88,8 @@ Y,Y,In-app,controller_button_y,,needs_review,
 Crash,Kraksa,In-app,crash_sprite,,needs_review,
 False,Fałsz,In-app,debug_boolean_false,,needs_review,
 True,Prawda,In-app,debug_boolean_true,,needs_review,
+Enable experimental Polygon theme,Włącz eksperymentalny motyw Polygon,In-app,debug_enable_experimental_sixty_four_bit_theme,,needs_review,
+Enable experimental Disc theme,Włącz eksperymentalny motyw Disc,In-app,debug_enable_experimental_thirty_two_bit_theme,,needs_review,
 No forced achievement,Bez wymuszonego osiągnięcia,In-app,debug_force_achievement_none,,needs_review,
 Forces the selected achievement to appear in Game Over UI without reporting it.,Wyświetla wybrane osiągnięcie na ekranie końca gry bez zgłaszania go.,In-app,debug_force_achievement_picker_footer,,needs_review,
 Force achievement unlock,Wymuś odblokowanie osiągnięcia,In-app,debug_force_achievement_picker_title,,needs_review,
@@ -128,6 +130,10 @@ Overtook %@,Wyprzedzono: %@,In-app,friend_overtake_announcement %@,,needs_review
 Overtook %lld friends,Wyprzedzono znajomych: %lld,In-app,friend_overtake_announcement_multiple %lld,,needs_review,
 RetroRapid!,RetroRapid!,In-app,gameName,,needs_review,
 Game Over,Koniec Gry,In-app,gameOver,,needs_review,
+Finish Game,Zakończ grę,In-app,game_exit_confirmation_finish,,needs_review,
+Keep Playing,Graj dalej,In-app,game_exit_confirmation_keep_playing,,needs_review,
+Do you want to finish this game and return to the menu?,Czy chcesz zakończyć tę grę i wrócić do menu?,In-app,game_exit_confirmation_message,,needs_review,
+Finish this game?,Zakończyć tę grę?,In-app,game_exit_confirmation_title,,needs_review,
 Best: %lld,Najlepszy: %lld,In-app,game_over_best %lld,,needs_review,
 Next round could be your best yet.,Następna próba może być najlepsza.,In-app,game_over_encouragement_subtitle,,needs_review,
 Well played!,Dobra jazda!,In-app,game_over_encouragement_title,,needs_review,
@@ -215,6 +221,7 @@ Big Cars,Duże Samochody,In-app,settings_big_cars,,needs_review,
 Settings coming soon,Ustawienia już wkrótce,In-app,settings_coming_soon,,needs_review,
 Controller,Kontroler,In-app,settings_controller,,needs_review,
 Remapped buttons replace the default D-pad/Menu bindings for those actions. The left stick remains a left/right backup. Arrow keys remain active on Mac.,Przypisane przyciski zastępują domyślne ustawienia D-pada/Menu dla tych działań. Lewy drążek nadal działa jako zapasowe sterowanie lewo/prawo. Klawisze strzałek pozostają aktywne na Macu.,In-app,settings_controller_footnote,,needs_review,
+"Standard D-pad/left stick and Menu/Start controls always work. Mapped A, X, Y, shoulder, and trigger buttons add alternate controls. B/Back opens the finish confirmation.","Standardowe sterowanie D-padem/lewym drążkiem oraz Menu/Start zawsze działa. Przypisane przyciski A, X, Y, przyciski boczne i spusty dodają alternatywne sterowanie. B/Wstecz otwiera potwierdzenie zakończenia.",In-app,settings_controller_footnote_tvos,,needs_review,
 Move Left Button,Przycisk jazdy w lewo,In-app,settings_controller_move_left,,needs_review,
 Move Right Button,Przycisk jazdy w prawo,In-app,settings_controller_move_right,,needs_review,
 Pause/Resume Button,Przycisk pauzy/wznowienia,In-app,settings_controller_pause_resume,,needs_review,
@@ -234,11 +241,13 @@ How to play the game,Jak grać,In-app,settings_controls_how_to_play,,needs_revie
 • Kliknij lewą lub prawą połowę okna gładzikiem albo myszą.
 • Naciśnij spację, aby wstrzymać lub wznowić grę.
 • Na kontrolerze domyślnie działa D-pad i lewy drążek; przyciski możesz zmienić w ustawieniach kontrolera.",In-app,settings_controls_macos,,needs_review,
-"• Swipe left or right on the Siri Remote to move.
-• Press the play button to select.
-• With a controller, you can remap button bindings in Controller settings.","• Przesuń palcem w lewo lub w prawo na Siri Remote.
-• Naciśnij przycisk odtwarzania, aby wybrać.
-• Na kontrolerze możesz zmienić przypisanie przycisków w jego ustawieniach.",In-app,settings_controls_tvos,,needs_review,
+"• Swipe left or right, or click the left or right edge of the Siri Remote, to move.
+• Press Play/Pause to pause or resume.
+• Press Menu/Back to choose whether to finish the game.
+• With a controller, use the D-pad or left stick to move, Menu/Start to pause, and B/Back to finish. Mapped buttons add alternate controls.","• Przesuń palcem w lewo lub w prawo albo kliknij lewą lub prawą krawędź Siri Remote, aby się poruszyć.
+• Naciśnij Odtwarzaj/Pauza, aby wstrzymać lub wznowić grę.
+• Naciśnij Menu/Wstecz, aby zdecydować, czy zakończyć grę.
+• Na kontrolerze użyj D-pada lub lewego drążka do ruchu, Menu/Start do pauzy, a B/Wstecz do zakończenia. Przypisane przyciski dodają alternatywne sterowanie.",In-app,settings_controls_tvos,,needs_review,
 "• Rotate the Digital Crown up to move right and down to move left.
 • Tap the left side of the screen to move left and the right side to move right.
 • Swipe left to move left and right to move right.","• Obróć Digital Crown w górę, aby jechać w prawo, i w dół, aby jechać w lewo.
@@ -277,10 +286,12 @@ Sound,Dźwięk,In-app,settings_speed_warning_feedback_warning_sound,,needs_revie
 Theme,Motyw,In-app,settings_theme,,needs_review,
 Style Gallery,Galeria Stylów,In-app,settings_theme_gallery_preview,,needs_review,
 "Theme preview for %@. Shows both cars, both helmets, the explosion, and the road colors.","Podgląd motywu %@. Pokazuje oba samochody, oba kaski, wybuch i kolory drogi.",In-app,settings_theme_gallery_preview_accessibility %@,,needs_review,
-"8-Bit theme preview. Home-console sparkle: two bold pixel cars, two punchy helmets, a hot orange crash, and a gray arcade road with bright yellow lines.","Podgląd motywu 8-Bit. Blask domowej konsoli: dwa wyraziste pikselowe auta, dwa mocne kaski, gorąca pomarańczowa kraksa i szara droga arcade z jasnożółtymi liniami.",In-app,settings_theme_gallery_preview_accessibility_eight_bit,,needs_review,
+"%@ theme preview. Home-console sparkle: two bold pixel cars, two punchy helmets, a hot orange crash, and a gray arcade road with bright yellow lines.","Podgląd motywu %@. Blask domowej konsoli: dwa wyraziste pikselowe auta, dwa mocne kaski, gorąca pomarańczowa kraksa i szara droga arcade z jasnożółtymi liniami.",In-app,settings_theme_gallery_preview_accessibility_eight_bit,,needs_review,
 "LCD theme preview. Calculator-arcade vibes: two crisp racers, two clean helmets, a bright crash, and a pale road palette built for sunny high-score runs.","Podgląd motywu LCD. Klimat kalkulatora arcade: dwa wyraźne auta, dwa czyste kaski, jasna kraksa i blada paleta drogi do słonecznych prób bicia rekordu.",In-app,settings_theme_gallery_preview_accessibility_lcd,,needs_review,
 "Pocket theme preview. Tiny handheld vibes: two moss-green racers, two chunky helmets, a crunchy crash, and a muted road palette from an old pocket screen.","Podgląd motywu Pocket. Klimat małej konsoli przenośnej: dwa zielone auta, dwa masywne kaski, chrupiąca kraksa i stonowana paleta drogi ze starego kieszonkowego ekranu.",In-app,settings_theme_gallery_preview_accessibility_pocket,,needs_review,
-"16-Bit theme preview. Early arcade drama: two richer pixel cars, two glossy helmets, a fiery crash, and a fast gray road cutting through green grass.","Podgląd motywu 16-Bit. Dramat wczesnych gier arcade: dwa bogatsze pikselowe auta, dwa lśniące kaski, ognista kraksa i szybka szara droga przecinająca zieloną trawę.",In-app,settings_theme_gallery_preview_accessibility_sixteen_bit,,needs_review,
+"%@ theme preview. Early arcade drama: two richer pixel cars, two glossy helmets, a fiery crash, and a fast gray road cutting through green grass.","Podgląd motywu %@. Dramat wczesnych gier arcade: dwa bogatsze pikselowe auta, dwa lśniące kaski, ognista kraksa i szybka szara droga przecinająca zieloną trawę.",In-app,settings_theme_gallery_preview_accessibility_sixteen_bit,,needs_review,
+"%@ theme preview. Low-poly console racing: two faceted racers, two sculpted helmets, an explosive crash, and a neon aqua circuit over midnight asphalt.","Podgląd motywu %@. Konsolowe wyścigi low-poly: dwa kanciaste auta, dwa rzeźbione kaski, wybuchowa kraksa i neonowy akwamarynowy tor na nocnym asfalcie.",In-app,settings_theme_gallery_preview_accessibility_sixty_four_bit,,needs_review,
+"%@ theme preview. Late-’90s console energy: two detailed racers, two glossy helmets, a bright crash, and an electric aqua circuit over dark asphalt.","Podgląd motywu %@. Energia konsol z końca lat 90.: dwa szczegółowe auta, dwa lśniące kaski, jasna kraksa i elektryzujący akwamarynowy tor na ciemnym asfalcie.",In-app,settings_theme_gallery_preview_accessibility_thirty_two_bit,,needs_review,
 Style Gallery,Galeria Stylów,In-app,settings_theme_gallery_title,,needs_review,
 "Want to change themes, get Unlimited Plays, and support the game's development too?","Chcesz zmieniać motywy, odblokować Nielimitowane Gry i wesprzeć rozwój gry?",In-app,settings_theme_gallery_unlock_body,,needs_review,
 Style,Styl,In-app,settings_theme_style,,needs_review,
@@ -381,6 +392,35 @@ Plays a warning haptic before the speed increase.,Odtwarza ostrzegawczą haptyk�
 Does not play any speed-increase warning.,Nie odtwarza ostrzeżenia o wzroście prędkości.,In-app,tutorial_speed_warning_description_none,,needs_review,
 Plays a short three-note ascending warning chirp.,"Odtwarza krótki, rosnący, trzytonowy sygnał ostrzegawczy.",In-app,tutorial_speed_warning_description_sound,,needs_review,
 "RetroRapid! is a 3-lane racing game. Move left or right between the three positions. We play sounds to indicate which lanes are safe, and you must quickly move into a safe lane to overtake cars and avoid crashing.","RetroRapid! to trzytorowa gra wyścigowa. Poruszaj się w lewo lub w prawo między trzema pozycjami. Dźwięki wskazują bezpieczne pasy; szybko wjedź na jeden z nich, aby wyprzedzać samochody i unikać zderzeń.",In-app,tutorial_voiceover_intro,,needs_review,
+Polygon Racing,Wyścigi Polygon,In-app,vision_64bit_racing,,needs_review,
+Classic,Klasyczny,In-app,vision_classic_title,,needs_review,
+Classic race track,Klasyczny tor,In-app,vision_classic_track,,needs_review,
+Current lane,Bieżący pas,In-app,vision_current_lane,,needs_review,
+Game Over,Koniec gry,In-app,vision_game_over,,needs_review,
+"Score %lld, %lld lives, level %lld","Wynik %lld, życia %lld, poziom %lld",In-app,vision_hud_status_format,,needs_review,
+Lane %lld,Pas %lld,In-app,vision_lane_format,,needs_review,
+Level %lld,Poziom %lld,In-app,vision_level_format,,needs_review,
+The 3D car could not be loaded. Your race is still active in Classic. Try again.,Nie udało się wczytać samochodu 3D. Wyścig jest nadal aktywny w widoku klasycznym. Spróbuj ponownie.,In-app,vision_model_unavailable,,needs_review,
+"Race in a classic window, then move the same run onto your table in 3D.","Ścigaj się w klasycznym oknie, a następnie przenieś ten sam wyścig na stół w 3D.",In-app,vision_play_description,,needs_review,
+Play in 3D,Graj w 3D,In-app,vision_play_in_3d,,needs_review,
+Moves this race into a tabletop volume without restarting it,Przenosi ten wyścig do widoku stołowego bez ponownego uruchamiania,In-app,vision_play_in_3d_hint,,needs_review,
+Race controls,Sterowanie wyścigiem,In-app,vision_race_controls,,needs_review,
+Race status,Stan wyścigu,In-app,vision_race_status,,needs_review,
+"Score %lld, %lld lives, lane %lld of %lld, %@","Wynik %lld, życia %lld, pas %lld z %lld, %@",In-app,vision_race_status_format,,needs_review,
+Race track,Tor wyścigowy,In-app,vision_race_track_input_label,,needs_review,
+Return to 2D,Wróć do 2D,In-app,vision_return_to_2d,,needs_review,
+Returns this race to its classic window without restarting it,Przywraca ten wyścig do klasycznego okna bez ponownego uruchamiania,In-app,vision_return_to_2d_hint,,needs_review,
+Select lane,Wybierz pas,In-app,vision_select_lane,,needs_review,
+Collision,Kolizja,In-app,vision_state_collision,,needs_review,
+Finished,Ukończono,In-app,vision_state_finished,,needs_review,
+Paused,Wstrzymano,In-app,vision_state_paused,,needs_review,
+Racing,Wyścig trwa,In-app,vision_state_racing,,needs_review,
+Ready,Gotowe,In-app,vision_state_ready,,needs_review,
+Tabletop,Widok stołowy,In-app,vision_tabletop_title,,needs_review,
+Tabletop race track,Stołowy tor wyścigowy,In-app,vision_tabletop_track,,needs_review,
+Unable to Switch Presentation,Nie można zmienić prezentacji,In-app,vision_transition_alert_title,,needs_review,
+The other presentation could not be opened. Your race is still active. Try again.,Nie udało się otworzyć drugiej prezentacji. Wyścig jest nadal aktywny. Spróbuj ponownie.,In-app,vision_transition_routing_failed,,needs_review,
+The other presentation did not become ready. Your race is still active. Try again.,Druga prezentacja nie była gotowa. Wyścig jest nadal aktywny. Spróbuj ponownie.,In-app,vision_transition_timeout,,needs_review,
 x%lld,x%lld,In-app,x%lld,,needs_review,
 RetroRapid: Retro Arcade Racer,RetroRapid: Wyścigi retro,App Store metadata,name,≤ 30 characters,needs_review,
 Dodge Traffic Across 3 Lanes,Omijaj ruch na 3 pasach,App Store metadata,subtitle,≤ 30 characters,needs_review,

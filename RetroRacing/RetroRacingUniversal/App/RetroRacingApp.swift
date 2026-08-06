@@ -144,14 +144,24 @@ struct RetroRacingApp: App {
         ratingService = StoreReviewService(userDefaults: userDefaults, ratingProvider: RatingServiceProviderMac())
         #endif
         #if os(macOS)
-        let themeConfig = ThemePlatformConfig.macOS
+        let themePlatform = ThemeCatalogPlatform.macOS
         #elseif canImport(UIKit)
-        let themeConfig = UIDevice.current.userInterfaceIdiom == .pad
-            ? ThemePlatformConfig.iPad
-            : ThemePlatformConfig.iPhone
+        let themePlatform = UIDevice.current.userInterfaceIdiom == .pad
+            ? ThemeCatalogPlatform.iPad
+            : ThemeCatalogPlatform.iPhone
         #else
-        let themeConfig = ThemePlatformConfig.iPhone
+        let themePlatform = ThemeCatalogPlatform.iPhone
         #endif
+        let themeConfig = ScreenshotCaptureConfiguration.isCaptureModeEnabled
+            ? ThemePlatformConfig.configuration(for: themePlatform)
+            : ThemePlatformConfig.configuration(
+                for: themePlatform,
+                experimentalThemes: DebugGameplayStorageKeys.experimentalThemeConfiguration(
+                    userDefaults: userDefaults,
+                    debugFeaturesAllowed: BuildConfiguration.shouldShowDebugFeatures,
+                    platform: themePlatform
+                )
+            )
         let themeUserDefaults = ScreenshotCaptureConfiguration.isCaptureModeEnabled
             ? ScreenshotCaptureThemePolicy.makeCaptureUserDefaults(
                 platform: ScreenshotCaptureConfiguration.capturePlatform

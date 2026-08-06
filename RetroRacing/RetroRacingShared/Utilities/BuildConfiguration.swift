@@ -43,6 +43,16 @@ public enum BuildConfiguration {
         isDebug
     }
 
+    /// Returns true when the current process is hosting an XCTest bundle.
+    public static var isRunningTests: Bool {
+        ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
+    }
+
+    /// Returns true only for app launches explicitly configured by the UI-test target.
+    public static var isRunningUITests: Bool {
+        isDebug && ProcessInfo.processInfo.arguments.contains("--ui-testing")
+    }
+
     // MARK: - Private
 
     private static func checkTestFlightEnvironment() async {
@@ -68,4 +78,65 @@ public enum DebugGameplayStorageKeys {
     public static let forcedAchievementIdentifier = "debugGameplay.forcedAchievementIdentifier"
     public static let noForcedAchievementIdentifier = ""
     public static let showSpriteKitFrameStats = "debugGameplay.showSpriteKitFrameStats"
+    public static let experimentalThirtyTwoBitThemeEnabled = "debugGameplay.experimentalThirtyTwoBitThemeEnabled"
+    public static let experimentalSixtyFourBitThemeEnabled = "debugGameplay.experimentalSixtyFourBitThemeEnabled"
+
+    public static func isExperimentalThirtyTwoBitThemeEnabled(
+        userDefaults: UserDefaults,
+        debugFeaturesAllowed: Bool,
+        platform: ThemeCatalogPlatform
+    ) -> Bool {
+        isExperimentalThemeEnabled(
+            storageKey: experimentalThirtyTwoBitThemeEnabled,
+            userDefaults: userDefaults,
+            debugFeaturesAllowed: debugFeaturesAllowed,
+            defaultEnabled: platform.alwaysIncludes(.thirtyTwoBit)
+        )
+    }
+
+    public static func isExperimentalSixtyFourBitThemeEnabled(
+        userDefaults: UserDefaults,
+        debugFeaturesAllowed: Bool,
+        platform: ThemeCatalogPlatform
+    ) -> Bool {
+        isExperimentalThemeEnabled(
+            storageKey: experimentalSixtyFourBitThemeEnabled,
+            userDefaults: userDefaults,
+            debugFeaturesAllowed: debugFeaturesAllowed,
+            defaultEnabled: platform.alwaysIncludes(.sixtyFourBit)
+        )
+    }
+
+    public static func experimentalThemeConfiguration(
+        userDefaults: UserDefaults,
+        debugFeaturesAllowed: Bool,
+        platform: ThemeCatalogPlatform
+    ) -> ExperimentalThemeConfiguration {
+        ExperimentalThemeConfiguration(
+            isThirtyTwoBitEnabled: isExperimentalThirtyTwoBitThemeEnabled(
+                userDefaults: userDefaults,
+                debugFeaturesAllowed: debugFeaturesAllowed,
+                platform: platform
+            ),
+            isSixtyFourBitEnabled: isExperimentalSixtyFourBitThemeEnabled(
+                userDefaults: userDefaults,
+                debugFeaturesAllowed: debugFeaturesAllowed,
+                platform: platform
+            )
+        )
+    }
+
+    private static func isExperimentalThemeEnabled(
+        storageKey: String,
+        userDefaults: UserDefaults,
+        debugFeaturesAllowed: Bool,
+        defaultEnabled: Bool
+    ) -> Bool {
+        // Distribution builds keep only the platform's required default experiment.
+        guard debugFeaturesAllowed else { return defaultEnabled }
+        guard userDefaults.object(forKey: storageKey) != nil else {
+            return defaultEnabled
+        }
+        return userDefaults.bool(forKey: storageKey)
+    }
 }

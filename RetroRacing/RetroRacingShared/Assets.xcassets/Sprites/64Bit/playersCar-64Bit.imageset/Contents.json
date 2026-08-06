@@ -1,0 +1,28 @@
+{
+  "images" : [
+    {
+      "filename" : "playersCar-64Bit-iphone.png",
+      "idiom" : "iphone"
+    },
+    {
+      "filename" : "playersCar-64Bit-ipad.png",
+      "idiom" : "ipad"
+    },
+    {
+      "filename" : "playersCar-64Bit-mac.png",
+      "idiom" : "mac"
+    },
+    {
+      "filename" : "playersCar-64Bit-tv.png",
+      "idiom" : "tv"
+    },
+    {
+      "filename" : "playersCar-64Bit-watch.png",
+      "idiom" : "watch"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

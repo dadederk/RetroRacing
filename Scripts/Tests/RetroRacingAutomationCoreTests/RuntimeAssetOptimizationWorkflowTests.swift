@@ -89,6 +89,48 @@ func testGivenOptimizationPlanWhenSelectingEightBitPlayerThenUses20260804MasterA
 }
 
 @Test
+func testGivenOptimizationPlanWhenSelectingThirtyTwoBitSpritesThenUses20260805MasterArchive() throws {
+    let repositoryRoot = try RepositoryLocator.locate(
+        containing: ["Scripts/Resources/runtime_asset_manifest.json"]
+    )
+
+    let sources = RuntimeAssetOptimizationPlanBuilder.make(repositoryRoot: repositoryRoot)
+        .actions
+        .compactMap { action -> URL? in
+            guard case let .render(source, destination, _) = action,
+                  destination.contains("Sprites/32Bit/") else {
+                return nil
+            }
+            return source
+        }
+
+    #expect(sources.count == 25)
+    #expect(sources.allSatisfy { $0.path.contains("RuntimeMasters2026-08-05/CuratedCatalog/Sprites/32Bit") })
+}
+
+@Test
+func testGivenOptimizationPlanWhenSelectingSixtyFourBitSpritesThenUses20260806MasterArchive() throws {
+    let repositoryRoot = try RepositoryLocator.locate(
+        containing: ["Scripts/Resources/runtime_asset_manifest.json"]
+    )
+
+    let sources = RuntimeAssetOptimizationPlanBuilder.make(repositoryRoot: repositoryRoot)
+        .actions
+        .compactMap { action -> URL? in
+            guard case let .render(source, destination, _) = action,
+                  destination.contains("Sprites/64Bit/") else {
+                return nil
+            }
+            return source
+        }
+
+    #expect(sources.count == 25)
+    #expect(sources.allSatisfy {
+        $0.path.contains("RuntimeMasters2026-08-06/CuratedCatalog/Sprites/64Bit")
+    })
+}
+
+@Test
 func testGivenOptimizationPlanWhenDryRunningThenFilesAndTransformerRemainUntouched() throws {
     // Given
     let fixture = try OptimizationFixture()

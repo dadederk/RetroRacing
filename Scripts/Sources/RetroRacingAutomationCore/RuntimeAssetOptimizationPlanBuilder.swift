@@ -64,6 +64,14 @@ struct RuntimeAssetOptimizationActionBuilder {
         repositoryRoot.appending(path: "AssetSources/RuntimeMasters2026-08-04")
     }
 
+    var runtimeMasters20260805Root: URL {
+        repositoryRoot.appending(path: "AssetSources/RuntimeMasters2026-08-05")
+    }
+
+    var runtimeMasters20260806Root: URL {
+        repositoryRoot.appending(path: "AssetSources/RuntimeMasters2026-08-06")
+    }
+
     func destinationDirectory(for imageSetPath: String) -> String {
         "\(RuntimeAssetOptimizationPlanBuilder.catalogRoot)/\(imageSetPath)"
     }

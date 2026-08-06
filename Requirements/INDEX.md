@@ -17,6 +17,7 @@ Single entrypoint for shipped in-app behavior contracts. Requirements describe w
 |---|---|---|
 | Repo layout, target folders | [folder_structure.md](folder_structure.md) | [concurrency.md](concurrency.md) |
 | Launch, menu, game flow | [launch_flow.md](launch_flow.md) | [game_tutorial.md](game_tutorial.md) |
+| visionOS Classic and Tabletop gameplay | [visionos_gameplay.md](visionos_gameplay.md) | [../Plans/visionos_spatial_game_plan.md](../Plans/visionos_spatial_game_plan.md) |
 | SharePlay friend races | [shareplay_multiplayer.md](shareplay_multiplayer.md) | [../TechDocs/play-with-friends-shareplay.md](../TechDocs/play-with-friends-shareplay.md) |
 | Game Center leaderboards | [leaderboard_implementation.md](leaderboard_implementation.md) | [game_center_social_milestones.md](game_center_social_milestones.md), [../AppStore/game-center/README.md](../AppStore/game-center/README.md) |
 | Achievements | [achievements.md](achievements.md) | [special_events.md](special_events.md), [../AppStore/game-center/achievements-rollout.md](../AppStore/game-center/achievements-rollout.md) |
@@ -40,6 +41,7 @@ Single entrypoint for shipped in-app behavior contracts. Requirements describe w
 ### Core Gameplay and Flow
 
 - [launch_flow.md](launch_flow.md) — launch and menu overlay flow
+- [visionos_gameplay.md](visionos_gameplay.md) — shared-engine Classic/Tabletop visionOS vertical slice
 - [game_tutorial.md](game_tutorial.md) — in-game tutorial behavior
 - [tvos_parity.md](tvos_parity.md) — tvOS shared UI parity
 - [shareplay_multiplayer.md](shareplay_multiplayer.md) — SharePlay friend races

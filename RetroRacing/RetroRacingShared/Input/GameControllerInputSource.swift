@@ -48,21 +48,32 @@ public struct GameControllerPlatformConfig: Sendable {
     /// Set to `false` on tvOS, where `.onPlayPauseCommand` already handles pause.
     public let capturesMenuButton: Bool
 
-    public init(capturesDirectionalInput: Bool, capturesMenuButton: Bool) {
+    /// Auxiliary buttons whose remapped actions are captured directly.
+    /// tvOS excludes B because the focus system reserves it for Back/Exit.
+    public let capturedAuxiliaryButtons: Set<GameControllerRemapButton>
+
+    public init(
+        capturesDirectionalInput: Bool,
+        capturesMenuButton: Bool,
+        capturedAuxiliaryButtons: Set<GameControllerRemapButton>
+    ) {
         self.capturesDirectionalInput = capturesDirectionalInput
         self.capturesMenuButton = capturesMenuButton
+        self.capturedAuxiliaryButtons = capturedAuxiliaryButtons
     }
 
     /// Standard iOS/macOS config: captures direction, stick, and menu button.
     public static let standard = GameControllerPlatformConfig(
         capturesDirectionalInput: true,
-        capturesMenuButton: true
+        capturesMenuButton: true,
+        capturedAuxiliaryButtons: [.a, .b, .x, .y, .leftShoulder, .rightShoulder, .leftTrigger, .rightTrigger]
     )
 
     /// tvOS config: direction handled by `onMoveCommand`, pause by `onPlayPauseCommand`.
     /// Only remapped face buttons are captured.
     public static let tvOS = GameControllerPlatformConfig(
         capturesDirectionalInput: false,
-        capturesMenuButton: false
+        capturesMenuButton: false,
+        capturedAuxiliaryButtons: [.a, .x, .y, .leftShoulder, .rightShoulder, .leftTrigger, .rightTrigger]
     )
 }

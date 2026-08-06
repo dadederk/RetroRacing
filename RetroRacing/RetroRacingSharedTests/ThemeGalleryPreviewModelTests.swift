@@ -11,6 +11,19 @@ import XCTest
 @testable import RetroRacingShared
 
 final class ThemeGalleryPreviewModelTests: XCTestCase {
+    func testGivenConsoleEraThemesWhenReadingNamesThenUsesEvocativeDisplayNames() {
+        let themes: [(theme: any GameTheme, expectedName: String)] = [
+            (EightBitTheme(), "Cartridge"),
+            (SixteenBitTheme(), "CRT"),
+            (ThirtyTwoBitTheme(), "Disc"),
+            (SixtyFourBitTheme(), "Polygon"),
+        ]
+
+        for testCase in themes {
+            XCTAssertEqual(testCase.theme.name, testCase.expectedName)
+        }
+    }
+
     func testGivenBuiltInThemesWhenBuildingPreviewModelsThenAssetsUseGalleryOrder() {
         let cases: [(theme: any GameTheme, expectedAssetNames: [String])] = [
             (
@@ -53,6 +66,26 @@ final class ThemeGalleryPreviewModelTests: XCTestCase {
                     "crash-16Bit",
                 ]
             ),
+            (
+                ThirtyTwoBitTheme(),
+                [
+                    "playersCar-32Bit",
+                    "rivalsCar-32Bit",
+                    "life-32Bit",
+                    "friendLife-32Bit",
+                    "crash-32Bit",
+                ]
+            ),
+            (
+                SixtyFourBitTheme(),
+                [
+                    "playersCar-64Bit",
+                    "rivalsCar-64Bit",
+                    "life-64Bit",
+                    "friendLife-64Bit",
+                    "crash-64Bit",
+                ]
+            ),
         ]
 
         for testCase in cases {
@@ -89,6 +122,8 @@ final class ThemeGalleryPreviewModelTests: XCTestCase {
             (LCDTheme(), "settings_theme_gallery_preview_accessibility_lcd"),
             (EightBitTheme(), "settings_theme_gallery_preview_accessibility_eight_bit"),
             (SixteenBitTheme(), "settings_theme_gallery_preview_accessibility_sixteen_bit"),
+            (ThirtyTwoBitTheme(), "settings_theme_gallery_preview_accessibility_thirty_two_bit"),
+            (SixtyFourBitTheme(), "settings_theme_gallery_preview_accessibility_sixty_four_bit"),
         ]
 
         for testCase in cases {
@@ -99,6 +134,7 @@ final class ThemeGalleryPreviewModelTests: XCTestCase {
 
             XCTAssertEqual(model.accessibilityDescriptionKey, testCase.expectedKey)
             XCTAssertFalse(model.accessibilityDescription.isEmpty)
+            XCTAssertTrue(model.accessibilityDescription.contains(testCase.theme.name))
         }
     }
 

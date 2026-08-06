@@ -15,8 +15,9 @@ public final class ThemeManager {
     public private(set) var currentTheme: any GameTheme
     public private(set) var selectedThemeID: ThemeID
     public private(set) var availableThemes: [any GameTheme]
+    public var catalogPlatform: ThemeCatalogPlatform { configuration.platform }
 
-    private let configuration: ThemePlatformConfig
+    private var configuration: ThemePlatformConfig
     private let userDefaults: UserDefaults
     private var hasPremiumAccess: Bool
 
@@ -68,6 +69,37 @@ public final class ThemeManager {
             return false
         }
         return isThemeAvailable(theme)
+    }
+
+    /// Replaces the platform catalog, optionally selecting its default theme immediately.
+    public func applyConfiguration(
+        _ configuration: ThemePlatformConfig,
+        selectDefaultTheme: Bool = false
+    ) {
+        self.configuration = configuration
+        availableThemes = configuration.availableThemes
+
+        let preferredID = selectDefaultTheme ? configuration.defaultThemeID : selectedThemeID
+        let resolvedSelectedID = configuration.availableThemes.contains(where: { $0.id == preferredID })
+            ? preferredID
+            : configuration.defaultThemeID
+        selectedThemeID = resolvedSelectedID
+        currentTheme = Self.resolveTheme(
+            preferredID: resolvedSelectedID,
+            configuration: configuration,
+            hasPremiumAccess: hasPremiumAccess
+        )
+        userDefaults.set(resolvedSelectedID.rawValue, forKey: Self.selectedThemeKey)
+    }
+
+    public func applyExperimentalThemes(_ experimentalThemes: ExperimentalThemeConfiguration) {
+        guard configuration.platform != .custom else { return }
+        applyConfiguration(
+            .configuration(
+                for: configuration.platform,
+                experimentalThemes: experimentalThemes
+            )
+        )
     }
 
     /// Re-resolves the displayed theme without overwriting the user's selection.

@@ -1,0 +1,28 @@
+{
+  "images" : [
+    {
+      "filename" : "friendLife-64Bit-iphone.png",
+      "idiom" : "iphone"
+    },
+    {
+      "filename" : "friendLife-64Bit-ipad.png",
+      "idiom" : "ipad"
+    },
+    {
+      "filename" : "friendLife-64Bit-mac.png",
+      "idiom" : "mac"
+    },
+    {
+      "filename" : "friendLife-64Bit-tv.png",
+      "idiom" : "tv"
+    },
+    {
+      "filename" : "friendLife-64Bit-watch.png",
+      "idiom" : "watch"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

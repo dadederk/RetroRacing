@@ -8,60 +8,11 @@
 import Foundation
 import ScriptSupport
 
-public struct TestRunnerOptions: Equatable, Sendable {
-    public enum BuildMode: Equatable, Sendable {
-        case test
-        case buildForTesting
-        case testWithoutBuilding
-    }
-
-    public let destination: String
-    public let dryRun: Bool
-    public let onlyTesting: [String]
-    public let environment: [String: String]
-    public let timeout: TimeInterval?
-    public let buildMode: BuildMode
-    public let scheme: String
-    public let derivedDataPath: String?
-
-    public init(
-        destination: String,
-        dryRun: Bool,
-        onlyTesting: [String] = [],
-        environment: [String: String] = [:],
-        timeout: TimeInterval? = nil,
-        buildMode: BuildMode = .test,
-        scheme: String = "RetroRacingUniversal",
-        derivedDataPath: String? = nil
-    ) {
-        self.destination = destination
-        self.dryRun = dryRun
-        self.onlyTesting = onlyTesting
-        self.environment = environment
-        self.timeout = timeout
-        self.buildMode = buildMode
-        self.scheme = scheme
-        self.derivedDataPath = derivedDataPath
-    }
-
-    public static func parse(_ arguments: CLIArguments) throws -> TestRunnerOptions {
-        try arguments.rejectUnknownFlags(
-            allowing: ["--dry-run"],
-            valueFlags: ["--destination", "--only-testing"]
-        )
-        return TestRunnerOptions(
-            destination: try arguments.value(after: "--destination")
-                ?? "platform=iOS Simulator,name=iPhone 17 Pro",
-            dryRun: arguments.contains("--dry-run"),
-            onlyTesting: arguments.values(for: "--only-testing")
-        )
-    }
-}
-
 public enum TestRunnerWorkflow {
     public static func commands(
         repositoryRoot: URL,
-        options: TestRunnerOptions
+        options: TestRunnerOptions,
+        automaticDestinations: [TestRunnerPlatform: String] = [:]
     ) -> [ProcessCommand] {
         let project = repositoryRoot.appending(
             path: "RetroRacing/RetroRacing.xcodeproj"
@@ -71,36 +22,62 @@ public enum TestRunnerWorkflow {
             return [
                 xcodebuildCommand(
                     project: project,
-                    destination: options.destination,
+                    destination: destination(
+                        for: options.platform,
+                        options: options,
+                        automaticDestinations: automaticDestinations
+                    ),
                     onlyTesting: options.onlyTesting,
                     environment: options.environment,
                     buildMode: options.buildMode,
-                    scheme: options.scheme,
+                    scheme: scheme(for: options.platform, options: options),
                     derivedDataPath: options.derivedDataPath
                 ),
             ]
         }
 
-        return [
-            xcodebuildCommand(
+        var commands = [ProcessCommand]()
+        if options.platform == .universal || options.platform == .all {
+            let universalDestination = destination(
+                for: .universal,
+                options: options,
+                automaticDestinations: automaticDestinations
+            )
+            commands.append(xcodebuildCommand(
                 project: project,
-                destination: options.destination,
+                destination: universalDestination,
                 onlyTesting: ["RetroRacingSharedTests"],
                 environment: options.environment,
                 buildMode: options.buildMode,
                 scheme: options.scheme,
                 derivedDataPath: options.derivedDataPath
-            ),
-            xcodebuildCommand(
+            ))
+            commands.append(xcodebuildCommand(
                 project: project,
-                destination: options.destination,
+                destination: universalDestination,
                 onlyTesting: ["RetroRacingUniversalTests"],
                 environment: options.environment,
                 buildMode: options.buildMode,
                 scheme: options.scheme,
                 derivedDataPath: options.derivedDataPath
-            ),
-        ]
+            ))
+        }
+        if options.platform == .vision || options.platform == .all {
+            commands.append(xcodebuildCommand(
+                project: project,
+                destination: destination(
+                    for: .vision,
+                    options: options,
+                    automaticDestinations: automaticDestinations
+                ),
+                onlyTesting: ["RetroRacingVisionOSTests"],
+                environment: options.environment,
+                buildMode: options.buildMode,
+                scheme: "RetroRacingVisionOS",
+                derivedDataPath: options.derivedDataPath
+            ))
+        }
+        return commands
     }
 
     public static func runBuildForTesting(
@@ -127,7 +104,12 @@ public enum TestRunnerWorkflow {
     }
 
     public static func run(repositoryRoot: URL, options: TestRunnerOptions) throws {
-        for command in commands(repositoryRoot: repositoryRoot, options: options) {
+        let automaticDestinations = try resolveAutomaticDestinations(for: options)
+        for command in commands(
+            repositoryRoot: repositoryRoot,
+            options: options,
+            automaticDestinations: automaticDestinations
+        ) {
             print(command.rendered)
             if !options.dryRun {
                 try ProcessRunner.run(command, timeout: options.timeout)
@@ -136,6 +118,47 @@ public enum TestRunnerWorkflow {
         if options.dryRun {
             print("Dry run complete; tests were not started.")
         }
+    }
+
+    private static func resolveAutomaticDestinations(
+        for options: TestRunnerOptions
+    ) throws -> [TestRunnerPlatform: String] {
+        guard options.destination.isEmpty else { return [:] }
+        let devicesJSON = try SimulatorDestinationResolver.loadAvailableDevicesJSON()
+        let platforms: [TestRunnerPlatform] = options.platform == .all
+            ? [.universal, .vision]
+            : [options.platform]
+        var result = [TestRunnerPlatform: String]()
+        for platform in platforms {
+            let family: SimulatorDestinationResolver.Candidate.PlatformFamily = platform == .vision
+                ? .visionOS
+                : .iOS
+            guard let candidate = try SimulatorDestinationResolver.resolveTestingCandidate(
+                platformFamily: family,
+                minimumMajorVersion: 26,
+                devicesJSON: devicesJSON
+            ) else {
+                throw TestRunnerError.simulatorNotFound(platform)
+            }
+            result[platform] = candidate.destination
+        }
+        return result
+    }
+
+    private static func destination(
+        for platform: TestRunnerPlatform,
+        options: TestRunnerOptions,
+        automaticDestinations: [TestRunnerPlatform: String]
+    ) -> String {
+        if options.destination.isEmpty == false { return options.destination }
+        return automaticDestinations[platform] ?? ""
+    }
+
+    private static func scheme(
+        for platform: TestRunnerPlatform,
+        options: TestRunnerOptions
+    ) -> String {
+        platform == .vision ? "RetroRacingVisionOS" : options.scheme
     }
 
     private static func xcodebuildCommand(

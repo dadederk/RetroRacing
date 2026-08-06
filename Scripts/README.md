@@ -32,11 +32,12 @@ reproducibility gate.
 
 | Command | Purpose | Mutation safety |
 |---|---|---|
-| `run-tests` | Runs the shared and universal iOS unit-test targets | `--dry-run` prints the resolved commands; `--destination <value>` overrides the simulator; `--only-testing <filter>` runs a specific test class or method |
+| `run-tests` | Runs shared, Universal iOS, and/or visionOS unit-test targets | `--platform universal\|vision\|all` (default `universal`); `--dry-run` prints resolved commands; `--destination <value>` overrides one platform and is rejected with `all`; `--only-testing <filter>` runs a specific test class or method |
 | `run-xcodebuild-parallel-canary` | Runs shared and universal unit tests with parallel xcodebuild workers as a canary | `--dry-run`; `--workers <n[,n]>`; `--destination <value>` |
 | `check-documentation` | Validates markdown links and App Store metadata sync | Exits non-zero on errors |
 | `asset-audit` | Audits runtime asset idioms/scales, files, dimensions, archive exclusion, decoded duplicate discards, compiled catalog byte budgets, and optional Release packaging | `--check` enforces schema v2 and compiled-size ceilings; `--full --check` additionally builds Release products and verifies shared framework embedding/archive exclusion |
 | `optimize-runtime-assets` | Regenerates runtime asset-catalog renditions from canonical source archives | Default invocation applies the deterministic plan; `--dry-run` prints it; `--check` renders to temporary storage and compares pixels/catalog JSON without changing tracked files |
+| `generate-spatial-assets` | Generates the candidate visionOS player USDZ and deterministic player/rival sprites from the canonical USDA manifest | Default invocation applies derived outputs; `--dry-run` validates and prints outputs without writing; `--check` regenerates to temporary storage, validates RealityKit import/budgets, and reports byte drift |
 | `generate-road-dash-masks` | Renders the generated lap-strip mask asset | `--check` compares every generated PNG and `Contents.json` without writing |
 | `sync-screenshot-studio-localizations` | Synchronizes Screenshot Studio copy, manifests, and shared locale images | `--check` reports plist, manifest, and image drift without writing |
 | `capture-app-store-screenshots` | Captures localized iPhone, iPad, Mac, or Apple Watch screenshots via UI tests, stages them, installs each capture into Screenshot Studio as it completes, then syncs manifests | `--platform iphone|ipad|mac|watch` (default `iphone`); `--all-platforms` runs iphone → ipad → mac → watch sequentially (incompatible with `--platform`, `--destination`, and `--staging-dir`). iPad resolves the newest available `iPad Pro 13-inch` simulator (prefers M5 on the latest iOS runtime, falls back to M4); Mac uses landscape window capture to PNG; Watch uses Ultra 3 and seven slides. All platforms default to 20 Screenshot Studio locales: UI tests capture 17 source locales and duplicate three derived English variants (`en-GB`/`en-AU`/`en-CA` from `en-US`). `es-MX` is an independent source locale. `--install-only` moves an existing staging dir; `--staging-dir`, `--locales`, `--slides`, `--destination`, `--retries`, `--force`, `--appearance light|dark` (default `light`), `--no-status-bar-override`, `--status-bar-override`, `--dry-run`, and `--check` filter or validate runs. Re-runs skip staged files and only capture missing ones; `--force` recaptures every requested target even when staging already has files. iPhone/iPad apply marketing status bar `9:41` via `simctl` by default; Watch leaves the clock alone by default (pass `--status-bar-override` only if you intentionally want the disruptive host-clock marketing time). |
@@ -44,7 +45,7 @@ reproducibility gate.
 | `generate-metadata-docs` | Generates metadata copy and validation documents from the canonical JSON catalog | `--check` verifies generated documents without writing |
 | `apply-retrorapid-metadata` | Applies validated metadata through Helm | `--dry-run` reports the plan without changing App Store Connect |
 | `apply-iap-localizations` | Uploads EU Unlimited Plays IAP localizations through Helm, with App Store Connect API fallback | `--check` validates CSV bundles without ASC calls; `--dry-run` plans without writes; `--asc-api` skips Helm file upload |
-| `apply-game-center-eu-localizations` | Uploads EU Game Center achievement and leaderboard localizations via App Store Connect API | `--check` validates catalogs without ASC calls; `--dry-run`; `--achievements-only`; `--leaderboards-only` |
+| `apply-game-center-eu-localizations` | Uploads EU Game Center achievement and leaderboard localizations via App Store Connect API | `--check` validates catalogs without ASC calls; `--dry-run`; `--achievements-only`; `--leaderboards-only`; `--ensure-leaderboards` scopes to and provisions template-backed boards and live releases |
 | `print-game-center-eu-localizations` | Prints EU Game Center achievement copy for manual ASC entry | Read-only |
 | `submit-testflight-build` | Archives iOS/macOS builds and configures TestFlight via Helm | `--dry-run` prints archive, upload, lookup, and TestFlight configuration commands |
 | `swap-app-store-screenshots` | Swaps two screenshot positions in App Store Connect through Helm | `--check` verifies both positions exist without uploading; `--dry-run` plans the Helm upload; `--platform iphone|ipad|mac|watch` limits device sets |
@@ -61,6 +62,7 @@ Verify generated repository content:
 
 ```bash
 ./retrorapid assets optimize --check
+./retrorapid assets spatial --check
 ./retrorapid assets audit --check
 ./retrorapid check
 ```
@@ -70,6 +72,8 @@ Preview and run app tests:
 ```bash
 ./retrorapid test --dry-run
 ./retrorapid test
+./retrorapid test --platform vision
+./retrorapid test --platform all
 ./retrorapid test parallel-canary --workers 2,4
 ```
 
@@ -99,6 +103,8 @@ Audit runtime asset footprint:
 ```bash
 ./retrorapid assets optimize --dry-run
 ./retrorapid assets optimize --check
+./retrorapid assets spatial --dry-run
+./retrorapid assets spatial --check
 ./retrorapid assets audit
 ./retrorapid assets audit --check
 ./retrorapid assets audit --full --check
@@ -147,6 +153,8 @@ Upload EU Game Center achievement and leaderboard localizations:
 ./retrorapid asc game-center --dry-run
 ./retrorapid asc game-center
 ./retrorapid asc game-center --leaderboards-only
+./retrorapid asc game-center --leaderboards-only --ensure-leaderboards --dry-run
+./retrorapid asc game-center --leaderboards-only --ensure-leaderboards
 ```
 
 Swap screenshot positions in App Store Connect (run from Terminal.app — Helm artifact folders are not writable from Cursor's agent shell):

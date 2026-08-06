@@ -31,27 +31,16 @@ public struct ThemeGalleryView: View {
 
     public var body: some View {
         List {
-            if storeKit.shouldShowFreeTierAffordances {
-                unlockSection
-            }
-
-            ForEach(previewModels) { preview in
-                let isSelected = preview.id == themeManager.currentTheme.id
-
-                Section {
-                    Button {
-                        selectTheme(for: preview)
-                    } label: {
-                        ThemeGalleryPreviewRow(preview: preview, isSelected: isSelected)
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityLabel(preview.accessibilityDescription)
-                    .accessibilityAddTraits(isSelected ? .isSelected : [])
-                } header: {
-                    Text(preview.name)
-                        .retroSectionHeader(font: sectionHeaderFont)
-                }
-            }
+            ThemeGallerySections(
+                previewModels: previewModels,
+                selectedThemeID: themeManager.currentTheme.id,
+                showsUnlockSection: storeKit.shouldShowFreeTierAffordances,
+                isSelectionDisabled: false,
+                sectionHeaderFont: sectionHeaderFont,
+                bodyFont: bodyFont,
+                onUnlockRequest: { isShowingPaywall = true },
+                onPreviewSelection: selectTheme
+            )
         }
         .navigationTitle(GameLocalizedStrings.string("settings_theme_gallery_title"))
         #if os(iOS) || os(visionOS)
@@ -78,25 +67,6 @@ public struct ThemeGalleryView: View {
 
     private var bodyFont: Font {
         fontPreferenceStore?.font(textStyle: .body) ?? .body
-    }
-
-    private var unlockSection: some View {
-        Section {
-            VStack(alignment: .leading, spacing: 12) {
-                Text(GameLocalizedStrings.string("settings_theme_gallery_unlock_body"))
-                    .font(bodyFont)
-                    .foregroundStyle(.primary)
-                    .fixedSize(horizontal: false, vertical: true)
-
-                Button {
-                    isShowingPaywall = true
-                } label: {
-                    Label(GameLocalizedStrings.string("settings_learn_premium"), systemImage: "star.circle.fill")
-                        .font(bodyFont)
-                        .foregroundStyle(.tint)
-                }
-            }
-        }
     }
 
     private func selectTheme(for preview: ThemeGalleryPreviewModel) {
@@ -126,6 +96,61 @@ public struct ThemeGalleryView: View {
         #else
         false
         #endif
+    }
+}
+
+struct ThemeGallerySections: View {
+    let previewModels: [ThemeGalleryPreviewModel]
+    let selectedThemeID: ThemeID
+    let showsUnlockSection: Bool
+    let isSelectionDisabled: Bool
+    let sectionHeaderFont: Font
+    let bodyFont: Font
+    let onUnlockRequest: () -> Void
+    let onPreviewSelection: (ThemeGalleryPreviewModel) -> Void
+
+    var body: some View {
+        if showsUnlockSection {
+            unlockSection
+        }
+
+        ForEach(previewModels) { preview in
+            let isSelected = preview.id == selectedThemeID
+
+            Section {
+                Button {
+                    onPreviewSelection(preview)
+                } label: {
+                    ThemeGalleryPreviewRow(preview: preview, isSelected: isSelected)
+                }
+                .buttonStyle(.plain)
+                .disabled(isSelectionDisabled)
+                .accessibilityLabel(preview.accessibilityDescription)
+                .accessibilityAddTraits(isSelected ? .isSelected : [])
+            } header: {
+                Text(preview.name)
+                    .retroSectionHeader(font: sectionHeaderFont)
+            }
+        }
+    }
+
+    private var unlockSection: some View {
+        Section {
+            VStack(alignment: .leading, spacing: 12) {
+                Text(GameLocalizedStrings.string("settings_theme_gallery_unlock_body"))
+                    .font(bodyFont)
+                    .foregroundStyle(.primary)
+                    .fixedSize(horizontal: false, vertical: true)
+
+                Button {
+                    onUnlockRequest()
+                } label: {
+                    Label(GameLocalizedStrings.string("settings_learn_premium"), systemImage: "star.circle.fill")
+                        .font(bodyFont)
+                        .foregroundStyle(.tint)
+                }
+            }
+        }
     }
 }
 
@@ -206,17 +231,17 @@ struct ThemeGalleryPreviewModel: Identifiable {
             return "settings_theme_gallery_preview_accessibility_eight_bit"
         case .sixteenBit:
             return "settings_theme_gallery_preview_accessibility_sixteen_bit"
+        case .thirtyTwoBit:
+            return "settings_theme_gallery_preview_accessibility_thirty_two_bit"
+        case .sixtyFourBit:
+            return "settings_theme_gallery_preview_accessibility_sixty_four_bit"
         default:
             return genericAccessibilityDescriptionKey
         }
     }
 
     private static func accessibilityDescription(forKey key: String, themeName: String) -> String {
-        if key == genericAccessibilityDescriptionKey {
-            return GameLocalizedStrings.format(key, themeName)
-        } else {
-            return GameLocalizedStrings.string(key)
-        }
+        GameLocalizedStrings.format(key, themeName)
     }
 }
 

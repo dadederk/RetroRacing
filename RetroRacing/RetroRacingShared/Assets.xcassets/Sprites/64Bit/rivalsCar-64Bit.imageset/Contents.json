@@ -1,0 +1,28 @@
+{
+  "images" : [
+    {
+      "filename" : "rivalsCar-64Bit-iphone.png",
+      "idiom" : "iphone"
+    },
+    {
+      "filename" : "rivalsCar-64Bit-ipad.png",
+      "idiom" : "ipad"
+    },
+    {
+      "filename" : "rivalsCar-64Bit-mac.png",
+      "idiom" : "mac"
+    },
+    {
+      "filename" : "rivalsCar-64Bit-tv.png",
+      "idiom" : "tv"
+    },
+    {
+      "filename" : "rivalsCar-64Bit-watch.png",
+      "idiom" : "watch"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

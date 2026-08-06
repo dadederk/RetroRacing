@@ -13,10 +13,11 @@
 | Platform | Directional input | Pause |
 |---|---|---|
 | iOS / iPadOS / macOS | D-pad and left stick | Start/Menu button |
-| tvOS | `.onMoveCommand` | `.onPlayPauseCommand` |
+| tvOS | `.onMoveCommand` from D-pad and left stick | `.onPlayPauseCommand` from Start/Menu |
 
-- tvOS does not capture controller directional/menu input to avoid double-triggering with Siri Remote behavior.
-- watchOS is out of scope. visionOS remains stubbed until planned.
+- tvOS uses `onExitCommand` for controller B/Back and Siri Remote Menu/Back; during an active race it opens a finish confirmation.
+- tvOS does not directly capture controller D-pad, stick, Menu/Start, or B/Back input, avoiding duplicate events with the focus command system.
+- watchOS is out of scope. visionOS uses the standard controller source for lane movement and pause/resume.
 
 ## Remapping
 
@@ -25,6 +26,7 @@
 - One button maps to one action. Assigning a used button clears the previous action.
 - One global binding profile applies to all connected controllers.
 - Left stick remains a directional backup on iOS/iPadOS/macOS even when D-pad/menu actions are remapped.
+- On tvOS, standard D-pad/stick and Menu/Start controls always remain active. A, X, Y, shoulder, and trigger mappings are additive aliases; B/Back remains reserved for exit.
 - Bindings are stored as JSON under `gameControllerBindingProfile`; corrupt or missing data falls back to defaults.
 
 ## Input Source Contract
@@ -49,6 +51,7 @@
 ## Settings and Localization
 
 - Controls settings expose a “How to play the game” row, then controller mapping on supported shared surfaces.
+- tvOS copy documents Siri Remote swipe/click, Play/Pause, Menu/Back, standard controller controls, and additive aliases.
 - macOS uses a scroll layout for reliable settings-window rendering.
 - Controller labels and footer copy live in the shared string catalog.
 

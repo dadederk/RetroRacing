@@ -28,7 +28,7 @@ final class SixteenBitThemeTests: XCTestCase {
 
         // Then
         XCTAssertTrue(themeID == .sixteenBit)
-        XCTAssertTrue(theme.name == "16-Bit")
+        XCTAssertTrue(theme.name == "CRT")
         XCTAssertTrue(theme.isPremium == false)
         XCTAssertTrue(theme.cellBorderWidth() == 1)
         XCTAssertTrue(theme.cornerRadius() == 0)

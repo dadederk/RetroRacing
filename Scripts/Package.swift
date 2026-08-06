@@ -20,6 +20,7 @@ let package = Package(
         .executable(name: "check-documentation", targets: ["CheckDocumentation"]),
         .executable(name: "asset-audit", targets: ["AssetAudit"]),
         .executable(name: "optimize-runtime-assets", targets: ["OptimizeRuntimeAssets"]),
+        .executable(name: "generate-spatial-assets", targets: ["GenerateSpatialAssets"]),
         .executable(name: "generate-road-dash-masks", targets: ["GenerateRoadDashMasks"]),
         .executable(
             name: "sync-screenshot-studio-localizations",
@@ -56,6 +57,10 @@ let package = Package(
         ),
         .executableTarget(
             name: "OptimizeRuntimeAssets",
+            dependencies: ["RetroRacingAutomationCore"]
+        ),
+        .executableTarget(
+            name: "GenerateSpatialAssets",
             dependencies: ["RetroRacingAutomationCore"]
         ),
         .executableTarget(

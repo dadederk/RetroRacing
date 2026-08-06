@@ -36,6 +36,7 @@ public struct SettingsView: View {
 
     @Environment(\.dismiss) private var dismiss
     @Environment(StoreKitService.self) private var storeKit
+    @Environment(\.colorSchemeContrast) private var colorSchemeContrast
     @State private var preferencesStore: SettingsPreferencesStore
     @AppStorage(HapticFeedbackPreference.storageKey) private var hapticFeedbackEnabled: Bool = true
     @AppStorage(FriendOvertakeVoiceOverAnnouncementPreference.storageKey)
@@ -43,11 +44,17 @@ public struct SettingsView: View {
     @AppStorage(DebugGameplayStorageKeys.forcedAchievementIdentifier)
     private var debugForcedAchievementIdentifierRawValue: String = DebugGameplayStorageKeys.noForcedAchievementIdentifier
     @AppStorage(DebugGameplayStorageKeys.showSpriteKitFrameStats) private var debugShowSpriteKitFrameStats: Bool = false
+    @AppStorage(DebugGameplayStorageKeys.experimentalThirtyTwoBitThemeEnabled)
+    private var debugExperimentalThirtyTwoBitThemeEnabled: Bool = false
+    @AppStorage(DebugGameplayStorageKeys.experimentalSixtyFourBitThemeEnabled)
+    private var debugExperimentalSixtyFourBitThemeEnabled: Bool = false
     @State private var isRestoringPurchases = false
     @State private var restoreMessage: String?
     @State private var showingRestoreAlert = false
     @State private var showingOfferCodeRedemption = false
     @State private var presentedSettingsSheet: PresentedSettingsSheet?
+    @State private var selectedTVSettingsCategory: TVSettingsCategory = .speed
+    @Namespace private var tvSettingsCategoryFocusScope
     #if os(macOS)
     @State private var offerCodeRedemptionHostController: NSViewController?
     @State private var isRedeemingOfferCode = false
@@ -128,54 +135,29 @@ public struct SettingsView: View {
                 }
             }
     }
+    @ViewBuilder
     private var settingsContent: some View {
-        NavigationStack {
-            ScrollViewReader { scrollProxy in
-                List {
-                    playLimitSection
-                    topPurchasesSection
-                    themeSection
-                    fontSection
-                    speedSection
-                    soundSection
-                    vibrationSection
-                    controlsSection
-                    accessibilitySection
-                    aboutSection
-                    bottomPurchasesSection
-                    debugSection
-                }
-                .modifier(SettingsScreenshotListChromeModifier(screenshotFocus: screenshotFocus))
-                .onAppear {
-                    guard let screenshotFocus else { return }
-                    let targetID = screenshotScrollTargetID(for: screenshotFocus)
-                    DispatchQueue.main.async {
-                        var transaction = Transaction()
-                        transaction.disablesAnimations = true
-                        withTransaction(transaction) {
-                            scrollProxy.scrollTo(targetID, anchor: Self.screenshotSettingsScrollAnchor)
-                        }
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
-                            withTransaction(transaction) {
-                                scrollProxy.scrollTo(targetID, anchor: Self.screenshotSettingsScrollAnchor)
+        if style.presentation == .modal {
+            NavigationStack {
+                settingsRoot
+                    .toolbar {
+                        ToolbarItem(placement: Self.doneToolbarPlacement) {
+                            Button(GameLocalizedStrings.string("done")) {
+                                dismiss()
                             }
-                        }
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
-                            onScreenshotLayoutReady?()
+                            .font(fontForLabels)
                         }
                     }
-                }
             }
-            .navigationTitle(GameLocalizedStrings.string("settings"))
+        } else {
+            settingsRoot
+        }
+    }
+
+    private var settingsRoot: some View {
+        settingsRootContent
+            .navigationTitle(settingsNavigationTitle)
             .modifier(SettingsNavigationChromeModifier(screenshotFocus: screenshotFocus))
-            .toolbar {
-                ToolbarItem(placement: Self.doneToolbarPlacement) {
-                    Button(GameLocalizedStrings.string("done")) {
-                        dismiss()
-                    }
-                    .font(fontForLabels)
-                }
-            }
             .alert(GameLocalizedStrings.string("restore_purchases"), isPresented: $showingRestoreAlert) {
                 Button(GameLocalizedStrings.string("ok"), role: .cancel) {}
             } message: {
@@ -194,6 +176,215 @@ public struct SettingsView: View {
                     .frame(width: 0, height: 0)
             }
             #endif
+    }
+
+    private var settingsNavigationTitle: String {
+        if style.layout == .categories {
+            selectedTVSettingsCategory.title
+        } else {
+            GameLocalizedStrings.string("settings")
+        }
+    }
+
+    @ViewBuilder
+    private var settingsRootContent: some View {
+        if style.layout == .categories {
+            tvSettingsCategoryTabs
+        } else {
+            sharedSettingsList
+        }
+    }
+
+    private var sharedSettingsList: some View {
+        ScrollViewReader { scrollProxy in
+            List {
+                playLimitSection
+                topPurchasesSection
+                themeSection
+                fontSection
+                speedSection
+                soundSection
+                vibrationSection
+                controlsSection
+                accessibilitySection
+                aboutSection
+                bottomPurchasesSection
+                debugSection
+            }
+            .modifier(SettingsScreenshotListChromeModifier(screenshotFocus: screenshotFocus))
+            .onAppear {
+                scrollToScreenshotFocusIfNeeded(using: scrollProxy)
+            }
+        }
+    }
+
+    private var tvSettingsCategoryTabs: some View {
+        TabView(selection: $selectedTVSettingsCategory) {
+            ForEach(tvSettingsCategories) { category in
+                Tab(value: category) {
+                    tvSettingsPage(for: category)
+                        .accessibilityIdentifier("tv_settings_category_content_\(category.rawValue)")
+                } label: {
+                    Label(category.title, systemImage: category.systemImage)
+                        .accessibilityIdentifier("tv_settings_category_\(category.rawValue)")
+                        #if os(tvOS)
+                        .prefersDefaultFocus(category == .speed, in: tvSettingsCategoryFocusScope)
+                        #endif
+                }
+            }
+        }
+        #if os(tvOS)
+        .tabViewStyle(.tabBarOnly)
+        .focusScope(tvSettingsCategoryFocusScope)
+        #endif
+    }
+
+    private var tvSettingsCategories: [TVSettingsCategory] {
+        TVSettingsCategory.visibleCategories(
+            showsDebug: BuildConfiguration.shouldShowDebugFeatures
+        )
+    }
+
+    private func tvSettingsPage(for category: TVSettingsCategory) -> some View {
+        HStack(spacing: 64) {
+            TVSettingsCategoryOverview(
+                category: category,
+                summary: tvSettingsSummary(for: category)
+            )
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+
+            tvSettingsDestination(for: category)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
+        .padding(.horizontal, 64)
+        .padding(.bottom, 32)
+    }
+
+    private func tvSettingsSummary(for category: TVSettingsCategory) -> String {
+        switch category {
+        case .speed:
+            GameLocalizedStrings.string(preferencesStore.selectedDifficulty.localizedNameKey)
+        case .theme:
+            themeManager.currentTheme.name
+        case .sound:
+            GameLocalizedStrings.format(
+                "settings_percentage_value",
+                Int64(preferencesStore.selectedSoundEffectsVolume * 100)
+            )
+        case .accessibility:
+            GameLocalizedStrings.string(preferencesStore.selectedRoadVisualStyle.localizedNameKey)
+        case .controls:
+            GameLocalizedStrings.string(controlsDescriptionKey)
+        case .purchases:
+            GameLocalizedStrings.string(
+                storeKit.hasPremiumAccessForGating
+                    ? "play_limit_thank_you"
+                    : "paywall_unlimited_and_themes"
+            )
+        case .about:
+            GameLocalizedStrings.string("about_app_subtitle")
+        case .debug:
+            GameLocalizedStrings.string("debug_simulate_premium_footer")
+        }
+    }
+
+    @ViewBuilder
+    private func tvSettingsDestination(for category: TVSettingsCategory) -> some View {
+        switch category {
+        case .speed:
+            TVSettingsCategoryDetailView {
+                speedSection
+            }
+        case .theme:
+            TVSettingsCategoryDetailView {
+                tvThemeGallerySections
+                fontSection
+                tvAppearanceSection
+            }
+        case .sound:
+            TVSettingsCategoryDetailView {
+                soundSection
+                tvSpeedWarningSection
+            }
+        case .accessibility:
+            TVSettingsCategoryDetailView {
+                tvAccessibilitySection
+            }
+        case .controls:
+            SettingsControlsHelpSheet(
+                controlsDescriptionKey: controlsDescriptionKey,
+                controllerPreferencesStore: preferencesStore,
+                presentation: .navigationDestination
+            )
+            .tvNavigationLinkPickerStyle()
+        case .purchases:
+            TVSettingsCategoryDetailView {
+                playLimitSection
+                purchasesSection
+            }
+        case .about:
+            AboutView()
+        case .debug:
+            TVSettingsCategoryDetailView {
+                debugSection
+            }
+        }
+    }
+
+    private var tvThemeGallerySections: some View {
+        ThemeGallerySections(
+            previewModels: themeManager.availableThemes.map {
+                ThemeGalleryPreviewModel(
+                    theme: $0,
+                    isIncreaseContrastEnabled: colorSchemeContrast == .increased
+                )
+            },
+            selectedThemeID: themeManager.currentTheme.id,
+            showsUnlockSection: storeKit.shouldShowFreeTierAffordances,
+            isSelectionDisabled: isGameSessionInProgress,
+            sectionHeaderFont: sectionHeaderFont,
+            bodyFont: fontForLabels,
+            onUnlockRequest: { presentedSettingsSheet = .paywall },
+            onPreviewSelection: selectTVTheme
+        )
+    }
+
+    private func selectTVTheme(_ preview: ThemeGalleryPreviewModel) {
+        guard let theme = themeManager.availableThemes.first(where: { $0.id == preview.id }) else {
+            return
+        }
+
+        switch ThemeGallerySelectionPolicy.action(
+            previewID: preview.id,
+            currentThemeID: themeManager.currentTheme.id,
+            isThemeAvailable: themeManager.isThemeAvailable(theme)
+        ) {
+        case .none:
+            return
+        case .selectTheme:
+            themeManager.setTheme(theme)
+        case .presentPaywall:
+            presentedSettingsSheet = .paywall
+        }
+    }
+
+    private func scrollToScreenshotFocusIfNeeded(using scrollProxy: ScrollViewProxy) {
+        guard let screenshotFocus else { return }
+        let targetID = screenshotScrollTargetID(for: screenshotFocus)
+        DispatchQueue.main.async {
+            var transaction = Transaction()
+            transaction.disablesAnimations = true
+            withTransaction(transaction) {
+                scrollProxy.scrollTo(targetID, anchor: Self.screenshotSettingsScrollAnchor)
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                withTransaction(transaction) {
+                    scrollProxy.scrollTo(targetID, anchor: Self.screenshotSettingsScrollAnchor)
+                }
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
+                onScreenshotLayoutReady?()
+            }
         }
     }
 
@@ -483,40 +674,43 @@ public struct SettingsView: View {
 
     private var soundSection: some View {
         Section {
-            VStack(alignment: .leading, spacing: 8) {
-                Picker(selection: preferencesStore.audioFeedbackModeSelection) {
-                    ForEach(AudioFeedbackMode.displayOrder, id: \.self) { mode in
-                        Text(GameLocalizedStrings.string(mode.localizedNameKey))
-                            .font(fontForLabels)
-                            .tag(mode)
-                    }
-                } label: {
-                    Text(GameLocalizedStrings.string("settings_audio_feedback_mode"))
-                        .font(fontForLabels)
-                }
-
+            if style.layout == .categories {
+                audioFeedbackModePicker
                 if preferencesStore.shouldShowAudioCueTutorial {
-                    Picker(selection: preferencesStore.laneMoveCueStyleSelection) {
-                        ForEach(preferencesStore.availableLaneMoveCueStyles, id: \.self) { style in
-                            Text(GameLocalizedStrings.string(style.localizedNameKey))
-                                .font(fontForLabels)
-                                .tag(style)
-                        }
-                    } label: {
-                        Text(GameLocalizedStrings.string("settings_lane_move_cue_style"))
-                            .font(fontForLabels)
+                    laneMoveCueStylePicker
+                }
+            } else {
+                VStack(alignment: .leading, spacing: 8) {
+                    audioFeedbackModePicker
+                    if preferencesStore.shouldShowAudioCueTutorial {
+                        laneMoveCueStylePicker
                     }
                 }
             }
 
             if preferencesStore.shouldShowAudioCueTutorial {
-                Button {
-                    presentedSettingsSheet = .audioCueTutorial
-                } label: {
-                    Text(GameLocalizedStrings.string("settings_audio_cue_tutorial"))
-                        .font(fontForLabels)
+                if style.presentation == .navigationDestination {
+                    NavigationLink {
+                        SettingsAudioCueTutorialView(
+                            previewPlayer: audioCueTutorialPreviewPlayer,
+                            speedWarningFeedbackPreviewPlayer: speedWarningFeedbackPreviewPlayer,
+                            supportsHapticFeedback: supportsHapticFeedback,
+                            hapticController: hapticController,
+                            presentation: .navigationDestination
+                        )
+                    } label: {
+                        Text(GameLocalizedStrings.string("settings_audio_cue_tutorial"))
+                            .font(fontForLabels)
+                    }
+                } else {
+                    Button {
+                        presentedSettingsSheet = .audioCueTutorial
+                    } label: {
+                        Text(GameLocalizedStrings.string("settings_audio_cue_tutorial"))
+                            .font(fontForLabels)
+                    }
+                    .buttonStyle(.borderless)
                 }
-                .buttonStyle(.borderless)
             }
 
             #if os(tvOS)
@@ -548,6 +742,32 @@ public struct SettingsView: View {
             #endif
         } header: {
             settingsSectionHeader("settings_sound")
+        }
+    }
+
+    private var audioFeedbackModePicker: some View {
+        Picker(selection: preferencesStore.audioFeedbackModeSelection) {
+            ForEach(AudioFeedbackMode.displayOrder, id: \.self) { mode in
+                Text(GameLocalizedStrings.string(mode.localizedNameKey))
+                    .font(fontForLabels)
+                    .tag(mode)
+            }
+        } label: {
+            Text(GameLocalizedStrings.string("settings_audio_feedback_mode"))
+                .font(fontForLabels)
+        }
+    }
+
+    private var laneMoveCueStylePicker: some View {
+        Picker(selection: preferencesStore.laneMoveCueStyleSelection) {
+            ForEach(preferencesStore.availableLaneMoveCueStyles, id: \.self) { cueStyle in
+                Text(GameLocalizedStrings.string(cueStyle.localizedNameKey))
+                    .font(fontForLabels)
+                    .tag(cueStyle)
+            }
+        } label: {
+            Text(GameLocalizedStrings.string("settings_lane_move_cue_style"))
+                .font(fontForLabels)
         }
     }
 
@@ -584,63 +804,98 @@ public struct SettingsView: View {
 
     private var accessibilitySection: some View {
         Section {
-            Picker(selection: preferencesStore.speedWarningFeedbackSelection) {
-                ForEach(preferencesStore.availableSpeedWarningFeedbackModes, id: \.self) { mode in
-                    Text(GameLocalizedStrings.string(mode.localizedNameKey))
-                        .font(fontForLabels)
-                        .tag(mode)
-                }
-            } label: {
-                Text(GameLocalizedStrings.string("settings_speed_warning_feedback"))
-                    .font(fontForLabels)
-            }
-
-            Button {
-                speedWarningFeedbackPreviewPlayer.play(
-                    mode: preferencesStore.selectedSpeedWarningFeedbackMode
-                )
-            } label: {
-                Text(GameLocalizedStrings.string("settings_speed_warning_feedback_preview_warning"))
-                    .font(fontForLabels)
-            }
-            .buttonStyle(.borderless)
-            .disabled(preferencesStore.shouldEnableSpeedWarningPreview == false)
-
-            Picker(selection: preferencesStore.roadVisualStyleSelection) {
-                ForEach(RoadVisualStyle.allCases, id: \.self) { style in
-                    Text(GameLocalizedStrings.string(style.localizedNameKey))
-                        .font(fontForLabels)
-                        .tag(style)
-                }
-            } label: {
-                Text(GameLocalizedStrings.string("settings_road_visual_style"))
-                    .font(fontForLabels)
-            }
-
-            Toggle(isOn: preferencesStore.bigCarsSelection) {
-                Text(GameLocalizedStrings.string("settings_big_cars"))
-                    .font(fontForLabels)
-            }
-            .tint(.accentColor)
-
-            #if !os(macOS)
-            Toggle(isOn: preferencesStore.directTouchSelection) {
-                Text(GameLocalizedStrings.string("settings_direct_touch"))
-                    .font(fontForLabels)
-            }
-            .tint(.accentColor)
-            #endif
-
-            Toggle(isOn: $friendOvertakeVoiceOverAnnouncementEnabled) {
-                Text(GameLocalizedStrings.string("settings_voiceover_friend_overtake_announcements"))
-                    .font(fontForLabels)
-            }
-            .tint(.accentColor)
+            speedWarningRows
+            appearanceRows
+            assistiveTechnologyRows
         } header: {
             settingsSectionHeader("settings_accessibility")
                 .id(ScreenshotCaptureIdentifiers.settingsAccessibilitySection)
         }
         .accessibilityIdentifier(ScreenshotCaptureIdentifiers.settingsAccessibilitySection)
+    }
+
+    private var tvAppearanceSection: some View {
+        Section {
+            appearanceRows
+        }
+    }
+
+    private var tvSpeedWarningSection: some View {
+        Section {
+            speedWarningRows
+        } header: {
+            settingsSectionHeader("settings_speed_warning_feedback")
+        }
+    }
+
+    private var tvAccessibilitySection: some View {
+        Section {
+            assistiveTechnologyRows
+        }
+    }
+
+    @ViewBuilder
+    private var speedWarningRows: some View {
+        Picker(selection: preferencesStore.speedWarningFeedbackSelection) {
+            ForEach(preferencesStore.availableSpeedWarningFeedbackModes, id: \.self) { mode in
+                Text(GameLocalizedStrings.string(mode.localizedNameKey))
+                    .font(fontForLabels)
+                    .tag(mode)
+            }
+        } label: {
+            Text(GameLocalizedStrings.string("settings_speed_warning_feedback"))
+                .font(fontForLabels)
+        }
+
+        Button {
+            speedWarningFeedbackPreviewPlayer.play(
+                mode: preferencesStore.selectedSpeedWarningFeedbackMode
+            )
+        } label: {
+            Text(GameLocalizedStrings.string("settings_speed_warning_feedback_preview_warning"))
+                .font(fontForLabels)
+        }
+        .buttonStyle(.borderless)
+        .disabled(preferencesStore.shouldEnableSpeedWarningPreview == false)
+    }
+
+    @ViewBuilder
+    private var appearanceRows: some View {
+        Picker(selection: preferencesStore.roadVisualStyleSelection) {
+            ForEach(RoadVisualStyle.allCases, id: \.self) { roadStyle in
+                Text(GameLocalizedStrings.string(roadStyle.localizedNameKey))
+                    .font(fontForLabels)
+                    .tag(roadStyle)
+            }
+        } label: {
+            Text(GameLocalizedStrings.string("settings_road_visual_style"))
+                .font(fontForLabels)
+        }
+
+        Toggle(isOn: preferencesStore.bigCarsSelection) {
+            Text(GameLocalizedStrings.string("settings_big_cars"))
+                .font(fontForLabels)
+        }
+        .tint(.accentColor)
+    }
+
+    @ViewBuilder
+    private var assistiveTechnologyRows: some View {
+        #if !os(macOS)
+        if style.showsDirectTouch {
+            Toggle(isOn: preferencesStore.directTouchSelection) {
+                Text(GameLocalizedStrings.string("settings_direct_touch"))
+                    .font(fontForLabels)
+            }
+            .tint(.accentColor)
+        }
+        #endif
+
+        Toggle(isOn: $friendOvertakeVoiceOverAnnouncementEnabled) {
+            Text(GameLocalizedStrings.string("settings_voiceover_friend_overtake_announcements"))
+                .font(fontForLabels)
+        }
+        .tint(.accentColor)
     }
 
     private var aboutSection: some View {
@@ -703,6 +958,30 @@ public struct SettingsView: View {
                         .font(fontForLabels)
                 }
                 .tint(.accentColor)
+
+                if themeManager.catalogPlatform.showsExperimentalToggle(for: .thirtyTwoBit) {
+                    Toggle(isOn: $debugExperimentalThirtyTwoBitThemeEnabled) {
+                        Text(GameLocalizedStrings.string("debug_enable_experimental_thirty_two_bit_theme"))
+                            .font(fontForLabels)
+                    }
+                    .tint(.accentColor)
+                    .disabled(isGameSessionInProgress)
+                    .onChange(of: debugExperimentalThirtyTwoBitThemeEnabled) {
+                        applyExperimentalThemes()
+                    }
+                }
+
+                if themeManager.catalogPlatform.showsExperimentalToggle(for: .sixtyFourBit) {
+                    Toggle(isOn: $debugExperimentalSixtyFourBitThemeEnabled) {
+                        Text(GameLocalizedStrings.string("debug_enable_experimental_sixty_four_bit_theme"))
+                            .font(fontForLabels)
+                    }
+                    .tint(.accentColor)
+                    .disabled(isGameSessionInProgress)
+                    .onChange(of: debugExperimentalSixtyFourBitThemeEnabled) {
+                        applyExperimentalThemes()
+                    }
+                }
             } header: {
                 settingsSectionHeader("debug_section_title")
             } footer: {
@@ -717,6 +996,13 @@ public struct SettingsView: View {
         }
     }
 
+    private func applyExperimentalThemes() {
+        themeManager.applyExperimentalThemes(ExperimentalThemeConfiguration(
+            isThirtyTwoBitEnabled: debugExperimentalThirtyTwoBitThemeEnabled,
+            isSixtyFourBitEnabled: debugExperimentalSixtyFourBitThemeEnabled
+        ))
+    }
+
     @ViewBuilder
     private func sheetContent(for sheet: PresentedSettingsSheet) -> some View {
         switch sheet {
@@ -724,33 +1010,19 @@ public struct SettingsView: View {
             PaywallView(playLimitService: playLimitService)
                 .fontPreferenceStore(fontPreferenceStore)
         case .audioCueTutorial:
-            NavigationStack {
-                ScrollView {
-                    AudioCueTutorialContentView(
-                        previewPlayer: audioCueTutorialPreviewPlayer,
-                        speedWarningFeedbackPreviewPlayer: speedWarningFeedbackPreviewPlayer,
-                        supportsHapticFeedback: supportsHapticFeedback,
-                        hapticController: hapticController,
-                        showAudioCueSections: true
-                    )
-                        .padding()
-                }
-                .navigationTitle(GameLocalizedStrings.string("settings_audio_cue_tutorial"))
-                .modifier(SettingsNavigationChromeModifier(screenshotFocus: nil))
-                .toolbar {
-                    ToolbarItem(placement: Self.doneToolbarPlacement) {
-                        Button(GameLocalizedStrings.string("done")) {
-                            presentedSettingsSheet = nil
-                        }
-                        .font(fontForLabels)
-                    }
-                }
-            }
+            SettingsAudioCueTutorialView(
+                previewPlayer: audioCueTutorialPreviewPlayer,
+                speedWarningFeedbackPreviewPlayer: speedWarningFeedbackPreviewPlayer,
+                supportsHapticFeedback: supportsHapticFeedback,
+                hapticController: hapticController,
+                presentation: .modal
+            )
             .fontPreferenceStore(fontPreferenceStore)
         case .controlsHelp:
             SettingsControlsHelpSheet(
                 controlsDescriptionKey: controlsDescriptionKey,
-                controllerPreferencesStore: preferencesStore
+                controllerPreferencesStore: preferencesStore,
+                presentation: .modal
             )
             .fontPreferenceStore(fontPreferenceStore)
         }
@@ -1029,6 +1301,7 @@ private struct SettingsFooterTextStyle: ViewModifier {
         #endif
     }
 }
+
 #Preview {
     let previewTutorialPlayer = AudioCueTutorialPreviewPlayer(
         laneCuePlayer: PlatformFactories.makeLaneCuePlayer()

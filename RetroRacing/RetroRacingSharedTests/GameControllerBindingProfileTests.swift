@@ -239,4 +239,79 @@ final class GameControllerBindingProfileTests: XCTestCase {
         XCTAssertEqual(decoded.rightButton, .dpadRight)
         XCTAssertEqual(decoded.pauseButton, .menu)
     }
+
+    // MARK: - tvOS additive options
+
+    func testGivenTvOSMoveActionsWhenRequestingOptionsThenOnlyMatchingDpadDefaultIsIncluded() {
+        // Given / When
+        let leftOptions = GameControllerBindingOptionPolicy.tvOSAdditiveButtons(for: .moveLeft)
+        let rightOptions = GameControllerBindingOptionPolicy.tvOSAdditiveButtons(for: .moveRight)
+
+        // Then
+        XCTAssertTrue(leftOptions.contains(.dpadLeft))
+        XCTAssertFalse(leftOptions.contains(.dpadRight))
+        XCTAssertTrue(rightOptions.contains(.dpadRight))
+        XCTAssertFalse(rightOptions.contains(.dpadLeft))
+    }
+
+    func testGivenTvOSPauseActionWhenRequestingOptionsThenMenuIsTheStandardDefault() {
+        // Given / When
+        let options = GameControllerBindingOptionPolicy.tvOSAdditiveButtons(for: .pauseResume)
+
+        // Then
+        XCTAssertEqual(options.first, .menu)
+        XCTAssertFalse(options.contains(.dpadLeft))
+        XCTAssertFalse(options.contains(.dpadRight))
+    }
+
+    func testGivenTvOSAdditiveOptionsWhenCheckingReservedBackButtonThenItIsExcluded() {
+        // Given
+        let actions: [GameControllerRemapAction] = [.moveLeft, .moveRight, .pauseResume]
+
+        // When / Then
+        for action in actions {
+            XCTAssertFalse(GameControllerBindingOptionPolicy.tvOSAdditiveButtons(for: action).contains(.b))
+        }
+    }
+
+    func testGivenPlatformConfigurationsWhenCheckingAuxiliaryButtonsThenTvOSReservesBack() {
+        // Given / When
+        let standardButtons = GameControllerPlatformConfig.standard.capturedAuxiliaryButtons
+        let tvOSButtons = GameControllerPlatformConfig.tvOS.capturedAuxiliaryButtons
+
+        // Then
+        XCTAssertTrue(standardButtons.contains(.b))
+        XCTAssertFalse(tvOSButtons.contains(.b))
+        XCTAssertTrue(tvOSButtons.contains(.a))
+    }
+
+    func testGivenLegacyReservedMappingsWhenNormalizingForTvOSThenStandardControlsAreRestored() {
+        // Given
+        let legacyProfile = GameControllerBindingProfile(
+            leftButton: .b,
+            rightButton: .menu,
+            pauseButton: .dpadLeft
+        )
+
+        // When
+        let profile = GameControllerBindingOptionPolicy.tvOSCompatibleProfile(from: legacyProfile)
+
+        // Then
+        XCTAssertEqual(profile, .default)
+    }
+
+    func testGivenSupportedAliasesWhenNormalizingForTvOSThenMappingsArePreserved() {
+        // Given
+        let aliasProfile = GameControllerBindingProfile(
+            leftButton: .a,
+            rightButton: .rightShoulder,
+            pauseButton: .y
+        )
+
+        // When
+        let profile = GameControllerBindingOptionPolicy.tvOSCompatibleProfile(from: aliasProfile)
+
+        // Then
+        XCTAssertEqual(profile, aliasProfile)
+    }
 }

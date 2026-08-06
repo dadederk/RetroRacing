@@ -1,0 +1,82 @@
+#usda 1.0
+(
+    defaultPrim = "RivalCar64Bit"
+    metersPerUnit = 1
+    upAxis = "Y"
+)
+
+def Xform "RivalCar64Bit" (
+    kind = "component"
+    prepend references = @../PlayerCar/player-car-64bit.usda@</PlayerCar64Bit>
+    assetInfo = {
+        string name = "RetroRapid 64-Bit Rival Car"
+        string version = "production-1"
+    }
+)
+{
+    over "Looks"
+    {
+        over "RedHighlight"
+        {
+            over "Shader"
+            {
+                color3f inputs:diffuseColor = (0.100000, 0.950000, 1.000000)
+            }
+        }
+
+        over "RedMid"
+        {
+            over "Shader"
+            {
+                color3f inputs:diffuseColor = (0.020000, 0.630000, 0.760000)
+            }
+        }
+
+        over "RedDark"
+        {
+            over "Shader"
+            {
+                color3f inputs:diffuseColor = (0.010000, 0.200000, 0.290000)
+            }
+        }
+    }
+
+    over "Geometry"
+    {
+        over "Ivory_HelmetXLeft" (
+            active = false
+        )
+        {
+        }
+
+        over "Ivory_HelmetXRight" (
+            active = false
+        )
+        {
+        }
+
+        over "Amber_TailLightLeft" (
+            active = false
+        )
+        {
+        }
+
+        over "Amber_TailLightRight" (
+            active = false
+        )
+        {
+        }
+
+        over "Amber_RivalTailLightStackLeft" (
+            active = true
+        )
+        {
+        }
+
+        over "Amber_RivalTailLightStackRight" (
+            active = true
+        )
+        {
+        }
+    }
+}

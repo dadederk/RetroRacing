@@ -44,6 +44,7 @@ public enum ScriptCommandCatalog {
         "check-documentation",
         "asset-audit",
         "optimize-runtime-assets",
+        "generate-spatial-assets",
         "generate-road-dash-masks",
         "sync-screenshot-studio-localizations",
         "capture-app-store-screenshots",
@@ -77,6 +78,10 @@ public enum ScriptCommandCatalog {
         ScriptExecutable(
             name: "optimize-runtime-assets",
             purpose: "Regenerates optimized runtime asset-catalog renditions"
+        ),
+        ScriptExecutable(
+            name: "generate-spatial-assets",
+            purpose: "Builds and validates the visionOS spatial model and 2D sprites"
         ),
         ScriptExecutable(
             name: "generate-road-dash-masks",
@@ -141,6 +146,7 @@ public enum ScriptCommandCatalog {
 
     public static let checkRecipeSteps: [ScriptRecipeStep] = [
         ScriptRecipeStep(executable: "optimize-runtime-assets", arguments: ["--check"]),
+        ScriptRecipeStep(executable: "generate-spatial-assets", arguments: ["--check"]),
         ScriptRecipeStep(executable: "asset-audit", arguments: ["--check"]),
         ScriptRecipeStep(executable: "generate-road-dash-masks", arguments: ["--check"]),
         ScriptRecipeStep(
@@ -204,6 +210,7 @@ public enum ScriptCommandCatalog {
           localization reviews [flags…] Generate or check per-locale review sheets
           assets audit [flags…]        Audit runtime asset footprint
           assets optimize [flags…]     Generate or check optimized runtime assets
+          assets spatial [flags…]      Generate or check visionOS spatial assets
           assets masks [flags…]        Generate or check road dash mask assets
           testflight [args…]           Archive and upload TestFlight builds
           run <executable> [flags…]    Run any cataloged executable directly
@@ -227,6 +234,7 @@ public enum ScriptCommandCatalog {
         lines.append("  ./retrorapid check")
         lines.append("  ./retrorapid assets audit --check")
         lines.append("  ./retrorapid assets optimize --check")
+        lines.append("  ./retrorapid assets spatial --check")
         lines.append("  ./retrorapid test")
         lines.append("  ./retrorapid test parallel-canary --workers 2,4")
         lines.append("  ./retrorapid test package")

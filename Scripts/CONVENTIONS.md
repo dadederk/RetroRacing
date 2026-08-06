@@ -10,6 +10,7 @@ For commands and recipes, see [README.md](README.md).
 - **Hide implementation detail behind descriptive APIs.** Parsing, validation, rendering, process execution, and filesystem mutation do not belong in `main.swift`.
 - **Design mutations explicitly.** Provide `--check`, `--dry-run`, or an equivalent preflight for mutating tools where practical.
 - **Test deterministic logic.** Add focused Swift tests for parsing, transformations, validation, and resolved command plans.
+- **Drain subprocess output safely.** Route captured output through `ProcessRunner`; its file-backed capture must remain safe for reports larger than an OS pipe buffer.
 - **Document exceptions beside the script.** Non-Swift automation requires a concrete ecosystem constraint that makes Swift impractical.
 - **Apply the standard Swift file header** with `Created by Dani Devesa` to new script source files (see `AGENTS.md` Critical Rules).
 

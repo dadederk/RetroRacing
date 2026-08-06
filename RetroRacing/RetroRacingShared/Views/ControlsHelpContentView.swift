@@ -58,16 +58,19 @@ private struct ControlsHelpAccessibilityGrouping: ViewModifier {
 public struct SettingsControlsHelpSheet: View {
     public let controlsDescriptionKey: String
     public let controllerPreferencesStore: SettingsPreferencesStore?
+    public let presentation: NavigationSurfacePresentation
 
     @Environment(\.dismiss) private var dismiss
     @Environment(\.fontPreferenceStore) private var fontPreferenceStore
 
     public init(
         controlsDescriptionKey: String,
-        controllerPreferencesStore: SettingsPreferencesStore? = nil
+        controllerPreferencesStore: SettingsPreferencesStore? = nil,
+        presentation: NavigationSurfacePresentation = .modal
     ) {
         self.controlsDescriptionKey = controlsDescriptionKey
         self.controllerPreferencesStore = controllerPreferencesStore
+        self.presentation = presentation
     }
 
     private var sectionHeaderFont: Font {
@@ -83,28 +86,41 @@ public struct SettingsControlsHelpSheet: View {
     }
 
     public var body: some View {
-        NavigationStack {
-            Group {
-                #if os(macOS)
-                scrollContent
-                #else
-                listContent
-                #endif
-            }
-            .navigationTitle(GameLocalizedStrings.string("settings_controls_how_to_play"))
-            .modifier(SettingsControlsHelpNavigationTitleStyle())
-            .toolbar {
-                ToolbarItem(placement: Self.doneToolbarPlacement) {
-                    Button(GameLocalizedStrings.string("done")) {
-                        dismiss()
-                    }
-                    .font(primaryFont)
-                }
-            }
-        }
+        presentationContent
         #if os(macOS)
-        .frame(minWidth: 420, minHeight: 380)
+            .frame(minWidth: 420, minHeight: 380)
         #endif
+    }
+
+    @ViewBuilder
+    private var presentationContent: some View {
+        if presentation == .modal {
+            NavigationStack {
+                helpContent
+                    .toolbar {
+                        ToolbarItem(placement: Self.doneToolbarPlacement) {
+                            Button(GameLocalizedStrings.string("done")) {
+                                dismiss()
+                            }
+                            .font(primaryFont)
+                        }
+                    }
+            }
+        } else {
+            helpContent
+        }
+    }
+
+    private var helpContent: some View {
+        Group {
+            #if os(macOS)
+            scrollContent
+            #else
+            listContent
+            #endif
+        }
+        .navigationTitle(GameLocalizedStrings.string("settings_controls_how_to_play"))
+        .modifier(SettingsControlsHelpNavigationTitleStyle())
     }
 
     private var scrollContent: some View {
@@ -192,9 +208,17 @@ private struct SettingsControllerMappingSection: View {
     }
 
     private var controllerFootnote: some View {
-        Text(GameLocalizedStrings.string("settings_controller_footnote"))
+        Text(GameLocalizedStrings.string(Self.controllerFootnoteKey))
             .font(secondaryFont)
             .foregroundStyle(.secondary)
+    }
+
+    private static var controllerFootnoteKey: String {
+        #if os(tvOS)
+        "settings_controller_footnote_tvos"
+        #else
+        "settings_controller_footnote"
+        #endif
     }
 }
 #endif
@@ -215,11 +239,19 @@ private struct SettingsControllerMappingContent: View {
                 primaryFont: primaryFont
             )
 
-            Text(GameLocalizedStrings.string("settings_controller_footnote"))
+            Text(GameLocalizedStrings.string(Self.controllerFootnoteKey))
                 .font(secondaryFont)
                 .foregroundStyle(.secondary)
                 .modifier(SettingsControlsFooterTextStyle())
         }
+    }
+
+    private static var controllerFootnoteKey: String {
+        #if os(tvOS)
+        "settings_controller_footnote_tvos"
+        #else
+        "settings_controller_footnote"
+        #endif
     }
 }
 
@@ -228,33 +260,105 @@ private struct SettingsControllerMappingPickers: View {
     let primaryFont: Font
 
     var body: some View {
-        Picker(selection: preferencesStore.controllerLeftButtonSelection) {
-            controllerButtonOptions
+        Picker(selection: controllerButtonSelection(for: .moveLeft)) {
+            controllerButtonOptions(for: .moveLeft)
         } label: {
             Text(GameLocalizedStrings.string("settings_controller_move_left"))
                 .font(primaryFont)
         }
 
-        Picker(selection: preferencesStore.controllerRightButtonSelection) {
-            controllerButtonOptions
+        Picker(selection: controllerButtonSelection(for: .moveRight)) {
+            controllerButtonOptions(for: .moveRight)
         } label: {
             Text(GameLocalizedStrings.string("settings_controller_move_right"))
                 .font(primaryFont)
         }
 
-        Picker(selection: preferencesStore.controllerPauseButtonSelection) {
-            controllerButtonOptions
+        Picker(selection: controllerButtonSelection(for: .pauseResume)) {
+            controllerButtonOptions(for: .pauseResume)
         } label: {
             Text(GameLocalizedStrings.string("settings_controller_pause_resume"))
                 .font(primaryFont)
         }
     }
 
-    private var controllerButtonOptions: some View {
-        ForEach(GameControllerRemapButton.allCases, id: \.self) { button in
+    private func controllerButtonOptions(for action: GameControllerRemapAction) -> some View {
+        ForEach(controllerButtons(for: action), id: \.self) { button in
             Text(GameLocalizedStrings.string(button.localizedNameKey))
                 .font(primaryFont)
                 .tag(button)
+        }
+    }
+
+    private func controllerButtons(for action: GameControllerRemapAction) -> [GameControllerRemapButton] {
+        #if os(tvOS)
+        GameControllerBindingOptionPolicy.tvOSAdditiveButtons(for: action)
+        #else
+        GameControllerRemapButton.allCases
+        #endif
+    }
+
+    private func controllerButtonSelection(
+        for action: GameControllerRemapAction
+    ) -> Binding<GameControllerRemapButton> {
+        #if os(tvOS)
+        Binding(
+            get: {
+                button(
+                    for: action,
+                    in: GameControllerBindingOptionPolicy.tvOSCompatibleProfile(
+                        from: preferencesStore.selectedControllerBindingProfile
+                    )
+                )
+            },
+            set: { newButton in
+                let profile = GameControllerBindingOptionPolicy.tvOSCompatibleProfile(
+                    from: preferencesStore.selectedControllerBindingProfile
+                )
+                preferencesStore.setControllerBindingProfile(
+                    profile.setting(newButton, for: action)
+                )
+            }
+        )
+        #else
+        switch action {
+        case .moveLeft:
+            preferencesStore.controllerLeftButtonSelection
+        case .moveRight:
+            preferencesStore.controllerRightButtonSelection
+        case .pauseResume:
+            preferencesStore.controllerPauseButtonSelection
+        }
+        #endif
+    }
+
+    private func button(
+        for action: GameControllerRemapAction,
+        in profile: GameControllerBindingProfile
+    ) -> GameControllerRemapButton {
+        switch action {
+        case .moveLeft:
+            profile.leftButton
+        case .moveRight:
+            profile.rightButton
+        case .pauseResume:
+            profile.pauseButton
+        }
+    }
+}
+
+private extension GameControllerBindingProfile {
+    func setting(
+        _ button: GameControllerRemapButton,
+        for action: GameControllerRemapAction
+    ) -> GameControllerBindingProfile {
+        switch action {
+        case .moveLeft:
+            settingLeft(button)
+        case .moveRight:
+            settingRight(button)
+        case .pauseResume:
+            settingPause(button)
         }
     }
 }

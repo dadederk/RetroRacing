@@ -5,8 +5,7 @@
 //  Created by Dani Devesa on 2026-03-02.
 //
 
-// GameController is not available on watchOS or visionOS.
-#if !os(watchOS) && !os(visionOS)
+#if canImport(GameController)
 
 import GameController
 import Foundation
@@ -24,8 +23,8 @@ import Foundation
 /// - Face buttons and shoulder/trigger buttons also route through the binding profile.
 /// - One global profile applies to all connected controllers.
 /// - On tvOS (`capturesDirectionalInput = false`, `capturesMenuButton = false`),
-///   directional and menu inputs are handled by `onMoveCommand`/`onPlayPauseCommand`
-///   instead; only face/shoulder buttons are captured here.
+///   directional, pause, and exit inputs are handled by SwiftUI commands instead;
+///   only configured auxiliary aliases are captured here.
 @MainActor
 public final class SystemGameControllerInputSource: GameControllerInputSource {
     private let platformConfig: GameControllerPlatformConfig
@@ -203,7 +202,7 @@ public final class SystemGameControllerInputSource: GameControllerInputSource {
     /// D-pad and menu are included conditionally based on `platformConfig`, so tvOS
     /// does not capture inputs that are already handled by system focus/play-pause APIs.
     private func attachProfileDrivenHandlers(gamepad: GCExtendedGamepad) {
-        var buttons: [(GCControllerButtonInput, GameControllerRemapButton)] = [
+        let auxiliaryButtons: [(GCControllerButtonInput, GameControllerRemapButton)] = [
             (gamepad.buttonA, .a),
             (gamepad.buttonB, .b),
             (gamepad.buttonX, .x),
@@ -213,6 +212,9 @@ public final class SystemGameControllerInputSource: GameControllerInputSource {
             (gamepad.leftTrigger, .leftTrigger),
             (gamepad.rightTrigger, .rightTrigger),
         ]
+        var buttons = auxiliaryButtons.filter {
+            platformConfig.capturedAuxiliaryButtons.contains($0.1)
+        }
 
         if platformConfig.capturesDirectionalInput {
             buttons += [

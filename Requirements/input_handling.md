@@ -29,12 +29,21 @@
   - touch overlay respects Direct Touch
   - Magic Tap toggles pause/resume
 - tvOS:
-  - Siri Remote movement uses `onMoveCommand`
-  - Play/Pause toggles pause
+  - Siri Remote left/right swipes and clickpad-edge taps use `onMoveCommand`
+  - Play/Pause toggles pause during an active race
+  - Menu/Back uses `onExitCommand` and opens the finish confirmation
 - macOS:
   - arrow keys move; space toggles pause
   - two-finger horizontal trackpad swipes move one lane per gesture
   - trackpad lane swipes are disabled while VoiceOver is running
+- visionOS:
+  - gaze-and-pinch SwiftUI buttons move left/right and toggle pause
+  - Classic Canvas and Tabletop expose three semantic tap lanes; choosing a lane left or right of the player emits one discrete move toward it
+  - the current lane is a no-op, while unavailable boundary directions remain disabled in native and assistive controls
+  - keyboard arrows move and Space toggles pause
+  - Magic Tap, named Move left/Move right actions, and an adjustable lane control use the same command path
+  - Direct Touch is bounded to the road surface and never includes HUD, ornament, Settings, or native controls
+  - renderer geometry does not own gameplay rules; see [visionos_gameplay.md](visionos_gameplay.md)
 - Physical controllers:
   - see [controller_input.md](controller_input.md)
 

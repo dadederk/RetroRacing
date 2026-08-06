@@ -88,6 +88,8 @@ Y,Y,In-app,controller_button_y,,needs_review,
 Crash,クラッシュ,In-app,crash_sprite,,needs_review,
 False,False,In-app,debug_boolean_false,,needs_review,
 True,True,In-app,debug_boolean_true,,needs_review,
+Enable experimental Polygon theme,実験的なPolygonテーマを有効にする,In-app,debug_enable_experimental_sixty_four_bit_theme,,needs_review,
+Enable experimental Disc theme,実験的なDiscテーマを有効にする,In-app,debug_enable_experimental_thirty_two_bit_theme,,needs_review,
 No forced achievement,強制実績なし,In-app,debug_force_achievement_none,,needs_review,
 Forces the selected achievement to appear in Game Over UI without reporting it.,選択した実績を報告せずにゲームオーバー画面に表示します。,In-app,debug_force_achievement_picker_footer,,needs_review,
 Force achievement unlock,実績解除を強制,In-app,debug_force_achievement_picker_title,,needs_review,
@@ -128,6 +130,10 @@ Overtook %@,%@を追い抜き,In-app,friend_overtake_announcement %@,,needs_revi
 Overtook %lld friends,%lld人のフレンドを追い抜き,In-app,friend_overtake_announcement_multiple %lld,,needs_review,
 RetroRapid!,RetroRapid!,In-app,gameName,,needs_review,
 Game Over,ゲームオーバー,In-app,gameOver,,needs_review,
+Finish Game,ゲームを終了,In-app,game_exit_confirmation_finish,,needs_review,
+Keep Playing,プレイを続ける,In-app,game_exit_confirmation_keep_playing,,needs_review,
+Do you want to finish this game and return to the menu?,このゲームを終了してメニューに戻りますか？,In-app,game_exit_confirmation_message,,needs_review,
+Finish this game?,このゲームを終了しますか？,In-app,game_exit_confirmation_title,,needs_review,
 Best: %lld,ベスト: %lld,In-app,game_over_best %lld,,needs_review,
 Next round could be your best yet.,次のラウンドがベストになるかも。,In-app,game_over_encouragement_subtitle,,needs_review,
 Well played!,ナイスプレイ！,In-app,game_over_encouragement_title,,needs_review,
@@ -215,6 +221,7 @@ Big Cars,大きい車,In-app,settings_big_cars,,needs_review,
 Settings coming soon,設定は近日公開,In-app,settings_coming_soon,,needs_review,
 Controller,コントローラー,In-app,settings_controller,,needs_review,
 Remapped buttons replace the default D-pad/Menu bindings for those actions. The left stick remains a left/right backup. Arrow keys remain active on Mac.,再割り当てしたボタンは、その操作のデフォルトの十字キー/メニューを置き換えます。左スティックは左右のバックアップとして残ります。Macでは矢印キーも有効です。,In-app,settings_controller_footnote,,needs_review,
+"Standard D-pad/left stick and Menu/Start controls always work. Mapped A, X, Y, shoulder, and trigger buttons add alternate controls. B/Back opens the finish confirmation.",標準の方向パッド／左スティックとメニュー／スタートは常に使えます。割り当てたA、X、Y、ショルダー、トリガーボタンは代替操作になります。B／戻るで終了確認を開きます。,In-app,settings_controller_footnote_tvos,,needs_review,
 Move Left Button,左移動ボタン,In-app,settings_controller_move_left,,needs_review,
 Move Right Button,右移動ボタン,In-app,settings_controller_move_right,,needs_review,
 Pause/Resume Button,一時停止/再開ボタン,In-app,settings_controller_pause_resume,,needs_review,
@@ -234,11 +241,13 @@ How to play the game,遊び方,In-app,settings_controls_how_to_play,,needs_revie
 • トラックパッド/マウスでウィンドウの左半/右半をクリック。
 • スペースキーで一時停止/再開。
 • コントローラーでは十字キーと左スティックがデフォルト。コントローラー設定でボタンを再割り当てできます。",In-app,settings_controls_macos,,needs_review,
-"• Swipe left or right on the Siri Remote to move.
-• Press the play button to select.
-• With a controller, you can remap button bindings in Controller settings.","• Siri Remoteを左右にスワイプして移動。
-• 再生ボタンで選択。
-• コントローラー使用時は、コントローラー設定でボタンを再割り当てできます。",In-app,settings_controls_tvos,,needs_review,
+"• Swipe left or right, or click the left or right edge of the Siri Remote, to move.
+• Press Play/Pause to pause or resume.
+• Press Menu/Back to choose whether to finish the game.
+• With a controller, use the D-pad or left stick to move, Menu/Start to pause, and B/Back to finish. Mapped buttons add alternate controls.","• Siri Remoteを左右にスワイプするか、左端または右端をクリックして移動します。
+• 再生／一時停止ボタンで一時停止または再開します。
+• メニュー／戻るボタンでゲームを終了するか選びます。
+• コントローラーでは、方向パッドまたは左スティックで移動し、メニュー／スタートで一時停止、B／戻るで終了します。割り当てたボタンは代替操作として使えます。",In-app,settings_controls_tvos,,needs_review,
 "• Rotate the Digital Crown up to move right and down to move left.
 • Tap the left side of the screen to move left and the right side to move right.
 • Swipe left to move left and right to move right.","• Digital Crownを上に回して右、下に回して左。
@@ -277,10 +286,12 @@ Sound,サウンド,In-app,settings_speed_warning_feedback_warning_sound,,needs_r
 Theme,テーマ,In-app,settings_theme,,needs_review,
 Style Gallery,スタイルギャラリー,In-app,settings_theme_gallery_preview,,needs_review,
 "Theme preview for %@. Shows both cars, both helmets, the explosion, and the road colors.",%@テーマのプレビュー。2台の車、2つのヘルメット、爆発、道路の色を表示します。,In-app,settings_theme_gallery_preview_accessibility %@,,needs_review,
-"8-Bit theme preview. Home-console sparkle: two bold pixel cars, two punchy helmets, a hot orange crash, and a gray arcade road with bright yellow lines.",8-Bitテーマのプレビュー。家庭用コンソールのきらめき。太いピクセルカー2台、パンチのあるヘルメット2つ、熱いオレンジのクラッシュ、鮮やかな黄色ラインのグレーのアーケード道路。,In-app,settings_theme_gallery_preview_accessibility_eight_bit,,needs_review,
+"%@ theme preview. Home-console sparkle: two bold pixel cars, two punchy helmets, a hot orange crash, and a gray arcade road with bright yellow lines.",%@テーマのプレビュー。家庭用コンソールのきらめき。太いピクセルカー2台、パンチのあるヘルメット2つ、熱いオレンジのクラッシュ、鮮やかな黄色ラインのグレーのアーケード道路。,In-app,settings_theme_gallery_preview_accessibility_eight_bit,,needs_review,
 "LCD theme preview. Calculator-arcade vibes: two crisp racers, two clean helmets, a bright crash, and a pale road palette built for sunny high-score runs.",LCDテーマのプレビュー。電卓アーケードのムード。くっきりしたレーサー2台、すっきりしたヘルメット2つ、明るいクラッシュ、太陽の下でハイスコアを狙う淡い道路パレット。,In-app,settings_theme_gallery_preview_accessibility_lcd,,needs_review,
 "Pocket theme preview. Tiny handheld vibes: two moss-green racers, two chunky helmets, a crunchy crash, and a muted road palette from an old pocket screen.",Pocketテーマのプレビュー。小さな携帯ゲーム機のムード。苔色のレーサー2台、ずんぐりしたヘルメット2つ、ザクッとしたクラッシュ、昔のポケット画面みたいな渋い道路パレット。,In-app,settings_theme_gallery_preview_accessibility_pocket,,needs_review,
-"16-Bit theme preview. Early arcade drama: two richer pixel cars, two glossy helmets, a fiery crash, and a fast gray road cutting through green grass.",16-Bitテーマのプレビュー。初期アーケードのドラマ。濃いピクセルカー2台、つやのあるヘルメット2つ、燃えるクラッシュ、緑の芝生を切り裂く速いグレーの道路。,In-app,settings_theme_gallery_preview_accessibility_sixteen_bit,,needs_review,
+"%@ theme preview. Early arcade drama: two richer pixel cars, two glossy helmets, a fiery crash, and a fast gray road cutting through green grass.",%@テーマのプレビュー。初期アーケードのドラマ。濃いピクセルカー2台、つやのあるヘルメット2つ、燃えるクラッシュ、緑の芝生を切り裂く速いグレーの道路。,In-app,settings_theme_gallery_preview_accessibility_sixteen_bit,,needs_review,
+"%@ theme preview. Low-poly console racing: two faceted racers, two sculpted helmets, an explosive crash, and a neon aqua circuit over midnight asphalt.",%@テーマのプレビュー。ローポリのコンソールレース。多面体のレーサー2台、造形されたヘルメット2つ、爆発的なクラッシュ、真夜中のアスファルトを走るネオンアクアのサーキット。,In-app,settings_theme_gallery_preview_accessibility_sixty_four_bit,,needs_review,
+"%@ theme preview. Late-’90s console energy: two detailed racers, two glossy helmets, a bright crash, and an electric aqua circuit over dark asphalt.",%@テーマのプレビュー。90年代後半のコンソールの熱気。精細なレーサー2台、光沢のあるヘルメット2つ、鮮やかなクラッシュ、暗いアスファルトに走る電光アクアのサーキット。,In-app,settings_theme_gallery_preview_accessibility_thirty_two_bit,,needs_review,
 Style Gallery,スタイルギャラリー,In-app,settings_theme_gallery_title,,needs_review,
 "Want to change themes, get Unlimited Plays, and support the game's development too?",テーマを変更して、無制限プレイを手に入れて、ゲーム開発も応援しませんか？,In-app,settings_theme_gallery_unlock_body,,needs_review,
 Style,スタイル,In-app,settings_theme_style,,needs_review,
@@ -381,6 +392,35 @@ Plays a warning haptic before the speed increase.,速度上昇前に警告触覚
 Does not play any speed-increase warning.,速度上昇警告を再生しません。,In-app,tutorial_speed_warning_description_none,,needs_review,
 Plays a short three-note ascending warning chirp.,短い3音の上昇警告音を再生します。,In-app,tutorial_speed_warning_description_sound,,needs_review,
 "RetroRapid! is a 3-lane racing game. Move left or right between the three positions. We play sounds to indicate which lanes are safe, and you must quickly move into a safe lane to overtake cars and avoid crashing.",RetroRapid!は3レーンのレーシングゲームです。3つの位置を左右に移動します。安全なレーンを音で示し、素早く安全レーンへ移動して車を追い抜き、クラッシュを避けましょう。,In-app,tutorial_voiceover_intro,,needs_review,
+Polygon Racing,Polygonレーシング,In-app,vision_64bit_racing,,needs_review,
+Classic,クラシック,In-app,vision_classic_title,,needs_review,
+Classic race track,クラシック・レーストラック,In-app,vision_classic_track,,needs_review,
+Current lane,現在のレーン,In-app,vision_current_lane,,needs_review,
+Game Over,ゲームオーバー,In-app,vision_game_over,,needs_review,
+"Score %lld, %lld lives, level %lld",スコア%lld、ライフ%lld、レベル%lld,In-app,vision_hud_status_format,,needs_review,
+Lane %lld,レーン%lld,In-app,vision_lane_format,,needs_review,
+Level %lld,レベル%lld,In-app,vision_level_format,,needs_review,
+The 3D car could not be loaded. Your race is still active in Classic. Try again.,3Dカーを読み込めませんでした。レースはクラシックで継続中です。もう一度お試しください。,In-app,vision_model_unavailable,,needs_review,
+"Race in a classic window, then move the same run onto your table in 3D.",クラシックウインドウでレースし、同じレースを3Dでテーブルに移動できます。,In-app,vision_play_description,,needs_review,
+Play in 3D,3Dでプレイ,In-app,vision_play_in_3d,,needs_review,
+Moves this race into a tabletop volume without restarting it,レースを再開せずにテーブルトップのボリュームへ移動します,In-app,vision_play_in_3d_hint,,needs_review,
+Race controls,レース操作,In-app,vision_race_controls,,needs_review,
+Race status,レース状況,In-app,vision_race_status,,needs_review,
+"Score %lld, %lld lives, lane %lld of %lld, %@",スコア%lld、ライフ%lld、レーン%lld/%lld、%@,In-app,vision_race_status_format,,needs_review,
+Race track,レーストラック,In-app,vision_race_track_input_label,,needs_review,
+Return to 2D,2Dに戻る,In-app,vision_return_to_2d,,needs_review,
+Returns this race to its classic window without restarting it,レースを再開せずにクラシックウインドウへ戻します,In-app,vision_return_to_2d_hint,,needs_review,
+Select lane,レーンを選択,In-app,vision_select_lane,,needs_review,
+Collision,衝突,In-app,vision_state_collision,,needs_review,
+Finished,終了,In-app,vision_state_finished,,needs_review,
+Paused,一時停止中,In-app,vision_state_paused,,needs_review,
+Racing,レース中,In-app,vision_state_racing,,needs_review,
+Ready,準備完了,In-app,vision_state_ready,,needs_review,
+Tabletop,テーブルトップ,In-app,vision_tabletop_title,,needs_review,
+Tabletop race track,テーブルトップ・レーストラック,In-app,vision_tabletop_track,,needs_review,
+Unable to Switch Presentation,表示を切り替えられません,In-app,vision_transition_alert_title,,needs_review,
+The other presentation could not be opened. Your race is still active. Try again.,別の表示を開けませんでした。レースは継続中です。もう一度お試しください。,In-app,vision_transition_routing_failed,,needs_review,
+The other presentation did not become ready. Your race is still active. Try again.,別の表示の準備が完了しませんでした。レースは継続中です。もう一度お試しください。,In-app,vision_transition_timeout,,needs_review,
 x%lld,x%lld,In-app,x%lld,,needs_review,
 RetroRapid: Retro Arcade Racer,RetroRapid: レトロアーケード,App Store metadata,name,≤ 30 characters,needs_review,
 Dodge Traffic Across 3 Lanes,3レーン交通回避レース,App Store metadata,subtitle,≤ 30 characters,needs_review,

@@ -15,10 +15,25 @@ added to Xcode project membership or embedded in an app product.
   They retain the generated artwork's internal shading and coarse pixel forms,
   with a transparent cutout and binary alpha at each platform's runtime pixel
   budget.
+- `RuntimeMasters2026-08-05/` contains the generated and transparent master
+  artwork for the experimental 32-Bit theme, plus curated per-platform inputs
+  normalized to the established sprite canvases and optical bounds.
+- `RuntimeMasters2026-08-06/` contains generated and model-derived transparent
+  64-Bit masters, including superseded rival concepts, the canonical rival's
+  model-derived visionOS projection, and the curated five-family
+  per-platform inputs used by the active deterministic runtime-asset optimizer.
+- `VisionOS64BitPrototype2026-08-05/` contains the canonical low-poly
+  player USDA, dedicated boxed rival USDA composition, production manifest,
+  fixed-camera sprite inputs, and review previews for the 64-Bit visionOS
+  candidate. The source archive remains
+  outside Xcode target membership; only outputs derived by
+  `./retrorapid assets spatial` may ship. Physical-device art approval remains
+  required before the candidate gate can pass.
 
-Use `./retrorapid assets optimize` for all active generation. Default execution
-applies the plan, `--dry-run` prints it, and `--check` renders to temporary
-storage before comparing pixels and semantic catalog JSON.
+Use `./retrorapid assets optimize` for established runtime sprite families and
+`./retrorapid assets spatial` for both visionOS car models and the model-derived
+rival projections. Both commands support `--dry-run` and non-mutating `--check`
+modes.
 
 When adding or revising a focused asset family, keep the resulting optimized
 diff scoped to that family. If the optimizer reports unrelated generated

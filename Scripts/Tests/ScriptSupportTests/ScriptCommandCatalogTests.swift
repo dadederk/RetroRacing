@@ -26,19 +26,21 @@ func givenCatalogWhenComparedToPackageProductsThenEveryExecutableIsRegistered() 
 
 @Test
 func testGivenCheckRecipeWhenResolvedThenStepsMatchReadmeOrder() {
-    #expect(ScriptCommandCatalog.checkRecipeSteps.count == 9)
+    #expect(ScriptCommandCatalog.checkRecipeSteps.count == 10)
     #expect(ScriptCommandCatalog.checkRecipeSteps[0].executable == "optimize-runtime-assets")
     #expect(ScriptCommandCatalog.checkRecipeSteps[0].arguments == ["--check"])
-    #expect(ScriptCommandCatalog.checkRecipeSteps[1].executable == "asset-audit")
+    #expect(ScriptCommandCatalog.checkRecipeSteps[1].executable == "generate-spatial-assets")
     #expect(ScriptCommandCatalog.checkRecipeSteps[1].arguments == ["--check"])
-    #expect(ScriptCommandCatalog.checkRecipeSteps[2].executable == "generate-road-dash-masks")
-    #expect(ScriptCommandCatalog.checkRecipeSteps[3].executable == "sync-screenshot-studio-localizations")
-    #expect(ScriptCommandCatalog.checkRecipeSteps[4].executable == "generate-metadata-docs")
-    #expect(ScriptCommandCatalog.checkRecipeSteps[5].executable == "localization-workflow")
-    #expect(ScriptCommandCatalog.checkRecipeSteps[5].arguments == ["audit"])
-    #expect(ScriptCommandCatalog.checkRecipeSteps[6].executable == "check-documentation")
-    #expect(ScriptCommandCatalog.checkRecipeSteps[7].executable == "apply-iap-localizations")
-    #expect(ScriptCommandCatalog.checkRecipeSteps[8].executable == "apply-game-center-eu-localizations")
+    #expect(ScriptCommandCatalog.checkRecipeSteps[2].executable == "asset-audit")
+    #expect(ScriptCommandCatalog.checkRecipeSteps[2].arguments == ["--check"])
+    #expect(ScriptCommandCatalog.checkRecipeSteps[3].executable == "generate-road-dash-masks")
+    #expect(ScriptCommandCatalog.checkRecipeSteps[4].executable == "sync-screenshot-studio-localizations")
+    #expect(ScriptCommandCatalog.checkRecipeSteps[5].executable == "generate-metadata-docs")
+    #expect(ScriptCommandCatalog.checkRecipeSteps[6].executable == "localization-workflow")
+    #expect(ScriptCommandCatalog.checkRecipeSteps[6].arguments == ["audit"])
+    #expect(ScriptCommandCatalog.checkRecipeSteps[7].executable == "check-documentation")
+    #expect(ScriptCommandCatalog.checkRecipeSteps[8].executable == "apply-iap-localizations")
+    #expect(ScriptCommandCatalog.checkRecipeSteps[9].executable == "apply-game-center-eu-localizations")
 }
 
 @Test
@@ -168,7 +170,7 @@ func testGivenCheckPlanWhenBuildingCommandsThenEachStepUsesSwiftRun() {
         )
     }
 
-    #expect(commands.count == 9)
+    #expect(commands.count == 10)
     #expect(commands.allSatisfy { $0.arguments.first == "run" })
 }
 
@@ -239,11 +241,16 @@ func givenASCIAPRouteWhenParsingThenDispatchPlanTargetsApplyIAP() throws {
 
 @Test
 func givenASCGameCenterRouteWhenParsingThenDispatchPlanTargetsApplyGameCenter() throws {
-    let plan = try RetroRapidCLIParser.parse(["asc", "game-center", "--leaderboards-only"])
+    let plan = try RetroRapidCLIParser.parse([
+        "asc",
+        "game-center",
+        "--leaderboards-only",
+        "--ensure-leaderboards",
+    ])
     #expect(
         plan == .runSwiftExecutable(
             executable: "apply-game-center-eu-localizations",
-            arguments: ["--leaderboards-only"]
+            arguments: ["--leaderboards-only", "--ensure-leaderboards"]
         )
     )
 }
@@ -320,6 +327,17 @@ func testGivenAssetsOptimizeRouteWhenParsingThenDispatchPlanTargetsSwiftOptimize
     #expect(
         plan == .runSwiftExecutable(
             executable: "optimize-runtime-assets",
+            arguments: ["--check"]
+        )
+    )
+}
+
+@Test
+func givenAssetsSpatialRouteWhenParsingThenDispatchPlanTargetsSpatialGenerator() throws {
+    let plan = try RetroRapidCLIParser.parse(["assets", "spatial", "--check"])
+    #expect(
+        plan == .runSwiftExecutable(
+            executable: "generate-spatial-assets",
             arguments: ["--check"]
         )
     )

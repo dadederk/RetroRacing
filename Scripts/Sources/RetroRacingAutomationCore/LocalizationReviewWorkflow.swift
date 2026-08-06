@@ -10,6 +10,8 @@ import Foundation
 public enum LocalizationReviewWorkflow {
     public static let reviewDirectoryRelativePath = "AppStore/localization/reviews"
     public static let indexRelativePath = "AppStore/localization/README.md"
+    public static let expectedInAppStringCount = 401
+    public static let expectedReviewItemCount = 556
 
     public static func audit(
         repositoryRoot: URL,
@@ -30,11 +32,14 @@ public enum LocalizationReviewWorkflow {
                 "\(snapshot.locale) has an empty \($0.layer) value for \($0.identifier)."
             }
             let appItems = snapshot.items.filter { $0.layer == "In-app" }
-            if appItems.count != 363 {
-                errors.append("\(snapshot.locale) has \(appItems.count) in-app strings; expected 363.")
+            if appItems.count != expectedInAppStringCount {
+                errors.append(
+                    "\(snapshot.locale) has \(appItems.count) in-app strings; "
+                        + "expected \(expectedInAppStringCount)."
+                )
             }
             let expectedLayerCounts = [
-                "In-app": 363,
+                "In-app": expectedInAppStringCount,
                 "App Store metadata": 6,
                 "IAP": 2,
                 "Game Center": 126,

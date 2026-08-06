@@ -86,6 +86,14 @@ public enum RuntimeAssetGeometryProfile: String, Codable, Equatable, Sendable {
     case sixteenBitRivalCar
     case sixteenBitCrash
     case sixteenBitHelmet
+    case thirtyTwoBitPlayerCar
+    case thirtyTwoBitRivalCar
+    case thirtyTwoBitCrash
+    case thirtyTwoBitHelmet
+    case sixtyFourBitPlayerCar
+    case sixtyFourBitRivalCar
+    case sixtyFourBitCrash
+    case sixtyFourBitHelmet
 }
 
 public struct AssetCatalogCompileReport: Equatable, Sendable {

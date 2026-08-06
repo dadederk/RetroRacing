@@ -21,6 +21,7 @@ struct RetroRacingTvOSApp: App {
     private let specialEventService: SpecialEventService
     private let storeKitService: StoreKitService
     private let controllerInputSource: SystemGameControllerInputSource
+    @State private var shouldStartGame = false
     @State private var isMenuPresented = true
     @State private var sessionID = UUID()
 
@@ -34,7 +35,14 @@ struct RetroRacingTvOSApp: App {
             supportsHaptics: false
         )
         storeKitService = StoreKitService(userDefaults: userDefaults)
-        let themeConfig = ThemePlatformConfig.tvOS
+        let themeConfig = ThemePlatformConfig.configuration(
+            for: .tvOS,
+            experimentalThemes: DebugGameplayStorageKeys.experimentalThemeConfiguration(
+                userDefaults: userDefaults,
+                debugFeaturesAllowed: BuildConfiguration.shouldShowDebugFeatures,
+                platform: .tvOS
+            )
+        )
         let configuredThemeManager = ThemeManager(
             configuration: themeConfig,
             userDefaults: userDefaults,
@@ -43,19 +51,25 @@ struct RetroRacingTvOSApp: App {
         themeManager = configuredThemeManager
         fontPreferenceStore = FontPreferenceStore(userDefaults: userDefaults, customFontAvailable: customFontAvailable)
         hapticController = RetroRacingTvOSApp.makeHapticsController()
-        let leaderboardConfig = LeaderboardPlatformConfig(
-            leaderboardID: leaderboardConfiguration.leaderboardID(
-                for: GameDifficulty.currentSelection(from: userDefaults)
-            ),
-            authenticateHandlerSetter: { presenter in
+        let authenticateHandlerSetter: AuthenticateHandlerSetter? = BuildConfiguration.isRunningUITests
+            ? { _ in }
+            : { presenter in
                 GKLocalPlayer.local.authenticateHandler = { viewController, error in
                     if let viewController {
                         presenter.presentAuthenticationUI(viewController)
                         return
                     }
-                    NotificationCenter.default.post(name: .GKPlayerAuthenticationDidChangeNotificationName, object: error)
+                    NotificationCenter.default.post(
+                        name: .GKPlayerAuthenticationDidChangeNotificationName,
+                        object: error
+                    )
                 }
             }
+        let leaderboardConfig = LeaderboardPlatformConfig(
+            leaderboardID: leaderboardConfiguration.leaderboardID(
+                for: GameDifficulty.currentSelection(from: userDefaults)
+            ),
+            authenticateHandlerSetter: authenticateHandlerSetter
         )
         pendingLeaderboardScoreStore = UserDefaultsPendingLeaderboardScoreStore(userDefaults: userDefaults)
         gameCenterService = GameCenterService(
@@ -118,7 +132,7 @@ struct RetroRacingTvOSApp: App {
 
     var body: some Scene {
         WindowGroup {
-            NavigationStack {
+            ZStack {
                 GameView(
                     leaderboardService: gameCenterService,
                     ratingService: ratingService,
@@ -134,14 +148,17 @@ struct RetroRacingTvOSApp: App {
                     inputAdapterFactory: RemoteInputAdapterFactory(),
                     controllerInputSource: controllerInputSource,
                     controlsDescriptionKey: "settings_controls_tvos",
+                    shouldStartGame: shouldStartGame,
                     showMenuButton: true,
                     onFinishRequest: handleFinish,
-                    onMenuRequest: handleMenuRequest,
-                    onPlayRequest: handleControllerPlayRequest,
                     isMenuOverlayPresented: $isMenuPresented
                 )
                 .id(sessionID)
-                .fullScreenCover(isPresented: $isMenuPresented, onDismiss: handleMenuDismissed) {
+                .accessibilityHidden(isMenuPresented)
+                .allowsHitTesting(isMenuPresented == false)
+                .disabled(isMenuPresented)
+
+                if isMenuPresented {
                     MenuView(
                         leaderboardService: gameCenterService,
                         gameCenterService: gameCenterService,
@@ -164,9 +181,16 @@ struct RetroRacingTvOSApp: App {
                         inputAdapterFactory: RemoteInputAdapterFactory(),
                         onPlayRequest: handlePlayRequest
                     )
-                    .interactiveDismissDisabled(true)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(Color.black.ignoresSafeArea())
+                    .zIndex(1)
                 }
-                .animation(nil, value: isMenuPresented)
+            }
+            .animation(nil, value: isMenuPresented)
+            .onChange(of: isMenuPresented) { _, isPresented in
+                if isPresented == false {
+                    handleMenuDismissed()
+                }
             }
             .environment(storeKitService)
             .achievementMetadataService(achievementMetadataService)
@@ -186,8 +210,9 @@ struct RetroRacingTvOSApp: App {
     }
 
     private func handlePlayRequest() {
-        let previousSession = sessionID
-        sessionID = UUID()
+        let previousSession = applyMenuSessionTransition(
+            using: { MenuSessionTransitionPolicy.stateAfterPlayRequest(from: $0) }
+        )
         AppLog.info(
             AppLog.lifecycle + AppLog.game,
             "SESSION_PLAY_REQUEST",
@@ -197,20 +222,6 @@ struct RetroRacingTvOSApp: App {
                 .string("toSession", AppLog.shortID(sessionID))
             ]
         )
-        isMenuPresented = false
-    }
-
-    private func handleControllerPlayRequest() {
-        // Controller Start/Menu pressed while menu is visible — dismiss without resetting session.
-        AppLog.info(
-            AppLog.lifecycle + AppLog.input,
-            "SESSION_PLAY_REQUEST",
-            outcome: .requested,
-            fields: [
-                .string("trigger", "controller_start")
-            ]
-        )
-        isMenuPresented = false
     }
 
     private func handleMenuDismissed() {
@@ -218,11 +229,36 @@ struct RetroRacingTvOSApp: App {
     }
 
     private func handleFinish() {
-        AppLog.info(AppLog.lifecycle + AppLog.game, "SESSION_FINISH_REQUEST", outcome: .requested)
-        isMenuPresented = true
+        let previousSession = applyMenuSessionTransition(
+            using: { MenuSessionTransitionPolicy.stateAfterFinishRequest(from: $0) }
+        )
+        AppLog.info(
+            AppLog.lifecycle + AppLog.game,
+            "SESSION_FINISH_REQUEST",
+            outcome: .requested,
+            fields: [
+                .string("fromSession", AppLog.shortID(previousSession)),
+                .string("toSession", AppLog.shortID(sessionID))
+            ]
+        )
     }
 
-    private func handleMenuRequest() {
-        isMenuPresented = true
+    private var currentMenuSessionState: MenuSessionState {
+        MenuSessionState(
+            shouldStartGame: shouldStartGame,
+            isMenuPresented: isMenuPresented,
+            sessionID: sessionID
+        )
+    }
+
+    private func applyMenuSessionTransition(
+        using transition: (MenuSessionState) -> MenuSessionState
+    ) -> UUID {
+        let previousSessionID = sessionID
+        let nextState = transition(currentMenuSessionState)
+        shouldStartGame = nextState.shouldStartGame
+        isMenuPresented = nextState.isMenuPresented
+        sessionID = nextState.sessionID
+        return previousSessionID
     }
 }

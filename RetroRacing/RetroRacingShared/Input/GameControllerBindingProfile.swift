@@ -108,3 +108,48 @@ public struct GameControllerBindingProfile: Codable, Equatable, Sendable {
         if button == pauseButton && action != .pauseResume { pauseButton = .none }
     }
 }
+
+/// Platform-specific choices shown by the controller mapping UI.
+enum GameControllerBindingOptionPolicy {
+    private static let tvOSAuxiliaryAliases: [GameControllerRemapButton] = [
+        .none,
+        .a,
+        .x,
+        .y,
+        .leftShoulder,
+        .rightShoulder,
+        .leftTrigger,
+        .rightTrigger,
+    ]
+
+    static func tvOSAdditiveButtons(for action: GameControllerRemapAction) -> [GameControllerRemapButton] {
+        let standardButton: GameControllerRemapButton
+        switch action {
+        case .moveLeft:
+            standardButton = .dpadLeft
+        case .moveRight:
+            standardButton = .dpadRight
+        case .pauseResume:
+            standardButton = .menu
+        }
+        return [standardButton] + tvOSAuxiliaryAliases
+    }
+
+    static func tvOSCompatibleProfile(
+        from profile: GameControllerBindingProfile
+    ) -> GameControllerBindingProfile {
+        GameControllerBindingProfile(
+            leftButton: compatibleButton(profile.leftButton, for: .moveLeft),
+            rightButton: compatibleButton(profile.rightButton, for: .moveRight),
+            pauseButton: compatibleButton(profile.pauseButton, for: .pauseResume)
+        )
+    }
+
+    private static func compatibleButton(
+        _ button: GameControllerRemapButton,
+        for action: GameControllerRemapAction
+    ) -> GameControllerRemapButton {
+        let options = tvOSAdditiveButtons(for: action)
+        return options.contains(button) ? button : options[0]
+    }
+}

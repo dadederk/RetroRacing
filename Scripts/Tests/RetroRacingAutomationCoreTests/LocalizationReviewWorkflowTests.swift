@@ -21,9 +21,12 @@ func givenCanonicalSourcesWhenAuditingThenEveryLocaleHasCompleteInAppCoverage() 
 
     #expect(snapshots.count == 20)
     #expect(snapshots.allSatisfy { snapshot in
-        snapshot.items.filter { $0.layer == "In-app" }.count == 363
+        snapshot.items.filter { $0.layer == "In-app" }.count
+            == LocalizationReviewWorkflow.expectedInAppStringCount
     })
-    #expect(snapshots.allSatisfy { $0.items.count == 518 })
+    #expect(snapshots.allSatisfy {
+        $0.items.count == LocalizationReviewWorkflow.expectedReviewItemCount
+    })
     #expect(snapshots.allSatisfy { snapshot in
         Set(snapshot.items.map(\.layer)) == [
             "In-app", "App Store metadata", "IAP", "Game Center",
@@ -62,7 +65,10 @@ func givenStringCatalogWhenReviewWaveIsOpenThenAllNonEnglishUnitsNeedReview() th
             let localizations = (entry as? [String: Any])?["localizations"] as? [String: Any]
             return (localizations?[locale] as? [String: Any])?["stringUnit"] as? [String: Any]
         }
-        #expect(units.count == 363, "Expected full coverage for \(locale)")
+        #expect(
+            units.count == LocalizationReviewWorkflow.expectedInAppStringCount,
+            "Expected full coverage for \(locale)"
+        )
         #expect(units.allSatisfy { $0["state"] as? String == "needs_review" })
     }
 }

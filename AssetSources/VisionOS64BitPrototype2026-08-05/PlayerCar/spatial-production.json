@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 3,
+  "sourcePlayerSprite": "AssetSources/VisionOS64BitPrototype2026-08-05/PlayerCar/Previews/player-car-64bit-sprite.png",
+  "models": {
+    "player": {
+      "sourceUSDA": "AssetSources/VisionOS64BitPrototype2026-08-05/PlayerCar/player-car-64bit.usda",
+      "output": "RetroRacing/RetroRacingVisionOS/Resources/Models/player-car-64bit.usdz",
+      "validation": {
+        "rootNode": "PlayerCar64Bit",
+        "requiredNodes": [
+          "Graphite_Undertray",
+          "RedMid_MainBody",
+          "RedHighlight_CenterSpine",
+          "Ivory_HelmetXLeft",
+          "Ivory_HelmetXRight",
+          "Amber_TailLightLeft",
+          "Amber_TailLightRight",
+          "Rubber_RearWheelLeft",
+          "Rubber_RearWheelRight",
+          "Steel_Exhaust1",
+          "Steel_Exhaust2",
+          "Steel_Exhaust3",
+          "Steel_Exhaust4"
+        ],
+        "forbiddenNodes": [
+          "Amber_RivalTailLightStackLeft",
+          "Amber_RivalTailLightStackRight"
+        ],
+        "requiredMaterials": [
+          "RedHighlight",
+          "RedMid",
+          "RedDark",
+          "Rubber",
+          "Graphite",
+          "Steel",
+          "Ivory",
+          "GlassTeal",
+          "Amber"
+        ],
+        "minimumBounds": [-1.4685, 0.0, -2.15],
+        "maximumBounds": [1.4685, 1.86, 1.9355],
+        "maximumTriangles": 2000,
+        "maximumModelBytes": 102400
+      }
+    },
+    "rival": {
+      "sourceUSDA": "AssetSources/VisionOS64BitPrototype2026-08-05/RivalCar/rival-car-64bit.usda",
+      "output": "RetroRacing/RetroRacingVisionOS/Resources/Models/rival-car-64bit.usdz",
+      "validation": {
+        "rootNode": "RivalCar64Bit",
+        "requiredNodes": [
+          "Graphite_Undertray",
+          "RedMid_MainBody",
+          "RedHighlight_CenterSpine",
+          "Amber_RivalTailLightStackLeft",
+          "Amber_RivalTailLightStackRight",
+          "Rubber_RearWheelLeft",
+          "Rubber_RearWheelRight",
+          "Steel_Exhaust1",
+          "Steel_Exhaust2",
+          "Steel_Exhaust3",
+          "Steel_Exhaust4"
+        ],
+        "forbiddenNodes": [
+          "Ivory_HelmetXLeft",
+          "Ivory_HelmetXRight",
+          "Amber_TailLightLeft",
+          "Amber_TailLightRight"
+        ],
+        "requiredMaterials": [
+          "RedHighlight",
+          "RedMid",
+          "RedDark",
+          "Rubber",
+          "Graphite",
+          "Steel",
+          "Ivory",
+          "GlassTeal",
+          "Amber"
+        ],
+        "minimumBounds": [-1.4685, 0.0, -2.15],
+        "maximumBounds": [1.4685, 1.86, 1.9355],
+        "maximumTriangles": 2000,
+        "maximumModelBytes": 102400
+      }
+    }
+  },
+  "outputs": {
+    "playerSprite": "RetroRacing/RetroRacingVisionOS/Assets.xcassets/Sprites/64Bit/playersCar-64Bit.imageset/playersCar-64Bit.png",
+    "rivalSprite": "RetroRacing/RetroRacingVisionOS/Assets.xcassets/Sprites/64Bit/rivalsCar-64Bit.imageset/rivalsCar-64Bit.png",
+    "rivalSpriteMaster": "AssetSources/VisionOS64BitPrototype2026-08-05/RivalCar/Previews/rival-car-64bit-sprite.png",
+    "rivalCuratedVisionOS": "AssetSources/RuntimeMasters2026-08-06/CuratedVisionOS/rivalsCar-64Bit.png",
+    "rivalCuratedCatalog": "AssetSources/RuntimeMasters2026-08-06/CuratedCatalog/Sprites/64Bit/rivalsCar-64Bit.imageset"
+  },
+  "camera": {
+    "projection": "orthographic-rear",
+    "position": [0.0, 1.05, 5.8],
+    "target": [0.0, 0.85, 0.0],
+    "orthographicScale": 2.45,
+    "pixelWidth": 768,
+    "pixelHeight": 600,
+    "nearestNeighbor": true
+  },
+  "validation": {
+    "maximumSpriteBytes": 25600,
+    "archiveTimestamp": "2001-01-01T00:00:00Z"
+  }
+}

@@ -120,9 +120,9 @@ enum AssetCatalogValidator {
         idiom: String
     ) -> (width: Int, height: Int)? {
         switch profile {
-        case .helmet, .sixteenBitHelmet:
+        case .helmet, .sixteenBitHelmet, .thirtyTwoBitHelmet, .sixtyFourBitHelmet:
             return idiom == "watch" ? (64, 55) : (256, 222)
-        case .sixteenBitPlayerCar:
+        case .sixteenBitPlayerCar, .thirtyTwoBitPlayerCar, .sixtyFourBitPlayerCar:
             return dimensionsByIdiom(
                 idiom,
                 iphoneAndIPad: (768, 536),
@@ -130,7 +130,7 @@ enum AssetCatalogValidator {
                 tv: (512, 357),
                 watch: (256, 179)
             )
-        case .sixteenBitRivalCar:
+        case .sixteenBitRivalCar, .thirtyTwoBitRivalCar, .sixtyFourBitRivalCar:
             return dimensionsByIdiom(
                 idiom,
                 iphoneAndIPad: (768, 496),
@@ -138,7 +138,7 @@ enum AssetCatalogValidator {
                 tv: (512, 331),
                 watch: (256, 165)
             )
-        case .sixteenBitCrash:
+        case .sixteenBitCrash, .thirtyTwoBitCrash, .sixtyFourBitCrash:
             return dimensionsByIdiom(
                 idiom,
                 iphoneAndIPad: (768, 528),

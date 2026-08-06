@@ -16,4 +16,5 @@ struct SimctlDevice: Decodable {
     let name: String
     let state: String?
     let isAvailable: Bool?
+    let dataPath: String?
 }

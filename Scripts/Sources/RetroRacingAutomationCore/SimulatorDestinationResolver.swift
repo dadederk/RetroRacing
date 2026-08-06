@@ -14,10 +14,12 @@ public enum SimulatorDestinationResolver {
         public let osVersion: String
         public let udid: String
         public let platformFamily: PlatformFamily
+        public let isBooted: Bool
 
         public enum PlatformFamily: Equatable, Sendable {
             case iOS
             case watchOS
+            case visionOS
         }
 
         public var destination: String {
@@ -26,6 +28,8 @@ public enum SimulatorDestinationResolver {
                 return "platform=iOS Simulator,id=\(udid)"
             case .watchOS:
                 return "platform=watchOS Simulator,id=\(udid)"
+            case .visionOS:
+                return "platform=visionOS Simulator,id=\(udid)"
             }
         }
     }
@@ -78,7 +82,8 @@ public enum SimulatorDestinationResolver {
                         name: device.name,
                         osVersion: runtimeOSVersion,
                         udid: device.udid,
-                        platformFamily: platformFamily
+                        platformFamily: platformFamily,
+                        isBooted: device.state == "Booted"
                     )
                 )
             }
@@ -155,7 +160,8 @@ public enum SimulatorDestinationResolver {
                         name: device.name,
                         osVersion: osVersion,
                         udid: device.udid,
-                        platformFamily: platformFamily
+                        platformFamily: platformFamily,
+                        isBooted: device.state == "Booted"
                     )
                 )
             }
@@ -193,6 +199,43 @@ public enum SimulatorDestinationResolver {
         return data
     }
 
+    public static func resolveTestingCandidate(
+        platformFamily: Candidate.PlatformFamily,
+        minimumMajorVersion: Int,
+        devicesJSON: Data
+    ) throws -> Candidate? {
+        let payload = try JSONDecoder().decode(SimctlDevicesResponse.self, from: devicesJSON)
+        var candidates = [Candidate]()
+        for (runtimeIdentifier, devices) in payload.devices {
+            guard runtimeMatches(platformFamily, runtimeIdentifier: runtimeIdentifier),
+                  let version = osVersion(fromRuntimeIdentifier: runtimeIdentifier),
+                  let major = Int(version.split(separator: ".").first ?? ""),
+                  major >= minimumMajorVersion else { continue }
+            for device in devices where isUsableTestingDevice(device) {
+                candidates.append(Candidate(
+                    name: device.name,
+                    osVersion: version,
+                    udid: device.udid,
+                    platformFamily: platformFamily,
+                    isBooted: device.state == "Booted"
+                ))
+            }
+        }
+        return candidates.sorted { lhs, rhs in
+            if lhs.isBooted != rhs.isBooted { return lhs.isBooted }
+            let versionOrder = compareOSVersions(lhs.osVersion, rhs.osVersion)
+            if versionOrder != .orderedSame { return versionOrder == .orderedDescending }
+            if lhs.name != rhs.name { return lhs.name < rhs.name }
+            return lhs.udid < rhs.udid
+        }.first
+    }
+
+    private static func isUsableTestingDevice(_ device: SimctlDevice) -> Bool {
+        guard device.isAvailable != false else { return false }
+        guard let dataPath = device.dataPath else { return true }
+        return FileManager.default.fileExists(atPath: dataPath)
+    }
+
     static func runtimeMatches(
         _ platformFamily: Candidate.PlatformFamily,
         runtimeIdentifier: String
@@ -202,6 +245,8 @@ public enum SimulatorDestinationResolver {
             return runtimeIdentifier.contains("SimRuntime.iOS")
         case .watchOS:
             return runtimeIdentifier.contains("SimRuntime.watchOS")
+        case .visionOS:
+            return runtimeIdentifier.contains("SimRuntime.xrOS")
         }
     }
 

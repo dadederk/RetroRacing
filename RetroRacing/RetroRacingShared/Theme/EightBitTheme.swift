@@ -21,7 +21,7 @@ public struct EightBitTheme: GameTheme {
     }
 
     public var id: ThemeID { .eightBit }
-    public var name: String { "8-Bit" }
+    public var name: String { "Cartridge" }
 
     public func backgroundColor(for state: GameState) -> Color {
         Color(red: 174 / 255, green: 179 / 255, blue: 187 / 255)

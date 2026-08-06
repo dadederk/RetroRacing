@@ -10324,6 +10324,256 @@
         }
       }
     },
+    "debug_enable_experimental_thirty_two_bit_theme": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Activa el tema experimental Disc"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Experimentelles Disc-Theme aktivieren"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enable experimental Disc theme"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enable experimental Disc theme"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enable experimental Disc theme"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enable experimental Disc theme"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Activar el tema experimental Disc"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Activer le thème expérimental Disc"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Abilita il tema sperimentale Disc"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Experimenteel Disc-thema inschakelen"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "実験的なDiscテーマを有効にする"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "실험적 Disc 테마 활성화"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ativar tema experimental Disc"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "啟用實驗性 Disc 主題"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ativar o tema experimental Disc"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "启用实验性 Disc 主题"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Activer le thème expérimental Disc"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Deneysel Disc temasını etkinleştir"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Włącz eksperymentalny motyw Disc"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Activar el tema experimental Disc"
+          }
+        }
+      }
+    },
+    "debug_enable_experimental_sixty_four_bit_theme": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Activa el tema experimental Polygon"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Experimentelles Polygon-Theme aktivieren"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enable experimental Polygon theme"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enable experimental Polygon theme"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enable experimental Polygon theme"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enable experimental Polygon theme"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Activar el tema experimental Polygon"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Activer le thème expérimental Polygon"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Abilita il tema sperimentale Polygon"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Experimenteel Polygon-thema inschakelen"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "実験的なPolygonテーマを有効にする"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "실험적 Polygon 테마 활성화"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ativar tema experimental Polygon"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "啟用實驗性 Polygon 主題"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ativar o tema experimental Polygon"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "启用实验性 Polygon 主题"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Activer le thème expérimental Polygon"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Deneysel Polygon temasını etkinleştir"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Włącz eksperymentalny motyw Polygon"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Activar el tema experimental Polygon"
+          }
+        }
+      }
+    },
     "debug_section_title": {
       "extractionState": "manual",
       "localizations": {
@@ -13195,6 +13445,506 @@
           "stringUnit": {
             "state": "needs_review",
             "value": "La clasificación de Game Center no ha estado disponible en este dispositivo."
+          }
+        }
+      }
+    },
+    "game_exit_confirmation_finish": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Finalitza la partida"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Spiel beenden"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finish Game"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finish Game"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finish Game"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finish Game"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Finalizar partida"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Terminer la partie"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Termina partita"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Spel beëindigen"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ゲームを終了"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "게임 끝내기"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Encerrar partida"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "結束遊戲"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Terminar partida"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "结束游戏"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Terminer la partie"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Oyunu Bitir"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Zakończ grę"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Terminar partida"
+          }
+        }
+      }
+    },
+    "game_exit_confirmation_keep_playing": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Continua jugant"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Weiterspielen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep Playing"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep Playing"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep Playing"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Keep Playing"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Seguir jugando"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Continuer à jouer"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Continua a giocare"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Verder spelen"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "プレイを続ける"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "계속 플레이"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Continuar jogando"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "繼續遊玩"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Continuar a jogar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "继续游戏"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Continuer à jouer"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Oynamaya Devam Et"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Graj dalej"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Seguir jugando"
+          }
+        }
+      }
+    },
+    "game_exit_confirmation_message": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Vols finalitzar esta partida i tornar al menú?"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Möchtest du dieses Spiel beenden und zum Menü zurückkehren?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Do you want to finish this game and return to the menu?"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Do you want to finish this game and return to the menu?"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Do you want to finish this game and return to the menu?"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Do you want to finish this game and return to the menu?"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "¿Quieres finalizar esta partida y volver al menú?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Veux-tu terminer cette partie et revenir au menu ?"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Vuoi terminare questa partita e tornare al menu?"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wil je dit spel beëindigen en teruggaan naar het menu?"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "このゲームを終了してメニューに戻りますか？"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "이 게임을 끝내고 메뉴로 돌아갈까요?"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Quer encerrar esta partida e voltar ao menu?"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "要結束這場遊戲並返回選單嗎？"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pretende terminar esta partida e voltar ao menu?"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "要结束这局游戏并返回菜单吗？"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Voulez-vous terminer cette partie et retourner au menu?"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Bu oyunu bitirip menüye dönmek istiyor musun?"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Czy chcesz zakończyć tę grę i wrócić do menu?"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "¿Quieres terminar esta partida y volver al menú?"
+          }
+        }
+      }
+    },
+    "game_exit_confirmation_title": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Finalitzar esta partida?"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Dieses Spiel beenden?"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finish this game?"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finish this game?"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finish this game?"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finish this game?"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "¿Finalizar esta partida?"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Terminer cette partie ?"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Terminare questa partita?"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Dit spel beëindigen?"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "このゲームを終了しますか？"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "이 게임을 끝낼까요?"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Encerrar esta partida?"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "要結束這場遊戲嗎？"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Terminar esta partida?"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "要结束这局游戏吗？"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Terminer cette partie?"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Bu oyun bitirilsin mi?"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Zakończyć tę grę?"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "¿Terminar esta partida?"
           }
         }
       }
@@ -24573,6 +25323,131 @@
         }
       }
     },
+    "settings_controller_footnote_tvos": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Els controls estàndard D-pad/stick esquerre i Menú/Inici sempre funcionen. Els botons A, X, Y, superiors i gallets assignats afigen controls alternatius. B/Arrere obri la confirmació per finalitzar."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Die Standardsteuerung mit Steuerkreuz/linkem Stick und Menü/Start funktioniert immer. Zugewiesene A-, X-, Y-, Schulter- und Trigger-Tasten dienen als Alternativen. B/Zurück öffnet die Bestätigung zum Beenden."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Standard D-pad/left stick and Menu/Start controls always work. Mapped A, X, Y, shoulder, and trigger buttons add alternate controls. B/Back opens the finish confirmation."
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Standard D-pad/left stick and Menu/Start controls always work. Mapped A, X, Y, shoulder, and trigger buttons add alternate controls. B/Back opens the finish confirmation."
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Standard D-pad/left stick and Menu/Start controls always work. Mapped A, X, Y, shoulder, and trigger buttons add alternate controls. B/Back opens the finish confirmation."
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Standard D-pad/left stick and Menu/Start controls always work. Mapped A, X, Y, shoulder, and trigger buttons add alternate controls. B/Back opens the finish confirmation."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Los controles estándar D-pad/stick izquierdo y Menú/Inicio siempre funcionan. Los botones A, X, Y, superiores y gatillos asignados añaden controles alternativos. B/Atrás abre la confirmación para finalizar."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Les commandes standard D-pad/stick gauche et Menu/Start fonctionnent toujours. Les boutons A, X, Y, les boutons supérieurs et les gâchettes assignés ajoutent des alternatives. B/Retour ouvre la confirmation pour terminer."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "I controlli standard D-pad/stick sinistro e Menu/Start funzionano sempre. I pulsanti A, X, Y, dorsali e grilletti assegnati aggiungono controlli alternativi. B/Indietro apre la conferma per terminare."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "De standaardbediening met D-pad/linkerstick en Menu/Start werkt altijd. Toegewezen A-, X-, Y-, schouder- en triggerknoppen voegen alternatieve bediening toe. B/Terug opent de bevestiging om te stoppen."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "標準の方向パッド／左スティックとメニュー／スタートは常に使えます。割り当てたA、X、Y、ショルダー、トリガーボタンは代替操作になります。B／戻るで終了確認を開きます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "기본 방향 패드/왼쪽 스틱과 메뉴/시작 조작은 항상 사용할 수 있어요. 지정한 A, X, Y, 숄더, 트리거 버튼은 보조 조작으로 사용돼요. B/뒤로는 종료 확인을 열어요."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Os controles padrão com direcional/analógico esquerdo e Menu/Iniciar sempre funcionam. Os botões A, X, Y, superiores e gatilhos atribuídos adicionam controles alternativos. B/Voltar abre a confirmação para encerrar."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "標準方向鍵／左搖桿與選單／開始控制永遠有效。自訂的 A、X、Y、肩鍵和扳機鍵可作為替代控制。B／返回會開啟結束確認。"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Os controlos padrão com D-pad/analógico esquerdo e Menu/Iniciar funcionam sempre. Os botões A, X, Y, superiores e gatilhos atribuídos adicionam controlos alternativos. B/Voltar abre a confirmação para terminar."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "标准方向键／左摇杆与菜单／开始控制始终有效。自定义的 A、X、Y、肩键和扳机键可作为替代控制。B／返回会打开结束确认。"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Les commandes standard D-pad/stick gauche et Menu/Start fonctionnent toujours. Les boutons A, X, Y, les boutons supérieurs et les gâchettes assignés ajoutent des alternatives. B/Retour ouvre la confirmation pour terminer."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Standart yön tuşu/sol çubuk ve Menü/Başlat kontrolleri her zaman çalışır. Atanan A, X, Y, omuz ve tetik düğmeleri alternatif kontroller ekler. B/Geri, bitirme onayını açar."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Standardowe sterowanie D-padem/lewym drążkiem oraz Menu/Start zawsze działa. Przypisane przyciski A, X, Y, przyciski boczne i spusty dodają alternatywne sterowanie. B/Wstecz otwiera potwierdzenie zakończenia."
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Los controles estándar D-pad/palanca izquierda y Menú/Inicio siempre funcionan. Los botones A, X, Y, superiores y gatillos asignados agregan controles alternativos. B/Atrás abre la confirmación para terminar."
+          }
+        }
+      }
+    },
     "settings_controller_move_left": {
       "extractionState": "manual",
       "localizations": {
@@ -25454,121 +26329,121 @@
         "ca": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "• Llisca a l'esquerra o a la dreta amb el control remot Siri per moure.\n• Fes clic al botó de reproducció per confirmar.\n• Amb un comandament, pots remapejar botons en les opcions de Comandament."
+            "value": "• Llisca a l'esquerra o a la dreta, o fes clic a la vora esquerra o dreta del Siri Remote, per moure.\n• Prem Reproducció/Pausa per pausar o reprendre.\n• Prem Menú/Arrere per decidir si vols finalitzar la partida.\n• Amb un comandament, usa el D-pad o el stick esquerre per moure, Menú/Inici per pausar i B/Arrere per finalitzar. Els botons assignats afigen controls alternatius."
           }
         },
         "de": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "• Wische mit der Siri Remote links oder rechts zum Bewegen.\n• Drücke die Play-Taste zum Auswählen.\n• Mit einem Controller kannst du Tasten in den Controller-Einstellungen neu belegen."
+            "value": "• Wische auf der Siri Remote nach links oder rechts oder klicke auf den linken oder rechten Rand, um dich zu bewegen.\n• Drücke Play/Pause, um zu pausieren oder fortzufahren.\n• Drücke Menü/Zurück, um zu entscheiden, ob du das Spiel beenden möchtest.\n• Mit einem Controller bewegst du dich mit Steuerkreuz oder linkem Stick, pausierst mit Menü/Start und beendest mit B/Zurück. Zugewiesene Tasten dienen als alternative Steuerung."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "• Swipe left or right on the Siri Remote to move.\n• Press the play button to select.\n• With a controller, you can remap button bindings in Controller settings."
+            "value": "• Swipe left or right, or click the left or right edge of the Siri Remote, to move.\n• Press Play/Pause to pause or resume.\n• Press Menu/Back to choose whether to finish the game.\n• With a controller, use the D-pad or left stick to move, Menu/Start to pause, and B/Back to finish. Mapped buttons add alternate controls."
           }
         },
         "en-AU": {
           "stringUnit": {
             "state": "translated",
-            "value": "• Swipe left or right on the Siri Remote to move.\n• Press the play button to select.\n• With a controller, you can remap button bindings in Controller settings."
+            "value": "• Swipe left or right, or click the left or right edge of the Siri Remote, to move.\n• Press Play/Pause to pause or resume.\n• Press Menu/Back to choose whether to finish the game.\n• With a controller, use the D-pad or left stick to move, Menu/Start to pause, and B/Back to finish. Mapped buttons add alternate controls."
           }
         },
         "en-CA": {
           "stringUnit": {
             "state": "translated",
-            "value": "• Swipe left or right on the Siri Remote to move.\n• Press the play button to select.\n• With a controller, you can remap button bindings in Controller settings."
+            "value": "• Swipe left or right, or click the left or right edge of the Siri Remote, to move.\n• Press Play/Pause to pause or resume.\n• Press Menu/Back to choose whether to finish the game.\n• With a controller, use the D-pad or left stick to move, Menu/Start to pause, and B/Back to finish. Mapped buttons add alternate controls."
           }
         },
         "en-GB": {
           "stringUnit": {
             "state": "translated",
-            "value": "• Swipe left or right on the Siri Remote to move.\n• Press the play button to select.\n• With a controller, you can remap button bindings in Controller settings."
+            "value": "• Swipe left or right, or click the left or right edge of the Siri Remote, to move.\n• Press Play/Pause to pause or resume.\n• Press Menu/Back to choose whether to finish the game.\n• With a controller, use the D-pad or left stick to move, Menu/Start to pause, and B/Back to finish. Mapped buttons add alternate controls."
           }
         },
         "es": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "• Desliza a la izquierda o derecha con el mando Siri para mover.\n• Pulsa el botón de reproducción para seleccionar.\n• Con un mando, puedes remapear botones en los ajustes de Mando."
+            "value": "• Desliza a la izquierda o a la derecha, o pulsa el borde izquierdo o derecho del Siri Remote, para moverte.\n• Pulsa Reproducción/Pausa para pausar o reanudar.\n• Pulsa Menú/Atrás para decidir si quieres finalizar la partida.\n• Con un mando, usa el D-pad o el stick izquierdo para moverte, Menú/Inicio para pausar y B/Atrás para finalizar. Los botones asignados añaden controles alternativos."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "• Glisse à gauche ou à droite avec la Siri Remote pour te déplacer.\n• Appuie sur le bouton lecture pour sélectionner.\n• Avec une manette, tu peux remapper les boutons dans Réglages Manette."
+            "value": "• Glisse à gauche ou à droite, ou clique sur le bord gauche ou droit de la Siri Remote, pour te déplacer.\n• Appuie sur Lecture/Pause pour mettre en pause ou reprendre.\n• Appuie sur Menu/Retour pour choisir si tu veux terminer la partie.\n• Avec une manette, utilise le D-pad ou le stick gauche pour te déplacer, Menu/Start pour mettre en pause et B/Retour pour terminer. Les boutons assignés ajoutent des commandes alternatives."
           }
         },
         "it": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "• Scorri a sinistra o a destra con il telecomando Siri per muoverti.\n• Premi il pulsante play per selezionare.\n• Con un controller puoi rimappare i pulsanti nelle impostazioni Controller."
+            "value": "• Scorri a sinistra o a destra, oppure premi il bordo sinistro o destro del telecomando Siri, per muoverti.\n• Premi Riproduci/Pausa per mettere in pausa o riprendere.\n• Premi Menu/Indietro per scegliere se terminare la partita.\n• Con un controller, usa il D-pad o lo stick sinistro per muoverti, Menu/Start per mettere in pausa e B/Indietro per terminare. I pulsanti assegnati aggiungono controlli alternativi."
           }
         },
         "nl": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "• Veeg links of rechts met de Siri Remote om te bewegen.\n• Druk op de afspeelknop om te selecteren.\n• Met een controller kun je knoppen opnieuw toewijzen in Controller-instellingen."
+            "value": "• Veeg naar links of rechts, of klik op de linker- of rechterrand van de Siri Remote, om te bewegen.\n• Druk op Speel af/Pauze om te pauzeren of door te gaan.\n• Druk op Menu/Terug om te kiezen of je het spel wilt beëindigen.\n• Gebruik met een controller de D-pad of linkerstick om te bewegen, Menu/Start om te pauzeren en B/Terug om te stoppen. Toegewezen knoppen voegen alternatieve bediening toe."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "• Siri Remoteを左右にスワイプして移動。\n• 再生ボタンで選択。\n• コントローラー使用時は、コントローラー設定でボタンを再割り当てできます。"
+            "value": "• Siri Remoteを左右にスワイプするか、左端または右端をクリックして移動します。\n• 再生／一時停止ボタンで一時停止または再開します。\n• メニュー／戻るボタンでゲームを終了するか選びます。\n• コントローラーでは、方向パッドまたは左スティックで移動し、メニュー／スタートで一時停止、B／戻るで終了します。割り当てたボタンは代替操作として使えます。"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "• Siri Remote을 좌우로 스와이프하여 이동.\n• 재생 버튼으로 선택.\n• 컨트롤러 사용 시 컨트롤러 설정에서 버튼을 재할당할 수 있어요."
+            "value": "• Siri Remote을 좌우로 쓸어 넘기거나 왼쪽 또는 오른쪽 가장자리를 클릭하여 이동해요.\n• 재생/일시 정지 버튼으로 일시 정지하거나 다시 시작해요.\n• 메뉴/뒤로 버튼으로 게임을 끝낼지 선택해요.\n• 컨트롤러에서는 방향 패드 또는 왼쪽 스틱으로 이동하고, 메뉴/시작으로 일시 정지하며, B/뒤로로 종료해요. 지정한 버튼은 보조 조작으로 사용할 수 있어요."
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "• Deslize o Siri Remote para a esquerda ou direita.\n• Pressione o botão play para selecionar.\n• Com controle, você pode remapear botões em Controles."
+            "value": "• Deslize para a esquerda ou direita, ou clique na borda esquerda ou direita do Siri Remote, para mover.\n• Pressione Reproduzir/Pausar para pausar ou retomar.\n• Pressione Menu/Voltar para escolher se quer encerrar a partida.\n• Com controle, use o direcional ou o analógico esquerdo para mover, Menu/Iniciar para pausar e B/Voltar para encerrar. Os botões atribuídos adicionam controles alternativos."
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "• 在 Siri Remote 上左右滑動移動。\n• 按播放鍵選取。\n• 使用控制器時，可在控制器設定中重新對應按鈕。"
+            "value": "• 在 Siri Remote 上向左或向右滑動，或按一下左側或右側邊緣來移動。\n• 按下播放／暫停以暫停或繼續。\n• 按下選單／返回來選擇是否結束遊戲。\n• 使用控制器時，以方向鍵或左搖桿移動、選單／開始暫停，並以 B／返回結束。自訂按鈕可作為替代控制。"
           }
         },
         "pt-PT": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "• Deslize o Siri Remote para a esquerda ou direita.\n• Pressione o botão play para selecionar.\n• Com comando, pode remapear botões em Controlos."
+            "value": "• Deslize para a esquerda ou direita, ou clique na extremidade esquerda ou direita do Siri Remote, para mover.\n• Prima Reproduzir/Pausa para pausar ou retomar.\n• Prima Menu/Voltar para escolher se pretende terminar a partida.\n• Com comando, use o D-pad ou o analógico esquerdo para mover, Menu/Iniciar para pausar e B/Voltar para terminar. Os botões atribuídos adicionam controlos alternativos."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "• 在 Siri Remote 上左右滑动移动。\n• 按播放键选取。\n• 使用控制器时，可在控制器设置中重新对应按钮。"
+            "value": "• 在 Siri Remote 上向左或向右滑动，或点按左侧或右侧边缘来移动。\n• 按下播放／暂停以暂停或继续。\n• 按下菜单／返回来选择是否结束游戏。\n• 使用控制器时，以方向键或左摇杆移动、菜单／开始暂停，并以 B／返回结束。自定义按钮可作为替代控制。"
           }
         },
         "fr-CA": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "• Glissez à gauche ou à droite avec la Siri Remote pour vous déplacer.\n• Appuyez sur le bouton lecture pour sélectionner.\n• Avec une manette, vous pouvez remapper les boutons dans Réglages Manette."
+            "value": "• Glissez à gauche ou à droite, ou cliquez sur le bord gauche ou droit de la Siri Remote, pour vous déplacer.\n• Appuyez sur Lecture/Pause pour mettre en pause ou reprendre.\n• Appuyez sur Menu/Retour pour choisir si vous voulez terminer la partie.\n• Avec une manette, utilisez le D-pad ou le stick gauche pour vous déplacer, Menu/Start pour mettre en pause et B/Retour pour terminer. Les boutons assignés ajoutent des commandes alternatives."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "• Hareket etmek için Siri Remote'da sola veya sağa kaydır.\n• Seçmek için oynat düğmesine bas.\n• Kumandayla düğme eşlemelerini Kumanda ayarlarından değiştirebilirsin."
+            "value": "• Hareket etmek için Siri Remote'da sola veya sağa kaydır ya da sol veya sağ kenara tıkla.\n• Duraklatmak veya sürdürmek için Oynat/Duraklat'a bas.\n• Oyunu bitirip bitirmemeyi seçmek için Menü/Geri'ye bas.\n• Kumandayla yön tuşu veya sol çubukla hareket et, Menü/Başlat ile duraklat ve B/Geri ile bitir. Atanan düğmeler alternatif kontroller ekler."
           }
         },
         "pl": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "• Przesuń palcem w lewo lub w prawo na Siri Remote.\n• Naciśnij przycisk odtwarzania, aby wybrać.\n• Na kontrolerze możesz zmienić przypisanie przycisków w jego ustawieniach."
+            "value": "• Przesuń palcem w lewo lub w prawo albo kliknij lewą lub prawą krawędź Siri Remote, aby się poruszyć.\n• Naciśnij Odtwarzaj/Pauza, aby wstrzymać lub wznowić grę.\n• Naciśnij Menu/Wstecz, aby zdecydować, czy zakończyć grę.\n• Na kontrolerze użyj D-pada lub lewego drążka do ruchu, Menu/Start do pauzy, a B/Wstecz do zakończenia. Przypisane przyciski dodają alternatywne sterowanie."
           }
         },
         "es-MX": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "• Desliza a la izquierda o derecha con el mando Siri para mover.\n• Pulsa el botón de reproducción para seleccionar.\n• Con un mando, puedes remapear botones en los ajustes de Mando."
+            "value": "• Desliza a la izquierda o a la derecha, o pulsa el borde izquierdo o derecho del Siri Remote, para moverte.\n• Pulsa Reproducción/Pausa para pausar o reanudar.\n• Pulsa Menú/Atrás para decidir si quieres terminar la partida.\n• Con un control, usa el D-pad o la palanca izquierda para moverte, Menú/Inicio para pausar y B/Atrás para terminar. Los botones asignados agregan controles alternativos."
           }
         }
       }
@@ -29829,121 +30704,121 @@
         "ca": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Previsualització del tema 8-Bit. Espurna de consola de saló: dos cotxes de píxels valents, dos cascos amb força, una explosió taronja calenta i una carretera grisa arcade amb línies grogues."
+            "value": "Previsualització del tema %@. Espurna de consola de saló: dos cotxes de píxels valents, dos cascos amb força, una explosió taronja calenta i una carretera grisa arcade amb línies grogues."
           }
         },
         "de": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Vorschau für das 8-Bit-Theme. Heimkonsolen-Funkeln: zwei kräftige Pixelautos, zwei markante Helme, ein heißer orangener Crash und eine graue Arcade-Straße mit leuchtend gelben Linien."
+            "value": "Vorschau für das %@-Theme. Heimkonsolen-Funkeln: zwei kräftige Pixelautos, zwei markante Helme, ein heißer orangener Crash und eine graue Arcade-Straße mit leuchtend gelben Linien."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "8-Bit theme preview. Home-console sparkle: two bold pixel cars, two punchy helmets, a hot orange crash, and a gray arcade road with bright yellow lines."
+            "value": "%@ theme preview. Home-console sparkle: two bold pixel cars, two punchy helmets, a hot orange crash, and a gray arcade road with bright yellow lines."
           }
         },
         "en-AU": {
           "stringUnit": {
             "state": "translated",
-            "value": "8-Bit theme preview. Home-console sparkle: two bold pixel cars, two punchy helmets, a hot orange crash, and a grey arcade road with bright yellow lines."
+            "value": "%@ theme preview. Home-console sparkle: two bold pixel cars, two punchy helmets, a hot orange crash, and a grey arcade road with bright yellow lines."
           }
         },
         "en-CA": {
           "stringUnit": {
             "state": "translated",
-            "value": "8-Bit theme preview. Home-console sparkle: two bold pixel cars, two punchy helmets, a hot orange crash, and a gray arcade road with bright yellow lines."
+            "value": "%@ theme preview. Home-console sparkle: two bold pixel cars, two punchy helmets, a hot orange crash, and a gray arcade road with bright yellow lines."
           }
         },
         "en-GB": {
           "stringUnit": {
             "state": "translated",
-            "value": "8-Bit theme preview. Home-console sparkle: two bold pixel cars, two punchy helmets, a hot orange crash, and a grey arcade road with bright yellow lines."
+            "value": "%@ theme preview. Home-console sparkle: two bold pixel cars, two punchy helmets, a hot orange crash, and a grey arcade road with bright yellow lines."
           }
         },
         "es": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Vista previa del tema 8-Bit. Brillo de consola de salón: dos coches pixelados atrevidos, dos cascos con carácter, una explosión naranja intensa y una carretera arcade gris con líneas amarillas."
+            "value": "Vista previa del tema %@. Brillo de consola de salón: dos coches pixelados atrevidos, dos cascos con carácter, una explosión naranja intensa y una carretera arcade gris con líneas amarillas."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Aperçu du thème 8-Bit. Éclat de console de salon: deux voitures pixel audacieuses, deux casques punchy, un crash orange brûlant et une route arcade grise aux lignes jaune vif."
+            "value": "Aperçu du thème %@. Éclat de console de salon: deux voitures pixel audacieuses, deux casques punchy, un crash orange brûlant et une route arcade grise aux lignes jaune vif."
           }
         },
         "it": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Anteprima del tema 8-Bit. Scintilla da console di casa: due auto pixel decise, due caschi grintosi, uno schianto arancione acceso e una strada arcade grigia con linee gialle."
+            "value": "Anteprima del tema %@. Scintilla da console di casa: due auto pixel decise, due caschi grintosi, uno schianto arancione acceso e una strada arcade grigia con linee gialle."
           }
         },
         "nl": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Themapreview voor 8-Bit. Huiskamerconsole-energie: twee stoere pixelauto's, twee pittige helmen, een hete oranje crash en een grijze arcadeweg met felgele lijnen."
+            "value": "Themapreview voor %@. Huiskamerconsole-energie: twee stoere pixelauto's, twee pittige helmen, een hete oranje crash en een grijze arcadeweg met felgele lijnen."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "8-Bitテーマのプレビュー。家庭用コンソールのきらめき。太いピクセルカー2台、パンチのあるヘルメット2つ、熱いオレンジのクラッシュ、鮮やかな黄色ラインのグレーのアーケード道路。"
+            "value": "%@テーマのプレビュー。家庭用コンソールのきらめき。太いピクセルカー2台、パンチのあるヘルメット2つ、熱いオレンジのクラッシュ、鮮やかな黄色ラインのグレーのアーケード道路。"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "8-Bit 테마 미리보기. 가정용 콘솔의 반짝임: 굵직한 픽셀 자동차 두 대, 강렬한 헬멧 두 개, 뜨거운 주황색 충돌, 선명한 노란 선이 있는 회색 아케이드 도로."
+            "value": "%@ 테마 미리보기. 가정용 콘솔의 반짝임: 굵직한 픽셀 자동차 두 대, 강렬한 헬멧 두 개, 뜨거운 주황색 충돌, 선명한 노란 선이 있는 회색 아케이드 도로."
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Prévia do tema 8-Bit. Brilho de console de casa: dois carros pixelados marcantes, dois capacetes cheios de atitude, uma batida laranja quente e uma pista arcade cinza com linhas amarelas."
+            "value": "Prévia do tema %@. Brilho de console de casa: dois carros pixelados marcantes, dois capacetes cheios de atitude, uma batida laranja quente e uma pista arcade cinza com linhas amarelas."
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "8-Bit 主題預覽。家用主機的閃亮感：兩台大膽像素車、兩頂有力頭盔、熱烈橘色撞擊，以及有亮黃線條的灰色街機道路。"
+            "value": "%@ 主題預覽。家用主機的閃亮感：兩台大膽像素車、兩頂有力頭盔、熱烈橘色撞擊，以及有亮黃線條的灰色街機道路。"
           }
         },
         "pt-PT": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Pré-visualização do tema 8-Bit. Brilho de consola caseira: dois carros pixelizados marcantes, dois capacetes cheios de atitude, um embate laranja quente e uma estrada arcade cinzenta com linhas amarelas."
+            "value": "Pré-visualização do tema %@. Brilho de consola caseira: dois carros pixelizados marcantes, dois capacetes cheios de atitude, um embate laranja quente e uma estrada arcade cinzenta com linhas amarelas."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "8-Bit 主题预览。家用主机的闪亮感：两辆大胆像素车、两顶有力头盔、热烈橙色撞击，以及带亮黄线条的灰色街机道路。"
+            "value": "%@ 主题预览。家用主机的闪亮感：两辆大胆像素车、两顶有力头盔、热烈橙色撞击，以及带亮黄线条的灰色街机道路。"
           }
         },
         "fr-CA": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Aperçu du thème 8-Bit. Éclat de console de salon: deux voitures pixel audacieuses, deux casques punchy, un crash orange brûlant et une route arcade grise aux lignes jaune vif."
+            "value": "Aperçu du thème %@. Éclat de console de salon: deux voitures pixel audacieuses, deux casques punchy, un crash orange brûlant et une route arcade grise aux lignes jaune vif."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "8-Bit tema önizlemesi. Ev konsolu ışıltısı: iki cesur piksel araba, iki çarpıcı kask, sıcak turuncu çarpışma ve parlak sarı çizgili gri arcade yolu."
+            "value": "%@ tema önizlemesi. Ev konsolu ışıltısı: iki cesur piksel araba, iki çarpıcı kask, sıcak turuncu çarpışma ve parlak sarı çizgili gri arcade yolu."
           }
         },
         "pl": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Podgląd motywu 8-Bit. Blask domowej konsoli: dwa wyraziste pikselowe auta, dwa mocne kaski, gorąca pomarańczowa kraksa i szara droga arcade z jasnożółtymi liniami."
+            "value": "Podgląd motywu %@. Blask domowej konsoli: dwa wyraziste pikselowe auta, dwa mocne kaski, gorąca pomarańczowa kraksa i szara droga arcade z jasnożółtymi liniami."
           }
         },
         "es-MX": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Vista previa del tema 8-Bit. Brillo de consola de salón: dos carros pixelados atrevidos, dos cascos con carácter, una explosión naranja intensa y una carretera arcade gris con líneas amarillas."
+            "value": "Vista previa del tema %@. Brillo de consola de salón: dos carros pixelados atrevidos, dos cascos con carácter, una explosión naranja intensa y una carretera arcade gris con líneas amarillas."
           }
         }
       }
@@ -30204,121 +31079,371 @@
         "ca": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Previsualització del tema 16-Bit. Drama arcade dels noranta: dos cotxes de píxels més rics, dos cascos brillants, una explosió de foc i una carretera grisa ràpida entre gespa verda."
+            "value": "Previsualització del tema %@. Drama arcade dels noranta: dos cotxes de píxels més rics, dos cascos brillants, una explosió de foc i una carretera grisa ràpida entre gespa verda."
           }
         },
         "de": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Vorschau für das 16-Bit-Theme. Frühe Arcade-Dramatik: zwei detailreichere Pixelautos, zwei glänzende Helme, ein feuriger Crash und eine schnelle graue Straße durch grünes Gras."
+            "value": "Vorschau für das %@-Theme. Frühe Arcade-Dramatik: zwei detailreichere Pixelautos, zwei glänzende Helme, ein feuriger Crash und eine schnelle graue Straße durch grünes Gras."
           }
         },
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "16-Bit theme preview. Early arcade drama: two richer pixel cars, two glossy helmets, a fiery crash, and a fast gray road cutting through green grass."
+            "value": "%@ theme preview. Early arcade drama: two richer pixel cars, two glossy helmets, a fiery crash, and a fast gray road cutting through green grass."
           }
         },
         "en-AU": {
           "stringUnit": {
             "state": "translated",
-            "value": "16-Bit theme preview. Early arcade drama: two richer pixel cars, two glossy helmets, a fiery crash, and a fast grey road cutting through green grass."
+            "value": "%@ theme preview. Early arcade drama: two richer pixel cars, two glossy helmets, a fiery crash, and a fast grey road cutting through green grass."
           }
         },
         "en-CA": {
           "stringUnit": {
             "state": "translated",
-            "value": "16-Bit theme preview. Early arcade drama: two richer pixel cars, two glossy helmets, a fiery crash, and a fast gray road cutting through green grass."
+            "value": "%@ theme preview. Early arcade drama: two richer pixel cars, two glossy helmets, a fiery crash, and a fast gray road cutting through green grass."
           }
         },
         "en-GB": {
           "stringUnit": {
             "state": "translated",
-            "value": "16-Bit theme preview. Early arcade drama: two richer pixel cars, two glossy helmets, a fiery crash, and a fast grey road cutting through green grass."
+            "value": "%@ theme preview. Early arcade drama: two richer pixel cars, two glossy helmets, a fiery crash, and a fast grey road cutting through green grass."
           }
         },
         "es": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Vista previa del tema 16-Bit. Drama arcade noventero: dos coches pixelados más ricos, dos cascos brillantes, una explosión ardiente y una carretera gris rápida entre hierba verde."
+            "value": "Vista previa del tema %@. Drama arcade noventero: dos coches pixelados más ricos, dos cascos brillantes, una explosión ardiente y una carretera gris rápida entre hierba verde."
           }
         },
         "fr": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Aperçu du thème 16-Bit. Drame arcade rétro: deux voitures pixel plus riches, deux casques brillants, un crash flamboyant et une route grise rapide entre l'herbe verte."
+            "value": "Aperçu du thème %@. Drame arcade rétro: deux voitures pixel plus riches, deux casques brillants, un crash flamboyant et une route grise rapide entre l'herbe verte."
           }
         },
         "it": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Anteprima del tema 16-Bit. Dramma arcade d'altri tempi: due auto pixel più ricche, due caschi lucidi, uno schianto infuocato e una strada grigia veloce nell'erba verde."
+            "value": "Anteprima del tema %@. Dramma arcade d'altri tempi: due auto pixel più ricche, due caschi lucidi, uno schianto infuocato e una strada grigia veloce nell'erba verde."
           }
         },
         "nl": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Themapreview voor 16-Bit. Vroege arcadedrama: twee rijkere pixelauto's, twee glanzende helmen, een vurige crash en een snelle grijze weg door groen gras."
+            "value": "Themapreview voor %@. Vroege arcadedrama: twee rijkere pixelauto's, twee glanzende helmen, een vurige crash en een snelle grijze weg door groen gras."
           }
         },
         "ja": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "16-Bitテーマのプレビュー。初期アーケードのドラマ。濃いピクセルカー2台、つやのあるヘルメット2つ、燃えるクラッシュ、緑の芝生を切り裂く速いグレーの道路。"
+            "value": "%@テーマのプレビュー。初期アーケードのドラマ。濃いピクセルカー2台、つやのあるヘルメット2つ、燃えるクラッシュ、緑の芝生を切り裂く速いグレーの道路。"
           }
         },
         "ko": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "16-Bit 테마 미리보기. 초기 아케이드 드라마: 더 풍부한 픽셀 자동차 두 대, 반짝이는 헬멧 두 개, 불타는 충돌, 초록 잔디를 가르는 빠른 회색 도로."
+            "value": "%@ 테마 미리보기. 초기 아케이드 드라마: 더 풍부한 픽셀 자동차 두 대, 반짝이는 헬멧 두 개, 불타는 충돌, 초록 잔디를 가르는 빠른 회색 도로."
           }
         },
         "pt-BR": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Prévia do tema 16-Bit. Drama arcade clássico: dois carros pixelados mais ricos, dois capacetes brilhantes, uma batida flamejante e uma pista cinza veloz cortando a grama verde."
+            "value": "Prévia do tema %@. Drama arcade clássico: dois carros pixelados mais ricos, dois capacetes brilhantes, uma batida flamejante e uma pista cinza veloz cortando a grama verde."
           }
         },
         "zh-Hant": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "16-Bit 主題預覽。早期街機戲劇感：兩台更細緻的像素車、兩頂亮面頭盔、火焰般的撞擊，以及穿過綠草的高速灰色道路。"
+            "value": "%@ 主題預覽。早期街機戲劇感：兩台更細緻的像素車、兩頂亮面頭盔、火焰般的撞擊，以及穿過綠草的高速灰色道路。"
           }
         },
         "pt-PT": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Pré-visualização do tema 16-Bit. Drama arcade clássico: dois carros pixelizados mais ricos, dois capacetes brilhantes, um embate flamejante e uma estrada cinzenta veloz a cortar a relva verde."
+            "value": "Pré-visualização do tema %@. Drama arcade clássico: dois carros pixelizados mais ricos, dois capacetes brilhantes, um embate flamejante e uma estrada cinzenta veloz a cortar a relva verde."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "16-Bit 主题预览。早期街机戏剧感：两辆更细致的像素车、两顶亮面头盔、火焰般的撞击，以及穿过绿草的高速灰色道路。"
+            "value": "%@ 主题预览。早期街机戏剧感：两辆更细致的像素车、两顶亮面头盔、火焰般的撞击，以及穿过绿草的高速灰色道路。"
           }
         },
         "fr-CA": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Aperçu du thème 16-Bit. Drame arcade rétro: deux voitures pixel plus riches, deux casques brillants, un crash flamboyant et une route grise rapide entre l'herbe verte."
+            "value": "Aperçu du thème %@. Drame arcade rétro: deux voitures pixel plus riches, deux casques brillants, un crash flamboyant et une route grise rapide entre l'herbe verte."
           }
         },
         "tr": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "16-Bit tema önizlemesi. Erken dönem arcade heyecanı: daha zengin iki piksel araba, iki parlak kask, alevli bir çarpışma ve yeşil çimlerin arasından geçen hızlı gri yol."
+            "value": "%@ tema önizlemesi. Erken dönem arcade heyecanı: daha zengin iki piksel araba, iki parlak kask, alevli bir çarpışma ve yeşil çimlerin arasından geçen hızlı gri yol."
           }
         },
         "pl": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Podgląd motywu 16-Bit. Dramat wczesnych gier arcade: dwa bogatsze pikselowe auta, dwa lśniące kaski, ognista kraksa i szybka szara droga przecinająca zieloną trawę."
+            "value": "Podgląd motywu %@. Dramat wczesnych gier arcade: dwa bogatsze pikselowe auta, dwa lśniące kaski, ognista kraksa i szybka szara droga przecinająca zieloną trawę."
           }
         },
         "es-MX": {
           "stringUnit": {
             "state": "needs_review",
-            "value": "Vista previa del tema 16-Bit. Drama arcade noventero: dos carros pixelados más ricos, dos cascos brillantes, una explosión ardiente y una carretera gris rápida entre hierba verde."
+            "value": "Vista previa del tema %@. Drama arcade noventero: dos carros pixelados más ricos, dos cascos brillantes, una explosión ardiente y una carretera gris rápida entre hierba verde."
+          }
+        }
+      }
+    },
+    "settings_theme_gallery_preview_accessibility_thirty_two_bit": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Previsualització del tema %@. Energia de consola de finals dels noranta: dos cotxes detallats, dos cascos lluents, un xoc brillant i un circuit blau aiguamarina elèctric sobre asfalt fosc."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Vorschau für das %@-Theme. Konsolenenergie der späten Neunziger: zwei detailreiche Rennwagen, zwei glänzende Helme, ein heller Crash und eine elektrisch aquafarbene Strecke auf dunklem Asphalt."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ theme preview. Late-’90s console energy: two detailed racers, two glossy helmets, a bright crash, and an electric aqua circuit over dark asphalt."
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ theme preview. Late-’90s console energy: two detailed racers, two glossy helmets, a bright crash, and an electric aqua circuit over dark asphalt."
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ theme preview. Late-’90s console energy: two detailed racers, two glossy helmets, a bright crash, and an electric aqua circuit over dark asphalt."
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ theme preview. Late-’90s console energy: two detailed racers, two glossy helmets, a bright crash, and an electric aqua circuit over dark asphalt."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Vista previa del tema %@. Energía de consola de finales de los noventa: dos coches detallados, dos cascos brillantes, un choque luminoso y un circuito aguamarina eléctrico sobre asfalto oscuro."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Aperçu du thème %@. Énergie des consoles de la fin des années 90 : deux voitures détaillées, deux casques brillants, un crash lumineux et un circuit aqua électrique sur un asphalte sombre."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Anteprima del tema %@. Energia da console di fine anni Novanta: due auto dettagliate, due caschi lucidi, uno schianto luminoso e un circuito acquamarina elettrico sull’asfalto scuro."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Themapreview voor %@. Console-energie uit de late jaren negentig: twee gedetailleerde raceauto's, twee glanzende helmen, een felle crash en een elektrisch aquakleurig circuit op donker asfalt."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%@テーマのプレビュー。90年代後半のコンソールの熱気。精細なレーサー2台、光沢のあるヘルメット2つ、鮮やかなクラッシュ、暗いアスファルトに走る電光アクアのサーキット。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%@ 테마 미리보기. 90년대 후반 콘솔의 에너지: 디테일한 레이서 두 대, 광택 있는 헬멧 두 개, 밝은 충돌 효과, 어두운 아스팔트 위 전기빛 아쿠아 서킷."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Prévia do tema %@. Energia dos consoles do fim dos anos 90: dois carros detalhados, dois capacetes brilhantes, uma batida luminosa e um circuito azul-água elétrico sobre asfalto escuro."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%@ 主題預覽。90 年代末期的主機活力：兩台細緻賽車、兩頂亮面頭盔、鮮明的撞擊效果，以及深色柏油上的電光水藍賽道。"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pré-visualização do tema %@. Energia das consolas do final dos anos 90: dois carros detalhados, dois capacetes brilhantes, um embate luminoso e um circuito azul-água elétrico sobre asfalto escuro."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%@ 主题预览。90 年代末期的主机活力：两辆精细赛车、两顶亮面头盔、鲜明的撞击效果，以及深色沥青上的电光水蓝赛道。"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Aperçu du thème %@. Énergie des consoles de la fin des années 90 : deux voitures détaillées, deux casques brillants, un crash lumineux et un circuit aqua électrique sur un asphalte sombre."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%@ tema önizlemesi. 90'ların sonu konsol enerjisi: iki ayrıntılı yarış arabası, iki parlak kask, ışıl ışıl bir çarpışma ve koyu asfalt üzerinde elektrik mavisi bir pist."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Podgląd motywu %@. Energia konsol z końca lat 90.: dwa szczegółowe auta, dwa lśniące kaski, jasna kraksa i elektryzujący akwamarynowy tor na ciemnym asfalcie."
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Vista previa del tema %@. Energía de consola de finales de los noventa: dos carros detallados, dos cascos brillantes, un choque luminoso y un circuito aguamarina eléctrico sobre asfalto oscuro."
+          }
+        }
+      }
+    },
+    "settings_theme_gallery_preview_accessibility_sixty_four_bit": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Previsualització del tema %@. Curses de consola low-poly: dos cotxes facetats, dos cascos esculpits, un xoc explosiu i un circuit aqua de neó sobre asfalt nocturn."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Vorschau für das %@-Theme. Low-Poly-Konsolenrennen: zwei kantige Rennwagen, zwei modellierte Helme, ein explosiver Crash und eine neon-aquafarbene Strecke auf nachtdunklem Asphalt."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ theme preview. Low-poly console racing: two faceted racers, two sculpted helmets, an explosive crash, and a neon aqua circuit over midnight asphalt."
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ theme preview. Low-poly console racing: two faceted racers, two sculpted helmets, an explosive crash, and a neon aqua circuit over midnight asphalt."
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ theme preview. Low-poly console racing: two faceted racers, two sculpted helmets, an explosive crash, and a neon aqua circuit over midnight asphalt."
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@ theme preview. Low-poly console racing: two faceted racers, two sculpted helmets, an explosive crash, and a neon aqua circuit over midnight asphalt."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Vista previa del tema %@. Carreras de consola low-poly: dos coches facetados, dos cascos esculpidos, un choque explosivo y un circuito aguamarina de neón sobre asfalto nocturno."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Aperçu du thème %@. Course sur console en low-poly : deux bolides facettés, deux casques sculptés, un crash explosif et un circuit aqua néon sur un asphalte nocturne."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Anteprima del tema %@. Corse su console low-poly: due auto sfaccettate, due caschi scolpiti, uno schianto esplosivo e un circuito acquamarina al neon sull’asfalto notturno."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Themapreview voor %@. Low-poly consoleracen: twee gefacetteerde racewagens, twee gevormde helmen, een explosieve crash en een neon-aquakleurig circuit op nachtelijk asfalt."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%@テーマのプレビュー。ローポリのコンソールレース。多面体のレーサー2台、造形されたヘルメット2つ、爆発的なクラッシュ、真夜中のアスファルトを走るネオンアクアのサーキット。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%@ 테마 미리보기. 로우 폴리 콘솔 레이싱: 각진 레이서 두 대, 조형된 헬멧 두 개, 폭발적인 충돌, 한밤중 아스팔트 위 네온 아쿠아 서킷."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Prévia do tema %@. Corrida de console low-poly: dois carros facetados, dois capacetes esculpidos, uma batida explosiva e um circuito azul-água neon sobre asfalto noturno."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%@ 主題預覽。低多邊形主機賽車：兩台稜角賽車、兩頂立體頭盔、爆炸般的撞擊效果，以及午夜柏油上的霓虹水藍賽道。"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pré-visualização do tema %@. Corridas de consola low-poly: dois carros facetados, dois capacetes esculpidos, um embate explosivo e um circuito azul-água néon sobre asfalto noturno."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%@ 主题预览。低多边形主机赛车：两辆棱角赛车、两顶立体头盔、爆炸般的碰撞效果，以及午夜沥青上的霓虹水蓝赛道。"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Aperçu du thème %@. Course sur console en low-poly : deux bolides facettés, deux casques sculptés, un crash explosif et un circuit aqua néon sur un asphalte nocturne."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "%@ tema önizlemesi. Düşük poligonlu konsol yarışı: iki köşeli yarış arabası, iki şekillendirilmiş kask, patlayıcı bir çarpışma ve gece asfaltı üzerinde neon su mavisi bir pist."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Podgląd motywu %@. Konsolowe wyścigi low-poly: dwa kanciaste auta, dwa rzeźbione kaski, wybuchowa kraksa i neonowy akwamarynowy tor na nocnym asfalcie."
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Vista previa del tema %@. Carreras de consola low-poly: dos carros facetados, dos cascos esculpidos, un choque explosivo y un circuito aguamarina de neón sobre asfalto nocturno."
           }
         }
       }
@@ -43194,6 +44319,3631 @@
           "stringUnit": {
             "state": "needs_review",
             "value": "RetroRapid! es un juego de carreras con 3 carriles. Muévete a la izquierda o a la derecha entre las tres posiciones. Reproduciremos sonidos para indicar qué carriles son seguros, y tendrás que moverte rápido a un carril seguro para adelantar carros y evitar chocar."
+          }
+        }
+      }
+    },
+    "vision_64bit_racing": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Curses Polygon"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Polygon-Rennen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Polygon Racing"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Polygon Racing"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Polygon Racing"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Polygon Racing"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Carreras Polygon"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Carreras Polygon"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Course Polygon"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Course Polygon"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Corse Polygon"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Polygonレーシング"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Polygon 레이싱"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Polygon-racen"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wyścigi Polygon"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Corridas Polygon"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Corridas Polygon"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Polygon Yarışı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Polygon 竞速"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Polygon 競速"
+          }
+        }
+      }
+    },
+    "vision_classic_title": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Clàssic"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Klassisch"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Classic"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Classic"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Classic"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Classic"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Clásico"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Clásico"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Classique"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Classique"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Classica"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "クラシック"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "클래식"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Klassiek"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Klasyczny"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Clássico"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Clássico"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Klasik"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "经典"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "經典"
+          }
+        }
+      }
+    },
+    "vision_classic_track": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Circuit clàssic"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Klassische Rennstrecke"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Classic race track"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Classic race track"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Classic race track"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Classic race track"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pista clásica"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pista clásica"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Circuit classique"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Circuit classique"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pista classica"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "クラシック・レーストラック"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "클래식 레이스 트랙"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Klassiek racecircuit"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Klasyczny tor"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pista clássica"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pista clássica"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Klasik yarış pisti"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "经典赛道"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "經典賽道"
+          }
+        }
+      }
+    },
+    "vision_current_lane": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Carril actual"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Aktuelle Spur"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Current lane"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Current lane"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Current lane"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Current lane"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Carril actual"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Carril actual"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Voie actuelle"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Voie actuelle"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Corsia attuale"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "現在のレーン"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "현재 레인"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Huidige baan"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Bieżący pas"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Faixa atual"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Faixa atual"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Geçerli şerit"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "当前车道"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "目前車道"
+          }
+        }
+      }
+    },
+    "vision_game_over": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Fi de la partida"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Spiel beendet"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Game Over"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Game Over"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Game Over"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Game Over"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Fin de la partida"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Fin de la partida"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Partie terminée"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Partie terminée"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Partita terminata"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ゲームオーバー"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "게임 오버"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Game over"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Koniec gry"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Fim de jogo"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Fim de jogo"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Oyun Bitti"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "游戏结束"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "遊戲結束"
+          }
+        }
+      }
+    },
+    "vision_hud_status_format": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Puntuació %lld, %lld vides, nivell %lld"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Punkte %lld, %lld Leben, Level %lld"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Score %lld, %lld lives, level %lld"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Score %lld, %lld lives, level %lld"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Score %lld, %lld lives, level %lld"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Score %lld, %lld lives, level %lld"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Puntuación %lld, %lld vidas, nivel %lld"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Puntuación %lld, %lld vidas, nivel %lld"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Score %lld, %lld vies, niveau %lld"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Score %lld, %lld vies, niveau %lld"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Punteggio %lld, %lld vite, livello %lld"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "スコア%lld、ライフ%lld、レベル%lld"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "점수 %lld, 목숨 %lld개, 레벨 %lld"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Score %lld, %lld levens, level %lld"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wynik %lld, życia %lld, poziom %lld"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pontuação %lld, %lld vidas, nível %lld"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pontuação %lld, %lld vidas, nível %lld"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Puan %lld, %lld can, seviye %lld"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "得分 %lld，%lld 条命，等级 %lld"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "分數 %lld，%lld 條命，等級 %lld"
+          }
+        }
+      }
+    },
+    "vision_lane_format": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Carril %lld"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Spur %lld"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lane %lld"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lane %lld"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lane %lld"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lane %lld"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Carril %lld"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Carril %lld"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Voie %lld"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Voie %lld"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Corsia %lld"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "レーン%lld"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "레인 %lld"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Baan %lld"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pas %lld"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Faixa %lld"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Faixa %lld"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Şerit %lld"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "车道 %lld"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "車道 %lld"
+          }
+        }
+      }
+    },
+    "vision_level_format": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Nivell %lld"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Level %lld"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Level %lld"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Level %lld"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Level %lld"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Level %lld"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Nivel %lld"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Nivel %lld"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Niveau %lld"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Niveau %lld"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Livello %lld"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "レベル%lld"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "레벨 %lld"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Level %lld"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Poziom %lld"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Nível %lld"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Nível %lld"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Seviye %lld"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "等级 %lld"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "等級 %lld"
+          }
+        }
+      }
+    },
+    "vision_model_unavailable": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "No s'ha pogut carregar el cotxe 3D. La cursa continua activa en mode Clàssic. Torna-ho a provar."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Das 3D-Auto konnte nicht geladen werden. Dein Rennen ist in der klassischen Ansicht weiterhin aktiv. Versuche es erneut."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The 3D car could not be loaded. Your race is still active in Classic. Try again."
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The 3D car could not be loaded. Your race is still active in Classic. Try again."
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The 3D car could not be loaded. Your race is still active in Classic. Try again."
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The 3D car could not be loaded. Your race is still active in Classic. Try again."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "No se ha podido cargar el coche 3D. La carrera sigue activa en Clásico. Inténtalo de nuevo."
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "No se ha podido cargar el coche 3D. La carrera sigue activa en Clásico. Inténtalo de nuevo."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Impossible de charger la voiture 3D. Votre course reste active en mode Classique. Réessayez."
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Impossible de charger la voiture 3D. Votre course reste active en mode Classique. Réessayez."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Impossibile caricare l'auto 3D. La gara è ancora attiva in modalità Classica. Riprova."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "3Dカーを読み込めませんでした。レースはクラシックで継続中です。もう一度お試しください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "3D 자동차를 불러올 수 없습니다. 레이스는 클래식에서 계속 진행 중입니다. 다시 시도하십시오."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "De 3D-auto kon niet worden geladen. Je race is nog actief in Klassiek. Probeer het opnieuw."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Nie udało się wczytać samochodu 3D. Wyścig jest nadal aktywny w widoku klasycznym. Spróbuj ponownie."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Não foi possível carregar o carro 3D. A corrida continua ativa no modo Clássico. Tente novamente."
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Não foi possível carregar o carro 3D. A corrida continua ativa no modo Clássico. Tente novamente."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "3B araba yüklenemedi. Yarışın Klasik görünümde hâlâ etkin. Yeniden dene."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "无法加载 3D 赛车。比赛仍在经典模式中进行。请重试。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "無法載入 3D 賽車。比賽仍在經典模式中進行。請再試一次。"
+          }
+        }
+      }
+    },
+    "vision_play_description": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Corre en una finestra clàssica i després porta la mateixa cursa a la taula en 3D."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Fahre in einem klassischen Fenster und verschiebe dasselbe Rennen danach in 3D auf deinen Tisch."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Race in a classic window, then move the same run onto your table in 3D."
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Race in a classic window, then move the same run onto your table in 3D."
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Race in a classic window, then move the same run onto your table in 3D."
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Race in a classic window, then move the same run onto your table in 3D."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Compite en una ventana clásica y después lleva la misma carrera a tu mesa en 3D."
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Compite en una ventana clásica y después lleva la misma carrera a tu mesa en 3D."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Courez dans une fenêtre classique, puis placez la même course sur votre table en 3D."
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Courez dans une fenêtre classique, puis placez la même course sur votre table en 3D."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Gareggia in una finestra classica, poi sposta la stessa gara sul tavolo in 3D."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "クラシックウインドウでレースし、同じレースを3Dでテーブルに移動できます。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "클래식 윈도우에서 레이스한 다음 같은 레이스를 3D로 테이블 위에 옮기십시오."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Race in een klassiek venster en verplaats dezelfde race daarna in 3D naar je tafel."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ścigaj się w klasycznym oknie, a następnie przenieś ten sam wyścig na stół w 3D."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Corra numa janela clássica e depois leve a mesma corrida para a sua mesa em 3D."
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Corra numa janela clássica e depois leve a mesma corrida para a sua mesa em 3D."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Klasik bir pencerede yarış, ardından aynı yarışı 3B olarak masanın üzerine taşı."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "在经典窗口中竞速，然后将同一场比赛以 3D 形式移到桌面上。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "在經典視窗中競速，然後將同一場比賽以 3D 形式移到桌面上。"
+          }
+        }
+      }
+    },
+    "vision_play_in_3d": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Jugar en 3D"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "In 3D spielen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Play in 3D"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Play in 3D"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Play in 3D"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Play in 3D"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Jugar en 3D"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Jugar en 3D"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Jouer en 3D"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Jouer en 3D"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Gioca in 3D"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "3Dでプレイ"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "3D로 플레이"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Speel in 3D"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Graj w 3D"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Jogar em 3D"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Jogar em 3D"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "3B Oyna"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "以 3D 模式游玩"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "以 3D 模式遊玩"
+          }
+        }
+      }
+    },
+    "vision_play_in_3d_hint": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Mou esta cursa a un volum de taula sense reiniciar-la"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Verschiebt dieses Rennen ohne Neustart in ein Tischvolumen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Moves this race into a tabletop volume without restarting it"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Moves this race into a tabletop volume without restarting it"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Moves this race into a tabletop volume without restarting it"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Moves this race into a tabletop volume without restarting it"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Lleva esta carrera a un volumen de mesa sin reiniciarla"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Lleva esta carrera a un volumen de mesa sin reiniciarla"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Place cette course dans un volume de table sans la redémarrer"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Place cette course dans un volume de table sans la redémarrer"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sposta questa gara in un volume da tavolo senza riavviarla"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "レースを再開せずにテーブルトップのボリュームへ移動します"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "레이스를 재시작하지 않고 테이블탑 볼륨으로 옮깁니다"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Verplaatst deze race zonder opnieuw te starten naar een tafelvolume"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Przenosi ten wyścig do widoku stołowego bez ponownego uruchamiania"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Move esta corrida para um volume de mesa sem a reiniciar"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Move esta corrida para um volume de mesa sem a reiniciar"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Bu yarışı yeniden başlatmadan masa üstü hacmine taşır"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "将比赛移到桌面体积中，而无需重新开始"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "將比賽移到桌面空間中，而無需重新開始"
+          }
+        }
+      }
+    },
+    "vision_race_controls": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Controls de cursa"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Rennsteuerung"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Race controls"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Race controls"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Race controls"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Race controls"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Controles de carrera"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Controles de carrera"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Commandes de course"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Commandes de course"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Comandi di gara"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "レース操作"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "레이스 제어기"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Racebediening"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sterowanie wyścigiem"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Controlos da corrida"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Controlos da corrida"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Yarış kontrolleri"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "比赛控制"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "比賽控制"
+          }
+        }
+      }
+    },
+    "vision_race_status": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Estat de la cursa"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Rennstatus"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Race status"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Race status"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Race status"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Race status"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Estado de la carrera"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Estado de la carrera"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "État de la course"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "État de la course"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Stato della gara"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "レース状況"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "레이스 상태"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Racestatus"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Stan wyścigu"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Estado da corrida"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Estado da corrida"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Yarış durumu"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "比赛状态"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "比賽狀態"
+          }
+        }
+      }
+    },
+    "vision_race_status_format": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Puntuació %lld, %lld vides, carril %lld de %lld, %@"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Punkte %lld, %lld Leben, Spur %lld von %lld, %@"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Score %lld, %lld lives, lane %lld of %lld, %@"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Score %lld, %lld lives, lane %lld of %lld, %@"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Score %lld, %lld lives, lane %lld of %lld, %@"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Score %lld, %lld lives, lane %lld of %lld, %@"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Puntuación %lld, %lld vidas, carril %lld de %lld, %@"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Puntuación %lld, %lld vidas, carril %lld de %lld, %@"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Score %lld, %lld vies, voie %lld sur %lld, %@"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Score %lld, %lld vies, voie %lld sur %lld, %@"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Punteggio %lld, %lld vite, corsia %lld di %lld, %@"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "スコア%lld、ライフ%lld、レーン%lld/%lld、%@"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "점수 %lld, 목숨 %lld개, 레인 %lld/%lld, %@"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Score %lld, %lld levens, baan %lld van %lld, %@"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wynik %lld, życia %lld, pas %lld z %lld, %@"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pontuação %lld, %lld vidas, faixa %lld de %lld, %@"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pontuação %lld, %lld vidas, faixa %lld de %lld, %@"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Puan %lld, %lld can, şerit %lld/%lld, %@"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "得分 %lld，%lld 条命，车道 %lld/%lld，%@"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "分數 %lld，%lld 條命，車道 %lld/%lld，%@"
+          }
+        }
+      }
+    },
+    "vision_race_track_input_label": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Circuit"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Rennstrecke"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Race track"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Race track"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Race track"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Race track"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pista de carreras"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pista de carreras"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Circuit"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Circuit"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pista"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "レーストラック"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "레이스 트랙"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Racecircuit"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Tor wyścigowy"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pista de corrida"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pista de corrida"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Yarış pisti"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "赛道"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "賽道"
+          }
+        }
+      }
+    },
+    "vision_return_to_2d": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Tornar a 2D"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Zurück zu 2D"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Return to 2D"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Return to 2D"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Return to 2D"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Return to 2D"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Volver a 2D"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Volver a 2D"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Revenir en 2D"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Revenir en 2D"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Torna al 2D"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "2Dに戻る"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "2D로 돌아가기"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Terug naar 2D"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wróć do 2D"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Voltar ao 2D"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Voltar ao 2D"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "2B'ye dön"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "返回 2D"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "返回 2D"
+          }
+        }
+      }
+    },
+    "vision_return_to_2d_hint": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Torna esta cursa a la finestra clàssica sense reiniciar-la"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Bringt dieses Rennen ohne Neustart in sein klassisches Fenster zurück"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Returns this race to its classic window without restarting it"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Returns this race to its classic window without restarting it"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Returns this race to its classic window without restarting it"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Returns this race to its classic window without restarting it"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Devuelve esta carrera a su ventana clásica sin reiniciarla"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Devuelve esta carrera a su ventana clásica sin reiniciarla"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Replace cette course dans sa fenêtre classique sans la redémarrer"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Replace cette course dans sa fenêtre classique sans la redémarrer"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Riporta questa gara alla finestra classica senza riavviarla"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "レースを再開せずにクラシックウインドウへ戻します"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "레이스를 재시작하지 않고 클래식 윈도우로 되돌립니다"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Brengt deze race zonder opnieuw te starten terug naar het klassieke venster"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Przywraca ten wyścig do klasycznego okna bez ponownego uruchamiania"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Devolve esta corrida à janela clássica sem a reiniciar"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Devolve esta corrida à janela clássica sem a reiniciar"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Bu yarışı yeniden başlatmadan klasik penceresine döndürür"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "将比赛返回经典窗口，而无需重新开始"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "將比賽返回經典視窗，而無需重新開始"
+          }
+        }
+      }
+    },
+    "vision_select_lane": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Selecciona el carril"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Spur auswählen"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select lane"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select lane"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select lane"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Select lane"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Seleccionar carril"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Seleccionar carril"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Choisir la voie"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Choisir la voie"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Seleziona corsia"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "レーンを選択"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "레인 선택"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Selecteer baan"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wybierz pas"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Selecionar faixa"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Selecionar faixa"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Şerit seç"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "选择车道"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "選擇車道"
+          }
+        }
+      }
+    },
+    "vision_state_collision": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Col·lisió"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Kollision"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Collision"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Collision"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Collision"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Collision"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Colisión"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Colisión"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Collision"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Collision"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Collisione"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "衝突"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "충돌"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Botsing"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Kolizja"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Colisão"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Colisão"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Çarpışma"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "碰撞"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "碰撞"
+          }
+        }
+      }
+    },
+    "vision_state_finished": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Finalitzada"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Beendet"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finished"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finished"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finished"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Finished"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Finalizada"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Finalizada"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Terminée"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Terminée"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Terminata"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "終了"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "완료됨"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Voltooid"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ukończono"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Terminada"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Terminada"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Tamamlandı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "已完成"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "已完成"
+          }
+        }
+      }
+    },
+    "vision_state_paused": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "En pausa"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pausiert"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paused"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paused"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paused"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Paused"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "En pausa"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "En pausa"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "En pause"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "En pause"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "In pausa"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "一時停止中"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "일시 정지됨"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Gepauzeerd"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wstrzymano"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Em pausa"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Em pausa"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Duraklatıldı"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "已暂停"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "已暫停"
+          }
+        }
+      }
+    },
+    "vision_state_racing": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "En cursa"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Rennen läuft"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Racing"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Racing"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Racing"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Racing"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "En carrera"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "En carrera"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Course en cours"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Course en cours"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Gara in corso"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "レース中"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "레이스 중"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Aan het racen"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wyścig trwa"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Em corrida"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Em corrida"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Yarışılıyor"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "比赛中"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "比賽中"
+          }
+        }
+      }
+    },
+    "vision_state_ready": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "A punt"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Bereit"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ready"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ready"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ready"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Ready"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Lista"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Lista"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Prête"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Prête"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pronta"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "準備完了"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "준비됨"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Gereed"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Gotowe"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pronta"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pronta"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Hazır"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "准备就绪"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "準備就緒"
+          }
+        }
+      }
+    },
+    "vision_tabletop_title": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Taula"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Tischansicht"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tabletop"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tabletop"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tabletop"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tabletop"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Mesa"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Mesa"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Table"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Table"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Tavolo"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "テーブルトップ"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "테이블탑"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Tafelblad"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Widok stołowy"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Mesa"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Mesa"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Masa üstü"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "桌面"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "桌面"
+          }
+        }
+      }
+    },
+    "vision_tabletop_track": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Circuit de taula"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Tisch-Rennstrecke"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tabletop race track"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tabletop race track"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tabletop race track"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Tabletop race track"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pista de mesa"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pista de mesa"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Circuit sur table"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Circuit sur table"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pista da tavolo"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "テーブルトップ・レーストラック"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "테이블탑 레이스 트랙"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Racecircuit op tafel"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Stołowy tor wyścigowy"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pista de mesa"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pista de mesa"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Masa üstü yarış pisti"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "桌面赛道"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "桌面賽道"
+          }
+        }
+      }
+    },
+    "vision_transition_alert_title": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "No s'ha pogut canviar la presentació"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Darstellung konnte nicht gewechselt werden"
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to Switch Presentation"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to Switch Presentation"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to Switch Presentation"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to Switch Presentation"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "No se puede cambiar la presentación"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "No se puede cambiar la presentación"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Impossible de changer de présentation"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Impossible de changer de présentation"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Impossibile cambiare presentazione"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "表示を切り替えられません"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "프레젠테이션을 전환할 수 없음"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Presentatie kan niet worden gewisseld"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Nie można zmienić prezentacji"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Não foi possível mudar a apresentação"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Não foi possível mudar a apresentação"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sunum değiştirilemiyor"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "无法切换显示方式"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "無法切換顯示方式"
+          }
+        }
+      }
+    },
+    "vision_transition_routing_failed": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "No s'ha pogut obrir l'altra presentació. La cursa continua activa. Torna-ho a provar."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Die andere Darstellung konnte nicht geöffnet werden. Dein Rennen ist weiterhin aktiv. Versuche es erneut."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The other presentation could not be opened. Your race is still active. Try again."
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The other presentation could not be opened. Your race is still active. Try again."
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The other presentation could not be opened. Your race is still active. Try again."
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The other presentation could not be opened. Your race is still active. Try again."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "No se ha podido abrir la otra presentación. La carrera sigue activa. Inténtalo de nuevo."
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "No se ha podido abrir la otra presentación. La carrera sigue activa. Inténtalo de nuevo."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Impossible d'ouvrir l'autre présentation. Votre course reste active. Réessayez."
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Impossible d'ouvrir l'autre présentation. Votre course reste active. Réessayez."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Impossibile aprire l'altra presentazione. La gara è ancora attiva. Riprova."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "別の表示を開けませんでした。レースは継続中です。もう一度お試しください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "다른 프레젠테이션을 열 수 없습니다. 레이스는 계속 진행 중입니다. 다시 시도하십시오."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "De andere presentatie kon niet worden geopend. Je race is nog actief. Probeer het opnieuw."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Nie udało się otworzyć drugiej prezentacji. Wyścig jest nadal aktywny. Spróbuj ponownie."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Não foi possível abrir a outra apresentação. A corrida continua ativa. Tente novamente."
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Não foi possível abrir a outra apresentação. A corrida continua ativa. Tente novamente."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Diğer sunum açılamadı. Yarışın hâlâ etkin. Yeniden dene."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "无法打开另一种显示方式。比赛仍在进行。请重试。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "無法開啟另一種顯示方式。比賽仍在進行。請再試一次。"
+          }
+        }
+      }
+    },
+    "vision_transition_timeout": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "L'altra presentació no s'ha preparat. La cursa continua activa. Torna-ho a provar."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Die andere Darstellung wurde nicht rechtzeitig bereit. Dein Rennen ist weiterhin aktiv. Versuche es erneut."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The other presentation did not become ready. Your race is still active. Try again."
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The other presentation did not become ready. Your race is still active. Try again."
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The other presentation did not become ready. Your race is still active. Try again."
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The other presentation did not become ready. Your race is still active. Try again."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "La otra presentación no estaba lista. La carrera sigue activa. Inténtalo de nuevo."
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "La otra presentación no estaba lista. La carrera sigue activa. Inténtalo de nuevo."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "L'autre présentation n'était pas prête. Votre course reste active. Réessayez."
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "L'autre présentation n'était pas prête. Votre course reste active. Réessayez."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "L'altra presentazione non era pronta. La gara è ancora attiva. Riprova."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "別の表示の準備が完了しませんでした。レースは継続中です。もう一度お試しください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "다른 프레젠테이션이 준비되지 않았습니다. 레이스는 계속 진행 중입니다. 다시 시도하십시오."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "De andere presentatie was niet op tijd gereed. Je race is nog actief. Probeer het opnieuw."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Druga prezentacja nie była gotowa. Wyścig jest nadal aktywny. Spróbuj ponownie."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "A outra apresentação não ficou pronta. A corrida continua ativa. Tente novamente."
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "A outra apresentação não ficou pronta. A corrida continua ativa. Tente novamente."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Diğer sunum hazır olmadı. Yarışın hâlâ etkin. Yeniden dene."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "另一种显示方式未准备就绪。比赛仍在进行。请重试。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "另一種顯示方式尚未準備就緒。比賽仍在進行。請再試一次。"
           }
         }
       }

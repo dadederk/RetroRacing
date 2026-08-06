@@ -21,7 +21,7 @@ public struct SixteenBitTheme: GameTheme {
     }
 
     public var id: ThemeID { .sixteenBit }
-    public var name: String { "16-Bit" }
+    public var name: String { "CRT" }
 
     public func backgroundColor(for state: GameState) -> Color {
         Color(red: 58 / 255, green: 151 / 255, blue: 76 / 255)

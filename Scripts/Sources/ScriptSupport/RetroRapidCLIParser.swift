@@ -170,7 +170,7 @@ public enum RetroRapidCLIParser {
 
     private static func parseAssetsRoute(_ remainder: [String]) throws -> ScriptDispatchPlan {
         guard let subcommand = remainder.first else {
-            throw ScriptSupportError.unexpectedArgument("assets requires audit, optimize, or masks")
+            throw ScriptSupportError.unexpectedArgument("assets requires audit, optimize, spatial, or masks")
         }
         let forwarded = Array(remainder.dropFirst())
         switch subcommand {
@@ -182,6 +182,11 @@ public enum RetroRapidCLIParser {
         case "optimize":
             return .runSwiftExecutable(
                 executable: "optimize-runtime-assets",
+                arguments: forwarded
+            )
+        case "spatial":
+            return .runSwiftExecutable(
+                executable: "generate-spatial-assets",
                 arguments: forwarded
             )
         case "masks":
