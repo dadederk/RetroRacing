@@ -84,8 +84,31 @@ func testGivenOptimizationPlanWhenSelectingEightBitPlayerThenUses20260804MasterA
         }
 
     // Then
-    #expect(sources.count == 5)
+    #expect(sources.count == 6)
     #expect(sources.allSatisfy { $0.path.contains("RuntimeMasters2026-08-04/8Bit") })
+}
+
+@Test
+func testGivenSharedThemeSpritesWhenBuildingPlanThenEveryImagesetHasVisionRendition() throws {
+    let repositoryRoot = try RepositoryLocator.locate(
+        containing: ["Scripts/Resources/runtime_asset_manifest.json"]
+    )
+    let themeDirectories = ["LCD", "GameBoy", "8Bit", "16Bit", "32Bit", "64Bit"]
+
+    let themeContents = RuntimeAssetOptimizationPlanBuilder.make(repositoryRoot: repositoryRoot)
+        .actions
+        .compactMap { action -> AssetCatalogContents? in
+            guard case let .writeContents(destination, contents) = action,
+                  themeDirectories.contains(where: { destination.contains("Sprites/\($0)/") }) else {
+                return nil
+            }
+            return contents
+        }
+
+    #expect(themeContents.count == 30)
+    #expect(themeContents.allSatisfy { contents in
+        contents.images.filter { $0.manifestIdiom == "vision" }.count == 1
+    })
 }
 
 @Test
@@ -94,8 +117,8 @@ func testGivenOptimizationPlanWhenSelectingThirtyTwoBitSpritesThenUses20260805Ma
         containing: ["Scripts/Resources/runtime_asset_manifest.json"]
     )
 
-    let sources = RuntimeAssetOptimizationPlanBuilder.make(repositoryRoot: repositoryRoot)
-        .actions
+    let plan = RuntimeAssetOptimizationPlanBuilder.make(repositoryRoot: repositoryRoot)
+    let sources = plan.actions
         .compactMap { action -> URL? in
             guard case let .render(source, destination, _) = action,
                   destination.contains("Sprites/32Bit/") else {
@@ -103,9 +126,20 @@ func testGivenOptimizationPlanWhenSelectingThirtyTwoBitSpritesThenUses20260805Ma
             }
             return source
         }
+    let visionImages = plan.actions.flatMap { action -> [AssetCatalogImage] in
+        guard case let .writeContents(destination, contents) = action,
+              destination.contains("Sprites/32Bit/") else {
+            return []
+        }
+        return contents.images.filter { $0.manifestIdiom == "vision" }
+    }
 
-    #expect(sources.count == 25)
+    #expect(sources.count == 30)
     #expect(sources.allSatisfy { $0.path.contains("RuntimeMasters2026-08-05/CuratedCatalog/Sprites/32Bit") })
+    #expect(visionImages.count == 5)
+    #expect(visionImages.allSatisfy { $0.idiom == "universal" })
+    #expect(visionImages.allSatisfy { $0.platform == "visionos" })
+    #expect(visionImages.allSatisfy { $0.scale == nil })
 }
 
 @Test
@@ -129,8 +163,8 @@ func testGivenOptimizationPlanWhenSelectingSixtyFourBitSpritesThenUses20260806Ma
     }
     let visionSources = sources.filter { platformSources.contains($0) == false }
 
-    #expect(sources.count == 27)
-    #expect(platformSources.count == 25)
+    #expect(sources.count == 30)
+    #expect(platformSources.count == 28)
     #expect(visionSources.count == 2)
     #expect(visionSources.contains {
         $0.path.hasSuffix("PlayerCar/Previews/player-car-64bit-sprite.png")

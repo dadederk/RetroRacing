@@ -66,6 +66,7 @@ Shared SwiftUI views must avoid tvOS-unavailable APIs by using compile-time chec
 - Play is the preferred initial focus. Returning from Tutorial or Settings restores focus to the action that opened the destination.
 - Rate App button is hidden on tvOS.
 - Game Center auth receives one automatic attempt per menu instance. Dismissing the system sign-in UI must not present it again when the menu reappears; the leaderboard button remains disabled until authenticated.
+- **Play with Friends** is always visible and bypasses the solo play-limit gate. It directly activates the shared Group Activity only when Apple reports an eligible FaceTime group; otherwise a localized alert explains that the player should start or join a FaceTime call. Incoming and continued sessions are observed for the app lifetime.
 
 ## Game (tvOS)
 
@@ -91,7 +92,7 @@ Both Universal and tvOS apps call these at startup.
 
 ## Testing
 
-Unit tests cover the mounted pre-game controller-listener lifecycle, platform presentation styles, vertical safe-area policy, and category visibility. tvOS UI-test launches suppress live Game Center authentication presentation so focus/navigation assertions are deterministic. tvOS UI tests cover Play, left/right remote commands, Play/Pause pause and resume, both outcomes of the Menu/Back finish-game alert, bounded Tutorial/Settings navigation, focus-driven settings tab changes, the embedded Theme gallery, menu-root Back behavior, utility-action placement, and menu focus restoration.
+Unit tests cover the mounted pre-game controller-listener lifecycle, platform presentation styles, vertical safe-area policy, category visibility, and shared SharePlay state transitions. tvOS UI-test launches suppress live Game Center authentication presentation so focus/navigation assertions are deterministic. tvOS UI tests cover Play, left/right remote commands, Play/Pause pause and resume, both outcomes of the Menu/Back finish-game alert, bounded Tutorial/Settings navigation, focus-driven settings tab changes, the embedded Theme gallery, menu-root Back behavior, utility-action placement, and menu focus restoration. Manual device QA covers FaceTime eligibility guidance and incoming/continued SharePlay sessions.
 
 After changes:
 

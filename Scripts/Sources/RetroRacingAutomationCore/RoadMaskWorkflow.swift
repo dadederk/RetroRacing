@@ -16,6 +16,7 @@ public struct RoadMaskDescriptor: Equatable, Sendable {
     public let macFilename: String
     public let watchFilename: String
     public let televisionFilename: String
+    public let visionFilename: String
 }
 
 public struct RoadMaskRenderSize: Equatable, Sendable {
@@ -36,7 +37,8 @@ public enum RoadMaskWorkflow {
             iPadFilename: "lapStripMask-ipad.png",
             macFilename: "lapStripMask-mac.png",
             watchFilename: "lapStripMask-watch.png",
-            televisionFilename: "lapStripMask-tv.png"
+            televisionFilename: "lapStripMask-tv.png",
+            visionFilename: "lapStripMask-vision.png"
         ),
     ]
 
@@ -100,6 +102,12 @@ public enum RoadMaskWorkflow {
                 GeneratedFile(
                     url: imagesetDirectory.appending(
                         path: descriptor.televisionFilename
+                    ),
+                    data: largeImage
+                ),
+                GeneratedFile(
+                    url: imagesetDirectory.appending(
+                        path: descriptor.visionFilename
                     ),
                     data: largeImage
                 ),
@@ -371,6 +379,11 @@ public enum RoadMaskWorkflow {
                 {
                   "filename" : "\(descriptor.televisionFilename)",
                   "idiom" : "tv"
+                },
+                {
+                  "filename" : "\(descriptor.visionFilename)",
+                  "idiom" : "universal",
+                  "platform" : "visionos"
                 }
               ],
               "info" : {

@@ -605,8 +605,9 @@ func givenRoadMaskDescriptorsWhenRenderingThenEveryExpectedFileIsProduced() thro
     let firstPNG = try #require(pngFiles.first)
     let image = try #require(NSBitmapImageRep(data: firstPNG.data))
 
-    #expect(files.count == 6)
-    #expect(pngFiles.count == 5)
+    #expect(files.count == 7)
+    #expect(pngFiles.count == 6)
+    #expect(pngFiles.contains { $0.url.lastPathComponent == "lapStripMask-vision.png" })
     #expect(files.contains { $0.url.lastPathComponent == "Contents.json" })
     #expect(image.pixelsWide > 0)
     #expect(image.pixelsHigh > 0)
@@ -652,9 +653,11 @@ func testGivenHelmetAssetRulesWhenLoadingManifestThenNormalizedGeometryIsRequire
             || $0.geometryProfile == .thirtyTwoBitHelmet
             || $0.geometryProfile == .sixtyFourBitHelmet
     }
-
     #expect(helmetRules.count == 12)
-    #expect(helmetRules.allSatisfy { $0.allowedIdioms == ["iphone", "ipad", "mac", "watch", "tv"] })
+    #expect(helmetRules.allSatisfy {
+        $0.allowedIdioms == ["iphone", "ipad", "mac", "watch", "tv", "vision"]
+    })
+    #expect(helmetRules.allSatisfy { $0.requiredIdioms.contains("vision") })
 }
 
 @Test
@@ -703,6 +706,7 @@ func testGivenSixteenBitAssetRulesWhenLoadingManifestThenOpticalFramingIsRequire
     #expect(profilesByPath["Sprites/16Bit/crash-16Bit.imageset"] == .sixteenBitCrash)
     #expect(profilesByPath["Sprites/16Bit/life-16Bit.imageset"] == .sixteenBitHelmet)
     #expect(profilesByPath["Sprites/16Bit/friendLife-16Bit.imageset"] == .sixteenBitHelmet)
+    #expect(sixteenBitRules.allSatisfy { $0.requiredIdioms.contains("vision") })
 }
 
 @Test
@@ -724,6 +728,7 @@ func testGivenThirtyTwoBitAssetRulesWhenLoadingManifestThenOpticalFramingIsRequi
     #expect(profilesByPath["Sprites/32Bit/crash-32Bit.imageset"] == .thirtyTwoBitCrash)
     #expect(profilesByPath["Sprites/32Bit/life-32Bit.imageset"] == .thirtyTwoBitHelmet)
     #expect(profilesByPath["Sprites/32Bit/friendLife-32Bit.imageset"] == .thirtyTwoBitHelmet)
+    #expect(rules.allSatisfy { $0.requiredIdioms.contains("vision") })
 }
 
 @Test
@@ -738,17 +743,13 @@ func testGivenSixtyFourBitAssetRulesWhenLoadingManifestThenOpticalFramingIsRequi
             rule.geometryProfile.map { (rule.path, $0) }
         }
     )
-    let playerRule = rules.first { $0.path == "Sprites/64Bit/playersCar-64Bit.imageset" }
-    let rivalRule = rules.first { $0.path == "Sprites/64Bit/rivalsCar-64Bit.imageset" }
-
     #expect(rules.count == 5)
     #expect(profilesByPath["Sprites/64Bit/playersCar-64Bit.imageset"] == .sixtyFourBitPlayerCar)
     #expect(profilesByPath["Sprites/64Bit/rivalsCar-64Bit.imageset"] == .sixtyFourBitRivalCar)
     #expect(profilesByPath["Sprites/64Bit/crash-64Bit.imageset"] == .sixtyFourBitCrash)
     #expect(profilesByPath["Sprites/64Bit/life-64Bit.imageset"] == .sixtyFourBitHelmet)
     #expect(profilesByPath["Sprites/64Bit/friendLife-64Bit.imageset"] == .sixtyFourBitHelmet)
-    #expect(playerRule?.requiredIdioms.contains("vision") == true)
-    #expect(rivalRule?.requiredIdioms.contains("vision") == true)
+    #expect(rules.allSatisfy { $0.requiredIdioms.contains("vision") })
 }
 
 @Test

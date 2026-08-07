@@ -127,12 +127,23 @@ struct AssetCatalogContents: Codable, Equatable, Sendable {
 struct AssetCatalogImage: Codable, Equatable, Hashable, Sendable {
     let filename: String?
     let idiom: String
+    let platform: String?
     let scale: String?
 
-    init(filename: String? = nil, idiom: String, scale: String? = nil) {
+    init(
+        filename: String? = nil,
+        idiom: String,
+        platform: String? = nil,
+        scale: String? = nil
+    ) {
         self.filename = filename
         self.idiom = idiom
+        self.platform = platform
         self.scale = scale
+    }
+
+    var manifestIdiom: String {
+        platform == "visionos" ? "vision" : idiom
     }
 }
 

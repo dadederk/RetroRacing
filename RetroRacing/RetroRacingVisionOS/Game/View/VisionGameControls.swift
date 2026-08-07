@@ -8,55 +8,6 @@
 import RetroRacingShared
 import SwiftUI
 
-struct VisionGameControls: View {
-    @Environment(VisionGameSessionCoordinator.self) private var session
-
-    var body: some View {
-        ViewThatFits {
-            HStack(spacing: 18) { controlButtons }
-            VStack(spacing: 14) { controlButtons }
-        }
-        .buttonStyle(.bordered)
-        .controlSize(.extraLarge)
-        .accessibilityElement(children: .contain)
-        .accessibilityLabel(GameLocalizedStrings.string("vision_race_controls"))
-    }
-
-    @ViewBuilder
-    private var controlButtons: some View {
-        Button(GameLocalizedStrings.string("move_left"), systemImage: "arrow.left", action: session.moveLeft)
-            .labelStyle(.iconOnly)
-            .disabled(session.snapshot.phase != .running)
-            .accessibilityLabel(GameLocalizedStrings.string("move_left"))
-            .accessibilityInputLabels([GameLocalizedStrings.string("move_left")])
-
-        Button(
-            session.isUserPaused
-                ? GameLocalizedStrings.string("resume")
-                : GameLocalizedStrings.string("pause"),
-            systemImage: session.isUserPaused ? "play.fill" : "pause.fill",
-            action: session.togglePause
-        )
-        .labelStyle(.iconOnly)
-        .accessibilityLabel(
-            session.isUserPaused
-                ? GameLocalizedStrings.string("resume")
-                : GameLocalizedStrings.string("pause")
-        )
-        .accessibilityInputLabels([
-            session.isUserPaused
-                ? GameLocalizedStrings.string("resume")
-                : GameLocalizedStrings.string("pause")
-        ])
-
-        Button(GameLocalizedStrings.string("move_right"), systemImage: "arrow.right", action: session.moveRight)
-            .labelStyle(.iconOnly)
-            .disabled(session.snapshot.phase != .running)
-            .accessibilityLabel(GameLocalizedStrings.string("move_right"))
-            .accessibilityInputLabels([GameLocalizedStrings.string("move_right")])
-    }
-}
-
 struct VisionGameOverPanel: View {
     @Environment(VisionGameSessionCoordinator.self) private var session
     @Environment(\.openWindow) private var openWindow

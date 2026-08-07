@@ -1,15 +1,14 @@
 //
 //  GroupSessionCoordinator+Participants.swift
-//  RetroRacingUniversal
+//  RetroRacingShared
 //
 //  Created by Dani Devesa on 31/07/2026.
 //
 
-#if canImport(GroupActivities) && (os(iOS) || os(macOS))
+#if canImport(GroupActivities)
 import GroupActivities
 import Combine
 import Foundation
-import RetroRacingShared
 
 extension GroupSessionCoordinator {
     func handleParticipants(

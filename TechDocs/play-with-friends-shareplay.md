@@ -8,11 +8,11 @@ For the detailed shipping contract, see [Requirements/shareplay_multiplayer.md](
 
 ```mermaid
 flowchart TB
-    Player["Player taps Play with Friends"] --> App["RetroRacingApp"]
+    Player["Player taps Play with Friends"] --> App["Platform composition root"]
     App --> Handoff["SharePlayActivationHandoffCoordinator"]
     App --> Service["SharePlayMatchService"]
-    Service --> NoOp["NoOpSharePlayMatchService on non-iOS targets"]
-    Service --> GroupService["GroupActivitiesSharePlayMatchService on iOS/iPad"]
+    Service --> NoOp["NoOpSharePlayMatchService on watchOS or unavailable frameworks"]
+    Service --> GroupService["Shared GroupActivities service on Universal, tvOS, and visionOS"]
     Handoff --> Presenter["SharePlayActivitySharingPresenter"]
     Handoff --> GroupService
     GroupService --> StateMachine["SharePlayMatchStateMachine"]
@@ -29,9 +29,10 @@ flowchart TB
 
 ## Main Responsibilities
 
-- `RetroRacingApp` builds the dependencies, injects the SharePlay service, observes incoming SharePlay sessions for the app lifetime, and moves the app from menu to game only after a real SharePlay state arrives.
+- Each platform composition root builds and injects the SharePlay service, observes incoming SharePlay sessions for the app lifetime, and moves the app from menu to game only after a real SharePlay state arrives.
 - `SharePlayActivationHandoffCoordinator` owns the menu-to-system handoff. It ignores duplicate taps, chooses direct activation or the sharing controller, handles user dismissal, and cancels stale pending requests.
 - `SharePlayActivitySharingPresenter` presents Apple's native invite UI from the menu on iOS/iPad when there is no eligible group conversation yet.
+- tvOS uses direct activation only when an eligible FaceTime group exists and otherwise presents guidance; visionOS associates the Classic scene with the Group Activity and returns from Tabletop before applying an incoming match.
 - `GroupActivitiesSharePlayMatchService` is the production service actor. It owns the match state machine and session runtime state, and delegates local activation, UI notification caching, and timer tasks to small same-actor collaborators.
 - `GroupActivitiesSharePlayHostActivationController` owns pending/in-flight host activation, direct activation calls, cancellation, and activation logs.
 - `SharePlayStateNotifier` owns UI-state admission checks, the last-notified state cache, and state-change handler dispatch.
@@ -126,7 +127,7 @@ Leaving routes through the same cleanup path as the rest of the game: gameplay s
 
 ## What To Keep Stable
 
-- Keep GroupActivities imports inside the iOS/iPad adapter layer.
+- Keep GroupActivities imports inside the shared GroupActivities adapter and platform composition/view layers; the pure state machine and shared match UI remain framework-free.
 - Keep one production SharePlay service actor and one coordinator actor.
 - Keep the command wire format stable unless the requirement contract is intentionally changed.
 - Keep activation idempotent: duplicate taps, stale handoffs, and timeouts must clear or no-op predictably.

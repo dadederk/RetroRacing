@@ -121,6 +121,7 @@ struct MenuContentView: View {
             }
         }
         .retroRacingPrimaryButtonStyle()
+        .tint(Color.accentColor)
         .controlSize(.large)
         #if os(tvOS)
         .frame(maxWidth: .infinity)

@@ -37,12 +37,12 @@
 - iOS/iPadOS compact landscape: the game square may extend into the top safe area to maximize play space without becoming smaller than the safe-area-constrained square; toolbar-adjacent chrome reapplies the measured top safe-area inset and screenshot capture keeps deterministic sizing.
 - macOS: minimum window size is 820 x 620; `Cmd+,` opens root-owned Settings; underlying gameplay is hidden from accessibility while the modal overlay is visible.
 - tvOS: movement uses `onMoveCommand`; Play/Pause toggles pause; Menu/Back confirms before finishing the race and pops one menu-owned Tutorial or Settings destination at a time. Menu/Back is inert at the menu root.
-- watchOS keeps its platform navigation. visionOS uses a Play screen and one shared-session coordinator across unique Classic/Tabletop windows; app inactivity pauses the engine and resets scheduler wall-time before resuming. See [visionos_gameplay.md](visionos_gameplay.md).
+- watchOS keeps its platform navigation. visionOS uses the shared universal-style menu and one shared-session coordinator across unique Classic/Tabletop windows. Classic gameplay keeps an X in the top-left and Pause/Resume in the top-right; Settings is available from the menu only. The X presents the same Keep Playing/Finish alert contract as tvOS. App inactivity pauses the engine and resets scheduler wall-time before resuming. See [visionos_gameplay.md](visionos_gameplay.md).
 
 ## Play with Friends
 
 - The button is shown only when the composition root supplies `onPlayWithFriendsRequest`.
-- It is available on iOS/iPad/macOS and hidden on tvOS/watchOS/visionOS.
+- It starts a synchronized race on iOS/iPad/macOS/tvOS and visionOS Classic, and is hidden on watchOS. tvOS explains the FaceTime-group prerequisite when direct activation is not eligible. visionOS automatically leaves Tabletop for Classic before applying an incoming match.
 - It never routes through solo play-limit or paywall checks; SharePlay races are free.
 - Host activation and incoming sessions enter gameplay only after a delivered SharePlay session reaches `.joined`.
 - Provisional sessions that invalidate before join remain invisible and must not show Connection Lost.

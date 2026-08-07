@@ -248,6 +248,13 @@ How to play the game,How to play the game,In-app,settings_controls_how_to_play,,
 • Press Play/Pause to pause or resume.
 • Press Menu/Back to choose whether to finish the game.
 • With a controller, use the D-pad or left stick to move, Menu/Start to pause, and B/Back to finish. Mapped buttons add alternate controls.",In-app,settings_controls_tvos,,translated,
+"• Look at a lane and pinch to move, or use the Left and Right buttons.
+• Use the left and right arrow keys when a keyboard is connected.
+• Press Space or use Pause to pause or resume.
+• With a controller, use the D-pad or left stick to move and Menu/Start to pause.","• Look at a lane and pinch to move, or use the Left and Right buttons.
+• Use the left and right arrow keys when a keyboard is connected.
+• Press Space or use Pause to pause or resume.
+• With a controller, use the D-pad or left stick to move and Menu/Start to pause.",In-app,settings_controls_visionos,,translated,
 "• Rotate the Digital Crown up to move right and down to move left.
 • Tap the left side of the screen to move left and the right side to move right.
 • Swipe left to move left and right to move right.","• Rotate the Digital Crown up to move right and down to move left.
@@ -392,6 +399,7 @@ Plays a warning haptic before the speed increase.,Plays a warning haptic before 
 Does not play any speed-increase warning.,Does not play any speed-increase warning.,In-app,tutorial_speed_warning_description_none,,translated,
 Plays a short three-note ascending warning chirp.,Plays a short three-note ascending warning chirp.,In-app,tutorial_speed_warning_description_sound,,translated,
 "RetroRapid! is a 3-lane racing game. Move left or right between the three positions. We play sounds to indicate which lanes are safe, and you must quickly move into a safe lane to overtake cars and avoid crashing.","RetroRapid! is a 3-lane racing game. Move left or right between the three positions. We play sounds to indicate which lanes are safe, and you must quickly move into a safe lane to overtake cars and avoid crashing.",In-app,tutorial_voiceover_intro,,translated,
+"Start or join a FaceTime call, then try Play with Friends again.","Start or join a FaceTime call, then try Play with Friends again.",In-app,tvos_shareplay_facetime_required,,translated,
 Polygon Racing,Polygon Racing,In-app,vision_64bit_racing,,translated,
 Classic,Classic,In-app,vision_classic_title,,translated,
 Classic race track,Classic race track,In-app,vision_classic_track,,translated,
@@ -411,6 +419,7 @@ Race track,Race track,In-app,vision_race_track_input_label,,translated,
 Return to 2D,Return to 2D,In-app,vision_return_to_2d,,translated,
 Returns this race to its classic window without restarting it,Returns this race to its classic window without restarting it,In-app,vision_return_to_2d_hint,,translated,
 Select lane,Select lane,In-app,vision_select_lane,,translated,
+Couldn't start Play with Friends. Return to the Classic window and try again.,Couldn't start Play with Friends. Return to the Classic window and try again.,In-app,vision_shareplay_activation_failed,,translated,
 Collision,Collision,In-app,vision_state_collision,,translated,
 Finished,Finished,In-app,vision_state_finished,,translated,
 Paused,Paused,In-app,vision_state_paused,,translated,

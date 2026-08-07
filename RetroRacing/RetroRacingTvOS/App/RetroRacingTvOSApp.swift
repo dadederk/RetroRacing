@@ -2,6 +2,7 @@ import SwiftUI
 import RetroRacingShared
 import GameKit
 import GameController
+import GroupActivities
 
 @main
 struct RetroRacingTvOSApp: App {
@@ -21,9 +22,13 @@ struct RetroRacingTvOSApp: App {
     private let specialEventService: SpecialEventService
     private let storeKitService: StoreKitService
     private let controllerInputSource: SystemGameControllerInputSource
+    private let sharePlayMatchService: any SharePlayMatchService
+    private let groupStateObserver: GroupStateObserver
     @State private var shouldStartGame = false
     @State private var isMenuPresented = true
     @State private var sessionID = UUID()
+    @State private var sharePlayUIState: SharePlayUIState = .idle
+    @State private var isSharePlayGuidancePresented = false
 
     init() {
         AppBootstrap.configureAudioSession()
@@ -120,6 +125,10 @@ struct RetroRacingTvOSApp: App {
             platformConfig: .tvOS,
             userDefaults: userDefaults
         )
+        sharePlayMatchService = GroupActivitiesSharePlayMatchService(
+            difficultyProvider: { GameDifficulty.currentSelection(from: userDefaults) }
+        )
+        groupStateObserver = GroupStateObserver()
     }
 
     private static func makeMiamiGrandPrixEventService() -> SpecialEventService {
@@ -144,6 +153,8 @@ struct RetroRacingTvOSApp: App {
                     achievementProgressService: achievementProgressService,
                     playLimitService: playLimitService,
                     specialEventService: specialEventService,
+                    sharePlayMatchService: sharePlayMatchService,
+                    sharePlayUIState: sharePlayUIState,
                     style: .tvOS,
                     inputAdapterFactory: RemoteInputAdapterFactory(),
                     controllerInputSource: controllerInputSource,
@@ -179,7 +190,9 @@ struct RetroRacingTvOSApp: App {
                         controlsDescriptionKey: "settings_controls_tvos",
                         showRateButton: false,
                         inputAdapterFactory: RemoteInputAdapterFactory(),
-                        onPlayRequest: handlePlayRequest
+                        onPlayRequest: handlePlayRequest,
+                        onPlayWithFriendsRequest: handlePlayWithFriendsRequest,
+                        isSharePlayActive: sharePlayUIState.state.isActive
                     )
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .background(Color.black.ignoresSafeArea())
@@ -194,9 +207,26 @@ struct RetroRacingTvOSApp: App {
             }
             .environment(storeKitService)
             .achievementMetadataService(achievementMetadataService)
+            .sharePlayMatchService(sharePlayMatchService)
+            .alert(
+                GameLocalizedStrings.string("menu_play_with_friends"),
+                isPresented: $isSharePlayGuidancePresented
+            ) {
+                Button(GameLocalizedStrings.string("ok"), role: .cancel) {}
+            } message: {
+                Text(GameLocalizedStrings.string("tvos_shareplay_facetime_required"))
+            }
             .task {
                 await storeKitService.loadProducts()
                 await bestScoreSyncService.syncIfPossible()
+            }
+            .task {
+                await sharePlayMatchService.setStateChangeHandler { uiState in
+                    await MainActor.run {
+                        handleSharePlayStateChanged(uiState)
+                    }
+                }
+                await sharePlayMatchService.observeIncomingSessions()
             }
             .onReceive(NotificationCenter.default.publisher(for: .GKPlayerAuthenticationDidChangeNotificationName)) { _ in
                 Task {
@@ -221,6 +251,30 @@ struct RetroRacingTvOSApp: App {
                 .string("fromSession", AppLog.shortID(previousSession)),
                 .string("toSession", AppLog.shortID(sessionID))
             ]
+        )
+    }
+
+    private func handlePlayWithFriendsRequest() {
+        guard sharePlayUIState.state.isActive == false else { return }
+        guard groupStateObserver.isEligibleForGroupSession else {
+            isSharePlayGuidancePresented = true
+            return
+        }
+
+        Task { @concurrent [sharePlayMatchService] in
+            guard await sharePlayMatchService.prepareHostActivation() else { return }
+            _ = await sharePlayMatchService.activatePendingHostSession(
+                reason: .eligibleMenuRequest
+            )
+        }
+    }
+
+    private func handleSharePlayStateChanged(_ newValue: SharePlayUIState) {
+        let wasIdle = sharePlayUIState.state == .idle
+        sharePlayUIState = newValue
+        guard wasIdle, newValue.state.isActive, isMenuPresented else { return }
+        _ = applyMenuSessionTransition(
+            using: { MenuSessionTransitionPolicy.stateAfterPlayRequest(from: $0) }
         )
     }
 

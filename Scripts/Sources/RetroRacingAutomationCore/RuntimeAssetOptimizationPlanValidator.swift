@@ -65,7 +65,7 @@ enum RuntimeAssetOptimizationPlanValidator {
     ) -> [String] {
         let images = contents.images.filter { $0.filename != nil }
         var issues: [String] = []
-        let idioms = Set(images.map(\.idiom))
+        let idioms = Set(images.map(\.manifestIdiom))
         let requiredIdioms = Set(rule.requiredIdioms)
         guard idioms == requiredIdioms else {
             return [
@@ -74,7 +74,7 @@ enum RuntimeAssetOptimizationPlanValidator {
         }
 
         for idiom in requiredIdioms.sorted() {
-            let idiomImages = images.filter { $0.idiom == idiom }
+            let idiomImages = images.filter { $0.manifestIdiom == idiom }
             let actualScales = Set(idiomImages.compactMap(\.scale))
             let expectedScales = Set(rule.scalesByIdiom?[idiom] ?? [])
             if actualScales != expectedScales {

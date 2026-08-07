@@ -32,6 +32,7 @@ public enum GamePauseReason: Hashable, Sendable {
     case overlay
     case presentationTransition
     case appInactive
+    case sharePlay
 }
 
 /// Directional lane movement understood by every renderer and input adapter.

@@ -19,6 +19,11 @@
     {
       "filename" : "rivalsCar-8Bit-watch.png",
       "idiom" : "watch"
+    },
+    {
+      "filename" : "rivalsCar-8Bit-vision.png",
+      "idiom" : "universal",
+      "platform" : "visionos"
     }
   ],
   "info" : {

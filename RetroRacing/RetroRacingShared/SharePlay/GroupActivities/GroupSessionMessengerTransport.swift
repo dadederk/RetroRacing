@@ -1,14 +1,13 @@
 //
 //  GroupSessionMessengerTransport.swift
-//  RetroRacingUniversal
+//  RetroRacingShared
 //
 //  Created by Dani Devesa on 22/07/2026.
 //
 
-#if canImport(GroupActivities) && (os(iOS) || os(macOS))
+#if canImport(GroupActivities)
 import GroupActivities
 import Foundation
-import RetroRacingShared
 
 /// Thin wrapper around `GroupSessionMessenger` that speaks only `SharePlayMatchCommand`,
 /// keeping the GroupActivities messenger APIs out of the state machine and service layer.

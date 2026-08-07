@@ -1,15 +1,14 @@
 //
 //  GroupSessionCoordinator.swift
-//  RetroRacingUniversal
+//  RetroRacingShared
 //
 //  Created by Dani Devesa on 22/07/2026.
 //
 
-#if canImport(GroupActivities) && (os(iOS) || os(macOS))
+#if canImport(GroupActivities)
 import GroupActivities
 import Combine
 import Foundation
-import RetroRacingShared
 
 /// Owns one `GroupSession<RetroRacingGroupActivity>` lifecycle and its observation tasks.
 /// Same-actor extension files keep observation, participant policy, and grace disconnects separate.

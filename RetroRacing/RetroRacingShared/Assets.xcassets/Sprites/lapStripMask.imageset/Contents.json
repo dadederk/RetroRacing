@@ -19,6 +19,11 @@
     {
       "filename" : "lapStripMask-tv.png",
       "idiom" : "tv"
+    },
+    {
+      "filename" : "lapStripMask-vision.png",
+      "idiom" : "universal",
+      "platform" : "visionos"
     }
   ],
   "info" : {

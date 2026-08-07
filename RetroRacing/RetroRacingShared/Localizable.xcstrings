@@ -26448,6 +26448,131 @@
         }
       }
     },
+    "settings_controls_visionos": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "• Mira un carril i fes un pessic per moure't, o usa els botons Esquerra i Dreta.\n• Usa les tecles de fletxa esquerra i dreta si hi ha un teclat connectat.\n• Prem Espai o usa Pausa per pausar o reprendre.\n• Amb un comandament, usa el D-pad o el stick esquerre per moure't i Menú/Inici per pausar."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "• Sieh dir eine Spur an und führe eine Zwickgeste aus, oder nutze Links und Rechts.\n• Nutze bei angeschlossener Tastatur die Pfeiltasten links und rechts.\n• Drücke die Leertaste oder nutze Pause zum Pausieren und Fortsetzen.\n• Nutze mit einem Controller das D-pad oder den linken Stick zum Bewegen und Menü/Start zum Pausieren."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "• Look at a lane and pinch to move, or use the Left and Right buttons.\n• Use the left and right arrow keys when a keyboard is connected.\n• Press Space or use Pause to pause or resume.\n• With a controller, use the D-pad or left stick to move and Menu/Start to pause."
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "• Look at a lane and pinch to move, or use the Left and Right buttons.\n• Use the left and right arrow keys when a keyboard is connected.\n• Press Space or use Pause to pause or resume.\n• With a controller, use the D-pad or left stick to move and Menu/Start to pause."
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "• Look at a lane and pinch to move, or use the Left and Right buttons.\n• Use the left and right arrow keys when a keyboard is connected.\n• Press Space or use Pause to pause or resume.\n• With a controller, use the D-pad or left stick to move and Menu/Start to pause."
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "• Look at a lane and pinch to move, or use the Left and Right buttons.\n• Use the left and right arrow keys when a keyboard is connected.\n• Press Space or use Pause to pause or resume.\n• With a controller, use the D-pad or left stick to move and Menu/Start to pause."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "• Mira un carril y pellizca para moverte, o usa los botones Izquierda y Derecha.\n• Usa las teclas de flecha izquierda y derecha con un teclado conectado.\n• Pulsa Espacio o usa Pausa para pausar o reanudar.\n• Con un mando, usa el D-pad o el stick izquierdo para moverte y Menú/Inicio para pausar."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "• Regarde une voie et pince pour te déplacer, ou utilise les boutons Gauche et Droite.\n• Utilise les touches fléchées gauche et droite avec un clavier connecté.\n• Appuie sur Espace ou utilise Pause pour mettre en pause ou reprendre.\n• Avec une manette, utilise le D-pad ou le stick gauche pour te déplacer et Menu/Start pour mettre en pause."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "• Guarda una corsia e pizzica per muoverti, oppure usa i pulsanti Sinistra e Destra.\n• Usa i tasti freccia sinistra e destra con una tastiera collegata.\n• Premi Spazio o usa Pausa per mettere in pausa o riprendere.\n• Con un controller, usa D-pad o stick sinistro per muoverti e Menu/Start per mettere in pausa."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "• Kijk naar een rijstrook en knijp om te bewegen, of gebruik de knoppen Links en Rechts.\n• Gebruik de pijltjestoetsen links en rechts als een toetsenbord is aangesloten.\n• Druk op de spatiebalk of gebruik Pauze om te pauzeren of hervatten.\n• Gebruik met een controller de D-pad of linkerstick om te bewegen en Menu/Start om te pauzeren."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "• レーンを見てピンチして移動するか、左／右ボタンを使います。\n• キーボード接続時は左右の矢印キーを使います。\n• スペースキーまたは一時停止ボタンで一時停止／再開します。\n• コントローラーでは、方向パッドまたは左スティックで移動し、メニュー／スタートで一時停止します。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "• 차선을 바라보고 핀치하여 이동하거나 왼쪽 및 오른쪽 버튼을 사용해요.\n• 키보드 연결 시 왼쪽 및 오른쪽 화살표 키를 사용해요.\n• 스페이스바 또는 일시 정지 버튼으로 일시 정지하거나 다시 시작해요.\n• 컨트롤러에서는 방향 패드 또는 왼쪽 스틱으로 이동하고 메뉴/시작으로 일시 정지해요."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "• Olhe para uma faixa e faça o gesto de pinça para mover, ou use os botões Esquerda e Direita.\n• Use as setas esquerda e direita com um teclado conectado.\n• Pressione Espaço ou use Pausar para pausar ou retomar.\n• Com um controle, use o direcional ou o analógico esquerdo para mover e Menu/Iniciar para pausar."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "• 看向車道並捏合以移動，或使用向左與向右按鈕。\n• 連接鍵盤時，使用左右方向鍵。\n• 按空白鍵或使用暫停來暫停或繼續。\n• 使用控制器時，以方向鍵或左搖桿移動，並以選單／開始暫停。"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "• Olhe para uma faixa e faça o gesto de pinça para mover, ou use os botões Esquerda e Direita.\n• Use as setas esquerda e direita com um teclado ligado.\n• Prima Espaço ou use Pausa para pausar ou retomar.\n• Com um comando, use o D-pad ou o analógico esquerdo para mover e Menu/Iniciar para pausar."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "• 看向车道并捏合以移动，或使用向左与向右按钮。\n• 连接键盘时，使用左右方向键。\n• 按空格键或使用暂停来暂停或继续。\n• 使用控制器时，以方向键或左摇杆移动，并以菜单／开始暂停。"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "• Regardez une voie et pincez pour vous déplacer, ou utilisez les boutons Gauche et Droite.\n• Utilisez les touches fléchées gauche et droite avec un clavier connecté.\n• Appuyez sur Espace ou utilisez Pause pour mettre en pause ou reprendre.\n• Avec une manette, utilisez le D-pad ou le stick gauche pour vous déplacer et Menu/Start pour mettre en pause."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "• Bir şeride bakıp parmaklarını kıstırarak hareket et veya Sol ve Sağ düğmelerini kullan.\n• Klavye bağlıyken sol ve sağ ok tuşlarını kullan.\n• Duraklatmak veya sürdürmek için Boşluk tuşuna bas ya da Duraklat'ı kullan.\n• Kumandayla yön tuşu veya sol çubukla hareket et ve Menü/Başlat ile duraklat."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "• Spójrz na pas i wykonaj gest uszczypnięcia, aby się poruszyć, albo użyj przycisków W lewo i W prawo.\n• Po podłączeniu klawiatury używaj strzałek w lewo i w prawo.\n• Naciśnij spację lub użyj Pauzy, aby wstrzymać albo wznowić grę.\n• Na kontrolerze użyj D-pada lub lewego drążka do ruchu, a Menu/Start do pauzy."
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "• Mira un carril y pellizca para moverte, o usa los botones Izquierda y Derecha.\n• Usa las teclas de flecha izquierda y derecha con un teclado conectado.\n• Presiona Espacio o usa Pausa para pausar o reanudar.\n• Con un control, usa el D-pad o la palanca izquierda para moverte y Menú/Inicio para pausar."
+          }
+        }
+      }
+    },
     "settings_controls_watchos": {
       "extractionState": "manual",
       "localizations": {
@@ -44323,6 +44448,131 @@
         }
       }
     },
+    "tvos_shareplay_facetime_required": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Inicia o uneix-te a una trucada de FaceTime i torna a provar Jugar amb amics."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Starte einen FaceTime-Anruf oder nimm daran teil und versuche dann erneut, mit Freunden zu spielen."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start or join a FaceTime call, then try Play with Friends again."
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start or join a FaceTime call, then try Play with Friends again."
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start or join a FaceTime call, then try Play with Friends again."
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Start or join a FaceTime call, then try Play with Friends again."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Inicia o únete a una llamada de FaceTime y vuelve a probar Jugar con amigos."
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Inicia o únete a una llamada de FaceTime y vuelve a probar Jugar con amigos."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Démarrez ou rejoignez un appel FaceTime, puis réessayez Jouer avec des amis."
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Démarrez ou rejoignez un appel FaceTime, puis réessayez Jouer avec des amis."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Avvia o partecipa a una chiamata FaceTime, poi riprova Gioca con gli amici."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "FaceTime通話を開始または参加してから、もう一度「友達とプレイ」をお試しください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "FaceTime 통화를 시작하거나 참여한 다음 친구와 플레이를 다시 시도하세요."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Start of neem deel aan een FaceTime-gesprek en probeer Spelen met vrienden opnieuw."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Rozpocznij rozmowę FaceTime lub dołącz do niej, a następnie ponownie wybierz Grę ze znajomymi."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Inicie ou entre em uma chamada do FaceTime e tente Jogar com Amigos novamente."
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Inicie ou participe numa chamada FaceTime e volte a tentar Jogar com amigos."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Bir FaceTime araması başlatın veya aramaya katılın, ardından Arkadaşlarla Oyna'yı yeniden deneyin."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "发起或加入 FaceTime 通话，然后再次尝试“与朋友一起玩”。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "發起或加入 FaceTime 通話，然後再次嘗試「與朋友一起玩」。"
+          }
+        }
+      }
+    },
     "vision_64bit_racing": {
       "extractionState": "manual",
       "localizations": {
@@ -46694,6 +46944,131 @@
           "stringUnit": {
             "state": "needs_review",
             "value": "選擇車道"
+          }
+        }
+      }
+    },
+    "vision_shareplay_activation_failed": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "No s'ha pogut iniciar Jugar amb amics. Torna a la finestra Clàssica i prova-ho de nou."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Mit Freunden spielen konnte nicht gestartet werden. Kehre zum klassischen Fenster zurück und versuche es erneut."
+          }
+        },
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couldn't start Play with Friends. Return to the Classic window and try again."
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couldn't start Play with Friends. Return to the Classic window and try again."
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couldn't start Play with Friends. Return to the Classic window and try again."
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couldn't start Play with Friends. Return to the Classic window and try again."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "No se ha podido iniciar Jugar con amigos. Vuelve a la ventana Clásica e inténtalo de nuevo."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Impossible de démarrer Jouer avec des amis. Revenez à la fenêtre Classique et réessayez."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Impossibile avviare Gioca con gli amici. Torna alla finestra Classica e riprova."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Spelen met vrienden kon niet worden gestart. Ga terug naar het Klassieke venster en probeer het opnieuw."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "「友達とプレイ」を開始できませんでした。クラシックウインドウに戻って、もう一度お試しください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "친구와 플레이를 시작할 수 없습니다. 클래식 윈도우로 돌아가 다시 시도하세요."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Não foi possível iniciar Jogar com Amigos. Volte à janela Clássica e tente novamente."
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "無法開始「與朋友一起玩」。請返回「經典」視窗再試一次。"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Não foi possível iniciar Jogar com amigos. Volte à janela Clássica e tente novamente."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "无法开始“与朋友一起玩”。请返回“经典”窗口，然后重试。"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Impossible de démarrer Jouer avec des amis. Revenez à la fenêtre Classique et réessayez."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Arkadaşlarla Oyna başlatılamadı. Klasik pencereye dönüp yeniden deneyin."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Nie udało się rozpocząć Gry ze znajomymi. Wróć do okna Klasycznego i spróbuj ponownie."
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "No se pudo iniciar Jugar con amigos. Vuelve a la ventana Clásica e inténtalo de nuevo."
           }
         }
       }

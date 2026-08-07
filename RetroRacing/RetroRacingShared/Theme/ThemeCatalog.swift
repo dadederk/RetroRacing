@@ -40,12 +40,14 @@ public extension ThemePlatformConfig {
         let enabledExperimentalIDs = experimentalThemeIDs.filter {
             platform.alwaysIncludes($0) || experimentalThemes.contains($0)
         }
-        let baseThemeIDs = platform == .visionOS ? [] : orderedThemeIDs
+        let debugUnlockedExperimentalIDs = enabledExperimentalIDs.filter {
+            experimentalThemes.contains($0) && platform.alwaysIncludes($0) == false
+        }
         return configuration(
             platform: platform,
             defaultThemeID: platformPolicy.defaultThemeID,
-            freeThemeIDs: platformPolicy.freeThemeIDs.union(enabledExperimentalIDs),
-            themeIDs: baseThemeIDs + enabledExperimentalIDs
+            freeThemeIDs: platformPolicy.freeThemeIDs.union(debugUnlockedExperimentalIDs),
+            themeIDs: orderedThemeIDs + enabledExperimentalIDs
         )
     }
 

@@ -82,17 +82,27 @@ final class ThirtyTwoBitThemeTests: XCTestCase {
 
     func testGivenThirtyTwoBitSpriteCatalogWhenInspectingFamiliesThenEveryPlatformVariantDecodes() throws {
         let families = ["playersCar", "rivalsCar", "crash", "life", "friendLife"]
-        let idioms = ["iphone", "ipad", "mac", "watch", "tv"]
+        let variants = [
+            (idiom: "iphone", filenameSuffix: "iphone"),
+            (idiom: "ipad", filenameSuffix: "ipad"),
+            (idiom: "mac", filenameSuffix: "mac"),
+            (idiom: "watch", filenameSuffix: "watch"),
+            (idiom: "tv", filenameSuffix: "tv"),
+            (idiom: "universal", filenameSuffix: "vision")
+        ]
 
         for family in families {
             let imagesetURL = spriteCatalogURL.appendingPathComponent("\(family)-32Bit.imageset")
             let contentsData = try Data(contentsOf: imagesetURL.appendingPathComponent("Contents.json"))
             let contents = try XCTUnwrap(JSONSerialization.jsonObject(with: contentsData) as? [String: Any])
             let images = try XCTUnwrap(contents["images"] as? [[String: String]])
-            XCTAssertEqual(Set(images.compactMap { $0["idiom"] }), Set(idioms))
+            XCTAssertEqual(
+                Set(images.compactMap { $0["idiom"] }),
+                Set(variants.map { $0.idiom })
+            )
 
-            for idiom in idioms {
-                let filename = "\(family)-32Bit-\(idiom).png"
+            for variant in variants {
+                let filename = "\(family)-32Bit-\(variant.filenameSuffix).png"
                 let source = try XCTUnwrap(
                     CGImageSourceCreateWithURL(imagesetURL.appendingPathComponent(filename) as CFURL, nil),
                     "Expected \(filename) to decode"

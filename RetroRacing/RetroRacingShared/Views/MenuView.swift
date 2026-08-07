@@ -344,7 +344,12 @@ public struct MenuView: View {
 
     private func handleLeaderboardTap() {
         authModel.authError = nil
-        #if canImport(UIKit) && !os(watchOS)
+        #if os(visionOS)
+        AppLog.info(AppLog.leaderboard + AppLog.game, "LEADERBOARD_PRESENT", outcome: .requested, fields: [.string("surface", "visionos_access_point")])
+        GKAccessPoint.shared.trigger(state: .leaderboards) {
+            AppLog.info(AppLog.leaderboard + AppLog.game, "LEADERBOARD_PRESENT", outcome: .completed, fields: [.string("surface", "visionos_access_point")])
+        }
+        #elseif canImport(UIKit) && !os(watchOS)
         AppLog.info(AppLog.leaderboard + AppLog.game, "LEADERBOARD_PRESENT", outcome: .requested, fields: [.string("surface", "uikit_access_point")])
         authModel.presentLeaderboard(leaderboardID: leaderboardConfiguration.leaderboardID(for: selectedDifficulty))
         #elseif os(macOS)

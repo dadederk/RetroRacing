@@ -11,7 +11,7 @@ import SwiftUI
 /// waiting for the friend to join, the synchronized countdown, the "friend still racing"
 /// waiting screen after the local player loses first, and the disconnect message. Finished/retry
 /// states are handled by `SharePlayResultView` instead, presented as a sheet from `GameView`.
-struct SharePlayOverlayView: View {
+public struct SharePlayOverlayView: View {
     let state: SharePlayMatchState
     let opponentDisplayName: String?
     let onCountdownSecondChanged: (Int) -> Void
@@ -21,7 +21,7 @@ struct SharePlayOverlayView: View {
     @ScaledMetric(relativeTo: .largeTitle) private var countdownDigitSize: CGFloat = 72
     @State private var lastTriggeredCountdownSecond: Int?
 
-    init(
+    public init(
         state: SharePlayMatchState,
         opponentDisplayName: String?,
         onCountdownSecondChanged: @escaping (Int) -> Void = { _ in }
@@ -31,7 +31,7 @@ struct SharePlayOverlayView: View {
         self.onCountdownSecondChanged = onCountdownSecondChanged
     }
 
-    var body: some View {
+    public var body: some View {
         ZStack {
             switch state {
             case .waitingForFriend:

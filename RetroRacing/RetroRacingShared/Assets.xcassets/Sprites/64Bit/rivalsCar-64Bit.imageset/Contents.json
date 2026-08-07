@@ -22,7 +22,8 @@
     },
     {
       "filename" : "rivalsCar-64Bit-vision.png",
-      "idiom" : "vision"
+      "idiom" : "universal",
+      "platform" : "visionos"
     }
   ],
   "info" : {

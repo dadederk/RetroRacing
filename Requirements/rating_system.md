@@ -15,6 +15,7 @@
 - About Rate button is always available for voluntary rating.
 - Native StoreKit prompt is automatic and tied to positive gameplay timing, not manual taps.
 - tvOS keeps the menu engagement block hidden and uses a no-op rating provider.
+- visionOS uses the shared menu Rate CTA and App Store review URL; its automatic positive-gameplay prompt remains inactive until game-over service reporting is connected.
 
 ## Automatic Prompt Eligibility
 

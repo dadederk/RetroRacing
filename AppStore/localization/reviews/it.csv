@@ -248,6 +248,13 @@ How to play the game,Come giocare,In-app,settings_controls_how_to_play,,needs_re
 • Premi Riproduci/Pausa per mettere in pausa o riprendere.
 • Premi Menu/Indietro per scegliere se terminare la partita.
 • Con un controller, usa il D-pad o lo stick sinistro per muoverti, Menu/Start per mettere in pausa e B/Indietro per terminare. I pulsanti assegnati aggiungono controlli alternativi.",In-app,settings_controls_tvos,,needs_review,
+"• Look at a lane and pinch to move, or use the Left and Right buttons.
+• Use the left and right arrow keys when a keyboard is connected.
+• Press Space or use Pause to pause or resume.
+• With a controller, use the D-pad or left stick to move and Menu/Start to pause.","• Guarda una corsia e pizzica per muoverti, oppure usa i pulsanti Sinistra e Destra.
+• Usa i tasti freccia sinistra e destra con una tastiera collegata.
+• Premi Spazio o usa Pausa per mettere in pausa o riprendere.
+• Con un controller, usa D-pad o stick sinistro per muoverti e Menu/Start per mettere in pausa.",In-app,settings_controls_visionos,,needs_review,
 "• Rotate the Digital Crown up to move right and down to move left.
 • Tap the left side of the screen to move left and the right side to move right.
 • Swipe left to move left and right to move right.","• Ruota la Digital Crown verso l'alto per andare a destra e verso il basso per andare a sinistra.
@@ -392,6 +399,7 @@ Plays a warning haptic before the speed increase.,Riproduce un feedback aptico d
 Does not play any speed-increase warning.,Non riproduce alcun avviso di aumento velocità.,In-app,tutorial_speed_warning_description_none,,needs_review,
 Plays a short three-note ascending warning chirp.,Riproduce un breve segnale di avviso ascendente a tre note.,In-app,tutorial_speed_warning_description_sound,,needs_review,
 "RetroRapid! is a 3-lane racing game. Move left or right between the three positions. We play sounds to indicate which lanes are safe, and you must quickly move into a safe lane to overtake cars and avoid crashing.","RetroRapid! è un gioco di corse a 3 corsie. Muoviti a sinistra o a destra tra le tre posizioni. Riprodiamo suoni per indicare quali corsie sono sicure, e devi spostarti rapidamente in una corsia sicura per sorpassare le auto ed evitare incidenti.",In-app,tutorial_voiceover_intro,,needs_review,
+"Start or join a FaceTime call, then try Play with Friends again.","Avvia o partecipa a una chiamata FaceTime, poi riprova Gioca con gli amici.",In-app,tvos_shareplay_facetime_required,,needs_review,
 Polygon Racing,Corse Polygon,In-app,vision_64bit_racing,,needs_review,
 Classic,Classica,In-app,vision_classic_title,,needs_review,
 Classic race track,Pista classica,In-app,vision_classic_track,,needs_review,
@@ -411,6 +419,7 @@ Race track,Pista,In-app,vision_race_track_input_label,,needs_review,
 Return to 2D,Torna al 2D,In-app,vision_return_to_2d,,needs_review,
 Returns this race to its classic window without restarting it,Riporta questa gara alla finestra classica senza riavviarla,In-app,vision_return_to_2d_hint,,needs_review,
 Select lane,Seleziona corsia,In-app,vision_select_lane,,needs_review,
+Couldn't start Play with Friends. Return to the Classic window and try again.,Impossibile avviare Gioca con gli amici. Torna alla finestra Classica e riprova.,In-app,vision_shareplay_activation_failed,,needs_review,
 Collision,Collisione,In-app,vision_state_collision,,needs_review,
 Finished,Terminata,In-app,vision_state_finished,,needs_review,
 Paused,In pausa,In-app,vision_state_paused,,needs_review,

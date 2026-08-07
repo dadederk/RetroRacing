@@ -18,7 +18,9 @@ public enum ThemeCatalogPlatform: Equatable, Sendable {
 
     public func alwaysIncludes(_ themeID: ThemeID) -> Bool {
         switch (self, themeID) {
-        case (.tvOS, .thirtyTwoBit), (.visionOS, .sixtyFourBit):
+        case (.tvOS, .thirtyTwoBit),
+             (.visionOS, .thirtyTwoBit),
+             (.visionOS, .sixtyFourBit):
             true
         default:
             false

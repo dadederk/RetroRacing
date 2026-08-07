@@ -43,7 +43,7 @@
 Friend races are free. SharePlay competitive matches in [`shareplay_multiplayer.md`](shareplay_multiplayer.md) must never use daily plays.
 
 - The **Play with Friends** menu action does not call the regular play-limit/paywall gate.
-- `GameViewModel.isSharePlayActive` gates every `recordGamePlayed(on:)` call site.
+- Each platform's session owner gates solo play recording while SharePlay is active (`GameViewModel.isSharePlayActive` on shared `GameView` platforms and `VisionGameSessionCoordinator.isSharePlayActive` on visionOS).
 - A SharePlay match can start even when the player has zero solo plays remaining.
 - SharePlay-related free copy appears only where free-tier affordances are appropriate; Unlimited Plays users should not see free-tier upsell footers.
 - Difficulty editing is locked while a SharePlay match is active because the host’s speed is authoritative for the current match.

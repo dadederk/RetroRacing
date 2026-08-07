@@ -16,70 +16,59 @@ struct TabletopGameView: View {
     @Environment(\.dismissWindow) private var dismissWindow
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.accessibilityDifferentiateWithoutColor) private var differentiateWithoutColor
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.colorSchemeContrast) private var colorSchemeContrast
     @AppStorage(DirectTouchSetting.conditionalDefaultStorageKey) private var directTouchData = Data()
     @AccessibilityFocusState private var isTrackAccessibilityFocused: Bool
     @State private var tabletopScene: TabletopScene?
 
     var body: some View {
-        ZStack {
-            tabletopRealityView
-                .accessibilityDirectTouch(isDirectTouchEnabled)
-
-            VStack(spacing: 16) {
-                VisionGameHUD(snapshot: session.snapshot)
-                Spacer()
-                if session.screen == .gameOver {
-                    VisionGameOverPanel(isTabletop: true)
-                } else {
-                    VisionGameControls()
-                }
+        tabletopRealityView
+            .ornament(
+                visibility: .visible,
+                attachmentAnchor: .scene(.top),
+                contentAlignment: .bottom
+            ) {
+                TabletopHUDPanel(
+                    returnToClassic: returnToClassic,
+                    finish: finish
+                )
+                .padding(.bottom, 72)
             }
-            .padding(24)
-        }
-        .ornament(visibility: .visible, attachmentAnchor: .scene(.top), contentAlignment: .center) {
-            Button(
-                GameLocalizedStrings.string("vision_return_to_2d"),
-                systemImage: "rectangle",
-                action: returnToClassic
-            )
-            .disabled(session.presentationTransition != .idle)
-            .accessibilityHint(GameLocalizedStrings.string("vision_return_to_2d_hint"))
-            .accessibilityInputLabels([
-                GameLocalizedStrings.string("vision_return_to_2d"),
-                GameLocalizedStrings.string("vision_classic_title")
-            ])
-        }
-        .onAppear(perform: updateActivity)
-        .onDisappear {
-            session.setPresentationActive(.tabletop, isActive: false)
-            session.tabletopDidDisappear(using: windowActions)
-        }
-        .onChange(of: scenePhase, updateActivity)
-        .onChange(of: session.focusRestorationSequence) {
-            isTrackAccessibilityFocused = true
-        }
-        .onKeyPress(.leftArrow) {
-            session.moveLeft()
-            return .handled
-        }
-        .onKeyPress(.rightArrow) {
-            session.moveRight()
-            return .handled
-        }
-        .onKeyPress(.space) {
-            session.togglePause()
-            return .handled
-        }
-        .accessibilityAction(.magicTap, session.togglePause)
-        .alert(
-            GameLocalizedStrings.string("vision_transition_alert_title"),
-            isPresented: transitionFailureBinding
-        ) {
-            Button(GameLocalizedStrings.string("ok"), action: session.clearTransitionFailure)
-        } message: {
-            Text(session.transitionFailure?.message ?? "")
-        }
+            .accessibilityDirectTouch(isDirectTouchEnabled)
+            .onAppear(perform: updateActivity)
+            .onDisappear {
+                session.setPresentationActive(.tabletop, isActive: false)
+                session.tabletopDidDisappear(using: windowActions)
+            }
+            .onChange(of: scenePhase, updateActivity)
+            .onChange(of: session.focusRestorationSequence) {
+                isTrackAccessibilityFocused = true
+            }
+            .onChange(of: session.requiresClassicForSharePlay, initial: true) {
+                handOffToClassicForSharePlayIfNeeded()
+            }
+            .onKeyPress(.leftArrow) {
+                session.moveLeft()
+                return .handled
+            }
+            .onKeyPress(.rightArrow) {
+                session.moveRight()
+                return .handled
+            }
+            .onKeyPress(.space) {
+                session.togglePause()
+                return .handled
+            }
+            .accessibilityAction(.magicTap, session.togglePause)
+            .alert(
+                GameLocalizedStrings.string("vision_transition_alert_title"),
+                isPresented: transitionFailureBinding
+            ) {
+                Button(GameLocalizedStrings.string("ok"), action: session.clearTransitionFailure)
+            } message: {
+                Text(session.transitionFailure?.message ?? "")
+            }
     }
 
     private var tabletopRealityView: some View {
@@ -93,7 +82,8 @@ struct TabletopGameView: View {
                     snapshot: session.snapshot,
                     visualStyle: TabletopSceneVisualStyle(
                         increasedContrast: colorSchemeContrast == .increased,
-                        differentiateWithoutColor: differentiateWithoutColor
+                        differentiateWithoutColor: differentiateWithoutColor,
+                        reduceMotion: reduceMotion
                     )
                 )
                 tabletopScene = scene
@@ -111,7 +101,10 @@ struct TabletopGameView: View {
                 )
             }
         } update: { _ in
-            tabletopScene?.update(snapshot: session.snapshot)
+            tabletopScene?.update(
+                snapshot: session.snapshot,
+                reduceMotion: reduceMotion
+            )
         }
         .gesture(
             SpatialTapGesture()
@@ -189,6 +182,24 @@ struct TabletopGameView: View {
 
     private func returnToClassic() {
         _ = session.beginPresentationTransition(to: .classic, using: windowActions)
+    }
+
+    private func handOffToClassicForSharePlayIfNeeded() {
+        guard session.requiresClassicForSharePlay else { return }
+        _ = session.beginPresentationTransition(to: .classic, using: windowActions)
+    }
+
+    private func finish() {
+        session.finish()
+        if session.windowRoutingStrategy == .push {
+            dismissWindow(id: VisionSceneID.tabletop)
+            return
+        }
+        Task {
+            await Task.yield()
+            openWindow(id: VisionSceneID.classic)
+            dismissWindow(id: VisionSceneID.tabletop)
+        }
     }
 
     private func updateActivity() {

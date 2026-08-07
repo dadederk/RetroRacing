@@ -144,7 +144,14 @@ final class SixteenBitThemeTests: XCTestCase {
     func testGivenSixteenBitSpriteCatalogWhenInspectingFamiliesThenEveryPlatformVariantDecodes() throws {
         // Given
         let families = ["playersCar", "rivalsCar", "crash", "life", "friendLife"]
-        let idioms = ["iphone", "ipad", "mac", "watch", "tv"]
+        let variants = [
+            (idiom: "iphone", filenameSuffix: "iphone"),
+            (idiom: "ipad", filenameSuffix: "ipad"),
+            (idiom: "mac", filenameSuffix: "mac"),
+            (idiom: "watch", filenameSuffix: "watch"),
+            (idiom: "tv", filenameSuffix: "tv"),
+            (idiom: "universal", filenameSuffix: "vision")
+        ]
 
         // When / Then
         for family in families {
@@ -153,10 +160,12 @@ final class SixteenBitThemeTests: XCTestCase {
             let contentsData = try Data(contentsOf: contentsURL)
             let contents = try XCTUnwrap(JSONSerialization.jsonObject(with: contentsData) as? [String: Any])
             let images = try XCTUnwrap(contents["images"] as? [[String: String]])
-            XCTAssertTrue(Set(images.compactMap { $0["idiom"] }) == Set(idioms))
+            XCTAssertTrue(
+                Set(images.compactMap { $0["idiom"] }) == Set(variants.map { $0.idiom })
+            )
 
-            for idiom in idioms {
-                let filename = "\(family)-16Bit-\(idiom).png"
+            for variant in variants {
+                let filename = "\(family)-16Bit-\(variant.filenameSuffix).png"
                 let imageURL = imagesetURL.appendingPathComponent(filename)
                 let source = try XCTUnwrap(
                     CGImageSourceCreateWithURL(imageURL as CFURL, nil),

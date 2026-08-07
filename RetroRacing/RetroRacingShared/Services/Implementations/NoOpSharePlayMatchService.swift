@@ -7,8 +7,8 @@
 
 import Foundation
 
-/// Inert `SharePlayMatchService` used on platforms outside the v1 SharePlay scope
-/// (tvOS, watchOS, visionOS), in tests, and in previews. Every call is a no-op and
+/// Inert `SharePlayMatchService` used on platforms without Group Activities,
+/// in tests, and in previews. Every call is a no-op and
 /// `observeIncomingSessions()` returns immediately instead of awaiting forever, so callers
 /// never block waiting on SharePlay activity that will never arrive.
 public final class NoOpSharePlayMatchService: SharePlayMatchService, Sendable {

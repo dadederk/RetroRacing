@@ -7,7 +7,7 @@
 
 import Testing
 import RetroRacingShared
-@testable import RetroRacingUniversal
+@testable import RetroRacingShared
 
 @MainActor
 struct GroupActivitiesSharePlayHostActivationControllerTests {

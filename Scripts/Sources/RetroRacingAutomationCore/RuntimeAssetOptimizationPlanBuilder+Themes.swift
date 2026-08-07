@@ -14,7 +14,7 @@ extension RuntimeAssetOptimizationActionBuilder {
         for definition in spriteDefinitions {
             var variants = definition.isLife ? lifeVariants : spriteVariants
             if definition.sources["vision"] != nil {
-                variants.append(visionSpriteVariant())
+                variants.append(visionSpriteVariant(maximumLongEdge: definition.isLife ? 256 : 768))
             }
             addSpriteImageset(
                 path: definition.path,
@@ -35,7 +35,7 @@ extension RuntimeAssetOptimizationActionBuilder {
         let images = variants.compactMap { variant -> AssetCatalogImage? in
             guard let sourceKey = variant.sourceKey,
                   let source = sources[sourceKey] else { return nil }
-            let filename = "\(baseName)-\(variant.idiom).png"
+            let filename = "\(baseName)-\(variant.name).png"
             actions.append(
                 .render(
                     source: source,
@@ -43,7 +43,12 @@ extension RuntimeAssetOptimizationActionBuilder {
                     maximumLongEdge: variant.maximumLongEdge
                 )
             )
-            return AssetCatalogImage(filename: filename, idiom: variant.idiom)
+            return AssetCatalogImage(
+                filename: filename,
+                idiom: variant.idiom,
+                platform: variant.platform,
+                scale: variant.scale
+            )
         }
         actions.append(
             .writeContents(
@@ -71,12 +76,13 @@ extension RuntimeAssetOptimizationActionBuilder {
         ]
     }
 
-    private func visionSpriteVariant() -> RuntimeAssetOptimizationVariant {
+    private func visionSpriteVariant(maximumLongEdge: Int) -> RuntimeAssetOptimizationVariant {
         RuntimeAssetOptimizationVariant(
             name: "vision",
-            idiom: "vision",
+            idiom: "universal",
+            platform: "visionos",
             sourceKey: "vision",
-            maximumLongEdge: 768
+            maximumLongEdge: maximumLongEdge
         )
     }
 
@@ -128,37 +134,41 @@ extension RuntimeAssetOptimizationActionBuilder {
     }
 
     private func playerSources(root: URL, baseName: String) -> [String: URL] {
-        return [
+        reusingIPadSourceOnVision([
             "iphone": root.appending(path: "\(baseName)-iphone.png"),
             "ipad": root.appending(path: "\(baseName)-iphone.png"),
             "mac": root.appending(path: "\(baseName)-mac.png"),
             "tv": root.appending(path: "\(baseName)-tv.png"),
             "watch": root.appending(path: "\(baseName)-watch.png"),
-        ]
+        ])
     }
 
     private func curatedCatalogSources(path: String) -> [String: URL] {
         let root = runtimeMasters20260803Root.appending(path: "CuratedCatalog/\(path)")
         let baseName = assetBaseName(for: path)
-        return Dictionary(uniqueKeysWithValues: ["iphone", "ipad", "mac", "tv", "watch"].map {
+        let sources = Dictionary(uniqueKeysWithValues: ["iphone", "ipad", "mac", "tv", "watch"].map {
             ($0, root.appending(path: "\(baseName)-\($0).png"))
         })
+        return reusingIPadSourceOnVision(sources)
     }
 
     private func thirtyTwoBitCatalogSources(path: String) -> [String: URL] {
         let root = runtimeMasters20260805Root.appending(path: "CuratedCatalog/\(path)")
         let baseName = assetBaseName(for: path)
-        return Dictionary(uniqueKeysWithValues: ["iphone", "ipad", "mac", "tv", "watch"].map {
+        let sources = Dictionary(uniqueKeysWithValues: ["iphone", "ipad", "mac", "tv", "watch"].map {
             ($0, root.appending(path: "\(baseName)-\($0).png"))
         })
+        return reusingIPadSourceOnVision(sources)
     }
 
     private func sixtyFourBitCatalogSources(path: String) -> [String: URL] {
         let root = runtimeMasters20260806Root.appending(path: "CuratedCatalog/\(path)")
         let baseName = assetBaseName(for: path)
-        var sources = Dictionary(uniqueKeysWithValues: ["iphone", "ipad", "mac", "tv", "watch"].map {
-            ($0, root.appending(path: "\(baseName)-\($0).png"))
-        })
+        var sources = reusingIPadSourceOnVision(Dictionary(
+            uniqueKeysWithValues: ["iphone", "ipad", "mac", "tv", "watch"].map {
+                ($0, root.appending(path: "\(baseName)-\($0).png"))
+            }
+        ))
         switch baseName {
         case "playersCar-64Bit":
             sources["vision"] = repositoryRoot.appending(
@@ -169,7 +179,9 @@ extension RuntimeAssetOptimizationActionBuilder {
                 path: "CuratedVisionOS/rivalsCar-64Bit.png"
             )
         default:
-            break
+            // Polygon's crash and helmet art is renderer-neutral. Reusing the curated iPad
+            // master gives visionOS an explicit asset-catalog idiom without runtime fallback.
+            sources["vision"] = sources["ipad"]
         }
         return sources
     }
@@ -183,13 +195,21 @@ extension RuntimeAssetOptimizationActionBuilder {
     ) -> [String: URL] {
         let root = sourceCatalog.appending(path: path)
         let universalURL = root.appending(path: universal)
-        return [
+        return reusingIPadSourceOnVision([
             "iphone": universalURL,
             "ipad": universalURL,
             "mac": universalURL,
             "tv": root.appending(path: tv),
             "watch": currentWatch.map { runtimeMasters20260803Root.appending(path: $0) }
                 ?? root.appending(path: watch),
-        ]
+        ])
+    }
+
+    private func reusingIPadSourceOnVision(_ sources: [String: URL]) -> [String: URL] {
+        var platformSources = sources
+        // Classic visionOS uses the shared fixed-camera renderer. Reuse the curated iPad
+        // source unless a theme supplies a dedicated visionOS projection.
+        platformSources["vision"] = sources["ipad"]
+        return platformSources
     }
 }

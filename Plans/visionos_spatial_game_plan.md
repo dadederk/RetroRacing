@@ -20,7 +20,7 @@ The Polygon style is the free visionOS default. It also becomes a regular select
 - Polygon is distinct from the Disc tvOS experiment. tvOS always includes/defaults to Disc, while visionOS always includes/defaults to Polygon; neither platform shows a Debug toggle for its required default. Other platforms expose the two styles through local Debug enablement while production access remains planned.
 - visionOS starts in Classic presentation with Polygon selected. Debug builds may add Disc to Classic for renderer QA, but Tabletop remains Polygon-only because other themes do not have equivalent spatial assets.
 - The 2D and 3D presentations are renderers of the same game session. Switching presentation never restarts the run, changes traffic, resets score/lives, or consumes a play.
-- The presentation toggle is a top ornament modeled after Xarra's Focus Mode control: **Play in 3D** in Classic and **Return to 2D** in Tabletop.
+- The Classic presentation toggle is a top ornament modeled after Xarra's Focus Mode control: **Play in 3D**. Tabletop places **Return to 2D** in its larger native top panel so status and presentation controls share one stable, guaranteed-visible surface above the volume.
 - Tabletop uses RealityKit in a volumetric SwiftUI window. SceneKit is not a runtime dependency: Apple deprecates it and limits SceneKit content on visionOS to 2D presentation. See [SceneKit](https://developer.apple.com/documentation/scenekit/) and [volumetric windows](https://developer.apple.com/documentation/visionOS/creating-a-volumetric-window-in-visionos).
 - RealityKit physics may animate cosmetic debris, but shared game logic remains authoritative for lanes, traffic, collisions, score, lives, timing, pause, and restart.
 - SharePlay is out of scope for the first spatial release. visionOS continues to use the no-op SharePlay service until a separate multiplayer plan covers window and tabletop behavior.
@@ -54,9 +54,11 @@ The Polygon style is the free visionOS default. It also becomes a regular select
 
 ### Tabletop volume
 
-- Present the road as a compact tabletop diorama with a fixed readable camera angle, three lanes, visible lap marker, HUD/status panel, and controls attached near the front edge.
+- Present the road as a 0.90 m square tabletop diorama inside a 1.04 × 0.65 × 1.04 m volume. A centered five-row by three-lane grid uses 0.17 m square cells, symmetric side verges, straight flush-plane lane dividers, no visible horizontal seams, and snapshot-positioned safety markers.
+- Normalize each car once inside an exact grid anchor from measured local model bounds, fitting it to no more than 58% of cell width and 64% of cell depth. Keep one player anchor, fifteen rival anchors, two safety markers, and one procedural low-poly impact burst pooled for the scene lifetime.
+- Mount a high-contrast native SwiftUI top panel above the volumetric content instead of rendering it as a RealityKit attachment. It always shows score, lives, and level as visible localized text; it owns Pause/Resume and Return to 2D during play, and Game Over, Restart, Finish, and Return to 2D after the run.
 - Use `RealityView`, `InputTargetComponent`, `CollisionComponent`, targeted spatial gestures, and hover effects for interactive entities.
-- Lane changes remain discrete commands. Directly dragging the car, free camera movement, full immersion, and room-scale gameplay are out of scope for v1.
+- Each full road lane is the visible gaze-and-pinch movement target. Lane changes remain discrete commands; visible Left/Right buttons, directly dragging the car, free camera movement, full immersion, and room-scale gameplay are out of scope for v1.
 - Keep world scale and depth comfortable when the volume opens. The player can reposition the system-managed volume without changing gameplay coordinates.
 - Pause gameplay while the presentation coordinator transfers ownership between scenes. Resume only after the destination is ready and only if the user was not already explicitly paused.
 
@@ -67,6 +69,7 @@ The Polygon style is the free visionOS default. It also becomes a regular select
 - Prefer `pushWindow` if standard-to-volumetric restoration is reliable on the release SDK. Encapsulate the API so `openWindow` plus `dismissWindow` can be used if cross-style push behavior fails validation.
 - If opening the destination fails, keep the source presentation and session active and announce the failure accessibly.
 - Dismissing Tabletop through window chrome restores Classic without losing the run.
+- Returning to Classic is also available at game over and preserves the complete snapshot and session identity.
 
 ## Shared Gameplay Architecture
 
@@ -75,7 +78,7 @@ The Polygon style is the free visionOS default. It also becomes a regular select
 ## Implementation Checkpoint
 
 - Completed: shared commands, snapshots, events, deterministic timing/traffic, collisions, pause locks, and SpriteKit adapter.
-- Completed: Play flow, Classic Canvas, RealityKit tabletop, ornament handoff, session continuity, distinct player/rival 3D sources, model-derived rival sprites, and focused tests.
+- Completed: Play flow, Classic Canvas, square RealityKit tabletop, native-top-panel handoff, session continuity, distinct player/rival 3D sources, model-derived rival sprites, and focused tests.
 - Completed: single main-actor engine authority, tokenized window handoff, semantic lane input, bounded Direct Touch, localized recovery, deterministic asset tooling, and platform-aware test automation.
 - Completed: shared Polygon identity/palette, complete five-sprite cross-platform runtime family, and Debug catalog enablement on non-vision platforms. Production Unlimited Plays exposure and watchOS entitlement wiring remain in Milestone 5.
 - Completed: automated release gate and signed visionOS Release archive.
@@ -89,7 +92,7 @@ As of 6 August 2026:
 
 - The engine is the only gameplay authority. Collision recovery is tick-driven, pause reasons stack independently, and SpriteKit/Canvas/RealityKit consume immutable snapshots.
 - Classic and Tabletop use unique `Window` scenes and a tokenized coordinator. The `.push` candidate and operational `.explicit` fallback are injected and covered by tests.
-- Tabletop readiness waits for the canonical model, fixed 16-entity pool, lane targets, HUD, controls, and gesture installation. Typed load/routing/timeout failures recover Classic without fallback geometry.
+- Tabletop readiness waits for the canonical models, square board, fixed car/effect pools, lane targets, native top panel, and gesture installation. Typed load/routing/timeout failures recover Classic without fallback geometry.
 - All 29 visionOS strings and recovery messages live in the shared catalog across the 20 runtime locales.
 - The canonical spatial manifest generates a 27,594-byte player USDZ and a 27,033-byte rival USDZ, copies the established fixed-camera player source, and software-renders the 13,560-byte rival projection from its composed 3D source under the 25 KB sprite budget. Validation reports 1,264 player and 1,224 rival triangles and checks hierarchy, forbidden identity meshes, materials, bounds, target membership, source exclusion, RealityKit import, budgets, and output drift.
 - `./retrorapid test --platform all` passes shared, Universal iOS, and visionOS suites. Destination resolution prefers compatible booted simulators, ignores stale unavailable device records, and otherwise selects the newest installed compatible runtime.
@@ -116,7 +119,7 @@ flowchart LR
   snapshot --> sprite["Existing SpriteKit renderer"]
   snapshot --> canvas["visionOS Canvas renderer"]
   snapshot --> reality["RealityKit tabletop renderer"]
-  ornament["2D / 3D ornament"] --> presentation["Vision presentation coordinator"]
+  toggle["Classic ornament / Tabletop HUD action"] --> presentation["Vision presentation coordinator"]
   presentation --> canvas
   presentation --> reality
 ```
@@ -163,7 +166,7 @@ flowchart LR
 - Expose score, lives, pause state, and left/right controls through SwiftUI accessibility elements rather than requiring exploration of 3D geometry.
 - Preserve VoiceOver Magic Tap for pause/resume and provide explicit accessibility actions for lane movement.
 - Keep the tabletop playable with Switch Control, Voice Control, keyboard, and supported physical controllers.
-- Reduce Motion removes camera easing, crash flashes, debris motion, and animated handoff effects while retaining sound, haptic, color, and text feedback.
+- Reduce Motion removes camera easing, crash blinking, debris motion, and animated handoff effects while retaining a steady spatial impact silhouette plus sound, haptic, color, and text feedback.
 - Increase Contrast may replace subtle textures/fog with flatter high-contrast materials and stronger lane edges.
 - Do not use depth, motion, color, or spatial audio as the only carrier of critical information.
 

@@ -1,16 +1,15 @@
 //
 //  GroupActivitiesSharePlayMatchService.swift
-//  RetroRacingUniversal
+//  RetroRacingShared
 //
 //  Created by Dani Devesa on 22/07/2026.
 //
 
-#if canImport(GroupActivities) && (os(iOS) || os(macOS))
+#if canImport(GroupActivities)
 import GroupActivities
 import Foundation
-import RetroRacingShared
 
-/// Production `SharePlayMatchService` backed by the GroupActivities framework on iOS/iPad/macOS.
+/// Production `SharePlayMatchService` backed by the GroupActivities framework.
 /// This actor owns the match state machine and session runtime state, while
 /// small collaborators own local activation, notification, and timer bookkeeping.
 public actor GroupActivitiesSharePlayMatchService: SharePlayMatchService {

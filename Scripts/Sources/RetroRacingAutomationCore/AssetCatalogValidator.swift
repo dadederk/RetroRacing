@@ -47,22 +47,23 @@ enum AssetCatalogValidator {
 
         for image in contents.images {
             guard let filename = image.filename, filename.isEmpty == false else { continue }
+            let manifestIdiom = image.manifestIdiom
             guard referencedFiles.insert(filename).inserted else {
                 issues.append("\(rule.path) references \(filename) more than once")
                 continue
             }
-            guard allowedIdioms.contains(image.idiom) else {
-                issues.append("\(rule.path) ships unexpected idiom '\(image.idiom)'")
+            guard allowedIdioms.contains(manifestIdiom) else {
+                issues.append("\(rule.path) ships unexpected idiom '\(manifestIdiom)'")
                 continue
             }
 
-            populatedIdioms.insert(image.idiom)
+            populatedIdioms.insert(manifestIdiom)
             if let scale = image.scale {
-                scalesByIdiom[image.idiom, default: []].insert(scale)
+                scalesByIdiom[manifestIdiom, default: []].insert(scale)
             }
             issues += imageIssues(
                 filename: filename,
-                idiom: image.idiom,
+                idiom: manifestIdiom,
                 rule: rule,
                 imageSet: imageSet
             )

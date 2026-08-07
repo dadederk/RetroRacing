@@ -7,7 +7,7 @@
 
 import Foundation
 import Testing
-@testable import RetroRacingUniversal
+@testable import RetroRacingShared
 
 @MainActor
 struct SharePlayMatchTimerControllerTests {

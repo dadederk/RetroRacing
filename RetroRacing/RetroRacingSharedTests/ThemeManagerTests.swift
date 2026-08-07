@@ -88,12 +88,12 @@ final class ThemeManagerTests: XCTestCase {
         assertThemeCatalog(
             .visionOS,
             defaultThemeID: .sixtyFourBit,
-            premiumThemeIDs: [],
-            expectedThemeIDs: [.sixtyFourBit]
+            premiumThemeIDs: [.pocket, .lcd, .eightBit, .sixteenBit, .thirtyTwoBit],
+            expectedThemeIDs: [.pocket, .lcd, .eightBit, .sixteenBit, .thirtyTwoBit, .sixtyFourBit]
         )
     }
 
-    func testGivenExperimentalThemesWhenBuildingCatalogsThenTheyAreFreeAndPlatformDefaultsRemainStable() {
+    func testGivenExperimentalThemesWhenBuildingCatalogsThenDebugOnlyThemesAreFreeAndDefaultsRemainStable() {
         let experiments = ExperimentalThemeConfiguration(
             isThirtyTwoBitEnabled: true,
             isSixtyFourBitEnabled: true
@@ -114,18 +114,54 @@ final class ThemeManagerTests: XCTestCase {
         assertThemeCatalog(
             .configuration(for: .visionOS, experimentalThemes: experiments),
             defaultThemeID: .sixtyFourBit,
-            premiumThemeIDs: [],
-            expectedThemeIDs: [.thirtyTwoBit, .sixtyFourBit]
+            premiumThemeIDs: [.pocket, .lcd, .eightBit, .sixteenBit, .thirtyTwoBit],
+            expectedThemeIDs: [.pocket, .lcd, .eightBit, .sixteenBit, .thirtyTwoBit, .sixtyFourBit]
         )
     }
 
     func testGivenPlatformWhenInspectingExperimentalToggleVisibilityThenDefaultThemesStayHidden() {
         XCTAssertFalse(ThemeCatalogPlatform.tvOS.showsExperimentalToggle(for: .thirtyTwoBit))
         XCTAssertTrue(ThemeCatalogPlatform.tvOS.showsExperimentalToggle(for: .sixtyFourBit))
-        XCTAssertTrue(ThemeCatalogPlatform.visionOS.showsExperimentalToggle(for: .thirtyTwoBit))
+        XCTAssertFalse(ThemeCatalogPlatform.visionOS.showsExperimentalToggle(for: .thirtyTwoBit))
         XCTAssertFalse(ThemeCatalogPlatform.visionOS.showsExperimentalToggle(for: .sixtyFourBit))
         XCTAssertTrue(ThemeCatalogPlatform.iPhone.showsExperimentalToggle(for: .thirtyTwoBit))
         XCTAssertTrue(ThemeCatalogPlatform.iPhone.showsExperimentalToggle(for: .sixtyFourBit))
+    }
+
+    func testGivenVisionOSCatalogWhenPremiumAccessIsGrantedThenEveryThemeCanBeSelected() throws {
+        // Given
+        let defaults = try cleanDefaults(named: "ThemeManagerTests.visionPremiumCatalog")
+        defer { clean(defaults) }
+        let manager = ThemeManager(
+            configuration: .visionOS,
+            userDefaults: defaults,
+            hasPremiumAccess: false
+        )
+        let themeIDs = manager.availableThemes.map(\.id)
+
+        XCTAssertEqual(manager.currentTheme.id, .sixtyFourBit)
+        XCTAssertEqual(
+            manager.availableThemes.filter(manager.isThemeAvailable).map(\.id),
+            [.sixtyFourBit]
+        )
+
+        // When
+        manager.syncPremiumAccess(true)
+
+        // Then
+        XCTAssertEqual(themeIDs, [
+            .pocket,
+            .lcd,
+            .eightBit,
+            .sixteenBit,
+            .thirtyTwoBit,
+            .sixtyFourBit,
+        ])
+        for theme in manager.availableThemes {
+            XCTAssertTrue(manager.isThemeAvailable(theme))
+            manager.setTheme(theme)
+            XCTAssertEqual(manager.currentTheme.id, theme.id)
+        }
     }
 
     func testGivenScreenshotCapturePlatformWhenResolvingCatalogThenExpectedEraIsDefault() {

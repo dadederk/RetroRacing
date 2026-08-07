@@ -10,6 +10,7 @@ import Foundation
 struct RuntimeAssetOptimizationVariant {
     let name: String
     let idiom: String
+    let platform: String?
     let scale: String?
     let sourceKey: String?
     let maximumLongEdge: Int
@@ -17,12 +18,14 @@ struct RuntimeAssetOptimizationVariant {
     init(
         name: String,
         idiom: String,
+        platform: String? = nil,
         scale: String? = nil,
         sourceKey: String? = nil,
         maximumLongEdge: Int
     ) {
         self.name = name
         self.idiom = idiom
+        self.platform = platform
         self.scale = scale
         self.sourceKey = sourceKey
         self.maximumLongEdge = maximumLongEdge

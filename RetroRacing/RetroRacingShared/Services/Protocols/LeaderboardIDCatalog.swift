@@ -14,6 +14,7 @@ public enum LeaderboardPlatform: String, CaseIterable, Sendable {
     case macOS
     case tvOS
     case watchOS
+    case visionOS
 }
 
 /// Single source of truth for all Game Center leaderboard identifiers.
@@ -78,7 +79,28 @@ public enum LeaderboardIDCatalog {
             @unknown default:
                 return "bestwatchos001test"
             }
+        case .visionOS:
+            switch difficulty {
+            case .cruise:
+                return "bestvisionos001cruise"
+            case .fast:
+                return "bestvisionos001fast"
+            case .rapid:
+                return "bestvisionos001test"
+            @unknown default:
+                return "bestvisionos001test"
+            }
         }
+    }
+}
+
+/// visionOS leaderboard configuration kept in shared code so menu presentation and
+/// future score submission cannot drift to different identifiers.
+public struct LeaderboardConfigurationVisionOS: LeaderboardConfiguration {
+    public init() {}
+
+    public func leaderboardID(for difficulty: GameDifficulty) -> String {
+        LeaderboardIDCatalog.leaderboardID(platform: .visionOS, difficulty: difficulty)
     }
 }
 

@@ -6,7 +6,7 @@
 
 - **Scope:** Generated SFX, lane cue modes, haptics, start/fail/crash feedback, SharePlay countdown cues, Settings selectors, and audio-session recovery.
 - **Must not break:** `SoundEffectPlayer` and `LaneCuePlayer` are injected; gameplay stays paused during start sound; fail-open audio never stalls gameplay; platform option availability matches capabilities.
-- **Key files:** `AVGeneratedSoundEffectPlayer`, `AVLaneCuePlayer`, `GameScene` audio hooks, Settings audio preferences.
+- **Key files:** `AVGeneratedSoundEffectPlayer`, `AVLaneCuePlayer`, `GameplayAudioFeedbackCoordinator`, `GameScene` audio hooks, Settings audio preferences.
 
 ## Feedback Modes
 
@@ -46,7 +46,7 @@
 - watchOS activates and re-activates its audio session on app start, gameplay appear, foregrounding, route/interruption/media reset, and live-menu exit.
 - watchOS haptic timing should align with actual lane changes and native semantic patterns.
 - macOS and tvOS do not expose haptics-only options.
-- The visionOS gameplay vertical slice does not yet route gameplay audio or haptics; visual and accessible status feedback remain available in both presentations.
+- visionOS Classic and Tabletop use `GameplayAudioFeedbackCoordinator` for the same start/resume, road-tick, move/safety, speed-warning, crash/fail, and SharePlay countdown/go cues. Audio settings are read at playback time; haptics-only options are normalized away because visionOS gameplay does not provide app haptics.
 - Temporary Xcode 26 archive behavior uses the legacy audio activation path; see [../Docs/xcode-27-sdk-restore.md](../Docs/xcode-27-sdk-restore.md).
 
 ## Testing

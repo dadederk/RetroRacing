@@ -248,6 +248,13 @@ How to play the game,So spielst du,In-app,settings_controls_how_to_play,,needs_r
 • Drücke Play/Pause, um zu pausieren oder fortzufahren.
 • Drücke Menü/Zurück, um zu entscheiden, ob du das Spiel beenden möchtest.
 • Mit einem Controller bewegst du dich mit Steuerkreuz oder linkem Stick, pausierst mit Menü/Start und beendest mit B/Zurück. Zugewiesene Tasten dienen als alternative Steuerung.",In-app,settings_controls_tvos,,needs_review,
+"• Look at a lane and pinch to move, or use the Left and Right buttons.
+• Use the left and right arrow keys when a keyboard is connected.
+• Press Space or use Pause to pause or resume.
+• With a controller, use the D-pad or left stick to move and Menu/Start to pause.","• Sieh dir eine Spur an und führe eine Zwickgeste aus, oder nutze Links und Rechts.
+• Nutze bei angeschlossener Tastatur die Pfeiltasten links und rechts.
+• Drücke die Leertaste oder nutze Pause zum Pausieren und Fortsetzen.
+• Nutze mit einem Controller das D-pad oder den linken Stick zum Bewegen und Menü/Start zum Pausieren.",In-app,settings_controls_visionos,,needs_review,
 "• Rotate the Digital Crown up to move right and down to move left.
 • Tap the left side of the screen to move left and the right side to move right.
 • Swipe left to move left and right to move right.","• Drehe die Digital Crown nach oben für rechts und nach unten für links.
@@ -392,6 +399,7 @@ Plays a warning haptic before the speed increase.,Spielt ein Warn-Haptik-Feedbac
 Does not play any speed-increase warning.,Spielt keinen Warnhinweis bei Tempoerhöhung.,In-app,tutorial_speed_warning_description_none,,needs_review,
 Plays a short three-note ascending warning chirp.,Spielt einen kurzen dreinotigen aufsteigenden Warnton.,In-app,tutorial_speed_warning_description_sound,,needs_review,
 "RetroRapid! is a 3-lane racing game. Move left or right between the three positions. We play sounds to indicate which lanes are safe, and you must quickly move into a safe lane to overtake cars and avoid crashing.","RetroRapid! ist ein 3-Spur-Rennspiel. Bewege dich links oder rechts zwischen den drei Positionen. Wir spielen Töne ab, die sichere Spuren anzeigen, und du musst schnell in eine sichere Spur wechseln, um Autos zu überholen und Crashes zu vermeiden.",In-app,tutorial_voiceover_intro,,needs_review,
+"Start or join a FaceTime call, then try Play with Friends again.","Starte einen FaceTime-Anruf oder nimm daran teil und versuche dann erneut, mit Freunden zu spielen.",In-app,tvos_shareplay_facetime_required,,needs_review,
 Polygon Racing,Polygon-Rennen,In-app,vision_64bit_racing,,needs_review,
 Classic,Klassisch,In-app,vision_classic_title,,needs_review,
 Classic race track,Klassische Rennstrecke,In-app,vision_classic_track,,needs_review,
@@ -411,6 +419,7 @@ Race track,Rennstrecke,In-app,vision_race_track_input_label,,needs_review,
 Return to 2D,Zurück zu 2D,In-app,vision_return_to_2d,,needs_review,
 Returns this race to its classic window without restarting it,Bringt dieses Rennen ohne Neustart in sein klassisches Fenster zurück,In-app,vision_return_to_2d_hint,,needs_review,
 Select lane,Spur auswählen,In-app,vision_select_lane,,needs_review,
+Couldn't start Play with Friends. Return to the Classic window and try again.,Mit Freunden spielen konnte nicht gestartet werden. Kehre zum klassischen Fenster zurück und versuche es erneut.,In-app,vision_shareplay_activation_failed,,needs_review,
 Collision,Kollision,In-app,vision_state_collision,,needs_review,
 Finished,Beendet,In-app,vision_state_finished,,needs_review,
 Paused,Pausiert,In-app,vision_state_paused,,needs_review,

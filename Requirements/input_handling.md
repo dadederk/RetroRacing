@@ -37,12 +37,12 @@
   - two-finger horizontal trackpad swipes move one lane per gesture
   - trackpad lane swipes are disabled while VoiceOver is running
 - visionOS:
-  - gaze-and-pinch SwiftUI buttons move left/right and toggle pause
-  - Classic Canvas and Tabletop expose three semantic tap lanes; choosing a lane left or right of the player emits one discrete move toward it
+  - Classic uses gaze-and-pinch SwiftUI buttons for movement and pause; Tabletop uses its three visible road lanes for gaze-and-pinch movement and keeps Pause/Resume in the native top panel
+  - Classic's shared SpriteKit square and Tabletop expose three semantic tap lanes; each Tabletop target spans one full 0.17 m lane across the 0.85 m road depth, and choosing a lane left or right of the player emits one discrete move toward it
   - the current lane is a no-op, while unavailable boundary directions remain disabled in native and assistive controls
   - keyboard arrows move and Space toggles pause
   - Magic Tap, named Move left/Move right actions, and an adjustable lane control use the same command path
-  - Direct Touch is bounded to the road surface and never includes HUD, ornament, Settings, or native controls
+  - Direct Touch is bounded to the road surface and never includes HUD, ornament, Settings, or native controls; Tabletop retains lane hover through flush road planes backed by full-lane collision volumes and has no visible Left/Right buttons
   - renderer geometry does not own gameplay rules; see [visionos_gameplay.md](visionos_gameplay.md)
 - Physical controllers:
   - see [controller_input.md](controller_input.md)

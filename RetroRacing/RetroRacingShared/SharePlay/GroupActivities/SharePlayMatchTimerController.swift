@@ -1,13 +1,12 @@
 //
 //  SharePlayMatchTimerController.swift
-//  RetroRacingUniversal
+//  RetroRacingShared
 //
 //  Created by Dani Devesa on 01/08/2026.
 //
 
-#if canImport(GroupActivities) && (os(iOS) || os(macOS))
+#if canImport(GroupActivities)
 import Foundation
-import RetroRacingShared
 
 nonisolated struct SharePlayMatchTimerController {
     typealias SleepOperation = @Sendable (_ nanoseconds: UInt64) async -> Void

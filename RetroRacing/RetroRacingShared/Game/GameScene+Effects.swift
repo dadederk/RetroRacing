@@ -142,7 +142,7 @@ extension GameScene {
                 return
             }
             let prefersReducedMotion: Bool = {
-                #if os(iOS) || os(tvOS)
+                #if os(iOS) || os(tvOS) || os(visionOS)
                 return UIAccessibility.isReduceMotionEnabled
                 #elseif os(macOS)
                 return NSWorkspace.shared.accessibilityDisplayShouldReduceMotion
@@ -249,7 +249,7 @@ extension GameScene {
     /// Applies a pulsing animation to the player car sprite during the start sequence.
     func applyStartPulseToPlayerCar() {
         let prefersReducedMotion: Bool = {
-            #if os(iOS) || os(tvOS)
+            #if os(iOS) || os(tvOS) || os(visionOS)
             return UIAccessibility.isReduceMotionEnabled
             #elseif os(macOS)
             return NSWorkspace.shared.accessibilityDisplayShouldReduceMotion

@@ -37,4 +37,21 @@ final class LeaderboardIDCatalogTests: XCTestCase {
         XCTAssertEqual(fastID, "bestwatchos001fast")
         XCTAssertEqual(rapidID, "bestwatchos001test")
     }
+
+    func testGivenVisionOSPlatformWhenResolvingAllSpeedsThenReturnsExpectedIDs() {
+        // Given
+        let cruise: GameDifficulty = .cruise
+        let fast: GameDifficulty = .fast
+        let rapid: GameDifficulty = .rapid
+
+        // When
+        let cruiseID = LeaderboardIDCatalog.leaderboardID(platform: .visionOS, difficulty: cruise)
+        let fastID = LeaderboardIDCatalog.leaderboardID(platform: .visionOS, difficulty: fast)
+        let rapidID = LeaderboardIDCatalog.leaderboardID(platform: .visionOS, difficulty: rapid)
+
+        // Then
+        XCTAssertEqual(cruiseID, "bestvisionos001cruise")
+        XCTAssertEqual(fastID, "bestvisionos001fast")
+        XCTAssertEqual(rapidID, "bestvisionos001test")
+    }
 }

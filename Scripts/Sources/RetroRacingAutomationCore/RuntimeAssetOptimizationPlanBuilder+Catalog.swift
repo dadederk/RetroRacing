@@ -126,7 +126,12 @@ extension RuntimeAssetOptimizationActionBuilder {
                     maximumLongEdge: variant.maximumLongEdge
                 )
             )
-            return AssetCatalogImage(filename: filename, idiom: variant.idiom, scale: variant.scale)
+            return AssetCatalogImage(
+                filename: filename,
+                idiom: variant.idiom,
+                platform: variant.platform,
+                scale: variant.scale
+            )
         }
         actions.append(
             .writeContents(

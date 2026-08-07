@@ -12,7 +12,7 @@
 
 - Leaderboards are per platform and speed: Cruise, Fast, Rapid.
 - Assistive technology users share the same platform/speed leaderboards.
-- Current App Store Connect status: iPhone, iPad, macOS, tvOS, and watchOS boards are created and released. The three tvOS boards remain catalogued for idempotent validation and localization updates from their matching iPhone templates. visionOS IDs remain configured in code for later setup.
+- Current App Store Connect status: iPhone, iPad, macOS, tvOS, and watchOS boards are created and released. The three tvOS boards remain catalogued for idempotent validation and localization updates from their matching iPhone templates. visionOS IDs are catalogued in code for later App Store Connect setup; the current menu opens the generic leaderboard browser, and only a local player's completed SharePlay score enters the existing submission/pending-score path.
 - Speed pacing:
   - Rapid: baseline (`initialInterval: 0.6`)
   - Fast: middle pace (`initialInterval: 0.96`)
@@ -27,6 +27,7 @@
 | macOS | `bestmacos001cruise` | `bestmacos001fast` | `bestmacos001test` |
 | tvOS | `besttvos001cruise` | `besttvos001fast` | `besttvos001` |
 | watchOS | `bestwatchos001cruise` | `bestwatchos001fast` | `bestwatchos001test` |
+| visionOS | `bestvisionos001cruise` | `bestvisionos001fast` | `bestvisionos001test` |
 
 - `LeaderboardIDCatalog` is the single source of truth for platform/speed IDs.
 - Platform-specific `LeaderboardConfiguration` types must delegate to the catalog.
@@ -46,6 +47,7 @@
 - iOS, tvOS, and macOS keep the ambient `GKAccessPoint` hidden and open the selected-speed leaderboard explicitly through it.
 - iOS and tvOS automatically request authentication once per menu instance; dismissing the system authentication UI must not create a presentation loop.
 - watchOS has no in-app leaderboard sheet; it submits scores and tells players to view leaderboards on iPhone or iPad.
+- visionOS opens the generic Game Center leaderboard browser from the shared menu. Specific-speed presentation and solo score submission remain disabled until the catalogued boards exist in App Store Connect; completed SharePlay rounds submit only the local player's own score through the catalogued difficulty ID.
 - Views should depend on leaderboard services, not direct GameKit APIs, except narrow presentation surfaces.
 
 ## watchOS Fallback Relay

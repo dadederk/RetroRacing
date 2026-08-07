@@ -19,6 +19,11 @@
     {
       "filename" : "friendLife-GameBoy-watch.png",
       "idiom" : "watch"
+    },
+    {
+      "filename" : "friendLife-GameBoy-vision.png",
+      "idiom" : "universal",
+      "platform" : "visionos"
     }
   ],
   "info" : {

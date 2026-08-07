@@ -19,6 +19,11 @@
     {
       "filename" : "rivalsCar-GameBoy-watch.png",
       "idiom" : "watch"
+    },
+    {
+      "filename" : "rivalsCar-GameBoy-vision.png",
+      "idiom" : "universal",
+      "platform" : "visionos"
     }
   ],
   "info" : {

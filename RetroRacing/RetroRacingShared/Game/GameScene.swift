@@ -120,6 +120,7 @@ public class GameScene: SKScene {
 
     private var lastGameUpdateTime: TimeInterval?
     private var hasConfiguredScene = false
+    private var rendersExternalSnapshots = false
     var lastConfiguredSize: CGSize?
     private var startUnpauseFallbackTask: Task<Void, Never>?
     private var crashResolutionFallbackTask: Task<Void, Never>?
@@ -291,6 +292,29 @@ public class GameScene: SKScene {
         return scene
     }
 
+    /// Creates a renderer-only scene for platforms that own gameplay timing outside SpriteKit.
+    /// The caller supplies immutable snapshots through `render(snapshot:)`; the scene never
+    /// starts or advances an engine of its own.
+    public static func snapshotRenderingScene(
+        size: CGSize,
+        snapshot: GameSnapshot,
+        theme: (any GameTheme)?,
+        imageLoader: any ImageLoader,
+        bigRivalCarsEnabled: Bool = false,
+        roadVisualStyle: RoadVisualStyle = .defaultStyle
+    ) -> GameScene {
+        let scene = GameScene(size: size)
+        scene.rendersExternalSnapshots = true
+        scene.theme = theme
+        scene.imageLoader = imageLoader
+        scene.bigRivalCarsEnabled = bigRivalCarsEnabled
+        scene.roadVisualStyle = roadVisualStyle
+        scene.anchorPoint = CGPoint(x: 0, y: 0)
+        scene.scaleMode = .aspectFit
+        scene.render(snapshot: snapshot)
+        return scene
+    }
+
     /// Creates a new game scene. Use programmatic size; .sks loading uses main bundle and is not used from framework.
     /// Caller must set imageLoader before presenting the scene if using this initializer.
     public class func newGameScene(
@@ -427,7 +451,15 @@ public class GameScene: SKScene {
                 ]
             )
             createGrid()
-            initialiseGame(playsStartSound: isOverlayPauseLocked == false)
+            if rendersExternalSnapshots {
+                gridStateDidUpdate(
+                    gridState,
+                    shouldPlayFeedback: false,
+                    notifyDelegate: false
+                )
+            } else {
+                initialiseGame(playsStartSound: isOverlayPauseLocked == false)
+            }
         }
     }
 
@@ -444,6 +476,7 @@ public class GameScene: SKScene {
 #endif
 
     public override func update(_ currentTime: TimeInterval) {
+        guard rendersExternalSnapshots == false else { return }
         guard gameEngine != nil else {
             logMissingEngineIfNeeded(operation: "tick")
             return
@@ -473,6 +506,36 @@ public class GameScene: SKScene {
             logMissingEngineIfNeeded(operation: "synchronize")
             return
         }
+        synchronize(with: engineSnapshot)
+    }
+
+    /// Applies one renderer-neutral snapshot without advancing gameplay. This is used by
+    /// visionOS Classic so its shared coordinator can also hand the same run to Tabletop.
+    public func render(snapshot: GameSnapshot) {
+        guard rendersExternalSnapshots else { return }
+        let previousDimensions = (gridState.numberOfRows, gridState.numberOfColumns)
+        synchronize(with: snapshot)
+        guard hasConfiguredScene else { return }
+
+        let dimensionsChanged = previousDimensions != (snapshot.numberOfRows, snapshot.numberOfColumns)
+        let firstCellExists = childNode(withName: nameForCell(column: 0, row: 0)) != nil
+        if dimensionsChanged || firstCellExists == false {
+            removeAllChildren()
+            spritesForGivenState.removeAll()
+            playerSpriteNode = nil
+            clearRoadSurfaceCache()
+            lineOverlayNodes.removeAll()
+            friendMilestoneOverlayNodes.removeAll()
+            createGrid()
+        }
+        gridStateDidUpdate(
+            gridState,
+            shouldPlayFeedback: false,
+            notifyDelegate: false
+        )
+    }
+
+    private func synchronize(with engineSnapshot: GameSnapshot) {
         let wasPaused = gameState.isPaused
         var synchronizedGrid = GridState(
             numberOfRows: engineSnapshot.numberOfRows,
@@ -745,85 +808,30 @@ public class GameScene: SKScene {
     }
 
     func playFeedback(event: AudioFeedbackEvent) {
-        switch audioFeedbackMode {
-        case .retro:
-            playRetroFeedback(event: event)
-        case .cueChord, .cueArpeggio, .cueLanePulses:
-            guard let laneCuePlayer else {
-                return
-            }
-
-            switch event {
-            case .tick:
-                laneCuePlayer.playTickCue(safeColumns: safeColumnsAheadOfPlayer(), mode: audioFeedbackMode)
-            case .move(let destinationColumn):
-                if laneMoveCueStyle == .haptics {
-                    let isSafe = isSafeDestinationColumn(destinationColumn)
-                    if isSafe {
-                        hapticController?.triggerSuccessHaptic()
-                    } else {
-                        hapticController?.triggerMoveHaptic()
-                    }
-                    return
-                }
-                guard let column = cueColumn(for: destinationColumn) else { return }
-                let isSafe = isSafeDestinationColumn(destinationColumn)
-                laneCuePlayer.playMoveCue(
-                    column: column,
-                    isSafe: isSafe,
-                    mode: audioFeedbackMode,
-                    style: laneMoveCueStyle
-                )
-            }
-        }
-    }
-
-    private func playRetroFeedback(event: AudioFeedbackEvent) {
-        switch event {
+        let sharedEvent: GameplayAudioFeedbackEvent = switch event {
         case .tick:
-            guard let laneCuePlayer else { return }
-            laneCuePlayer.playTickCue(safeColumns: Set(CueColumn.allCases), mode: .cueArpeggio)
-        case .move:
-            guard let laneCuePlayer else { return }
-            laneCuePlayer.playMoveCue(
-                column: .middle,
-                isSafe: true,
-                mode: .cueArpeggio,
-                style: .laneConfirmation
-            )
+            .tick
+        case .move(let destinationColumn):
+            .move(destinationColumn: destinationColumn)
         }
-    }
-
-    private func safeColumnsAheadOfPlayer() -> Set<CueColumn> {
-        let candidateRow = gridState.playerRowIndex - 1
-        guard candidateRow >= 0, candidateRow < gridState.numberOfRows else {
-            return Set(CueColumn.allCases)
-        }
-
-        var safeColumns: Set<CueColumn> = []
-        for column in 0..<gridState.numberOfColumns {
-            guard let cueColumn = cueColumn(for: column) else { continue }
-            if gridState.grid[candidateRow][column] != .Car {
-                safeColumns.insert(cueColumn)
-            }
-        }
-        return safeColumns
-    }
-
-    private func isSafeDestinationColumn(_ destinationColumn: Int) -> Bool {
-        let candidateRow = gridState.playerRowIndex - 1
-        guard candidateRow >= 0,
-              candidateRow < gridState.numberOfRows,
-              destinationColumn >= 0,
-              destinationColumn < gridState.numberOfColumns else {
-            return true
-        }
-
-        return gridState.grid[candidateRow][destinationColumn] != .Car
-    }
-
-    private func cueColumn(for column: Int) -> CueColumn? {
-        CueColumn(rawValue: column)
+        GameplayAudioFeedbackRouter.play(
+            sharedEvent,
+            grid: gridState.grid.map { row in
+                row.map { cell in
+                    switch cell {
+                    case .Empty: .empty
+                    case .Car: .rival
+                    case .Player: .player
+                    case .Crash: .crash
+                    }
+                }
+            },
+            playerRowIndex: gridState.playerRowIndex,
+            mode: audioFeedbackMode,
+            laneMoveStyle: laneMoveCueStyle,
+            laneCuePlayer: laneCuePlayer,
+            hapticController: hapticController
+        )
     }
 
     public func applyScreenshotLayout(_ layout: GameScreenshotLayout) {

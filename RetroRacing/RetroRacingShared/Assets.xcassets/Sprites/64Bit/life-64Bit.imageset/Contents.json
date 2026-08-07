@@ -19,6 +19,11 @@
     {
       "filename" : "life-64Bit-watch.png",
       "idiom" : "watch"
+    },
+    {
+      "filename" : "life-64Bit-vision.png",
+      "idiom" : "universal",
+      "platform" : "visionos"
     }
   ],
   "info" : {

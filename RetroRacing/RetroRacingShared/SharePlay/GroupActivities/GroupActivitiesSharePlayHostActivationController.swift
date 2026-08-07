@@ -1,14 +1,13 @@
 //
 //  GroupActivitiesSharePlayHostActivationController.swift
-//  RetroRacingUniversal
+//  RetroRacingShared
 //
 //  Created by Dani Devesa on 01/08/2026.
 //
 
-#if canImport(GroupActivities) && (os(iOS) || os(macOS))
+#if canImport(GroupActivities)
 import Foundation
 import GroupActivities
-import RetroRacingShared
 
 nonisolated enum GroupActivitiesSharePlayHostActivationDisposition: Sendable, Equatable {
     case activate

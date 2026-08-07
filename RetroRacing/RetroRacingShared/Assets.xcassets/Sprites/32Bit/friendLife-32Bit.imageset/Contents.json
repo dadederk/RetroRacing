@@ -19,6 +19,11 @@
     {
       "filename" : "friendLife-32Bit-watch.png",
       "idiom" : "watch"
+    },
+    {
+      "filename" : "friendLife-32Bit-vision.png",
+      "idiom" : "universal",
+      "platform" : "visionos"
     }
   ],
   "info" : {

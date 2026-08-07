@@ -4,14 +4,16 @@
 
 > Narrow tasks may stop here; open the full contract for implementation or review.
 
-- **Scope:** 2-player SharePlay friend races on iOS/iPad/macOS with host-authoritative round settings, deterministic traffic, local simulation, mirrored score/lives, retry, leave, and free-play behavior.
+- **Scope:** 2-player SharePlay friend races on iOS, iPadOS, macOS, tvOS, and visionOS with host-authoritative round settings, deterministic traffic, local simulation, mirrored score/lives, retry, leave, and free-play behavior.
 - **Must not break:** Shared state machine stays pure and `GroupActivities`-free; platform gating stays in the app adapter/composition layer; SharePlay matches never record daily plays; each player submits only their own score through existing leaderboard paths.
 - **Key files:** `RetroRacingShared/SharePlay/`, `SharePlayMatchService`, `GroupActivitiesSharePlayMatchService`, `GameViewModel+SharePlay`, `SharePlayOverlayView`, `SharePlayResultView`.
 
 ## Scope
 
-- Shipping platforms: iOS, iPad, and macOS through `RetroRacingUniversal`.
-- tvOS, watchOS, and visionOS use `NoOpSharePlayMatchService` and do not expose the entry point.
+- Supported targets: iOS, iPadOS, and macOS through `RetroRacingUniversal`, plus `RetroRacingTvOS` and Classic `RetroRacingVisionOS` gameplay.
+- watchOS uses `NoOpSharePlayMatchService` and does not expose the entry point.
+- tvOS keeps **Play with Friends** visible. Direct activation requires an eligible FaceTime group; otherwise the app presents localized guidance and remains ready to accept an incoming or continued group session.
+- visionOS supports SharePlay in Classic presentation only. An incoming session while Tabletop is active pause-locks the run and automatically hands presentation back to Classic before applying the latest match state. If that handoff fails, the app leaves the group session and presents a localized failure.
 - v1 supports exactly two active participants. More than two must fail safely.
 - Plain-English architecture and flow diagrams live in [TechDocs/play-with-friends-shareplay.md](../TechDocs/play-with-friends-shareplay.md).
 
@@ -45,7 +47,8 @@
 
 - `SharePlayMatchStateMachine` owns pure synchronous transitions and retry timeout semantics.
 - `SharePlayMatchService` is the only protocol views/view models use; shared UI must not import `GroupActivities`.
-- `GroupActivitiesSharePlayMatchService` and related adapter types own GroupActivities sessions, messenger transport, participant-count policy, activation handoff, timers, and structured SharePlay logging.
+- `GroupActivitiesSharePlayMatchService` and related adapter types live in `RetroRacingShared/SharePlay/GroupActivities/` and own GroupActivities sessions, messenger transport, participant-count policy, activation, timers, and structured SharePlay logging.
+- Universal retains its native sharing-controller handoff; tvOS uses eligible-group direct activation and visionOS uses the system spatial SharePlay association plus direct activation.
 - The composition root injects a long-lived service and observes incoming sessions for the app lifetime.
 - UI state propagation uses an atomic `SharePlayUIState` snapshot so state, role, and display name do not drift.
 
@@ -77,7 +80,7 @@
 ## Testing
 
 - Unit tests cover state-machine transitions, retry timeout, two-peer convergence, guest speed restore, deterministic traffic, activation handoff, provisional-session admission, participant-count policy, final-collision ordering, pause locks, and free-play record skipping.
-- Manual two-device QA remains required for real GroupActivities transport: invite/cancel/retry, synchronized countdown, score/lives mirroring, disconnect, menu exit, third participant fail-safe, free-play count preservation, and the macOS host/guest matrix.
+- Manual two-device QA remains required for real GroupActivities transport: invite/cancel/retry, synchronized countdown, score/lives mirroring, disconnect, menu exit, third participant fail-safe, free-play count preservation, tvOS FaceTime eligibility/incoming continuation, visionOS Classic activation/Tabletop handoff, and the macOS host/guest matrix.
 
 ## Related
 

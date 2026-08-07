@@ -11,92 +11,75 @@ import SwiftUI
 struct ClassicGameView: View {
     @Environment(VisionGameSessionCoordinator.self) private var session
     @Environment(ThemeManager.self) private var themeManager
-    let settingsAction: () -> Void
+
+    let imageLoader: any ImageLoader
 
     var body: some View {
-        switch session.screen {
-        case .menu:
-            VisionPlayView(
-                theme: themeManager.currentTheme,
-                playAction: session.play,
-                settingsAction: settingsAction
-            )
-        case .playing:
-            ScrollView {
+        ZStack {
+            switch session.screen {
+            case .menu:
+                EmptyView()
+            case .playing:
                 VStack(spacing: 18) {
                     VisionGameHUD(snapshot: session.snapshot)
-                    ClassicRaceCanvas(snapshot: session.snapshot, theme: themeManager.currentTheme)
-                        .aspectRatio(1, contentMode: .fit)
-                        .frame(maxWidth: 720, minHeight: 320, maxHeight: 720)
-                    VisionGameControls()
+                    sharePlayLiveScoreRows
+                    raceSquare
                 }
-                .padding(24)
-            }
-        case .gameOver:
-            ScrollView {
-                VStack(spacing: 18) {
-                    VisionGameHUD(snapshot: session.snapshot)
-                    ClassicRaceCanvas(snapshot: session.snapshot, theme: themeManager.currentTheme)
-                        .aspectRatio(1, contentMode: .fit)
-                        .frame(maxWidth: 720, minHeight: 320, maxHeight: 720)
-                    VisionGameOverPanel(isTabletop: false)
+                .padding(.horizontal, 24)
+                .padding(.top, 24)
+                .padding(.bottom, 32)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+            case .gameOver:
+                ScrollView {
+                    VStack(spacing: 18) {
+                        VisionGameHUD(snapshot: session.snapshot)
+                        raceSquare
+                        VisionGameOverPanel(isTabletop: false)
+                    }
+                    .padding(.horizontal, 24)
+                    .padding(.top, 24)
+                    .padding(.bottom, 56)
                 }
-                .padding(24)
             }
-        }
-    }
-}
 
-private struct VisionPlayView: View {
-    let theme: any GameTheme
-    let playAction: () -> Void
-    let settingsAction: () -> Void
-
-    var body: some View {
-        VStack(spacing: 24) {
-            Image(
-                theme.playerCarSprite() ?? "playersCar-LCD",
-                bundle: VisionThemeSpriteAssets.bundle
+            SharePlayOverlayView(
+                state: session.sharePlayUIState.state,
+                opponentDisplayName: session.sharePlayUIState.opponentDisplayName,
+                onCountdownSecondChanged: session.playSharePlayCountdownCue
             )
-                .resizable()
-                .scaledToFit()
-                .frame(maxWidth: 460, maxHeight: 300)
-                .accessibilityHidden(true)
-
-            Text(theme.name)
-                .font(.largeTitle)
-                .bold()
-
-            Text(GameLocalizedStrings.string("vision_play_description"))
-                .font(.title3)
-                .multilineTextAlignment(.center)
-                .foregroundStyle(.secondary)
-                .frame(maxWidth: 560)
-
-            ViewThatFits {
-                HStack(spacing: 16) {
-                    playButton
-                    settingsButton
-                }
-                VStack(spacing: 12) {
-                    playButton
-                    settingsButton
-                }
-            }
+            .padding(28)
         }
-        .padding(40)
     }
 
-    private var playButton: some View {
-        Button(GameLocalizedStrings.string("play"), systemImage: "play.fill", action: playAction)
-            .buttonStyle(.borderedProminent)
-            .controlSize(.extraLarge)
-            .accessibilityInputLabels([GameLocalizedStrings.string("play")])
+    @ViewBuilder
+    private var sharePlayLiveScoreRows: some View {
+        if let remoteScore = session.sharePlayRemoteScore {
+            SharePlayScoreComparisonRows(
+                localLabel: GameLocalizedStrings.string("shareplay_local_player_name"),
+                localScore: session.snapshot.score,
+                opponentLabel: resolvedOpponentLabel,
+                opponentScore: remoteScore,
+                scoreFont: .headline
+            )
+        }
     }
 
-    private var settingsButton: some View {
-        Button(GameLocalizedStrings.string("settings"), systemImage: "gearshape", action: settingsAction)
-            .controlSize(.extraLarge)
-            .accessibilityInputLabels([GameLocalizedStrings.string("settings")])
+    private var resolvedOpponentLabel: String {
+        let name = session.sharePlayUIState.opponentDisplayName?
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+        guard let name, name.isEmpty == false else {
+            return GameLocalizedStrings.string("shareplay_opponent_score_fallback_label")
+        }
+        return name
+    }
+
+    private var raceSquare: some View {
+        ClassicRaceSpriteView(
+            snapshot: session.snapshot,
+            theme: themeManager.currentTheme,
+            imageLoader: imageLoader
+        )
+        .aspectRatio(1, contentMode: .fit)
+        .frame(maxWidth: 720, minHeight: 320, maxHeight: 720)
     }
 }

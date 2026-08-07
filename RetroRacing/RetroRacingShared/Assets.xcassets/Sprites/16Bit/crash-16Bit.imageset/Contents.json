@@ -19,6 +19,11 @@
     {
       "filename" : "crash-16Bit-watch.png",
       "idiom" : "watch"
+    },
+    {
+      "filename" : "crash-16Bit-vision.png",
+      "idiom" : "universal",
+      "platform" : "visionos"
     }
   ],
   "info" : {

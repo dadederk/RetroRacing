@@ -17,9 +17,11 @@
 
 ## VoiceOver Gameplay
 
-- The solo HUD shows the score as a numeric value without a visible prefix and shows three
-  helmet icons for lives. Consumed helmets fade in order from left to right and keep a
-  primary-contrast outline while the remaining helmets stay fully visible.
+- The Classic solo HUD shows the score as a numeric value without a visible prefix and shows
+  three helmet icons for lives. Consumed helmets fade in order from left to right and keep a
+  primary-contrast outline while the remaining helmets stay fully visible. The spatial
+  Tabletop panel uses an explicit localized score/lives/level text line so status does not
+  depend on resolving small sprite details at a distance.
 - SharePlay presents the same three-helmet lives model for the friend. Friend helmets are
   decorative within the row's combined score/lives accessibility element and are not announced
   individually.
@@ -35,7 +37,7 @@
 ## Controls and Voice Control
 
 - Direct Touch defaults to on where shown and persists user overrides. It is hidden on tvOS, where touch-based gameplay regions do not apply.
-- On visionOS, Direct Touch applies only to the Classic board and tabletop road; HUD, ornaments, Settings, and native controls keep standard assistive navigation.
+- On visionOS, Direct Touch applies only to the Classic board and tabletop road; the native Tabletop top panel, ornaments, Settings, and native controls keep standard assistive navigation.
 - Voice Control input labels include short and descriptive aliases: Left/Move left and Right/Move right.
 - HUD status and SpriteKit visuals are not Voice Control tap targets.
 - Settings Style Gallery rows are semantic buttons with localized theme descriptions. The currently selected style exposes the selected accessibility trait in addition to its visual checkmark.
@@ -94,6 +96,7 @@
   copy. The friend row remains one combined score/lives accessibility element.
 - SharePlay result sheets are explicitly dismissed through Play Again, Leave, or Done.
 - Speed settings are disabled, not hidden, while SharePlay is active; see [shareplay_multiplayer.md](shareplay_multiplayer.md).
+- visionOS exposes the shared waiting, countdown, live-score, disconnect, and result semantics in Classic presentation. If a session arrives in Tabletop, gameplay pause-locks before the automatic Classic handoff so assistive input cannot advance an unseen round.
 
 ## Navigation
 
@@ -101,9 +104,10 @@
 - Full-screen menu overlays are Play-only dismiss and pause gameplay underneath.
 - macOS menu overlay is modal and hides underlying gameplay from the accessibility tree.
 - watchOS Finish returns to the menu and stops gameplay, haptics, and pending audio callbacks.
-- visionOS exposes HUD state and controls through SwiftUI in both Classic and Tabletop, preserves the run during handoff, and provides named and adjustable lane actions without requiring 3D exploration.
-- visionOS restores accessibility focus to the destination ornament/control after handoff and to the source recovery message after failure.
-- visionOS road, lane, car, and collision state remains distinguishable with Reduce Motion, Increase Contrast, and Differentiate Without Color enabled.
+- visionOS exposes HUD state and controls through SwiftUI in both Classic and Tabletop. The high-contrast Tabletop top panel always presents score, lives, and level plus native Pause/Resume and presentation actions above the volumetric content, and reflows its buttons for large Dynamic Type.
+- Tabletop preserves the run during handoff and provides full-road semantic lane targets, named movement actions, and an adjustable lane action without requiring 3D exploration or visible movement buttons.
+- visionOS restores accessibility focus to the destination lane control/ornament after handoff and to the source recovery message after failure.
+- visionOS road, lane, car, and collision state remains distinguishable with Reduce Motion, Increase Contrast, and Differentiate Without Color enabled. The Tabletop collision burst never blinks with Reduce Motion and uses raised multi-part geometry rather than color alone.
 
 ## Testing
 

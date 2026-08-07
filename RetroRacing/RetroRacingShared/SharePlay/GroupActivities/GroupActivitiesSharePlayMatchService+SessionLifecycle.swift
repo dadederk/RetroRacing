@@ -1,14 +1,13 @@
 //
 //  GroupActivitiesSharePlayMatchService+SessionLifecycle.swift
-//  RetroRacingUniversal
+//  RetroRacingShared
 //
 //  Created by Dani Devesa on 31/07/2026.
 //
 
-#if canImport(GroupActivities) && (os(iOS) || os(macOS))
+#if canImport(GroupActivities)
 import GroupActivities
 import Foundation
-import RetroRacingShared
 
 extension GroupActivitiesSharePlayMatchService {
     public func observeIncomingSessions() async {

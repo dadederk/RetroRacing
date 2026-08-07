@@ -19,6 +19,11 @@
     {
       "filename" : "life-LCD-watch.png",
       "idiom" : "watch"
+    },
+    {
+      "filename" : "life-LCD-vision.png",
+      "idiom" : "universal",
+      "platform" : "visionos"
     }
   ],
   "info" : {

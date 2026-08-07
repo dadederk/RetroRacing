@@ -18,6 +18,7 @@
   2. Big Cars off + Simplified Grid: vertical-only continuous separators.
   3. Big Cars off + Detailed Road: perspective dashed road markers and lap strips.
 - Horizontal grid lines remain hidden in all road-marker modes.
+- Tabletop's two straight lane dividers, safety strips, and lane-hover surfaces are zero-height planes laid flush over the RealityKit road. Full-lane collision volumes remain invisible and must never be highlighted through or displace the cars.
 - Lane moves do not advance dash phase; grid tick updates do.
 
 ## Detailed Road
@@ -32,7 +33,7 @@
 
 ## Lap Markers
 
-- `lapStripMask` is a generated shared white mask with explicit iPhone, iPad, Mac, Apple Watch, and Apple TV variants. The visionOS vertical slice renders equivalent safety markers directly in Canvas and RealityKit rather than shipping this SpriteKit mask.
+- `lapStripMask` is a generated shared white mask with explicit iPhone, iPad, Mac, Apple Watch, Apple TV, and Apple Vision Pro variants. visionOS Classic consumes the shared SpriteKit mask; Tabletop renders the equivalent marker in RealityKit. Tabletop owns two pooled marker entities and positions/enables them from `GameSnapshot.safetyMarkerRows` at exact 0.17 m row centers; it never uses a fixed finish-line coordinate or allocates markers during ticks.
 - Lap strips render only during the two-row safety empty window before a speed increase.
 - Safety marker rows shift with grid movement and retain one off-screen sentinel so the strip exits smoothly.
 - Verify generated assets without rewriting:
@@ -56,7 +57,7 @@ swift run --package-path Scripts generate-road-dash-masks --check
 
 ## Testing
 
-- Tests cover dash phase, Big Cars precedence, simplified/detailed modes, persistent surface identity/invalidation, lap strip timing/continuity, hidden horizontal lines, lane-center alignment, depth convergence, generated mask drift, asset-footprint drift, and contrast resolver output.
+- Tests cover dash phase, Big Cars precedence, simplified/detailed modes, persistent surface identity/invalidation, lap strip timing/continuity, hidden horizontal lines, lane-center alignment, depth convergence, visionOS shared-snapshot rendering, generated mask drift, asset-footprint drift, and contrast resolver output.
 
 ## Related
 

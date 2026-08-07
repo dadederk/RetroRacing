@@ -245,10 +245,12 @@ extension GameViewModel {
     }
 }
 
-struct SharePlayCountdownCueScheduler: Sendable, Equatable {
+public struct SharePlayCountdownCueScheduler: Sendable, Equatable {
     private var playedDisplayValues = Set<Int>()
 
-    mutating func cue(for displayValue: Int) -> SoundEffect? {
+    public init() {}
+
+    public mutating func cue(for displayValue: Int) -> SoundEffect? {
         guard displayValue > 0 else { return nil }
         guard playedDisplayValues.insert(displayValue).inserted else { return nil }
 
@@ -262,7 +264,7 @@ struct SharePlayCountdownCueScheduler: Sendable, Equatable {
         }
     }
 
-    mutating func reset() {
+    public mutating func reset() {
         playedDisplayValues.removeAll()
     }
 }

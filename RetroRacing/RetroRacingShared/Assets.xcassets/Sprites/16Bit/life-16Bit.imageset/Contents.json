@@ -19,6 +19,11 @@
     {
       "filename" : "life-16Bit-watch.png",
       "idiom" : "watch"
+    },
+    {
+      "filename" : "life-16Bit-vision.png",
+      "idiom" : "universal",
+      "platform" : "visionos"
     }
   ],
   "info" : {

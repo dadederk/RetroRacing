@@ -248,6 +248,13 @@ How to play the game,遊び方,In-app,settings_controls_how_to_play,,needs_revie
 • 再生／一時停止ボタンで一時停止または再開します。
 • メニュー／戻るボタンでゲームを終了するか選びます。
 • コントローラーでは、方向パッドまたは左スティックで移動し、メニュー／スタートで一時停止、B／戻るで終了します。割り当てたボタンは代替操作として使えます。",In-app,settings_controls_tvos,,needs_review,
+"• Look at a lane and pinch to move, or use the Left and Right buttons.
+• Use the left and right arrow keys when a keyboard is connected.
+• Press Space or use Pause to pause or resume.
+• With a controller, use the D-pad or left stick to move and Menu/Start to pause.","• レーンを見てピンチして移動するか、左／右ボタンを使います。
+• キーボード接続時は左右の矢印キーを使います。
+• スペースキーまたは一時停止ボタンで一時停止／再開します。
+• コントローラーでは、方向パッドまたは左スティックで移動し、メニュー／スタートで一時停止します。",In-app,settings_controls_visionos,,needs_review,
 "• Rotate the Digital Crown up to move right and down to move left.
 • Tap the left side of the screen to move left and the right side to move right.
 • Swipe left to move left and right to move right.","• Digital Crownを上に回して右、下に回して左。
@@ -392,6 +399,7 @@ Plays a warning haptic before the speed increase.,速度上昇前に警告触覚
 Does not play any speed-increase warning.,速度上昇警告を再生しません。,In-app,tutorial_speed_warning_description_none,,needs_review,
 Plays a short three-note ascending warning chirp.,短い3音の上昇警告音を再生します。,In-app,tutorial_speed_warning_description_sound,,needs_review,
 "RetroRapid! is a 3-lane racing game. Move left or right between the three positions. We play sounds to indicate which lanes are safe, and you must quickly move into a safe lane to overtake cars and avoid crashing.",RetroRapid!は3レーンのレーシングゲームです。3つの位置を左右に移動します。安全なレーンを音で示し、素早く安全レーンへ移動して車を追い抜き、クラッシュを避けましょう。,In-app,tutorial_voiceover_intro,,needs_review,
+"Start or join a FaceTime call, then try Play with Friends again.",FaceTime通話を開始または参加してから、もう一度「友達とプレイ」をお試しください。,In-app,tvos_shareplay_facetime_required,,needs_review,
 Polygon Racing,Polygonレーシング,In-app,vision_64bit_racing,,needs_review,
 Classic,クラシック,In-app,vision_classic_title,,needs_review,
 Classic race track,クラシック・レーストラック,In-app,vision_classic_track,,needs_review,
@@ -411,6 +419,7 @@ Race track,レーストラック,In-app,vision_race_track_input_label,,needs_rev
 Return to 2D,2Dに戻る,In-app,vision_return_to_2d,,needs_review,
 Returns this race to its classic window without restarting it,レースを再開せずにクラシックウインドウへ戻します,In-app,vision_return_to_2d_hint,,needs_review,
 Select lane,レーンを選択,In-app,vision_select_lane,,needs_review,
+Couldn't start Play with Friends. Return to the Classic window and try again.,「友達とプレイ」を開始できませんでした。クラシックウインドウに戻って、もう一度お試しください。,In-app,vision_shareplay_activation_failed,,needs_review,
 Collision,衝突,In-app,vision_state_collision,,needs_review,
 Finished,終了,In-app,vision_state_finished,,needs_review,
 Paused,一時停止中,In-app,vision_state_paused,,needs_review,

@@ -6,13 +6,35 @@
 //
 
 import RealityKit
-import RetroRacingShared
 import UIKit
 import XCTest
+@testable import RetroRacingShared
 @testable import RetroRacingVisionOS
 
 @MainActor
 final class VisionGameSessionCoordinatorTests: XCTestCase {
+    func testGivenVisionOSCatalogWhenResolvingGalleryAssetsThenEveryThemeSpriteExists() {
+        let bundle = VisionThemeSpriteAssets.bundle
+
+        for theme in ThemePlatformConfig.visionOS.availableThemes {
+            let assetNames = [
+                theme.playerCarSprite(),
+                theme.rivalCarSprite(),
+                theme.lifeSprite(),
+                theme.resolvedFriendLifeSprite(),
+                theme.crashSprite(),
+            ].compactMap { $0 }
+
+            XCTAssertEqual(assetNames.count, 5, "Missing asset name for \(theme.id.rawValue)")
+            for assetName in assetNames {
+                XCTAssertNotNil(
+                    UIImage(named: assetName, in: bundle, compatibleWith: nil),
+                    "Missing visionOS asset \(assetName) for \(theme.id.rawValue)"
+                )
+            }
+        }
+    }
+
     func testGivenSixtyFourBitThemeWhenResolvingClassicSpritesThenSharedBundleAssetsExist() {
         let theme = SixtyFourBitTheme()
         let bundle = VisionThemeSpriteAssets.bundle
@@ -20,7 +42,7 @@ final class VisionGameSessionCoordinatorTests: XCTestCase {
         XCTAssertEqual(bundle.bundleURL, Bundle(for: GameScene.self).bundleURL)
         XCTAssertNotNil(UIImage(named: "playersCar-64Bit", in: bundle, compatibleWith: nil))
         XCTAssertNotNil(UIImage(named: "rivalsCar-64Bit", in: bundle, compatibleWith: nil))
-        XCTAssertEqual(VisionThemeSpriteAssets.crashAssetName(for: theme), "playersCar-64Bit")
+        XCTAssertEqual(VisionThemeSpriteAssets.crashAssetName(for: theme), "crash-64Bit")
     }
 
     func testGivenFreshSessionWhenPlayIsRequestedThenEngineStartsAndSchedulerRuns() {
@@ -37,6 +59,152 @@ final class VisionGameSessionCoordinatorTests: XCTestCase {
         XCTAssertEqual(session.snapshot.phase, .running)
         XCTAssertEqual(session.screen, .playing)
         XCTAssertTrue(scheduler.isRunning)
+    }
+
+    func testGivenFreshSessionWhenPlayAndMovementOccurThenVisionGameplayUsesSharedAudio() {
+        // Given
+        let scheduler = ManualGameLoopScheduler()
+        let soundPlayer = VisionTestSoundPlayer()
+        let laneCuePlayer = VisionTestLaneCuePlayer()
+        let session = makeSession(
+            scheduler: scheduler,
+            soundPlayer: soundPlayer,
+            laneCuePlayer: laneCuePlayer
+        )
+
+        // When
+        session.play()
+        session.moveLeft()
+        scheduler.tick(1.3)
+
+        // Then
+        XCTAssertTrue(soundPlayer.playedEffects.contains(.start))
+        XCTAssertEqual(laneCuePlayer.moveCount, 1)
+        XCTAssertGreaterThanOrEqual(laneCuePlayer.tickCount, 1)
+    }
+
+    func testGivenClassicPresentationWhenSharePlayRoundStartsThenSeededRoundAndGoCueStart() {
+        // Given
+        let soundPlayer = VisionTestSoundPlayer()
+        let session = makeSession(soundPlayer: soundPlayer)
+        let settings = SharePlayRoundSettings(difficulty: .fast, trafficSeed: 90210)
+
+        // When
+        session.applySharePlayState(
+            SharePlayUIState(
+                state: .inRound(
+                    settings: settings,
+                    localScore: 0,
+                    remoteScore: 0,
+                    remoteLives: 3
+                ),
+                localRole: .host,
+                opponentDisplayName: "Alex"
+            )
+        )
+
+        // Then
+        XCTAssertEqual(session.screen, .playing)
+        XCTAssertEqual(session.snapshot.phase, .running)
+        XCTAssertEqual(session.snapshot.difficulty, .fast)
+        XCTAssertTrue(soundPlayer.playedEffects.contains(.sharePlayCountdownGo))
+        XCTAssertFalse(session.snapshot.activePauseReasons.contains(.sharePlay))
+    }
+
+    func testGivenTabletopPresentationWhenSharePlayArrivesThenClassicHandoffIsRequired() {
+        // Given
+        let session = makeSession()
+        let recorder = WindowActionRecorder()
+        moveToTabletop(session: session, actions: recorder.actions)
+
+        // When
+        session.applySharePlayState(
+            SharePlayUIState(
+                state: .waitingForFriend,
+                localRole: .guest,
+                opponentDisplayName: "Alex"
+            )
+        )
+        let didBegin = session.beginPresentationTransition(
+            to: .classic,
+            using: recorder.actions
+        )
+        if let transitionID = session.currentTransitionID(for: .classic) {
+            session.presentationDidBecomeReady(
+                .classic,
+                transitionID: transitionID,
+                using: recorder.actions
+            )
+        }
+
+        // Then
+        XCTAssertTrue(didBegin)
+        XCTAssertEqual(session.presentation, .classic)
+        XCTAssertFalse(session.requiresClassicForSharePlay)
+        XCTAssertTrue(session.snapshot.activePauseReasons.contains(.sharePlay))
+    }
+
+    func testGivenSharePlayCountdownWhenTimelineRepeatsASecondThenCuePlaysOnlyOnce() {
+        // Given
+        let soundPlayer = VisionTestSoundPlayer()
+        let session = makeSession(soundPlayer: soundPlayer)
+
+        // When
+        session.playSharePlayCountdownCue(displayValue: 3)
+        session.playSharePlayCountdownCue(displayValue: 3)
+        session.playSharePlayCountdownCue(displayValue: 2)
+        session.playSharePlayCountdownCue(displayValue: 1)
+
+        // Then
+        XCTAssertEqual(
+            soundPlayer.playedEffects,
+            [.sharePlayCountdownLow, .sharePlayCountdownMid, .sharePlayCountdownHigh]
+        )
+    }
+
+    func testGivenSettingsDifficultyWhenPlayIsRequestedThenEngineUsesCurrentPreference() {
+        // Given
+        var difficulty = GameDifficulty.cruise
+        let session = makeSession(difficultyProvider: { difficulty })
+
+        // When
+        session.play()
+        let firstDifficulty = session.snapshot.difficulty
+        session.finish()
+        difficulty = .fast
+        session.play()
+
+        // Then
+        XCTAssertEqual(firstDifficulty, .cruise)
+        XCTAssertEqual(session.snapshot.difficulty, .fast)
+    }
+
+    func testGivenSettingsOverlayAndUserPauseWhenSettingsClosesThenUserPauseRemains() {
+        // Given
+        let session = makeSession()
+        session.play()
+
+        // When
+        session.setOverlayPresented(true)
+        session.togglePause()
+        session.setOverlayPresented(false)
+
+        // Then
+        XCTAssertEqual(session.snapshot.activePauseReasons, [.user])
+    }
+
+    func testGivenMenuScreenWhenMovementIsRequestedThenLaneDoesNotChange() {
+        // Given
+        let session = makeSession()
+        let initialColumn = session.snapshot.playerColumn
+
+        // When
+        session.moveLeft()
+        session.moveRight()
+        session.selectLane(0)
+
+        // Then
+        XCTAssertEqual(session.snapshot.playerColumn, initialColumn)
     }
 
     func testGivenActiveRunWhenTabletopBecomesReadyThenGameplayStateIsPreserved() {
@@ -173,6 +341,43 @@ final class VisionGameSessionCoordinatorTests: XCTestCase {
         // Then
         XCTAssertEqual(session.presentation, .classic)
         XCTAssertEqual(session.presentationTransition, .idle)
+    }
+
+    func testGivenTabletopGameOverWhenReturningToClassicThenSnapshotIsPreserved() {
+        // Given
+        let engine = GameOverFixtureEngine()
+        let recorder = WindowActionRecorder()
+        let session = makeSession(engine: engine)
+        session.play()
+        XCTAssertEqual(session.screen, .gameOver)
+        XCTAssertTrue(session.beginPresentationTransition(to: .tabletop, using: recorder.actions))
+        if let transitionID = session.currentTransitionID(for: .tabletop) {
+            session.presentationDidBecomeReady(
+                .tabletop,
+                transitionID: transitionID,
+                using: recorder.actions
+            )
+        }
+        let gameOverSnapshot = session.snapshot
+
+        // When
+        let didBeginReturn = session.beginPresentationTransition(
+            to: .classic,
+            using: recorder.actions
+        )
+        if let transitionID = session.currentTransitionID(for: .classic) {
+            session.presentationDidBecomeReady(
+                .classic,
+                transitionID: transitionID,
+                using: recorder.actions
+            )
+        }
+
+        // Then
+        XCTAssertTrue(didBeginReturn)
+        XCTAssertEqual(session.presentation, .classic)
+        XCTAssertEqual(session.screen, .gameOver)
+        XCTAssertEqual(session.snapshot, gameOverSnapshot)
     }
 
     func testGivenBackgroundedRaceWhenSchedulerTicksThenElapsedTimeIsNotReplayed() {
@@ -400,7 +605,8 @@ final class VisionGameSessionCoordinatorTests: XCTestCase {
         )
         let style = TabletopSceneVisualStyle(
             increasedContrast: true,
-            differentiateWithoutColor: true
+            differentiateWithoutColor: true,
+            reduceMotion: true
         )
 
         // When
@@ -415,21 +621,39 @@ final class VisionGameSessionCoordinatorTests: XCTestCase {
         // Then
         XCTAssertEqual(scene.visualStyle, style)
         XCTAssertNotNil(scene.root.findEntity(named: "tabletop-road"))
-        XCTAssertNotNil(scene.root.findEntity(named: "tabletop-finish-line"))
+        XCTAssertNotNil(scene.root.findEntity(named: "tabletop-safety-marker-0"))
     }
 
     private func makeSession(
+        engine: (any GameEngineProtocol)? = nil,
         scheduler: ManualGameLoopScheduler? = nil,
         delayScheduler: (any VisionDelayScheduling)? = nil,
         windowRouter: (any VisionWindowRouting)? = nil,
-        controllerInputSource: (any GameControllerInputSource)? = nil
+        controllerInputSource: (any GameControllerInputSource)? = nil,
+        difficultyProvider: @escaping @MainActor () -> GameDifficulty = { .rapid },
+        soundPlayer: VisionTestSoundPlayer = VisionTestSoundPlayer(),
+        laneCuePlayer: VisionTestLaneCuePlayer = VisionTestLaneCuePlayer(),
+        leaderboardService: VisionTestLeaderboardService = VisionTestLeaderboardService(),
+        highestScoreStore: VisionTestHighestScoreStore = VisionTestHighestScoreStore()
     ) -> VisionGameSessionCoordinator {
         let scheduler = scheduler ?? ManualGameLoopScheduler()
         let delayScheduler = delayScheduler ?? LongDelayScheduler()
         let windowRouter = windowRouter ?? VisionWindowRouter(strategy: .push)
         let controllerInputSource = controllerInputSource ?? RecordingControllerInputSource()
+        let audioFeedbackCoordinator = GameplayAudioFeedbackCoordinator(
+            soundPlayer: soundPlayer,
+            laneCuePlayer: laneCuePlayer,
+            hapticController: nil,
+            speedWarningPlayer: VisionTestSpeedWarningPlayer(),
+            preferences: GameplayAudioFeedbackPreferences(
+                volume: { 0.8 },
+                mode: { .retro },
+                laneMoveStyle: { .laneConfirmation },
+                speedWarningMode: { .none }
+            )
+        )
         let session = VisionGameSessionCoordinator(
-            engine: GameEngine(
+            engine: engine ?? GameEngine(
                 randomSource: VisionTestRandomSource(),
                 difficulty: .rapid,
                 trafficMode: .seeded(64)
@@ -438,7 +662,13 @@ final class VisionGameSessionCoordinatorTests: XCTestCase {
             delayScheduler: delayScheduler,
             windowRouter: windowRouter,
             tabletopModelRepository: StubModelRepository(),
-            controllerInputSource: controllerInputSource
+            controllerInputSource: controllerInputSource,
+            difficultyProvider: difficultyProvider,
+            sharePlayMatchService: NoOpSharePlayMatchService(),
+            audioFeedbackCoordinator: audioFeedbackCoordinator,
+            leaderboardService: leaderboardService,
+            highestScoreStore: highestScoreStore,
+            announcementPoster: VisionTestAnnouncementPoster()
         )
         session.setPresentationActive(.classic, isActive: true)
         return session
@@ -569,4 +799,151 @@ private final class StubModelRepository: TabletopModelRepositoryProtocol {
 
 private final class VisionTestRandomSource: RandomSource {
     func nextInt(upperBound: Int) -> Int { 0 }
+}
+
+private final class VisionTestSoundPlayer: SoundEffectPlayer {
+    private(set) var playedEffects = [SoundEffect]()
+
+    func play(_ effect: SoundEffect, completion: (() -> Void)?) {
+        playedEffects.append(effect)
+        completion?()
+    }
+
+    func stopAll(fadeDuration: TimeInterval) {}
+    func setVolume(_ volume: Double) {}
+}
+
+private final class VisionTestLaneCuePlayer: LaneCuePlayer {
+    private(set) var tickCount = 0
+    private(set) var moveCount = 0
+
+    func playTickCue(safeColumns: Set<CueColumn>, mode: AudioFeedbackMode) {
+        tickCount += 1
+    }
+
+    func playMoveCue(
+        column: CueColumn,
+        isSafe: Bool,
+        mode: AudioFeedbackMode,
+        style: LaneMoveCueStyle
+    ) {
+        moveCount += 1
+    }
+
+    func playSpeedWarningCue() {}
+    func setVolume(_ volume: Double) {}
+    func stopAll(fadeDuration: TimeInterval) {}
+}
+
+@MainActor
+private struct VisionTestSpeedWarningPlayer: SpeedIncreaseWarningFeedbackPlaying {
+    func play(mode: SpeedWarningFeedbackMode) {}
+}
+
+@MainActor
+private struct VisionTestAnnouncementPoster: AccessibilityAnnouncementPosting {
+    func postAnnouncement(
+        _ announcement: String,
+        priority: AccessibilityAnnouncementPriority
+    ) {}
+}
+
+private final class VisionTestLeaderboardService: LeaderboardService {
+    private(set) var submissions = [(score: Int, difficulty: GameDifficulty)]()
+
+    func submitScore(_ score: Int, difficulty: GameDifficulty) {
+        submissions.append((score, difficulty))
+    }
+
+    func isAuthenticated() -> Bool { true }
+    func fetchLocalPlayerBestScore(for difficulty: GameDifficulty) async -> Int? { nil }
+}
+
+private final class VisionTestHighestScoreStore: HighestScoreStore {
+    private var scores = [String: Int]()
+
+    func currentBest(for difficulty: GameDifficulty) -> Int {
+        scores[difficulty.rawValue, default: 0]
+    }
+
+    func updateIfHigher(_ score: Int, for difficulty: GameDifficulty) -> Bool {
+        guard score > currentBest(for: difficulty) else { return false }
+        scores[difficulty.rawValue] = score
+        return true
+    }
+
+    func syncFromRemote(bestScore: Int, for difficulty: GameDifficulty) {
+        _ = updateIfHigher(bestScore, for: difficulty)
+    }
+}
+
+@MainActor
+private final class GameOverFixtureEngine: GameEngineProtocol {
+    private(set) var snapshot: GameSnapshot
+
+    init() {
+        snapshot = GameOverFixtureEngine.makeSnapshot(
+            phase: .ready,
+            lives: 3,
+            score: 0,
+            pauseReasons: [.startup]
+        )
+    }
+
+    func handle(_ command: GameCommand) -> [GameEvent] {
+        switch command {
+        case .start:
+            snapshot = Self.makeSnapshot(
+                phase: .gameOver,
+                lives: 0,
+                score: 87,
+                pauseReasons: []
+            )
+            return [.started, .gameOver(score: snapshot.score)]
+        case .setPause(let reason, let isActive):
+            var reasons = snapshot.activePauseReasons
+            if isActive {
+                reasons.insert(reason)
+            } else {
+                reasons.remove(reason)
+            }
+            snapshot = Self.makeSnapshot(
+                phase: snapshot.phase,
+                lives: snapshot.lives,
+                score: snapshot.score,
+                pauseReasons: reasons
+            )
+            return [.pauseChanged(reasons.isEmpty == false)]
+        case .setDifficulty, .tick, .move, .resolveCollision, .restart, .finish,
+             .setTrafficMode:
+            return []
+        }
+    }
+
+    private static func makeSnapshot(
+        phase: GamePhase,
+        lives: Int,
+        score: Int,
+        pauseReasons: Set<GamePauseReason>
+    ) -> GameSnapshot {
+        var grid = Array(
+            repeating: Array(repeating: GameGridOccupant.empty, count: 3),
+            count: 5
+        )
+        grid[0][0] = .rival
+        grid[2][2] = .rival
+        grid[4][1] = phase == .gameOver ? .crash : .player
+        return GameSnapshot(
+            phase: phase,
+            grid: grid,
+            playerColumn: 1,
+            score: score,
+            lives: lives,
+            level: 3,
+            roadPhase: 2,
+            safetyMarkerRows: [1, 3],
+            difficulty: .rapid,
+            activePauseReasons: pauseReasons
+        )
+    }
 }

@@ -1,13 +1,12 @@
 //
 //  SharePlayStateNotifier.swift
-//  RetroRacingUniversal
+//  RetroRacingShared
 //
 //  Created by Dani Devesa on 01/08/2026.
 //
 
-#if canImport(GroupActivities) && (os(iOS) || os(macOS))
+#if canImport(GroupActivities)
 import Foundation
-import RetroRacingShared
 
 nonisolated struct SharePlayStateNotification: Sendable {
     let handler: @Sendable (SharePlayUIState) async -> Void

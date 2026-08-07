@@ -9,27 +9,35 @@ import RetroRacingShared
 import SwiftUI
 
 struct VisionGameHUD: View {
-    @Environment(\.accessibilityDifferentiateWithoutColor) private var differentiateWithoutColor
+    @Environment(ThemeManager.self) private var themeManager
+    @Environment(\.fontPreferenceStore) private var fontPreferenceStore
+    @ScaledMetric(relativeTo: .title) private var lifeIconHeight: CGFloat = 28
+
     let snapshot: GameSnapshot
 
     var body: some View {
-        ViewThatFits {
-            HStack(spacing: 28) {
-                scoreView
-                livesView
-                levelView
-            }
-            VStack(spacing: 10) {
-                HStack(spacing: 24) {
-                    scoreView
-                    levelView
-                }
-                livesView
-            }
+        HStack(alignment: .center, spacing: 18) {
+            GameScoreStatusView(
+                score: snapshot.score,
+                font: fontPreferenceStore?.font(textStyle: .title) ?? .title
+            )
+            .layoutPriority(1)
+
+            Spacer(minLength: 16)
+
+            GameLivesStatusView(
+                lives: snapshot.lives,
+                lifeAssetName: themeManager.currentTheme.lifeSprite() ?? "life-LCD",
+                bundle: VisionThemeSpriteAssets.bundle,
+                visibleHeight: lifeIconHeight
+            )
+            .layoutPriority(2)
         }
-        .padding(.horizontal, 22)
-        .padding(.vertical, 12)
-        .background(.regularMaterial, in: .rect(cornerRadius: 22))
+        .frame(maxWidth: .infinity)
+        .padding(.horizontal, 16)
+        .padding(.top, 16)
+        .padding(.bottom, 4)
+        .allowsHitTesting(false)
         .accessibilityElement(children: .ignore)
         .accessibilityLabel(GameLocalizedStrings.string("vision_race_status"))
         .accessibilityValue(
@@ -40,40 +48,5 @@ struct VisionGameHUD: View {
                 snapshot.level
             )
         )
-    }
-
-    private var scoreView: some View {
-        VStack(alignment: .leading, spacing: 2) {
-            Text(GameLocalizedStrings.string("score"))
-                .font(.caption)
-                .foregroundStyle(.secondary)
-            Text(snapshot.score, format: .number)
-                .font(.title.monospacedDigit())
-        }
-    }
-
-    private var livesView: some View {
-        HStack(spacing: 8) {
-            ForEach(0..<GameState.initialLives, id: \.self) { lifeIndex in
-                Image(systemName: lifeIndex < snapshot.lives
-                    ? "person.crop.circle.fill"
-                    : "person.crop.circle")
-                    .foregroundStyle(.red)
-                    .opacity(lifeIndex < snapshot.lives ? 1 : 0.35)
-                    .accessibilityHidden(true)
-            }
-            if differentiateWithoutColor {
-                Text(snapshot.lives, format: .number)
-                    .font(.headline.monospacedDigit())
-            }
-        }
-    }
-
-    @ViewBuilder
-    private var levelView: some View {
-        if snapshot.level > 1 {
-            Text(GameLocalizedStrings.format("vision_level_format", snapshot.level))
-                .font(.headline.monospacedDigit())
-        }
     }
 }

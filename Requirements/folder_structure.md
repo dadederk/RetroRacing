@@ -53,7 +53,7 @@ One folder per feature; under each feature, subfolders by role: **View**, **Mode
 
 - **App/** – app entry, `ContentView.swift`
 - **Game/Model/** – shared-session and presentation coordination.
-- **Game/View/** – Classic Canvas, tabletop RealityView, HUD, and controls.
+- **Game/View/** – Classic shared-SpriteKit host, tabletop RealityView, HUD, and controls.
 - **Game/RealityKit/** – tabletop entity construction and snapshot application.
 - **Resources/Models/** – visionOS-only packaged USDZ runtime assets.
 

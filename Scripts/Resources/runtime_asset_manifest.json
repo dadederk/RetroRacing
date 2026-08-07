@@ -9,7 +9,7 @@
         "iphone",
         "ipad"
       ],
-      "maximumAssetsCarBytes": 18588032
+      "maximumAssetsCarBytes": 22413312
     },
     {
       "platform": "mac",
@@ -45,7 +45,7 @@
       "targetDevices": [
         "vision"
       ],
-      "maximumAssetsCarBytes": 1048576
+      "maximumAssetsCarBytes": 3473408
     }
   ],
   "assets": [
@@ -556,21 +556,24 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ],
       "maximumLongEdge": {
         "iphone": 1600,
         "ipad": 1600,
         "mac": 1600,
         "watch": 800,
-        "tv": 1600
+        "tv": 1600,
+        "vision": 1600
       },
       "requiredIdioms": [
         "iphone",
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ]
     },
     {
@@ -580,21 +583,24 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ],
       "maximumLongEdge": {
         "iphone": 768,
         "ipad": 768,
         "mac": 1024,
         "watch": 256,
-        "tv": 512
+        "tv": 512,
+        "vision": 768
       },
       "requiredIdioms": [
         "iphone",
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ]
     },
     {
@@ -604,21 +610,24 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ],
       "maximumLongEdge": {
         "iphone": 768,
         "ipad": 768,
         "mac": 1024,
         "watch": 256,
-        "tv": 512
+        "tv": 512,
+        "vision": 768
       },
       "requiredIdioms": [
         "iphone",
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ]
     },
     {
@@ -628,21 +637,24 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ],
       "maximumLongEdge": {
         "iphone": 768,
         "ipad": 768,
         "mac": 1024,
         "watch": 256,
-        "tv": 512
+        "tv": 512,
+        "vision": 768
       },
       "requiredIdioms": [
         "iphone",
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ]
     },
     {
@@ -652,14 +664,16 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ],
       "maximumLongEdge": {
         "iphone": 256,
         "ipad": 256,
         "mac": 256,
         "watch": 64,
-        "tv": 256
+        "tv": 256,
+        "vision": 256
       },
       "geometryProfile": "helmet",
       "requiredIdioms": [
@@ -667,7 +681,8 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ]
     },
     {
@@ -677,14 +692,16 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ],
       "maximumLongEdge": {
         "iphone": 256,
         "ipad": 256,
         "mac": 256,
         "watch": 64,
-        "tv": 256
+        "tv": 256,
+        "vision": 256
       },
       "geometryProfile": "helmet",
       "requiredIdioms": [
@@ -692,7 +709,8 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ]
     },
     {
@@ -702,21 +720,24 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ],
       "maximumLongEdge": {
         "iphone": 768,
         "ipad": 768,
         "mac": 1024,
         "watch": 256,
-        "tv": 512
+        "tv": 512,
+        "vision": 768
       },
       "requiredIdioms": [
         "iphone",
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ]
     },
     {
@@ -726,21 +747,24 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ],
       "maximumLongEdge": {
         "iphone": 768,
         "ipad": 768,
         "mac": 1024,
         "watch": 256,
-        "tv": 512
+        "tv": 512,
+        "vision": 768
       },
       "requiredIdioms": [
         "iphone",
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ]
     },
     {
@@ -750,21 +774,24 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ],
       "maximumLongEdge": {
         "iphone": 768,
         "ipad": 768,
         "mac": 1024,
         "watch": 256,
-        "tv": 512
+        "tv": 512,
+        "vision": 768
       },
       "requiredIdioms": [
         "iphone",
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ]
     },
     {
@@ -774,14 +801,16 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ],
       "maximumLongEdge": {
         "iphone": 256,
         "ipad": 256,
         "mac": 256,
         "watch": 64,
-        "tv": 256
+        "tv": 256,
+        "vision": 256
       },
       "geometryProfile": "helmet",
       "requiredIdioms": [
@@ -789,7 +818,8 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ]
     },
     {
@@ -799,14 +829,16 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ],
       "maximumLongEdge": {
         "iphone": 256,
         "ipad": 256,
         "mac": 256,
         "watch": 64,
-        "tv": 256
+        "tv": 256,
+        "vision": 256
       },
       "geometryProfile": "helmet",
       "requiredIdioms": [
@@ -814,7 +846,8 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ]
     },
     {
@@ -824,21 +857,24 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ],
       "maximumLongEdge": {
         "iphone": 768,
         "ipad": 768,
         "mac": 1024,
         "watch": 256,
-        "tv": 512
+        "tv": 512,
+        "vision": 768
       },
       "requiredIdioms": [
         "iphone",
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ]
     },
     {
@@ -848,21 +884,24 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ],
       "maximumLongEdge": {
         "iphone": 768,
         "ipad": 768,
         "mac": 1024,
         "watch": 256,
-        "tv": 512
+        "tv": 512,
+        "vision": 768
       },
       "requiredIdioms": [
         "iphone",
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ]
     },
     {
@@ -872,21 +911,24 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ],
       "maximumLongEdge": {
         "iphone": 768,
         "ipad": 768,
         "mac": 1024,
         "watch": 256,
-        "tv": 512
+        "tv": 512,
+        "vision": 768
       },
       "requiredIdioms": [
         "iphone",
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ]
     },
     {
@@ -896,14 +938,16 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ],
       "maximumLongEdge": {
         "iphone": 256,
         "ipad": 256,
         "mac": 256,
         "watch": 64,
-        "tv": 256
+        "tv": 256,
+        "vision": 256
       },
       "geometryProfile": "helmet",
       "requiredIdioms": [
@@ -911,7 +955,8 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ]
     },
     {
@@ -921,14 +966,16 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ],
       "maximumLongEdge": {
         "iphone": 256,
         "ipad": 256,
         "mac": 256,
         "watch": 64,
-        "tv": 256
+        "tv": 256,
+        "vision": 256
       },
       "geometryProfile": "helmet",
       "requiredIdioms": [
@@ -936,7 +983,8 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ]
     },
     {
@@ -946,14 +994,16 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ],
       "maximumLongEdge": {
         "iphone": 768,
         "ipad": 768,
         "mac": 1024,
         "watch": 256,
-        "tv": 512
+        "tv": 512,
+        "vision": 768
       },
       "geometryProfile": "sixteenBitPlayerCar",
       "requiredIdioms": [
@@ -961,7 +1011,8 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ]
     },
     {
@@ -971,14 +1022,16 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ],
       "maximumLongEdge": {
         "iphone": 768,
         "ipad": 768,
         "mac": 1024,
         "watch": 256,
-        "tv": 512
+        "tv": 512,
+        "vision": 768
       },
       "geometryProfile": "sixteenBitRivalCar",
       "requiredIdioms": [
@@ -986,7 +1039,8 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ]
     },
     {
@@ -996,14 +1050,16 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ],
       "maximumLongEdge": {
         "iphone": 768,
         "ipad": 768,
         "mac": 1024,
         "watch": 256,
-        "tv": 512
+        "tv": 512,
+        "vision": 768
       },
       "geometryProfile": "sixteenBitCrash",
       "requiredIdioms": [
@@ -1011,7 +1067,8 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ]
     },
     {
@@ -1021,14 +1078,16 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ],
       "maximumLongEdge": {
         "iphone": 256,
         "ipad": 256,
         "mac": 256,
         "watch": 64,
-        "tv": 256
+        "tv": 256,
+        "vision": 256
       },
       "geometryProfile": "sixteenBitHelmet",
       "requiredIdioms": [
@@ -1036,7 +1095,8 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ]
     },
     {
@@ -1046,14 +1106,16 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ],
       "maximumLongEdge": {
         "iphone": 256,
         "ipad": 256,
         "mac": 256,
         "watch": 64,
-        "tv": 256
+        "tv": 256,
+        "vision": 256
       },
       "geometryProfile": "sixteenBitHelmet",
       "requiredIdioms": [
@@ -1061,7 +1123,8 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ]
     },
     {
@@ -1071,14 +1134,16 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ],
       "maximumLongEdge": {
         "iphone": 768,
         "ipad": 768,
         "mac": 1024,
         "watch": 256,
-        "tv": 512
+        "tv": 512,
+        "vision": 768
       },
       "geometryProfile": "thirtyTwoBitPlayerCar",
       "requiredIdioms": [
@@ -1086,7 +1151,8 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ]
     },
     {
@@ -1096,14 +1162,16 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ],
       "maximumLongEdge": {
         "iphone": 768,
         "ipad": 768,
         "mac": 1024,
         "watch": 256,
-        "tv": 512
+        "tv": 512,
+        "vision": 768
       },
       "geometryProfile": "thirtyTwoBitRivalCar",
       "requiredIdioms": [
@@ -1111,7 +1179,8 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ]
     },
     {
@@ -1121,14 +1190,16 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ],
       "maximumLongEdge": {
         "iphone": 768,
         "ipad": 768,
         "mac": 1024,
         "watch": 256,
-        "tv": 512
+        "tv": 512,
+        "vision": 768
       },
       "geometryProfile": "thirtyTwoBitCrash",
       "requiredIdioms": [
@@ -1136,7 +1207,8 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ]
     },
     {
@@ -1146,14 +1218,16 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ],
       "maximumLongEdge": {
         "iphone": 256,
         "ipad": 256,
         "mac": 256,
         "watch": 64,
-        "tv": 256
+        "tv": 256,
+        "vision": 256
       },
       "geometryProfile": "thirtyTwoBitHelmet",
       "requiredIdioms": [
@@ -1161,7 +1235,8 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ]
     },
     {
@@ -1171,14 +1246,16 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ],
       "maximumLongEdge": {
         "iphone": 256,
         "ipad": 256,
         "mac": 256,
         "watch": 64,
-        "tv": 256
+        "tv": 256,
+        "vision": 256
       },
       "geometryProfile": "thirtyTwoBitHelmet",
       "requiredIdioms": [
@@ -1186,7 +1263,8 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ]
     },
     {
@@ -1252,14 +1330,16 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ],
       "maximumLongEdge": {
         "iphone": 768,
         "ipad": 768,
         "mac": 1024,
         "watch": 256,
-        "tv": 512
+        "tv": 512,
+        "vision": 768
       },
       "geometryProfile": "sixtyFourBitCrash",
       "requiredIdioms": [
@@ -1267,7 +1347,8 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ]
     },
     {
@@ -1277,14 +1358,16 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ],
       "maximumLongEdge": {
         "iphone": 256,
         "ipad": 256,
         "mac": 256,
         "watch": 64,
-        "tv": 256
+        "tv": 256,
+        "vision": 256
       },
       "geometryProfile": "sixtyFourBitHelmet",
       "requiredIdioms": [
@@ -1292,7 +1375,8 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ]
     },
     {
@@ -1302,14 +1386,16 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ],
       "maximumLongEdge": {
         "iphone": 256,
         "ipad": 256,
         "mac": 256,
         "watch": 64,
-        "tv": 256
+        "tv": 256,
+        "vision": 256
       },
       "geometryProfile": "sixtyFourBitHelmet",
       "requiredIdioms": [
@@ -1317,7 +1403,8 @@
         "ipad",
         "mac",
         "watch",
-        "tv"
+        "tv",
+        "vision"
       ]
     }
   ]
