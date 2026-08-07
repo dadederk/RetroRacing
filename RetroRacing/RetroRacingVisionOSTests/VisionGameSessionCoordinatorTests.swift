@@ -430,11 +430,32 @@ final class VisionGameSessionCoordinatorTests: XCTestCase {
     func testGivenFixedTestAnchorProviderWhenCreatingAnchorThenItNeverUsesPlaneFallbackGeometry() {
         let provider = FixedVisionSurfaceAnchorProvider()
 
-        let anchor = provider.makeHorizontalSurfaceAnchor(minimumBounds: SIMD2(0.55, 0.75))
+        let placement = provider.makeHorizontalSurfacePlacement(
+            minimumBounds: SIMD2(0.55, 0.75)
+        )
 
-        XCTAssertEqual(anchor.name, "test-fixed-surface-anchor")
-        XCTAssertTrue(anchor.children.isEmpty)
+        XCTAssertEqual(placement.anchor.name, "test-fixed-surface-anchor")
+        XCTAssertTrue(placement.anchor === placement.contentParent)
+        XCTAssertTrue(placement.anchor.children.isEmpty)
     }
+
+    #if targetEnvironment(simulator) && DEBUG
+    func testGivenDebugSimulatorWhenCreatingSurfacePlacementThenContentUsesStableHeadOffset() {
+        let provider = VisionSurfaceAnchorProviderFactory.makeForCurrentEnvironment()
+
+        let placement = provider.makeHorizontalSurfacePlacement(
+            minimumBounds: SIMD2(0.55, 0.75)
+        )
+
+        XCTAssertTrue(provider is VisionSimulatorSurfaceAnchorProvider)
+        XCTAssertEqual(
+            placement.contentParent.position,
+            VisionSimulatorSurfaceAnchorProvider.contentPosition
+        )
+        XCTAssertTrue(placement.contentParent.parent === placement.anchor)
+        XCTAssertEqual(placement.anchor.name, "retrorapid-simulator-preview-anchor")
+    }
+    #endif
 
     func testGivenPackagedModelWhenLoadingTwiceThenRepositoryLoadsOnlyOnce() async throws {
         let repository = TabletopModelRepository(
@@ -654,10 +675,15 @@ private final class SpatialActionRecorder {
 
 @MainActor
 private final class FixedVisionSurfaceAnchorProvider: VisionSurfaceAnchorProviding {
-    func makeHorizontalSurfaceAnchor(minimumBounds: SIMD2<Float>) -> AnchorEntity {
+    func makeHorizontalSurfacePlacement(
+        minimumBounds: SIMD2<Float>
+    ) -> VisionSurfaceAnchorPlacement {
         let anchor = AnchorEntity(world: .zero)
         anchor.name = "test-fixed-surface-anchor"
-        return anchor
+        return VisionSurfaceAnchorPlacement(
+            anchor: anchor,
+            contentParent: anchor
+        )
     }
 }
 

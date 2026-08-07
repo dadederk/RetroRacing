@@ -91,11 +91,14 @@ struct TabletopGameView: View {
                     )
                 )
 
-                let anchor = session.surfaceAnchorProvider.makeHorizontalSurfaceAnchor(
+                let placement = session.surfaceAnchorProvider.makeHorizontalSurfacePlacement(
                     minimumBounds: scene.layout.minimumSurfaceBounds
                 )
-                anchor.name = "retrorapid-horizontal-surface"
-                anchor.addChild(scene.root)
+                let anchor = placement.anchor
+                if anchor.name.isEmpty {
+                    anchor.name = "retrorapid-horizontal-surface"
+                }
+                placement.contentParent.addChild(scene.root)
                 tabletopScene = scene
                 surfaceAnchor = anchor
                 content.add(anchor)

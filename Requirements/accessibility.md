@@ -104,7 +104,7 @@
 - Full-screen menu overlays are Play-only dismiss and pause gameplay underneath.
 - macOS menu overlay is modal and hides underlying gameplay from the accessibility tree.
 - watchOS Finish returns to the menu and stops gameplay, haptics, and pending audio callbacks.
-- visionOS exposes HUD state and controls through SwiftUI in both Classic and spatial mode. The high-contrast attached HUD presents score, helmet-plus-number lives, level, pause, and presentation actions beyond the far road edge and reflows for large Dynamic Type.
+- visionOS exposes HUD state and controls through SwiftUI in both Classic and spatial mode. The high-contrast attached HUD presents score, the shared three-helmet lives strip, level, pause, and presentation actions beyond the far road edge and reflows for large Dynamic Type. Spatial action buttons use a cyan accent, switching to yellow with Increase Contrast, with dark prominent-action labels so text and symbols never blend into their button backgrounds.
 - Spatial mode preserves the run during placement and handoff and provides full-road semantic lane targets, named movement actions, and an adjustable lane action without requiring 3D exploration or visible movement buttons.
 - Placement/search/recovery messages expose localized status and instructions. Focus restores to Resume in 3D after anchoring, the current lane after confirmation, or recovery guidance after anchor loss/failure.
 - visionOS road, lane, car, and collision state remains distinguishable with Reduce Motion, Reduce Transparency, Increase Contrast, and Differentiate Without Color enabled. The dual-car collision pose never blinks with Reduce Motion and uses raised multi-part geometry rather than color alone.

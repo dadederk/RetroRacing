@@ -13,6 +13,7 @@ struct VisionSpatialPlacementPanel: View {
     let cancel: () -> Void
 
     @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
+    @Environment(\.colorSchemeContrast) private var colorSchemeContrast
     @AccessibilityFocusState private var isStatusFocused: Bool
 
     var body: some View {
@@ -38,6 +39,7 @@ struct VisionSpatialPlacementPanel: View {
                 action: cancel
             )
             .buttonStyle(.borderedProminent)
+            .foregroundStyle(.black)
             .controlSize(.large)
             .accessibilityInputLabels([
                 GameLocalizedStrings.string("vision_return_to_2d")
@@ -49,7 +51,8 @@ struct VisionSpatialPlacementPanel: View {
             Color.black.opacity(reduceTransparency ? 1 : 0.86),
             in: .rect(cornerRadius: 28)
         )
-        .foregroundStyle(.white)
+        .foregroundStyle(.primary)
+        .tint(actionTint)
         .environment(\.colorScheme, .dark)
         .accessibilityElement(children: .contain)
         .accessibilityLabel(GameLocalizedStrings.string("vision_tabletop_title"))
@@ -99,5 +102,9 @@ struct VisionSpatialPlacementPanel: View {
              .active, .returning, .failure:
             false
         }
+    }
+
+    private var actionTint: Color {
+        colorSchemeContrast == .increased ? .yellow : .cyan
     }
 }

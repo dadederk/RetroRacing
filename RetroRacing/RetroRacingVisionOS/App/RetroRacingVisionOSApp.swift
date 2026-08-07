@@ -56,7 +56,7 @@ struct RetroRacingVisionOSApp: App {
             scheduler: scheduler,
             spatialPresentationCoordinator: spatialPresentationCoordinator,
             tabletopModelRepository: modelRepository,
-            surfaceAnchorProvider: VisionSurfaceAnchorProvider(),
+            surfaceAnchorProvider: VisionSurfaceAnchorProviderFactory.makeForCurrentEnvironment(),
             controllerInputSource: controllerInputSource,
             difficultyProvider: {
                 GameDifficulty.currentSelection(from: userDefaults)

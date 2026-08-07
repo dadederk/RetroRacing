@@ -46,7 +46,8 @@ The spatial scene uses a privacy-preserving `AnchorEntity` configured for any ho
 ## HUD, Input, and Accessibility
 
 - A native SwiftUI HUD is mounted upright beyond the far edge with visionOS `ViewAttachmentComponent`.
-- Score is the largest element and uses monospaced digits. Lives use helmet imagery plus a numeric value; level is secondary.
+- Score is the largest element and uses monospaced digits. Lives reuse the Classic three-helmet strip, consuming helmets from left to right as lives are lost; level is secondary.
+- Spatial action buttons use an explicit high-contrast accent and contrasting prominent-button labels so their titles and symbols remain legible against the dark HUD panel.
 - Placement, racing, tracking recovery, and game-over states expose the actions defined by their state, including Resume in 3D, Pause/Resume, Restart, Finish, and Return to 2D.
 - Three full-road RealityKit lane targets own `CollisionComponent`, `InputTargetComponent`, hover feedback, accessibility metadata, and `GestureComponent`.
 - Selecting a different lane emits one existing left/right command toward it. Selecting the current lane is a no-op. Keyboard arrows, controller input, Direct Touch, Magic Tap, named movement actions, and the adjustable lane action use the same command path.
@@ -64,6 +65,6 @@ The spatial scene uses a privacy-preserving `AnchorEntity` configured for any ho
 
 - Coordinator tests cover entry, confirmation-gated resume, stacked user pause, cancellation, typed failures, duplicates, stale callbacks, anchor recovery, system exit, backgrounding, repeated switching, and SharePlay recovery.
 - RealityKit tests cover exact dimensions, surface-relative height, lane hit regions and gestures, model/material visibility, fixed and collision pools, HUD readiness, theme independence, and accessibility visual variants.
-- Simulator integration may inject a fixed test anchor. Shipping composition must always use the detected-plane provider.
+- Debug simulator composition uses a deterministic head-relative preview anchor so the board appears at a stable testing position instead of attaching to an arbitrary simulated plane. Tests may inject a fixed world anchor. Device and release composition always use the detected-plane provider; neither preview mechanism is a shipping placement fallback.
 - Physical Apple Vision Pro acceptance covers tables, desks and other horizontal surfaces; bright/dim rooms; seated/standing viewing; unmistakable red/cyan models; HUD legibility; collisions; repeated transitions; anchor loss; system exit; ten-minute stability; and the complete accessibility matrix.
 - The public visionOS status remains **Coming Soon** until the physical-device gate passes. Automated tests and simulator rendering do not prove physical visibility or comfort.

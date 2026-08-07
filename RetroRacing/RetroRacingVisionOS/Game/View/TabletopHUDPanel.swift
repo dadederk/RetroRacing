@@ -19,6 +19,7 @@ struct TabletopHUDPanel: View {
     @Environment(\.colorSchemeContrast) private var colorSchemeContrast
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @AccessibilityFocusState private var focusedElement: FocusedElement?
+    @ScaledMetric(relativeTo: .title2) private var lifeIconHeight: CGFloat = 42
 
     private enum FocusedElement: Hashable {
         case resume
@@ -33,8 +34,8 @@ struct TabletopHUDPanel: View {
         }
         .frame(minWidth: 360, idealWidth: 540, maxWidth: 640)
         .padding(24)
-        .foregroundStyle(.white)
-        .tint(.white)
+        .foregroundStyle(.primary)
+        .tint(actionTint)
         .background(
             Color.black.opacity(reduceTransparency ? 1 : 0.86),
             in: .rect(cornerRadius: 30)
@@ -75,18 +76,13 @@ struct TabletopHUDPanel: View {
     }
 
     private var livesContent: some View {
-        Label {
-            Text(GameLocalizedStrings.format("lives_count", session.snapshot.lives))
-                .font(.title3.bold().monospacedDigit())
-        } icon: {
-            Image(
-                decorative: SixtyFourBitTheme().lifeSprite() ?? "playersCar-life-64Bit",
-                bundle: VisionThemeSpriteAssets.bundle
-            )
-            .resizable()
-            .scaledToFit()
-            .frame(width: 42, height: 42)
-        }
+        GameLivesStatusView(
+            lives: session.snapshot.lives,
+            lifeAssetName: SixtyFourBitTheme().lifeSprite() ?? "life-64Bit",
+            bundle: VisionThemeSpriteAssets.bundle,
+            visibleHeight: lifeIconHeight,
+            spacing: 8
+        )
     }
 
     private var levelContent: some View {
@@ -137,6 +133,7 @@ struct TabletopHUDPanel: View {
                     action: resumeSpatialGame
                 )
                 .buttonStyle(.borderedProminent)
+                .foregroundStyle(.black)
                 .accessibilityFocused($focusedElement, equals: .resume)
 
                 returnButton
@@ -179,6 +176,7 @@ struct TabletopHUDPanel: View {
                     action: session.restart
                 )
                 .buttonStyle(.borderedProminent)
+                .foregroundStyle(.black)
 
                 Button(GameLocalizedStrings.string("finish"), action: finish)
                 returnButton
@@ -255,6 +253,10 @@ struct TabletopHUDPanel: View {
         case .finished: GameLocalizedStrings.string("vision_state_finished")
         @unknown default: GameLocalizedStrings.string("vision_state_ready")
         }
+    }
+
+    private var actionTint: Color {
+        colorSchemeContrast == .increased ? .yellow : .cyan
     }
 
     private func adaptiveButtonLayout<Content: View>(
