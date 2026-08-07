@@ -130,7 +130,7 @@ extension GameScene {
     }
 
     var roadDashEmptyRowIndex: Int {
-        (roadDashPhase + gridState.numberOfRows - 1) % gridState.numberOfRows
+        roadMarkerLayout().emptyDashRow ?? 0
     }
 
     func gridStateDidUpdate(
@@ -321,8 +321,7 @@ extension GameScene {
 
     private func renderDashedRoadLines() {
         let tintColor = roadLineColor()
-        let suppressedRows = lapSuppressedRowsForDashes()
-        for row in 0..<gridState.numberOfRows where row != roadDashEmptyRowIndex && !suppressedRows.contains(row) {
+        for row in roadMarkerLayout().visibleDashRows {
             addDashedRoadLineSegments(forRow: row, tintColor: tintColor)
         }
     }
@@ -412,7 +411,8 @@ extension GameScene {
         let cellSize = sizeForCell()
         let lineWidth = max(1.5, cellSize.width * 0.04)
 
-        for row in 0..<gridState.numberOfRows where row != roadDashEmptyRowIndex {
+        let visibleRows = roadMarkerLayout(safetyMarkerRows: []).visibleDashRows
+        for row in visibleRows {
             let rowFrame = gridCell(column: 1, row: row).frame
             let rowCenterY = rowFrame.midY
             let segmentHeight = rowFrame.height * 0.84
@@ -447,21 +447,7 @@ extension GameScene {
     }
 
     private func lapMarkerRowsForRendering() -> [Int] {
-        // When the first safety row has just entered at the top of the screen
-        // (second not yet inserted), synthesize a virtual row above screen so
-        // the strip can partially appear as it enters from the top.
-        if safetyMarkerRows == [0] {
-            return [-1, 0]
-        }
-        guard safetyMarkerRows.count == 2 else { return [] }
-        // Allow one row beyond each visible edge so the strip can partially
-        // appear/disappear at the screen boundaries.
-        let extendedRange = (-1...gridState.numberOfRows)
-        let validRows = safetyMarkerRows
-            .filter { extendedRange.contains($0) }
-            .sorted()
-        guard validRows.count == 2 else { return [] }
-        return validRows
+        roadMarkerLayout().finishStripRows
     }
 
     private func lapStripLayoutForRendering() -> (interiorBounds: ClosedRange<CGFloat>, centerY: CGFloat, stripHeight: CGFloat)? {
@@ -489,30 +475,6 @@ extension GameScene {
     private func lapStripPerspectiveFactor(topRow: Int, bottomRow: Int) -> CGFloat {
         let averageRow = (CGFloat(topRow) + CGFloat(bottomRow)) / 2
         return (averageRow + 1) / CGFloat(gridState.numberOfRows)
-    }
-
-    private func lapSuppressedRowsForDashes() -> Set<Int> {
-        var rows = Set(lapMarkerRowsForRendering())
-        if let layout = lapStripLayoutForRendering(),
-           let nearestRow = closestRowIndex(toSceneY: layout.centerY) {
-            rows.insert(nearestRow)
-        }
-        return rows
-    }
-
-    private func closestRowIndex(toSceneY y: CGFloat) -> Int? {
-        guard gridState.numberOfRows > 0 else { return nil }
-        var bestRow = 0
-        var bestDistance = CGFloat.greatestFiniteMagnitude
-        for row in 0..<gridState.numberOfRows {
-            let centerY = gridCell(column: 1, row: row).frame.midY
-            let distance = abs(centerY - y)
-            if distance < bestDistance {
-                bestDistance = distance
-                bestRow = row
-            }
-        }
-        return bestRow
     }
 
     private func addLapMarker(layout: (interiorBounds: ClosedRange<CGFloat>, centerY: CGFloat, stripHeight: CGFloat), tintColor: SKColor) {
@@ -576,6 +538,16 @@ extension GameScene {
         let cellSize = sizeForCell()
         let origin = positionForCellIn(column: column, row: row, size: cellSize)
         return CGRect(origin: origin, size: cellSize)
+    }
+
+    private func roadMarkerLayout(
+        safetyMarkerRows: [Int]? = nil
+    ) -> RoadMarkerLayout {
+        RoadMarkerLayoutResolver.resolve(
+            roadPhase: roadDashPhase,
+            rowCount: gridState.numberOfRows,
+            safetyMarkerRows: safetyMarkerRows ?? self.safetyMarkerRows
+        )
     }
 
     private func roadBounds(atSceneY y: CGFloat) -> ClosedRange<CGFloat> {

@@ -21,6 +21,14 @@ struct PaywallHeaderView: View {
 
     private let sharedBundle = Bundle(for: GameScene.self)
 
+    private var profileImageBundle: Bundle {
+        #if os(visionOS)
+        .main
+        #else
+        sharedBundle
+        #endif
+    }
+
     var body: some View {
         VStack(spacing: 12) {
             headerIcon
@@ -43,7 +51,7 @@ struct PaywallHeaderView: View {
     @ViewBuilder
     private var headerIcon: some View {
         if let profileImageName {
-            Image(profileImageName, bundle: sharedBundle)
+            Image(profileImageName, bundle: profileImageBundle)
                 .resizable()
                 .scaledToFit()
                 .frame(width: profileImageSize, height: profileImageSize)

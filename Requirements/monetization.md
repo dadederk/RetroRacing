@@ -58,6 +58,8 @@ Friend races are free. SharePlay competitive matches in [`shareplay_multiplayer.
   - Solo game-over is suppressed while SharePlay is active.
 - Paywall:
   - Supports voluntary and limit-triggered modes.
+  - Voluntary mode shows the developer profile image on every supported paywall platform, including visionOS.
+  - The purchase row represents the single non-consumable Unlimited Plays product; no subscription choices are offered.
   - Limit-triggered mode shows the limit notice and “Want to Stay Free?” cards, including the free SharePlay reminder.
   - Restore and redeem actions stay platform-appropriate.
 - Settings:
@@ -70,6 +72,7 @@ Friend races are free. SharePlay competitive matches in [`shareplay_multiplayer.
 
 - Pricing, IAP localization, screenshots, and review-note operations live under [AppStore/README.md](../AppStore/README.md) and [Plans/aso/04-pricing-strategy.md](../Plans/aso/04-pricing-strategy.md).
 - Product ID and localized IAP metadata must stay aligned with `StoreKitService.ProductID.unlimitedPlays`.
+- Platform-specific app targets that sell Unlimited Plays must use the same App Store app identity so StoreKit can resolve that approved product.
 - App Review should be able to reach the free limit and purchase flow from a fresh install without debug state.
 
 ## Testing

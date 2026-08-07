@@ -12,7 +12,20 @@ struct TabletopModelPlacement: Equatable, Sendable {
     let modelOffset: SIMD3<Float>
 }
 
-/// The single source of truth for every surface-anchored dimension and grid transform.
+enum TabletopVolumeLayout {
+    nonisolated static func boardRootPosition(
+        volumeMinimum: SIMD3<Float>,
+        volumeMaximum: SIMD3<Float>
+    ) -> SIMD3<Float> {
+        SIMD3(
+            (volumeMinimum.x + volumeMaximum.x) / 2,
+            volumeMinimum.y,
+            (volumeMinimum.z + volumeMaximum.z) / 2
+        )
+    }
+}
+
+/// The single source of truth for every board dimension and grid transform.
 struct TabletopBoardLayout: Equatable, Sendable {
     nonisolated static let standard = TabletopBoardLayout()
 
@@ -35,17 +48,15 @@ struct TabletopBoardLayout: Equatable, Sendable {
     var roadTopY: Float { boardHeight + roadHeight }
     var vergeCenterY: Float { boardHeight + vergeHeight / 2 }
     var roadOverlayY: Float { roadTopY + 0.0008 }
-    var safetyMarkerY: Float { roadTopY + 0.0012 }
+    var finishMarkerY: Float { roadTopY + 0.0012 }
+    var roadDashDepth: Float { rowDepth * 0.64 }
+    var finishMarkerDepth: Float { rowDepth * 0.42 }
     var carMaximumWidth: Float { laneWidth * 0.70 }
     var carMaximumDepth: Float { rowDepth * 0.80 }
     var laneTargetSize: SIMD3<Float> { SIMD3(laneWidth, 0.05, roadDepth) }
-    var minimumSurfaceBounds: SIMD2<Float> { SIMD2(boardWidth, boardDepth) }
-    var hudPosition: SIMD3<Float> {
-        SIMD3(0, roadTopY + 0.23, -boardDepth / 2 - 0.045)
-    }
 
-    var laneDividerPositions: [Float] {
-        (1..<laneCount).map { -roadWidth / 2 + Float($0) * laneWidth }
+    var roadBoundaryPositions: [Float] {
+        (0...laneCount).map { -roadWidth / 2 + Float($0) * laneWidth }
     }
 
     func laneCenterX(_ column: Int) -> Float {
@@ -64,8 +75,9 @@ struct TabletopBoardLayout: Equatable, Sendable {
         SIMD3(laneCenterX(lane), roadOverlayY, 0)
     }
 
-    func safetyMarkerCenter(row: Int) -> SIMD3<Float> {
-        SIMD3(0, safetyMarkerY, rowCenterZ(row))
+    func finishMarkerCenter(logicalRow: Double) -> SIMD3<Float> {
+        let centeredRow = Float(logicalRow) - Float(rowCount - 1) / 2
+        return SIMD3(0, finishMarkerY, centeredRow * rowDepth)
     }
 
     func modelPlacement(

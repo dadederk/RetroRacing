@@ -37,7 +37,7 @@
 ## Controls and Voice Control
 
 - Direct Touch defaults to on where shown and persists user overrides. It is hidden on tvOS, where touch-based gameplay regions do not apply.
-- On visionOS, Direct Touch applies only to the Classic board and spatial road; the attached native HUD, placement guidance, Settings, and native controls keep standard assistive navigation.
+- On visionOS, Direct Touch applies only to the Classic board and spatial road; SwiftUI ornaments, Settings, and native controls keep standard assistive navigation.
 - Voice Control input labels include short and descriptive aliases: Left/Move left and Right/Move right.
 - HUD status and SpriteKit visuals are not Voice Control tap targets.
 - Settings Style Gallery rows are semantic buttons with localized theme descriptions. The currently selected style exposes the selected accessibility trait in addition to its visual checkmark.
@@ -104,9 +104,9 @@
 - Full-screen menu overlays are Play-only dismiss and pause gameplay underneath.
 - macOS menu overlay is modal and hides underlying gameplay from the accessibility tree.
 - watchOS Finish returns to the menu and stops gameplay, haptics, and pending audio callbacks.
-- visionOS exposes HUD state and controls through SwiftUI in both Classic and spatial mode. The high-contrast attached HUD presents score, the shared three-helmet lives strip, level, pause, and presentation actions beyond the far road edge and reflows for large Dynamic Type. Spatial action buttons use a cyan accent, switching to yellow with Increase Contrast, with dark prominent-action labels so text and symbols never blend into their button backgrounds.
-- Spatial mode preserves the run during placement and handoff and provides full-road semantic lane targets, named movement actions, and an adjustable lane action without requiring 3D exploration or visible movement buttons.
-- Placement/search/recovery messages expose localized status and instructions. Focus restores to Resume in 3D after anchoring, the current lane after confirmation, or recovery guidance after anchor loss/failure.
+- visionOS exposes HUD state and controls through SwiftUI in both Classic and spatial mode. The standard ornament HUD presents score, the shared three-helmet lives strip, level, and one Play/Pause/Resume action beyond the far road edge, with Return to 2D in a separate top ornament. Both reflow for large Dynamic Type and use the configured semantic font, automatic ornament appearance, and accent-colored native button labels.
+- Spatial mode preserves the run during volume handoff and provides full-road semantic lane targets, named movement actions, and an adjustable lane action without requiring 3D exploration or visible movement buttons.
+- The localized 3D Ready state is exposed after the renderer is ready. Accessibility focus restores to its Play/Resume control, then to the current lane when racing; Return to 2D remains independently reachable in the top ornament.
 - visionOS road, lane, car, and collision state remains distinguishable with Reduce Motion, Reduce Transparency, Increase Contrast, and Differentiate Without Color enabled. The dual-car collision pose never blinks with Reduce Motion and uses raised multi-part geometry rather than color alone.
 
 ## Testing

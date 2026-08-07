@@ -37,13 +37,13 @@
   - two-finger horizontal trackpad swipes move one lane per gesture
   - trackpad lane swipes are disabled while VoiceOver is running
 - visionOS:
-  - Classic uses gaze-and-pinch SwiftUI buttons for movement and pause; spatial mode uses its three visible road lanes for gaze-and-pinch movement and keeps Pause/Resume in the attached native HUD
+  - Classic uses gaze-and-pinch SwiftUI buttons for movement and pause; spatial mode uses its three visible road lanes for gaze-and-pinch movement and keeps Play/Pause/Resume in the far-edge SwiftUI ornament
   - Classic's shared SpriteKit square and the spatial road expose three semantic tap lanes; each spatial target spans one full 0.15 m lane across the 0.70 m road depth, and choosing a lane left or right of the player emits one discrete move toward it
   - the current lane is a no-op, while unavailable boundary directions remain disabled in native and assistive controls
   - keyboard arrows move and Space toggles pause
   - Magic Tap, named Move left/Move right actions, and an adjustable lane control use the same command path
-  - Direct Touch is bounded to the road surface and never includes HUD, placement guidance, Settings, or native controls; spatial mode retains lane hover through flush road planes backed by full-lane collision volumes, installs `GestureComponent` on each lane, and has no visible Left/Right buttons
-  - lane input is disabled during preflight, surface search, confirmation, recovery, return, and any non-active session state
+  - Direct Touch is bounded to the road surface and never includes HUD ornaments, Settings, or native controls; spatial mode uses transparent, non-highlighting road planes backed by full-lane collision volumes, installs `GestureComponent` on each lane, and has no visible Left/Right buttons
+  - lane input is disabled during model preflight, volume opening, renderer readiness, return, and every non-active session state
   - renderer geometry does not own gameplay rules; see [visionos_gameplay.md](visionos_gameplay.md)
 - Physical controllers:
   - see [controller_input.md](controller_input.md)

@@ -442,7 +442,7 @@ struct RetroRacingApp: App {
                 menuView
             }
             .animation(nil, value: isMenuPresented)
-        #else
+        #elseif os(macOS)
         gameView
             .frame(minWidth: 820, minHeight: 620)
             .accessibilityHidden(isMenuPresented)
@@ -456,6 +456,8 @@ struct RetroRacingApp: App {
             }
             .animation(nil, value: isMenuPresented)
             .animation(nil, value: isSettingsPresented)
+        #else
+        gameView
         #endif
     }
 

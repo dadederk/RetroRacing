@@ -8,10 +8,12 @@ Operational reference for TestFlight and App Store archive shape. For Xcode Clou
 |---|---|---|
 | iOS + watchOS | Any iOS Device | One iOS archive contains iPhone/iPad plus embedded watch app. |
 | macOS | Any Mac | Separate macOS archive; attach to the same App Store version. |
+| visionOS | Any visionOS Device | Archive `RetroRacingVisionOS` and attach it to the same App Store app identity. |
 
 - Do not upload a standalone watchOS build. TestFlight shows the watch app through the iOS build.
 - Do not archive with a simulator or “My Mac” when producing the iOS/watchOS archive.
-- `RetroRacingUniversal` builds iOS, macOS, and visionOS, but each archive is still one platform payload.
+- `RetroRacingUniversal` builds iOS and macOS. The dedicated `RetroRacingVisionOS` target owns the visionOS binary.
+- `RetroRacingUniversal` and `RetroRacingVisionOS` share `com.accessibilityUpTo11.RetroRacing` so the approved Unlimited Plays product resolves on every supported App Store platform.
 
 ## Watch Embed Checks
 

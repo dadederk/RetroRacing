@@ -9,45 +9,27 @@ import RetroRacingShared
 import SwiftUI
 
 struct TabletopHUDPanel: View {
-    let session: VisionGameSessionCoordinator
-    let resumeSpatialGame: () -> Void
-    let returnToClassic: () -> Void
-    let finish: () -> Void
-
-    @Environment(\.accessibilityDifferentiateWithoutColor) private var differentiateWithoutColor
-    @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
-    @Environment(\.colorSchemeContrast) private var colorSchemeContrast
+    @Environment(VisionGameSessionCoordinator.self) private var session
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+    @Environment(\.fontPreferenceStore) private var fontPreferenceStore
     @AccessibilityFocusState private var focusedElement: FocusedElement?
     @ScaledMetric(relativeTo: .title2) private var lifeIconHeight: CGFloat = 42
 
+    let finish: () -> Void
+
     private enum FocusedElement: Hashable {
-        case resume
-        case recovery
+        case primaryAction
     }
 
     var body: some View {
         VStack(spacing: 16) {
-            scoreContent
+            raceStatus
             Divider()
-            stateContent
+            stateControls
         }
-        .frame(minWidth: 360, idealWidth: 540, maxWidth: 640)
+        .frame(minWidth: 320, idealWidth: 440, maxWidth: 560)
         .padding(24)
-        .foregroundStyle(.primary)
-        .tint(actionTint)
-        .background(
-            Color.black.opacity(reduceTransparency ? 1 : 0.86),
-            in: .rect(cornerRadius: 30)
-        )
-        .overlay {
-            RoundedRectangle(cornerRadius: 30)
-                .stroke(
-                    colorSchemeContrast == .increased ? .white : .white.opacity(0.4),
-                    lineWidth: colorSchemeContrast == .increased ? 4 : 2
-                )
-        }
-        .environment(\.colorScheme, .dark)
+        .glassBackgroundEffect()
         .accessibilityElement(children: .contain)
         .accessibilityLabel(GameLocalizedStrings.string("vision_race_status"))
         .accessibilityValue(accessibilityStatusValue)
@@ -56,235 +38,187 @@ struct TabletopHUDPanel: View {
         .onChange(of: session.spatialState) { restoreFocus() }
     }
 
-    private var scoreContent: some View {
+    private var raceStatus: some View {
         VStack(spacing: 8) {
-            Text(GameLocalizedStrings.string("score"))
-                .font(.headline)
+            GameScoreStatusView(
+                score: session.snapshot.score,
+                font: largeTitleFont.monospacedDigit()
+            )
+            .accessibilityAddTraits(.updatesFrequently)
+
+            GameLivesStatusView(
+                lives: session.snapshot.lives,
+                lifeAssetName: SixtyFourBitTheme().lifeSprite() ?? "life-64Bit",
+                bundle: VisionThemeSpriteAssets.bundle,
+                visibleHeight: lifeIconHeight,
+                spacing: 8
+            )
+
+            Text(GameLocalizedStrings.format("vision_level_format", session.snapshot.level))
+                .font(headlineFont.monospacedDigit())
                 .foregroundStyle(.secondary)
-
-            Text(session.snapshot.score, format: .number)
-                .font(.system(.largeTitle, design: .monospaced).weight(.bold))
-                .contentTransition(.numericText())
-                .accessibilityAddTraits(.updatesFrequently)
-
-            ViewThatFits(in: .horizontal) {
-                HStack(spacing: 24) { livesContent; levelContent }
-                VStack(spacing: 8) { livesContent; levelContent }
-            }
         }
         .accessibilityElement(children: .combine)
     }
 
-    private var livesContent: some View {
-        GameLivesStatusView(
-            lives: session.snapshot.lives,
-            lifeAssetName: SixtyFourBitTheme().lifeSprite() ?? "life-64Bit",
-            bundle: VisionThemeSpriteAssets.bundle,
-            visibleHeight: lifeIconHeight,
-            spacing: 8
-        )
-    }
-
-    private var levelContent: some View {
-        Text(GameLocalizedStrings.format("vision_level_format", session.snapshot.level))
-            .font(.headline.monospacedDigit())
-            .foregroundStyle(.secondary)
-    }
-
     @ViewBuilder
-    private var stateContent: some View {
+    private var stateControls: some View {
         switch session.spatialState {
-        case .awaitingConfirmation:
-            placementControls
+        case .ready:
+            readyControls
         case .active:
             if session.screen == .gameOver {
                 gameOverControls
             } else {
                 racingControls
             }
-        case .recoveringSurface:
-            recoveryContent
-        case .preflighting, .opening, .searchingSurface:
-            placementStatus
+        case .preflighting, .opening:
+            ProgressView()
+                .controlSize(.large)
         case .returning:
             ProgressView(GameLocalizedStrings.string("vision_return_to_2d"))
+                .font(bodyFont)
                 .controlSize(.large)
         case .inactive, .failure:
-            returnButton
+            EmptyView()
         }
     }
 
-    private var placementControls: some View {
+    private var readyControls: some View {
         VStack(spacing: 12) {
             Label(
                 GameLocalizedStrings.string("vision_surface_ready"),
                 systemImage: "checkmark.circle.fill"
             )
-            .font(.title2.bold())
+            .font(titleFont)
 
-            Text(GameLocalizedStrings.string("vision_surface_confirmation_instructions"))
-                .font(.body)
-                .multilineTextAlignment(.center)
-
-            adaptiveButtonLayout {
-                Button(
-                    GameLocalizedStrings.string("vision_resume_in_3d"),
-                    systemImage: "play.fill",
-                    action: resumeSpatialGame
-                )
-                .buttonStyle(.borderedProminent)
-                .foregroundStyle(.black)
-                .accessibilityFocused($focusedElement, equals: .resume)
-
-                returnButton
-            }
+            SpatialActionButton(
+                title: GameLocalizedStrings.string(session.isUserPaused ? "resume" : "play"),
+                systemImage: "play.fill",
+                font: headlineFont,
+                action: session.startSpatialGame
+            )
+            .accessibilityFocused($focusedElement, equals: .primaryAction)
         }
     }
 
     private var racingControls: some View {
-        adaptiveButtonLayout {
-            Button(
-                session.isUserPaused
-                    ? GameLocalizedStrings.string("resume")
-                    : GameLocalizedStrings.string("pause"),
-                systemImage: session.isUserPaused ? "play.fill" : "pause.fill",
-                action: session.togglePause
-            )
-            .accessibilityInputLabels([
-                session.isUserPaused
-                    ? GameLocalizedStrings.string("resume")
-                    : GameLocalizedStrings.string("pause")
-            ])
-            .disabled(
-                session.snapshot.phase != .running
-                    && session.isUserPaused == false
-            )
-
-            returnButton
-        }
+        SpatialActionButton(
+            title: GameLocalizedStrings.string(session.isUserPaused ? "resume" : "pause"),
+            systemImage: session.isUserPaused ? "play.fill" : "pause.fill",
+            font: headlineFont,
+            action: session.togglePause
+        )
+        .disabled(session.snapshot.phase != .running && session.isUserPaused == false)
+        .accessibilityFocused($focusedElement, equals: .primaryAction)
     }
 
     private var gameOverControls: some View {
         VStack(spacing: 12) {
             Text(GameLocalizedStrings.string("vision_game_over"))
-                .font(.title.bold())
+                .font(titleFont)
 
             adaptiveButtonLayout {
-                Button(
-                    GameLocalizedStrings.string("restart"),
+                SpatialActionButton(
+                    title: GameLocalizedStrings.string("restart"),
                     systemImage: "arrow.clockwise",
+                    font: headlineFont,
                     action: session.restart
                 )
-                .buttonStyle(.borderedProminent)
-                .foregroundStyle(.black)
+                .accessibilityFocused($focusedElement, equals: .primaryAction)
 
-                Button(GameLocalizedStrings.string("finish"), action: finish)
-                returnButton
+                SpatialActionButton(
+                    title: GameLocalizedStrings.string("finish"),
+                    systemImage: "flag.checkered",
+                    font: headlineFont,
+                    action: finish
+                )
             }
         }
     }
 
-    private var recoveryContent: some View {
-        VStack(spacing: 10) {
-            Label(
-                GameLocalizedStrings.string("vision_surface_recovering"),
-                systemImage: differentiateWithoutColor
-                    ? "exclamationmark.triangle.fill"
-                    : "viewfinder"
-            )
-            .font(.title2.bold())
-            .accessibilityFocused($focusedElement, equals: .recovery)
+    private var largeTitleFont: Font {
+        fontPreferenceStore?.font(textStyle: .largeTitle) ?? .largeTitle
+    }
 
-            Text(GameLocalizedStrings.string("vision_surface_recovery_instructions"))
-                .font(.body)
-                .multilineTextAlignment(.center)
+    private var titleFont: Font {
+        fontPreferenceStore?.font(textStyle: .title2) ?? .title2
+    }
 
-            returnButton
+    private var headlineFont: Font {
+        fontPreferenceStore?.font(textStyle: .headline) ?? .headline
+    }
+
+    private var bodyFont: Font {
+        fontPreferenceStore?.font(textStyle: .body) ?? .body
+    }
+
+    private var accessibilityStatusValue: String {
+        GameLocalizedStrings.format(
+            "vision_hud_status_format",
+            session.snapshot.score,
+            session.snapshot.lives,
+            session.snapshot.level
+        )
+    }
+
+    @ViewBuilder
+    private func adaptiveButtonLayout<Content: View>(
+        @ViewBuilder content: () -> Content
+    ) -> some View {
+        if dynamicTypeSize.isAccessibilitySize {
+            VStack(spacing: 10, content: content)
+        } else {
+            ViewThatFits(in: .horizontal) {
+                HStack(spacing: 12, content: content)
+                VStack(spacing: 10, content: content)
+            }
         }
     }
 
-    private var placementStatus: some View {
-        VStack(spacing: 10) {
-            ProgressView()
-                .controlSize(.large)
-            Text(GameLocalizedStrings.string("vision_surface_searching"))
-                .font(.headline)
-            returnButton
+    private func restoreFocus() {
+        switch session.spatialState {
+        case .ready, .active:
+            focusedElement = .primaryAction
+        case .inactive, .preflighting, .opening, .returning, .failure:
+            focusedElement = nil
         }
     }
+}
 
-    private var returnButton: some View {
+private struct SpatialActionButton: View {
+    let title: String
+    let systemImage: String
+    let font: Font
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            Label(title, systemImage: systemImage)
+                .font(font)
+                .foregroundStyle(Color.accentColor)
+        }
+        .retroRacingSecondaryButtonStyle()
+        .controlSize(.extraLarge)
+        .accessibilityLabel(title)
+        .accessibilityInputLabels([title])
+    }
+}
+
+struct TabletopReturnToClassicButton: View {
+    let action: () -> Void
+
+    var body: some View {
         Button(
             GameLocalizedStrings.string("vision_return_to_2d"),
             systemImage: "rectangle",
-            action: returnToClassic
+            action: action
         )
-        .disabled(session.spatialState == .returning)
+        .labelStyle(.titleAndIcon)
         .accessibilityHint(GameLocalizedStrings.string("vision_return_to_2d_hint"))
         .accessibilityInputLabels([
             GameLocalizedStrings.string("vision_return_to_2d"),
             GameLocalizedStrings.string("vision_classic_title")
         ])
-    }
-
-    private var accessibilityStatusValue: String {
-        let raceStatus = GameLocalizedStrings.format(
-            "vision_race_status_format",
-            session.snapshot.score,
-            session.snapshot.lives,
-            session.snapshot.playerColumn + 1,
-            session.snapshot.numberOfColumns,
-            phaseDescription
-        )
-        let levelStatus = GameLocalizedStrings.format(
-            "vision_level_format",
-            session.snapshot.level
-        )
-        return "\(raceStatus), \(levelStatus)"
-    }
-
-    private var phaseDescription: String {
-        switch session.snapshot.phase {
-        case .ready: GameLocalizedStrings.string("vision_state_ready")
-        case .running: GameLocalizedStrings.string("vision_state_racing")
-        case .paused: GameLocalizedStrings.string("vision_state_paused")
-        case .collision: GameLocalizedStrings.string("vision_state_collision")
-        case .gameOver: GameLocalizedStrings.string("vision_game_over")
-        case .finished: GameLocalizedStrings.string("vision_state_finished")
-        @unknown default: GameLocalizedStrings.string("vision_state_ready")
-        }
-    }
-
-    private var actionTint: Color {
-        colorSchemeContrast == .increased ? .yellow : .cyan
-    }
-
-    private func adaptiveButtonLayout<Content: View>(
-        @ViewBuilder content: () -> Content
-    ) -> some View {
-        Group {
-            if dynamicTypeSize.isAccessibilitySize {
-                VStack(spacing: 10, content: content)
-            } else {
-                ViewThatFits(in: .horizontal) {
-                    HStack(spacing: 12, content: content)
-                    VStack(spacing: 10, content: content)
-                }
-            }
-        }
-        .buttonStyle(.bordered)
-        .controlSize(.extraLarge)
-    }
-
-    private func restoreFocus() {
-        switch session.spatialState {
-        case .awaitingConfirmation:
-            focusedElement = .resume
-        case .recoveringSurface:
-            focusedElement = .recovery
-        case .inactive, .preflighting, .opening, .searchingSurface,
-             .active, .returning, .failure:
-            focusedElement = nil
-        }
     }
 }

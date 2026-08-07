@@ -82,7 +82,7 @@ Keep manual QA focused on behavior that cannot be proven by unit tests:
 - StoreKit sandbox purchase, restore, refund/revocation, and App Review fresh-install path
 - real GroupActivities SharePlay transport across two devices/Macs
 - platform accessibility smoke tests with VoiceOver, Switch Control, Dynamic Type, keyboard, remote, controller, and Digital Crown
-- physical Apple Vision Pro surface placement, model visibility, HUD legibility, anchor-loss recovery, comfort, and ten-minute frame/memory stability
+- physical Apple Vision Pro surface snapping and floating placement, system window-bar movement, model visibility, ornament focus/hit testing, comfort, and ten-minute frame/memory stability
 - App Store screenshots and TestFlight/App Review submission flows
 
 Manual checklists belong in the relevant operational hub or feature contract, not in this general testing file.

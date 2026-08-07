@@ -5,8 +5,8 @@
 > Narrow tasks may stop here; open the full contract for implementation or review.
 
 - **Scope:** Road-marker overlay rendering, road-style modes, Big Cars precedence, lap marker timing, and contrast.
-- **Must not break:** Rendering stays in `GameScene+Grid.swift`; transient line overlays clear/redraw each grid refresh; persistent road surfaces rebuild only when their render signature changes; Big Cars forces vertical-only markers; generated lap-strip mask assets are verified through Scripts.
-- **Key files:** `GameScene+Grid.swift`, `generate-road-dash-masks`, theme road-line colors.
+- **Must not break:** SpriteKit rendering stays in `GameScene+Grid.swift`; both SpriteKit and RealityKit consume `RoadMarkerLayoutResolver`; transient line overlays clear/redraw each grid refresh; persistent road surfaces rebuild only when their render signature changes; Big Cars forces vertical-only markers; generated lap-strip mask assets are verified through Scripts.
+- **Key files:** `RoadMarkerLayoutResolver.swift`, `GameScene+Grid.swift`, `TabletopScene.swift`, `generate-road-dash-masks`, theme road-line colors.
 
 ## Behavior Contract
 
@@ -18,7 +18,7 @@
   2. Big Cars off + Simplified Grid: vertical-only continuous separators.
   3. Big Cars off + Detailed Road: perspective dashed road markers and lap strips.
 - Horizontal grid lines remain hidden in all road-marker modes.
-- The spatial road's two straight continuous lane dividers, safety strips, and lane-hover surfaces are zero-height planes laid flush over the 0.45 × 0.70 m RealityKit road. Horizontal row seams remain absent. Full-lane collision volumes remain invisible and must never be highlighted through or displace the cars.
+- The spatial road has four dashed boundaries, including both outer edges, laid flush over the 0.45 × 0.70 m RealityKit road. Its fixed pool contains 20 dash planes: four boundaries across five logical rows. Each dash is `0.64 × rowDepth`; four rows render and one remains blank. Horizontal row seams remain absent. Full-lane collision volumes remain invisible and must never be highlighted through or displace the cars.
 - Lane moves do not advance dash phase; grid tick updates do.
 
 ## Detailed Road
@@ -30,10 +30,11 @@
 - Perspective marker trapezoids use an antialiased matching edge stroke so their diagonal edges remain smooth on watch-sized displays.
 - Marker thickness and car/rival/crash scaling follow depth so lane alignment remains centered.
 - Dashed markers are suppressed where lap strips render.
+- `RoadMarkerLayoutResolver` is the renderer-neutral source for the visible dash rows, phase gap, accepted safety-row sentinels, finish-strip center, and finish-overlap suppression.
 
 ## Lap Markers
 
-- `lapStripMask` is a generated shared white mask with explicit iPhone, iPad, Mac, Apple Watch, Apple TV, and Apple Vision Pro variants. visionOS Classic consumes the shared SpriteKit mask; spatial mode renders the equivalent marker in RealityKit. It owns two pooled marker entities and positions/enables them from `GameSnapshot.safetyMarkerRows` at exact 0.14 m row centers; it never uses a fixed finish-line coordinate or allocates markers during ticks.
+- `lapStripMask` is a generated shared white mask with explicit iPhone, iPad, Mac, Apple Watch, Apple TV, and Apple Vision Pro variants. visionOS Classic consumes the shared SpriteKit mask; spatial mode textures one pooled, full-road-width RealityKit finish plane with the same mask. Its depth is `0.42 × rowDepth`, its tint comes from the Polygon lap-marker color, and its center follows the same paired or virtual safety rows as SpriteKit; it never uses a fixed finish-line coordinate or allocates markers during ticks.
 - Lap strips render only during the two-row safety empty window before a speed increase.
 - Safety marker rows shift with grid movement and retain one off-screen sentinel so the strip exits smoothly.
 - Verify generated assets without rewriting:
@@ -52,12 +53,12 @@ swift run --package-path Scripts generate-road-dash-masks --check
 ## Contrast
 
 - Road-line tint comes from `theme.roadLineColor(isIncreaseContrastEnabled:)`; finish/lap strips use `theme.lapMarkerColor(isIncreaseContrastEnabled:)`.
-- Increase Contrast must switch to dedicated high-contrast road-line colors.
+- Increase Contrast must use the theme's dedicated variants and may also strengthen boundary geometry where the theme's normal and contrast road-line colors are identical.
 - Non-text road and finish/lap markers must maintain at least 3:1 contrast against road fills.
 
 ## Testing
 
-- Tests cover dash phase, Big Cars precedence, simplified/detailed modes, persistent surface identity/invalidation, lap strip timing/continuity, hidden horizontal lines, lane-center alignment, depth convergence, visionOS shared-snapshot rendering, generated mask drift, asset-footprint drift, and contrast resolver output.
+- Tests cover every resolver phase, four-visible/one-gap cadence, tick-only phase changes, finish pairs and sentinels, dash suppression, Big Cars precedence, simplified/detailed modes, persistent surface identity/invalidation, lap strip timing/continuity, hidden horizontal lines, lane-center alignment, depth convergence, 20-entity RealityKit reuse, inner/outer boundaries, finish texture/placement, generated mask drift, asset-footprint drift, and contrast output.
 
 ## Related
 

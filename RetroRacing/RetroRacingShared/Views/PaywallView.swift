@@ -21,6 +21,7 @@ public struct PaywallPreviewData {
 public struct PaywallView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.openURL) private var openURL
+    @Environment(\.purchase) private var purchase
     @Environment(StoreKitService.self) private var storeKit
     @Environment(\.fontPreferenceStore) private var fontPreferenceStore
 
@@ -377,7 +378,9 @@ public struct PaywallView: View {
         isPurchasing = true
 
         do {
-            let transaction = try await storeKit.purchase(product)
+            let transaction = try await storeKit.purchase(product) { product in
+                try await purchase(product)
+            }
 
             if transaction != nil {
                 // Mark play limit as unlocked (if available).

@@ -7,13 +7,22 @@
 
 import RealityKit
 import RetroRacingShared
+import SwiftUI
 import UIKit
 
 @MainActor
 struct TabletopBoardEntities {
     let root: Entity
     let laneTargets: [ModelEntity]
-    let safetyMarkers: [ModelEntity]
+    let roadDashes: [TabletopRoadDash]
+    let finishMarker: ModelEntity
+}
+
+@MainActor
+struct TabletopRoadDash {
+    let row: Int
+    let boundary: Int
+    let entity: ModelEntity
 }
 
 @MainActor
@@ -21,15 +30,12 @@ enum TabletopSceneEntityFactory {
     static func makeBoard(
         layout: TabletopBoardLayout,
         visualStyle: TabletopSceneVisualStyle
-    ) -> TabletopBoardEntities {
+    ) throws -> TabletopBoardEntities {
         let root = Entity()
         root.name = "tabletop-board"
         root.addChild(makeBase(layout: layout, visualStyle: visualStyle))
         root.addChild(makeRoad(layout: layout, visualStyle: visualStyle))
         makeVerges(layout: layout, visualStyle: visualStyle).forEach {
-            root.addChild($0)
-        }
-        makeLaneDividers(layout: layout, visualStyle: visualStyle).forEach {
             root.addChild($0)
         }
         root.addChild(makeKeyLight())
@@ -41,16 +47,20 @@ enum TabletopSceneEntityFactory {
             root.addChild($0)
         }
 
-        let safetyMarkers = (0..<2).map {
-            makeSafetyMarker(index: $0, layout: layout, visualStyle: visualStyle)
+        let roadDashes = makeRoadDashes(layout: layout, visualStyle: visualStyle)
+        roadDashes.forEach {
+            root.addChild($0.entity)
         }
-        safetyMarkers.forEach {
-            root.addChild($0)
-        }
+        let finishMarker = try makeFinishMarker(
+            layout: layout,
+            visualStyle: visualStyle
+        )
+        root.addChild(finishMarker)
         return TabletopBoardEntities(
             root: root,
             laneTargets: laneTargets,
-            safetyMarkers: safetyMarkers
+            roadDashes: roadDashes,
+            finishMarker: finishMarker
         )
     }
 
@@ -59,9 +69,7 @@ enum TabletopSceneEntityFactory {
         visualStyle: TabletopSceneVisualStyle
     ) -> ModelEntity {
         let material = SimpleMaterial(
-            color: visualStyle.increasedContrast
-                ? .black
-                : UIColor(red: 0.035, green: 0.11, blue: 0.10, alpha: 1),
+            color: palette(for: visualStyle).verge,
             roughness: 0.84,
             isMetallic: false
         )
@@ -82,9 +90,7 @@ enum TabletopSceneEntityFactory {
         visualStyle: TabletopSceneVisualStyle
     ) -> ModelEntity {
         let material = SimpleMaterial(
-            color: visualStyle.increasedContrast
-                ? UIColor(white: 0.08, alpha: 1)
-                : UIColor(red: 0.06, green: 0.07, blue: 0.10, alpha: 1),
+            color: palette(for: visualStyle).road,
             roughness: 0.76,
             isMetallic: false
         )
@@ -105,9 +111,7 @@ enum TabletopSceneEntityFactory {
         visualStyle: TabletopSceneVisualStyle
     ) -> [ModelEntity] {
         let material = SimpleMaterial(
-            color: visualStyle.increasedContrast
-                ? .white
-                : UIColor(red: 0.07, green: 0.30, blue: 0.24, alpha: 1),
+            color: palette(for: visualStyle).verge,
             roughness: 0.92,
             isMetallic: false
         )
@@ -146,24 +150,27 @@ enum TabletopSceneEntityFactory {
         return sideVerges + endVerges
     }
 
-    private static func makeLaneDividers(
+    private static func makeRoadDashes(
         layout: TabletopBoardLayout,
         visualStyle: TabletopSceneVisualStyle
-    ) -> [ModelEntity] {
+    ) -> [TabletopRoadDash] {
         let emphasizesShape = visualStyle.increasedContrast
             || visualStyle.differentiateWithoutColor
-        let material = UnlitMaterial(color: emphasizesShape ? .white : .cyan)
-        return layout.laneDividerPositions.map { x in
-            let divider = ModelEntity(
-                mesh: .generatePlane(
-                    width: emphasizesShape ? 0.012 : 0.008,
-                    depth: layout.roadDepth
-                ),
-                materials: [material]
-            )
-            divider.name = "tabletop-lane-divider"
-            divider.position = SIMD3(x, layout.roadOverlayY, 0)
-            return divider
+        let material = UnlitMaterial(color: palette(for: visualStyle).roadLine)
+        return (0..<layout.rowCount).flatMap { row in
+            layout.roadBoundaryPositions.enumerated().map { boundary, x in
+                let entity = ModelEntity(
+                    mesh: .generatePlane(
+                        width: emphasizesShape ? 0.012 : 0.008,
+                        depth: layout.roadDashDepth
+                    ),
+                    materials: [material]
+                )
+                entity.name = "tabletop-road-dash-\(row)-\(boundary)"
+                entity.position = SIMD3(x, layout.roadOverlayY, layout.rowCenterZ(row))
+                entity.isEnabled = false
+                return TabletopRoadDash(row: row, boundary: boundary, entity: entity)
+            }
         }
     }
 
@@ -180,7 +187,6 @@ enum TabletopSceneEntityFactory {
         target.position = layout.laneTargetCenter(lane)
         target.components.set(CollisionComponent(shapes: [.generateBox(size: size)]))
         target.components.set(InputTargetComponent(allowedInputTypes: .all))
-        target.components.set(HoverEffectComponent(.highlight(.default)))
 
         var accessibility = AccessibilityComponent()
         accessibility.isAccessibilityElement = true
@@ -207,22 +213,69 @@ enum TabletopSceneEntityFactory {
         return light
     }
 
-    private static func makeSafetyMarker(
-        index: Int,
+    private static func makeFinishMarker(
         layout: TabletopBoardLayout,
         visualStyle: TabletopSceneVisualStyle
-    ) -> ModelEntity {
-        let emphasizesShape = visualStyle.increasedContrast
-            || visualStyle.differentiateWithoutColor
+    ) throws -> ModelEntity {
+        let texture: TextureResource
+        do {
+            guard let mask = UIImage(
+                named: "lapStripMask",
+                in: VisionThemeSpriteAssets.bundle,
+                compatibleWith: nil
+            ), let cgImage = mask.cgImage else {
+                throw TabletopSceneError.finishMarkerTextureUnavailable
+            }
+            texture = try TextureResource(
+                image: cgImage,
+                withName: "lapStripMask",
+                options: .init(semantic: .color)
+            )
+        } catch {
+            throw TabletopSceneError.finishMarkerTextureUnavailable
+        }
+        var material = UnlitMaterial()
+        material.color = UnlitMaterial.BaseColor(
+            tint: palette(for: visualStyle).finish,
+            texture: UnlitMaterial.Texture(texture)
+        )
+        material.blending = .transparent(opacity: 1.0)
         let marker = ModelEntity(
             mesh: .generatePlane(
                 width: layout.roadWidth,
-                depth: emphasizesShape ? 0.016 : 0.012
+                depth: layout.finishMarkerDepth
             ),
-            materials: [UnlitMaterial(color: emphasizesShape ? .white : .yellow)]
+            materials: [material]
         )
-        marker.name = "tabletop-safety-marker-\(index)"
+        marker.name = "tabletop-finish-marker"
         marker.isEnabled = false
         return marker
     }
+
+    private static func palette(
+        for visualStyle: TabletopSceneVisualStyle
+    ) -> TabletopRoadPalette {
+        let theme = SixtyFourBitTheme()
+        return TabletopRoadPalette(
+            road: UIColor(theme.gridCellColor()),
+            verge: UIColor(theme.roadExteriorColor() ?? theme.gridCellColor()),
+            roadLine: UIColor(
+                theme.roadLineColor(
+                    isIncreaseContrastEnabled: visualStyle.increasedContrast
+                )
+            ),
+            finish: UIColor(
+                theme.lapMarkerColor(
+                    isIncreaseContrastEnabled: visualStyle.increasedContrast
+                )
+            )
+        )
+    }
+}
+
+private struct TabletopRoadPalette {
+    let road: UIColor
+    let verge: UIColor
+    let roadLine: UIColor
+    let finish: UIColor
 }

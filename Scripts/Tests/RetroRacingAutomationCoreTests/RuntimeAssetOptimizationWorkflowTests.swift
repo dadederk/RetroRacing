@@ -112,6 +112,38 @@ func testGivenSharedThemeSpritesWhenBuildingPlanThenEveryImagesetHasVisionRendit
 }
 
 @Test
+func testGivenPaywallProfileImageWhenBuildingPlanThenVisionOwnsItsRendition() throws {
+    let repositoryRoot = try RepositoryLocator.locate(
+        containing: ["Scripts/Resources/runtime_asset_manifest.json"]
+    )
+
+    let profileContents = RuntimeAssetOptimizationPlanBuilder.make(repositoryRoot: repositoryRoot)
+        .actions
+        .compactMap { action -> (destination: String, contents: AssetCatalogContents)? in
+            guard case let .writeContents(destination, contents) = action,
+                  destination.hasSuffix("profilePicRetroRapid.imageset/Contents.json") else {
+                return nil
+            }
+            return (destination, contents)
+        }
+
+    let sharedContents = profileContents.first {
+        $0.destination.contains("RetroRacingShared/Assets.xcassets")
+    }?.contents
+    let visionContents = profileContents.first {
+        $0.destination.contains("RetroRacingVisionOS/Assets.xcassets")
+    }?.contents
+    let visionImages = visionContents?.images ?? []
+
+    #expect(profileContents.count == 2)
+    #expect(sharedContents?.images.contains { $0.manifestIdiom == "vision" } == false)
+    #expect(visionImages.count == 1)
+    #expect(visionImages.first?.idiom == "universal")
+    #expect(visionImages.first?.platform == nil)
+    #expect(visionImages.first?.scale == "1x")
+}
+
+@Test
 func testGivenOptimizationPlanWhenSelectingThirtyTwoBitSpritesThenUses20260805MasterArchive() throws {
     let repositoryRoot = try RepositoryLocator.locate(
         containing: ["Scripts/Resources/runtime_asset_manifest.json"]

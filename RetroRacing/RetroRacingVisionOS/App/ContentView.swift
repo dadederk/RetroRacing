@@ -11,8 +11,7 @@ import SwiftUI
 
 struct ContentView: View {
     @Environment(VisionGameSessionCoordinator.self) private var session
-    @Environment(\.openImmersiveSpace) private var openImmersiveSpace
-    @Environment(\.dismissImmersiveSpace) private var dismissImmersiveSpace
+    @Environment(\.pushWindow) private var pushWindow
     @Environment(\.openWindow) private var openWindow
     @Environment(\.dismissWindow) private var dismissWindow
     @Environment(\.scenePhase) private var scenePhase
@@ -43,16 +42,6 @@ struct ContentView: View {
                     GameLocalizedStrings.string("vision_play_in_3d"),
                     GameLocalizedStrings.string("vision_tabletop_title")
                 ])
-            }
-            .overlay(alignment: .top) {
-                if session.spatialState.isTransitioning,
-                   session.spatialState != .returning {
-                    VisionSpatialPlacementPanel(
-                        state: session.spatialState,
-                        cancel: cancelSpatialGame
-                    )
-                    .padding(24)
-                }
             }
             .sheet(isPresented: $isSettingsPresented) {
                 settingsView
@@ -257,8 +246,7 @@ struct ContentView: View {
 
     private var spatialActions: VisionSpatialActions {
         VisionSpatialActions(
-            openImmersiveSpace: openImmersiveSpace,
-            dismissImmersiveSpace: dismissImmersiveSpace,
+            pushWindow: pushWindow,
             openWindow: openWindow,
             dismissWindow: dismissWindow
         )
@@ -266,6 +254,7 @@ struct ContentView: View {
 
     private func updateActivity() {
         session.setPresentationActive(.classic, isActive: scenePhase == .active)
+        acknowledgeClassicIfNeeded()
     }
 
     private func updateOverlayPause() {
@@ -275,11 +264,8 @@ struct ContentView: View {
     }
 
     private func acknowledgeClassicIfNeeded() {
-        session.classicDidBecomeReady(using: spatialActions)
-    }
-
-    private func cancelSpatialGame() {
-        session.cancelSpatialPresentation(using: spatialActions)
+        guard scenePhase == .active else { return }
+        session.classicDidBecomeReady()
     }
 
     private func handOffToClassicForSharePlayIfNeeded() {

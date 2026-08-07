@@ -61,6 +61,22 @@ extension RuntimeAssetOptimizationActionBuilder {
         }
     }
 
+    mutating func addVisionOSPaywallAssets() {
+        addImageset(
+            path: "profilePicRetroRapid.imageset",
+            sourceFilename: "profilePicRetroRapid.png",
+            variants: [
+                RuntimeAssetOptimizationVariant(
+                    name: "vision",
+                    idiom: "universal",
+                    scale: "1x",
+                    maximumLongEdge: 320
+                ),
+            ],
+            destinationCatalogRoot: "RetroRacing/RetroRacingVisionOS/Assets.xcassets"
+        )
+    }
+
     mutating func addUnscaledPlatformAssets() {
         for (name, maximumLongEdge) in [
             ("Finished", 858),
@@ -112,9 +128,10 @@ extension RuntimeAssetOptimizationActionBuilder {
         path: String,
         sourceFilename: String,
         variants: [RuntimeAssetOptimizationVariant],
-        properties: [String: String]? = nil
+        properties: [String: String]? = nil,
+        destinationCatalogRoot: String = RuntimeAssetOptimizationPlanBuilder.catalogRoot
     ) {
-        let destinationDirectory = destinationDirectory(for: path)
+        let destinationDirectory = "\(destinationCatalogRoot)/\(path)"
         actions.append(.clearPNGs(directory: destinationDirectory))
         let baseName = assetBaseName(for: path)
         let images = variants.map { variant -> AssetCatalogImage in

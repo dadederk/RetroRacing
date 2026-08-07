@@ -9,7 +9,7 @@ import SwiftUI
 
 extension View {
     @ViewBuilder
-    func retroRacingPrimaryButtonStyle() -> some View {
+    public func retroRacingPrimaryButtonStyle() -> some View {
         #if os(visionOS)
         buttonStyle(.borderedProminent)
         #else
@@ -19,7 +19,7 @@ extension View {
     }
 
     @ViewBuilder
-    func retroRacingSecondaryButtonStyle() -> some View {
+    public func retroRacingSecondaryButtonStyle() -> some View {
         #if os(visionOS)
         buttonStyle(.bordered)
         #else

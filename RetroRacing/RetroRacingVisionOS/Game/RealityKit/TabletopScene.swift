@@ -8,7 +8,6 @@
 import Foundation
 import RealityKit
 import RetroRacingShared
-import SwiftUI
 
 struct TabletopSceneVisualStyle: Equatable, Sendable {
     let increasedContrast: Bool
@@ -31,6 +30,7 @@ enum TabletopSceneError: Error, Equatable {
     case invalidModelBounds(TabletopCarRole)
     case invalidNormalizedModel(TabletopCarRole)
     case modelOutsideRoad(TabletopCarRole)
+    case finishMarkerTextureUnavailable
 }
 
 /// Owns the fixed RealityKit entity pool and all snapshot-derived transforms.
@@ -47,18 +47,18 @@ final class TabletopScene {
     let collisionPlayer: Entity
     let collisionRival: Entity
     let laneTargets: [ModelEntity]
-    let safetyMarkers: [ModelEntity]
+    let roadDashes: [TabletopRoadDash]
+    let finishMarker: ModelEntity
     let layout: TabletopBoardLayout
     let visualStyle: TabletopSceneVisualStyle
     let impactBurst: Entity
     let collisionPose: Entity
-    private(set) var hudAttachment: Entity?
     var isImpactPulsing: Bool { collisionEffect.isPulsing }
-    var isHUDReady: Bool { hudAttachment != nil }
 
     private let collisionEffect: TabletopCollisionEffect
     private var accessibilityPlayerColumn: Int?
     private var previousSnapshot: GameSnapshot?
+    private var previousRoadMarkerState: RoadMarkerState?
 
     init(
         canonicalPlayerCar: Entity,
@@ -107,12 +107,13 @@ final class TabletopScene {
             placement: rivalPlacement
         )
 
-        let board = TabletopSceneEntityFactory.makeBoard(
+        let board = try TabletopSceneEntityFactory.makeBoard(
             layout: layout,
             visualStyle: visualStyle
         )
         laneTargets = board.laneTargets
-        safetyMarkers = board.safetyMarkers
+        roadDashes = board.roadDashes
+        finishMarker = board.finishMarker
         collisionEffect = TabletopCollisionEffect(
             playerCar: collisionPlayer,
             rivalCar: collisionRival,
@@ -127,16 +128,6 @@ final class TabletopScene {
         root.addChild(collisionEffect.root)
         update(snapshot: snapshot, inputEnabled: false)
         try validateNormalizedCars()
-    }
-
-    func installHUD<Content: View>(_ view: Content) {
-        hudAttachment?.removeFromParent()
-        let attachment = Entity()
-        attachment.name = "tabletop-hud-attachment"
-        attachment.position = layout.hudPosition
-        attachment.components.set(ViewAttachmentComponent(rootView: view))
-        root.addChild(attachment)
-        hudAttachment = attachment
     }
 
     func update(
@@ -168,14 +159,7 @@ final class TabletopScene {
             updateLaneAccessibility(playerColumn: snapshot.playerColumn)
         }
 
-        for (index, marker) in safetyMarkers.enumerated() {
-            guard snapshot.safetyMarkerRows.indices.contains(index) else {
-                marker.isEnabled = false
-                continue
-            }
-            marker.position = layout.safetyMarkerCenter(row: snapshot.safetyMarkerRows[index])
-            marker.isEnabled = true
-        }
+        updateRoadMarkers(snapshot: snapshot)
         previousSnapshot = snapshot
     }
 
@@ -243,6 +227,32 @@ final class TabletopScene {
                     stringLiteral: GameLocalizedStrings.string("vision_select_lane")
                 )
         }
+    }
+
+    private func updateRoadMarkers(snapshot: GameSnapshot) {
+        let markerState = RoadMarkerState(
+            roadPhase: snapshot.roadPhase,
+            safetyMarkerRows: snapshot.safetyMarkerRows
+        )
+        guard markerState != previousRoadMarkerState else { return }
+        previousRoadMarkerState = markerState
+
+        let markerLayout = RoadMarkerLayoutResolver.resolve(
+            roadPhase: markerState.roadPhase,
+            rowCount: layout.rowCount,
+            safetyMarkerRows: markerState.safetyMarkerRows
+        )
+        let visibleRows = Set(markerLayout.visibleDashRows)
+        for dash in roadDashes {
+            dash.entity.isEnabled = visibleRows.contains(dash.row)
+        }
+
+        guard let finishCenterRow = markerLayout.finishStripCenterRow else {
+            finishMarker.isEnabled = false
+            return
+        }
+        finishMarker.position = layout.finishMarkerCenter(logicalRow: finishCenterRow)
+        finishMarker.isEnabled = true
     }
 
     private func validateNormalizedCars() throws {
@@ -340,4 +350,9 @@ final class TabletopScene {
     private static func allFinite(_ value: SIMD3<Float>) -> Bool {
         value.x.isFinite && value.y.isFinite && value.z.isFinite
     }
+}
+
+private struct RoadMarkerState: Equatable {
+    let roadPhase: Int
+    let safetyMarkerRows: [Int]
 }

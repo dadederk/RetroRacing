@@ -16,7 +16,7 @@ App Store Connect rollout reference for the RetroRapid! achievement set. Runtime
 | Universal | `com.accessibilityUpTo11.RetroRacing` |
 | watchOS | `com.accessibilityUpTo11.RetroRacing.watchkitapp` |
 | tvOS | `com.accessibilityUpTo11.RetroRacing-for-tvOS` |
-| visionOS | `com.accessibilityUpTo11.RetroRacing-for-visionOS` |
+| visionOS | `com.accessibilityUpTo11.RetroRacing` |
 
 Confirm each shipped app record has Game Center capability, matching achievements, and current provisioning profiles.
 

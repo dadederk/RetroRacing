@@ -26,26 +26,23 @@ enum VisionSpatialState: Equatable {
     case inactive
     case preflighting
     case opening
-    case searchingSurface(showTroubleshooting: Bool)
-    case awaitingConfirmation
+    case ready
     case active
-    case recoveringSurface(showTroubleshooting: Bool)
     case returning
     case failure(VisionSpatialFailure)
 
     var isTransitioning: Bool {
         switch self {
-        case .preflighting, .opening, .searchingSurface, .recoveringSurface, .returning:
+        case .preflighting, .opening, .returning:
             true
-        case .inactive, .awaitingConfirmation, .active, .failure:
+        case .inactive, .ready, .active, .failure:
             false
         }
     }
 
     var isSpatialContentPresented: Bool {
         switch self {
-        case .opening, .searchingSurface, .awaitingConfirmation, .active,
-             .recoveringSurface, .returning:
+        case .opening, .ready, .active, .returning:
             true
         case .inactive, .preflighting, .failure:
             false
@@ -55,9 +52,6 @@ enum VisionSpatialState: Equatable {
 
 enum VisionSpatialFailure: String, Error, Equatable, Identifiable {
     case modelUnavailable
-    case immersiveOpenFailed
-    case immersiveOpenCancelled
-    case systemDismissed
 
     var id: String { rawValue }
 
@@ -65,12 +59,6 @@ enum VisionSpatialFailure: String, Error, Equatable, Identifiable {
         switch self {
         case .modelUnavailable:
             GameLocalizedStrings.string("vision_model_unavailable")
-        case .immersiveOpenFailed:
-            GameLocalizedStrings.string("vision_immersive_open_failed")
-        case .immersiveOpenCancelled:
-            GameLocalizedStrings.string("vision_immersive_open_cancelled")
-        case .systemDismissed:
-            GameLocalizedStrings.string("vision_immersive_system_dismissed")
         }
     }
 }

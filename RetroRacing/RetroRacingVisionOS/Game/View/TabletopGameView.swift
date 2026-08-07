@@ -11,8 +11,7 @@ import SwiftUI
 
 struct TabletopGameView: View {
     @Environment(VisionGameSessionCoordinator.self) private var session
-    @Environment(\.openImmersiveSpace) private var openImmersiveSpace
-    @Environment(\.dismissImmersiveSpace) private var dismissImmersiveSpace
+    @Environment(\.pushWindow) private var pushWindow
     @Environment(\.openWindow) private var openWindow
     @Environment(\.dismissWindow) private var dismissWindow
     @Environment(\.scenePhase) private var scenePhase
@@ -22,15 +21,28 @@ struct TabletopGameView: View {
     @AppStorage(DirectTouchSetting.conditionalDefaultStorageKey) private var directTouchData = Data()
     @AccessibilityFocusState private var isTrackAccessibilityFocused: Bool
     @State private var tabletopScene: TabletopScene?
-    @State private var surfaceAnchor: AnchorEntity?
-    @State private var anchorSubscription: EventSubscription?
 
     var body: some View {
         tabletopRealityView
+            .ornament(
+                visibility: .visible,
+                attachmentAnchor: .scene(.back),
+                contentAlignment: .front
+            ) {
+                TabletopHUDPanel(finish: finish)
+            }
+            .ornament(
+                visibility: .visible,
+                attachmentAnchor: .scene(.top),
+                contentAlignment: .bottom
+            ) {
+                TabletopReturnToClassicButton(action: returnToClassic)
+            }
+            .supportedVolumeViewpoints(.front)
+            .volumeBaseplateVisibility(.hidden)
             .accessibilityDirectTouch(isDirectTouchEnabled && session.spatialState == .active)
             .onAppear(perform: updateActivity)
             .onDisappear {
-                anchorSubscription = nil
                 session.setPresentationActive(.spatial, isActive: false)
                 session.spatialSceneDidDisappear(using: spatialActions)
             }
@@ -57,85 +69,57 @@ struct TabletopGameView: View {
                 return .handled
             }
             .onKeyPress(.space) {
-                guard session.spatialState == .active else { return .ignored }
-                session.togglePause()
-                return .handled
+                togglePrimaryAction() ? .handled : .ignored
             }
-            .accessibilityAction(.magicTap, togglePause)
+            .accessibilityAction(.magicTap) {
+                _ = togglePrimaryAction()
+            }
+            .accessibilityAction(.escape, returnToClassic)
     }
 
     private var tabletopRealityView: some View {
-        RealityView { content in
-            guard let transitionID = session.currentSpatialTransitionID() else { return }
-            do {
-                let scene = try await TabletopSceneFactory(
-                    modelRepository: session.tabletopModelRepository
-                ).makeScene(
-                    snapshot: session.snapshot,
-                    visualStyle: TabletopSceneVisualStyle(
-                        increasedContrast: colorSchemeContrast == .increased,
-                        differentiateWithoutColor: differentiateWithoutColor,
-                        reduceMotion: reduceMotion
+        GeometryReader3D { geometry in
+            RealityView { content in
+                guard let transitionID = session.currentSpatialTransitionID() else { return }
+                do {
+                    let scene = try await TabletopSceneFactory(
+                        modelRepository: session.tabletopModelRepository
+                    ).makeScene(
+                        snapshot: session.snapshot,
+                        visualStyle: TabletopSceneVisualStyle(
+                            increasedContrast: colorSchemeContrast == .increased,
+                            differentiateWithoutColor: differentiateWithoutColor,
+                            reduceMotion: reduceMotion
+                        )
                     )
-                )
-                TabletopLaneGestureInstaller.install(in: scene) { lane in
-                    guard session.isSpatialLaneInputEnabled else { return }
-                    session.selectLane(lane)
-                }
-                scene.installHUD(
-                    TabletopHUDPanel(
-                        session: session,
-                        resumeSpatialGame: session.confirmSpatialPlacement,
-                        returnToClassic: returnToClassic,
-                        finish: finish
-                    )
-                )
-
-                let placement = session.surfaceAnchorProvider.makeHorizontalSurfacePlacement(
-                    minimumBounds: scene.layout.minimumSurfaceBounds
-                )
-                let anchor = placement.anchor
-                if anchor.name.isEmpty {
-                    anchor.name = "retrorapid-horizontal-surface"
-                }
-                placement.contentParent.addChild(scene.root)
-                tabletopScene = scene
-                surfaceAnchor = anchor
-                content.add(anchor)
-                anchorSubscription = content.subscribe(
-                    to: SceneEvents.AnchoredStateChanged.self,
-                    on: anchor
-                ) { event in
-                    guard let changedAnchor = event.anchor as? AnchorEntity,
-                          changedAnchor === anchor else {
-                        return
+                    TabletopLaneGestureInstaller.install(in: scene) { lane in
+                        guard session.isSpatialLaneInputEnabled else { return }
+                        session.selectLane(lane)
                     }
-                    session.spatialAnchorDidChange(
-                        isAnchored: event.isAnchored,
+                    positionBoard(scene.root, geometry: geometry, content: content)
+                    tabletopScene = scene
+                    content.add(scene.root)
+                    session.spatialContentDidBecomeReady(
                         transitionID: transitionID,
                         using: spatialActions
                     )
-                }
-                if anchor.isAnchored {
-                    session.spatialAnchorDidChange(
-                        isAnchored: true,
+                } catch {
+                    session.spatialContentDidFail(
                         transitionID: transitionID,
+                        underlyingError: error,
                         using: spatialActions
                     )
                 }
-            } catch {
-                session.spatialContentDidFail(
-                    transitionID: transitionID,
-                    underlyingError: error,
-                    using: spatialActions
-                )
+            } update: { content in
+                if let scene = tabletopScene {
+                    positionBoard(scene.root, geometry: geometry, content: content)
+                    scene.update(
+                        snapshot: session.snapshot,
+                        reduceMotion: reduceMotion,
+                        inputEnabled: session.isSpatialLaneInputEnabled
+                    )
+                }
             }
-        } update: { _ in
-            tabletopScene?.update(
-                snapshot: session.snapshot,
-                reduceMotion: reduceMotion,
-                inputEnabled: session.isSpatialLaneInputEnabled
-            )
         }
         .accessibilityLabel(GameLocalizedStrings.string("vision_tabletop_track"))
         .accessibilityValue(accessibilityValue)
@@ -198,8 +182,7 @@ struct TabletopGameView: View {
 
     private var spatialActions: VisionSpatialActions {
         VisionSpatialActions(
-            openImmersiveSpace: openImmersiveSpace,
-            dismissImmersiveSpace: dismissImmersiveSpace,
+            pushWindow: pushWindow,
             openWindow: openWindow,
             dismissWindow: dismissWindow
         )
@@ -215,20 +198,41 @@ struct TabletopGameView: View {
     }
 
     private func finish() {
-        session.finish()
-        openWindow(id: VisionSceneID.classic)
-        Task {
-            await dismissImmersiveSpace()
-        }
+        session.finishSpatialPresentation(using: spatialActions)
     }
 
-    private func togglePause() {
-        guard session.spatialState == .active else { return }
-        session.togglePause()
+    @discardableResult
+    private func togglePrimaryAction() -> Bool {
+        switch session.spatialState {
+        case .ready:
+            session.startSpatialGame()
+            return true
+        case .active:
+            session.togglePause()
+            return true
+        case .inactive, .preflighting, .opening, .returning, .failure:
+            return false
+        }
     }
 
     private func updateActivity() {
         session.setPresentationActive(.spatial, isActive: scenePhase == .active)
+    }
+
+    private func positionBoard(
+        _ root: Entity,
+        geometry: GeometryProxy3D,
+        content: RealityViewContent
+    ) {
+        let volumeBounds = content.convert(
+            geometry.frame(in: .local),
+            from: .local,
+            to: .scene
+        )
+        root.position = TabletopVolumeLayout.boardRootPosition(
+            volumeMinimum: volumeBounds.min,
+            volumeMaximum: volumeBounds.max
+        )
     }
 }
 

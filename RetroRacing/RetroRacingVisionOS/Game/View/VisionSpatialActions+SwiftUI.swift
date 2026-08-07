@@ -9,23 +9,12 @@ import SwiftUI
 
 extension VisionSpatialActions {
     init(
-        openImmersiveSpace: OpenImmersiveSpaceAction,
-        dismissImmersiveSpace: DismissImmersiveSpaceAction,
+        pushWindow: PushWindowAction,
         openWindow: OpenWindowAction,
         dismissWindow: DismissWindowAction
     ) {
         self.init(
-            openImmersiveSpace: { id in
-                switch await openImmersiveSpace(id: id) {
-                case .opened: .opened
-                case .userCancelled: .userCancelled
-                case .error: .failed
-                @unknown default: .failed
-                }
-            },
-            dismissImmersiveSpace: {
-                await dismissImmersiveSpace()
-            },
+            pushVolume: { pushWindow(id: $0) },
             openWindow: { openWindow(id: $0) },
             dismissWindow: { dismissWindow(id: $0) }
         )

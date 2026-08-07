@@ -22,7 +22,7 @@ final class TabletopSceneTests: XCTestCase {
         XCTAssertEqual(layout.roadDepth, 0.70, accuracy: 0.0001)
         XCTAssertEqual(layout.sideVergeWidth, 0.05, accuracy: 0.0001)
         XCTAssertEqual(layout.endVergeDepth, 0.025, accuracy: 0.0001)
-        assertEqual(layout.laneDividerPositions, [-0.075, 0.075])
+        assertEqual(layout.roadBoundaryPositions, [-0.225, -0.075, 0.075, 0.225])
         assertEqual((0..<layout.laneCount).map(layout.laneCenterX), [-0.15, 0, 0.15])
         assertEqual(
             (0..<layout.rowCount).map(layout.rowCenterZ),
@@ -30,7 +30,17 @@ final class TabletopSceneTests: XCTestCase {
         )
         XCTAssertEqual(layout.carMaximumWidth, layout.laneWidth * 0.70, accuracy: 0.0001)
         XCTAssertEqual(layout.carMaximumDepth, layout.rowDepth * 0.80, accuracy: 0.0001)
-        XCTAssertEqual(layout.minimumSurfaceBounds, SIMD2<Float>(0.55, 0.75))
+        XCTAssertEqual(layout.roadDashDepth, layout.rowDepth * 0.64, accuracy: 0.0001)
+        XCTAssertEqual(layout.finishMarkerDepth, layout.rowDepth * 0.42, accuracy: 0.0001)
+    }
+
+    func testVolumeLayoutCentersBoardAgainstBottomSnappingBoundary() {
+        let position = TabletopVolumeLayout.boardRootPosition(
+            volumeMinimum: SIMD3(-0.30, -0.15, -0.40),
+            volumeMaximum: SIMD3(0.30, 0.15, 0.40)
+        )
+
+        XCTAssertEqual(position, SIMD3(0, -0.15, 0))
     }
 
     func testModelBoundsPlacementFitsAndCentersVisibleGeometryInCell() throws {
@@ -57,9 +67,9 @@ final class TabletopSceneTests: XCTestCase {
         )
     }
 
-    func testLaneTargetsCoverEachFullRoadLaneWithFlushVisualPlanes() {
+    func testLaneTargetsCoverEachFullRoadLaneWithFlushVisualPlanes() throws {
         let layout = TabletopBoardLayout.standard
-        let board = TabletopSceneEntityFactory.makeBoard(
+        let board = try TabletopSceneEntityFactory.makeBoard(
             layout: layout,
             visualStyle: .standard
         )
@@ -82,23 +92,32 @@ final class TabletopSceneTests: XCTestCase {
             XCTAssertEqual(bounds.extents.y, 0, accuracy: 0.0001)
             XCTAssertEqual(bounds.extents.z, layout.roadDepth, accuracy: 0.0001)
             XCTAssertNotNil(target.components[CollisionComponent.self])
+            XCTAssertNil(target.components[HoverEffectComponent.self])
         }
     }
 
-    func testLaneDividersAreFlushPlanesOverRoad() throws {
+    func testRoadMarkersUseTwentyPooledDashPlanesAcrossInnerAndOuterBoundaries() throws {
         let layout = TabletopBoardLayout.standard
-        let board = TabletopSceneEntityFactory.makeBoard(
+        let board = try TabletopSceneEntityFactory.makeBoard(
             layout: layout,
             visualStyle: .standard
         )
-        let divider = try XCTUnwrap(
-            board.root.findEntity(named: "tabletop-lane-divider")
-        )
-        let bounds = divider.visualBounds(relativeTo: divider)
 
-        XCTAssertEqual(divider.position.y, layout.roadOverlayY, accuracy: 0.0001)
-        XCTAssertEqual(bounds.extents.y, 0, accuracy: 0.0001)
-        XCTAssertEqual(bounds.extents.z, layout.roadDepth, accuracy: 0.0001)
+        XCTAssertEqual(board.roadDashes.count, 20)
+        XCTAssertEqual(Set(board.roadDashes.map(\.row)), Set(0..<layout.rowCount))
+        XCTAssertEqual(Set(board.roadDashes.map(\.boundary)), Set(0...layout.laneCount))
+        for dash in board.roadDashes {
+            let bounds = dash.entity.visualBounds(relativeTo: dash.entity)
+            XCTAssertEqual(
+                dash.entity.position.x,
+                layout.roadBoundaryPositions[dash.boundary],
+                accuracy: 0.0001
+            )
+            XCTAssertEqual(dash.entity.position.z, layout.rowCenterZ(dash.row), accuracy: 0.0001)
+            XCTAssertEqual(dash.entity.position.y, layout.roadOverlayY, accuracy: 0.0001)
+            XCTAssertEqual(bounds.extents.y, 0, accuracy: 0.0001)
+            XCTAssertEqual(bounds.extents.z, layout.roadDashDepth, accuracy: 0.0001)
+        }
     }
 
     func testPackagedModelsRemainCenteredOverTheirExactGridCells() async throws {
@@ -134,6 +153,8 @@ final class TabletopSceneTests: XCTestCase {
         let scene = try makeScene(snapshot: makeSnapshot())
         let rivalIdentities = scene.rivals.map(ObjectIdentifier.init)
         let laneTargetIdentities = scene.laneTargets.map(ObjectIdentifier.init)
+        let roadDashIdentities = scene.roadDashes.map { ObjectIdentifier($0.entity) }
+        let finishMarkerIdentity = ObjectIdentifier(scene.finishMarker)
         let impactIdentity = ObjectIdentifier(scene.impactBurst)
         let denseSnapshot = makeSnapshot(denseTraffic: true, safetyMarkerRows: [1, 3])
 
@@ -141,6 +162,8 @@ final class TabletopSceneTests: XCTestCase {
 
         XCTAssertEqual(scene.rivals.map(ObjectIdentifier.init), rivalIdentities)
         XCTAssertEqual(scene.laneTargets.map(ObjectIdentifier.init), laneTargetIdentities)
+        XCTAssertEqual(scene.roadDashes.map { ObjectIdentifier($0.entity) }, roadDashIdentities)
+        XCTAssertEqual(ObjectIdentifier(scene.finishMarker), finishMarkerIdentity)
         XCTAssertEqual(ObjectIdentifier(scene.impactBurst), impactIdentity)
         XCTAssertEqual(scene.rivals.filter(\.isEnabled).count, 14)
         XCTAssertEqual(
@@ -155,24 +178,61 @@ final class TabletopSceneTests: XCTestCase {
         XCTAssertEqual(scene.rivals[0].scale, SIMD3<Float>(repeating: 1))
     }
 
-    func testSafetyMarkersReuseEntitiesAndFollowSnapshotRows() throws {
-        let scene = try makeScene(snapshot: makeSnapshot(safetyMarkerRows: [0, 2]))
-        let identities = scene.safetyMarkers.map(ObjectIdentifier.init)
+    func testRoadPhaseAdvancesDashGapWithoutAllocatingEntities() throws {
+        let scene = try makeScene(snapshot: makeSnapshot(roadPhase: 1))
+        let identities = scene.roadDashes.map { ObjectIdentifier($0.entity) }
+        XCTAssertEqual(enabledDashRows(in: scene), Set([1, 2, 3, 4]))
 
-        scene.update(snapshot: makeSnapshot(safetyMarkerRows: [4]))
+        scene.update(snapshot: makeSnapshot(roadPhase: 2))
 
-        XCTAssertEqual(scene.safetyMarkers.map(ObjectIdentifier.init), identities)
-        XCTAssertTrue(scene.safetyMarkers[0].isEnabled)
-        XCTAssertEqual(
-            scene.safetyMarkers[0].position,
-            scene.layout.safetyMarkerCenter(row: 4)
+        XCTAssertEqual(scene.roadDashes.map { ObjectIdentifier($0.entity) }, identities)
+        XCTAssertEqual(enabledDashRows(in: scene), Set([0, 2, 3, 4]))
+    }
+
+    func testLaneMovementDoesNotChangeRoadMarkerPhaseOrAllocateEntities() throws {
+        let scene = try makeScene(snapshot: makeSnapshot(roadPhase: 3))
+        let identities = scene.roadDashes.map { ObjectIdentifier($0.entity) }
+        let enabledRows = enabledDashRows(in: scene)
+
+        scene.update(snapshot: makeSnapshot(roadPhase: 3, playerColumn: 0))
+
+        XCTAssertEqual(scene.roadDashes.map { ObjectIdentifier($0.entity) }, identities)
+        XCTAssertEqual(enabledDashRows(in: scene), enabledRows)
+    }
+
+    func testFinishStripUsesSharedVirtualRowPlacementAndSuppressesDashes() throws {
+        let scene = try makeScene(
+            snapshot: makeSnapshot(roadPhase: 2, safetyMarkerRows: [0])
         )
+        let finishIdentity = ObjectIdentifier(scene.finishMarker)
+
+        XCTAssertTrue(scene.finishMarker.isEnabled)
         XCTAssertEqual(
-            scene.safetyMarkers[0].visualBounds(relativeTo: scene.safetyMarkers[0]).extents.y,
-            0,
-            accuracy: 0.0001
+            scene.finishMarker.position,
+            scene.layout.finishMarkerCenter(logicalRow: -0.5)
         )
-        XCTAssertFalse(scene.safetyMarkers[1].isEnabled)
+        XCTAssertEqual(enabledDashRows(in: scene), Set([2, 3, 4]))
+
+        scene.update(snapshot: makeSnapshot(roadPhase: 2, safetyMarkerRows: [4, 5]))
+
+        XCTAssertEqual(ObjectIdentifier(scene.finishMarker), finishIdentity)
+        XCTAssertEqual(
+            scene.finishMarker.position,
+            scene.layout.finishMarkerCenter(logicalRow: 4.5)
+        )
+        XCTAssertEqual(enabledDashRows(in: scene), Set([0, 2, 3]))
+    }
+
+    func testFinishStripUsesMaskTextureAndFullRoadWidth() throws {
+        let scene = try makeScene(snapshot: makeSnapshot(safetyMarkerRows: [2, 3]))
+        let model = try XCTUnwrap(scene.finishMarker.components[ModelComponent.self])
+        let material = try XCTUnwrap(model.materials.first as? UnlitMaterial)
+        let bounds = scene.finishMarker.visualBounds(relativeTo: scene.finishMarker)
+
+        XCTAssertNotNil(material.color.texture)
+        XCTAssertEqual(bounds.extents.x, scene.layout.roadWidth, accuracy: 0.0001)
+        XCTAssertEqual(bounds.extents.z, scene.layout.finishMarkerDepth, accuracy: 0.0001)
+        XCTAssertEqual(scene.finishMarker.position.y, scene.layout.finishMarkerY, accuracy: 0.0001)
     }
 
     func testCollisionEffectHidesNormalCarsAndPulsesBothCollisionClones() throws {
@@ -225,15 +285,40 @@ final class TabletopSceneTests: XCTestCase {
         XCTAssertNil(keyLight.components[DynamicLightShadowComponent.self])
     }
 
-    func testHUDAttachmentReadinessIsExplicit() throws {
+    func testSceneContainsNoEmbeddedSwiftUIHUDAttachment() throws {
         let scene = try makeScene(snapshot: makeSnapshot())
-        XCTAssertFalse(scene.isHUDReady)
 
-        scene.installHUD(Text("HUD"))
+        XCTAssertNil(scene.root.findEntity(named: "tabletop-hud-attachment"))
+    }
 
-        XCTAssertTrue(scene.isHUDReady)
-        XCTAssertNotNil(scene.hudAttachment?.components[ViewAttachmentComponent.self])
-        XCTAssertEqual(scene.hudAttachment?.position, scene.layout.hudPosition)
+    func testIncreaseContrastUsesThemeVariantsAndEmphasizesRoadBoundaries() throws {
+        let standard = try TabletopSceneEntityFactory.makeBoard(
+            layout: .standard,
+            visualStyle: .standard
+        )
+        let increasedContrast = try TabletopSceneEntityFactory.makeBoard(
+            layout: .standard,
+            visualStyle: TabletopSceneVisualStyle(
+                increasedContrast: true,
+                differentiateWithoutColor: false,
+                reduceMotion: false
+            )
+        )
+        let standardDash = try unlitMaterial(of: standard.roadDashes[0].entity)
+        let contrastDash = try unlitMaterial(of: increasedContrast.roadDashes[0].entity)
+        let standardFinish = try unlitMaterial(of: standard.finishMarker)
+        let contrastFinish = try unlitMaterial(of: increasedContrast.finishMarker)
+
+        let standardDashBounds = standard.roadDashes[0].entity.visualBounds(
+            relativeTo: standard.roadDashes[0].entity
+        )
+        let contrastDashBounds = increasedContrast.roadDashes[0].entity.visualBounds(
+            relativeTo: increasedContrast.roadDashes[0].entity
+        )
+
+        XCTAssertTrue(standardDash.color.tint.isEqual(contrastDash.color.tint))
+        XCTAssertGreaterThan(contrastDashBounds.extents.x, standardDashBounds.extents.x)
+        XCTAssertFalse(standardFinish.color.tint.isEqual(contrastFinish.color.tint))
     }
 
     func testInvalidBoundsThrowTypedFailureInsteadOfScaleOneFallback() {
@@ -250,7 +335,7 @@ final class TabletopSceneTests: XCTestCase {
         }
     }
 
-    func testLaneTargetsDisableUntilSpatialConfirmationAllowsInput() throws {
+    func testLaneTargetsDisableUntilSpatialReadyStateAllowsInput() throws {
         let scene = try makeScene(snapshot: makeSnapshot())
 
         scene.update(snapshot: makeSnapshot(), inputEnabled: false)
@@ -290,6 +375,8 @@ final class TabletopSceneTests: XCTestCase {
     private func makeSnapshot(
         phase: GamePhase = .running,
         denseTraffic: Bool = false,
+        roadPhase: Int = 2,
+        playerColumn: Int = 1,
         safetyMarkerRows: [Int] = [],
         lives: Int = 3
     ) -> GameSnapshot {
@@ -300,19 +387,28 @@ final class TabletopSceneTests: XCTestCase {
             ),
             count: 5
         )
-        grid[4][1] = phase == .collision || phase == .gameOver ? .crash : .player
+        grid[4][playerColumn] = phase == .collision || phase == .gameOver ? .crash : .player
         return GameSnapshot(
             phase: phase,
             grid: grid,
-            playerColumn: 1,
+            playerColumn: playerColumn,
             score: 24,
             lives: lives,
             level: 2,
-            roadPhase: 2,
+            roadPhase: roadPhase,
             safetyMarkerRows: safetyMarkerRows,
             difficulty: .rapid,
             activePauseReasons: phase == .paused ? [.user] : []
         )
+    }
+
+    private func enabledDashRows(in scene: TabletopScene) -> Set<Int> {
+        Set(scene.roadDashes.filter { $0.entity.isEnabled }.map(\.row))
+    }
+
+    private func unlitMaterial(of entity: ModelEntity) throws -> UnlitMaterial {
+        let model = try XCTUnwrap(entity.components[ModelComponent.self])
+        return try XCTUnwrap(model.materials.first as? UnlitMaterial)
     }
 
     private func assertEqual(

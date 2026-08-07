@@ -40,6 +40,7 @@ enum RuntimeAssetOptimizationPlanBuilder {
         builder.addSharedResultAssets()
         builder.addTemplateIcons()
         builder.addProfileAndControlAssets()
+        builder.addVisionOSPaywallAssets()
         builder.addThemeSprites()
         builder.addUnscaledPlatformAssets()
         builder.addScreenshotFixture()
