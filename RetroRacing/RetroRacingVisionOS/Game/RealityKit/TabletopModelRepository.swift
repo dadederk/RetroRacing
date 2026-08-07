@@ -13,6 +13,8 @@ enum TabletopModelError: String, Error, Equatable {
     case resourceUnavailable
     case invalidHierarchy
     case invalidBounds
+    case invisibleGeometry
+    case missingMaterials
 }
 
 @MainActor
@@ -139,6 +141,32 @@ final class TabletopModelRepository: TabletopModelRepositoryProtocol {
               extents.x < 100, extents.y < 100, extents.z < 100 else {
             try throwLogged(.invalidBounds)
         }
+
+        let enabledModels = enabledModelComponents(in: entity, ancestorsEnabled: true)
+        guard enabledModels.isEmpty == false else {
+            try throwLogged(.invisibleGeometry)
+        }
+        guard enabledModels.allSatisfy({ $0.materials.isEmpty == false }) else {
+            try throwLogged(.missingMaterials)
+        }
+    }
+
+    private func enabledModelComponents(
+        in entity: Entity,
+        ancestorsEnabled: Bool
+    ) -> [ModelComponent] {
+        let isEnabled = ancestorsEnabled && entity.isEnabled
+        var models = [ModelComponent]()
+        if isEnabled, let model = entity.components[ModelComponent.self] {
+            models.append(model)
+        }
+        for child in entity.children {
+            models.append(contentsOf: enabledModelComponents(
+                in: child,
+                ancestorsEnabled: isEnabled
+            ))
+        }
+        return models
     }
 
     private func allNames(in entity: Entity) -> [String] {

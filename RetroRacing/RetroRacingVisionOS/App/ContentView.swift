@@ -11,8 +11,8 @@ import SwiftUI
 
 struct ContentView: View {
     @Environment(VisionGameSessionCoordinator.self) private var session
-    @Environment(ThemeManager.self) private var themeManager
-    @Environment(\.pushWindow) private var pushWindow
+    @Environment(\.openImmersiveSpace) private var openImmersiveSpace
+    @Environment(\.dismissImmersiveSpace) private var dismissImmersiveSpace
     @Environment(\.openWindow) private var openWindow
     @Environment(\.dismissWindow) private var dismissWindow
     @Environment(\.scenePhase) private var scenePhase
@@ -24,27 +24,35 @@ struct ContentView: View {
     var body: some View {
         rootContent
             .ornament(
-                visibility: themeManager.currentTheme.id == .sixtyFourBit ? .visible : .hidden,
+                visibility: .visible,
                 attachmentAnchor: .scene(.top),
                 contentAlignment: .center
             ) {
                 Button(
                     GameLocalizedStrings.string("vision_play_in_3d"),
                     systemImage: "cube.transparent",
-                    action: showTabletop
+                    action: showSpatialGame
                 )
                 .labelStyle(.titleAndIcon)
                 .opacity(session.screen == .playing ? 1 : 0)
                 .disabled(
-                    session.screen != .playing
-                        || session.presentationTransition != .idle
-                        || session.isSharePlayActive
+                    session.canEnterSpatialMode == false
                 )
                 .accessibilityHint(GameLocalizedStrings.string("vision_play_in_3d_hint"))
                 .accessibilityInputLabels([
                     GameLocalizedStrings.string("vision_play_in_3d"),
                     GameLocalizedStrings.string("vision_tabletop_title")
                 ])
+            }
+            .overlay(alignment: .top) {
+                if session.spatialState.isTransitioning,
+                   session.spatialState != .returning {
+                    VisionSpatialPlacementPanel(
+                        state: session.spatialState,
+                        cancel: cancelSpatialGame
+                    )
+                    .padding(24)
+                }
             }
             .sheet(isPresented: $isSettingsPresented) {
                 settingsView
@@ -76,8 +84,11 @@ struct ContentView: View {
             .onChange(of: scenePhase) {
                 updateActivity()
             }
-            .onChange(of: session.presentationTransition) {
+            .onChange(of: session.spatialState) {
                 acknowledgeClassicIfNeeded()
+            }
+            .onChange(of: session.requiresClassicForSharePlay, initial: true) {
+                handOffToClassicForSharePlayIfNeeded()
             }
             .onChange(of: isSettingsPresented) {
                 updateOverlayPause()
@@ -100,11 +111,11 @@ struct ContentView: View {
             .accessibilityAction(.magicTap, session.togglePause)
             .alert(
                 GameLocalizedStrings.string("vision_transition_alert_title"),
-                isPresented: transitionFailureBinding
+                isPresented: spatialFailureBinding
             ) {
-                Button(GameLocalizedStrings.string("ok"), action: session.clearTransitionFailure)
+                Button(GameLocalizedStrings.string("ok"), action: session.clearSpatialFailure)
             } message: {
-                Text(session.transitionFailure?.message ?? "")
+                Text(session.spatialFailure?.message ?? "")
             }
             .alert(
                 GameLocalizedStrings.string("menu_play_with_friends"),
@@ -216,19 +227,19 @@ struct ContentView: View {
         .fontPreferenceStore(dependencies.fontPreferenceStore)
     }
 
-    private var transitionFailureBinding: Binding<Bool> {
+    private var spatialFailureBinding: Binding<Bool> {
         Binding(
-            get: { session.transitionFailure != nil },
+            get: { session.spatialFailure != nil },
             set: { isPresented in
                 if isPresented == false {
-                    session.clearTransitionFailure()
+                    session.clearSpatialFailure()
                 }
             }
         )
     }
 
     private var isPauseButtonDisabled: Bool {
-        session.presentationTransition != .idle
+        session.spatialState.isTransitioning
             || (session.snapshot.phase != .running && session.isUserPaused == false)
     }
 
@@ -240,13 +251,14 @@ struct ContentView: View {
         isFinishConfirmationPresented = true
     }
 
-    private func showTabletop() {
-        _ = session.beginPresentationTransition(to: .tabletop, using: windowActions)
+    private func showSpatialGame() {
+        _ = session.beginSpatialPresentation(using: spatialActions)
     }
 
-    private var windowActions: VisionWindowActions {
-        VisionWindowActions(
-            pushWindow: pushWindow,
+    private var spatialActions: VisionSpatialActions {
+        VisionSpatialActions(
+            openImmersiveSpace: openImmersiveSpace,
+            dismissImmersiveSpace: dismissImmersiveSpace,
             openWindow: openWindow,
             dismissWindow: dismissWindow
         )
@@ -263,12 +275,20 @@ struct ContentView: View {
     }
 
     private func acknowledgeClassicIfNeeded() {
-        guard let transitionID = session.currentTransitionID(for: .classic) else { return }
-        session.presentationDidBecomeReady(
-            .classic,
-            transitionID: transitionID,
-            using: windowActions
-        )
+        session.classicDidBecomeReady(using: spatialActions)
+    }
+
+    private func cancelSpatialGame() {
+        session.cancelSpatialPresentation(using: spatialActions)
+    }
+
+    private func handOffToClassicForSharePlayIfNeeded() {
+        guard session.requiresClassicForSharePlay else { return }
+        if session.spatialState.isSpatialContentPresented {
+            _ = session.beginReturnToClassic(using: spatialActions)
+        } else if session.spatialState != .inactive {
+            session.cancelSpatialPresentation(using: spatialActions)
+        }
     }
 
     private var sharePlayResultBinding: Binding<Bool> {

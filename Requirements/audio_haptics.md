@@ -46,7 +46,7 @@
 - watchOS activates and re-activates its audio session on app start, gameplay appear, foregrounding, route/interruption/media reset, and live-menu exit.
 - watchOS haptic timing should align with actual lane changes and native semantic patterns.
 - macOS and tvOS do not expose haptics-only options.
-- visionOS Classic and Tabletop use `GameplayAudioFeedbackCoordinator` for the same start/resume, road-tick, move/safety, speed-warning, crash/fail, and SharePlay countdown/go cues. Audio settings are read at playback time; haptics-only options are normalized away because visionOS gameplay does not provide app haptics.
+- visionOS Classic and surface-anchored spatial mode use `GameplayAudioFeedbackCoordinator` for the same start/resume, road-tick, move/safety, speed-warning, crash/fail, and SharePlay countdown/go cues. Placement and transition pauses do not replay the solo start cue until explicit Resume in 3D. Audio settings are read at playback time; haptics-only options are normalized away because visionOS gameplay does not provide app haptics.
 - Temporary Xcode 26 archive behavior uses the legacy audio activation path; see [../Docs/xcode-27-sdk-restore.md](../Docs/xcode-27-sdk-restore.md).
 
 ## Testing

@@ -31,6 +31,7 @@ public enum GamePauseReason: Hashable, Sendable {
     case user
     case overlay
     case presentationTransition
+    case spatialPlacement
     case appInactive
     case sharePlay
 }

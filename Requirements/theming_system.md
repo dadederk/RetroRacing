@@ -23,7 +23,7 @@
 | Pocket | Free on watchOS; Unlimited Plays on iPhone/iPad/macOS/tvOS/visionOS | watchOS default. |
 | Cartridge | Free on iPad/watchOS; Unlimited Plays on iPhone/macOS/tvOS/visionOS | Vivid home-console-inspired pixel style with a medium grey arcade road, lighter grey exterior field, and yellow lane lines; iPad default. |
 | CRT | Free on macOS/watchOS; Unlimited Plays on iPhone/iPad/tvOS/visionOS | Early-1990s arcade style with the shared grey/yellow perspective road, grass exterior, richer pixel-art sprites, and RGB565 player-red ramp; macOS default. |
-| Disc | Free/default on tvOS; Unlimited Plays on visionOS; free Debug experiment elsewhere | Late-1990s console style with dark asphalt, an electric aqua circuit palette, and a dedicated pre-rendered 32-Bit sprite family. On visionOS it is available in Classic presentation only. |
+| Disc | Free/default on tvOS; Unlimited Plays on visionOS; free Debug experiment elsewhere | Late-1990s console style with dark asphalt, an electric aqua circuit palette, and a dedicated pre-rendered 32-Bit sprite family. On visionOS it changes Classic only; spatial mode uses Polygon models. |
 | Polygon | Free/default on visionOS; free Debug experiment elsewhere | Late-1990s low-poly console style backed by canonical 3D models and a complete cross-platform fixed-camera sprite family. |
 
 - Unlimited Plays is the monetization entitlement. Do not introduce a separate “premium tier” in user copy.
@@ -39,7 +39,7 @@
 - watchOS defaults to Pocket for everyone and allows all four themes without Unlimited Plays.
 - visionOS defaults to Polygon and always includes all six themes in the gallery. Polygon is the free platform theme; Unlimited Plays unlocks selection of Pocket, LCD, Cartridge, CRT, and Disc. Disc and Polygon do not show Debug toggles on visionOS because both are permanent catalog entries there.
 - In Debug builds, Settings exposes a Disc toggle on iPhone, iPad, macOS, and watchOS, plus a Polygon toggle on iPhone, iPad, macOS, watchOS, and tvOS. Enabling a toggle immediately adds the theme to the selectable catalog as a free QA theme; disabling a currently selected experiment restores the platform default. Builds without Debug UI ignore stored flags and include only the platform-required experimental entries.
-- visionOS theme selection applies to Classic presentation. Tabletop requires the canonical Polygon model, so the **Play in 3D** ornament is unavailable while any other theme is selected.
+- visionOS theme selection applies to Classic presentation. **Play in 3D** remains available for every Classic theme; spatial mode always uses the canonical Polygon models without changing or overwriting the saved Classic selection, which is restored on return.
 - Platform-specific presentation can vary, but selection and access rules should remain shared.
 - Theme selectors present established shared themes in Pocket, LCD, Cartridge, CRT order even when the platform default is not first, followed by included Disc and Polygon themes. visionOS exposes the complete six-theme gallery in that shared order.
 - Settings exposes a selectable Style Gallery with one section per shared theme. Each section shows the theme's player car, rival car, player helmet, friend/rival helmet, crash sprite, and a four-color road palette: road surface, road lines, road exterior, and finish/lap marker. Preview rows provide theme-specific localized accessibility descriptions that summarize both the contents and the style's mood.

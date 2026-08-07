@@ -10,7 +10,7 @@ import SwiftUI
 
 enum VisionSceneID {
     static let classic = "classic-game"
-    static let tabletop = "tabletop-game"
+    static let spatial = "spatial-game"
 }
 
 @main
@@ -18,6 +18,7 @@ struct RetroRacingVisionOSApp: App {
     private let dependencies: VisionAppDependencies
     private let sharePlayObservationTask: Task<Void, Never>
     @State private var session: VisionGameSessionCoordinator
+    @State private var immersionStyle: any ImmersionStyle = .mixed
 
     init() {
         let dependencies = VisionAppDependencies()
@@ -28,11 +29,19 @@ struct RetroRacingVisionOSApp: App {
         )
         let scheduler = TaskGameLoopScheduler(frameDuration: .milliseconds(16))
         let delayScheduler = TaskVisionDelayScheduler()
-        let windowRouter = VisionWindowRouter(strategy: .push)
+        let immersiveSpaceRouter = VisionImmersiveSpaceRouter(
+            immersiveSpaceID: VisionSceneID.spatial
+        )
         let modelRepository = TabletopModelRepository(
             playerResourceName: "player-car-64bit",
             rivalResourceName: "rival-car-64bit",
             bundle: .main
+        )
+        let spatialPresentationCoordinator = VisionSpatialPresentationCoordinator(
+            delayScheduler: delayScheduler,
+            immersiveSpaceRouter: immersiveSpaceRouter,
+            modelRepository: modelRepository,
+            troubleshootingDelay: .seconds(10)
         )
         let controllerInputSource: any GameControllerInputSource = if BuildConfiguration.isRunningTests {
             NoOpGameControllerInputSource()
@@ -45,9 +54,9 @@ struct RetroRacingVisionOSApp: App {
         let session = VisionGameSessionCoordinator(
             engine: engine,
             scheduler: scheduler,
-            delayScheduler: delayScheduler,
-            windowRouter: windowRouter,
+            spatialPresentationCoordinator: spatialPresentationCoordinator,
             tabletopModelRepository: modelRepository,
+            surfaceAnchorProvider: VisionSurfaceAnchorProvider(),
             controllerInputSource: controllerInputSource,
             difficultyProvider: {
                 GameDifficulty.currentSelection(from: userDefaults)
@@ -78,19 +87,12 @@ struct RetroRacingVisionOSApp: App {
         }
         .defaultSize(width: 980, height: 900)
 
-        Window(GameLocalizedStrings.string("vision_tabletop_title"), id: VisionSceneID.tabletop) {
+        ImmersiveSpace(id: VisionSceneID.spatial) {
             TabletopGameView()
                 .environment(session)
                 .environment(dependencies.themeManager)
                 .fontPreferenceStore(dependencies.fontPreferenceStore)
         }
-        .windowStyle(.volumetric)
-        .defaultSize(
-            width: CGFloat(TabletopBoardLayout.standard.volumeSize.x),
-            height: CGFloat(TabletopBoardLayout.standard.volumeSize.y),
-            depth: CGFloat(TabletopBoardLayout.standard.volumeSize.z),
-            in: .meters
-        )
-        .defaultLaunchBehavior(.suppressed)
+        .immersionStyle(selection: $immersionStyle, in: .mixed)
     }
 }

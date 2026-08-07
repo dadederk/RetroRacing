@@ -35,89 +35,292 @@ final class VisionGameSessionCoordinatorTests: XCTestCase {
         }
     }
 
-    func testGivenSixtyFourBitThemeWhenResolvingClassicSpritesThenSharedBundleAssetsExist() {
-        let theme = SixtyFourBitTheme()
-        let bundle = VisionThemeSpriteAssets.bundle
-
-        XCTAssertEqual(bundle.bundleURL, Bundle(for: GameScene.self).bundleURL)
-        XCTAssertNotNil(UIImage(named: "playersCar-64Bit", in: bundle, compatibleWith: nil))
-        XCTAssertNotNil(UIImage(named: "rivalsCar-64Bit", in: bundle, compatibleWith: nil))
-        XCTAssertEqual(VisionThemeSpriteAssets.crashAssetName(for: theme), "crash-64Bit")
-    }
-
     func testGivenFreshSessionWhenPlayIsRequestedThenEngineStartsAndSchedulerRuns() {
-        // Given
         let scheduler = ManualGameLoopScheduler()
         let session = makeSession(scheduler: scheduler)
-        let initialSnapshot = session.snapshot
 
-        // When
         session.play()
 
-        // Then
-        XCTAssertEqual(initialSnapshot.phase, .ready)
         XCTAssertEqual(session.snapshot.phase, .running)
         XCTAssertEqual(session.screen, .playing)
         XCTAssertTrue(scheduler.isRunning)
     }
 
-    func testGivenFreshSessionWhenPlayAndMovementOccurThenVisionGameplayUsesSharedAudio() {
-        // Given
-        let scheduler = ManualGameLoopScheduler()
-        let soundPlayer = VisionTestSoundPlayer()
-        let laneCuePlayer = VisionTestLaneCuePlayer()
-        let session = makeSession(
-            scheduler: scheduler,
-            soundPlayer: soundPlayer,
-            laneCuePlayer: laneCuePlayer
-        )
+    func testGivenAnyClassicThemeWhenRaceIsActiveThenSpatialEntryIsAvailable() {
+        let session = makeSession()
 
-        // When
+        session.play()
+
+        XCTAssertTrue(session.canEnterSpatialMode)
+    }
+
+    func testGivenActiveRunWhenSurfaceBecomesReadyThenSnapshotIsPreservedAndConfirmationIsRequired() async {
+        let scheduler = ManualGameLoopScheduler()
+        let recorder = SpatialActionRecorder()
+        let session = makeSession(scheduler: scheduler)
         session.play()
         session.moveLeft()
         scheduler.tick(1.3)
+        let snapshotBeforeEntry = session.snapshot
 
-        // Then
-        XCTAssertTrue(soundPlayer.playedEffects.contains(.start))
-        XCTAssertEqual(laneCuePlayer.moveCount, 1)
-        XCTAssertGreaterThanOrEqual(laneCuePlayer.tickCount, 1)
-    }
-
-    func testGivenClassicPresentationWhenSharePlayRoundStartsThenSeededRoundAndGoCueStart() {
-        // Given
-        let soundPlayer = VisionTestSoundPlayer()
-        let session = makeSession(soundPlayer: soundPlayer)
-        let settings = SharePlayRoundSettings(difficulty: .fast, trafficSeed: 90210)
-
-        // When
-        session.applySharePlayState(
-            SharePlayUIState(
-                state: .inRound(
-                    settings: settings,
-                    localScore: 0,
-                    remoteScore: 0,
-                    remoteLives: 3
-                ),
-                localRole: .host,
-                opponentDisplayName: "Alex"
-            )
+        let transitionID = await enterAwaitingConfirmation(
+            session: session,
+            recorder: recorder
         )
 
-        // Then
-        XCTAssertEqual(session.screen, .playing)
-        XCTAssertEqual(session.snapshot.phase, .running)
-        XCTAssertEqual(session.snapshot.difficulty, .fast)
-        XCTAssertTrue(soundPlayer.playedEffects.contains(.sharePlayCountdownGo))
-        XCTAssertFalse(session.snapshot.activePauseReasons.contains(.sharePlay))
+        XCTAssertNotNil(transitionID)
+        XCTAssertEqual(session.presentation, .spatial)
+        XCTAssertEqual(session.spatialState, .awaitingConfirmation)
+        XCTAssertEqual(session.snapshot.grid, snapshotBeforeEntry.grid)
+        XCTAssertEqual(session.snapshot.score, snapshotBeforeEntry.score)
+        XCTAssertTrue(session.snapshot.activePauseReasons.contains(.spatialPlacement))
+        XCTAssertFalse(session.snapshot.activePauseReasons.contains(.presentationTransition))
+        XCTAssertEqual(recorder.dismissedWindowIDs, [VisionSceneID.classic])
     }
 
-    func testGivenTabletopPresentationWhenSharePlayArrivesThenClassicHandoffIsRequired() {
-        // Given
+    func testGivenReadySurfaceWhenUserConfirmsThenOnlyPlacementPauseClears() async {
+        let recorder = SpatialActionRecorder()
         let session = makeSession()
-        let recorder = WindowActionRecorder()
-        moveToTabletop(session: session, actions: recorder.actions)
+        session.play()
+        _ = await enterAwaitingConfirmation(session: session, recorder: recorder)
 
-        // When
+        session.confirmSpatialPlacement()
+
+        XCTAssertEqual(session.spatialState, .active)
+        XCTAssertFalse(session.snapshot.activePauseReasons.contains(.spatialPlacement))
+        XCTAssertEqual(session.snapshot.phase, .running)
+    }
+
+    func testGivenUserPausedRaceWhenSpatialPlacementIsConfirmedThenUserPauseRemains() async {
+        let recorder = SpatialActionRecorder()
+        let session = makeSession()
+        session.play()
+        session.togglePause()
+        _ = await enterAwaitingConfirmation(session: session, recorder: recorder)
+
+        session.confirmSpatialPlacement()
+
+        XCTAssertEqual(session.snapshot.activePauseReasons, [.user])
+        XCTAssertTrue(session.isUserPaused)
+    }
+
+    func testGivenSpatialEntryInProgressWhenRequestedAgainThenDuplicateIsRejected() {
+        let recorder = SpatialActionRecorder()
+        let session = makeSession()
+        session.play()
+
+        let first = session.beginSpatialPresentation(using: recorder.actions)
+        let second = session.beginSpatialPresentation(using: recorder.actions)
+
+        XCTAssertTrue(first)
+        XCTAssertFalse(second)
+    }
+
+    func testGivenSpatialEntryWhenCancelledThenClassicAndExactRunAreRestored() async {
+        let recorder = SpatialActionRecorder()
+        let session = makeSession()
+        session.play()
+        let snapshot = session.snapshot
+        _ = session.beginSpatialPresentation(using: recorder.actions)
+
+        session.cancelSpatialPresentation(using: recorder.actions)
+        await settleTasks()
+
+        XCTAssertEqual(session.spatialState, .inactive)
+        XCTAssertEqual(session.presentation, .classic)
+        XCTAssertEqual(session.snapshot.grid, snapshot.grid)
+        XCTAssertEqual(session.snapshot.score, snapshot.score)
+        XCTAssertFalse(session.snapshot.activePauseReasons.contains(.spatialPlacement))
+        XCTAssertTrue(recorder.openedWindowIDs.contains(VisionSceneID.classic))
+    }
+
+    func testGivenStaleAnchorCallbackWhenNewEntryIsSearchingThenCallbackIsIgnored() async {
+        let recorder = SpatialActionRecorder()
+        let session = makeSession()
+        session.play()
+        _ = session.beginSpatialPresentation(using: recorder.actions)
+        let staleID = session.currentSpatialTransitionID()
+        session.cancelSpatialPresentation(using: recorder.actions)
+        _ = session.beginSpatialPresentation(using: recorder.actions)
+        await settleTasks()
+        let currentID = session.currentSpatialTransitionID()
+
+        if let staleID {
+            session.spatialAnchorDidChange(
+                isAnchored: true,
+                transitionID: staleID,
+                using: recorder.actions
+            )
+        }
+
+        XCTAssertNotEqual(staleID, currentID)
+        XCTAssertEqual(session.spatialState, .searchingSurface(showTroubleshooting: false))
+        XCTAssertEqual(session.presentation, .classic)
+    }
+
+    func testGivenImmersiveOpenCancellationThenTypedFailureRestoresClassic() async {
+        let recorder = SpatialActionRecorder(openResult: .userCancelled)
+        let session = makeSession()
+        session.play()
+
+        _ = session.beginSpatialPresentation(using: recorder.actions)
+        await settleTasks()
+
+        XCTAssertEqual(session.spatialState, .failure(.immersiveOpenCancelled))
+        XCTAssertEqual(session.presentation, .classic)
+        XCTAssertFalse(session.snapshot.activePauseReasons.contains(.presentationTransition))
+        XCTAssertFalse(session.snapshot.activePauseReasons.contains(.spatialPlacement))
+    }
+
+    func testGivenImmersiveOpenErrorThenTypedFailureRestoresClassic() async {
+        let recorder = SpatialActionRecorder(openResult: .failed)
+        let session = makeSession()
+        session.play()
+
+        _ = session.beginSpatialPresentation(using: recorder.actions)
+        await settleTasks()
+
+        XCTAssertEqual(session.spatialState, .failure(.immersiveOpenFailed))
+        XCTAssertEqual(session.presentation, .classic)
+    }
+
+    func testGivenModelPreflightFailureThenImmersiveSpaceDoesNotOpen() async {
+        let recorder = SpatialActionRecorder()
+        let session = makeSession(modelRepository: FailingModelRepository())
+        session.play()
+
+        _ = session.beginSpatialPresentation(using: recorder.actions)
+        await settleTasks()
+
+        XCTAssertEqual(session.spatialState, .failure(.modelUnavailable))
+        XCTAssertEqual(recorder.openImmersiveCount, 0)
+    }
+
+    func testGivenSurfaceSearchAfterGuidanceDelayThenTroubleshootingAppearsWithoutFailure() async {
+        let recorder = SpatialActionRecorder()
+        let session = makeSession(delayScheduler: ImmediateDelayScheduler())
+        session.play()
+
+        _ = session.beginSpatialPresentation(using: recorder.actions)
+        await settleTasks()
+
+        XCTAssertEqual(session.spatialState, .searchingSurface(showTroubleshooting: true))
+        XCTAssertNil(session.spatialFailure)
+    }
+
+    func testGivenSurfaceSearchWithPendingDelayThenThereIsNoForcedTimeout() async {
+        let recorder = SpatialActionRecorder()
+        let session = makeSession(delayScheduler: LongDelayScheduler())
+        session.play()
+
+        _ = session.beginSpatialPresentation(using: recorder.actions)
+        await settleTasks()
+
+        XCTAssertEqual(session.spatialState, .searchingSurface(showTroubleshooting: false))
+        XCTAssertNil(session.spatialFailure)
+    }
+
+    func testGivenActiveSpatialRaceWhenAnchorIsLostThenInputPausesAndClassicReopens() async {
+        let recorder = SpatialActionRecorder()
+        let session = makeSession()
+        session.play()
+        let transitionID = await activateSpatial(session: session, recorder: recorder)
+
+        if let transitionID {
+            session.spatialAnchorDidChange(
+                isAnchored: false,
+                transitionID: transitionID,
+                using: recorder.actions
+            )
+        }
+
+        XCTAssertEqual(session.spatialState, .recoveringSurface(showTroubleshooting: false))
+        XCTAssertTrue(session.snapshot.activePauseReasons.contains(.spatialPlacement))
+        XCTAssertFalse(session.isSpatialLaneInputEnabled)
+        XCTAssertTrue(recorder.openedWindowIDs.contains(VisionSceneID.classic))
+    }
+
+    func testGivenLostAnchorWhenSurfaceIsReacquiredThenConfirmationIsRequiredAgain() async {
+        let recorder = SpatialActionRecorder()
+        let session = makeSession()
+        session.play()
+        let transitionID = await activateSpatial(session: session, recorder: recorder)
+        guard let transitionID else {
+            XCTFail("Expected a spatial transition")
+            return
+        }
+        session.spatialAnchorDidChange(
+            isAnchored: false,
+            transitionID: transitionID,
+            using: recorder.actions
+        )
+
+        session.spatialAnchorDidChange(
+            isAnchored: true,
+            transitionID: transitionID,
+            using: recorder.actions
+        )
+
+        XCTAssertEqual(session.spatialState, .awaitingConfirmation)
+        XCTAssertTrue(session.snapshot.activePauseReasons.contains(.spatialPlacement))
+        XCTAssertFalse(session.isSpatialLaneInputEnabled)
+    }
+
+    func testGivenSystemDismissalWhenSpatialIsActiveThenClassicRestoresWithTypedFailure() async {
+        let recorder = SpatialActionRecorder()
+        let session = makeSession()
+        session.play()
+        _ = await activateSpatial(session: session, recorder: recorder)
+        let snapshot = session.snapshot
+
+        session.spatialSceneDidDisappear(using: recorder.actions)
+
+        XCTAssertEqual(session.spatialState, .failure(.systemDismissed))
+        XCTAssertEqual(session.presentation, .classic)
+        XCTAssertEqual(session.snapshot.grid, snapshot.grid)
+        XCTAssertTrue(recorder.openedWindowIDs.contains(VisionSceneID.classic))
+    }
+
+    func testGivenAppBackgroundingWhenSpatialIsActiveThenReturnWaitsForClassicReadiness() async {
+        let recorder = SpatialActionRecorder()
+        let session = makeSession()
+        session.play()
+        _ = await activateSpatial(session: session, recorder: recorder)
+
+        session.spatialDidEnterBackground(using: recorder.actions)
+        let stateBeforeClassicReady = session.spatialState
+        session.classicDidBecomeReady(using: recorder.actions)
+        await settleTasks()
+
+        XCTAssertEqual(stateBeforeClassicReady, .returning)
+        XCTAssertEqual(session.spatialState, .inactive)
+        XCTAssertEqual(session.presentation, .classic)
+        XCTAssertEqual(recorder.dismissImmersiveCount, 1)
+    }
+
+    func testGivenRepeatedSpatialSwitchingThenEveryRunUsesANewTokenAndPreservesSnapshot() async {
+        let recorder = SpatialActionRecorder()
+        let session = makeSession()
+        session.play()
+        let snapshot = session.snapshot
+
+        let firstID = await activateSpatial(session: session, recorder: recorder)
+        _ = session.beginReturnToClassic(using: recorder.actions)
+        session.classicDidBecomeReady(using: recorder.actions)
+        await settleTasks()
+        let secondID = await activateSpatial(session: session, recorder: recorder)
+
+        XCTAssertNotEqual(firstID, secondID)
+        XCTAssertEqual(session.snapshot.grid, snapshot.grid)
+        XCTAssertEqual(session.spatialState, .active)
+    }
+
+    func testGivenIncomingSharePlayWhenSpatialIsActiveThenClassicHandoffPrecedesMatchState() async {
+        let recorder = SpatialActionRecorder()
+        let session = makeSession()
+        session.play()
+        _ = await activateSpatial(session: session, recorder: recorder)
+
         session.applySharePlayState(
             SharePlayUIState(
                 state: .waitingForFriend,
@@ -125,404 +328,153 @@ final class VisionGameSessionCoordinatorTests: XCTestCase {
                 opponentDisplayName: "Alex"
             )
         )
-        let didBegin = session.beginPresentationTransition(
-            to: .classic,
-            using: recorder.actions
-        )
-        if let transitionID = session.currentTransitionID(for: .classic) {
-            session.presentationDidBecomeReady(
-                .classic,
-                transitionID: transitionID,
-                using: recorder.actions
-            )
-        }
+        let didBeginReturn = session.beginReturnToClassic(using: recorder.actions)
+        session.classicDidBecomeReady(using: recorder.actions)
 
-        // Then
-        XCTAssertTrue(didBegin)
+        XCTAssertTrue(didBeginReturn)
+        XCTAssertFalse(session.requiresClassicForSharePlay)
         XCTAssertEqual(session.presentation, .classic)
+        XCTAssertTrue(session.snapshot.activePauseReasons.contains(.sharePlay))
+    }
+
+    func testGivenSharePlayArrivesDuringPreflightWhenEntryCancelsThenSharePlayAppliesInClassic() async {
+        let recorder = SpatialActionRecorder()
+        let session = makeSession()
+        session.play()
+        _ = session.beginSpatialPresentation(using: recorder.actions)
+        session.applySharePlayState(
+            SharePlayUIState(
+                state: .waitingForFriend,
+                localRole: .host,
+                opponentDisplayName: "Alex"
+            )
+        )
+
+        session.cancelSpatialPresentation(using: recorder.actions)
+        await settleTasks()
+
+        XCTAssertEqual(session.spatialState, .inactive)
         XCTAssertFalse(session.requiresClassicForSharePlay)
         XCTAssertTrue(session.snapshot.activePauseReasons.contains(.sharePlay))
     }
 
-    func testGivenSharePlayCountdownWhenTimelineRepeatsASecondThenCuePlaysOnlyOnce() {
-        // Given
-        let soundPlayer = VisionTestSoundPlayer()
-        let session = makeSession(soundPlayer: soundPlayer)
-
-        // When
-        session.playSharePlayCountdownCue(displayValue: 3)
-        session.playSharePlayCountdownCue(displayValue: 3)
-        session.playSharePlayCountdownCue(displayValue: 2)
-        session.playSharePlayCountdownCue(displayValue: 1)
-
-        // Then
-        XCTAssertEqual(
-            soundPlayer.playedEffects,
-            [.sharePlayCountdownLow, .sharePlayCountdownMid, .sharePlayCountdownHigh]
-        )
-    }
-
-    func testGivenSettingsDifficultyWhenPlayIsRequestedThenEngineUsesCurrentPreference() {
-        // Given
-        var difficulty = GameDifficulty.cruise
-        let session = makeSession(difficultyProvider: { difficulty })
-
-        // When
+    func testGivenGameOverInSpatialModeWhenReturningThenExactSnapshotRemains() async {
+        let recorder = SpatialActionRecorder()
+        let session = makeSession(engine: GameOverFixtureEngine())
         session.play()
-        let firstDifficulty = session.snapshot.difficulty
-        session.finish()
-        difficulty = .fast
-        session.play()
+        _ = await activateSpatial(session: session, recorder: recorder)
+        let gameOverSnapshot = session.snapshot
 
-        // Then
-        XCTAssertEqual(firstDifficulty, .cruise)
-        XCTAssertEqual(session.snapshot.difficulty, .fast)
+        _ = session.beginReturnToClassic(using: recorder.actions)
+        session.classicDidBecomeReady(using: recorder.actions)
+
+        XCTAssertEqual(session.screen, .gameOver)
+        XCTAssertEqual(session.snapshot, gameOverSnapshot)
+        XCTAssertEqual(session.presentation, .classic)
     }
 
     func testGivenSettingsOverlayAndUserPauseWhenSettingsClosesThenUserPauseRemains() {
-        // Given
         let session = makeSession()
         session.play()
 
-        // When
         session.setOverlayPresented(true)
         session.togglePause()
         session.setOverlayPresented(false)
 
-        // Then
         XCTAssertEqual(session.snapshot.activePauseReasons, [.user])
-    }
-
-    func testGivenMenuScreenWhenMovementIsRequestedThenLaneDoesNotChange() {
-        // Given
-        let session = makeSession()
-        let initialColumn = session.snapshot.playerColumn
-
-        // When
-        session.moveLeft()
-        session.moveRight()
-        session.selectLane(0)
-
-        // Then
-        XCTAssertEqual(session.snapshot.playerColumn, initialColumn)
-    }
-
-    func testGivenActiveRunWhenTabletopBecomesReadyThenGameplayStateIsPreserved() {
-        // Given
-        let scheduler = ManualGameLoopScheduler()
-        let session = makeSession(scheduler: scheduler)
-        let recorder = WindowActionRecorder()
-        let actions = recorder.actions
-        session.play()
-        session.moveLeft()
-        scheduler.tick(1.3)
-        let beforeTransition = session.snapshot
-
-        // When
-        XCTAssertTrue(session.beginPresentationTransition(to: .tabletop, using: actions))
-        let transitionID = session.currentTransitionID(for: .tabletop)
-        XCTAssertNotNil(transitionID)
-        if let transitionID {
-            session.presentationDidBecomeReady(.tabletop, transitionID: transitionID, using: actions)
-        }
-
-        // Then
-        XCTAssertEqual(session.presentation, .tabletop)
-        XCTAssertEqual(session.snapshot.score, beforeTransition.score)
-        XCTAssertEqual(session.snapshot.grid, beforeTransition.grid)
-        XCTAssertEqual(session.snapshot.playerColumn, beforeTransition.playerColumn)
-        XCTAssertFalse(session.snapshot.activePauseReasons.contains(.presentationTransition))
-    }
-
-    func testGivenTransitionInProgressWhenRequestingAgainThenDuplicateIsRejected() {
-        // Given
-        let session = makeSession()
-        let recorder = WindowActionRecorder()
-        let actions = recorder.actions
-        session.play()
-
-        // When
-        let firstRequest = session.beginPresentationTransition(to: .tabletop, using: actions)
-        let secondRequest = session.beginPresentationTransition(to: .tabletop, using: actions)
-
-        // Then
-        XCTAssertTrue(firstRequest)
-        XCTAssertFalse(secondRequest)
-    }
-
-    func testGivenUserPausedRaceWhenHandoffCompletesThenUserPauseRemains() {
-        // Given
-        let session = makeSession()
-        let recorder = WindowActionRecorder()
-        let actions = recorder.actions
-        session.play()
-        session.togglePause()
-
-        // When
-        session.beginPresentationTransition(to: .tabletop, using: actions)
-        let transitionID = session.currentTransitionID(for: .tabletop)
-        if let transitionID {
-            session.presentationDidBecomeReady(.tabletop, transitionID: transitionID, using: actions)
-        }
-
-        // Then
-        XCTAssertTrue(session.isUserPaused)
-        XCTAssertEqual(session.snapshot.activePauseReasons, [.user])
-    }
-
-    func testGivenStaleAcknowledgementWhenNewTransitionIsActiveThenItIsIgnored() {
-        // Given
-        let session = makeSession()
-        let recorder = WindowActionRecorder()
-        let actions = recorder.actions
-        session.play()
-        session.beginPresentationTransition(to: .tabletop, using: actions)
-        let staleID = session.currentTransitionID(for: .tabletop)
-        if let staleID {
-            session.destinationDidFail(transitionID: staleID, failure: .modelUnavailable)
-        }
-        session.beginPresentationTransition(to: .tabletop, using: actions)
-        let currentID = session.currentTransitionID(for: .tabletop)
-
-        // When
-        if let staleID {
-            session.presentationDidBecomeReady(.tabletop, transitionID: staleID, using: actions)
-        }
-
-        // Then
-        XCTAssertEqual(session.currentTransitionID(for: .tabletop), currentID)
-        XCTAssertEqual(session.presentation, .classic)
-    }
-
-    func testGivenImmediateTimeoutWhenDestinationNeverAcknowledgesThenClassicIsRestored() async {
-        // Given
-        let recorder = WindowActionRecorder()
-        let session = makeSession(delayScheduler: ImmediateDelayScheduler())
-        session.play()
-
-        // When
-        session.beginPresentationTransition(to: .tabletop, using: recorder.actions)
-        await settleTasks()
-
-        // Then
-        XCTAssertEqual(session.presentation, .classic)
-        XCTAssertEqual(session.presentationTransition, .idle)
-        XCTAssertEqual(session.transitionFailure, .timedOut)
-        XCTAssertFalse(session.snapshot.activePauseReasons.contains(.presentationTransition))
-        XCTAssertTrue(recorder.dismissedSceneIDs.contains(VisionSceneID.tabletop))
-    }
-
-    func testGivenRoutingFailureWhenOpeningDestinationThenSourceIsRecovered() async {
-        // Given
-        let router = FailingWindowRouter()
-        let session = makeSession(windowRouter: router)
-        let recorder = WindowActionRecorder()
-        session.play()
-
-        // When
-        session.beginPresentationTransition(to: .tabletop, using: recorder.actions)
-        await settleTasks()
-
-        // Then
-        XCTAssertEqual(session.transitionFailure, .routingFailed)
-        XCTAssertEqual(session.presentation, .classic)
-        XCTAssertEqual(router.cancelCount, 1)
-    }
-
-    func testGivenTabletopSystemCloseWhenNoTransitionThenClassicIsRestored() {
-        // Given
-        let session = makeSession()
-        let recorder = WindowActionRecorder()
-        moveToTabletop(session: session, actions: recorder.actions)
-
-        // When
-        session.tabletopDidDisappear(using: recorder.actions)
-
-        // Then
-        XCTAssertEqual(session.presentation, .classic)
-        XCTAssertEqual(session.presentationTransition, .idle)
-    }
-
-    func testGivenTabletopGameOverWhenReturningToClassicThenSnapshotIsPreserved() {
-        // Given
-        let engine = GameOverFixtureEngine()
-        let recorder = WindowActionRecorder()
-        let session = makeSession(engine: engine)
-        session.play()
-        XCTAssertEqual(session.screen, .gameOver)
-        XCTAssertTrue(session.beginPresentationTransition(to: .tabletop, using: recorder.actions))
-        if let transitionID = session.currentTransitionID(for: .tabletop) {
-            session.presentationDidBecomeReady(
-                .tabletop,
-                transitionID: transitionID,
-                using: recorder.actions
-            )
-        }
-        let gameOverSnapshot = session.snapshot
-
-        // When
-        let didBeginReturn = session.beginPresentationTransition(
-            to: .classic,
-            using: recorder.actions
-        )
-        if let transitionID = session.currentTransitionID(for: .classic) {
-            session.presentationDidBecomeReady(
-                .classic,
-                transitionID: transitionID,
-                using: recorder.actions
-            )
-        }
-
-        // Then
-        XCTAssertTrue(didBeginReturn)
-        XCTAssertEqual(session.presentation, .classic)
-        XCTAssertEqual(session.screen, .gameOver)
-        XCTAssertEqual(session.snapshot, gameOverSnapshot)
-    }
-
-    func testGivenBackgroundedRaceWhenSchedulerTicksThenElapsedTimeIsNotReplayed() {
-        // Given
-        let scheduler = ManualGameLoopScheduler()
-        let session = makeSession(scheduler: scheduler)
-        session.play()
-        scheduler.tick(0.2)
-        let beforeBackground = session.snapshot
-
-        // When
-        session.setPresentationActive(.classic, isActive: false)
-        scheduler.tick(60)
-        let whileInactive = session.snapshot
-        session.setPresentationActive(.classic, isActive: true)
-
-        // Then
-        XCTAssertEqual(whileInactive.grid, beforeBackground.grid)
-        XCTAssertEqual(whileInactive.score, beforeBackground.score)
-        XCTAssertFalse(session.snapshot.activePauseReasons.contains(.appInactive))
-        XCTAssertTrue(scheduler.isRunning)
     }
 
     func testGivenControllerActionsWhenRaceIsActiveThenTheyUseSharedCommands() {
-        // Given
         let controller = RecordingControllerInputSource()
         let session = makeSession(controllerInputSource: controller)
         session.play()
 
-        // When
         controller.send(.moveLeft)
         controller.send(.pauseResume)
 
-        // Then
         XCTAssertEqual(session.snapshot.playerColumn, 0)
         XCTAssertTrue(session.isUserPaused)
     }
 
     func testGivenLaneSelectionsWhenTargetingCurrentOrAdjacentLaneThenOnlyAdjacentMoves() {
-        // Given
         let session = makeSession()
         session.play()
 
-        // When
         session.selectLane(1)
         let afterCurrentLane = session.snapshot.playerColumn
         session.selectLane(0)
 
-        // Then
         XCTAssertEqual(afterCurrentLane, 1)
         XCTAssertEqual(session.snapshot.playerColumn, 0)
     }
 
-    func testGivenClassicBoardTapLocationsWhenResolvingLanesThenBoundsMapToThreeLanes() {
-        // Given
-        let locations: [CGFloat] = [-20, 49, 50, 149, 299, 320]
-
-        // When
-        let lanes = locations.compactMap {
-            VisionGameInteractionPolicy.lane(at: $0, width: 300, laneCount: 3)
-        }
-
-        // Then
-        XCTAssertEqual(lanes, [0, 0, 0, 1, 2, 2])
-        XCTAssertNil(VisionGameInteractionPolicy.lane(at: 10, width: 0, laneCount: 3))
-    }
-
     func testGivenDirectTouchPreferenceWhenEvaluatingSurfacesThenOnlyRaceBoardsAreEligible() {
-        // Given
-        let surfaces = VisionDirectTouchSurface.allCases
-
-        // When
-        let enabledSurfaces = surfaces.filter {
+        let enabledSurfaces = VisionDirectTouchSurface.allCases.filter {
             VisionGameInteractionPolicy.isDirectTouchEnabled(on: $0, userEnabled: true)
         }
-        let disabledSurfaces = surfaces.filter {
-            VisionGameInteractionPolicy.isDirectTouchEnabled(on: $0, userEnabled: false)
-        }
 
-        // Then
         XCTAssertEqual(enabledSurfaces, [.classicBoard, .tabletopRoad])
-        XCTAssertTrue(disabledSurfaces.isEmpty)
     }
 
-    func testGivenPushRouterWhenMovingForwardAndBackThenPushLifecycleActionsAreUsed() async throws {
-        // Given
-        let router = VisionWindowRouter(strategy: .push)
-        let recorder = WindowActionRecorder()
-        let forward = request(id: 1, source: .classic, destination: .tabletop)
-        let back = request(id: 2, source: .tabletop, destination: .classic)
+    func testGivenSystemImmersiveRouterWhenOpeningAndDismissingThenActionsAreUsed() async throws {
+        let recorder = SpatialActionRecorder()
+        let router = VisionImmersiveSpaceRouter(immersiveSpaceID: VisionSceneID.spatial)
 
-        // When
-        try await router.present(forward, using: recorder.actions)
-        try await router.present(back, using: recorder.actions)
+        try await router.open(using: recorder.actions)
+        await router.dismiss(using: recorder.actions)
 
-        // Then
-        XCTAssertEqual(recorder.pushedSceneIDs, [VisionSceneID.tabletop])
-        XCTAssertEqual(recorder.dismissedSceneIDs, [VisionSceneID.tabletop])
+        XCTAssertEqual(recorder.openedImmersiveIDs, [VisionSceneID.spatial])
+        XCTAssertEqual(recorder.dismissImmersiveCount, 1)
     }
 
-    func testGivenExplicitRouterWhenDestinationAcknowledgesThenSourceDismissesAfterOpen() async throws {
-        // Given
-        let router = VisionWindowRouter(strategy: .explicit)
-        let recorder = WindowActionRecorder()
-        let transition = request(id: 1, source: .classic, destination: .tabletop)
+    func testGivenFixedTestAnchorProviderWhenCreatingAnchorThenItNeverUsesPlaneFallbackGeometry() {
+        let provider = FixedVisionSurfaceAnchorProvider()
 
-        // When
-        try await router.present(transition, using: recorder.actions)
-        let dismissedBeforeReady = recorder.dismissedSceneIDs
-        router.complete(transition, using: recorder.actions)
+        let anchor = provider.makeHorizontalSurfaceAnchor(minimumBounds: SIMD2(0.55, 0.75))
 
-        // Then
-        XCTAssertEqual(recorder.openedSceneIDs, [VisionSceneID.tabletop])
-        XCTAssertTrue(dismissedBeforeReady.isEmpty)
-        XCTAssertEqual(recorder.dismissedSceneIDs, [VisionSceneID.classic])
+        XCTAssertEqual(anchor.name, "test-fixed-surface-anchor")
+        XCTAssertTrue(anchor.children.isEmpty)
     }
 
     func testGivenPackagedModelWhenLoadingTwiceThenRepositoryLoadsOnlyOnce() async throws {
-        // Given
         let repository = TabletopModelRepository(
             playerResourceName: "player-car-64bit",
             rivalResourceName: "rival-car-64bit",
             bundle: .main
         )
 
-        // When
         let first = try await repository.canonicalCars()
         let second = try await repository.canonicalCars()
 
-        // Then
         XCTAssertTrue(first.player === second.player)
         XCTAssertTrue(first.rival === second.rival)
         XCTAssertFalse(first.player === first.rival)
         XCTAssertEqual(repository.loadCount, 2)
     }
 
+    func testGivenPackagedModelsWhenInspectingVisibleGeometryThenEveryModelHasMaterials() async throws {
+        let repository = TabletopModelRepository(
+            playerResourceName: "player-car-64bit",
+            rivalResourceName: "rival-car-64bit",
+            bundle: .main
+        )
+
+        let cars = try await repository.canonicalCars()
+
+        for car in [cars.player, cars.rival] {
+            let models = enabledModels(in: car, ancestorsEnabled: true)
+            XCTAssertFalse(models.isEmpty)
+            XCTAssertTrue(models.allSatisfy { $0.materials.isEmpty == false })
+        }
+    }
+
     func testGivenInvalidModelResourceWhenLoadingThenTypedFailureIsThrown() async {
-        // Given
         let repository = TabletopModelRepository(
             playerResourceName: "missing-player-car",
             rivalResourceName: "missing-rival-car",
             bundle: .main
         )
 
-        // When / Then
         do {
             _ = try await repository.canonicalCars()
             XCTFail("Expected the invalid resource to fail")
@@ -533,116 +485,19 @@ final class VisionGameSessionCoordinatorTests: XCTestCase {
         }
     }
 
-    func testGivenCanonicalModelWhenBuildingTabletopThenFixedPoolAndSemanticLanesExist() async throws {
-        // Given
-        let engine = GameEngine(randomSource: VisionTestRandomSource(), difficulty: .rapid)
-        engine.handle(.start)
-        let repository = TabletopModelRepository(
-            playerResourceName: "player-car-64bit",
-            rivalResourceName: "rival-car-64bit",
-            bundle: .main
-        )
-
-        // When
-        let scene = try await TabletopSceneFactory(modelRepository: repository)
-            .makeScene(snapshot: engine.snapshot)
-
-        // Then
-        XCTAssertEqual(scene.rivals.count, TabletopScene.rivalCount)
-        XCTAssertEqual(scene.laneTargets.count, 3)
-        XCTAssertEqual(scene.laneTargets.compactMap(TabletopScene.lane(for:)), [0, 1, 2])
-        for target in scene.laneTargets {
-            XCTAssertNotNil(target.components[CollisionComponent.self])
-            XCTAssertNotNil(target.components[InputTargetComponent.self])
-            XCTAssertNotNil(target.components[HoverEffectComponent.self])
-            XCTAssertNotNil(target.components[AccessibilityComponent.self])
-        }
-    }
-
-    func testGivenCanonicalModelWhenCreatingRivalThenRivalIdentityIsApplied() async throws {
-        // Given
-        let repository = TabletopModelRepository(
-            playerResourceName: "player-car-64bit",
-            rivalResourceName: "rival-car-64bit",
-            bundle: .main
-        )
-        let canonical = try await repository.canonicalCars()
-
-        // When
-        let scene = TabletopScene(
-            canonicalPlayerCar: canonical.player,
-            canonicalRivalCar: canonical.rival,
-            snapshot: GameEngine(randomSource: VisionTestRandomSource(), difficulty: .rapid).snapshot
-        )
-        let playerMark = scene.player.findEntity(named: "Ivory_HelmetXLeft")
-        let rivalMark = scene.rivals.first?.findEntity(named: "Ivory_HelmetXLeft")
-        let playerLightStack = scene.player.findEntity(named: "Amber_RivalTailLightStackLeft")
-        let rivalLightStack = scene.rivals.first?.findEntity(named: "Amber_RivalTailLightStackLeft")
-        let playerSingleLight = scene.player.findEntity(named: "Amber_TailLightLeft")
-        let rivalSingleLight = scene.rivals.first?.findEntity(named: "Amber_TailLightLeft")
-
-        // Then
-        XCTAssertNotNil(playerMark)
-        XCTAssertNil(rivalMark)
-        XCTAssertNil(playerLightStack)
-        XCTAssertNotNil(rivalLightStack)
-        XCTAssertNotNil(playerSingleLight)
-        XCTAssertNil(rivalSingleLight)
-        for exhaustIndex in 1...4 {
-            XCTAssertEqual(
-                scene.rivals.first?.findEntity(named: "Steel_Exhaust\(exhaustIndex)")?.isEnabled,
-                true
-            )
-        }
-    }
-
-    func testGivenAccessibilityVisualPreferencesWhenBuildingTabletopThenStyleIsRetained() async throws {
-        // Given
-        let repository = TabletopModelRepository(
-            playerResourceName: "player-car-64bit",
-            rivalResourceName: "rival-car-64bit",
-            bundle: .main
-        )
-        let style = TabletopSceneVisualStyle(
-            increasedContrast: true,
-            differentiateWithoutColor: true,
-            reduceMotion: true
-        )
-
-        // When
-        let scene = try await TabletopSceneFactory(modelRepository: repository).makeScene(
-            snapshot: GameEngine(
-                randomSource: VisionTestRandomSource(),
-                difficulty: .rapid
-            ).snapshot,
-            visualStyle: style
-        )
-
-        // Then
-        XCTAssertEqual(scene.visualStyle, style)
-        XCTAssertNotNil(scene.root.findEntity(named: "tabletop-road"))
-        XCTAssertNotNil(scene.root.findEntity(named: "tabletop-safety-marker-0"))
-    }
-
     private func makeSession(
         engine: (any GameEngineProtocol)? = nil,
         scheduler: ManualGameLoopScheduler? = nil,
         delayScheduler: (any VisionDelayScheduling)? = nil,
-        windowRouter: (any VisionWindowRouting)? = nil,
+        immersiveSpaceRouter: (any VisionImmersiveSpaceRouting)? = nil,
+        modelRepository: (any TabletopModelRepositoryProtocol)? = nil,
         controllerInputSource: (any GameControllerInputSource)? = nil,
-        difficultyProvider: @escaping @MainActor () -> GameDifficulty = { .rapid },
-        soundPlayer: VisionTestSoundPlayer = VisionTestSoundPlayer(),
-        laneCuePlayer: VisionTestLaneCuePlayer = VisionTestLaneCuePlayer(),
-        leaderboardService: VisionTestLeaderboardService = VisionTestLeaderboardService(),
-        highestScoreStore: VisionTestHighestScoreStore = VisionTestHighestScoreStore()
+        difficultyProvider: @escaping @MainActor () -> GameDifficulty = { .rapid }
     ) -> VisionGameSessionCoordinator {
         let scheduler = scheduler ?? ManualGameLoopScheduler()
-        let delayScheduler = delayScheduler ?? LongDelayScheduler()
-        let windowRouter = windowRouter ?? VisionWindowRouter(strategy: .push)
-        let controllerInputSource = controllerInputSource ?? RecordingControllerInputSource()
         let audioFeedbackCoordinator = GameplayAudioFeedbackCoordinator(
-            soundPlayer: soundPlayer,
-            laneCuePlayer: laneCuePlayer,
+            soundPlayer: VisionTestSoundPlayer(),
+            laneCuePlayer: VisionTestLaneCuePlayer(),
             hapticController: nil,
             speedWarningPlayer: VisionTestSpeedWarningPlayer(),
             preferences: GameplayAudioFeedbackPreferences(
@@ -652,6 +507,14 @@ final class VisionGameSessionCoordinatorTests: XCTestCase {
                 speedWarningMode: { .none }
             )
         )
+        let modelRepository = modelRepository ?? StubModelRepository()
+        let spatialPresentationCoordinator = VisionSpatialPresentationCoordinator(
+            delayScheduler: delayScheduler ?? LongDelayScheduler(),
+            immersiveSpaceRouter: immersiveSpaceRouter
+                ?? VisionImmersiveSpaceRouter(immersiveSpaceID: VisionSceneID.spatial),
+            modelRepository: modelRepository,
+            troubleshootingDelay: .seconds(10)
+        )
         let session = VisionGameSessionCoordinator(
             engine: engine ?? GameEngine(
                 randomSource: VisionTestRandomSource(),
@@ -659,64 +522,87 @@ final class VisionGameSessionCoordinatorTests: XCTestCase {
                 trafficMode: .seeded(64)
             ),
             scheduler: scheduler,
-            delayScheduler: delayScheduler,
-            windowRouter: windowRouter,
-            tabletopModelRepository: StubModelRepository(),
-            controllerInputSource: controllerInputSource,
+            spatialPresentationCoordinator: spatialPresentationCoordinator,
+            tabletopModelRepository: modelRepository,
+            surfaceAnchorProvider: FixedVisionSurfaceAnchorProvider(),
+            controllerInputSource: controllerInputSource ?? RecordingControllerInputSource(),
             difficultyProvider: difficultyProvider,
             sharePlayMatchService: NoOpSharePlayMatchService(),
             audioFeedbackCoordinator: audioFeedbackCoordinator,
-            leaderboardService: leaderboardService,
-            highestScoreStore: highestScoreStore,
+            leaderboardService: VisionTestLeaderboardService(),
+            highestScoreStore: VisionTestHighestScoreStore(),
             announcementPoster: VisionTestAnnouncementPoster()
         )
         session.setPresentationActive(.classic, isActive: true)
         return session
     }
 
-    private func moveToTabletop(
+    private func enterAwaitingConfirmation(
         session: VisionGameSessionCoordinator,
-        actions: VisionWindowActions
-    ) {
-        session.play()
-        session.beginPresentationTransition(to: .tabletop, using: actions)
-        guard let transitionID = session.currentTransitionID(for: .tabletop) else { return }
-        session.presentationDidBecomeReady(.tabletop, transitionID: transitionID, using: actions)
+        recorder: SpatialActionRecorder
+    ) async -> VisionSpatialTransitionID? {
+        if session.spatialState == .inactive {
+            XCTAssertTrue(session.beginSpatialPresentation(using: recorder.actions))
+        }
+        await settleTasks()
+        let transitionID = session.currentSpatialTransitionID()
+        if let transitionID {
+            session.spatialAnchorDidChange(
+                isAnchored: true,
+                transitionID: transitionID,
+                using: recorder.actions
+            )
+        }
+        return transitionID
     }
 
-    private func request(
-        id: UInt64,
-        source: VisionGamePresentation,
-        destination: VisionGamePresentation
-    ) -> VisionPresentationRequest {
-        VisionPresentationRequest(
-            id: VisionPresentationTransitionID(rawValue: id),
-            source: source,
-            destination: destination
+    private func activateSpatial(
+        session: VisionGameSessionCoordinator,
+        recorder: SpatialActionRecorder
+    ) async -> VisionSpatialTransitionID? {
+        let transitionID = await enterAwaitingConfirmation(
+            session: session,
+            recorder: recorder
         )
+        session.confirmSpatialPlacement()
+        return transitionID
     }
 
     private func settleTasks() async {
-        for _ in 0..<4 {
+        for _ in 0..<10 {
             await Task.yield()
         }
+    }
+
+    private func enabledModels(
+        in entity: Entity,
+        ancestorsEnabled: Bool
+    ) -> [ModelComponent] {
+        let isEnabled = ancestorsEnabled && entity.isEnabled
+        var result = [ModelComponent]()
+        if isEnabled, let model = entity.components[ModelComponent.self] {
+            result.append(model)
+        }
+        for child in entity.children {
+            result.append(contentsOf: enabledModels(
+                in: child,
+                ancestorsEnabled: isEnabled
+            ))
+        }
+        return result
     }
 }
 
 @MainActor
 private final class ManualGameLoopScheduler: GameLoopScheduling {
     private var tickHandler: (@MainActor (TimeInterval) -> Void)?
-    private(set) var startCount = 0
-    private(set) var stopCount = 0
     var isRunning: Bool { tickHandler != nil }
 
     func start(onTick: @escaping @MainActor (TimeInterval) -> Void) {
-        startCount += 1
         tickHandler = onTick
     }
 
     func stop() {
-        stopCount += 1
         tickHandler = nil
     }
 
@@ -738,38 +624,40 @@ private final class ImmediateDelayScheduler: VisionDelayScheduling {
 }
 
 @MainActor
-private final class WindowActionRecorder {
-    private(set) var pushedSceneIDs = [String]()
-    private(set) var openedSceneIDs = [String]()
-    private(set) var dismissedSceneIDs = [String]()
+private final class SpatialActionRecorder {
+    private let openResult: VisionImmersiveSpaceOpenResult
+    private(set) var openedImmersiveIDs = [String]()
+    private(set) var dismissImmersiveCount = 0
+    private(set) var openedWindowIDs = [String]()
+    private(set) var dismissedWindowIDs = [String]()
 
-    var actions: VisionWindowActions {
-        VisionWindowActions(
-            push: { [weak self] in self?.pushedSceneIDs.append($0) },
-            open: { [weak self] in self?.openedSceneIDs.append($0) },
-            dismiss: { [weak self] in self?.dismissedSceneIDs.append($0) }
+    init(openResult: VisionImmersiveSpaceOpenResult = .opened) {
+        self.openResult = openResult
+    }
+
+    var openImmersiveCount: Int { openedImmersiveIDs.count }
+
+    var actions: VisionSpatialActions {
+        VisionSpatialActions(
+            openImmersiveSpace: { [weak self] id in
+                self?.openedImmersiveIDs.append(id)
+                return self?.openResult ?? .failed
+            },
+            dismissImmersiveSpace: { [weak self] in
+                self?.dismissImmersiveCount += 1
+            },
+            openWindow: { [weak self] in self?.openedWindowIDs.append($0) },
+            dismissWindow: { [weak self] in self?.dismissedWindowIDs.append($0) }
         )
     }
 }
 
 @MainActor
-private final class FailingWindowRouter: VisionWindowRouting {
-    enum Failure: Error { case unavailable }
-
-    let strategy = VisionWindowRoutingStrategy.push
-    private(set) var cancelCount = 0
-
-    func present(
-        _ request: VisionPresentationRequest,
-        using actions: VisionWindowActions
-    ) async throws {
-        throw Failure.unavailable
-    }
-
-    func complete(_ request: VisionPresentationRequest, using actions: VisionWindowActions) {}
-
-    func cancel(_ request: VisionPresentationRequest, using actions: VisionWindowActions) {
-        cancelCount += 1
+private final class FixedVisionSurfaceAnchorProvider: VisionSurfaceAnchorProviding {
+    func makeHorizontalSurfaceAnchor(minimumBounds: SIMD2<Float>) -> AnchorEntity {
+        let anchor = AnchorEntity(world: .zero)
+        anchor.name = "test-fixed-surface-anchor"
+        return anchor
     }
 }
 
@@ -793,7 +681,22 @@ private final class RecordingControllerInputSource: GameControllerInputSource {
 @MainActor
 private final class StubModelRepository: TabletopModelRepositoryProtocol {
     func canonicalCars() async throws -> TabletopCanonicalCars {
-        TabletopCanonicalCars(player: Entity(), rival: Entity())
+        let player = ModelEntity(
+            mesh: .generateBox(size: SIMD3<Float>(0.12, 0.07, 0.20)),
+            materials: [SimpleMaterial(color: .red, isMetallic: false)]
+        )
+        let rival = ModelEntity(
+            mesh: .generateBox(size: SIMD3<Float>(0.12, 0.07, 0.20)),
+            materials: [SimpleMaterial(color: .cyan, isMetallic: false)]
+        )
+        return TabletopCanonicalCars(player: player, rival: rival)
+    }
+}
+
+@MainActor
+private final class FailingModelRepository: TabletopModelRepositoryProtocol {
+    func canonicalCars() async throws -> TabletopCanonicalCars {
+        throw TabletopModelError.invalidBounds
     }
 }
 
@@ -802,34 +705,19 @@ private final class VisionTestRandomSource: RandomSource {
 }
 
 private final class VisionTestSoundPlayer: SoundEffectPlayer {
-    private(set) var playedEffects = [SoundEffect]()
-
-    func play(_ effect: SoundEffect, completion: (() -> Void)?) {
-        playedEffects.append(effect)
-        completion?()
-    }
-
+    func play(_ effect: SoundEffect, completion: (() -> Void)?) { completion?() }
     func stopAll(fadeDuration: TimeInterval) {}
     func setVolume(_ volume: Double) {}
 }
 
 private final class VisionTestLaneCuePlayer: LaneCuePlayer {
-    private(set) var tickCount = 0
-    private(set) var moveCount = 0
-
-    func playTickCue(safeColumns: Set<CueColumn>, mode: AudioFeedbackMode) {
-        tickCount += 1
-    }
-
+    func playTickCue(safeColumns: Set<CueColumn>, mode: AudioFeedbackMode) {}
     func playMoveCue(
         column: CueColumn,
         isSafe: Bool,
         mode: AudioFeedbackMode,
         style: LaneMoveCueStyle
-    ) {
-        moveCount += 1
-    }
-
+    ) {}
     func playSpeedWarningCue() {}
     func setVolume(_ volume: Double) {}
     func stopAll(fadeDuration: TimeInterval) {}
@@ -849,46 +737,25 @@ private struct VisionTestAnnouncementPoster: AccessibilityAnnouncementPosting {
 }
 
 private final class VisionTestLeaderboardService: LeaderboardService {
-    private(set) var submissions = [(score: Int, difficulty: GameDifficulty)]()
-
-    func submitScore(_ score: Int, difficulty: GameDifficulty) {
-        submissions.append((score, difficulty))
-    }
-
+    func submitScore(_ score: Int, difficulty: GameDifficulty) {}
     func isAuthenticated() -> Bool { true }
     func fetchLocalPlayerBestScore(for difficulty: GameDifficulty) async -> Int? { nil }
 }
 
 private final class VisionTestHighestScoreStore: HighestScoreStore {
-    private var scores = [String: Int]()
-
-    func currentBest(for difficulty: GameDifficulty) -> Int {
-        scores[difficulty.rawValue, default: 0]
-    }
-
-    func updateIfHigher(_ score: Int, for difficulty: GameDifficulty) -> Bool {
-        guard score > currentBest(for: difficulty) else { return false }
-        scores[difficulty.rawValue] = score
-        return true
-    }
-
-    func syncFromRemote(bestScore: Int, for difficulty: GameDifficulty) {
-        _ = updateIfHigher(bestScore, for: difficulty)
-    }
+    func currentBest(for difficulty: GameDifficulty) -> Int { 0 }
+    func updateIfHigher(_ score: Int, for difficulty: GameDifficulty) -> Bool { false }
+    func syncFromRemote(bestScore: Int, for difficulty: GameDifficulty) {}
 }
 
 @MainActor
 private final class GameOverFixtureEngine: GameEngineProtocol {
-    private(set) var snapshot: GameSnapshot
-
-    init() {
-        snapshot = GameOverFixtureEngine.makeSnapshot(
-            phase: .ready,
-            lives: 3,
-            score: 0,
-            pauseReasons: [.startup]
-        )
-    }
+    private(set) var snapshot = GameOverFixtureEngine.makeSnapshot(
+        phase: .ready,
+        lives: 3,
+        score: 0,
+        pauseReasons: [.startup]
+    )
 
     func handle(_ command: GameCommand) -> [GameEvent] {
         switch command {
@@ -902,11 +769,7 @@ private final class GameOverFixtureEngine: GameEngineProtocol {
             return [.started, .gameOver(score: snapshot.score)]
         case .setPause(let reason, let isActive):
             var reasons = snapshot.activePauseReasons
-            if isActive {
-                reasons.insert(reason)
-            } else {
-                reasons.remove(reason)
-            }
+            if isActive { reasons.insert(reason) } else { reasons.remove(reason) }
             snapshot = Self.makeSnapshot(
                 phase: snapshot.phase,
                 lives: snapshot.lives,

@@ -12,44 +12,48 @@ struct TabletopModelPlacement: Equatable, Sendable {
     let modelOffset: SIMD3<Float>
 }
 
-/// The single source of truth for every tabletop dimension and grid transform.
+/// The single source of truth for every surface-anchored dimension and grid transform.
 struct TabletopBoardLayout: Equatable, Sendable {
     nonisolated static let standard = TabletopBoardLayout()
 
-    let boardSide: Float = 0.90
-    let volumeSize = SIMD3<Float>(1.04, 0.65, 1.04)
-    let boardHeight: Float = 0.035
-    let cellSide: Float = 0.17
+    let boardWidth: Float = 0.55
+    let boardDepth: Float = 0.75
+    let roadWidth: Float = 0.45
+    let roadDepth: Float = 0.70
+    let laneWidth: Float = 0.15
+    let rowDepth: Float = 0.14
+    let boardHeight: Float = 0.022
     let rowCount = 5
     let laneCount = 3
-    let roadHeight: Float = 0.018
-    let vergeHeight: Float = 0.008
-    let boardVerticalOffset: Float = -0.12
+    let roadHeight: Float = 0.012
+    let vergeHeight: Float = 0.007
 
-    var roadWidth: Float { Float(laneCount) * cellSide }
-    var roadDepth: Float { Float(rowCount) * cellSide }
-    var sideVergeWidth: Float { (boardSide - roadWidth) / 2 }
-    var endVergeDepth: Float { (boardSide - roadDepth) / 2 }
-    var boardCenterY: Float { -boardHeight / 2 }
-    var roadCenterY: Float { roadHeight / 2 }
-    var roadTopY: Float { roadHeight }
-    var vergeCenterY: Float { vergeHeight / 2 }
+    var sideVergeWidth: Float { (boardWidth - roadWidth) / 2 }
+    var endVergeDepth: Float { (boardDepth - roadDepth) / 2 }
+    var boardCenterY: Float { boardHeight / 2 }
+    var roadCenterY: Float { boardHeight + roadHeight / 2 }
+    var roadTopY: Float { boardHeight + roadHeight }
+    var vergeCenterY: Float { boardHeight + vergeHeight / 2 }
     var roadOverlayY: Float { roadTopY + 0.0008 }
     var safetyMarkerY: Float { roadTopY + 0.0012 }
-    var carMaximumWidth: Float { cellSide * 0.58 }
-    var carMaximumDepth: Float { cellSide * 0.64 }
-    var laneTargetSize: SIMD3<Float> { SIMD3(cellSide, 0.045, roadDepth) }
+    var carMaximumWidth: Float { laneWidth * 0.70 }
+    var carMaximumDepth: Float { rowDepth * 0.80 }
+    var laneTargetSize: SIMD3<Float> { SIMD3(laneWidth, 0.05, roadDepth) }
+    var minimumSurfaceBounds: SIMD2<Float> { SIMD2(boardWidth, boardDepth) }
+    var hudPosition: SIMD3<Float> {
+        SIMD3(0, roadTopY + 0.23, -boardDepth / 2 - 0.045)
+    }
 
     var laneDividerPositions: [Float] {
-        (1..<laneCount).map { -roadWidth / 2 + Float($0) * cellSide }
+        (1..<laneCount).map { -roadWidth / 2 + Float($0) * laneWidth }
     }
 
     func laneCenterX(_ column: Int) -> Float {
-        centeredCoordinate(index: column, count: laneCount)
+        centeredCoordinate(index: column, count: laneCount, spacing: laneWidth)
     }
 
     func rowCenterZ(_ row: Int) -> Float {
-        centeredCoordinate(index: row, count: rowCount)
+        centeredCoordinate(index: row, count: rowCount, spacing: rowDepth)
     }
 
     func cellCenter(row: Int, column: Int, y: Float = 0) -> SIMD3<Float> {
@@ -94,8 +98,8 @@ struct TabletopBoardLayout: Equatable, Sendable {
         cellCenter(row: row, column: column, y: roadTopY)
     }
 
-    private func centeredCoordinate(index: Int, count: Int) -> Float {
-        (Float(index) - Float(count - 1) / 2) * cellSide
+    private func centeredCoordinate(index: Int, count: Int, spacing: Float) -> Float {
+        (Float(index) - Float(count - 1) / 2) * spacing
     }
 
     private func allFinite(_ value: SIMD3<Float>) -> Bool {

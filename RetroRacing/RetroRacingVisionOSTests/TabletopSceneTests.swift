@@ -6,29 +6,31 @@
 //
 
 import RealityKit
+import SwiftUI
 import XCTest
 @testable import RetroRacingShared
 @testable import RetroRacingVisionOS
 
 @MainActor
 final class TabletopSceneTests: XCTestCase {
-    func testStandardLayoutFormsSquareBoardWithSymmetricVergesAndCenteredGrid() {
+    func testStandardLayoutFormsCompactRectangleWithExactRoadAndCenteredGrid() {
         let layout = TabletopBoardLayout.standard
 
-        XCTAssertEqual(layout.boardSide, 0.90, accuracy: 0.0001)
-        XCTAssertEqual(layout.volumeSize, SIMD3<Float>(1.04, 0.65, 1.04))
-        XCTAssertEqual(layout.roadWidth, 0.51, accuracy: 0.0001)
-        XCTAssertEqual(layout.roadDepth, 0.85, accuracy: 0.0001)
-        XCTAssertEqual(layout.sideVergeWidth, 0.195, accuracy: 0.0001)
+        XCTAssertEqual(layout.boardWidth, 0.55, accuracy: 0.0001)
+        XCTAssertEqual(layout.boardDepth, 0.75, accuracy: 0.0001)
+        XCTAssertEqual(layout.roadWidth, 0.45, accuracy: 0.0001)
+        XCTAssertEqual(layout.roadDepth, 0.70, accuracy: 0.0001)
+        XCTAssertEqual(layout.sideVergeWidth, 0.05, accuracy: 0.0001)
         XCTAssertEqual(layout.endVergeDepth, 0.025, accuracy: 0.0001)
-        assertEqual(layout.laneDividerPositions, [-0.085, 0.085])
-        assertEqual((0..<layout.laneCount).map(layout.laneCenterX), [-0.17, 0, 0.17])
+        assertEqual(layout.laneDividerPositions, [-0.075, 0.075])
+        assertEqual((0..<layout.laneCount).map(layout.laneCenterX), [-0.15, 0, 0.15])
         assertEqual(
             (0..<layout.rowCount).map(layout.rowCenterZ),
-            [-0.34, -0.17, 0, 0.17, 0.34]
+            [-0.28, -0.14, 0, 0.14, 0.28]
         )
-        XCTAssertEqual(layout.carMaximumWidth, layout.cellSide * 0.58, accuracy: 0.0001)
-        XCTAssertEqual(layout.carMaximumDepth, layout.cellSide * 0.64, accuracy: 0.0001)
+        XCTAssertEqual(layout.carMaximumWidth, layout.laneWidth * 0.70, accuracy: 0.0001)
+        XCTAssertEqual(layout.carMaximumDepth, layout.rowDepth * 0.80, accuracy: 0.0001)
+        XCTAssertEqual(layout.minimumSurfaceBounds, SIMD2<Float>(0.55, 0.75))
     }
 
     func testModelBoundsPlacementFitsAndCentersVisibleGeometryInCell() throws {
@@ -62,15 +64,21 @@ final class TabletopSceneTests: XCTestCase {
             visualStyle: .standard
         )
 
-        XCTAssertEqual(layout.laneTargetSize.x, layout.cellSide, accuracy: 0.0001)
+        XCTAssertEqual(layout.laneTargetSize.x, layout.laneWidth, accuracy: 0.0001)
         XCTAssertEqual(layout.laneTargetSize.z, layout.roadDepth, accuracy: 0.0001)
         for (lane, target) in board.laneTargets.enumerated() {
             let center = layout.laneTargetCenter(lane)
             let bounds = target.visualBounds(relativeTo: target)
-            XCTAssertGreaterThanOrEqual(center.x - layout.laneTargetSize.x / 2, -layout.roadWidth / 2)
-            XCTAssertLessThanOrEqual(center.x + layout.laneTargetSize.x / 2, layout.roadWidth / 2)
+            XCTAssertGreaterThanOrEqual(
+                center.x - layout.laneTargetSize.x / 2,
+                -layout.roadWidth / 2 - 0.0001
+            )
+            XCTAssertLessThanOrEqual(
+                center.x + layout.laneTargetSize.x / 2,
+                layout.roadWidth / 2 + 0.0001
+            )
             XCTAssertEqual(target.position.y, layout.roadOverlayY, accuracy: 0.0001)
-            XCTAssertEqual(bounds.extents.x, layout.cellSide, accuracy: 0.0001)
+            XCTAssertEqual(bounds.extents.x, layout.laneWidth, accuracy: 0.0001)
             XCTAssertEqual(bounds.extents.y, 0, accuracy: 0.0001)
             XCTAssertEqual(bounds.extents.z, layout.roadDepth, accuracy: 0.0001)
             XCTAssertNotNil(target.components[CollisionComponent.self])
@@ -122,8 +130,8 @@ final class TabletopSceneTests: XCTestCase {
         }
     }
 
-    func testSceneUpdatesReusePoolsAndMapDenseTrafficToSeparateCells() {
-        let scene = makeScene(snapshot: makeSnapshot())
+    func testSceneUpdatesReusePoolsAndMapDenseTrafficToSeparateCells() throws {
+        let scene = try makeScene(snapshot: makeSnapshot())
         let rivalIdentities = scene.rivals.map(ObjectIdentifier.init)
         let laneTargetIdentities = scene.laneTargets.map(ObjectIdentifier.init)
         let impactIdentity = ObjectIdentifier(scene.impactBurst)
@@ -137,7 +145,7 @@ final class TabletopSceneTests: XCTestCase {
         XCTAssertEqual(scene.rivals.filter(\.isEnabled).count, 14)
         XCTAssertEqual(
             scene.rivals[1].position.x - scene.rivals[0].position.x,
-            scene.layout.cellSide,
+            scene.layout.laneWidth,
             accuracy: 0.0001
         )
         XCTAssertEqual(
@@ -147,8 +155,8 @@ final class TabletopSceneTests: XCTestCase {
         XCTAssertEqual(scene.rivals[0].scale, SIMD3<Float>(repeating: 1))
     }
 
-    func testSafetyMarkersReuseEntitiesAndFollowSnapshotRows() {
-        let scene = makeScene(snapshot: makeSnapshot(safetyMarkerRows: [0, 2]))
+    func testSafetyMarkersReuseEntitiesAndFollowSnapshotRows() throws {
+        let scene = try makeScene(snapshot: makeSnapshot(safetyMarkerRows: [0, 2]))
         let identities = scene.safetyMarkers.map(ObjectIdentifier.init)
 
         scene.update(snapshot: makeSnapshot(safetyMarkerRows: [4]))
@@ -167,51 +175,111 @@ final class TabletopSceneTests: XCTestCase {
         XCTAssertFalse(scene.safetyMarkers[1].isEnabled)
     }
 
-    func testCollisionEffectHidesPlayerPulsesThenClearsAfterRecovery() {
-        let scene = makeScene(snapshot: makeSnapshot())
+    func testCollisionEffectHidesNormalCarsAndPulsesBothCollisionClones() throws {
+        let scene = try makeScene(snapshot: makeSnapshot())
 
         scene.update(snapshot: makeSnapshot(phase: .collision))
         XCTAssertFalse(scene.player.isEnabled)
-        XCTAssertTrue(scene.impactBurst.isEnabled)
+        XCTAssertTrue(scene.collisionPose.isEnabled)
+        XCTAssertTrue(scene.collisionPlayer.isEnabled)
+        XCTAssertTrue(scene.collisionRival.isEnabled)
         XCTAssertTrue(scene.isImpactPulsing)
 
         scene.update(snapshot: makeSnapshot(phase: .gameOver, lives: 0))
         XCTAssertFalse(scene.player.isEnabled)
-        XCTAssertTrue(scene.impactBurst.isEnabled)
+        XCTAssertTrue(scene.collisionPose.isEnabled)
         XCTAssertFalse(scene.isImpactPulsing)
 
         scene.update(snapshot: makeSnapshot())
         XCTAssertTrue(scene.player.isEnabled)
-        XCTAssertFalse(scene.impactBurst.isEnabled)
+        XCTAssertFalse(scene.collisionPose.isEnabled)
         XCTAssertFalse(scene.isImpactPulsing)
     }
 
-    func testReduceMotionKeepsCollisionBurstSteadyWithDistinctGeometry() {
+    func testReduceMotionKeepsCollisionPoseSteadyWithDistinctGeometry() throws {
         let style = TabletopSceneVisualStyle(
             increasedContrast: true,
             differentiateWithoutColor: true,
             reduceMotion: true
         )
-        let scene = makeScene(snapshot: makeSnapshot(), visualStyle: style)
+        let scene = try makeScene(snapshot: makeSnapshot(), visualStyle: style)
 
         scene.update(snapshot: makeSnapshot(phase: .collision))
 
         XCTAssertFalse(scene.player.isEnabled)
-        XCTAssertTrue(scene.impactBurst.isEnabled)
+        XCTAssertTrue(scene.collisionPose.isEnabled)
         XCTAssertFalse(scene.isImpactPulsing)
         XCTAssertGreaterThan(scene.impactBurst.children.count, 1)
         XCTAssertEqual(scene.visualStyle, style)
     }
 
+    func testBoardUndersideSitsOnSurfaceAndProvidesNeutralKeyLight() throws {
+        let scene = try makeScene(snapshot: makeSnapshot())
+        let base = try XCTUnwrap(scene.root.findEntity(named: "tabletop-base"))
+        let keyLight = try XCTUnwrap(scene.root.findEntity(named: "tabletop-key-light"))
+        let baseBounds = base.visualBounds(relativeTo: scene.root)
+
+        XCTAssertEqual(scene.root.position.y, 0, accuracy: 0.0001)
+        XCTAssertEqual(baseBounds.min.y, 0, accuracy: 0.0001)
+        XCTAssertNotNil(keyLight.components[DirectionalLightComponent.self])
+        XCTAssertNil(keyLight.components[DynamicLightShadowComponent.self])
+    }
+
+    func testHUDAttachmentReadinessIsExplicit() throws {
+        let scene = try makeScene(snapshot: makeSnapshot())
+        XCTAssertFalse(scene.isHUDReady)
+
+        scene.installHUD(Text("HUD"))
+
+        XCTAssertTrue(scene.isHUDReady)
+        XCTAssertNotNil(scene.hudAttachment?.components[ViewAttachmentComponent.self])
+        XCTAssertEqual(scene.hudAttachment?.position, scene.layout.hudPosition)
+    }
+
+    func testInvalidBoundsThrowTypedFailureInsteadOfScaleOneFallback() {
+        let empty = Entity()
+
+        XCTAssertThrowsError(
+            try TabletopScene(
+                canonicalPlayerCar: empty,
+                canonicalRivalCar: empty,
+                snapshot: makeSnapshot()
+            )
+        ) { error in
+            XCTAssertEqual(error as? TabletopSceneError, .invalidModelBounds(.player))
+        }
+    }
+
+    func testLaneTargetsDisableUntilSpatialConfirmationAllowsInput() throws {
+        let scene = try makeScene(snapshot: makeSnapshot())
+
+        scene.update(snapshot: makeSnapshot(), inputEnabled: false)
+        XCTAssertTrue(scene.laneTargets.allSatisfy { $0.isEnabled == false })
+
+        scene.update(snapshot: makeSnapshot(), inputEnabled: true)
+        XCTAssertTrue(scene.laneTargets.allSatisfy(\.isEnabled))
+    }
+
+    func testLaneTargetsReceiveNativeGestureComponents() throws {
+        let scene = try makeScene(snapshot: makeSnapshot())
+        TabletopLaneGestureInstaller.install(in: scene) { _ in }
+
+        XCTAssertTrue(
+            scene.laneTargets.allSatisfy {
+                $0.components[GestureComponent.self] != nil
+            }
+        )
+    }
+
     private func makeScene(
         snapshot: GameSnapshot,
         visualStyle: TabletopSceneVisualStyle = .standard
-    ) -> TabletopScene {
+    ) throws -> TabletopScene {
         let car = ModelEntity(
             mesh: .generateBox(size: SIMD3<Float>(0.12, 0.07, 0.20)),
             materials: [SimpleMaterial(color: .red, isMetallic: false)]
         )
-        return TabletopScene(
+        return try TabletopScene(
             canonicalPlayerCar: car,
             canonicalRivalCar: car,
             snapshot: snapshot,

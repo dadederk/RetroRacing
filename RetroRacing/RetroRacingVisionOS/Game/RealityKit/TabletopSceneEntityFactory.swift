@@ -32,6 +32,7 @@ enum TabletopSceneEntityFactory {
         makeLaneDividers(layout: layout, visualStyle: visualStyle).forEach {
             root.addChild($0)
         }
+        root.addChild(makeKeyLight())
 
         let laneTargets = (0..<layout.laneCount).map {
             makeLaneTarget(lane: $0, layout: layout)
@@ -66,7 +67,7 @@ enum TabletopSceneEntityFactory {
         )
         let base = ModelEntity(
             mesh: .generateBox(
-                size: SIMD3(layout.boardSide, layout.boardHeight, layout.boardSide),
+                size: SIMD3(layout.boardWidth, layout.boardHeight, layout.boardDepth),
                 cornerRadius: 0.026
             ),
             materials: [material]
@@ -110,7 +111,7 @@ enum TabletopSceneEntityFactory {
             roughness: 0.92,
             isMetallic: false
         )
-        return [-1 as Float, 1].map { direction in
+        let sideVerges = [-1 as Float, 1].map { direction in
             let verge = ModelEntity(
                 mesh: .generateBox(
                     size: SIMD3(layout.sideVergeWidth, layout.vergeHeight, layout.roadDepth),
@@ -126,6 +127,23 @@ enum TabletopSceneEntityFactory {
             )
             return verge
         }
+        let endVerges = [-1 as Float, 1].map { direction in
+            let verge = ModelEntity(
+                mesh: .generateBox(
+                    size: SIMD3(layout.boardWidth, layout.vergeHeight, layout.endVergeDepth),
+                    cornerRadius: 0.004
+                ),
+                materials: [material]
+            )
+            verge.name = direction < 0 ? "tabletop-far-verge" : "tabletop-near-verge"
+            verge.position = SIMD3(
+                0,
+                layout.vergeCenterY,
+                direction * (layout.roadDepth + layout.endVergeDepth) / 2
+            )
+            return verge
+        }
+        return sideVerges + endVerges
     }
 
     private static func makeLaneDividers(
@@ -155,7 +173,7 @@ enum TabletopSceneEntityFactory {
     ) -> ModelEntity {
         let size = layout.laneTargetSize
         let target = ModelEntity(
-            mesh: .generatePlane(width: layout.cellSide, depth: layout.roadDepth),
+            mesh: .generatePlane(width: layout.laneWidth, depth: layout.roadDepth),
             materials: [UnlitMaterial(color: UIColor.white.withAlphaComponent(0.001))]
         )
         target.name = "tabletop-lane-target-\(lane)"
@@ -172,6 +190,21 @@ enum TabletopSceneEntityFactory {
         accessibility.systemActions = [.activate]
         target.components.set(accessibility)
         return target
+    }
+
+    private static func makeKeyLight() -> DirectionalLight {
+        let light = DirectionalLight()
+        light.name = "tabletop-key-light"
+        light.light = DirectionalLightComponent(color: .white, intensity: 2_000)
+        light.shadow = nil
+        light.orientation = simd_quatf(
+            angle: -.pi / 3,
+            axis: SIMD3<Float>(1, 0, 0)
+        ) * simd_quatf(
+            angle: -.pi / 5,
+            axis: SIMD3<Float>(0, 1, 0)
+        )
+        return light
     }
 
     private static func makeSafetyMarker(

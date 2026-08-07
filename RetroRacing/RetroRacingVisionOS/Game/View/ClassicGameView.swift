@@ -34,7 +34,7 @@ struct ClassicGameView: View {
                     VStack(spacing: 18) {
                         VisionGameHUD(snapshot: session.snapshot)
                         raceSquare
-                        VisionGameOverPanel(isTabletop: false)
+                        VisionGameOverPanel()
                     }
                     .padding(.horizontal, 24)
                     .padding(.top, 24)

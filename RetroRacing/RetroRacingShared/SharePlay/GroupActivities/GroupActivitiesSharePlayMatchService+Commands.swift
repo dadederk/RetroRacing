@@ -119,7 +119,8 @@ extension GroupActivitiesSharePlayMatchService {
                 .string("role", stateMachine?.localRole.rawValue)
             ]
         )
-        await hostStartRoundIfReady(difficulty: difficultyProvider())
+        let difficulty = await difficultyProvider()
+        await hostStartRoundIfReady(difficulty: difficulty)
     }
 
     func handleIncoming(_ command: SharePlayMatchCommand, generation: Int) async {

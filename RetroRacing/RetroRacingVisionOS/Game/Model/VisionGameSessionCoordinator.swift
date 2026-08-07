@@ -9,15 +9,14 @@ import Foundation
 import Observation
 import RetroRacingShared
 
-/// Owns one gameplay engine while SwiftUI moves the presentation between scenes.
+/// Owns one gameplay engine while SwiftUI moves the presentation into spatial mode.
 @MainActor
 @Observable
 final class VisionGameSessionCoordinator: RacingGameController {
     private(set) var snapshot: GameSnapshot
     private(set) var screen: VisionGameScreen = .menu
     private(set) var presentation: VisionGamePresentation = .classic
-    private(set) var presentationTransition: VisionPresentationTransition = .idle
-    private(set) var transitionFailure: VisionTransitionFailure?
+    private(set) var spatialState: VisionSpatialState = .inactive
     private(set) var focusRestorationSequence = 0
     private(set) var sharePlayUIState: SharePlayUIState = .idle
     private(set) var requiresClassicForSharePlay = false
@@ -26,8 +25,9 @@ final class VisionGameSessionCoordinator: RacingGameController {
 
     @ObservationIgnored private let engine: any GameEngineProtocol
     @ObservationIgnored private let scheduler: any GameLoopScheduling
-    @ObservationIgnored private let transitionDriver: VisionPresentationTransitionDriver
+    @ObservationIgnored private let spatialPresentationCoordinator: VisionSpatialPresentationCoordinator
     @ObservationIgnored let tabletopModelRepository: any TabletopModelRepositoryProtocol
+    @ObservationIgnored let surfaceAnchorProvider: any VisionSurfaceAnchorProviding
     @ObservationIgnored private let controllerInputSource: any GameControllerInputSource
     @ObservationIgnored private let difficultyProvider: @MainActor () -> GameDifficulty
     @ObservationIgnored private let sharePlayMatchService: any SharePlayMatchService
@@ -35,7 +35,8 @@ final class VisionGameSessionCoordinator: RacingGameController {
     @ObservationIgnored private let leaderboardService: any LeaderboardService
     @ObservationIgnored private let highestScoreStore: any HighestScoreStore
     @ObservationIgnored private let announcementPoster: any AccessibilityAnnouncementPosting
-    @ObservationIgnored private var nextTransitionID: UInt64 = 0
+    @ObservationIgnored private var nextSpatialTransitionID: UInt64 = 0
+    @ObservationIgnored private var activeSpatialTransitionID: VisionSpatialTransitionID?
     @ObservationIgnored private var activePresentations = Set<VisionGamePresentation>()
     @ObservationIgnored private var appliedSharePlayState: SharePlayMatchState = .idle
     @ObservationIgnored private var didSubmitCurrentRun = false
@@ -43,26 +44,22 @@ final class VisionGameSessionCoordinator: RacingGameController {
     init(
         engine: any GameEngineProtocol,
         scheduler: any GameLoopScheduling,
-        delayScheduler: any VisionDelayScheduling,
-        windowRouter: any VisionWindowRouting,
+        spatialPresentationCoordinator: VisionSpatialPresentationCoordinator,
         tabletopModelRepository: any TabletopModelRepositoryProtocol,
+        surfaceAnchorProvider: any VisionSurfaceAnchorProviding,
         controllerInputSource: any GameControllerInputSource,
         difficultyProvider: @escaping @MainActor () -> GameDifficulty,
         sharePlayMatchService: any SharePlayMatchService,
         audioFeedbackCoordinator: GameplayAudioFeedbackCoordinator,
         leaderboardService: any LeaderboardService,
         highestScoreStore: any HighestScoreStore,
-        announcementPoster: any AccessibilityAnnouncementPosting,
-        transitionTimeout: Duration = .seconds(2)
+        announcementPoster: any AccessibilityAnnouncementPosting
     ) {
         self.engine = engine
         self.scheduler = scheduler
-        self.transitionDriver = VisionPresentationTransitionDriver(
-            delayScheduler: delayScheduler,
-            windowRouter: windowRouter,
-            transitionTimeout: transitionTimeout
-        )
+        self.spatialPresentationCoordinator = spatialPresentationCoordinator
         self.tabletopModelRepository = tabletopModelRepository
+        self.surfaceAnchorProvider = surfaceAnchorProvider
         self.controllerInputSource = controllerInputSource
         self.difficultyProvider = difficultyProvider
         self.sharePlayMatchService = sharePlayMatchService
@@ -75,7 +72,19 @@ final class VisionGameSessionCoordinator: RacingGameController {
 
     var isPlaying: Bool { screen == .playing || screen == .gameOver }
     var isUserPaused: Bool { snapshot.activePauseReasons.contains(.user) }
-    var windowRoutingStrategy: VisionWindowRoutingStrategy { transitionDriver.strategy }
+    var spatialFailure: VisionSpatialFailure? {
+        guard case .failure(let failure) = spatialState else { return nil }
+        return failure
+    }
+    var canEnterSpatialMode: Bool {
+        isPlaying
+            && presentation == .classic
+            && isSharePlayActive == false
+            && (spatialState == .inactive || spatialFailure != nil)
+    }
+    var isSpatialLaneInputEnabled: Bool {
+        spatialState == .active && screen == .playing && snapshot.phase == .running
+    }
     var isSharePlayActive: Bool { sharePlayUIState.state.isActive }
     var sharePlayRemoteScore: Int? {
         guard case .inRound(_, _, let remoteScore, _) = sharePlayUIState.state else { return nil }
@@ -91,11 +100,15 @@ final class VisionGameSessionCoordinator: RacingGameController {
             return true
         case .idle, .waitingForFriend, .countdown, .inRound, .waitingAfterLocalLoss:
             return false
+        @unknown default:
+            return false
         }
     }
 
     func play() {
-        transitionDriver.reset()
+        spatialPresentationCoordinator.cancel()
+        activeSpatialTransitionID = nil
+        spatialState = .inactive
         screen = .playing
         startSoloRun(command: .start)
     }
@@ -115,13 +128,14 @@ final class VisionGameSessionCoordinator: RacingGameController {
                 await sharePlayMatchService.leaveSession()
             }
         }
-        transitionDriver.reset()
+        spatialPresentationCoordinator.cancel()
+        activeSpatialTransitionID = nil
         scheduler.stop()
         audioFeedbackCoordinator.stopAll()
         apply(.finish)
         screen = .menu
         presentation = .classic
-        presentationTransition = .idle
+        spatialState = .inactive
         requiresClassicForSharePlay = false
         gameOverScoreSummary = nil
     }
@@ -164,82 +178,136 @@ final class VisionGameSessionCoordinator: RacingGameController {
     }
 
     @discardableResult
-    func beginPresentationTransition(
-        to destination: VisionGamePresentation,
-        using actions: VisionWindowActions
-    ) -> Bool {
-        guard isPlaying,
-              presentation != destination,
-              presentationTransition == .idle else {
-            return false
-        }
+    func beginSpatialPresentation(using actions: VisionSpatialActions) -> Bool {
+        guard canEnterSpatialMode else { return false }
 
-        nextTransitionID &+= 1
-        let request = VisionPresentationRequest(
-            id: VisionPresentationTransitionID(rawValue: nextTransitionID),
-            source: presentation,
-            destination: destination
-        )
-        presentationTransition = .moving(request)
-        transitionFailure = nil
+        nextSpatialTransitionID &+= 1
+        let transitionID = VisionSpatialTransitionID(rawValue: nextSpatialTransitionID)
+        activeSpatialTransitionID = transitionID
+        spatialState = .preflighting
         apply(.setPause(reason: .presentationTransition, isActive: true))
-        transitionDriver.begin(request, using: actions) { [weak self] request, failure, error in
-            self?.recover(request: request, failure: failure, underlyingError: error)
-        }
+        apply(.setPause(reason: .spatialPlacement, isActive: true))
+        spatialPresentationCoordinator.begin(
+            transitionID: transitionID,
+            using: actions,
+            onOpening: { [weak self] transitionID in
+                self?.spatialPreflightDidComplete(transitionID: transitionID)
+            },
+            onOpened: { [weak self] transitionID in
+                self?.immersiveSpaceDidOpen(transitionID: transitionID)
+            },
+            onFailure: { [weak self] transitionID, failure, error in
+                self?.recoverSpatialPresentation(
+                    transitionID: transitionID,
+                    failure: failure,
+                    underlyingError: error
+                )
+            }
+        )
         return true
     }
 
-    func presentationDidBecomeReady(
-        _ destination: VisionGamePresentation,
-        transitionID: VisionPresentationTransitionID,
-        using actions: VisionWindowActions
+    func spatialAnchorDidChange(
+        isAnchored: Bool,
+        transitionID: VisionSpatialTransitionID,
+        using actions: VisionSpatialActions
     ) {
-        guard case .moving(let request) = presentationTransition,
-              request.id == transitionID,
-              request.destination == destination else {
-            return
+        guard activeSpatialTransitionID == transitionID else { return }
+        if isAnchored {
+            surfaceDidBecomeReady(transitionID: transitionID, using: actions)
+        } else {
+            surfaceWasLost(transitionID: transitionID, using: actions)
         }
+    }
 
-        transitionDriver.complete(request, using: actions)
-        presentation = destination
-        presentationTransition = .idle
-        apply(.setPause(reason: .presentationTransition, isActive: false))
+    func spatialContentDidFail(
+        transitionID: VisionSpatialTransitionID,
+        underlyingError: Error,
+        using actions: VisionSpatialActions
+    ) {
+        guard activeSpatialTransitionID == transitionID else { return }
+        recoverSpatialPresentation(
+            transitionID: transitionID,
+            failure: .modelUnavailable,
+            underlyingError: underlyingError
+        )
+        spatialPresentationCoordinator.dismissImmersiveSpace(using: actions)
+    }
+
+    func confirmSpatialPlacement() {
+        guard spatialState == .awaitingConfirmation else { return }
+        spatialState = .active
+        apply(.setPause(reason: .spatialPlacement, isActive: false))
         focusRestorationSequence &+= 1
-        if destination == .classic, requiresClassicForSharePlay {
-            completeSharePlayClassicHandoff()
-        }
+        refreshScheduler()
     }
 
-    func destinationDidFail(
-        transitionID: VisionPresentationTransitionID,
-        failure: VisionTransitionFailure,
-        underlyingError: Error? = nil
-    ) {
-        guard case .moving(let request) = presentationTransition,
-              request.id == transitionID else {
-            return
-        }
-        recover(request: request, failure: failure, underlyingError: underlyingError)
-    }
-
-    func tabletopDidDisappear(using actions: VisionWindowActions) {
-        if case .moving(let request) = presentationTransition {
-            guard request.destination != .tabletop else { return }
-            return
-        }
-        guard presentation == .tabletop else { return }
-
+    func cancelSpatialPresentation(using actions: VisionSpatialActions) {
+        guard spatialState != .inactive else { return }
+        let shouldDismissImmersiveSpace = spatialState.isSpatialContentPresented
+        actions.openWindow(VisionSceneID.classic)
         presentation = .classic
+        activeSpatialTransitionID = nil
+        spatialState = .inactive
         apply(.setPause(reason: .presentationTransition, isActive: false))
+        apply(.setPause(reason: .spatialPlacement, isActive: false))
         focusRestorationSequence &+= 1
+        if shouldDismissImmersiveSpace {
+            spatialPresentationCoordinator.dismissImmersiveSpace(using: actions)
+        } else {
+            spatialPresentationCoordinator.cancel()
+        }
+        refreshScheduler()
         if requiresClassicForSharePlay {
             completeSharePlayClassicHandoff()
         }
-        if transitionDriver.strategy == .explicit {
-            Task {
-                try? await actions.open(VisionSceneID.classic)
-            }
+    }
+
+    @discardableResult
+    func beginReturnToClassic(using actions: VisionSpatialActions) -> Bool {
+        guard spatialState.isSpatialContentPresented,
+              spatialState != .returning else {
+            return false
         }
+        spatialState = .returning
+        apply(.setPause(reason: .presentationTransition, isActive: true))
+        apply(.setPause(reason: .spatialPlacement, isActive: true))
+        actions.openWindow(VisionSceneID.classic)
+        return true
+    }
+
+    func classicDidBecomeReady(using actions: VisionSpatialActions) {
+        guard spatialState == .returning else { return }
+        presentation = .classic
+        activeSpatialTransitionID = nil
+        spatialState = .inactive
+        apply(.setPause(reason: .presentationTransition, isActive: false))
+        apply(.setPause(reason: .spatialPlacement, isActive: false))
+        focusRestorationSequence &+= 1
+        spatialPresentationCoordinator.dismissImmersiveSpace(using: actions)
+        refreshScheduler()
+        if requiresClassicForSharePlay {
+            completeSharePlayClassicHandoff()
+        }
+    }
+
+    func spatialSceneDidDisappear(using actions: VisionSpatialActions) {
+        guard spatialState != .inactive, spatialState != .returning else { return }
+        recoverSpatialPresentation(
+            transitionID: activeSpatialTransitionID,
+            failure: .systemDismissed,
+            underlyingError: nil
+        )
+        actions.openWindow(VisionSceneID.classic)
+    }
+
+    func spatialDidEnterBackground(using actions: VisionSpatialActions) {
+        guard spatialState.isSpatialContentPresented else { return }
+        _ = beginReturnToClassic(using: actions)
+    }
+
+    func currentSpatialTransitionID() -> VisionSpatialTransitionID? {
+        activeSpatialTransitionID
     }
 
     func setPresentationActive(_ presentation: VisionGamePresentation, isActive: Bool) {
@@ -261,8 +329,9 @@ final class VisionGameSessionCoordinator: RacingGameController {
         refreshScheduler()
     }
 
-    func clearTransitionFailure() {
-        transitionFailure = nil
+    func clearSpatialFailure() {
+        guard spatialFailure != nil else { return }
+        spatialState = .inactive
     }
 
     func clearSharePlayActivationFailure() {
@@ -286,9 +355,7 @@ final class VisionGameSessionCoordinator: RacingGameController {
 
     func observeSharePlaySessions() async {
         await sharePlayMatchService.setStateChangeHandler { [weak self] uiState in
-            await MainActor.run {
-                self?.applySharePlayState(uiState)
-            }
+            await self?.applySharePlayState(uiState)
         }
         await sharePlayMatchService.observeIncomingSessions()
     }
@@ -306,14 +373,6 @@ final class VisionGameSessionCoordinator: RacingGameController {
 
     func playSharePlayCountdownCue(displayValue: Int) {
         audioFeedbackCoordinator.playSharePlayCountdown(displayValue: displayValue)
-    }
-
-    func currentTransitionID(for destination: VisionGamePresentation) -> VisionPresentationTransitionID? {
-        guard case .moving(let request) = presentationTransition,
-              request.destination == destination else {
-            return nil
-        }
-        return request.id
     }
 
     private func tick(elapsedTime: TimeInterval) {
@@ -369,41 +428,118 @@ final class VisionGameSessionCoordinator: RacingGameController {
         }
     }
 
-    private func recover(
-        request: VisionPresentationRequest,
-        failure: VisionTransitionFailure,
-        underlyingError: Error? = nil
+    private func spatialPreflightDidComplete(transitionID: VisionSpatialTransitionID) {
+        guard activeSpatialTransitionID == transitionID,
+              spatialState == .preflighting else {
+            return
+        }
+        spatialState = .opening
+    }
+
+    private func immersiveSpaceDidOpen(transitionID: VisionSpatialTransitionID) {
+        guard activeSpatialTransitionID == transitionID,
+              spatialState == .opening else {
+            return
+        }
+        spatialState = .searchingSurface(showTroubleshooting: false)
+        beginSurfaceTroubleshootingGuidance(transitionID: transitionID)
+    }
+
+    private func beginSurfaceTroubleshootingGuidance(
+        transitionID: VisionSpatialTransitionID
     ) {
-        guard presentationTransition == .moving(request) else { return }
-        transitionDriver.cancel(request)
-        presentation = request.source
-        presentationTransition = .idle
-        transitionFailure = failure
-        apply(.setPause(reason: .presentationTransition, isActive: false))
-        focusRestorationSequence &+= 1
-        logTransitionFailure(failure, request: request, underlyingError: underlyingError)
-        if request.destination == .classic, requiresClassicForSharePlay {
-            failSharePlayClassicHandoff()
+        spatialPresentationCoordinator.beginSurfaceSearchGuidance(
+            transitionID: transitionID
+        ) { [weak self] transitionID in
+            guard let self, self.activeSpatialTransitionID == transitionID else { return }
+            switch self.spatialState {
+            case .searchingSurface:
+                self.spatialState = .searchingSurface(showTroubleshooting: true)
+            case .recoveringSurface:
+                self.spatialState = .recoveringSurface(showTroubleshooting: true)
+            case .inactive, .preflighting, .opening, .awaitingConfirmation,
+                 .active, .returning, .failure:
+                break
+            }
         }
     }
 
-    private func logTransitionFailure(
-        _ failure: VisionTransitionFailure,
-        request: VisionPresentationRequest,
+    private func surfaceDidBecomeReady(
+        transitionID: VisionSpatialTransitionID,
+        using actions: VisionSpatialActions
+    ) {
+        switch spatialState {
+        case .searchingSurface, .recoveringSurface:
+            break
+        case .inactive, .preflighting, .opening, .awaitingConfirmation,
+             .active, .returning, .failure:
+            return
+        }
+        spatialPresentationCoordinator.surfaceWasFound(transitionID: transitionID)
+        spatialState = .awaitingConfirmation
+        presentation = .spatial
+        apply(.setPause(reason: .presentationTransition, isActive: false))
+        actions.dismissWindow(VisionSceneID.classic)
+        focusRestorationSequence &+= 1
+    }
+
+    private func surfaceWasLost(
+        transitionID: VisionSpatialTransitionID,
+        using actions: VisionSpatialActions
+    ) {
+        guard spatialState == .awaitingConfirmation || spatialState == .active else { return }
+        apply(.setPause(reason: .spatialPlacement, isActive: true))
+        presentation = .classic
+        spatialState = .recoveringSurface(showTroubleshooting: false)
+        actions.openWindow(VisionSceneID.classic)
+        beginSurfaceTroubleshootingGuidance(transitionID: transitionID)
+        focusRestorationSequence &+= 1
+    }
+
+    private func recoverSpatialPresentation(
+        transitionID: VisionSpatialTransitionID?,
+        failure: VisionSpatialFailure,
+        underlyingError: Error?
+    ) {
+        if let transitionID, activeSpatialTransitionID != transitionID { return }
+        let failedTransitionID = activeSpatialTransitionID
+        spatialPresentationCoordinator.cancel()
+        activeSpatialTransitionID = nil
+        presentation = .classic
+        spatialState = .failure(failure)
+        apply(.setPause(reason: .presentationTransition, isActive: false))
+        apply(.setPause(reason: .spatialPlacement, isActive: false))
+        focusRestorationSequence &+= 1
+        logSpatialFailure(
+            failure,
+            transitionID: failedTransitionID,
+            underlyingError: underlyingError
+        )
+        refreshScheduler()
+        if requiresClassicForSharePlay {
+            completeSharePlayClassicHandoff()
+        }
+    }
+
+    private func logSpatialFailure(
+        _ failure: VisionSpatialFailure,
+        transitionID: VisionSpatialTransitionID?,
         underlyingError: Error?
     ) {
         var fields: [AppLog.Field] = [
             .reason(failure.rawValue),
-            .string("source", String(describing: request.source)),
-            .string("destination", String(describing: request.destination)),
-            .int64("transitionID", Int64(request.id.rawValue))
+            .string("source", "classic"),
+            .string("destination", "spatial")
         ]
+        if let transitionID {
+            fields.append(.int64("transitionID", Int64(transitionID.rawValue)))
+        }
         if let underlyingError {
             fields.append(contentsOf: AppLog.Field.error(underlyingError))
         }
         AppLog.error(
             AppLog.game + AppLog.lifecycle,
-            "VISION_PRESENTATION_TRANSITION",
+            "VISION_SPATIAL_PRESENTATION",
             outcome: .failed,
             fields: fields
         )
@@ -485,7 +621,8 @@ final class VisionGameSessionCoordinator: RacingGameController {
         let previousState = sharePlayUIState.state
         sharePlayUIState = uiState
 
-        if uiState.state.isActive, presentation != .classic {
+        if uiState.state.isActive,
+           presentation != .classic || spatialState.isSpatialContentPresented {
             requiresClassicForSharePlay = true
             apply(.setPause(reason: .sharePlay, isActive: true))
             announceSharePlayStateChangeIfNeeded(from: previousState, to: uiState.state)
@@ -534,6 +671,10 @@ final class VisionGameSessionCoordinator: RacingGameController {
         case .idle:
             apply(.setPause(reason: .sharePlay, isActive: false))
             audioFeedbackCoordinator.resetSharePlayCountdown()
+        @unknown default:
+            screen = .playing
+            apply(.setPause(reason: .sharePlay, isActive: true))
+            scheduler.stop()
         }
     }
 
@@ -607,6 +748,8 @@ final class VisionGameSessionCoordinator: RacingGameController {
                 : GameLocalizedStrings.string("shareplay_announcement_session_ended")
         case .idle, .retryWaiting, .retryTimedOut:
             announcement = nil
+        @unknown default:
+            announcement = nil
         }
         guard let announcement else { return }
         announcementPoster.postAnnouncement(announcement, priority: .default)
@@ -635,6 +778,8 @@ final class VisionGameSessionCoordinator: RacingGameController {
                 localScore,
                 opponentScore
             )
+        @unknown default:
+            return GameLocalizedStrings.string("shareplay_announcement_session_ended")
         }
     }
 }

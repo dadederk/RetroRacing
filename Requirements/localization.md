@@ -89,6 +89,8 @@
 
 When adding a key, provide all supported locales. Then run shared/universal unit tests.
 
+visionOS spatial placement, confirmation, tracking recovery, immersive failure, and Return to 2D states use semantic catalog keys and must remain fully localized. Placement guidance must say that racing remains paused and must not imply that surface search has a timeout.
+
 SharePlay keys must stay concise, avoid em dashes, and ship real translations (not English placeholders) — see existing `shareplay_*` / `menu_play_with_friends_*` keys in the catalog.
 
 ## References

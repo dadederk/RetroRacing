@@ -10,15 +10,11 @@ import SwiftUI
 
 struct VisionGameOverPanel: View {
     @Environment(VisionGameSessionCoordinator.self) private var session
-    @Environment(\.openWindow) private var openWindow
-    @Environment(\.dismissWindow) private var dismissWindow
-    let isTabletop: Bool
 
     var body: some View {
         VStack(spacing: 14) {
             Text(GameLocalizedStrings.string("vision_game_over"))
-                .font(.title)
-                .bold()
+                .font(.title.bold())
             Text(GameLocalizedStrings.format("score %lld", session.snapshot.score))
                 .font(.title3.monospacedDigit())
             ViewThatFits {
@@ -32,23 +28,13 @@ struct VisionGameOverPanel: View {
 
     @ViewBuilder
     private var gameOverButtons: some View {
-        Button(GameLocalizedStrings.string("restart"), systemImage: "arrow.clockwise", action: session.restart)
-            .buttonStyle(.borderedProminent)
-        Button(GameLocalizedStrings.string("finish"), action: finish)
+        Button(
+            GameLocalizedStrings.string("restart"),
+            systemImage: "arrow.clockwise",
+            action: session.restart
+        )
+        .buttonStyle(.borderedProminent)
+        Button(GameLocalizedStrings.string("finish"), action: session.finish)
             .buttonStyle(.bordered)
-    }
-
-    private func finish() {
-        session.finish()
-        guard isTabletop else { return }
-        if session.windowRoutingStrategy == .push {
-            dismissWindow(id: VisionSceneID.tabletop)
-            return
-        }
-        Task {
-            await Task.yield()
-            openWindow(id: VisionSceneID.classic)
-            dismissWindow(id: VisionSceneID.tabletop)
-        }
     }
 }

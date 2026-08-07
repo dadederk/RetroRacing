@@ -40,7 +40,7 @@ Run the relevant smallest validation after a change, and the full app validation
 - Mock through protocols rather than concrete service substitution.
 - Keep platform-agnostic behavior in `RetroRacingSharedTests`.
 - Keep app-target integration behavior in `RetroRacingUniversalTests`.
-- Keep visionOS session, presentation-handoff, and RealityKit asset integration behavior in `RetroRacingVisionOSTests`.
+- Keep visionOS spatial-state, placement/recovery coordination, presentation handoff, and RealityKit asset integration behavior in `RetroRacingVisionOSTests`. Simulator placement tests inject a fixed test-only anchor provider; shipping code must retain detected-plane placement.
 - Keep deterministic spatial-asset and simulator-resolution behavior in the Scripts package tests.
 - Add regression tests when fixing bugs in play limits, StoreKit gating, Game Center reporting, achievements, SharePlay, accessibility defaults, generated audio, runtime asset packaging, screenshot fixtures, or localization routing.
 
@@ -82,6 +82,7 @@ Keep manual QA focused on behavior that cannot be proven by unit tests:
 - StoreKit sandbox purchase, restore, refund/revocation, and App Review fresh-install path
 - real GroupActivities SharePlay transport across two devices/Macs
 - platform accessibility smoke tests with VoiceOver, Switch Control, Dynamic Type, keyboard, remote, controller, and Digital Crown
+- physical Apple Vision Pro surface placement, model visibility, HUD legibility, anchor-loss recovery, comfort, and ten-minute frame/memory stability
 - App Store screenshots and TestFlight/App Review submission flows
 
 Manual checklists belong in the relevant operational hub or feature contract, not in this general testing file.

@@ -15,7 +15,7 @@ import UIKit
 @MainActor
 struct GameViewControllerInputLifecycleTests {
     @Test
-    func testGivenPreGameMenuWhenGameViewAppearsThenControllerListenerStarts() async {
+    func testGivenPreGameMenuWhenGameViewAppearsThenControllerListenerStarts() async throws {
         // Given
         let controllerInputSource = ControllerInputSourceSpy()
         let storeKitService = StoreKitService(userDefaults: makeIsolatedUserDefaults())
@@ -38,7 +38,13 @@ struct GameViewControllerInputLifecycleTests {
         )
         .environment(storeKitService)
         let hostingController = UIHostingController(rootView: view)
-        let window = UIWindow(frame: UIScreen.main.bounds)
+        let windowScene = try #require(
+            UIApplication.shared.connectedScenes
+                .compactMap { $0 as? UIWindowScene }
+                .first
+        )
+        let window = UIWindow(windowScene: windowScene)
+        window.frame = windowScene.effectiveGeometry.coordinateSpace.bounds
         window.rootViewController = hostingController
 
         // When

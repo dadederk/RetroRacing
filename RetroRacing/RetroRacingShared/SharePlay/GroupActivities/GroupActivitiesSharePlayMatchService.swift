@@ -13,7 +13,7 @@ import Foundation
 /// This actor owns the match state machine and session runtime state, while
 /// small collaborators own local activation, notification, and timer bookkeeping.
 public actor GroupActivitiesSharePlayMatchService: SharePlayMatchService {
-    let difficultyProvider: @Sendable () -> GameDifficulty
+    let difficultyProvider: @MainActor @Sendable () -> GameDifficulty
     let trafficSeedProvider: @Sendable () -> UInt64
     let coordinator = GroupSessionCoordinator()
     let hostActivationController = GroupActivitiesSharePlayHostActivationController()
@@ -26,7 +26,7 @@ public actor GroupActivitiesSharePlayMatchService: SharePlayMatchService {
     var timerController = SharePlayMatchTimerController()
 
     public init(
-        difficultyProvider: @escaping @Sendable () -> GameDifficulty,
+        difficultyProvider: @escaping @MainActor @Sendable () -> GameDifficulty,
         trafficSeedProvider: @escaping @Sendable () -> UInt64 = { UInt64.random(in: UInt64.min...UInt64.max) }
     ) {
         self.difficultyProvider = difficultyProvider

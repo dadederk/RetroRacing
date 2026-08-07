@@ -16,7 +16,7 @@ struct TabletopSceneFactory {
         visualStyle: TabletopSceneVisualStyle = .standard
     ) async throws -> TabletopScene {
         let canonicalCars = try await modelRepository.canonicalCars()
-        return TabletopScene(
+        return try TabletopScene(
             canonicalPlayerCar: canonicalCars.player,
             canonicalRivalCar: canonicalCars.rival,
             snapshot: snapshot,
