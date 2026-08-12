@@ -91,6 +91,8 @@ USD 2.99 * 0.4497241580300946 = EUR 1.344675 target
 
 Helm's read-only plan on 2026-08-12 resolved the nearest legal decrease from EUR 2.59 to EUR 1.39. Apply this BGR correction after every broad Netflix pass; do not send the stale BGN multiplier directly to the EUR storefront and do not use `x99` when it would move away from the nearest legal point.
 
+Applied and read back on 2026-08-12: Bulgaria is live at EUR 1.39 with no upcoming schedule; the other 174 current storefront rows were preserved.
+
 Applied result on 2026-07-03:
 
 - CSV-backed Netflix PPP recorded Helm PPP metadata, updated 175 current price points, skipped no territories, left no upcoming schedule, kept United States at `USD 2.99`, and produced representative local prices including United Kingdom `GBP 1.99`, Germany `EUR 1.99`, Switzerland `CHF 2.40`, Brazil `BRL 6.99`, Türkiye `TRY 42.99`, South Africa `ZAR 26.99`, Philippines `PHP 69`, and Nigeria `NGN 990`.
