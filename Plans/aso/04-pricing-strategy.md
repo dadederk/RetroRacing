@@ -2,7 +2,7 @@
 
 Part of [ASO & growth plans](README.md). Index: [retrorapid_aso_growth_plan.md](../retrorapid_aso_growth_plan.md).
 
-Last updated: 2026-07-03
+Last updated: 2026-08-12
 **See also:** [Monetization requirements](../../Requirements/monetization.md)
 
 ---
@@ -44,7 +44,7 @@ Do not rely on Apple Equalization for known Netflix gaps when a Helm dataset cov
 3. IMF for territories still missing from Netflix and Spotify.
 4. Apple Equalization only if all three datasets miss the territory.
 
-The 2026-07-03 coverage audit found Netflix missing `CHN`, `RUS`, and `XKS`; Spotify covers `XKS`; IMF covers `CHN` and `RUS`. The three-index pass covers all 175 App Store territories.
+The 2026-07-03 coverage audit found Netflix missing `CHN`, `RUS`, and `XKS`; Spotify covers `XKS`; IMF covers `CHN` and `RUS`. The three-index pass covers all 175 App Store territories by territory code. Validate currency compatibility separately.
 
 ### Helm Execution Notes
 
@@ -80,6 +80,17 @@ For targeted fallback passes, replace the index path and territories:
 --ppp-index /Applications/Helm.app/Contents/Resources/imf-helm-dataset.csv --territory CHN --territory RUS
 ```
 
+### Bulgaria EUR transition
+
+Bulgaria adopted EUR on 2026-01-01 at `1 EUR = 1.95583 BGN`, but Helm's bundled indexes still declare BGR in BGN. Normalize Netflix's BGR multiplier before selecting the legal EUR point:
+
+```text
+0.879584 / 1.95583 = 0.4497241580300946 EUR per USD
+USD 2.99 * 0.4497241580300946 = EUR 1.344675 target
+```
+
+Helm's read-only plan on 2026-08-12 resolved the nearest legal decrease from EUR 2.59 to EUR 1.39. Apply this BGR correction after every broad Netflix pass; do not send the stale BGN multiplier directly to the EUR storefront and do not use `x99` when it would move away from the nearest legal point.
+
 Applied result on 2026-07-03:
 
 - CSV-backed Netflix PPP recorded Helm PPP metadata, updated 175 current price points, skipped no territories, left no upcoming schedule, kept United States at `USD 2.99`, and produced representative local prices including United Kingdom `GBP 1.99`, Germany `EUR 1.99`, Switzerland `CHF 2.40`, Brazil `BRL 6.99`, Türkiye `TRY 42.99`, South Africa `ZAR 26.99`, Philippines `PHP 69`, and Nigeria `NGN 990`.
@@ -113,6 +124,7 @@ Before saving in Helm:
 - Confirm no generated price exceeds the current base price.
 - Confirm lower-income markets receive meaningful reductions, not only currency equalization.
 - Confirm the Netflix-missing territories use the targeted fallback sources: `XKS` from Spotify, then `CHN` and `RUS` from IMF.
+- Confirm BGR uses the fixed BGN -> EUR normalization and resolves to EUR 1.39 at the USD 2.99 base.
 - Confirm the product remains cleared for sale after scheduling.
 
 After rollout:
