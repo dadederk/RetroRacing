@@ -30,7 +30,7 @@
 ## Platform and rollout
 
 - The gallery is available when both the injected platform configuration enables it and the rollout flag is enabled. iPhone and iPad enable the platform configuration; macOS, watchOS, tvOS, and native visionOS disable it.
-- UIKit system capability remains separate observable service state. It is refreshed after app activation and when Settings appears, but a transient or environment-specific `supportsAlternateIcons == false` does not hide the iPhone/iPad gallery or Debug toggle. It does reject an attempted system change with localized recovery copy.
+- UIKit system capability remains separate observable diagnostic state. It is refreshed after app activation, when Settings appears, and at selection time, but a transient or environment-specific `supportsAlternateIcons == false` neither hides the iPhone/iPad gallery or Debug toggle nor preflights a configured-platform request. The platform adapter's actual `setAlternateIconName` result is authoritative and failures use localized recovery copy plus structured error-domain/code logging.
 - iPhone and iPad inject `UIApplicationAppIconChanger`. macOS, watchOS, tvOS, and native visionOS inject `UnsupportedAppIconChanger` or omit the shared surface. Platform decisions belong in composition roots, not shared views or service compile conditions.
 - `DebugGameplayStorageKeys.alternateAppIconsEnabled` defaults on in Debug and respects its stored Debug override through one injected feature-flag dependency shared by the composition root, service, and Debug toggle.
 - Builds without Debug features always resolve the flag to false, even if a prior Debug build stored true.
@@ -47,15 +47,18 @@
 - A resolved free user can inspect every icon. Selecting a locked alternate opens the voluntary Unlimited Plays paywall.
 - After entitlement revocation, an installed alternate remains selected. Classic stays available; other alternate changes remain locked.
 - Selecting the current icon is a no-op. While a system request is active, repeated changes are rejected.
-- After success, refresh from `alternateIconName` and rely on Apple's confirmation. On failure, preserve the system selection and show localized recovery copy.
+- After success, refresh from `alternateIconName` and rely on Apple's confirmation. If UIKit's completion is suspended while the app is inactive, application activation or Settings re-entry reconciles the pending request against `alternateIconName`: a matching system icon completes successfully, while unchanged system state clears progress and returns localized recovery copy. Late callbacks are ignored by stable request identity.
+- On failure, preserve the system selection and show localized recovery copy.
 
 ## Gallery and accessibility
 
 - Settings places an **App Icon** disclosure row inside Theme, directly after the Style controls, when the gallery is available. It does not duplicate the entry in a standalone section.
-- The gallery mirrors the Style Gallery with a native `List` and ordered Classic, Themes, and Special Editions sections. Each option is a full-width preview button; accessibility Dynamic Type sizes switch its preview and label to a vertical layout.
+- The gallery mirrors the Style Gallery with a native `List` and ordered Classic, Themes, and Special Editions sections. Each option is a full-width preview button. Accessibility Dynamic Type sizes place the preview and state indicator together on the first line with the full-width name below, while capping the decorative preview at 180 points so more than artwork remains visible.
 - Resolved free users see the same top-of-list Unlimited Plays prompt used by the Style Gallery. They can inspect every option, and selecting a locked alternate presents the voluntary paywall. Unlimited Plays users select alternates directly.
 - Default preview exports are neutral references; the gallery does not add explanatory appearance copy above the choices.
-- Every icon is one semantic `Button` with a localized name, visual description, selected/locked/changing state, and a non-color state indicator.
+- Every icon is one semantic `Button` with a localized name, visual description, selected/locked/changing state, and a non-color state indicator. Selected and locked/checking glyphs use system pink while retaining distinct checkmark, lock, and hourglass shapes.
+- While one icon is changing, other rows retain normal contrast and focusability rather than inheriting a disabled appearance. Their accessibility value reports that another change is in progress, and service-level repeated-request suppression remains authoritative.
+- Row separators align with the list content margin rather than the preview or text column.
 - Preserve reading and focus order for VoiceOver, Voice Control, Switch Control, and Full Keyboard Access. Support Dynamic Type, Increase Contrast, and Differentiate Without Color.
 
 ## Icon Composer assets
@@ -64,12 +67,19 @@
 - Each `.icon` package has no more than four groups and references only package-local layer assets.
 - Default artwork remains recognizable in Dark, Mono, Clear Light/Dark, and Tinted Light/Dark. Tune Composer material parameters without swapping subjects or composition.
 - Pixel artwork keeps hard edges and minimal glass. Higher-resolution cars may use restrained depth. Special Editions may use slightly stronger shell material while keeping screen/label content dense.
+- Special Edition source surfaces remain full bleed at `1×` package scale so the operating-system mask defines the cartridge/handheld edge. The handheld package fill matches its cream shell instead of exposing dark corner wedges.
 - Gallery previews are `512×512` ordinary image assets exported from the Default package source.
 - `ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES` declares all eight alternates for Universal Debug and Release; Xcode generates Info.plist entries.
 
+## Diagnostics
+
+- `APP_ICON_SELECTION` records the gallery entitlement decision, `APP_ICON_CHANGE` records service/rollout state, `APP_ICON_SYSTEM_REQUEST` records UIKit's requested/reported package names and application state, and `APP_ICON_CHANGE_RECONCILIATION` records activation recovery.
+- Failed operations include a stable reason plus structured error domain, code, and description fields. Do not log user data or wallpaper/Home Screen details.
+- Capture the smallest relevant stream with `log stream --predicate 'eventMessage CONTAINS "APP_ICON_"' --level debug`.
+
 ## Testing
 
-- Shared tests cover catalog order/uniqueness, stable mappings, policy states, flag isolation, success/failure/refresh, unsupported and disabled requests, and repeated-tap suppression.
+- Shared tests cover catalog order/uniqueness, stable mappings, policy states, flag isolation, success/failure/refresh, activation reconciliation for matching and unchanged system state, unconfigured-platform and disabled requests, stale capability snapshots, and repeated-tap suppression.
 - The asset audit verifies packages, source dimensions, layer references, previews, build-setting declarations, and shared catalog mappings. Full Release audit also verifies generated `CFBundleAlternateIcons`.
 - Manual iPhone/iPad QA covers every icon and return to Classic, entitlement states, relaunch persistence, system surfaces, all adaptive appearances, representative wallpapers/tints, Dynamic Type, and assistive technologies.
 

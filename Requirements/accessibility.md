@@ -42,8 +42,8 @@
 - HUD status and SpriteKit visuals are not Voice Control tap targets.
 - Settings speed options pair Cruise, Fast, and Rapid with decorative gauges at increasing needle positions; assistive technologies use the localized text names rather than the icon names.
 - Settings Style Gallery rows are semantic buttons with localized theme descriptions. The currently selected style exposes the selected accessibility trait in addition to its visual checkmark.
-- App Icon Gallery rows are single semantic buttons with localized visual descriptions and selected, locked, checking, or changing values. Preview art and state glyphs are decorative; native button, disabled, and selected traits remain authoritative.
-- The App Icon Gallery's native list preserves Classic, Themes, and Special Editions reading order for VoiceOver, Voice Control, Switch Control, and Full Keyboard Access. Rows switch to a vertical preview-and-label layout at accessibility Dynamic Type sizes.
+- App Icon Gallery rows are single semantic buttons with localized visual descriptions and selected, locked, checking, changing, or temporarily busy values. Preview art and state glyphs are decorative; native button, disabled, and selected traits remain authoritative.
+- The App Icon Gallery's native list preserves Classic, Themes, and Special Editions reading order for VoiceOver, Voice Control, Switch Control, and Full Keyboard Access. At accessibility Dynamic Type sizes, each row places its preview and state indicator together above a full-width name and caps the decorative preview at 180 points. A changing request does not dim or remove focus from unrelated rows; only unresolved-entitlement rows use the native disabled state.
 - tvOS maps Siri Remote directional input through `onMoveCommand`.
 - macOS disables gameplay trackpad lane swipes while VoiceOver is running.
 

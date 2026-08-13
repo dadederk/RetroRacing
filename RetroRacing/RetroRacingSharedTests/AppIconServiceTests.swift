@@ -45,24 +45,45 @@ final class AppIconServiceTests: XCTestCase {
         XCTAssertNil(service.changingIconID)
     }
 
-    func testGivenUnsupportedOrDisabledServiceWhenChangingThenRequestIsRejected() async {
-        let unsupported = AppIconService(
-            changer: TestAppIconChanger(supportsAlternateIcons: false),
+    func testGivenConfiguredPlatformReportingUnsupportedWhenChangingThenSystemRequestIsAuthoritative() async throws {
+        // Given
+        let changer = TestAppIconChanger(supportsAlternateIcons: false)
+        let service = AppIconService(
+            changer: changer,
             featureFlag: enabledFeatureFlag(),
             isGalleryPlatformEnabled: true
         )
-        await XCTAssertAppIconError(.unsupported) {
-            try await unsupported.changeIcon(to: .lcd)
-        }
 
+        // When
+        try await service.changeIcon(to: .lcd)
+
+        // Then
+        XCTAssertEqual(changer.requestedNames, ["RetroRapidLCD"])
+        XCTAssertEqual(service.currentIconID, .lcd)
+        XCTAssertFalse(service.supportsAlternateIcons)
+    }
+
+    func testGivenDisabledOrUnconfiguredServiceWhenChangingThenRequestIsRejected() async {
+        // Given
         let disabled = AppIconService(
             changer: TestAppIconChanger(supportsAlternateIcons: true),
             featureFlag: FixedAppIconFeatureFlag(isEnabled: false),
             isGalleryPlatformEnabled: true
         )
+        let unconfigured = AppIconService(
+            changer: TestAppIconChanger(supportsAlternateIcons: true),
+            featureFlag: enabledFeatureFlag(),
+            isGalleryPlatformEnabled: false
+        )
+
+        // When / Then
         XCTAssertFalse(disabled.isGalleryAvailable)
         await XCTAssertAppIconError(.featureDisabled) {
             try await disabled.changeIcon(to: .lcd)
+        }
+        XCTAssertFalse(unconfigured.isGalleryAvailable)
+        await XCTAssertAppIconError(.unsupported) {
+            try await unconfigured.changeIcon(to: .lcd)
         }
     }
 
@@ -155,6 +176,64 @@ final class AppIconServiceTests: XCTestCase {
         XCTAssertEqual(service.currentIconID, .cartridge)
     }
 
+    func testGivenSuspendedCallbackWhenSystemAppliedIconAndAppActivatesThenChangeReconciles() async throws {
+        // Given
+        let changer = TestAppIconChanger(supportsAlternateIcons: true)
+        changer.shouldSuspend = true
+        let changeStarted = expectation(description: "The icon request reached the platform adapter")
+        let callbackFinished = expectation(description: "The late platform callback finished")
+        changer.onChangeStarted = { changeStarted.fulfill() }
+        changer.onChangeFinished = { callbackFinished.fulfill() }
+        let service = makeService(changer: changer)
+        let change = Task {
+            try await service.changeIcon(to: .disc)
+        }
+        await fulfillment(of: [changeStarted], timeout: 1)
+        changer.alternateIconName = "RetroRapidDisc"
+
+        // When
+        service.reconcileSystemStateAfterActivation()
+
+        // Then
+        try await change.value
+        XCTAssertEqual(service.currentIconID, .disc)
+        XCTAssertNil(service.changingIconID)
+        changer.resumeChange()
+        await fulfillment(of: [callbackFinished], timeout: 1)
+    }
+
+    func testGivenSuspendedCallbackWhenSystemStateIsUnchangedAndAppActivatesThenRetryIsAvailable() async throws {
+        // Given
+        let changer = TestAppIconChanger(supportsAlternateIcons: true)
+        changer.shouldSuspend = true
+        let changeStarted = expectation(description: "The icon request reached the platform adapter")
+        let callbackFinished = expectation(description: "The late platform callback finished")
+        changer.onChangeStarted = { changeStarted.fulfill() }
+        changer.onChangeFinished = { callbackFinished.fulfill() }
+        let service = makeService(changer: changer)
+        let change = Task {
+            try await service.changeIcon(to: .cartridge)
+        }
+        await fulfillment(of: [changeStarted], timeout: 1)
+
+        // When
+        service.reconcileSystemStateAfterActivation()
+
+        // Then
+        await XCTAssertAppIconError(.systemStateUnchanged) {
+            try await change.value
+        }
+        XCTAssertEqual(service.currentIconID, .classic)
+        XCTAssertNil(service.changingIconID)
+
+        changer.resumeChange()
+        await fulfillment(of: [callbackFinished], timeout: 1)
+        changer.onChangeStarted = nil
+        changer.onChangeFinished = nil
+        try await service.changeIcon(to: .disc)
+        XCTAssertEqual(service.currentIconID, .disc)
+    }
+
     private func enabledFeatureFlag() -> FixedAppIconFeatureFlag {
         FixedAppIconFeatureFlag(isEnabled: true)
     }
@@ -188,6 +267,7 @@ private final class TestAppIconChanger: AppIconChanging {
     var failure: Error?
     var shouldSuspend = false
     var onChangeStarted: (() -> Void)?
+    var onChangeFinished: (() -> Void)?
     private var continuation: CheckedContinuation<Void, Error>?
 
     init(supportsAlternateIcons: Bool, alternateIconName: String? = nil) {
@@ -207,6 +287,7 @@ private final class TestAppIconChanger: AppIconChanging {
             }
         }
         self.alternateIconName = alternateIconName
+        onChangeFinished?()
     }
 
     func resumeChange() {

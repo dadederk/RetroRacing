@@ -64,10 +64,11 @@ Friend races are free. SharePlay competitive matches in [`shareplay_multiplayer.
   - The purchase row represents the single non-consumable Unlimited Plays product; no subscription choices are offered.
   - Limit-triggered mode shows the limit notice and “Want to Stay Free?” cards, including the free SharePlay reminder.
   - Restore and redeem actions stay platform-appropriate.
-  - Alternate app icons appear as a benefit only while the injected system capability and rollout flag are enabled; Release and unsupported-platform copy remains unchanged.
+  - Alternate app icons appear as a benefit only while the injected iPhone/iPad platform eligibility and rollout flag are enabled; Release and other-platform copy remains unchanged.
 - Settings:
   - Play Limit section is visible only for resolved free users.
   - Purchases section exposes Get Unlimited Plays, Restore Purchases, and supported redeem-code UI.
+  - The resolved-free Theme footer mentions visual Styles and app icons when the alternate-icon gallery is available, and remains Style-only otherwise.
   - Purchases appears near the top for users without Unlimited Plays; after purchase it moves below About, while DEBUG-only controls remain last in debug builds.
   - Debug simulation controls are DEBUG-only; see [debug_simulation.md](debug_simulation.md).
 

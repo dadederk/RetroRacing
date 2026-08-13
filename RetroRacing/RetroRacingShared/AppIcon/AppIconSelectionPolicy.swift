@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum AppIconSelectionAction: Equatable, Sendable {
+public enum AppIconSelectionAction: String, Equatable, Sendable {
     case none
     case selectIcon
     case waitForEntitlement

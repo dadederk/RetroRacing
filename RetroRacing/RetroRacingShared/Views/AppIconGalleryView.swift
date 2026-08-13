@@ -60,7 +60,10 @@ public struct AppIconGalleryView: View {
     }
 
     private func select(_ option: AppIconOption) {
-        switch selectionAction(for: option) {
+        let action = selectionAction(for: option)
+        logSelection(option: option, action: action)
+
+        switch action {
         case .none, .waitForEntitlement:
             return
         case .presentPaywall:
@@ -76,6 +79,44 @@ public struct AppIconGalleryView: View {
                 }
             }
         }
+    }
+
+    private func logSelection(option: AppIconOption, action: AppIconSelectionAction) {
+        let outcome: AppLog.Outcome
+        let reason: String?
+        switch action {
+        case .none:
+            outcome = .ignored
+            reason = "already_selected"
+        case .selectIcon:
+            outcome = .requested
+            reason = nil
+        case .waitForEntitlement:
+            outcome = .deferred
+            reason = "entitlement_unresolved"
+        case .presentPaywall:
+            outcome = .blocked
+            reason = "requires_unlimited_plays"
+        }
+
+        var fields: [AppLog.Field] = [
+            .string("requestedIconID", option.id.rawValue),
+            .string("currentIconID", appIconService.currentIconID?.rawValue ?? AppIconID.classic.rawValue),
+            .string("selectionAction", action.rawValue),
+            .bool("hasUnlimitedAccessForGating", storeKit.hasPremiumAccessForGating),
+            .bool("entitlementsResolved", storeKit.hasResolvedInitialEntitlements),
+            .bool("systemSupported", appIconService.supportsAlternateIcons),
+        ]
+        if let reason {
+            fields.insert(.reason(reason), at: 0)
+        }
+
+        AppLog.info(
+            AppLog.assets + AppLog.monetization,
+            "APP_ICON_SELECTION",
+            outcome: outcome,
+            fields: fields
+        )
     }
 }
 
@@ -107,7 +148,8 @@ struct AppIconGallerySections: View {
                         isLocked: action == .presentPaywall,
                         isWaitingForEntitlement: action == .waitForEntitlement,
                         isChanging: option.id == changingIconID,
-                        isDisabled: changingIconID != nil || action == .waitForEntitlement,
+                        isSelectionBusy: changingIconID != nil,
+                        isDisabled: action == .waitForEntitlement,
                         onSelect: { onOptionSelection(option) }
                     )
                 }
@@ -134,23 +176,23 @@ private struct AppIconGalleryRow: View {
     let isLocked: Bool
     let isWaitingForEntitlement: Bool
     let isChanging: Bool
+    let isSelectionBusy: Bool
     let isDisabled: Bool
     let onSelect: () -> Void
 
     @Environment(\.colorSchemeContrast) private var colorSchemeContrast
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @ScaledMetric(relativeTo: .body) private var previewSize: CGFloat = 104
-    @ScaledMetric(relativeTo: .body) private var stateIconSize: CGFloat = 17
+    @ScaledMetric(relativeTo: .body) private var stateIconSize: CGFloat = 20
 
     var body: some View {
-        let layout = dynamicTypeSize.isAccessibilitySize
-            ? AnyLayout(VStackLayout(alignment: .leading, spacing: 12))
-            : AnyLayout(HStackLayout(alignment: .center, spacing: 16))
-
         Button(action: onSelect) {
-            layout {
-                preview
-                labelAndState
+            Group {
+                if dynamicTypeSize.isAccessibilitySize {
+                    accessibilityLayout
+                } else {
+                    standardLayout
+                }
             }
             .padding(.vertical, 8)
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -158,18 +200,21 @@ private struct AppIconGalleryRow: View {
         }
         .buttonStyle(.plain)
         .disabled(isDisabled)
-        .accessibilityElement(children: .ignore)
         .accessibilityLabel(accessibilityLabel)
         .accessibilityValue(accessibilityValue)
         .accessibilityInputLabels([option.localizedName])
+        .accessibilityIdentifier("app_icon_option_\(option.id.rawValue)")
         .accessibilityAddTraits(isSelected ? .isSelected : [])
+        #if os(iOS)
+        .alignmentGuide(.listRowSeparatorLeading) { _ in 0 }
+        #endif
     }
 
     private var preview: some View {
         Image(decorative: option.previewAssetName)
             .resizable()
             .scaledToFit()
-            .frame(width: previewSize, height: previewSize)
+            .frame(width: resolvedPreviewSize, height: resolvedPreviewSize)
             .clipShape(.rect(cornerRadius: 22))
             .overlay {
                 RoundedRectangle(cornerRadius: 22)
@@ -177,42 +222,61 @@ private struct AppIconGalleryRow: View {
             }
     }
 
-    private var labelAndState: some View {
-        HStack(alignment: .firstTextBaseline, spacing: 8) {
-            Text(option.localizedName)
-                .appFont(.body)
-                .foregroundStyle(.primary)
-                .multilineTextAlignment(.leading)
-                .fixedSize(horizontal: false, vertical: true)
-
+    private var standardLayout: some View {
+        HStack(alignment: .center, spacing: 16) {
+            preview
+            nameLabel
             Spacer(minLength: 4)
             stateIndicator
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private var accessibilityLayout: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(alignment: .top, spacing: 12) {
+                preview
+                Spacer(minLength: 4)
+                stateIndicator
+            }
+            nameLabel
+        }
+    }
+
+    private var nameLabel: some View {
+        Text(option.localizedName)
+            .appFont(.body)
+            .foregroundStyle(.primary)
+            .multilineTextAlignment(.leading)
+            .fixedSize(horizontal: false, vertical: true)
+            .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     @ViewBuilder
     private var stateIndicator: some View {
         if isChanging {
             ProgressView()
-                .controlSize(.small)
+                .controlSize(.large)
                 .accessibilityHidden(true)
         } else if isSelected {
             Image(systemName: "checkmark.circle.fill")
                 .font(.system(size: stateIconSize, weight: .semibold))
-                .foregroundStyle(Color.accentColor)
+                .foregroundStyle(.pink)
                 .accessibilityHidden(true)
         } else if isLocked || isWaitingForEntitlement {
             Image(systemName: isWaitingForEntitlement ? "hourglass" : "lock.fill")
                 .font(.system(size: stateIconSize, weight: .semibold))
-                .foregroundStyle(Color.accentColor)
+                .foregroundStyle(.pink)
                 .accessibilityHidden(true)
         }
     }
 
+    private var resolvedPreviewSize: CGFloat {
+        dynamicTypeSize.isAccessibilitySize ? min(previewSize, 180) : previewSize
+    }
+
     private var previewBorderColor: Color {
         if isSelected {
-            return .accentColor
+            return .primary
         }
         return .primary.opacity(colorSchemeContrast == .increased ? 0.5 : 0.18)
     }
@@ -236,6 +300,9 @@ private struct AppIconGalleryRow: View {
         }
         if isLocked {
             return GameLocalizedStrings.string("app_icon_state_requires_unlimited_plays")
+        }
+        if isSelectionBusy {
+            return GameLocalizedStrings.string("app_icon_state_another_change_in_progress")
         }
         return GameLocalizedStrings.string("app_icon_state_available")
     }

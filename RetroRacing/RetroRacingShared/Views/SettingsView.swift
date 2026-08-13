@@ -125,7 +125,7 @@ public struct SettingsView: View {
             .onAppear {
                 preferencesStore.loadIfNeeded()
                 appIconService.refreshFeatureFlag()
-                appIconService.refreshSystemState()
+                appIconService.reconcileSystemStateAfterActivation()
                 if let screenshotFriendOvertakeAnnouncementsEnabled {
                     friendOvertakeVoiceOverAnnouncementEnabled = screenshotFriendOvertakeAnnouncementsEnabled
                 }
@@ -607,12 +607,18 @@ public struct SettingsView: View {
                 .id(ScreenshotCaptureIdentifiers.settingsThemeSection)
         } footer: {
             if storeKit.shouldShowFreeTierAffordances {
-                Text(GameLocalizedStrings.string("settings_theme_unlock_footnote"))
+                Text(GameLocalizedStrings.string(themeUnlockFootnoteKey))
                     .appFont(.caption)
                     .modifier(SettingsFooterTextStyle())
             }
         }
         .accessibilityIdentifier(ScreenshotCaptureIdentifiers.settingsThemeSection)
+    }
+
+    private var themeUnlockFootnoteKey: String {
+        appIconService.isGalleryAvailable
+            ? "settings_theme_and_icons_unlock_footnote"
+            : "settings_theme_unlock_footnote"
     }
 
     private var themeGalleryLink: some View {

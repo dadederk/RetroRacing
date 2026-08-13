@@ -37,12 +37,12 @@ The nine-icon catalog starts with Classic, then one icon for each of RetroRapid'
 | CRT | Theme alternate | ![CRT icon concept](assets/alternate-app-icon-concepts/crt-v2.png) | Preserve the approved grey/yellow/grass palette and four-path road perspective; reduce fine scanline detail only if it muddies at Settings size. |
 | Disc | Theme alternate | ![Disc icon concept](assets/alternate-app-icon-concepts/disc-v4.png) | Preserve the curated 32-Bit car, dark asphalt, four aqua marker paths, and subtle circuit texture confined to the deep-teal exterior. |
 | Polygon | Theme alternate | ![Polygon icon concept](assets/alternate-app-icon-concepts/polygon-v3.png) | Preserve the canonical low-poly silhouette, four exhausts, midnight road, four white marker paths, and restrained neon-aqua exterior accents. |
-| Retro Cartridge | Special alternate | ![Retro Cartridge icon concept](assets/alternate-app-icon-concepts/retro-cartridge-v4.png) | Keep the full-frame cream cartridge, app-pink accents, printed RetroRapid! label with four renderer-aligned paths, and exposed classic gold connector pins at the bottom. |
-| Retro Video Game | Special alternate | ![Retro Video Game icon concept](assets/alternate-app-icon-concepts/retro-video-game-v4.png) | Preserve the full-frame handheld and system-pink controls; assemble its beige LCD screen from the exact shipped LCD player/rival sprites and deterministic four-path road geometry. |
+| Retro Cartridge | Special alternate | ![Retro Cartridge icon concept](assets/alternate-app-icon-concepts/retro-cartridge-v4.png) | Keep the full-bleed cream cartridge, printed RetroRapid! label, original `Accessibility up to 11!` seal, four renderer-aligned paths, and classic gold connector pins. |
+| Retro Video Game | Special alternate | ![Retro Video Game icon concept](assets/alternate-app-icon-concepts/retro-video-game-v4.png) | Use cream plastic as the full-bleed icon surface with no dark corner wedges; preserve system-pink controls and the exact shipped LCD player/rival sprites on the deterministic four-path screen. |
 
 Source sketches: [Retro Cartridge](assets/alternate-app-icon-concepts/sketch-tabletop-source.png) · [Retro Video Game](assets/alternate-app-icon-concepts/sketch-handheld-source.png)
 
-Retro Video Game intentionally omits titles, button letters, scores, and other tiny text. Its monochrome beige LCD screen uses the exact shipped iPad LCD player and rival sprites rather than generated interpretations. Retro Cartridge is the deliberate exception: `RetroRapid!` is essential printed-label art, not interface copy. Its label keeps the title, car, and border within the central mask-safe region, while the exposed connector uses one neat row of classic gold contacts. Both hardware designs are fictional and must not become replicas of Apple products or recognizable commercial consoles.
+Retro Video Game intentionally omits titles, button letters, scores, and other tiny text. Its monochrome beige LCD screen uses the exact shipped iPad LCD player and rival sprites rather than generated interpretations. Retro Cartridge is the deliberate exception: `RetroRapid!` and the original `Accessibility up to 11!` certification-style seal are printed-label art, not interface copy. The label keeps its title, car, seal, and border within the central mask-safe region, while the exposed connector uses one neat row of classic gold contacts. The period-inspired seal must not reproduce Nintendo's name, wordmark, wording, typography, or exact seal geometry. Both hardware designs are fictional and must not become replicas of Apple products or recognizable commercial consoles.
 
 Generation provenance and the final prompt set are recorded in [the concept README](assets/alternate-app-icon-concepts/README.md).
 
@@ -76,8 +76,9 @@ The shared UI is driven by injected platform eligibility so unsupported targets 
 - While entitlement state is unresolved, show the gallery without an upsell and disable locked selections with a progress state. This avoids a paywall flash for returning purchasers.
 - Selecting the already-active icon is a no-op.
 - Selecting Classic passes `nil` to the system API and is always allowed.
-- During a change, disable repeated selection and show activity on the selected row.
+- During a change, keep unrelated rows at full contrast and focusable, show a large activity indicator on the requested row, and reject repeated requests in the service.
 - On success, update the checkmark from the system-reported current icon. Do not show a second custom success alert because the system already reports the change.
+- If UIKit's completion is suspended while the system confirmation is in front, reconcile the pending request from the reported icon when the app becomes active or Settings reappears. A match completes the request; unchanged state clears progress and presents the localized recovery alert. Ignore any later callback for that reconciled request.
 - On failure, keep the previous selection and present a localized error alert.
 
 ### Entitlement behavior
@@ -165,7 +166,7 @@ Author Default artwork plus Dark and Mono annotations, then let Icon Composer de
 - Give each option a localized name and a concise accessibility description of its visual style.
 - Make each list row one accessibility element with its visual description, lock state, and selected state. Hide decorative preview pixels from VoiceOver.
 - Preserve a logical reading order matching the visual catalog order.
-- Support Dynamic Type without shrinking the image below a useful preview size; allow names to wrap.
+- At accessibility Dynamic Type sizes, place the preview and state indicator above the wrapping name and cap the decorative preview at 180 points so the row remains navigable.
 - Support VoiceOver, Voice Control, Switch Control, Full Keyboard Access, Increase Contrast, Differentiate Without Color, Reduce Transparency, and Reduce Motion.
 - Do not encode selection or locked state through color alone.
 - Add all new user-visible strings to `Localizable.xcstrings` and localize them across the supported locale catalog.

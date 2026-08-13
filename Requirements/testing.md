@@ -49,7 +49,7 @@ Run the relevant smallest validation after a change, and the full app validation
   preservation/restoration, environment propagation, and bundled license loading.
 - Dynamic Type layout-policy tests cover menu scrolling/action reflow, accessibility HUD side-rail
   suppression, vertical SharePlay/HUD arrangements, and one-column adaptive content.
-- Alternate-icon tests remain in the shared target for catalog, policy, flag, and service behavior; platform integration and real system confirmation remain iPhone/iPad manual QA.
+- Alternate-icon tests remain in the shared target for catalog, policy, flag, service behavior, and activation reconciliation. A hosted Universal integration test validates the generated icon dictionary and UIKit capability wiring; real system confirmation remains iPhone/iPad manual QA.
 
 ## Naming and Structure
 

@@ -433,7 +433,7 @@ struct RetroRacingApp: App {
             }
             .onChange(of: scenePhase) { _, newValue in
                 guard newValue == .active else { return }
-                appIconService.refreshSystemState()
+                appIconService.reconcileSystemStateAfterActivation()
                 #if os(macOS)
                 if ScreenshotCaptureConfiguration.current != nil {
                     ScreenshotCaptureMacWindowLayout.applyLandscapeCaptureSize()

@@ -38,7 +38,7 @@ public enum BuildConfiguration {
     }
 
     /// Returns true when debug-only UI/features should be visible.
-    /// Enabled in DEBUG and TestFlight builds.
+    /// Enabled only in Debug builds; Release and TestFlight stay isolated from QA overrides.
     public static var shouldShowDebugFeatures: Bool {
         isDebug
     }

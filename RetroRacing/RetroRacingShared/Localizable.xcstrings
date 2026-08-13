@@ -32109,6 +32109,131 @@
         }
       }
     },
+    "settings_theme_and_icons_unlock_footnote": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Want more visual styles and app icons? Unlock Unlimited Plays in Purchases."
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Want more visual styles and app icons? Unlock Unlimited Plays in Purchases."
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Want more visual styles and app icons? Unlock Unlimited Plays in Purchases."
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Want more visual styles and app icons? Unlock Unlimited Plays in Purchases."
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Vols més estils visuals i icones de l’app? Desbloqueja Partides il·limitades en Compres."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Mehr visuelle Stile und App-Symbole? Schalte Unbegrenzte Spiele unter Käufe frei."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "¿Quieres más estilos visuales e iconos de la app? Desbloquea Partidas ilimitadas en Compras."
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "¿Quieres más estilos visuales e íconos de la app? Desbloquea Partidas ilimitadas en Compras."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Tu veux plus de styles visuels et d’icônes d’app ? Débloque Parties illimitées dans Achats."
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Voulez-vous plus de styles visuels et d’icônes d’app ? Débloquez Parties illimitées dans Achats."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Vuoi più stili visivi e icone dell’app? Sblocca Partite illimitate in Acquisti."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "もっと多くのビジュアルスタイルやアプリアイコンを使いたい？購入で無制限プレイを解除。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "더 많은 시각적 스타일과 앱 아이콘을 원하시나요? 구매에서 무제한 플레이를 잠금 해제하세요."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Meer visuele stijlen en app-pictogrammen? Ontgrendel Onbeperkt spelen bij Aankopen."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Chcesz więcej stylów wizualnych i ikon aplikacji? Odblokuj Nielimitowane Gry w sekcji Zakupy."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Quer mais estilos visuais e ícones do app? Desbloqueie Partidas Ilimitadas em Compras."
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Quer mais estilos visuais e ícones da app? Desbloqueie Partidas Ilimitadas em Compras."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Daha fazla görsel tarz ve uygulama simgesi ister misin? Satın Alımlar’dan Sınırsız Oyun’u aç."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "想要更多视觉风格和 App 图标？在购买中解锁无限畅玩。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "想要更多視覺風格和 App 圖示？在購買中解鎖無限暢玩。"
+          }
+        }
+      }
+    },
     "settings_theme_gallery_unlock_body": {
       "extractionState": "manual",
       "localizations": {
@@ -51731,6 +51856,131 @@
           "stringUnit": {
             "state": "needs_review",
             "value": "特別版"
+          }
+        }
+      }
+    },
+    "app_icon_state_another_change_in_progress": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Another icon is changing."
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Another icon is changing."
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Another icon is changing."
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Another icon is changing."
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "S’està canviant una altra icona."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ein anderes Symbol wird gerade geändert."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Se está cambiando otro icono."
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Se está cambiando otro icono."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Une autre icône est en cours de modification."
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Une autre icône est en cours de modification."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "È in corso la modifica di un’altra icona."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "別のアイコンを変更中です。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "다른 아이콘을 변경하는 중입니다."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Een ander appicoon wordt gewijzigd."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Trwa zmiana innej ikony."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Outro ícone está sendo alterado."
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Está a ser alterado outro ícone."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Başka bir simge değiştiriliyor."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "正在更改另一个图标。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "正在更改另一個圖示。"
           }
         }
       }

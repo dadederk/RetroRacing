@@ -1,6 +1,6 @@
 {
   "fill" : {
-    "automatic-gradient" : "extended-srgb:0.02745,0.16863,0.27843,1.00000"
+    "automatic-gradient" : "extended-srgb:0.94902,0.83137,0.61961,1.00000"
   },
   "groups" : [
     {
@@ -11,7 +11,7 @@
           "name" : "Default",
           "opacity" : 1,
           "position" : {
-            "scale" : 1.1,
+            "scale" : 1,
             "translation-in-points" : [
               0,
               0
