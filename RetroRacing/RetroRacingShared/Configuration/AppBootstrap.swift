@@ -48,11 +48,19 @@ public enum AppBootstrap {
         #endif
     }
 
-    /// Registers the custom font from the shared framework so `.font(.custom("PressStart2P-Regular", size:))` works.
-    /// - Returns: true if registration succeeded.
+    /// Registers and validates all custom fonts from the shared framework.
+    @MainActor
+    @discardableResult
+    public static func registerFonts() -> AppFontAvailability {
+        AppFontRegistry.registerBundledFonts(additionalBundles: [Bundle.main])
+    }
+
+    /// Compatibility API for callers that only need Press Start 2P availability.
+    @MainActor
+    @available(*, deprecated, message: "Use registerFonts()")
     @discardableResult
     public static func registerCustomFont() -> Bool {
-        FontRegistrar.registerPressStart2P(additionalBundles: [Bundle.main])
+        registerFonts().isAvailable(.custom)
     }
 
     #if canImport(UIKit) && !os(watchOS)

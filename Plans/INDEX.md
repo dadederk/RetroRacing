@@ -23,6 +23,7 @@ Single status entrypoint for roadmap and themed plans. Requirements define shipp
 | SharePlay deterministic traffic | `shareplay_deterministic_traffic_plan.md` | `../Requirements/shareplay_multiplayer.md`, `shareplay_competitive_mode_plan.md` |
 | SharePlay on macOS | `shareplay_macos_plan.md` | `../Requirements/shareplay_multiplayer.md`, `shareplay_competitive_mode_plan.md` |
 | visionOS Classic/Tabletop game and Polygon theme | `visionos_spatial_game_plan.md` | `../Requirements/theming_system.md`, `../Requirements/launch_flow.md` |
+| Alternate app icons for Unlimited Plays | `alternate_app_icon_plan.md` | `../Requirements/monetization.md`, `../Requirements/theming_system.md` |
 | Portfolio infrastructure parity | `portfolio_infrastructure_parity_plan.md` | `../Scripts/README.md`, `../Scripts/CONVENTIONS.md` |
 
 ## Themed Plans
@@ -36,6 +37,7 @@ Single status entrypoint for roadmap and themed plans. Requirements define shipp
 | SharePlay on macOS | [shareplay_macos_plan.md](shareplay_macos_plan.md) | Implemented in code; manual macOS SharePlay QA pending before public claims. |
 | SharePlay release campaign | [aso/10-shareplay-release-campaign.md](aso/10-shareplay-release-campaign.md) | Planned App Store launch package for free SharePlay friend races. |
 | visionOS spatial game and Polygon theme | [visionos_spatial_game_plan.md](visionos_spatial_game_plan.md) | Planned Classic window, RealityKit tabletop, shared-session handoff, and model-derived cross-platform theme. |
+| Alternate app icons | [alternate_app_icon_plan.md](alternate_app_icon_plan.md) | In-progress Unlimited Plays cosmetic benefit for iPhone and iPad; the nine-icon catalog includes Classic, all six themes, and two Special Editions. |
 | Developer CLI (`retrorapid`) | [retrorapid_developer_cli_plan.md](retrorapid_developer_cli_plan.md) | ✅ Done (2026-07-23); unified `./retrorapid` wrapper over Scripts executables and README recipes. |
 | Portfolio infrastructure parity | [portfolio_infrastructure_parity_plan.md](portfolio_infrastructure_parity_plan.md) | Proposed; add platform-boundary enforcement, documentation budgets, developer diagnostics, and verified release-E2E evidence while retaining RetroRapid's proven safety foundations. |
 

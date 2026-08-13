@@ -83,6 +83,17 @@ public enum GameDifficulty: String, CaseIterable, Sendable {
         }
     }
 
+    public var gaugeSystemImageName: String {
+        switch self {
+        case .cruise:
+            return "gauge.with.dots.needle.33percent"
+        case .fast:
+            return "gauge.with.dots.needle.67percent"
+        case .rapid:
+            return "gauge.with.dots.needle.100percent"
+        }
+    }
+
     public var timingConfiguration: GridUpdateTimingConfiguration {
         switch self {
         case .cruise:

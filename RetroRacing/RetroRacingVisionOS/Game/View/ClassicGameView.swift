@@ -58,8 +58,7 @@ struct ClassicGameView: View {
                 localLabel: GameLocalizedStrings.string("shareplay_local_player_name"),
                 localScore: session.snapshot.score,
                 opponentLabel: resolvedOpponentLabel,
-                opponentScore: remoteScore,
-                scoreFont: .headline
+                opponentScore: remoteScore
             )
         }
     }

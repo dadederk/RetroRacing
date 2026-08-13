@@ -23,7 +23,6 @@ struct WatchGameView: View {
     private var speedWarningFeedbackModeData: Data = Data()
     @AppStorage(LaneMoveCueStyle.storageKey) private var laneMoveCueStyleRawValue: String = LaneMoveCueStyle.defaultStyle.rawValue
     @AppStorage(BigCarsSetting.conditionalDefaultStorageKey) private var bigCarsData: Data = Data()
-    @AppStorage(RoadVisualStyle.storageKey) private var roadVisualStyleRawValue: String = RoadVisualStyle.defaultStyle.rawValue
     @AppStorage(DirectTouchSetting.conditionalDefaultStorageKey) private var directTouchData: Data = Data()
     @AppStorage(VoiceOverTutorialPreference.hasSeenInGameVoiceOverTutorialKey)
     private var hasSeenInGameVoiceOverTutorial: Bool = VoiceOverTutorialPreference.defaultHasSeenInGameVoiceOverTutorial
@@ -110,7 +109,6 @@ struct WatchGameView: View {
         let initialAudioFeedbackMode = AudioFeedbackMode.currentSelection(from: InfrastructureDefaults.userDefaults)
         let initialLaneMoveCueStyle = LaneMoveCueStyle.currentSelection(from: InfrastructureDefaults.userDefaults)
         let initialBigCarsEnabled = BigCarsPreference.currentSelection(from: InfrastructureDefaults.userDefaults)
-        let initialRoadVisualStyle = RoadVisualStyle.currentSelection(from: InfrastructureDefaults.userDefaults)
         let hapticController = WatchHapticFeedbackController(userDefaults: InfrastructureDefaults.userDefaults)
         let size = CGSize(width: 400, height: 300)
         let soundPlayer = PlatformFactories.makeSoundPlayer()
@@ -132,16 +130,10 @@ struct WatchGameView: View {
             hapticController: hapticController,
             audioFeedbackMode: initialAudioFeedbackMode,
             laneMoveCueStyle: initialLaneMoveCueStyle,
-            bigRivalCarsEnabled: initialBigCarsEnabled,
-            roadVisualStyle: initialRoadVisualStyle
+            bigRivalCarsEnabled: initialBigCarsEnabled
         ))
         _watchHapticController = State(initialValue: hapticController)
         _crownProcessor = State(initialValue: CrownInputProcessor(configuration: .watchLegacy))
-    }
-
-    private var headerFont: Font {
-        fontPreferenceStore?.font(textStyle: .caption2)
-            ?? .custom("PressStart2P-Regular", size: 11, relativeTo: .caption2)
     }
 
     private static let sharedBundle = Bundle(for: GameScene.self)
@@ -151,7 +143,7 @@ struct WatchGameView: View {
     var body: some View {
         VStack(spacing: 4) {
             HStack {
-                GameScoreStatusView(score: score, font: headerFont)
+                GameScoreStatusView(score: score, textStyle: .caption2)
                     .lineLimit(1)
                     .minimumScaleFactor(0.7)
                     .allowsTightening(true)
@@ -292,10 +284,8 @@ struct WatchGameView: View {
             scene.setLaneMoveCueStyle(selectedLaneMoveCueStyle)
             if isScreenshotCaptureMode {
                 scene.setBigRivalCarsEnabled(ScreenshotCapturePreferences.gameplayBigCarsEnabled)
-                scene.setRoadVisualStyle(ScreenshotCapturePreferences.gameplayRoadVisualStyle)
             } else {
                 scene.setBigRivalCarsEnabled(selectedBigRivalCarsEnabled)
-                scene.setRoadVisualStyle(selectedRoadVisualStyle)
             }
             logWatchAudioConfiguration()
             resetRunAchievementTelemetry()
@@ -412,7 +402,6 @@ struct WatchGameView: View {
             scene.setAudioFeedbackMode(selectedAudioFeedbackMode)
             scene.setLaneMoveCueStyle(selectedLaneMoveCueStyle)
             scene.setBigRivalCarsEnabled(selectedBigRivalCarsEnabled)
-            scene.setRoadVisualStyle(selectedRoadVisualStyle)
             logWatchAudioConfiguration()
         }
         .onChange(of: soundEffectsVolumeData) { _, _ in
@@ -434,9 +423,6 @@ struct WatchGameView: View {
         }
         .onChange(of: bigCarsData) { _, _ in
             scene.setBigRivalCarsEnabled(selectedBigRivalCarsEnabled)
-        }
-        .onChange(of: roadVisualStyleRawValue) { _, _ in
-            scene.setRoadVisualStyle(selectedRoadVisualStyle)
         }
         .onChange(of: scenePaused) { _, _ in
             attemptAutoPresentVoiceOverHelpIfNeeded()
@@ -712,11 +698,6 @@ struct WatchGameView: View {
         BigCarsPreference.currentSelection(from: InfrastructureDefaults.userDefaults)
     }
 
-    private var selectedRoadVisualStyle: RoadVisualStyle {
-        _ = roadVisualStyleRawValue
-        return RoadVisualStyle.currentSelection(from: InfrastructureDefaults.userDefaults)
-    }
-
     private var selectedSoundEffectsVolume: Double {
         SoundEffectsVolumePreference.currentSelection(from: InfrastructureDefaults.userDefaults)
     }
@@ -850,7 +831,6 @@ struct WatchGameView: View {
 
                 scene.applyScreenshotLayout(layout)
                 scene.setBigRivalCarsEnabled(ScreenshotCapturePreferences.gameplayBigCarsEnabled)
-                scene.setRoadVisualStyle(ScreenshotCapturePreferences.gameplayRoadVisualStyle)
                 score = scene.gameState.score
                 lives = scene.gameState.lives
                 scenePaused = scene.gameState.isPaused

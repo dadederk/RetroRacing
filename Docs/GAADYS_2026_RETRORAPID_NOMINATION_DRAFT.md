@@ -47,7 +47,7 @@ Product URL: https://accessibilityupto11.com/apps/retrorapid/
 
 RetroRapid! is a retro-inspired arcade racing game for iPhone, iPad, Apple Watch, and Mac. Players steer between three lanes, avoid traffic, react to speed changes, and chase high scores in short, replayable sessions inspired by classic handheld racing games.
 
-The game is designed so the same arcade loop can be played through different senses and input methods. It supports visual play, VoiceOver, audio lane cues, haptics, adjustable speed, Direct Touch, Voice Control-friendly labels, Dynamic Type-aware screens, simplified/larger visuals, Apple Watch Digital Crown input, keyboard input, and game controller support. The goal is not to provide a separate accessible version of the game, but to make the main game playable and enjoyable for more people.
+The game is designed so the same arcade loop can be played through different senses and input methods. It supports visual play, VoiceOver, audio lane cues, haptics, adjustable speed, Direct Touch, Voice Control-friendly labels, Dynamic Type-aware screens, Big Cars with reduced road detail, Apple Watch Digital Crown input, keyboard input, and game controller support. The goal is not to provide a separate accessible version of the game, but to make the main game playable and enjoyable for more people.
 
 ### Accessibility As A Core Requirement
 
@@ -55,7 +55,7 @@ RetroRapid! is a retro-inspired arcade racing game, so accessibility had to be p
 
 That question shaped the game model itself. The player needs to understand their lane, nearby traffic, speed changes, score, lives, collisions, and available actions. RetroRapid therefore treats gameplay state as information that must be available in multiple ways: visually, through sound, through haptics, through semantic VoiceOver information, and through configurable controls.
 
-Accessibility was part of the definition of done for gameplay, settings, onboarding, and platform behavior. Features were not considered complete if they only worked visually. VoiceOver behavior, Direct Touch, Voice Control-friendly labels, Dynamic Type-aware screens, Reduce Motion, high-contrast and simplified visual options, larger car visuals, sound and haptic feedback, Apple Watch Digital Crown support, keyboard input, game controller support, and platform-specific layout were all treated as product requirements.
+Accessibility was part of the definition of done for gameplay, settings, onboarding, and platform behavior. Features were not considered complete if they only worked visually. VoiceOver behavior, Direct Touch, Voice Control-friendly labels, Dynamic Type-aware screens, Reduce Motion, high-contrast visuals, Big Cars with reduced road detail, sound and haptic feedback, Apple Watch Digital Crown support, keyboard input, game controller support, and platform-specific layout were all treated as product requirements.
 
 Accessibility also shaped the game's defaults. When VoiceOver is running, RetroRapid can use a slower starting pace, enable lane audio cues, and make sound feedback more prominent so players have enough information to learn the game. These are defaults rather than a separate "accessible mode": users can still adjust speed, cues, visuals, and feedback to match their own preferences.
 
@@ -87,7 +87,7 @@ There was also a prioritization challenge. Public feedback produced many valid i
 
 The hardest technical and design challenge was translating a visual, real-time, three-lane collision game into multimodal information without making it noisy, slow, or no longer fun. The player must know where they are, where danger is, when speed changes, and whether input worked. That information cannot rely only on vision.
 
-RetroRapid addresses this by layering feedback. Visually, it supports larger car visuals, simplified road/grid presentation, Dynamic Type-aware screens, Dark Mode, and high-contrast-friendly design. Audibly, it uses retro-style sound effects, lane cues, movement feedback, speed-warning sounds, and optional VoiceOver announcements. Haptics can communicate movement, warnings, and state changes where supported. Semantically, VoiceOver labels and values expose meaningful UI and game state rather than just describing decorative sprites.
+RetroRapid addresses this by layering feedback. Visually, Big Cars combines larger vehicles with reduced road detail alongside Dynamic Type-aware screens, Dark Mode, and high-contrast-friendly design. Audibly, it uses retro-style sound effects, lane cues, movement feedback, speed-warning sounds, and optional VoiceOver announcements. Haptics can communicate movement, warnings, and state changes where supported. Semantically, VoiceOver labels and values expose meaningful UI and game state rather than just describing decorative sprites.
 
 A second challenge was VoiceOver interaction during live gameplay. Standard VoiceOver navigation is not designed for fast arcade movement, but a fully custom interaction can make the game harder to inspect. RetroRapid uses Direct Touch for active gameplay so players can move quickly, while intentional pause states can expose the grid for exploration with row and lane descriptions.
 
@@ -155,4 +155,3 @@ Finally, my broader professional work is focused on Apple-platform accessibility
 - Do not claim formal WCAG conformance unless an audit exists. Use "WCAG-informed/native Apple accessibility implementation" language.
 - Do not claim formal user research if the process was public beta/community feedback. "Public accessibility feedback loop" is accurate and strong.
 - Verify App Store Connect/user metrics shortly before submission.
-

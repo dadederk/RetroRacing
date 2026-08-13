@@ -19,14 +19,14 @@ struct ContentView: View {
         NavigationStack {
             VStack(spacing: 16) {
                 Text(GameLocalizedStrings.string("gameName"))
-                    .font(fontPreferenceStore.font(textStyle: .headline))
+                    .appFont(.headline)
                 Button {
                     guard allowsGameLaunch else { return }
                     gameID += 1
                     showGame = true
                 } label: {
                     Text(GameLocalizedStrings.string("play"))
-                        .font(fontPreferenceStore.font(textStyle: .body))
+                        .appFont(.body)
                 }
                 .buttonStyle(.glassProminent)
             }
@@ -51,6 +51,7 @@ struct ContentView: View {
                     }
                     .buttonStyle(.glass)
                     .accessibilityLabel(GameLocalizedStrings.string("settings"))
+                    .accessibilityShowsLargeContentViewer()
                 }
             }
             .sheet(isPresented: $showSettings) {

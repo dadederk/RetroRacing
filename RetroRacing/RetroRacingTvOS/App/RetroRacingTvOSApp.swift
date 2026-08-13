@@ -11,6 +11,7 @@ struct RetroRacingTvOSApp: App {
     private let gameCenterService: GameCenterService
     private let ratingService: RatingService
     private let themeManager: ThemeManager
+    private let appIconService: AppIconService
     private let fontPreferenceStore: FontPreferenceStore
     private let hapticController: HapticFeedbackController
     private let highestScoreStore: HighestScoreStore
@@ -33,13 +34,18 @@ struct RetroRacingTvOSApp: App {
     init() {
         AppBootstrap.configureAudioSession()
         AppBootstrap.configureGameCenterAccessPoint()
-        let customFontAvailable = AppBootstrap.registerCustomFont()
+        let fontAvailability = AppBootstrap.registerFonts()
         let userDefaults = InfrastructureDefaults.userDefaults
         SettingsPreferenceMigration.runIfNeeded(
             userDefaults: userDefaults,
             supportsHaptics: false
         )
         storeKitService = StoreKitService(userDefaults: userDefaults)
+        appIconService = AppIconService(
+            changer: UnsupportedAppIconChanger(),
+            featureFlag: FixedAppIconFeatureFlag(isEnabled: false),
+            isGalleryPlatformEnabled: false
+        )
         let themeConfig = ThemePlatformConfig.configuration(
             for: .tvOS,
             experimentalThemes: DebugGameplayStorageKeys.experimentalThemeConfiguration(
@@ -54,7 +60,10 @@ struct RetroRacingTvOSApp: App {
             hasPremiumAccess: storeKitService.hasPremiumAccessForGating
         )
         themeManager = configuredThemeManager
-        fontPreferenceStore = FontPreferenceStore(userDefaults: userDefaults, customFontAvailable: customFontAvailable)
+        fontPreferenceStore = FontPreferenceStore(
+            userDefaults: userDefaults,
+            availability: fontAvailability
+        )
         hapticController = RetroRacingTvOSApp.makeHapticsController()
         let authenticateHandlerSetter: AuthenticateHandlerSetter? = BuildConfiguration.isRunningUITests
             ? { _ in }
@@ -177,6 +186,7 @@ struct RetroRacingTvOSApp: App {
                         leaderboardConfiguration: leaderboardConfiguration,
                         authenticationPresenter: authenticationPresenter,
                         themeManager: themeManager,
+                        appIconService: appIconService,
                         fontPreferenceStore: fontPreferenceStore,
                         hapticController: hapticController,
                         supportsHapticFeedback: false,

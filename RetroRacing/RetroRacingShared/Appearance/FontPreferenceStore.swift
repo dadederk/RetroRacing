@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import SwiftUI
 import Observation
+import SwiftUI
 
 /// Observable store managing the persisted app font style selection.
 @Observable
@@ -19,36 +19,58 @@ public final class FontPreferenceStore {
         }
     }
 
-    /// When false, hide the Font section in Settings (device doesn't support or failed to load custom font).
-    public let isCustomFontAvailable: Bool
+    public let availability: AppFontAvailability
+
+    public var effectiveStyle: AppFontStyle {
+        availability.isAvailable(currentStyle) ? currentStyle : .system
+    }
+
+    public var typography: AppTypography {
+        AppTypography(selectedStyle: currentStyle, availability: availability)
+    }
+
+    /// Compatibility signal retained for callers that only care about Press Start 2P.
+    public var isCustomFontAvailable: Bool {
+        availability.isAvailable(.custom)
+    }
 
     private let userDefaults: UserDefaults
 
-    public init(userDefaults: UserDefaults, customFontAvailable: Bool) {
+    public init(userDefaults: UserDefaults, availability: AppFontAvailability) {
         self.userDefaults = userDefaults
-        self.isCustomFontAvailable = customFontAvailable
-        let raw = userDefaults.string(forKey: AppFontStyle.storageKey) ?? AppFontStyle.custom.rawValue
-        var style = AppFontStyle(rawValue: raw) ?? .custom
-        if !customFontAvailable && style == .custom {
-            style = .system
-        }
-        self.currentStyle = style
+        self.availability = availability
+        let rawValue = userDefaults.string(forKey: AppFontStyle.storageKey)
+            ?? AppFontStyle.custom.rawValue
+        currentStyle = AppFontStyle(rawValue: rawValue) ?? .custom
     }
 
-    /// Returns a fixed-size SwiftUI font for the current preference.
-    /// Use for pixel-locked game UI that should not follow Dynamic Type.
-    public func font(fixedSize size: CGFloat) -> Font {
-        AppFontStyle.fixedFont(for: currentStyle, size: size)
+    /// Compatibility initializer for previews and older composition roots.
+    public convenience init(userDefaults: UserDefaults, customFontAvailable: Bool) {
+        let availableNames: Set<String> = customFontAvailable
+            ? Set(AppFontStyle.custom.availableFaces.map(\.postScriptName))
+            : []
+        self.init(
+            userDefaults: userDefaults,
+            availability: AppFontAvailability(availablePostScriptNames: availableNames)
+        )
     }
 
-    /// Returns a semantic SwiftUI font for the current preference.
-    /// This follows Dynamic Type for all styles.
+    public func isAvailable(_ style: AppFontStyle) -> Bool {
+        availability.isAvailable(style)
+    }
+
+    /// Compatibility API. New SwiftUI views should use `View.appFont(_:weightTier:)`.
     public func font(textStyle: Font.TextStyle) -> Font {
-        AppFontStyle.semanticFont(for: currentStyle, textStyle: textStyle)
+        AppFontResolver.font(for: textStyle, typography: typography)
     }
 
-    /// Backward-compatible alias for fixed-size fonts.
-    @available(*, deprecated, renamed: "font(fixedSize:)")
+    /// Compatibility API for migration only. New views should use semantic or scaled app fonts.
+    @available(*, deprecated, message: "Use appFont(_:weightTier:) or appFont(scaledSize:relativeTo:weightTier:)")
+    public func font(fixedSize size: CGFloat) -> Font {
+        AppFontResolver.font(scaledSize: size, relativeTo: .body, typography: typography)
+    }
+
+    @available(*, deprecated, message: "Use appFont(_:weightTier:) or appFont(scaledSize:relativeTo:weightTier:)")
     public func font(size: CGFloat) -> Font {
         font(fixedSize: size)
     }

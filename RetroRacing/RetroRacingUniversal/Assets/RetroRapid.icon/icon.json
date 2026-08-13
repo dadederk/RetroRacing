@@ -1,14 +1,14 @@
 {
   "fill" : {
-    "automatic-gradient" : "extended-srgb:0.00000,0.53333,1.00000,1.00000"
+    "automatic-gradient" : "extended-srgb:0.92157,0.29412,0.38824,1.00000"
   },
   "groups" : [
     {
       "layers" : [
         {
           "glass" : false,
-          "image-name" : "appstore1024.png",
-          "name" : "appstore1024",
+          "image-name" : "ClassicSubject.png",
+          "name" : "Classic Subject",
           "opacity" : 1,
           "position" : {
             "scale" : 1.1,
@@ -21,11 +21,11 @@
       ],
       "shadow" : {
         "kind" : "neutral",
-        "opacity" : 0.5
+        "opacity" : 0.18
       },
       "translucency" : {
         "enabled" : true,
-        "value" : 0.5
+        "value" : 0.05
       }
     }
   ],

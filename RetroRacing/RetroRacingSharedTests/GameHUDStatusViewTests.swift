@@ -110,4 +110,33 @@ final class GameHUDStatusViewTests: XCTestCase {
         // Then
         XCTAssertEqual(layout, .regularWidthWidePlay)
     }
+
+    func testGivenAccessibilityTypeInCompactLandscapeWhenResolvingLayoutThenSideRailsAreSuppressed() {
+        // Given
+        let containerSize = CGSize(width: 852, height: 393)
+
+        // When
+        let layout = GameLayoutKind.resolve(
+            containerSize: containerSize,
+            horizontalSizeClass: .regular,
+            verticalSizeClass: .compact,
+            usesAccessibilityLayout: true
+        )
+
+        // Then
+        XCTAssertEqual(layout, .portraitCentered)
+    }
+
+    func testGivenAccessibilityTypeOnCompactWidthWhenResolvingLayoutThenFullWidthPortraitCompositionIsUsed() {
+        // Given / When
+        let layout = GameLayoutKind.resolve(
+            containerSize: CGSize(width: 667, height: 375),
+            horizontalSizeClass: .compact,
+            verticalSizeClass: .compact,
+            usesAccessibilityLayout: true
+        )
+
+        // Then
+        XCTAssertEqual(layout, .portrait)
+    }
 }

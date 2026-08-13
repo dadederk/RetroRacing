@@ -12,7 +12,6 @@ extension GameViewModel {
         isScreenshotCapturePinned = true
         scene.applyScreenshotLayout(layout)
         updateBigRivalCarsEnabled(ScreenshotCapturePreferences.gameplayBigCarsEnabled)
-        updateRoadVisualStyle(ScreenshotCapturePreferences.gameplayRoadVisualStyle)
         currentUpcomingFriendMilestone = layout.upcomingMilestones.first
         hud.score = layout.score
         hud.lives = layout.lives

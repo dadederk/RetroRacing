@@ -137,4 +137,10 @@ final class GameStateTests: XCTestCase {
         // Then
         XCTAssertEqual(difficulty, .rapid)
     }
+
+    func testGivenDifficultyWhenResolvingGaugeSymbolThenIncreasingPaceUsesIncreasingNeedlePosition() {
+        XCTAssertEqual(GameDifficulty.cruise.gaugeSystemImageName, "gauge.with.dots.needle.33percent")
+        XCTAssertEqual(GameDifficulty.fast.gaugeSystemImageName, "gauge.with.dots.needle.67percent")
+        XCTAssertEqual(GameDifficulty.rapid.gaugeSystemImageName, "gauge.with.dots.needle.100percent")
+    }
 }

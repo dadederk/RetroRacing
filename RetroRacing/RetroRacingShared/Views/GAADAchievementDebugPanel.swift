@@ -26,19 +26,13 @@ public enum GAADAchievementQualificationMode: Sendable {
 public struct GAADAchievementDebugPanel: View {
     private let achievementProgressService: AchievementProgressService
     private let qualificationMode: GAADAchievementQualificationMode
-    private let primaryFont: Font
-    private let secondaryFont: Font
 
     public init(
         achievementProgressService: AchievementProgressService,
-        qualificationMode: GAADAchievementQualificationMode,
-        primaryFont: Font,
-        secondaryFont: Font
+        qualificationMode: GAADAchievementQualificationMode
     ) {
         self.achievementProgressService = achievementProgressService
         self.qualificationMode = qualificationMode
-        self.primaryFont = primaryFont
-        self.secondaryFont = secondaryFont
     }
 
     public var body: some View {
@@ -85,10 +79,10 @@ public struct GAADAchievementDebugPanel: View {
     private func row(labelKey: String, value: String) -> some View {
         VStack(alignment: .leading, spacing: 2) {
             Text(GameLocalizedStrings.string(labelKey))
-                .font(secondaryFont)
+                .appFont(.caption)
                 .foregroundStyle(.secondary)
             Text(value)
-                .font(primaryFont)
+                .appFont(.body)
         }
     }
 

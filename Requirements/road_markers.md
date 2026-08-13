@@ -4,8 +4,8 @@
 
 > Narrow tasks may stop here; open the full contract for implementation or review.
 
-- **Scope:** Road-marker overlay rendering, road-style modes, Big Cars precedence, lap marker timing, and contrast.
-- **Must not break:** SpriteKit rendering stays in `GameScene+Grid.swift`; both SpriteKit and RealityKit consume `RoadMarkerLayoutResolver`; transient line overlays clear/redraw each grid refresh; persistent road surfaces rebuild only when their render signature changes; Big Cars forces vertical-only markers; generated lap-strip mask assets are verified through Scripts.
+- **Scope:** Road-marker overlay rendering, Big Cars behavior, lap marker timing, and contrast.
+- **Must not break:** SpriteKit rendering stays in `GameScene+Grid.swift`; both SpriteKit and RealityKit consume `RoadMarkerLayoutResolver`; transient line overlays clear/redraw each grid refresh; persistent road surfaces rebuild only when their render signature changes; Big Cars replaces perspective markers with vertical-only dashed separators; generated lap-strip mask assets are verified through Scripts.
 - **Key files:** `RoadMarkerLayoutResolver.swift`, `GameScene+Grid.swift`, `TabletopScene.swift`, `generate-road-dash-masks`, theme road-line colors.
 
 ## Behavior Contract
@@ -15,17 +15,16 @@
 - Transient line/lap visuals are tracked by `lineOverlayNodes`; persistent perspective fills are tracked separately by `roadSurfaceNodes`.
 - Precedence:
   1. Big Cars on: vertical-only dashed separators.
-  2. Big Cars off + Simplified Grid: vertical-only continuous separators.
-  3. Big Cars off + Detailed Road: perspective dashed road markers and lap strips.
+  2. Big Cars off: perspective dashed road markers and lap strips.
 - Horizontal grid lines remain hidden in all road-marker modes.
 - The spatial road has four dashed boundaries, including both outer edges, laid flush over the 0.45 × 0.70 m RealityKit road. Its fixed pool contains 20 dash planes: four boundaries across five logical rows. Each dash is `0.64 × rowDepth`; four rows render and one remains blank. Horizontal row seams remain absent. Full-lane collision volumes remain invisible and must never be highlighted through or displace the cars.
 - Lane moves do not advance dash phase; grid tick updates do.
 
-## Detailed Road
+## Perspective Road
 
 - Uses one shared perspective road model from top width ratio `0.38` to bottom width ratio `0.94`.
 - Themes with a road-exterior color draw row-by-row perspective road-surface overlays from that model, expanded past the outer lane boundaries so the road color sits under the full outer lines with a generous overhang.
-- Road surfaces are cached by scene size, theme identity, road style, Big Cars state, and line mode. Grid ticks and lane moves preserve node identity; resize, theme/style, or mode changes rebuild them.
+- Road surfaces are cached by scene size, theme identity, and Big Cars state. Grid ticks and lane moves preserve node identity; resize, theme, or Big Cars changes rebuild them.
 - Each visible row renders four trapezoid marker segments: outer-left, inner-left, inner-right, outer-right.
 - Perspective marker trapezoids use an antialiased matching edge stroke so their diagonal edges remain smooth on watch-sized displays.
 - Marker thickness and car/rival/crash scaling follow depth so lane alignment remains centered.
@@ -44,11 +43,10 @@ swift run --package-path Scripts generate-road-dash-masks --check
 ./retrorapid assets audit --check
 ```
 
-## Big Cars and Simplified Grid
+## Big Cars
 
 - Big Cars hides perspective road/lap markers and uses fixed in-cell car sizing for all cars/crashes.
 - Big Cars separators are flat dashed vertical segments with 4-on/1-off cadence.
-- Simplified Grid hides perspective markers and uses two continuous vertical separators.
 
 ## Contrast
 
@@ -58,7 +56,7 @@ swift run --package-path Scripts generate-road-dash-masks --check
 
 ## Testing
 
-- Tests cover every resolver phase, four-visible/one-gap cadence, tick-only phase changes, finish pairs and sentinels, dash suppression, Big Cars precedence, simplified/detailed modes, persistent surface identity/invalidation, lap strip timing/continuity, hidden horizontal lines, lane-center alignment, depth convergence, 20-entity RealityKit reuse, inner/outer boundaries, finish texture/placement, generated mask drift, asset-footprint drift, and contrast output.
+- Tests cover every resolver phase, four-visible/one-gap cadence, tick-only phase changes, finish pairs and sentinels, dash suppression, Big Cars behavior, persistent surface identity/invalidation, lap strip timing/continuity, hidden horizontal lines, lane-center alignment, depth convergence, 20-entity RealityKit reuse, inner/outer boundaries, finish texture/placement, generated mask drift, asset-footprint drift, and contrast output.
 
 ## Related
 

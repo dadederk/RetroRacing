@@ -24,12 +24,14 @@ One folder per feature; under each feature, subfolders by role: **View**, **Mode
 
 - **App/** – `RetroRacingApp.swift` (composition root)
 - **Configuration/** – `LeaderboardConfigurationUniversal`, `AuthenticationPresenterUniversal`, `RatingServiceProviderUniversal`, `RatingServiceProviderMac`
+- **AppIcon/** – UIKit alternate-icon adapter.
 - **Menu/** – `View/MenuView.swift`
 - **Settings/** – `View/SettingsView.swift`
 - **Game/** – `View/GameView.swift`, `View/GameView+GameControl.swift`, `View/GameView+Layout.swift`, `View/GameView+SceneLifecycle.swift`
 - **Leaderboard/** – `View/LeaderboardView.swift`
 - **Auth/** – `View/AuthViewControllerWrapper.swift`
-- **Assets.xcassets/**, **Localizable.xcstrings** – at root or under App
+- **Assets/** – primary and alternate Icon Composer packages; **Assets.xcassets/** contains neutral gallery previews.
+- **Localizable.xcstrings** – at root or under App
 
 ### RetroRacingTvOS
 
@@ -63,6 +65,7 @@ One folder per feature; under each feature, subfolders by role: **View**, **Mode
 - **Game/** – `GameScene.swift`, `GameSceneDelegate.swift`, `GameScene+Grid.swift`, `GameScene+Effects.swift`
 - **Game/Model/** – `GameState.swift`, `GridState.swift`, `GridStateCalculator.swift`, `RandomSource.swift` (game logic models)
 - **Theme/** – `GameTheme.swift`, `ClassicTheme.swift`, `PocketTheme.swift`, `ThemeManager.swift`, `Color+SKColor.swift`
+- **AppIcon/** – stable icon IDs, catalog, feature policy, and presentation environment.
 - **Services/** – `Protocols/`, `Implementations/` (Leaderboard, Rating, Auth)
 - **Extensions/** – `ImageLoader.swift`, `SKNode+Utilities.swift`
 - **Logging/** – `AppLog.swift`

@@ -112,7 +112,7 @@ struct GameHUDHeaderView: View {
                 Int64(score)
             )
         )
-        .font(input.friendHeaderFont)
+        .appFont(input.friendHeaderTextStyle)
         .foregroundStyle(.secondary)
         .lineLimit(shouldUseVerticalHeader ? nil : 1)
         .minimumScaleFactor(shouldUseVerticalHeader ? 1 : 0.75)
@@ -141,10 +141,10 @@ struct GameHUDHeaderView: View {
     private var scoreLabel: some View {
         Group {
             if input.sharePlayOpponentScore == nil {
-                GameScoreStatusView(score: input.score, font: input.headerFont)
+                GameScoreStatusView(score: input.score, textStyle: input.headerTextStyle)
             } else {
                 Text(scoreText)
-                    .font(input.headerFont)
+                    .appFont(input.headerTextStyle)
                     .foregroundStyle(.primary)
                     .shadow(color: Color.primary.opacity(0.35), radius: 0.5)
                     .accessibilityLabel(scoreText)

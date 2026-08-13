@@ -15,7 +15,6 @@ import AppKit
 private enum RoadLineConfiguration {
     static let lapStripMaskAssetName = "lapStripMask"
     static let dashedLineNodeName = "road_dash_line"
-    static let verticalSeparatorNodeName = "vertical_grid_line"
     static let lapMarkerNodeName = "lap_marker_line"
     static let lineZPosition: CGFloat = 1.5
     static let minimumContrast: Double = 4.5
@@ -71,7 +70,7 @@ extension GameScene {
     }
 
     private var usesDistinctRoadExteriorColor: Bool {
-        lineMode == .detailedRoad && theme?.roadExteriorColor() != nil
+        bigRivalCarsEnabled == false && theme?.roadExteriorColor() != nil
     }
 
     func createCell(column: Int, row: Int) -> SKShapeNode {
@@ -256,10 +255,7 @@ extension GameScene {
         }
         let signature = RoadSurfaceRenderSignature(
             sceneSize: size,
-            themeID: theme?.id,
-            roadVisualStyle: roadVisualStyle,
-            bigRivalCarsEnabled: bigRivalCarsEnabled,
-            lineMode: lineMode
+            themeID: theme?.id
         )
         if roadSurfaceRenderSignature == signature,
            roadSurfaceNodes.allSatisfy({ $0.parent === self }) {
@@ -306,16 +302,11 @@ extension GameScene {
     }
 
     private func renderLineOverlays() {
-        switch lineMode {
-        case .detailedRoad:
+        if bigRivalCarsEnabled {
+            renderFlatDashedSeparatorsForBigCars()
+        } else {
             renderDashedRoadLines()
             renderLapMarkers()
-        case .verticalOnly:
-            if bigRivalCarsEnabled {
-                renderFlatDashedSeparatorsForBigCars()
-            } else {
-                renderVerticalSeparators()
-            }
         }
     }
 
@@ -383,27 +374,6 @@ extension GameScene {
         lineNode.zPosition = RoadLineConfiguration.lineZPosition
         lineOverlayNodes.append(lineNode)
         addChild(lineNode)
-    }
-
-    private func renderVerticalSeparators() {
-        let tintColor = roadLineColor()
-        let cellSize = sizeForCell()
-        let lineWidth = max(1.5, cellSize.width * 0.04)
-
-        for separatorIndex in 1..<gridState.numberOfColumns {
-            let xPosition = CGFloat(separatorIndex) * cellSize.width
-            let path = CGMutablePath()
-            path.move(to: CGPoint(x: xPosition, y: 0))
-            path.addLine(to: CGPoint(x: xPosition, y: size.height))
-
-            let separator = SKShapeNode(path: path)
-            separator.name = RoadLineConfiguration.verticalSeparatorNodeName
-            separator.strokeColor = tintColor
-            separator.lineWidth = lineWidth
-            separator.zPosition = RoadLineConfiguration.lineZPosition
-            lineOverlayNodes.append(separator)
-            addChild(separator)
-        }
     }
 
     private func renderFlatDashedSeparatorsForBigCars() {

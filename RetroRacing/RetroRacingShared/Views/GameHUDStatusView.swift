@@ -9,18 +9,24 @@ import SwiftUI
 
 public struct GameScoreStatusView: View {
     private let score: Int
-    private let font: Font
+    private let textStyle: Font.TextStyle
+    private let weightTier: AppFontWeightTier?
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
-    public init(score: Int, font: Font) {
+    public init(
+        score: Int,
+        textStyle: Font.TextStyle,
+        weightTier: AppFontWeightTier? = nil
+    ) {
         self.score = score
-        self.font = font
+        self.textStyle = textStyle
+        self.weightTier = weightTier
     }
 
     public var body: some View {
         Text(displayedScore, format: .number)
-            .font(font)
+            .appFont(textStyle, weightTier: weightTier)
             .monospacedDigit()
             .foregroundStyle(.primary)
             .shadow(color: Color.primary.opacity(0.35), radius: 0.5)

@@ -37,11 +37,6 @@ enum AudioFeedbackEvent {
     case move(destinationColumn: Int)
 }
 
-enum LineMode: Equatable {
-    case detailedRoad
-    case verticalOnly
-}
-
 enum LaneMoveRenderPath: String {
     case unchanged
     case incremental
@@ -88,9 +83,6 @@ private enum LaneMovePerformanceDiagnostics {
 struct RoadSurfaceRenderSignature: Equatable {
     let sceneSize: CGSize
     let themeID: ThemeID?
-    let roadVisualStyle: RoadVisualStyle
-    let bigRivalCarsEnabled: Bool
-    let lineMode: LineMode
 }
 
 struct TextureResolutionKey: Hashable {
@@ -116,7 +108,6 @@ public class GameScene: SKScene {
     public private(set) var audioFeedbackMode: AudioFeedbackMode = .defaultMode
     public private(set) var laneMoveCueStyle: LaneMoveCueStyle = .defaultStyle
     public private(set) var bigRivalCarsEnabled = false
-    public private(set) var roadVisualStyle: RoadVisualStyle = .defaultStyle
 
     private var lastGameUpdateTime: TimeInterval?
     private var hasConfiguredScene = false
@@ -156,16 +147,6 @@ public class GameScene: SKScene {
     public var upcomingFriendMilestone: UpcomingFriendMilestone? { upcomingFriendMilestones.first }
     var lastPlayerColumn: Int = 1
     private var lastLevelChangeImminent = false
-    var lineMode: LineMode {
-        if bigRivalCarsEnabled {
-            return .verticalOnly
-        }
-        if roadVisualStyle == .simplifiedGrid {
-            return .verticalOnly
-        }
-        return .detailedRoad
-    }
-
     /// Number of points before level-up to show the speed-increasing alert; configurable, defaults to 3.
     public var speedAlertWindowPoints: Int = GameState.defaultSpeedAlertWindowPoints
 
@@ -217,7 +198,6 @@ public class GameScene: SKScene {
         laneMoveCueStyle: LaneMoveCueStyle,
         difficulty: GameDifficulty,
         bigRivalCarsEnabled: Bool = false,
-        roadVisualStyle: RoadVisualStyle = .defaultStyle,
         gameEngine: any GameEngineProtocol
     ) {
         self.gameEngine = gameEngine
@@ -230,7 +210,6 @@ public class GameScene: SKScene {
         self.audioFeedbackMode = audioFeedbackMode
         self.laneMoveCueStyle = laneMoveCueStyle
         self.bigRivalCarsEnabled = bigRivalCarsEnabled
-        self.roadVisualStyle = roadVisualStyle
         applyDifficulty(difficulty)
     }
 
@@ -270,8 +249,7 @@ public class GameScene: SKScene {
         hapticController: HapticFeedbackController? = nil,
         audioFeedbackMode: AudioFeedbackMode = .defaultMode,
         laneMoveCueStyle: LaneMoveCueStyle = .defaultStyle,
-        bigRivalCarsEnabled: Bool = false,
-        roadVisualStyle: RoadVisualStyle = .defaultStyle
+        bigRivalCarsEnabled: Bool = false
     ) -> GameScene {
         let scene = GameScene(
             size: size,
@@ -284,7 +262,6 @@ public class GameScene: SKScene {
             laneMoveCueStyle: laneMoveCueStyle,
             difficulty: difficulty,
             bigRivalCarsEnabled: bigRivalCarsEnabled,
-            roadVisualStyle: roadVisualStyle,
             gameEngine: gameEngine
         )
         scene.anchorPoint = CGPoint(x: 0, y: 0)
@@ -300,15 +277,13 @@ public class GameScene: SKScene {
         snapshot: GameSnapshot,
         theme: (any GameTheme)?,
         imageLoader: any ImageLoader,
-        bigRivalCarsEnabled: Bool = false,
-        roadVisualStyle: RoadVisualStyle = .defaultStyle
+        bigRivalCarsEnabled: Bool = false
     ) -> GameScene {
         let scene = GameScene(size: size)
         scene.rendersExternalSnapshots = true
         scene.theme = theme
         scene.imageLoader = imageLoader
         scene.bigRivalCarsEnabled = bigRivalCarsEnabled
-        scene.roadVisualStyle = roadVisualStyle
         scene.anchorPoint = CGPoint(x: 0, y: 0)
         scene.scaleMode = .aspectFit
         scene.render(snapshot: snapshot)
@@ -326,8 +301,7 @@ public class GameScene: SKScene {
         hapticController: HapticFeedbackController? = nil,
         audioFeedbackMode: AudioFeedbackMode = .defaultMode,
         laneMoveCueStyle: LaneMoveCueStyle = .defaultStyle,
-        bigRivalCarsEnabled: Bool = false,
-        roadVisualStyle: RoadVisualStyle = .defaultStyle
+        bigRivalCarsEnabled: Bool = false
     ) -> GameScene {
         let defaultSize = CGSize(width: 800, height: 600)
         return scene(
@@ -341,8 +315,7 @@ public class GameScene: SKScene {
             hapticController: hapticController,
             audioFeedbackMode: audioFeedbackMode,
             laneMoveCueStyle: laneMoveCueStyle,
-            bigRivalCarsEnabled: bigRivalCarsEnabled,
-            roadVisualStyle: roadVisualStyle
+            bigRivalCarsEnabled: bigRivalCarsEnabled
         )
     }
 
@@ -674,17 +647,6 @@ public class GameScene: SKScene {
     public func setBigRivalCarsEnabled(_ enabled: Bool) {
         guard bigRivalCarsEnabled != enabled else { return }
         bigRivalCarsEnabled = enabled
-        guard hasConfiguredScene else { return }
-        gridStateDidUpdate(
-            gridState,
-            shouldPlayFeedback: false,
-            notifyDelegate: false
-        )
-    }
-
-    public func setRoadVisualStyle(_ style: RoadVisualStyle) {
-        guard roadVisualStyle != style else { return }
-        roadVisualStyle = style
         guard hasConfiguredScene else { return }
         gridStateDidUpdate(
             gridState,

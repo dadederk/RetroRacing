@@ -15,7 +15,6 @@ struct SettingsAudioCueTutorialView: View {
     let presentation: NavigationSurfacePresentation
 
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.fontPreferenceStore) private var fontPreferenceStore
 
     var body: some View {
         if presentation == .modal {
@@ -26,7 +25,7 @@ struct SettingsAudioCueTutorialView: View {
                             Button(GameLocalizedStrings.string("done")) {
                                 dismiss()
                             }
-                            .font(primaryFont)
+                            .appFont(.body)
                         }
                     }
             }
@@ -50,9 +49,6 @@ struct SettingsAudioCueTutorialView: View {
         .modifier(SettingsAudioCueTutorialNavigationTitleStyle())
     }
 
-    private var primaryFont: Font {
-        fontPreferenceStore?.font(textStyle: .body) ?? .body
-    }
 }
 
 #if os(iOS)

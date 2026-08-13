@@ -48,7 +48,7 @@ Shared SwiftUI views must avoid tvOS-unavailable APIs by using compile-time chec
 - Settings uses a native top tab bar for Speed, Theme, Sound, Accessibility, Controls, Purchases, About, and Debug when available. Moving focus across the tabs switches category pages without a Select press.
 - Each category page uses a television-scale two-column composition: a semantic icon, title, and current-value summary on the left; a system `List` of controls on the right. Controls remain explicit actions so browsing categories cannot change preferences.
 - Category controls use system `List`, `Toggle`, and navigation-link `Picker` behavior with semantic TV-scale typography.
-- Theme embeds the complete selectable Style Gallery in its category page, followed by font and road-appearance controls; it does not push a gallery sub-screen.
+- Theme embeds the complete selectable Style Gallery in its category page, followed by font and Big Cars controls; it does not push a gallery sub-screen.
 - The Sound Effects volume control uses a `Picker` with 5% steps (0% → 100%).
 - Haptics section is hidden (tvOS has no haptics).
 - Direct Touch is hidden because touch-based gameplay regions do not apply to Apple TV.

@@ -36,8 +36,7 @@ struct VisionClassicSpriteSceneTests {
             size: CGSize(width: 600, height: 600),
             snapshot: collisionSnapshot,
             theme: ThirtyTwoBitTheme(),
-            imageLoader: PlatformFactories.makeImageLoader(),
-            roadVisualStyle: .detailedRoad
+            imageLoader: PlatformFactories.makeImageLoader()
         )
 
         scene.setUpScene()

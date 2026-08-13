@@ -808,20 +808,18 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         )
     }
 
-    func testGivenBigCarsDisabledWhenRenderingThenDashedRoadLinesAreVisibleAndVerticalSeparatorsAreHidden() {
+    func testGivenBigCarsDisabledWhenRenderingThenPerspectiveRoadDashesAreVisible() {
         // Given
         scene.setBigRivalCarsEnabled(false)
-        scene.setRoadVisualStyle(.detailedRoad)
 
         // When
         scene.gridStateDidUpdate(scene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
 
         // Then
         XCTAssertGreaterThan(lineOverlayCount(named: "road_dash_line"), 0)
-        XCTAssertEqual(lineOverlayCount(named: "vertical_grid_line"), 0)
     }
 
-    func testGivenEightBitDetailedRoadWhenRenderingThenRoadSurfaceUsesDistinctExteriorColor() {
+    func testGivenEightBitPerspectiveRoadWhenRenderingThenRoadSurfaceUsesDistinctExteriorColor() {
         // Given
         let theme = EightBitTheme()
         guard let exteriorColor = theme.roadExteriorColor()?.skColor else {
@@ -829,7 +827,7 @@ final class GameSceneAudioHapticsTests: XCTestCase {
             return
         }
         let roadColor = theme.gridCellColor().skColor
-        let themedScene = makeThemedScene(theme: theme, roadVisualStyle: .detailedRoad)
+        let themedScene = makeThemedScene(theme: theme)
 
         // When
         themedScene.gridStateDidUpdate(themedScene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
@@ -855,7 +853,7 @@ final class GameSceneAudioHapticsTests: XCTestCase {
 
     func testGivenPersistentRoadSurfaceWhenGridTicksAndLaneMovesThenNodeIdentityIsStable() {
         // Given
-        let themedScene = makeThemedScene(theme: EightBitTheme(), roadVisualStyle: .detailedRoad)
+        let themedScene = makeThemedScene(theme: EightBitTheme())
         let initialNodes = roadSurfaceNodes(in: themedScene)
 
         // When
@@ -874,7 +872,7 @@ final class GameSceneAudioHapticsTests: XCTestCase {
 
     func testGivenPersistentRoadSurfaceWhenSceneSizeChangesThenNodesAreRebuilt() {
         // Given
-        let themedScene = makeThemedScene(theme: EightBitTheme(), roadVisualStyle: .detailedRoad)
+        let themedScene = makeThemedScene(theme: EightBitTheme())
         let initialNodes = roadSurfaceNodes(in: themedScene)
 
         // When
@@ -886,9 +884,9 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         XCTAssertTrue(zip(initialNodes, resizedNodes).allSatisfy { $0 !== $1 })
     }
 
-    func testGivenPersistentRoadSurfaceWhenThemeOrStyleChangesThenCacheIsInvalidated() {
+    func testGivenPersistentRoadSurfaceWhenThemeChangesThenCacheIsInvalidated() {
         // Given
-        let themedScene = makeThemedScene(theme: EightBitTheme(), roadVisualStyle: .detailedRoad)
+        let themedScene = makeThemedScene(theme: EightBitTheme())
         let eightBitNodes = roadSurfaceNodes(in: themedScene)
 
         // When
@@ -899,36 +897,37 @@ final class GameSceneAudioHapticsTests: XCTestCase {
             notifyDelegate: false
         )
         let sixteenBitNodes = roadSurfaceNodes(in: themedScene)
-        themedScene.setRoadVisualStyle(.simplifiedGrid)
 
         // Then
         XCTAssertTrue(zip(eightBitNodes, sixteenBitNodes).allSatisfy { $0 !== $1 })
-        XCTAssertTrue(roadSurfaceNodes(in: themedScene).isEmpty)
     }
 
-    func testGivenEightBitSimplifiedGridWhenRenderingThenRoadSurfaceUsesSingleRoadColor() {
+    func testGivenPersistentRoadSurfaceWhenBigCarsTogglesThenCacheClearsAndRebuilds() {
         // Given
-        let theme = EightBitTheme()
-        let themedScene = makeThemedScene(theme: theme, roadVisualStyle: .simplifiedGrid)
+        let themedScene = makeThemedScene(theme: EightBitTheme())
+        let perspectiveNodes = roadSurfaceNodes(in: themedScene)
 
         // When
-        themedScene.gridStateDidUpdate(themedScene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
+        themedScene.setBigRivalCarsEnabled(true)
+        let bigCarsNodes = roadSurfaceNodes(in: themedScene)
+        themedScene.setBigRivalCarsEnabled(false)
+        let rebuiltPerspectiveNodes = roadSurfaceNodes(in: themedScene)
 
         // Then
-        XCTAssertEqual(roadSurfaceNodes(in: themedScene).count, 0)
-        for cell in allGridCells(in: themedScene) {
-            assertColor(cell.fillColor, equals: theme.gridCellColor().skColor)
-        }
+        XCTAssertFalse(perspectiveNodes.isEmpty)
+        XCTAssertTrue(bigCarsNodes.isEmpty)
+        XCTAssertEqual(rebuiltPerspectiveNodes.count, perspectiveNodes.count)
+        XCTAssertTrue(zip(perspectiveNodes, rebuiltPerspectiveNodes).allSatisfy { $0 !== $1 })
     }
 
-    func testGivenSixteenBitDetailedRoadWhenRenderingThenGrassExteriorSurroundsPerspectiveRoad() {
+    func testGivenSixteenBitPerspectiveRoadWhenRenderingThenGrassExteriorSurroundsPerspectiveRoad() {
         // Given
         let theme = SixteenBitTheme()
         guard let exteriorColor = theme.roadExteriorColor()?.skColor else {
             XCTFail("Expected 16-Bit theme to provide a road exterior color")
             return
         }
-        let themedScene = makeThemedScene(theme: theme, roadVisualStyle: .detailedRoad)
+        let themedScene = makeThemedScene(theme: theme)
 
         // When
         themedScene.gridStateDidUpdate(themedScene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
@@ -952,27 +951,11 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         assertRoadSurfaceNodesOverhangOuterLines(in: themedScene)
     }
 
-    func testGivenSixteenBitSimplifiedGridWhenRenderingThenEveryCellUsesGreyRoadColor() {
-        // Given
-        let theme = SixteenBitTheme()
-        let themedScene = makeThemedScene(theme: theme, roadVisualStyle: .simplifiedGrid)
-
-        // When
-        themedScene.gridStateDidUpdate(themedScene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
-
-        // Then
-        XCTAssertEqual(roadSurfaceNodes(in: themedScene).count, 0)
-        for cell in allGridCells(in: themedScene) {
-            assertColor(cell.fillColor, equals: theme.gridCellColor().skColor)
-        }
-    }
-
-    func testGivenSixteenBitBigCarsWhenRenderingDetailedRoadThenFlatRoadAndDashesRemainVisible() {
+    func testGivenSixteenBitBigCarsWhenRenderingThenFlatRoadAndDashesRemainVisible() {
         // Given
         let theme = SixteenBitTheme()
         let themedScene = makeThemedScene(
             theme: theme,
-            roadVisualStyle: .detailedRoad,
             bigRivalCarsEnabled: true
         )
 
@@ -992,13 +975,12 @@ final class GameSceneAudioHapticsTests: XCTestCase {
                 && abs(components.blue - expected.blue) < 0.001
         })
         XCTAssertGreaterThan(themedScene.lineOverlayNodes.filter { $0.name == "road_dash_line" }.count, 0)
-        XCTAssertEqual(themedScene.lineOverlayNodes.filter { $0.name == "vertical_grid_line" }.count, 0)
     }
 
-    func testGivenLCDDetailedRoadWhenRenderingThenRoadSurfaceUsesSingleRoadColor() {
+    func testGivenLCDPerspectiveRoadWhenRenderingThenRoadSurfaceUsesSingleRoadColor() {
         // Given
         let theme = LCDTheme()
-        let themedScene = makeThemedScene(theme: theme, roadVisualStyle: .detailedRoad)
+        let themedScene = makeThemedScene(theme: theme)
 
         // When
         themedScene.gridStateDidUpdate(themedScene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
@@ -1010,23 +992,31 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         }
     }
 
-    func testGivenBigCarsEnabledWhenRenderingThenFlatDashedSeparatorsAreVisibleAndContinuousSeparatorsAreHidden() {
+    func testGivenBigCarsEnabledWhenRenderingThenTwoFlatSeparatorsRenderPerVisibleRow() {
         // Given
         scene.setBigRivalCarsEnabled(true)
-        scene.setRoadVisualStyle(.detailedRoad)
 
         // When
         scene.gridStateDidUpdate(scene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
 
         // Then
-        XCTAssertGreaterThan(lineOverlayCount(named: "road_dash_line"), 0)
-        XCTAssertEqual(lineOverlayCount(named: "vertical_grid_line"), 0)
+        let rows = dashedLineRowsByY()
+        let cellWidth = scene.sizeForCell().width
+        XCTAssertEqual(rows.count, scene.gridState.numberOfRows - 1)
+        XCTAssertTrue(rows.allSatisfy { $0.count == scene.gridState.numberOfColumns - 1 })
+        for row in rows {
+            guard row.count == scene.gridState.numberOfColumns - 1 else {
+                XCTFail("Expected two flat separator positions per visible row")
+                continue
+            }
+            XCTAssertEqual(row[0], cellWidth, accuracy: 0.01)
+            XCTAssertEqual(row[1], cellWidth * 2, accuracy: 0.01)
+        }
     }
 
     func testGivenBigCarsEnabledWhenRenderingThenHorizontalGridLinesAreNotDrawn() {
         // Given
         scene.setBigRivalCarsEnabled(true)
-        scene.setRoadVisualStyle(.detailedRoad)
 
         // When
         scene.gridStateDidUpdate(scene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
@@ -1034,13 +1024,11 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         // Then
         XCTAssertTrue(allGridCells().allSatisfy { $0.lineWidth == 0 })
         XCTAssertGreaterThan(lineOverlayCount(named: "road_dash_line"), 0)
-        XCTAssertEqual(lineOverlayCount(named: "vertical_grid_line"), 0)
     }
 
     func testGivenDashedRoadLinesWhenComparingTopAndBottomSpacingThenTopRowsAreMoreConverged() {
         // Given
         scene.setBigRivalCarsEnabled(false)
-        scene.setRoadVisualStyle(.detailedRoad)
         scene.roadDashPhase = 2
 
         // When
@@ -1069,7 +1057,6 @@ final class GameSceneAudioHapticsTests: XCTestCase {
     func testGivenDashedRoadLinesWhenComparingInclinationThenOuterLinesConvergeMoreThanInnerLines() {
         // Given
         scene.setBigRivalCarsEnabled(false)
-        scene.setRoadVisualStyle(.detailedRoad)
         scene.roadDashPhase = 2
 
         // When
@@ -1092,10 +1079,9 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         XCTAssertGreaterThan(rightOuterDrift, rightInnerDrift)
     }
 
-    func testGivenDetailedRoadWhenRenderingThenPerspectiveDashesUseAntialiasedTintedEdges() {
+    func testGivenPerspectiveRoadWhenRenderingThenDashesUseAntialiasedTintedEdges() {
         // Given
         scene.setBigRivalCarsEnabled(false)
-        scene.setRoadVisualStyle(.detailedRoad)
 
         // When
         scene.gridStateDidUpdate(scene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
@@ -1113,40 +1099,22 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         }
     }
 
-    func testGivenBigCarsOffWhenRoadStyleSimplifiedWhenRenderingThenVerticalSeparatorsVisibleAndDetailedMarkersHidden() {
-        // Given
-        scene.setBigRivalCarsEnabled(false)
-        scene.setRoadVisualStyle(.simplifiedGrid)
-        scene.safetyMarkerRows = [1, 3]
-
-        // When
-        scene.gridStateDidUpdate(scene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
-
-        // Then
-        XCTAssertEqual(lineOverlayCount(named: "vertical_grid_line"), 2)
-        XCTAssertEqual(lineOverlayCount(named: "road_dash_line"), 0)
-        XCTAssertEqual(lineOverlayCount(named: "lap_marker_line"), 0)
-    }
-
-    func testGivenBigCarsOnWhenRoadStyleDetailedWhenRenderingThenVerticalOnlyModeOverridesDetailedMarkers() {
+    func testGivenBigCarsOnWhenRenderingThenFlatDashesOverridePerspectiveMarkers() {
         // Given
         scene.setBigRivalCarsEnabled(true)
-        scene.setRoadVisualStyle(.detailedRoad)
         scene.safetyMarkerRows = [1, 3]
 
         // When
         scene.gridStateDidUpdate(scene.gridState, shouldPlayFeedback: false, notifyDelegate: false)
 
         // Then
-        XCTAssertEqual(lineOverlayCount(named: "vertical_grid_line"), 0)
         XCTAssertGreaterThan(lineOverlayCount(named: "road_dash_line"), 0)
         XCTAssertEqual(lineOverlayCount(named: "lap_marker_line"), 0)
     }
 
-    func testGivenDetailedRoadSafetyWindowWhenRenderingThenLapMarkersAppearOnSingleRow() {
+    func testGivenPerspectiveRoadSafetyWindowWhenRenderingThenLapMarkersAppearOnSingleRow() {
         // Given
         scene.setBigRivalCarsEnabled(false)
-        scene.setRoadVisualStyle(.detailedRoad)
         scene.safetyMarkerRows = [1, 3]
 
         // When
@@ -1159,10 +1127,9 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         XCTAssertEqual(rowsByY.first?.count, 1)
     }
 
-    func testGivenDetailedRoadSafetyWindowWhenRenderingThenLapOutlineIsBakedInAssetWithoutSeparateOverlayNode() {
+    func testGivenPerspectiveRoadSafetyWindowWhenRenderingThenLapOutlineIsBakedInAssetWithoutSeparateOverlayNode() {
         // Given
         scene.setBigRivalCarsEnabled(false)
-        scene.setRoadVisualStyle(.detailedRoad)
         scene.safetyMarkerRows = [1, 3]
 
         // When
@@ -1172,10 +1139,9 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         XCTAssertEqual(lineOverlayCount(named: "lap_marker_outline"), 0)
     }
 
-    func testGivenDetailedRoadSafetyWindowWhenRenderingThenDashedRowsDoNotOverlapLapRows() {
+    func testGivenPerspectiveRoadSafetyWindowWhenRenderingThenDashedRowsDoNotOverlapLapRows() {
         // Given
         scene.setBigRivalCarsEnabled(false)
-        scene.setRoadVisualStyle(.detailedRoad)
         scene.safetyMarkerRows = [1, 3]
 
         // When
@@ -1193,10 +1159,9 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         XCTAssertTrue(dashedRowY.isDisjoint(with: lapRowY))
     }
 
-    func testGivenDetailedRoadWhenLapStripApproachesPlayerRowThenStripPersistsUntilOffscreenAndDashesReturnAfterExit() {
+    func testGivenPerspectiveRoadWhenLapStripApproachesPlayerRowThenStripPersistsUntilOffscreenAndDashesReturnAfterExit() {
         // Given
         scene.setBigRivalCarsEnabled(false)
-        scene.setRoadVisualStyle(.detailedRoad)
         scene.roadDashPhase = 1
         let playerRow = scene.gridState.playerRowIndex
 
@@ -1225,10 +1190,9 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         XCTAssertGreaterThan(dashedCountAtPlayerRowAfterExit, 0)
     }
 
-    func testGivenDetailedRoadSafetyWindowWhenRenderingThenLapMarkersAreNotVerticallyMirrored() {
+    func testGivenPerspectiveRoadSafetyWindowWhenRenderingThenLapMarkersAreNotVerticallyMirrored() {
         // Given
         scene.setBigRivalCarsEnabled(false)
-        scene.setRoadVisualStyle(.detailedRoad)
         scene.safetyMarkerRows = [1, 3]
 
         // When
@@ -1243,10 +1207,9 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         XCTAssertTrue(lapMarkers.allSatisfy { $0.yScale > 0 })
     }
 
-    func testGivenDetailedRoadSafetyWindowWhenRenderingThenLapMarkerSpansRoadInterior() {
+    func testGivenPerspectiveRoadSafetyWindowWhenRenderingThenLapMarkerSpansRoadInterior() {
         // Given
         scene.setBigRivalCarsEnabled(false)
-        scene.setRoadVisualStyle(.detailedRoad)
         scene.safetyMarkerRows = [1, 3]
 
         // When
@@ -1269,10 +1232,9 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         XCTAssertEqual(lapMarker.frame.maxX, expectedMaxX, accuracy: 1.25)
     }
 
-    func testGivenDetailedRoadSafetyWindowWhenRenderingThenLapMarkerIsCenteredBetweenSafetyRows() {
+    func testGivenPerspectiveRoadSafetyWindowWhenRenderingThenLapMarkerIsCenteredBetweenSafetyRows() {
         // Given
         scene.setBigRivalCarsEnabled(false)
-        scene.setRoadVisualStyle(.detailedRoad)
         scene.safetyMarkerRows = [0, 1]
 
         // When
@@ -1291,10 +1253,9 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         XCTAssertTrue(lapMarkers.allSatisfy { abs($0.position.y - expectedY) < 0.75 })
     }
 
-    func testGivenDetailedRoadSafetyWindowWhenRenderingThenLapMarkerHeightScalesWithSafetyRowDepth() {
+    func testGivenPerspectiveRoadSafetyWindowWhenRenderingThenLapMarkerHeightScalesWithSafetyRowDepth() {
         // Given
         scene.setBigRivalCarsEnabled(false)
-        scene.setRoadVisualStyle(.detailedRoad)
         scene.safetyMarkerRows = [1, 3]
 
         // When
@@ -1313,10 +1274,9 @@ final class GameSceneAudioHapticsTests: XCTestCase {
         XCTAssertEqual(lapMarker.frame.height, expectedHeight, accuracy: 0.75)
     }
 
-    func testGivenDetailedRoadSafetyWindowWhenRowsAreHigherThenLapMarkerHeightIsSmaller() {
+    func testGivenPerspectiveRoadSafetyWindowWhenRowsAreHigherThenLapMarkerHeightIsSmaller() {
         // Given
         scene.setBigRivalCarsEnabled(false)
-        scene.setRoadVisualStyle(.detailedRoad)
 
         // When
         scene.safetyMarkerRows = [0, 1]
@@ -1812,7 +1772,6 @@ final class GameSceneAudioHapticsTests: XCTestCase {
 
     private func makeThemedScene(
         theme: any GameTheme,
-        roadVisualStyle: RoadVisualStyle,
         bigRivalCarsEnabled: Bool = false
     ) -> GameScene {
         let loader = PlatformFactories.makeImageLoader()
@@ -1825,8 +1784,7 @@ final class GameSceneAudioHapticsTests: XCTestCase {
             laneCuePlayer: MockLaneCuePlayer(),
             hapticController: nil,
             audioFeedbackMode: .retro,
-            bigRivalCarsEnabled: bigRivalCarsEnabled,
-            roadVisualStyle: roadVisualStyle
+            bigRivalCarsEnabled: bigRivalCarsEnabled
         )
         testScene.setUpScene()
         return testScene

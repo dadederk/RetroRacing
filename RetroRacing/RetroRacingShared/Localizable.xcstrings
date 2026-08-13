@@ -12449,6 +12449,666 @@
         }
       }
     },
+    "font_attribution_atkinson_description": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {"stringUnit":{"state":"needs_review","value":"Dissenyada per a una major llegibilitat i facilitat de lectura, especialment per a lectors amb baixa visió."}},
+        "de": {"stringUnit":{"state":"needs_review","value":"Entwickelt für bessere Lesbarkeit, besonders für Lesende mit Sehbeeinträchtigung."}},
+        "en-AU": {"stringUnit":{"state":"needs_review","value":"Designed for greater legibility and readability, especially for low-vision readers."}},
+        "en-CA": {"stringUnit":{"state":"needs_review","value":"Designed for greater legibility and readability, especially for low-vision readers."}},
+        "en-GB": {"stringUnit":{"state":"needs_review","value":"Designed for greater legibility and readability, especially for low-vision readers."}},
+        "es": {"stringUnit":{"state":"needs_review","value":"Diseñada para una mayor legibilidad y facilidad de lectura, especialmente para lectores con baja visión."}},
+        "es-MX": {"stringUnit":{"state":"needs_review","value":"Diseñada para una mayor legibilidad y facilidad de lectura, especialmente para lectores con baja visión."}},
+        "fr": {"stringUnit":{"state":"needs_review","value":"Conçu pour une meilleure lisibilité et lisibilité, en particulier pour les lecteurs malvoyants."}},
+        "fr-CA": {"stringUnit":{"state":"needs_review","value":"Conçu pour une meilleure lisibilité et lisibilité, en particulier pour les lecteurs malvoyants."}},
+        "it": {"stringUnit":{"state":"needs_review","value":"Progettato per una maggiore leggibilità e leggibilità, soprattutto per i lettori ipovedenti."}},
+        "ja": {"stringUnit":{"state":"needs_review","value":"特に視覚障害のある読者向けに、読みやすさと可読性を高めるように設計されています。"}},
+        "ko": {"stringUnit":{"state":"needs_review","value":"특히 저시력 독자를 위해 가독성과 읽기 편의성을 높이도록 설계되었습니다."}},
+        "nl": {"stringUnit":{"state":"needs_review","value":"Ontworpen voor betere leesbaarheid en leesbaarheid, vooral voor slechtziende lezers."}},
+        "pl": {"stringUnit":{"state":"needs_review","value":"Zaprojektowany z myślą o większej czytelności i czytelności, szczególnie dla czytelników słabowidzących."}},
+        "pt-BR": {"stringUnit":{"state":"needs_review","value":"Projetado para maior legibilidade e legibilidade, especialmente para leitores com baixa visão."}},
+        "pt-PT": {"stringUnit":{"state":"needs_review","value":"Concebida para melhorar a legibilidade e a facilidade de leitura, especialmente para leitores com baixa visão."}},
+        "tr": {"stringUnit":{"state":"needs_review","value":"Özellikle az gören okuyucular için okunabilirliği artırmak üzere tasarlanmıştır."}},
+        "zh-Hans": {"stringUnit":{"state":"needs_review","value":"旨在提升易读性和阅读体验，尤其适合低视力读者。"}},
+        "zh-Hant": {"stringUnit":{"state":"needs_review","value":"旨在提升易讀性和閱讀體驗，尤其適合低視力讀者。"}},
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Designed for greater legibility and readability, especially for low-vision readers."
+          }
+        }
+      }
+    },
+    "font_attribution_fonts_header": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {"stringUnit":{"state":"needs_review","value":"Tipografies"}},
+        "de": {"stringUnit":{"state":"needs_review","value":"Schriften"}},
+        "en-AU": {"stringUnit":{"state":"needs_review","value":"Fonts"}},
+        "en-CA": {"stringUnit":{"state":"needs_review","value":"Fonts"}},
+        "en-GB": {"stringUnit":{"state":"needs_review","value":"Fonts"}},
+        "es": {"stringUnit":{"state":"needs_review","value":"Fuentes"}},
+        "es-MX": {"stringUnit":{"state":"needs_review","value":"Fuentes"}},
+        "fr": {"stringUnit":{"state":"needs_review","value":"Polices"}},
+        "fr-CA": {"stringUnit":{"state":"needs_review","value":"Polices"}},
+        "it": {"stringUnit":{"state":"needs_review","value":"Caratteri"}},
+        "ja": {"stringUnit":{"state":"needs_review","value":"フォント"}},
+        "ko": {"stringUnit":{"state":"needs_review","value":"서체"}},
+        "nl": {"stringUnit":{"state":"needs_review","value":"Lettertypen"}},
+        "pl": {"stringUnit":{"state":"needs_review","value":"Czcionki"}},
+        "pt-BR": {"stringUnit":{"state":"needs_review","value":"Fontes"}},
+        "pt-PT": {"stringUnit":{"state":"needs_review","value":"Tipos de letra"}},
+        "tr": {"stringUnit":{"state":"needs_review","value":"Yazı Tipleri"}},
+        "zh-Hans": {"stringUnit":{"state":"needs_review","value":"字体"}},
+        "zh-Hant": {"stringUnit":{"state":"needs_review","value":"字體"}},
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Fonts"
+          }
+        }
+      }
+    },
+    "font_attribution_lexend_description": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {"stringUnit":{"state":"needs_review","value":"Dissenyada per a afavorir la fluïdesa lectora i la comoditat visual."}},
+        "de": {"stringUnit":{"state":"needs_review","value":"Entwickelt, um Lesefluss und visuellen Komfort zu unterstützen."}},
+        "en-AU": {"stringUnit":{"state":"needs_review","value":"Designed to support reading fluency and visual ease."}},
+        "en-CA": {"stringUnit":{"state":"needs_review","value":"Designed to support reading fluency and visual ease."}},
+        "en-GB": {"stringUnit":{"state":"needs_review","value":"Designed to support reading fluency and visual ease."}},
+        "es": {"stringUnit":{"state":"needs_review","value":"Diseñada para favorecer la fluidez lectora y la comodidad visual."}},
+        "es-MX": {"stringUnit":{"state":"needs_review","value":"Diseñada para favorecer la fluidez lectora y la comodidad visual."}},
+        "fr": {"stringUnit":{"state":"needs_review","value":"Conçu pour faciliter la lecture et la facilité visuelle."}},
+        "fr-CA": {"stringUnit":{"state":"needs_review","value":"Conçu pour faciliter la lecture et la facilité visuelle."}},
+        "it": {"stringUnit":{"state":"needs_review","value":"Progettato per supportare la fluidità della lettura e la facilità visiva."}},
+        "ja": {"stringUnit":{"state":"needs_review","value":"流暢な読みやすさと視覚的な読みやすさをサポートするように設計されています。"}},
+        "ko": {"stringUnit":{"state":"needs_review","value":"유창한 읽기와 시각적 편안함을 돕도록 설계되었습니다."}},
+        "nl": {"stringUnit":{"state":"needs_review","value":"Ontworpen om vloeiend lezen en visueel gemak te ondersteunen."}},
+        "pl": {"stringUnit":{"state":"needs_review","value":"Zaprojektowany, aby wspierać płynność czytania i łatwość wizualną."}},
+        "pt-BR": {"stringUnit":{"state":"needs_review","value":"Projetado para oferecer suporte à fluência de leitura e facilidade visual."}},
+        "pt-PT": {"stringUnit":{"state":"needs_review","value":"Concebida para favorecer a fluência da leitura e o conforto visual."}},
+        "tr": {"stringUnit":{"state":"needs_review","value":"Akıcı okumayı ve görsel rahatlığı desteklemek üzere tasarlanmıştır."}},
+        "zh-Hans": {"stringUnit":{"state":"needs_review","value":"旨在帮助流畅阅读并提升视觉舒适度。"}},
+        "zh-Hant": {"stringUnit":{"state":"needs_review","value":"旨在幫助流暢閱讀並提升視覺舒適度。"}},
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Designed to support reading fluency and visual ease."
+          }
+        }
+      }
+    },
+    "font_attribution_license_header": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {"stringUnit":{"state":"needs_review","value":"Llicència"}},
+        "de": {"stringUnit":{"state":"needs_review","value":"Lizenz"}},
+        "en-AU": {"stringUnit":{"state":"needs_review","value":"License"}},
+        "en-CA": {"stringUnit":{"state":"needs_review","value":"License"}},
+        "en-GB": {"stringUnit":{"state":"needs_review","value":"License"}},
+        "es": {"stringUnit":{"state":"needs_review","value":"Licencia"}},
+        "es-MX": {"stringUnit":{"state":"needs_review","value":"Licencia"}},
+        "fr": {"stringUnit":{"state":"needs_review","value":"Licence"}},
+        "fr-CA": {"stringUnit":{"state":"needs_review","value":"Licence"}},
+        "it": {"stringUnit":{"state":"needs_review","value":"Licenza"}},
+        "ja": {"stringUnit":{"state":"needs_review","value":"ライセンス"}},
+        "ko": {"stringUnit":{"state":"needs_review","value":"라이선스"}},
+        "nl": {"stringUnit":{"state":"needs_review","value":"Licentie"}},
+        "pl": {"stringUnit":{"state":"needs_review","value":"Licencja"}},
+        "pt-BR": {"stringUnit":{"state":"needs_review","value":"Licença"}},
+        "pt-PT": {"stringUnit":{"state":"needs_review","value":"Licença"}},
+        "tr": {"stringUnit":{"state":"needs_review","value":"Lisans"}},
+        "zh-Hans": {"stringUnit":{"state":"needs_review","value":"许可证"}},
+        "zh-Hant": {"stringUnit":{"state":"needs_review","value":"授權條款"}},
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "License"
+          }
+        }
+      }
+    },
+    "font_attribution_license_source": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {"stringUnit":{"state":"needs_review","value":"Font de la llicència"}},
+        "de": {"stringUnit":{"state":"needs_review","value":"Lizenzquelle"}},
+        "en-AU": {"stringUnit":{"state":"needs_review","value":"License source"}},
+        "en-CA": {"stringUnit":{"state":"needs_review","value":"License source"}},
+        "en-GB": {"stringUnit":{"state":"needs_review","value":"License source"}},
+        "es": {"stringUnit":{"state":"needs_review","value":"Fuente de la licencia"}},
+        "es-MX": {"stringUnit":{"state":"needs_review","value":"Fuente de la licencia"}},
+        "fr": {"stringUnit":{"state":"needs_review","value":"Source de la licence"}},
+        "fr-CA": {"stringUnit":{"state":"needs_review","value":"Source de la licence"}},
+        "it": {"stringUnit":{"state":"needs_review","value":"Origine della licenza"}},
+        "ja": {"stringUnit":{"state":"needs_review","value":"ライセンスソース"}},
+        "ko": {"stringUnit":{"state":"needs_review","value":"라이선스 출처"}},
+        "nl": {"stringUnit":{"state":"needs_review","value":"Licentiebron"}},
+        "pl": {"stringUnit":{"state":"needs_review","value":"Źródło licencji"}},
+        "pt-BR": {"stringUnit":{"state":"needs_review","value":"Fonte de licença"}},
+        "pt-PT": {"stringUnit":{"state":"needs_review","value":"Origem da licença"}},
+        "tr": {"stringUnit":{"state":"needs_review","value":"Lisans kaynağı"}},
+        "zh-Hans": {"stringUnit":{"state":"needs_review","value":"许可证来源"}},
+        "zh-Hant": {"stringUnit":{"state":"needs_review","value":"授權條款來源"}},
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "License source"
+          }
+        }
+      }
+    },
+    "font_attribution_license_title": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {"stringUnit":{"state":"needs_review","value":"Llicència Open Font"}},
+        "de": {"stringUnit":{"state":"needs_review","value":"Open-Font-Lizenz öffnen"}},
+        "en-AU": {"stringUnit":{"state":"needs_review","value":"Open Font License"}},
+        "en-CA": {"stringUnit":{"state":"needs_review","value":"Open Font License"}},
+        "en-GB": {"stringUnit":{"state":"needs_review","value":"Open Font License"}},
+        "es": {"stringUnit":{"state":"needs_review","value":"Licencia Open Font"}},
+        "es-MX": {"stringUnit":{"state":"needs_review","value":"Licencia Open Font"}},
+        "fr": {"stringUnit":{"state":"needs_review","value":"Licence de police ouverte"}},
+        "fr-CA": {"stringUnit":{"state":"needs_review","value":"Licence de police ouverte"}},
+        "it": {"stringUnit":{"state":"needs_review","value":"Licenza carattere aperta"}},
+        "ja": {"stringUnit":{"state":"needs_review","value":"オープンフォントライセンス"}},
+        "ko": {"stringUnit":{"state":"needs_review","value":"오픈 폰트 라이선스"}},
+        "nl": {"stringUnit":{"state":"needs_review","value":"Open lettertypelicentie"}},
+        "pl": {"stringUnit":{"state":"needs_review","value":"Otwórz licencję na czcionkę"}},
+        "pt-BR": {"stringUnit":{"state":"needs_review","value":"Licença de fonte aberta"}},
+        "pt-PT": {"stringUnit":{"state":"needs_review","value":"Licença de Tipo de Letra Aberta"}},
+        "tr": {"stringUnit":{"state":"needs_review","value":"Açık Yazı Tipi Lisansı"}},
+        "zh-Hans": {"stringUnit":{"state":"needs_review","value":"开放字体许可证"}},
+        "zh-Hant": {"stringUnit":{"state":"needs_review","value":"開放字型授權條款"}},
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Open Font License"
+          }
+        }
+      }
+    },
+    "font_attribution_official_website": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {"stringUnit":{"state":"needs_review","value":"Lloc web oficial"}},
+        "de": {"stringUnit":{"state":"needs_review","value":"Offizielle Website"}},
+        "en-AU": {"stringUnit":{"state":"needs_review","value":"Official website"}},
+        "en-CA": {"stringUnit":{"state":"needs_review","value":"Official website"}},
+        "en-GB": {"stringUnit":{"state":"needs_review","value":"Official website"}},
+        "es": {"stringUnit":{"state":"needs_review","value":"Sitio web oficial"}},
+        "es-MX": {"stringUnit":{"state":"needs_review","value":"Sitio web oficial"}},
+        "fr": {"stringUnit":{"state":"needs_review","value":"Site officiel"}},
+        "fr-CA": {"stringUnit":{"state":"needs_review","value":"Site officiel"}},
+        "it": {"stringUnit":{"state":"needs_review","value":"Sito ufficiale"}},
+        "ja": {"stringUnit":{"state":"needs_review","value":"公式ウェブサイト"}},
+        "ko": {"stringUnit":{"state":"needs_review","value":"공식 웹사이트"}},
+        "nl": {"stringUnit":{"state":"needs_review","value":"Officiële website"}},
+        "pl": {"stringUnit":{"state":"needs_review","value":"Oficjalna strona internetowa"}},
+        "pt-BR": {"stringUnit":{"state":"needs_review","value":"Site oficial"}},
+        "pt-PT": {"stringUnit":{"state":"needs_review","value":"Site oficial"}},
+        "tr": {"stringUnit":{"state":"needs_review","value":"Resmî web sitesi"}},
+        "zh-Hans": {"stringUnit":{"state":"needs_review","value":"官方网站"}},
+        "zh-Hant": {"stringUnit":{"state":"needs_review","value":"官方網站"}},
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Official website"
+          }
+        }
+      }
+    },
+    "font_attribution_open_dyslexic_description": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {"stringUnit":{"state":"needs_review","value":"Opció de lectura enfocada a la dislèxia."}},
+        "de": {"stringUnit":{"state":"needs_review","value":"Leseoption mit Fokus auf Legasthenie."}},
+        "en-AU": {"stringUnit":{"state":"needs_review","value":"Dyslexia-focused reading option."}},
+        "en-CA": {"stringUnit":{"state":"needs_review","value":"Dyslexia-focused reading option."}},
+        "en-GB": {"stringUnit":{"state":"needs_review","value":"Dyslexia-focused reading option."}},
+        "es": {"stringUnit":{"state":"needs_review","value":"Opción de lectura enfocada a la dislexia."}},
+        "es-MX": {"stringUnit":{"state":"needs_review","value":"Opción de lectura enfocada a la dislexia."}},
+        "fr": {"stringUnit":{"state":"needs_review","value":"Option de lecture axée sur la dyslexie."}},
+        "fr-CA": {"stringUnit":{"state":"needs_review","value":"Option de lecture axée sur la dyslexie."}},
+        "it": {"stringUnit":{"state":"needs_review","value":"Opzione di lettura incentrata sulla dislessia."}},
+        "ja": {"stringUnit":{"state":"needs_review","value":"ディスレクシアに焦点を当てた読書オプション。"}},
+        "ko": {"stringUnit":{"state":"needs_review","value":"난독증을 고려한 읽기 옵션입니다."}},
+        "nl": {"stringUnit":{"state":"needs_review","value":"Dyslexiegerichte leesoptie."}},
+        "pl": {"stringUnit":{"state":"needs_review","value":"Opcja czytania ukierunkowana na dysleksję."}},
+        "pt-BR": {"stringUnit":{"state":"needs_review","value":"Opção de leitura focada na dislexia."}},
+        "pt-PT": {"stringUnit":{"state":"needs_review","value":"Uma opção de leitura pensada para a dislexia."}},
+        "tr": {"stringUnit":{"state":"needs_review","value":"Disleksi odaklı bir okuma seçeneği."}},
+        "zh-Hans": {"stringUnit":{"state":"needs_review","value":"为阅读障碍用户设计的阅读选项。"}},
+        "zh-Hant": {"stringUnit":{"state":"needs_review","value":"為閱讀障礙使用者設計的閱讀選項。"}},
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "A reading option designed to make similar letter shapes easier to distinguish."
+          }
+        }
+      }
+    },
+    "font_attribution_press_start_description": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {"stringUnit":{"state":"needs_review","value":"El tipus de lletra predeterminat de RetroRapid!, inspirat en els píxels."}},
+        "de": {"stringUnit":{"state":"needs_review","value":"Die pixelinspirierte Standardschrift von RetroRapid!."}},
+        "en-AU": {"stringUnit":{"state":"needs_review","value":"RetroRapid!’s pixel-inspired default typeface."}},
+        "en-CA": {"stringUnit":{"state":"needs_review","value":"RetroRapid!’s pixel-inspired default typeface."}},
+        "en-GB": {"stringUnit":{"state":"needs_review","value":"RetroRapid!’s pixel-inspired default typeface."}},
+        "es": {"stringUnit":{"state":"needs_review","value":"La tipografía predeterminada de RetroRapid!, inspirada en los píxeles."}},
+        "es-MX": {"stringUnit":{"state":"needs_review","value":"La tipografía predeterminada de RetroRapid!, inspirada en los píxeles."}},
+        "fr": {"stringUnit":{"state":"needs_review","value":"La police par défaut de RetroRapid!, inspirée des pixels."}},
+        "fr-CA": {"stringUnit":{"state":"needs_review","value":"La police par défaut de RetroRapid!, inspirée des pixels."}},
+        "it": {"stringUnit":{"state":"needs_review","value":"Il carattere predefinito di RetroRapid!, ispirato ai pixel."}},
+        "ja": {"stringUnit":{"state":"needs_review","value":"ピクセルをイメージしたRetroRapid!のデフォルト書体です。"}},
+        "ko": {"stringUnit":{"state":"needs_review","value":"픽셀에서 영감을 받은 RetroRapid!의 기본 서체입니다."}},
+        "nl": {"stringUnit":{"state":"needs_review","value":"Het op pixels geïnspireerde standaardlettertype van RetroRapid!."}},
+        "pl": {"stringUnit":{"state":"needs_review","value":"Domyślny krój pisma RetroRapid! inspirowany pikselami."}},
+        "pt-BR": {"stringUnit":{"state":"needs_review","value":"A fonte padrão do RetroRapid!, inspirada em pixels."}},
+        "pt-PT": {"stringUnit":{"state":"needs_review","value":"O tipo de letra predefinido do RetroRapid!, inspirado em píxeis."}},
+        "tr": {"stringUnit":{"state":"needs_review","value":"RetroRapid!’in piksel esintili varsayılan yazı tipi."}},
+        "zh-Hans": {"stringUnit":{"state":"needs_review","value":"RetroRapid! 默认的像素风格字体。"}},
+        "zh-Hant": {"stringUnit":{"state":"needs_review","value":"RetroRapid! 預設的像素風格字體。"}},
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "RetroRapid!’s pixel-inspired default typeface."
+          }
+        }
+      }
+    },
+    "font_attribution_sample_header": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {"stringUnit":{"state":"needs_review","value":"Mostra"}},
+        "de": {"stringUnit":{"state":"needs_review","value":"Beispiel"}},
+        "en-AU": {"stringUnit":{"state":"needs_review","value":"Sample"}},
+        "en-CA": {"stringUnit":{"state":"needs_review","value":"Sample"}},
+        "en-GB": {"stringUnit":{"state":"needs_review","value":"Sample"}},
+        "es": {"stringUnit":{"state":"needs_review","value":"Muestra"}},
+        "es-MX": {"stringUnit":{"state":"needs_review","value":"Muestra"}},
+        "fr": {"stringUnit":{"state":"needs_review","value":"Échantillon"}},
+        "fr-CA": {"stringUnit":{"state":"needs_review","value":"Échantillon"}},
+        "it": {"stringUnit":{"state":"needs_review","value":"Campione"}},
+        "ja": {"stringUnit":{"state":"needs_review","value":"サンプル"}},
+        "ko": {"stringUnit":{"state":"needs_review","value":"예시"}},
+        "nl": {"stringUnit":{"state":"needs_review","value":"Steekproef"}},
+        "pl": {"stringUnit":{"state":"needs_review","value":"Próbka"}},
+        "pt-BR": {"stringUnit":{"state":"needs_review","value":"Amostra"}},
+        "pt-PT": {"stringUnit":{"state":"needs_review","value":"Exemplo"}},
+        "tr": {"stringUnit":{"state":"needs_review","value":"Örnek"}},
+        "zh-Hans": {"stringUnit":{"state":"needs_review","value":"示例"}},
+        "zh-Hant": {"stringUnit":{"state":"needs_review","value":"範例"}},
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sample"
+          }
+        }
+      }
+    },
+    "font_attribution_sample_text": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {"stringUnit":{"state":"needs_review","value":"RetroRapid! Café, pingüino, 東京, 안녕하세요"}},
+        "de": {"stringUnit":{"state":"needs_review","value":"RetroRapid! Café, pingüino, 東京, 안녕하세요"}},
+        "en-AU": {"stringUnit":{"state":"needs_review","value":"RetroRapid! Café, pingüino, 東京, 안녕하세요"}},
+        "en-CA": {"stringUnit":{"state":"needs_review","value":"RetroRapid! Café, pingüino, 東京, 안녕하세요"}},
+        "en-GB": {"stringUnit":{"state":"needs_review","value":"RetroRapid! Café, pingüino, 東京, 안녕하세요"}},
+        "es": {"stringUnit":{"state":"needs_review","value":"RetroRapid! Café, pingüino, 東京, 안녕하세요"}},
+        "es-MX": {"stringUnit":{"state":"needs_review","value":"RetroRapid! Café, pingüino, 東京, 안녕하세요"}},
+        "fr": {"stringUnit":{"state":"needs_review","value":"RetroRapid! Café, pingüino, 東京, 안녕하세요"}},
+        "fr-CA": {"stringUnit":{"state":"needs_review","value":"RetroRapid! Café, pingüino, 東京, 안녕하세요"}},
+        "it": {"stringUnit":{"state":"needs_review","value":"RetroRapid! Café, pingüino, 東京, 안녕하세요"}},
+        "ja": {"stringUnit":{"state":"needs_review","value":"RetroRapid! Café, pingüino, 東京, 안녕하세요"}},
+        "ko": {"stringUnit":{"state":"needs_review","value":"RetroRapid! Café, pingüino, 東京, 안녕하세요"}},
+        "nl": {"stringUnit":{"state":"needs_review","value":"RetroRapid! Café, pingüino, 東京, 안녕하세요"}},
+        "pl": {"stringUnit":{"state":"needs_review","value":"RetroRapid! Café, pingüino, 東京, 안녕하세요"}},
+        "pt-BR": {"stringUnit":{"state":"needs_review","value":"RetroRapid! Café, pingüino, 東京, 안녕하세요"}},
+        "pt-PT": {"stringUnit":{"state":"needs_review","value":"RetroRapid! Café, pingüino, 東京, 안녕하세요"}},
+        "tr": {"stringUnit":{"state":"needs_review","value":"RetroRapid! Café, pingüino, 東京, 안녕하세요"}},
+        "zh-Hans": {"stringUnit":{"state":"needs_review","value":"RetroRapid! Café, pingüino, 東京, 안녕하세요"}},
+        "zh-Hant": {"stringUnit":{"state":"needs_review","value":"RetroRapid! Café, pingüino, 東京, 안녕하세요"}},
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "RetroRapid! Café, pingüino, 東京, 안녕하세요"
+          }
+        }
+      }
+    },
+    "font_attribution_sources_header": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {"stringUnit":{"state":"needs_review","value":"Fonts"}},
+        "de": {"stringUnit":{"state":"needs_review","value":"Quellen"}},
+        "en-AU": {"stringUnit":{"state":"needs_review","value":"Sources"}},
+        "en-CA": {"stringUnit":{"state":"needs_review","value":"Sources"}},
+        "en-GB": {"stringUnit":{"state":"needs_review","value":"Sources"}},
+        "es": {"stringUnit":{"state":"needs_review","value":"Fuentes"}},
+        "es-MX": {"stringUnit":{"state":"needs_review","value":"Fuentes"}},
+        "fr": {"stringUnit":{"state":"needs_review","value":"Sources"}},
+        "fr-CA": {"stringUnit":{"state":"needs_review","value":"Sources"}},
+        "it": {"stringUnit":{"state":"needs_review","value":"Fonti"}},
+        "ja": {"stringUnit":{"state":"needs_review","value":"情報源"}},
+        "ko": {"stringUnit":{"state":"needs_review","value":"출처"}},
+        "nl": {"stringUnit":{"state":"needs_review","value":"Bronnen"}},
+        "pl": {"stringUnit":{"state":"needs_review","value":"Źródła"}},
+        "pt-BR": {"stringUnit":{"state":"needs_review","value":"Fontes"}},
+        "pt-PT": {"stringUnit":{"state":"needs_review","value":"Fontes"}},
+        "tr": {"stringUnit":{"state":"needs_review","value":"Kaynaklar"}},
+        "zh-Hans": {"stringUnit":{"state":"needs_review","value":"来源"}},
+        "zh-Hant": {"stringUnit":{"state":"needs_review","value":"來源"}},
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Sources"
+          }
+        }
+      }
+    },
+    "font_attribution_useful_for_header": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {"stringUnit":{"state":"needs_review","value":"Útil per a"}},
+        "de": {"stringUnit":{"state":"needs_review","value":"Nützlich für"}},
+        "en-AU": {"stringUnit":{"state":"needs_review","value":"Useful for"}},
+        "en-CA": {"stringUnit":{"state":"needs_review","value":"Useful for"}},
+        "en-GB": {"stringUnit":{"state":"needs_review","value":"Useful for"}},
+        "es": {"stringUnit":{"state":"needs_review","value":"Útil para"}},
+        "es-MX": {"stringUnit":{"state":"needs_review","value":"Útil para"}},
+        "fr": {"stringUnit":{"state":"needs_review","value":"Utile pour"}},
+        "fr-CA": {"stringUnit":{"state":"needs_review","value":"Utile pour"}},
+        "it": {"stringUnit":{"state":"needs_review","value":"Utile per"}},
+        "ja": {"stringUnit":{"state":"needs_review","value":"役に立つ"}},
+        "ko": {"stringUnit":{"state":"needs_review","value":"유용한 용도"}},
+        "nl": {"stringUnit":{"state":"needs_review","value":"Handig voor"}},
+        "pl": {"stringUnit":{"state":"needs_review","value":"Przydatne dla"}},
+        "pt-BR": {"stringUnit":{"state":"needs_review","value":"Útil para"}},
+        "pt-PT": {"stringUnit":{"state":"needs_review","value":"Útil para"}},
+        "tr": {"stringUnit":{"state":"needs_review","value":"Şunlar için yararlı"}},
+        "zh-Hans": {"stringUnit":{"state":"needs_review","value":"适用于"}},
+        "zh-Hant": {"stringUnit":{"state":"needs_review","value":"適用於"}},
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Useful for"
+          }
+        }
+      }
+    },
+    "font_attribution_view_full_license": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {"stringUnit":{"state":"needs_review","value":"Veure text complet de la llicència"}},
+        "de": {"stringUnit":{"state":"needs_review","value":"Vollständigen Lizenztext anzeigen"}},
+        "en-AU": {"stringUnit":{"state":"needs_review","value":"View Full License Text"}},
+        "en-CA": {"stringUnit":{"state":"needs_review","value":"View Full License Text"}},
+        "en-GB": {"stringUnit":{"state":"needs_review","value":"View Full License Text"}},
+        "es": {"stringUnit":{"state":"needs_review","value":"Ver texto completo de la licencia"}},
+        "es-MX": {"stringUnit":{"state":"needs_review","value":"Ver texto completo de la licencia"}},
+        "fr": {"stringUnit":{"state":"needs_review","value":"Afficher le texte complet de la licence"}},
+        "fr-CA": {"stringUnit":{"state":"needs_review","value":"Afficher le texte complet de la licence"}},
+        "it": {"stringUnit":{"state":"needs_review","value":"Visualizza il testo completo della licenza"}},
+        "ja": {"stringUnit":{"state":"needs_review","value":"ライセンス全文を表示"}},
+        "ko": {"stringUnit":{"state":"needs_review","value":"전체 라이선스 보기"}},
+        "nl": {"stringUnit":{"state":"needs_review","value":"Bekijk de volledige licentietekst"}},
+        "pl": {"stringUnit":{"state":"needs_review","value":"Wyświetl pełny tekst licencji"}},
+        "pt-BR": {"stringUnit":{"state":"needs_review","value":"Ver texto completo da licença"}},
+        "pt-PT": {"stringUnit":{"state":"needs_review","value":"Ver texto completo da licença"}},
+        "tr": {"stringUnit":{"state":"needs_review","value":"Lisans Metninin Tamamını Görüntüle"}},
+        "zh-Hans": {"stringUnit":{"state":"needs_review","value":"查看完整许可证文本"}},
+        "zh-Hant": {"stringUnit":{"state":"needs_review","value":"檢視完整授權條款"}},
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "View Full License Text"
+          }
+        }
+      }
+    },
+    "font_license_unavailable": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {"stringUnit":{"state":"needs_review","value":"No s'ha pogut carregar el text de la llicència."}},
+        "de": {"stringUnit":{"state":"needs_review","value":"Der Lizenztext konnte nicht geladen werden."}},
+        "en-AU": {"stringUnit":{"state":"needs_review","value":"Unable to load license text."}},
+        "en-CA": {"stringUnit":{"state":"needs_review","value":"Unable to load license text."}},
+        "en-GB": {"stringUnit":{"state":"needs_review","value":"Unable to load license text."}},
+        "es": {"stringUnit":{"state":"needs_review","value":"No se ha podido cargar el texto de la licencia."}},
+        "es-MX": {"stringUnit":{"state":"needs_review","value":"No se ha podido cargar el texto de la licencia."}},
+        "fr": {"stringUnit":{"state":"needs_review","value":"Impossible de charger le texte de la licence."}},
+        "fr-CA": {"stringUnit":{"state":"needs_review","value":"Impossible de charger le texte de la licence."}},
+        "it": {"stringUnit":{"state":"needs_review","value":"Impossibile caricare il testo della licenza."}},
+        "ja": {"stringUnit":{"state":"needs_review","value":"ライセンステキストをロードできません。"}},
+        "ko": {"stringUnit":{"state":"needs_review","value":"라이선스 텍스트를 불러올 수 없습니다."}},
+        "nl": {"stringUnit":{"state":"needs_review","value":"Kan licentietekst niet laden."}},
+        "pl": {"stringUnit":{"state":"needs_review","value":"Nie można załadować tekstu licencji."}},
+        "pt-BR": {"stringUnit":{"state":"needs_review","value":"Não foi possível carregar o texto da licença."}},
+        "pt-PT": {"stringUnit":{"state":"needs_review","value":"Não foi possível carregar o texto da licença."}},
+        "tr": {"stringUnit":{"state":"needs_review","value":"Lisans metni yüklenemiyor."}},
+        "zh-Hans": {"stringUnit":{"state":"needs_review","value":"无法载入许可证文本。"}},
+        "zh-Hant": {"stringUnit":{"state":"needs_review","value":"無法載入授權條款。"}},
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unable to load license text."
+          }
+        }
+      }
+    },
+    "font_selection_selected": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {"stringUnit":{"state":"needs_review","value":"Seleccionat"}},
+        "de": {"stringUnit":{"state":"needs_review","value":"Ausgewählt"}},
+        "en-AU": {"stringUnit":{"state":"needs_review","value":"Selected"}},
+        "en-CA": {"stringUnit":{"state":"needs_review","value":"Selected"}},
+        "en-GB": {"stringUnit":{"state":"needs_review","value":"Selected"}},
+        "es": {"stringUnit":{"state":"needs_review","value":"Seleccionada"}},
+        "es-MX": {"stringUnit":{"state":"needs_review","value":"Seleccionada"}},
+        "fr": {"stringUnit":{"state":"needs_review","value":"Sélectionnée"}},
+        "fr-CA": {"stringUnit":{"state":"needs_review","value":"Sélectionnée"}},
+        "it": {"stringUnit":{"state":"needs_review","value":"Selezionato"}},
+        "ja": {"stringUnit":{"state":"needs_review","value":"選択中"}},
+        "ko": {"stringUnit":{"state":"needs_review","value":"선택됨"}},
+        "nl": {"stringUnit":{"state":"needs_review","value":"Geselecteerd"}},
+        "pl": {"stringUnit":{"state":"needs_review","value":"Wybrano"}},
+        "pt-BR": {"stringUnit":{"state":"needs_review","value":"Selecionada"}},
+        "pt-PT": {"stringUnit":{"state":"needs_review","value":"Selecionado"}},
+        "tr": {"stringUnit":{"state":"needs_review","value":"Seçildi"}},
+        "zh-Hans": {"stringUnit":{"state":"needs_review","value":"已选择"}},
+        "zh-Hant": {"stringUnit":{"state":"needs_review","value":"已選取"}},
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selected"
+          }
+        }
+      }
+    },
+    "font_selection_selected_unavailable_value": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {"stringUnit":{"state":"needs_review","value":"Seleccionat, no disponible; s’utilitza Sistema"}},
+        "de": {"stringUnit":{"state":"needs_review","value":"Ausgewählt, nicht verfügbar; System wird verwendet"}},
+        "en-AU": {"stringUnit":{"state":"needs_review","value":"Selected, unavailable; using System"}},
+        "en-CA": {"stringUnit":{"state":"needs_review","value":"Selected, unavailable; using System"}},
+        "en-GB": {"stringUnit":{"state":"needs_review","value":"Selected, unavailable; using System"}},
+        "es": {"stringUnit":{"state":"needs_review","value":"Seleccionada, no disponible; se usa Sistema"}},
+        "es-MX": {"stringUnit":{"state":"needs_review","value":"Seleccionada, no disponible; se usa Sistema"}},
+        "fr": {"stringUnit":{"state":"needs_review","value":"Sélectionnée, indisponible; Système est utilisée"}},
+        "fr-CA": {"stringUnit":{"state":"needs_review","value":"Sélectionnée, indisponible; Système est utilisée"}},
+        "it": {"stringUnit":{"state":"needs_review","value":"Selezionato, non disponibile; viene usato Sistema"}},
+        "ja": {"stringUnit":{"state":"needs_review","value":"選択中ですが利用できないため、システムを使用しています"}},
+        "ko": {"stringUnit":{"state":"needs_review","value":"선택되었지만 사용할 수 없어 시스템을 사용 중"}},
+        "nl": {"stringUnit":{"state":"needs_review","value":"Geselecteerd, niet beschikbaar; Systeem wordt gebruikt"}},
+        "pl": {"stringUnit":{"state":"needs_review","value":"Wybrano, niedostępny; używany jest Systemowy"}},
+        "pt-BR": {"stringUnit":{"state":"needs_review","value":"Selecionada, indisponível; usando Sistema"}},
+        "pt-PT": {"stringUnit":{"state":"needs_review","value":"Selecionado, indisponível; a usar Sistema"}},
+        "tr": {"stringUnit":{"state":"needs_review","value":"Seçildi, kullanılamıyor; Sistem kullanılıyor"}},
+        "zh-Hans": {"stringUnit":{"state":"needs_review","value":"已选择但不可用；正在使用系统字体"}},
+        "zh-Hant": {"stringUnit":{"state":"needs_review","value":"已選取但無法使用；目前使用系統字體"}},
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selected, unavailable; using System"
+          }
+        }
+      }
+    },
+    "font_selection_system_fallback": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {"stringUnit":{"state":"needs_review","value":"Este tipus de lletra no està disponible ara. RetroRapid! utilitza Sistema i restaurarà la selecció automàticament quan torne a estar disponible."}},
+        "de": {"stringUnit":{"state":"needs_review","value":"Diese Schrift ist derzeit nicht verfügbar. RetroRapid! verwendet System und stellt deine Auswahl automatisch wieder her, sobald die Schrift verfügbar ist."}},
+        "en-AU": {"stringUnit":{"state":"needs_review","value":"This font is currently unavailable. RetroRapid! is using System and will restore your selection automatically when the font becomes available."}},
+        "en-CA": {"stringUnit":{"state":"needs_review","value":"This font is currently unavailable. RetroRapid! is using System and will restore your selection automatically when the font becomes available."}},
+        "en-GB": {"stringUnit":{"state":"needs_review","value":"This font is currently unavailable. RetroRapid! is using System and will restore your selection automatically when the font becomes available."}},
+        "es": {"stringUnit":{"state":"needs_review","value":"Esta tipografía no está disponible ahora. RetroRapid! usa Sistema y restaurará tu selección automáticamente cuando vuelva a estar disponible."}},
+        "es-MX": {"stringUnit":{"state":"needs_review","value":"Esta tipografía no está disponible ahora. RetroRapid! usa Sistema y restaurará tu selección automáticamente cuando vuelva a estar disponible."}},
+        "fr": {"stringUnit":{"state":"needs_review","value":"Cette police est actuellement indisponible. RetroRapid! utilise Système et rétablira automatiquement votre sélection dès que la police sera disponible."}},
+        "fr-CA": {"stringUnit":{"state":"needs_review","value":"Cette police est actuellement indisponible. RetroRapid! utilise Système et rétablira automatiquement votre sélection dès que la police sera disponible."}},
+        "it": {"stringUnit":{"state":"needs_review","value":"Questo carattere non è al momento disponibile. RetroRapid! usa Sistema e ripristinerà automaticamente la selezione quando il carattere sarà disponibile."}},
+        "ja": {"stringUnit":{"state":"needs_review","value":"このフォントは現在利用できません。RetroRapid!はシステムフォントを使用し、利用可能になった時点で選択を自動的に復元します。"}},
+        "ko": {"stringUnit":{"state":"needs_review","value":"이 서체는 현재 사용할 수 없습니다. RetroRapid!은 시스템 서체를 사용하며, 다시 사용할 수 있게 되면 선택 항목을 자동으로 복원합니다."}},
+        "nl": {"stringUnit":{"state":"needs_review","value":"Dit lettertype is momenteel niet beschikbaar. RetroRapid! gebruikt Systeem en herstelt je keuze automatisch zodra het lettertype beschikbaar is."}},
+        "pl": {"stringUnit":{"state":"needs_review","value":"Ten krój pisma jest obecnie niedostępny. RetroRapid! używa kroju Systemowy i automatycznie przywróci wybór, gdy krój znów będzie dostępny."}},
+        "pt-BR": {"stringUnit":{"state":"needs_review","value":"Esta fonte não está disponível no momento. O RetroRapid! está usando Sistema e restaurará sua seleção automaticamente quando a fonte estiver disponível."}},
+        "pt-PT": {"stringUnit":{"state":"needs_review","value":"Este tipo de letra não está disponível de momento. O RetroRapid! está a usar Sistema e reporá automaticamente a seleção quando estiver disponível."}},
+        "tr": {"stringUnit":{"state":"needs_review","value":"Bu yazı tipi şu anda kullanılamıyor. RetroRapid! Sistem’i kullanıyor ve yazı tipi kullanılabilir olduğunda seçiminizi otomatik olarak geri yükleyecek."}},
+        "zh-Hans": {"stringUnit":{"state":"needs_review","value":"此字体当前不可用。RetroRapid! 正在使用系统字体，并会在该字体可用时自动恢复你的选择。"}},
+        "zh-Hant": {"stringUnit":{"state":"needs_review","value":"此字體目前無法使用。RetroRapid! 正在使用系統字體，並會在該字體可用時自動還原你的選擇。"}},
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "This font is currently unavailable. RetroRapid! is using System and will restore your selection automatically when the font becomes available."
+          }
+        }
+      }
+    },
+    "font_selection_unavailable": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {"stringUnit":{"state":"needs_review","value":"No disponible"}},
+        "de": {"stringUnit":{"state":"needs_review","value":"Nicht verfügbar"}},
+        "en-AU": {"stringUnit":{"state":"needs_review","value":"Unavailable"}},
+        "en-CA": {"stringUnit":{"state":"needs_review","value":"Unavailable"}},
+        "en-GB": {"stringUnit":{"state":"needs_review","value":"Unavailable"}},
+        "es": {"stringUnit":{"state":"needs_review","value":"No disponible"}},
+        "es-MX": {"stringUnit":{"state":"needs_review","value":"No disponible"}},
+        "fr": {"stringUnit":{"state":"needs_review","value":"Indisponible"}},
+        "fr-CA": {"stringUnit":{"state":"needs_review","value":"Indisponible"}},
+        "it": {"stringUnit":{"state":"needs_review","value":"Non disponibile"}},
+        "ja": {"stringUnit":{"state":"needs_review","value":"利用不可"}},
+        "ko": {"stringUnit":{"state":"needs_review","value":"사용할 수 없음"}},
+        "nl": {"stringUnit":{"state":"needs_review","value":"Niet beschikbaar"}},
+        "pl": {"stringUnit":{"state":"needs_review","value":"Niedostępny"}},
+        "pt-BR": {"stringUnit":{"state":"needs_review","value":"Indisponível"}},
+        "pt-PT": {"stringUnit":{"state":"needs_review","value":"Indisponível"}},
+        "tr": {"stringUnit":{"state":"needs_review","value":"Kullanılamıyor"}},
+        "zh-Hans": {"stringUnit":{"state":"needs_review","value":"不可用"}},
+        "zh-Hant": {"stringUnit":{"state":"needs_review","value":"無法使用"}},
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unavailable"
+          }
+        }
+      }
+    },
+    "font_style_atkinson_hyperlegible": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {"stringUnit":{"state":"needs_review","value":"Atkinson Hyperlegible"}},
+        "de": {"stringUnit":{"state":"needs_review","value":"Atkinson Hyperlegible"}},
+        "en-AU": {"stringUnit":{"state":"needs_review","value":"Atkinson Hyperlegible"}},
+        "en-CA": {"stringUnit":{"state":"needs_review","value":"Atkinson Hyperlegible"}},
+        "en-GB": {"stringUnit":{"state":"needs_review","value":"Atkinson Hyperlegible"}},
+        "es": {"stringUnit":{"state":"needs_review","value":"Atkinson Hyperlegible"}},
+        "es-MX": {"stringUnit":{"state":"needs_review","value":"Atkinson Hyperlegible"}},
+        "fr": {"stringUnit":{"state":"needs_review","value":"Atkinson Hyperlegible"}},
+        "fr-CA": {"stringUnit":{"state":"needs_review","value":"Atkinson Hyperlegible"}},
+        "it": {"stringUnit":{"state":"needs_review","value":"Atkinson Hyperlegible"}},
+        "ja": {"stringUnit":{"state":"needs_review","value":"Atkinson Hyperlegible"}},
+        "ko": {"stringUnit":{"state":"needs_review","value":"Atkinson Hyperlegible"}},
+        "nl": {"stringUnit":{"state":"needs_review","value":"Atkinson Hyperlegible"}},
+        "pl": {"stringUnit":{"state":"needs_review","value":"Atkinson Hyperlegible"}},
+        "pt-BR": {"stringUnit":{"state":"needs_review","value":"Atkinson Hyperlegible"}},
+        "pt-PT": {"stringUnit":{"state":"needs_review","value":"Atkinson Hyperlegible"}},
+        "tr": {"stringUnit":{"state":"needs_review","value":"Atkinson Hyperlegible"}},
+        "zh-Hans": {"stringUnit":{"state":"needs_review","value":"Atkinson Hyperlegible"}},
+        "zh-Hant": {"stringUnit":{"state":"needs_review","value":"Atkinson Hyperlegible"}},
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Atkinson Hyperlegible"
+          }
+        }
+      }
+    },
+    "font_style_lexend": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {"stringUnit":{"state":"needs_review","value":"Lexend"}},
+        "de": {"stringUnit":{"state":"needs_review","value":"Lexend"}},
+        "en-AU": {"stringUnit":{"state":"needs_review","value":"Lexend"}},
+        "en-CA": {"stringUnit":{"state":"needs_review","value":"Lexend"}},
+        "en-GB": {"stringUnit":{"state":"needs_review","value":"Lexend"}},
+        "es": {"stringUnit":{"state":"needs_review","value":"Lexend"}},
+        "es-MX": {"stringUnit":{"state":"needs_review","value":"Lexend"}},
+        "fr": {"stringUnit":{"state":"needs_review","value":"Lexend"}},
+        "fr-CA": {"stringUnit":{"state":"needs_review","value":"Lexend"}},
+        "it": {"stringUnit":{"state":"needs_review","value":"Lexend"}},
+        "ja": {"stringUnit":{"state":"needs_review","value":"Lexend"}},
+        "ko": {"stringUnit":{"state":"needs_review","value":"Lexend"}},
+        "nl": {"stringUnit":{"state":"needs_review","value":"Lexend"}},
+        "pl": {"stringUnit":{"state":"needs_review","value":"Lexend"}},
+        "pt-BR": {"stringUnit":{"state":"needs_review","value":"Lexend"}},
+        "pt-PT": {"stringUnit":{"state":"needs_review","value":"Lexend"}},
+        "tr": {"stringUnit":{"state":"needs_review","value":"Lexend"}},
+        "zh-Hans": {"stringUnit":{"state":"needs_review","value":"Lexend"}},
+        "zh-Hant": {"stringUnit":{"state":"needs_review","value":"Lexend"}},
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Lexend"
+          }
+        }
+      }
+    },
+    "font_style_open_dyslexic": {
+      "extractionState": "manual",
+      "localizations": {
+        "ca": {"stringUnit":{"state":"needs_review","value":"OpenDyslexic"}},
+        "de": {"stringUnit":{"state":"needs_review","value":"OpenDyslexic"}},
+        "en-AU": {"stringUnit":{"state":"needs_review","value":"OpenDyslexic"}},
+        "en-CA": {"stringUnit":{"state":"needs_review","value":"OpenDyslexic"}},
+        "en-GB": {"stringUnit":{"state":"needs_review","value":"OpenDyslexic"}},
+        "es": {"stringUnit":{"state":"needs_review","value":"OpenDyslexic"}},
+        "es-MX": {"stringUnit":{"state":"needs_review","value":"OpenDyslexic"}},
+        "fr": {"stringUnit":{"state":"needs_review","value":"OpenDyslexic"}},
+        "fr-CA": {"stringUnit":{"state":"needs_review","value":"OpenDyslexic"}},
+        "it": {"stringUnit":{"state":"needs_review","value":"OpenDyslexic"}},
+        "ja": {"stringUnit":{"state":"needs_review","value":"OpenDyslexic"}},
+        "ko": {"stringUnit":{"state":"needs_review","value":"OpenDyslexic"}},
+        "nl": {"stringUnit":{"state":"needs_review","value":"OpenDyslexic"}},
+        "pl": {"stringUnit":{"state":"needs_review","value":"OpenDyslexic"}},
+        "pt-BR": {"stringUnit":{"state":"needs_review","value":"OpenDyslexic"}},
+        "pt-PT": {"stringUnit":{"state":"needs_review","value":"OpenDyslexic"}},
+        "tr": {"stringUnit":{"state":"needs_review","value":"OpenDyslexic"}},
+        "zh-Hans": {"stringUnit":{"state":"needs_review","value":"OpenDyslexic"}},
+        "zh-Hant": {"stringUnit":{"state":"needs_review","value":"OpenDyslexic"}},
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "OpenDyslexic"
+          }
+        }
+      }
+    },
     "font_style_system": {
       "extractionState": "manual",
       "localizations": {
@@ -20325,6 +20985,7 @@
       }
     },
     "paywall_unlimited_and_themes": {
+      "comment": "Unlimited Plays benefit summary used when alternate app icons are unavailable.",
       "extractionState": "manual",
       "localizations": {
         "ca": {
@@ -20342,25 +21003,25 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Unlimited plays forever. Choose from available visual themes. Support development."
+            "value": "Unlimited Plays forever. Choose from available visual styles. Support development."
           }
         },
         "en-AU": {
           "stringUnit": {
             "state": "translated",
-            "value": "Unlimited plays forever. Choose from available visual themes. Support development."
+            "value": "Unlimited Plays forever. Choose from available visual styles. Support development."
           }
         },
         "en-CA": {
           "stringUnit": {
             "state": "translated",
-            "value": "Unlimited plays forever. Choose from available visual themes. Support development."
+            "value": "Unlimited Plays forever. Choose from available visual styles. Support development."
           }
         },
         "en-GB": {
           "stringUnit": {
             "state": "translated",
-            "value": "Unlimited plays forever. Choose from available visual themes. Support development."
+            "value": "Unlimited Plays forever. Choose from available visual styles. Support development."
           }
         },
         "es": {
@@ -28819,381 +29480,6 @@
           "stringUnit": {
             "state": "needs_review",
             "value": "Si ya has comprado partidas ilimitadas en otro dispositivo, toca Restaurar compras."
-          }
-        }
-      }
-    },
-    "settings_road_visual_style": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Estil de carretera"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Straßenstil"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Road Style"
-          }
-        },
-        "en-AU": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Road Style"
-          }
-        },
-        "en-CA": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Road Style"
-          }
-        },
-        "en-GB": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Road Style"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Estilo de carretera"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Style de route"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Stile strada"
-          }
-        },
-        "nl": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Wegstijl"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "道路スタイル"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "도로 스타일"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Estilo da pista"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "道路樣式"
-          }
-        },
-        "pt-PT": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Estilo da pista"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "道路样式"
-          }
-        },
-        "fr-CA": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Style de route"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Yol Tarzı"
-          }
-        },
-        "pl": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Styl Drogi"
-          }
-        },
-        "es-MX": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Estilo de carretera"
-          }
-        }
-      }
-    },
-    "settings_road_visual_style_detailed": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Carretera detallada"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Detaillierte Straße"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Detailed Road"
-          }
-        },
-        "en-AU": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Detailed Road"
-          }
-        },
-        "en-CA": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Detailed Road"
-          }
-        },
-        "en-GB": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Detailed Road"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Carretera detallada"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Route détaillée"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Strada dettagliata"
-          }
-        },
-        "nl": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Gedetailleerde weg"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "詳細道路"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "상세 도로"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Pista detalhada"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "詳細道路"
-          }
-        },
-        "pt-PT": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Pista detalhada"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "详细道路"
-          }
-        },
-        "fr-CA": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Route détaillée"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Ayrıntılı Yol"
-          }
-        },
-        "pl": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Szczegółowa Droga"
-          }
-        },
-        "es-MX": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Carretera detallada"
-          }
-        }
-      }
-    },
-    "settings_road_visual_style_simplified": {
-      "extractionState": "manual",
-      "localizations": {
-        "ca": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Graella simplificada"
-          }
-        },
-        "de": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Vereinfachtes Raster"
-          }
-        },
-        "en": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Simplified Grid"
-          }
-        },
-        "en-AU": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Simplified Grid"
-          }
-        },
-        "en-CA": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Simplified Grid"
-          }
-        },
-        "en-GB": {
-          "stringUnit": {
-            "state": "translated",
-            "value": "Simplified Grid"
-          }
-        },
-        "es": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Cuadrícula simplificada"
-          }
-        },
-        "fr": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Grille simplifiée"
-          }
-        },
-        "it": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Griglia semplificata"
-          }
-        },
-        "nl": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Vereenvoudigd raster"
-          }
-        },
-        "ja": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "シンプルグリッド"
-          }
-        },
-        "ko": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "단순 그리드"
-          }
-        },
-        "pt-BR": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Grade simplificada"
-          }
-        },
-        "zh-Hant": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "簡化格線"
-          }
-        },
-        "pt-PT": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Grade simplificada"
-          }
-        },
-        "zh-Hans": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "简化格线"
-          }
-        },
-        "fr-CA": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Grille simplifiée"
-          }
-        },
-        "tr": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Basit Izgara"
-          }
-        },
-        "pl": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Uproszczona Siatka"
-          }
-        },
-        "es-MX": {
-          "stringUnit": {
-            "state": "needs_review",
-            "value": "Cuadrícula simplificada"
           }
         }
       }
@@ -50319,6 +50605,4139 @@
           "stringUnit": {
             "state": "needs_review",
             "value": "Has completado una partida durante la semana de GAAD usando una tecnología de asistencia."
+          }
+        }
+      }
+    },
+    "app_icon_error_message": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The icon couldn’t be changed. Please try again."
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The icon couldn’t be changed. Please try again."
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The icon couldn’t be changed. Please try again."
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The icon couldn’t be changed. Please try again."
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "No s’ha pogut canviar la icona. Torna-ho a provar."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Das Symbol konnte nicht geändert werden. Versuche es erneut."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "No se ha podido cambiar el icono. Inténtalo de nuevo."
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "No se pudo cambiar el ícono. Inténtalo de nuevo."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Impossible de changer l’icône. Réessaie."
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Impossible de changer l’icône. Réessayez."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Impossibile cambiare l’icona. Riprova."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "アイコンを変更できませんでした。もう一度お試しください。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "아이콘을 변경할 수 없습니다. 다시 시도해 주세요."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Het pictogram kon niet worden gewijzigd. Probeer het opnieuw."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Nie udało się zmienić ikony. Spróbuj ponownie."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Não foi possível alterar o ícone. Tente novamente."
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Não foi possível alterar o ícone. Tenta novamente."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Simge değiştirilemedi. Yeniden dene."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "无法更改图标。请重试。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "無法更改圖示。請再試一次。"
+          }
+        }
+      }
+    },
+    "app_icon_error_title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couldn’t Change Icon"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couldn’t Change Icon"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couldn’t Change Icon"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Couldn’t Change Icon"
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "No s’ha pogut canviar la icona"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Symbol konnte nicht geändert werden"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "No se ha podido cambiar el icono"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "No se pudo cambiar el ícono"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Impossible de changer l’icône"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Impossible de changer l’icône"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Impossibile cambiare l’icona"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "アイコンを変更できませんでした"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "아이콘을 변경할 수 없음"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pictogram kon niet worden gewijzigd"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Nie udało się zmienić ikony"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Não foi possível alterar o ícone"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Não foi possível alterar o ícone"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Simge değiştirilemedi"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "无法更改图标"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "無法更改圖示"
+          }
+        }
+      }
+    },
+    "app_icon_gallery_title": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose App Icon"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose App Icon"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose App Icon"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Choose App Icon"
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Tria la icona de l’app"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "App-Symbol auswählen"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Elegir icono de la app"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Elegir ícono de la app"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Choisir l’icône de l’app"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Choisir l’icône de l’app"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Scegli l’icona dell’app"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "アプリアイコンを選択"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "앱 아이콘 선택"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "App-pictogram kiezen"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wybierz ikonę aplikacji"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Escolher ícone do app"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Escolher ícone da app"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Uygulama Simgesini Seç"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "选择 App 图标"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "選擇 App 圖示"
+          }
+        }
+      }
+    },
+    "app_icon_gallery_unlock_body": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unlock all alternate app icons with Unlimited Plays."
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unlock all alternate app icons with Unlimited Plays."
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unlock all alternate app icons with Unlimited Plays."
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unlock all alternate app icons with Unlimited Plays."
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Desbloqueja totes les icones alternatives amb Partides il·limitades."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Schalte mit Unbegrenzte Spiele alle alternativen App-Symbole frei."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Desbloquea todos los iconos alternativos con Partidas ilimitadas."
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Desbloquea todos los íconos alternativos con Partidas ilimitadas."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Débloque toutes les icônes alternatives avec Parties illimitées."
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Déverrouillez toutes les icônes alternatives avec Parties illimitées."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sblocca tutte le icone alternative con Partite illimitate."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "無制限プレイですべての代替アプリアイコンをアンロック。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "무제한 플레이로 모든 대체 앱 아이콘을 잠금 해제하세요."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ontgrendel alle alternatieve app-pictogrammen met Onbeperkt spelen."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Odblokuj wszystkie alternatywne ikony dzięki Nielimitowanej grze."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Desbloqueie todos os ícones alternativos com Partidas ilimitadas."
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Desbloqueia todos os ícones alternativos com Partidas ilimitadas."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sınırsız Oyun ile tüm alternatif uygulama simgelerinin kilidini aç."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "通过无限畅玩解锁所有备选 App 图标。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "透過無限暢玩解鎖所有替代 App 圖示。"
+          }
+        }
+      }
+    },
+    "debug_enable_alternate_app_icons": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enable alternate app icons"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enable alternate app icons"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enable alternate app icons"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Enable alternate app icons"
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Activa les icones alternatives"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Alternative App-Symbole aktivieren"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Activar iconos alternativos"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Activar íconos alternativos"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Activer les icônes alternatives"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Activer les icônes alternatives"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Abilita icone alternative"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "代替アプリアイコンを有効にする"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "대체 앱 아이콘 활성화"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Alternatieve app-pictogrammen inschakelen"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Włącz alternatywne ikony aplikacji"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ativar ícones alternativos do app"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ativar ícones alternativos da app"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Alternatif uygulama simgelerini etkinleştir"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "启用备选 App 图标"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "啟用替代 App 圖示"
+          }
+        }
+      }
+    },
+    "paywall_unlimited_themes_and_icons": {
+      "comment": "Unlimited Plays benefit summary used only when the alternate-app-icon gallery is available.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unlimited Plays forever. Choose visual styles and alternate app icons. Support development."
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unlimited Plays forever. Choose visual styles and alternate app icons. Support development."
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unlimited Plays forever. Choose visual styles and alternate app icons. Support development."
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Unlimited Plays forever. Choose visual styles and alternate app icons. Support development."
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Partides il·limitades per sempre. Tria temes visuals i icones alternatives. Dona suport al desenvolupament."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Unbegrenzte Spiele für immer. Wähle visuelle Themes und alternative App-Symbole. Unterstütze die Entwicklung."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Partidas ilimitadas para siempre. Elige temas visuales e iconos alternativos. Apoya el desarrollo."
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Partidas ilimitadas para siempre. Elige temas visuales e íconos alternativos. Apoya el desarrollo."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Parties illimitées pour toujours. Choisis des thèmes visuels et des icônes alternatives. Soutiens le développement."
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Parties illimitées pour toujours. Choisissez des thèmes visuels et des icônes alternatives. Soutenez le développement."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Partite illimitate per sempre. Scegli temi visivi e icone alternative. Sostieni lo sviluppo."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "永久無制限プレイ。ビジュアルテーマと代替アプリアイコンを選択。開発を支援。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "영구 무제한 플레이. 시각 테마와 대체 앱 아이콘을 선택하세요. 개발을 후원하세요."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Voor altijd onbeperkt spelen. Kies visuele thema’s en alternatieve app-pictogrammen. Steun de ontwikkeling."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Nielimitowana gra na zawsze. Wybieraj motywy graficzne i alternatywne ikony. Wesprzyj rozwój gry."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Partidas ilimitadas para sempre. Escolha temas visuais e ícones alternativos. Apoie o desenvolvimento."
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Partidas ilimitadas para sempre. Escolhe temas visuais e ícones alternativos. Apoia o desenvolvimento."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sonsuza kadar sınırsız oyun. Görsel temaları ve alternatif simgeleri seç. Geliştirmeyi destekle."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "永久无限畅玩。选择视觉主题和备选 App 图标。支持开发。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "永久無限暢玩。選擇視覺主題和替代 App 圖示。支持開發。"
+          }
+        }
+      }
+    },
+    "app_icon_group_classic": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Classic"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Classic"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Classic"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Classic"
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Clàssica"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Klassisch"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Clásico"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Clásico"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Classique"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Classique"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Classica"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "クラシック"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "클래식"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Klassiek"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Klasyczne"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Clássico"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Clássico"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Klasik"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "经典"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "經典"
+          }
+        }
+      }
+    },
+    "app_icon_group_themes": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Themes"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Themes"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Themes"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Themes"
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Temes"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Themes"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Temas"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Temas"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Thèmes"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Thèmes"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Temi"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "テーマ"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "테마"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Thema’s"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Motywy"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Temas"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Temas"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Temalar"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "主题"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "主題"
+          }
+        }
+      }
+    },
+    "app_icon_group_special_editions": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Special Editions"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Special Editions"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Special Editions"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Special Editions"
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Edicions especials"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sondereditionen"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ediciones especiales"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ediciones especiales"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Éditions spéciales"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Éditions spéciales"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Edizioni speciali"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "スペシャルエディション"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "스페셜 에디션"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Speciale edities"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Edycje specjalne"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Edições especiais"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Edições especiais"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Özel Sürümler"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "特别版"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "特別版"
+          }
+        }
+      }
+    },
+    "app_icon_state_available": {
+      "comment": "Accessibility value for an app icon that the current user can select.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Available"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Available"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Available"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Available"
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Disponible"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Verfügbar"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Disponible"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Disponible"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Disponible"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Disponible"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Disponibile"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "利用可能"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "사용 가능"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Beschikbaar"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Dostępna"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Disponível"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Disponível"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Kullanılabilir"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "可用"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "可用"
+          }
+        }
+      }
+    },
+    "app_icon_state_changing": {
+      "comment": "Accessibility value announced while the system is changing the selected app icon.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Changing"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Changing"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Changing"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Changing"
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Canviant"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wird geändert"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cambiando"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cambiando"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Modification"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Modification"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Modifica in corso"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "変更中"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "변경 중"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wordt gewijzigd"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Zmienianie"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Alterando"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "A alterar"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Değiştiriliyor"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "正在更改"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "正在更改"
+          }
+        }
+      }
+    },
+    "app_icon_state_checking_access": {
+      "comment": "Accessibility value while the app is resolving the user's Unlimited Plays entitlement.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Checking Unlimited Plays"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Checking Unlimited Plays"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Checking Unlimited Plays"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Checking Unlimited Plays"
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Comprovant Partides il·limitades"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Unbegrenzte Spiele wird geprüft"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Comprobando Partidas ilimitadas"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Comprobando Partidas ilimitadas"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Vérification de Parties illimitées"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Vérification de Parties illimitées"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Verifica di Partite illimitate"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "無制限プレイを確認中"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "무제한 플레이 확인 중"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Onbeperkt spelen wordt gecontroleerd"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sprawdzanie Nielimitowanej gry"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Verificando Partidas ilimitadas"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "A verificar Partidas ilimitadas"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sınırsız Oyun kontrol ediliyor"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "正在检查无限畅玩"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "正在檢查無限暢玩"
+          }
+        }
+      }
+    },
+    "app_icon_state_requires_unlimited_plays": {
+      "comment": "Accessibility value for a locked alternate app icon.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Requires Unlimited Plays"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Requires Unlimited Plays"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Requires Unlimited Plays"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Requires Unlimited Plays"
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Requereix Partides il·limitades"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Erfordert Unbegrenzte Spiele"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Requiere Partidas ilimitadas"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Requiere Partidas ilimitadas"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Nécessite Parties illimitées"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Nécessite Parties illimitées"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Richiede Partite illimitate"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "無制限プレイが必要"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "무제한 플레이 필요"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Vereist Onbeperkt spelen"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wymaga Nielimitowanej gry"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Requer Partidas ilimitadas"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Requer Partidas ilimitadas"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sınırsız Oyun gerektirir"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "需要无限畅玩"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "需要無限暢玩"
+          }
+        }
+      }
+    },
+    "app_icon_state_selected": {
+      "comment": "Accessibility value for the currently selected app icon.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selected"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selected"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selected"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Selected"
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Seleccionada"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ausgewählt"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Seleccionado"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Seleccionado"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sélectionnée"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sélectionnée"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Selezionata"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "選択済み"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "선택됨"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Geselecteerd"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wybrana"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Selecionado"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Selecionado"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Seçildi"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "已选择"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "已選擇"
+          }
+        }
+      }
+    },
+    "app_icon_title": {
+      "comment": "Settings row title for opening the alternate-app-icon gallery.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App Icon"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App Icon"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App Icon"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "App Icon"
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Icona de l’app"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "App-Symbol"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Icono de la app"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ícono de la app"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Icône de l’app"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Icône de l’app"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Icona dell’app"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "アプリアイコン"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "앱 아이콘"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "App-pictogram"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ikona aplikacji"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ícone do app"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Ícone da app"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Uygulama Simgesi"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "App 图标"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "App 圖示"
+          }
+        }
+      }
+    },
+    "app_icon_name_classic": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Classic"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Classic"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Classic"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Classic"
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Clàssica"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Klassisch"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Clásico"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Clásico"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Classique"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Classique"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Classica"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "クラシック"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "클래식"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Klassiek"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Klasyczna"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Clássico"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Clássico"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Klasik"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "经典"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "經典"
+          }
+        }
+      }
+    },
+    "app_icon_name_pocket": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pocket"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pocket"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pocket"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Pocket"
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pocket"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pocket"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pocket"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pocket"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pocket"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pocket"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pocket"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pocket"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pocket"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pocket"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pocket"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pocket"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pocket"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pocket"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pocket"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pocket"
+          }
+        }
+      }
+    },
+    "app_icon_name_lcd": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "LCD"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "LCD"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "LCD"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "LCD"
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "LCD"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "LCD"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "LCD"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "LCD"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "LCD"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "LCD"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "LCD"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "LCD"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "LCD"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "LCD"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "LCD"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "LCD"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "LCD"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "LCD"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "LCD"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "LCD"
+          }
+        }
+      }
+    },
+    "app_icon_name_cartridge": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cartridge"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cartridge"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cartridge"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cartridge"
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cartutx"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cartridge"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cartucho"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cartucho"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cartouche"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cartouche"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cartuccia"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "カートリッジ"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "카트리지"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Spelcassette"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Kartridż"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cartucho"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cartucho"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Kartuş"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "卡带"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "卡匣"
+          }
+        }
+      }
+    },
+    "app_icon_name_crt": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CRT"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CRT"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CRT"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "CRT"
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "CRT"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "CRT"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "CRT"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "CRT"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "CRT"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "CRT"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "CRT"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "CRT"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "CRT"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "CRT"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "CRT"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "CRT"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "CRT"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "CRT"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "CRT"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "CRT"
+          }
+        }
+      }
+    },
+    "app_icon_name_disc": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Disc"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Disc"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Disc"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Disc"
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Disc"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Disc"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Disco"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Disco"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Disque"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Disque"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Disco"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ディスク"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "디스크"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Disc"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Dysk"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Disco"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Disco"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Disk"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "光盘"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "光碟"
+          }
+        }
+      }
+    },
+    "app_icon_name_polygon": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Polygon"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Polygon"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Polygon"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Polygon"
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Polígon"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Polygon"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Polígono"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Polígono"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Polygone"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Polygone"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Poligono"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ポリゴン"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "폴리곤"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Polygoon"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wielokąt"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Polígono"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Polígono"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Çokgen"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "多边形"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "多邊形"
+          }
+        }
+      }
+    },
+    "app_icon_name_retroCartridge": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retro Cartridge"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retro Cartridge"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retro Cartridge"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retro Cartridge"
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cartutx retro"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Retro-Cartridge"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cartucho retro"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cartucho retro"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cartouche rétro"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cartouche rétro"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cartuccia rétro"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "レトロカートリッジ"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "레트로 카트리지"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Retrospelcassette"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Kartridż retro"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cartucho retrô"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cartucho retro"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Retro Kartuş"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "复古卡带"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "復古卡匣"
+          }
+        }
+      }
+    },
+    "app_icon_name_retroVideoGame": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retro Video Game"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retro Video Game"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retro Video Game"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retro Video Game"
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Videojoc retro"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Retro-Videospiel"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Videojuego retro"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Videojuego retro"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Jeu vidéo rétro"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Jeu vidéo rétro"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Videogioco rétro"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "レトロビデオゲーム"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "레트로 비디오 게임"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Retro-videogame"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Gra wideo retro"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Videogame retrô"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Videojogo retro"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Retro Video Oyunu"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "复古电子游戏"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "復古電子遊戲"
+          }
+        }
+      }
+    },
+    "app_icon_description_classic": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The original grayscale LCD race car on RetroRapid pink."
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The original grayscale LCD race car on RetroRapid pink."
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The original grayscale LCD race car on RetroRapid pink."
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "The original grayscale LCD race car on RetroRapid pink."
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "El cotxe de curses LCD original en escala de grisos sobre rosa RetroRapid."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Der ursprüngliche graue LCD-Rennwagen auf RetroRapid-Pink."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "El coche de carreras LCD original en escala de grises sobre rosa RetroRapid."
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "El auto de carreras LCD original en escala de grises sobre rosa RetroRapid."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "La voiture de course LCD originale en nuances de gris sur rose RetroRapid."
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "La voiture de course LCD originale en nuances de gris sur rose RetroRapid."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "L’auto da corsa LCD originale in scala di grigi su rosa RetroRapid."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "RetroRapidピンクにオリジナルのグレースケールLCDレーシングカー。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "RetroRapid 핑크 위의 오리지널 회색조 LCD 레이싱 카."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "De originele grijze LCD-racewagen op RetroRapid-roze."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Oryginalny szary samochód wyścigowy LCD na różowym tle RetroRapid."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "O carro de corrida LCD original em tons de cinza sobre o rosa RetroRapid."
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "O carro de corrida LCD original em tons de cinzento sobre rosa RetroRapid."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "RetroRapid pembesi üzerinde özgün gri tonlamalı LCD yarış arabası."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "RetroRapid 粉色背景上的原版灰度 LCD 赛车。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "RetroRapid 粉紅色背景上的原版灰階 LCD 賽車。"
+          }
+        }
+      }
+    },
+    "app_icon_description_pocket": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Four-tone green pixel racer on an olive three-lane road."
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Four-tone green pixel racer on an olive three-lane road."
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Four-tone green pixel racer on an olive three-lane road."
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Four-tone green pixel racer on an olive three-lane road."
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cotxe de píxels verd de quatre tons en una carretera oliva de tres carrils."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Grüner Pixel-Rennwagen in vier Tönen auf einer olivfarbenen Straße mit drei Spuren."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Coche de píxeles verde de cuatro tonos en una carretera oliva de tres carriles."
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Auto de píxeles verde de cuatro tonos en una carretera oliva de tres carriles."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Voiture pixel verte à quatre tons sur une route olive à trois voies."
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Voiture pixel verte à quatre tons sur une route olive à trois voies."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Auto pixel verde a quattro tonalità su una strada oliva a tre corsie."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "オリーブ色の3車線道路を走る4階調グリーンのピクセルカー。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "올리브색 3차선 도로 위의 4톤 녹색 픽셀 레이싱 카."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Groene pixelracewagen in vier tinten op een olijfkleurige weg met drie rijstroken."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Zielony pikselowy samochód w czterech odcieniach na oliwkowej drodze z trzema pasami."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Carro de corrida pixelado verde em quatro tons numa pista oliva de três faixas."
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Carro de corrida pixelizado verde em quatro tons numa estrada verde-azeitona com três faixas."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Zeytin rengi üç şeritli yolda dört tonlu yeşil piksel yarış arabası."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "橄榄色三车道路面上的四色绿色像素赛车。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "橄欖色三車道路面上的四色綠色像素賽車。"
+          }
+        }
+      }
+    },
+    "app_icon_description_lcd": {
+      "comment": "Accessibility description of the LCD alternate app icon artwork.",
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grayscale LCD racer on a warm beige three-lane road."
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grayscale LCD racer on a warm beige three-lane road."
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grayscale LCD racer on a warm beige three-lane road."
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Grayscale LCD racer on a warm beige three-lane road."
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cotxe LCD en escala de grisos en una carretera beix càlida de tres carrils."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Graustufen-LCD-Rennwagen auf einer warmbeigen Straße mit drei Spuren."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Coche LCD en escala de grises en una carretera beige cálida de tres carriles."
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Auto LCD en escala de grises en una carretera beige cálida de tres carriles."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Voiture de course LCD en niveaux de gris sur une route beige aux tons chauds à trois voies."
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Voiture de course LCD en niveaux de gris sur une route beige aux tons chauds à trois voies."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Auto da corsa LCD in scala di grigi su una strada beige calda a tre corsie."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "温かみのあるベージュの3車線道路を走るグレースケールのLCDレーサー。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "따뜻한 베이지색 3차선 도로 위의 회색조 LCD 레이싱 카."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "LCD-racewagen in grijstinten op een warmbeige weg met drie rijstroken."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wyścigówka LCD w skali szarości na ciepłobeżowej drodze z trzema pasami."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Carro de corrida LCD em tons de cinza numa pista bege quente de três faixas."
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Carro de corrida LCD em tons de cinzento numa estrada bege quente com três faixas."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Sıcak bej renkli üç şeritli yolda gri tonlamalı LCD yarış arabası."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "暖米色三车道路面上的灰度 LCD 赛车。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "暖米色三車道路面上的灰階 LCD 賽車。"
+          }
+        }
+      }
+    },
+    "app_icon_description_cartridge": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Crisp 8-bit red racer on a gray and yellow road."
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Crisp 8-bit red racer on a gray and yellow road."
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Crisp 8-bit red racer on a gray and yellow road."
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Crisp 8-bit red racer on a gray and yellow road."
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cotxe vermell nítid de 8 bits en una carretera grisa i groga."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Klarer roter 8-Bit-Rennwagen auf einer grau-gelben Straße."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Coche rojo nítido de 8 bits en una carretera gris y amarilla."
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Auto rojo nítido de 8 bits en una carretera gris y amarilla."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Voiture rouge 8 bits nette sur une route grise et jaune."
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Voiture rouge 8 bits nette sur une route grise et jaune."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Auto rossa 8 bit nitida su una strada grigia e gialla."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "グレーと黄色の道路を走る鮮明な8ビット赤色レーシングカー。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "회색과 노란색 도로 위의 선명한 8비트 빨간 레이싱 카."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Scherpe rode 8-bitracewagen op een grijs-gele weg."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Wyraźny czerwony samochód 8-bitowy na szaro-żółtej drodze."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Carro vermelho nítido de 8 bits numa pista cinza e amarela."
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Carro vermelho nítido de 8 bits numa estrada cinzenta e amarela."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Gri ve sarı yolda net kırmızı 8 bit yarış arabası."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "灰黄道路上的清晰红色 8 位赛车。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "灰黃道路上的清晰紅色 8 位賽車。"
+          }
+        }
+      }
+    },
+    "app_icon_description_crt": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rich pixel racer on a dark road with green scanline edges."
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rich pixel racer on a dark road with green scanline edges."
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rich pixel racer on a dark road with green scanline edges."
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Rich pixel racer on a dark road with green scanline edges."
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cotxe de píxels ric en una carretera fosca amb vores verdes de línies d’escaneig."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Detailreicher Pixel-Rennwagen auf dunkler Straße mit grünen Scanline-Rändern."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Coche de píxeles detallado en una carretera oscura con bordes verdes de líneas de barrido."
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Auto de píxeles detallado en una carretera oscura con bordes verdes de líneas de barrido."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Voiture pixel détaillée sur une route sombre aux bords verts façon lignes de balayage."
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Voiture pixel détaillée sur une route sombre aux bords verts façon lignes de balayage."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Auto pixel ricca di dettagli su una strada scura con bordi verdi a linee di scansione."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "緑の走査線エッジがある暗い道路を走る精細なピクセルカー。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "녹색 주사선 가장자리가 있는 어두운 도로 위의 풍부한 픽셀 레이싱 카."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Gedetailleerde pixelracewagen op een donkere weg met groene scanlineranden."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Bogaty pikselowy samochód na ciemnej drodze z zielonymi krawędziami linii skanowania."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Carro pixelado detalhado numa pista escura com bordas verdes de linhas de varredura."
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Carro pixelizado detalhado numa estrada escura com margens verdes de linhas de varrimento."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Yeşil tarama çizgili kenarlara sahip koyu yolda ayrıntılı piksel yarış arabası."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "带绿色扫描线边缘的深色道路上的精细像素赛车。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "帶綠色掃描線邊緣的深色道路上的精細像素賽車。"
+          }
+        }
+      }
+    },
+    "app_icon_description_disc": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Detailed red racer on a dark circuit-board road."
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Detailed red racer on a dark circuit-board road."
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Detailed red racer on a dark circuit-board road."
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Detailed red racer on a dark circuit-board road."
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cotxe vermell detallat en una carretera fosca de circuits."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Detaillierter roter Rennwagen auf einer dunklen Leiterplattenstraße."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Coche rojo detallado en una carretera oscura de circuitos."
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Auto rojo detallado en una carretera oscura de circuitos."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Voiture rouge détaillée sur une route sombre en circuit imprimé."
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Voiture rouge détaillée sur une route sombre en circuit imprimé."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Auto rossa dettagliata su una strada scura a circuito stampato."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "暗い回路基板の道路を走る精細な赤いレーシングカー。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "어두운 회로 기판 도로 위의 정교한 빨간 레이싱 카."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Gedetailleerde rode racewagen op een donkere printplaatweg."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Szczegółowy czerwony samochód na ciemnej drodze jak płytka drukowana."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Carro vermelho detalhado numa pista escura de circuito."
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Carro vermelho detalhado numa estrada escura de circuito impresso."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Koyu devre kartı yolunda ayrıntılı kırmızı yarış arabası."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "深色电路板道路上的精细红色赛车。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "深色電路板道路上的精細紅色賽車。"
+          }
+        }
+      }
+    },
+    "app_icon_description_polygon": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Faceted low-poly racer on a midnight road."
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Faceted low-poly racer on a midnight road."
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Faceted low-poly racer on a midnight road."
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Faceted low-poly racer on a midnight road."
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cotxe low-poly facetat en una carretera nocturna."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Facettierter Low-Poly-Rennwagen auf einer mitternächtlichen Straße."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Coche low-poly facetado en una carretera nocturna."
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Auto low-poly facetado en una carretera nocturna."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Voiture low-poly à facettes sur une route nocturne."
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Voiture low-poly à facettes sur une route nocturne."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Auto low-poly sfaccettata su una strada notturna."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "真夜中の道路を走るファセット状のローポリカー。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "한밤중 도로 위의 각진 로우 폴리 레이싱 카."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Gefacetteerde low-polyracewagen op een nachtelijke weg."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Fasetowany samochód low-poly na nocnej drodze."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Carro low-poly facetado numa pista noturna."
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Carro low-poly facetado numa estrada noturna."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Gece yolunda yüzeyli düşük poligonlu yarış arabası."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "午夜道路上的多面低多边形赛车。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "午夜道路上的多面低多邊形賽車。"
+          }
+        }
+      }
+    },
+    "app_icon_description_retroCartridge": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cream game cartridge with a pink printed RetroRapid label."
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cream game cartridge with a pink printed RetroRapid label."
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cream game cartridge with a pink printed RetroRapid label."
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cream game cartridge with a pink printed RetroRapid label."
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cartutx de joc crema amb una etiqueta rosa de RetroRapid."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cremefarbene Spiel-Cartridge mit pinkem RetroRapid-Etikett."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cartucho de juego color crema con una etiqueta rosa de RetroRapid."
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cartucho de juego color crema con una etiqueta rosa de RetroRapid."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cartouche de jeu crème avec une étiquette RetroRapid rose."
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cartouche de jeu crème avec une étiquette RetroRapid rose."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cartuccia da gioco color crema con etichetta RetroRapid rosa."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "ピンクのRetroRapidラベルが付いたクリーム色のゲームカートリッジ。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "분홍색 RetroRapid 라벨이 있는 크림색 게임 카트리지."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Crèmekleurige spelcassette met een roze RetroRapid-label."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Kremowy kartridż z różową etykietą RetroRapid."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cartucho de jogo creme com etiqueta rosa RetroRapid."
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cartucho de jogo creme com etiqueta RetroRapid rosa."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pembe RetroRapid etiketli krem oyun kartuşu."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "带粉色 RetroRapid 印刷标签的奶油色游戏卡带。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "帶粉紅色 RetroRapid 印刷標籤的奶油色遊戲卡匣。"
+          }
+        }
+      }
+    },
+    "app_icon_description_retroVideoGame": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cream handheld game with a racing screen and pink controls."
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cream handheld game with a racing screen and pink controls."
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cream handheld game with a racing screen and pink controls."
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Cream handheld game with a racing screen and pink controls."
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Consola portàtil crema amb pantalla de curses i controls roses."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Cremefarbenes Handheld-Spiel mit Rennbildschirm und pinken Bedienelementen."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Consola portátil color crema con pantalla de carreras y controles rosas."
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Consola portátil color crema con pantalla de carreras y controles rosas."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Jeu portable crème avec écran de course et commandes roses."
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Jeu portable crème avec écran de course et commandes roses."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Gioco portatile color crema con schermo di gara e comandi rosa."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "レース画面とピンクの操作ボタンがあるクリーム色の携帯ゲーム機。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "레이싱 화면과 분홍색 조작부가 있는 크림색 휴대용 게임기."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Crèmekleurige handheld met racescherm en roze bediening."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Kremowa gra przenośna z ekranem wyścigu i różowymi przyciskami."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Videogame portátil creme com tela de corrida e controles rosa."
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Jogo portátil creme com ecrã de corrida e controlos rosa."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Yarış ekranı ve pembe kontrollere sahip krem el konsolu."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "带赛车屏幕和粉色控件的奶油色掌上游戏机。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "帶賽車畫面和粉紅色控制鍵的奶油色掌上遊戲機。"
           }
         }
       }

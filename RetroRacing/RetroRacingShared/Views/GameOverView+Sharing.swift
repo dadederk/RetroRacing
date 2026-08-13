@@ -14,13 +14,13 @@ extension GameOverView {
         if let gameOverShareImageURL {
             ShareLink(item: gameOverShareImageURL) {
                 Label(GameLocalizedStrings.string("share_action"), systemImage: "square.and.arrow.up")
-                    .font(bodyFont)
+                    .appFont(.body)
             }
             .accessibilityLabel(GameLocalizedStrings.string("share_action"))
         } else {
             Button(action: refreshShareImage) {
                 Label(GameLocalizedStrings.string("share_action"), systemImage: "square.and.arrow.up")
-                    .font(bodyFont)
+                    .appFont(.body)
             }
             .accessibilityLabel(GameLocalizedStrings.string("share_action"))
         }
@@ -29,7 +29,9 @@ extension GameOverView {
     var shareContentView: some View {
         ShareCardCanvas(colorScheme: colorScheme) {
             VStack(spacing: 28) {
-                ShareCardGameTitle(font: fontPreferenceStore?.font(textStyle: .largeTitle) ?? .largeTitle)
+                ShareCardGameTitle(
+                    font: AppFontResolver.font(for: .largeTitle, typography: appTypography)
+                )
                 gameOverShareCard
             }
             .padding(.horizontal, 40)
@@ -37,6 +39,7 @@ extension GameOverView {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .frame(width: 1200, height: 900)
+        .appTypography(appTypography)
     }
 
     var gameOverShareCard: some View {

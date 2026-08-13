@@ -23,7 +23,7 @@ public struct PaywallView: View {
     @Environment(\.openURL) private var openURL
     @Environment(\.purchase) private var purchase
     @Environment(StoreKitService.self) private var storeKit
-    @Environment(\.fontPreferenceStore) private var fontPreferenceStore
+    @Environment(\.alternateAppIconsBenefitEnabled) private var alternateAppIconsBenefitEnabled
 
     private let playLimitService: PlayLimitService?
     private let isLimitReached: Bool
@@ -80,7 +80,7 @@ public struct PaywallView: View {
 
                     if isLimitReached {
                         Text(GameLocalizedStrings.string("paywall_limit_notice"))
-                            .font(fontPreferenceStore?.font(textStyle: .subheadline) ?? .subheadline)
+                            .appFont(.subheadline)
                             .multilineTextAlignment(.center)
                             .foregroundStyle(.primary)
                             .padding(.horizontal)
@@ -90,8 +90,8 @@ public struct PaywallView: View {
 
                     purchaseActions
 
-                    Text(GameLocalizedStrings.string("paywall_unlimited_and_themes"))
-                        .font(fontPreferenceStore?.font(textStyle: .subheadline) ?? .subheadline)
+                    Text(GameLocalizedStrings.string(paywallBenefitsKey))
+                        .appFont(.subheadline)
                         .multilineTextAlignment(.center)
                         .foregroundStyle(.secondary)
 
@@ -129,7 +129,7 @@ public struct PaywallView: View {
 
                     VStack(spacing: 4) {
                         Text(GameLocalizedStrings.string("paywall_footer_one_time"))
-                            .font(fontPreferenceStore?.font(textStyle: .caption2) ?? .caption2)
+                            .appFont(.caption2)
                             .foregroundStyle(.primary)
                             .multilineTextAlignment(.center)
                     }
@@ -198,10 +198,16 @@ public struct PaywallView: View {
 
     // MARK: - Sections
 
+    private var paywallBenefitsKey: String {
+        alternateAppIconsBenefitEnabled
+            ? "paywall_unlimited_themes_and_icons"
+            : "paywall_unlimited_and_themes"
+    }
+
     private var stayFreeSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text(GameLocalizedStrings.string("paywall_stay_free_title"))
-                .retroSectionHeader(font: fontPreferenceStore?.font(textStyle: .headline) ?? .headline)
+                .retroSectionHeader()
                 .accessibilityAddTraits(.isHeader)
 
             stayFreeCard(
@@ -252,7 +258,7 @@ public struct PaywallView: View {
             showingOfferCodeRedemption = true
         } label: {
             Label(GameLocalizedStrings.string("redeem_code"), systemImage: "giftcard")
-                .font(fontPreferenceStore?.font(textStyle: .body) ?? .body)
+                .appFont(.body)
         }
         .retroRacingSecondaryButtonStyle()
         .disabled(isPurchasing || isRestoringPurchases)
@@ -274,7 +280,7 @@ public struct PaywallView: View {
                     Image(systemName: "giftcard")
                 }
                 Text(GameLocalizedStrings.string("redeem_code"))
-                    .font(fontPreferenceStore?.font(textStyle: .body) ?? .body)
+                    .appFont(.body)
             }
         }
         .retroRacingSecondaryButtonStyle()
@@ -299,7 +305,7 @@ public struct PaywallView: View {
                     Image(systemName: "arrow.clockwise.circle")
                 }
                 Text(GameLocalizedStrings.string("restore_purchases"))
-                    .font(fontPreferenceStore?.font(textStyle: .body) ?? .body)
+                    .appFont(.body)
             }
         }
         .retroRacingSecondaryButtonStyle()

@@ -204,6 +204,48 @@ final class StoreKitServiceTests: XCTestCase {
         XCTAssertTrue(service.hasPremiumAccess == !service.purchasedProductIDs.isEmpty)
     }
 
+    func testGivenStoredUnlimitedSimulationWhenCreatingDebugServiceThenChoiceIsRestored() {
+        // Given
+        let firstService = makeService()
+        firstService.debugPremiumSimulationMode = .unlimitedPlays
+
+        // When
+        let restoredService = makeService()
+
+        // Then
+        XCTAssertEqual(restoredService.debugPremiumSimulationMode, .unlimitedPlays)
+        XCTAssertTrue(restoredService.hasPremiumAccess)
+    }
+
+    func testGivenInvalidStoredSimulationWhenCreatingDebugServiceThenProductionDefaultIsUsed() {
+        // Given
+        userDefaults.set(999, forKey: StoreKitService.DebugStorageKeys.premiumSimulationMode)
+
+        // When
+        let service = makeService()
+
+        // Then
+        XCTAssertEqual(service.debugPremiumSimulationMode, .productionDefault)
+    }
+
+    func testGivenStoredUnlimitedSimulationWhenCreatingProductionServiceThenOverrideIsIgnored() {
+        // Given
+        userDefaults.set(
+            StoreKitService.DebugPremiumSimulationMode.unlimitedPlays.rawValue,
+            forKey: StoreKitService.DebugStorageKeys.premiumSimulationMode
+        )
+
+        // When
+        let service = makeService(isDebugSimulationEnabled: false)
+
+        // Then
+        XCTAssertEqual(service.debugPremiumSimulationMode, .productionDefault)
+        XCTAssertEqual(
+            userDefaults.integer(forKey: StoreKitService.DebugStorageKeys.premiumSimulationMode),
+            StoreKitService.DebugPremiumSimulationMode.unlimitedPlays.rawValue
+        )
+    }
+
     // MARK: - hasPurchased simulation tests
 
     func testGivenFreemiumSimulationModeWhenCheckingHasPurchasedForUnlimitedPlaysThenReturnsFalse() {

@@ -62,7 +62,6 @@ public struct GameView: View {
     @AppStorage(AudioFeedbackMode.conditionalDefaultStorageKey) private var audioFeedbackModeStorageData: Data = Data()
     @AppStorage(LaneMoveCueStyle.storageKey) private var laneMoveCueStyleRawValue: String = LaneMoveCueStyle.defaultStyle.rawValue
     @AppStorage(BigCarsSetting.conditionalDefaultStorageKey) private var bigCarsData: Data = Data()
-    @AppStorage(RoadVisualStyle.storageKey) private var roadVisualStyleRawValue: String = RoadVisualStyle.defaultStyle.rawValue
     @AppStorage(DirectTouchSetting.conditionalDefaultStorageKey) private var directTouchData: Data = Data()
     @AppStorage(SpeedWarningFeedbackMode.conditionalDefaultStorageKey)
     private var speedWarningFeedbackModeData: Data = Data()
@@ -76,6 +75,7 @@ public struct GameView: View {
     @ScaledMetric(relativeTo: .largeTitle) private var directionButtonHeight: CGFloat = 120
     @Environment(\.dismiss) private var dismiss
     @Environment(StoreKitService.self) private var storeKit
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     #if os(tvOS)
     @Environment(\.resetFocus) private var resetFocus
     @Namespace private var gameFocusScope
@@ -169,9 +169,6 @@ public struct GameView: View {
         let selectedBigRivalCarsEnabled = screenshotLayout == nil
             ? BigCarsPreference.currentSelection(from: InfrastructureDefaults.userDefaults)
             : ScreenshotCapturePreferences.gameplayBigCarsEnabled
-        let selectedRoadVisualStyle = screenshotLayout == nil
-            ? RoadVisualStyle.currentSelection(from: InfrastructureDefaults.userDefaults)
-            : ScreenshotCapturePreferences.gameplayRoadVisualStyle
         _model = State(initialValue: GameViewModel(
             leaderboardService: leaderboardService,
             ratingService: ratingService,
@@ -188,7 +185,6 @@ public struct GameView: View {
             selectedAudioFeedbackMode: selectedAudioFeedbackMode,
             selectedLaneMoveCueStyle: selectedLaneMoveCueStyle,
             selectedBigRivalCarsEnabled: selectedBigRivalCarsEnabled,
-            selectedRoadVisualStyle: selectedRoadVisualStyle,
             shouldStartGame: shouldStartGame
         ))
     }
@@ -230,9 +226,6 @@ public struct GameView: View {
             }
             .onChange(of: bigCarsData) { _, _ in
                 model.updateBigRivalCarsEnabled(selectedBigRivalCarsEnabled)
-            }
-            .onChange(of: roadVisualStyleRawValue) { _, _ in
-                model.updateRoadVisualStyle(selectedRoadVisualStyle)
             }
             .onChange(of: speedWarningFeedbackModeData) { _, _ in
                 if model.hud.speedIncreaseImminent {
@@ -342,9 +335,9 @@ public struct GameView: View {
                         friendLifeAssetName: theme?.resolvedFriendLifeSprite() ?? "life-LCD",
                         bundle: Self.sharedBundle,
                         hidesFromAccessibility: false,
-                        headerFont: hudHeaderFont,
-                        speedAlertFont: headerFont(textStyle: .callout),
-                        friendHeaderFont: headerFont(textStyle: style.friendHUDTextStyle),
+                        headerTextStyle: style.hudTextStyle,
+                        speedAlertTextStyle: .callout,
+                        friendHeaderTextStyle: style.friendHUDTextStyle,
                         sharePlayOpponentName: model.sharePlayOpponentDisplayName,
                         sharePlayOpponentScore: sharePlayOpponentScore,
                         sharePlayOpponentLives: sharePlayOpponentLives
@@ -453,7 +446,6 @@ public struct GameView: View {
             model.updateAudioFeedbackMode(selectedAudioFeedbackMode)
             model.updateLaneMoveCueStyle(selectedLaneMoveCueStyle)
             model.updateBigRivalCarsEnabled(selectedBigRivalCarsEnabled)
-            model.updateRoadVisualStyle(selectedRoadVisualStyle)
             model.setDebugForcedAchievementIdentifier(selectedDebugForcedAchievementIdentifier)
             model.updateDebugSpriteKitFrameStatsVisibility(shouldShowDebugSpriteKitFrameStats)
             model.recordVoiceOverControlIfNeeded()
@@ -486,9 +478,10 @@ public struct GameView: View {
                                 GameLocalizedStrings.string("menu_button"),
                                 systemImage: "xmark"
                             )
-                            .font(pauseButtonFont)
+                            .appFont(.headline)
                         }
                         .accessibilityLabel(GameLocalizedStrings.string("menu_button"))
+                        .accessibilityShowsLargeContentViewer()
                         .accessibilityHidden(shouldHideGameplayChromeFromAccessibility)
                         .disabled(toolbarControlsDisabled)
                         .opacity(toolbarControlsDisabled ? 0.4 : 1)
@@ -502,9 +495,10 @@ public struct GameView: View {
                             GameLocalizedStrings.string("tutorial_help_button"),
                             systemImage: "questionmark.circle"
                         )
-                        .font(pauseButtonFont)
+                        .appFont(.headline)
                     }
                     .accessibilityLabel(GameLocalizedStrings.string("tutorial_help_button"))
+                    .accessibilityShowsLargeContentViewer()
                     .accessibilityHidden(shouldHideGameplayChromeFromAccessibility)
                     .disabled(toolbarControlsDisabled)
                     .opacity(toolbarControlsDisabled ? 0.4 : 1)
@@ -516,9 +510,10 @@ public struct GameView: View {
                             GameLocalizedStrings.string(model.pause.isUserPaused ? "resume" : "pause"),
                             systemImage: model.pause.isUserPaused ? "play.fill" : "pause.fill"
                         )
-                        .font(pauseButtonFont)
+                        .appFont(.headline)
                     }
                     .accessibilityLabel(GameLocalizedStrings.string(model.pause.isUserPaused ? "resume" : "pause"))
+                    .accessibilityShowsLargeContentViewer()
                     .accessibilityHidden(shouldHideGameplayChromeFromAccessibility)
                     .disabled(model.pauseButtonDisabled || toolbarControlsDisabled)
                     .opacity((model.pauseButtonDisabled || toolbarControlsDisabled) ? 0.4 : 1)
@@ -530,7 +525,7 @@ public struct GameView: View {
                                 GameLocalizedStrings.string("settings"),
                                 systemImage: "gearshape"
                             )
-                            .font(pauseButtonFont)
+                            .appFont(.headline)
                         }
                         .accessibilityLabel(GameLocalizedStrings.string("settings"))
                         .disabled(true)
@@ -604,23 +599,6 @@ public struct GameView: View {
         #endif
     }
 
-    private var pauseButtonFont: Font {
-        fontPreferenceStore?.font(fixedSize: style.pauseButtonFontSize)
-            ?? .custom("PressStart2P-Regular", size: style.pauseButtonFontSize)
-    }
-
-    private func headerFont(textStyle: Font.TextStyle) -> Font {
-        fontPreferenceStore?.font(textStyle: textStyle) ?? .system(textStyle, design: .default)
-    }
-
-    private var hudHeaderFont: Font {
-        guard style.usesFixedHUDMetrics else {
-            return headerFont(textStyle: style.hudTextStyle)
-        }
-        return fontPreferenceStore?.font(fixedSize: style.hudFontSize)
-            ?? .custom("PressStart2P-Regular", size: style.hudFontSize)
-    }
-
     private var showGameOverBinding: Binding<Bool> {
         Binding(
             get: { model.hud.showGameOver && model.isSharePlayActive == false },
@@ -662,7 +640,8 @@ public struct GameView: View {
             horizontalSizeClass: resolvedHorizontalSizeClass,
             verticalSizeClass: resolvedVerticalSizeClass,
             platformSupportsTopSafeAreaExpansion: platformSupportsTopSafeAreaExpansion,
-            isScreenshotCapture: screenshotLayout != nil
+            isScreenshotCapture: screenshotLayout != nil,
+            usesAccessibilityLayout: dynamicTypeSize.isAccessibilitySize
         )
     }
 
@@ -692,7 +671,20 @@ public struct GameView: View {
 
     @ViewBuilder
     private func spriteSceneView(for scene: GameScene) -> some View {
+        #if os(watchOS)
         SpriteView(scene: scene)
+        #else
+        SpriteView(
+            scene: scene,
+            debugOptions: Self.spriteKitDebugOptions(
+                showsFrameStats: shouldShowDebugSpriteKitFrameStats
+            )
+        )
+        #endif
+    }
+
+    static func spriteKitDebugOptions(showsFrameStats: Bool) -> SpriteView.DebugOptions {
+        showsFrameStats ? [.showsFPS, .showsNodeCount] : []
     }
 
     private var selectedDifficulty: GameDifficulty {
@@ -713,14 +705,6 @@ public struct GameView: View {
             return ScreenshotCapturePreferences.gameplayBigCarsEnabled
         }
         return BigCarsPreference.currentSelection(from: InfrastructureDefaults.userDefaults)
-    }
-
-    private var selectedRoadVisualStyle: RoadVisualStyle {
-        guard screenshotLayout == nil else {
-            return ScreenshotCapturePreferences.gameplayRoadVisualStyle
-        }
-        _ = roadVisualStyleRawValue
-        return RoadVisualStyle.currentSelection(from: InfrastructureDefaults.userDefaults)
     }
 
     private var selectedDirectTouchEnabled: Bool {

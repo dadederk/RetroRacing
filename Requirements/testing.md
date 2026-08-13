@@ -29,6 +29,7 @@ Run the relevant smallest validation after a change, and the full app validation
 - `./retrorapid assets optimize --check` regenerates into temporary storage and compares pixels and catalog JSON without mutating tracked files.
 - `./retrorapid assets spatial --check` regenerates the visionOS USDZ and sprites in temporary storage, validates RealityKit import and budgets, and compares bytes without mutating tracked outputs.
 - `./retrorapid assets audit --check` validates runtime asset idioms, pixel caps, forbidden shipping resources, and compiled catalog byte ceilings.
+- The asset audit also validates all Icon Composer packages, app-icon preview exports, layer references, permanent build-setting names, and shared mappings; `--full --check` verifies generated iOS `CFBundleAlternateIcons` entries.
 - `./retrorapid check` verifies asset footprint, generated assets/docs/metadata, and other non-mutating checks.
 - `./retrorapid test` runs shared and Universal app unit tests through the Scripts runner; select visionOS or both app platforms with `--platform`.
 - Use `./retrorapid test --dry-run` to inspect resolved commands.
@@ -43,6 +44,12 @@ Run the relevant smallest validation after a change, and the full app validation
 - Keep visionOS spatial-state, placement/recovery coordination, presentation handoff, and RealityKit asset integration behavior in `RetroRacingVisionOSTests`. Simulator placement tests inject a fixed test-only anchor provider; shipping code must retain detected-plane placement.
 - Keep deterministic spatial-asset and simulator-resolution behavior in the Scripts package tests.
 - Add regression tests when fixing bugs in play limits, StoreKit gating, Game Center reporting, achievements, SharePlay, accessibility defaults, generated audio, runtime asset packaging, screenshot fixtures, or localization routing.
+- Typography tests cover catalog order and raw-value compatibility, every bundled face/weight,
+  platform semantic baselines, Bold Text promotion, nearest-face and System fallback, preference
+  preservation/restoration, environment propagation, and bundled license loading.
+- Dynamic Type layout-policy tests cover menu scrolling/action reflow, accessibility HUD side-rail
+  suppression, vertical SharePlay/HUD arrangements, and one-column adaptive content.
+- Alternate-icon tests remain in the shared target for catalog, policy, flag, and service behavior; platform integration and real system confirmation remain iPhone/iPad manual QA.
 
 ## Naming and Structure
 
@@ -82,6 +89,10 @@ Keep manual QA focused on behavior that cannot be proven by unit tests:
 - StoreKit sandbox purchase, restore, refund/revocation, and App Review fresh-install path
 - real GroupActivities SharePlay transport across two devices/Macs
 - platform accessibility smoke tests with VoiceOver, Switch Control, Dynamic Type, keyboard, remote, controller, and Digital Crown
+- six-font typography checks at Large and Accessibility 5 on iPhone portrait/landscape, iPad,
+  macOS, Apple Watch, Apple TV focus UI, and both visionOS HUD presentations; repeat key flows with
+  Bold Text, double-length copy, representative accented Latin/CJK text, and a deliberately missing
+  bundled family to verify logged System fallback without preference loss
 - physical Apple Vision Pro surface snapping and floating placement, system window-bar movement, model visibility, ornament focus/hit testing, comfort, and ten-minute frame/memory stability
 - App Store screenshots and TestFlight/App Review submission flows
 

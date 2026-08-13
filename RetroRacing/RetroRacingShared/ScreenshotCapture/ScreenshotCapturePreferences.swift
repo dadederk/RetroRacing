@@ -11,6 +11,4 @@ import Foundation
 public enum ScreenshotCapturePreferences {
     /// Big Cars must stay off in marketing gameplay shots.
     public static let gameplayBigCarsEnabled = false
-
-    public static let gameplayRoadVisualStyle = RoadVisualStyle.detailedRoad
 }

@@ -16,7 +16,6 @@ public final class SettingsPreferencesStore {
     private var bigCarsConditionalDefault: ConditionalDefault<BigCarsSetting> = ConditionalDefault()
     private var directTouchConditionalDefault: ConditionalDefault<DirectTouchSetting> = ConditionalDefault()
     private var laneMoveCueStyleRawValue: String = LaneMoveCueStyle.defaultStyle.rawValue
-    private var roadVisualStyleRawValue: String = RoadVisualStyle.defaultStyle.rawValue
     private var controllerBindingProfileData: Data = Data()
     private var hasLoaded = false
 
@@ -68,8 +67,6 @@ public final class SettingsPreferencesStore {
         )
         laneMoveCueStyleRawValue = userDefaults.string(forKey: LaneMoveCueStyle.storageKey)
             ?? LaneMoveCueStyle.defaultStyle.rawValue
-        roadVisualStyleRawValue = userDefaults.string(forKey: RoadVisualStyle.storageKey)
-            ?? RoadVisualStyle.defaultStyle.rawValue
         controllerBindingProfileData = userDefaults.data(forKey: GameControllerBindingPreference.storageKey) ?? Data()
     }
 
@@ -98,13 +95,6 @@ public final class SettingsPreferencesStore {
         Binding(
             get: { self.selectedSpeedWarningFeedbackMode },
             set: { self.setSpeedWarningFeedbackMode($0) }
-        )
-    }
-
-    public var roadVisualStyleSelection: Binding<RoadVisualStyle> {
-        Binding(
-            get: { self.selectedRoadVisualStyle },
-            set: { self.setRoadVisualStyle($0) }
         )
     }
 
@@ -180,10 +170,6 @@ public final class SettingsPreferencesStore {
 
     public var selectedBigCarsEnabled: Bool {
         bigCarsConditionalDefault.effectiveValue.isEnabled
-    }
-
-    public var selectedRoadVisualStyle: RoadVisualStyle {
-        RoadVisualStyle.fromStoredValue(roadVisualStyleRawValue)
     }
 
     public var selectedDirectTouchEnabled: Bool {
@@ -285,11 +271,6 @@ public final class SettingsPreferencesStore {
         )
     }
 
-    public func setRoadVisualStyle(_ style: RoadVisualStyle) {
-        roadVisualStyleRawValue = style.rawValue
-        userDefaults.set(style.rawValue, forKey: RoadVisualStyle.storageKey)
-    }
-
     public func setControllerBindingProfile(_ profile: GameControllerBindingProfile) {
         GameControllerBindingPreference.setProfile(profile, in: userDefaults)
         controllerBindingProfileData = (try? JSONEncoder().encode(profile)) ?? Data()
@@ -303,7 +284,6 @@ public final class SettingsPreferencesStore {
         case .accessibility:
             speedWarningFeedbackConditionalDefault.setUserOverride(.warningSound)
             directTouchConditionalDefault.setUserOverride(DirectTouchSetting(isEnabled: true))
-            roadVisualStyleRawValue = RoadVisualStyle.detailedRoad.rawValue
         case .themeAndFont:
             break
         case .customize:

@@ -129,6 +129,81 @@ final class SettingsPreferenceMigrationTests: XCTestCase {
         XCTAssertEqual(AudioFeedbackMode.currentSelection(from: userDefaults), .cueArpeggio)
     }
 
+    func testGivenLegacySimplifiedGridWhenRunningMigrationThenBigCarsIsEnabledAndLegacyKeyIsRemoved() {
+        // Given
+        userDefaults.set("simplifiedGrid", forKey: "roadVisualStyle")
+
+        // When
+        SettingsPreferenceMigration.runIfNeeded(userDefaults: userDefaults, supportsHaptics: true)
+
+        // Then
+        XCTAssertEqual(
+            ConditionalDefault<BigCarsSetting>.load(
+                from: userDefaults,
+                key: BigCarsSetting.conditionalDefaultStorageKey
+            ).userOverride,
+            BigCarsSetting(isEnabled: true)
+        )
+        XCTAssertNil(userDefaults.object(forKey: "roadVisualStyle"))
+    }
+
+    func testGivenExplicitBigCarsChoiceAndLegacySimplifiedGridWhenRunningMigrationThenChoiceIsPreserved() {
+        // Given
+        var conditionalDefault = ConditionalDefault<BigCarsSetting>()
+        conditionalDefault.setUserOverride(BigCarsSetting(isEnabled: false))
+        conditionalDefault.save(to: userDefaults, key: BigCarsSetting.conditionalDefaultStorageKey)
+        userDefaults.set("simplifiedGrid", forKey: "roadVisualStyle")
+
+        // When
+        SettingsPreferenceMigration.runIfNeeded(userDefaults: userDefaults, supportsHaptics: true)
+
+        // Then
+        XCTAssertEqual(
+            ConditionalDefault<BigCarsSetting>.load(
+                from: userDefaults,
+                key: BigCarsSetting.conditionalDefaultStorageKey
+            ).userOverride,
+            BigCarsSetting(isEnabled: false)
+        )
+        XCTAssertNil(userDefaults.object(forKey: "roadVisualStyle"))
+    }
+
+    func testGivenLegacyDetailedRoadWhenRunningMigrationThenBigCarsUsesSystemDefaultAndLegacyKeyIsRemoved() {
+        // Given
+        userDefaults.set("detailedRoad", forKey: "roadVisualStyle")
+
+        // When
+        SettingsPreferenceMigration.runIfNeeded(userDefaults: userDefaults, supportsHaptics: true)
+
+        // Then
+        XCTAssertTrue(
+            ConditionalDefault<BigCarsSetting>.load(
+                from: userDefaults,
+                key: BigCarsSetting.conditionalDefaultStorageKey
+            ).isUsingSystemDefault
+        )
+        XCTAssertNil(userDefaults.object(forKey: "roadVisualStyle"))
+    }
+
+    func testGivenCompletedEarlierMigrationAndLegacySimplifiedGridWhenRunningMigrationThenNewMigrationStillRuns() {
+        // Given
+        userDefaults.set(true, forKey: "settingsPreferenceMigration_v2_completed")
+        userDefaults.set("simplifiedGrid", forKey: "roadVisualStyle")
+
+        // When
+        SettingsPreferenceMigration.runIfNeeded(userDefaults: userDefaults, supportsHaptics: true)
+
+        // Then
+        XCTAssertEqual(
+            ConditionalDefault<BigCarsSetting>.load(
+                from: userDefaults,
+                key: BigCarsSetting.conditionalDefaultStorageKey
+            ).userOverride,
+            BigCarsSetting(isEnabled: true)
+        )
+        XCTAssertNil(userDefaults.object(forKey: "roadVisualStyle"))
+    }
+
     func testGivenVoiceOverStateWhenResolvingSfxSystemDefaultThenExpectedVolumeIsReturned() {
         // Given / When / Then
         XCTAssertEqual(SoundEffectsVolumeSetting.systemDefaultValue(isVoiceOverRunning: true), 1.0, accuracy: 0.0001)

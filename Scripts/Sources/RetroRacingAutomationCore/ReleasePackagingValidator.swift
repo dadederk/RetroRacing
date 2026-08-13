@@ -77,6 +77,45 @@ enum ReleasePackagingValidator {
                 issues.map { "\(target.scheme) \($0)" }
             )
         }
+        if target.platform == "ios" {
+            try validateAlternateAppIcons(in: appURL)
+        }
+    }
+
+    private static func validateAlternateAppIcons(in appURL: URL) throws {
+        let infoURL = appURL.appending(path: "Info.plist")
+        let data = try Data(contentsOf: infoURL)
+        let plist = try PropertyListSerialization.propertyList(from: data, format: nil)
+        guard let plist = plist as? [String: Any] else {
+            throw AssetAuditError.validationFailed(["RetroRacingUniversal Release Info.plist is invalid"])
+        }
+        let issues = alternateAppIconIssues(in: plist)
+        if issues.isEmpty == false {
+            throw AssetAuditError.validationFailed(issues)
+        }
+    }
+
+    static func alternateAppIconIssues(in plist: [String: Any]) -> [String] {
+        let expectedNames = Set(AlternateAppIconValidator.alternateNames)
+        return ["CFBundleIcons", "CFBundleIcons~ipad"].flatMap { dictionaryName -> [String] in
+            guard let bundleIcons = plist[dictionaryName] as? [String: Any],
+                  let alternateIcons = bundleIcons["CFBundleAlternateIcons"] as? [String: Any]
+            else {
+                return ["RetroRacingUniversal Release Info.plist is missing \(dictionaryName).CFBundleAlternateIcons"]
+            }
+
+            let actualNames = Set(alternateIcons.keys)
+            let missingNames = expectedNames.subtracting(actualNames).sorted()
+            let unexpectedNames = actualNames.subtracting(expectedNames).sorted()
+            var issues: [String] = []
+            if missingNames.isEmpty == false {
+                issues.append("\(dictionaryName) is missing alternate icons: \(missingNames.joined(separator: ", "))")
+            }
+            if unexpectedNames.isEmpty == false {
+                issues.append("\(dictionaryName) has unexpected alternate icons: \(unexpectedNames.joined(separator: ", "))")
+            }
+            return issues
+        }
     }
 
     static func archiveIssues(inReleaseProduct productURL: URL) -> [String] {

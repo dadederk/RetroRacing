@@ -16,9 +16,9 @@ struct GameHUDInput {
     let friendLifeAssetName: String
     let bundle: Bundle
     let hidesFromAccessibility: Bool
-    let headerFont: Font
-    let speedAlertFont: Font
-    let friendHeaderFont: Font
+    let headerTextStyle: Font.TextStyle
+    let speedAlertTextStyle: Font.TextStyle
+    let friendHeaderTextStyle: Font.TextStyle
     let sharePlayOpponentName: String?
     let sharePlayOpponentScore: Int?
     let sharePlayOpponentLives: Int?

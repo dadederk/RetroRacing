@@ -11,7 +11,6 @@ import SwiftUI
 struct TabletopHUDPanel: View {
     @Environment(VisionGameSessionCoordinator.self) private var session
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
-    @Environment(\.fontPreferenceStore) private var fontPreferenceStore
     @AccessibilityFocusState private var focusedElement: FocusedElement?
     @ScaledMetric(relativeTo: .title2) private var lifeIconHeight: CGFloat = 42
 
@@ -42,7 +41,7 @@ struct TabletopHUDPanel: View {
         VStack(spacing: 8) {
             GameScoreStatusView(
                 score: session.snapshot.score,
-                font: largeTitleFont.monospacedDigit()
+                textStyle: .largeTitle
             )
             .accessibilityAddTraits(.updatesFrequently)
 
@@ -55,7 +54,8 @@ struct TabletopHUDPanel: View {
             )
 
             Text(GameLocalizedStrings.format("vision_level_format", session.snapshot.level))
-                .font(headlineFont.monospacedDigit())
+                .appFont(.headline)
+                .monospacedDigit()
                 .foregroundStyle(.secondary)
         }
         .accessibilityElement(children: .combine)
@@ -77,7 +77,7 @@ struct TabletopHUDPanel: View {
                 .controlSize(.large)
         case .returning:
             ProgressView(GameLocalizedStrings.string("vision_return_to_2d"))
-                .font(bodyFont)
+                .appFont(.body)
                 .controlSize(.large)
         case .inactive, .failure:
             EmptyView()
@@ -90,12 +90,12 @@ struct TabletopHUDPanel: View {
                 GameLocalizedStrings.string("vision_surface_ready"),
                 systemImage: "checkmark.circle.fill"
             )
-            .font(titleFont)
+            .appFont(.title2)
 
             SpatialActionButton(
                 title: GameLocalizedStrings.string(session.isUserPaused ? "resume" : "play"),
                 systemImage: "play.fill",
-                font: headlineFont,
+                textStyle: .headline,
                 action: session.startSpatialGame
             )
             .accessibilityFocused($focusedElement, equals: .primaryAction)
@@ -106,7 +106,7 @@ struct TabletopHUDPanel: View {
         SpatialActionButton(
             title: GameLocalizedStrings.string(session.isUserPaused ? "resume" : "pause"),
             systemImage: session.isUserPaused ? "play.fill" : "pause.fill",
-            font: headlineFont,
+            textStyle: .headline,
             action: session.togglePause
         )
         .disabled(session.snapshot.phase != .running && session.isUserPaused == false)
@@ -116,13 +116,13 @@ struct TabletopHUDPanel: View {
     private var gameOverControls: some View {
         VStack(spacing: 12) {
             Text(GameLocalizedStrings.string("vision_game_over"))
-                .font(titleFont)
+                .appFont(.title2)
 
             adaptiveButtonLayout {
                 SpatialActionButton(
                     title: GameLocalizedStrings.string("restart"),
                     systemImage: "arrow.clockwise",
-                    font: headlineFont,
+                    textStyle: .headline,
                     action: session.restart
                 )
                 .accessibilityFocused($focusedElement, equals: .primaryAction)
@@ -130,27 +130,11 @@ struct TabletopHUDPanel: View {
                 SpatialActionButton(
                     title: GameLocalizedStrings.string("finish"),
                     systemImage: "flag.checkered",
-                    font: headlineFont,
+                    textStyle: .headline,
                     action: finish
                 )
             }
         }
-    }
-
-    private var largeTitleFont: Font {
-        fontPreferenceStore?.font(textStyle: .largeTitle) ?? .largeTitle
-    }
-
-    private var titleFont: Font {
-        fontPreferenceStore?.font(textStyle: .title2) ?? .title2
-    }
-
-    private var headlineFont: Font {
-        fontPreferenceStore?.font(textStyle: .headline) ?? .headline
-    }
-
-    private var bodyFont: Font {
-        fontPreferenceStore?.font(textStyle: .body) ?? .body
     }
 
     private var accessibilityStatusValue: String {
@@ -189,13 +173,13 @@ struct TabletopHUDPanel: View {
 private struct SpatialActionButton: View {
     let title: String
     let systemImage: String
-    let font: Font
+    let textStyle: Font.TextStyle
     let action: () -> Void
 
     var body: some View {
         Button(action: action) {
             Label(title, systemImage: systemImage)
-                .font(font)
+                .appFont(textStyle)
                 .foregroundStyle(Color.accentColor)
         }
         .retroRacingSecondaryButtonStyle()

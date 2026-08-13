@@ -18,7 +18,6 @@ public struct ThemeGalleryView: View {
     public let playLimitService: PlayLimitService?
 
     @Environment(StoreKitService.self) private var storeKit
-    @Environment(\.fontPreferenceStore) private var fontPreferenceStore
     @State private var isShowingPaywall = false
 
     public init(
@@ -35,9 +34,9 @@ public struct ThemeGalleryView: View {
                 previewModels: previewModels,
                 selectedThemeID: themeManager.currentTheme.id,
                 showsUnlockSection: storeKit.shouldShowFreeTierAffordances,
+                hasUnlimitedAccess: storeKit.hasPremiumAccess,
+                hasResolvedInitialEntitlements: storeKit.hasResolvedInitialEntitlements,
                 isSelectionDisabled: false,
-                sectionHeaderFont: sectionHeaderFont,
-                bodyFont: bodyFont,
                 onUnlockRequest: { isShowingPaywall = true },
                 onPreviewSelection: selectTheme
             )
@@ -48,7 +47,6 @@ public struct ThemeGalleryView: View {
         #endif
         .sheet(isPresented: $isShowingPaywall) {
             PaywallView(playLimitService: playLimitService)
-                .fontPreferenceStore(fontPreferenceStore)
         }
     }
 
@@ -61,14 +59,6 @@ public struct ThemeGalleryView: View {
         }
     }
 
-    private var sectionHeaderFont: Font {
-        fontPreferenceStore?.font(textStyle: .headline) ?? .headline
-    }
-
-    private var bodyFont: Font {
-        fontPreferenceStore?.font(textStyle: .body) ?? .body
-    }
-
     private func selectTheme(for preview: ThemeGalleryPreviewModel) {
         guard let theme = themeManager.availableThemes.first(where: { $0.id == preview.id }) else {
             return
@@ -77,9 +67,13 @@ public struct ThemeGalleryView: View {
         switch ThemeGallerySelectionPolicy.action(
             previewID: preview.id,
             currentThemeID: themeManager.currentTheme.id,
-            isThemeAvailable: themeManager.isThemeAvailable(theme)
+            isThemePremium: theme.isPremium,
+            hasUnlimitedAccess: storeKit.hasPremiumAccess,
+            hasResolvedInitialEntitlements: storeKit.hasResolvedInitialEntitlements
         ) {
         case .none:
+            return
+        case .waitForEntitlement:
             return
         case .selectTheme:
             themeManager.setTheme(theme)
@@ -103,19 +97,23 @@ struct ThemeGallerySections: View {
     let previewModels: [ThemeGalleryPreviewModel]
     let selectedThemeID: ThemeID
     let showsUnlockSection: Bool
+    let hasUnlimitedAccess: Bool
+    let hasResolvedInitialEntitlements: Bool
     let isSelectionDisabled: Bool
-    let sectionHeaderFont: Font
-    let bodyFont: Font
     let onUnlockRequest: () -> Void
     let onPreviewSelection: (ThemeGalleryPreviewModel) -> Void
 
     var body: some View {
         if showsUnlockSection {
-            unlockSection
+            SettingsGalleryUnlockSection(
+                message: GameLocalizedStrings.string("settings_theme_gallery_unlock_body"),
+                onUnlockRequest: onUnlockRequest
+            )
         }
 
         ForEach(previewModels) { preview in
             let isSelected = preview.id == selectedThemeID
+            let action = selectionAction(for: preview)
 
             Section {
                 Button {
@@ -124,39 +122,31 @@ struct ThemeGallerySections: View {
                     ThemeGalleryPreviewRow(preview: preview, isSelected: isSelected)
                 }
                 .buttonStyle(.plain)
-                .disabled(isSelectionDisabled)
+                .disabled(isSelectionDisabled || action == .waitForEntitlement)
                 .accessibilityLabel(preview.accessibilityDescription)
                 .accessibilityAddTraits(isSelected ? .isSelected : [])
             } header: {
                 Text(preview.name)
-                    .retroSectionHeader(font: sectionHeaderFont)
+                    .retroSectionHeader()
             }
         }
     }
 
-    private var unlockSection: some View {
-        Section {
-            VStack(alignment: .leading, spacing: 12) {
-                Text(GameLocalizedStrings.string("settings_theme_gallery_unlock_body"))
-                    .font(bodyFont)
-                    .foregroundStyle(.primary)
-                    .fixedSize(horizontal: false, vertical: true)
-
-                Button {
-                    onUnlockRequest()
-                } label: {
-                    Label(GameLocalizedStrings.string("settings_learn_premium"), systemImage: "star.circle.fill")
-                        .font(bodyFont)
-                        .foregroundStyle(.tint)
-                }
-            }
-        }
+    private func selectionAction(for preview: ThemeGalleryPreviewModel) -> ThemeGallerySelectionAction {
+        ThemeGallerySelectionPolicy.action(
+            previewID: preview.id,
+            currentThemeID: selectedThemeID,
+            isThemePremium: preview.isPremium,
+            hasUnlimitedAccess: hasUnlimitedAccess,
+            hasResolvedInitialEntitlements: hasResolvedInitialEntitlements
+        )
     }
 }
 
 enum ThemeGallerySelectionAction: Equatable {
     case none
     case selectTheme
+    case waitForEntitlement
     case presentPaywall
 }
 
@@ -164,18 +154,30 @@ enum ThemeGallerySelectionPolicy {
     static func action(
         previewID: ThemeID,
         currentThemeID: ThemeID,
-        isThemeAvailable: Bool
+        isThemePremium: Bool,
+        hasUnlimitedAccess: Bool,
+        hasResolvedInitialEntitlements: Bool
     ) -> ThemeGallerySelectionAction {
         guard previewID != currentThemeID else {
             return .none
         }
-        return isThemeAvailable ? .selectTheme : .presentPaywall
+        guard isThemePremium else {
+            return .selectTheme
+        }
+        if hasUnlimitedAccess {
+            return .selectTheme
+        }
+        guard hasResolvedInitialEntitlements else {
+            return .waitForEntitlement
+        }
+        return .presentPaywall
     }
 }
 
 struct ThemeGalleryPreviewModel: Identifiable {
     let id: ThemeID
     let name: String
+    let isPremium: Bool
     let accessibilityDescriptionKey: String
     let accessibilityDescription: String
     let assets: [ThemeGalleryPreviewAsset]
@@ -184,6 +186,7 @@ struct ThemeGalleryPreviewModel: Identifiable {
     init(theme: any GameTheme, isIncreaseContrastEnabled: Bool) {
         id = theme.id
         name = theme.name
+        isPremium = theme.isPremium
         accessibilityDescriptionKey = Self.accessibilityDescriptionKey(for: theme.id)
         accessibilityDescription = Self.accessibilityDescription(
             forKey: accessibilityDescriptionKey,

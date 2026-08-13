@@ -35,7 +35,6 @@ final class GameViewModel {
     var selectedAudioFeedbackMode: AudioFeedbackMode
     var selectedLaneMoveCueStyle: LaneMoveCueStyle
     var selectedBigRivalCarsEnabled: Bool
-    var selectedRoadVisualStyle: RoadVisualStyle
     var shouldStartGame: Bool
     var runInputTelemetry = RunAchievementTelemetry()
     var friendSnapshot: FriendLeaderboardSnapshot?
@@ -81,7 +80,6 @@ final class GameViewModel {
         selectedAudioFeedbackMode: AudioFeedbackMode,
         selectedLaneMoveCueStyle: LaneMoveCueStyle,
         selectedBigRivalCarsEnabled: Bool,
-        selectedRoadVisualStyle: RoadVisualStyle,
         shouldStartGame: Bool
     ) {
         self.leaderboardService = leaderboardService
@@ -101,7 +99,6 @@ final class GameViewModel {
         self.selectedAudioFeedbackMode = selectedAudioFeedbackMode
         self.selectedLaneMoveCueStyle = selectedLaneMoveCueStyle
         self.selectedBigRivalCarsEnabled = selectedBigRivalCarsEnabled
-        self.selectedRoadVisualStyle = selectedRoadVisualStyle
         self.shouldStartGame = shouldStartGame
 
         if case .finished(let result) = initialSharePlayUIState.state {

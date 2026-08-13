@@ -7,60 +7,86 @@
 
 import SwiftUI
 
-// MARK: - Environment Key
+public extension EnvironmentValues {
+    /// Preference persistence is exposed only to surfaces that edit the selection.
+    @Entry var fontPreferenceStore: FontPreferenceStore? = nil
 
-private struct FontPreferenceStoreKey: EnvironmentKey {
-    static let defaultValue: FontPreferenceStore? = nil
+    /// Presentation-only typography value used by shared and platform views.
+    @Entry var appTypography = AppTypography.system
 }
 
-extension EnvironmentValues {
-    /// Access the current `FontPreferenceStore` from the environment.
-    /// Returns `nil` if not provided; views should fall back to system fonts.
-    public var fontPreferenceStore: FontPreferenceStore? {
-        get { self[FontPreferenceStoreKey.self] }
-        set { self[FontPreferenceStoreKey.self] = newValue }
+private struct AppFontModifier: ViewModifier {
+    let textStyle: Font.TextStyle
+    let weightTier: AppFontWeightTier?
+
+    @Environment(\.appTypography) private var typography
+    @Environment(\.legibilityWeight) private var legibilityWeight
+
+    func body(content: Content) -> some View {
+        content.font(
+            AppFontResolver.font(
+                for: textStyle,
+                typography: typography,
+                legibilityWeight: legibilityWeight,
+                requestedWeightTier: weightTier
+            )
+        )
     }
 }
 
-// MARK: - View Extension
+private struct ScaledAppFontModifier: ViewModifier {
+    let scaledSize: CGFloat
+    let textStyle: Font.TextStyle
+    let weightTier: AppFontWeightTier?
 
-extension View {
-    /// Injects a `FontPreferenceStore` into the environment for descendant views.
-    public func fontPreferenceStore(_ store: FontPreferenceStore?) -> some View {
+    @Environment(\.appTypography) private var typography
+    @Environment(\.legibilityWeight) private var legibilityWeight
+
+    func body(content: Content) -> some View {
+        content.font(
+            AppFontResolver.font(
+                scaledSize: scaledSize,
+                relativeTo: textStyle,
+                typography: typography,
+                legibilityWeight: legibilityWeight,
+                requestedWeightTier: weightTier
+            )
+        )
+    }
+}
+
+public extension View {
+    /// Injects both preference editing and presentation values for descendants.
+    func fontPreferenceStore(_ store: FontPreferenceStore?) -> some View {
         environment(\.fontPreferenceStore, store)
+            .environment(\.appTypography, store?.typography ?? .system)
     }
-}
 
-// MARK: - Helper for Semantic Font Sizes
+    /// Injects typography without exposing preference persistence.
+    func appTypography(_ typography: AppTypography) -> some View {
+        environment(\.appTypography, typography)
+    }
 
-extension FontPreferenceStore {
-    /// Returns a font for caption text (small supplementary text).
-    public var captionFont: Font {
-        font(textStyle: .caption)
+    /// Applies the selected font family using a semantic Dynamic Type text style.
+    func appFont(
+        _ textStyle: Font.TextStyle,
+        weightTier: AppFontWeightTier? = nil
+    ) -> some View {
+        modifier(AppFontModifier(textStyle: textStyle, weightTier: weightTier))
     }
-    
-    /// Returns a font for caption2 text (extra small supplementary text).
-    public var caption2Font: Font {
-        font(textStyle: .caption2)
-    }
-    
-    /// Returns a font for subheadline text.
-    public var subheadlineFont: Font {
-        font(textStyle: .subheadline)
-    }
-    
-    /// Returns a font for headline text.
-    public var headlineFont: Font {
-        font(textStyle: .headline)
-    }
-    
-    /// Returns a font for body text.
-    public var bodyFont: Font {
-        font(textStyle: .body)
-    }
-    
-    /// Returns a font for title text.
-    public var titleFont: Font {
-        font(textStyle: .title)
+
+    /// Applies an already Dynamic-Type-scaled point size, used by oversized game text.
+    func appFont(
+        scaledSize: CGFloat,
+        relativeTo textStyle: Font.TextStyle,
+        weightTier: AppFontWeightTier? = nil
+    ) -> some View {
+        modifier(
+            ScaledAppFontModifier(
+                scaledSize: scaledSize,
+                textStyle: textStyle,
+                weightTier: weightTier
+            )
+        )
     }
 }

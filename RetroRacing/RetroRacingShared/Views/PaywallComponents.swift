@@ -16,7 +16,6 @@ struct PaywallHeaderView: View {
     var profileImageName: String? = nil
     var profileImageAccessibilityLabel: String? = nil
 
-    @Environment(\.fontPreferenceStore) private var fontPreferenceStore
     @ScaledMetric(relativeTo: .largeTitle) private var profileImageSize: CGFloat = 80
 
     private let sharedBundle = Bundle(for: GameScene.self)
@@ -34,14 +33,13 @@ struct PaywallHeaderView: View {
             headerIcon
 
             Text(title)
-                .font(fontPreferenceStore?.font(textStyle: .title) ?? .title)
-                .fontWeight(.bold)
+                .appFont(.title, weightTier: .bold)
                 .multilineTextAlignment(.center)
                 .accessibilityAddTraits(.isHeader)
 
             if let caption {
                 Text(caption)
-                    .font(fontPreferenceStore?.font(textStyle: .caption) ?? .caption)
+                    .appFont(.caption)
                     .foregroundStyle(.primary)
                     .multilineTextAlignment(.center)
             }
@@ -73,15 +71,13 @@ struct PaywallHeaderView: View {
 struct PaywallCardLinkLabel: View {
     let title: String
     
-    @Environment(\.fontPreferenceStore) private var fontPreferenceStore
-
     var body: some View {
         HStack {
             Text(title)
             Image(systemName: "arrow.up.right")
-                .font(fontPreferenceStore?.font(textStyle: .caption) ?? .caption)
+                .appFont(.caption)
         }
-        .font(fontPreferenceStore?.font(textStyle: .subheadline) ?? .subheadline)
+        .appFont(.subheadline)
     }
 }
 
@@ -94,8 +90,6 @@ struct PaywallInfoCard<BodyContent: View, ActionContent: View>: View {
     @ViewBuilder let bodyContent: () -> BodyContent
     @ViewBuilder let actionContent: () -> ActionContent
     
-    @Environment(\.fontPreferenceStore) private var fontPreferenceStore
-
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 8) {
@@ -103,12 +97,12 @@ struct PaywallInfoCard<BodyContent: View, ActionContent: View>: View {
                     .accessibilityHidden(true)
                 Text(title)
             }
-            .font(fontPreferenceStore?.font(textStyle: .headline) ?? .headline)
+            .appFont(.headline)
             .accessibilityElement(children: .combine)
             .accessibilityAddTraits(treatsTitleAsAccessibilityHeader ? .isHeader : [])
 
             bodyContent()
-                .font(fontPreferenceStore?.font(textStyle: .subheadline) ?? .subheadline)
+                .appFont(.subheadline)
                 .foregroundStyle(.primary)
 
             actionContent()
@@ -127,18 +121,16 @@ struct PaywallErrorView: View {
     let message: String
     let retryAction: () -> Void
     
-    @Environment(\.fontPreferenceStore) private var fontPreferenceStore
-
     var body: some View {
         VStack(spacing: 16) {
             Text(message)
-                .font(fontPreferenceStore?.font(textStyle: .body) ?? .body)
+                .appFont(.body)
                 .foregroundStyle(.primary)
                 .multilineTextAlignment(.center)
 
             Button(action: retryAction) {
                 Label(GameLocalizedStrings.string("error_retry"), systemImage: "arrow.clockwise")
-                    .font(fontPreferenceStore?.font(textStyle: .subheadline) ?? .subheadline)
+                    .appFont(.subheadline)
             }
             .buttonStyle(.bordered)
             .tint(.accentColor)

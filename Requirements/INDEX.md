@@ -23,6 +23,7 @@ Single entrypoint for shipped in-app behavior contracts. Requirements describe w
 | Achievements | [achievements.md](achievements.md) | [special_events.md](special_events.md), [../AppStore/game-center/achievements-rollout.md](../AppStore/game-center/achievements-rollout.md) |
 | Monetization, IAP, Unlimited Plays | [monetization.md](monetization.md) | [debug_simulation.md](debug_simulation.md), [../AppStore/docs/16-iap-setup.md](../AppStore/docs/16-iap-setup.md) |
 | Theming, fonts, road visuals | [theming_system.md](theming_system.md) | [font_system.md](font_system.md), [road_markers.md](road_markers.md) |
+| Alternate app icons | [app_icons.md](app_icons.md) | [monetization.md](monetization.md), [debug_simulation.md](debug_simulation.md) |
 | Input (touch, crown, remote, keyboard) | [input_handling.md](input_handling.md) | [controller_input.md](controller_input.md) |
 | Accessibility | [accessibility.md](accessibility.md) | — |
 | Audio and haptics | [audio_haptics.md](audio_haptics.md) | — |
@@ -62,7 +63,8 @@ Single entrypoint for shipped in-app behavior contracts. Requirements describe w
 
 - [theming_system.md](theming_system.md) — theme catalog and access rules
 - [font_system.md](font_system.md) — semantic fonts and preferences
-- [road_markers.md](road_markers.md) — road style modes and markers
+- [road_markers.md](road_markers.md) — perspective road markers and Big Cars rendering
+- [app_icons.md](app_icons.md) — iPhone/iPad alternate-icon gallery and rollout
 
 ### Input, Accessibility, Audio, Localization
 

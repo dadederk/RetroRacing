@@ -12,6 +12,28 @@ import Testing
 import ScriptSupport
 
 @Test
+func givenAlternateAppIconCatalogWhenAuditingThenPackagesPreviewsAndMappingsAreAligned() throws {
+    let root = try RepositoryLocator.locate(containing: [
+        "RetroRacing/RetroRacingShared/AppIcon/AppIconCatalog.swift",
+    ])
+
+    #expect(try AlternateAppIconValidator.issues(repositoryRoot: root).isEmpty)
+}
+
+@Test
+func givenReleaseIconDictionariesWhenValidatingThenIPhoneAndIPadContainExactCatalog() {
+    let alternateIcons = Dictionary(
+        uniqueKeysWithValues: AlternateAppIconValidator.alternateNames.map { ($0, [String: Any]()) }
+    )
+    let plist: [String: Any] = [
+        "CFBundleIcons": ["CFBundleAlternateIcons": alternateIcons],
+        "CFBundleIcons~ipad": ["CFBundleAlternateIcons": alternateIcons],
+    ]
+
+    #expect(ReleasePackagingValidator.alternateAppIconIssues(in: plist).isEmpty)
+}
+
+@Test
 func givenDefaultTestOptionsWhenBuildingCommandsThenBothTestTargetsAreIncluded() {
     let root = URL(fileURLWithPath: "/repository")
     let options = TestRunnerOptions(

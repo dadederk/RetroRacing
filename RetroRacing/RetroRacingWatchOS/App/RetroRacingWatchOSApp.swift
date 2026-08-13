@@ -119,10 +119,10 @@ struct RetroRacingWatchOSApp: App {
             userDefaults: userDefaults,
             supportsHaptics: true
         )
-        let customFontAvailable = FontRegistrar.registerPressStart2P(additionalBundles: [Bundle.main])
+        let fontAvailability = AppFontRegistry.registerBundledFonts(additionalBundles: [Bundle.main])
         fontPreferenceStore = FontPreferenceStore(
             userDefaults: userDefaults,
-            customFontAvailable: customFontAvailable
+            availability: fontAvailability
         )
         
         // Initialize Game Center service for watchOS

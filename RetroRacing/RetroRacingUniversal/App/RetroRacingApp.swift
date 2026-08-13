@@ -40,6 +40,8 @@ struct RetroRacingApp: App {
     private let screenshotGameCenterService: GameCenterService
     private let ratingService: RatingService
     private let themeManager: ThemeManager
+    private let appIconService: AppIconService
+    private let screenshotAppIconService: AppIconService
     private let fontPreferenceStore: FontPreferenceStore
     private let hapticController: HapticFeedbackController
     private let supportsHapticFeedback: Bool
@@ -85,8 +87,30 @@ struct RetroRacingApp: App {
         if ScreenshotCaptureConfiguration.isCaptureModeEnabled == false {
             AppBootstrap.configureGameCenterAccessPoint()
         }
-        let customFontAvailable = AppBootstrap.registerCustomFont()
+        let fontAvailability = AppBootstrap.registerFonts()
         let userDefaults = InfrastructureDefaults.userDefaults
+        let appIconFeatureFlag = UserDefaultsAppIconFeatureFlag(
+            userDefaults: userDefaults,
+            isConfigurationAllowed: BuildConfiguration.shouldShowDebugFeatures
+        )
+        #if os(iOS)
+        appIconService = AppIconService(
+            changer: UIApplicationAppIconChanger(application: .shared),
+            featureFlag: appIconFeatureFlag,
+            isGalleryPlatformEnabled: true
+        )
+        #else
+        appIconService = AppIconService(
+            changer: UnsupportedAppIconChanger(),
+            featureFlag: appIconFeatureFlag,
+            isGalleryPlatformEnabled: false
+        )
+        #endif
+        screenshotAppIconService = AppIconService(
+            changer: PreviewAppIconChanger(supportsAlternateIcons: false),
+            featureFlag: FixedAppIconFeatureFlag(isEnabled: false),
+            isGalleryPlatformEnabled: false
+        )
         let supportsHaptics = Self.deviceSupportsHapticFeedback()
         SettingsPreferenceMigration.runIfNeeded(
             userDefaults: userDefaults,
@@ -173,7 +197,10 @@ struct RetroRacingApp: App {
             hasPremiumAccess: storeKitService.hasPremiumAccessForGating
         )
         themeManager = configuredThemeManager
-        fontPreferenceStore = FontPreferenceStore(userDefaults: userDefaults, customFontAvailable: customFontAvailable)
+        fontPreferenceStore = FontPreferenceStore(
+            userDefaults: userDefaults,
+            availability: fontAvailability
+        )
         let hapticsConfig = HapticsPlatformConfig(
             supportsHaptics: supportsHaptics,
             controllerProvider: { Self.makeHapticsController(userDefaults: userDefaults) }
@@ -368,9 +395,11 @@ struct RetroRacingApp: App {
     private var appRootContainer: some View {
         let configuredRoot = rootView
             .environment(storeKitService)
+            .environment(\.alternateAppIconsBenefitEnabled, appIconService.isGalleryAvailable)
             .achievementMetadataService(resolvedAchievementMetadataService)
             .sharePlayMatchService(sharePlayMatchService)
             .task {
+                appIconService.refreshSystemState()
                 guard ScreenshotCaptureConfiguration.isCaptureModeEnabled == false else { return }
                 await storeKitService.loadProducts()
                 await bestScoreSyncService.syncIfPossible()
@@ -404,6 +433,7 @@ struct RetroRacingApp: App {
             }
             .onChange(of: scenePhase) { _, newValue in
                 guard newValue == .active else { return }
+                appIconService.refreshSystemState()
                 #if os(macOS)
                 if ScreenshotCaptureConfiguration.current != nil {
                     ScreenshotCaptureMacWindowLayout.applyLandscapeCaptureSize()
@@ -471,6 +501,7 @@ struct RetroRacingApp: App {
                 authenticationPresenter: authenticationPresenter,
                 ratingService: ratingService,
                 themeManager: themeManager,
+                appIconService: screenshotAppIconService,
                 fontPreferenceStore: fontPreferenceStore,
                 screenshotFontPreferenceStore: makeScreenshotFontPreferenceStore(),
                 hapticController: hapticController,
@@ -544,6 +575,7 @@ struct RetroRacingApp: App {
             leaderboardConfiguration: leaderboardConfiguration,
             authenticationPresenter: authenticationPresenter,
             themeManager: themeManager,
+            appIconService: appIconService,
             fontPreferenceStore: fontPreferenceStore,
             hapticController: hapticController,
             supportsHapticFeedback: supportsHapticFeedback,
@@ -585,6 +617,7 @@ struct RetroRacingApp: App {
             leaderboardConfiguration: leaderboardConfiguration,
             authenticationPresenter: authenticationPresenter,
             themeManager: themeManager,
+            appIconService: appIconService,
             fontPreferenceStore: fontPreferenceStore,
             hapticController: hapticController,
             supportsHapticFeedback: supportsHapticFeedback,
@@ -639,6 +672,7 @@ struct RetroRacingApp: App {
         )
         return SettingsView(
                 themeManager: themeManager,
+                appIconService: appIconService,
                 fontPreferenceStore: fontPreferenceStore,
                 supportsHapticFeedback: supportsHapticFeedback,
                 hapticController: hapticController,
@@ -820,7 +854,7 @@ struct RetroRacingApp: App {
     private func makeScreenshotFontPreferenceStore() -> FontPreferenceStore {
         let store = FontPreferenceStore(
             userDefaults: UserDefaults(suiteName: "com.accessibilityUpTo11.RetroRacing.screenshot-font") ?? .standard,
-            customFontAvailable: fontPreferenceStore.isCustomFontAvailable
+            availability: fontPreferenceStore.availability
         )
         if store.isCustomFontAvailable {
             store.currentStyle = .custom

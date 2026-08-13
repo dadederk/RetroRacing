@@ -8,10 +8,25 @@
 import XCTest
 import CoreGraphics
 import SpriteKit
+import SwiftUI
 @testable import RetroRacingShared
 
 @MainActor
 final class GameSceneDebugFrameStatsTests: XCTestCase {
+    func testGivenFrameStatsEnabledWhenResolvingSpriteViewDebugOptionsThenBuiltInStatsAreIncluded() {
+        let options = GameView.spriteKitDebugOptions(showsFrameStats: true)
+
+        XCTAssertTrue(options.contains(.showsFPS))
+        XCTAssertTrue(options.contains(.showsNodeCount))
+    }
+
+    func testGivenFrameStatsDisabledWhenResolvingSpriteViewDebugOptionsThenBuiltInStatsAreExcluded() {
+        let options = GameView.spriteKitDebugOptions(showsFrameStats: false)
+
+        XCTAssertFalse(options.contains(.showsFPS))
+        XCTAssertFalse(options.contains(.showsNodeCount))
+    }
+
     func testGivenDebugFrameStatsDisabledWhenSceneMovesToViewThenBuiltInSpriteKitStatsAreDisabled() {
         // Given
         let scene = makeScene()

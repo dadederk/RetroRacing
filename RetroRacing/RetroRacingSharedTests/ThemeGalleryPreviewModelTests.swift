@@ -154,7 +154,9 @@ final class ThemeGalleryPreviewModelTests: XCTestCase {
         let action = ThemeGallerySelectionPolicy.action(
             previewID: .lcd,
             currentThemeID: .lcd,
-            isThemeAvailable: true
+            isThemePremium: false,
+            hasUnlimitedAccess: false,
+            hasResolvedInitialEntitlements: true
         )
 
         XCTAssertEqual(action, .none)
@@ -164,7 +166,9 @@ final class ThemeGalleryPreviewModelTests: XCTestCase {
         let action = ThemeGallerySelectionPolicy.action(
             previewID: .eightBit,
             currentThemeID: .lcd,
-            isThemeAvailable: true
+            isThemePremium: true,
+            hasUnlimitedAccess: true,
+            hasResolvedInitialEntitlements: true
         )
 
         XCTAssertEqual(action, .selectTheme)
@@ -174,10 +178,29 @@ final class ThemeGalleryPreviewModelTests: XCTestCase {
         let action = ThemeGallerySelectionPolicy.action(
             previewID: .sixteenBit,
             currentThemeID: .lcd,
-            isThemeAvailable: false
+            isThemePremium: true,
+            hasUnlimitedAccess: false,
+            hasResolvedInitialEntitlements: true
         )
 
         XCTAssertEqual(action, .presentPaywall)
+    }
+
+    func testGivenUnresolvedFreeAccessWhenSelectingPremiumThemeThenSelectionWaitsForEntitlement() {
+        // Given
+        let previewID = ThemeID.sixteenBit
+
+        // When
+        let action = ThemeGallerySelectionPolicy.action(
+            previewID: previewID,
+            currentThemeID: .lcd,
+            isThemePremium: true,
+            hasUnlimitedAccess: false,
+            hasResolvedInitialEntitlements: false
+        )
+
+        // Then
+        XCTAssertEqual(action, .waitForEntitlement)
     }
 
     func testGivenThemeWhenBuildingPreviewModelThenPaletteUsesRoadExteriorAndFinishLineOrder() throws {

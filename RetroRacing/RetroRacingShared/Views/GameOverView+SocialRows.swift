@@ -17,8 +17,6 @@ struct GameOverSocialFriendScoreRow: View {
     let score: Int
     let avatarPNGData: Data?
     let avatarSize: CGFloat
-    let bodyFont: Font
-    let scoreFont: Font
     /// Adds an adaptive milestone ring around the avatar.
     var showsMilestoneRing: Bool = false
 
@@ -35,7 +33,8 @@ struct GameOverSocialFriendScoreRow: View {
         return layout {
             avatar
             Text(GameLocalizedStrings.format("game_over_friend_score %@ %lld", displayName, Int64(score)))
-                .font(scoreFont.monospacedDigit())
+                .appFont(.headline)
+                .monospacedDigit()
         }
         .frame(maxWidth: .infinity, alignment: .center)
         .accessibilityElement(children: .ignore)
@@ -79,7 +78,7 @@ struct GameOverSocialFriendScoreRow: View {
                 .fill(Color.secondary.opacity(0.18))
                 .overlay {
                     Text(initials(for: displayName))
-                        .font(bodyFont)
+                        .appFont(.body)
                         .foregroundStyle(.secondary)
                 }
         }

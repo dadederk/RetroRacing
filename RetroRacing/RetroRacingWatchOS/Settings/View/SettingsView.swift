@@ -25,14 +25,6 @@ struct SettingsView: View {
     private var debugExperimentalSixtyFourBitThemeEnabled = false
     @State private var presentedSettingsSheet: PresentedSettingsSheet?
 
-    private var fontForLabels: Font {
-        fontPreferenceStore.font(textStyle: .body)
-    }
-
-    private var sectionHeaderFont: Font {
-        fontPreferenceStore.font(textStyle: .headline)
-    }
-
     private enum PresentedSettingsSheet: Hashable, Identifiable {
         case audioCueTutorial
         case controlsHelp
@@ -95,7 +87,7 @@ struct SettingsView: View {
                     Button(GameLocalizedStrings.string("done")) {
                         dismiss()
                     }
-                    .font(.body)
+                    .appFont(.body)
                     .buttonStyle(.glass)
                 }
             }
@@ -121,48 +113,35 @@ struct SettingsView: View {
             )) {
                 ForEach(themeManager.availableThemes.filter { themeManager.isThemeAvailable($0) }, id: \.id) { theme in
                     Text(theme.name)
-                        .font(fontForLabels)
+                        .appFont(.body)
                         .tag(theme.id)
                 }
             } label: {
                 Text(GameLocalizedStrings.string("settings_theme_style"))
-                    .font(fontForLabels)
+                    .appFont(.body)
             }
         } header: {
             settingsSectionHeader("settings_theme")
         }
     }
 
-    @ViewBuilder
     private var fontSection: some View {
-        if fontPreferenceStore.isCustomFontAvailable {
-            Section {
-                Picker(selection: Binding(
-                    get: { fontPreferenceStore.currentStyle },
-                    set: { fontPreferenceStore.currentStyle = $0 }
-                )) {
-                    Text(GameLocalizedStrings.string("font_style_custom"))
-                        .font(fontForLabels)
-                        .lineLimit(2)
-                        .minimumScaleFactor(0.6)
-                        .tag(AppFontStyle.custom)
-                    Text(GameLocalizedStrings.string("font_style_system"))
-                        .font(fontForLabels)
-                        .lineLimit(2)
-                        .minimumScaleFactor(0.6)
-                        .tag(AppFontStyle.system)
-                    Text(GameLocalizedStrings.string("font_style_system_monospaced"))
-                        .font(fontForLabels)
-                        .lineLimit(2)
-                        .minimumScaleFactor(0.6)
-                        .tag(AppFontStyle.systemMonospaced)
-                } label: {
+        Section {
+            NavigationLink {
+                FontSelectionView(fontPreferenceStore: fontPreferenceStore)
+            } label: {
+                VStack(alignment: .leading, spacing: 2) {
                     Text(GameLocalizedStrings.string("settings_font"))
-                        .font(fontForLabels)
+                        .appFont(.body)
+                    Text(fontPreferenceStore.currentStyle.localizedName)
+                        .appFont(.footnote)
+                        .foregroundStyle(.secondary)
                 }
-            } header: {
-                settingsSectionHeader("settings_font")
             }
+            .accessibilityValue(fontPreferenceStore.currentStyle.localizedName)
+            .accessibilityIdentifier("settings_font_selection")
+        } header: {
+            settingsSectionHeader("settings_font")
         }
     }
 
@@ -171,13 +150,19 @@ struct SettingsView: View {
             VStack(alignment: .leading, spacing: 8) {
                 Picker(selection: preferencesStore.difficultySelection) {
                     ForEach(GameDifficulty.allCases, id: \.self) { difficulty in
-                        Text(GameLocalizedStrings.string(difficulty.localizedNameKey))
-                            .font(fontForLabels)
-                            .tag(difficulty)
+                        Label {
+                            Text(GameLocalizedStrings.string(difficulty.localizedNameKey))
+                        } icon: {
+                            Image(systemName: difficulty.gaugeSystemImageName)
+                                .accessibilityHidden(true)
+                        }
+                        .appFont(.body)
+                        .accessibilityLabel(GameLocalizedStrings.string(difficulty.localizedNameKey))
+                        .tag(difficulty)
                     }
                 } label: {
                     Text(GameLocalizedStrings.string("settings_speed"))
-                        .font(fontForLabels)
+                        .appFont(.body)
                 }
             }
         } header: {
@@ -192,7 +177,7 @@ struct SettingsView: View {
                     ? "settings_leaderboard_watch_info"
                     : "settings_leaderboard_watch_sign_in_required"
             ))
-            .font(fontForLabels)
+            .appFont(.body)
         } header: {
             settingsSectionHeader("leaderboard")
         }
@@ -203,24 +188,24 @@ struct SettingsView: View {
             Picker(selection: preferencesStore.audioFeedbackModeSelection) {
                 ForEach(AudioFeedbackMode.displayOrder, id: \.self) { mode in
                     Text(GameLocalizedStrings.string(mode.localizedNameKey))
-                        .font(fontForLabels)
+                        .appFont(.body)
                         .tag(mode)
                 }
             } label: {
                 Text(GameLocalizedStrings.string("settings_audio_feedback_mode"))
-                    .font(fontForLabels)
+                    .appFont(.body)
             }
 
             if preferencesStore.shouldShowAudioCueTutorial {
                 Picker(selection: preferencesStore.laneMoveCueStyleSelection) {
                     ForEach(preferencesStore.availableLaneMoveCueStyles, id: \.self) { style in
                         Text(GameLocalizedStrings.string(style.localizedNameKey))
-                            .font(fontForLabels)
+                            .appFont(.body)
                             .tag(style)
                     }
                 } label: {
                     Text(GameLocalizedStrings.string("settings_lane_move_cue_style"))
-                        .font(fontForLabels)
+                        .appFont(.body)
                 }
             }
 
@@ -229,7 +214,7 @@ struct SettingsView: View {
                     presentedSettingsSheet = .audioCueTutorial
                 } label: {
                     Text(GameLocalizedStrings.string("settings_audio_cue_tutorial"))
-                        .font(fontForLabels)
+                        .appFont(.body)
                 }
                 .buttonStyle(.borderless)
             }
@@ -246,7 +231,7 @@ struct SettingsView: View {
             Section {
                 Toggle(isOn: $hapticFeedbackEnabled) {
                     Text(GameLocalizedStrings.string("settings_haptic_feedback"))
-                        .font(fontForLabels)
+                        .appFont(.body)
                 }
                 .tint(.accentColor)
             } header: {
@@ -264,7 +249,7 @@ struct SettingsView: View {
                     GameLocalizedStrings.string("settings_controls_how_to_play"),
                     systemImage: "questionmark.circle"
                 )
-                .font(fontForLabels)
+                .appFont(.body)
             }
         } header: {
             settingsSectionHeader("settings_controls")
@@ -277,12 +262,12 @@ struct SettingsView: View {
                 Picker(selection: preferencesStore.speedWarningFeedbackSelection) {
                     ForEach(preferencesStore.availableSpeedWarningFeedbackModes, id: \.self) { mode in
                         Text(GameLocalizedStrings.string(mode.localizedNameKey))
-                            .font(fontForLabels)
+                            .appFont(.body)
                             .tag(mode)
                     }
                 } label: {
                     Text(GameLocalizedStrings.string("settings_speed_warning_feedback"))
-                        .font(fontForLabels)
+                        .appFont(.body)
                 }
 
                 Button {
@@ -291,14 +276,14 @@ struct SettingsView: View {
                     )
                 } label: {
                     Text(GameLocalizedStrings.string("settings_speed_warning_feedback_preview_warning"))
-                        .font(fontForLabels)
+                        .appFont(.body)
                 }
                 .buttonStyle(.borderless)
                 .disabled(preferencesStore.shouldEnableSpeedWarningPreview == false)
 
                 Toggle(isOn: preferencesStore.directTouchSelection) {
                     Text(GameLocalizedStrings.string("settings_direct_touch"))
-                        .font(fontForLabels)
+                        .appFont(.body)
                 }
                 .tint(.accentColor)
             }
@@ -313,7 +298,7 @@ struct SettingsView: View {
             Section {
                 Toggle(isOn: $debugExperimentalThirtyTwoBitThemeEnabled) {
                     Text(GameLocalizedStrings.string("debug_enable_experimental_thirty_two_bit_theme"))
-                        .font(fontForLabels)
+                        .appFont(.body)
                 }
                 .tint(.accentColor)
                 .onChange(of: debugExperimentalThirtyTwoBitThemeEnabled) {
@@ -322,7 +307,7 @@ struct SettingsView: View {
 
                 Toggle(isOn: $debugExperimentalSixtyFourBitThemeEnabled) {
                     Text(GameLocalizedStrings.string("debug_enable_experimental_sixty_four_bit_theme"))
-                        .font(fontForLabels)
+                        .appFont(.body)
                 }
                 .tint(.accentColor)
                 .onChange(of: debugExperimentalSixtyFourBitThemeEnabled) {
@@ -363,7 +348,7 @@ struct SettingsView: View {
                         Button(GameLocalizedStrings.string("done")) {
                             presentedSettingsSheet = nil
                         }
-                        .font(fontForLabels)
+                        .appFont(.body)
                         .buttonStyle(.glass)
                     }
                 }
@@ -388,7 +373,7 @@ struct SettingsView: View {
                         Button(GameLocalizedStrings.string("done")) {
                             presentedSettingsSheet = nil
                         }
-                        .font(fontForLabels)
+                        .appFont(.body)
                         .buttonStyle(.glass)
                     }
                 }
@@ -401,12 +386,12 @@ struct SettingsView: View {
     private func settingsSectionHeader(_ key: String) -> some View {
         if screenshotFocus != nil {
             Text(GameLocalizedStrings.string(key))
-                .retroSectionHeader(font: sectionHeaderFont)
+                .retroSectionHeader()
                 .lineLimit(1)
                 .minimumScaleFactor(0.6)
         } else {
             Text(GameLocalizedStrings.string(key))
-                .retroSectionHeader(font: sectionHeaderFont)
+                .retroSectionHeader()
         }
     }
 
@@ -430,14 +415,14 @@ struct SettingsView: View {
     private var inlineVolumeControl: some View {
         Slider(value: preferencesStore.soundEffectsVolumeSelection, in: 0...1, step: 0.05) {
             Text(GameLocalizedStrings.string("settings_sound_effects_volume"))
-                .font(fontForLabels)
+                .appFont(.body)
         } minimumValueLabel: {
             Text(GameLocalizedStrings.string("0%"))
-                .font(fontForLabels)
+                .appFont(.body)
                 .accessibilityHidden(true)
         } maximumValueLabel: {
             Text(GameLocalizedStrings.string("100%"))
-                .font(fontForLabels)
+                .appFont(.body)
                 .accessibilityHidden(true)
         }
         .accessibilityLabel(Text(GameLocalizedStrings.string("settings_sound_effects_volume")))
@@ -448,17 +433,17 @@ struct SettingsView: View {
         VStack(alignment: .leading, spacing: 6) {
             Slider(value: preferencesStore.soundEffectsVolumeSelection, in: 0...1, step: 0.05) {
                 Text(GameLocalizedStrings.string("settings_sound_effects_volume"))
-                    .font(fontForLabels)
+                    .appFont(.body)
             }
             .accessibilityLabel(Text(GameLocalizedStrings.string("settings_sound_effects_volume")))
             .accessibilityValue(Text(soundEffectsVolumeAccessibilityValue))
             HStack {
                 Text(GameLocalizedStrings.string("0%"))
-                    .font(fontForLabels)
+                    .appFont(.body)
                     .accessibilityHidden(true)
                 Spacer()
                 Text(GameLocalizedStrings.string("100%"))
-                    .font(fontForLabels)
+                    .appFont(.body)
                     .accessibilityHidden(true)
             }
             .accessibilityElement(children: .ignore)

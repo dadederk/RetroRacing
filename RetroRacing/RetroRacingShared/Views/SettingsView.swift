@@ -14,6 +14,7 @@ import AppKit
 /// Settings surface for themes, fonts, audio, optional haptics, purchases, debug, and About.
 public struct SettingsView: View {
     public let themeManager: ThemeManager
+    public let appIconService: AppIconService
     public let fontPreferenceStore: FontPreferenceStore
     /// Injected by app; when false, haptic feedback section is hidden (device has no haptics).
     public let supportsHapticFeedback: Bool
@@ -61,6 +62,7 @@ public struct SettingsView: View {
     #endif
     public init(
         themeManager: ThemeManager,
+        appIconService: AppIconService,
         fontPreferenceStore: FontPreferenceStore,
         supportsHapticFeedback: Bool,
         hapticController: HapticFeedbackController?,
@@ -78,6 +80,7 @@ public struct SettingsView: View {
         onScreenshotLayoutReady: (() -> Void)? = nil
     ) {
         self.themeManager = themeManager
+        self.appIconService = appIconService
         self.fontPreferenceStore = fontPreferenceStore
         self.supportsHapticFeedback = supportsHapticFeedback
         self.hapticController = hapticController
@@ -105,15 +108,6 @@ public struct SettingsView: View {
         }
         _preferencesStore = State(initialValue: initialPreferencesStore)
     }
-    private var fontForLabels: Font {
-        fontPreferenceStore.font(textStyle: .body)
-    }
-    private var secondaryFont: Font {
-        fontPreferenceStore.font(textStyle: .caption)
-    }
-    private var sectionHeaderFont: Font {
-        fontPreferenceStore.font(textStyle: .headline)
-    }
     private enum PresentedSettingsSheet: Hashable, Identifiable {
         case paywall
         case audioCueTutorial
@@ -130,6 +124,8 @@ public struct SettingsView: View {
             )
             .onAppear {
                 preferencesStore.loadIfNeeded()
+                appIconService.refreshFeatureFlag()
+                appIconService.refreshSystemState()
                 if let screenshotFriendOvertakeAnnouncementsEnabled {
                     friendOvertakeVoiceOverAnnouncementEnabled = screenshotFriendOvertakeAnnouncementsEnabled
                 }
@@ -145,7 +141,7 @@ public struct SettingsView: View {
                             Button(GameLocalizedStrings.string("done")) {
                                 dismiss()
                             }
-                            .font(fontForLabels)
+                            .appFont(.body)
                         }
                     }
             }
@@ -156,6 +152,7 @@ public struct SettingsView: View {
 
     private var settingsRoot: some View {
         settingsRootContent
+            .environment(\.alternateAppIconsBenefitEnabled, appIconService.isGalleryAvailable)
             .navigationTitle(settingsNavigationTitle)
             .modifier(SettingsNavigationChromeModifier(screenshotFocus: screenshotFocus))
             .alert(GameLocalizedStrings.string("restore_purchases"), isPresented: $showingRestoreAlert) {
@@ -211,6 +208,7 @@ public struct SettingsView: View {
                 bottomPurchasesSection
                 debugSection
             }
+            .accessibilityIdentifier("settings_list")
             .modifier(SettingsScreenshotListChromeModifier(screenshotFocus: screenshotFocus))
             .onAppear {
                 scrollToScreenshotFocusIfNeeded(using: scrollProxy)
@@ -272,7 +270,7 @@ public struct SettingsView: View {
                 Int64(preferencesStore.selectedSoundEffectsVolume * 100)
             )
         case .accessibility:
-            GameLocalizedStrings.string(preferencesStore.selectedRoadVisualStyle.localizedNameKey)
+            GameLocalizedStrings.string("settings_voiceover_friend_overtake_announcements")
         case .controls:
             GameLocalizedStrings.string(controlsDescriptionKey)
         case .purchases:
@@ -341,9 +339,9 @@ public struct SettingsView: View {
             },
             selectedThemeID: themeManager.currentTheme.id,
             showsUnlockSection: storeKit.shouldShowFreeTierAffordances,
+            hasUnlimitedAccess: storeKit.hasPremiumAccess,
+            hasResolvedInitialEntitlements: storeKit.hasResolvedInitialEntitlements,
             isSelectionDisabled: isGameSessionInProgress,
-            sectionHeaderFont: sectionHeaderFont,
-            bodyFont: fontForLabels,
             onUnlockRequest: { presentedSettingsSheet = .paywall },
             onPreviewSelection: selectTVTheme
         )
@@ -357,9 +355,11 @@ public struct SettingsView: View {
         switch ThemeGallerySelectionPolicy.action(
             previewID: preview.id,
             currentThemeID: themeManager.currentTheme.id,
-            isThemeAvailable: themeManager.isThemeAvailable(theme)
+            isThemePremium: theme.isPremium,
+            hasUnlimitedAccess: storeKit.hasPremiumAccess,
+            hasResolvedInitialEntitlements: storeKit.hasResolvedInitialEntitlements
         ) {
-        case .none:
+        case .none, .waitForEntitlement:
             return
         case .selectTheme:
             themeManager.setTheme(theme)
@@ -420,16 +420,16 @@ public struct SettingsView: View {
                 VStack(alignment: .leading, spacing: 4) {
                     if let eventInfo = activeEventInfo {
                         Text(GameLocalizedStrings.string("event_play_unlimited_title"))
-                            .font(fontForLabels)
+                            .appFont(.body)
                         Text(eventSubtitle(for: eventInfo))
-                            .font(fontForLabels)
+                            .appFont(.body)
                             .foregroundStyle(.secondary)
                     } else {
                         Text(playLimitTitle(for: playLimitService))
-                            .font(fontForLabels)
+                            .appFont(.body)
                         if let subtitle = playLimitSubtitle(for: playLimitService) {
                             Text(subtitle)
-                                .font(fontForLabels)
+                                .appFont(.body)
                                 .foregroundStyle(.secondary)
                         }
                     }
@@ -440,7 +440,7 @@ public struct SettingsView: View {
             } footer: {
                 if activeEventInfo == nil {
                     Text(playLimitFooter(for: playLimitService))
-                        .font(secondaryFont)
+                        .appFont(.caption)
                         .modifier(SettingsFooterTextStyle())
                 }
             }
@@ -456,9 +456,9 @@ public struct SettingsView: View {
                         .accessibilityHidden(true)
                     VStack(alignment: .leading, spacing: 2) {
                         Text(GameLocalizedStrings.string("settings_premium_active"))
-                            .font(fontForLabels)
+                            .appFont(.body)
                         Text(GameLocalizedStrings.string("settings_premium_active_subtitle"))
-                            .font(secondaryFont)
+                            .appFont(.caption)
                             .foregroundStyle(.secondary)
                     }
                     Spacer()
@@ -474,7 +474,7 @@ public struct SettingsView: View {
                         Image(systemName: "star.circle.fill")
                             .foregroundColor(.accentColor)
                         Text(GameLocalizedStrings.string("settings_learn_premium"))
-                            .font(fontForLabels)
+                            .appFont(.body)
                             .foregroundColor(.accentColor)
                         Spacer()
                     }
@@ -488,7 +488,7 @@ public struct SettingsView: View {
                         Image(systemName: "giftcard")
                             .foregroundColor(.accentColor)
                         Text(GameLocalizedStrings.string("redeem_code"))
-                            .font(fontForLabels)
+                            .appFont(.body)
                             .foregroundColor(.accentColor)
                         Spacer()
                     }
@@ -511,7 +511,7 @@ public struct SettingsView: View {
                                 .foregroundColor(.accentColor)
                         }
                         Text(GameLocalizedStrings.string("redeem_code"))
-                            .font(fontForLabels)
+                            .appFont(.body)
                             .foregroundColor(.accentColor)
                         Spacer()
                     }
@@ -531,7 +531,7 @@ public struct SettingsView: View {
                                 .foregroundColor(.accentColor)
                         }
                         Text(GameLocalizedStrings.string("restore_purchases"))
-                            .font(fontForLabels)
+                            .appFont(.body)
                             .foregroundColor(.accentColor)
                         Spacer()
                     }
@@ -552,7 +552,7 @@ public struct SettingsView: View {
             #else
             if storeKit.shouldShowFreeTierAffordances {
                 Text(GameLocalizedStrings.string("settings_restore_footer"))
-                    .font(secondaryFont)
+                    .appFont(.caption)
                     .modifier(SettingsFooterTextStyle())
             }
             #endif
@@ -572,14 +572,14 @@ public struct SettingsView: View {
                 )) {
                     ForEach(themeManager.availableThemes, id: \.id) { theme in
                         Text(theme.name)
-                            .font(fontForLabels)
+                            .appFont(.body)
                             .tag(theme.id)
                     }
                 } label: {
                     Text(GameLocalizedStrings.string("settings_theme_style"))
-                        .font(fontForLabels)
+                        .appFont(.body)
                 }
-                .disabled(isGameSessionInProgress)
+                .disabled(isGameSessionInProgress || storeKit.hasPremiumAccess == false)
 
                 themeGalleryLink
             } else {
@@ -588,23 +588,27 @@ public struct SettingsView: View {
                 } label: {
                     HStack {
                         Text(GameLocalizedStrings.string("settings_theme_style"))
-                            .font(fontForLabels)
+                            .appFont(.body)
                         Spacer()
                         Text(themeManager.currentTheme.name)
-                            .font(fontForLabels)
+                            .appFont(.body)
                             .foregroundStyle(.secondary)
                     }
                 }
                 .accessibilityLabel(Text(GameLocalizedStrings.string("settings_theme_style")))
                 .accessibilityValue(Text(themeManager.currentTheme.name))
             }
+
+            if appIconService.isGalleryAvailable {
+                appIconGalleryLink
+            }
         } header: {
             settingsSectionHeader("settings_theme")
                 .id(ScreenshotCaptureIdentifiers.settingsThemeSection)
         } footer: {
-            if !storeKit.hasPremiumAccessForGating {
+            if storeKit.shouldShowFreeTierAffordances {
                 Text(GameLocalizedStrings.string("settings_theme_unlock_footnote"))
-                    .font(secondaryFont)
+                    .appFont(.caption)
                     .modifier(SettingsFooterTextStyle())
             }
         }
@@ -616,7 +620,7 @@ public struct SettingsView: View {
             themeGalleryView
         } label: {
             Text(GameLocalizedStrings.string("settings_theme_gallery_preview"))
-                .font(fontForLabels)
+                .appFont(.body)
         }
     }
 
@@ -625,30 +629,47 @@ public struct SettingsView: View {
             .fontPreferenceStore(fontPreferenceStore)
     }
 
-    @ViewBuilder
-    private var fontSection: some View {
-        if fontPreferenceStore.isCustomFontAvailable {
-            Section {
-                Picker(selection: Binding(
-                    get: { fontPreferenceStore.currentStyle },
-                    set: { fontPreferenceStore.currentStyle = $0 }
-                )) {
-                    Text(GameLocalizedStrings.string("font_style_custom"))
-                        .font(fontForLabels)
-                        .tag(AppFontStyle.custom)
-                    Text(GameLocalizedStrings.string("font_style_system"))
-                        .font(fontForLabels)
-                        .tag(AppFontStyle.system)
-                    Text(GameLocalizedStrings.string("font_style_system_monospaced"))
-                        .font(fontForLabels)
-                        .tag(AppFontStyle.systemMonospaced)
-                } label: {
-                    Text(GameLocalizedStrings.string("settings_font"))
-                        .font(fontForLabels)
-                }
-            } header: {
-                settingsSectionHeader("settings_font")
+    private var appIconGalleryLink: some View {
+        NavigationLink {
+            AppIconGalleryView(
+                appIconService: appIconService,
+                playLimitService: playLimitService
+            )
+            .fontPreferenceStore(fontPreferenceStore)
+        } label: {
+            HStack {
+                Text(GameLocalizedStrings.string("app_icon_title"))
+                    .appFont(.body)
+                Spacer()
+                Text(appIconService.currentOption?.localizedName ?? "")
+                    .appFont(.body)
+                    .foregroundStyle(.secondary)
             }
+        }
+        .accessibilityLabel(GameLocalizedStrings.string("app_icon_title"))
+        .accessibilityValue(appIconService.currentOption?.localizedName ?? "")
+        .accessibilityIdentifier("settings_app_icon_gallery")
+    }
+
+    private var fontSection: some View {
+        Section {
+            NavigationLink {
+                FontSelectionView(fontPreferenceStore: fontPreferenceStore)
+            } label: {
+                HStack {
+                    Text(GameLocalizedStrings.string("settings_font"))
+                        .appFont(.body)
+                    Spacer()
+                    Text(fontPreferenceStore.currentStyle.localizedName)
+                        .appFont(.body)
+                        .foregroundStyle(.secondary)
+                        .multilineTextAlignment(.trailing)
+                }
+            }
+            .accessibilityValue(fontPreferenceStore.currentStyle.localizedName)
+            .accessibilityIdentifier("settings_font_selection")
+        } header: {
+            settingsSectionHeader("settings_font")
         }
     }
 
@@ -656,13 +677,19 @@ public struct SettingsView: View {
         Section {
             Picker(selection: preferencesStore.difficultySelection) {
                 ForEach(GameDifficulty.allCases, id: \.self) { difficulty in
-                    Text(GameLocalizedStrings.string(difficulty.localizedNameKey))
-                        .font(fontForLabels)
-                        .tag(difficulty)
+                    Label {
+                        Text(GameLocalizedStrings.string(difficulty.localizedNameKey))
+                    } icon: {
+                        Image(systemName: difficulty.gaugeSystemImageName)
+                            .accessibilityHidden(true)
+                    }
+                    .appFont(.body)
+                    .accessibilityLabel(GameLocalizedStrings.string(difficulty.localizedNameKey))
+                    .tag(difficulty)
                 }
             } label: {
                 Text(GameLocalizedStrings.string("settings_speed"))
-                    .font(fontForLabels)
+                    .appFont(.body)
             }
             .disabled(isGameSessionInProgress)
         } header: {
@@ -700,14 +727,14 @@ public struct SettingsView: View {
                         )
                     } label: {
                         Text(GameLocalizedStrings.string("settings_audio_cue_tutorial"))
-                            .font(fontForLabels)
+                            .appFont(.body)
                     }
                 } else {
                     Button {
                         presentedSettingsSheet = .audioCueTutorial
                     } label: {
                         Text(GameLocalizedStrings.string("settings_audio_cue_tutorial"))
-                            .font(fontForLabels)
+                            .appFont(.body)
                     }
                     .buttonStyle(.borderless)
                 }
@@ -717,24 +744,24 @@ public struct SettingsView: View {
             Picker(selection: volumeSelection) {
                 ForEach(Self.volumeSteps, id: \.self) { value in
                     Text(GameLocalizedStrings.format("settings_percentage_value", Int64(value * 100)))
-                        .font(fontForLabels)
+                        .appFont(.body)
                         .tag(value)
                 }
             } label: {
                 Text(GameLocalizedStrings.string("settings_sound_effects_volume"))
-                    .font(fontForLabels)
+                    .appFont(.body)
             }
             #else
             Slider(value: preferencesStore.soundEffectsVolumeSelection, in: 0...1, step: 0.05) {
                 Text(GameLocalizedStrings.string("settings_sound_effects_volume"))
-                    .font(fontForLabels)
+                    .appFont(.body)
             } minimumValueLabel: {
                 Text(GameLocalizedStrings.string("0%"))
-                    .font(fontForLabels)
+                    .appFont(.body)
                     .accessibilityHidden(true)
             } maximumValueLabel: {
                 Text(GameLocalizedStrings.string("100%"))
-                    .font(fontForLabels)
+                    .appFont(.body)
                     .accessibilityHidden(true)
             }
             .accessibilityLabel(Text(GameLocalizedStrings.string("settings_sound_effects_volume")))
@@ -749,12 +776,12 @@ public struct SettingsView: View {
         Picker(selection: preferencesStore.audioFeedbackModeSelection) {
             ForEach(AudioFeedbackMode.displayOrder, id: \.self) { mode in
                 Text(GameLocalizedStrings.string(mode.localizedNameKey))
-                    .font(fontForLabels)
+                    .appFont(.body)
                     .tag(mode)
             }
         } label: {
             Text(GameLocalizedStrings.string("settings_audio_feedback_mode"))
-                .font(fontForLabels)
+                .appFont(.body)
         }
     }
 
@@ -762,12 +789,12 @@ public struct SettingsView: View {
         Picker(selection: preferencesStore.laneMoveCueStyleSelection) {
             ForEach(preferencesStore.availableLaneMoveCueStyles, id: \.self) { cueStyle in
                 Text(GameLocalizedStrings.string(cueStyle.localizedNameKey))
-                    .font(fontForLabels)
+                    .appFont(.body)
                     .tag(cueStyle)
             }
         } label: {
             Text(GameLocalizedStrings.string("settings_lane_move_cue_style"))
-                .font(fontForLabels)
+                .appFont(.body)
         }
     }
 
@@ -777,7 +804,7 @@ public struct SettingsView: View {
             Section {
                 Toggle(isOn: $hapticFeedbackEnabled) {
                     Text(GameLocalizedStrings.string("settings_haptic_feedback"))
-                        .font(fontForLabels)
+                        .appFont(.body)
                 }
                 .tint(.accentColor)
             } header: {
@@ -795,7 +822,7 @@ public struct SettingsView: View {
                     GameLocalizedStrings.string("settings_controls_how_to_play"),
                     systemImage: "questionmark.circle"
                 )
-                .font(fontForLabels)
+                .appFont(.body)
             }
         } header: {
             settingsSectionHeader("settings_controls")
@@ -839,12 +866,12 @@ public struct SettingsView: View {
         Picker(selection: preferencesStore.speedWarningFeedbackSelection) {
             ForEach(preferencesStore.availableSpeedWarningFeedbackModes, id: \.self) { mode in
                 Text(GameLocalizedStrings.string(mode.localizedNameKey))
-                    .font(fontForLabels)
+                    .appFont(.body)
                     .tag(mode)
             }
         } label: {
             Text(GameLocalizedStrings.string("settings_speed_warning_feedback"))
-                .font(fontForLabels)
+                .appFont(.body)
         }
 
         Button {
@@ -853,28 +880,16 @@ public struct SettingsView: View {
             )
         } label: {
             Text(GameLocalizedStrings.string("settings_speed_warning_feedback_preview_warning"))
-                .font(fontForLabels)
+                .appFont(.body)
         }
         .buttonStyle(.borderless)
         .disabled(preferencesStore.shouldEnableSpeedWarningPreview == false)
     }
 
-    @ViewBuilder
     private var appearanceRows: some View {
-        Picker(selection: preferencesStore.roadVisualStyleSelection) {
-            ForEach(RoadVisualStyle.allCases, id: \.self) { roadStyle in
-                Text(GameLocalizedStrings.string(roadStyle.localizedNameKey))
-                    .font(fontForLabels)
-                    .tag(roadStyle)
-            }
-        } label: {
-            Text(GameLocalizedStrings.string("settings_road_visual_style"))
-                .font(fontForLabels)
-        }
-
         Toggle(isOn: preferencesStore.bigCarsSelection) {
             Text(GameLocalizedStrings.string("settings_big_cars"))
-                .font(fontForLabels)
+                .appFont(.body)
         }
         .tint(.accentColor)
     }
@@ -885,7 +900,7 @@ public struct SettingsView: View {
         if style.showsDirectTouch {
             Toggle(isOn: preferencesStore.directTouchSelection) {
                 Text(GameLocalizedStrings.string("settings_direct_touch"))
-                    .font(fontForLabels)
+                    .appFont(.body)
             }
             .tint(.accentColor)
         }
@@ -893,7 +908,7 @@ public struct SettingsView: View {
 
         Toggle(isOn: $friendOvertakeVoiceOverAnnouncementEnabled) {
             Text(GameLocalizedStrings.string("settings_voiceover_friend_overtake_announcements"))
-                .font(fontForLabels)
+                .appFont(.body)
         }
         .tint(.accentColor)
     }
@@ -904,7 +919,7 @@ public struct SettingsView: View {
                 AboutView()
             } label: {
                 Label(GameLocalizedStrings.string("about_title"), systemImage: "info.circle")
-                    .font(fontForLabels)
+                    .appFont(.body)
             }
         } header: {
             settingsSectionHeader("about_title")
@@ -922,17 +937,17 @@ public struct SettingsView: View {
                     )
                 ) {
                     Text(GameLocalizedStrings.string("debug_simulation_mode_default"))
-                        .font(fontForLabels)
+                        .appFont(.body)
                         .tag(StoreKitService.DebugPremiumSimulationMode.productionDefault)
                     Text(GameLocalizedStrings.string("debug_simulation_mode_unlimited"))
-                        .font(fontForLabels)
+                        .appFont(.body)
                         .tag(StoreKitService.DebugPremiumSimulationMode.unlimitedPlays)
                     Text(GameLocalizedStrings.string("debug_simulation_mode_freemium"))
-                        .font(fontForLabels)
+                        .appFont(.body)
                         .tag(StoreKitService.DebugPremiumSimulationMode.freemium)
                 } label: {
                     Text(GameLocalizedStrings.string("debug_simulate_premium"))
-                        .font(fontForLabels)
+                        .appFont(.body)
                 }
 
                 #if os(macOS)
@@ -941,28 +956,39 @@ public struct SettingsView: View {
 
                 Picker(selection: $debugForcedAchievementIdentifierRawValue) {
                     Text(GameLocalizedStrings.string("debug_force_achievement_none"))
-                        .font(fontForLabels)
+                        .appFont(.body)
                         .tag(DebugGameplayStorageKeys.noForcedAchievementIdentifier)
                     ForEach(debugAchievementPickerOptions, id: \.rawValue) { achievementIdentifier in
                         Text(achievementIdentifier.localizedTitle)
-                            .font(fontForLabels)
+                            .appFont(.body)
                             .tag(achievementIdentifier.rawValue)
                     }
                 } label: {
                     Text(GameLocalizedStrings.string("debug_force_achievement_picker_title"))
-                        .font(fontForLabels)
+                        .appFont(.body)
                 }
 
                 Toggle(isOn: $debugShowSpriteKitFrameStats) {
                     Text(GameLocalizedStrings.string("debug_show_spritekit_frame_stats"))
-                        .font(fontForLabels)
+                        .appFont(.body)
                 }
                 .tint(.accentColor)
+
+                if appIconService.isGalleryPlatformEnabled {
+                    Toggle(isOn: Binding(
+                        get: { appIconService.isFeatureEnabled },
+                        set: { appIconService.setFeatureEnabled($0) }
+                    )) {
+                        Text(GameLocalizedStrings.string("debug_enable_alternate_app_icons"))
+                            .appFont(.body)
+                    }
+                    .tint(.accentColor)
+                }
 
                 if themeManager.catalogPlatform.showsExperimentalToggle(for: .thirtyTwoBit) {
                     Toggle(isOn: $debugExperimentalThirtyTwoBitThemeEnabled) {
                         Text(GameLocalizedStrings.string("debug_enable_experimental_thirty_two_bit_theme"))
-                            .font(fontForLabels)
+                            .appFont(.body)
                     }
                     .tint(.accentColor)
                     .disabled(isGameSessionInProgress)
@@ -974,7 +1000,7 @@ public struct SettingsView: View {
                 if themeManager.catalogPlatform.showsExperimentalToggle(for: .sixtyFourBit) {
                     Toggle(isOn: $debugExperimentalSixtyFourBitThemeEnabled) {
                         Text(GameLocalizedStrings.string("debug_enable_experimental_sixty_four_bit_theme"))
-                            .font(fontForLabels)
+                            .appFont(.body)
                     }
                     .tint(.accentColor)
                     .disabled(isGameSessionInProgress)
@@ -989,7 +1015,7 @@ public struct SettingsView: View {
                 EmptyView()
                 #else
                 Text(GameLocalizedStrings.string("debug_simulate_premium_footer"))
-                    .font(secondaryFont)
+                    .appFont(.caption)
                     .modifier(SettingsFooterTextStyle())
                 #endif
             }
@@ -1062,13 +1088,13 @@ public struct SettingsView: View {
     @ViewBuilder
     private func settingsSectionHeader(_ key: String) -> some View {
         Text(GameLocalizedStrings.string(key))
-            .retroSectionHeader(font: sectionHeaderFont)
+            .retroSectionHeader()
     }
 
     @ViewBuilder
     private func inlineSectionFooterRow(text: String) -> some View {
         Text(text)
-            .font(secondaryFont)
+            .appFont(.caption)
             .modifier(SettingsFooterTextStyle())
             .foregroundStyle(.secondary)
     }
@@ -1323,6 +1349,11 @@ private struct SettingsFooterTextStyle: ViewModifier {
             configuration: .iPhone,
             userDefaults: UserDefaults.standard,
             hasPremiumAccess: true
+        ),
+        appIconService: AppIconService(
+            changer: PreviewAppIconChanger(supportsAlternateIcons: true),
+            featureFlag: FixedAppIconFeatureFlag(isEnabled: true),
+            isGalleryPlatformEnabled: true
         ),
         fontPreferenceStore: FontPreferenceStore(
             userDefaults: UserDefaults.standard,

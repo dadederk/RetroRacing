@@ -57,6 +57,7 @@ public enum AssetAuditWorkflow {
             repositoryRoot: repositoryRoot,
             manifest: manifest
         )
+        issues += try AlternateAppIconValidator.issues(repositoryRoot: repositoryRoot)
         return issues
     }
 }

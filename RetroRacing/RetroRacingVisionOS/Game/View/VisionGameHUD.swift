@@ -10,28 +10,18 @@ import SwiftUI
 
 struct VisionGameHUD: View {
     @Environment(ThemeManager.self) private var themeManager
-    @Environment(\.fontPreferenceStore) private var fontPreferenceStore
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @ScaledMetric(relativeTo: .title) private var lifeIconHeight: CGFloat = 28
 
     let snapshot: GameSnapshot
 
     var body: some View {
-        HStack(alignment: .center, spacing: 18) {
-            GameScoreStatusView(
-                score: snapshot.score,
-                font: fontPreferenceStore?.font(textStyle: .title) ?? .title
-            )
-            .layoutPriority(1)
-
-            Spacer(minLength: 16)
-
-            GameLivesStatusView(
-                lives: snapshot.lives,
-                lifeAssetName: themeManager.currentTheme.lifeSprite() ?? "life-LCD",
-                bundle: VisionThemeSpriteAssets.bundle,
-                visibleHeight: lifeIconHeight
-            )
-            .layoutPriority(2)
+        Group {
+            if dynamicTypeSize.isAccessibilitySize {
+                VStack(alignment: .leading, spacing: 8) { statusContent }
+            } else {
+                HStack(alignment: .center, spacing: 18) { statusContent }
+            }
         }
         .frame(maxWidth: .infinity)
         .padding(.horizontal, 16)
@@ -48,5 +38,23 @@ struct VisionGameHUD: View {
                 snapshot.level
             )
         )
+    }
+
+    @ViewBuilder
+    private var statusContent: some View {
+        GameScoreStatusView(score: snapshot.score, textStyle: .title)
+            .layoutPriority(1)
+
+        if !dynamicTypeSize.isAccessibilitySize {
+            Spacer(minLength: 16)
+        }
+
+        GameLivesStatusView(
+            lives: snapshot.lives,
+            lifeAssetName: themeManager.currentTheme.lifeSprite() ?? "life-LCD",
+            bundle: VisionThemeSpriteAssets.bundle,
+            visibleHeight: lifeIconHeight
+        )
+        .layoutPriority(2)
     }
 }

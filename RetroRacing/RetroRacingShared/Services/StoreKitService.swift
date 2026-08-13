@@ -32,6 +32,7 @@ public final class StoreKitService {
 
     enum DebugStorageKeys {
         static let forceFreemiumPlayLimit = "PlayLimit.debugForceFreemium"
+        static let premiumSimulationMode = "StoreKit.debugPremiumSimulationMode"
     }
 
     enum StorageKeys {
@@ -75,6 +76,10 @@ public final class StoreKitService {
                 notifyPremiumAccessForGatingUpdated()
                 return
             }
+            userDefaults.set(
+                debugPremiumSimulationMode.rawValue,
+                forKey: DebugStorageKeys.premiumSimulationMode
+            )
             syncPlayLimitDebugMode()
             notifyPremiumAccessForGatingUpdated()
         }
@@ -142,6 +147,10 @@ public final class StoreKitService {
     ) {
         self.userDefaults = userDefaults
         self.isDebugSimulationEnabled = isDebugSimulationEnabled
+        debugPremiumSimulationMode = Self.persistedDebugPremiumSimulationMode(
+            userDefaults: userDefaults,
+            isDebugSimulationEnabled: isDebugSimulationEnabled
+        )
         cachedPremiumAccess = userDefaults.bool(forKey: StorageKeys.cachedPremiumAccess)
         syncPlayLimitDebugMode()
 
@@ -289,6 +298,20 @@ public final class StoreKitService {
             shouldForceFreemium,
             forKey: DebugStorageKeys.forceFreemiumPlayLimit
         )
+    }
+
+    private static func persistedDebugPremiumSimulationMode(
+        userDefaults: UserDefaults,
+        isDebugSimulationEnabled: Bool
+    ) -> DebugPremiumSimulationMode {
+        guard isDebugSimulationEnabled,
+              userDefaults.object(forKey: DebugStorageKeys.premiumSimulationMode) != nil,
+              let mode = DebugPremiumSimulationMode(
+                  rawValue: userDefaults.integer(forKey: DebugStorageKeys.premiumSimulationMode)
+              ) else {
+            return .productionDefault
+        }
+        return mode
     }
 
     private func notifyPremiumAccessForGatingUpdated() {

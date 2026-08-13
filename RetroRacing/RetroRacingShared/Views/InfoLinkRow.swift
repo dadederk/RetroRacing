@@ -22,7 +22,6 @@ public struct InfoLinkRow: View {
     private let action: () -> Void
 
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
-    @Environment(\.fontPreferenceStore) private var fontPreferenceStore
 
     /// Creates a new information row.
     /// - Parameters:
@@ -52,13 +51,12 @@ public struct InfoLinkRow: View {
 
                 VStack(alignment: .leading, spacing: dynamicTypeSize.isAccessibilitySize ? 0 : 2) {
                     Text(title)
-                        .font(fontPreferenceStore?.font(textStyle: .body) ?? .body)
-                        .fontWeight(.medium)
+                        .appFont(.body, weightTier: .semibold)
                         .foregroundStyle(.primary)
 
                     if let subtitle {
                         Text(subtitle)
-                            .font(fontPreferenceStore?.font(textStyle: .caption) ?? .caption)
+                            .appFont(.caption)
                             .foregroundStyle(.secondary)
                             .lineLimit(dynamicTypeSize.isAccessibilitySize ? 6 : 2)
                     }

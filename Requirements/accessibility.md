@@ -40,7 +40,10 @@
 - On visionOS, Direct Touch applies only to the Classic board and spatial road; SwiftUI ornaments, Settings, and native controls keep standard assistive navigation.
 - Voice Control input labels include short and descriptive aliases: Left/Move left and Right/Move right.
 - HUD status and SpriteKit visuals are not Voice Control tap targets.
+- Settings speed options pair Cruise, Fast, and Rapid with decorative gauges at increasing needle positions; assistive technologies use the localized text names rather than the icon names.
 - Settings Style Gallery rows are semantic buttons with localized theme descriptions. The currently selected style exposes the selected accessibility trait in addition to its visual checkmark.
+- App Icon Gallery rows are single semantic buttons with localized visual descriptions and selected, locked, checking, or changing values. Preview art and state glyphs are decorative; native button, disabled, and selected traits remain authoritative.
+- The App Icon Gallery's native list preserves Classic, Themes, and Special Editions reading order for VoiceOver, Voice Control, Switch Control, and Full Keyboard Access. Rows switch to a vertical preview-and-label layout at accessibility Dynamic Type sizes.
 - tvOS maps Siri Remote directional input through `onMoveCommand`.
 - macOS disables gameplay trackpad lane swipes while VoiceOver is running.
 
@@ -62,23 +65,27 @@
   - Audio feedback: lane pulses with VoiceOver, Retro audio otherwise.
   - Sound effects volume: 100% with VoiceOver, 80% otherwise.
   - Speed warning: haptic or announcement with VoiceOver depending on platform, none otherwise.
-  - Big Cars: on for accessibility Dynamic Type sizes, off otherwise.
+  - Big Cars: on for accessibility Dynamic Type sizes, off otherwise; when on, it replaces perspective road markers with vertical-only dashed separators.
   - Direct Touch: on where the setting is shown.
-  - Road visual style: Detailed Road unless overridden; Big Cars forces vertical-only rendering.
+- A legacy explicit Simplified Grid selection migrates to Big Cars unless the user already made an explicit Big Cars choice; the retired road-style key is removed.
 
 ## Dynamic Type and Layout
 
-- Shared UI uses semantic font APIs so system and retro font modes scale with Dynamic Type.
-- The universal gameplay score uses Title 3; the SharePlay friend's score uses Headline. Helmet
+- Shared UI uses environment-backed semantic app-font APIs so all six font modes scale through
+  Accessibility 5 and respond to Bold Text.
+- The universal and tvOS gameplay score uses Title 1; the SharePlay friend's score uses Title 2. Helmet
   icons scale relative to their adjacent semantic text style at every Dynamic Type size. Both
   player and friend helmets compensate for their normalized safety inset so their visible artwork,
   rather than a square fit or the full transparent canvas, matches the corresponding score height.
 - The SharePlay friend row reflows its score and right-aligned helmet strip at accessibility sizes
   when the horizontal presentation would clip.
-- Menu, Settings, game-over, achievement, and paywall content must scroll or reflow rather than clip at large sizes.
+- Menu, Settings, About, paywall, galleries, game-over, achievements, SharePlay, and Vision ornaments
+  must scroll or reflow rather than clip at large sizes. Menus never cap Dynamic Type.
 - Portrait gameplay stacks HUD above the game and controls below to avoid overlap.
-- Regular-width compact-height layouts may use side rails; regular-regular and compact-width layouts keep a full-width top HUD.
+- Regular-width compact-height layouts may use side rails only below accessibility sizes. At
+  accessibility sizes every orientation uses the full-width vertical HUD/game/control composition.
 - Social rows stack avatar/text at accessibility sizes when needed.
+- Icon-only fixed toolbar/game chrome exposes Large Content Viewer content where it cannot expand.
 
 ## Game-Over, Achievements, and Sharing
 

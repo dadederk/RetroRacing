@@ -19,6 +19,7 @@ struct VisionAppDependencies {
     let leaderboardConfiguration: LeaderboardConfigurationVisionOS
     let ratingService: RatingService
     let themeManager: ThemeManager
+    let appIconService: AppIconService
     let fontPreferenceStore: FontPreferenceStore
     let hapticController: HapticFeedbackController
     let imageLoader: any ImageLoader
@@ -33,7 +34,7 @@ struct VisionAppDependencies {
     init(userDefaults: UserDefaults = InfrastructureDefaults.userDefaults) {
         AppBootstrap.configureGameCenterAccessPoint()
         AppBootstrap.configureAudioSession()
-        let customFontAvailable = AppBootstrap.registerCustomFont()
+        let fontAvailability = AppBootstrap.registerFonts()
         SettingsPreferenceMigration.runIfNeeded(
             userDefaults: userDefaults,
             supportsHaptics: false
@@ -152,9 +153,14 @@ struct VisionAppDependencies {
             ratingProvider: VisionRatingServiceProvider()
         )
         self.themeManager = themeManager
+        self.appIconService = AppIconService(
+            changer: UnsupportedAppIconChanger(),
+            featureFlag: FixedAppIconFeatureFlag(isEnabled: false),
+            isGalleryPlatformEnabled: false
+        )
         self.fontPreferenceStore = FontPreferenceStore(
             userDefaults: userDefaults,
-            customFontAvailable: customFontAvailable
+            availability: fontAvailability
         )
         self.hapticController = noOpHapticController
         self.imageLoader = PlatformFactories.makeImageLoader()

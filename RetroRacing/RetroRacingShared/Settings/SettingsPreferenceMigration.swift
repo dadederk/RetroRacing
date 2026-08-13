@@ -2,14 +2,43 @@ import Foundation
 
 /// One-time migrations from legacy settings keys to conditional-default storage.
 public enum SettingsPreferenceMigration {
-    private static let migrationVersionKey = "settingsPreferenceMigration_v2_completed"
+    private static let conditionalDefaultsMigrationVersionKey = "settingsPreferenceMigration_v2_completed"
+    private static let simplifiedGridMigrationVersionKey = "settingsPreferenceMigration_v3_completed"
+
+    private enum LegacyRoadVisualStyle {
+        static let storageKey = "roadVisualStyle"
+        static let simplifiedGridRawValue = "simplifiedGrid"
+    }
 
     public static func runIfNeeded(userDefaults: UserDefaults, supportsHaptics _: Bool) {
-        guard userDefaults.bool(forKey: migrationVersionKey) == false else { return }
-        migrateSpeedWarningFeedbackModeIfNeeded(userDefaults: userDefaults)
-        migrateSoundEffectsVolumeIfNeeded(userDefaults: userDefaults)
-        migrateAudioFeedbackModeIfNeeded(userDefaults: userDefaults)
-        userDefaults.set(true, forKey: migrationVersionKey)
+        if userDefaults.bool(forKey: conditionalDefaultsMigrationVersionKey) == false {
+            migrateSpeedWarningFeedbackModeIfNeeded(userDefaults: userDefaults)
+            migrateSoundEffectsVolumeIfNeeded(userDefaults: userDefaults)
+            migrateAudioFeedbackModeIfNeeded(userDefaults: userDefaults)
+            userDefaults.set(true, forKey: conditionalDefaultsMigrationVersionKey)
+        }
+
+        if userDefaults.bool(forKey: simplifiedGridMigrationVersionKey) == false {
+            migrateSimplifiedGridIfNeeded(userDefaults: userDefaults)
+            userDefaults.set(true, forKey: simplifiedGridMigrationVersionKey)
+        }
+    }
+
+    private static func migrateSimplifiedGridIfNeeded(userDefaults: UserDefaults) {
+        defer { userDefaults.removeObject(forKey: LegacyRoadVisualStyle.storageKey) }
+
+        guard userDefaults.string(forKey: LegacyRoadVisualStyle.storageKey)
+            == LegacyRoadVisualStyle.simplifiedGridRawValue,
+              userDefaults.data(forKey: BigCarsSetting.conditionalDefaultStorageKey) == nil else {
+            return
+        }
+
+        var conditionalDefault = ConditionalDefault<BigCarsSetting>()
+        conditionalDefault.setUserOverride(BigCarsSetting(isEnabled: true))
+        conditionalDefault.save(
+            to: userDefaults,
+            key: BigCarsSetting.conditionalDefaultStorageKey
+        )
     }
 
     private static func migrateSpeedWarningFeedbackModeIfNeeded(userDefaults: UserDefaults) {

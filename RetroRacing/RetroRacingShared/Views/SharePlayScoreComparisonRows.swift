@@ -13,20 +13,17 @@ public struct SharePlayScoreComparisonRows: View {
     let localScore: Int
     let opponentLabel: String
     let opponentScore: Int
-    let scoreFont: Font
 
     public init(
         localLabel: String,
         localScore: Int,
         opponentLabel: String,
-        opponentScore: Int,
-        scoreFont: Font
+        opponentScore: Int
     ) {
         self.localLabel = localLabel
         self.localScore = localScore
         self.opponentLabel = opponentLabel
         self.opponentScore = opponentScore
-        self.scoreFont = scoreFont
     }
 
     public var body: some View {
@@ -39,7 +36,8 @@ public struct SharePlayScoreComparisonRows: View {
 
     private func comparisonRow(label: String, score: Int) -> some View {
         Text(GameLocalizedStrings.format("shareplay_score_row %@ %lld", label, Int64(score)))
-            .font(scoreFont.monospacedDigit())
+            .appFont(.headline)
+            .monospacedDigit()
             .multilineTextAlignment(.center)
             .frame(maxWidth: .infinity)
             .accessibilityLabel(

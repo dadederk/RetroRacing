@@ -22,24 +22,18 @@ extension AchievementUnlockView {
 
             #if os(watchOS)
             Text(GameLocalizedStrings.string("achievement_modal_title"))
-                .font(bodyFont)
+                .appFont(.body)
                 .multilineTextAlignment(.center)
-                .lineLimit(2)
-                .minimumScaleFactor(0.65)
             #endif
 
             Text(achievementTitle)
-                .font(scoreFont)
+                .appFont(.headline)
                 .multilineTextAlignment(.center)
-                .lineLimit(3)
-                .minimumScaleFactor(0.65)
 
             Text(achievementDescription)
-                .font(bodyFont)
+                .appFont(.body)
                 .multilineTextAlignment(.center)
                 .foregroundStyle(.secondary)
-                .lineLimit(4)
-                .minimumScaleFactor(0.65)
 
             if !usesBottomActionBar {
                 achievementActionButtons
@@ -81,14 +75,14 @@ extension AchievementUnlockView {
         VStack(spacing: 10) {
             Button(action: onDone) {
                 Text(GameLocalizedStrings.string("done"))
-                    .font(buttonFont)
+                    .appFont(.body)
             }
             .retroRacingPrimaryButtonStyle()
 
             if canOpenGameCenterAchievements {
                 Button(action: openGameCenterAchievements) {
                     Text(GameLocalizedStrings.string("achievement_modal_other_achievements"))
-                        .font(buttonFont)
+                        .appFont(.body)
                 }
                 .retroRacingSecondaryButtonStyle()
             }
@@ -149,18 +143,6 @@ extension AchievementUnlockView {
             }
         }
         #endif
-    }
-
-    var bodyFont: Font {
-        fontPreferenceStore?.font(textStyle: .body) ?? .body
-    }
-
-    var scoreFont: Font {
-        fontPreferenceStore?.font(textStyle: .headline) ?? .headline
-    }
-
-    var buttonFont: Font {
-        fontPreferenceStore?.font(textStyle: .body) ?? .body
     }
 
     var achievementContentSpacing: CGFloat {

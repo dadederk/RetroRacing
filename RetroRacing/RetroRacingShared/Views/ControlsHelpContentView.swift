@@ -14,7 +14,6 @@ public struct ControlsHelpContentView: View {
     public let showTitle: Bool
     /// When true, the title and body are exposed as one accessibility element.
     public let combinesAccessibilityChildren: Bool
-    @Environment(\.fontPreferenceStore) private var fontPreferenceStore
 
     public init(
         controlsDescriptionKey: String,
@@ -30,11 +29,11 @@ public struct ControlsHelpContentView: View {
         VStack(alignment: .leading, spacing: 8) {
             if showTitle {
                 Text(GameLocalizedStrings.string("settings_controls"))
-                    .retroSectionHeader(font: fontPreferenceStore?.font(textStyle: .headline) ?? .headline)
+                    .retroSectionHeader()
             }
 
             Text(GameLocalizedStrings.string(controlsDescriptionKey))
-                .font(fontPreferenceStore?.font(textStyle: .body) ?? .body)
+                .appFont(.body)
                 .fixedSize(horizontal: false, vertical: true)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -61,7 +60,6 @@ public struct SettingsControlsHelpSheet: View {
     public let presentation: NavigationSurfacePresentation
 
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.fontPreferenceStore) private var fontPreferenceStore
 
     public init(
         controlsDescriptionKey: String,
@@ -71,18 +69,6 @@ public struct SettingsControlsHelpSheet: View {
         self.controlsDescriptionKey = controlsDescriptionKey
         self.controllerPreferencesStore = controllerPreferencesStore
         self.presentation = presentation
-    }
-
-    private var sectionHeaderFont: Font {
-        fontPreferenceStore?.font(textStyle: .headline) ?? .headline
-    }
-
-    private var primaryFont: Font {
-        fontPreferenceStore?.font(textStyle: .body) ?? .body
-    }
-
-    private var secondaryFont: Font {
-        fontPreferenceStore?.font(textStyle: .caption) ?? .caption
     }
 
     public var body: some View {
@@ -102,7 +88,7 @@ public struct SettingsControlsHelpSheet: View {
                             Button(GameLocalizedStrings.string("done")) {
                                 dismiss()
                             }
-                            .font(primaryFont)
+                            .appFont(.body)
                         }
                     }
             }
@@ -130,10 +116,7 @@ public struct SettingsControlsHelpSheet: View {
 
                 if let controllerPreferencesStore {
                     SettingsControllerMappingContent(
-                        preferencesStore: controllerPreferencesStore,
-                        primaryFont: primaryFont,
-                        secondaryFont: secondaryFont,
-                        sectionHeaderFont: sectionHeaderFont
+                        preferencesStore: controllerPreferencesStore
                     )
                 }
             }
@@ -153,15 +136,12 @@ public struct SettingsControlsHelpSheet: View {
                 )
             } header: {
                 Text(GameLocalizedStrings.string("settings_controls"))
-                    .retroSectionHeader(font: sectionHeaderFont)
+                    .retroSectionHeader()
             }
 
             if let controllerPreferencesStore {
                 SettingsControllerMappingSection(
-                    preferencesStore: controllerPreferencesStore,
-                    primaryFont: primaryFont,
-                    secondaryFont: secondaryFont,
-                    sectionHeaderFont: sectionHeaderFont
+                    preferencesStore: controllerPreferencesStore
                 )
             }
         }
@@ -171,7 +151,7 @@ public struct SettingsControlsHelpSheet: View {
     private var controlsHelpSection: some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(GameLocalizedStrings.string("settings_controls"))
-                .retroSectionHeader(font: sectionHeaderFont)
+                .retroSectionHeader()
 
             ControlsHelpContentView(
                 controlsDescriptionKey: controlsDescriptionKey,
@@ -189,19 +169,15 @@ public struct SettingsControlsHelpSheet: View {
 #if !os(macOS)
 private struct SettingsControllerMappingSection: View {
     let preferencesStore: SettingsPreferencesStore
-    let primaryFont: Font
-    let secondaryFont: Font
-    let sectionHeaderFont: Font
 
     var body: some View {
         Section {
             SettingsControllerMappingPickers(
-                preferencesStore: preferencesStore,
-                primaryFont: primaryFont
+                preferencesStore: preferencesStore
             )
         } header: {
             Text(GameLocalizedStrings.string("settings_controller"))
-                .retroSectionHeader(font: sectionHeaderFont)
+                .retroSectionHeader()
         } footer: {
             controllerFootnote
         }
@@ -209,7 +185,7 @@ private struct SettingsControllerMappingSection: View {
 
     private var controllerFootnote: some View {
         Text(GameLocalizedStrings.string(Self.controllerFootnoteKey))
-            .font(secondaryFont)
+            .appFont(.caption)
             .foregroundStyle(.secondary)
     }
 
@@ -225,22 +201,18 @@ private struct SettingsControllerMappingSection: View {
 
 private struct SettingsControllerMappingContent: View {
     let preferencesStore: SettingsPreferencesStore
-    let primaryFont: Font
-    let secondaryFont: Font
-    let sectionHeaderFont: Font
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text(GameLocalizedStrings.string("settings_controller"))
-                .retroSectionHeader(font: sectionHeaderFont)
+                .retroSectionHeader()
 
             SettingsControllerMappingPickers(
-                preferencesStore: preferencesStore,
-                primaryFont: primaryFont
+                preferencesStore: preferencesStore
             )
 
             Text(GameLocalizedStrings.string(Self.controllerFootnoteKey))
-                .font(secondaryFont)
+                .appFont(.caption)
                 .foregroundStyle(.secondary)
                 .modifier(SettingsControlsFooterTextStyle())
         }
@@ -257,35 +229,34 @@ private struct SettingsControllerMappingContent: View {
 
 private struct SettingsControllerMappingPickers: View {
     let preferencesStore: SettingsPreferencesStore
-    let primaryFont: Font
 
     var body: some View {
         Picker(selection: controllerButtonSelection(for: .moveLeft)) {
             controllerButtonOptions(for: .moveLeft)
         } label: {
             Text(GameLocalizedStrings.string("settings_controller_move_left"))
-                .font(primaryFont)
+                .appFont(.body)
         }
 
         Picker(selection: controllerButtonSelection(for: .moveRight)) {
             controllerButtonOptions(for: .moveRight)
         } label: {
             Text(GameLocalizedStrings.string("settings_controller_move_right"))
-                .font(primaryFont)
+                .appFont(.body)
         }
 
         Picker(selection: controllerButtonSelection(for: .pauseResume)) {
             controllerButtonOptions(for: .pauseResume)
         } label: {
             Text(GameLocalizedStrings.string("settings_controller_pause_resume"))
-                .font(primaryFont)
+                .appFont(.body)
         }
     }
 
     private func controllerButtonOptions(for action: GameControllerRemapAction) -> some View {
         ForEach(controllerButtons(for: action), id: \.self) { button in
             Text(GameLocalizedStrings.string(button.localizedNameKey))
-                .font(primaryFont)
+                .appFont(.body)
                 .tag(button)
         }
     }

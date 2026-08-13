@@ -17,7 +17,7 @@ public struct AchievementUnlockView: View {
         self.onDone = onDone
     }
 
-    @Environment(\.fontPreferenceStore) var fontPreferenceStore
+    @Environment(\.appTypography) var appTypography
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.achievementMetadataService) var metadataService
     // Internal (not private) so AchievementUnlockView+Content.swift can read it across files.

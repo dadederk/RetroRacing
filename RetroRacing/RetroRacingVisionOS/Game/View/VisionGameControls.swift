@@ -14,9 +14,10 @@ struct VisionGameOverPanel: View {
     var body: some View {
         VStack(spacing: 14) {
             Text(GameLocalizedStrings.string("vision_game_over"))
-                .font(.title.bold())
+                .appFont(.title, weightTier: .bold)
             Text(GameLocalizedStrings.format("score %lld", session.snapshot.score))
-                .font(.title3.monospacedDigit())
+                .appFont(.title3)
+                .monospacedDigit()
             ViewThatFits {
                 HStack(spacing: 12) { gameOverButtons }
                 VStack(spacing: 10) { gameOverButtons }

@@ -14,7 +14,8 @@
 - Product ID: `com.accessibilityUpTo11.RetroRacing.unlimitedPlays`.
 - Product type: non-consumable, one-time purchase.
 - Internal code may still use `premium` names for entitlement state, but user-visible copy must prefer Unlimited Plays.
-- Unlimited Plays removes solo daily limits forever and may unlock theme-selection extras where the platform supports them.
+- Unlimited Plays removes solo daily limits forever and unlocks selection from the available visual Styles where the platform supports them.
+- Unlimited Plays unlocks all eight alternate iPhone/iPad app icons while the capability and Debug rollout flag are enabled. Classic remains free.
 
 ## Free-Tier Rules
 
@@ -37,6 +38,7 @@
 - Composition roots sync entitlement updates into `PlayLimitService.unlockUnlimitedAccess()` or `clearUnlimitedAccess()`.
 - `PlayLimitService` methods must bypass counting and return unlimited availability when unlimited access is active, except when DEBUG freemium simulation forces free-tier behavior.
 - Purchase and restore success must unlock the play-limit service and dismiss or refresh paywall UI without requiring app restart.
+- Alternate-icon gating follows the cached/live entitlement rules above. Revocation preserves an installed alternate, always permits Classic, and locks other alternate changes.
 
 ## SharePlay Exception
 
@@ -62,6 +64,7 @@ Friend races are free. SharePlay competitive matches in [`shareplay_multiplayer.
   - The purchase row represents the single non-consumable Unlimited Plays product; no subscription choices are offered.
   - Limit-triggered mode shows the limit notice and “Want to Stay Free?” cards, including the free SharePlay reminder.
   - Restore and redeem actions stay platform-appropriate.
+  - Alternate app icons appear as a benefit only while the injected system capability and rollout flag are enabled; Release and unsupported-platform copy remains unchanged.
 - Settings:
   - Play Limit section is visible only for resolved free users.
   - Purchases section exposes Get Unlimited Plays, Restore Purchases, and supported redeem-code UI.

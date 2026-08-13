@@ -80,6 +80,19 @@ public enum DebugGameplayStorageKeys {
     public static let showSpriteKitFrameStats = "debugGameplay.showSpriteKitFrameStats"
     public static let experimentalThirtyTwoBitThemeEnabled = "debugGameplay.experimentalThirtyTwoBitThemeEnabled"
     public static let experimentalSixtyFourBitThemeEnabled = "debugGameplay.experimentalSixtyFourBitThemeEnabled"
+    public static let alternateAppIconsEnabled = "debugGameplay.alternateAppIconsEnabled"
+
+    /// Resolves the alternate-icon rollout flag without allowing Debug storage to leak into Release.
+    public static func areAlternateAppIconsEnabled(
+        userDefaults: UserDefaults,
+        debugFeaturesAllowed: Bool
+    ) -> Bool {
+        guard debugFeaturesAllowed else { return false }
+        guard userDefaults.object(forKey: alternateAppIconsEnabled) != nil else {
+            return true
+        }
+        return userDefaults.bool(forKey: alternateAppIconsEnabled)
+    }
 
     public static func isExperimentalThirtyTwoBitThemeEnabled(
         userDefaults: UserDefaults,

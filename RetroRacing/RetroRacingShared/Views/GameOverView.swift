@@ -21,7 +21,7 @@ public struct GameOverView: View {
     public let onFinish: () -> Void
     public let onPresented: (() -> Void)?
 
-    @Environment(\.fontPreferenceStore) var fontPreferenceStore
+    @Environment(\.appTypography) var appTypography
     @Environment(\.colorScheme) var colorScheme
     @ScaledMetric(relativeTo: .body) var avatarSize: CGFloat = 24
     @State private var pendingAchievementIDs: [AchievementIdentifier] = []
@@ -91,7 +91,7 @@ public struct GameOverView: View {
             .toolbar {
                 ToolbarItem(placement: .principal) {
                     Text(GameLocalizedStrings.string("game_over_encouragement_title"))
-                        .font(scoreFont)
+                        .appFont(.headline)
                         .multilineTextAlignment(.center)
                 }
                 ToolbarItem(placement: Self.shareToolbarPlacement) {

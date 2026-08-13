@@ -16,8 +16,6 @@ public struct SharePlayOverlayView: View {
     let opponentDisplayName: String?
     let onCountdownSecondChanged: (Int) -> Void
 
-    @Environment(\.fontPreferenceStore) private var fontPreferenceStore
-    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @ScaledMetric(relativeTo: .largeTitle) private var countdownDigitSize: CGFloat = 72
     @State private var lastTriggeredCountdownSecond: Int?
 
@@ -82,13 +80,13 @@ public struct SharePlayOverlayView: View {
         VStack(spacing: 12) {
             overlayAssetImage(named: assetName, usesTemplate: usesTemplateAsset)
             Text(title)
-                .font(headlineFont)
+                .appFont(.headline)
                 .multilineTextAlignment(.center)
             if subtitleLines.isEmpty == false {
                 VStack(spacing: 4) {
                     ForEach(subtitleLines, id: \.self) { subtitle in
                         Text(subtitle)
-                            .font(bodyFont)
+                            .appFont(.subheadline)
                             .foregroundStyle(.secondary)
                             .multilineTextAlignment(.center)
                     }
@@ -112,9 +110,13 @@ public struct SharePlayOverlayView: View {
             VStack(spacing: 12) {
                 overlayAssetImage(named: "GetReady", usesTemplate: true)
                 Text(GameLocalizedStrings.string("shareplay_countdown_title"))
-                    .font(headlineFont)
+                    .appFont(.headline)
                 Text("\(displayValue)")
-                    .font(countdownFont)
+                    .appFont(
+                        scaledSize: countdownDigitSize,
+                        relativeTo: .largeTitle,
+                        weightTier: .bold
+                    )
                     .monospacedDigit()
                     .contentTransition(.numericText(countsDown: true))
                     .animation(.snappy, value: displayValue)
@@ -156,15 +158,4 @@ public struct SharePlayOverlayView: View {
         return trimmedName.isEmpty ? nil : trimmedName
     }
 
-    private var headlineFont: Font {
-        fontPreferenceStore?.font(textStyle: .headline) ?? .headline
-    }
-
-    private var bodyFont: Font {
-        fontPreferenceStore?.font(textStyle: .subheadline) ?? .subheadline
-    }
-
-    private var countdownFont: Font {
-        fontPreferenceStore?.font(fixedSize: countdownDigitSize) ?? .system(size: countdownDigitSize, weight: .bold)
-    }
 }

@@ -100,11 +100,11 @@ struct TVSettingsCategoryOverview: View {
                 .accessibilityHidden(true)
 
             Text(category.title)
-                .font(.title)
+                .appFont(.title)
                 .multilineTextAlignment(.center)
 
             Text(summary)
-                .font(.body)
+                .appFont(.body)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
                 .lineLimit(7)

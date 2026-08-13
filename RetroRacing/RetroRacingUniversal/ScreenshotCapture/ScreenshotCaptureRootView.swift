@@ -15,6 +15,7 @@ struct ScreenshotCaptureDependencies {
     let authenticationPresenter: AuthenticationPresenter
     let ratingService: RatingService
     let themeManager: ThemeManager
+    let appIconService: AppIconService
     let fontPreferenceStore: FontPreferenceStore
     let screenshotFontPreferenceStore: FontPreferenceStore
     let hapticController: HapticFeedbackController
@@ -179,6 +180,7 @@ struct ScreenshotCaptureRootView: View {
             leaderboardConfiguration: dependencies.leaderboardConfiguration,
             authenticationPresenter: dependencies.authenticationPresenter,
             themeManager: dependencies.themeManager,
+            appIconService: dependencies.appIconService,
             fontPreferenceStore: dependencies.screenshotFontPreferenceStore,
             hapticController: dependencies.hapticController,
             supportsHapticFeedback: dependencies.supportsHapticFeedback,
@@ -257,6 +259,7 @@ struct ScreenshotCaptureRootView: View {
     private func settingsView(focus: ScreenshotSettingsFocus) -> some View {
         SettingsView(
             themeManager: dependencies.themeManager,
+            appIconService: dependencies.appIconService,
             fontPreferenceStore: dependencies.screenshotFontPreferenceStore,
             supportsHapticFeedback: dependencies.supportsHapticFeedback,
             hapticController: dependencies.hapticController,

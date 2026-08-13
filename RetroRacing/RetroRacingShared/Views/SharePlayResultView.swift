@@ -25,7 +25,6 @@ public struct SharePlayResultView: View {
     let onRetry: () -> Void
     let onLeave: () -> Void
 
-    @Environment(\.fontPreferenceStore) private var fontPreferenceStore
     @ScaledMetric(relativeTo: .body) private var avatarSize: CGFloat = 24
     @State private var pendingAchievementIDs: [AchievementIdentifier] = []
     @State private var presentedAchievementID: AchievementIdentifier?
@@ -122,38 +121,38 @@ public struct SharePlayResultView: View {
             VStack(spacing: 10) {
                 Button(action: onRetry) {
                     Text(GameLocalizedStrings.string("shareplay_retry_button"))
-                        .font(buttonFont)
+                        .appFont(.headline)
                 }
                 .retroRacingPrimaryButtonStyle()
                 Button(action: onLeave) {
                     Text(GameLocalizedStrings.string("shareplay_leave_button"))
-                        .font(buttonFont)
+                        .appFont(.headline)
                 }
                 .retroRacingSecondaryButtonStyle()
             }
         case .retryTimedOut:
             Button(action: onLeave) {
                 Text(GameLocalizedStrings.string("shareplay_leave_button"))
-                    .font(buttonFont)
+                    .appFont(.headline)
             }
             .retroRacingPrimaryButtonStyle()
         case .retryWaiting(let localReady, let remoteReady, _):
             if localReady {
                 Button(action: onLeave) {
                     Text(GameLocalizedStrings.string("shareplay_leave_button"))
-                        .font(buttonFont)
+                        .appFont(.headline)
                 }
                     .retroRacingSecondaryButtonStyle()
             } else {
                 VStack(spacing: 10) {
                     Button(action: onRetry) {
                         Text(retryButtonTitle(remoteReady: remoteReady))
-                            .font(buttonFont)
+                            .appFont(.headline)
                     }
                     .retroRacingPrimaryButtonStyle()
                     Button(action: onLeave) {
                         Text(GameLocalizedStrings.string("shareplay_leave_button"))
-                            .font(buttonFont)
+                            .appFont(.headline)
                     }
                     .retroRacingSecondaryButtonStyle()
                 }
@@ -161,7 +160,7 @@ public struct SharePlayResultView: View {
         case .aborted:
             Button(action: onLeave) {
                 Text(GameLocalizedStrings.string("shareplay_done_button"))
-                    .font(buttonFont)
+                    .appFont(.headline)
             }
                 .retroRacingPrimaryButtonStyle()
         default:
@@ -179,11 +178,11 @@ public struct SharePlayResultView: View {
             outcomeArtwork(outcome)
 
             Text(outcomeTitle(outcome))
-                .font(titleFont)
+                .appFont(.title2)
                 .multilineTextAlignment(.center)
 
             Text(outcomeSubtitle(outcome))
-                .font(bodyFont)
+                .appFont(.body)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
 
@@ -191,8 +190,7 @@ public struct SharePlayResultView: View {
                 localLabel: GameLocalizedStrings.string("shareplay_local_player_name"),
                 localScore: localScore,
                 opponentLabel: opponentLabel,
-                opponentScore: opponentScore,
-                scoreFont: scoreFont
+                opponentScore: opponentScore
             )
 
             Divider()
@@ -217,7 +215,8 @@ public struct SharePlayResultView: View {
                 Text(GameLocalizedStrings.format("game_over_your_best %lld", Int64(bestScore)))
             }
         }
-        .font(scoreFont.monospacedDigit())
+        .appFont(.headline)
+        .monospacedDigit()
         .multilineTextAlignment(.center)
     }
 
@@ -230,16 +229,14 @@ public struct SharePlayResultView: View {
                     GameLocalizedStrings.string(difficulty.localizedNameKey)
                 )
             )
-            .font(bodyFont)
+            .appFont(.body)
             .foregroundStyle(.secondary)
             .multilineTextAlignment(.center)
 
             GameOverSocialStatsSection(
                 nextFriendAhead: nextFriendAhead,
                 overtakenFriends: overtakenFriends,
-                avatarSize: avatarSize,
-                bodyFont: bodyFont,
-                scoreFont: scoreFont
+                avatarSize: avatarSize
             )
         }
         .multilineTextAlignment(.center)
@@ -250,14 +247,14 @@ public struct SharePlayResultView: View {
             resultAssetImage(named: "Rematch")
             ProgressView().progressViewStyle(.circular)
             Text(retryWaitingTitle(localReady: localReady, remoteReady: remoteReady))
-                .font(headlineFont)
+                .appFont(.headline)
                 .multilineTextAlignment(.center)
             Text(
                 remoteReady && localReady == false
                     ? GameLocalizedStrings.string("shareplay_retry_waiting_for_you")
                     : GameLocalizedStrings.string("shareplay_retry_waiting_for_opponent")
             )
-            .font(bodyFont)
+            .appFont(.body)
             .foregroundStyle(.secondary)
             .multilineTextAlignment(.center)
         }
@@ -282,10 +279,10 @@ public struct SharePlayResultView: View {
         VStack(spacing: 16) {
             resultAssetImage(named: "Rematch")
             Text(GameLocalizedStrings.string("shareplay_retry_timed_out_title"))
-                .font(titleFont)
+                .appFont(.title2)
                 .multilineTextAlignment(.center)
             Text(GameLocalizedStrings.string("shareplay_retry_timed_out_body"))
-                .font(bodyFont)
+                .appFont(.body)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
         }
@@ -296,10 +293,10 @@ public struct SharePlayResultView: View {
         VStack(spacing: 16) {
             resultAssetImage(named: "ConnectionLost")
             Text(abortedTitle(for: reason))
-                .font(titleFont)
+                .appFont(.title2)
                 .multilineTextAlignment(.center)
             Text(abortedBody(for: reason))
-                .font(bodyFont)
+                .appFont(.body)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
         }
@@ -401,23 +398,4 @@ public struct SharePlayResultView: View {
         }
     }
 
-    private var bodyFont: Font {
-        fontPreferenceStore?.font(textStyle: .body) ?? .body
-    }
-
-    private var headlineFont: Font {
-        fontPreferenceStore?.font(textStyle: .headline) ?? .headline
-    }
-
-    private var titleFont: Font {
-        fontPreferenceStore?.font(textStyle: .title2) ?? .title2
-    }
-
-    private var scoreFont: Font {
-        fontPreferenceStore?.font(textStyle: .headline) ?? .headline
-    }
-
-    private var buttonFont: Font {
-        fontPreferenceStore?.font(textStyle: .headline) ?? .headline
-    }
 }

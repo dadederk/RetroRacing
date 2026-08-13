@@ -7,6 +7,12 @@
 
 import SwiftUI
 
+enum AudioCueTutorialLayoutPolicy {
+    static func gridColumnCount(for dynamicTypeSize: DynamicTypeSize) -> Int {
+        dynamicTypeSize.isAccessibilitySize ? 1 : 3
+    }
+}
+
 /// Safe-lane combinations shown as individual preview buttons in the audio feedback mode section.
 private let safeLanePreviewCombinations: [(columns: Set<CueColumn>, labelKey: String)] = [
     ([.left], "tutorial_audio_lane_left"),
@@ -78,7 +84,6 @@ public struct AudioCueTutorialContentView: View {
     @State private var selectedAudioFeedbackMode: AudioFeedbackMode = .cueLanePulses
     @State private var selectedLaneMoveCueStyle: LaneMoveCueStyle = .laneConfirmation
     @State private var selectedSpeedWarningFeedbackMode: SpeedWarningFeedbackMode = .none
-    @Environment(\.fontPreferenceStore) private var fontPreferenceStore
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     public init(
@@ -99,21 +104,8 @@ public struct AudioCueTutorialContentView: View {
 
     /// Three columns at default sizes, one at accessibility sizes to prevent overflow.
     private var gridColumns: [GridItem] {
-        let count = dynamicTypeSize.isAccessibilitySize ? 1 : 3
+        let count = AudioCueTutorialLayoutPolicy.gridColumnCount(for: dynamicTypeSize)
         return Array(repeating: GridItem(.flexible()), count: count)
-    }
-
-    private var bodyFont: Font {
-        fontPreferenceStore?.font(textStyle: .body) ?? .body
-    }
-
-    private var captionFont: Font {
-        fontPreferenceStore?.font(textStyle: .caption) ?? .caption
-    }
-
-    /// Level-2 heading: smaller than InGameHelpView's title3 section headers.
-    private var sectionHeaderFont: Font {
-        fontPreferenceStore?.font(textStyle: .headline) ?? .headline
     }
 
     private var laneMoveCueStyles: [LaneMoveCueStyle] {
@@ -171,14 +163,14 @@ public struct AudioCueTutorialContentView: View {
     private var audioFeedbackModeSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text(GameLocalizedStrings.string("tutorial_section_audio_feedback_mode"))
-                .font(sectionHeaderFont)
+                .appFont(.headline)
                 .accessibilityAddTraits(.isHeader)
                 .accessibilityHeading(.h2)
 
             Picker(GameLocalizedStrings.string("tutorial_section_audio_feedback_mode"), selection: $selectedAudioFeedbackMode) {
                 ForEach(AudioFeedbackMode.displayOrder.filter { $0 != .retro }, id: \.self) { mode in
                     Text(GameLocalizedStrings.string(mode.localizedNameKey))
-                        .font(bodyFont)
+                        .appFont(.body)
                         .tag(mode)
                 }
             }
@@ -190,7 +182,7 @@ public struct AudioCueTutorialContentView: View {
             #endif
 
             Text(GameLocalizedStrings.string(descriptionKey(for: selectedAudioFeedbackMode)))
-                .font(captionFont)
+                .appFont(.caption)
                 .foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
 
@@ -209,7 +201,7 @@ public struct AudioCueTutorialContentView: View {
             Button(audioFeedbackModeApplyButtonLabel) {
                 saveAudioFeedbackMode(selectedAudioFeedbackMode)
             }
-            .font(captionFont)
+            .appFont(.caption)
             .retroRacingPrimaryButtonStyle()
             .disabled(isAudioFeedbackModeConfigured)
         }
@@ -244,14 +236,14 @@ public struct AudioCueTutorialContentView: View {
     private var laneChangeCueSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text(GameLocalizedStrings.string("tutorial_section_lane_change_cue"))
-                .font(sectionHeaderFont)
+                .appFont(.headline)
                 .accessibilityAddTraits(.isHeader)
                 .accessibilityHeading(.h2)
 
             Picker(GameLocalizedStrings.string("tutorial_section_lane_change_cue"), selection: $selectedLaneMoveCueStyle) {
                 ForEach(laneMoveCueStyles, id: \.self) { style in
                     Text(GameLocalizedStrings.string(style.localizedNameKey))
-                        .font(bodyFont)
+                        .appFont(.body)
                         .tag(style)
                 }
             }
@@ -263,7 +255,7 @@ public struct AudioCueTutorialContentView: View {
             #endif
 
             Text(GameLocalizedStrings.string(descriptionKey(for: selectedLaneMoveCueStyle)))
-                .font(captionFont)
+                .appFont(.caption)
                 .foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
 
@@ -275,7 +267,7 @@ public struct AudioCueTutorialContentView: View {
                     forKey: LaneMoveCueStyle.storageKey
                 )
             }
-            .font(captionFont)
+            .appFont(.caption)
             .retroRacingPrimaryButtonStyle()
             .disabled(isLaneMoveCueStyleConfigured)
         }
@@ -345,7 +337,7 @@ public struct AudioCueTutorialContentView: View {
         VStack(alignment: .leading, spacing: 12) {
             if showSpeedWarningSectionHeader {
                 Text(GameLocalizedStrings.string("tutorial_section_speed_warning_feedback"))
-                    .font(sectionHeaderFont)
+                    .appFont(.headline)
                     .accessibilityAddTraits(.isHeader)
                     .accessibilityHeading(.h2)
             }
@@ -356,7 +348,7 @@ public struct AudioCueTutorialContentView: View {
             ) {
                 ForEach(speedWarningFeedbackModes, id: \.self) { mode in
                     Text(GameLocalizedStrings.string(mode.localizedNameKey))
-                        .font(bodyFont)
+                        .appFont(.body)
                         .tag(mode)
                 }
             }
@@ -368,7 +360,7 @@ public struct AudioCueTutorialContentView: View {
             #endif
 
             Text(GameLocalizedStrings.string(speedWarningDescriptionKey(for: selectedSpeedWarningFeedbackMode)))
-                .font(captionFont)
+                .appFont(.caption)
                 .foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
 
@@ -379,7 +371,7 @@ public struct AudioCueTutorialContentView: View {
             Button(speedWarningFeedbackModeApplyButtonLabel) {
                 saveSpeedWarningFeedbackMode(selectedSpeedWarningFeedbackMode)
             }
-            .font(captionFont)
+            .appFont(.caption)
             .retroRacingPrimaryButtonStyle()
             .disabled(isSpeedWarningFeedbackModeConfigured)
         }
@@ -416,7 +408,7 @@ public struct AudioCueTutorialContentView: View {
             Label(label, systemImage: "play.fill")
                 .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .font(bodyFont)
+        .appFont(.body)
         .retroRacingSecondaryButtonStyle()
         .accessibilityLabel(label)
         .accessibilityAddTraits([.playsSound, .startsMediaSession])

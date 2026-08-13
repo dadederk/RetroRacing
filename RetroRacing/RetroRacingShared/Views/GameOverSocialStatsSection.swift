@@ -11,8 +11,6 @@ struct GameOverSocialStatsSection: View {
     let nextFriendAhead: GameOverFriendAheadSummary?
     let overtakenFriends: [GameOverOvertakenFriendSummary]
     let avatarSize: CGFloat
-    let bodyFont: Font
-    let scoreFont: Font
 
     var body: some View {
         if nextFriendAhead != nil || overtakenFriends.isEmpty == false {
@@ -28,7 +26,7 @@ struct GameOverSocialStatsSection: View {
     private var nextFriendAheadSection: some View {
         if let nextFriendAhead {
             Text(GameLocalizedStrings.string("game_over_next_friend_ahead_title"))
-                .font(bodyFont)
+                .appFont(.body)
                 .foregroundStyle(.secondary)
             friendScoreRow(
                 displayName: nextFriendAhead.displayName,
@@ -43,7 +41,7 @@ struct GameOverSocialStatsSection: View {
     private var overtakenFriendsSection: some View {
         if overtakenFriends.isEmpty == false {
             Text(GameLocalizedStrings.string("game_over_overtaken_friends_title"))
-                .font(bodyFont)
+                .appFont(.body)
                 .foregroundStyle(.secondary)
 
             ForEach(Array(overtakenFriends.prefix(3))) { friend in
@@ -62,7 +60,7 @@ struct GameOverSocialStatsSection: View {
                         Int64(hiddenCount)
                     )
                 )
-                .font(bodyFont)
+                .appFont(.body)
                 .foregroundStyle(.secondary)
             }
         }
@@ -79,8 +77,6 @@ struct GameOverSocialStatsSection: View {
             score: score,
             avatarPNGData: avatarPNGData,
             avatarSize: avatarSize,
-            bodyFont: bodyFont,
-            scoreFont: scoreFont,
             showsMilestoneRing: showsMilestoneRing
         )
     }

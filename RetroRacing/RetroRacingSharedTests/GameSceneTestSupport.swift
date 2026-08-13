@@ -23,8 +23,7 @@ extension GameScene {
         hapticController: HapticFeedbackController? = nil,
         audioFeedbackMode: AudioFeedbackMode = .defaultMode,
         laneMoveCueStyle: LaneMoveCueStyle = .defaultStyle,
-        bigRivalCarsEnabled: Bool = false,
-        roadVisualStyle: RoadVisualStyle = .defaultStyle
+        bigRivalCarsEnabled: Bool = false
     ) -> GameScene {
         scene(
             size: size,
@@ -37,8 +36,7 @@ extension GameScene {
             hapticController: hapticController,
             audioFeedbackMode: audioFeedbackMode,
             laneMoveCueStyle: laneMoveCueStyle,
-            bigRivalCarsEnabled: bigRivalCarsEnabled,
-            roadVisualStyle: roadVisualStyle
+            bigRivalCarsEnabled: bigRivalCarsEnabled
         )
     }
 }

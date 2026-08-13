@@ -13,7 +13,6 @@ struct ClassicRaceSpriteView: View {
     @Environment(VisionGameSessionCoordinator.self) private var session
     @AppStorage(DirectTouchSetting.conditionalDefaultStorageKey) private var directTouchData = Data()
     @AppStorage(BigCarsSetting.conditionalDefaultStorageKey) private var bigCarsData = Data()
-    @AppStorage(RoadVisualStyle.storageKey) private var roadVisualStyleRawValue = RoadVisualStyle.defaultStyle.rawValue
     @AccessibilityFocusState private var isAccessibilityFocused: Bool
     @State private var scene: GameScene?
 
@@ -69,9 +68,6 @@ struct ClassicRaceSpriteView: View {
         .onChange(of: bigCarsData) {
             scene?.setBigRivalCarsEnabled(usesBigCars)
         }
-        .onChange(of: roadVisualStyleRawValue) {
-            scene?.setRoadVisualStyle(roadVisualStyle)
-        }
     }
 
     @ViewBuilder
@@ -83,10 +79,6 @@ struct ClassicRaceSpriteView: View {
         } else {
             theme.gridCellColor()
         }
-    }
-
-    private var roadVisualStyle: RoadVisualStyle {
-        RoadVisualStyle.fromStoredValue(roadVisualStyleRawValue)
     }
 
     private var usesBigCars: Bool {
@@ -135,8 +127,7 @@ struct ClassicRaceSpriteView: View {
                 snapshot: snapshot,
                 theme: theme,
                 imageLoader: imageLoader,
-                bigRivalCarsEnabled: usesBigCars,
-                roadVisualStyle: roadVisualStyle
+                bigRivalCarsEnabled: usesBigCars
             )
             return
         }

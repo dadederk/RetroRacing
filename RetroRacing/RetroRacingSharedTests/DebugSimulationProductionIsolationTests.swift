@@ -32,6 +32,17 @@ final class DebugSimulationProductionIsolationTests: XCTestCase {
     }
     
     // MARK: - Production Mode Tests
+
+    func testGivenStoredDebugAlternateIconFlagWhenDebugFeaturesAreDisallowedThenFeatureStaysOff() {
+        userDefaults.set(true, forKey: DebugGameplayStorageKeys.alternateAppIconsEnabled)
+
+        let isEnabled = DebugGameplayStorageKeys.areAlternateAppIconsEnabled(
+            userDefaults: userDefaults,
+            debugFeaturesAllowed: false
+        )
+
+        XCTAssertFalse(isEnabled)
+    }
     
     func testGivenProductionBuildWhenSettingSimulationModeThenAlwaysRevertsToProductionDefault() {
         // Given
@@ -50,6 +61,25 @@ final class DebugSimulationProductionIsolationTests: XCTestCase {
         // Then
         XCTAssertEqual(afterUnlimited, .productionDefault)
         XCTAssertEqual(afterFreemium, .productionDefault)
+    }
+
+    func testGivenStoredDebugPremiumModeWhenDebugFeaturesAreDisallowedThenStoredChoiceIsIgnored() {
+        // Given
+        userDefaults.set(
+            StoreKitService.DebugPremiumSimulationMode.unlimitedPlays.rawValue,
+            forKey: StoreKitService.DebugStorageKeys.premiumSimulationMode
+        )
+
+        // When
+        let service = StoreKitService(
+            userDefaults: userDefaults,
+            isDebugSimulationEnabled: false,
+            refreshEntitlementsOnInit: false
+        )
+
+        // Then
+        XCTAssertEqual(service.debugPremiumSimulationMode, .productionDefault)
+        XCTAssertEqual(service.hasPremiumAccess, !service.purchasedProductIDs.isEmpty)
     }
     
     func testGivenProductionBuildWhenCheckingPremiumAccessThenAlwaysUsesRealEntitlements() {

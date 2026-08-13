@@ -33,7 +33,7 @@ extension GameOverView {
 
     var subtitleText: some View {
         Text(GameLocalizedStrings.string(isNewRecord ? "game_over_new_record_subtitle" : "game_over_encouragement_subtitle"))
-            .font(bodyFont)
+            .appFont(.body)
             .multilineTextAlignment(.center)
             .foregroundStyle(.secondary)
     }
@@ -64,13 +64,14 @@ extension GameOverView {
                 Text(GameLocalizedStrings.format("game_over_best %lld", Int64(bestScore)))
             }
         }
-        .font(scoreFont.monospacedDigit())
+        .appFont(.headline)
+        .monospacedDigit()
         .multilineTextAlignment(.center)
     }
 
     var speedRow: some View {
         Text(GameLocalizedStrings.format("game_over_speed %@", GameLocalizedStrings.string(difficulty.localizedNameKey)))
-            .font(bodyFont)
+            .appFont(.body)
             .multilineTextAlignment(.center)
             .foregroundStyle(.secondary)
     }
@@ -80,9 +81,7 @@ extension GameOverView {
         GameOverSocialStatsSection(
             nextFriendAhead: nextFriendAhead,
             overtakenFriends: overtakenFriends,
-            avatarSize: avatarSize,
-            bodyFont: bodyFont,
-            scoreFont: scoreFont
+            avatarSize: avatarSize
         )
     }
 
@@ -103,28 +102,16 @@ extension GameOverView {
         VStack(spacing: 10) {
             Button(action: onRestart) {
                 Text(GameLocalizedStrings.string("restart"))
-                    .font(buttonFont)
+                    .appFont(.headline)
             }
             .retroRacingPrimaryButtonStyle()
 
             Button(action: onFinish) {
                 Text(GameLocalizedStrings.string("finish"))
-                    .font(buttonFont)
+                    .appFont(.headline)
             }
             .retroRacingSecondaryButtonStyle()
         }
-    }
-
-    var bodyFont: Font {
-        fontPreferenceStore?.font(textStyle: .body) ?? .body
-    }
-
-    var scoreFont: Font {
-        fontPreferenceStore?.font(textStyle: .headline) ?? .headline
-    }
-
-    var buttonFont: Font {
-        fontPreferenceStore?.font(textStyle: .headline) ?? .headline
     }
 
     var gameOverContentSpacing: CGFloat {

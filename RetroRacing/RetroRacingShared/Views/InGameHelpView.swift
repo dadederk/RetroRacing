@@ -17,7 +17,6 @@ public struct InGameHelpView: View {
     public let presentation: NavigationSurfacePresentation
 
     @Environment(\.dismiss) private var dismiss
-    @Environment(\.fontPreferenceStore) private var fontPreferenceStore
     @AppStorage(AudioFeedbackMode.conditionalDefaultStorageKey)
     private var audioFeedbackModeData: Data = Data()
     @AppStorage(SpeedWarningFeedbackMode.conditionalDefaultStorageKey)
@@ -39,10 +38,6 @@ public struct InGameHelpView: View {
         self.presentation = presentation
     }
 
-    private var sectionHeaderFont: Font {
-        (fontPreferenceStore?.font(textStyle: .title3) ?? .title3).weight(.semibold)
-    }
-
     public var body: some View {
         if presentation == .modal {
             NavigationStack {
@@ -52,7 +47,7 @@ public struct InGameHelpView: View {
                             Button(GameLocalizedStrings.string("done")) {
                                 dismiss()
                             }
-                            .font(fontPreferenceStore?.font(textStyle: .body) ?? .body)
+                            .appFont(.body)
                         }
                     }
             }
@@ -67,12 +62,12 @@ public struct InGameHelpView: View {
                 if VoiceOverStatus.isVoiceOverRunning {
                     VStack(alignment: .leading, spacing: 8) {
                         Text(GameLocalizedStrings.string("tutorial_section_description"))
-                            .font(sectionHeaderFont)
+                            .appFont(.title3, weightTier: .semibold)
                             .accessibilityAddTraits(.isHeader)
                             .accessibilityHeading(.h1)
 
                         Text(GameLocalizedStrings.string("tutorial_voiceover_intro"))
-                            .font(fontPreferenceStore?.font(textStyle: .body) ?? .body)
+                            .appFont(.body)
                             .foregroundStyle(.secondary)
                             .fixedSize(horizontal: false, vertical: true)
                     }
@@ -80,7 +75,7 @@ public struct InGameHelpView: View {
 
                 VStack(alignment: .leading, spacing: 8) {
                     Text(GameLocalizedStrings.string("settings_controls"))
-                        .font(sectionHeaderFont)
+                        .appFont(.title3, weightTier: .semibold)
                         .accessibilityAddTraits(.isHeader)
                         .accessibilityHeading(.h1)
 
@@ -90,7 +85,7 @@ public struct InGameHelpView: View {
                 if selectedAudioFeedbackMode.supportsAudioCueTutorial {
                     VStack(alignment: .leading, spacing: 8) {
                         Text(GameLocalizedStrings.string("tutorial_audio_title"))
-                            .font(sectionHeaderFont)
+                            .appFont(.title3, weightTier: .semibold)
                             .accessibilityAddTraits(.isHeader)
                             .accessibilityHeading(.h1)
 
@@ -105,7 +100,7 @@ public struct InGameHelpView: View {
                 } else if selectedSpeedWarningFeedbackMode != .none {
                     VStack(alignment: .leading, spacing: 8) {
                         Text(GameLocalizedStrings.string("settings_speed_warning_feedback"))
-                            .font(sectionHeaderFont)
+                            .appFont(.title3, weightTier: .semibold)
                             .accessibilityAddTraits(.isHeader)
                             .accessibilityHeading(.h1)
 

@@ -14,13 +14,13 @@ extension AchievementUnlockView {
         if let shareImageURL {
             ShareLink(item: shareImageURL) {
                 Label(GameLocalizedStrings.string("share_action"), systemImage: "square.and.arrow.up")
-                    .font(bodyFont)
+                    .appFont(.body)
             }
             .accessibilityLabel(GameLocalizedStrings.string("share_action"))
         } else {
             Button(action: refreshShareImage) {
                 Label(GameLocalizedStrings.string("share_action"), systemImage: "square.and.arrow.up")
-                    .font(bodyFont)
+                    .appFont(.body)
             }
             .accessibilityLabel(GameLocalizedStrings.string("share_action"))
         }
@@ -29,7 +29,9 @@ extension AchievementUnlockView {
     var shareContentView: some View {
         ShareCardCanvas(colorScheme: colorScheme) {
             VStack(spacing: 28) {
-                ShareCardGameTitle(font: fontPreferenceStore?.font(textStyle: .largeTitle) ?? .largeTitle)
+                ShareCardGameTitle(
+                    font: AppFontResolver.font(for: .largeTitle, typography: appTypography)
+                )
                 achievementShareCard
             }
             .padding(.horizontal, 40)
@@ -37,6 +39,7 @@ extension AchievementUnlockView {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .frame(width: 1200, height: 900)
+        .appTypography(appTypography)
     }
 
     var achievementShareCard: some View {
@@ -44,15 +47,15 @@ extension AchievementUnlockView {
             achievementArtwork(maxWidth: 460)
 
             Text(GameLocalizedStrings.string("achievement_modal_title"))
-                .font(scoreFont)
+                .appFont(.headline)
                 .multilineTextAlignment(.center)
 
             Text(achievementTitle)
-                .font(bodyFont)
+                .appFont(.body)
                 .multilineTextAlignment(.center)
 
             Text(achievementDescription)
-                .font(bodyFont)
+                .appFont(.body)
                 .multilineTextAlignment(.center)
                 .foregroundStyle(.secondary)
         }

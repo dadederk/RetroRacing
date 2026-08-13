@@ -76,12 +76,14 @@ struct GameLayoutPolicy: Equatable {
         horizontalSizeClass: UserInterfaceSizeClass?,
         verticalSizeClass: UserInterfaceSizeClass?,
         platformSupportsTopSafeAreaExpansion: Bool,
-        isScreenshotCapture: Bool
+        isScreenshotCapture: Bool,
+        usesAccessibilityLayout: Bool = false
     ) -> GameLayoutPolicy {
         let kind = GameLayoutKind.resolve(
             containerSize: containerSize,
             horizontalSizeClass: horizontalSizeClass,
-            verticalSizeClass: verticalSizeClass
+            verticalSizeClass: verticalSizeClass,
+            usesAccessibilityLayout: usesAccessibilityLayout
         )
         let expandsGameAreaIntoTopSafeArea = platformSupportsTopSafeAreaExpansion
             && !isScreenshotCapture
@@ -102,8 +104,13 @@ enum GameLayoutKind: Equatable {
     static func resolve(
         containerSize: CGSize,
         horizontalSizeClass: UserInterfaceSizeClass?,
-        verticalSizeClass: UserInterfaceSizeClass?
+        verticalSizeClass: UserInterfaceSizeClass?,
+        usesAccessibilityLayout: Bool = false
     ) -> GameLayoutKind {
+        if usesAccessibilityLayout {
+            return horizontalSizeClass == .regular ? .portraitCentered : .portrait
+        }
+
         let isWide = containerSize.width > containerSize.height
         guard isWide else {
             return horizontalSizeClass == .regular ? .portraitCentered : .portrait

@@ -9,45 +9,59 @@ import SwiftUI
 
 struct MenuUtilityActionsView: View {
     let showsHelp: Bool
-    let font: Font
     let onHelp: () -> Void
     let onSettings: () -> Void
+    @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
+    @ViewBuilder
     var body: some View {
-        HStack(spacing: 24) {
-            if showsHelp {
-                Button(action: onHelp) {
-                    utilityLabel(
-                        title: GameLocalizedStrings.string("tutorial_help_button"),
-                        systemImage: "questionmark.circle"
-                    )
-                }
-                .fixedSize(horizontal: true, vertical: false)
-                .accessibilityIdentifier("menu_help")
+        if MenuLayoutPolicy.usesVerticalUtilityActions(for: dynamicTypeSize) {
+            VStack(alignment: .trailing, spacing: 12) { utilityActions }
+                .utilityActionStyle()
+        } else {
+            ViewThatFits(in: .horizontal) {
+                HStack(spacing: 24) { utilityActions }
+                VStack(alignment: .trailing, spacing: 12) { utilityActions }
             }
+            .utilityActionStyle()
+        }
+    }
 
-            Button(action: onSettings) {
+    @ViewBuilder
+    private var utilityActions: some View {
+        if showsHelp {
+            Button(action: onHelp) {
                 utilityLabel(
-                    title: GameLocalizedStrings.string("settings"),
-                    systemImage: "gearshape"
+                    title: GameLocalizedStrings.string("tutorial_help_button"),
+                    systemImage: "questionmark.circle"
                 )
             }
-            .fixedSize(horizontal: true, vertical: false)
-            .accessibilityIdentifier("menu_settings")
+            .accessibilityIdentifier("menu_help")
         }
-        .fixedSize(horizontal: true, vertical: false)
-        .buttonStyle(.bordered)
-        .controlSize(.large)
+
+        Button(action: onSettings) {
+            utilityLabel(
+                title: GameLocalizedStrings.string("settings"),
+                systemImage: "gearshape"
+            )
+        }
+        .accessibilityIdentifier("menu_settings")
     }
 
     private func utilityLabel(title: String, systemImage: String) -> some View {
         Label {
             Text(title)
-                .lineLimit(1)
-                .fixedSize(horizontal: true, vertical: false)
+                .multilineTextAlignment(.leading)
         } icon: {
             Image(systemName: systemImage)
         }
-        .font(font)
+        .appFont(.headline)
+    }
+}
+
+private extension View {
+    func utilityActionStyle() -> some View {
+        buttonStyle(.bordered)
+            .controlSize(.large)
     }
 }

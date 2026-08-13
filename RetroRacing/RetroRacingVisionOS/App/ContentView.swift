@@ -165,6 +165,7 @@ struct ContentView: View {
             leaderboardConfiguration: dependencies.leaderboardConfiguration,
             authenticationPresenter: dependencies.authenticationPresenter,
             themeManager: dependencies.themeManager,
+            appIconService: dependencies.appIconService,
             fontPreferenceStore: dependencies.fontPreferenceStore,
             hapticController: dependencies.hapticController,
             supportsHapticFeedback: false,
@@ -201,6 +202,7 @@ struct ContentView: View {
 
         return SettingsView(
             themeManager: dependencies.themeManager,
+            appIconService: dependencies.appIconService,
             fontPreferenceStore: dependencies.fontPreferenceStore,
             supportsHapticFeedback: false,
             hapticController: dependencies.hapticController,

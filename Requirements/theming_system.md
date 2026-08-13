@@ -43,10 +43,11 @@
 - Platform-specific presentation can vary, but selection and access rules should remain shared.
 - Theme selectors present established shared themes in Pocket, LCD, Cartridge, CRT order even when the platform default is not first, followed by included Disc and Polygon themes. visionOS exposes the complete six-theme gallery in that shared order.
 - Settings exposes a selectable Style Gallery with one section per shared theme. Each section shows the theme's player car, rival car, player helmet, friend/rival helmet, crash sprite, and a four-color road palette: road surface, road lines, road exterior, and finish/lap marker. Preview rows provide theme-specific localized accessibility descriptions that summarize both the contents and the style's mood.
-- On tvOS, the complete Style Gallery is embedded directly in the Theme category page alongside font and road-appearance settings; other platforms retain the standalone gallery destination.
-- Unlimited Plays users keep the Settings theme selector and can open the Style Gallery from a disclosure row. The gallery marks the current theme with a checkmark and allows selecting accessible themes. Free users can open the gallery from the Theme row, inspect every theme, and use the gallery's top-of-list Unlimited Plays call to action to present the paywall. When a free user taps a locked non-current theme, the gallery presents the paywall instead of changing the selection. The call to action uses primary-contrast body copy rather than low-contrast footer text.
-- The Cartridge detailed road uses a medium grey surface on a lighter grey exterior field. Yellow road lines and finish/lap markers keep at least 3:1 contrast with the road surface in normal and Increase Contrast modes.
-- The CRT detailed road temporarily shares the Cartridge grey road surface and yellow line palette while using a grass exterior field. Its road lines and finish/lap markers keep at least 3:1 contrast with the road; theme text keeps at least 4.5:1 contrast with both road and exterior colors.
+- On tvOS, the complete Style Gallery is embedded directly in the Theme category page alongside font and Big Cars settings; other platforms retain the standalone gallery destination.
+- Unlimited Plays users keep the Settings theme selector and can open the Style Gallery from a disclosure row. Premium Style changes wait for the first authoritative entitlement refresh; cached returning-purchaser state may suppress free-tier chrome but must never authorize a one-time Style change. The gallery marks the current theme with a checkmark and allows selecting accessible themes. Free users can open the gallery from the Theme row, inspect every theme, and use the gallery's top-of-list Unlimited Plays call to action to present the paywall. When a free user taps a locked non-current theme, the gallery presents the paywall instead of changing the selection. The call to action uses primary-contrast body copy rather than low-contrast footer text.
+- On supported iPhone and iPad builds, the feature-flagged **App Icon** disclosure sits in the same Theme section directly after the Style controls. Icon choice remains independent from gameplay Style; the destination reuses the Style Gallery's native list and Unlimited Plays prompt patterns while preserving the icon catalog's Classic, Themes, and Special Editions groups.
+- The Cartridge perspective road uses a medium grey surface on a lighter grey exterior field. Yellow road lines and finish/lap markers keep at least 3:1 contrast with the road surface in normal and Increase Contrast modes.
+- The CRT perspective road temporarily shares the Cartridge grey road surface and yellow line palette while using a grass exterior field. Its road lines and finish/lap markers keep at least 3:1 contrast with the road; theme text keeps at least 4.5:1 contrast with both road and exterior colors.
 - The experimental Disc road uses dark asphalt, a deep-teal exterior, aqua lane lines, and a warm-yellow lap marker. The Polygon road uses midnight asphalt, a darker teal exterior, white lane lines, and a neon-aqua lap marker. Both themes keep at least 3:1 marker contrast with the road and at least 4.5:1 text contrast with road and exterior colors.
 - Stored theme IDs remain persisted when their themes become inaccessible. The platform default is shown until Unlimited Plays becomes available again, at which point the stored selection is restored.
 
@@ -81,7 +82,7 @@ swift run --package-path Scripts generate-road-dash-masks --check
 
 - Themes must preserve readable contrast for HUD, lane markers, cars, and overlays.
 - Reduce Motion and high-contrast settings must continue to apply above theme styling.
-- Big Cars and simplified road settings may alter marker rendering; see [road_markers.md](road_markers.md).
+- Big Cars replaces perspective road and lap markers with flat vertical dashed separators; see [road_markers.md](road_markers.md).
 
 ## Testing
 

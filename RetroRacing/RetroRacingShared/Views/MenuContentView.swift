@@ -9,7 +9,6 @@ import SwiftUI
 
 struct MenuContentView: View {
     let style: MenuViewStyle
-    let fontPreferenceStore: FontPreferenceStore
     let menuFocusScope: Namespace.ID
     let showRateButton: Bool
     let showSupportButton: Bool
@@ -36,22 +35,13 @@ struct MenuContentView: View {
         }
     }
 
-    @ViewBuilder
     private var titleView: some View {
-        if style.allowsDynamicType {
-            Text(GameLocalizedStrings.string("gameName"))
-                .font(fontPreferenceStore.font(textStyle: .largeTitle))
-                .dynamicTypeSize(.xSmall ... .xxxLarge)
-                .padding(.top, titleTopPadding)
-                .padding(.bottom, style.titleBottomPadding)
-                .accessibilityAddTraits(.isHeader)
-        } else {
-            Text(GameLocalizedStrings.string("gameName"))
-                .font(fontPreferenceStore.font(fixedSize: style.titleFontSize))
-                .padding(.top, titleTopPadding)
-                .padding(.bottom, style.titleBottomPadding)
-                .accessibilityAddTraits(.isHeader)
-        }
+        BrandMark.text
+            .appFont(MenuLayoutPolicy.titleTextStyle)
+            .multilineTextAlignment(.center)
+            .padding(.top, titleTopPadding)
+            .padding(.bottom, style.titleBottomPadding)
+            .accessibilityAddTraits(.isHeader)
     }
 
     private var titleTopPadding: CGFloat {
@@ -65,7 +55,7 @@ struct MenuContentView: View {
                 menuPlayWithFriendsButton
                 if showPlayWithFriendsFreeFootnote {
                     Text(GameLocalizedStrings.string("menu_play_with_friends_free_footer"))
-                        .font(promptFont)
+                        .appFont(.footnote)
                         .multilineTextAlignment(.center)
                         .foregroundStyle(.secondary)
                         .padding(.horizontal, 4)
@@ -83,7 +73,7 @@ struct MenuContentView: View {
             Divider()
                 .padding([.top, .leading, .trailing])
             Text(GameLocalizedStrings.string(showSupportButton ? "menu_engagement_prompt" : "menu_engagement_prompt_rate_only"))
-                .font(promptFont)
+                .appFont(.footnote)
                 .multilineTextAlignment(.center)
                 .foregroundStyle(.secondary)
                 .accessibilityAddTraits(.isHeader)
@@ -97,25 +87,13 @@ struct MenuContentView: View {
         .animation(.easeInOut(duration: 0.2), value: showSupportButton)
     }
 
-    private var buttonFont: Font {
-        style.allowsDynamicType
-            ? fontPreferenceStore.font(textStyle: .headline)
-            : fontPreferenceStore.font(fixedSize: style.buttonFontSize)
-    }
-
-    private var promptFont: Font {
-        style.allowsDynamicType
-            ? fontPreferenceStore.font(textStyle: .footnote)
-            : fontPreferenceStore.font(fixedSize: max(12, style.buttonFontSize - 4))
-    }
-
     private var menuPlayButton: some View {
         Button {
             onPlay()
         } label: {
             Label {
                 Text(GameLocalizedStrings.string("play"))
-                    .font(buttonFont)
+                    .appFont(.headline)
             } icon: {
                 Image(systemName: "play.fill")
             }
@@ -136,7 +114,7 @@ struct MenuContentView: View {
         } label: {
             Label {
                 Text(GameLocalizedStrings.string("menu_play_with_friends"))
-                    .font(buttonFont)
+                    .appFont(.headline)
                     .foregroundStyle(Color.accentColor)
             } icon: {
                 Image(systemName: "shareplay")
@@ -155,7 +133,7 @@ struct MenuContentView: View {
         } label: {
             Label {
                 Text(GameLocalizedStrings.string("leaderboard"))
-                    .font(buttonFont)
+                    .appFont(.headline)
             } icon: {
                 Image(systemName: "trophy.fill")
             }
@@ -176,7 +154,7 @@ struct MenuContentView: View {
             onRate()
         } label: {
             Text(GameLocalizedStrings.string("menu_rate_game"))
-                .font(buttonFont)
+                .appFont(.headline)
         }
         .retroRacingSecondaryButtonStyle()
         .controlSize(.large)
@@ -187,7 +165,7 @@ struct MenuContentView: View {
             onSupport()
         } label: {
             Text(GameLocalizedStrings.string("menu_support_game"))
-                .font(buttonFont)
+                .appFont(.headline)
         }
         .retroRacingSecondaryButtonStyle()
         .controlSize(.large)

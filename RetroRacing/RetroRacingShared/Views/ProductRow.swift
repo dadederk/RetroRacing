@@ -18,7 +18,6 @@ struct ProductRow: View {
     let state: ProductRowState
     let onPurchase: () async -> Void
 
-    @Environment(\.fontPreferenceStore) private var fontPreferenceStore
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
 
     var body: some View {
@@ -35,14 +34,14 @@ struct ProductRow: View {
             layout {
                 VStack(alignment: .leading, spacing: 4) {
                     Text(GameLocalizedStrings.string("product_unlimited_plays"))
-                        .font(fontPreferenceStore?.font(textStyle: .headline) ?? .headline)
+                        .appFont(.headline)
                     if state.hasPurchased {
                         Text(GameLocalizedStrings.string("purchase_success_message"))
-                            .font(fontPreferenceStore?.font(textStyle: .subheadline) ?? .subheadline)
+                            .appFont(.subheadline)
                             .foregroundStyle(.secondary)
                     } else {
                         Text(product.description)
-                            .font(fontPreferenceStore?.font(textStyle: .subheadline) ?? .subheadline)
+                            .appFont(.subheadline)
                             .foregroundStyle(.secondary)
                     }
                 }
@@ -70,7 +69,7 @@ struct ProductRow: View {
                 .accessibilityHidden(true)
         } else {
             Text(product.displayPrice)
-                .font(fontPreferenceStore?.font(textStyle: .subheadline) ?? .subheadline)
+                .appFont(.subheadline)
                 .foregroundStyle(Color.accentColor)
         }
     }

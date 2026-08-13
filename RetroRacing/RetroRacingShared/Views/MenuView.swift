@@ -28,6 +28,7 @@ public struct MenuView: View {
     public let ratingService: RatingService
     public let leaderboardConfiguration: LeaderboardConfiguration
     public let themeManager: ThemeManager
+    public let appIconService: AppIconService
     public let fontPreferenceStore: FontPreferenceStore
     public let hapticController: HapticFeedbackController
     /// Injected by app; when false, haptic setting is hidden (device has no haptics).
@@ -71,6 +72,7 @@ public struct MenuView: View {
         leaderboardConfiguration: LeaderboardConfiguration,
         authenticationPresenter: AuthenticationPresenter,
         themeManager: ThemeManager,
+        appIconService: AppIconService,
         fontPreferenceStore: FontPreferenceStore,
         hapticController: HapticFeedbackController,
         supportsHapticFeedback: Bool,
@@ -93,6 +95,7 @@ public struct MenuView: View {
         self.ratingService = ratingService
         self.leaderboardConfiguration = leaderboardConfiguration
         self.themeManager = themeManager
+        self.appIconService = appIconService
         self.fontPreferenceStore = fontPreferenceStore
         self.hapticController = hapticController
         self.supportsHapticFeedback = supportsHapticFeedback
@@ -125,7 +128,6 @@ public struct MenuView: View {
                     if style.utilityActionPlacement == .content {
                         MenuUtilityActionsView(
                             showsHelp: style.showsHelpAction,
-                            font: fontPreferenceStore.font(fixedSize: style.utilityActionFontSize),
                             onHelp: presentHelp,
                             onSettings: presentSettings
                         )
@@ -147,6 +149,7 @@ public struct MenuView: View {
                                     Image(systemName: "questionmark.circle")
                                 }
                                 .accessibilityLabel(GameLocalizedStrings.string("tutorial_help_button"))
+                                .accessibilityShowsLargeContentViewer()
                             }
                             Button {
                                 presentSettings()
@@ -154,6 +157,7 @@ public struct MenuView: View {
                                 Image(systemName: "gearshape")
                             }
                             .accessibilityLabel(GameLocalizedStrings.string("settings"))
+                            .accessibilityShowsLargeContentViewer()
                         }
                     }
                 }
@@ -208,18 +212,14 @@ public struct MenuView: View {
         }
     }
 
-    @ViewBuilder
     private var menuContentContainer: some View {
-        if style.allowsDynamicType {
-            ScrollView {
-                paddedMenuContent
-                    .frame(maxWidth: .infinity, alignment: .center)
-                    .padding(.vertical, 8)
-            }
-            .scrollIndicators(.hidden)
-        } else {
+        ScrollView {
             paddedMenuContent
+                .frame(maxWidth: .infinity, alignment: .center)
+                .padding(.vertical, 8)
         }
+        .scrollIndicators(.hidden)
+        .scrollDisabled(!MenuLayoutPolicy.isScrollingEnabled)
     }
 
     @ViewBuilder
@@ -235,7 +235,6 @@ public struct MenuView: View {
     private var menuContent: some View {
         MenuContentView(
             style: style,
-            fontPreferenceStore: fontPreferenceStore,
             menuFocusScope: menuFocusScope,
             showRateButton: shouldShowRateButton,
             showSupportButton: shouldShowSupportButton,
@@ -277,6 +276,7 @@ public struct MenuView: View {
         )
         return SettingsView(
             themeManager: themeManager,
+            appIconService: appIconService,
             fontPreferenceStore: fontPreferenceStore,
             supportsHapticFeedback: supportsHapticFeedback,
             hapticController: hapticController,

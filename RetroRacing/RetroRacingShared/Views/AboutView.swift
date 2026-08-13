@@ -18,7 +18,6 @@ private enum AboutViewURLs {
     static let linkedin = URL(string: "https://www.linkedin.com/in/danieldevesa/")
     static let ammec = ExternalLinks.ammec
     static let swiftForSwifts = URL(string: "https://www.swiftforswifts.org")
-    static let pressStartFont = URL(string: "https://fonts.google.com/specimen/Press+Start+2P")
     static let helm = URL(string: "https://helm-app.com")
     static let arcticConference = URL(string: "https://arcticonference.com")
 }
@@ -32,14 +31,9 @@ private struct IdentifiableURL: Identifiable {
 /// About screen: app info, rate, social links, giving back, credits, and footer.
 public struct AboutView: View {
     @Environment(\.openURL) private var openURL
-    @Environment(\.fontPreferenceStore) private var fontPreferenceStore
     #if os(iOS)
     @State private var safariURL: IdentifiableURL?
     #endif
-
-    private var sectionHeaderFont: Font {
-        fontPreferenceStore?.font(textStyle: .headline) ?? .headline
-    }
 
     public var body: some View {
         List {
@@ -48,6 +42,7 @@ public struct AboutView: View {
             connectSection
             givingBackSection
             alsoSupportingSection
+            fontsSection
             creditsSection
             footerSection
         }
@@ -83,7 +78,7 @@ public struct AboutView: View {
                         .foregroundStyle(.tint)
                         .accessibilityHidden(true)
                     Text(GameLocalizedStrings.string("about_rate_title"))
-                        .font(fontPreferenceStore?.font(textStyle: .body) ?? .body)
+                        .appFont(.body)
                         .foregroundStyle(.primary)
                 }
             }
@@ -123,7 +118,7 @@ public struct AboutView: View {
             aboutSectionHeader("about_giving_back_header")
         } footer: {
             Text(.init(GameLocalizedStrings.string("paywall_giving_back_body")))
-                .font(fontPreferenceStore?.font(textStyle: .subheadline) ?? .subheadline)
+                .appFont(.subheadline)
         }
     }
 
@@ -139,14 +134,6 @@ public struct AboutView: View {
 
     private var creditsSection: some View {
         Section {
-            if let url = AboutViewURLs.pressStartFont {
-                linkRow(
-                    icon: "textformat",
-                    title: GameLocalizedStrings.string("about_font_press_start"),
-                    subtitle: GameLocalizedStrings.string("about_font_license"),
-                    url: url
-                )
-            }
             if let url = AboutViewURLs.helm {
                 linkRow(
                     icon: "helm",
@@ -168,6 +155,31 @@ public struct AboutView: View {
         }
     }
 
+    private var fontsSection: some View {
+        Section {
+            ForEach(AppFontAttribution.all) { attribution in
+                NavigationLink {
+                    AppFontAttributionView(attribution: attribution)
+                } label: {
+                    Label {
+                        VStack(alignment: .leading, spacing: 3) {
+                            Text(attribution.title)
+                                .appFont(.body)
+                            Text(attribution.description)
+                                .appFont(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                    } icon: {
+                        Image(systemName: "textformat")
+                    }
+                }
+                .accessibilityElement(children: .combine)
+            }
+        } header: {
+            aboutSectionHeader("font_attribution_fonts_header")
+        }
+    }
+
     private var footerSection: some View {
         Section {
             VStack(spacing: 4) {
@@ -176,7 +188,7 @@ public struct AboutView: View {
                 Text(GameLocalizedStrings.string("about_footer_thanks"))
             }
             .frame(maxWidth: .infinity)
-            .font(fontPreferenceStore?.font(textStyle: .caption) ?? .caption)
+            .appFont(.caption)
             .foregroundStyle(.secondary)
             .multilineTextAlignment(.center)
             .listRowBackground(Color.clear)
@@ -186,7 +198,7 @@ public struct AboutView: View {
 
     private func aboutSectionHeader(_ key: String) -> some View {
         Text(GameLocalizedStrings.string(key))
-            .retroSectionHeader(font: sectionHeaderFont)
+            .appFont(.headline)
     }
 
     private func linkRow(icon: String, title: String, subtitle: String? = nil, url: URL) -> some View {

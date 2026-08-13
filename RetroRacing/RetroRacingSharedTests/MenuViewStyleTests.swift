@@ -10,6 +10,10 @@ import XCTest
 @testable import RetroRacingShared
 
 final class MenuViewStyleTests: XCTestCase {
+    func testGivenMenuTitleWhenResolvingSemanticStyleThenUsesTitleOne() {
+        XCTAssertEqual(MenuLayoutPolicy.titleTextStyle, .title)
+    }
+
     func testGivenUniversalStyleWhenHeightIsRegularThenUsesDefaultTopPadding() {
         // Given
         let style = MenuViewStyle.universal
