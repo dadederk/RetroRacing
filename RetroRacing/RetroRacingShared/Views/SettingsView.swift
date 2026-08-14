@@ -125,7 +125,7 @@ public struct SettingsView: View {
             .onAppear {
                 preferencesStore.loadIfNeeded()
                 appIconService.refreshFeatureFlag()
-                appIconService.reconcileSystemStateAfterActivation()
+                appIconService.refreshSystemState()
                 if let screenshotFriendOvertakeAnnouncementsEnabled {
                     friendOvertakeVoiceOverAnnouncementEnabled = screenshotFriendOvertakeAnnouncementsEnabled
                 }

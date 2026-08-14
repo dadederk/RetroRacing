@@ -10,6 +10,8 @@ import StoreKit
 
 /// Utility for detecting build configuration and deciding when to show debug features.
 public enum BuildConfiguration {
+    private static let deterministicAppIconChangerArgument = "--ui-testing-app-icon-preview"
+
     /// Cached TestFlight detection result.
     private static var cachedIsTestFlight: Bool?
 
@@ -51,6 +53,24 @@ public enum BuildConfiguration {
     /// Returns true only for app launches explicitly configured by the UI-test target.
     public static var isRunningUITests: Bool {
         isDebug && ProcessInfo.processInfo.arguments.contains("--ui-testing")
+    }
+
+    /// Returns true only for the gallery UI test that replaces SpringBoard interaction
+    /// with a deterministic in-process adapter.
+    public static var usesDeterministicAppIconChanger: Bool {
+        usesDeterministicAppIconChanger(
+            arguments: ProcessInfo.processInfo.arguments,
+            isDebugBuild: isDebug
+        )
+    }
+
+    static func usesDeterministicAppIconChanger(
+        arguments: [String],
+        isDebugBuild: Bool
+    ) -> Bool {
+        isDebugBuild
+            && arguments.contains("--ui-testing")
+            && arguments.contains(deterministicAppIconChangerArgument)
     }
 
     // MARK: - Private

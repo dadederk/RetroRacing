@@ -332,6 +332,31 @@ final class DebugSimulationProductionIsolationTests: XCTestCase {
         XCTAssertFalse(shouldShow)
         #endif
     }
+
+    func testGivenLaunchArgumentsWhenResolvingDeterministicAppIconChangerThenDebugAndBothArgumentsAreRequired() {
+        // Given
+        let deterministicArguments = ["--ui-testing", "--ui-testing-app-icon-preview"]
+
+        // When / Then
+        XCTAssertTrue(
+            BuildConfiguration.usesDeterministicAppIconChanger(
+                arguments: deterministicArguments,
+                isDebugBuild: true
+            )
+        )
+        XCTAssertFalse(
+            BuildConfiguration.usesDeterministicAppIconChanger(
+                arguments: deterministicArguments,
+                isDebugBuild: false
+            )
+        )
+        XCTAssertFalse(
+            BuildConfiguration.usesDeterministicAppIconChanger(
+                arguments: ["--ui-testing"],
+                isDebugBuild: true
+            )
+        )
+    }
     
     // MARK: - Helpers
     

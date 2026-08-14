@@ -30,8 +30,8 @@
 ## Platform and rollout
 
 - The gallery is available when both the injected platform configuration enables it and the rollout flag is enabled. iPhone and iPad enable the platform configuration; macOS, watchOS, tvOS, and native visionOS disable it.
-- UIKit system capability remains separate observable diagnostic state. It is refreshed after app activation, when Settings appears, and at selection time, but a transient or environment-specific `supportsAlternateIcons == false` neither hides the iPhone/iPad gallery or Debug toggle nor preflights a configured-platform request. The platform adapter's actual `setAlternateIconName` result is authoritative and failures use localized recovery copy plus structured error-domain/code logging.
-- iPhone and iPad inject `UIApplicationAppIconChanger`. macOS, watchOS, tvOS, and native visionOS inject `UnsupportedAppIconChanger` or omit the shared surface. Platform decisions belong in composition roots, not shared views or service compile conditions.
+- UIKit system capability remains separate observable diagnostic state. It is refreshed after app activation, when Settings or the gallery appears, and at selection time, but a transient or environment-specific `supportsAlternateIcons == false` neither hides the iPhone/iPad gallery or Debug toggle nor preflights a configured-platform request. The platform adapter's actual `setAlternateIconName` result is authoritative and failures use localized recovery copy plus structured error-domain/code logging.
+- iPhone and iPad inject `UIApplicationAppIconChanger` through a proxy that resolves `UIApplication.shared` after launch; SwiftUI `App` construction must not retain the singleton's pre-launch `nil` value. macOS, watchOS, tvOS, and native visionOS inject `UnsupportedAppIconChanger` or omit the shared surface. Platform decisions belong in composition roots, not shared views or service compile conditions.
 - `DebugGameplayStorageKeys.alternateAppIconsEnabled` defaults on in Debug and respects its stored Debug override through one injected feature-flag dependency shared by the composition root, service, and Debug toggle.
 - Builds without Debug features always resolve the flag to false, even if a prior Debug build stored true.
 - Debug Settings shows **Enable alternate app icons** on configured iPhone/iPad builds even when the current environment reports that icon changes are unsupported.
@@ -47,7 +47,7 @@
 - A resolved free user can inspect every icon. Selecting a locked alternate opens the voluntary Unlimited Plays paywall.
 - After entitlement revocation, an installed alternate remains selected. Classic stays available; other alternate changes remain locked.
 - Selecting the current icon is a no-op. While a system request is active, repeated changes are rejected.
-- After success, refresh from `alternateIconName` and rely on Apple's confirmation. If UIKit's completion is suspended while the app is inactive, application activation or Settings re-entry reconciles the pending request against `alternateIconName`: a matching system icon completes successfully, while unchanged system state clears progress and returns localized recovery copy. Late callbacks are ignored by stable request identity.
+- The UIKit adapter is the sole owner of the system request lifecycle. It treats a matching `alternateIconName` as success even when the completion is withheld or reports cancellation, and accepts UIKit's successful completion when state publication is delayed. Apple's confirmation can keep the app inactive indefinitely, so inactive time never consumes the bounded recovery budget; only active time can produce a confirmed failure or timeout. The shared service awaits that result, refreshes from `alternateIconName`, and owns only observable progress and repeated-request suppression.
 - On failure, preserve the system selection and show localized recovery copy.
 
 ## Gallery and accessibility
@@ -73,13 +73,14 @@
 
 ## Diagnostics
 
-- `APP_ICON_SELECTION` records the gallery entitlement decision, `APP_ICON_CHANGE` records service/rollout state, `APP_ICON_SYSTEM_REQUEST` records UIKit's requested/reported package names and application state, and `APP_ICON_CHANGE_RECONCILIATION` records activation recovery.
+- `APP_ICON_SELECTION` records the gallery entitlement decision, `APP_ICON_CHANGE` records service/rollout state, and `APP_ICON_SYSTEM_REQUEST` records UIKit's requested/reported package names, application state, and whether system state or successful completion resolved the request.
 - Failed operations include a stable reason plus structured error domain, code, and description fields. Do not log user data or wallpaper/Home Screen details.
 - Capture the smallest relevant stream with `log stream --predicate 'eventMessage CONTAINS "APP_ICON_"' --level debug`.
 
 ## Testing
 
-- Shared tests cover catalog order/uniqueness, stable mappings, policy states, flag isolation, success/failure/refresh, activation reconciliation for matching and unchanged system state, unconfigured-platform and disabled requests, stale capability snapshots, and repeated-tap suppression.
+- Shared tests cover catalog order/uniqueness, stable mappings, policy states, flag isolation, success/failure/refresh, unconfigured-platform and disabled requests, stale capability snapshots, and repeated-tap suppression.
+- A deterministic UI test exercises the gallery button-to-service-to-selected-row observation path. Universal adapter tests separately cover UIKit state confirmation, successful completion, failure, inactive confirmation time, and bounded active-state timeout so the UI test does not depend on SpringBoard's confirmation alert.
 - The asset audit verifies packages, source dimensions, layer references, previews, build-setting declarations, and shared catalog mappings. Full Release audit also verifies generated `CFBundleAlternateIcons`.
 - Manual iPhone/iPad QA covers every icon and return to Classic, entitlement states, relaunch persistence, system surfaces, all adaptive appearances, representative wallpapers/tints, Dynamic Type, and assistive technologies.
 

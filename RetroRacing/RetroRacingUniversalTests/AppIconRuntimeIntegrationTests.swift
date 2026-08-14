@@ -28,7 +28,7 @@ final class AppIconRuntimeIntegrationTests: XCTestCase {
 
         // When
         let service = AppIconService(
-            changer: UIApplicationAppIconChanger(application: .shared),
+            changer: UIApplicationAppIconChanger(application: SharedUIApplicationAppIconProxy()),
             featureFlag: UserDefaultsAppIconFeatureFlag(
                 userDefaults: defaults,
                 isConfigurationAllowed: BuildConfiguration.shouldShowDebugFeatures

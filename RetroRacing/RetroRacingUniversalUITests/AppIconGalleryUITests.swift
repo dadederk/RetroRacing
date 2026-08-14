@@ -8,6 +8,10 @@
 import XCTest
 
 final class AppIconGalleryUITests: XCTestCase {
+    private enum LaunchArgument {
+        static let deterministicAppIconChanger = "--ui-testing-app-icon-preview"
+    }
+
     override func setUpWithError() throws {
         continueAfterFailure = false
     }
@@ -96,6 +100,7 @@ final class AppIconGalleryUITests: XCTestCase {
         XCTAssertTrue(app.navigationBars["Choose App Icon"].waitForExistence(timeout: 10))
         let classic = app.buttons["app_icon_option_classic"]
         XCTAssertTrue(classic.waitForExistence(timeout: 10), app.debugDescription)
+        XCTAssertEqual(classic.elementType, .button)
         XCTAssertTrue(classic.isEnabled)
         XCTAssertEqual(classic.value as? String, "Selected", app.debugDescription)
         XCTAssertEqual(
@@ -119,18 +124,54 @@ final class AppIconGalleryUITests: XCTestCase {
     }
 
     @MainActor
+    func testGivenUnlimitedAccessWhenSelectingIconThenSelectedRowFollowsSystemState() throws {
+        // Given
+        let app = launchApplication(
+            premiumSimulationMode: 1,
+            usesDeterministicAppIconChanger: true
+        )
+        openSettings(in: app)
+        let appIconRow = app.buttons["App Icon"]
+        XCTAssertTrue(appIconRow.waitForExistence(timeout: 10), app.debugDescription)
+        appIconRow.tap()
+        XCTAssertTrue(app.navigationBars["Choose App Icon"].waitForExistence(timeout: 10))
+
+        let classic = app.buttons["app_icon_option_classic"]
+        let pocket = app.buttons["app_icon_option_pocket"]
+        XCTAssertTrue(classic.waitForExistence(timeout: 10), app.debugDescription)
+        XCTAssertTrue(pocket.waitForExistence(timeout: 10), app.debugDescription)
+        let target = (classic.value as? String) == "Selected" ? pocket : classic
+
+        // When
+        target.tap()
+
+        // Then
+        waitForSelectedValue(on: target)
+        XCTAssertEqual(
+            app.buttons.matching(NSPredicate(format: "value == %@", "Selected")).count,
+            1,
+            app.debugDescription
+        )
+    }
+
+    @MainActor
     private func launchApplication(
         premiumSimulationMode: Int,
-        additionalArguments: [String] = []
+        additionalArguments: [String] = [],
+        usesDeterministicAppIconChanger: Bool = false
     ) -> XCUIApplication {
         let app = XCUIApplication()
-        app.launchArguments = [
+        var launchArguments = [
             "--ui-testing",
             "-AppleLanguages", "(en)",
             "-AppleLocale", "en_US",
             "-debugGameplay.alternateAppIconsEnabled", "1",
             "-StoreKit.debugPremiumSimulationMode", String(premiumSimulationMode),
-        ] + additionalArguments
+        ]
+        if usesDeterministicAppIconChanger {
+            launchArguments.append(LaunchArgument.deterministicAppIconChanger)
+        }
+        app.launchArguments = launchArguments + additionalArguments
         app.launch()
         return app
     }
@@ -139,6 +180,14 @@ final class AppIconGalleryUITests: XCTestCase {
         let settingsButton = app.buttons["Settings"]
         XCTAssertTrue(settingsButton.waitForExistence(timeout: 10))
         settingsButton.tap()
+    }
+
+    private func waitForSelectedValue(on option: XCUIElement) {
+        let selected = XCTNSPredicateExpectation(
+            predicate: NSPredicate(format: "value == %@", "Selected"),
+            object: option
+        )
+        XCTAssertEqual(XCTWaiter.wait(for: [selected], timeout: 15), .completed)
     }
 
     private func scrollUp(in app: XCUIApplication, until element: XCUIElement) {

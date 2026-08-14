@@ -78,7 +78,7 @@ The shared UI is driven by injected platform eligibility so unsupported targets 
 - Selecting Classic passes `nil` to the system API and is always allowed.
 - During a change, keep unrelated rows at full contrast and focusable, show a large activity indicator on the requested row, and reject repeated requests in the service.
 - On success, update the checkmark from the system-reported current icon. Do not show a second custom success alert because the system already reports the change.
-- If UIKit's completion is suspended while the system confirmation is in front, reconcile the pending request from the reported icon when the app becomes active or Settings reappears. A match completes the request; unchanged state clears progress and presents the localized recovery alert. Ignore any later callback for that reconciled request.
+- Keep the full system-request lifecycle in the UIKit adapter. Trust matching reported state even when UIKit withholds or fails its callback, accept a successful system completion when state publication is delayed, and pause the bounded recovery budget while Apple's confirmation keeps the app inactive. The shared service owns observable progress and repeated-request suppression, then refreshes selection from reported system state.
 - On failure, keep the previous selection and present a localized error alert.
 
 ### Entitlement behavior
@@ -218,7 +218,7 @@ Recommended gate after implementation:
 - Shared catalog, selection policy, observable service, UIKit adapter, deterministic fakes, Theme-integrated Settings gallery, paywall gating, Debug flag, package declarations, previews, localization, and automated packaging checks are implemented.
 - Release bundles all packages but the resolver forcibly hides the gallery and icon-specific paywall copy.
 - The current alternate packages still use single opaque concept rasters. They do not yet satisfy the required Canvas/World/Subject/Accents layer grammar, so the Icon Composer asset work is not complete.
-- Residual work includes real launched-app icon-change verification, layered source construction, hands-on Icon Composer tuning, and the full appearance/device/accessibility matrix; tvOS remains deferred.
+- Physical-device icon changes and return-to-Classic behavior are verified. Residual work includes layered source construction, hands-on Icon Composer tuning, and the full appearance/device/accessibility matrix; tvOS remains deferred.
 
 ## Effort Estimate
 

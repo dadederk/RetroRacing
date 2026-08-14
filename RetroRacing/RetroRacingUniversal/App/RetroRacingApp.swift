@@ -94,8 +94,14 @@ struct RetroRacingApp: App {
             isConfigurationAllowed: BuildConfiguration.shouldShowDebugFeatures
         )
         #if os(iOS)
+        let appIconChanger: any AppIconChanging
+        if BuildConfiguration.usesDeterministicAppIconChanger {
+            appIconChanger = PreviewAppIconChanger(supportsAlternateIcons: true)
+        } else {
+            appIconChanger = UIApplicationAppIconChanger(application: SharedUIApplicationAppIconProxy())
+        }
         appIconService = AppIconService(
-            changer: UIApplicationAppIconChanger(application: .shared),
+            changer: appIconChanger,
             featureFlag: appIconFeatureFlag,
             isGalleryPlatformEnabled: true
         )
@@ -433,7 +439,7 @@ struct RetroRacingApp: App {
             }
             .onChange(of: scenePhase) { _, newValue in
                 guard newValue == .active else { return }
-                appIconService.reconcileSystemStateAfterActivation()
+                appIconService.refreshSystemState()
                 #if os(macOS)
                 if ScreenshotCaptureConfiguration.current != nil {
                     ScreenshotCaptureMacWindowLayout.applyLandscapeCaptureSize()

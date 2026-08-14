@@ -48,6 +48,9 @@ public struct AppIconGalleryView: View {
         } message: {
             Text(GameLocalizedStrings.string("app_icon_error_message"))
         }
+        .onAppear {
+            appIconService.refreshSystemState()
+        }
     }
 
     private func selectionAction(for option: AppIconOption) -> AppIconSelectionAction {

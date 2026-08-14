@@ -13,24 +13,12 @@ public enum AppIconServiceError: Error, Equatable, Sendable {
     case unsupported
     case unknownIcon
     case changeInProgress
-    case systemStateUnchanged
 }
 
 /// Observable app-icon state backed exclusively by the operating system.
 @MainActor
 @Observable
 public final class AppIconService {
-    private struct ActiveChangeRequest {
-        let requestID: UInt64
-        let iconID: AppIconID
-        let continuation: CheckedContinuation<Void, Error>
-    }
-
-    private enum ChangeCompletionSource: String {
-        case adapter
-        case systemState
-    }
-
     public private(set) var isFeatureEnabled: Bool
     public let isGalleryPlatformEnabled: Bool
     public private(set) var supportsAlternateIcons: Bool
@@ -39,8 +27,6 @@ public final class AppIconService {
 
     private let changer: any AppIconChanging
     private let featureFlag: any AppIconFeatureFlagging
-    private var nextChangeRequestID: UInt64 = 0
-    private var activeChangeRequest: ActiveChangeRequest?
 
     public var isGalleryAvailable: Bool {
         isGalleryPlatformEnabled && isFeatureEnabled
@@ -66,7 +52,7 @@ public final class AppIconService {
     public func setFeatureEnabled(_ isEnabled: Bool) {
         featureFlag.setEnabled(isEnabled)
         self.isFeatureEnabled = featureFlag.isEnabled
-        logAvailability(event: "APP_ICON_ROLLOUT_CHANGED")
+        logRolloutChange()
     }
 
     public func refreshFeatureFlag() {
@@ -82,41 +68,7 @@ public final class AppIconService {
     public func refreshSystemState() {
         supportsAlternateIcons = changer.supportsAlternateIcons
         refreshCurrentIcon()
-        logAvailability(event: "APP_ICON_AVAILABILITY")
-    }
-
-    /// Resolves a system request whose UIKit callback was suspended while the app was inactive.
-    public func reconcileSystemStateAfterActivation() {
-        supportsAlternateIcons = changer.supportsAlternateIcons
-        refreshCurrentIcon()
-
-        guard let request = activeChangeRequest else {
-            logAvailability(event: "APP_ICON_AVAILABILITY")
-            return
-        }
-
-        let systemAppliedRequestedIcon = currentIconID == request.iconID
-        AppLog.info(
-            AppLog.assets + AppLog.lifecycle,
-            "APP_ICON_CHANGE_RECONCILIATION",
-            outcome: systemAppliedRequestedIcon ? .succeeded : .cancelled,
-            fields: [
-                .reason(systemAppliedRequestedIcon ? "system_state_matched" : "system_state_unchanged"),
-                .string("requestedIconID", request.iconID.rawValue),
-                .string("currentIconID", currentIconID?.rawValue ?? AppIconID.classic.rawValue),
-            ]
-        )
-
-        let result: Result<Void, Error> = systemAppliedRequestedIcon
-            ? .success(())
-            : .failure(AppIconServiceError.systemStateUnchanged)
-        completeChangeRequest(
-            requestID: request.requestID,
-            requestedIconID: request.iconID,
-            result: result,
-            source: .systemState
-        )
-        logAvailability(event: "APP_ICON_AVAILABILITY")
+        logAvailability()
     }
 
     public func changeIcon(to id: AppIconID) async throws {
@@ -136,7 +88,7 @@ public final class AppIconService {
             logBlockedChange(requestedID: id, reason: "platform_disabled")
             throw AppIconServiceError.unsupported
         }
-        guard activeChangeRequest == nil else {
+        guard changingIconID == nil else {
             logBlockedChange(requestedID: id, reason: "change_in_progress")
             throw AppIconServiceError.changeInProgress
         }
@@ -181,58 +133,9 @@ public final class AppIconService {
         to option: AppIconOption,
         requestedID: AppIconID
     ) async throws {
-        nextChangeRequestID &+= 1
-        let requestID = nextChangeRequestID
         changingIconID = requestedID
-
-        try await withCheckedThrowingContinuation { continuation in
-            activeChangeRequest = ActiveChangeRequest(
-                requestID: requestID,
-                iconID: requestedID,
-                continuation: continuation
-            )
-            let changer = self.changer
-            Task { @MainActor [weak self, changer] in
-                let result: Result<Void, Error>
-                do {
-                    try await changer.setAlternateIconName(option.systemIconName)
-                    result = .success(())
-                } catch {
-                    result = .failure(error)
-                }
-                self?.completeChangeRequest(
-                    requestID: requestID,
-                    requestedIconID: requestedID,
-                    result: result,
-                    source: .adapter
-                )
-            }
-        }
-    }
-
-    private func completeChangeRequest(
-        requestID: UInt64,
-        requestedIconID: AppIconID,
-        result: Result<Void, Error>,
-        source: ChangeCompletionSource
-    ) {
-        guard let request = activeChangeRequest, request.requestID == requestID else {
-            AppLog.info(
-                AppLog.assets + AppLog.lifecycle,
-                "APP_ICON_CHANGE_COMPLETION",
-                outcome: .ignored,
-                fields: [
-                    .reason("request_already_reconciled"),
-                    .string("requestedIconID", requestedIconID.rawValue),
-                    .string("completionSource", source.rawValue),
-                ]
-            )
-            return
-        }
-
-        activeChangeRequest = nil
-        changingIconID = nil
-        request.continuation.resume(with: result)
+        defer { changingIconID = nil }
+        try await changer.setAlternateIconName(option.systemIconName)
     }
 
     private func logBlockedChange(requestedID: AppIconID, reason: String) {
@@ -254,7 +157,27 @@ public final class AppIconService {
         ]
     }
 
-    private func logAvailability(event: String) {
+    private func logAvailability() {
+        let payload = availabilityLogPayload()
+        AppLog.info(
+            AppLog.assets + AppLog.lifecycle,
+            "APP_ICON_AVAILABILITY",
+            outcome: payload.outcome,
+            fields: payload.fields
+        )
+    }
+
+    private func logRolloutChange() {
+        let payload = availabilityLogPayload()
+        AppLog.info(
+            AppLog.assets + AppLog.lifecycle,
+            "APP_ICON_ROLLOUT_CHANGED",
+            outcome: payload.outcome,
+            fields: payload.fields
+        )
+    }
+
+    private func availabilityLogPayload() -> (outcome: AppLog.Outcome, fields: [AppLog.Field]) {
         let reason: String
         if isGalleryPlatformEnabled == false {
             reason = "platform_disabled"
@@ -266,11 +189,9 @@ public final class AppIconService {
             reason = "available"
         }
 
-        AppLog.info(
-            AppLog.assets + AppLog.lifecycle,
-            event,
-            outcome: isGalleryAvailable ? .succeeded : .blocked,
-            fields: [
+        return (
+            isGalleryAvailable ? .succeeded : .blocked,
+            [
                 .reason(reason),
                 .bool("featureEnabled", isFeatureEnabled),
                 .bool("systemSupported", supportsAlternateIcons),
