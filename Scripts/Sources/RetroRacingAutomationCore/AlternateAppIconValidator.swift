@@ -140,9 +140,18 @@ enum AlternateAppIconValidator {
         }
 
         switch pilotID {
-        case .pocket, .lcd, .cartridge:
+        case .pocket, .lcd, .cartridge, .crt:
             if groups.count < 2 {
                 issues.append("Layered theme app icon requires multiple semantic groups: \(relativeName)")
+            }
+            let expectedGroupNames = pilotID == .crt
+                ? ["Accents", "Subject", "World"]
+                : ["Subject", "World"]
+            let groupNames = groups.compactMap { $0["name"] as? String }
+            if groupNames != expectedGroupNames {
+                issues.append(
+                    "Layered theme app icon group order is \(groupNames), expected \(expectedGroupNames): \(relativeName)"
+                )
             }
             let defaultURL = packageURL.appending(path: "Assets/Default.png")
             if FileManager.default.fileExists(atPath: defaultURL.path) {
@@ -176,6 +185,20 @@ enum AlternateAppIconValidator {
                 layers: layers,
                 relativeName: relativeName
             )
+            if pilotID == .crt {
+                issues += expectedLayerIssues(
+                    groupName: "Accents",
+                    expectedImageNames: ["CRTOverlay.svg"],
+                    groups: groups,
+                    relativeName: relativeName
+                )
+                issues += appearanceImageSpecializationIssues(
+                    defaultImageName: "CRTOverlay.svg",
+                    darkImageName: "CRTOverlayDark.svg",
+                    layers: layers,
+                    relativeName: relativeName
+                )
+            }
         case .retroCartridge, .retroVideoGame:
             issues += expectedLayerIssues(
                 groupName: "Approved v4 Artwork",

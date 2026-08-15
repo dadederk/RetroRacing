@@ -20,17 +20,20 @@ func givenPilotCatalogWhenResolvingSourcesThenNamesAndCanonicalInputsStayStable(
         "RetroRapidPocket",
         "RetroRapidLCD",
         "RetroRapidCartridge",
+        "RetroRapidCRT",
         "RetroRapidGameCartridge",
         "RetroRapidVideoGame",
     ])
     #expect(AppIconPilotID.pocket.sourceArtworkPath.contains("playersCar-GameBoy-ipad.png"))
     #expect(AppIconPilotID.lcd.sourceArtworkPath.contains("playersCar-LCD-ipad.png"))
     #expect(AppIconPilotID.cartridge.sourceArtworkPath.contains("playersCar-8Bit-ipad.png"))
+    #expect(AppIconPilotID.crt.sourceArtworkPath.contains("playersCar-16Bit-ipad.png"))
     #expect(AppIconPilotID.retroCartridge.sourceArtworkPath.hasSuffix("retro-cartridge-v4.png"))
     #expect(AppIconPilotID.retroVideoGame.sourceArtworkPath.hasSuffix("retro-video-game-v4.png"))
     #expect(AppIconPilotID.pocket.darkSourceArtworkPath == nil)
     #expect(AppIconPilotID.lcd.darkSourceArtworkPath == nil)
     #expect(AppIconPilotID.cartridge.darkSourceArtworkPath == nil)
+    #expect(AppIconPilotID.crt.darkSourceArtworkPath == nil)
     #expect(
         AppIconPilotID.retroCartridge.darkSourceArtworkPath?
             .hasSuffix("retro-cartridge-dark-v5.png") == true
@@ -53,7 +56,7 @@ func givenPilotCatalogWhenResolvingSourcesThenNamesAndCanonicalInputsStayStable(
 
 @Test
 func givenThemeGeometryWhenGeneratingThenRoadAndDashesShareAConvergingCanvas() throws {
-    for geometry in [AppIconRoadGeometry.pocket, .lcd, .cartridge] {
+    for geometry in [AppIconRoadGeometry.pocket, .lcd, .cartridge, .crt] {
         let road = try #require(
             String(data: AppIconSVGRenderer.road(geometry: geometry), encoding: .utf8)
         )
@@ -86,11 +89,34 @@ func givenThemeGeometryWhenGeneratingThenRoadAndDashesShareAConvergingCanvas() t
     let cartridgeMarks = try #require(
         String(data: AppIconSVGRenderer.laneMarks(geometry: .cartridge), encoding: .utf8)
     )
+    let crtMarks = try #require(
+        String(data: AppIconSVGRenderer.laneMarks(geometry: .crt), encoding: .utf8)
+    )
     #expect(pocketMarks.components(separatedBy: "<polygon ").count - 1 == 27)
     #expect(lcdMarks.components(separatedBy: "<polygon ").count - 1 == 36)
     #expect(cartridgeMarks.components(separatedBy: "<polygon ").count - 1 == 36)
+    #expect(crtMarks.components(separatedBy: "<polygon ").count - 1 == 36)
     #expect(AppIconRoadGeometry.pocket.projectedX(topX: 435, y: 1024) < 0)
     #expect(AppIconRoadGeometry.lcd.projectedX(topX: 674, y: 1024) > 1024)
+    #expect(AppIconRoadGeometry.crt.projectedX(topX: 300, y: 1024) < 0)
+    #expect(AppIconRoadGeometry.crt.projectedX(topX: 719, y: 1024) > 1024)
+}
+
+@Test
+func givenCRTOverlayWhenGeneratingAppearancesThenDarkRetainsAGentlerDisplayEffect() throws {
+    let defaultOverlay = try #require(
+        String(data: AppIconSVGRenderer.crtOverlay(dark: false), encoding: .utf8)
+    )
+    let darkOverlay = try #require(
+        String(data: AppIconSVGRenderer.crtOverlay(dark: true), encoding: .utf8)
+    )
+
+    #expect(defaultOverlay.contains("viewBox=\"0 0 1024 1024\""))
+    #expect(defaultOverlay.contains("fill-opacity=\"0.18\""))
+    #expect(defaultOverlay.contains("stop-opacity=\"0.26\""))
+    #expect(darkOverlay.contains("fill-opacity=\"0.14\""))
+    #expect(darkOverlay.contains("stop-opacity=\"0.20\""))
+    #expect(defaultOverlay != darkOverlay)
 }
 
 @Test
@@ -101,7 +127,7 @@ func givenGeneratedPilotAssetsWhenRenderingTwiceThenOutputsAreDeterministic() th
     let firstByPath = Dictionary(uniqueKeysWithValues: first.map { ($0.url.path, $0.data) })
     let secondByPath = Dictionary(uniqueKeysWithValues: second.map { ($0.url.path, $0.data) })
 
-    #expect(first.count == 34)
+    #expect(first.count == 44)
     #expect(firstByPath == secondByPath)
     #expect(try AppIconAssetWorkflow.stalePaths(repositoryRoot: root).isEmpty)
 
@@ -143,7 +169,7 @@ func givenSpecialEditionGenerationWhenRenderingThenApprovedDefaultAndDarkArtwork
         [(32, 32), (100, 512), (512, 265), (900, 512)]
     case .retroVideoGame:
         [(32, 32), (512, 80), (100, 512), (512, 720), (900, 512)]
-    case .pocket, .lcd, .cartridge:
+    case .pocket, .lcd, .cartridge, .crt:
         []
     }
     for point in plasticPoints {
@@ -238,6 +264,43 @@ func givenLayeredThemeIconComposerManifestWhenParsingThenAppearanceContractsAreP
         defaultImageName: "Road.svg",
         darkImageName: "RoadDark.svg"
     )
+}
+
+@Test
+func givenCRTIconComposerManifestWhenParsingThenFrontmostEffectAndAppearancesArePresent() throws {
+    let manifest = try pilotManifest(iconID: .crt)
+    let groups = try #require(manifest["groups"] as? [[String: Any]])
+
+    #expect(groups.count == 3)
+    expectDocumentFillAppearances(manifest: manifest)
+    #expect(groups[0]["name"] as? String == "Accents")
+    #expect(groups[1]["name"] as? String == "Subject")
+    #expect(groups[2]["name"] as? String == "World")
+    let accentLayers = try #require(groups[0]["layers"] as? [[String: Any]])
+    let subjectLayers = try #require(groups[1]["layers"] as? [[String: Any]])
+    let worldLayers = try #require(groups[2]["layers"] as? [[String: Any]])
+    #expect(accentLayers.compactMap { defaultImageName(in: $0) } == ["CRTOverlay.svg"])
+    #expect(subjectLayers.compactMap { defaultImageName(in: $0) } == [
+        "Car.png",
+        "LaneMarks.svg",
+    ])
+    #expect(worldLayers.compactMap { defaultImageName(in: $0) } == ["Road.svg"])
+    expectAppearanceImageSources(
+        layer: accentLayers[0],
+        defaultImageName: "CRTOverlay.svg",
+        darkImageName: "CRTOverlayDark.svg"
+    )
+    expectAppearanceImageSources(
+        layer: subjectLayers[1],
+        defaultImageName: "LaneMarks.svg",
+        darkImageName: "LaneMarksDark.svg"
+    )
+    expectAppearanceImageSources(
+        layer: worldLayers[0],
+        defaultImageName: "Road.svg",
+        darkImageName: "RoadDark.svg"
+    )
+    #expect(containsLegacySpecializationSlot(in: manifest) == false)
 }
 
 @Test(arguments: [AppIconPilotID.retroCartridge, .retroVideoGame])

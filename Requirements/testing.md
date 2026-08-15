@@ -28,7 +28,7 @@ Run the relevant smallest validation after a change, and the full app validation
 - `./retrorapid test package` validates the Scripts Swift package.
 - `./retrorapid assets optimize --check` regenerates into temporary storage and compares pixels and catalog JSON without mutating tracked files.
 - `./retrorapid assets spatial --check` regenerates the visionOS USDZ and sprites in temporary storage, validates RealityKit import and budgets, and compares bytes without mutating tracked outputs.
-- `./retrorapid assets app-icons --check` regenerates Pocket/LCD/Cartridge layers, copies the approved Special Edition Default/Dark sources in memory, and compares package artwork plus adaptive Default/Dark gallery previews byte-for-byte without overwriting Icon Composer styling.
+- `./retrorapid assets app-icons --check` regenerates Pocket/LCD/Cartridge/CRT layers, copies the approved Special Edition Default/Dark sources in memory, and compares package artwork plus adaptive Default/Dark gallery previews byte-for-byte without overwriting Icon Composer styling.
 - `./retrorapid assets audit --check` validates runtime asset idioms, pixel caps, forbidden shipping resources, and compiled catalog byte ceilings.
 - The asset audit also validates all Icon Composer packages, PNG/SVG dimensions and view boxes, pilot group/layer ordering, explicit document-level Default/Dark/Tinted fills, flat Default/Dark/Tinted image-name specializations, rejected nested specialization slots, adaptive preview mappings, generated app-icon drift, permanent build-setting names, and shared mappings; `--full --check` verifies generated iOS `CFBundleAlternateIcons` entries.
 - `./retrorapid check` verifies asset footprint, generated assets/docs/metadata, and other non-mutating checks.

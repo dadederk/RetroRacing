@@ -17,6 +17,7 @@ public enum AppIconPilotID: String, CaseIterable, Sendable {
     case pocket = "RetroRapidPocket"
     case lcd = "RetroRapidLCD"
     case cartridge = "RetroRapidCartridge"
+    case crt = "RetroRapidCRT"
     case retroCartridge = "RetroRapidGameCartridge"
     case retroVideoGame = "RetroRapidVideoGame"
 
@@ -25,6 +26,7 @@ public enum AppIconPilotID: String, CaseIterable, Sendable {
         case .pocket: "AppIconPreviewPocket"
         case .lcd: "AppIconPreviewLCD"
         case .cartridge: "AppIconPreviewCartridge"
+        case .crt: "AppIconPreviewCRT"
         case .retroCartridge: "AppIconPreviewRetroCartridge"
         case .retroVideoGame: "AppIconPreviewRetroVideoGame"
         }
@@ -34,6 +36,11 @@ public enum AppIconPilotID: String, CaseIterable, Sendable {
         switch self {
         case .pocket, .lcd, .cartridge:
             ["Road.svg", "RoadDark.svg", "LaneMarks.svg", "LaneMarksDark.svg", "Car.png"]
+        case .crt:
+            [
+                "Road.svg", "RoadDark.svg", "LaneMarks.svg", "LaneMarksDark.svg",
+                "Car.png", "CRTOverlay.svg", "CRTOverlayDark.svg",
+            ]
         case .retroCartridge, .retroVideoGame:
             ["Default.png", "Dark.png"]
         }
@@ -47,6 +54,8 @@ public enum AppIconPilotID: String, CaseIterable, Sendable {
             "RetroRacing/RetroRacingShared/Assets.xcassets/Sprites/LCD/playersCar-LCD.imageset/playersCar-LCD-ipad.png"
         case .cartridge:
             "RetroRacing/RetroRacingShared/Assets.xcassets/Sprites/8Bit/playersCar-8Bit.imageset/playersCar-8Bit-ipad.png"
+        case .crt:
+            "RetroRacing/RetroRacingShared/Assets.xcassets/Sprites/16Bit/playersCar-16Bit.imageset/playersCar-16Bit-ipad.png"
         case .retroCartridge:
             "Plans/assets/alternate-app-icon-concepts/retro-cartridge-v4.png"
         case .retroVideoGame:
@@ -56,7 +65,7 @@ public enum AppIconPilotID: String, CaseIterable, Sendable {
 
     var darkSourceArtworkPath: String? {
         switch self {
-        case .pocket, .lcd, .cartridge:
+        case .pocket, .lcd, .cartridge, .crt:
             nil
         case .retroCartridge:
             "Plans/assets/alternate-app-icon-concepts/retro-cartridge-dark-v5.png"
@@ -102,6 +111,16 @@ enum AppIconPilotPalette {
         canvas: "#191B21",
         road: "#272A31",
         marks: "#FFE000"
+    )
+    static let crtDefault = AppIconPalette(
+        canvas: "#087D17",
+        road: "#151D29",
+        marks: "#FFD11A"
+    )
+    static let crtDark = AppIconPalette(
+        canvas: "#3A413B",
+        road: "#10141B",
+        marks: "#F6C928"
     )
 }
 

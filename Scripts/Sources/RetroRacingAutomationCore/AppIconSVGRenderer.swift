@@ -38,6 +38,14 @@ struct AppIconRoadGeometry: Sendable {
         boundaryTopXs: [350, 458, 566, 674]
     )
 
+    static let crt = AppIconRoadGeometry(
+        vanishingPointX: 512,
+        vanishingPointY: -300,
+        roadTopLeftX: 306,
+        roadTopRightX: 718,
+        boundaryTopXs: [300, 425, 581, 719]
+    )
+
     func projectedX(topX: Double, y: Double) -> Double {
         let scale = (y - vanishingPointY) / -vanishingPointY
         return vanishingPointX + ((topX - vanishingPointX) * scale)
@@ -58,6 +66,26 @@ enum AppIconSVGRenderer {
             perspectiveDashes(topX: topX, geometry: geometry)
         }
         return svg(body: polygons.joined(separator: "\n"))
+    }
+
+    static func crtOverlay(dark: Bool) -> Data {
+        let scanlineOpacity = dark ? "0.14" : "0.18"
+        let highlightOpacity = dark ? "0.012" : "0.022"
+        let vignetteOpacity = dark ? "0.20" : "0.26"
+        return svg(body: """
+        <defs>
+          <pattern id="scanlines" width="12" height="12" patternUnits="userSpaceOnUse">
+            <rect x="0" y="0" width="12" height="3" fill="#000000" fill-opacity="\(scanlineOpacity)"/>
+            <rect x="0" y="3" width="12" height="1" fill="#B8FFC4" fill-opacity="\(highlightOpacity)"/>
+          </pattern>
+          <radialGradient id="vignette" cx="50%" cy="48%" r="72%">
+            <stop offset="54%" stop-color="#000000" stop-opacity="0"/>
+            <stop offset="100%" stop-color="#000000" stop-opacity="\(vignetteOpacity)"/>
+          </radialGradient>
+        </defs>
+        <rect x="0" y="0" width="1024" height="1024" fill="url(#scanlines)"/>
+        <rect x="0" y="0" width="1024" height="1024" fill="url(#vignette)"/>
+        """)
     }
 
     private static func perspectiveDashes(

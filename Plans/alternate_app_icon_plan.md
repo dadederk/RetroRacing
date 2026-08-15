@@ -1,6 +1,6 @@
 # Alternate App Icons Plan
 
-**Status:** In progress — Pocket/LCD/Cartridge layered pilot and v4 Special Edition appearances implemented; remaining alternates and full appearance/device QA remain open
+**Status:** In progress — Pocket/LCD/Cartridge/CRT layered pilot and v4 Special Edition appearances implemented; remaining alternates and full appearance/device QA remain open
 **Created:** 2026-08-12
 
 **See also:** [Monetization](../Requirements/monetization.md) · [Theming](../Requirements/theming_system.md) · [Accessibility](../Requirements/accessibility.md) · [Localization](../Requirements/localization.md) · [Testing](../Requirements/testing.md)
@@ -20,7 +20,7 @@ The feature should feel like a collectible cosmetic benefit while keeping the ex
 - Never auto-sync the icon with the selected gameplay Style. A system-level icon change should always follow a deliberate user tap.
 - Do not automatically replace an already-selected alternate after an entitlement refund, debug revocation, or rollout-flag change. Lock further alternate changes but always allow returning to Classic; this avoids an unsolicited system icon-change alert on launch.
 - Bundle every package in Debug and Release. Expose the gallery only behind `debugGameplay.alternateAppIconsEnabled`, which defaults on for fresh Debug installs, respects a stored Debug override, and is forcibly false outside Debug features.
-- Treat the theme PNGs in this plan as art-direction concepts; production Pocket/LCD/Cartridge use exact curated theme car artwork. The approved v4 Special Edition PNGs are the runtime Default sources, and their approved v5 Dark companions are separately rendered charcoal-material sources with the same content and composition.
+- Treat the theme PNGs in this plan as art-direction concepts; production Pocket/LCD/Cartridge/CRT use exact curated theme car artwork. The approved v4 Special Edition PNGs are the runtime Default sources, and their approved v5 Dark companions are separately rendered charcoal-material sources with the same content and composition.
 
 ## Concept Set
 
@@ -141,14 +141,14 @@ flowchart LR
 
 ### Xcode and asset configuration
 
-Apple's current Icon Composer workflow requires one `.icon` package for each alternate. The current five-package adaptive pilot is intentionally mixed:
+Apple's current Icon Composer workflow requires one `.icon` package for each alternate. The current six-package adaptive pilot is intentionally mixed:
 
-1. Pocket, LCD, and Cartridge use layered Canvas, foreground Subject, and background World artwork. The Subject keeps the canonical car above the lane marks; the World keeps the road behind both. Pocket's three paths and LCD/Cartridge's four paths run through the full canvas and share their icon's true vanishing-point projection. Dark uses separate near-black off-road and road greys tinted subtly toward each Default palette, while lane marks retain each theme's characteristic light color. Each Road and Lane Marks layer uses Icon Composer's flat image-name specialization array to select Default, Dark, and Default-for-Tinted sources. Nested `slot` specializations are forbidden because Icon Composer silently ignores them.
+1. Pocket, LCD, Cartridge, and CRT use layered Canvas, foreground Subject, and background World artwork. The Subject keeps the canonical car above the lane marks; the World keeps the road behind both. Pocket's three paths and LCD/Cartridge/CRT's four paths run through the full canvas and share their icon's true vanishing-point projection. Dark uses separate near-black off-road and road greys tinted subtly toward each Default palette, while lane marks retain each theme's characteristic light color. Each Road and Lane Marks layer uses Icon Composer's flat image-name specialization array to select Default, Dark, and Default-for-Tinted sources. CRT adds a frontmost Accents group containing a separate full-canvas scanline and vignette SVG, specialized for a gentler Dark effect so it remains visibly CRT-like without burying the 16-bit car. Nested `slot` specializations are forbidden because Icon Composer silently ignores them.
 2. Retro Cartridge and Retro Video Game keep the approved v4 PNG byte-for-byte as Default and use their approved v5 charcoal-material `Dark.png` companions through the same flat image-name specialization contract on one stable layer. Their document canvas explicitly specializes Default, Dark, and Tinted fills as well, matching Pocket/LCD so the compiled alternate carries an authored Dark canvas and Dark layer source together. The Dark companions retain the same screen or label content, accents, control hierarchy, and composition without requiring byte-identical pixels across appearances; Tinted and Clear are system generated.
-3. CRT, Disc, and Polygon remain flattened until the layered theme material and appearance recipe passes device QA. Classic remains unchanged.
+3. Disc and Polygon remain flattened until the layered theme material and appearance recipe passes device QA. Classic remains unchanged.
 4. Preserve the existing primary package name `RetroRapid.icon` and the Default appearance's shipped visual parity.
 5. Add every alternate name to `ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES` for Debug and Release. Let Xcode generate `CFBundleIcons` entries; do not hand-maintain those generated keys in `Info.plist`.
-6. Generate four `512×512` Default/Dark gallery preview pairs from the same package sources. The asset catalog follows the app color scheme while Xcode derives display-density renditions.
+6. Generate six `512×512` Default/Dark gallery preview pairs from the same package sources. The asset catalog follows the app color scheme while Xcode derives display-density renditions.
 7. Run `./retrorapid assets app-icons` to regenerate sources and previews, `--dry-run` to inspect the plan, and `--check` to enforce deterministic drift without overwriting tracked Composer styling.
 
 Author Default artwork plus Dark and Mono annotations, then let Icon Composer derive the six system presentations: Default, Dark, Clear Light/Dark, and Tinted Light/Dark. Every result must preserve the same core silhouette and remain recognizable. Keep the source artwork square and unmasked, but validate every concept through [`ios-27-icon-mask.png`](assets/alternate-app-icon-concepts/ios-27-icon-mask.png) so critical artwork stays in the central safe region and inset hardware contours remain concentric with the actual continuous-corner crop. Avoid pre-rounded layers, tiny text, excessive baked glow, and baked inter-layer shadows that conflict with system effects.
@@ -220,17 +220,17 @@ Recommended gate after implementation:
 - `Requirements/app_icons.md` is the shipped behavior contract and is routed from `Requirements/INDEX.md`.
 - Shared catalog, selection policy, observable service, UIKit adapter, deterministic fakes, Theme-integrated Settings gallery, paywall gating, Debug flag, package declarations, previews, localization, and automated packaging checks are implemented.
 - Release bundles all packages but the resolver forcibly hides the gallery and icon-specific paywall copy.
-- Pocket, LCD, and Cartridge now use deterministic semantic SVG road/lane layers plus transparent canonical SpriteKit cars. Their tracked manifests preserve foreground-to-background ordering, full-height projected boundaries, flat Default/Dark/Tinted image source mappings, Mono (`tinted`) treatments, and no flattened `Default.png`.
+- Pocket, LCD, Cartridge, and CRT now use deterministic semantic SVG road/lane layers plus transparent canonical SpriteKit cars. Their tracked manifests preserve foreground-to-background ordering, full-height projected boundaries, flat Default/Dark/Tinted image source mappings, Mono (`tinted`) treatments, and no flattened `Default.png`. CRT additionally keeps its scanline/highlight pattern and vignette in a frontmost appearance-specialized Accents layer so the effect covers both the car and world.
 - Retro Cartridge and Retro Video Game use the approved v4 PNGs unchanged for Default and approved v5 charcoal-plastic companion renders for Dark. A single layer selects them through the same appearance-aware source contract. This is a deliberate exception to semantic layering so each appearance retains intentional material depth.
-- `./retrorapid assets app-icons` copies these canonical sources into the Special Edition packages and owns the generated Pocket/LCD/Cartridge layers plus all five adaptive Default/Dark gallery preview pairs. The runtime asset audit verifies package references, geometry, layer order, flat appearance specializations, adaptive preview mappings, and output drift, while `./retrorapid check` includes the generator's `--check` gate.
-- CRT, Disc, and Polygon remain flattened. Physical-device icon changes and return-to-Classic behavior are verified; residual work is hands-on six-presentation QA for this pilot, layered conversion of the remaining alternates, and the full device/accessibility matrix. tvOS remains deferred.
+- `./retrorapid assets app-icons` copies these canonical sources into the Special Edition packages and owns the generated Pocket/LCD/Cartridge/CRT layers plus all six adaptive Default/Dark gallery preview pairs. The runtime asset audit verifies package references, geometry, layer order, flat appearance specializations, adaptive preview mappings, and output drift, while `./retrorapid check` includes the generator's `--check` gate.
+- Disc and Polygon remain flattened. Physical-device icon changes and return-to-Classic behavior are verified; residual work is hands-on six-presentation QA for this pilot, layered conversion of the remaining alternates, and the full device/accessibility matrix. tvOS remains deferred.
 
 ## Effort Estimate
 
 | Work | Estimate |
 |---|---:|
 | Rebuild and refine the selected nine-icon catalog | 0.5–1 day |
-| Complete remaining three theme alternates as layered Icon Composer packages | 1–2 days |
+| Complete remaining two theme alternates as layered Icon Composer packages | 1–2 days |
 | Shared catalog, policy, gallery, UIKit adapter, and composition-root wiring | 1.5–2 days |
 | Unit/UI tests, localization, requirements, and paywall/App Store updates | 1–2 days |
 | Appearance, device, entitlement, accessibility, and archive-size QA | 1–2 days |

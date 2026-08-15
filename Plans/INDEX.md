@@ -37,7 +37,7 @@ Single status entrypoint for roadmap and themed plans. Requirements define shipp
 | SharePlay on macOS | [shareplay_macos_plan.md](shareplay_macos_plan.md) | Implemented in code; manual macOS SharePlay QA pending before public claims. |
 | SharePlay release campaign | [aso/10-shareplay-release-campaign.md](aso/10-shareplay-release-campaign.md) | Planned App Store launch package for free SharePlay friend races. |
 | visionOS spatial game and Polygon theme | [visionos_spatial_game_plan.md](visionos_spatial_game_plan.md) | Planned Classic window, RealityKit tabletop, shared-session handoff, and model-derived cross-platform theme. |
-| Alternate app icons | [alternate_app_icon_plan.md](alternate_app_icon_plan.md) | In-progress Unlimited Plays cosmetic benefit for iPhone and iPad; Pocket/LCD/Cartridge are layered, the two Special Editions use approved v4 Default/Dark artwork, and three theme conversions remain. |
+| Alternate app icons | [alternate_app_icon_plan.md](alternate_app_icon_plan.md) | In-progress Unlimited Plays cosmetic benefit for iPhone and iPad; Pocket/LCD/Cartridge/CRT are layered, the two Special Editions use approved v4 Default/Dark artwork, and two theme conversions remain. |
 | Developer CLI (`retrorapid`) | [retrorapid_developer_cli_plan.md](retrorapid_developer_cli_plan.md) | ✅ Done (2026-07-23); unified `./retrorapid` wrapper over Scripts executables and README recipes. |
 | Portfolio infrastructure parity | [portfolio_infrastructure_parity_plan.md](portfolio_infrastructure_parity_plan.md) | Proposed; add platform-boundary enforcement, documentation budgets, developer diagnostics, and verified release-E2E evidence while retaining RetroRapid's proven safety foundations. |
 

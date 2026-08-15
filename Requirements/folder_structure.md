@@ -30,7 +30,7 @@ One folder per feature; under each feature, subfolders by role: **View**, **Mode
 - **Game/** – `View/GameView.swift`, `View/GameView+GameControl.swift`, `View/GameView+Layout.swift`, `View/GameView+SceneLifecycle.swift`
 - **Leaderboard/** – `View/LeaderboardView.swift`
 - **Auth/** – `View/AuthViewControllerWrapper.swift`
-- **Assets/** – primary and alternate Icon Composer packages; **Assets.xcassets/** contains gallery previews, including adaptive Default/Dark pairs for the five adaptive pilots.
+- **Assets/** – primary and alternate Icon Composer packages; **Assets.xcassets/** contains gallery previews, including adaptive Default/Dark pairs for the six adaptive pilots.
 - **Localizable.xcstrings** – at root or under App
 
 ### RetroRacingTvOS

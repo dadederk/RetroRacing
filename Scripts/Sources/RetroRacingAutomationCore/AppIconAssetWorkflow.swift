@@ -99,6 +99,21 @@ public enum AppIconAssetWorkflow {
         )
         files += cartridge
 
+        let crt = try themeFiles(
+            id: .crt,
+            repositoryRoot: repositoryRoot,
+            assetsRoot: assetsRoot,
+            catalogRoot: catalogRoot,
+            palette: AppIconPilotPalette.crtDefault,
+            darkPalette: AppIconPilotPalette.crtDark,
+            roadGeometry: .crt,
+            spritePath: AppIconPilotID.crt.sourceArtworkPath,
+            carRect: NSRect(x: 22, y: 127, width: 980, height: 684),
+            defaultOverlay: AppIconSVGRenderer.crtOverlay(dark: false),
+            darkOverlay: AppIconSVGRenderer.crtOverlay(dark: true)
+        )
+        files += crt
+
         files += try specialEditionFiles(
             id: .retroCartridge,
             repositoryRoot: repositoryRoot,
@@ -127,7 +142,9 @@ public enum AppIconAssetWorkflow {
         darkPalette: AppIconPalette,
         roadGeometry: AppIconRoadGeometry,
         spritePath: String,
-        carRect: NSRect
+        carRect: NSRect,
+        defaultOverlay: Data? = nil,
+        darkOverlay: Data? = nil
     ) throws -> [GeneratedFile] {
         let roadGeometryData = AppIconSVGRenderer.road(geometry: roadGeometry)
         let marksGeometryData = AppIconSVGRenderer.laneMarks(geometry: roadGeometry)
@@ -146,35 +163,34 @@ public enum AppIconAssetWorkflow {
             destinationRect: carRect,
             name: "\(id.rawValue) car"
         )
+        let defaultPreviewLayers = [road, marks, car] + [defaultOverlay].compactMap { $0 }
+        let darkPreviewLayers = [darkRoad, darkMarks, car] + [darkOverlay].compactMap { $0 }
         let defaultPreview = try AppIconRasterRenderer.preview(
             canvasHex: palette.canvas,
-            layers: [
-                road,
-                marks,
-                car,
-            ],
+            layers: defaultPreviewLayers,
             name: "\(id.rawValue) preview"
         )
         let darkPreview = try AppIconRasterRenderer.preview(
             canvasHex: darkPalette.canvas,
-            layers: [
-                darkRoad,
-                darkMarks,
-                car,
-            ],
+            layers: darkPreviewLayers,
             name: "\(id.rawValue) Dark preview"
         )
+        var layers = [
+            "Road.svg": road,
+            "RoadDark.svg": darkRoad,
+            "LaneMarks.svg": marks,
+            "LaneMarksDark.svg": darkMarks,
+            "Car.png": car,
+        ]
+        if let defaultOverlay, let darkOverlay {
+            layers["CRTOverlay.svg"] = defaultOverlay
+            layers["CRTOverlayDark.svg"] = darkOverlay
+        }
         return packageFiles(
             id: id,
             assetsRoot: assetsRoot,
             catalogRoot: catalogRoot,
-            layers: [
-                "Road.svg": road,
-                "RoadDark.svg": darkRoad,
-                "LaneMarks.svg": marks,
-                "LaneMarksDark.svg": darkMarks,
-                "Car.png": car,
-            ],
+            layers: layers,
             defaultPreview: defaultPreview,
             darkPreview: darkPreview
         )
@@ -303,6 +319,7 @@ public enum AppIconAssetWorkflow {
             assetsRoot.appending(path: "RetroRapidPocket.icon/Assets/Default.png"),
             assetsRoot.appending(path: "RetroRapidLCD.icon/Assets/Default.png"),
             assetsRoot.appending(path: "RetroRapidCartridge.icon/Assets/Default.png"),
+            assetsRoot.appending(path: "RetroRapidCRT.icon/Assets/Default.png"),
         ]
         let cartridgeLayers = [
             "ShellMolding.svg", "ShellPinkTrim.svg", "LabelBacking.svg", "LabelInk.png",
