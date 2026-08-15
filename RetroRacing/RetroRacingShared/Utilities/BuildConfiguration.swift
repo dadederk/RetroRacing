@@ -8,10 +8,14 @@
 import Foundation
 import StoreKit
 
+/// Canonical process arguments shared by the app and its UI-test target.
+public enum UITestLaunchOption: String, Sendable {
+    case enabled = "--ui-testing"
+    case deterministicAppIconChanger = "--ui-testing-app-icon-preview"
+}
+
 /// Utility for detecting build configuration and deciding when to show debug features.
 public enum BuildConfiguration {
-    private static let deterministicAppIconChangerArgument = "--ui-testing-app-icon-preview"
-
     /// Cached TestFlight detection result.
     private static var cachedIsTestFlight: Bool?
 
@@ -52,7 +56,7 @@ public enum BuildConfiguration {
 
     /// Returns true only for app launches explicitly configured by the UI-test target.
     public static var isRunningUITests: Bool {
-        isDebug && ProcessInfo.processInfo.arguments.contains("--ui-testing")
+        isDebug && ProcessInfo.processInfo.arguments.contains(UITestLaunchOption.enabled.rawValue)
     }
 
     /// Returns true only for the gallery UI test that replaces SpringBoard interaction
@@ -69,8 +73,8 @@ public enum BuildConfiguration {
         isDebugBuild: Bool
     ) -> Bool {
         isDebugBuild
-            && arguments.contains("--ui-testing")
-            && arguments.contains(deterministicAppIconChangerArgument)
+            && arguments.contains(UITestLaunchOption.enabled.rawValue)
+            && arguments.contains(UITestLaunchOption.deterministicAppIconChanger.rawValue)
     }
 
     // MARK: - Private

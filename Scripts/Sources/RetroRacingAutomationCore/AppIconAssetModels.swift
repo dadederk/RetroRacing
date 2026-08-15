@@ -18,6 +18,7 @@ public enum AppIconPilotID: String, CaseIterable, Sendable {
     case lcd = "RetroRapidLCD"
     case cartridge = "RetroRapidCartridge"
     case crt = "RetroRapidCRT"
+    case disc = "RetroRapidDisc"
     case retroCartridge = "RetroRapidGameCartridge"
     case retroVideoGame = "RetroRapidVideoGame"
 
@@ -27,19 +28,30 @@ public enum AppIconPilotID: String, CaseIterable, Sendable {
         case .lcd: "AppIconPreviewLCD"
         case .cartridge: "AppIconPreviewCartridge"
         case .crt: "AppIconPreviewCRT"
+        case .disc: "AppIconPreviewDisc"
         case .retroCartridge: "AppIconPreviewRetroCartridge"
         case .retroVideoGame: "AppIconPreviewRetroVideoGame"
         }
+    }
+
+    public var darkPreviewAssetName: String {
+        "\(previewAssetName)Dark"
     }
 
     var layerFilenames: [String] {
         switch self {
         case .pocket, .lcd, .cartridge:
             ["Road.svg", "RoadDark.svg", "LaneMarks.svg", "LaneMarksDark.svg", "Car.png"]
+        case .disc:
+            [
+                "Road.svg", "RoadDark.svg", "LaneMarks.svg", "LaneMarksDark.svg",
+                "Car.png", "CircuitTexture.png",
+            ]
         case .crt:
             [
                 "Road.svg", "RoadDark.svg", "LaneMarks.svg", "LaneMarksDark.svg",
-                "Car.png", "CRTOverlay.svg", "CRTOverlayDark.svg",
+                "Car.png", "CRTOverlay.png", "CRTOverlayDark.png",
+                "CRTBackdrop.png", "CRTBackdropDark.png",
             ]
         case .retroCartridge, .retroVideoGame:
             ["Default.png", "Dark.png"]
@@ -56,6 +68,8 @@ public enum AppIconPilotID: String, CaseIterable, Sendable {
             "RetroRacing/RetroRacingShared/Assets.xcassets/Sprites/8Bit/playersCar-8Bit.imageset/playersCar-8Bit-ipad.png"
         case .crt:
             "RetroRacing/RetroRacingShared/Assets.xcassets/Sprites/16Bit/playersCar-16Bit.imageset/playersCar-16Bit-ipad.png"
+        case .disc:
+            "RetroRacing/RetroRacingShared/Assets.xcassets/Sprites/32Bit/playersCar-32Bit.imageset/playersCar-32Bit-ipad.png"
         case .retroCartridge:
             "Plans/assets/alternate-app-icon-concepts/retro-cartridge-v4.png"
         case .retroVideoGame:
@@ -65,7 +79,7 @@ public enum AppIconPilotID: String, CaseIterable, Sendable {
 
     var darkSourceArtworkPath: String? {
         switch self {
-        case .pocket, .lcd, .cartridge, .crt:
+        case .pocket, .lcd, .cartridge, .crt, .disc:
             nil
         case .retroCartridge:
             "Plans/assets/alternate-app-icon-concepts/retro-cartridge-dark-v5.png"
@@ -73,6 +87,9 @@ public enum AppIconPilotID: String, CaseIterable, Sendable {
             "Plans/assets/alternate-app-icon-concepts/retro-video-game-dark-v5.png"
         }
     }
+
+    static let discEnvironmentArtworkPath =
+        "Plans/assets/alternate-app-icon-concepts/disc-v4.png"
 }
 
 struct AppIconPalette: Sendable {
@@ -121,6 +138,16 @@ enum AppIconPilotPalette {
         canvas: "#3A413B",
         road: "#10141B",
         marks: "#F6C928"
+    )
+    static let discDefault = AppIconPalette(
+        canvas: "#003F46",
+        road: "#CFEAEC",
+        marks: "#073D4A"
+    )
+    static let discDark = AppIconPalette(
+        canvas: "#003F46",
+        road: "#121E2B",
+        marks: "#72E5E9"
     )
 }
 

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		210D69C32F3BFEA000EDECA3 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 210D69C22F3BFEA000EDECA3 /* StoreKit.framework */; };
 		21472B102F57A8700002E56A /* RetroRacingShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21DD46FE2F2FCB02000C9FFA /* RetroRacingShared.framework */; };
+		21AA00012F60000000000001 /* RetroRacingShared.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21DD46FE2F2FCB02000C9FFA /* RetroRacingShared.framework */; };
 		21AA00000000000000000001 /* ArcadeAudioKit in Frameworks */ = {isa = PBXBuildFile; productRef = 21AA00000000000000000003 /* ArcadeAudioKit */; };
 		21CE00022F3C0000000000A2 /* GameController.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21CE00012F3C0000000000A1 /* GameController.framework */; platformFilters = (ios, maccatalyst, macos, tvos, visionos, ); };
 		21DD469F2F2FCA97000C9FFA /* RetroRacingWatchOS.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 21DD467F2F2FCA96000C9FFA /* RetroRacingWatchOS.app */; platformFilter = ios; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -80,6 +81,13 @@
 			remoteInfo = RetroRacingVisionOS;
 		};
 		21DD470A2F2FCB02000C9FFA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 21DD46392F2FC956000C9FFA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 21DD46FD2F2FCB02000C9FFA;
+			remoteInfo = RetroRacingShared;
+		};
+		21AA00022F60000000000002 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 21DD46392F2FC956000C9FFA /* Project object */;
 			proxyType = 1;
@@ -294,6 +302,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				21AA00012F60000000000001 /* RetroRacingShared.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -500,6 +509,7 @@
 			);
 			dependencies = (
 				21DD465C2F2FC957000C9FFA /* PBXTargetDependency */,
+				21AA00032F60000000000003 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				21DD465D2F2FC957000C9FFA /* RetroRacingUniversalUITests */,
@@ -1051,6 +1061,11 @@
 			isa = PBXTargetDependency;
 			target = 21DD46FD2F2FCB02000C9FFA /* RetroRacingShared */;
 			targetProxy = 21DD47112F2FCB02000C9FFA /* PBXContainerItemProxy */;
+		};
+		21AA00032F60000000000003 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 21DD46FD2F2FCB02000C9FFA /* RetroRacingShared */;
+			targetProxy = 21AA00022F60000000000002 /* PBXContainerItemProxy */;
 		};
 		21DD46522F2FC957000C9FFA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

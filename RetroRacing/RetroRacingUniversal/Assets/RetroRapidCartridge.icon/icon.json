@@ -28,7 +28,19 @@
           "opacity" : 1
         },
         {
-          "glass" : false,
+          "glass-specializations" : [
+            {
+              "value" : false
+            },
+            {
+              "appearance" : "dark",
+              "value" : false
+            },
+            {
+              "appearance" : "tinted",
+              "value" : false
+            }
+          ],
           "image-name-specializations" : [
             {
               "value" : "LaneMarks.svg"
@@ -53,7 +65,7 @@
             },
             {
               "appearance" : "tinted",
-              "value" : 0.75
+              "value" : 0.5
             }
           ]
         }
@@ -71,7 +83,19 @@
     {
       "layers" : [
         {
-          "glass" : false,
+          "glass-specializations" : [
+            {
+              "value" : true
+            },
+            {
+              "appearance" : "dark",
+              "value" : true
+            },
+            {
+              "appearance" : "tinted",
+              "value" : true
+            }
+          ],
           "image-name-specializations" : [
             {
               "value" : "Road.svg"
@@ -96,7 +120,7 @@
             },
             {
               "appearance" : "tinted",
-              "value" : 0.45
+              "value" : 0.1
             }
           ]
         }

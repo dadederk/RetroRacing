@@ -2,19 +2,7 @@
   "images" : [
     {
       "filename" : "AppIconPreviewRetroCartridge.png",
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "appearances" : [
-        {
-          "appearance" : "luminosity",
-          "value" : "dark"
-        }
-      ],
-      "filename" : "AppIconPreviewRetroCartridgeDark.png",
-      "idiom" : "universal",
-      "scale" : "1x"
+      "idiom" : "universal"
     }
   ],
   "info" : {

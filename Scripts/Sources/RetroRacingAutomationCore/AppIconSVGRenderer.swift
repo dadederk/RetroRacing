@@ -46,6 +46,14 @@ struct AppIconRoadGeometry: Sendable {
         boundaryTopXs: [318, 425, 581, 706]
     )
 
+    static let disc = AppIconRoadGeometry(
+        vanishingPointX: 512,
+        vanishingPointY: -125,
+        roadTopLeftX: 410,
+        roadTopRightX: 614,
+        boundaryTopXs: [449, 491, 533, 575]
+    )
+
     func projectedX(topX: Double, y: Double) -> Double {
         let scale = (y - vanishingPointY) / -vanishingPointY
         return vanishingPointX + ((topX - vanishingPointX) * scale)
@@ -68,24 +76,32 @@ enum AppIconSVGRenderer {
         return svg(body: polygons.joined(separator: "\n"))
     }
 
-    static func crtOverlay(dark: Bool) -> Data {
+    static func crtBackdrop(canvasHex: String, dark: Bool) -> Data {
+        let vignetteOpacity = dark ? "0.55" : "0.48"
+        let vignetteStart = dark ? "35%" : "38%"
+        return svg(body: """
+        <defs>
+          <radialGradient id="vignette" cx="50%" cy="48%" r="72%">
+            <stop offset="\(vignetteStart)" stop-color="#000000" stop-opacity="0"/>
+            <stop offset="100%" stop-color="#000000" stop-opacity="\(vignetteOpacity)"/>
+          </radialGradient>
+        </defs>
+        <rect x="0" y="0" width="1024" height="1024" fill="\(canvasHex)"/>
+        <rect x="0" y="0" width="1024" height="1024" fill="url(#vignette)"/>
+        """)
+    }
+
+    static func crtScanlineOverlay(dark: Bool) -> Data {
         let scanlineOpacity = dark ? "0.14" : "0.18"
         let highlightOpacity = dark ? "0.012" : "0.022"
-        let vignetteOpacity = dark ? "0.30" : "0.26"
-        let vignetteStart = dark ? "58%" : "54%"
         return svg(body: """
         <defs>
           <pattern id="scanlines" width="12" height="12" patternUnits="userSpaceOnUse">
             <rect x="0" y="0" width="12" height="3" fill="#000000" fill-opacity="\(scanlineOpacity)"/>
             <rect x="0" y="3" width="12" height="1" fill="#B8FFC4" fill-opacity="\(highlightOpacity)"/>
           </pattern>
-          <radialGradient id="vignette" cx="50%" cy="48%" r="72%">
-            <stop offset="\(vignetteStart)" stop-color="#000000" stop-opacity="0"/>
-            <stop offset="100%" stop-color="#000000" stop-opacity="\(vignetteOpacity)"/>
-          </radialGradient>
         </defs>
         <rect x="0" y="0" width="1024" height="1024" fill="url(#scanlines)"/>
-        <rect x="0" y="0" width="1024" height="1024" fill="url(#vignette)"/>
         """)
     }
 

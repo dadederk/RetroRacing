@@ -11,9 +11,11 @@ import XCTest
 @MainActor
 final class AppIconServiceTests: XCTestCase {
     func testGivenSupportedServiceWhenChangingAndRefreshingThenSystemStateIsAuthoritative() async throws {
+        // Given
         let changer = TestAppIconChanger(supportsAlternateIcons: true)
         let service = makeService(changer: changer)
 
+        // When / Then
         try await service.changeIcon(to: .pocket)
 
         XCTAssertEqual(changer.requestedNames, ["RetroRapidPocket"])
@@ -30,10 +32,12 @@ final class AppIconServiceTests: XCTestCase {
     }
 
     func testGivenPlatformFailureWhenChangingThenSelectionAndProgressRecover() async {
+        // Given
         let changer = TestAppIconChanger(supportsAlternateIcons: true)
         changer.failure = TestFailure.expected
         let service = makeService(changer: changer)
 
+        // When / Then
         do {
             try await service.changeIcon(to: .polygon)
             XCTFail("Expected the platform failure to propagate")
@@ -88,6 +92,7 @@ final class AppIconServiceTests: XCTestCase {
     }
 
     func testGivenRolloutAndConfiguredPlatformWhenCheckingGalleryThenBothAreRequired() {
+        // Given
         let cases: [(isGalleryPlatformEnabled: Bool, isFeatureEnabled: Bool, expected: Bool)] = [
             (false, false, false),
             (false, true, false),
@@ -95,6 +100,7 @@ final class AppIconServiceTests: XCTestCase {
             (true, true, true),
         ]
 
+        // When / Then
         for testCase in cases {
             let service = AppIconService(
                 changer: TestAppIconChanger(supportsAlternateIcons: false),
@@ -111,14 +117,17 @@ final class AppIconServiceTests: XCTestCase {
     }
 
     func testGivenConfiguredPlatformWithoutSystemSupportWhenRefreshingThenGalleryRemainsVisible() {
+        // Given
         let changer = TestAppIconChanger(supportsAlternateIcons: false)
         let service = makeService(changer: changer)
         XCTAssertTrue(service.isGalleryAvailable)
         XCTAssertFalse(service.supportsAlternateIcons)
 
+        // When
         changer.supportsAlternateIcons = true
         service.refreshSystemState()
 
+        // Then
         XCTAssertTrue(service.supportsAlternateIcons)
         XCTAssertTrue(service.isGalleryAvailable)
     }
@@ -139,6 +148,7 @@ final class AppIconServiceTests: XCTestCase {
     }
 
     func testGivenAlternateInstalledWhenFlagIsDisabledThenInstalledIconIsPreserved() async throws {
+        // Given
         let changer = TestAppIconChanger(
             supportsAlternateIcons: true,
             alternateIconName: "RetroRapidCRT"
@@ -149,14 +159,17 @@ final class AppIconServiceTests: XCTestCase {
             isGalleryPlatformEnabled: true
         )
 
+        // When
         service.setFeatureEnabled(false)
 
+        // Then
         XCTAssertFalse(service.isGalleryAvailable)
         XCTAssertEqual(service.currentIconID, .crt)
         XCTAssertTrue(changer.requestedNames.isEmpty)
     }
 
     func testGivenChangeInProgressWhenSelectingAgainThenRepeatedRequestIsRejected() async throws {
+        // Given
         let changer = TestAppIconChanger(supportsAlternateIcons: true)
         changer.shouldSuspend = true
         let changeStarted = expectation(description: "The first icon change reached the platform adapter")
@@ -167,6 +180,7 @@ final class AppIconServiceTests: XCTestCase {
         }
         await fulfillment(of: [changeStarted], timeout: 1)
 
+        // When / Then
         await XCTAssertAppIconError(.changeInProgress) {
             try await service.changeIcon(to: .disc)
         }

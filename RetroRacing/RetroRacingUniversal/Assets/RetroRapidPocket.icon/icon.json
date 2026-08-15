@@ -22,13 +22,30 @@
     {
       "layers" : [
         {
-          "glass" : false,
+          "glass-specializations" : [
+            {
+              "value" : false
+            },
+            {
+              "appearance" : "tinted",
+              "value" : false
+            }
+          ],
+          "hidden" : false,
           "image-name" : "Car.png",
           "name" : "Pocket Car",
           "opacity" : 1
         },
         {
-          "glass" : false,
+          "glass-specializations" : [
+            {
+              "value" : false
+            },
+            {
+              "appearance" : "tinted",
+              "value" : false
+            }
+          ],
           "image-name-specializations" : [
             {
               "value" : "LaneMarks.svg"
@@ -53,7 +70,7 @@
             },
             {
               "appearance" : "tinted",
-              "value" : 0.75
+              "value" : 0.5
             }
           ]
         }
@@ -71,7 +88,16 @@
     {
       "layers" : [
         {
-          "glass" : false,
+          "blend-mode" : "normal",
+          "glass-specializations" : [
+            {
+              "value" : false
+            },
+            {
+              "appearance" : "tinted",
+              "value" : true
+            }
+          ],
           "image-name-specializations" : [
             {
               "value" : "Road.svg"
@@ -96,7 +122,7 @@
             },
             {
               "appearance" : "tinted",
-              "value" : 0.45
+              "value" : 0.1
             }
           ]
         }

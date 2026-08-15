@@ -14,6 +14,7 @@ public struct AppIconOption: Identifiable, Hashable, Sendable {
     public let nameKey: String
     public let accessibilityDescriptionKey: String
     public let previewAssetName: String
+    public let darkPreviewAssetName: String?
     public let systemIconName: String?
 
     public var localizedName: String {
@@ -63,15 +64,29 @@ public enum AppIconCatalog {
         group: AppIconGroup,
         systemIconName: String?
     ) -> AppIconOption {
-        AppIconOption(
+        let previewAssetName = "AppIconPreview\(previewSuffix(for: id))"
+        return AppIconOption(
             id: id,
             group: group,
             nameKey: "app_icon_name_\(id.rawValue)",
             accessibilityDescriptionKey: "app_icon_description_\(id.rawValue)",
-            previewAssetName: "AppIconPreview\(previewSuffix(for: id))",
+            previewAssetName: previewAssetName,
+            darkPreviewAssetName: adaptivePreviewIDs.contains(id)
+                ? "\(previewAssetName)Dark"
+                : nil,
             systemIconName: systemIconName
         )
     }
+
+    private static let adaptivePreviewIDs: Set<AppIconID> = [
+        .pocket,
+        .lcd,
+        .cartridge,
+        .crt,
+        .disc,
+        .retroCartridge,
+        .retroVideoGame,
+    ]
 
     private static func previewSuffix(for id: AppIconID) -> String {
         switch id {

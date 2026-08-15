@@ -84,6 +84,13 @@ final class GameLocalizedStringsLocaleTests: XCTestCase {
     }
 
     func testGivenStreakAndOverlanderAchievementsWhenReadingLocalFallbackThenMatchesASCCopy() {
+        // Given
+        let localizedThousand = AchievementIdentifier.formattedAchievementCount(
+            1_000,
+            locale: .autoupdatingCurrent
+        )
+
+        // When / Then
         XCTAssertEqual(AchievementIdentifier.runOvertakes100.localizedTitle, "Streak 100")
         XCTAssertEqual(
             AchievementIdentifier.runOvertakes100.localizedAchievedDescription,
@@ -92,12 +99,26 @@ final class GameLocalizedStringsLocaleTests: XCTestCase {
         XCTAssertEqual(AchievementIdentifier.totalOvertakes1k.localizedTitle, "Overlander 1K")
         XCTAssertEqual(
             AchievementIdentifier.totalOvertakes1k.localizedAchievedDescription,
-            "You overtook 1,000 cars in total."
+            "You overtook \(localizedThousand) cars in total."
         )
         XCTAssertEqual(AchievementIdentifier.eventGAADAssistive.localizedTitle, "GAAD Assistive Week")
         XCTAssertEqual(
             AchievementIdentifier.eventGAADAssistive.localizedAchievedDescription,
             "You completed a run during GAAD week using assistive technology."
+        )
+    }
+
+    func testGivenEnglishUSLocaleWhenFormattingAchievementCountThenMatchesASCCopy() {
+        // Given
+        let locale = Locale(identifier: "en_US")
+
+        // When
+        let count = AchievementIdentifier.formattedAchievementCount(1_000, locale: locale)
+
+        // Then
+        XCTAssertEqual(
+            count,
+            "1,000"
         )
     }
 

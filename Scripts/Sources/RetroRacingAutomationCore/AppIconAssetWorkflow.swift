@@ -99,6 +99,28 @@ public enum AppIconAssetWorkflow {
         )
         files += cartridge
 
+        let crtDefaultBackdrop = try AppIconRasterRenderer.opaqueLayer(
+            sourceData: AppIconSVGRenderer.crtBackdrop(
+                canvasHex: AppIconPilotPalette.crtDefault.canvas,
+                dark: false
+            ),
+            name: "CRT backdrop"
+        )
+        let crtDarkBackdrop = try AppIconRasterRenderer.opaqueLayer(
+            sourceData: AppIconSVGRenderer.crtBackdrop(
+                canvasHex: AppIconPilotPalette.crtDark.canvas,
+                dark: true
+            ),
+            name: "CRT Dark backdrop"
+        )
+        let crtDefaultOverlay = try AppIconRasterRenderer.transparentLayer(
+            sourceData: AppIconSVGRenderer.crtScanlineOverlay(dark: false),
+            name: "CRT overlay"
+        )
+        let crtDarkOverlay = try AppIconRasterRenderer.transparentLayer(
+            sourceData: AppIconSVGRenderer.crtScanlineOverlay(dark: true),
+            name: "CRT Dark overlay"
+        )
         let crt = try themeFiles(
             id: .crt,
             repositoryRoot: repositoryRoot,
@@ -109,10 +131,44 @@ public enum AppIconAssetWorkflow {
             roadGeometry: .crt,
             spritePath: AppIconPilotID.crt.sourceArtworkPath,
             carRect: NSRect(x: 22, y: 127, width: 980, height: 684),
-            defaultOverlay: AppIconSVGRenderer.crtOverlay(dark: false),
-            darkOverlay: AppIconSVGRenderer.crtOverlay(dark: true)
+            environment: AppIconAppearanceEnvironment(
+                defaultAsset: AppIconGeneratedLayer(
+                    filename: "CRTBackdrop.png",
+                    data: crtDefaultBackdrop
+                ),
+                darkAsset: AppIconGeneratedLayer(
+                    filename: "CRTBackdropDark.png",
+                    data: crtDarkBackdrop
+                )
+            ),
+            defaultOverlay: crtDefaultOverlay,
+            darkOverlay: crtDarkOverlay
         )
         files += crt
+
+        let discEnvironment = try AppIconDiscRenderer.circuitEnvironment(
+            sourceURL: repositoryRoot.appending(
+                path: AppIconPilotID.discEnvironmentArtworkPath
+            ),
+            geometry: .disc
+        )
+        files += try themeFiles(
+            id: .disc,
+            repositoryRoot: repositoryRoot,
+            assetsRoot: assetsRoot,
+            catalogRoot: catalogRoot,
+            palette: AppIconPilotPalette.discDefault,
+            darkPalette: AppIconPilotPalette.discDark,
+            roadGeometry: .disc,
+            spritePath: AppIconPilotID.disc.sourceArtworkPath,
+            carRect: NSRect(x: 0, y: 143, width: 1_040, height: 640),
+            environment: AppIconAppearanceEnvironment(
+                defaultAsset: AppIconGeneratedLayer(
+                    filename: "CircuitTexture.png",
+                    data: discEnvironment
+                )
+            )
+        )
 
         files += try specialEditionFiles(
             id: .retroCartridge,
@@ -143,6 +199,7 @@ public enum AppIconAssetWorkflow {
         roadGeometry: AppIconRoadGeometry,
         spritePath: String,
         carRect: NSRect,
+        environment: AppIconAppearanceEnvironment? = nil,
         defaultOverlay: Data? = nil,
         darkOverlay: Data? = nil
     ) throws -> [GeneratedFile] {
@@ -163,8 +220,16 @@ public enum AppIconAssetWorkflow {
             destinationRect: carRect,
             name: "\(id.rawValue) car"
         )
-        let defaultPreviewLayers = [road, marks, car] + [defaultOverlay].compactMap { $0 }
-        let darkPreviewLayers = [darkRoad, darkMarks, car] + [darkOverlay].compactMap { $0 }
+        let defaultEnvironmentLayers = [environment?.defaultAsset.data].compactMap { $0 }
+        let darkEnvironmentLayers = [
+            environment?.darkAsset?.data ?? environment?.defaultAsset.data,
+        ].compactMap { $0 }
+        let defaultPreviewLayers = defaultEnvironmentLayers
+            + [road, marks, car]
+            + [defaultOverlay].compactMap { $0 }
+        let darkPreviewLayers = darkEnvironmentLayers
+            + [darkRoad, darkMarks, car]
+            + [darkOverlay].compactMap { $0 }
         let defaultPreview = try AppIconRasterRenderer.preview(
             canvasHex: palette.canvas,
             layers: defaultPreviewLayers,
@@ -183,8 +248,14 @@ public enum AppIconAssetWorkflow {
             "Car.png": car,
         ]
         if let defaultOverlay, let darkOverlay {
-            layers["CRTOverlay.svg"] = defaultOverlay
-            layers["CRTOverlayDark.svg"] = darkOverlay
+            layers["CRTOverlay.png"] = defaultOverlay
+            layers["CRTOverlayDark.png"] = darkOverlay
+        }
+        if let environment {
+            layers[environment.defaultAsset.filename] = environment.defaultAsset.data
+            if let darkAsset = environment.darkAsset {
+                layers[darkAsset.filename] = darkAsset.data
+            }
         }
         return packageFiles(
             id: id,
@@ -249,51 +320,38 @@ public enum AppIconAssetWorkflow {
         let layerFiles = layers.map { name, data in
             GeneratedFile(url: packageAssets.appending(path: name), data: data)
         }
-        let imageSet = catalogRoot.appending(path: "\(id.previewAssetName).imageset")
+        let defaultImageSet = catalogRoot.appending(path: "\(id.previewAssetName).imageset")
+        let darkImageSet = catalogRoot.appending(path: "\(id.darkPreviewAssetName).imageset")
         let defaultPreviewFile = "\(id.previewAssetName).png"
-        let darkPreviewFile = "\(id.previewAssetName)Dark.png"
+        let darkPreviewFile = "\(id.darkPreviewAssetName).png"
         return layerFiles + [
             GeneratedFile(
-                url: imageSet.appending(path: defaultPreviewFile),
+                url: defaultImageSet.appending(path: defaultPreviewFile),
                 data: defaultPreview
             ),
             GeneratedFile(
-                url: imageSet.appending(path: darkPreviewFile),
+                url: defaultImageSet.appending(path: "Contents.json"),
+                data: previewContents(filename: defaultPreviewFile)
+            ),
+            GeneratedFile(
+                url: darkImageSet.appending(path: darkPreviewFile),
                 data: darkPreview
             ),
             GeneratedFile(
-                url: imageSet.appending(path: "Contents.json"),
-                data: previewContents(
-                    defaultFilename: defaultPreviewFile,
-                    darkFilename: darkPreviewFile
-                )
+                url: darkImageSet.appending(path: "Contents.json"),
+                data: previewContents(filename: darkPreviewFile)
             ),
         ]
     }
 
-    private static func previewContents(
-        defaultFilename: String,
-        darkFilename: String
-    ) -> Data {
+    private static func previewContents(filename: String) -> Data {
         Data(
             """
             {
               "images" : [
                 {
-                  "filename" : "\(defaultFilename)",
-                  "idiom" : "universal",
-                  "scale" : "1x"
-                },
-                {
-                  "appearances" : [
-                    {
-                      "appearance" : "luminosity",
-                      "value" : "dark"
-                    }
-                  ],
-                  "filename" : "\(darkFilename)",
-                  "idiom" : "universal",
-                  "scale" : "1x"
+                  "filename" : "\(filename)",
+                  "idiom" : "universal"
                 }
               ],
               "info" : {
@@ -315,11 +373,18 @@ public enum AppIconAssetWorkflow {
         let assetsRoot = repositoryRoot.appending(
             path: "RetroRacing/RetroRacingUniversal/Assets"
         )
+        let catalogRoot = repositoryRoot.appending(
+            path: "RetroRacing/RetroRacingUniversal/Assets.xcassets"
+        )
         var urls = [
             assetsRoot.appending(path: "RetroRapidPocket.icon/Assets/Default.png"),
             assetsRoot.appending(path: "RetroRapidLCD.icon/Assets/Default.png"),
             assetsRoot.appending(path: "RetroRapidCartridge.icon/Assets/Default.png"),
             assetsRoot.appending(path: "RetroRapidCRT.icon/Assets/Default.png"),
+            assetsRoot.appending(path: "RetroRapidCRT.icon/Assets/CRTOverlay.svg"),
+            assetsRoot.appending(path: "RetroRapidCRT.icon/Assets/CRTOverlayDark.svg"),
+            assetsRoot.appending(path: "RetroRapidDisc.icon/Assets/Default.png"),
+            assetsRoot.appending(path: "RetroRapidDisc.icon/Assets/Dark.png"),
         ]
         let cartridgeLayers = [
             "ShellMolding.svg", "ShellPinkTrim.svg", "LabelBacking.svg", "LabelInk.png",
@@ -344,6 +409,13 @@ public enum AppIconAssetWorkflow {
                 )
             )
         }
+        for iconID in AppIconPilotID.allCases {
+            urls.append(
+                catalogRoot.appending(
+                    path: "\(iconID.previewAssetName).imageset/\(iconID.darkPreviewAssetName).png"
+                )
+            )
+        }
         return urls
     }
 
@@ -359,5 +431,20 @@ public enum AppIconAssetWorkflow {
                 : nil
         }
         return stale.sorted()
+    }
+}
+
+private struct AppIconGeneratedLayer {
+    let filename: String
+    let data: Data
+}
+
+private struct AppIconAppearanceEnvironment {
+    let defaultAsset: AppIconGeneratedLayer
+    let darkAsset: AppIconGeneratedLayer?
+
+    init(defaultAsset: AppIconGeneratedLayer, darkAsset: AppIconGeneratedLayer? = nil) {
+        self.defaultAsset = defaultAsset
+        self.darkAsset = darkAsset
     }
 }

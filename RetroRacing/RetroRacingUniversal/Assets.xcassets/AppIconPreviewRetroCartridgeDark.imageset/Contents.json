@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "AppIconPreviewRetroCartridgeDark.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

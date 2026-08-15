@@ -27,13 +27,13 @@ public extension AchievementIdentifier {
         if let threshold = runOvertakesThreshold {
             return GameLocalizedStrings.format(
                 "achievement_achieved_run_overtakes %@",
-                Self.formattedAchievementCount(threshold)
+                Self.formattedAchievementCount(threshold, locale: .autoupdatingCurrent)
             )
         }
         if let threshold = totalOvertakesThreshold {
             return GameLocalizedStrings.format(
                 "achievement_achieved_total_overtakes %@",
-                Self.formattedAchievementCount(threshold)
+                Self.formattedAchievementCount(threshold, locale: .autoupdatingCurrent)
             )
         }
         if let controlAchievedKey = localizedControlAchievedDescriptionKey {
@@ -42,10 +42,10 @@ public extension AchievementIdentifier {
         return GameLocalizedStrings.string("achievement_achieved_event_gaad")
     }
 
-    static func formattedAchievementCount(_ value: Int) -> String {
+    static func formattedAchievementCount(_ value: Int, locale: Locale) -> String {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
-        formatter.locale = .autoupdatingCurrent
+        formatter.locale = locale
         return formatter.string(from: NSNumber(value: value)) ?? String(value)
     }
 

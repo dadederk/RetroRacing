@@ -183,6 +183,7 @@ private struct AppIconGalleryRow: View {
     let isDisabled: Bool
     let onSelect: () -> Void
 
+    @Environment(\.colorScheme) private var colorScheme
     @Environment(\.colorSchemeContrast) private var colorSchemeContrast
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @ScaledMetric(relativeTo: .body) private var previewSize: CGFloat = 104
@@ -214,7 +215,7 @@ private struct AppIconGalleryRow: View {
     }
 
     private var preview: some View {
-        Image(decorative: option.previewAssetName)
+        Image(decorative: resolvedPreviewAssetName)
             .resizable()
             .scaledToFit()
             .frame(width: resolvedPreviewSize, height: resolvedPreviewSize)
@@ -223,6 +224,7 @@ private struct AppIconGalleryRow: View {
                 RoundedRectangle(cornerRadius: 22)
                     .stroke(previewBorderColor, lineWidth: previewBorderWidth)
             }
+            .id(resolvedPreviewAssetName)
     }
 
     private var standardLayout: some View {
@@ -275,6 +277,11 @@ private struct AppIconGalleryRow: View {
 
     private var resolvedPreviewSize: CGFloat {
         dynamicTypeSize.isAccessibilitySize ? min(previewSize, 180) : previewSize
+    }
+
+    private var resolvedPreviewAssetName: String {
+        guard colorScheme == .dark else { return option.previewAssetName }
+        return option.darkPreviewAssetName ?? option.previewAssetName
     }
 
     private var previewBorderColor: Color {

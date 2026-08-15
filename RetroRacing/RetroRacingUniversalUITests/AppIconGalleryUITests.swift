@@ -6,12 +6,9 @@
 //
 
 import XCTest
+import RetroRacingShared
 
 final class AppIconGalleryUITests: XCTestCase {
-    private enum LaunchArgument {
-        static let deterministicAppIconChanger = "--ui-testing-app-icon-preview"
-    }
-
     override func setUpWithError() throws {
         continueAfterFailure = false
     }
@@ -155,6 +152,28 @@ final class AppIconGalleryUITests: XCTestCase {
     }
 
     @MainActor
+    func testGivenFreeAccessWhenSelectingLockedIconThenVoluntaryPaywallIsPresented() throws {
+        // Given
+        let app = launchApplication(premiumSimulationMode: 2)
+        openSettings(in: app)
+        let appIconRow = app.buttons["App Icon"]
+        XCTAssertTrue(appIconRow.waitForExistence(timeout: 10), app.debugDescription)
+        appIconRow.tap()
+        XCTAssertTrue(app.navigationBars["Choose App Icon"].waitForExistence(timeout: 10))
+
+        let pocket = app.buttons["app_icon_option_pocket"]
+        XCTAssertTrue(pocket.waitForExistence(timeout: 10), app.debugDescription)
+        XCTAssertTrue(pocket.isEnabled)
+        XCTAssertEqual(pocket.value as? String, "Requires Unlimited Plays")
+
+        // When
+        pocket.tap()
+
+        // Then
+        XCTAssertTrue(app.navigationBars["Go Unlimited"].waitForExistence(timeout: 10))
+    }
+
+    @MainActor
     private func launchApplication(
         premiumSimulationMode: Int,
         additionalArguments: [String] = [],
@@ -162,14 +181,14 @@ final class AppIconGalleryUITests: XCTestCase {
     ) -> XCUIApplication {
         let app = XCUIApplication()
         var launchArguments = [
-            "--ui-testing",
+            UITestLaunchOption.enabled.rawValue,
             "-AppleLanguages", "(en)",
             "-AppleLocale", "en_US",
             "-debugGameplay.alternateAppIconsEnabled", "1",
             "-StoreKit.debugPremiumSimulationMode", String(premiumSimulationMode),
         ]
         if usesDeterministicAppIconChanger {
-            launchArguments.append(LaunchArgument.deterministicAppIconChanger)
+            launchArguments.append(UITestLaunchOption.deterministicAppIconChanger.rawValue)
         }
         app.launchArguments = launchArguments + additionalArguments
         app.launch()

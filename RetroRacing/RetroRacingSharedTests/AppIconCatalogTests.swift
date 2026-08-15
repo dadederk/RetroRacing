@@ -10,7 +10,11 @@ import XCTest
 
 final class AppIconCatalogTests: XCTestCase {
     func testGivenCatalogWhenReadingEntriesThenOrderAndCompatibilityDataAreStable() throws {
-        XCTAssertEqual(AppIconCatalog.options.map(\.id), [
+        // Given / When
+        let options = AppIconCatalog.options
+
+        // Then
+        XCTAssertEqual(options.map(\.id), [
             .classic,
             .pocket,
             .lcd,
@@ -21,7 +25,7 @@ final class AppIconCatalogTests: XCTestCase {
             .retroCartridge,
             .retroVideoGame,
         ])
-        XCTAssertEqual(Set(AppIconCatalog.options.map(\.id)).count, 9)
+        XCTAssertEqual(Set(options.map(\.id)).count, 9)
         XCTAssertEqual(Set(AppIconCatalog.alternateSystemIconNames).count, 8)
         XCTAssertEqual(AppIconCatalog.options.first?.systemIconName, nil)
         XCTAssertEqual(AppIconCatalog.options(in: .classic).count, 1)
@@ -37,12 +41,23 @@ final class AppIconCatalogTests: XCTestCase {
             "RetroRapidVideoGame"
         )
         XCTAssertEqual(AppIconCatalog.option(forSystemIconName: nil)?.id, .classic)
+
+        XCTAssertNil(AppIconCatalog.option(for: .classic)?.darkPreviewAssetName)
+        XCTAssertNil(AppIconCatalog.option(for: .polygon)?.darkPreviewAssetName)
+        let adaptivePreviews = options.filter { $0.darkPreviewAssetName != nil }
+        XCTAssertEqual(adaptivePreviews.count, 7)
+        XCTAssertEqual(
+            AppIconCatalog.option(for: .crt)?.darkPreviewAssetName,
+            "AppIconPreviewCRTDark"
+        )
     }
 
     func testGivenEntitlementStatesWhenSelectingIconsThenExpectedActionsAreReturned() throws {
+        // Given
         let classic = try XCTUnwrap(AppIconCatalog.option(for: .classic))
         let pocket = try XCTUnwrap(AppIconCatalog.option(for: .pocket))
 
+        // When / Then
         XCTAssertEqual(action(for: classic, current: .classic), .none)
         XCTAssertEqual(action(for: classic, current: .pocket), .selectIcon)
         XCTAssertEqual(
@@ -64,11 +79,13 @@ final class AppIconCatalogTests: XCTestCase {
     }
 
     func testGivenDebugAndProductionStatesWhenResolvingFlagThenIsolationApplies() throws {
+        // Given
         let suiteName = "AppIconCatalogTests.featureFlag"
         let defaults = try XCTUnwrap(UserDefaults(suiteName: suiteName))
         defaults.removePersistentDomain(forName: suiteName)
         defer { defaults.removePersistentDomain(forName: suiteName) }
 
+        // When / Then
         XCTAssertTrue(DebugGameplayStorageKeys.areAlternateAppIconsEnabled(
             userDefaults: defaults,
             debugFeaturesAllowed: true
@@ -89,6 +106,7 @@ final class AppIconCatalogTests: XCTestCase {
 
     @MainActor
     func testGivenProductionFlagWhenCallerAttemptsToEnableThenItRemainsDisabled() throws {
+        // Given
         let suiteName = "AppIconCatalogTests.productionFeatureFlag"
         let defaults = try XCTUnwrap(UserDefaults(suiteName: suiteName))
         defaults.removePersistentDomain(forName: suiteName)
@@ -99,8 +117,10 @@ final class AppIconCatalogTests: XCTestCase {
             isConfigurationAllowed: false
         )
 
+        // When
         featureFlag.setEnabled(true)
 
+        // Then
         XCTAssertFalse(featureFlag.isEnabled)
     }
 
