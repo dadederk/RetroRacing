@@ -43,7 +43,19 @@
             }
           ],
           "name" : "Lane Marks",
-          "opacity" : 1
+          "opacity-specializations" : [
+            {
+              "value" : 1
+            },
+            {
+              "appearance" : "dark",
+              "value" : 1
+            },
+            {
+              "appearance" : "tinted",
+              "value" : 0.75
+            }
+          ]
         }
       ],
       "name" : "Subject",
@@ -74,7 +86,19 @@
             }
           ],
           "name" : "Road",
-          "opacity" : 1
+          "opacity-specializations" : [
+            {
+              "value" : 1
+            },
+            {
+              "appearance" : "dark",
+              "value" : 1
+            },
+            {
+              "appearance" : "tinted",
+              "value" : 0.45
+            }
+          ]
         }
       ],
       "name" : "World",

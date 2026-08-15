@@ -185,6 +185,25 @@ enum AlternateAppIconValidator {
                 layers: layers,
                 relativeName: relativeName
             )
+            issues += appearanceOpacitySpecializationIssues(
+                defaultImageName: "LaneMarks.svg",
+                tintedOpacity: 0.75,
+                layers: layers,
+                relativeName: relativeName
+            )
+            issues += appearanceOpacitySpecializationIssues(
+                defaultImageName: "Road.svg",
+                tintedOpacity: 0.45,
+                layers: layers,
+                relativeName: relativeName
+            )
+            if let carLayer = layers.first(where: { defaultImageName(in: $0) == "Car.png" }),
+               (carLayer["opacity"] as? NSNumber)?.doubleValue != 1
+            {
+                issues.append(
+                    "Layered theme app icon car must remain fully opaque: \(relativeName)"
+                )
+            }
             if pilotID == .crt {
                 issues += expectedLayerIssues(
                     groupName: "Accents",
@@ -195,6 +214,12 @@ enum AlternateAppIconValidator {
                 issues += appearanceImageSpecializationIssues(
                     defaultImageName: "CRTOverlay.svg",
                     darkImageName: "CRTOverlayDark.svg",
+                    layers: layers,
+                    relativeName: relativeName
+                )
+                issues += appearanceOpacitySpecializationIssues(
+                    defaultImageName: "CRTOverlay.svg",
+                    tintedOpacity: 0.60,
                     layers: layers,
                     relativeName: relativeName
                 )
@@ -286,6 +311,43 @@ enum AlternateAppIconValidator {
             return imageName
         }
         return imageName(in: layer, appearance: nil)
+    }
+
+    private static func appearanceOpacitySpecializationIssues(
+        defaultImageName expectedDefaultImageName: String,
+        tintedOpacity: Double,
+        layers: [[String: Any]],
+        relativeName: String
+    ) -> [String] {
+        guard let layer = layers.first(where: {
+            defaultImageName(in: $0) == expectedDefaultImageName
+        }) else {
+            return [
+                "Pilot app icon is missing appearance-aware opacity for \(expectedDefaultImageName): \(relativeName)"
+            ]
+        }
+        let specializations = layer["opacity-specializations"] as? [[String: Any]] ?? []
+        let defaultOpacity = opacity(in: specializations, appearance: nil)
+        let darkOpacity = opacity(in: specializations, appearance: "dark")
+        let monoOpacity = opacity(in: specializations, appearance: "tinted")
+        let isValid = defaultOpacity == 1
+            && darkOpacity == 1
+            && monoOpacity == tintedOpacity
+        return isValid
+            ? []
+            : [
+                "Pilot app icon must map Default/Dark opacity 1 and Mono opacity \(tintedOpacity) for \(expectedDefaultImageName): \(relativeName)"
+            ]
+    }
+
+    private static func opacity(
+        in specializations: [[String: Any]],
+        appearance: String?
+    ) -> Double? {
+        let matching = specializations.first { specialization in
+            specialization["appearance"] as? String == appearance
+        }
+        return (matching?["value"] as? NSNumber)?.doubleValue
     }
 
     private static func imageName(

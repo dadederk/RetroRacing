@@ -98,12 +98,19 @@ func givenThemeGeometryWhenGeneratingThenRoadAndDashesShareAConvergingCanvas() t
     #expect(crtMarks.components(separatedBy: "<polygon ").count - 1 == 36)
     #expect(AppIconRoadGeometry.pocket.projectedX(topX: 435, y: 1024) < 0)
     #expect(AppIconRoadGeometry.lcd.projectedX(topX: 674, y: 1024) > 1024)
-    #expect(AppIconRoadGeometry.crt.projectedX(topX: 300, y: 1024) < 0)
-    #expect(AppIconRoadGeometry.crt.projectedX(topX: 719, y: 1024) > 1024)
+    let crt = AppIconRoadGeometry.crt
+    #expect(
+        crt.projectedX(topX: crt.boundaryTopXs[0], y: 320)
+            > crt.projectedX(topX: crt.roadTopLeftX, y: 320)
+    )
+    #expect(
+        crt.projectedX(topX: crt.boundaryTopXs[3], y: 320)
+            < crt.projectedX(topX: crt.roadTopRightX, y: 320)
+    )
 }
 
 @Test
-func givenCRTOverlayWhenGeneratingAppearancesThenDarkRetainsAGentlerDisplayEffect() throws {
+func givenCRTOverlayWhenGeneratingAppearancesThenDarkRetainsAnEdgeFocusedDisplayEffect() throws {
     let defaultOverlay = try #require(
         String(data: AppIconSVGRenderer.crtOverlay(dark: false), encoding: .utf8)
     )
@@ -115,7 +122,8 @@ func givenCRTOverlayWhenGeneratingAppearancesThenDarkRetainsAGentlerDisplayEffec
     #expect(defaultOverlay.contains("fill-opacity=\"0.18\""))
     #expect(defaultOverlay.contains("stop-opacity=\"0.26\""))
     #expect(darkOverlay.contains("fill-opacity=\"0.14\""))
-    #expect(darkOverlay.contains("stop-opacity=\"0.20\""))
+    #expect(darkOverlay.contains("offset=\"58%\""))
+    #expect(darkOverlay.contains("stop-opacity=\"0.30\""))
     #expect(defaultOverlay != darkOverlay)
 }
 
@@ -264,6 +272,9 @@ func givenLayeredThemeIconComposerManifestWhenParsingThenAppearanceContractsAreP
         defaultImageName: "Road.svg",
         darkImageName: "RoadDark.svg"
     )
+    #expect((subjectLayers[0]["opacity"] as? NSNumber)?.doubleValue == 1)
+    expectAppearanceOpacities(layer: subjectLayers[1], mono: 0.75)
+    expectAppearanceOpacities(layer: worldLayers[0], mono: 0.45)
 }
 
 @Test
@@ -300,6 +311,10 @@ func givenCRTIconComposerManifestWhenParsingThenFrontmostEffectAndAppearancesAre
         defaultImageName: "Road.svg",
         darkImageName: "RoadDark.svg"
     )
+    #expect((subjectLayers[0]["opacity"] as? NSNumber)?.doubleValue == 1)
+    expectAppearanceOpacities(layer: accentLayers[0], mono: 0.60)
+    expectAppearanceOpacities(layer: subjectLayers[1], mono: 0.75)
+    expectAppearanceOpacities(layer: worldLayers[0], mono: 0.45)
     #expect(containsLegacySpecializationSlot(in: manifest) == false)
 }
 
@@ -360,6 +375,23 @@ private func expectDocumentFillAppearances(manifest: [String: Any]) {
     #expect(specializations.contains { $0["appearance"] == nil })
     #expect(specializations.contains { $0["appearance"] as? String == "dark" })
     #expect(specializations.contains { $0["appearance"] as? String == "tinted" })
+}
+
+private func expectAppearanceOpacities(layer: [String: Any], mono: Double) {
+    let specializations = layer["opacity-specializations"] as? [[String: Any]] ?? []
+    #expect(opacity(in: specializations, appearance: nil) == 1)
+    #expect(opacity(in: specializations, appearance: "dark") == 1)
+    #expect(opacity(in: specializations, appearance: "tinted") == mono)
+}
+
+private func opacity(
+    in specializations: [[String: Any]],
+    appearance: String?
+) -> Double? {
+    let matching = specializations.first { specialization in
+        specialization["appearance"] as? String == appearance
+    }
+    return (matching?["value"] as? NSNumber)?.doubleValue
 }
 
 private func defaultImageName(in layer: [String: Any]) -> String? {
