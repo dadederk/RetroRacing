@@ -1,14 +1,43 @@
 {
-  "fill" : {
-    "automatic-gradient" : "extended-srgb:0.94902,0.83137,0.61961,1.00000"
-  },
+  "fill-specializations" : [
+    {
+      "value" : {
+        "solid" : "extended-srgb:0.94902,0.82745,0.62353,1.00000"
+      }
+    },
+    {
+      "appearance" : "dark",
+      "value" : {
+        "solid" : "extended-srgb:0.25490,0.25490,0.27451,1.00000"
+      }
+    },
+    {
+      "appearance" : "tinted",
+      "value" : {
+        "solid" : "extended-gray:0.18000,1.00000"
+      }
+    }
+  ],
   "groups" : [
     {
       "layers" : [
         {
+          "blend-mode" : "normal",
           "glass" : false,
-          "image-name" : "Default.png",
-          "name" : "Default",
+          "image-name-specializations" : [
+            {
+              "value" : "Default.png"
+            },
+            {
+              "appearance" : "dark",
+              "value" : "Dark.png"
+            },
+            {
+              "appearance" : "tinted",
+              "value" : "Default.png"
+            }
+          ],
+          "name" : "Retro Video Game",
           "opacity" : 1,
           "position" : {
             "scale" : 1,
@@ -19,13 +48,14 @@
           }
         }
       ],
+      "name" : "Approved v4 Artwork",
       "shadow" : {
         "kind" : "neutral",
-        "opacity" : 0.28
+        "opacity" : 0.5
       },
       "translucency" : {
-        "enabled" : true,
-        "value" : 0.12
+        "enabled" : false,
+        "value" : 0
       }
     }
   ],

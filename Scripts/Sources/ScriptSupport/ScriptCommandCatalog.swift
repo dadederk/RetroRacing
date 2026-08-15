@@ -46,6 +46,7 @@ public enum ScriptCommandCatalog {
         "optimize-runtime-assets",
         "generate-spatial-assets",
         "generate-road-dash-masks",
+        "generate-app-icon-assets",
         "sync-screenshot-studio-localizations",
         "capture-app-store-screenshots",
         "generate-metadata-docs",
@@ -86,6 +87,10 @@ public enum ScriptCommandCatalog {
         ScriptExecutable(
             name: "generate-road-dash-masks",
             purpose: "Renders the lane and lap-strip mask assets"
+        ),
+        ScriptExecutable(
+            name: "generate-app-icon-assets",
+            purpose: "Builds theme layers, Special Edition appearances, and icon previews"
         ),
         ScriptExecutable(
             name: "sync-screenshot-studio-localizations",
@@ -147,6 +152,7 @@ public enum ScriptCommandCatalog {
     public static let checkRecipeSteps: [ScriptRecipeStep] = [
         ScriptRecipeStep(executable: "optimize-runtime-assets", arguments: ["--check"]),
         ScriptRecipeStep(executable: "generate-spatial-assets", arguments: ["--check"]),
+        ScriptRecipeStep(executable: "generate-app-icon-assets", arguments: ["--check"]),
         ScriptRecipeStep(executable: "asset-audit", arguments: ["--check"]),
         ScriptRecipeStep(executable: "generate-road-dash-masks", arguments: ["--check"]),
         ScriptRecipeStep(
@@ -193,7 +199,7 @@ public enum ScriptCommandCatalog {
         Commands:
           list                         List executables and common recipes
           menu                         Interactive command menu (same as no args)
-          check                        Verify assets, generated masks, screenshots, metadata, IAP/GC, and docs
+          check                        Verify generated assets, screenshots, metadata, IAP/GC, and docs
           test [flags…]                Run app unit tests (run-tests)
           test parallel-canary [flags…] Run app unit tests with parallel workers as a canary
           test package [flags…]        Run Scripts package unit tests
@@ -212,6 +218,7 @@ public enum ScriptCommandCatalog {
           assets optimize [flags…]     Generate or check optimized runtime assets
           assets spatial [flags…]      Generate or check visionOS spatial assets
           assets masks [flags…]        Generate or check road dash mask assets
+          assets app-icons [flags…]    Generate or check app icon pilot assets
           testflight [args…]           Archive and upload TestFlight builds
           run <executable> [flags…]    Run any cataloged executable directly
 
@@ -235,6 +242,7 @@ public enum ScriptCommandCatalog {
         lines.append("  ./retrorapid assets audit --check")
         lines.append("  ./retrorapid assets optimize --check")
         lines.append("  ./retrorapid assets spatial --check")
+        lines.append("  ./retrorapid assets app-icons --check")
         lines.append("  ./retrorapid test")
         lines.append("  ./retrorapid test parallel-canary --workers 2,4")
         lines.append("  ./retrorapid test package")

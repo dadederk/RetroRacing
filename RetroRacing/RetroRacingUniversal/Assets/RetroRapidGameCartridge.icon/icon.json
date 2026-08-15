@@ -1,31 +1,53 @@
 {
-  "fill" : {
-    "automatic-gradient" : "extended-srgb:0.94902,0.83137,0.61961,1.00000"
-  },
+  "fill-specializations" : [
+    {
+      "value" : {
+        "solid" : "extended-srgb:0.90588,0.77647,0.57647,1.00000"
+      }
+    },
+    {
+      "appearance" : "dark",
+      "value" : {
+        "solid" : "extended-srgb:0.29804,0.29804,0.30588,1.00000"
+      }
+    },
+    {
+      "appearance" : "tinted",
+      "value" : {
+        "solid" : "extended-gray:0.18000,1.00000"
+      }
+    }
+  ],
   "groups" : [
     {
       "layers" : [
         {
           "glass" : false,
-          "image-name" : "Default.png",
-          "name" : "Default",
-          "opacity" : 1,
-          "position" : {
-            "scale" : 1,
-            "translation-in-points" : [
-              0,
-              0
-            ]
-          }
+          "image-name-specializations" : [
+            {
+              "value" : "Default.png"
+            },
+            {
+              "appearance" : "dark",
+              "value" : "Dark.png"
+            },
+            {
+              "appearance" : "tinted",
+              "value" : "Default.png"
+            }
+          ],
+          "name" : "Retro Cartridge",
+          "opacity" : 1
         }
       ],
+      "name" : "Approved v4 Artwork",
       "shadow" : {
-        "kind" : "neutral",
-        "opacity" : 0.28
+        "kind" : "none",
+        "opacity" : 0
       },
       "translucency" : {
-        "enabled" : true,
-        "value" : 0.12
+        "enabled" : false,
+        "value" : 0
       }
     }
   ],

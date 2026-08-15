@@ -1,27 +1,86 @@
 {
-  "fill" : {
-    "automatic-gradient" : "extended-srgb:0.73333,0.83922,0.21176,1.00000"
-  },
+  "fill-specializations" : [
+    {
+      "value" : {
+        "solid" : "extended-srgb:0.78431,0.86275,0.50980,1.00000"
+      }
+    },
+    {
+      "appearance" : "dark",
+      "value" : {
+        "solid" : "extended-srgb:0.09020,0.10588,0.09412,1.00000"
+      }
+    },
+    {
+      "appearance" : "tinted",
+      "value" : {
+        "solid" : "extended-gray:0.18000,1.00000"
+      }
+    }
+  ],
   "groups" : [
     {
       "layers" : [
         {
           "glass" : false,
-          "image-name" : "Default.png",
-          "name" : "Default",
-          "opacity" : 1,
-          "position" : {
-            "scale" : 1.1,
-            "translation-in-points" : [
-              0,
-              0
-            ]
-          }
+          "image-name" : "Car.png",
+          "name" : "Pocket Car",
+          "opacity" : 1
+        },
+        {
+          "glass" : false,
+          "image-name-specializations" : [
+            {
+              "value" : "LaneMarks.svg"
+            },
+            {
+              "appearance" : "dark",
+              "value" : "LaneMarksDark.svg"
+            },
+            {
+              "appearance" : "tinted",
+              "value" : "LaneMarks.svg"
+            }
+          ],
+          "name" : "Lane Marks",
+          "opacity" : 1
         }
       ],
+      "name" : "Subject",
       "shadow" : {
         "kind" : "neutral",
         "opacity" : 0.18
+      },
+      "translucency" : {
+        "enabled" : false,
+        "value" : 0
+      }
+    },
+    {
+      "layers" : [
+        {
+          "glass" : false,
+          "image-name-specializations" : [
+            {
+              "value" : "Road.svg"
+            },
+            {
+              "appearance" : "dark",
+              "value" : "RoadDark.svg"
+            },
+            {
+              "appearance" : "tinted",
+              "value" : "Road.svg"
+            }
+          ],
+          "name" : "Road",
+          "opacity" : 1
+        }
+      ],
+      "name" : "World",
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.12
       },
       "translucency" : {
         "enabled" : true,

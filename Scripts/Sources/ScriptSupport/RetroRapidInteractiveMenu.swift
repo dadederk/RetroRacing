@@ -293,7 +293,7 @@ public enum RetroRapidInteractiveMenu {
         execute: (ScriptDispatchPlan, URL) throws -> Void,
         repositoryRoot: URL
     ) throws {
-        write("1. audit  2. optimize  3. masks  4. testflight")
+        write("1. audit  2. optimize  3. masks  4. spatial  5. app-icons  6. testflight")
         guard let option = readLine()?.trimmingCharacters(in: .whitespacesAndNewlines) else { return }
         switch option {
         case "1":
@@ -332,6 +332,26 @@ public enum RetroRapidInteractiveMenu {
                 repositoryRoot: repositoryRoot
             )
         case "4":
+            let mode = promptMutationMode(supportsCheck: true, supportsDryRun: true, readLine: readLine, write: write)
+            try confirmAndRun(
+                plan: .runSwiftExecutable(executable: "generate-spatial-assets", arguments: mutationFlags(for: mode)),
+                label: "./retrorapid assets spatial",
+                readLine: readLine,
+                write: write,
+                execute: execute,
+                repositoryRoot: repositoryRoot
+            )
+        case "5":
+            let mode = promptMutationMode(supportsCheck: true, supportsDryRun: true, readLine: readLine, write: write)
+            try confirmAndRun(
+                plan: .runSwiftExecutable(executable: "generate-app-icon-assets", arguments: mutationFlags(for: mode)),
+                label: "./retrorapid assets app-icons",
+                readLine: readLine,
+                write: write,
+                execute: execute,
+                repositoryRoot: repositoryRoot
+            )
+        case "6":
             write("TestFlight subcommand [all --dry-run]: ")
             let subcommand = readLine()?.split(separator: " ").map(String.init) ?? ["all", "--dry-run"]
             try confirmAndRun(
