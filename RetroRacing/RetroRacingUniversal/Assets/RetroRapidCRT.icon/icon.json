@@ -47,7 +47,7 @@
             },
             {
               "appearance" : "tinted",
-              "value" : 1
+              "value" : 0.6
             }
           ]
         }
@@ -196,48 +196,6 @@
               0
             ]
           }
-        },
-        {
-          "glass-specializations" : [
-            {
-              "value" : false
-            },
-            {
-              "appearance" : "dark",
-              "value" : false
-            },
-            {
-              "appearance" : "tinted",
-              "value" : false
-            }
-          ],
-          "image-name-specializations" : [
-            {
-              "value" : "CRTBackdrop.png"
-            },
-            {
-              "appearance" : "dark",
-              "value" : "CRTBackdropDark.png"
-            },
-            {
-              "appearance" : "tinted",
-              "value" : "CRTBackdrop.png"
-            }
-          ],
-          "name" : "CRT Vignette Backdrop",
-          "opacity-specializations" : [
-            {
-              "value" : 1
-            },
-            {
-              "appearance" : "dark",
-              "value" : 1
-            },
-            {
-              "appearance" : "tinted",
-              "value" : 0.25
-            }
-          ]
         }
       ],
       "name" : "World",

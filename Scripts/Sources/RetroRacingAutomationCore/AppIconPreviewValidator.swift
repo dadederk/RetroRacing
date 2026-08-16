@@ -11,9 +11,11 @@ enum AppIconPreviewValidator {
     static func issues(catalogRoot: URL) -> [String] {
         previewNames.flatMap { previewName in
             if adaptivePreviewNames.contains(previewName) {
-                explicitAppearanceIssues(
-                    catalogRoot: catalogRoot,
-                    previewName: previewName
+                adaptiveImageSetIssues(
+                    imageSetURL: catalogRoot.appending(path: "\(previewName).imageset"),
+                    previewName: previewName,
+                    defaultFilename: "\(previewName).png",
+                    darkFilename: "\(previewName)Dark.png"
                 )
             } else {
                 imageSetIssues(
@@ -26,22 +28,49 @@ enum AppIconPreviewValidator {
         }
     }
 
-    private static func explicitAppearanceIssues(
-        catalogRoot: URL,
-        previewName: String
+    private static func adaptiveImageSetIssues(
+        imageSetURL: URL,
+        previewName: String,
+        defaultFilename: String,
+        darkFilename: String
     ) -> [String] {
-        let darkPreviewName = "\(previewName)Dark"
-        return imageSetIssues(
-            imageSetURL: catalogRoot.appending(path: "\(previewName).imageset"),
-            previewName: previewName,
-            expectedFilename: "\(previewName).png",
-            requiresOpaqueImage: true
-        ) + imageSetIssues(
-            imageSetURL: catalogRoot.appending(path: "\(darkPreviewName).imageset"),
-            previewName: darkPreviewName,
-            expectedFilename: "\(darkPreviewName).png",
-            requiresOpaqueImage: true
-        )
+        let contentsURL = imageSetURL.appending(path: "Contents.json")
+        guard let data = try? Data(contentsOf: contentsURL),
+              let object = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+              let images = object["images"] as? [[String: Any]],
+              images.count == 2,
+              let defaultEntry = images.first(where: {
+                  $0["filename"] as? String == defaultFilename
+              }),
+              let darkEntry = images.first(where: {
+                  $0["filename"] as? String == darkFilename
+              })
+        else {
+            return ["Adaptive app icon preview must provide Default and Dark images: \(previewName)"]
+        }
+
+        let darkAppearances = darkEntry["appearances"] as? [[String: Any]] ?? []
+        let hasDarkAppearance = darkAppearances.contains { appearance in
+            appearance["appearance"] as? String == "luminosity"
+                && appearance["value"] as? String == "dark"
+        }
+        var issues: [String] = []
+        if defaultEntry["appearances"] != nil || hasDarkAppearance == false {
+            issues.append("Adaptive app icon preview has invalid Dark metadata: \(previewName)")
+        }
+        for (entry, filename) in [(defaultEntry, defaultFilename), (darkEntry, darkFilename)] {
+            issues += singleScaleIssues(entry: entry, previewName: previewName)
+            issues += imageIssues(
+                imageURL: imageSetURL.appending(path: filename),
+                previewName: filename
+            )
+            if AppIconValidationSupport.imageHasAlpha(
+                at: imageSetURL.appending(path: filename)
+            ) != false {
+                issues.append("Pilot app icon preview must be an opaque RGB image: \(filename)")
+            }
+        }
+        return issues
     }
 
     private static func imageSetIssues(

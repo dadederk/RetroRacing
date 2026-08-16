@@ -3,6 +3,16 @@
     {
       "filename" : "AppIconPreviewRetroVideoGame.png",
       "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "AppIconPreviewRetroVideoGameDark.png",
+      "idiom" : "universal"
     }
   ],
   "info" : {

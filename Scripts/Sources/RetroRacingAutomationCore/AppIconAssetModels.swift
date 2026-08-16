@@ -34,10 +34,6 @@ public enum AppIconPilotID: String, CaseIterable, Sendable {
         }
     }
 
-    public var darkPreviewAssetName: String {
-        "\(previewAssetName)Dark"
-    }
-
     var layerFilenames: [String] {
         switch self {
         case .pocket, .lcd, .cartridge:
@@ -51,7 +47,6 @@ public enum AppIconPilotID: String, CaseIterable, Sendable {
             [
                 "Road.svg", "RoadDark.svg", "LaneMarks.svg", "LaneMarksDark.svg",
                 "Car.png", "CRTOverlay.png", "CRTOverlayDark.png",
-                "CRTBackdrop.png", "CRTBackdropDark.png",
             ]
         case .retroCartridge, .retroVideoGame:
             ["Default.png", "Dark.png"]

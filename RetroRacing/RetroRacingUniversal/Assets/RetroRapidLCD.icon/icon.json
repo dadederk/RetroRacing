@@ -73,7 +73,7 @@
         {
           "glass-specializations" : [
             {
-              "value" : false
+              "value" : true
             },
             {
               "appearance" : "tinted",

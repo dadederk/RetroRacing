@@ -3,6 +3,16 @@
     {
       "filename" : "AppIconPreviewCRT.png",
       "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "AppIconPreviewCRTDark.png",
+      "idiom" : "universal"
     }
   ],
   "info" : {

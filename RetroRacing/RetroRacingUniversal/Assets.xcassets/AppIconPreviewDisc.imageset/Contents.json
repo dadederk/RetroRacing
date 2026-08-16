@@ -3,6 +3,16 @@
     {
       "filename" : "AppIconPreviewDisc.png",
       "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "AppIconPreviewDiscDark.png",
+      "idiom" : "universal"
     }
   ],
   "info" : {

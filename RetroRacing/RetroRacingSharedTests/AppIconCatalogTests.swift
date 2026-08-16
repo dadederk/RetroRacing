@@ -41,15 +41,21 @@ final class AppIconCatalogTests: XCTestCase {
             "RetroRapidVideoGame"
         )
         XCTAssertEqual(AppIconCatalog.option(forSystemIconName: nil)?.id, .classic)
-
-        XCTAssertNil(AppIconCatalog.option(for: .classic)?.darkPreviewAssetName)
-        XCTAssertNil(AppIconCatalog.option(for: .polygon)?.darkPreviewAssetName)
-        let adaptivePreviews = options.filter { $0.darkPreviewAssetName != nil }
-        XCTAssertEqual(adaptivePreviews.count, 7)
         XCTAssertEqual(
-            AppIconCatalog.option(for: .crt)?.darkPreviewAssetName,
-            "AppIconPreviewCRTDark"
+            options.map(\.previewAssetName),
+            [
+                "AppIconPreviewClassic",
+                "AppIconPreviewPocket",
+                "AppIconPreviewLCD",
+                "AppIconPreviewCartridge",
+                "AppIconPreviewCRT",
+                "AppIconPreviewDisc",
+                "AppIconPreviewPolygon",
+                "AppIconPreviewRetroCartridge",
+                "AppIconPreviewRetroVideoGame",
+            ]
         )
+        XCTAssertEqual(Set(options.map(\.previewAssetName)).count, 9)
     }
 
     func testGivenEntitlementStatesWhenSelectingIconsThenExpectedActionsAreReturned() throws {

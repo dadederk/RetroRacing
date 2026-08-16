@@ -76,32 +76,27 @@ enum AppIconSVGRenderer {
         return svg(body: polygons.joined(separator: "\n"))
     }
 
-    static func crtBackdrop(canvasHex: String, dark: Bool) -> Data {
-        let vignetteOpacity = dark ? "0.55" : "0.48"
-        let vignetteStart = dark ? "35%" : "38%"
-        return svg(body: """
-        <defs>
-          <radialGradient id="vignette" cx="50%" cy="48%" r="72%">
-            <stop offset="\(vignetteStart)" stop-color="#000000" stop-opacity="0"/>
-            <stop offset="100%" stop-color="#000000" stop-opacity="\(vignetteOpacity)"/>
-          </radialGradient>
-        </defs>
-        <rect x="0" y="0" width="1024" height="1024" fill="\(canvasHex)"/>
-        <rect x="0" y="0" width="1024" height="1024" fill="url(#vignette)"/>
-        """)
-    }
-
-    static func crtScanlineOverlay(dark: Bool) -> Data {
+    static func crtOverlay(dark: Bool) -> Data {
         let scanlineOpacity = dark ? "0.14" : "0.18"
         let highlightOpacity = dark ? "0.012" : "0.022"
+        let vignetteShoulderOpacity = dark ? "0.05" : "0.06"
+        let vignetteMidOpacity = dark ? "0.18" : "0.22"
+        let vignetteEdgeOpacity = dark ? "0.58" : "0.62"
         return svg(body: """
         <defs>
           <pattern id="scanlines" width="12" height="12" patternUnits="userSpaceOnUse">
             <rect x="0" y="0" width="12" height="3" fill="#000000" fill-opacity="\(scanlineOpacity)"/>
             <rect x="0" y="3" width="12" height="1" fill="#B8FFC4" fill-opacity="\(highlightOpacity)"/>
           </pattern>
+          <radialGradient id="vignette" cx="50%" cy="48%" r="72%">
+            <stop offset="52%" stop-color="#000000" stop-opacity="0"/>
+            <stop offset="74%" stop-color="#000000" stop-opacity="\(vignetteShoulderOpacity)"/>
+            <stop offset="89%" stop-color="#000000" stop-opacity="\(vignetteMidOpacity)"/>
+            <stop offset="100%" stop-color="#000000" stop-opacity="\(vignetteEdgeOpacity)"/>
+          </radialGradient>
         </defs>
         <rect x="0" y="0" width="1024" height="1024" fill="url(#scanlines)"/>
+        <rect x="0" y="0" width="1024" height="1024" fill="url(#vignette)"/>
         """)
     }
 

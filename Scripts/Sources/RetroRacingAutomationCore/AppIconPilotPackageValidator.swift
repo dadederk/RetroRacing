@@ -102,11 +102,9 @@ enum AppIconPilotPackageValidator {
             relativeName: relativeName
         )
         let worldImageNames: [String] = switch pilotID {
-        case .crt:
-            ["Road.svg", "CRTBackdrop.png"]
         case .disc:
             ["Road.svg", "CircuitTexture.png"]
-        case .pocket, .lcd, .cartridge:
+        case .pocket, .lcd, .cartridge, .crt:
             ["Road.svg"]
         case .retroCartridge, .retroVideoGame:
             []
@@ -158,18 +156,6 @@ enum AppIconPilotPackageValidator {
                 let overlayURL = packageURL.appending(path: "Assets/\(filename)")
                 if AppIconValidationSupport.imageHasAlpha(at: overlayURL) != true {
                     issues.append("CRT effect layer must retain transparency: \(filename)")
-                }
-            }
-            issues += appearanceIssues(
-                defaultName: "CRTBackdrop.png",
-                darkName: "CRTBackdropDark.png",
-                layers: layers,
-                relativeName: relativeName
-            )
-            for filename in ["CRTBackdrop.png", "CRTBackdropDark.png"] {
-                let backdropURL = packageURL.appending(path: "Assets/\(filename)")
-                if AppIconValidationSupport.imageHasAlpha(at: backdropURL) != false {
-                    issues.append("CRT vignette backdrop must remain opaque: \(filename)")
                 }
             }
         }

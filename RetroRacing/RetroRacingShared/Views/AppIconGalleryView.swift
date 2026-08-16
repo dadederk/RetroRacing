@@ -215,7 +215,7 @@ private struct AppIconGalleryRow: View {
     }
 
     private var preview: some View {
-        Image(decorative: resolvedPreviewAssetName)
+        Image(decorative: option.previewAssetName)
             .resizable()
             .scaledToFit()
             .frame(width: resolvedPreviewSize, height: resolvedPreviewSize)
@@ -224,7 +224,7 @@ private struct AppIconGalleryRow: View {
                 RoundedRectangle(cornerRadius: 22)
                     .stroke(previewBorderColor, lineWidth: previewBorderWidth)
             }
-            .id(resolvedPreviewAssetName)
+            .id(previewIdentity)
     }
 
     private var standardLayout: some View {
@@ -279,9 +279,8 @@ private struct AppIconGalleryRow: View {
         dynamicTypeSize.isAccessibilitySize ? min(previewSize, 180) : previewSize
     }
 
-    private var resolvedPreviewAssetName: String {
-        guard colorScheme == .dark else { return option.previewAssetName }
-        return option.darkPreviewAssetName ?? option.previewAssetName
+    private var previewIdentity: String {
+        "\(option.previewAssetName)-\(colorScheme == .dark ? "dark" : "light")"
     }
 
     private var previewBorderColor: Color {

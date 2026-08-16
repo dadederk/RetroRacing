@@ -123,47 +123,33 @@ func givenThemeGeometryWhenGeneratingThenRoadAndDashesShareAConvergingCanvas() t
 }
 
 @Test
-func givenCRTEffectWhenGeneratingAppearancesThenBackdropOwnsTheVignette() throws {
-    let defaultBackdrop = try #require(
-        String(
-            data: AppIconSVGRenderer.crtBackdrop(
-                canvasHex: AppIconPilotPalette.crtDefault.canvas,
-                dark: false
-            ),
-            encoding: .utf8
-        )
+func givenCRTEffectWhenGeneratingAppearancesThenOverlayOwnsScanlinesAndVignette() throws {
+    let defaultOverlay = try #require(
+        String(data: AppIconSVGRenderer.crtOverlay(dark: false), encoding: .utf8)
     )
-    let darkBackdrop = try #require(
-        String(
-            data: AppIconSVGRenderer.crtBackdrop(
-                canvasHex: AppIconPilotPalette.crtDark.canvas,
-                dark: true
-            ),
-            encoding: .utf8
-        )
-    )
-    let defaultScanlines = try #require(
-        String(data: AppIconSVGRenderer.crtScanlineOverlay(dark: false), encoding: .utf8)
-    )
-    let darkScanlines = try #require(
-        String(data: AppIconSVGRenderer.crtScanlineOverlay(dark: true), encoding: .utf8)
+    let darkOverlay = try #require(
+        String(data: AppIconSVGRenderer.crtOverlay(dark: true), encoding: .utf8)
     )
 
-    #expect(defaultBackdrop.contains("viewBox=\"0 0 1024 1024\""))
-    #expect(defaultBackdrop.contains("fill=\"#087D17\""))
-    #expect(defaultBackdrop.contains("offset=\"38%\""))
-    #expect(defaultBackdrop.contains("stop-opacity=\"0.48\""))
-    #expect(darkBackdrop.contains("fill=\"#3A413B\""))
-    #expect(darkBackdrop.contains("offset=\"35%\""))
-    #expect(darkBackdrop.contains("stop-opacity=\"0.55\""))
-    #expect(defaultScanlines.contains("fill-opacity=\"0.18\""))
-    #expect(darkScanlines.contains("fill-opacity=\"0.14\""))
-    #expect(defaultScanlines.contains("radialGradient") == false)
-    #expect(darkScanlines.contains("radialGradient") == false)
+    #expect(defaultOverlay.contains("viewBox=\"0 0 1024 1024\""))
+    #expect(defaultOverlay.contains("fill-opacity=\"0.18\""))
+    #expect(darkOverlay.contains("fill-opacity=\"0.14\""))
+    #expect(defaultOverlay.contains("r=\"72%\""))
+    #expect(defaultOverlay.contains("offset=\"52%\""))
+    #expect(defaultOverlay.contains("offset=\"74%\""))
+    #expect(defaultOverlay.contains("stop-opacity=\"0.06\""))
+    #expect(defaultOverlay.contains("offset=\"89%\""))
+    #expect(defaultOverlay.contains("stop-opacity=\"0.22\""))
+    #expect(defaultOverlay.contains("stop-opacity=\"0.62\""))
+    #expect(darkOverlay.contains("stop-opacity=\"0.05\""))
+    #expect(darkOverlay.contains("stop-opacity=\"0.18\""))
+    #expect(darkOverlay.contains("stop-opacity=\"0.58\""))
+    #expect(defaultOverlay.contains("radialGradient"))
+    #expect(darkOverlay.contains("radialGradient"))
 }
 
 @Test
-func givenCRTEffectWhenPackagingThenComposerReceivesOpaqueBackdropsAndTransparentScanlines() throws {
+func givenCRTEffectWhenPackagingThenComposerReceivesTransparentEdgeFocusedOverlays() throws {
     let root = try appIconRepositoryRoot()
     let files = try AppIconAssetWorkflow.generatedFiles(repositoryRoot: root)
 
@@ -174,20 +160,10 @@ func givenCRTEffectWhenPackagingThenComposerReceivesOpaqueBackdropsAndTransparen
         })
         let dimensions = try #require(imageDimensions(data: overlay.data))
         #expect(dimensions == (1024, 1024))
+        let edgeAlpha = try #require(imageAlpha(data: overlay.data, x: 32, y: 512))
         let centerAlpha = try #require(imageAlpha(data: overlay.data, x: 512, y: 512))
         #expect(centerAlpha < 255)
-    }
-
-    for filename in ["CRTBackdrop.png", "CRTBackdropDark.png"] {
-        let backdrop = try #require(files.first {
-            $0.url.path.contains("RetroRapidCRT.icon/Assets")
-                && $0.url.lastPathComponent == filename
-        })
-        let dimensions = try #require(imageDimensions(data: backdrop.data))
-        #expect(dimensions == (1024, 1024))
-        let edge = try #require(imagePixel(data: backdrop.data, x: 32, y: 512))
-        let center = try #require(imagePixel(data: backdrop.data, x: 512, y: 512))
-        #expect(edge.luminance < center.luminance)
+        #expect(edgeAlpha > centerAlpha)
     }
 }
 
@@ -199,7 +175,7 @@ func givenGeneratedPilotAssetsWhenRenderingTwiceThenOutputsAreDeterministic() th
     let firstByPath = Dictionary(uniqueKeysWithValues: first.map { ($0.url.path, $0.data) })
     let secondByPath = Dictionary(uniqueKeysWithValues: second.map { ($0.url.path, $0.data) })
 
-    #expect(first.count == 62)
+    #expect(first.count == 53)
     #expect(firstByPath == secondByPath)
     #expect(try AppIconAssetWorkflow.stalePaths(repositoryRoot: root).isEmpty)
 
@@ -329,42 +305,45 @@ func givenDiscIconComposerManifestWhenParsingThenSemanticLayersAndAppearancesAre
 }
 
 @Test(arguments: AppIconPilotID.allCases)
-func givenGeneratedPilotPreviewWhenParsingThenDefaultAndDarkAssetsStayExplicit(
+func givenGeneratedPilotPreviewWhenParsingThenAppearancesStayAdaptive(
     iconID: AppIconPilotID
 ) throws {
     let root = try appIconRepositoryRoot()
     let files = try AppIconAssetWorkflow.generatedFiles(repositoryRoot: root)
     let defaultPreviewPath = "\(iconID.previewAssetName).imageset/"
-    let darkPreviewPath = "\(iconID.darkPreviewAssetName).imageset/"
     let defaultFilename = "\(iconID.previewAssetName).png"
-    let darkFilename = "\(iconID.darkPreviewAssetName).png"
+    let darkFilename = "\(iconID.previewAssetName)Dark.png"
     let defaultFile = try #require(files.first {
         $0.url.path.contains(defaultPreviewPath) && $0.url.lastPathComponent == defaultFilename
     })
-    let darkFile = try #require(files.first {
-        $0.url.path.contains(darkPreviewPath) && $0.url.lastPathComponent == darkFilename
+    let adaptiveDarkFile = try #require(files.first {
+        $0.url.path.contains(defaultPreviewPath) && $0.url.lastPathComponent == darkFilename
     })
     let defaultContentsFile = try #require(files.first {
         $0.url.path.contains(defaultPreviewPath) && $0.url.lastPathComponent == "Contents.json"
     })
-    let darkContentsFile = try #require(files.first {
-        $0.url.path.contains(darkPreviewPath) && $0.url.lastPathComponent == "Contents.json"
-    })
     let defaultImages = try previewImages(contentsData: defaultContentsFile.data)
-    let darkImages = try previewImages(contentsData: darkContentsFile.data)
 
-    #expect(defaultFile.data != darkFile.data)
+    #expect(defaultFile.data != adaptiveDarkFile.data)
     #expect(imageHasAlpha(data: defaultFile.data) == false)
-    #expect(imageHasAlpha(data: darkFile.data) == false)
-    #expect(defaultImages.count == 1)
-    #expect(darkImages.count == 1)
-    let defaultEntry = try #require(defaultImages.first)
-    let darkEntry = try #require(darkImages.first)
+    #expect(imageHasAlpha(data: adaptiveDarkFile.data) == false)
+    #expect(defaultImages.count == 2)
+    let defaultEntry = try #require(defaultImages.first {
+        $0["filename"] as? String == defaultFilename
+    })
+    let adaptiveDarkEntry = try #require(defaultImages.first {
+        $0["filename"] as? String == darkFilename
+    })
     #expect(defaultEntry["filename"] as? String == defaultFilename)
-    #expect(darkEntry["filename"] as? String == darkFilename)
     #expect(defaultEntry["appearances"] == nil)
-    #expect(darkEntry["appearances"] == nil)
-    for entry in [defaultEntry, darkEntry] {
+    let adaptiveAppearances = try #require(
+        adaptiveDarkEntry["appearances"] as? [[String: Any]]
+    )
+    #expect(adaptiveAppearances.contains { appearance in
+        appearance["appearance"] as? String == "luminosity"
+            && appearance["value"] as? String == "dark"
+    })
+    for entry in [defaultEntry, adaptiveDarkEntry] {
         #expect(entry["idiom"] as? String == "universal")
         #expect(entry["scale"] == nil)
     }
@@ -440,10 +419,7 @@ func givenCRTIconComposerManifestWhenParsingThenFrontmostEffectAndAppearancesAre
         "Car.png",
         "LaneMarks.svg",
     ])
-    #expect(worldLayers.compactMap { defaultImageName(in: $0) } == [
-        "Road.svg",
-        "CRTBackdrop.png",
-    ])
+    #expect(worldLayers.compactMap { defaultImageName(in: $0) } == ["Road.svg"])
     expectAppearanceImageSources(
         layer: accentLayers[0],
         defaultImageName: "CRTOverlay.png",
@@ -459,14 +435,8 @@ func givenCRTIconComposerManifestWhenParsingThenFrontmostEffectAndAppearancesAre
         defaultImageName: "Road.svg",
         darkImageName: "RoadDark.svg"
     )
-    expectAppearanceImageSources(
-        layer: worldLayers[1],
-        defaultImageName: "CRTBackdrop.png",
-        darkImageName: "CRTBackdropDark.png"
-    )
     #expect((subjectLayers[0]["opacity"] as? NSNumber)?.doubleValue == 1)
     _ = expectAppearanceOpacities(layer: accentLayers[0])
-    _ = expectAppearanceOpacities(layer: worldLayers[1])
     let laneOpacity = expectAppearanceOpacities(layer: subjectLayers[1])
     let roadOpacity = expectAppearanceOpacities(layer: worldLayers[0])
     if let laneOpacity, let roadOpacity {
