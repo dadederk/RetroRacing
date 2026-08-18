@@ -78,6 +78,7 @@ extension AchievementUnlockView {
                     .appFont(.body)
             }
             .retroRacingPrimaryButtonStyle()
+            .bottomActionBarLargeContentViewer()
 
             if canOpenGameCenterAchievements {
                 Button(action: openGameCenterAchievements) {
@@ -85,6 +86,7 @@ extension AchievementUnlockView {
                         .appFont(.body)
                 }
                 .retroRacingSecondaryButtonStyle()
+                .bottomActionBarLargeContentViewer()
             }
         }
     }

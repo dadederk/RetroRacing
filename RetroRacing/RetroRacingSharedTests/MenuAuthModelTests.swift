@@ -79,7 +79,132 @@ final class MenuAuthModelTests: XCTestCase {
         model.cancelAuthTimeout()
     }
 
-    private func makeModel(authenticationPresenter: AuthenticationPresenter) -> MenuAuthModel {
+    func testGivenAuthenticatedPlayerWhenLeaderboardRequestedThenPresentationIsImmediate() {
+        // Given
+        let model = makeModel(
+            authenticationPresenter: AuthenticationPresenterUniversal(),
+            isAuthenticatedProvider: { true }
+        )
+
+        // When
+        let result = model.requestLeaderboardPresentation(leaderboardID: "rapid")
+
+        // Then
+        XCTAssertEqual(result, .present(leaderboardID: "rapid"))
+        XCTAssertNil(model.takePendingLeaderboardIDIfReady())
+    }
+
+    func testGivenUnauthenticatedPlayerWhenLeaderboardRequestedThenAuthenticationStartsAndPresentationIsDeferred() {
+        // Given
+        var authenticationRequestCount = 0
+        let model = makeModel(
+            authenticationPresenter: AuthenticationPresenterUniversal(),
+            authenticateHandlerSetter: { _ in authenticationRequestCount += 1 }
+        )
+
+        // When
+        let result = model.requestLeaderboardPresentation(leaderboardID: "rapid")
+
+        // Then
+        XCTAssertEqual(result, .authenticationRequested)
+        XCTAssertEqual(authenticationRequestCount, 1)
+        XCTAssertNil(model.takePendingLeaderboardIDIfReady())
+        model.cancelAuthTimeout()
+    }
+
+    func testGivenPendingLeaderboardWhenAuthenticationSucceedsThenPresentationIsReturnedExactlyOnce() {
+        // Given
+        var isAuthenticated = false
+        let model = makeModel(
+            authenticationPresenter: AuthenticationPresenterUniversal(),
+            isAuthenticatedProvider: { isAuthenticated }
+        )
+        _ = model.requestLeaderboardPresentation(leaderboardID: "rapid")
+
+        // When
+        isAuthenticated = true
+        model.authenticationStateDidChange(error: nil)
+
+        // Then
+        XCTAssertEqual(model.takePendingLeaderboardIDIfReady(), "rapid")
+        XCTAssertNil(model.takePendingLeaderboardIDIfReady())
+    }
+
+    func testGivenAuthenticatedPlayerWithAuthenticationCoverWhenCoverDismissesThenDeferredPresentationContinues() {
+        // Given
+        var isAuthenticated = false
+        let authenticationViewController = UIViewController()
+        let presenter = AuthenticationPresenterUniversal()
+        let model = makeModel(
+            authenticationPresenter: presenter,
+            authenticateHandlerSetter: { presenter in
+                presenter.presentAuthenticationUI(authenticationViewController)
+            },
+            isAuthenticatedProvider: { isAuthenticated }
+        )
+        model.configurePresentationHandler()
+        _ = model.requestLeaderboardPresentation(leaderboardID: "rapid")
+        isAuthenticated = true
+        model.authenticationStateDidChange(error: nil)
+
+        // When
+        let presentationWhileCovered = model.takePendingLeaderboardIDIfReady()
+        model.authenticationPresentationDidDismiss()
+        model.authenticationCoverDidDismiss()
+
+        // Then
+        XCTAssertNil(presentationWhileCovered)
+        XCTAssertEqual(model.takePendingLeaderboardIDIfReady(), "rapid")
+    }
+
+    func testGivenCancelledAuthenticationCoverWhenDismissedThenPendingPresentationIsCleared() {
+        // Given
+        var isAuthenticated = false
+        let presenter = AuthenticationPresenterUniversal()
+        let model = makeModel(
+            authenticationPresenter: presenter,
+            authenticateHandlerSetter: { presenter in
+                presenter.presentAuthenticationUI(UIViewController())
+            },
+            isAuthenticatedProvider: { isAuthenticated }
+        )
+        model.configurePresentationHandler()
+        _ = model.requestLeaderboardPresentation(leaderboardID: "rapid")
+
+        // When
+        model.authenticationPresentationDidDismiss()
+        model.authenticationCoverDidDismiss()
+        let cancellationError = model.authError
+        isAuthenticated = true
+        model.authenticationStateDidChange(error: nil)
+
+        // Then
+        XCTAssertEqual(
+            cancellationError,
+            GameLocalizedStrings.string("Sign in to Game Center to view the leaderboard.")
+        )
+        XCTAssertNil(model.takePendingLeaderboardIDIfReady())
+    }
+
+    func testGivenScheduledAuthenticationTimeoutWhenCancelledThenTimeoutMutationDoesNotRun() async {
+        // Given
+        let model = makeModel(authenticationPresenter: AuthenticationPresenterUniversal())
+        model.startAuthentication(startedByUser: true)
+
+        // When
+        let timeoutTask = model.cancelAuthTimeout()
+        await timeoutTask?.value
+
+        // Then
+        XCTAssertEqual(model.authState, .authenticating)
+        XCTAssertNil(model.authError)
+    }
+
+    private func makeModel(
+        authenticationPresenter: AuthenticationPresenter,
+        authenticateHandlerSetter: @escaping AuthenticateHandlerSetter = { _ in },
+        isAuthenticatedProvider: @escaping () -> Bool = { false }
+    ) -> MenuAuthModel {
         MenuAuthModel(
             gameCenterService: GameCenterService(
                 configuration: MockLeaderboardConfiguration(leaderboardID: "test123"),
@@ -87,10 +212,10 @@ final class MenuAuthModelTests: XCTestCase {
                     configuration: .standard,
                     avatarCache: GameCenterAvatarCache()
                 ),
-                authenticateHandlerSetter: { _ in },
+                authenticateHandlerSetter: authenticateHandlerSetter,
                 isDebugBuild: true,
                 allowDebugScoreSubmission: false,
-                isAuthenticatedProvider: { false }
+                isAuthenticatedProvider: isAuthenticatedProvider
             ),
             authenticationPresenter: authenticationPresenter
         )

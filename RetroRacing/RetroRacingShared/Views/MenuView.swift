@@ -188,7 +188,7 @@ public struct MenuView: View {
                 leaderboardID: leaderboardConfiguration.leaderboardID(for: selectedDifficulty)
             ))
             #if canImport(UIKit) && !os(watchOS)
-            .fullScreenCover(item: authVCItem) { item in
+            .fullScreenCover(item: authVCItem, onDismiss: handleAuthenticationCoverDismissed) { item in
                 AuthViewControllerWrapper(viewController: item.vc) {
                     authModel.authenticationPresentationDidDismiss()
                 }
@@ -203,8 +203,9 @@ public struct MenuView: View {
             authModel.startAuthentication(startedByUser: false)
         }
         #if (canImport(UIKit) && !os(watchOS)) || os(macOS)
-        .onReceive(NotificationCenter.default.publisher(for: .GKPlayerAuthenticationDidChangeNotificationName)) { _ in
-            authModel.refreshAuthState()
+        .onReceive(NotificationCenter.default.publisher(for: .GKPlayerAuthenticationDidChangeNotificationName)) { notification in
+            authModel.authenticationStateDidChange(error: notification.object as? Error)
+            presentPendingLeaderboardIfReady()
         }
         #endif
         .onDisappear {
@@ -238,7 +239,7 @@ public struct MenuView: View {
             menuFocusScope: menuFocusScope,
             showRateButton: shouldShowRateButton,
             showSupportButton: shouldShowSupportButton,
-            isLeaderboardEnabled: authModel.isAuthenticated,
+            isLeaderboardAuthenticated: authModel.isAuthenticated,
             authError: Binding(
                 get: { authModel.authError },
                 set: { authModel.authError = $0 }
@@ -350,8 +351,13 @@ public struct MenuView: View {
             AppLog.info(AppLog.leaderboard + AppLog.game, "LEADERBOARD_PRESENT", outcome: .completed, fields: [.string("surface", "visionos_access_point")])
         }
         #elseif canImport(UIKit) && !os(watchOS)
-        AppLog.info(AppLog.leaderboard + AppLog.game, "LEADERBOARD_PRESENT", outcome: .requested, fields: [.string("surface", "uikit_access_point")])
-        authModel.presentLeaderboard(leaderboardID: leaderboardConfiguration.leaderboardID(for: selectedDifficulty))
+        let leaderboardID = leaderboardConfiguration.leaderboardID(for: selectedDifficulty)
+        switch authModel.requestLeaderboardPresentation(leaderboardID: leaderboardID) {
+        case .present(let authenticatedLeaderboardID):
+            presentUIKitLeaderboard(leaderboardID: authenticatedLeaderboardID)
+        case .authenticationRequested, .unavailable:
+            break
+        }
         #elseif os(macOS)
         let leaderboardID = leaderboardConfiguration.leaderboardID(for: selectedDifficulty)
         AppLog.info(AppLog.leaderboard + AppLog.game, "LEADERBOARD_PRESENT", outcome: .requested, fields: [.string("surface", "macos_access_point")])
@@ -367,6 +373,30 @@ public struct MenuView: View {
         showLeaderboard = true
         #endif
     }
+
+    #if canImport(UIKit) && !os(watchOS)
+    private func handleAuthenticationCoverDismissed() {
+        authModel.authenticationCoverDidDismiss()
+        presentPendingLeaderboardIfReady()
+    }
+
+    private func presentPendingLeaderboardIfReady() {
+        guard let leaderboardID = authModel.takePendingLeaderboardIDIfReady() else { return }
+        presentUIKitLeaderboard(leaderboardID: leaderboardID)
+    }
+
+    private func presentUIKitLeaderboard(leaderboardID: String) {
+        AppLog.info(
+            AppLog.leaderboard + AppLog.game,
+            "LEADERBOARD_PRESENT",
+            outcome: .requested,
+            fields: [.string("surface", "uikit_access_point")]
+        )
+        authModel.presentLeaderboard(leaderboardID: leaderboardID)
+    }
+    #elseif os(macOS)
+    private func presentPendingLeaderboardIfReady() { }
+    #endif
 
     private func presentSettings() {
         if let onSettingsRequest {

@@ -17,11 +17,17 @@ import UIKit
 @MainActor
 @Observable
 final class MenuAuthModel {
-    enum AuthState {
+    enum AuthState: Equatable {
         case idle
         case authenticating
         case authenticated
         case failed
+    }
+
+    enum LeaderboardRequestResult: Equatable {
+        case present(leaderboardID: String)
+        case authenticationRequested
+        case unavailable
     }
 
     var authState: AuthState = .idle
@@ -29,6 +35,7 @@ final class MenuAuthModel {
     private var authTimeoutTask: Task<Void, Never>?
     private var hasAttemptedAutomaticAuthentication = false
     private var acceptsAuthenticationPresentation = true
+    private var pendingLeaderboardID: String?
 
     #if canImport(UIKit) && !os(watchOS)
     var authViewControllerToPresent: UIViewController?
@@ -78,6 +85,29 @@ final class MenuAuthModel {
         acceptsAuthenticationPresentation = false
         authViewControllerToPresent = nil
     }
+
+    /// Resolves the authentication result only after SwiftUI has fully dismissed its cover.
+    /// This prevents Game Center from trying to present the leaderboard over another presentation.
+    func authenticationCoverDidDismiss() {
+        refreshAuthState()
+        cancelAuthTimeout()
+        guard isAuthenticated == false else { return }
+
+        let hadPendingLeaderboard = pendingLeaderboardID != nil
+        pendingLeaderboardID = nil
+        guard authState != .failed else { return }
+
+        authState = .idle
+        if hadPendingLeaderboard {
+            authError = GameLocalizedStrings.string("Sign in to Game Center to view the leaderboard.")
+            AppLog.info(
+                AppLog.leaderboard + AppLog.lifecycle,
+                "AUTH_REQUEST",
+                outcome: .cancelled,
+                fields: [.reason("authentication_ui_dismissed")]
+            )
+        }
+    }
     #else
     func configurePresentationHandler() { }
     #endif
@@ -85,6 +115,15 @@ final class MenuAuthModel {
     #if canImport(GameKit) && !os(watchOS)
     /// Presents Game Center leaderboard using the modern access point trigger without showing an empty modal.
     func presentLeaderboard(leaderboardID: String) {
+        guard GKAccessPoint.shared.isPresentingGameCenter == false else {
+            AppLog.info(
+                AppLog.leaderboard + AppLog.lifecycle,
+                "ACCESS_POINT_TRIGGER",
+                outcome: .skipped,
+                fields: [.reason("already_presenting")]
+            )
+            return
+        }
         GKAccessPoint.shared.trigger(
             leaderboardID: leaderboardID,
             playerScope: .global,
@@ -97,6 +136,38 @@ final class MenuAuthModel {
             )
             self.refreshAuthState()
         }
+    }
+
+    func requestLeaderboardPresentation(leaderboardID: String) -> LeaderboardRequestResult {
+        authError = nil
+        refreshAuthState()
+
+        if isAuthenticated {
+            return .present(leaderboardID: leaderboardID)
+        }
+
+        guard authState != .failed else {
+            pendingLeaderboardID = nil
+            return .unavailable
+        }
+
+        pendingLeaderboardID = leaderboardID
+        startAuthentication(startedByUser: true)
+        return .authenticationRequested
+    }
+
+    /// Returns a deferred leaderboard request exactly once, after authentication succeeds and
+    /// any authentication cover is gone.
+    func takePendingLeaderboardIDIfReady() -> String? {
+        guard isAuthenticated else { return nil }
+        #if canImport(UIKit) && !os(watchOS)
+        guard authViewControllerToPresent == nil else { return nil }
+        #endif
+        guard let pendingLeaderboardID else { return nil }
+
+        self.pendingLeaderboardID = nil
+        cancelAuthTimeout()
+        return pendingLeaderboardID
     }
 
     func startAuthentication(startedByUser: Bool) {
@@ -136,6 +207,33 @@ final class MenuAuthModel {
         scheduleAuthTimeout()
     }
 
+    func authenticationStateDidChange(error: Error?) {
+        refreshAuthState()
+        if isAuthenticated {
+            cancelAuthTimeout()
+            return
+        }
+
+        guard let error else { return }
+        let hadPendingLeaderboard = pendingLeaderboardID != nil
+        pendingLeaderboardID = nil
+        cancelAuthTimeout()
+
+        if authState != .failed {
+            authState = .idle
+            if hadPendingLeaderboard {
+                authError = GameLocalizedStrings.string("Sign in to Game Center to view the leaderboard.")
+            }
+        }
+
+        AppLog.warning(
+            AppLog.leaderboard + AppLog.lifecycle,
+            "AUTH_REQUEST",
+            outcome: .failed,
+            fields: [.reason("gamekit_error")] + AppLog.Field.error(error)
+        )
+    }
+
     func refreshAuthState() {
         if gameCenterService.isAuthenticated() {
             authState = .authenticated
@@ -164,31 +262,55 @@ final class MenuAuthModel {
     func scheduleAuthTimeout() {
         authTimeoutTask?.cancel()
         authTimeoutTask = Task { @MainActor in
-            try? await Task.sleep(for: .seconds(8))
-            if authState == .authenticating {
-                refreshAuthState()
-                guard authState == .authenticating else { return }
-                AppLog.warning(
-                    AppLog.leaderboard + AppLog.lifecycle,
-                    "AUTH_REQUEST",
-                    outcome: .failed,
-                    fields: [.reason("timeout")]
-                )
-                authState = .idle
+            do {
+                try await Task.sleep(for: .seconds(8))
+            } catch {
+                return
             }
+            authenticationDidTimeOut()
         }
     }
 
-    func cancelAuthTimeout() {
-        authTimeoutTask?.cancel()
+    func authenticationDidTimeOut() {
+        cancelAuthTimeout()
+        refreshAuthState()
+        guard isAuthenticated == false else { return }
+
+        let hadPendingLeaderboard = pendingLeaderboardID != nil
+        pendingLeaderboardID = nil
+        if authState != .failed {
+            authState = .idle
+            if hadPendingLeaderboard {
+                authError = GameLocalizedStrings.string("Sign in to Game Center to view the leaderboard.")
+            }
+        }
+
+        AppLog.warning(
+            AppLog.leaderboard + AppLog.lifecycle,
+            "AUTH_REQUEST",
+            outcome: .failed,
+            fields: [.reason("timeout")]
+        )
+    }
+
+    @discardableResult
+    func cancelAuthTimeout() -> Task<Void, Never>? {
+        let task = authTimeoutTask
         authTimeoutTask = nil
+        task?.cancel()
+        return task
     }
     #else
     func presentLeaderboard(leaderboardID: String) { }
+    func requestLeaderboardPresentation(leaderboardID: String) -> LeaderboardRequestResult { .unavailable }
+    func takePendingLeaderboardIDIfReady() -> String? { nil }
     func startAuthentication(startedByUser: Bool) { }
+    func authenticationStateDidChange(error: Error?) { }
     func refreshAuthState() { }
     func scheduleAuthTimeout() { }
-    func cancelAuthTimeout() { }
+    func authenticationDidTimeOut() { }
+    @discardableResult
+    func cancelAuthTimeout() -> Task<Void, Never>? { nil }
     #endif
 }
 

@@ -46,6 +46,8 @@
 
 - iOS, tvOS, and macOS keep the ambient `GKAccessPoint` hidden and open the selected-speed leaderboard explicitly through it.
 - iOS and tvOS automatically request authentication once per menu instance; dismissing the system authentication UI must not create a presentation loop.
+- The iOS/tvOS Leaderboard button remains actionable while unauthenticated. A tap retries authentication, retains the selected-speed request until authentication succeeds, and presents only after any authentication cover is fully dismissed.
+- Authentication cancellation, GameKit errors, and timeouts clear deferred presentation so a later unrelated sign-in cannot unexpectedly open the leaderboard; the player can retry from the same button and receives localized failure feedback.
 - watchOS has no in-app leaderboard sheet; it submits scores and tells players to view leaderboards on iPhone or iPad.
 - visionOS opens the generic Game Center leaderboard browser from the shared menu. Specific-speed presentation and solo score submission remain disabled until the catalogued boards exist in App Store Connect; completed SharePlay rounds submit only the local player's own score through the catalogued difficulty ID.
 - Views should depend on leaderboard services, not direct GameKit APIs, except narrow presentation surfaces.
@@ -74,5 +76,5 @@
 
 ## Testing
 
-- Unit tests cover platform/speed ID mapping, pending score max retention, debug submission guard, auth-triggered flushing, read-after-write requeue, best-score sync, watch relay parsing/max guard, friend snapshot normalization, and social milestone selection.
+- Unit tests cover platform/speed ID mapping, pending score max retention, debug submission guard, auth-triggered flushing, retryable/deferred leaderboard presentation, authentication timeout cancellation, read-after-write requeue, best-score sync, watch relay parsing/max guard, friend snapshot normalization, and social milestone selection.
 - Sandbox/manual diagnostics should focus on authentication failures, ASC visibility/configuration mismatches, and watchOS `GKErrorGameUnrecognized` cases.

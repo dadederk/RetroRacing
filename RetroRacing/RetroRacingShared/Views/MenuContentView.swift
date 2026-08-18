@@ -12,7 +12,7 @@ struct MenuContentView: View {
     let menuFocusScope: Namespace.ID
     let showRateButton: Bool
     let showSupportButton: Bool
-    let isLeaderboardEnabled: Bool
+    let isLeaderboardAuthenticated: Bool
     @Binding var authError: String?
     let onPlay: () -> Void
     let onLeaderboard: () -> Void
@@ -128,7 +128,6 @@ struct MenuContentView: View {
 
     private var menuLeaderboardButton: some View {
         Button {
-            authError = nil
             onLeaderboard()
         } label: {
             Label {
@@ -140,7 +139,11 @@ struct MenuContentView: View {
         }
         .retroRacingSecondaryButtonStyle()
         .controlSize(.large)
-        .disabled(!isLeaderboardEnabled)
+        .accessibilityHint(GameLocalizedStrings.string(
+            isLeaderboardAuthenticated
+                ? "Shows Game Center leaderboard"
+                : "Sign in to Game Center to view the leaderboard."
+        ))
         .alert(authError ?? "", isPresented: Binding(
             get: { authError != nil },
             set: { _ in authError = nil }

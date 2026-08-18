@@ -124,11 +124,13 @@ public struct SharePlayResultView: View {
                         .appFont(.headline)
                 }
                 .retroRacingPrimaryButtonStyle()
+                .bottomActionBarLargeContentViewer()
                 Button(action: onLeave) {
                     Text(GameLocalizedStrings.string("shareplay_leave_button"))
                         .appFont(.headline)
                 }
                 .retroRacingSecondaryButtonStyle()
+                .bottomActionBarLargeContentViewer()
             }
         case .retryTimedOut:
             Button(action: onLeave) {
@@ -136,13 +138,15 @@ public struct SharePlayResultView: View {
                     .appFont(.headline)
             }
             .retroRacingPrimaryButtonStyle()
+            .bottomActionBarLargeContentViewer()
         case .retryWaiting(let localReady, let remoteReady, _):
             if localReady {
                 Button(action: onLeave) {
                     Text(GameLocalizedStrings.string("shareplay_leave_button"))
                         .appFont(.headline)
                 }
-                    .retroRacingSecondaryButtonStyle()
+                .retroRacingSecondaryButtonStyle()
+                .bottomActionBarLargeContentViewer()
             } else {
                 VStack(spacing: 10) {
                     Button(action: onRetry) {
@@ -150,11 +154,13 @@ public struct SharePlayResultView: View {
                             .appFont(.headline)
                     }
                     .retroRacingPrimaryButtonStyle()
+                    .bottomActionBarLargeContentViewer()
                     Button(action: onLeave) {
                         Text(GameLocalizedStrings.string("shareplay_leave_button"))
                             .appFont(.headline)
                     }
                     .retroRacingSecondaryButtonStyle()
+                    .bottomActionBarLargeContentViewer()
                 }
             }
         case .aborted:
@@ -162,7 +168,8 @@ public struct SharePlayResultView: View {
                 Text(GameLocalizedStrings.string("shareplay_done_button"))
                     .appFont(.headline)
             }
-                .retroRacingPrimaryButtonStyle()
+            .retroRacingPrimaryButtonStyle()
+            .bottomActionBarLargeContentViewer()
         default:
             EmptyView()
         }

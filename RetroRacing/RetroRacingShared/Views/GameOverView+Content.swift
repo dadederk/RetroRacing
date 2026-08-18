@@ -105,12 +105,14 @@ extension GameOverView {
                     .appFont(.headline)
             }
             .retroRacingPrimaryButtonStyle()
+            .bottomActionBarLargeContentViewer()
 
             Button(action: onFinish) {
                 Text(GameLocalizedStrings.string("finish"))
                     .appFont(.headline)
             }
             .retroRacingSecondaryButtonStyle()
+            .bottomActionBarLargeContentViewer()
         }
     }
 

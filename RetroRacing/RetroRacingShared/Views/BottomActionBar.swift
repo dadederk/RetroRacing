@@ -7,6 +7,10 @@
 
 import SwiftUI
 
+enum BottomActionBarLayoutPolicy {
+    static let maximumActionDynamicTypeSize: DynamicTypeSize = .xxxLarge
+}
+
 extension View {
     /// Whether this platform renders action buttons in a floating bottom bar
     /// rather than inline with the scroll content.
@@ -27,6 +31,17 @@ extension View {
             .allowsHitTesting(isVisible)
             .accessibilityHidden(!isVisible)
             .disabled(!isVisible)
+    }
+
+    /// Supplies the action's visible label to Large Content Viewer when the
+    /// action is rendered in the fixed bottom bar on supported platforms.
+    @ViewBuilder
+    func bottomActionBarLargeContentViewer() -> some View {
+        #if os(iOS) || os(visionOS)
+        accessibilityShowsLargeContentViewer()
+        #else
+        self
+        #endif
     }
 }
 
@@ -55,6 +70,7 @@ struct BottomActionBar<Content: View>: View {
         )
 
         content()
+            .dynamicTypeSize(...BottomActionBarLayoutPolicy.maximumActionDynamicTypeSize)
             .controlSize(.large)
             .padding(.horizontal, contentHorizontalPadding)
             .padding(.top, contentTopPadding)

@@ -86,6 +86,9 @@
   accessibility sizes every orientation uses the full-width vertical HUD/game/control composition.
 - Social rows stack avatar/text at accessibility sizes when needed.
 - Icon-only fixed toolbar/game chrome exposes Large Content Viewer content where it cannot expand.
+- Fixed bottom action bars on game-over, achievement, and SharePlay result screens let their action
+  labels scale through Extra Extra Extra Large, then expose each action through Large Content Viewer
+  at accessibility sizes. The surrounding screen content remains uncapped and scrollable.
 
 ## Game-Over, Achievements, and Sharing
 

@@ -20,6 +20,17 @@ final class TypographyLayoutPolicyTests: XCTestCase {
         XCTAssertTrue(MenuLayoutPolicy.usesVerticalUtilityActions(for: .accessibility5))
     }
 
+    func testGivenBottomActionBarWhenTextSizeIncreasesThenActionsStopScalingAtXXXLarge() {
+        // Given
+        let expectedMaximumSize = DynamicTypeSize.xxxLarge
+
+        // When
+        let maximumSize = BottomActionBarLayoutPolicy.maximumActionDynamicTypeSize
+
+        // Then
+        XCTAssertEqual(maximumSize, expectedMaximumSize)
+    }
+
     func testAudioCueGridCollapsesToOneColumnAtAccessibilitySizes() {
         XCTAssertEqual(AudioCueTutorialLayoutPolicy.gridColumnCount(for: .large), 3)
         XCTAssertEqual(AudioCueTutorialLayoutPolicy.gridColumnCount(for: .accessibility1), 1)
