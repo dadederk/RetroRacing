@@ -61,6 +61,9 @@ struct RetroRacingApp: App {
     private let controlsDescriptionKey: String
     @State private var isMenuPresented = true
     @State private var isSettingsPresented = false
+    #if os(iOS) || os(tvOS)
+    @State private var hasPresentedInitialMenu = false
+    #endif
     @State private var sharePlayActivationHandoffCoordinator: SharePlayActivationHandoffCoordinator
     /// Controls whether gameplay should be allowed to start for the current session.
     /// On initial launch and after Finish, this is false so that the SpriteKit
@@ -476,6 +479,14 @@ struct RetroRacingApp: App {
             .navigationBarTitleDisplayMode(.inline)
             .fullScreenCover(isPresented: $isMenuPresented, onDismiss: handleMenuDismissed) {
                 menuView
+                    .onAppear {
+                        hasPresentedInitialMenu = true
+                    }
+            }
+            .transaction { transaction in
+                if hasPresentedInitialMenu == false {
+                    transaction.disablesAnimations = true
+                }
             }
             .animation(nil, value: isMenuPresented)
         #elseif os(macOS)

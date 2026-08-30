@@ -10,17 +10,17 @@
 
 ## Session Model
 
-- Universal and tvOS root views are `GameView` with a menu overlay above it.
-- Initial launch sets `shouldStartGame = false` and presents `MenuView`.
+- Universal and tvOS keep `GameView` mounted and present `MenuView` using the same native full-screen cover at launch and during active sessions.
+- Initial launch sets `shouldStartGame = false` and initializes the menu cover as presented. Its initial presentation animation is disabled so the app opens with the menu already in place.
 - A `sessionID` identifies a continuous gameplay session.
-- Tapping **Play** always creates a new `sessionID`, sets `shouldStartGame = true`, and dismisses the menu.
+- Tapping **Play** always creates a new `sessionID`, sets `shouldStartGame = true`, and dismisses the native menu cover.
 - `GameViewModel.setupSceneIfNeeded` must not create a `GameScene` until `shouldStartGame` is true.
 - Game-over Restart restarts the current gameplay flow after play-limit checks.
 - Game-over Finish dismisses the sheet, sets `shouldStartGame = false`, creates a fresh `sessionID`, and presents the menu.
 
 ## Overlay and Pause
 
-- iOS/iPadOS use `.fullScreenCover` for the menu. tvOS keeps `GameView` mounted beneath an app-owned opaque menu overlay so remote Back cannot dismiss the menu into an unstarted game.
+- iOS/iPadOS and tvOS use `.fullScreenCover` for both the initial menu and active-game menu. Keeping `GameView` mounted preserves overlay pause behavior while `shouldStartGame` prevents the SpriteKit scene from being created before Play.
 - macOS uses an in-window overlay, not a menu sheet.
 - Opening menu/settings while gameplay is active pauses gameplay immediately.
 - On tvOS, Menu/Back first opens a finish confirmation and applies the same overlay pause lock.
@@ -50,13 +50,14 @@
 
 ## Accessibility
 
-- iOS/iPadOS full-screen menu covers are `.interactiveDismissDisabled(true)` so Play is the explicit start path. The tvOS app-owned overlay has no system dismissal path.
+- iOS/iPadOS and tvOS full-screen menu covers are `.interactiveDismissDisabled(true)` so Play is the explicit start path.
 - When the macOS menu overlay is visible, it is modal and the underlying game is hidden from the accessibility tree.
 - VoiceOver users should land back on a clean menu state after Finish.
 
 ## Testing
 
 - Verify initial launch does not start gameplay before Play.
+- Verify the initial menu is visible without an upward presentation animation, while the first Play dismissal uses the same native downward motion as later dismissals.
 - Verify Play creates a new session from initial menu and in-game menu.
 - Verify Finish resets session state and returns to the menu.
 - Verify overlay pause/resume respects explicit user pause.
