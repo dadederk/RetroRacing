@@ -32,9 +32,9 @@ func givenPilotCatalogWhenResolvingSourcesThenNamesAndCanonicalInputsStayStable(
     #expect(AppIconPilotID.crt.sourceArtworkPath.contains("playersCar-16Bit-ipad.png"))
     #expect(AppIconPilotID.disc.sourceArtworkPath.contains("playersCar-32Bit-ipad.png"))
     #expect(AppIconPilotID.discEnvironmentArtworkPath.hasSuffix("disc-v4.png"))
-    #expect(AppIconPilotID.retroCartridge.sourceArtworkPath.hasSuffix("retro-cartridge-v5.png"))
+    #expect(AppIconPilotID.retroCartridge.sourceArtworkPath.hasSuffix("retro-cartridge-v6.png"))
     #expect(AppIconPilotID.retroVideoGame.sourceArtworkPath.hasSuffix("retro-video-game-v4.png"))
-    #expect(AppIconPilotID.retroGameBox.sourceArtworkPath.hasSuffix("retro-game-box-v7.png"))
+    #expect(AppIconPilotID.retroGameBox.sourceArtworkPath.hasSuffix("retro-game-box-v8.png"))
     #expect(AppIconPilotID.pocket.darkSourceArtworkPath == nil)
     #expect(AppIconPilotID.lcd.darkSourceArtworkPath == nil)
     #expect(AppIconPilotID.cartridge.darkSourceArtworkPath == nil)
@@ -42,7 +42,7 @@ func givenPilotCatalogWhenResolvingSourcesThenNamesAndCanonicalInputsStayStable(
     #expect(AppIconPilotID.disc.darkSourceArtworkPath == nil)
     #expect(
         AppIconPilotID.retroCartridge.darkSourceArtworkPath?
-            .hasSuffix("retro-cartridge-dark-v5.png") == true
+            .hasSuffix("retro-cartridge-dark-v6.png") == true
     )
     #expect(
         AppIconPilotID.retroVideoGame.darkSourceArtworkPath?
@@ -50,7 +50,7 @@ func givenPilotCatalogWhenResolvingSourcesThenNamesAndCanonicalInputsStayStable(
     )
     #expect(
         AppIconPilotID.retroGameBox.darkSourceArtworkPath?
-            .hasSuffix("retro-game-box-dark-v7.png") == true
+            .hasSuffix("retro-game-box-dark-v8.png") == true
     )
     for iconID in AppIconPilotID.allCases {
         #expect(FileManager.default.fileExists(atPath: root.appending(path: iconID.sourceArtworkPath).path))
@@ -597,7 +597,7 @@ private func containsLegacySpecializationSlot(in value: Any) -> Bool {
 private func appIconRepositoryRoot() throws -> URL {
     try RepositoryLocator.locate(containing: [
         "RetroRacing/RetroRacingUniversal/Assets/RetroRapidPocket.icon/icon.json",
-        "Plans/assets/alternate-app-icon-concepts/retro-cartridge-v5.png",
+        "Plans/assets/alternate-app-icon-concepts/retro-cartridge-v6.png",
     ])
 }
 

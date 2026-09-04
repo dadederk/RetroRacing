@@ -101,6 +101,7 @@ See [`../AGENTS.md`](../AGENTS.md) Brand Mark section and `RetroRacingShared/Uti
 
 ## Scripts & assets
 
+- [`assets/brand-marks/`](assets/brand-marks/) — reusable transparent RetroRapid! period title treatments, canonical accessibility seal, and fictional publisher marks for marketing layouts
 - `metadata/retrorapid-v1.6.json` — canonical planned source; draft IDs remain empty until iOS/macOS 1.6 exist
 - `metadata/retrorapid-v1.5.json` — immutable 1.5 applied-catalog snapshot
 - Repository automation lives at repo-root [`Scripts/`](../Scripts/) (Swift package for generating/validating docs and applying canonical metadata via Helm); see [Scripts/README.md](../Scripts/README.md)

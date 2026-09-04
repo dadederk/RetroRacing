@@ -68,11 +68,11 @@ public enum AppIconPilotID: String, CaseIterable, Sendable {
         case .disc:
             "RetroRacing/RetroRacingShared/Assets.xcassets/Sprites/32Bit/playersCar-32Bit.imageset/playersCar-32Bit-ipad.png"
         case .retroCartridge:
-            "Plans/assets/alternate-app-icon-concepts/retro-cartridge-v5.png"
+            "Plans/assets/alternate-app-icon-concepts/retro-cartridge-v6.png"
         case .retroVideoGame:
             "Plans/assets/alternate-app-icon-concepts/retro-video-game-v4.png"
         case .retroGameBox:
-            "Plans/assets/alternate-app-icon-concepts/retro-game-box-v7.png"
+            "Plans/assets/alternate-app-icon-concepts/retro-game-box-v8.png"
         }
     }
 
@@ -81,11 +81,11 @@ public enum AppIconPilotID: String, CaseIterable, Sendable {
         case .pocket, .lcd, .cartridge, .crt, .disc:
             nil
         case .retroCartridge:
-            "Plans/assets/alternate-app-icon-concepts/retro-cartridge-dark-v5.png"
+            "Plans/assets/alternate-app-icon-concepts/retro-cartridge-dark-v6.png"
         case .retroVideoGame:
             "Plans/assets/alternate-app-icon-concepts/retro-video-game-dark-v5.png"
         case .retroGameBox:
-            "Plans/assets/alternate-app-icon-concepts/retro-game-box-dark-v7.png"
+            "Plans/assets/alternate-app-icon-concepts/retro-game-box-dark-v8.png"
         }
     }
 
