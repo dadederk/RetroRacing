@@ -112,19 +112,22 @@ struct ThemeGallerySections: View {
         }
 
         ForEach(previewModels) { preview in
-            let isSelected = preview.id == selectedThemeID
             let action = selectionAction(for: preview)
+            let state = action.galleryOptionState
 
             Section {
                 Button {
                     onPreviewSelection(preview)
                 } label: {
-                    ThemeGalleryPreviewRow(preview: preview, isSelected: isSelected)
+                    ThemeGalleryPreviewRow(preview: preview, state: state)
                 }
                 .buttonStyle(.plain)
                 .disabled(isSelectionDisabled || action == .waitForEntitlement)
                 .accessibilityLabel(preview.accessibilityDescription)
-                .accessibilityAddTraits(isSelected ? .isSelected : [])
+                .accessibilityValue(state.accessibilityValue)
+                .accessibilityInputLabels([preview.name])
+                .accessibilityIdentifier("theme_style_option_\(preview.id.rawValue)")
+                .accessibilityAddTraits(state == .selected ? .isSelected : [])
             } header: {
                 Text(preview.name)
                     .retroSectionHeader()
@@ -148,6 +151,21 @@ enum ThemeGallerySelectionAction: Equatable {
     case selectTheme
     case waitForEntitlement
     case presentPaywall
+}
+
+extension ThemeGallerySelectionAction {
+    var galleryOptionState: SettingsGalleryOptionState {
+        switch self {
+        case .none:
+            .selected
+        case .selectTheme:
+            .available
+        case .waitForEntitlement:
+            .checkingAccess
+        case .presentPaywall:
+            .locked
+        }
+    }
 }
 
 enum ThemeGallerySelectionPolicy {
@@ -302,11 +320,11 @@ private enum ThemeGalleryFallbackAssetName {
 
 private struct ThemeGalleryPreviewRow: View {
     let preview: ThemeGalleryPreviewModel
-    let isSelected: Bool
+    let state: SettingsGalleryOptionState
 
     @ScaledMetric(relativeTo: .body) private var assetHeight: CGFloat = 52
     @ScaledMetric(relativeTo: .body) private var paletteHeight: CGFloat = 26
-    @ScaledMetric(relativeTo: .body) private var checkmarkSize: CGFloat = 22
+    @ScaledMetric(relativeTo: .body) private var stateIconSize: CGFloat = 22
 
     var body: some View {
         HStack(alignment: .center, spacing: 12) {
@@ -315,12 +333,11 @@ private struct ThemeGalleryPreviewRow: View {
                 ThemeGalleryPaletteBar(palette: preview.palette, height: paletteHeight)
             }
 
-            Image(systemName: "checkmark.circle.fill")
-                .font(.system(size: checkmarkSize, weight: .semibold))
-                .foregroundStyle(.tint)
-                .frame(width: checkmarkSize, height: checkmarkSize)
-                .opacity(isSelected ? 1 : 0)
-                .accessibilityHidden(true)
+            SettingsGalleryStateIndicator(
+                state: state,
+                size: stateIconSize,
+                reservesSpaceWhenAvailable: true
+            )
         }
         .padding(.vertical, 8)
     }

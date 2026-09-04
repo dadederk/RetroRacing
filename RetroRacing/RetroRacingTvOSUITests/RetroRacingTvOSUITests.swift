@@ -155,7 +155,7 @@ final class RetroRacingTvOSUITests: XCTestCase {
             app.descendants(matching: .any)["tv_settings_category_content_theme"]
                 .waitForExistence(timeout: 5)
         )
-        XCTAssertFalse(app.buttons["Style Gallery"].exists)
+        XCTAssertFalse(app.buttons["Styles"].exists)
 
         // When Settings is already showing the selected category page.
         XCUIRemote.shared.press(.menu)

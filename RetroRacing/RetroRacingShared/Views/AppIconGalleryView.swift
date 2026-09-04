@@ -262,16 +262,8 @@ private struct AppIconGalleryRow: View {
             ProgressView()
                 .controlSize(.large)
                 .accessibilityHidden(true)
-        } else if isSelected {
-            Image(systemName: "checkmark.circle.fill")
-                .font(.system(size: stateIconSize, weight: .semibold))
-                .foregroundStyle(.pink)
-                .accessibilityHidden(true)
-        } else if isLocked || isWaitingForEntitlement {
-            Image(systemName: isWaitingForEntitlement ? "hourglass" : "lock.fill")
-                .font(.system(size: stateIconSize, weight: .semibold))
-                .foregroundStyle(.pink)
-                .accessibilityHidden(true)
+        } else {
+            SettingsGalleryStateIndicator(state: galleryOptionState, size: stateIconSize)
         }
     }
 
@@ -301,19 +293,26 @@ private struct AppIconGalleryRow: View {
         if isChanging {
             return GameLocalizedStrings.string("app_icon_state_changing")
         }
-        if isSelected {
-            return GameLocalizedStrings.string("app_icon_state_selected")
-        }
-        if isWaitingForEntitlement {
-            return GameLocalizedStrings.string("app_icon_state_checking_access")
-        }
-        if isLocked {
-            return GameLocalizedStrings.string("app_icon_state_requires_unlimited_plays")
+        if galleryOptionState != .available {
+            return galleryOptionState.accessibilityValue
         }
         if isSelectionBusy {
             return GameLocalizedStrings.string("app_icon_state_another_change_in_progress")
         }
-        return GameLocalizedStrings.string("app_icon_state_available")
+        return galleryOptionState.accessibilityValue
+    }
+
+    private var galleryOptionState: SettingsGalleryOptionState {
+        if isSelected {
+            return .selected
+        }
+        if isWaitingForEntitlement {
+            return .checkingAccess
+        }
+        if isLocked {
+            return .locked
+        }
+        return .available
     }
 
     private var accessibilityLabel: String {

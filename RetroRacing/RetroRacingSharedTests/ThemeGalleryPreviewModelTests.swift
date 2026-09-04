@@ -203,6 +203,35 @@ final class ThemeGalleryPreviewModelTests: XCTestCase {
         XCTAssertEqual(action, .waitForEntitlement)
     }
 
+    func testGivenGallerySelectionActionWhenResolvingRowStateThenMatchingStateIsReturned() {
+        let cases: [(action: ThemeGallerySelectionAction, expectedState: SettingsGalleryOptionState)] = [
+            (.none, .selected),
+            (.selectTheme, .available),
+            (.waitForEntitlement, .checkingAccess),
+            (.presentPaywall, .locked),
+        ]
+
+        for testCase in cases {
+            XCTAssertEqual(
+                testCase.action.galleryOptionState,
+                testCase.expectedState
+            )
+        }
+    }
+
+    func testGivenGalleryRowStateWhenReadingAccessibilityValueThenSharedStateIsLocalized() {
+        let states: [SettingsGalleryOptionState] = [
+            .available,
+            .selected,
+            .checkingAccess,
+            .locked,
+        ]
+
+        for state in states {
+            XCTAssertFalse(state.accessibilityValue.isEmpty)
+        }
+    }
+
     func testGivenThemeWhenBuildingPreviewModelThenPaletteUsesRoadExteriorAndFinishLineOrder() throws {
         let theme = EightBitTheme()
 

@@ -561,43 +561,7 @@ public struct SettingsView: View {
 
     private var themeSection: some View {
         Section {
-            if storeKit.hasPremiumAccessForGating {
-                Picker(selection: Binding(
-                    get: { themeManager.currentTheme.id },
-                    set: { newID in
-                        if let theme = themeManager.availableThemes.first(where: { $0.id == newID }) {
-                            themeManager.setTheme(theme)
-                        }
-                    }
-                )) {
-                    ForEach(themeManager.availableThemes, id: \.id) { theme in
-                        Text(theme.name)
-                            .appFont(.body)
-                            .tag(theme.id)
-                    }
-                } label: {
-                    Text(GameLocalizedStrings.string("settings_theme_style"))
-                        .appFont(.body)
-                }
-                .disabled(isGameSessionInProgress || storeKit.hasPremiumAccess == false)
-
-                themeGalleryLink
-            } else {
-                NavigationLink {
-                    themeGalleryView
-                } label: {
-                    HStack {
-                        Text(GameLocalizedStrings.string("settings_theme_style"))
-                            .appFont(.body)
-                        Spacer()
-                        Text(themeManager.currentTheme.name)
-                            .appFont(.body)
-                            .foregroundStyle(.secondary)
-                    }
-                }
-                .accessibilityLabel(Text(GameLocalizedStrings.string("settings_theme_style")))
-                .accessibilityValue(Text(themeManager.currentTheme.name))
-            }
+            stylesGalleryLink
 
             if appIconService.isGalleryAvailable {
                 appIconGalleryLink
@@ -621,13 +585,21 @@ public struct SettingsView: View {
             : "settings_theme_unlock_footnote"
     }
 
-    private var themeGalleryLink: some View {
+    private var stylesGalleryLink: some View {
         NavigationLink {
             themeGalleryView
         } label: {
-            Text(GameLocalizedStrings.string("settings_theme_gallery_preview"))
-                .appFont(.body)
+            HStack {
+                Text(GameLocalizedStrings.string("settings_theme_gallery_preview"))
+                    .appFont(.body)
+                Spacer()
+                Text(themeManager.currentTheme.name)
+                    .appFont(.body)
+                    .foregroundStyle(.secondary)
+            }
         }
+        .accessibilityLabel(Text(GameLocalizedStrings.string("settings_theme_gallery_preview")))
+        .accessibilityValue(Text(themeManager.currentTheme.name))
     }
 
     private var themeGalleryView: some View {

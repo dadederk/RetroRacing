@@ -41,7 +41,7 @@
 - Voice Control input labels include short and descriptive aliases: Left/Move left and Right/Move right.
 - HUD status and SpriteKit visuals are not Voice Control tap targets.
 - Settings speed options pair Cruise, Fast, and Rapid with decorative gauges at increasing needle positions; assistive technologies use the localized text names rather than the icon names.
-- Settings Style Gallery rows are semantic buttons with localized theme descriptions. The currently selected style exposes the selected accessibility trait in addition to its visual checkmark.
+- Settings Styles rows are semantic buttons with localized theme descriptions and selected, locked, checking, or available values. The currently selected style exposes the selected accessibility trait in addition to its visual checkmark; locked and checking styles use distinct decorative lock and hourglass indicators.
 - App Icon Gallery rows are single semantic buttons with localized visual descriptions and selected, locked, checking, changing, or temporarily busy values. Preview art and state glyphs are decorative; native button, disabled, and selected traits remain authoritative.
 - The App Icon Gallery's native list preserves Classic, Themes, and Special Editions reading order for VoiceOver, Voice Control, Switch Control, and Full Keyboard Access. At accessibility Dynamic Type sizes, each row places its preview and state indicator together above a full-width name and caps the decorative preview at 180 points. A changing request does not dim or remove focus from unrelated rows; only unresolved-entitlement rows use the native disabled state.
 - tvOS maps Siri Remote directional input through `onMoveCommand`.
