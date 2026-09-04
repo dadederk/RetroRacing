@@ -139,6 +139,7 @@ enum AppIconPreviewValidator {
         "AppIconPreviewPolygon",
         "AppIconPreviewRetroCartridge",
         "AppIconPreviewRetroVideoGame",
+        "AppIconPreviewRetroGameBox",
     ]
 
     private static let adaptivePreviewNames = Set(

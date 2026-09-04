@@ -18,6 +18,7 @@ public enum AppIconID: String, CaseIterable, Codable, Hashable, Sendable {
     case polygon
     case retroCartridge
     case retroVideoGame
+    case retroGameBox
 }
 
 /// User-facing grouping for the app icon gallery.

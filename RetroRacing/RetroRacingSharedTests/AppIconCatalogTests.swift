@@ -24,13 +24,14 @@ final class AppIconCatalogTests: XCTestCase {
             .polygon,
             .retroCartridge,
             .retroVideoGame,
+            .retroGameBox,
         ])
-        XCTAssertEqual(Set(options.map(\.id)).count, 9)
-        XCTAssertEqual(Set(AppIconCatalog.alternateSystemIconNames).count, 8)
+        XCTAssertEqual(Set(options.map(\.id)).count, 10)
+        XCTAssertEqual(Set(AppIconCatalog.alternateSystemIconNames).count, 9)
         XCTAssertEqual(AppIconCatalog.options.first?.systemIconName, nil)
         XCTAssertEqual(AppIconCatalog.options(in: .classic).count, 1)
         XCTAssertEqual(AppIconCatalog.options(in: .themes).count, 6)
-        XCTAssertEqual(AppIconCatalog.options(in: .specialEditions).count, 2)
+        XCTAssertEqual(AppIconCatalog.options(in: .specialEditions).count, 3)
 
         XCTAssertEqual(
             AppIconCatalog.option(for: .retroCartridge)?.systemIconName,
@@ -39,6 +40,10 @@ final class AppIconCatalogTests: XCTestCase {
         XCTAssertEqual(
             AppIconCatalog.option(for: .retroVideoGame)?.systemIconName,
             "RetroRapidVideoGame"
+        )
+        XCTAssertEqual(
+            AppIconCatalog.option(for: .retroGameBox)?.systemIconName,
+            "RetroRapidGameBox"
         )
         XCTAssertEqual(AppIconCatalog.option(forSystemIconName: nil)?.id, .classic)
         XCTAssertEqual(
@@ -53,9 +58,10 @@ final class AppIconCatalogTests: XCTestCase {
                 "AppIconPreviewPolygon",
                 "AppIconPreviewRetroCartridge",
                 "AppIconPreviewRetroVideoGame",
+                "AppIconPreviewRetroGameBox",
             ]
         )
-        XCTAssertEqual(Set(options.map(\.previewAssetName)).count, 9)
+        XCTAssertEqual(Set(options.map(\.previewAssetName)).count, 10)
     }
 
     func testGivenEntitlementStatesWhenSelectingIconsThenExpectedActionsAreReturned() throws {

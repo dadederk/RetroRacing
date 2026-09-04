@@ -24,6 +24,7 @@ func givenPilotCatalogWhenResolvingSourcesThenNamesAndCanonicalInputsStayStable(
         "RetroRapidDisc",
         "RetroRapidGameCartridge",
         "RetroRapidVideoGame",
+        "RetroRapidGameBox",
     ])
     #expect(AppIconPilotID.pocket.sourceArtworkPath.contains("playersCar-GameBoy-ipad.png"))
     #expect(AppIconPilotID.lcd.sourceArtworkPath.contains("playersCar-LCD-ipad.png"))
@@ -31,8 +32,9 @@ func givenPilotCatalogWhenResolvingSourcesThenNamesAndCanonicalInputsStayStable(
     #expect(AppIconPilotID.crt.sourceArtworkPath.contains("playersCar-16Bit-ipad.png"))
     #expect(AppIconPilotID.disc.sourceArtworkPath.contains("playersCar-32Bit-ipad.png"))
     #expect(AppIconPilotID.discEnvironmentArtworkPath.hasSuffix("disc-v4.png"))
-    #expect(AppIconPilotID.retroCartridge.sourceArtworkPath.hasSuffix("retro-cartridge-v4.png"))
+    #expect(AppIconPilotID.retroCartridge.sourceArtworkPath.hasSuffix("retro-cartridge-v5.png"))
     #expect(AppIconPilotID.retroVideoGame.sourceArtworkPath.hasSuffix("retro-video-game-v4.png"))
+    #expect(AppIconPilotID.retroGameBox.sourceArtworkPath.hasSuffix("retro-game-box-v7.png"))
     #expect(AppIconPilotID.pocket.darkSourceArtworkPath == nil)
     #expect(AppIconPilotID.lcd.darkSourceArtworkPath == nil)
     #expect(AppIconPilotID.cartridge.darkSourceArtworkPath == nil)
@@ -45,6 +47,10 @@ func givenPilotCatalogWhenResolvingSourcesThenNamesAndCanonicalInputsStayStable(
     #expect(
         AppIconPilotID.retroVideoGame.darkSourceArtworkPath?
             .hasSuffix("retro-video-game-dark-v5.png") == true
+    )
+    #expect(
+        AppIconPilotID.retroGameBox.darkSourceArtworkPath?
+            .hasSuffix("retro-game-box-dark-v7.png") == true
     )
     for iconID in AppIconPilotID.allCases {
         #expect(FileManager.default.fileExists(atPath: root.appending(path: iconID.sourceArtworkPath).path))
@@ -175,7 +181,7 @@ func givenGeneratedPilotAssetsWhenRenderingTwiceThenOutputsAreDeterministic() th
     let firstByPath = Dictionary(uniqueKeysWithValues: first.map { ($0.url.path, $0.data) })
     let secondByPath = Dictionary(uniqueKeysWithValues: second.map { ($0.url.path, $0.data) })
 
-    #expect(first.count == 53)
+    #expect(first.count == 58)
     #expect(firstByPath == secondByPath)
     #expect(try AppIconAssetWorkflow.stalePaths(repositoryRoot: root).isEmpty)
 
@@ -245,7 +251,7 @@ func givenSpecialEditionGenerationWhenRenderingThenApprovedDefaultAndDarkArtwork
         [(32, 32), (100, 512), (512, 265), (900, 512)]
     case .retroVideoGame:
         [(32, 32), (512, 80), (100, 512), (512, 720), (900, 512)]
-    case .pocket, .lcd, .cartridge, .crt, .disc:
+    case .pocket, .lcd, .cartridge, .crt, .disc, .retroGameBox:
         []
     }
     for point in plasticPoints {
@@ -265,6 +271,32 @@ func givenSpecialEditionGenerationWhenRenderingThenApprovedDefaultAndDarkArtwork
             "Expected plastic at \(point) to darken"
         )
     }
+}
+
+@Test
+func givenRetroGameBoxGenerationWhenRenderingThenApprovedLightAndDarkArtworkAreCopied() throws {
+    let root = try appIconRepositoryRoot()
+    let files = try AppIconAssetWorkflow.generatedFiles(repositoryRoot: root)
+    let packagePath = "RetroRapidGameBox.icon/Assets/"
+    let defaultFile = try #require(files.first {
+        $0.url.path.contains(packagePath) && $0.url.lastPathComponent == "Default.png"
+    })
+    let darkFile = try #require(files.first {
+        $0.url.path.contains(packagePath) && $0.url.lastPathComponent == "Dark.png"
+    })
+    let approvedV3 = try Data(
+        contentsOf: root.appending(path: AppIconPilotID.retroGameBox.sourceArtworkPath)
+    )
+    let darkSourceArtworkPath = try #require(AppIconPilotID.retroGameBox.darkSourceArtworkPath)
+    let approvedDarkV2 = try Data(contentsOf: root.appending(path: darkSourceArtworkPath))
+
+    #expect(defaultFile.data == approvedV3)
+    #expect(darkFile.data == approvedDarkV2)
+    #expect(defaultFile.data != darkFile.data)
+    #expect(try #require(imageDimensions(data: defaultFile.data)) == (1024, 1024))
+    #expect(try #require(imageDimensions(data: darkFile.data)) == (1024, 1024))
+    #expect(imageHasAlpha(data: defaultFile.data) == false)
+    #expect(imageHasAlpha(data: darkFile.data) == false)
 }
 
 @Test
@@ -445,7 +477,7 @@ func givenCRTIconComposerManifestWhenParsingThenFrontmostEffectAndAppearancesAre
     #expect(containsLegacySpecializationSlot(in: manifest) == false)
 }
 
-@Test(arguments: [AppIconPilotID.retroCartridge, .retroVideoGame])
+@Test(arguments: [AppIconPilotID.retroCartridge, .retroVideoGame, .retroGameBox])
 func givenSpecialEditionIconComposerManifestWhenParsingThenAppearanceContractsArePresent(
     iconID: AppIconPilotID
 ) throws {
@@ -457,7 +489,10 @@ func givenSpecialEditionIconComposerManifestWhenParsingThenAppearanceContractsAr
     expectDocumentFillAppearances(manifest: manifest)
     #expect(appearances.contains("dark"))
     #expect(appearances.contains("tinted"))
-    #expect(groups[0]["name"] as? String == "Approved v4 Artwork")
+    let expectedGroupName = iconID == .retroGameBox
+        ? "Approved v7 Artwork"
+        : "Approved v4 Artwork"
+    #expect(groups[0]["name"] as? String == expectedGroupName)
     let layers = try #require(groups[0]["layers"] as? [[String: Any]])
     #expect(layers.compactMap { defaultImageName(in: $0) } == [
         "Default.png",
@@ -562,7 +597,7 @@ private func containsLegacySpecializationSlot(in value: Any) -> Bool {
 private func appIconRepositoryRoot() throws -> URL {
     try RepositoryLocator.locate(containing: [
         "RetroRacing/RetroRacingUniversal/Assets/RetroRapidPocket.icon/icon.json",
-        "Plans/assets/alternate-app-icon-concepts/retro-cartridge-v4.png",
+        "Plans/assets/alternate-app-icon-concepts/retro-cartridge-v5.png",
     ])
 }
 

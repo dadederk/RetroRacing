@@ -162,6 +162,14 @@ public enum AppIconAssetWorkflow {
             conceptPath: AppIconPilotID.retroVideoGame.sourceArtworkPath,
             darkConceptPath: try darkSourcePath(for: .retroVideoGame)
         )
+        files += try specialEditionFiles(
+            id: .retroGameBox,
+            repositoryRoot: repositoryRoot,
+            assetsRoot: assetsRoot,
+            catalogRoot: catalogRoot,
+            conceptPath: AppIconPilotID.retroGameBox.sourceArtworkPath,
+            darkConceptPath: try darkSourcePath(for: .retroGameBox)
+        )
         return files
     }
 
@@ -249,13 +257,18 @@ public enum AppIconAssetWorkflow {
         assetsRoot: URL,
         catalogRoot: URL,
         conceptPath: String,
-        darkConceptPath: String
+        darkConceptPath: String?
     ) throws -> [GeneratedFile] {
         let sourceURL = repositoryRoot.appending(path: conceptPath)
         let defaultArtwork = try Data(contentsOf: sourceURL)
-        let darkArtwork = try Data(
-            contentsOf: repositoryRoot.appending(path: darkConceptPath)
-        )
+        let darkArtwork: Data
+        if let darkConceptPath {
+            darkArtwork = try Data(
+                contentsOf: repositoryRoot.appending(path: darkConceptPath)
+            )
+        } else {
+            darkArtwork = defaultArtwork
+        }
         let defaultPreview = try AppIconRasterRenderer.preview(
             sourceData: defaultArtwork,
             name: "\(id.rawValue) preview"
@@ -264,14 +277,15 @@ public enum AppIconAssetWorkflow {
             sourceData: darkArtwork,
             name: "\(id.rawValue) Dark preview"
         )
+        var layers = ["Default.png": defaultArtwork]
+        if darkConceptPath != nil {
+            layers["Dark.png"] = darkArtwork
+        }
         return packageFiles(
             id: id,
             assetsRoot: assetsRoot,
             catalogRoot: catalogRoot,
-            layers: [
-                "Default.png": defaultArtwork,
-                "Dark.png": darkArtwork,
-            ],
+            layers: layers,
             defaultPreview: defaultPreview,
             darkPreview: darkPreview
         )

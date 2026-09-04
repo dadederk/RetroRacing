@@ -58,7 +58,18 @@ enum AppIconPilotPackageValidator {
                 groups: groups,
                 layers: layers,
                 groupName: "Approved v4 Artwork",
-                assetDescription: "Special Edition"
+                assetDescription: "Special Edition",
+                darkImageName: "Dark.png"
+            )
+        case .retroGameBox:
+            issues += flattenedArtworkIssues(
+                packageURL: packageURL,
+                relativeName: relativeName,
+                groups: groups,
+                layers: layers,
+                groupName: "Approved v7 Artwork",
+                assetDescription: "Special Edition",
+                darkImageName: "Dark.png"
             )
         }
         return issues
@@ -106,7 +117,7 @@ enum AppIconPilotPackageValidator {
             ["Road.svg", "CircuitTexture.png"]
         case .pocket, .lcd, .cartridge, .crt:
             ["Road.svg"]
-        case .retroCartridge, .retroVideoGame:
+        case .retroCartridge, .retroVideoGame, .retroGameBox:
             []
         }
         issues += AppIconAppearanceContractValidator.expectedLayerIssues(
@@ -174,7 +185,8 @@ enum AppIconPilotPackageValidator {
         groups: [[String: Any]],
         layers: [[String: Any]],
         groupName: String,
-        assetDescription: String
+        assetDescription: String,
+        darkImageName: String
     ) -> [String] {
         var issues = AppIconAppearanceContractValidator.expectedLayerIssues(
             groupName: groupName,
@@ -184,11 +196,11 @@ enum AppIconPilotPackageValidator {
         )
         issues += AppIconAppearanceContractValidator.imageSpecializationIssues(
             defaultImageName: "Default.png",
-            darkImageName: "Dark.png",
+            darkImageName: darkImageName,
             layers: layers,
             relativeName: relativeName
         )
-        for filename in ["Default.png", "Dark.png"] {
+        for filename in Set(["Default.png", darkImageName]) {
             let artworkURL = packageURL.appending(path: "Assets/\(filename)")
             if AppIconValidationSupport.imageHasAlpha(at: artworkURL) == true {
                 issues.append("\(assetDescription) \(filename) must remain opaque: \(relativeName)")

@@ -37,6 +37,7 @@ public enum AppIconCatalog {
         option(.polygon, group: .themes, systemIconName: "RetroRapidPolygon"),
         option(.retroCartridge, group: .specialEditions, systemIconName: "RetroRapidGameCartridge"),
         option(.retroVideoGame, group: .specialEditions, systemIconName: "RetroRapidVideoGame"),
+        option(.retroGameBox, group: .specialEditions, systemIconName: "RetroRapidGameBox"),
     ]
 
     public static func options(in group: AppIconGroup) -> [AppIconOption] {
@@ -94,6 +95,8 @@ public enum AppIconCatalog {
             "RetroCartridge"
         case .retroVideoGame:
             "RetroVideoGame"
+        case .retroGameBox:
+            "RetroGameBox"
         }
     }
 }

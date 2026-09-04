@@ -53866,6 +53866,131 @@
         }
       }
     },
+    "app_icon_name_retroGameBox": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retro Game Box"
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retro Game Box"
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retro Game Box"
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Retro Game Box"
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Caixa de joc retro"
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Retro-Spielbox"
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Caja de juego retro"
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Caja de juego retro"
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Boîte de jeu rétro"
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Boîte de jeu rétro"
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Scatola di gioco rétro"
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "レトロゲームボックス"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "레트로 게임 박스"
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Retro-gamebox"
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Pudełko gry retro"
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Caixa de jogo retrô"
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Caixa de jogo retro"
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Retro Oyun Kutusu"
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "复古游戏盒"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "復古遊戲盒"
+          }
+        }
+      }
+    },
     "app_icon_description_classic": {
       "extractionState": "manual",
       "localizations": {
@@ -54988,6 +55113,131 @@
           "stringUnit": {
             "state": "needs_review",
             "value": "帶賽車畫面和粉紅色控制鍵的奶油色掌上遊戲機。"
+          }
+        }
+      }
+    },
+    "app_icon_description_retroGameBox": {
+      "extractionState": "manual",
+      "localizations": {
+        "en": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Black retro game box with red accents and 16-bit racing artwork."
+          }
+        },
+        "en-AU": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Black retro game box with red accents and 16-bit racing artwork."
+          }
+        },
+        "en-CA": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Black retro game box with red accents and 16-bit racing artwork."
+          }
+        },
+        "en-GB": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Black retro game box with red accents and 16-bit racing artwork."
+          }
+        },
+        "ca": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Caixa de joc retro negra amb accents vermells i gràfics de curses de 16 bits."
+          }
+        },
+        "de": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Schwarze Retro-Spielbox mit roten Akzenten und 16-Bit-Renngrafik."
+          }
+        },
+        "es": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Caja de juego retro negra con detalles rojos y gráficos de carreras de 16 bits."
+          }
+        },
+        "es-MX": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Caja de juego retro negra con detalles rojos y gráficos de carreras de 16 bits."
+          }
+        },
+        "fr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Boîte de jeu rétro noire avec des accents rouges et un graphisme de course 16 bits."
+          }
+        },
+        "fr-CA": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Boîte de jeu rétro noire avec des accents rouges et un graphisme de course 16 bits."
+          }
+        },
+        "it": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Scatola di gioco rétro nera con dettagli rossi e grafica di corse a 16 bit."
+          }
+        },
+        "ja": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "赤いアクセントと16ビットのレースアートをあしらった黒いレトロゲームボックス。"
+          }
+        },
+        "ko": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "빨간색 포인트와 16비트 레이싱 그림이 있는 검은색 레트로 게임 박스."
+          }
+        },
+        "nl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Zwarte retro-gamebox met rode accenten en 16-bits race-artwork."
+          }
+        },
+        "pl": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Czarne pudełko gry retro z czerwonymi akcentami i 16-bitową grafiką wyścigową."
+          }
+        },
+        "pt-BR": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Caixa de jogo retrô preta com detalhes vermelhos e arte de corrida em 16 bits."
+          }
+        },
+        "pt-PT": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Caixa de jogo retro preta com detalhes vermelhos e arte de corridas de 16 bits."
+          }
+        },
+        "tr": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "Kırmızı vurgulara ve 16 bit yarış çizimlerine sahip siyah retro oyun kutusu."
+          }
+        },
+        "zh-Hans": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "带红色点缀和 16 位赛车图案的黑色复古游戏盒。"
+          }
+        },
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "needs_review",
+            "value": "帶紅色點綴和 16 位元賽車圖案的黑色復古遊戲盒。"
           }
         }
       }

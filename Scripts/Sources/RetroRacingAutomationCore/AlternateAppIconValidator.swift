@@ -17,6 +17,7 @@ enum AlternateAppIconValidator {
         "RetroRapidPolygon",
         "RetroRapidGameCartridge",
         "RetroRapidVideoGame",
+        "RetroRapidGameBox",
     ]
 
     static func issues(repositoryRoot: URL) throws -> [String] {

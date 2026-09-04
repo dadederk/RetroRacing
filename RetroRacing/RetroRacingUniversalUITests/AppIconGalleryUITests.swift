@@ -51,6 +51,7 @@ final class AppIconGalleryUITests: XCTestCase {
         assertIconOptionsExist([
             ("retroCartridge", "Retro Cartridge"),
             ("retroVideoGame", "Retro Video Game"),
+            ("retroGameBox", "Retro Game Box"),
         ], in: app)
 
         app.navigationBars["Choose App Icon"].buttons["Settings"].tap()

@@ -15,7 +15,7 @@
 - Product type: non-consumable, one-time purchase.
 - Internal code may still use `premium` names for entitlement state, but user-visible copy must prefer Unlimited Plays.
 - Unlimited Plays removes solo daily limits forever and unlocks selection from the available visual Styles where the platform supports them.
-- Unlimited Plays unlocks all eight alternate iPhone/iPad app icons while the capability and Debug rollout flag are enabled. Classic remains free.
+- Unlimited Plays unlocks all nine alternate iPhone/iPad app icons while the capability and Debug rollout flag are enabled. Classic remains free.
 
 ## Free-Tier Rules
 
