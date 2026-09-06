@@ -37,6 +37,8 @@ Refresh group IDs before attach/submit:
 
 ## Current candidate
 
+[Candidate evidence and build record](../testflight/release-1.5-35.md).
+
 Version 1.5, build 35 targets iOS with embedded Watch and macOS. Use Xcode 26 and ordinary App Store-eligible export options so a validated TestFlight build can later be selected for public review. Build-35 archives live under `build/testflight-1.5-35/`; the version-only script archive path contains older builds and must not be overwritten accidentally.
 
 ## Script
