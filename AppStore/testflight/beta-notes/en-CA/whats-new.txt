@@ -1,15 +1,15 @@
-Discover two new visual styles: Cartridge and CRT. The new Style Gallery makes it easy to preview every theme before choosing your favorite.
+Race a friend with SharePlay on iPhone, iPad, and Mac! Two players face the same traffic, follow each other's progress, and race again with a rematch. Friend races are free and never use your daily solo plays.
 
-SharePlay friend races now work on Mac too, alongside iPhone and iPad.
+Explore the new Styles gallery and choose between LCD and Pocket.
 
 This update also improves performance, refines landscape layouts, polishes menus and game-over screens, and makes cars and helmets clearer across themes.
 
-RetroRapid! is now fully localized in Turkish and Polish.
+Expanded language support, including Turkish and Polish.
 
 Thanks for racing with us.
 
 Testing focus:
-- Preview every theme in the Style Gallery and check that cars and helmets stay clear
+- Preview and select LCD and Pocket in the Styles gallery
 - Start a SharePlay race with a friend on iPhone, iPad, or Mac
 - Compare performance before and after longer runs
 - Try landscape layouts, menus, and the game-over flow

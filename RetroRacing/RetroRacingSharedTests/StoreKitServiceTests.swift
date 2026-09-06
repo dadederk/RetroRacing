@@ -346,6 +346,27 @@ final class StoreKitServiceTests: XCTestCase {
         XCTAssertTrue(shouldShowFreeTier == false)
     }
 
+    func testGivenUnresolvedStoreWhenResolvingAccessThenRateAppearsOnlyForConfirmedFreeUser() async {
+        // Given
+        let service = makeService()
+        service.debugPremiumSimulationMode = .freemium
+        XCTAssertFalse(MenuView.shouldShowRateButtonPolicy(
+            showRateButton: true, shouldShowFreeTierAffordances: service.shouldShowFreeTierAffordances
+        ))
+
+        // When
+        await service.refreshPurchasedProducts()
+
+        // Then
+        XCTAssertTrue(MenuView.shouldShowRateButtonPolicy(
+            showRateButton: true, shouldShowFreeTierAffordances: service.shouldShowFreeTierAffordances
+        ))
+        service.debugPremiumSimulationMode = .unlimitedPlays
+        XCTAssertFalse(MenuView.shouldShowRateButtonPolicy(
+            showRateButton: true, shouldShowFreeTierAffordances: service.shouldShowFreeTierAffordances
+        ))
+    }
+
     func testGivenEntitlementsRefreshedWhenCheckingFreeTierAffordancesThenFollowsLiveAccess() async {
         // Given
         let service = makeService()

@@ -86,7 +86,9 @@ public extension ThemePlatformConfig {
         includesRetroThemes: Bool
     ) -> (defaultThemeID: ThemeID, freeThemeIDs: Set<ThemeID>) {
         if !includesRetroThemes && platform != .tvOS && platform != .visionOS {
-            return (platform == .watchOS ? .pocket : .lcd, [.lcd, .pocket])
+            return platform == .watchOS
+                ? (.pocket, [.lcd, .pocket])
+                : (.lcd, [.lcd])
         }
         return switch platform {
         case .iPhone, .custom:

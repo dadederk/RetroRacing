@@ -27,6 +27,30 @@ final class ReleaseFeatureTests: XCTestCase {
         }
     }
 
+    func testGivenShippingPocketWhenResolvingGalleryAccessThenFreeUsersSeeLockAndPaywall() throws {
+        // Given
+        for platform in [ThemeCatalogPlatform.iPhone, .iPad, .macOS] {
+            let configuration = ThemePlatformConfig.configuration(for: platform, includesRetroThemes: false)
+            let pocket = try XCTUnwrap(configuration.availableThemes.first { $0.id == .pocket })
+
+            // When
+            let action = ThemeGallerySelectionPolicy.action(
+                previewID: pocket.id, currentThemeID: configuration.defaultThemeID,
+                isThemePremium: pocket.isPremium, hasUnlimitedAccess: false,
+                hasResolvedInitialEntitlements: true
+            )
+
+            // Then
+            XCTAssertEqual(action, .presentPaywall)
+            XCTAssertEqual(action.galleryOptionState, .locked)
+            XCTAssertEqual(ThemeGallerySelectionPolicy.action(
+                previewID: pocket.id, currentThemeID: configuration.defaultThemeID,
+                isThemePremium: pocket.isPremium, hasUnlimitedAccess: true,
+                hasResolvedInitialEntitlements: true
+            ), .selectTheme)
+        }
+    }
+
     func testGivenSavedOverridesWhenLaunchingReleaseThenCommittedDefaultsWin() throws {
         // Given
         let defaults = try makeDefaults()

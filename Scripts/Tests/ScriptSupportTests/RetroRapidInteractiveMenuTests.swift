@@ -12,15 +12,16 @@ import Testing
 
 @Test
 func givenCIEnvironmentWhenShouldUseInteractiveMenuThenReturnsFalse() {
-    setenv("CI", "true", 1)
-    defer { unsetenv("CI") }
-    #expect(RetroRapidInteractiveMenu.shouldUseInteractiveMenu(isatty: { _ in 1 }) == false)
+    #expect(RetroRapidInteractiveMenu.shouldUseInteractiveMenu(
+        isatty: { _ in 1 }, environment: ["CI": "true"]
+    ) == false)
 }
 
 @Test
 func givenInteractiveTTYWhenShouldUseInteractiveMenuThenReturnsTrue() {
-    unsetenv("CI")
-    #expect(RetroRapidInteractiveMenu.shouldUseInteractiveMenu(isatty: { _ in 1 }) == true)
+    #expect(RetroRapidInteractiveMenu.shouldUseInteractiveMenu(
+        isatty: { _ in 1 }, environment: [:]
+    ) == true)
 }
 
 @Test

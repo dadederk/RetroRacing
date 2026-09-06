@@ -2,7 +2,7 @@
 
 Last updated: 2026-08-05
 
-The 1.6 localisation package is staged locally. No App Store Connect metadata, IAP, Game Center, TestFlight, or screenshot data may be changed as part of this review wave.
+The active localisation source is the 1.5 candidate catalog routed from the [App Store hub](../README.md). The September 2026 release-preparation task authorizes editable App Store draft copy and TestFlight updates. This does not constitute fluent approval or authorization for public submission. Keep exact-digest approvals pending until a fluent reviewer completes the checks below.
 
 ## Canonical review flow
 

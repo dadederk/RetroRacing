@@ -35,6 +35,10 @@ Refresh group IDs before attach/submit:
 - Cover user-visible changes since the last submitted build; skip internal tooling unless testers need to verify it.
 - When submitting another build number for the same version, compound the notes: keep still-relevant earlier changes and add the new changes so the copy remains useful as one read.
 
+## Current candidate
+
+Version 1.5, build 35 targets iOS with embedded Watch and macOS. Use Xcode 26 and ordinary App Store-eligible export options so a validated TestFlight build can later be selected for public review. Build-35 archives live under `build/testflight-1.5-35/`; the version-only script archive path contains older builds and must not be overwritten accidentally.
+
 ## Script
 
 From the repo root:

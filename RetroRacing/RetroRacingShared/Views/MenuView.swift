@@ -505,15 +505,15 @@ public struct MenuView: View {
     /// is hidden for them (`Requirements/rating_system.md`). They can still rate from About.
     static func shouldShowRateButtonPolicy(
         showRateButton: Bool,
-        hasPremiumAccessForGating: Bool
+        shouldShowFreeTierAffordances: Bool
     ) -> Bool {
-        showRateButton && !hasPremiumAccessForGating
+        showRateButton && shouldShowFreeTierAffordances
     }
 
     private var shouldShowRateButton: Bool {
         return Self.shouldShowRateButtonPolicy(
             showRateButton: showRateButton,
-            hasPremiumAccessForGating: storeKit.hasPremiumAccessForGating
+            shouldShowFreeTierAffordances: storeKit.shouldShowFreeTierAffordances
         )
     }
 

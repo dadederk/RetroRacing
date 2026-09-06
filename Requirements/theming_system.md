@@ -17,7 +17,7 @@
 
 ## Current Themes
 
-Release 1 ships the Styles gallery with **Pocket and LCD only** on iPhone/iPad/macOS; Watch keeps its compact selector. Both themes remain free, matching `master` before the visual expansion. LCD is the default on iPhone/iPad/macOS; Pocket is the Watch default. Explicit selections take precedence.
+Release 1 ships the Styles gallery with **Pocket and LCD only** on iPhone/iPad/macOS; Watch keeps its compact selector. LCD is free and Pocket requires Unlimited Plays on iPhone/iPad/macOS; both remain free on watchOS. LCD is the default on iPhone/iPad/macOS; Pocket is the Watch default. Explicit selections take precedence.
 
 `ReleaseFeatureDefaults` is the committed rollout policy. `ReleaseFeatureStore` supplies optional Debug previews through injection; distribution and screenshot capture ignore saved overrides. The gallery itself has no rollout flag. Future themes are omitted entirely, not shown as locked teasers.
 

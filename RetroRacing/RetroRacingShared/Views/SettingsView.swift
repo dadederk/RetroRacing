@@ -437,7 +437,7 @@ public struct SettingsView: View {
                 settingsSectionHeader("play_limit_title")
             } footer: {
                 if activeEventInfo == nil {
-                    Text(playLimitFooter(for: playLimitService))
+                    Text(Self.playLimitFooter(for: playLimitService, on: Date()))
                         .appFont(.caption)
                         .modifier(SettingsFooterTextStyle())
                 }
@@ -1089,20 +1089,16 @@ public struct SettingsView: View {
         return GameLocalizedStrings.format("play_limit_remaining %lld %lld", Int64(remaining), Int64(total))
     }
 
-    private func playLimitFooter(for service: PlayLimitService) -> String {
-        let now = Date()
-        if service.isFirstPlayDay(on: now) {
-            let welcomeMax = Int64(service.maxPlays(on: now))
-            let nextDay = Calendar.current.date(byAdding: .day, value: 1, to: now) ?? now
-            let dailyMax = Int64(service.maxPlays(on: nextDay))
+    static func playLimitFooter(for service: PlayLimitService, on date: Date) -> String {
+        let dailyMax = Int64(service.regularDailyPlayLimit)
+        let todayMax = Int64(service.maxPlays(on: date))
+        if !service.hasUnlimitedAccess && todayMax > dailyMax {
             return GameLocalizedStrings.format(
                 "play_limit_section_footer_first_day %lld %lld",
                 dailyMax,
-                welcomeMax
+                todayMax
             )
         }
-
-        let dailyMax = Int64(service.maxPlays(on: now))
         return GameLocalizedStrings.format("play_limit_section_footer %lld", dailyMax)
     }
 

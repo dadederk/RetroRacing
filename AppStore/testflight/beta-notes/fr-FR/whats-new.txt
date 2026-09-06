@@ -1,15 +1,15 @@
-Découvre deux nouveaux styles visuels : Cartridge et CRT. La nouvelle galerie de styles permet de prévisualiser chaque thème avant de choisir ton préféré.
+Affronte un ami avec SharePlay sur iPhone, iPad et Mac ! Les deux joueurs rencontrent le même trafic, suivent la progression de l'autre et peuvent prendre leur revanche. Les courses entre amis sont gratuites et ne consomment pas tes parties solo quotidiennes.
 
-Les courses SharePlay entre amis fonctionnent maintenant aussi sur Mac, en plus de l'iPhone et de l'iPad.
+Explore la nouvelle galerie de styles et choisis entre LCD et Pocket.
 
 Cette mise à jour améliore aussi les performances et les dispositions en mode paysage, peaufine les menus et les écrans de fin de partie, et rend les voitures et les casques plus nets dans tous les thèmes.
 
-RetroRapid! est maintenant entièrement localisé en turc et en polonais.
+Davantage de langues prises en charge, dont le turc et le polonais.
 
 Merci de courir avec nous.
 
 Points à tester :
-- Prévisualise chaque thème dans la galerie de styles et vérifie la netteté des voitures et des casques
+- Prévisualise et sélectionne LCD et Pocket dans la galerie de styles 
 - Lance une course SharePlay avec un ami sur iPhone, iPad ou Mac
 - Compare les performances avant et après de longues parties
 - Teste le mode paysage, les menus et l'écran de fin de partie

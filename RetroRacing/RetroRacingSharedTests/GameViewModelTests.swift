@@ -554,42 +554,42 @@ final class GameViewModelTests: XCTestCase {
     func testGivenPremiumGatingWhenEvaluatingRateButtonPolicyThenRateButtonIsHidden() {
         // Given
         let showRateButton = true
-        let hasPremiumAccessForGating = true
+        let shouldShowFreeTierAffordances = false
 
         // When
         let shouldShowButton = MenuView.shouldShowRateButtonPolicy(
             showRateButton: showRateButton,
-            hasPremiumAccessForGating: hasPremiumAccessForGating
+            shouldShowFreeTierAffordances: shouldShowFreeTierAffordances
         )
 
         // Then
         XCTAssertFalse(shouldShowButton)
     }
 
-    func testGivenNonPremiumGatingWhenEvaluatingRateButtonPolicyThenRateButtonIsShown() {
+    func testGivenResolvedFreeEntitlementsWhenEvaluatingRateButtonPolicyThenRateButtonIsShown() {
         // Given
         let showRateButton = true
-        let hasPremiumAccessForGating = false
+        let shouldShowFreeTierAffordances = true
 
         // When
         let shouldShowButton = MenuView.shouldShowRateButtonPolicy(
             showRateButton: showRateButton,
-            hasPremiumAccessForGating: hasPremiumAccessForGating
+            shouldShowFreeTierAffordances: shouldShowFreeTierAffordances
         )
 
         // Then
         XCTAssertTrue(shouldShowButton)
     }
 
-    func testGivenCachedPremiumGatingWhenEvaluatingRateButtonPolicyThenRateButtonIsHidden() {
+    func testGivenUnresolvedEntitlementsWhenEvaluatingRateButtonPolicyThenRateButtonIsHidden() {
         // Given
         let showRateButton = true
-        let hasPremiumAccessForGating = true
+        let shouldShowFreeTierAffordances = false
 
         // When
         let shouldShowButton = MenuView.shouldShowRateButtonPolicy(
             showRateButton: showRateButton,
-            hasPremiumAccessForGating: hasPremiumAccessForGating
+            shouldShowFreeTierAffordances: shouldShowFreeTierAffordances
         )
 
         // Then
@@ -599,12 +599,12 @@ final class GameViewModelTests: XCTestCase {
     func testGivenPlatformHidesRateButtonWhenEvaluatingRateButtonPolicyThenRateButtonIsHidden() {
         // Given
         let showRateButton = false
-        let hasPremiumAccessForGating = false
+        let shouldShowFreeTierAffordances = true
 
         // When
         let shouldShowButton = MenuView.shouldShowRateButtonPolicy(
             showRateButton: showRateButton,
-            hasPremiumAccessForGating: hasPremiumAccessForGating
+            shouldShowFreeTierAffordances: shouldShowFreeTierAffordances
         )
 
         // Then
@@ -1266,6 +1266,7 @@ private final class MockAchievementProgressService: AchievementProgressService {
 }
 
 private final class MockPlayLimitServiceForGameViewModel: PlayLimitService {
+    let regularDailyPlayLimit = 3
     private(set) var recordGamePlayedCallCount = 0
     private(set) var hasUnlimitedAccess = false
     /// Overridable so tests can simulate a player who has exhausted their daily plays.

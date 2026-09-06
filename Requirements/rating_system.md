@@ -11,7 +11,7 @@
 ## Behavior Contract
 
 - Manual Rate buttons open `https://apps.apple.com/app/id6758641625?action=write-review`.
-- Menu Rate CTA is hidden when `hasPremiumAccessForGating` is true.
+- Menu Rate CTA appears only when `shouldShowFreeTierAffordances` is true: entitlements have resolved and the user is free. It stays hidden during startup, including when no paid entitlement is cached.
 - About Rate button is always available for voluntary rating.
 - Native StoreKit prompt is automatic and tied to positive gameplay timing, not manual taps.
 - tvOS keeps the menu engagement block hidden and uses a no-op rating provider.
@@ -35,7 +35,7 @@
 
 - The engagement block appears only when Rate or Support should be visible.
 - Support uses `shouldShowFreeTierAffordances`.
-- Rate uses `hasPremiumAccessForGating`.
+- Rate also uses `shouldShowFreeTierAffordances`.
 - Free-tier CTAs are withheld until StoreKit resolves so returning purchasers do not see a cold-launch flash.
 
 ## Testing

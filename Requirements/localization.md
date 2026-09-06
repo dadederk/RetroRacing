@@ -33,7 +33,7 @@
 | Asset | Path |
 |---|---|
 | Shared catalog | `RetroRacing/RetroRacingShared/Localizable.xcstrings` |
-| Listing metadata | `AppStore/metadata/retrorapid-v1.6.json` |
+| Listing metadata | `AppStore/metadata/retrorapid-v1.5-candidate.json` |
 | Review status and approved digests | `AppStore/localization/review-status.json` |
 | Generated reviewer sheets | `AppStore/localization/README.md` and `AppStore/localization/reviews/*.csv` |
 | Bundle localizations | `RetroRacing/Config/RetroRacingUniversalInfo.plist` (`CFBundleLocalizations`, `CFBundleAllowMixedLocalizations = true`) |

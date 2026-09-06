@@ -63,7 +63,7 @@ final class AppIconGalleryUITests: XCTestCase {
     }
 
     @MainActor
-    func testGivenReleaseOneWhenOpeningStylesThenOnlyFreeOriginalThemesAreSelectable() throws {
+    func testGivenReleaseOneWhenOpeningStylesThenPocketRequiresUnlimitedPlays() throws {
         // Given
         let app = launchApplication(premiumSimulationMode: 2, previewsPersonalization: false)
         openSettings(in: app)
@@ -81,11 +81,10 @@ final class AppIconGalleryUITests: XCTestCase {
         XCTAssertFalse(app.buttons["theme_style_option_16bit"].exists)
         XCTAssertFalse(app.buttons["theme_style_option_32bit"].exists)
         XCTAssertFalse(app.buttons["theme_style_option_64bit"].exists)
-        pocket.tap()
-        waitForSelectedValue(on: pocket)
-        lcd.tap()
         waitForSelectedValue(on: lcd)
-        XCTAssertFalse(app.navigationBars["Go Unlimited"].exists)
+        XCTAssertEqual(pocket.value as? String, "Requires Unlimited Plays", app.debugDescription)
+        pocket.tap()
+        XCTAssertTrue(app.navigationBars["Go Unlimited"].waitForExistence(timeout: 10))
     }
 
     private func assertIconOptionsExist(

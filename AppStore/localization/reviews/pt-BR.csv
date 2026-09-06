@@ -500,14 +500,14 @@ x%lld,x%lld,In-app,x%lld,,needs_review,
 RetroRapid: Retro Arcade Racer,RetroRapid: Corrida Arcade,App Store metadata,name,≤ 30 characters,needs_review,
 Dodge Traffic Across 3 Lanes,Desvie tráfego em 3 faixas,App Store metadata,subtitle,≤ 30 characters,needs_review,
 "car,high,score,overtake,reflex,offline,voiceover,haptics,controller,leaderboard,handheld,lcd,friends","ultrapassar,reflexo,pontuacao,haptico,controle,watch,conquista,conexao,recorde,pixel,classico,turbo",App Store metadata,keywords,≤ 100 UTF-8 bytes,needs_review,
-"Race friends free with SharePlay on iPhone and iPad. Dodge traffic together, rematch fast, and keep solo runs quick anywhere.",Corridas com amigos grátis no SharePlay no iPhone e iPad. Desvie tráfego em um arcade retrô de 3 faixas e busque seu recorde.,App Store metadata,promotionalText,≤ 170 characters,needs_review,
+"Race friends free with SharePlay on iPhone, iPad, and Mac. Dodge traffic together, rematch fast, and keep solo runs quick anywhere.","Corridas com amigos grátis no SharePlay no iPhone, iPad e Mac. Desvie tráfego em um arcade retrô de 3 faixas e busque seu recorde.",App Store metadata,promotionalText,≤ 170 characters,needs_review,
 "RetroRapid! is a fast 3-lane arcade racer built for quick sessions and high-score chasing.
 
 Dodge traffic and survive as speed keeps rising. Controls are easy to learn and hard to master, so every run becomes a reflex challenge.
 
 Why players keep coming back:
 - Quick, one-more-run arcade gameplay
-- Live two-player SharePlay races on iPhone and iPad
+- Live two-player SharePlay races on iPhone, iPad, and Mac
 - Friend races are free and never use daily plays
 - Game Center leaderboards, achievements, and friend markers
 - Play on iPhone, iPad, Mac, and Apple Watch
@@ -530,7 +530,7 @@ Desvie do tráfego e aguente enquanto a velocidade sobe. Os controles são fáce
 
 Por que os jogadores voltam:
 - Gameplay arcade rápido de ""só mais uma""
-- Corridas SharePlay ao vivo para dois jogadores no iPhone e iPad
+- Corridas SharePlay ao vivo para dois jogadores no iPhone, iPad e Mac
 - Corridas com amigos são grátis e não usam partidas diárias
 - Rankings, conquistas e marcadores de amigos do Game Center
 - Jogue no iPhone, iPad, Mac e Apple Watch
@@ -544,21 +544,21 @@ Bata, reinicie e supere seu recorde.
 
 Featured in Create with Swift, Weekly Newsletter #96 (Indie App of the Week):
 ""Além da nostalgia e da jogabilidade precisa, o que realmente se destaca é a acessibilidade.""",App Store metadata,description,≤ 4000 characters,needs_review,
-"Discover two new visual styles: Cartridge and CRT. The new Style Gallery makes it easy to preview every theme before choosing your favorite.
+"Race a friend with SharePlay on iPhone, iPad, and Mac! Two players face the same traffic, follow each other's progress, and race again with a rematch. Friend races are free and never use your daily solo plays.
 
-SharePlay friend races now work on Mac too, alongside iPhone and iPad.
+Explore the new Styles gallery and choose between LCD and Pocket.
 
 This update also improves performance, refines landscape layouts, polishes menus and game-over screens, and makes cars and helmets clearer across themes.
 
-RetroRapid! is now fully localized in Turkish and Polish.
+Expanded language support, including Turkish and Polish.
 
-Thanks for racing with us.","Descubra dois novos estilos visuais: Cartridge e CRT. A nova Galeria de Estilos permite ver cada tema antes de escolher o seu favorito.
+Thanks for racing with us.","Dispute uma corrida com um amigo usando SharePlay no iPhone, iPad e Mac! Os dois jogadores enfrentam o mesmo trânsito, acompanham o progresso um do outro e podem pedir revanche. As corridas com amigos são grátis e não usam suas partidas solo diárias.
 
-As corridas SharePlay com amigos agora também funcionam no Mac, além do iPhone e iPad.
+Explore a nova Galeria de Estilos e escolha entre LCD e Pocket.
 
 Esta atualização também melhora o desempenho e os layouts horizontais, refina menus e telas de fim de jogo e deixa carros e capacetes mais nítidos em todos os temas.
 
-RetroRapid! agora está totalmente localizado em turco e polonês.
+Suporte a mais idiomas, incluindo turco e polonês.
 
 Obrigado por correr com a gente.",App Store metadata,whatsNew,≤ 4000 characters,needs_review,
 Unlimited Plays,Partidas ilimitadas,IAP,unlimitedPlays.name,≤ 30 characters,needs_review,
@@ -709,33 +709,33 @@ Unlock Retro Achievements,Desbloqueie conquistas retro,Screenshots,slide.8.title
 Earn Game Center trophies as you race and improve.,Ganhe troféus do Game Center enquanto corre e melhora.,Screenshots,slide.8.body,,needs_review,
 Play Solo Or With Friends,Jogue solo ou com amigos,Screenshots,slide.9.title,,needs_review,
 "Daily free plays, leaderboards, and live friend races.","Partidas grátis diárias, rankings e corridas live com amigos.",Screenshots,slide.9.body,,needs_review,
-"Discover two new visual styles: Cartridge and CRT. The new Style Gallery makes it easy to preview every theme before choosing your favorite.
+"Race a friend with SharePlay on iPhone, iPad, and Mac! Two players face the same traffic, follow each other's progress, and race again with a rematch. Friend races are free and never use your daily solo plays.
 
-SharePlay friend races now work on Mac too, alongside iPhone and iPad.
+Explore the new Styles gallery and choose between LCD and Pocket.
 
 This update also improves performance, refines landscape layouts, polishes menus and game-over screens, and makes cars and helmets clearer across themes.
 
-RetroRapid! is now fully localized in Turkish and Polish.
+Expanded language support, including Turkish and Polish.
 
 Thanks for racing with us.
 
 Testing focus:
-- Preview every theme in the Style Gallery and check that cars and helmets stay clear
+- Preview and select LCD and Pocket in the Styles gallery
 - Start a SharePlay race with a friend on iPhone, iPad, or Mac
 - Compare performance before and after longer runs
 - Try landscape layouts, menus, and the game-over flow
-- Complete a run with VoiceOver and confirm every announcement is clear","Descubra dois novos estilos visuais: Cartridge e CRT. A nova Galeria de Estilos permite ver cada tema antes de escolher o seu favorito.
+- Complete a run with VoiceOver and confirm every announcement is clear","Dispute uma corrida com um amigo usando SharePlay no iPhone, iPad e Mac! Os dois jogadores enfrentam o mesmo trânsito, acompanham o progresso um do outro e podem pedir revanche. As corridas com amigos são grátis e não usam suas partidas solo diárias.
 
-As corridas SharePlay com amigos agora também funcionam no Mac, além do iPhone e iPad.
+Explore a nova Galeria de Estilos e escolha entre LCD e Pocket.
 
 Esta atualização também melhora o desempenho e os layouts horizontais, refina menus e telas de fim de jogo e deixa carros e capacetes mais nítidos em todos os temas.
 
-RetroRapid! agora está totalmente localizado em turco e polonês.
+Suporte a mais idiomas, incluindo turco e polonês.
 
 Obrigado por correr com a gente.
 
 Pontos para testar:
-- Veja cada tema na Galeria de Estilos e confira se carros e capacetes continuam nítidos
+- Veja e selecione LCD e Pocket na Galeria de Estilos
 - Inicie uma corrida SharePlay com um amigo no iPhone, iPad ou Mac
 - Compare o desempenho antes e depois de partidas longas
 - Teste layouts horizontais, menus e a tela de fim de jogo

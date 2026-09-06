@@ -12,6 +12,9 @@ import Foundation
 ///
 /// Implementations must be thread-safe.
 public protocol PlayLimitService {
+    /// Regular free allowance after the welcome day, independent of purchase state.
+    var regularDailyPlayLimit: Int { get }
+
     /// Returns `true` when the user has purchased unlimited access.
     var hasUnlimitedAccess: Bool { get }
 

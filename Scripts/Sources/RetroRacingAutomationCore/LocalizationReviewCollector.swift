@@ -12,7 +12,7 @@ import ScriptSupport
 public enum LocalizationReviewCollector {
     public static let manifestRelativePath = "AppStore/localization/review-status.json"
     public static let catalogRelativePath = "RetroRacing/RetroRacingShared/Localizable.xcstrings"
-    public static let metadataRelativePath = "AppStore/metadata/retrorapid-v1.6.json"
+    public static let metadataRelativePath = "AppStore/metadata/retrorapid-v1.5-candidate.json"
     public static let achievementRelativePath = "AppStore/game-center/achievements-eu-localizations.json"
     public static let leaderboardRelativePath = "AppStore/game-center/leaderboards-eu-localizations.json"
     public static let iapRelativePath = "AppStore/iap-localizations/6759012658"

@@ -8,7 +8,14 @@ Last updated: 2026-07-26
 
 ---
 
-## Submission Quality Gate
+## Current candidate: 1.5 (35)
+
+The active catalog is [retrorapid-v1.5-candidate.json](../metadata/retrorapid-v1.5-candidate.json), targeting the existing iOS/macOS 1.5 drafts. Build 35 includes the shared release defaults and removes obsolete local flag helpers. SharePlay leads this release; the Styles gallery contains LCD/Pocket. Cartridge/CRT, alternate icons, and TV/Vision launches remain deferred. Pocket requires Unlimited Plays outside watchOS.
+
+App Store and TestFlight copy covers all 20 supported locales. `DRAFT_APPLIED` means copy is staged, not approved or public. Before public submission, complete physical-device SharePlay acceptance (especially Mac), exact-digest fluent locale approval, and screenshot review against release-1 themes. Prior draft screenshots can contain deferred themes and are not evidence of candidate readiness. The existing public Vision placeholder remains outside this release's archive scope.
+
+## Historical submission snapshot
+
 
 Status on 2026-07-26: `DRAFT_APPLIED`. Name, subtitle, keywords, promotional text, description, and What's New are applied to both 1.5 drafts across all 18 App Store listing locales. Today's pass updated What's New to list the full v1.5 localization set, removed em dashes from App Store metadata copy, and replaced the Simplified Chinese hidden keyword `watch` with native Chinese terms to resolve the related-language duplicate with Brazilian Portuguese. TestFlight beta-note source files were updated locally, but no build-level TestFlight notes were changed in App Store Connect in this pass. Two issues should still be closed before submission:
 
@@ -58,6 +65,6 @@ swift run --package-path Scripts apply-retrorapid-metadata --keywords-only
 swift run --package-path Scripts apply-retrorapid-metadata --include-app-info
 ```
 
-The Swift tool defaults to `AppStore/metadata/retrorapid-v1.6.json` and validates it before calling Helm. Planned catalogs may omit draft IDs for local generation, but apply and dry-run commands fail until complete iOS and macOS version-localization IDs are recorded. Use `--catalog` to select another release, `--keywords-only` for a keyword-only sync, and `--include-app-info` to sync shared name/subtitle fields.
+The Swift tool defaults to `AppStore/metadata/retrorapid-v1.5-candidate.json` and validates it before calling Helm. Planned catalogs may omit draft IDs for local generation, but apply and dry-run commands fail until complete iOS and macOS version-localization IDs are recorded. Use `--catalog` to select another release, `--keywords-only` for a keyword-only sync, and `--include-app-info` to sync shared name/subtitle fields.
 
 Do not submit until keyword ranks are baselined and the screenshot story is finalized.

@@ -28,6 +28,24 @@ final class PlayLimitServiceTests: XCTestCase {
         super.tearDown()
     }
 
+    @MainActor
+    func testGivenWelcomeAllowanceWhenRenderingFooterThenRegularAndWelcomeLimitsStayDistinct() {
+        // Given
+        let service = UserDefaultsPlayLimitService(userDefaults: userDefaults, calendar: calendar,
+                                                  maxPlaysPerDay: 3, firstDayMaxPlays: 9)
+        let firstDay = date(year: 2026, month: 2, day: 10, hour: 10)
+        let nextDay = date(year: 2026, month: 2, day: 11, hour: 0)
+        let welcomeCopy = GameLocalizedStrings.format(
+            "play_limit_section_footer_first_day %lld %lld", Int64(3), Int64(9)
+        )
+        // When / Then
+        XCTAssertEqual(SettingsView.playLimitFooter(for: service, on: firstDay), welcomeCopy)
+        service.recordGamePlayed(on: firstDay)
+        XCTAssertEqual(SettingsView.playLimitFooter(for: service, on: firstDay), welcomeCopy)
+        XCTAssertEqual(SettingsView.playLimitFooter(for: service, on: nextDay),
+                       GameLocalizedStrings.format("play_limit_section_footer %lld", Int64(3)))
+    }
+
     // MARK: - First-day bonus
 
     func testGivenFirstDayWhenPlayingNineGamesThenTenthGameIsBlocked() {

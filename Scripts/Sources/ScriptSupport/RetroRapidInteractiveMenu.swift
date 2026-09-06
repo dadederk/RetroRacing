@@ -19,9 +19,10 @@ public struct RetroRapidInteractiveMenuSelection: Sendable, Equatable {
 
 public enum RetroRapidInteractiveMenu {
     public static func shouldUseInteractiveMenu(
-        isatty: ((Int32) -> Int32)? = Darwin.isatty
+        isatty: ((Int32) -> Int32)? = Darwin.isatty,
+        environment: [String: String] = ProcessInfo.processInfo.environment
     ) -> Bool {
-        if ProcessInfo.processInfo.environment["CI"] == "true" {
+        if environment["CI"] == "true" {
             return false
         }
         guard let isatty else { return false }

@@ -43,6 +43,8 @@ public final class UserDefaultsPlayLimitService: PlayLimitService {
         self.firstDayMaxPlays = firstDayMaxPlays
     }
 
+    public var regularDailyPlayLimit: Int { maxPlaysPerDay }
+
     // MARK: - PlayLimitService
 
     public var hasUnlimitedAccess: Bool {

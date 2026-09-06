@@ -2,11 +2,11 @@
 
 Part of [App Store docs hub](../README.md).
 
-Last updated: 2026-08-06
+Last updated: 2026-09-06
 
-**Status:** `READY` — the canonical catalog passes all configured limits. Overall submission status: `PLANNED`; see `03-submission-quality-gate.md` for any remaining non-metadata blockers.
+**Status:** `READY` — the canonical catalog passes all configured limits. Overall submission status: `DRAFT_APPLIED`; see `03-submission-quality-gate.md` for any remaining non-metadata blockers.
 
-**Canonical source:** [metadata/retrorapid-v1.6.json](../metadata/retrorapid-v1.6.json).
+**Canonical source:** [metadata/retrorapid-v1.5-candidate.json](../metadata/retrorapid-v1.5-candidate.json).
 
 **See also:** [Metadata copy](05-metadata-copy.md) · [Limits](01-limits-and-sources.md) · [Submission gate](03-submission-quality-gate.md)
 
@@ -18,37 +18,37 @@ Last updated: 2026-08-06
 |---|---|
 | Name | `PLANNED` |
 | Subtitle | `PLANNED` |
-| Keywords | `PLANNED` |
-| Promotional text | `PLANNED` |
-| Description | `PLANNED` |
-| What's New | `PLANNED` |
+| Keywords | `DRAFT_APPLIED` |
+| Promotional text | `DRAFT_APPLIED` |
+| Description | `DRAFT_APPLIED` |
+| What's New | `DRAFT_APPLIED` |
 
 ## Validation Results
 
-Validated from the canonical catalog for version 1.6. Character counts use Swift `String.count`; keyword limits use UTF-8 bytes.
+Validated from the canonical catalog for version 1.5. Character counts use Swift `String.count`; keyword limits use UTF-8 bytes.
 
 | Locale | App name | Subtitle | Promotional text | Keywords | Keyword bytes | Description | What's New |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| en-US | 30/30 | 28/30 | 125/170 | 100 chars | 100/100 | 1195/4000 | 454/4000 |
-| en-GB | 30/30 | 28/30 | 125/170 | 100 chars | 100/100 | 1195/4000 | 454/4000 |
-| en-AU | 30/30 | 29/30 | 125/170 | 99 chars | 99/100 | 1195/4000 | 454/4000 |
-| en-CA | 30/30 | 28/30 | 125/170 | 99 chars | 99/100 | 1195/4000 | 454/4000 |
-| de-DE | 27/30 | 22/30 | 131/170 | 97 chars | 97/100 | 1114/4000 | 513/4000 |
-| nl-NL | 27/30 | 26/30 | 117/170 | 98 chars | 98/100 | 1061/4000 | 464/4000 |
-| it | 30/30 | 30/30 | 113/170 | 97 chars | 97/100 | 1132/4000 | 486/4000 |
-| fr-FR | 24/30 | 26/30 | 128/170 | 100 chars | 100/100 | 1162/4000 | 569/4000 |
-| fr-CA | 24/30 | 25/30 | 150/170 | 97 chars | 97/100 | 1173/4000 | 583/4000 |
-| es-ES | 27/30 | 29/30 | 114/170 | 99 chars | 99/100 | 1298/4000 | 528/4000 |
-| ca | 27/30 | 28/30 | 118/170 | 99 chars | 99/100 | 1171/4000 | 518/4000 |
-| es-MX | 27/30 | 28/30 | 113/170 | 97 chars | 97/100 | 1296/4000 | 528/4000 |
-| ja | 20/30 | 11/30 | 63/170 | 36 chars | 96/100 | 568/4000 | 255/4000 |
-| ko | 20/30 | 13/30 | 75/170 | 44 chars | 100/100 | 602/4000 | 268/4000 |
-| pt-BR | 26/30 | 26/30 | 125/170 | 99 chars | 99/100 | 1101/4000 | 490/4000 |
-| pt-PT | 26/30 | 29/30 | 142/170 | 100 chars | 100/100 | 1124/4000 | 487/4000 |
-| zh-Hant | 18/30 | 9/30 | 58/170 | 48 chars | 100/100 | 467/4000 | 186/4000 |
-| zh-Hans | 18/30 | 9/30 | 71/170 | 38 chars | 98/100 | 464/4000 | 186/4000 |
-| tr | 29/30 | 23/30 | 125/170 | 87 chars | 94/100 | 1117/4000 | 507/4000 |
-| pl | 25/30 | 23/30 | 123/170 | 86 chars | 93/100 | 1154/4000 | 472/4000 |
+| en-US | 30/30 | 28/30 | 131/170 | 100 chars | 100/100 | 1201/4000 | 517/4000 |
+| en-GB | 30/30 | 28/30 | 131/170 | 100 chars | 100/100 | 1201/4000 | 517/4000 |
+| en-AU | 30/30 | 29/30 | 131/170 | 99 chars | 99/100 | 1201/4000 | 517/4000 |
+| en-CA | 30/30 | 28/30 | 131/170 | 99 chars | 99/100 | 1201/4000 | 517/4000 |
+| de-DE | 27/30 | 22/30 | 131/170 | 97 chars | 97/100 | 1119/4000 | 583/4000 |
+| nl-NL | 27/30 | 26/30 | 117/170 | 98 chars | 98/100 | 1066/4000 | 540/4000 |
+| it | 30/30 | 30/30 | 113/170 | 97 chars | 97/100 | 1137/4000 | 556/4000 |
+| fr-FR | 24/30 | 26/30 | 128/170 | 100 chars | 100/100 | 1167/4000 | 634/4000 |
+| fr-CA | 24/30 | 25/30 | 155/170 | 97 chars | 97/100 | 1178/4000 | 639/4000 |
+| es-ES | 27/30 | 29/30 | 114/170 | 99 chars | 99/100 | 1303/4000 | 605/4000 |
+| ca | 27/30 | 28/30 | 118/170 | 99 chars | 99/100 | 1176/4000 | 612/4000 |
+| es-MX | 27/30 | 28/30 | 113/170 | 97 chars | 97/100 | 1301/4000 | 605/4000 |
+| ja | 20/30 | 11/30 | 67/170 | 36 chars | 96/100 | 572/4000 | 266/4000 |
+| ko | 20/30 | 13/30 | 80/170 | 44 chars | 100/100 | 606/4000 | 293/4000 |
+| pt-BR | 26/30 | 26/30 | 130/170 | 99 chars | 99/100 | 1106/4000 | 568/4000 |
+| pt-PT | 26/30 | 29/30 | 147/170 | 100 chars | 100/100 | 1129/4000 | 581/4000 |
+| zh-Hant | 18/30 | 9/30 | 62/170 | 48 chars | 100/100 | 471/4000 | 208/4000 |
+| zh-Hans | 18/30 | 9/30 | 75/170 | 38 chars | 98/100 | 468/4000 | 208/4000 |
+| tr | 29/30 | 23/30 | 125/170 | 87 chars | 94/100 | 1117/4000 | 583/4000 |
+| pl | 25/30 | 23/30 | 123/170 | 86 chars | 93/100 | 1154/4000 | 544/4000 |
 
 All selected fields pass current Apple limits. Run `swift run --package-path Scripts generate-metadata-docs --check` before applying metadata or submitting a release.
 
