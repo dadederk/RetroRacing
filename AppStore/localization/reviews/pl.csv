@@ -544,23 +544,31 @@ Rozbij się, zacznij od nowa i pobij swój rekord.
 
 Wyróżniono w Create with Swift, Weekly Newsletter #96 jako niezależną aplikację tygodnia:
 ""Poza nostalgią i dopracowaną rozgrywką naprawdę wyróżnia się dostępność.""",App Store metadata,description,≤ 4000 characters,needs_review,
-"Race a friend with SharePlay on iPhone, iPad, and Mac! Two players face the same traffic, follow each other's progress, and race again with a rematch. Friend races are free and never use your daily solo plays.
+"Race a friend with SharePlay on iPhone, iPad, and Mac! Face the same traffic, follow each other’s progress, and go again with a rematch. Friend races are free and never use your daily solo plays.
 
-Explore the new Styles gallery and choose between LCD and Pocket.
+Explore LCD and Pocket in the new Styles gallery. LCD is available to everyone; unlock Pocket with Unlimited Plays. Both styles remain free on Apple Watch.
 
-This update also improves performance, refines landscape layouts, polishes menus and game-over screens, and makes cars and helmets clearer across themes.
+A fresh look for your favorite retro racer: we’ve extensively redrawn the artwork, including cars and helmets, while keeping the character of LCD and Pocket.
 
-Expanded language support, including Turkish and Polish.
+Enjoy smoother gameplay, improved landscape layouts, and refined menus and game-over screens.
 
-Thanks for racing with us.","Ścigaj się ze znajomym przez SharePlay na iPhonie, iPadzie i Macu! Dwóch graczy mierzy się z tym samym ruchem drogowym, śledzi swoje postępy i może rozegrać rewanż. Wyścigi ze znajomymi są darmowe i nie zużywają dziennych rozgrywek solo.
+Now available in German, Dutch, Italian, French for France and Canada, Japanese, Korean, Portuguese for Brazil and Portugal, Simplified and Traditional Chinese, Turkish, and Polish.
 
-Odkryj nową Galerię Stylów i wybierz LCD lub Pocket.
+Catching up? Recent updates added Game Center achievements, friend-score markers, and shareable results.
 
-Aktualizacja poprawia również wydajność, dopracowuje układy poziome, menu i ekrany końca gry oraz zwiększa czytelność samochodów i kasków we wszystkich motywach.
+Thanks for racing with us!","Ścigaj się ze znajomym przez SharePlay na iPhonie, iPadzie i Macu! Omijajcie te same auta, śledźcie swoje postępy i ruszajcie na rewanż. Wyścigi ze znajomymi są darmowe i nigdy nie zużywają dziennego limitu gier solo.
 
-Obsługa kolejnych języków, w tym tureckiego i polskiego.
+Odkryj LCD i Pocket w nowej galerii stylów. LCD jest dostępny dla wszystkich, a Pocket odblokujesz dzięki zakupowi „Nielimitowane gry”. Na Apple Watch oba style pozostają darmowe.
 
-Dziękujemy za wspólne wyścigi.",App Store metadata,whatsNew,≤ 4000 characters,needs_review,
+Nowy wygląd ulubionej wyścigówki retro: narysowaliśmy od nowa dużą część grafik, w tym auta i kaski, zachowując charakter LCD i Pocket.
+
+Ciesz się płynniejszą rozgrywką, lepszym układem w poziomie oraz dopracowanymi menu i ekranami końca gry.
+
+Gra jest teraz dostępna także po niemiecku, niderlandzku, włosku, francusku w odmianach z Francji i Kanady, japońsku, koreańsku, portugalsku w odmianach z Brazylii i Portugalii, po chińsku w wersji uproszczonej i tradycyjnej, a także po turecku i polsku.
+
+Co jeszcze nowego? Poprzednie aktualizacje dodały osiągnięcia Game Center, znaczniki wyników znajomych i udostępnianie wyników.
+
+Dzięki za wspólne wyścigi!",App Store metadata,whatsNew,≤ 4000 characters,needs_review,
 Unlimited Plays,Nielimitowane gry,IAP,unlimitedPlays.name,≤ 30 characters,needs_review,
 Play unlimited and support RetroRapid!,Graj bez limitu i wesprzyj RetroRapid!,IAP,unlimitedPlays.description,≤ 45 characters,needs_review,
 Streak 100,Seria 100,Game Center,achievement.com.accessibilityUpTo11.RetroRacing.achievement.run.overtakes.0100.name,≤ 100 characters,needs_review,
@@ -709,34 +717,42 @@ Unlock Retro Achievements,Odblokuj osiągnięcia retro,Screenshots,slide.8.title
 Earn Game Center trophies as you race and improve.,Zdobywaj trofea Game Center podczas wyścigów i rozwoju.,Screenshots,slide.8.body,,needs_review,
 Play Solo Or With Friends,Graj solo lub ze znajomymi,Screenshots,slide.9.title,,needs_review,
 "Daily free plays, leaderboards, and live friend races.","Codzienne bezpłatne gry, rankingi i wyścigi ze znajomymi na żywo.",Screenshots,slide.9.body,,needs_review,
-"Race a friend with SharePlay on iPhone, iPad, and Mac! Two players face the same traffic, follow each other's progress, and race again with a rematch. Friend races are free and never use your daily solo plays.
+"Race a friend with SharePlay on iPhone, iPad, and Mac! Face the same traffic, follow each other’s progress, and go again with a rematch. Friend races are free and never use your daily solo plays.
 
-Explore the new Styles gallery and choose between LCD and Pocket.
+Explore LCD and Pocket in the new Styles gallery. LCD is available to everyone; unlock Pocket with Unlimited Plays. Both styles remain free on Apple Watch.
 
-This update also improves performance, refines landscape layouts, polishes menus and game-over screens, and makes cars and helmets clearer across themes.
+A fresh look for your favorite retro racer: we’ve extensively redrawn the artwork, including cars and helmets, while keeping the character of LCD and Pocket.
 
-Expanded language support, including Turkish and Polish.
+Enjoy smoother gameplay, improved landscape layouts, and refined menus and game-over screens.
 
-Thanks for racing with us.
+Now available in German, Dutch, Italian, French for France and Canada, Japanese, Korean, Portuguese for Brazil and Portugal, Simplified and Traditional Chinese, Turkish, and Polish.
+
+Catching up? Recent updates added Game Center achievements, friend-score markers, and shareable results.
+
+Thanks for racing with us!
 
 Testing focus:
 - Preview and select LCD and Pocket in the Styles gallery
 - Start a SharePlay race with a friend on iPhone, iPad, or Mac
-- Compare performance before and after longer runs
+- Check that gameplay stays smooth during longer runs
 - Try landscape layouts, menus, and the game-over flow
-- Complete a run with VoiceOver and confirm every announcement is clear","Ścigaj się ze znajomym przez SharePlay na iPhonie, iPadzie i Macu! Dwóch graczy mierzy się z tym samym ruchem drogowym, śledzi swoje postępy i może rozegrać rewanż. Wyścigi ze znajomymi są darmowe i nie zużywają dziennych rozgrywek solo.
+- Complete a run with VoiceOver and confirm every announcement is clear","Ścigaj się ze znajomym przez SharePlay na iPhonie, iPadzie i Macu! Omijajcie te same auta, śledźcie swoje postępy i ruszajcie na rewanż. Wyścigi ze znajomymi są darmowe i nigdy nie zużywają dziennego limitu gier solo.
 
-Odkryj nową Galerię Stylów i wybierz LCD lub Pocket.
+Odkryj LCD i Pocket w nowej galerii stylów. LCD jest dostępny dla wszystkich, a Pocket odblokujesz dzięki zakupowi „Nielimitowane gry”. Na Apple Watch oba style pozostają darmowe.
 
-Aktualizacja poprawia również wydajność, dopracowuje układy poziome, menu i ekrany końca gry oraz zwiększa czytelność samochodów i kasków we wszystkich motywach.
+Nowy wygląd ulubionej wyścigówki retro: narysowaliśmy od nowa dużą część grafik, w tym auta i kaski, zachowując charakter LCD i Pocket.
 
-Obsługa kolejnych języków, w tym tureckiego i polskiego.
+Ciesz się płynniejszą rozgrywką, lepszym układem w poziomie oraz dopracowanymi menu i ekranami końca gry.
 
-Dziękujemy za wspólne wyścigi.
+Gra jest teraz dostępna także po niemiecku, niderlandzku, włosku, francusku w odmianach z Francji i Kanady, japońsku, koreańsku, portugalsku w odmianach z Brazylii i Portugalii, po chińsku w wersji uproszczonej i tradycyjnej, a także po turecku i polsku.
+
+Co jeszcze nowego? Poprzednie aktualizacje dodały osiągnięcia Game Center, znaczniki wyników znajomych i udostępnianie wyników.
+
+Dzięki za wspólne wyścigi!
 
 Co przetestować:
 - Obejrzyj i wybierz LCD oraz Pocket w Galerii Stylów
 - Rozpocznij wyścig SharePlay ze znajomym na iPhonie, iPadzie lub Macu
-- Porównaj wydajność przed dłuższym przejazdem i po nim
+- Sprawdź, czy gra pozostaje płynna podczas dłuższych rozgrywek
 - Sprawdź układy poziome, menu i ekran końca gry
 - Ukończ przejazd z VoiceOver i sprawdź, czy wszystkie komunikaty są zrozumiałe",TestFlight,whats-new,"≤ 4,000 characters",needs_review,

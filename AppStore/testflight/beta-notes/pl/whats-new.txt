@@ -1,16 +1,20 @@
-Ścigaj się ze znajomym przez SharePlay na iPhonie, iPadzie i Macu! Dwóch graczy mierzy się z tym samym ruchem drogowym, śledzi swoje postępy i może rozegrać rewanż. Wyścigi ze znajomymi są darmowe i nie zużywają dziennych rozgrywek solo.
+Ścigaj się ze znajomym przez SharePlay na iPhonie, iPadzie i Macu! Omijajcie te same auta, śledźcie swoje postępy i ruszajcie na rewanż. Wyścigi ze znajomymi są darmowe i nigdy nie zużywają dziennego limitu gier solo.
 
-Odkryj nową Galerię Stylów i wybierz LCD lub Pocket.
+Odkryj LCD i Pocket w nowej galerii stylów. LCD jest dostępny dla wszystkich, a Pocket odblokujesz dzięki zakupowi „Nielimitowane gry”. Na Apple Watch oba style pozostają darmowe.
 
-Aktualizacja poprawia również wydajność, dopracowuje układy poziome, menu i ekrany końca gry oraz zwiększa czytelność samochodów i kasków we wszystkich motywach.
+Nowy wygląd ulubionej wyścigówki retro: narysowaliśmy od nowa dużą część grafik, w tym auta i kaski, zachowując charakter LCD i Pocket.
 
-Obsługa kolejnych języków, w tym tureckiego i polskiego.
+Ciesz się płynniejszą rozgrywką, lepszym układem w poziomie oraz dopracowanymi menu i ekranami końca gry.
 
-Dziękujemy za wspólne wyścigi.
+Gra jest teraz dostępna także po niemiecku, niderlandzku, włosku, francusku w odmianach z Francji i Kanady, japońsku, koreańsku, portugalsku w odmianach z Brazylii i Portugalii, po chińsku w wersji uproszczonej i tradycyjnej, a także po turecku i polsku.
+
+Co jeszcze nowego? Poprzednie aktualizacje dodały osiągnięcia Game Center, znaczniki wyników znajomych i udostępnianie wyników.
+
+Dzięki za wspólne wyścigi!
 
 Co przetestować:
 - Obejrzyj i wybierz LCD oraz Pocket w Galerii Stylów
 - Rozpocznij wyścig SharePlay ze znajomym na iPhonie, iPadzie lub Macu
-- Porównaj wydajność przed dłuższym przejazdem i po nim
+- Sprawdź, czy gra pozostaje płynna podczas dłuższych rozgrywek
 - Sprawdź układy poziome, menu i ekran końca gry
 - Ukończ przejazd z VoiceOver i sprawdź, czy wszystkie komunikaty są zrozumiałe

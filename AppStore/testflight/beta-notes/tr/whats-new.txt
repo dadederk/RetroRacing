@@ -1,16 +1,20 @@
-iPhone, iPad ve Mac'te SharePlay ile bir arkadaşınla yarış! İki oyuncu aynı trafik düzeniyle karşılaşır, birbirinin ilerlemesini takip eder ve rövanş yapabilir. Arkadaş yarışları ücretsizdir ve günlük tek oyunculu oyun haklarını kullanmaz.
+iPhone, iPad ve Mac’te SharePlay ile bir arkadaşınla yarış! Aynı trafiğe meydan okuyun, birbirinizin ilerlemesini takip edin ve rövanş için yeniden piste çıkın. Arkadaş yarışları ücretsizdir ve günlük tek oyunculu oyun hakkını asla tüketmez.
 
-Yeni Tarz Galerisi'ni keşfet ve LCD ile Pocket arasından seçim yap.
+Yeni stil galerisinde LCD ve Pocket’ı keşfet. LCD herkese açık; Pocket’ın kilidini Sınırsız oyun ile açabilirsin. Apple Watch’ta her iki stil de ücretsiz kalmaya devam ediyor.
 
-Bu güncelleme ayrıca performansı artırıyor, yatay düzenleri iyileştiriyor, menüler ile oyun sonu ekranlarını parlatıyor ve tüm temalarda arabaları ve kaskları daha belirgin hâle getiriyor.
+Sevdiğin retro yarış oyununa taze bir görünüm: Arabalar ve kasklar dahil pek çok görseli baştan çizdik. LCD ve Pocket’ın kendine özgü havasını ise koruduk.
 
-Türkçe ve Lehçe dahil daha fazla dil desteği.
+Daha akıcı oyunun, iyileştirilmiş yatay ekran düzeninin, elden geçirilmiş menülerin ve oyun sonu ekranlarının keyfini çıkar.
 
-Bizimle yarıştığın için teşekkürler.
+Artık Almanca, Felemenkçe, İtalyanca, Fransa ve Kanada Fransızcası, Japonca, Korece, Brezilya ve Portekiz Portekizcesi, Basitleştirilmiş ve Geleneksel Çince, Türkçe ve Lehçe de destekleniyor.
+
+Son yenilikleri kaçırdın mı? Önceki güncellemelerle Game Center başarımları, arkadaşlarının puanlarını gösteren işaretler ve sonuçları paylaşma özelliği eklendi.
+
+Bizimle yarıştığın için teşekkürler!
 
 Test odağı:
 - Tarz Galerisi'nde LCD ve Pocket'ı önizle ve seç
 - iPhone, iPad veya Mac'te bir arkadaşınla SharePlay yarışı başlat
-- Uzun yarışlardan önceki ve sonraki performansı karşılaştır
+- Uzun oyunlarda da oyunun akıcı kaldığını kontrol et
 - Yatay düzenleri, menüleri ve oyun sonu akışını dene
 - VoiceOver ile bir yarışı tamamla ve tüm duyuruların anlaşılır olduğunu doğrula

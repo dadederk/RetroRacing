@@ -1,16 +1,20 @@
-Dispute uma corrida com um amigo através do SharePlay no iPhone, iPad e Mac! Os dois jogadores enfrentam o mesmo trânsito, acompanham o progresso um do outro e podem pedir uma desforra. As corridas com amigos são gratuitas e não gastam as partidas diárias a solo.
+Dispute uma corrida com um amigo através do SharePlay no iPhone, iPad e Mac! Enfrentem o mesmo trânsito, acompanhem o progresso um do outro e voltem à pista para uma desforra. As corridas com amigos são gratuitas e nunca gastam as partidas diárias a solo.
 
-Explore a nova Galeria de Estilos e escolha entre LCD e Pocket.
+Explore LCD e Pocket na nova galeria de estilos. LCD está disponível para todos; desbloqueie Pocket com Partidas ilimitadas. Ambos os estilos continuam gratuitos no Apple Watch.
 
-Esta atualização também melhora o desempenho e os esquemas horizontais, refina menus e ecrãs de fim de jogo e deixa carros e capacetes mais nítidos em todos os temas.
+Um novo visual para o seu jogo de corridas retro favorito: redesenhámos grande parte dos gráficos, incluindo carros e capacetes, mantendo a personalidade de LCD e Pocket.
 
-Suporte para mais idiomas, incluindo turco e polaco.
+Desfrute de partidas mais fluidas, de uma melhor disposição na horizontal e de menus e ecrãs de fim de partida mais cuidados.
 
-Obrigado por correr connosco.
+Agora também em alemão, neerlandês, italiano, francês de França e do Canadá, japonês, coreano, português do Brasil e de Portugal, chinês simplificado e tradicional, turco e polaco.
+
+Perdeu alguma novidade? As últimas atualizações trouxeram conquistas do Game Center, marcadores das pontuações dos amigos e a opção de partilhar resultados.
+
+Obrigado por correr connosco!
 
 Pontos a testar:
 - Pré-visualize e selecione LCD e Pocket na Galeria de Estilos
 - Inicie uma corrida SharePlay com um amigo no iPhone, iPad ou Mac
-- Compare o desempenho antes e depois de partidas longas
+- Verifique se o jogo se mantém fluido durante partidas longas
 - Teste esquemas horizontais, menus e o ecrã de fim de jogo
 - Termine uma partida com VoiceOver e confirme todos os anúncios

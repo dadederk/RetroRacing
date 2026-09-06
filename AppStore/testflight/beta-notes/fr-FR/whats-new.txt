@@ -1,16 +1,20 @@
-Affronte un ami avec SharePlay sur iPhone, iPad et Mac ! Les deux joueurs rencontrent le même trafic, suivent la progression de l'autre et peuvent prendre leur revanche. Les courses entre amis sont gratuites et ne consomment pas tes parties solo quotidiennes.
+Défie un ami avec SharePlay sur iPhone, iPad et Mac ! Affrontez le même trafic, suivez votre progression respective et enchaînez avec une revanche. Les courses entre amis sont gratuites et ne consomment jamais tes parties solo quotidiennes.
 
-Explore la nouvelle galerie de styles et choisis entre LCD et Pocket.
+Découvre LCD et Pocket dans la nouvelle galerie de styles. LCD est accessible à tous ; débloque Pocket avec Parties illimitées. Les deux styles restent gratuits sur Apple Watch.
 
-Cette mise à jour améliore aussi les performances et les dispositions en mode paysage, peaufine les menus et les écrans de fin de partie, et rend les voitures et les casques plus nets dans tous les thèmes.
+Un nouveau look pour ton jeu de course rétro préféré : nous avons largement redessiné les graphismes, notamment les voitures et les casques, tout en préservant le caractère de LCD et Pocket.
 
-Davantage de langues prises en charge, dont le turc et le polonais.
+Profite de parties plus fluides, d’une disposition améliorée en mode paysage et de menus et écrans de fin de partie plus soignés.
 
-Merci de courir avec nous.
+Le jeu est désormais disponible en allemand, néerlandais, italien, français de France et du Canada, japonais, coréen, portugais du Brésil et du Portugal, chinois simplifié et traditionnel, turc et polonais.
+
+Tu as manqué les dernières nouveautés ? Les mises à jour précédentes ont ajouté des succès Game Center, des repères pour les scores de tes amis et le partage des résultats.
+
+Merci de faire la course avec nous !
 
 Points à tester :
-- Prévisualise et sélectionne LCD et Pocket dans la galerie de styles 
+- Prévisualise et sélectionne LCD et Pocket dans la galerie de styles
 - Lance une course SharePlay avec un ami sur iPhone, iPad ou Mac
-- Compare les performances avant et après de longues parties
+- Vérifie que le jeu reste fluide pendant les longues parties
 - Teste le mode paysage, les menus et l'écran de fin de partie
 - Termine une partie avec VoiceOver et vérifie chaque annonce

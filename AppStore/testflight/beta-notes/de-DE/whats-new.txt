@@ -1,16 +1,20 @@
-Fahre mit SharePlay auf iPhone, iPad und Mac gegen einen Freund! Zwei Spieler begegnen demselben Verkehr, verfolgen den Fortschritt des anderen und können eine Revanche starten. Rennen mit Freunden sind kostenlos und verbrauchen keine täglichen Solo-Spiele.
+Fahre mit SharePlay auf iPhone, iPad und Mac gegen einen Freund! Weicht demselben Verkehr aus, verfolgt gegenseitig euren Fortschritt und startet gleich eine Revanche. Rennen mit Freunden sind kostenlos und verbrauchen keine deiner täglichen Solospiele.
 
-Entdecke die neue Stilgalerie und wähle zwischen LCD und Pocket.
+Entdecke LCD und Pocket in der neuen Stilgalerie. LCD ist für alle verfügbar; Pocket schaltest du mit „Unbegrenzte Spiele“ frei. Auf der Apple Watch bleiben beide Stile kostenlos.
 
-Dieses Update verbessert außerdem die Leistung und Querformat-Layouts, verfeinert Menüs und Game-Over-Bildschirme und macht Autos und Helme in allen Themes deutlicher.
+Ein frischer Look für deinen Retro-Rennspaß: Wir haben die Grafik umfassend neu gezeichnet, darunter Autos und Helme. Der besondere Charakter von LCD und Pocket bleibt erhalten.
 
-Mehr Sprachunterstützung, darunter Türkisch und Polnisch.
+Freu dich auf flüssigeres Spielen, verbesserte Ansichten im Querformat und überarbeitete Menüs und Game-over-Bildschirme.
 
-Danke, dass du mit uns fährst.
+Jetzt auch auf Deutsch, Niederländisch, Italienisch, Französisch für Frankreich und Kanada, Japanisch, Koreanisch, Portugiesisch für Brasilien und Portugal, vereinfachtem und traditionellem Chinesisch, Türkisch und Polnisch.
+
+Länger nicht gespielt? Die letzten Updates brachten Game Center-Erfolge, Markierungen für die Punktestände deiner Freunde und Ergebnisse zum Teilen.
+
+Danke, dass du mit uns Rennen fährst!
 
 Testschwerpunkte:
 - LCD und Pocket in der Stilgalerie ansehen und auswählen
 - Starte ein SharePlay-Rennen mit einem Freund auf iPhone, iPad oder Mac
-- Vergleiche die Leistung vor und nach längeren Runden
+- Prüfe, ob das Spiel auch bei längeren Runden flüssig bleibt
 - Teste Querformat, Menüs und den Game-Over-Ablauf
 - Schließe mit VoiceOver eine Runde ab und prüfe alle Ansagen

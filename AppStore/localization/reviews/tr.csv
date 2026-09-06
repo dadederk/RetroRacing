@@ -544,23 +544,31 @@ Oyuncular neden geri dönüyor:
 
 Create with Swift, Weekly Newsletter #96'da Haftanın Bağımsız Uygulaması olarak öne çıkarıldı:
 ""Nostalji ve sıkı oynanışın ötesinde gerçekten öne çıkan şey erişilebilirlik.""",App Store metadata,description,≤ 4000 characters,needs_review,
-"Race a friend with SharePlay on iPhone, iPad, and Mac! Two players face the same traffic, follow each other's progress, and race again with a rematch. Friend races are free and never use your daily solo plays.
+"Race a friend with SharePlay on iPhone, iPad, and Mac! Face the same traffic, follow each other’s progress, and go again with a rematch. Friend races are free and never use your daily solo plays.
 
-Explore the new Styles gallery and choose between LCD and Pocket.
+Explore LCD and Pocket in the new Styles gallery. LCD is available to everyone; unlock Pocket with Unlimited Plays. Both styles remain free on Apple Watch.
 
-This update also improves performance, refines landscape layouts, polishes menus and game-over screens, and makes cars and helmets clearer across themes.
+A fresh look for your favorite retro racer: we’ve extensively redrawn the artwork, including cars and helmets, while keeping the character of LCD and Pocket.
 
-Expanded language support, including Turkish and Polish.
+Enjoy smoother gameplay, improved landscape layouts, and refined menus and game-over screens.
 
-Thanks for racing with us.","iPhone, iPad ve Mac'te SharePlay ile bir arkadaşınla yarış! İki oyuncu aynı trafik düzeniyle karşılaşır, birbirinin ilerlemesini takip eder ve rövanş yapabilir. Arkadaş yarışları ücretsizdir ve günlük tek oyunculu oyun haklarını kullanmaz.
+Now available in German, Dutch, Italian, French for France and Canada, Japanese, Korean, Portuguese for Brazil and Portugal, Simplified and Traditional Chinese, Turkish, and Polish.
 
-Yeni Tarz Galerisi'ni keşfet ve LCD ile Pocket arasından seçim yap.
+Catching up? Recent updates added Game Center achievements, friend-score markers, and shareable results.
 
-Bu güncelleme ayrıca performansı artırıyor, yatay düzenleri iyileştiriyor, menüler ile oyun sonu ekranlarını parlatıyor ve tüm temalarda arabaları ve kaskları daha belirgin hâle getiriyor.
+Thanks for racing with us!","iPhone, iPad ve Mac’te SharePlay ile bir arkadaşınla yarış! Aynı trafiğe meydan okuyun, birbirinizin ilerlemesini takip edin ve rövanş için yeniden piste çıkın. Arkadaş yarışları ücretsizdir ve günlük tek oyunculu oyun hakkını asla tüketmez.
 
-Türkçe ve Lehçe dahil daha fazla dil desteği.
+Yeni stil galerisinde LCD ve Pocket’ı keşfet. LCD herkese açık; Pocket’ın kilidini Sınırsız oyun ile açabilirsin. Apple Watch’ta her iki stil de ücretsiz kalmaya devam ediyor.
 
-Bizimle yarıştığın için teşekkürler.",App Store metadata,whatsNew,≤ 4000 characters,needs_review,
+Sevdiğin retro yarış oyununa taze bir görünüm: Arabalar ve kasklar dahil pek çok görseli baştan çizdik. LCD ve Pocket’ın kendine özgü havasını ise koruduk.
+
+Daha akıcı oyunun, iyileştirilmiş yatay ekran düzeninin, elden geçirilmiş menülerin ve oyun sonu ekranlarının keyfini çıkar.
+
+Artık Almanca, Felemenkçe, İtalyanca, Fransa ve Kanada Fransızcası, Japonca, Korece, Brezilya ve Portekiz Portekizcesi, Basitleştirilmiş ve Geleneksel Çince, Türkçe ve Lehçe de destekleniyor.
+
+Son yenilikleri kaçırdın mı? Önceki güncellemelerle Game Center başarımları, arkadaşlarının puanlarını gösteren işaretler ve sonuçları paylaşma özelliği eklendi.
+
+Bizimle yarıştığın için teşekkürler!",App Store metadata,whatsNew,≤ 4000 characters,needs_review,
 Unlimited Plays,Sınırsız oyun,IAP,unlimitedPlays.name,≤ 30 characters,needs_review,
 Play unlimited and support RetroRapid!,Sınırsız oyna ve RetroRapid!'i destekle!,IAP,unlimitedPlays.description,≤ 45 characters,needs_review,
 Streak 100,Seri 100,Game Center,achievement.com.accessibilityUpTo11.RetroRacing.achievement.run.overtakes.0100.name,≤ 100 characters,needs_review,
@@ -709,34 +717,42 @@ Unlock Retro Achievements,Retro başarımları aç,Screenshots,slide.8.title,,ne
 Earn Game Center trophies as you race and improve.,Yarışıp geliştikçe Game Center kupaları kazan.,Screenshots,slide.8.body,,needs_review,
 Play Solo Or With Friends,Tek başına veya arkadaşlarınla oyna,Screenshots,slide.9.title,,needs_review,
 "Daily free plays, leaderboards, and live friend races.","Günlük ücretsiz oyunlar, liderlik tabloları ve canlı arkadaş yarışları.",Screenshots,slide.9.body,,needs_review,
-"Race a friend with SharePlay on iPhone, iPad, and Mac! Two players face the same traffic, follow each other's progress, and race again with a rematch. Friend races are free and never use your daily solo plays.
+"Race a friend with SharePlay on iPhone, iPad, and Mac! Face the same traffic, follow each other’s progress, and go again with a rematch. Friend races are free and never use your daily solo plays.
 
-Explore the new Styles gallery and choose between LCD and Pocket.
+Explore LCD and Pocket in the new Styles gallery. LCD is available to everyone; unlock Pocket with Unlimited Plays. Both styles remain free on Apple Watch.
 
-This update also improves performance, refines landscape layouts, polishes menus and game-over screens, and makes cars and helmets clearer across themes.
+A fresh look for your favorite retro racer: we’ve extensively redrawn the artwork, including cars and helmets, while keeping the character of LCD and Pocket.
 
-Expanded language support, including Turkish and Polish.
+Enjoy smoother gameplay, improved landscape layouts, and refined menus and game-over screens.
 
-Thanks for racing with us.
+Now available in German, Dutch, Italian, French for France and Canada, Japanese, Korean, Portuguese for Brazil and Portugal, Simplified and Traditional Chinese, Turkish, and Polish.
+
+Catching up? Recent updates added Game Center achievements, friend-score markers, and shareable results.
+
+Thanks for racing with us!
 
 Testing focus:
 - Preview and select LCD and Pocket in the Styles gallery
 - Start a SharePlay race with a friend on iPhone, iPad, or Mac
-- Compare performance before and after longer runs
+- Check that gameplay stays smooth during longer runs
 - Try landscape layouts, menus, and the game-over flow
-- Complete a run with VoiceOver and confirm every announcement is clear","iPhone, iPad ve Mac'te SharePlay ile bir arkadaşınla yarış! İki oyuncu aynı trafik düzeniyle karşılaşır, birbirinin ilerlemesini takip eder ve rövanş yapabilir. Arkadaş yarışları ücretsizdir ve günlük tek oyunculu oyun haklarını kullanmaz.
+- Complete a run with VoiceOver and confirm every announcement is clear","iPhone, iPad ve Mac’te SharePlay ile bir arkadaşınla yarış! Aynı trafiğe meydan okuyun, birbirinizin ilerlemesini takip edin ve rövanş için yeniden piste çıkın. Arkadaş yarışları ücretsizdir ve günlük tek oyunculu oyun hakkını asla tüketmez.
 
-Yeni Tarz Galerisi'ni keşfet ve LCD ile Pocket arasından seçim yap.
+Yeni stil galerisinde LCD ve Pocket’ı keşfet. LCD herkese açık; Pocket’ın kilidini Sınırsız oyun ile açabilirsin. Apple Watch’ta her iki stil de ücretsiz kalmaya devam ediyor.
 
-Bu güncelleme ayrıca performansı artırıyor, yatay düzenleri iyileştiriyor, menüler ile oyun sonu ekranlarını parlatıyor ve tüm temalarda arabaları ve kaskları daha belirgin hâle getiriyor.
+Sevdiğin retro yarış oyununa taze bir görünüm: Arabalar ve kasklar dahil pek çok görseli baştan çizdik. LCD ve Pocket’ın kendine özgü havasını ise koruduk.
 
-Türkçe ve Lehçe dahil daha fazla dil desteği.
+Daha akıcı oyunun, iyileştirilmiş yatay ekran düzeninin, elden geçirilmiş menülerin ve oyun sonu ekranlarının keyfini çıkar.
 
-Bizimle yarıştığın için teşekkürler.
+Artık Almanca, Felemenkçe, İtalyanca, Fransa ve Kanada Fransızcası, Japonca, Korece, Brezilya ve Portekiz Portekizcesi, Basitleştirilmiş ve Geleneksel Çince, Türkçe ve Lehçe de destekleniyor.
+
+Son yenilikleri kaçırdın mı? Önceki güncellemelerle Game Center başarımları, arkadaşlarının puanlarını gösteren işaretler ve sonuçları paylaşma özelliği eklendi.
+
+Bizimle yarıştığın için teşekkürler!
 
 Test odağı:
 - Tarz Galerisi'nde LCD ve Pocket'ı önizle ve seç
 - iPhone, iPad veya Mac'te bir arkadaşınla SharePlay yarışı başlat
-- Uzun yarışlardan önceki ve sonraki performansı karşılaştır
+- Uzun oyunlarda da oyunun akıcı kaldığını kontrol et
 - Yatay düzenleri, menüleri ve oyun sonu akışını dene
 - VoiceOver ile bir yarışı tamamla ve tüm duyuruların anlaşılır olduğunu doğrula",TestFlight,whats-new,"≤ 4,000 characters",needs_review,

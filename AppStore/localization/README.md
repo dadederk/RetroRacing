@@ -6,26 +6,26 @@ An approval is valid only when `approvedContentDigest` in `review-status.json` m
 
 | Locale | Catalog | Status | Items | Current digest | Reviewer | Date |
 |---|---|---|---:|---|---|---|
-| [en-US](reviews/en-US.csv) | `en` | NEEDS_REVIEW | 625 | `29243e4432263c49ea9f04225599d4fc18490c128ce8f4107b536a0223398c41` | — | — |
-| [en-GB](reviews/en-GB.csv) | `en` | NEEDS_REVIEW | 625 | `7a1094866cac781bbbed8dd53e5296737c1bd07b8898fd868b14c07464673e0c` | — | — |
-| [en-AU](reviews/en-AU.csv) | `en` | NEEDS_REVIEW | 625 | `c0fb8e615c5ffb54085ee839556415c1ede9def31dec84b59708b22ebaf804a3` | — | — |
-| [en-CA](reviews/en-CA.csv) | `en` | NEEDS_REVIEW | 625 | `041bed60ed590f44e4e482bfcdc3072cb0bfac5bf370943370158b103ee5ec64` | — | — |
-| [de-DE](reviews/de-DE.csv) | `de` | NEEDS_REVIEW | 625 | `6570ba1f28e2636a630dee0c3cf8716f1ebd521626b3c25f4d0d3337f064a85e` | — | — |
-| [nl-NL](reviews/nl-NL.csv) | `nl` | NEEDS_REVIEW | 625 | `a8c33005cd2902599070e74417b34abf73dd933ea0d0d9e21c35a63993fc2726` | — | — |
-| [it](reviews/it.csv) | `it` | NEEDS_REVIEW | 625 | `24ed54020ae70c11f61972f8cc33ed9c9355c9de032457cd3d1564c6c40ed449` | — | — |
-| [fr-FR](reviews/fr-FR.csv) | `fr` | NEEDS_REVIEW | 625 | `0254baaaae9fdeb699f7299ae92ed154b105c68a34f1cea26145dbaa9c1182bd` | — | — |
-| [fr-CA](reviews/fr-CA.csv) | `fr-CA` | NEEDS_REVIEW | 625 | `15f76aa6f4b6cd26ad2bcaa289bc06ceda3c843217e8c44483b62a4e528ef948` | — | — |
-| [es-ES](reviews/es-ES.csv) | `es` | NEEDS_REVIEW | 625 | `db30f5430c784c392301c068f64e3197b73c64ba664f665018ab786012bbace7` | — | — |
-| [es-MX](reviews/es-MX.csv) | `es-MX` | NEEDS_REVIEW | 625 | `8a77e41b8ab8b52ed03fa8c6c26cc74f8a56869fd7507b3e28d154fc3ab3e4af` | — | — |
-| [ca](reviews/ca.csv) | `ca` | NEEDS_REVIEW | 625 | `23aba87bd5c272a97137b4f4445f255512dfe43be26ca778f4d256c010fc36c5` | — | — |
-| [ja](reviews/ja.csv) | `ja` | NEEDS_REVIEW | 625 | `d673b3bf038c6ee0558501ac7603031f3319ba059c63402744526f24f74b0815` | — | — |
-| [ko](reviews/ko.csv) | `ko` | NEEDS_REVIEW | 625 | `bc68644b76aeaec43ca48d439ac7890d1818479f66338fa88cd1e526b92257bd` | — | — |
-| [pt-BR](reviews/pt-BR.csv) | `pt-BR` | NEEDS_REVIEW | 625 | `da3a8d9511e5243082de38e8f8b42e4a55c56b751d99fa1026bca15244e6d240` | — | — |
-| [pt-PT](reviews/pt-PT.csv) | `pt-PT` | NEEDS_REVIEW | 625 | `816a230d0b78685f060696b0a9f633fef66e97e4d0523fe056ee60d691e58b0d` | — | — |
-| [zh-Hant](reviews/zh-Hant.csv) | `zh-Hant` | NEEDS_REVIEW | 625 | `4d2c24034a5e584f893c00a2542fb0820904cc33db5e9ee0b363dd5c762c8976` | — | — |
-| [zh-Hans](reviews/zh-Hans.csv) | `zh-Hans` | NEEDS_REVIEW | 625 | `e89f9d99ca9434342068db40d50b3b2f7dc4edcba1a634f0cfb7ca47e5eefd0d` | — | — |
-| [tr](reviews/tr.csv) | `tr` | NEEDS_REVIEW | 625 | `a0e216cca2cfa24090513b74d419b2a9c3f9aea9fb2c1e6ce33a59ef253d53e3` | — | — |
-| [pl](reviews/pl.csv) | `pl` | NEEDS_REVIEW | 625 | `51d5d77ae36bd410395ae13520634daed9cf5eaffd06be12768d880173d69379` | — | — |
+| [en-US](reviews/en-US.csv) | `en` | NEEDS_REVIEW | 625 | `84ace6092250ab0c57f6e55ca05280c178157de297861e27fafb6df4ce34dbe1` | — | — |
+| [en-GB](reviews/en-GB.csv) | `en` | NEEDS_REVIEW | 625 | `f1b2a47601fcfe4aa2c5edb1645a009b604cc3fc276a58879412f00e47986df1` | — | — |
+| [en-AU](reviews/en-AU.csv) | `en` | NEEDS_REVIEW | 625 | `e24fc2f3876b5000287437bb91af85e6ee579f71626200acf1686ce71843a495` | — | — |
+| [en-CA](reviews/en-CA.csv) | `en` | NEEDS_REVIEW | 625 | `04d0604ad905ffefe90b20f51b40a460a565210e7f2f24f79c8672979d8b03be` | — | — |
+| [de-DE](reviews/de-DE.csv) | `de` | NEEDS_REVIEW | 625 | `a5f3c34a4f030268ce3490adada8fb27ab09ec3efff13649372d2c4a8fbff676` | — | — |
+| [nl-NL](reviews/nl-NL.csv) | `nl` | NEEDS_REVIEW | 625 | `bef067000f04d0cbaab1148cf3457aa900c0bc925cde281a46f847348d95d695` | — | — |
+| [it](reviews/it.csv) | `it` | NEEDS_REVIEW | 625 | `993417cf4c1b09783b443956574d09965f23c5fb96269a1e56f0565f654b3d9f` | — | — |
+| [fr-FR](reviews/fr-FR.csv) | `fr` | NEEDS_REVIEW | 625 | `680d81d743f5ad93f1449da294d152f83bd37522c047f7823d2d107b4fa2945a` | — | — |
+| [fr-CA](reviews/fr-CA.csv) | `fr-CA` | NEEDS_REVIEW | 625 | `b5da0561800a5ebfc89c4b9c11f0d791dfb6194426a4cce5a76b544ffbeb0cfb` | — | — |
+| [es-ES](reviews/es-ES.csv) | `es` | NEEDS_REVIEW | 625 | `715fa7b948eec47e0db919b9f48c3a97955110ed8959034d05236476f4240b66` | — | — |
+| [es-MX](reviews/es-MX.csv) | `es-MX` | NEEDS_REVIEW | 625 | `b55a75b404ac025ed530415631a724c5b86f4bf568abb8c9ad6a795906141b4a` | — | — |
+| [ca](reviews/ca.csv) | `ca` | NEEDS_REVIEW | 625 | `e89cc47372c2d1109ed6d02d081a854ea53e46a469911ee9d2f9cba7ca019e2f` | — | — |
+| [ja](reviews/ja.csv) | `ja` | NEEDS_REVIEW | 625 | `8500e649af30da450e718eec123f1ecf547ff5721d1fa0e5b0b333a1c592a735` | — | — |
+| [ko](reviews/ko.csv) | `ko` | NEEDS_REVIEW | 625 | `0e4f6442f06eb7b6b6c331569eb669c3edf541b0ffb03ebcc851f40740523676` | — | — |
+| [pt-BR](reviews/pt-BR.csv) | `pt-BR` | NEEDS_REVIEW | 625 | `cc20f5894eff2dff0a42f6837e48b223ae7cff6699981107d7b537cc3090c589` | — | — |
+| [pt-PT](reviews/pt-PT.csv) | `pt-PT` | NEEDS_REVIEW | 625 | `52a632a79251364780883da11e8724d1c582895f9b10c33ad02bd8eea7d6cd31` | — | — |
+| [zh-Hant](reviews/zh-Hant.csv) | `zh-Hant` | NEEDS_REVIEW | 625 | `56e2d0dac68b91d7a69ad17baf6455ced59497e0910e57bd0ba1a96baa8c4f40` | — | — |
+| [zh-Hans](reviews/zh-Hans.csv) | `zh-Hans` | NEEDS_REVIEW | 625 | `219a9b7eb491bcceb1cded0bcf8c4e779472ef6f25ba4c3017025fae9797076d` | — | — |
+| [tr](reviews/tr.csv) | `tr` | NEEDS_REVIEW | 625 | `d681ddd1b8a6d3f2076ee7ddef68993b0d24bcda361d1a1892e7c531c6439c1a` | — | — |
+| [pl](reviews/pl.csv) | `pl` | NEEDS_REVIEW | 625 | `ce38d214266d2d83a9cf1ae23ebb69188755f3e5238f3300d05caeeb4ff4c582` | — | — |
 
 ## Locale guidance
 

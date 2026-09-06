@@ -1,16 +1,20 @@
-Affrontez un ami avec SharePlay sur iPhone, iPad et Mac ! Les deux joueurs rencontrent le même trafic, suivent la progression de l'autre et peuvent prendre leur revanche. Les courses entre amis sont gratuites et ne consomment pas vos parties solo quotidiennes.
+Affrontez un ami avec SharePlay sur iPhone, iPad et Mac ! Évitez la même circulation, suivez votre progression respective et lancez une nouvelle course pour prendre votre revanche. Les courses entre amis sont gratuites et n’utilisent jamais vos parties solo quotidiennes.
 
-Explorez la nouvelle galerie de styles et choisissez entre LCD et Pocket.
+Découvrez LCD et Pocket dans la nouvelle galerie de styles. LCD est accessible à tout le monde ; déverrouillez Pocket avec Parties illimitées. Les deux styles demeurent gratuits sur Apple Watch.
 
-Cette mise à jour améliore aussi les performances et les dispositions en mode paysage, peaufine les menus et les écrans de fin de partie, et rend les voitures et les casques plus nets dans tous les thèmes.
+Votre jeu de course rétro préféré fait peau neuve : nous avons redessiné une grande partie des éléments graphiques, dont les voitures et les casques, tout en conservant le caractère de LCD et Pocket.
 
-Davantage de langues prises en charge, dont le turc et le polonais.
+Profitez de parties plus fluides, d’une disposition améliorée en mode paysage ainsi que de menus et d’écrans de fin de partie plus soignés.
 
-Merci de courir avec nous.
+Le jeu est maintenant offert en allemand, néerlandais, italien, français du Canada et de France, japonais, coréen, portugais du Brésil et du Portugal, chinois simplifié et traditionnel, turc et polonais.
+
+Vous avez manqué les dernières nouveautés ? Les mises à jour précédentes ont ajouté des succès Game Center, des repères pour les scores de vos amis et le partage des résultats.
+
+Merci de faire la course avec nous !
 
 Points à tester :
-- Prévisualisez et sélectionnez LCD et Pocket dans la galerie de styles 
+- Prévisualisez et sélectionnez LCD et Pocket dans la galerie de styles
 - Lancez une course SharePlay avec un ami sur iPhone, iPad ou Mac
-- Comparez les performances avant et après de longues parties
+- Vérifiez que le jeu demeure fluide pendant les longues parties
 - Testez le mode paysage, les menus et l'écran de fin de partie
 - Terminez une partie avec VoiceOver et vérifiez chaque annonce

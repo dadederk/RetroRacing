@@ -545,276 +545,364 @@ Count: 1154/4000 characters.
 
 Use this shape for the next bug-fix or polish release if there is no larger feature to lead with.
 
-### en-US / en-GB / en-AU / en-CA
+### en-US / en-CA
 
 ```text
-Race a friend with SharePlay on iPhone, iPad, and Mac! Two players face the same traffic, follow each other's progress, and race again with a rematch. Friend races are free and never use your daily solo plays.
+Race a friend with SharePlay on iPhone, iPad, and Mac! Face the same traffic, follow each other’s progress, and go again with a rematch. Friend races are free and never use your daily solo plays.
 
-Explore the new Styles gallery and choose between LCD and Pocket.
+Explore LCD and Pocket in the new Styles gallery. LCD is available to everyone; unlock Pocket with Unlimited Plays. Both styles remain free on Apple Watch.
 
-This update also improves performance, refines landscape layouts, polishes menus and game-over screens, and makes cars and helmets clearer across themes.
+A fresh look for your favorite retro racer: we’ve extensively redrawn the artwork, including cars and helmets, while keeping the character of LCD and Pocket.
 
-Expanded language support, including Turkish and Polish.
+Enjoy smoother gameplay, improved landscape layouts, and refined menus and game-over screens.
 
-Thanks for racing with us.
+Now available in German, Dutch, Italian, French for France and Canada, Japanese, Korean, Portuguese for Brazil and Portugal, Simplified and Traditional Chinese, Turkish, and Polish.
+
+Catching up? Recent updates added Game Center achievements, friend-score markers, and shareable results.
+
+Thanks for racing with us!
 ```
 
-Count: 517/4000 characters.
+Count: 923/4000 characters.
+
+### en-GB / en-AU
+
+```text
+Race a friend with SharePlay on iPhone, iPad, and Mac! Face the same traffic, follow each other’s progress, and go again with a rematch. Friend races are free and never use your daily solo plays.
+
+Explore LCD and Pocket in the new Styles gallery. LCD is available to everyone; unlock Pocket with Unlimited Plays. Both styles remain free on Apple Watch.
+
+A fresh look for your favourite retro racer: we’ve extensively redrawn the artwork, including cars and helmets, while keeping the character of LCD and Pocket.
+
+Enjoy smoother gameplay, improved landscape layouts, and refined menus and game-over screens.
+
+Now available in German, Dutch, Italian, French for France and Canada, Japanese, Korean, Portuguese for Brazil and Portugal, Simplified and Traditional Chinese, Turkish, and Polish.
+
+Catching up? Recent updates added Game Center achievements, friend-score markers, and shareable results.
+
+Thanks for racing with us!
+```
+
+Count: 924/4000 characters.
 
 ### de-DE
 
 ```text
-Fahre mit SharePlay auf iPhone, iPad und Mac gegen einen Freund! Zwei Spieler begegnen demselben Verkehr, verfolgen den Fortschritt des anderen und können eine Revanche starten. Rennen mit Freunden sind kostenlos und verbrauchen keine täglichen Solo-Spiele.
+Fahre mit SharePlay auf iPhone, iPad und Mac gegen einen Freund! Weicht demselben Verkehr aus, verfolgt gegenseitig euren Fortschritt und startet gleich eine Revanche. Rennen mit Freunden sind kostenlos und verbrauchen keine deiner täglichen Solospiele.
 
-Entdecke die neue Stilgalerie und wähle zwischen LCD und Pocket.
+Entdecke LCD und Pocket in der neuen Stilgalerie. LCD ist für alle verfügbar; Pocket schaltest du mit „Unbegrenzte Spiele“ frei. Auf der Apple Watch bleiben beide Stile kostenlos.
 
-Dieses Update verbessert außerdem die Leistung und Querformat-Layouts, verfeinert Menüs und Game-Over-Bildschirme und macht Autos und Helme in allen Themes deutlicher.
+Ein frischer Look für deinen Retro-Rennspaß: Wir haben die Grafik umfassend neu gezeichnet, darunter Autos und Helme. Der besondere Charakter von LCD und Pocket bleibt erhalten.
 
-Mehr Sprachunterstützung, darunter Türkisch und Polnisch.
+Freu dich auf flüssigeres Spielen, verbesserte Ansichten im Querformat und überarbeitete Menüs und Game-over-Bildschirme.
 
-Danke, dass du mit uns fährst.
+Jetzt auch auf Deutsch, Niederländisch, Italienisch, Französisch für Frankreich und Kanada, Japanisch, Koreanisch, Portugiesisch für Brasilien und Portugal, vereinfachtem und traditionellem Chinesisch, Türkisch und Polnisch.
+
+Länger nicht gespielt? Die letzten Updates brachten Game Center-Erfolge, Markierungen für die Punktestände deiner Freunde und Ergebnisse zum Teilen.
+
+Danke, dass du mit uns Rennen fährst!
 ```
 
-Count: 583/4000 characters.
+Count: 1151/4000 characters.
 
 ### nl-NL
 
 ```text
-Race tegen een vriend met SharePlay op iPhone, iPad en Mac! Twee spelers krijgen hetzelfde verkeer, volgen elkaars voortgang en kunnen meteen een revanche starten. Races met vrienden zijn gratis en gebruiken geen dagelijkse soloraces.
+Race tegen een vriend met SharePlay op iPhone, iPad en Mac! Ontwijk hetzelfde verkeer, volg elkaars voortgang en ga meteen voor een revanche. Races met vrienden zijn gratis en gaan nooit van je dagelijkse solopogingen af.
 
-Ontdek de nieuwe Stijlgalerij en kies tussen LCD en Pocket.
+Ontdek LCD en Pocket in de nieuwe stijlengalerij. LCD is beschikbaar voor iedereen; ontgrendel Pocket met Onbeperkt spelen. Op Apple Watch blijven beide stijlen gratis.
 
-Deze update verbetert ook de prestaties en liggende lay-outs, verfijnt menu's en game-over-schermen en maakt auto's en helmen duidelijker in alle thema's.
+Een frisse look voor je favoriete retroracer: we hebben het tekenwerk grondig vernieuwd, waaronder de auto’s en helmen. Het eigen karakter van LCD en Pocket blijft behouden.
 
-Uitgebreide taalondersteuning, waaronder Turks en Pools.
+Geniet van soepeler spel, een betere indeling in liggende stand en verfijnde menu’s en game-overschermen.
 
-Bedankt dat je met ons rijdt.
+Nu ook beschikbaar in het Duits, Nederlands, Italiaans, Frans voor Frankrijk en Canada, Japans, Koreaans, Portugees voor Brazilië en Portugal, vereenvoudigd en traditioneel Chinees, Turks en Pools.
+
+Even bijpraten? Recente updates voegden Game Center-prestaties, scoremarkeringen van vrienden en resultaten om te delen toe.
+
+Bedankt dat je met ons racet!
 ```
 
-Count: 540/4000 characters.
+Count: 1029/4000 characters.
 
 ### it
 
 ```text
-Sfida un amico con SharePlay su iPhone, iPad e Mac! Due giocatori affrontano lo stesso traffico, seguono i progressi dell'altro e possono chiedere la rivincita. Le corse con gli amici sono gratuite e non consumano le partite giornaliere in solitaria.
+Sfida un amico con SharePlay su iPhone, iPad e Mac! Affrontate lo stesso traffico, seguite i progressi l’uno dell’altro e ripartite con una rivincita. Le gare con gli amici sono gratuite e non consumano mai le tue partite giornaliere in solitaria.
 
-Esplora la nuova Galleria stili e scegli tra LCD e Pocket.
+Esplora LCD e Pocket nella nuova galleria degli stili. LCD è disponibile per tutti; sblocca Pocket con Partite illimitate. Su Apple Watch entrambi gli stili restano gratuiti.
 
-Questo aggiornamento migliora anche prestazioni e layout orizzontali, rifinisce menu e schermate di fine partita e rende auto e caschi più chiari in tutti i temi.
+Un nuovo look per il tuo gioco di corse retrò preferito: abbiamo ridisegnato gran parte della grafica, comprese auto e caschi, mantenendo il carattere di LCD e Pocket.
 
-Supporto per altre lingue, tra cui turco e polacco.
+Goditi un gioco più fluido, una disposizione migliorata in orizzontale e menu e schermate di fine partita più curati.
 
-Grazie per correre con noi.
+Ora anche in tedesco, olandese, italiano, francese per Francia e Canada, giapponese, coreano, portoghese per Brasile e Portogallo, cinese semplificato e tradizionale, turco e polacco.
+
+Ti sei perso qualche novità? Gli ultimi aggiornamenti hanno aggiunto obiettivi di Game Center, indicatori dei punteggi degli amici e risultati da condividere.
+
+Grazie di correre con noi!
 ```
 
-Count: 556/4000 characters.
+Count: 1084/4000 characters.
 
 ### fr-FR
 
 ```text
-Affronte un ami avec SharePlay sur iPhone, iPad et Mac ! Les deux joueurs rencontrent le même trafic, suivent la progression de l'autre et peuvent prendre leur revanche. Les courses entre amis sont gratuites et ne consomment pas tes parties solo quotidiennes.
+Défie un ami avec SharePlay sur iPhone, iPad et Mac ! Affrontez le même trafic, suivez votre progression respective et enchaînez avec une revanche. Les courses entre amis sont gratuites et ne consomment jamais tes parties solo quotidiennes.
 
-Explore la nouvelle galerie de styles et choisis entre LCD et Pocket.
+Découvre LCD et Pocket dans la nouvelle galerie de styles. LCD est accessible à tous ; débloque Pocket avec Parties illimitées. Les deux styles restent gratuits sur Apple Watch.
 
-Cette mise à jour améliore aussi les performances et les dispositions en mode paysage, peaufine les menus et les écrans de fin de partie, et rend les voitures et les casques plus nets dans tous les thèmes.
+Un nouveau look pour ton jeu de course rétro préféré : nous avons largement redessiné les graphismes, notamment les voitures et les casques, tout en préservant le caractère de LCD et Pocket.
 
-Davantage de langues prises en charge, dont le turc et le polonais.
+Profite de parties plus fluides, d’une disposition améliorée en mode paysage et de menus et écrans de fin de partie plus soignés.
 
-Merci de courir avec nous.
+Le jeu est désormais disponible en allemand, néerlandais, italien, français de France et du Canada, japonais, coréen, portugais du Brésil et du Portugal, chinois simplifié et traditionnel, turc et polonais.
+
+Tu as manqué les dernières nouveautés ? Les mises à jour précédentes ont ajouté des succès Game Center, des repères pour les scores de tes amis et le partage des résultats.
+
+Merci de faire la course avec nous !
 ```
 
-Count: 634/4000 characters.
+Count: 1162/4000 characters.
 
 ### fr-CA
 
 ```text
-Affrontez un ami avec SharePlay sur iPhone, iPad et Mac ! Les deux joueurs rencontrent le même trafic, suivent la progression de l'autre et peuvent prendre leur revanche. Les courses entre amis sont gratuites et ne consomment pas vos parties solo quotidiennes.
+Affrontez un ami avec SharePlay sur iPhone, iPad et Mac ! Évitez la même circulation, suivez votre progression respective et lancez une nouvelle course pour prendre votre revanche. Les courses entre amis sont gratuites et n’utilisent jamais vos parties solo quotidiennes.
 
-Explorez la nouvelle galerie de styles et choisissez entre LCD et Pocket.
+Découvrez LCD et Pocket dans la nouvelle galerie de styles. LCD est accessible à tout le monde ; déverrouillez Pocket avec Parties illimitées. Les deux styles demeurent gratuits sur Apple Watch.
 
-Cette mise à jour améliore aussi les performances et les dispositions en mode paysage, peaufine les menus et les écrans de fin de partie, et rend les voitures et les casques plus nets dans tous les thèmes.
+Votre jeu de course rétro préféré fait peau neuve : nous avons redessiné une grande partie des éléments graphiques, dont les voitures et les casques, tout en conservant le caractère de LCD et Pocket.
 
-Davantage de langues prises en charge, dont le turc et le polonais.
+Profitez de parties plus fluides, d’une disposition améliorée en mode paysage ainsi que de menus et d’écrans de fin de partie plus soignés.
 
-Merci de courir avec nous.
+Le jeu est maintenant offert en allemand, néerlandais, italien, français du Canada et de France, japonais, coréen, portugais du Brésil et du Portugal, chinois simplifié et traditionnel, turc et polonais.
+
+Vous avez manqué les dernières nouveautés ? Les mises à jour précédentes ont ajouté des succès Game Center, des repères pour les scores de vos amis et le partage des résultats.
+
+Merci de faire la course avec nous !
 ```
 
-Count: 639/4000 characters.
+Count: 1230/4000 characters.
 
 ### es-ES
 
 ```text
-¡Compite con un amigo con SharePlay en iPhone, iPad y Mac! Los dos jugadores se enfrentan al mismo tráfico, siguen el progreso del otro y pueden pedir la revancha. Las carreras con amigos son gratis y no consumen tus partidas diarias en solitario.
+¡Compite con un amigo con SharePlay en iPhone, iPad y Mac! Esquivad el mismo tráfico, seguid el progreso del otro y volved a la pista con una revancha. Las carreras con amigos son gratis y nunca consumen tus partidas diarias en solitario.
 
-Explora la nueva Galería de estilos y elige entre LCD y Pocket.
+Descubre LCD y Pocket en la nueva galería de estilos. LCD está disponible para todo el mundo; desbloquea Pocket con Partidas ilimitadas. Ambos estilos siguen siendo gratis en Apple Watch.
 
-Esta actualización también mejora el rendimiento y los diseños horizontales, pule los menús y las pantallas de fin de partida y hace que los coches y los cascos se vean más claros en todos los temas.
+Un nuevo aspecto para tu juego de carreras retro favorito: hemos redibujado gran parte de los gráficos, incluidos coches y cascos, conservando la personalidad de LCD y Pocket.
 
-Más idiomas disponibles, incluidos el turco y el polaco.
+Disfruta de partidas más fluidas, una mejor distribución en horizontal y menús y pantallas de fin de partida más cuidados.
 
-Gracias por correr con nosotros.
+Ahora también en alemán, neerlandés, italiano, francés de Francia y Canadá, japonés, coreano, portugués de Brasil y Portugal, chino simplificado y tradicional, turco y polaco.
+
+¿Te has perdido alguna novedad? Las últimas actualizaciones añadieron logros de Game Center, indicadores de las puntuaciones de tus amigos y la opción de compartir resultados.
+
+¡Gracias por correr con nosotros!
 ```
 
-Count: 605/4000 characters.
+Count: 1117/4000 characters.
 
 ### ca
 
 ```text
-Competix amb una amistat amb SharePlay a iPhone, iPad i Mac! Els dos jugadors s'enfronten al mateix trànsit, seguixen el progrés de l'altre i poden demanar la revenja. Les carreres amb amistats són gratis i no consumixen les teues partides diàries en solitari.
+Competix amb un amic amb SharePlay en iPhone, iPad i Mac! Esquiveu el mateix trànsit, seguiu el progrés de l’altre i torneu a la pista amb una revenja. Les carreres amb amics són gratuïtes i mai consumixen les teues partides diàries en solitari.
 
-Explora la nova Galeria d'estils i tria entre LCD i Pocket.
+Descobrix LCD i Pocket en la nova galeria d’estils. LCD està disponible per a tot el món; desbloqueja Pocket amb Partides il·limitades. Els dos estils continuen sent gratuïts en Apple Watch.
 
-Esta actualització també millora el rendiment i els dissenys horitzontals, polix els menús i les pantalles de final de partida i fa que els cotxes i els cascos es vegen més clars en tots els temes.
+Un nou aspecte per al teu joc de carreres retro preferit: hem redibuixat bona part dels gràfics, inclosos els cotxes i els cascos, conservant la personalitat de LCD i Pocket.
 
-Més idiomes disponibles, inclosos el turc i el polonés.
+Disfruta de partides més fluides, una millor distribució en horitzontal i menús i pantalles de final de partida més cuidats.
 
-Gràcies per córrer amb nosaltres.
+Ara també en alemany, neerlandés, italià, francés de França i del Canadà, japonés, coreà, portugués del Brasil i de Portugal, xinés simplificat i tradicional, turc i polonés.
+
+T’has perdut alguna novetat? Les últimes actualitzacions han afegit assoliments de Game Center, indicadors de les puntuacions dels teus amics i l’opció de compartir resultats.
+
+Gràcies per córrer amb nosaltres!
 ```
 
-Count: 612/4000 characters.
+Count: 1127/4000 characters.
 
 ### es-MX
 
 ```text
-¡Compite con un amigo con SharePlay en iPhone, iPad y Mac! Los dos jugadores se enfrentan al mismo tráfico, siguen el progreso del otro y pueden pedir la revancha. Las carreras con amigos son gratis y no consumen tus partidas diarias en solitario.
+¡Compite con un amigo con SharePlay en iPhone, iPad y Mac! Esquiven el mismo tráfico, sigan el progreso del otro y vuelvan a la pista con una revancha. Las carreras con amigos son gratis y nunca consumen tus partidas diarias en solitario.
 
-Explora la nueva Galería de estilos y elige entre LCD y Pocket.
+Descubre LCD y Pocket en la nueva galería de estilos. LCD está disponible para todos; desbloquea Pocket con Partidas ilimitadas. Ambos estilos siguen siendo gratis en Apple Watch.
 
-Esta actualización también mejora el rendimiento y los diseños horizontales, pule los menús y las pantallas de fin de partida y hace que los carros y los cascos se vean más claros en todos los temas.
+Una nueva imagen para tu juego de carreras retro favorito: redibujamos gran parte de los gráficos, incluidos carros y cascos, conservando la personalidad de LCD y Pocket.
 
-Más idiomas disponibles, incluidos el turco y el polaco.
+Disfruta de partidas más fluidas, una mejor distribución en horizontal y menús y pantallas de fin de partida más cuidados.
 
-Gracias por correr con nosotros.
+Ahora también en alemán, neerlandés, italiano, francés de Francia y Canadá, japonés, coreano, portugués de Brasil y Portugal, chino simplificado y tradicional, turco y polaco.
+
+¿Te perdiste alguna novedad? Las últimas actualizaciones agregaron logros de Game Center, indicadores de las puntuaciones de tus amigos y la opción de compartir resultados.
+
+¡Gracias por correr con nosotros!
 ```
 
-Count: 605/4000 characters.
+Count: 1101/4000 characters.
 
 ### ja
 
 ```text
-iPhone、iPad、MacでSharePlayを使って友達とレース！2人で同じ交通パターンに挑み、お互いの進み具合を見ながら競争できます。再戦も楽しめます。フレンドレースは無料で、1日のソロプレイ回数を消費しません。
+iPhone、iPad、MacでSharePlayを使って友達とレース！同じ交通パターンに挑み、お互いの進み具合を確認しながら競いましょう。もう一勝負したくなったら再戦も。友達とのレースは無料で、毎日のソロプレイ回数は消費しません。
 
-新しいスタイルギャラリーでLCDとPocketを見比べて選べるようになりました。
+新しいスタイルギャラリーでLCDとPocketをチェック。LCDは誰でも使えます。Pocketは「無制限プレイ」で解放できます。Apple Watchでは、どちらのスタイルも引き続き無料です。
 
-パフォーマンスと横向きレイアウトを改善し、メニューとゲームオーバー画面を磨き、すべてのテーマで車とヘルメットをより見やすくしました。
+お気に入りのレトロレーサーが装い新たに。車やヘルメットをはじめ、多くのグラフィックを描き直しました。LCDとPocketそれぞれの持ち味はそのままです。
 
-トルコ語やポーランド語など、対応言語が増えました。
+ゲームプレイがよりスムーズになり、横向きのレイアウトも改善。メニューやゲームオーバー画面も見やすく整えました。
 
-一緒にレースしてくれてありがとう。
+ドイツ語、オランダ語、イタリア語、フランス語（フランス・カナダ）、日本語、韓国語、ポルトガル語（ブラジル・ポルトガル）、中国語（簡体字・繁体字）、トルコ語、ポーランド語に対応しました。
+
+最近のアップデートもチェック！Game Centerの実績、友達のスコアを示すマーカー、結果の共有機能が加わっています。
+
+いつもレースを楽しんでくれてありがとうございます！
 ```
 
-Count: 266/4000 characters.
+Count: 532/4000 characters.
 
 ### ko
 
 ```text
-iPhone, iPad, Mac에서 SharePlay로 친구와 레이스하세요! 두 플레이어가 같은 교통 패턴에 도전하고 서로의 진행 상황을 확인하며 재대결도 즐길 수 있어요. 친구 레이스는 무료이며 일일 솔로 플레이 횟수를 사용하지 않아요.
+iPhone, iPad, Mac에서 SharePlay로 친구와 레이스하세요! 같은 교통 패턴에 도전하고 서로의 진행 상황을 확인하며 겨뤄 보세요. 한 번 더 달리고 싶다면 재대결도 할 수 있어요. 친구 레이스는 무료이며 일일 솔로 플레이 횟수를 사용하지 않아요.
 
-새로운 스타일 갤러리에서 LCD와 Pocket을 살펴보고 선택하세요.
+새로운 스타일 갤러리에서 LCD와 Pocket을 만나 보세요. LCD는 누구나 사용할 수 있고, Pocket은 무제한 플레이를 구매하면 이용할 수 있어요. Apple Watch에서는 두 스타일 모두 계속 무료예요.
 
-성능과 가로 레이아웃을 개선하고, 메뉴와 게임 오버 화면을 다듬고, 모든 테마의 자동차와 헬멧을 더 선명하게 만들었어요.
+좋아하는 레트로 레이싱 게임이 새로운 모습으로 돌아왔어요. 자동차와 헬멧을 비롯한 많은 그래픽을 새로 그리면서 LCD와 Pocket만의 개성은 그대로 살렸어요.
 
-터키어와 폴란드어를 비롯한 더 많은 언어를 지원해요.
+게임 플레이가 더 매끄러워졌어요. 가로 화면의 배치도 개선하고 메뉴와 게임 오버 화면도 다듬었어요.
 
-함께 레이스해 주셔서 감사합니다.
+이제 독일어, 네덜란드어, 이탈리아어, 프랑스어(프랑스·캐나다), 일본어, 한국어, 포르투갈어(브라질·포르투갈), 중국어(간체·번체), 튀르키예어, 폴란드어도 지원해요.
+
+최근 소식도 확인해 보세요! 이전 업데이트에서는 Game Center 업적, 친구 점수 표시, 결과 공유 기능이 추가됐어요.
+
+함께 달려 주셔서 고마워요!
 ```
 
-Count: 293/4000 characters.
+Count: 599/4000 characters.
 
 ### pt-BR
 
 ```text
-Dispute uma corrida com um amigo usando SharePlay no iPhone, iPad e Mac! Os dois jogadores enfrentam o mesmo trânsito, acompanham o progresso um do outro e podem pedir revanche. As corridas com amigos são grátis e não usam suas partidas solo diárias.
+Dispute uma corrida com um amigo usando o SharePlay no iPhone, iPad e Mac! Encarem o mesmo trânsito, acompanhem o progresso um do outro e partam para a revanche. As corridas com amigos são grátis e nunca usam suas partidas solo diárias.
 
-Explore a nova Galeria de Estilos e escolha entre LCD e Pocket.
+Explore LCD e Pocket na nova galeria de estilos. LCD está disponível para todo mundo; desbloqueie Pocket com Partidas ilimitadas. Os dois estilos continuam grátis no Apple Watch.
 
-Esta atualização também melhora o desempenho e os layouts horizontais, refina menus e telas de fim de jogo e deixa carros e capacetes mais nítidos em todos os temas.
+Um novo visual para seu jogo de corrida retrô favorito: redesenhamos boa parte dos gráficos, incluindo carros e capacetes, sem perder a personalidade de LCD e Pocket.
 
-Suporte a mais idiomas, incluindo turco e polonês.
+Aproveite partidas mais fluidas, uma disposição melhor na horizontal e menus e telas de fim de partida mais caprichados.
 
-Obrigado por correr com a gente.
+Agora também em alemão, holandês, italiano, francês da França e do Canadá, japonês, coreano, português do Brasil e de Portugal, chinês simplificado e tradicional, turco e polonês.
+
+Perdeu alguma novidade? As últimas atualizações trouxeram conquistas do Game Center, marcadores das pontuações dos amigos e a opção de compartilhar resultados.
+
+Obrigado por correr com a gente!
 ```
 
-Count: 568/4000 characters.
+Count: 1082/4000 characters.
 
 ### pt-PT
 
 ```text
-Dispute uma corrida com um amigo através do SharePlay no iPhone, iPad e Mac! Os dois jogadores enfrentam o mesmo trânsito, acompanham o progresso um do outro e podem pedir uma desforra. As corridas com amigos são gratuitas e não gastam as partidas diárias a solo.
+Dispute uma corrida com um amigo através do SharePlay no iPhone, iPad e Mac! Enfrentem o mesmo trânsito, acompanhem o progresso um do outro e voltem à pista para uma desforra. As corridas com amigos são gratuitas e nunca gastam as partidas diárias a solo.
 
-Explore a nova Galeria de Estilos e escolha entre LCD e Pocket.
+Explore LCD e Pocket na nova galeria de estilos. LCD está disponível para todos; desbloqueie Pocket com Partidas ilimitadas. Ambos os estilos continuam gratuitos no Apple Watch.
 
-Esta atualização também melhora o desempenho e os esquemas horizontais, refina menus e ecrãs de fim de jogo e deixa carros e capacetes mais nítidos em todos os temas.
+Um novo visual para o seu jogo de corridas retro favorito: redesenhámos grande parte dos gráficos, incluindo carros e capacetes, mantendo a personalidade de LCD e Pocket.
 
-Suporte para mais idiomas, incluindo turco e polaco.
+Desfrute de partidas mais fluidas, de uma melhor disposição na horizontal e de menus e ecrãs de fim de partida mais cuidados.
 
-Obrigado por correr connosco.
+Agora também em alemão, neerlandês, italiano, francês de França e do Canadá, japonês, coreano, português do Brasil e de Portugal, chinês simplificado e tradicional, turco e polaco.
+
+Perdeu alguma novidade? As últimas atualizações trouxeram conquistas do Game Center, marcadores das pontuações dos amigos e a opção de partilhar resultados.
+
+Obrigado por correr connosco!
 ```
 
-Count: 581/4000 characters.
+Count: 1104/4000 characters.
 
 ### zh-Hant
 
 ```text
-透過 SharePlay，在 iPhone、iPad 和 Mac 上與好友競速！兩位玩家面對相同的車流，隨時查看彼此的進度，還能再賽一場。好友競賽完全免費，也不會消耗每日單人遊戲次數。
+在 iPhone、iPad 和 Mac 上透過 SharePlay 和朋友比一場！挑戰相同的車流，隨時掌握彼此的進度，還能再賽一場。好友賽完全免費，也不會扣除每日單人遊玩次數。
 
-探索全新的風格藝廊，在 LCD 與 Pocket 之間選擇喜愛的風格。
+到全新的風格圖庫探索 LCD 和 Pocket。LCD 開放所有玩家使用；購買「無限暢玩」即可解鎖 Pocket。在 Apple Watch 上，兩種風格依然免費。
 
-此更新也提升效能與橫向版面，改善選單和遊戲結束畫面，並讓所有主題中的車輛與頭盔更加清晰。
+喜愛的復古賽車遊戲換上新面貌！我們重新繪製了大量美術素材，包括車輛和安全帽，同時保留 LCD 和 Pocket 各自的特色。
 
-支援更多語言，包括土耳其文與波蘭文。
+遊玩更流暢，橫向畫面配置也更完善，選單和遊戲結束畫面同樣經過細心調整。
 
-感謝你與我們一起競速。
+現在也支援德文、荷蘭文、義大利文、法文（法國及加拿大）、日文、韓文、葡萄牙文（巴西及葡萄牙）、簡體及繁體中文、土耳其文和波蘭文。
+
+錯過了最近的更新嗎？先前已加入 Game Center 成就、好友分數標記，以及分享遊戲結果的功能。
+
+感謝你和我們一起享受賽車樂趣！
 ```
 
-Count: 208/4000 characters.
+Count: 408/4000 characters.
 
 ### zh-Hans
 
 ```text
-通过 SharePlay，在 iPhone、iPad 和 Mac 上与好友竞速！两位玩家面对相同的车流，随时查看彼此的进度，还能再赛一场。好友竞赛完全免费，也不会消耗每日单人游戏次数。
+在 iPhone、iPad 和 Mac 上通过 SharePlay 和朋友比一场！挑战相同的车流，随时查看彼此的进度，还能再来一局。好友比赛完全免费，也不会消耗每日单人游玩次数。
 
-探索全新的风格画廊，在 LCD 与 Pocket 之间选择喜爱的风格。
+在全新的风格图库中探索 LCD 和 Pocket。所有玩家都能使用 LCD；购买“无限畅玩”即可解锁 Pocket。在 Apple Watch 上，两种风格依然免费。
 
-此更新也提升性能与横向布局，改进菜单和游戏结束画面，并让所有主题中的车辆与头盔更加清晰。
+你喜爱的复古赛车游戏焕然一新！我们重新绘制了大量美术素材，包括车辆和头盔，同时保留了 LCD 和 Pocket 各自的特色。
 
-支持更多语言，包括土耳其语与波兰语。
+游戏体验更加流畅，横屏布局更合理，菜单和游戏结束画面也经过了精心打磨。
 
-感谢你与我们一起竞速。
+现已支持德语、荷兰语、意大利语、法语（法国及加拿大）、日语、韩语、葡萄牙语（巴西及葡萄牙）、简体及繁体中文、土耳其语和波兰语。
+
+错过了最近的更新？此前已加入 Game Center 成就、好友分数标记，以及分享游戏结果的功能。
+
+感谢你和我们一起享受赛车的乐趣！
 ```
 
-Count: 208/4000 characters.
+Count: 409/4000 characters.
 
 ### tr
 
 ```text
-iPhone, iPad ve Mac'te SharePlay ile bir arkadaşınla yarış! İki oyuncu aynı trafik düzeniyle karşılaşır, birbirinin ilerlemesini takip eder ve rövanş yapabilir. Arkadaş yarışları ücretsizdir ve günlük tek oyunculu oyun haklarını kullanmaz.
+iPhone, iPad ve Mac’te SharePlay ile bir arkadaşınla yarış! Aynı trafiğe meydan okuyun, birbirinizin ilerlemesini takip edin ve rövanş için yeniden piste çıkın. Arkadaş yarışları ücretsizdir ve günlük tek oyunculu oyun hakkını asla tüketmez.
 
-Yeni Tarz Galerisi'ni keşfet ve LCD ile Pocket arasından seçim yap.
+Yeni stil galerisinde LCD ve Pocket’ı keşfet. LCD herkese açık; Pocket’ın kilidini Sınırsız oyun ile açabilirsin. Apple Watch’ta her iki stil de ücretsiz kalmaya devam ediyor.
 
-Bu güncelleme ayrıca performansı artırıyor, yatay düzenleri iyileştiriyor, menüler ile oyun sonu ekranlarını parlatıyor ve tüm temalarda arabaları ve kaskları daha belirgin hâle getiriyor.
+Sevdiğin retro yarış oyununa taze bir görünüm: Arabalar ve kasklar dahil pek çok görseli baştan çizdik. LCD ve Pocket’ın kendine özgü havasını ise koruduk.
 
-Türkçe ve Lehçe dahil daha fazla dil desteği.
+Daha akıcı oyunun, iyileştirilmiş yatay ekran düzeninin, elden geçirilmiş menülerin ve oyun sonu ekranlarının keyfini çıkar.
 
-Bizimle yarıştığın için teşekkürler.
+Artık Almanca, Felemenkçe, İtalyanca, Fransa ve Kanada Fransızcası, Japonca, Korece, Brezilya ve Portekiz Portekizcesi, Basitleştirilmiş ve Geleneksel Çince, Türkçe ve Lehçe de destekleniyor.
+
+Son yenilikleri kaçırdın mı? Önceki güncellemelerle Game Center başarımları, arkadaşlarının puanlarını gösteren işaretler ve sonuçları paylaşma özelliği eklendi.
+
+Bizimle yarıştığın için teşekkürler!
 ```
 
-Count: 583/4000 characters.
+Count: 1095/4000 characters.
 
 ### pl
 
 ```text
-Ścigaj się ze znajomym przez SharePlay na iPhonie, iPadzie i Macu! Dwóch graczy mierzy się z tym samym ruchem drogowym, śledzi swoje postępy i może rozegrać rewanż. Wyścigi ze znajomymi są darmowe i nie zużywają dziennych rozgrywek solo.
+Ścigaj się ze znajomym przez SharePlay na iPhonie, iPadzie i Macu! Omijajcie te same auta, śledźcie swoje postępy i ruszajcie na rewanż. Wyścigi ze znajomymi są darmowe i nigdy nie zużywają dziennego limitu gier solo.
 
-Odkryj nową Galerię Stylów i wybierz LCD lub Pocket.
+Odkryj LCD i Pocket w nowej galerii stylów. LCD jest dostępny dla wszystkich, a Pocket odblokujesz dzięki zakupowi „Nielimitowane gry”. Na Apple Watch oba style pozostają darmowe.
 
-Aktualizacja poprawia również wydajność, dopracowuje układy poziome, menu i ekrany końca gry oraz zwiększa czytelność samochodów i kasków we wszystkich motywach.
+Nowy wygląd ulubionej wyścigówki retro: narysowaliśmy od nowa dużą część grafik, w tym auta i kaski, zachowując charakter LCD i Pocket.
 
-Obsługa kolejnych języków, w tym tureckiego i polskiego.
+Ciesz się płynniejszą rozgrywką, lepszym układem w poziomie oraz dopracowanymi menu i ekranami końca gry.
 
-Dziękujemy za wspólne wyścigi.
+Gra jest teraz dostępna także po niemiecku, niderlandzku, włosku, francusku w odmianach z Francji i Kanady, japońsku, koreańsku, portugalsku w odmianach z Brazylii i Portugalii, po chińsku w wersji uproszczonej i tradycyjnej, a także po turecku i polsku.
+
+Co jeszcze nowego? Poprzednie aktualizacje dodały osiągnięcia Game Center, znaczniki wyników znajomych i udostępnianie wyników.
+
+Dzięki za wspólne wyścigi!
 ```
 
-Count: 544/4000 characters.
+Count: 1055/4000 characters.
 
 _Generated by `swift run --package-path Scripts generate-metadata-docs`._

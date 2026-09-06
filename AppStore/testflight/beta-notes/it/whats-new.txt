@@ -1,16 +1,20 @@
-Sfida un amico con SharePlay su iPhone, iPad e Mac! Due giocatori affrontano lo stesso traffico, seguono i progressi dell'altro e possono chiedere la rivincita. Le corse con gli amici sono gratuite e non consumano le partite giornaliere in solitaria.
+Sfida un amico con SharePlay su iPhone, iPad e Mac! Affrontate lo stesso traffico, seguite i progressi l’uno dell’altro e ripartite con una rivincita. Le gare con gli amici sono gratuite e non consumano mai le tue partite giornaliere in solitaria.
 
-Esplora la nuova Galleria stili e scegli tra LCD e Pocket.
+Esplora LCD e Pocket nella nuova galleria degli stili. LCD è disponibile per tutti; sblocca Pocket con Partite illimitate. Su Apple Watch entrambi gli stili restano gratuiti.
 
-Questo aggiornamento migliora anche prestazioni e layout orizzontali, rifinisce menu e schermate di fine partita e rende auto e caschi più chiari in tutti i temi.
+Un nuovo look per il tuo gioco di corse retrò preferito: abbiamo ridisegnato gran parte della grafica, comprese auto e caschi, mantenendo il carattere di LCD e Pocket.
 
-Supporto per altre lingue, tra cui turco e polacco.
+Goditi un gioco più fluido, una disposizione migliorata in orizzontale e menu e schermate di fine partita più curati.
 
-Grazie per correre con noi.
+Ora anche in tedesco, olandese, italiano, francese per Francia e Canada, giapponese, coreano, portoghese per Brasile e Portogallo, cinese semplificato e tradizionale, turco e polacco.
+
+Ti sei perso qualche novità? Gli ultimi aggiornamenti hanno aggiunto obiettivi di Game Center, indicatori dei punteggi degli amici e risultati da condividere.
+
+Grazie di correre con noi!
 
 Da verificare:
 - Visualizza e seleziona LCD e Pocket nella Galleria stili
 - Avvia una corsa SharePlay con un amico su iPhone, iPad o Mac
-- Confronta le prestazioni prima e dopo partite più lunghe
+- Verifica che il gioco resti fluido durante le partite più lunghe
 - Prova layout orizzontali, menu e schermata di fine partita
 - Completa una partita con VoiceOver e verifica tutti gli annunci

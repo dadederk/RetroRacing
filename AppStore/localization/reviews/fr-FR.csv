@@ -544,23 +544,31 @@ Crash, redémarre et bats ton record.
 
 Featured in Create with Swift, Weekly Newsletter #96 (Indie App of the Week) :
 ""Au-delà de la nostalgie et du gameplay serré, ce qui ressort vraiment, c'est l'accessibilité.""",App Store metadata,description,≤ 4000 characters,needs_review,
-"Race a friend with SharePlay on iPhone, iPad, and Mac! Two players face the same traffic, follow each other's progress, and race again with a rematch. Friend races are free and never use your daily solo plays.
+"Race a friend with SharePlay on iPhone, iPad, and Mac! Face the same traffic, follow each other’s progress, and go again with a rematch. Friend races are free and never use your daily solo plays.
 
-Explore the new Styles gallery and choose between LCD and Pocket.
+Explore LCD and Pocket in the new Styles gallery. LCD is available to everyone; unlock Pocket with Unlimited Plays. Both styles remain free on Apple Watch.
 
-This update also improves performance, refines landscape layouts, polishes menus and game-over screens, and makes cars and helmets clearer across themes.
+A fresh look for your favorite retro racer: we’ve extensively redrawn the artwork, including cars and helmets, while keeping the character of LCD and Pocket.
 
-Expanded language support, including Turkish and Polish.
+Enjoy smoother gameplay, improved landscape layouts, and refined menus and game-over screens.
 
-Thanks for racing with us.","Affronte un ami avec SharePlay sur iPhone, iPad et Mac ! Les deux joueurs rencontrent le même trafic, suivent la progression de l'autre et peuvent prendre leur revanche. Les courses entre amis sont gratuites et ne consomment pas tes parties solo quotidiennes.
+Now available in German, Dutch, Italian, French for France and Canada, Japanese, Korean, Portuguese for Brazil and Portugal, Simplified and Traditional Chinese, Turkish, and Polish.
 
-Explore la nouvelle galerie de styles et choisis entre LCD et Pocket.
+Catching up? Recent updates added Game Center achievements, friend-score markers, and shareable results.
 
-Cette mise à jour améliore aussi les performances et les dispositions en mode paysage, peaufine les menus et les écrans de fin de partie, et rend les voitures et les casques plus nets dans tous les thèmes.
+Thanks for racing with us!","Défie un ami avec SharePlay sur iPhone, iPad et Mac ! Affrontez le même trafic, suivez votre progression respective et enchaînez avec une revanche. Les courses entre amis sont gratuites et ne consomment jamais tes parties solo quotidiennes.
 
-Davantage de langues prises en charge, dont le turc et le polonais.
+Découvre LCD et Pocket dans la nouvelle galerie de styles. LCD est accessible à tous ; débloque Pocket avec Parties illimitées. Les deux styles restent gratuits sur Apple Watch.
 
-Merci de courir avec nous.",App Store metadata,whatsNew,≤ 4000 characters,needs_review,
+Un nouveau look pour ton jeu de course rétro préféré : nous avons largement redessiné les graphismes, notamment les voitures et les casques, tout en préservant le caractère de LCD et Pocket.
+
+Profite de parties plus fluides, d’une disposition améliorée en mode paysage et de menus et écrans de fin de partie plus soignés.
+
+Le jeu est désormais disponible en allemand, néerlandais, italien, français de France et du Canada, japonais, coréen, portugais du Brésil et du Portugal, chinois simplifié et traditionnel, turc et polonais.
+
+Tu as manqué les dernières nouveautés ? Les mises à jour précédentes ont ajouté des succès Game Center, des repères pour les scores de tes amis et le partage des résultats.
+
+Merci de faire la course avec nous !",App Store metadata,whatsNew,≤ 4000 characters,needs_review,
 Unlimited Plays,Parties illimitées,IAP,unlimitedPlays.name,≤ 30 characters,needs_review,
 Play unlimited and support RetroRapid!,Joue sans limite et soutiens RetroRapid!,IAP,unlimitedPlays.description,≤ 45 characters,needs_review,
 Streak 100,Série 100,Game Center,achievement.com.accessibilityUpTo11.RetroRacing.achievement.run.overtakes.0100.name,≤ 100 characters,needs_review,
@@ -709,34 +717,42 @@ Unlock Retro Achievements,Débloque des succès retro,Screenshots,slide.8.title,
 Earn Game Center trophies as you race and improve.,Gagne des trophées Game Center en courant et en progressant.,Screenshots,slide.8.body,,needs_review,
 Play Solo Or With Friends,Joue solo ou avec des amis,Screenshots,slide.9.title,,needs_review,
 "Daily free plays, leaderboards, and live friend races.","Parties gratuites quotidiennes, classements et courses live entre amis.",Screenshots,slide.9.body,,needs_review,
-"Race a friend with SharePlay on iPhone, iPad, and Mac! Two players face the same traffic, follow each other's progress, and race again with a rematch. Friend races are free and never use your daily solo plays.
+"Race a friend with SharePlay on iPhone, iPad, and Mac! Face the same traffic, follow each other’s progress, and go again with a rematch. Friend races are free and never use your daily solo plays.
 
-Explore the new Styles gallery and choose between LCD and Pocket.
+Explore LCD and Pocket in the new Styles gallery. LCD is available to everyone; unlock Pocket with Unlimited Plays. Both styles remain free on Apple Watch.
 
-This update also improves performance, refines landscape layouts, polishes menus and game-over screens, and makes cars and helmets clearer across themes.
+A fresh look for your favorite retro racer: we’ve extensively redrawn the artwork, including cars and helmets, while keeping the character of LCD and Pocket.
 
-Expanded language support, including Turkish and Polish.
+Enjoy smoother gameplay, improved landscape layouts, and refined menus and game-over screens.
 
-Thanks for racing with us.
+Now available in German, Dutch, Italian, French for France and Canada, Japanese, Korean, Portuguese for Brazil and Portugal, Simplified and Traditional Chinese, Turkish, and Polish.
+
+Catching up? Recent updates added Game Center achievements, friend-score markers, and shareable results.
+
+Thanks for racing with us!
 
 Testing focus:
 - Preview and select LCD and Pocket in the Styles gallery
 - Start a SharePlay race with a friend on iPhone, iPad, or Mac
-- Compare performance before and after longer runs
+- Check that gameplay stays smooth during longer runs
 - Try landscape layouts, menus, and the game-over flow
-- Complete a run with VoiceOver and confirm every announcement is clear","Affronte un ami avec SharePlay sur iPhone, iPad et Mac ! Les deux joueurs rencontrent le même trafic, suivent la progression de l'autre et peuvent prendre leur revanche. Les courses entre amis sont gratuites et ne consomment pas tes parties solo quotidiennes.
+- Complete a run with VoiceOver and confirm every announcement is clear","Défie un ami avec SharePlay sur iPhone, iPad et Mac ! Affrontez le même trafic, suivez votre progression respective et enchaînez avec une revanche. Les courses entre amis sont gratuites et ne consomment jamais tes parties solo quotidiennes.
 
-Explore la nouvelle galerie de styles et choisis entre LCD et Pocket.
+Découvre LCD et Pocket dans la nouvelle galerie de styles. LCD est accessible à tous ; débloque Pocket avec Parties illimitées. Les deux styles restent gratuits sur Apple Watch.
 
-Cette mise à jour améliore aussi les performances et les dispositions en mode paysage, peaufine les menus et les écrans de fin de partie, et rend les voitures et les casques plus nets dans tous les thèmes.
+Un nouveau look pour ton jeu de course rétro préféré : nous avons largement redessiné les graphismes, notamment les voitures et les casques, tout en préservant le caractère de LCD et Pocket.
 
-Davantage de langues prises en charge, dont le turc et le polonais.
+Profite de parties plus fluides, d’une disposition améliorée en mode paysage et de menus et écrans de fin de partie plus soignés.
 
-Merci de courir avec nous.
+Le jeu est désormais disponible en allemand, néerlandais, italien, français de France et du Canada, japonais, coréen, portugais du Brésil et du Portugal, chinois simplifié et traditionnel, turc et polonais.
+
+Tu as manqué les dernières nouveautés ? Les mises à jour précédentes ont ajouté des succès Game Center, des repères pour les scores de tes amis et le partage des résultats.
+
+Merci de faire la course avec nous !
 
 Points à tester :
-- Prévisualise et sélectionne LCD et Pocket dans la galerie de styles 
+- Prévisualise et sélectionne LCD et Pocket dans la galerie de styles
 - Lance une course SharePlay avec un ami sur iPhone, iPad ou Mac
-- Compare les performances avant et après de longues parties
+- Vérifie que le jeu reste fluide pendant les longues parties
 - Teste le mode paysage, les menus et l'écran de fin de partie
 - Termine une partie avec VoiceOver et vérifie chaque annonce",TestFlight,whats-new,"≤ 4,000 characters",needs_review,

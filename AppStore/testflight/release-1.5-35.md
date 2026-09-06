@@ -32,6 +32,14 @@
 - Both processed builds are selected on the corresponding editable 1.5 drafts. Neither App Store nor external beta review was submitted.
 - Apple rejected manual Mac build assignment to the existing Internal Testing group with HTTP 422, “Builds cannot be assigned to this internal group.” Helm does not expose automatic-distribution state; internal tester availability remains unverified. No tester invitations or automatic-notification settings were changed.
 
+## Release-note editorial follow-up (2026-09-06)
+
+- Revised the App Store and TestFlight notes in all 20 locales using the approved English copy: Pocket's Unlimited Plays requirement, free styles on Apple Watch, extensively redrawn artwork, smoother gameplay, the full new-language list, and a short recap of earlier updates.
+- Regional wording follows the localization contract: informal French for France, formal Canadian French, Valencian Catalan, distinct Portuguese variants, and separate Chinese scripts and vocabulary. Purchase names match the locale glossary; style names remain unchanged.
+- TestFlight testing prompts now ask whether gameplay stays smooth during longer runs. Each beta note starts with its matching App Store release notes.
+- Helm accepted all 40 App Store draft updates and all 40 TestFlight build-localization updates. Exact App Store readback matched the canonical What's New, description, promotional text, and keywords in all 40 platform/locale combinations. TestFlight verification is based on successful update responses. Build 35 itself is unchanged.
+- Regenerated metadata documents and all 20 review sheets. Localization audit, length checks, and documentation checks passed. Fluent approval remains pending against the new content digests.
+
 ## Public-release acceptance still open
 
 - Physical-device SharePlay acceptance for advertised device combinations, especially Mac.
