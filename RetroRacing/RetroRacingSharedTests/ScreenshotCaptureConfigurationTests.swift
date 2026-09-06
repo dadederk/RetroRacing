@@ -122,7 +122,7 @@ final class ScreenshotCaptureConfigurationTests: XCTestCase {
             ScreenshotCaptureThemePolicy.makeCaptureUserDefaults(platform: "mac")
         )
 
-        XCTAssertEqual(captureDefaults.string(forKey: "selectedThemeID"), ThemeID.sixteenBit.rawValue)
+        XCTAssertEqual(captureDefaults.string(forKey: "selectedThemeID"), ThemeID.lcd.rawValue)
         XCTAssertEqual(
             userDefaults.persistentDomain(forName: suiteName)?[ThemeManager.selectedThemeKey] as? String,
             ThemeID.lcd.rawValue
@@ -149,8 +149,8 @@ final class ScreenshotCaptureConfigurationTests: XCTestCase {
         XCTAssertEqual(ScreenshotSlideFixture.fixture(for: 6)?.route, .settings(.customize))
         XCTAssertTrue(ScreenshotSlideFixture.pocketGameplay.usesPocketTheme)
         XCTAssertEqual(ScreenshotSlideFixture.hookGameplay.themeID(for: "iphone"), .lcd)
-        XCTAssertEqual(ScreenshotSlideFixture.hookGameplay.themeID(for: "ipad"), .eightBit)
-        XCTAssertEqual(ScreenshotSlideFixture.hookGameplay.themeID(for: "mac"), .sixteenBit)
+        XCTAssertEqual(ScreenshotSlideFixture.hookGameplay.themeID(for: "ipad"), .lcd)
+        XCTAssertEqual(ScreenshotSlideFixture.hookGameplay.themeID(for: "mac"), .lcd)
         XCTAssertEqual(ScreenshotSlideFixture.pocketGameplay.themeID(for: "ipad"), .pocket)
         XCTAssertTrue(ScreenshotSlideFixture.accessibilitySettings.presentsSettingsSheet)
         XCTAssertTrue(ScreenshotSlideFixture.gameOver.presentsGameOverSheet)

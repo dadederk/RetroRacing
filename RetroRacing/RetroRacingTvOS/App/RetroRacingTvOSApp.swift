@@ -46,18 +46,16 @@ struct RetroRacingTvOSApp: App {
             featureFlag: FixedAppIconFeatureFlag(isEnabled: false),
             isGalleryPlatformEnabled: false
         )
-        let themeConfig = ThemePlatformConfig.configuration(
-            for: .tvOS,
-            experimentalThemes: DebugGameplayStorageKeys.experimentalThemeConfiguration(
-                userDefaults: userDefaults,
-                debugFeaturesAllowed: BuildConfiguration.shouldShowDebugFeatures,
-                platform: .tvOS
-            )
+        let releaseFeatures = ReleaseFeatureStore(
+            platform: .tvOS, userDefaults: userDefaults,
+            allowsOverrides: BuildConfiguration.shouldShowDebugFeatures
         )
+        let themeConfig = releaseFeatures.themeConfiguration
         let configuredThemeManager = ThemeManager(
             configuration: themeConfig,
             userDefaults: userDefaults,
-            hasPremiumAccess: storeKitService.hasPremiumAccessForGating
+            hasPremiumAccess: storeKitService.hasPremiumAccessForGating,
+            releaseFeatures: releaseFeatures
         )
         themeManager = configuredThemeManager
         fontPreferenceStore = FontPreferenceStore(
@@ -216,6 +214,7 @@ struct RetroRacingTvOSApp: App {
                 }
             }
             .environment(storeKitService)
+                .environment(\.paidStylesBenefitEnabled, themeManager.availableThemes.contains(where: \.isPremium))
             .achievementMetadataService(achievementMetadataService)
             .sharePlayMatchService(sharePlayMatchService)
             .alert(

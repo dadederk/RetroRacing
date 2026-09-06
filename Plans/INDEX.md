@@ -15,6 +15,7 @@ Single status entrypoint for roadmap and themed plans. Requirements define shipp
 
 | Task | Start here | Optional |
 |---|---|---|
+| Four staged releases; SharePlay-first rollout and feature gates | `staged_release_plan.md` | `../AppStore/README.md`, `../Requirements/debug_simulation.md` |
 | App Store metadata, screenshots, release notes, ASO | `../AppStore/README.md` | `AppStore/docs/`, `aso/README.md` |
 | ASO campaigns, GAAD featuring, pricing tests | `aso/README.md` | `AppStore/docs/04-metadata-strategy.md`, `05-metadata-copy.md` |
 | SharePlay release campaign | `aso/10-shareplay-release-campaign.md` | `../AppStore/README.md`, `../Requirements/shareplay_multiplayer.md` |
@@ -30,6 +31,7 @@ Single status entrypoint for roadmap and themed plans. Requirements define shipp
 
 | Theme | Doc | Notes |
 |---|---|---|
+| Four staged releases | [staged_release_plan.md](staged_release_plan.md) | Planned; gate merged work for SharePlay first, personalization second, Apple TV third, and Vision Pro fourth. |
 | ASO & App Store growth | [aso/README.md](aso/README.md) | Metadata, screenshots, pricing, GAAD featuring |
 | Game Center challenges & ASC admin | [challenges_infrastructure_and_asc_admin_plan.md](challenges_infrastructure_and_asc_admin_plan.md) | Infrastructure IDs, not release copy |
 | SharePlay competitive mode | [shareplay_competitive_mode_plan.md](shareplay_competitive_mode_plan.md) | ✅ Implemented (2026-07-22); manual 2-device QA passed on 2026-07-23. One small glitch remains as non-blocking polish. |

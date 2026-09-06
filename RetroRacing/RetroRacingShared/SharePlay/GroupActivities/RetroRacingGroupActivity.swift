@@ -25,7 +25,8 @@ public nonisolated struct RetroRacingGroupActivity: GroupActivity, Sendable {
         var metadata = GroupActivityMetadata()
         metadata.title = GameLocalizedStrings.string("shareplay_activity_title")
         metadata.subtitle = GameLocalizedStrings.string("menu_play_with_friends_free_footer")
-        metadata.type = .playTogether
+        // The stable Xcode 26 SDK does not expose playTogether.
+        metadata.type = .generic
         metadata.fallbackURL = Self.fallbackURL
         metadata.supportsContinuationOnTV = true
         return metadata

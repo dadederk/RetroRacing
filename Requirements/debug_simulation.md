@@ -28,7 +28,9 @@
 - Release builds must hide the Settings Debug section and use live StoreKit entitlements for `hasPremiumAccess`.
 - Returning purchasers may use the premium cache during initial entitlement resolution, but simulation must not make new Release users appear premium.
 - Keep the debug override key prefixed under `PlayLimit.` and clear/sync it whenever simulation mode changes.
-- The separate `debugGameplay.alternateAppIconsEnabled` rollout flag defaults on in Debug, accepts a Debug Settings override, and always resolves false when Debug features are disallowed. A stored true value must never expose Release UI or paywall copy.
+- `ReleaseFeatureDefaults` defines shipping availability; `ReleaseFeatureStore` stores explicit `releasePreview.*` overrides only in Debug. Fresh Debug launches match Release. Legacy `debugGameplay` rollout keys do not control production composition. Release and screenshot capture ignore saved previews.
+- Shared controls offer Release default / Enabled / Disabled and Reset release overrides. Themes and icons refresh immediately in Settings; SharePlay is resolved at launch and its control explicitly requires relaunch, preventing a live transport swap.
+- Release 1 disables retro themes and alternate icons while retaining the two-theme Styles gallery. Required TV/Vision development themes stay available; platform publication is controlled by archive/submission scope.
 - Disabling alternate icons hides feature surfaces without changing the installed system icon.
 
 ## UI and Localization
@@ -37,7 +39,7 @@
 - The picker label is “Simulate Unlimited Plays” and user-facing options are production default, Unlimited Plays, and freemium.
 - Debug strings live in the shared string catalog with the other Settings strings.
 - **Show SpriteKit FPS and node count** reactively applies SpriteKit's built-in `.showsFPS` and `.showsNodeCount` debug options to the gameplay `SpriteView`.
-- Configured iPhone/iPad builds expose **Enable alternate app icons** even if UIKit currently reports icon changes as unsupported. Other platform targets do not show it.
+- Configured iPhone/iPad builds expose the alternate-icon release picker even if UIKit currently reports icon changes as unsupported. Other platforms omit it. Gameplay-affecting preview controls and Reset are disabled during an active session.
 
 ## Testing
 

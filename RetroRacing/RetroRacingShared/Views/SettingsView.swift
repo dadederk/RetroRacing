@@ -45,10 +45,6 @@ public struct SettingsView: View {
     @AppStorage(DebugGameplayStorageKeys.forcedAchievementIdentifier)
     private var debugForcedAchievementIdentifierRawValue: String = DebugGameplayStorageKeys.noForcedAchievementIdentifier
     @AppStorage(DebugGameplayStorageKeys.showSpriteKitFrameStats) private var debugShowSpriteKitFrameStats: Bool = false
-    @AppStorage(DebugGameplayStorageKeys.experimentalThirtyTwoBitThemeEnabled)
-    private var debugExperimentalThirtyTwoBitThemeEnabled: Bool = false
-    @AppStorage(DebugGameplayStorageKeys.experimentalSixtyFourBitThemeEnabled)
-    private var debugExperimentalSixtyFourBitThemeEnabled: Bool = false
     @State private var isRestoringPurchases = false
     @State private var restoreMessage: String?
     @State private var showingRestoreAlert = false
@@ -153,6 +149,7 @@ public struct SettingsView: View {
     private var settingsRoot: some View {
         settingsRootContent
             .environment(\.alternateAppIconsBenefitEnabled, appIconService.isGalleryAvailable)
+            .environment(\.paidStylesBenefitEnabled, themeManager.availableThemes.contains(where: \.isPremium))
             .navigationTitle(settingsNavigationTitle)
             .modifier(SettingsNavigationChromeModifier(screenshotFocus: screenshotFocus))
             .alert(GameLocalizedStrings.string("restore_purchases"), isPresented: $showingRestoreAlert) {
@@ -338,7 +335,8 @@ public struct SettingsView: View {
                 )
             },
             selectedThemeID: themeManager.currentTheme.id,
-            showsUnlockSection: storeKit.shouldShowFreeTierAffordances,
+            showsUnlockSection: storeKit.shouldShowFreeTierAffordances
+                    && themeManager.availableThemes.contains(where: \.isPremium),
             hasUnlimitedAccess: storeKit.hasPremiumAccess,
             hasResolvedInitialEntitlements: storeKit.hasResolvedInitialEntitlements,
             isSelectionDisabled: isGameSessionInProgress,
@@ -562,6 +560,7 @@ public struct SettingsView: View {
     private var themeSection: some View {
         Section {
             stylesGalleryLink
+                .disabled(isGameSessionInProgress)
 
             if appIconService.isGalleryAvailable {
                 appIconGalleryLink
@@ -570,7 +569,8 @@ public struct SettingsView: View {
             settingsSectionHeader("settings_theme")
                 .id(ScreenshotCaptureIdentifiers.settingsThemeSection)
         } footer: {
-            if storeKit.shouldShowFreeTierAffordances {
+            if storeKit.shouldShowFreeTierAffordances
+                && (appIconService.isGalleryAvailable || themeManager.availableThemes.contains(where: \.isPremium)) {
                 Text(GameLocalizedStrings.string(themeUnlockFootnoteKey))
                     .appFont(.caption)
                     .modifier(SettingsFooterTextStyle())
@@ -580,9 +580,11 @@ public struct SettingsView: View {
     }
 
     private var themeUnlockFootnoteKey: String {
-        appIconService.isGalleryAvailable
-            ? "settings_theme_and_icons_unlock_footnote"
-            : "settings_theme_unlock_footnote"
+        if appIconService.isGalleryAvailable {
+            return themeManager.availableThemes.contains(where: \.isPremium)
+                ? "settings_theme_and_icons_unlock_footnote" : "paywall_unlimited_and_icons"
+        }
+        return "settings_theme_unlock_footnote"
     }
 
     private var stylesGalleryLink: some View {
@@ -952,38 +954,14 @@ public struct SettingsView: View {
                 }
                 .tint(.accentColor)
 
-                if appIconService.isGalleryPlatformEnabled {
-                    Toggle(isOn: Binding(
-                        get: { appIconService.isFeatureEnabled },
-                        set: { appIconService.setFeatureEnabled($0) }
-                    )) {
-                        Text(GameLocalizedStrings.string("debug_enable_alternate_app_icons"))
-                            .appFont(.body)
-                    }
-                    .tint(.accentColor)
-                }
-
-                if themeManager.catalogPlatform.showsExperimentalToggle(for: .thirtyTwoBit) {
-                    Toggle(isOn: $debugExperimentalThirtyTwoBitThemeEnabled) {
-                        Text(GameLocalizedStrings.string("debug_enable_experimental_thirty_two_bit_theme"))
-                            .appFont(.body)
-                    }
-                    .tint(.accentColor)
-                    .disabled(isGameSessionInProgress)
-                    .onChange(of: debugExperimentalThirtyTwoBitThemeEnabled) {
-                        applyExperimentalThemes()
-                    }
-                }
-
-                if themeManager.catalogPlatform.showsExperimentalToggle(for: .sixtyFourBit) {
-                    Toggle(isOn: $debugExperimentalSixtyFourBitThemeEnabled) {
-                        Text(GameLocalizedStrings.string("debug_enable_experimental_sixty_four_bit_theme"))
-                            .appFont(.body)
-                    }
-                    .tint(.accentColor)
-                    .disabled(isGameSessionInProgress)
-                    .onChange(of: debugExperimentalSixtyFourBitThemeEnabled) {
-                        applyExperimentalThemes()
+                if let features = themeManager.releaseFeatures {
+                    ReleaseFeatureDebugControls(
+                        features: features,
+                        showsIcons: appIconService.isGalleryPlatformEnabled,
+                        isGameSessionInProgress: isGameSessionInProgress
+                    ) {
+                        themeManager.refreshReleaseFeatures()
+                        appIconService.refreshFeatureFlag()
                     }
                 }
             } header: {
@@ -998,13 +976,6 @@ public struct SettingsView: View {
                 #endif
             }
         }
-    }
-
-    private func applyExperimentalThemes() {
-        themeManager.applyExperimentalThemes(ExperimentalThemeConfiguration(
-            isThirtyTwoBitEnabled: debugExperimentalThirtyTwoBitThemeEnabled,
-            isSixtyFourBitEnabled: debugExperimentalSixtyFourBitThemeEnabled
-        ))
     }
 
     @ViewBuilder

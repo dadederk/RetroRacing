@@ -25,6 +25,8 @@ public struct PaywallView: View {
     @Environment(StoreKitService.self) private var storeKit
     @Environment(\.alternateAppIconsBenefitEnabled) private var alternateAppIconsBenefitEnabled
 
+    @Environment(\.paidStylesBenefitEnabled) private var paidStylesBenefitEnabled
+
     private let playLimitService: PlayLimitService?
     private let isLimitReached: Bool
     private let onPurchaseCompleted: (() -> Void)?
@@ -199,9 +201,10 @@ public struct PaywallView: View {
     // MARK: - Sections
 
     private var paywallBenefitsKey: String {
-        alternateAppIconsBenefitEnabled
-            ? "paywall_unlimited_themes_and_icons"
-            : "paywall_unlimited_and_themes"
+        if alternateAppIconsBenefitEnabled {
+            return paidStylesBenefitEnabled ? "paywall_unlimited_themes_and_icons" : "paywall_unlimited_and_icons"
+        }
+        return paidStylesBenefitEnabled ? "paywall_unlimited_and_themes" : "paywall_unlimited_only"
     }
 
     private var stayFreeSection: some View {

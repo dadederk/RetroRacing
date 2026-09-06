@@ -10,4 +10,5 @@ import SwiftUI
 public extension EnvironmentValues {
     /// Presentation-only signal used to keep Release and unsupported-platform paywalls unchanged.
     @Entry var alternateAppIconsBenefitEnabled = false
+    @Entry var paidStylesBenefitEnabled = false
 }

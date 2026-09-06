@@ -60,3 +60,7 @@
 
 - Unit tests cover capture configuration, fixture routing, locale derivation, placement workflow, and manifest sync.
 - UI tests wait for readiness markers before capture on every platform.
+
+## Release availability
+
+Capture uses committed release defaults and ignores local Debug rollout overrides. Release 1 uses LCD on iPhone/iPad/Mac and Pocket on Watch; Styles gallery screenshots show only LCD/Pocket. Future-feature fixtures must explicitly opt in and must not be installed as release-1 store exports.

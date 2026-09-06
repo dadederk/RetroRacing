@@ -76,6 +76,7 @@ struct RetroRacingVisionOSApp: App {
                 .environment(session)
                 .environment(dependencies.themeManager)
                 .environment(dependencies.storeKitService)
+                .environment(\.paidStylesBenefitEnabled, dependencies.themeManager.availableThemes.contains(where: \.isPremium))
                 .fontPreferenceStore(dependencies.fontPreferenceStore)
                 .task {
                     await dependencies.storeKitService.loadProducts()

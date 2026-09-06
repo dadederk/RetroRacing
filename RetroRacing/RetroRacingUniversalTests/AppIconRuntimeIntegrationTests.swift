@@ -26,13 +26,15 @@ final class AppIconRuntimeIntegrationTests: XCTestCase {
             bundleIcons["CFBundleAlternateIcons"] as? [String: Any]
         )
 
+        let features = ReleaseFeatureStore(
+            platform: .iPhone, userDefaults: defaults, allowsOverrides: true
+        )
+        features.setOverride(.enabled, for: .alternateIcons)
+
         // When
         let service = AppIconService(
             changer: UIApplicationAppIconChanger(application: SharedUIApplicationAppIconProxy()),
-            featureFlag: UserDefaultsAppIconFeatureFlag(
-                userDefaults: defaults,
-                isConfigurationAllowed: BuildConfiguration.shouldShowDebugFeatures
-            ),
+            featureFlag: ReleaseAppIconFeatureFlag(features: features),
             isGalleryPlatformEnabled: true
         )
 

@@ -100,20 +100,17 @@ struct RetroRacingWatchOSApp: App {
                 platform: ScreenshotCaptureConfiguration.capturePlatform
             ) ?? userDefaults
             : userDefaults
-        let themeConfig = ScreenshotCaptureConfiguration.isCaptureModeEnabled
-            ? ThemePlatformConfig.watchOS
-            : ThemePlatformConfig.configuration(
-                for: .watchOS,
-                experimentalThemes: DebugGameplayStorageKeys.experimentalThemeConfiguration(
-                    userDefaults: userDefaults,
-                    debugFeaturesAllowed: BuildConfiguration.shouldShowDebugFeatures,
-                    platform: .watchOS
-                )
-            )
+        let releaseFeatures = ReleaseFeatureStore(
+            platform: .watchOS, userDefaults: userDefaults,
+            allowsOverrides: BuildConfiguration.shouldShowDebugFeatures
+                && !ScreenshotCaptureConfiguration.isCaptureModeEnabled
+        )
+        let themeConfig = releaseFeatures.themeConfiguration
         themeManager = ThemeManager(
             configuration: themeConfig,
             userDefaults: themeUserDefaults,
-            hasPremiumAccess: false
+            hasPremiumAccess: false,
+            releaseFeatures: releaseFeatures
         )
         SettingsPreferenceMigration.runIfNeeded(
             userDefaults: userDefaults,

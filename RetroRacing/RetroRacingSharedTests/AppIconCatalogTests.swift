@@ -98,7 +98,7 @@ final class AppIconCatalogTests: XCTestCase {
         defer { defaults.removePersistentDomain(forName: suiteName) }
 
         // When / Then
-        XCTAssertTrue(DebugGameplayStorageKeys.areAlternateAppIconsEnabled(
+        XCTAssertFalse(DebugGameplayStorageKeys.areAlternateAppIconsEnabled(
             userDefaults: defaults,
             debugFeaturesAllowed: true
         ))

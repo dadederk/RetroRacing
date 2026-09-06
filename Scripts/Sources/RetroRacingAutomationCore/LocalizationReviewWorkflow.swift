@@ -10,8 +10,8 @@ import Foundation
 public enum LocalizationReviewWorkflow {
     public static let reviewDirectoryRelativePath = "AppStore/localization/reviews"
     public static let indexRelativePath = "AppStore/localization/README.md"
-    public static let expectedInAppStringCount = 459
-    public static let expectedReviewItemCount = 614
+    public static let expectedInAppStringCount = 470
+    public static let expectedReviewItemCount = 625
 
     public static func audit(
         repositoryRoot: URL,

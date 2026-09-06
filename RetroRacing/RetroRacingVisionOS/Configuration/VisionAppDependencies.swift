@@ -69,17 +69,15 @@ struct VisionAppDependencies {
         )
         let storeKitService = StoreKitService(userDefaults: userDefaults)
         let playLimitService = UserDefaultsPlayLimitService(userDefaults: userDefaults)
+        let releaseFeatures = ReleaseFeatureStore(
+            platform: .visionOS, userDefaults: userDefaults,
+            allowsOverrides: BuildConfiguration.shouldShowDebugFeatures
+        )
         let themeManager = ThemeManager(
-            configuration: .configuration(
-                for: .visionOS,
-                experimentalThemes: DebugGameplayStorageKeys.experimentalThemeConfiguration(
-                    userDefaults: userDefaults,
-                    debugFeaturesAllowed: BuildConfiguration.shouldShowDebugFeatures,
-                    platform: .visionOS
-                )
-            ),
+            configuration: releaseFeatures.themeConfiguration,
             userDefaults: userDefaults,
-            hasPremiumAccess: storeKitService.hasPremiumAccessForGating
+            hasPremiumAccess: storeKitService.hasPremiumAccessForGating,
+            releaseFeatures: releaseFeatures
         )
         storeKitService.onEntitlementsUpdated = { isPremium in
             if isPremium {

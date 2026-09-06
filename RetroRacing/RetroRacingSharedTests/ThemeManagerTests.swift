@@ -52,7 +52,7 @@ final class ThemeManagerTests: XCTestCase {
 
     func testGivenPlatformThemeCatalogsWhenInspectingDefaultsThenAccessMatchesPlatformRules() {
         // Given
-        let establishedCatalogs: [ThemePlatformConfig] = [.iPhone, .iPad, .macOS, .watchOS]
+        let establishedCatalogs: [ThemePlatformConfig] = [.configuration(for: .iPhone, includesRetroThemes: true), .configuration(for: .iPad, includesRetroThemes: true), .configuration(for: .macOS, includesRetroThemes: true), .configuration(for: .watchOS, includesRetroThemes: true)]
 
         // When
         let establishedThemeCounts = establishedCatalogs.map(\.availableThemes.count)
@@ -60,17 +60,17 @@ final class ThemeManagerTests: XCTestCase {
         // Then
         XCTAssertTrue(establishedThemeCounts.allSatisfy { $0 == 4 })
         assertThemeCatalog(
-            .iPhone,
+            .configuration(for: .iPhone, includesRetroThemes: true),
             defaultThemeID: .lcd,
             premiumThemeIDs: [.pocket, .eightBit, .sixteenBit]
         )
         assertThemeCatalog(
-            .iPad,
+            .configuration(for: .iPad, includesRetroThemes: true),
             defaultThemeID: .eightBit,
             premiumThemeIDs: [.pocket, .lcd, .sixteenBit]
         )
         assertThemeCatalog(
-            .macOS,
+            .configuration(for: .macOS, includesRetroThemes: true),
             defaultThemeID: .sixteenBit,
             premiumThemeIDs: [.pocket, .lcd, .eightBit]
         )
@@ -81,7 +81,7 @@ final class ThemeManagerTests: XCTestCase {
             expectedThemeIDs: [.pocket, .lcd, .eightBit, .sixteenBit, .thirtyTwoBit]
         )
         assertThemeCatalog(
-            .watchOS,
+            .configuration(for: .watchOS, includesRetroThemes: true),
             defaultThemeID: .pocket,
             premiumThemeIDs: []
         )
@@ -100,7 +100,7 @@ final class ThemeManagerTests: XCTestCase {
         )
 
         assertThemeCatalog(
-            .configuration(for: .iPhone, experimentalThemes: experiments),
+            .configuration(for: .iPhone, experimentalThemes: experiments, includesRetroThemes: true),
             defaultThemeID: .lcd,
             premiumThemeIDs: [.pocket, .eightBit, .sixteenBit],
             expectedThemeIDs: [.pocket, .lcd, .eightBit, .sixteenBit, .thirtyTwoBit, .sixtyFourBit]
@@ -172,10 +172,10 @@ final class ThemeManagerTests: XCTestCase {
         let defaults = platforms.map { ThemePlatformConfig.screenshotCapture(platform: $0).defaultThemeID }
 
         // Then
-        XCTAssertTrue(defaults == [.lcd, .eightBit, .sixteenBit, .pocket])
+        XCTAssertTrue(defaults == [.lcd, .lcd, .lcd, .pocket])
         XCTAssertTrue(ThemePlatformConfig.screenshotCapture(platform: "iphone").defaultThemeID == .lcd)
-        XCTAssertTrue(ThemePlatformConfig.screenshotCapture(platform: "ipad").defaultThemeID == .eightBit)
-        XCTAssertTrue(ThemePlatformConfig.screenshotCapture(platform: "mac").defaultThemeID == .sixteenBit)
+        XCTAssertTrue(ThemePlatformConfig.screenshotCapture(platform: "ipad").defaultThemeID == .lcd)
+        XCTAssertTrue(ThemePlatformConfig.screenshotCapture(platform: "mac").defaultThemeID == .lcd)
         XCTAssertTrue(ThemePlatformConfig.screenshotCapture(platform: "watch").defaultThemeID == .pocket)
         XCTAssertTrue(ThemePlatformConfig.screenshotCapture(platform: "tv").defaultThemeID == .thirtyTwoBit)
     }
@@ -326,9 +326,9 @@ final class ThemeManagerTests: XCTestCase {
 
         // Then
         XCTAssertEqual(manager.currentTheme.id, .lcd)
-        XCTAssertEqual(manager.selectedThemeID, .lcd)
+        XCTAssertEqual(manager.selectedThemeID, .thirtyTwoBit)
         XCTAssertFalse(manager.availableThemes.contains { $0.id == .thirtyTwoBit })
-        XCTAssertEqual(defaults.string(forKey: "selectedThemeID"), ThemeID.lcd.rawValue)
+        XCTAssertEqual(defaults.string(forKey: "selectedThemeID"), ThemeID.thirtyTwoBit.rawValue)
     }
 
     func testGivenLocalThemeOptOutsWhenDebugFeaturesAreDisallowedThenPlatformDefaultsWin() throws {

@@ -33,7 +33,8 @@ public struct ThemeGalleryView: View {
             ThemeGallerySections(
                 previewModels: previewModels,
                 selectedThemeID: themeManager.currentTheme.id,
-                showsUnlockSection: storeKit.shouldShowFreeTierAffordances,
+                showsUnlockSection: storeKit.shouldShowFreeTierAffordances
+                    && themeManager.availableThemes.contains(where: \.isPremium),
                 hasUnlimitedAccess: storeKit.hasPremiumAccess,
                 hasResolvedInitialEntitlements: storeKit.hasResolvedInitialEntitlements,
                 isSelectionDisabled: false,

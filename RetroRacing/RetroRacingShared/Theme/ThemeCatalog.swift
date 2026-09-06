@@ -34,9 +34,12 @@ public extension ThemePlatformConfig {
 
     static func configuration(
         for platform: ThemeCatalogPlatform,
-        experimentalThemes: ExperimentalThemeConfiguration = .disabled
+        experimentalThemes: ExperimentalThemeConfiguration = .disabled,
+        includesRetroThemes: Bool? = nil
     ) -> ThemePlatformConfig {
-        let platformPolicy = policy(for: platform)
+        let includesRetroThemes = includesRetroThemes
+            ?? ReleaseFeatureDefaults.isEnabled(.retroThemes, platform: platform)
+        let platformPolicy = policy(for: platform, includesRetroThemes: includesRetroThemes)
         let enabledExperimentalIDs = experimentalThemeIDs.filter {
             platform.alwaysIncludes($0) || experimentalThemes.contains($0)
         }
@@ -47,7 +50,7 @@ public extension ThemePlatformConfig {
             platform: platform,
             defaultThemeID: platformPolicy.defaultThemeID,
             freeThemeIDs: platformPolicy.freeThemeIDs.union(debugUnlockedExperimentalIDs),
-            themeIDs: orderedThemeIDs + enabledExperimentalIDs
+            themeIDs: (includesRetroThemes ? orderedThemeIDs : [.pocket, .lcd]) + enabledExperimentalIDs
         )
     }
 
@@ -79,9 +82,13 @@ public extension ThemePlatformConfig {
     ]
 
     private static func policy(
-        for platform: ThemeCatalogPlatform
+        for platform: ThemeCatalogPlatform,
+        includesRetroThemes: Bool
     ) -> (defaultThemeID: ThemeID, freeThemeIDs: Set<ThemeID>) {
-        switch platform {
+        if !includesRetroThemes && platform != .tvOS && platform != .visionOS {
+            return (platform == .watchOS ? .pocket : .lcd, [.lcd, .pocket])
+        }
+        return switch platform {
         case .iPhone, .custom:
             (.lcd, [.lcd])
         case .iPad:

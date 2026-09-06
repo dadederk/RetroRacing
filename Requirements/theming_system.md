@@ -17,14 +17,17 @@
 
 ## Current Themes
 
-| Theme | Access | Notes |
-|---|---|---|
-| LCD | Free on iPhone/watchOS; Unlimited Plays on iPad/macOS/tvOS/visionOS | iPhone default. |
-| Pocket | Free on watchOS; Unlimited Plays on iPhone/iPad/macOS/tvOS/visionOS | watchOS default. |
-| Cartridge | Free on iPad/watchOS; Unlimited Plays on iPhone/macOS/tvOS/visionOS | Vivid home-console-inspired pixel style with a medium grey arcade road, lighter grey exterior field, and yellow lane lines; iPad default. |
-| CRT | Free on macOS/watchOS; Unlimited Plays on iPhone/iPad/tvOS/visionOS | Early-1990s arcade style with the shared grey/yellow perspective road, grass exterior, richer pixel-art sprites, and RGB565 player-red ramp; macOS default. |
-| Disc | Free/default on tvOS; Unlimited Plays on visionOS; free Debug experiment elsewhere | Late-1990s console style with dark asphalt, an electric aqua circuit palette, and a dedicated pre-rendered 32-Bit sprite family. On visionOS it changes Classic only; spatial mode uses Polygon models. |
-| Polygon | Free/default on visionOS; free Debug experiment elsewhere | Late-1990s low-poly console style backed by canonical 3D models and a complete cross-platform fixed-camera sprite family. |
+Release 1 ships the Styles gallery with **Pocket and LCD only** on iPhone/iPad/macOS; Watch keeps its compact selector. Both themes remain free, matching `master` before the visual expansion. LCD is the default on iPhone/iPad/macOS; Pocket is the Watch default. Explicit selections take precedence.
+
+`ReleaseFeatureDefaults` is the committed rollout policy. `ReleaseFeatureStore` supplies optional Debug previews through injection; distribution and screenshot capture ignore saved overrides. The gallery itself has no rollout flag. Future themes are omitted entirely, not shown as locked teasers.
+
+| Theme | Later-release availability |
+|---|---|
+| Cartridge / CRT | Added together by the retro-themes flag; iPad/Mac defaults become Cartridge/CRT when enabled and no stored selection applies. |
+| Disc | Required on tvOS and visionOS; optional Debug experiment elsewhere. |
+| Polygon | Required on visionOS; optional Debug experiment elsewhere. |
+
+When previewing the expanded catalog, the existing per-platform Unlimited Plays policy applies; previewing a feature never simulates an entitlement. TV/Vision targets retain their development catalogs and are excluded from the first two public release archives.
 
 - Unlimited Plays is the monetization entitlement. Do not introduce a separate “premium tier” in user copy.
 - When adding a theme, update the catalog, assets, Settings preview/selection behavior, tests, and any App Store screenshots that rely on theme visuals.
@@ -33,23 +36,23 @@
 
 - iPhone defaults to LCD unless a stored accessible user selection exists.
 - The user-facing style names are Cartridge, CRT, Disc, and Polygon. Internal theme IDs, persisted raw values, type names, and asset families retain their existing 8-Bit, 16-Bit, 32-Bit, and 64-Bit identifiers for compatibility.
-- iPad defaults to Cartridge unless a stored accessible user selection exists.
-- macOS defaults to CRT unless a stored accessible user selection exists.
+- iPad defaults to LCD in release 1; Cartridge is the expanded-catalog default.
+- macOS defaults to LCD in release 1; CRT is the expanded-catalog default.
 - tvOS defaults to Disc and always appends it to the shared catalog. It does not show a Disc Debug toggle because that theme cannot be disabled on tvOS.
-- watchOS defaults to Pocket for everyone and allows all four themes without Unlimited Plays.
+- watchOS defaults to Pocket for everyone; LCD/Pocket are available in release 1 and the expanded four-theme catalog remains free when previewed.
 - visionOS defaults to Polygon and always includes all six themes in the gallery. Polygon is the free platform theme; Unlimited Plays unlocks selection of Pocket, LCD, Cartridge, CRT, and Disc. Disc and Polygon do not show Debug toggles on visionOS because both are permanent catalog entries there.
-- In Debug builds, Settings exposes a Disc toggle on iPhone, iPad, macOS, and watchOS, plus a Polygon toggle on iPhone, iPad, macOS, watchOS, and tvOS. Enabling a toggle immediately adds the theme to the selectable catalog as a free QA theme; disabling a currently selected experiment restores the platform default. Builds without Debug UI ignore stored flags and include only the platform-required experimental entries.
+- Debug Settings exposes shared Release default / Enabled / Disabled controls for retro themes and non-required Disc/Polygon styles. Reset restores committed defaults. Gameplay-affecting controls are disabled during active sessions; hidden known selections are preserved and restored when available again.
 - visionOS theme selection applies to Classic presentation. **Play in 3D** remains available for every Classic theme; spatial mode always uses the canonical Polygon models without changing or overwriting the saved Classic selection, which is restored on return.
 - Platform-specific presentation can vary, but selection and access rules should remain shared.
 - Theme selectors present established shared themes in Pocket, LCD, Cartridge, CRT order even when the platform default is not first, followed by included Disc and Polygon themes. visionOS exposes the complete six-theme gallery in that shared order.
 - Settings exposes a selectable **Styles** gallery with one section per shared theme. Each section shows the theme's player car, rival car, player helmet, friend/rival helmet, crash sprite, and a four-color road palette: road surface, road lines, road exterior, and finish/lap marker. Preview rows provide theme-specific localized accessibility descriptions that summarize both the contents and the style's mood.
 - On iPhone, iPad, macOS, and visionOS, the Theme section has one **Styles** disclosure showing the current selection; the gallery is the sole theme selector. On tvOS, the complete Styles gallery is embedded directly in the Theme category page alongside font and Big Cars settings. watchOS retains its compact picker.
-- Premium Style changes wait for the first authoritative entitlement refresh; cached returning-purchaser state may suppress free-tier chrome but must never authorize a one-time Style change. The gallery marks the current theme with a pink checkmark and each locked non-current theme with a pink lock; while entitlement is unresolved, premium themes use a distinct hourglass. These states are also exposed as localized accessibility values, with the selected trait on the current theme. Free users can inspect every theme and use the gallery's top-of-list Unlimited Plays call to action to present the paywall. When a free user taps a locked non-current theme, the gallery presents the paywall instead of changing the selection. The call to action uses primary-contrast body copy rather than low-contrast footer text.
+- Premium Style changes wait for the first authoritative entitlement refresh; cached returning-purchaser state may suppress free-tier chrome but must never authorize a one-time Style change. The gallery marks the current theme with a pink checkmark and each locked non-current theme with a pink lock; while entitlement is unresolved, premium themes use a distinct hourglass. These states are also exposed as localized accessibility values, with the selected trait on the current theme. Free users can inspect every available theme; the gallery shows its Unlimited Plays call to action only if the catalog contains paid themes. When a free user taps a locked non-current theme, the gallery presents the paywall instead of changing the selection. The call to action uses primary-contrast body copy rather than low-contrast footer text.
 - On supported iPhone and iPad builds, the feature-flagged **App Icon** disclosure sits in the same Theme section directly after the Styles disclosure. Icon choice remains independent from gameplay Style; the destination reuses the Styles gallery's native list and Unlimited Plays prompt patterns while preserving the icon catalog's Classic, Themes, and Special Editions groups. The resolved-free Theme footer mentions both visual Styles and app icons only while this gallery is available; other platforms retain Styles-only copy.
 - The Cartridge perspective road uses a medium grey surface on a lighter grey exterior field. Yellow road lines and finish/lap markers keep at least 3:1 contrast with the road surface in normal and Increase Contrast modes.
 - The CRT perspective road temporarily shares the Cartridge grey road surface and yellow line palette while using a grass exterior field. Its road lines and finish/lap markers keep at least 3:1 contrast with the road; theme text keeps at least 4.5:1 contrast with both road and exterior colors.
 - The experimental Disc road uses dark asphalt, a deep-teal exterior, aqua lane lines, and a warm-yellow lap marker. The Polygon road uses midnight asphalt, a darker teal exterior, white lane lines, and a neon-aqua lap marker. Both themes keep at least 3:1 marker contrast with the road and at least 4.5:1 text contrast with road and exterior colors.
-- Stored theme IDs remain persisted when their themes become inaccessible. The platform default is shown until Unlimited Plays becomes available again, at which point the stored selection is restored.
+- Stored known theme IDs remain persisted when their themes become inaccessible or rollout-hidden. Stale or forged theme objects cannot bypass the current catalog or its entitlement policy. Unknown IDs fall back safely. The platform default is shown until Unlimited Plays becomes available again, at which point the stored selection is restored.
 
 ## Assets and Road Masks
 

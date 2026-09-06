@@ -74,3 +74,16 @@ public final class FixedAppIconFeatureFlag: AppIconFeatureFlagging {
         self.isEnabled = isEnabled
     }
 }
+
+/// Bridges the existing icon service to the shared release policy.
+@MainActor
+public final class ReleaseAppIconFeatureFlag: AppIconFeatureFlagging {
+    private let features: any ReleaseFeatureProviding
+    public var isEnabled: Bool { features.isEnabled(.alternateIcons) }
+
+    public init(features: any ReleaseFeatureProviding) { self.features = features }
+    public func refresh() {}
+    public func setEnabled(_ isEnabled: Bool) {
+        features.setOverride(isEnabled ? .enabled : .disabled, for: .alternateIcons)
+    }
+}

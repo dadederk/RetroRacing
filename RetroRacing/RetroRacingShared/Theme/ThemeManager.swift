@@ -17,8 +17,11 @@ public final class ThemeManager {
     public private(set) var availableThemes: [any GameTheme]
     public var catalogPlatform: ThemeCatalogPlatform { configuration.platform }
 
+    public let releaseFeatures: (any ReleaseFeatureProviding)?
+
     private var configuration: ThemePlatformConfig
     private let userDefaults: UserDefaults
+    private var hasStoredSelection: Bool
     private var hasPremiumAccess: Bool
 
     nonisolated static let selectedThemeKey = "selectedThemeID"
@@ -27,8 +30,11 @@ public final class ThemeManager {
     public init(
         configuration: ThemePlatformConfig,
         userDefaults: UserDefaults,
-        hasPremiumAccess: Bool
+        hasPremiumAccess: Bool,
+        releaseFeatures: (any ReleaseFeatureProviding)? = nil
     ) {
+        let configuration = releaseFeatures?.themeConfiguration ?? configuration
+        self.releaseFeatures = releaseFeatures
         self.configuration = configuration
         self.userDefaults = userDefaults
         self.hasPremiumAccess = hasPremiumAccess
@@ -36,8 +42,9 @@ public final class ThemeManager {
 
         userDefaults.removeObject(forKey: Self.obsoleteUnlockedThemesKey)
         let storedID = userDefaults.string(forKey: Self.selectedThemeKey).map(ThemeID.init(rawValue:))
+        hasStoredSelection = storedID != nil
         let selectedID = storedID.flatMap { candidate in
-            configuration.availableThemes.contains(where: { $0.id == candidate })
+            Self.isKnown(candidate, configuration: configuration)
                 ? candidate
                 : nil
         } ?? configuration.defaultThemeID
@@ -54,14 +61,17 @@ public final class ThemeManager {
     }
 
     public func setTheme(_ theme: any GameTheme) {
-        guard isThemeAvailable(theme) else { return }
+        guard let theme = availableThemes.first(where: { $0.id == theme.id }),
+              isThemeAvailable(theme) else { return }
+        hasStoredSelection = true
         selectedThemeID = theme.id
         currentTheme = theme
         userDefaults.set(theme.id.rawValue, forKey: Self.selectedThemeKey)
     }
 
     public func isThemeAvailable(_ theme: any GameTheme) -> Bool {
-        theme.isPremium == false || hasPremiumAccess
+        guard let catalogTheme = availableThemes.first(where: { $0.id == theme.id }) else { return false }
+        return catalogTheme.isPremium == false || hasPremiumAccess
     }
 
     public func isThemeAccessible(id: ThemeID) -> Bool {
@@ -79,8 +89,9 @@ public final class ThemeManager {
         self.configuration = configuration
         availableThemes = configuration.availableThemes
 
-        let preferredID = selectDefaultTheme ? configuration.defaultThemeID : selectedThemeID
-        let resolvedSelectedID = configuration.availableThemes.contains(where: { $0.id == preferredID })
+        let preferredID = selectDefaultTheme || !hasStoredSelection
+            ? configuration.defaultThemeID : selectedThemeID
+        let resolvedSelectedID = Self.isKnown(preferredID, configuration: configuration)
             ? preferredID
             : configuration.defaultThemeID
         selectedThemeID = resolvedSelectedID
@@ -89,7 +100,21 @@ public final class ThemeManager {
             configuration: configuration,
             hasPremiumAccess: hasPremiumAccess
         )
-        userDefaults.set(resolvedSelectedID.rawValue, forKey: Self.selectedThemeKey)
+        if hasStoredSelection || selectDefaultTheme {
+            hasStoredSelection = true
+            userDefaults.set(resolvedSelectedID.rawValue, forKey: Self.selectedThemeKey)
+        }
+    }
+
+    public func refreshReleaseFeatures() {
+        guard let releaseFeatures else { return }
+        applyConfiguration(releaseFeatures.themeConfiguration)
+    }
+
+    private static func isKnown(_ id: ThemeID, configuration: ThemePlatformConfig) -> Bool {
+        configuration.availableThemes.contains { $0.id == id }
+            || (configuration.platform != .custom && [ThemeID.pocket, .lcd, .eightBit,
+                                                     .sixteenBit, .thirtyTwoBit, .sixtyFourBit].contains(id))
     }
 
     public func applyExperimentalThemes(_ experimentalThemes: ExperimentalThemeConfiguration) {

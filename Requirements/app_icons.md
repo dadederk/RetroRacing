@@ -5,7 +5,7 @@
 > Narrow tasks may stop here; open the related contracts for entitlement, localization, or asset work.
 
 - **Scope:** iPhone/iPad alternate-icon catalog, Debug rollout flag, Unlimited Plays access, gallery behavior, Icon Composer packages, and system integration.
-- **Must not break:** Classic remains the primary `nil` icon; system names are permanent; Release hides all feature UI and copy; disabling the flag never changes the installed icon.
+- **Must not break:** Classic remains the primary `nil` icon; system names are permanent; the committed Release default controls feature UI and copy; disabling the flag never changes the installed icon.
 - **Key files:** `AppIconCatalog`, `AppIconService`, `AppIconGalleryView`, `UIApplicationAppIconChanger`, `RetroRacingUniversal/Assets/RetroRapid*.icon`.
 
 ## Catalog and compatibility
@@ -33,10 +33,10 @@
 - The gallery is available when both the injected platform configuration enables it and the rollout flag is enabled. iPhone and iPad enable the platform configuration; macOS, watchOS, tvOS, and native visionOS disable it.
 - UIKit system capability remains separate observable diagnostic state. It is refreshed after app activation, when Settings or the gallery appears, and at selection time, but a transient or environment-specific `supportsAlternateIcons == false` neither hides the iPhone/iPad gallery or Debug toggle nor preflights a configured-platform request. The platform adapter's actual `setAlternateIconName` result is authoritative and failures use localized recovery copy plus structured error-domain/code logging.
 - iPhone and iPad inject `UIApplicationAppIconChanger` through a proxy that resolves `UIApplication.shared` after launch; SwiftUI `App` construction must not retain the singleton's pre-launch `nil` value. macOS, watchOS, tvOS, and native visionOS inject `UnsupportedAppIconChanger` or omit the shared surface. Platform decisions belong in composition roots, not shared views or service compile conditions.
-- `DebugGameplayStorageKeys.alternateAppIconsEnabled` defaults on in Debug and respects its stored Debug override through one injected feature-flag dependency shared by the composition root, service, and Debug toggle.
-- Builds without Debug features always resolve the flag to false, even if a prior Debug build stored true.
-- Debug Settings shows **Enable alternate app icons** on configured iPhone/iPad builds even when the current environment reports that icon changes are unsupported.
-- Alternate packages and generated `CFBundleAlternateIcons` declarations remain in Debug and Release products. Release hides the Settings row, gallery, Debug toggle, and icon-specific paywall benefit.
+- The injected `ReleaseAppIconFeatureFlag` bridges the shared `ReleaseFeatureProviding` policy to the icon service. Release 1 defaults off; Debug supports explicit preview and Reset. Release and screenshot capture ignore stored previews. Platform capability and Unlimited Plays remain independent checks.
+- Builds without Debug features use the committed release default regardless of saved previews; it is false for release 1.
+- Debug Settings shows the alternate-icon Release default / Enabled / Disabled picker on configured iPhone/iPad builds even when the current environment reports that icon changes are unsupported.
+- Alternate packages and generated `CFBundleAlternateIcons` declarations remain in Debug and Release products. Release 1 hides the Settings row, gallery, and icon-specific benefit. The Debug controls never appear in distribution builds.
 - Turning the flag off hides feature surfaces immediately but does not reset an installed alternate or call the system API.
 
 ## Access and selection

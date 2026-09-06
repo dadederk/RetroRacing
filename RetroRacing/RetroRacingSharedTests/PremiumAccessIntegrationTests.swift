@@ -196,7 +196,7 @@ final class PremiumAccessIntegrationTests: XCTestCase {
     func testGivenUnlimitedSimulationWhenThemeGatingCallbackSyncsThemeManagerThenPremiumThemeSelectionSticks() throws {
         // Given
         let storeKit = makeStoreKitService()
-        let themeConfig = ThemePlatformConfig.iPhone
+        let themeConfig = ThemePlatformConfig.configuration(for: .iPhone, includesRetroThemes: true)
         let manager = ThemeManager(
             configuration: themeConfig,
             userDefaults: userDefaults,

@@ -56,10 +56,36 @@ final class AppIconGalleryUITests: XCTestCase {
 
         app.navigationBars["Choose App Icon"].buttons["Settings"].tap()
 
-        let featureToggle = app.switches["Enable alternate app icons"]
+        let featureToggle = app.descendants(matching: .any)["release_feature_alternateIcons"].firstMatch
         scrollUp(in: app, until: featureToggle)
         XCTAssertTrue(featureToggle.exists, app.debugDescription)
-        XCTAssertEqual(featureToggle.value as? String, "1")
+        XCTAssertTrue(featureToggle.isEnabled)
+    }
+
+    @MainActor
+    func testGivenReleaseOneWhenOpeningStylesThenOnlyFreeOriginalThemesAreSelectable() throws {
+        // Given
+        let app = launchApplication(premiumSimulationMode: 2, previewsPersonalization: false)
+        openSettings(in: app)
+        XCTAssertFalse(app.buttons["settings_app_icon_gallery"].exists)
+
+        // When
+        app.buttons["Styles"].tap()
+
+        // Then
+        let pocket = app.buttons["theme_style_option_pocket"]
+        let lcd = app.buttons["theme_style_option_lcd"]
+        XCTAssertTrue(pocket.waitForExistence(timeout: 10), app.debugDescription)
+        XCTAssertTrue(lcd.exists, app.debugDescription)
+        XCTAssertFalse(app.buttons["theme_style_option_8bit"].exists)
+        XCTAssertFalse(app.buttons["theme_style_option_16bit"].exists)
+        XCTAssertFalse(app.buttons["theme_style_option_32bit"].exists)
+        XCTAssertFalse(app.buttons["theme_style_option_64bit"].exists)
+        pocket.tap()
+        waitForSelectedValue(on: pocket)
+        lcd.tap()
+        waitForSelectedValue(on: lcd)
+        XCTAssertFalse(app.navigationBars["Go Unlimited"].exists)
     }
 
     private func assertIconOptionsExist(
@@ -178,14 +204,16 @@ final class AppIconGalleryUITests: XCTestCase {
     private func launchApplication(
         premiumSimulationMode: Int,
         additionalArguments: [String] = [],
-        usesDeterministicAppIconChanger: Bool = false
+        usesDeterministicAppIconChanger: Bool = false,
+        previewsPersonalization: Bool = true
     ) -> XCUIApplication {
         let app = XCUIApplication()
         var launchArguments = [
             UITestLaunchOption.enabled.rawValue,
             "-AppleLanguages", "(en)",
             "-AppleLocale", "en_US",
-            "-debugGameplay.alternateAppIconsEnabled", "1",
+            "-releasePreview.alternateIcons", previewsPersonalization ? "enabled" : "disabled",
+            "-releasePreview.retroThemes", previewsPersonalization ? "enabled" : "disabled",
             "-StoreKit.debugPremiumSimulationMode", String(premiumSimulationMode),
         ]
         if usesDeterministicAppIconChanger {

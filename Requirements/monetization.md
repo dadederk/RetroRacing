@@ -14,8 +14,8 @@
 - Product ID: `com.accessibilityUpTo11.RetroRacing.unlimitedPlays`.
 - Product type: non-consumable, one-time purchase.
 - Internal code may still use `premium` names for entitlement state, but user-visible copy must prefer Unlimited Plays.
-- Unlimited Plays removes solo daily limits forever and unlocks selection from the available visual Styles where the platform supports them.
-- Unlimited Plays unlocks all nine alternate iPhone/iPad app icons while the capability and Debug rollout flag are enabled. Classic remains free.
+- Unlimited Plays removes solo daily limits forever and unlocks paid visual Styles where available. Release 1 keeps LCD/Pocket free and omits paid-style benefits from its paywall and gallery; icon-only previews use icon-only benefit copy.
+- Unlimited Plays unlocks all nine alternate iPhone/iPad app icons while the capability and release rollout flag are enabled. Classic remains free.
 
 ## Free-Tier Rules
 
@@ -64,7 +64,7 @@ Friend races are free. SharePlay competitive matches in [`shareplay_multiplayer.
   - The purchase row represents the single non-consumable Unlimited Plays product; no subscription choices are offered.
   - Limit-triggered mode shows the limit notice and “Want to Stay Free?” cards, including the free SharePlay reminder.
   - Restore and redeem actions stay platform-appropriate.
-  - Alternate app icons appear as a benefit only while the injected iPhone/iPad platform eligibility and rollout flag are enabled; Release and other-platform copy remains unchanged.
+  - Alternate app icons appear as a benefit only while the injected iPhone/iPad platform eligibility and rollout flag are enabled; Release copy follows the committed release policy.
 - Settings:
   - Play Limit section is visible only for resolved free users.
   - Purchases section exposes Get Unlimited Plays, Restore Purchases, and supported redeem-code UI.

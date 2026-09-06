@@ -56,6 +56,7 @@ struct RetroRacingApp: App {
     private let playLimitService: PlayLimitService
     private let specialEventService: SpecialEventService
     private let storeKitService: StoreKitService
+    private let isSharePlayEnabled: Bool
     private let sharePlayMatchService: any SharePlayMatchService
     private let controllerInputSource: SystemGameControllerInputSource
     private let controlsDescriptionKey: String
@@ -92,10 +93,22 @@ struct RetroRacingApp: App {
         }
         let fontAvailability = AppBootstrap.registerFonts()
         let userDefaults = InfrastructureDefaults.userDefaults
-        let appIconFeatureFlag = UserDefaultsAppIconFeatureFlag(
+        #if os(macOS)
+        let themePlatform = ThemeCatalogPlatform.macOS
+        #elseif canImport(UIKit)
+        let themePlatform = UIDevice.current.userInterfaceIdiom == .pad
+            ? ThemeCatalogPlatform.iPad
+            : ThemeCatalogPlatform.iPhone
+        #else
+        let themePlatform = ThemeCatalogPlatform.iPhone
+        #endif
+        let releaseFeatures = ReleaseFeatureStore(
+            platform: themePlatform,
             userDefaults: userDefaults,
-            isConfigurationAllowed: BuildConfiguration.shouldShowDebugFeatures
+            allowsOverrides: BuildConfiguration.shouldShowDebugFeatures
+                && !ScreenshotCaptureConfiguration.isCaptureModeEnabled
         )
+        let appIconFeatureFlag = ReleaseAppIconFeatureFlag(features: releaseFeatures)
         #if os(iOS)
         let appIconChanger: any AppIconChanging
         if BuildConfiguration.usesDeterministicAppIconChanger {
@@ -176,25 +189,7 @@ struct RetroRacingApp: App {
         #else
         ratingService = StoreReviewService(userDefaults: userDefaults, ratingProvider: RatingServiceProviderMac())
         #endif
-        #if os(macOS)
-        let themePlatform = ThemeCatalogPlatform.macOS
-        #elseif canImport(UIKit)
-        let themePlatform = UIDevice.current.userInterfaceIdiom == .pad
-            ? ThemeCatalogPlatform.iPad
-            : ThemeCatalogPlatform.iPhone
-        #else
-        let themePlatform = ThemeCatalogPlatform.iPhone
-        #endif
-        let themeConfig = ScreenshotCaptureConfiguration.isCaptureModeEnabled
-            ? ThemePlatformConfig.configuration(for: themePlatform)
-            : ThemePlatformConfig.configuration(
-                for: themePlatform,
-                experimentalThemes: DebugGameplayStorageKeys.experimentalThemeConfiguration(
-                    userDefaults: userDefaults,
-                    debugFeaturesAllowed: BuildConfiguration.shouldShowDebugFeatures,
-                    platform: themePlatform
-                )
-            )
+        let themeConfig = releaseFeatures.themeConfiguration
         let themeUserDefaults = ScreenshotCaptureConfiguration.isCaptureModeEnabled
             ? ScreenshotCaptureThemePolicy.makeCaptureUserDefaults(
                 platform: ScreenshotCaptureConfiguration.capturePlatform
@@ -203,7 +198,8 @@ struct RetroRacingApp: App {
         let configuredThemeManager = ThemeManager(
             configuration: themeConfig,
             userDefaults: themeUserDefaults,
-            hasPremiumAccess: storeKitService.hasPremiumAccessForGating
+            hasPremiumAccess: storeKitService.hasPremiumAccessForGating,
+            releaseFeatures: releaseFeatures
         )
         themeManager = configuredThemeManager
         fontPreferenceStore = FontPreferenceStore(
@@ -277,20 +273,24 @@ struct RetroRacingApp: App {
         specialEventService = Self.makeMiamiGrandPrixEventService()
         #if canImport(GroupActivities) && (os(iOS) || os(macOS))
         let groupStateObserver = GroupStateObserver()
-        let sharePlayService = GroupActivitiesSharePlayMatchService(
-            difficultyProvider: { GameDifficulty.currentSelection(from: userDefaults) }
-        )
+        isSharePlayEnabled = releaseFeatures.isEnabled(.sharePlay)
+        let sharePlayService: any SharePlayMatchService = isSharePlayEnabled
+            ? GroupActivitiesSharePlayMatchService(
+                difficultyProvider: { GameDifficulty.currentSelection(from: userDefaults) }
+            )
+            : NoOpSharePlayMatchService()
         sharePlayMatchService = sharePlayService
         _sharePlayActivationHandoffCoordinator = State(
             initialValue: SharePlayActivationHandoffCoordinator(
                 sharePlayMatchService: sharePlayService,
-                isSharePlayAvailable: true,
+                isSharePlayAvailable: isSharePlayEnabled,
                 isEligibleForGroupSession: {
                     groupStateObserver.isEligibleForGroupSession
                 }
             )
         )
         #else
+        isSharePlayEnabled = false
         let sharePlayService = NoOpSharePlayMatchService()
         sharePlayMatchService = sharePlayService
         _sharePlayActivationHandoffCoordinator = State(
@@ -405,6 +405,7 @@ struct RetroRacingApp: App {
         let configuredRoot = rootView
             .environment(storeKitService)
             .environment(\.alternateAppIconsBenefitEnabled, appIconService.isGalleryAvailable)
+            .environment(\.paidStylesBenefitEnabled, themeManager.availableThemes.contains(where: \.isPremium))
             .achievementMetadataService(resolvedAchievementMetadataService)
             .sharePlayMatchService(sharePlayMatchService)
             .task {
@@ -608,7 +609,7 @@ struct RetroRacingApp: App {
             inputAdapterFactory: TouchInputAdapterFactory(),
             onPlayRequest: handlePlayRequest,
             onSettingsRequest: handleSettingsRequest,
-            onPlayWithFriendsRequest: handlePlayWithFriendsRequest,
+            onPlayWithFriendsRequest: playWithFriendsAction,
             isSharePlayActive: sharePlayUIState.state.isActive
         )
         .interactiveDismissDisabled(true)
@@ -649,7 +650,7 @@ struct RetroRacingApp: App {
             showRateButton: true,
             inputAdapterFactory: TouchInputAdapterFactory(),
             onPlayRequest: handlePlayRequest,
-            onPlayWithFriendsRequest: handlePlayWithFriendsRequest,
+            onPlayWithFriendsRequest: playWithFriendsAction,
             isSharePlayActive: sharePlayUIState.state.isActive
         )
         .interactiveDismissDisabled(true)
@@ -731,6 +732,11 @@ struct RetroRacingApp: App {
                 .string("toSession", AppLog.shortID(sessionID))
             ]
         )
+    }
+
+    private var playWithFriendsAction: (() -> Void)? {
+        guard isSharePlayEnabled else { return nil }
+        return { handlePlayWithFriendsRequest() }
     }
 
     private func handlePlayWithFriendsRequest() {

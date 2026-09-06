@@ -89,3 +89,7 @@
 - [accessibility.md](accessibility.md) — overlay accessibility behavior.
 - [testing.md](testing.md) — validation strategy.
 - [TechDocs/play-with-friends-shareplay.md](../TechDocs/play-with-friends-shareplay.md) — architecture explainer.
+
+## Release availability
+
+Universal composition resolves the platform SharePlay release flag at launch. Disabled builds inject `NoOpSharePlayMatchService`, hide Play with Friends, and do not observe real incoming sessions. Debug overrides explicitly require relaunch; distribution ignores them. Stage 1 enables iPhone/iPad/macOS, subject to real-device acceptance before public claims.

@@ -111,9 +111,9 @@ public enum DebugGameplayStorageKeys {
         userDefaults: UserDefaults,
         debugFeaturesAllowed: Bool
     ) -> Bool {
-        guard debugFeaturesAllowed else { return false }
+        guard debugFeaturesAllowed else { return ReleaseFeatureDefaults.alternateIcons }
         guard userDefaults.object(forKey: alternateAppIconsEnabled) != nil else {
-            return true
+            return ReleaseFeatureDefaults.alternateIcons
         }
         return userDefaults.bool(forKey: alternateAppIconsEnabled)
     }
