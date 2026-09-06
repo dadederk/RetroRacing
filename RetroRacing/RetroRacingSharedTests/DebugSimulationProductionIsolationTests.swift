@@ -34,14 +34,11 @@ final class DebugSimulationProductionIsolationTests: XCTestCase {
     // MARK: - Production Mode Tests
 
     func testGivenStoredDebugAlternateIconFlagWhenDebugFeaturesAreDisallowedThenFeatureStaysOff() {
-        userDefaults.set(true, forKey: DebugGameplayStorageKeys.alternateAppIconsEnabled)
+        userDefaults.set("enabled", forKey: ReleaseFeature.alternateIcons.storageKey)
 
-        let isEnabled = DebugGameplayStorageKeys.areAlternateAppIconsEnabled(
-            userDefaults: userDefaults,
-            debugFeaturesAllowed: false
-        )
+        let store = ReleaseFeatureStore(platform: .iPhone, userDefaults: userDefaults, allowsOverrides: false)
 
-        XCTAssertFalse(isEnabled)
+        XCTAssertFalse(store.isEnabled(.alternateIcons))
     }
     
     func testGivenProductionBuildWhenSettingSimulationModeThenAlwaysRevertsToProductionDefault() {

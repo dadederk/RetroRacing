@@ -10,7 +10,7 @@ import XCTest
 
 @MainActor
 final class ReleaseFeatureTests: XCTestCase {
-    func testGivenFreshInstallWhenResolvingShippingCatalogsThenBothOriginalThemesAreFree() throws {
+    func testGivenFreshInstallWhenResolvingShippingCatalogsThenOnlyWatchKeepsBothOriginalThemesFree() throws {
         // Given
         for platform in [ThemeCatalogPlatform.iPhone, .iPad, .macOS, .watchOS] {
             let defaults = try makeDefaults()
@@ -19,7 +19,8 @@ final class ReleaseFeatureTests: XCTestCase {
             let configuration = store.themeConfiguration
             // Then
             XCTAssertEqual(configuration.availableThemes.map(\.id), [.pocket, .lcd])
-            XCTAssertTrue(configuration.availableThemes.allSatisfy { !$0.isPremium })
+            XCTAssertEqual(configuration.availableThemes.filter(\.isPremium).map(\.id),
+                           platform == .watchOS ? [] : [.pocket])
             XCTAssertEqual(configuration.defaultThemeID, platform == .watchOS ? .pocket : .lcd)
             XCTAssertFalse(store.isEnabled(.alternateIcons))
             XCTAssertEqual(store.isEnabled(.sharePlay), platform != .watchOS)
@@ -147,6 +148,19 @@ final class ReleaseFeatureTests: XCTestCase {
         store.resetOverrides()
         manager.refreshReleaseFeatures()
         XCTAssertEqual(manager.currentTheme.id, .lcd)
+    }
+
+    func testGivenRequiredPlatformThemesWhenReleaseIgnoresOptOutThenCatalogRetainsThem() throws {
+        // Given / When / Then
+        for platform in [ThemeCatalogPlatform.tvOS, .visionOS] {
+            let defaults = try makeDefaults()
+            defaults.set("disabled", forKey: ReleaseFeature.discTheme.storageKey)
+            defaults.set("disabled", forKey: ReleaseFeature.polygonTheme.storageKey)
+            let store = ReleaseFeatureStore(platform: platform, userDefaults: defaults, allowsOverrides: false)
+            XCTAssertTrue(store.isEnabled(.discTheme))
+            XCTAssertTrue(store.themeConfiguration.availableThemes.contains { $0.id == .thirtyTwoBit })
+            XCTAssertEqual(store.isEnabled(.polygonTheme), platform == .visionOS)
+        }
     }
 
     private func makeDefaults() throws -> UserDefaults {

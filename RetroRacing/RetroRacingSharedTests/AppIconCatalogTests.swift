@@ -90,32 +90,6 @@ final class AppIconCatalogTests: XCTestCase {
         )
     }
 
-    func testGivenDebugAndProductionStatesWhenResolvingFlagThenIsolationApplies() throws {
-        // Given
-        let suiteName = "AppIconCatalogTests.featureFlag"
-        let defaults = try XCTUnwrap(UserDefaults(suiteName: suiteName))
-        defaults.removePersistentDomain(forName: suiteName)
-        defer { defaults.removePersistentDomain(forName: suiteName) }
-
-        // When / Then
-        XCTAssertFalse(DebugGameplayStorageKeys.areAlternateAppIconsEnabled(
-            userDefaults: defaults,
-            debugFeaturesAllowed: true
-        ))
-
-        defaults.set(false, forKey: DebugGameplayStorageKeys.alternateAppIconsEnabled)
-        XCTAssertFalse(DebugGameplayStorageKeys.areAlternateAppIconsEnabled(
-            userDefaults: defaults,
-            debugFeaturesAllowed: true
-        ))
-
-        defaults.set(true, forKey: DebugGameplayStorageKeys.alternateAppIconsEnabled)
-        XCTAssertFalse(DebugGameplayStorageKeys.areAlternateAppIconsEnabled(
-            userDefaults: defaults,
-            debugFeaturesAllowed: false
-        ))
-    }
-
     @MainActor
     func testGivenProductionFlagWhenCallerAttemptsToEnableThenItRemainsDisabled() throws {
         // Given
@@ -123,11 +97,9 @@ final class AppIconCatalogTests: XCTestCase {
         let defaults = try XCTUnwrap(UserDefaults(suiteName: suiteName))
         defaults.removePersistentDomain(forName: suiteName)
         defer { defaults.removePersistentDomain(forName: suiteName) }
-        defaults.set(true, forKey: DebugGameplayStorageKeys.alternateAppIconsEnabled)
-        let featureFlag = UserDefaultsAppIconFeatureFlag(
-            userDefaults: defaults,
-            isConfigurationAllowed: false
-        )
+        defaults.set("enabled", forKey: ReleaseFeature.alternateIcons.storageKey)
+        let store = ReleaseFeatureStore(platform: .iPhone, userDefaults: defaults, allowsOverrides: false)
+        let featureFlag = ReleaseAppIconFeatureFlag(features: store)
 
         // When
         featureFlag.setEnabled(true)

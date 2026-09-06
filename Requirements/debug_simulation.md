@@ -28,7 +28,7 @@
 - Release builds must hide the Settings Debug section and use live StoreKit entitlements for `hasPremiumAccess`.
 - Returning purchasers may use the premium cache during initial entitlement resolution, but simulation must not make new Release users appear premium.
 - Keep the debug override key prefixed under `PlayLimit.` and clear/sync it whenever simulation mode changes.
-- `ReleaseFeatureDefaults` defines shipping availability; `ReleaseFeatureStore` stores explicit `releasePreview.*` overrides only in Debug. Fresh Debug launches match Release. Legacy `debugGameplay` rollout keys do not control production composition. Release and screenshot capture ignore saved previews.
+- `ReleaseFeatureDefaults` defines shipping availability; `ReleaseFeatureStore` stores explicit `releasePreview.*` overrides only in Debug. Fresh Debug launches match Release. Legacy rollout helpers have been removed; old `debugGameplay` rollout values are ignored. Release and screenshot capture ignore saved previews.
 - Shared controls offer Release default / Enabled / Disabled and Reset release overrides. Themes and icons refresh immediately in Settings; SharePlay is resolved at launch and its control explicitly requires relaunch, preventing a live transport swap.
 - Release 1 disables retro themes and alternate icons while retaining the two-theme Styles gallery. Required TV/Vision development themes stay available; platform publication is controlled by archive/submission scope.
 - Disabling alternate icons hides feature surfaces without changing the installed system icon.

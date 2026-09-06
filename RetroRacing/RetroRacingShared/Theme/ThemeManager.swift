@@ -117,16 +117,6 @@ public final class ThemeManager {
                                                      .sixteenBit, .thirtyTwoBit, .sixtyFourBit].contains(id))
     }
 
-    public func applyExperimentalThemes(_ experimentalThemes: ExperimentalThemeConfiguration) {
-        guard configuration.platform != .custom else { return }
-        applyConfiguration(
-            .configuration(
-                for: configuration.platform,
-                experimentalThemes: experimentalThemes
-            )
-        )
-    }
-
     /// Re-resolves the displayed theme without overwriting the user's selection.
     public func syncPremiumAccess(_ hasPremiumAccess: Bool) {
         guard self.hasPremiumAccess != hasPremiumAccess else { return }
