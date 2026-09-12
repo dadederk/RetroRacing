@@ -104,7 +104,6 @@ struct RetroRacingTvOSApp: App {
             reporter: GameCenterAchievementProgressReporter()
         )
         achievementProgressService.performInitialBackfillIfNeeded()
-        achievementProgressService.replayAchievedAchievements()
         achievementMetadataService = GameCenterAchievementMetadataService()
         bestScoreSyncService = BestScoreSyncService(
             leaderboardService: gameCenterService,
@@ -228,6 +227,7 @@ struct RetroRacingTvOSApp: App {
             .task {
                 await storeKitService.loadProducts()
                 await bestScoreSyncService.syncIfPossible()
+                await achievementProgressService.syncCompletedAchievementsAndReplay()
             }
             .task {
                 await sharePlayMatchService.setStateChangeHandler { uiState in
@@ -240,7 +240,7 @@ struct RetroRacingTvOSApp: App {
             .onReceive(NotificationCenter.default.publisher(for: .GKPlayerAuthenticationDidChangeNotificationName)) { _ in
                 Task {
                     await bestScoreSyncService.syncIfPossible()
-                    achievementProgressService.replayAchievedAchievements()
+                    await achievementProgressService.syncCompletedAchievementsAndReplay()
                     gameCenterService.flushPendingScoresIfPossible()
                     await achievementMetadataService.invalidate()
                 }

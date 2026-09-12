@@ -44,7 +44,30 @@ public struct AchievementProgressUpdate: Sendable, Equatable {
 public protocol AchievementProgressService {
     func performInitialBackfillIfNeeded()
     @discardableResult
+    func syncCompletedAchievements() async -> CompletedAchievementLookupResult
+    @discardableResult
     func recordCompletedRun(_ run: CompletedRunAchievementData) -> AchievementProgressUpdate
     func replayAchievedAchievements()
+    func replayAchievedAchievements(excluding excludedAchievementIDs: Set<AchievementIdentifier>)
     func currentProgress() -> AchievementProgressSnapshot
+}
+
+public extension AchievementProgressService {
+    func replayAchievedAchievements(excluding excludedAchievementIDs: Set<AchievementIdentifier>) {
+        replayAchievedAchievements()
+    }
+
+    func syncCompletedAchievementsAndReplay() async {
+        switch await syncCompletedAchievements() {
+        case .completed(let completedAchievementIDs):
+            replayAchievedAchievements(excluding: completedAchievementIDs)
+        case .unavailable:
+            AppLog.info(
+                AppLog.achievement + AppLog.leaderboard,
+                "ACHIEVEMENT_REPLAY",
+                outcome: .skipped,
+                fields: [.reason("remote_sync_unavailable")]
+            )
+        }
+    }
 }

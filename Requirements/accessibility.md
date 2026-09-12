@@ -86,6 +86,9 @@
   accessibility sizes every orientation uses the full-width vertical HUD/game/control composition.
 - Social rows stack avatar/text at accessibility sizes when needed.
 - Icon-only fixed toolbar/game chrome exposes Large Content Viewer content where it cannot expand.
+- The red in-game direction buttons scale from the Large Title baseline but cap their Dynamic Type
+  response at the Extra Extra Extra Large category so accessibility-size HUD text can grow without
+  oversized controls.
 - Fixed bottom action bars on game-over, achievement, and SharePlay result screens let their action
   labels scale through Extra Extra Extra Large, then expose each action through Large Content Viewer
   at accessibility sizes. The surrounding screen content remains uncapped and scrollable.
@@ -102,8 +105,9 @@
 
 - SharePlay overlays are single combined accessibility elements with art/icon, title, and subtitle.
 - Countdown cards keep stable labels and do not post per-second VoiceOver announcements.
-- SharePlay HUD uses concise You/Friend score rows and three friend helmets without “overtakes”
-  copy. The friend row remains one combined score/lives accessibility element.
+- SharePlay HUD uses unlabeled visual score rows and three friend helmets without “overtakes”
+  copy. The friend row remains one combined score/lives accessibility element, and the local score
+  keeps an explicit accessibility label.
 - SharePlay result sheets are explicitly dismissed through Play Again, Leave, or Done.
 - Speed settings are disabled, not hidden, while SharePlay is active; see [shareplay_multiplayer.md](shareplay_multiplayer.md).
 - visionOS exposes the shared waiting, countdown, live-score, disconnect, and result semantics in Classic presentation. If a session arrives in spatial mode, gameplay pause-locks before the automatic Classic handoff so assistive input cannot advance an unseen round.

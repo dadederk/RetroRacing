@@ -80,6 +80,7 @@ struct RetroRacingVisionOSApp: App {
                 .fontPreferenceStore(dependencies.fontPreferenceStore)
                 .task {
                     await dependencies.storeKitService.loadProducts()
+                    await dependencies.achievementProgressService.syncCompletedAchievementsAndReplay()
                 }
         }
         .defaultSize(width: 980, height: 900)

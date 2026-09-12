@@ -90,6 +90,8 @@ private final class HighestScoreStoreStub: HighestScoreStore {
 private final class AchievementProgressServiceStub: AchievementProgressService {
     func performInitialBackfillIfNeeded() {}
 
+    func syncCompletedAchievements() async -> CompletedAchievementLookupResult { .completed([]) }
+
     func recordCompletedRun(_ run: CompletedRunAchievementData) -> AchievementProgressUpdate {
         AchievementProgressUpdate(snapshot: .empty, newlyAchievedAchievementIDs: [])
     }

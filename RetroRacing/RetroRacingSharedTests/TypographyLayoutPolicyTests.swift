@@ -31,6 +31,11 @@ final class TypographyLayoutPolicyTests: XCTestCase {
         XCTAssertEqual(maximumSize, expectedMaximumSize)
     }
 
+    func testGivenGameDirectionButtonsWhenTextSizeIncreasesThenControlsStopScalingAtXXXLarge() {
+        XCTAssertEqual(GameControlLayoutPolicy.maximumDirectionButtonDynamicTypeSize, .xxxLarge)
+        XCTAssertEqual(GameControlLayoutPolicy.baseDirectionButtonHeight, 120)
+    }
+
     func testAudioCueGridCollapsesToOneColumnAtAccessibilitySizes() {
         XCTAssertEqual(AudioCueTutorialLayoutPolicy.gridColumnCount(for: .large), 3)
         XCTAssertEqual(AudioCueTutorialLayoutPolicy.gridColumnCount(for: .accessibility1), 1)

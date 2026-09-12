@@ -7,6 +7,22 @@
 
 import SwiftUI
 
+enum GameControlLayoutPolicy {
+    static let baseDirectionButtonHeight: CGFloat = 120
+    static let maximumDirectionButtonDynamicTypeSize: DynamicTypeSize = .xxxLarge
+}
+
+struct GameDirectionButtonHeightReader<Content: View>: View {
+    @ViewBuilder let content: (CGFloat) -> Content
+
+    @ScaledMetric(relativeTo: .largeTitle)
+    private var directionButtonHeight: CGFloat = GameControlLayoutPolicy.baseDirectionButtonHeight
+
+    var body: some View {
+        content(directionButtonHeight)
+    }
+}
+
 struct GameHUDInput {
     let style: GameViewStyle
     let score: Int

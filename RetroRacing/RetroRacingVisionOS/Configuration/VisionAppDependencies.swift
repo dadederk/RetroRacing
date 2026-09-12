@@ -141,7 +141,6 @@ struct VisionAppDependencies {
             reporter: GameCenterAchievementProgressReporter()
         )
         achievementProgressService.performInitialBackfillIfNeeded()
-        achievementProgressService.replayAchievedAchievements()
 
         self.authenticationPresenter = authenticationPresenter
         self.gameCenterService = gameCenterService

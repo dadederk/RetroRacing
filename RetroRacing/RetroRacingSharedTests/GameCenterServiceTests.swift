@@ -150,6 +150,57 @@ final class GameCenterServiceTests: XCTestCase {
         // No crash and reporting is skipped.
     }
 
+    func testGivenCompletedAchievementsProviderWhenFetchingCompletedIDsThenUnknownIDsAreIgnored() async {
+        // Given
+        let reporter = GameCenterAchievementProgressReporter(
+            isAuthenticatedProvider: { true },
+            completedAchievementIDProvider: {
+                [
+                    AchievementIdentifier.controlTap.rawValue,
+                    "unknown.achievement"
+                ]
+            }
+        )
+
+        // When
+        let lookupResult = await reporter.completedAchievementIDs()
+
+        // Then
+        XCTAssertEqual(lookupResult, .completed([.controlTap]))
+    }
+
+    func testGivenReporterWhenNotAuthenticatedThenCompletedAchievementFetchIsUnavailable() async {
+        // Given
+        let reporter = GameCenterAchievementProgressReporter(
+            isAuthenticatedProvider: { false },
+            completedAchievementIDProvider: {
+                [AchievementIdentifier.controlTap.rawValue]
+            }
+        )
+
+        // When
+        let lookupResult = await reporter.completedAchievementIDs()
+
+        // Then
+        XCTAssertEqual(lookupResult, .unavailable)
+    }
+
+    func testGivenCompletedAchievementsProviderFailureWhenFetchingCompletedIDsThenLookupIsUnavailable() async {
+        // Given
+        let reporter = GameCenterAchievementProgressReporter(
+            isAuthenticatedProvider: { true },
+            completedAchievementIDProvider: {
+                throw NSError(domain: "GameCenterTest", code: 1)
+            }
+        )
+
+        // When
+        let lookupResult = await reporter.completedAchievementIDs()
+
+        // Then
+        XCTAssertEqual(lookupResult, .unavailable)
+    }
+
     func testGivenDuplicateAndUnsortedFriendEntriesWhenNormalizingSnapshotThenFiltersAndSortsEntries() {
         // Given
         let entries = [

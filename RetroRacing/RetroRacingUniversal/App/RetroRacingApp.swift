@@ -219,7 +219,6 @@ struct RetroRacingApp: App {
             reporter: GameCenterAchievementProgressReporter()
         )
         achievementProgressService.performInitialBackfillIfNeeded()
-        achievementProgressService.replayAchievedAchievements()
         achievementMetadataService = GameCenterAchievementMetadataService()
         bestScoreSyncService = BestScoreSyncService(
             leaderboardService: gameCenterService,
@@ -414,6 +413,7 @@ struct RetroRacingApp: App {
                 await storeKitService.loadProducts()
                 await bestScoreSyncService.syncIfPossible()
                 await watchRelayIngestionService?.flushPendingIfPossible(trigger: .appLifecycle)
+                await achievementProgressService.syncCompletedAchievementsAndReplay()
             }
             .task {
                 guard ScreenshotCaptureConfiguration.isCaptureModeEnabled == false else { return }
@@ -436,7 +436,7 @@ struct RetroRacingApp: App {
                 Task {
                     await bestScoreSyncService.syncIfPossible()
                     await watchRelayIngestionService?.flushPendingIfPossible(trigger: .gameCenterAuthChanged)
-                    achievementProgressService.replayAchievedAchievements()
+                    await achievementProgressService.syncCompletedAchievementsAndReplay()
                     gameCenterService.flushPendingScoresIfPossible()
                     await achievementMetadataService.invalidate()
                 }

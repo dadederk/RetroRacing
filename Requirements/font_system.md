@@ -48,6 +48,8 @@
   Dynamic Type cap or fixed per-platform menu font size.
 - Pause and gameplay controls use Headline/Callout roles. The countdown keeps a 72-point Large
   Title-relative baseline via `@ScaledMetric` and the scaled-size resolver.
+- The red gameplay direction buttons use a 120-point Large Title-relative baseline capped at the
+  Extra Extra Extra Large Dynamic Type category so they do not expand with accessibility text sizes.
 - Keep compact panels and controls sized for the longest localized string and largest supported Dynamic Type sizes.
 - macOS navigation title behavior may use a platform-appropriate exception when SwiftUI navigation chrome cannot reliably apply the custom app font.
 

@@ -24,4 +24,8 @@ public struct NoOpAchievementProgressReporter: AchievementProgressReporter {
             ]
         )
     }
+
+    public func completedAchievementIDs() async -> CompletedAchievementLookupResult {
+        .completed([])
+    }
 }

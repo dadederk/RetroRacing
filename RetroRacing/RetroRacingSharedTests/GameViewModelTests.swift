@@ -1246,6 +1246,8 @@ private final class MockAchievementProgressService: AchievementProgressService {
         backfillCallCount += 1
     }
 
+    func syncCompletedAchievements() async -> CompletedAchievementLookupResult { .completed([]) }
+
     @discardableResult
     func recordCompletedRun(_ run: CompletedRunAchievementData) -> AchievementProgressUpdate {
         recordedRuns.append(run)

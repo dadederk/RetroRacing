@@ -5,6 +5,7 @@
 //  Created by Dani Devesa on 03/08/2026.
 //
 
+import Foundation
 import SwiftUI
 
 struct GameHUDHeaderView: View {
@@ -105,15 +106,10 @@ struct GameHUDHeaderView: View {
     }
 
     private func opponentScoreText(score: Int) -> some View {
-        Text(
-            GameLocalizedStrings.format(
-                "shareplay_score_row %@ %lld",
-                opponentScoreLabel,
-                Int64(score)
-            )
-        )
+        Text(score, format: .number)
         .appFont(input.friendHeaderTextStyle)
         .foregroundStyle(.secondary)
+        .monospacedDigit()
         .lineLimit(shouldUseVerticalHeader ? nil : 1)
         .minimumScaleFactor(shouldUseVerticalHeader ? 1 : 0.75)
     }
@@ -147,7 +143,7 @@ struct GameHUDHeaderView: View {
                     .appFont(input.headerTextStyle)
                     .foregroundStyle(.primary)
                     .shadow(color: Color.primary.opacity(0.35), radius: 0.5)
-                    .accessibilityLabel(scoreText)
+                    .accessibilityLabel(scoreAccessibilityText)
                     .accessibilityAddTraits(.isStaticText)
                     .accessibilityRespondsToUserInteraction(false)
             }
@@ -161,10 +157,11 @@ struct GameHUDHeaderView: View {
     }
 
     private var scoreText: String {
-        guard input.sharePlayOpponentScore != nil else {
-            return GameLocalizedStrings.format("score %lld", Int64(input.score))
-        }
-        return GameLocalizedStrings.format("shareplay_your_score_row %lld", Int64(input.score))
+        return NumberFormatter.localizedString(from: NSNumber(value: input.score), number: .decimal)
+    }
+
+    private var scoreAccessibilityText: String {
+        GameLocalizedStrings.format("score %lld", Int64(input.score))
     }
 
     private var scoreLabelLineLimit: Int? {

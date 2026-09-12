@@ -53,7 +53,6 @@ public final class LocalAchievementProgressService: AchievementProgressService {
         store.save(snapshot)
 
         let newlyAchieved = snapshot.achievedAchievementIDs.subtracting(previousAchievements)
-        reporter.reportAchievedAchievements(newlyAchieved)
         AppLog.info(
             AppLog.achievement + AppLog.game,
             "ACHIEVEMENT_BACKFILL",
@@ -65,6 +64,40 @@ public final class LocalAchievementProgressService: AchievementProgressService {
                 .int("newlyAchieved", newlyAchieved.count)
             ]
         )
+    }
+
+    @discardableResult
+    public func syncCompletedAchievements() async -> CompletedAchievementLookupResult {
+        let lookupResult = await reporter.completedAchievementIDs()
+        guard case .completed(let completedAchievementIDs) = lookupResult else {
+            return .unavailable
+        }
+        guard completedAchievementIDs.isEmpty == false else { return .completed([]) }
+
+        var snapshot = store.load()
+        let remotelyCompletedAchievementIDs = completedAchievementIDs.subtracting(snapshot.achievedAchievementIDs)
+        guard remotelyCompletedAchievementIDs.isEmpty == false else {
+            AppLog.info(
+                AppLog.achievement + AppLog.leaderboard,
+                "ACHIEVEMENT_REMOTE_SYNC",
+                outcome: .skipped,
+                fields: [.reason("already_local"), .int("count", completedAchievementIDs.count)]
+            )
+            return .completed(completedAchievementIDs)
+        }
+
+        snapshot.achievedAchievementIDs.formUnion(completedAchievementIDs)
+        store.save(snapshot)
+        AppLog.info(
+            AppLog.achievement + AppLog.leaderboard,
+            "ACHIEVEMENT_REMOTE_SYNC",
+            outcome: .completed,
+            fields: [
+                .int("count", completedAchievementIDs.count),
+                .int("newlySeeded", remotelyCompletedAchievementIDs.count)
+            ]
+        )
+        return .completed(completedAchievementIDs)
     }
 
     @discardableResult
@@ -113,14 +146,34 @@ public final class LocalAchievementProgressService: AchievementProgressService {
     }
 
     public func replayAchievedAchievements() {
+        replayAchievedAchievements(excluding: [])
+    }
+
+    public func replayAchievedAchievements(excluding excludedAchievementIDs: Set<AchievementIdentifier>) {
         let snapshot = store.load()
-        guard snapshot.achievedAchievementIDs.isEmpty == false else { return }
-        reporter.reportAchievedAchievements(snapshot.achievedAchievementIDs)
+        let achievementIDs = snapshot.achievedAchievementIDs.subtracting(excludedAchievementIDs)
+        guard achievementIDs.isEmpty == false else {
+            let reason = snapshot.achievedAchievementIDs.isEmpty ? "no_local_achievements" : "already_completed_remotely"
+            AppLog.info(
+                AppLog.achievement + AppLog.game,
+                "ACHIEVEMENT_REPLAY",
+                outcome: .skipped,
+                fields: [
+                    .reason(reason),
+                    .int("excluded", excludedAchievementIDs.count)
+                ]
+            )
+            return
+        }
+        reporter.reportAchievedAchievements(achievementIDs)
         AppLog.info(
             AppLog.achievement + AppLog.game,
             "ACHIEVEMENT_REPLAY",
             outcome: .completed,
-            fields: [.int("count", snapshot.achievedAchievementIDs.count)]
+            fields: [
+                .int("count", achievementIDs.count),
+                .int("excluded", excludedAchievementIDs.count)
+            ]
         )
     }
 

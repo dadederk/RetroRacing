@@ -5,6 +5,7 @@
 //  Created by Dani Devesa on 01/02/2026.
 //
 
+import GameKit
 import GroupActivities
 import RetroRacingShared
 import SwiftUI
@@ -72,6 +73,12 @@ struct ContentView: View {
             }
             .onChange(of: scenePhase) {
                 updateActivity()
+            }
+            .onReceive(NotificationCenter.default.publisher(for: .GKPlayerAuthenticationDidChangeNotificationName)) { _ in
+                Task {
+                    await dependencies.achievementProgressService.syncCompletedAchievementsAndReplay()
+                    dependencies.gameCenterService.flushPendingScoresIfPossible()
+                }
             }
             .onChange(of: session.spatialState) {
                 acknowledgeClassicIfNeeded()

@@ -39,7 +39,13 @@
   - single-run baseline: max of Cruise/Fast/Rapid bests
   - cumulative baseline: sum of Cruise/Fast/Rapid bests
 - Backfill is idempotent and never regresses higher local progress.
-- Newly achieved IDs are reported to Game Center at 100% progress.
+- Newly achieved IDs from completed gameplay runs are reported to Game Center at 100% progress.
+- Backfilled IDs are saved locally first, then remote-aware replay decides which IDs still need reporting.
+- After startup and Game Center authentication changes, completed Game Center achievement IDs are
+  seeded into the local snapshot before replay. IDs already completed in Game Center must not appear
+  as newly unlocked local achievements after reinstalling or playing on another device.
+- If completed-ID lookup is unavailable, replay is skipped until a later startup or authentication
+  change can verify Game Center state.
 - Replay sync sends the full achieved-ID set from the local snapshot after startup/backfill and Game Center authentication changes.
 - Reporting failures never block gameplay; later replay handles offline or unauthenticated paths.
 

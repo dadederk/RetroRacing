@@ -50,6 +50,7 @@ final class AchievementProgressServiceTests: XCTestCase {
         XCTAssertEqual(snapshot.backfillVersion, 1)
         XCTAssertTrue(snapshot.achievedAchievementIDs.contains(.runOvertakes100))
         XCTAssertTrue(snapshot.achievedAchievementIDs.contains(.runOvertakes200))
+        XCTAssertTrue(reporter.reported.isEmpty)
     }
 
     func testGivenBackfillAlreadyAppliedWhenPerformingBackfillThenSnapshotRemainsUnchanged() {
@@ -216,6 +217,85 @@ final class AchievementProgressServiceTests: XCTestCase {
         XCTAssertEqual(reporter.reported.first, Set([.controlTap, .eventGAADAssistive]))
     }
 
+    func testGivenCompletedGameCenterAchievementsWhenSyncingThenSeedsLocalSnapshotWithoutReporting() async {
+        // Given
+        store.snapshot = AchievementProgressSnapshot(
+            bestRunOvertakes: 0,
+            cumulativeOvertakes: 0,
+            lifetimeUsedControls: [],
+            achievedAchievementIDs: [.controlTap],
+            backfillVersion: 1
+        )
+        reporter.completedAchievementLookupResult = .completed([.controlTap, .controlSwipe])
+
+        // When
+        await service.syncCompletedAchievements()
+        let update = service.recordCompletedRun(
+            CompletedRunAchievementData(overtakes: 0, usedControls: [.swipe])
+        )
+
+        // Then
+        XCTAssertEqual(store.snapshot.achievedAchievementIDs, [.controlTap, .controlSwipe])
+        XCTAssertFalse(update.newlyAchievedAchievementIDs.contains(.controlSwipe))
+        XCTAssertEqual(reporter.reported.count, 0)
+    }
+
+    func testGivenCompletedGameCenterAchievementsWhenSyncingAndReplayingThenRemoteCompletionsAreNotReported() async {
+        // Given
+        store.snapshot = AchievementProgressSnapshot(
+            bestRunOvertakes: 0,
+            cumulativeOvertakes: 0,
+            lifetimeUsedControls: [],
+            achievedAchievementIDs: [.controlTap, .controlSwipe],
+            backfillVersion: 1
+        )
+        reporter.completedAchievementLookupResult = .completed([.controlTap, .controlSwipe])
+
+        // When
+        await service.syncCompletedAchievementsAndReplay()
+
+        // Then
+        XCTAssertEqual(store.snapshot.achievedAchievementIDs, [.controlTap, .controlSwipe])
+        XCTAssertTrue(reporter.reported.isEmpty)
+    }
+
+    func testGivenLocalAchievementMissingFromGameCenterWhenSyncingAndReplayingThenOnlyPendingAchievementReports() async {
+        // Given
+        store.snapshot = AchievementProgressSnapshot(
+            bestRunOvertakes: 0,
+            cumulativeOvertakes: 0,
+            lifetimeUsedControls: [],
+            achievedAchievementIDs: [.controlTap, .controlSwipe],
+            backfillVersion: 1
+        )
+        reporter.completedAchievementLookupResult = .completed([.controlTap])
+
+        // When
+        await service.syncCompletedAchievementsAndReplay()
+
+        // Then
+        XCTAssertEqual(reporter.reported, [Set([.controlSwipe])])
+    }
+
+    func testGivenCompletedAchievementLookupUnavailableWhenSyncingAndReplayingThenLocalAchievementsAreNotReported() async {
+        // Given
+        store.snapshot = AchievementProgressSnapshot(
+            bestRunOvertakes: 0,
+            cumulativeOvertakes: 0,
+            lifetimeUsedControls: [],
+            achievedAchievementIDs: [.controlTap],
+            backfillVersion: 1
+        )
+        reporter.completedAchievementLookupResult = .unavailable
+
+        // When
+        await service.syncCompletedAchievementsAndReplay()
+
+        // Then
+        XCTAssertEqual(store.snapshot.achievedAchievementIDs, [.controlTap])
+        XCTAssertTrue(reporter.reported.isEmpty)
+    }
+
     func testGivenHighStoredBestWhenRecordingLowerRunThenOnlyThresholdsCrossedThisRunAreNewlyAchieved() {
         // Given — stored best is 299 but the run achievements were never awarded yet
         store.snapshot = AchievementProgressSnapshot(
@@ -310,9 +390,14 @@ private final class MockAchievementProgressStore: AchievementProgressStore {
 
 private final class MockAchievementProgressReporter: AchievementProgressReporter {
     private(set) var reported: [Set<AchievementIdentifier>] = []
+    var completedAchievementLookupResult: CompletedAchievementLookupResult = .completed([])
 
     func reportAchievedAchievements(_ achievementIDs: Set<AchievementIdentifier>) {
         guard achievementIDs.isEmpty == false else { return }
         reported.append(achievementIDs)
+    }
+
+    func completedAchievementIDs() async -> CompletedAchievementLookupResult {
+        completedAchievementLookupResult
     }
 }

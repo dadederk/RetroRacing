@@ -27,10 +27,12 @@
 | macOS | `b82c45e8-e515-4911-883a-ed8c91e592b9` | `cb14d6f6-5e4e-4088-b6d0-c3e883850398` |
 
 - Both uploads succeeded and processing completed with audience `app-store-eligible`.
-- Export compliance is set to no non-exempt encryption; both builds report `READY_FOR_BETA_SUBMISSION` (external beta status).
+- Export compliance is set to no non-exempt encryption.
 - All 20 TestFlight beta localizations per build returned successful update responses.
-- Both processed builds are selected on the corresponding editable 1.5 drafts. Neither App Store nor external beta review was submitted.
-- Apple rejected manual Mac build assignment to the existing Internal Testing group with HTTP 422, “Builds cannot be assigned to this internal group.” Helm does not expose automatic-distribution state; internal tester availability remains unverified. No tester invitations or automatic-notification settings were changed.
+- Both processed builds are selected on the corresponding editable 1.5 drafts. App Store review has not been submitted.
+- Live TestFlight verification on 2026-09-07 confirms both build-35 binaries are assigned to Internal Testing and External Testing. iOS with embedded Watch reports `IN_BETA_TESTING`.
+- With user authorization, macOS build 35 was attached to External Testing and submitted for beta review on 2026-09-07. Helm reported success for both actions; readback confirms `WAITING_FOR_BETA_REVIEW`. External Mac testers still use build 34 while review is pending.
+- No tester invitations or automatic-notification settings were changed. tvOS and visionOS have no uploaded TestFlight builds and remain outside this candidate.
 
 ## Release-note editorial follow-up (2026-09-06)
 

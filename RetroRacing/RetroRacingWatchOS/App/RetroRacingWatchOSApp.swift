@@ -37,7 +37,7 @@ struct RetroRacingWatchOSApp: App {
                     setupGameCenterAuthentication {
                         Task {
                             await bestScoreSyncService.syncIfPossible()
-                            achievementProgressService.replayAchievedAchievements()
+                            await achievementProgressService.syncCompletedAchievementsAndReplay()
                             leaderboardService.flushPendingScoresIfPossible()
                             await achievementMetadataService.invalidate()
                         }
@@ -56,7 +56,7 @@ struct RetroRacingWatchOSApp: App {
                     )
                     Task {
                         await bestScoreSyncService.syncIfPossible()
-                        achievementProgressService.replayAchievedAchievements()
+                        await achievementProgressService.syncCompletedAchievementsAndReplay()
                         leaderboardService.flushPendingScoresIfPossible()
                         await achievementMetadataService.invalidate()
                     }
@@ -151,7 +151,6 @@ struct RetroRacingWatchOSApp: App {
             reporter: GameCenterAchievementProgressReporter()
         )
         achievementProgressService.performInitialBackfillIfNeeded()
-        achievementProgressService.replayAchievedAchievements()
         achievementMetadataService = GameCenterAchievementMetadataService()
         let relaySender = WatchConnectivityBestScoreRelaySender()
         relaySender.activateIfPossible()
