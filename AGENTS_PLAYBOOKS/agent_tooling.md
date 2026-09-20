@@ -6,22 +6,16 @@ Canonical setup for agent skills and MCP servers in this repository. `AGENTS.md`
 
 ## Read This When
 
-- Installing or updating vendored skills.
+- Installing or updating global or project skills.
 - Configuring Cursor, Codex, or another agent that reads repo MCP config.
 - Using XcodeBuildMCP for interactive build/run/debug across platform schemes.
 
 ## Skills Installation
 
-- **Vendored upstream skills:** `.agents/skills/` — install/update with `npx skills add` / `npx skills update`.
-- **Project conventions:** `.cursor/skills/` at the repo root (`retrorapid-conventions`).
-- **Never** fork-rename the directory or `name` field in upstream `SKILL.md`.
-- **Cursor:** [Enabling Skills](https://docs.cursor.com/skills)
-- **Codex / Claude Code (in-repo):** `.agents/skills/`
-- **Antigravity:** `.agent/skills` directory symlinks → `.agents/skills/`
-
-Lockfile: `skills-lock.json` at the repo root.
-
-Project accessibility overlay: `.agents/skills/ios-accessibility/references/retrorapid-patterns.md`.
+- **Shared upstream skills:** `~/.agents/skills/`, linked into `~/.cursor/skills/` and `~/.claude/skills/`. Install/update globally with `npx skills add <repo> --global --agent codex --skill <name> --yes --copy`.
+- **Project conventions:** `.agents/skills/retrorapid-conventions/`, linked into `.cursor/skills/` and `.claude/skills/`.
+- **Apple-authored skills:** after updating Xcode, run `xcrun agent skills export --output-dir ~/Downloads/xcode-skills --replace-existing` and refresh the global copies and links.
+- Keep upstream skill names unchanged. Project accessibility patterns: `TechDocs/accessibility_patterns.md`.
 
 ## MCP Configuration
 

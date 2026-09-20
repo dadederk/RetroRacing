@@ -149,7 +149,7 @@ Do not rename Xcode project references without a dedicated migration pass.
 
 ## Validation
 
-RetroRapid's Scripts metadata pipeline (`generate-metadata-docs`, `check-documentation`) is canonical for staged catalog validation and generated docs. The generic Python script in `.agents/skills/app-store-aso/scripts/validate_metadata.py` remains available for ad-hoc ASO work only.
+RetroRapid's Scripts metadata pipeline (`generate-metadata-docs`, `check-documentation`) is canonical for staged catalog validation and generated docs. The generic Python script in `~/.agents/skills/app-store-aso/scripts/validate_metadata.py` remains available for ad-hoc ASO work only.
 
 ```bash
 swift run --package-path Scripts generate-metadata-docs --check

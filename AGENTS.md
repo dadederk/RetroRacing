@@ -27,7 +27,7 @@ AI agent operating contract for **RetroRacing** (repo/project name). User-facing
 ## Start Here
 
 1. Open `Requirements/INDEX.md` and the routed contract files for the task.
-2. Load **retrorapid-conventions** or `AGENTS_EXAMPLES.md` only when patterns are unclear.
+2. Load `.agents/skills/retrorapid-conventions/SKILL.md` or `AGENTS_EXAMPLES.md` only when patterns are unclear.
 3. Consult the applicable skill for SwiftUI, concurrency, accessibility, or testing.
 4. Review nearby implementation/tests before editing.
 5. Validate and summarize changed behavior, tests affected, and residual risk.
@@ -36,7 +36,7 @@ High-risk supplemental reading:
 
 | Change area | Read when needed |
 |---|---|
-| Architecture, DI, SpriteKit patterns | `.cursor/skills/retrorapid-conventions/SKILL.md` |
+| Architecture, DI, SpriteKit patterns | `.agents/skills/retrorapid-conventions/SKILL.md` |
 | Code examples (optional) | `AGENTS_EXAMPLES.md` |
 | App Store metadata, ASO, screenshots | `Plans/INDEX.md` → `AppStore/README.md` |
 | Repository automation / `Scripts/` | `Scripts/README.md`, `Scripts/CONVENTIONS.md` |
@@ -77,18 +77,19 @@ Do not duplicate task routing tables in this file. Use the index or hub for each
 
 ### Skills
 
-Load on demand. Paths use upstream package names — never fork-rename the directory or `name` field in `SKILL.md`. Update vendored skills with the upstream tool (e.g. `npx skills update ios-accessibility`).
+Load on demand. `retrorapid-conventions` is project-local; the other skills below live in `~/.agents/skills`. Use AvdLee's `swiftui-expert-skill` for ordinary SwiftUI work and add a Dimillian specialist only for its specific task.
 
 | Skill | Path | Use when |
 |---|---|---|
-| `retrorapid-conventions` | `.cursor/skills/` | DI, SpriteKit+SwiftUI, logging, shared module boundaries |
-| `ios-accessibility` | `.agents/skills/` | VoiceOver, Dynamic Type, SpriteKit labels, game UI |
-| `swiftui-expert-skill` | `.agents/skills/` | SwiftUI structure and performance |
-| `swift-concurrency` | `.agents/skills/` | Strict concurrency, `@MainActor`, Sendable |
-| `swift-testing-expert` | `.agents/skills/` | Swift Testing in `Scripts/`; XCTest migration guidance |
-| `app-store-aso` | `.agents/skills/` | ASO review; Scripts metadata pipeline is canonical |
+| `retrorapid-conventions` | `.agents/skills/` | DI, SpriteKit+SwiftUI, logging, shared module boundaries |
+| `ios-accessibility` | `~/.agents/skills/` | iOS/iPadOS/watchOS/tvOS/visionOS accessibility and game UI |
+| `swift-accessibility-skill` | `~/.agents/skills/` | macOS/AppKit and cross-platform accessibility labels or WCAG |
+| `swiftui-expert-skill` | `~/.agents/skills/` | Default SwiftUI structure and performance |
+| `swift-concurrency` | `~/.agents/skills/` | Strict concurrency, `@MainActor`, Sendable |
+| `swift-testing-expert` | `~/.agents/skills/` | Swift Testing in `Scripts/`; XCTest migration guidance |
+| `app-store-aso` | `~/.agents/skills/` | ASO review; Scripts metadata pipeline is canonical |
 
-Project-specific rules stay in **retrorapid-conventions**; vendored skills remain generic references. Retro accessibility overlays: `.agents/skills/ios-accessibility/references/retrorapid-patterns.md`. Skills install paths and MCP session defaults: `AGENTS_PLAYBOOKS/agent_tooling.md`.
+Project-specific rules stay in **retrorapid-conventions**. Retro accessibility patterns: `TechDocs/accessibility_patterns.md`. Skills install paths and MCP session defaults: `AGENTS_PLAYBOOKS/agent_tooling.md`.
 
 ## Public Shipping vs Implemented Targets
 

@@ -140,7 +140,7 @@ All user-facing text in `RetroRacingShared/Localizable.xcstrings`. Supported: En
 
 Best-effort adaptability: screen sizes, Dynamic Type, orientation, Reduce Motion, high contrast.
 
-Accessibility patterns follow the **ios-accessibility** skill. Project overlays: `.agents/skills/ios-accessibility/references/retrorapid-patterns.md`. Shipped requirements: `Requirements/accessibility.md`.
+Accessibility patterns follow the global **ios-accessibility** skill on iOS/iPadOS/watchOS/tvOS/visionOS and **swift-accessibility-skill** on macOS. Project patterns: `TechDocs/accessibility_patterns.md`. Shipped requirements: `Requirements/accessibility.md`.
 
 ---
 
@@ -180,7 +180,7 @@ User-facing name is **RetroRapid!** Installed app display name is **RetroRapid!*
 
 Repository automation: `Scripts/` Swift package. See `Scripts/README.md` and `Scripts/CONVENTIONS.md`.
 
-App Store metadata pipeline (`generate-metadata-docs`, `apply-retrorapid-metadata`) is canonical; the Python script in `.agents/skills/app-store-aso/scripts/` is secondary.
+App Store metadata pipeline (`generate-metadata-docs`, `apply-retrorapid-metadata`) is canonical; the Python script in `~/.agents/skills/app-store-aso/scripts/` is secondary.
 
 ---
 

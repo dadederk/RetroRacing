@@ -6,8 +6,8 @@ alwaysApply: false
 
 # RetroRapid — Core Swift Standards
 
-Full conventions: see `@AGENTS.md` (repo root) and the `retrorapid-conventions` skill.
-For SwiftUI, concurrency, accessibility, and testing patterns — use the applicable skill (`swiftui-expert-skill`, `swift-concurrency`, `ios-accessibility`, `swift-testing-expert`).
+Full conventions: see `@AGENTS.md` (repo root) and `.agents/skills/retrorapid-conventions/SKILL.md`.
+Use global `swiftui-expert-skill` by default for SwiftUI, `swift-concurrency` for isolation, `swift-testing-expert` for tests, `ios-accessibility` for iOS/iPadOS/watchOS/tvOS/visionOS, and `swift-accessibility-skill` for macOS or cross-platform accessibility. Add a Dimillian SwiftUI skill only for its focused use case.
 
 ## Critical Rules
 
