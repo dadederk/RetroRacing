@@ -1,5 +1,7 @@
 Ścigaj się ze znajomym przez SharePlay na iPhonie, iPadzie i Macu! Omijajcie te same auta, śledźcie swoje postępy i ruszajcie na rewanż. Wyścigi ze znajomymi są darmowe i nigdy nie zużywają dziennego limitu gier solo.
 
+Obsługa iOS 27 i iPhone Duo. W częściowo złożonej pozycji stołowej droga jest nad zawiasem, a elementy sterujące pod nim. Poruszenie zawiasem w trakcie wyścigu wstrzymuje grę. Gdy urządzenie się ustabilizuje, stuknij Graj, aby kontynuować ten sam wyścig.
+
 Odkryj LCD i Pocket w nowej galerii stylów. LCD jest dostępny dla wszystkich, a Pocket odblokujesz dzięki zakupowi „Nielimitowane gry”. Na Apple Watch oba style pozostają darmowe.
 
 Nowy wygląd ulubionej wyścigówki retro: narysowaliśmy od nowa dużą część grafik, w tym auta i kaski, zachowując charakter LCD i Pocket.

@@ -1,6 +1,6 @@
 # RetroRapid! App Store Docs
 
-Last updated: 2026-09-06
+Last updated: 2026-10-02
 
 Themed documentation for App Store copy, ASO, screenshots, rollout, and execution.
 
@@ -12,7 +12,7 @@ Legacy redirect: [RETRORAPID_APP_STORE_REFERENCE.md](RETRORAPID_APP_STORE_REFERE
 
 | If you need to… | Read |
 |---|---|
-| Edit the canonical v1.5 candidate metadata | [`metadata/retrorapid-v1.5-candidate.json`](metadata/retrorapid-v1.5-candidate.json), then run `swift run --package-path Scripts generate-metadata-docs` |
+| Edit the canonical 2.0 candidate metadata | [`metadata/retrorapid-v2.0-candidate.json`](metadata/retrorapid-v2.0-candidate.json), then run `./retrorapid metadata generate` |
 | Apply staged metadata to App Store Connect | [03-submission-quality-gate.md](docs/03-submission-quality-gate.md) + [Scripts/README.md](../Scripts/README.md) |
 | Review **live** public facts, name, subtitle, and keywords | [02-listing-snapshot.md](docs/02-listing-snapshot.md) |
 | Copy/paste generated **staged** metadata | [05-metadata-copy.md](docs/05-metadata-copy.md) |
@@ -34,6 +34,7 @@ Legacy redirect: [RETRORAPID_APP_STORE_REFERENCE.md](RETRORAPID_APP_STORE_REFERE
 | IAP pricing strategy | [Plans/aso/04-pricing-strategy.md](../Plans/aso/04-pricing-strategy.md) |
 | Upload a TestFlight build with Helm CLI | [14-testflight-helm-upload.md](docs/14-testflight-helm-upload.md) |
 | Archive iOS/watchOS + macOS builds | [15-archive-and-distribution.md](docs/15-archive-and-distribution.md) |
+| Prepare a version from source through App Review handoff | [21-release-candidate-workflow.md](docs/21-release-candidate-workflow.md) |
 | Maintain Unlimited Plays IAP | [16-iap-setup.md](docs/16-iap-setup.md) |
 | Configure Xcode Cloud release and merge-gate workflows | [17-xcode-cloud-releases.md](docs/17-xcode-cloud-releases.md) |
 
@@ -62,7 +63,8 @@ Legacy redirect: [RETRORAPID_APP_STORE_REFERENCE.md](RETRORAPID_APP_STORE_REFERE
 | 17 | Xcode Cloud releases | [docs/17-xcode-cloud-releases.md](docs/17-xcode-cloud-releases.md) |
 | 18 | Turkish and Polish review history | [docs/18-turkish-polish-review.md](docs/18-turkish-polish-review.md) |
 | 19 | Localisation quality review | [docs/19-localization-quality-review.md](docs/19-localization-quality-review.md) |
-| 18 | Turkish and Polish 1.6 native-review gate | [docs/18-turkish-polish-review.md](docs/18-turkish-polish-review.md) |
+| 20 | 2.0 Major Update In-App Event | [docs/20-major-update-2-0-in-app-event.md](docs/20-major-update-2-0-in-app-event.md) |
+| 21 | Release candidate workflow | [docs/21-release-candidate-workflow.md](docs/21-release-candidate-workflow.md) |
 
 ### Campaign & historical plans
 
@@ -102,9 +104,13 @@ See [`../AGENTS.md`](../AGENTS.md) Brand Mark section and `RetroRacingShared/Uti
 ## Scripts & assets
 
 - [`assets/brand-marks/`](assets/brand-marks/) — reusable transparent RetroRapid! period title treatments, canonical accessibility seal, and fictional publisher marks for marketing layouts
-- `metadata/retrorapid-v1.5-candidate.json` — canonical 1.5 release candidate; targets the existing editable iOS/macOS drafts
+- [`product-page-header-concepts/`](product-page-header-concepts/) — future, name-only product page headers; LCD console lead with two campaign-art alternatives
+- `metadata/retrorapid-v2.0-candidate.json` — canonical 2.0 release candidate; applied to the editable iOS/macOS drafts
+- [`testflight/release-2.0-36.md`](testflight/release-2.0-36.md) — current 2.0 build, TestFlight, and store-readiness record
+- `metadata/retrorapid-v1.5-candidate.json` — prior 1.5 release candidate; retained for history
 - `metadata/retrorapid-v1.5.json` — immutable earlier 1.5 applied-catalog snapshot
 - `metadata/retrorapid-v1.6.json` — superseded expanded-theme candidate; retained for history, not active rollout copy
+- [`docs/20-major-update-2-0-in-app-event.md`](docs/20-major-update-2-0-in-app-event.md) — 2.0 event copy, media, and review state
 - Repository automation lives at repo-root [`Scripts/`](../Scripts/) (Swift package for generating/validating docs and applying canonical metadata via Helm); see [Scripts/README.md](../Scripts/README.md)
 - `RetroRapid.screenshotstudio/` — Screenshot Studio project (see [Legacy technical names](#legacy-technical-names))
 
@@ -125,7 +131,8 @@ Historical material uses **Historical** or **Superseded** and is never an active
 | Source | Status |
 |---|---|
 | `docs/02-listing-snapshot.md` | `LIVE` metadata currently in App Store Connect (v1.4.2 snapshot from 2026-06-24) |
-| `metadata/retrorapid-v1.5-candidate.json` | Canonical 1.5 candidate; current release scope, pending fluent review and public-release acceptance |
+| `metadata/retrorapid-v2.0-candidate.json` | Current 2.0 candidate; applied to both editable platform drafts, pending fluent review and public-release acceptance |
+| `metadata/retrorapid-v1.5-candidate.json` | Historical 1.5 candidate |
 | `metadata/retrorapid-v1.5.json` | Historical 1.5 applied-catalog snapshot |
 | `docs/05-metadata-copy.md` + `docs/12-validation-results.md` | Generated human-readable views of the canonical catalog |
 | `docs/04-metadata-strategy.md` | Current rationale and keyword strategy |

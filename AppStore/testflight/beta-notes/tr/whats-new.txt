@@ -1,5 +1,7 @@
 iPhone, iPad ve Mac’te SharePlay ile bir arkadaşınla yarış! Aynı trafiğe meydan okuyun, birbirinizin ilerlemesini takip edin ve rövanş için yeniden piste çıkın. Arkadaş yarışları ücretsizdir ve günlük tek oyunculu oyun hakkını asla tüketmez.
 
+iOS 27 ve iPhone Duo desteği. Kısmen katlanmış masa konumunda yol menteşenin üstünde, kontroller altında görünür. Yarış sırasında menteşeyi hareket ettirmek oyunu duraklatır. Aygıt sabitlenince Oyna’ya dokunarak aynı yarışa devam edebilirsin.
+
 Yeni stil galerisinde LCD ve Pocket’ı keşfet. LCD herkese açık; Pocket’ın kilidini Sınırsız oyun ile açabilirsin. Apple Watch’ta her iki stil de ücretsiz kalmaya devam ediyor.
 
 Sevdiğin retro yarış oyununa taze bir görünüm: Arabalar ve kasklar dahil pek çok görseli baştan çizdik. LCD ve Pocket’ın kendine özgü havasını ise koruduk.

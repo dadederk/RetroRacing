@@ -1,5 +1,7 @@
 Dispute uma corrida com um amigo através do SharePlay no iPhone, iPad e Mac! Enfrentem o mesmo trânsito, acompanhem o progresso um do outro e voltem à pista para uma desforra. As corridas com amigos são gratuitas e nunca gastam as partidas diárias a solo.
 
+Preparado para iOS 27 e iPhone Duo. Na posição de mesa parcialmente dobrada, a estrada fica acima da dobradiça e os controlos abaixo. Mover a dobradiça durante uma corrida pausa o jogo. Quando o dispositivo estabilizar, toca em Jogar para continuar a mesma corrida.
+
 Explore LCD e Pocket na nova galeria de estilos. LCD está disponível para todos; desbloqueie Pocket com Partidas ilimitadas. Ambos os estilos continuam gratuitos no Apple Watch.
 
 Um novo visual para o seu jogo de corridas retro favorito: redesenhámos grande parte dos gráficos, incluindo carros e capacetes, mantendo a personalidade de LCD e Pocket.

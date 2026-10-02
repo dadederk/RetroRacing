@@ -2,11 +2,11 @@
 
 Part of [App Store docs hub](../README.md).
 
-Last updated: 2026-09-06
+Last updated: 2026-10-02
 
 **Status:** `DRAFT_APPLIED` — see field-level status in `12-validation-results.md`.
 
-**Canonical source:** [metadata/retrorapid-v1.5-candidate.json](../metadata/retrorapid-v1.5-candidate.json). Do not edit generated copy directly.
+**Canonical source:** [metadata/retrorapid-v2.0-candidate.json](../metadata/retrorapid-v2.0-candidate.json). Do not edit generated copy directly.
 
 **See also:** [Strategy](04-metadata-strategy.md) · [Validation](12-validation-results.md) · [Apply script](../../Scripts/README.md)
 
@@ -550,6 +550,8 @@ Use this shape for the next bug-fix or polish release if there is no larger feat
 ```text
 Race a friend with SharePlay on iPhone, iPad, and Mac! Face the same traffic, follow each other’s progress, and go again with a rematch. Friend races are free and never use your daily solo plays.
 
+Built for iOS 27 and iPhone Duo. In a partially folded tabletop pose, the road moves above the hinge and the controls sit below. Moving the hinge during a race pauses it; once the device settles, tap Play to continue the same run.
+
 Explore LCD and Pocket in the new Styles gallery. LCD is available to everyone; unlock Pocket with Unlimited Plays. Both styles remain free on Apple Watch.
 
 A fresh look for your favorite retro racer: we’ve extensively redrawn the artwork, including cars and helmets, while keeping the character of LCD and Pocket.
@@ -563,12 +565,14 @@ Catching up? Recent updates added Game Center achievements, friend-score markers
 Thanks for racing with us!
 ```
 
-Count: 923/4000 characters.
+Count: 1155/4000 characters.
 
 ### en-GB / en-AU
 
 ```text
 Race a friend with SharePlay on iPhone, iPad, and Mac! Face the same traffic, follow each other’s progress, and go again with a rematch. Friend races are free and never use your daily solo plays.
+
+Built for iOS 27 and iPhone Duo. In a partially folded tabletop pose, the road moves above the hinge and the controls sit below. Moving the hinge during a race pauses it; once the device settles, tap Play to continue the same run.
 
 Explore LCD and Pocket in the new Styles gallery. LCD is available to everyone; unlock Pocket with Unlimited Plays. Both styles remain free on Apple Watch.
 
@@ -583,12 +587,14 @@ Catching up? Recent updates added Game Center achievements, friend-score markers
 Thanks for racing with us!
 ```
 
-Count: 924/4000 characters.
+Count: 1156/4000 characters.
 
 ### de-DE
 
 ```text
 Fahre mit SharePlay auf iPhone, iPad und Mac gegen einen Freund! Weicht demselben Verkehr aus, verfolgt gegenseitig euren Fortschritt und startet gleich eine Revanche. Rennen mit Freunden sind kostenlos und verbrauchen keine deiner täglichen Solospiele.
+
+Bereit für iOS 27 und iPhone Duo: In der halb aufgeklappten Tischposition liegt die Straße oberhalb des Scharniers, die Steuerung darunter. Wird das Scharnier während eines Rennens bewegt, pausiert das Spiel. Sobald es stillsteht, kannst du mit „Spielen“ dieselbe Fahrt fortsetzen.
 
 Entdecke LCD und Pocket in der neuen Stilgalerie. LCD ist für alle verfügbar; Pocket schaltest du mit „Unbegrenzte Spiele“ frei. Auf der Apple Watch bleiben beide Stile kostenlos.
 
@@ -603,12 +609,14 @@ Länger nicht gespielt? Die letzten Updates brachten Game Center-Erfolge, Markie
 Danke, dass du mit uns Rennen fährst!
 ```
 
-Count: 1151/4000 characters.
+Count: 1434/4000 characters.
 
 ### nl-NL
 
 ```text
 Race tegen een vriend met SharePlay op iPhone, iPad en Mac! Ontwijk hetzelfde verkeer, volg elkaars voortgang en ga meteen voor een revanche. Races met vrienden zijn gratis en gaan nooit van je dagelijkse solopogingen af.
+
+Klaar voor iOS 27 en iPhone Duo. In de halfgevouwen tafelstand staat de weg boven het scharnier en de bediening eronder. Als je het scharnier tijdens een race beweegt, pauzeert het spel. Zodra het toestel weer stil ligt, tik je op Spelen om dezelfde race te vervolgen.
 
 Ontdek LCD en Pocket in de nieuwe stijlengalerij. LCD is beschikbaar voor iedereen; ontgrendel Pocket met Onbeperkt spelen. Op Apple Watch blijven beide stijlen gratis.
 
@@ -623,12 +631,14 @@ Even bijpraten? Recente updates voegden Game Center-prestaties, scoremarkeringen
 Bedankt dat je met ons racet!
 ```
 
-Count: 1029/4000 characters.
+Count: 1299/4000 characters.
 
 ### it
 
 ```text
 Sfida un amico con SharePlay su iPhone, iPad e Mac! Affrontate lo stesso traffico, seguite i progressi l’uno dell’altro e ripartite con una rivincita. Le gare con gli amici sono gratuite e non consumano mai le tue partite giornaliere in solitaria.
+
+Pronto per iOS 27 e iPhone Duo. Nella posizione da tavolo parzialmente piegata, la strada appare sopra la cerniera e i comandi sotto. Se muovi la cerniera durante una gara, il gioco si mette in pausa. Quando il dispositivo si stabilizza, tocca Gioca per riprendere la stessa gara.
 
 Esplora LCD e Pocket nella nuova galleria degli stili. LCD è disponibile per tutti; sblocca Pocket con Partite illimitate. Su Apple Watch entrambi gli stili restano gratuiti.
 
@@ -643,12 +653,14 @@ Ti sei perso qualche novità? Gli ultimi aggiornamenti hanno aggiunto obiettivi 
 Grazie di correre con noi!
 ```
 
-Count: 1084/4000 characters.
+Count: 1366/4000 characters.
 
 ### fr-FR
 
 ```text
 Défie un ami avec SharePlay sur iPhone, iPad et Mac ! Affrontez le même trafic, suivez votre progression respective et enchaînez avec une revanche. Les courses entre amis sont gratuites et ne consomment jamais tes parties solo quotidiennes.
+
+Prêt pour iOS 27 et iPhone Duo. En position de table partiellement pliée, la route apparaît au-dessus de la charnière et les commandes en dessous. Si la charnière bouge pendant une course, le jeu se met en pause. Une fois l’appareil stabilisé, touchez Jouer pour reprendre la même course.
 
 Découvre LCD et Pocket dans la nouvelle galerie de styles. LCD est accessible à tous ; débloque Pocket avec Parties illimitées. Les deux styles restent gratuits sur Apple Watch.
 
@@ -663,12 +675,14 @@ Tu as manqué les dernières nouveautés ? Les mises à jour précédentes ont a
 Merci de faire la course avec nous !
 ```
 
-Count: 1162/4000 characters.
+Count: 1452/4000 characters.
 
 ### fr-CA
 
 ```text
 Affrontez un ami avec SharePlay sur iPhone, iPad et Mac ! Évitez la même circulation, suivez votre progression respective et lancez une nouvelle course pour prendre votre revanche. Les courses entre amis sont gratuites et n’utilisent jamais vos parties solo quotidiennes.
+
+Prêt pour iOS 27 et iPhone Duo. En position de table partiellement pliée, la route apparaît au-dessus de la charnière et les commandes en dessous. Si la charnière bouge pendant une course, le jeu se met en pause. Une fois l’appareil stabilisé, touchez Jouer pour reprendre la même course.
 
 Découvrez LCD et Pocket dans la nouvelle galerie de styles. LCD est accessible à tout le monde ; déverrouillez Pocket avec Parties illimitées. Les deux styles demeurent gratuits sur Apple Watch.
 
@@ -683,12 +697,14 @@ Vous avez manqué les dernières nouveautés ? Les mises à jour précédentes o
 Merci de faire la course avec nous !
 ```
 
-Count: 1230/4000 characters.
+Count: 1520/4000 characters.
 
 ### es-ES
 
 ```text
 ¡Compite con un amigo con SharePlay en iPhone, iPad y Mac! Esquivad el mismo tráfico, seguid el progreso del otro y volved a la pista con una revancha. Las carreras con amigos son gratis y nunca consumen tus partidas diarias en solitario.
+
+Preparado para iOS 27 y iPhone Duo. En la posición de mesa parcialmente plegada, la carretera queda sobre la bisagra y los controles debajo. Si mueves la bisagra durante una carrera, el juego se pausa. Cuando el dispositivo se estabilice, toca Jugar para continuar la misma partida.
 
 Descubre LCD y Pocket en la nueva galería de estilos. LCD está disponible para todo el mundo; desbloquea Pocket con Partidas ilimitadas. Ambos estilos siguen siendo gratis en Apple Watch.
 
@@ -703,12 +719,14 @@ Ahora también en alemán, neerlandés, italiano, francés de Francia y Canadá,
 ¡Gracias por correr con nosotros!
 ```
 
-Count: 1117/4000 characters.
+Count: 1401/4000 characters.
 
 ### ca
 
 ```text
 Competix amb un amic amb SharePlay en iPhone, iPad i Mac! Esquiveu el mateix trànsit, seguiu el progrés de l’altre i torneu a la pista amb una revenja. Les carreres amb amics són gratuïtes i mai consumixen les teues partides diàries en solitari.
+
+Preparat per a iOS 27 i iPhone Duo. En la posició de taula parcialment plegada, la carretera queda damunt de la frontissa i els controls a sota. Si mous la frontissa durant una cursa, el joc es pausa. Quan el dispositiu s’estabilitzi, toca Juga per continuar la mateixa partida.
 
 Descobrix LCD i Pocket en la nova galeria d’estils. LCD està disponible per a tot el món; desbloqueja Pocket amb Partides il·limitades. Els dos estils continuen sent gratuïts en Apple Watch.
 
@@ -723,12 +741,14 @@ T’has perdut alguna novetat? Les últimes actualitzacions han afegit assolimen
 Gràcies per córrer amb nosaltres!
 ```
 
-Count: 1127/4000 characters.
+Count: 1407/4000 characters.
 
 ### es-MX
 
 ```text
 ¡Compite con un amigo con SharePlay en iPhone, iPad y Mac! Esquiven el mismo tráfico, sigan el progreso del otro y vuelvan a la pista con una revancha. Las carreras con amigos son gratis y nunca consumen tus partidas diarias en solitario.
+
+Preparado para iOS 27 y iPhone Duo. En la posición de mesa parcialmente plegada, el camino queda arriba de la bisagra y los controles abajo. Si mueves la bisagra durante una carrera, el juego se pausa. Cuando el dispositivo se estabilice, toca Jugar para continuar la misma partida.
 
 Descubre LCD y Pocket en la nueva galería de estilos. LCD está disponible para todos; desbloquea Pocket con Partidas ilimitadas. Ambos estilos siguen siendo gratis en Apple Watch.
 
@@ -743,12 +763,14 @@ Ahora también en alemán, neerlandés, italiano, francés de Francia y Canadá,
 ¡Gracias por correr con nosotros!
 ```
 
-Count: 1101/4000 characters.
+Count: 1385/4000 characters.
 
 ### ja
 
 ```text
 iPhone、iPad、MacでSharePlayを使って友達とレース！同じ交通パターンに挑み、お互いの進み具合を確認しながら競いましょう。もう一勝負したくなったら再戦も。友達とのレースは無料で、毎日のソロプレイ回数は消費しません。
+
+iOS 27とiPhone Duoに対応しました。半分折りたたんだ卓上スタイルでは、道路がヒンジの上、操作ボタンが下に表示されます。レース中にヒンジを動かすと一時停止し、端末が安定したら「プレイ」をタップして同じレースを再開できます。
 
 新しいスタイルギャラリーでLCDとPocketをチェック。LCDは誰でも使えます。Pocketは「無制限プレイ」で解放できます。Apple Watchでは、どちらのスタイルも引き続き無料です。
 
@@ -763,12 +785,14 @@ iPhone、iPad、MacでSharePlayを使って友達とレース！同じ交通パ�
 いつもレースを楽しんでくれてありがとうございます！
 ```
 
-Count: 532/4000 characters.
+Count: 651/4000 characters.
 
 ### ko
 
 ```text
 iPhone, iPad, Mac에서 SharePlay로 친구와 레이스하세요! 같은 교통 패턴에 도전하고 서로의 진행 상황을 확인하며 겨뤄 보세요. 한 번 더 달리고 싶다면 재대결도 할 수 있어요. 친구 레이스는 무료이며 일일 솔로 플레이 횟수를 사용하지 않아요.
+
+iOS 27과 iPhone Duo를 지원합니다. 반쯤 접은 탁상 모드에서는 도로가 힌지 위에, 조작 버튼이 아래에 표시됩니다. 경주 중 힌지를 움직이면 게임이 일시 정지되며, 기기가 안정되면 플레이를 탭해 같은 경주를 이어갈 수 있습니다.
 
 새로운 스타일 갤러리에서 LCD와 Pocket을 만나 보세요. LCD는 누구나 사용할 수 있고, Pocket은 무제한 플레이를 구매하면 이용할 수 있어요. Apple Watch에서는 두 스타일 모두 계속 무료예요.
 
@@ -783,12 +807,14 @@ iPhone, iPad, Mac에서 SharePlay로 친구와 레이스하세요! 같은 교통
 함께 달려 주셔서 고마워요!
 ```
 
-Count: 599/4000 characters.
+Count: 734/4000 characters.
 
 ### pt-BR
 
 ```text
 Dispute uma corrida com um amigo usando o SharePlay no iPhone, iPad e Mac! Encarem o mesmo trânsito, acompanhem o progresso um do outro e partam para a revanche. As corridas com amigos são grátis e nunca usam suas partidas solo diárias.
+
+Pronto para iOS 27 e iPhone Duo. Na posição de mesa parcialmente dobrada, a pista fica acima da dobradiça e os controles abaixo. Mover a dobradiça durante uma corrida pausa o jogo. Quando o aparelho se estabilizar, toque em Jogar para continuar a mesma corrida.
 
 Explore LCD e Pocket na nova galeria de estilos. LCD está disponível para todo mundo; desbloqueie Pocket com Partidas ilimitadas. Os dois estilos continuam grátis no Apple Watch.
 
@@ -803,12 +829,14 @@ Perdeu alguma novidade? As últimas atualizações trouxeram conquistas do Game 
 Obrigado por correr com a gente!
 ```
 
-Count: 1082/4000 characters.
+Count: 1345/4000 characters.
 
 ### pt-PT
 
 ```text
 Dispute uma corrida com um amigo através do SharePlay no iPhone, iPad e Mac! Enfrentem o mesmo trânsito, acompanhem o progresso um do outro e voltem à pista para uma desforra. As corridas com amigos são gratuitas e nunca gastam as partidas diárias a solo.
+
+Preparado para iOS 27 e iPhone Duo. Na posição de mesa parcialmente dobrada, a estrada fica acima da dobradiça e os controlos abaixo. Mover a dobradiça durante uma corrida pausa o jogo. Quando o dispositivo estabilizar, toca em Jogar para continuar a mesma corrida.
 
 Explore LCD e Pocket na nova galeria de estilos. LCD está disponível para todos; desbloqueie Pocket com Partidas ilimitadas. Ambos os estilos continuam gratuitos no Apple Watch.
 
@@ -823,12 +851,14 @@ Perdeu alguma novidade? As últimas atualizações trouxeram conquistas do Game 
 Obrigado por correr connosco!
 ```
 
-Count: 1104/4000 characters.
+Count: 1371/4000 characters.
 
 ### zh-Hant
 
 ```text
 在 iPhone、iPad 和 Mac 上透過 SharePlay 和朋友比一場！挑戰相同的車流，隨時掌握彼此的進度，還能再賽一場。好友賽完全免費，也不會扣除每日單人遊玩次數。
+
+支援 iOS 27 和 iPhone Duo。部分摺疊成桌面姿態時，賽道顯示在轉軸上方，操控按鈕則在下方。比賽時移動轉軸會暫停遊戲；裝置穩定後，點一下「開始」即可接續同一場比賽。
 
 到全新的風格圖庫探索 LCD 和 Pocket。LCD 開放所有玩家使用；購買「無限暢玩」即可解鎖 Pocket。在 Apple Watch 上，兩種風格依然免費。
 
@@ -843,12 +873,14 @@ Count: 1104/4000 characters.
 感謝你和我們一起享受賽車樂趣！
 ```
 
-Count: 408/4000 characters.
+Count: 499/4000 characters.
 
 ### zh-Hans
 
 ```text
 在 iPhone、iPad 和 Mac 上通过 SharePlay 和朋友比一场！挑战相同的车流，随时查看彼此的进度，还能再来一局。好友比赛完全免费，也不会消耗每日单人游玩次数。
+
+支持 iOS 27 和 iPhone Duo。部分折叠成桌面姿态时，赛道显示在转轴上方，控制按钮位于下方。比赛中移动转轴会暂停游戏；设备稳定后，轻点“开始”即可继续同一场比赛。
 
 在全新的风格图库中探索 LCD 和 Pocket。所有玩家都能使用 LCD；购买“无限畅玩”即可解锁 Pocket。在 Apple Watch 上，两种风格依然免费。
 
@@ -863,12 +895,14 @@ Count: 408/4000 characters.
 感谢你和我们一起享受赛车的乐趣！
 ```
 
-Count: 409/4000 characters.
+Count: 499/4000 characters.
 
 ### tr
 
 ```text
 iPhone, iPad ve Mac’te SharePlay ile bir arkadaşınla yarış! Aynı trafiğe meydan okuyun, birbirinizin ilerlemesini takip edin ve rövanş için yeniden piste çıkın. Arkadaş yarışları ücretsizdir ve günlük tek oyunculu oyun hakkını asla tüketmez.
+
+iOS 27 ve iPhone Duo desteği. Kısmen katlanmış masa konumunda yol menteşenin üstünde, kontroller altında görünür. Yarış sırasında menteşeyi hareket ettirmek oyunu duraklatır. Aygıt sabitlenince Oyna’ya dokunarak aynı yarışa devam edebilirsin.
 
 Yeni stil galerisinde LCD ve Pocket’ı keşfet. LCD herkese açık; Pocket’ın kilidini Sınırsız oyun ile açabilirsin. Apple Watch’ta her iki stil de ücretsiz kalmaya devam ediyor.
 
@@ -883,12 +917,14 @@ Son yenilikleri kaçırdın mı? Önceki güncellemelerle Game Center başarıml
 Bizimle yarıştığın için teşekkürler!
 ```
 
-Count: 1095/4000 characters.
+Count: 1339/4000 characters.
 
 ### pl
 
 ```text
 Ścigaj się ze znajomym przez SharePlay na iPhonie, iPadzie i Macu! Omijajcie te same auta, śledźcie swoje postępy i ruszajcie na rewanż. Wyścigi ze znajomymi są darmowe i nigdy nie zużywają dziennego limitu gier solo.
+
+Obsługa iOS 27 i iPhone Duo. W częściowo złożonej pozycji stołowej droga jest nad zawiasem, a elementy sterujące pod nim. Poruszenie zawiasem w trakcie wyścigu wstrzymuje grę. Gdy urządzenie się ustabilizuje, stuknij Graj, aby kontynuować ten sam wyścig.
 
 Odkryj LCD i Pocket w nowej galerii stylów. LCD jest dostępny dla wszystkich, a Pocket odblokujesz dzięki zakupowi „Nielimitowane gry”. Na Apple Watch oba style pozostają darmowe.
 
@@ -903,6 +939,6 @@ Co jeszcze nowego? Poprzednie aktualizacje dodały osiągnięcia Game Center, zn
 Dzięki za wspólne wyścigi!
 ```
 
-Count: 1055/4000 characters.
+Count: 1311/4000 characters.
 
 _Generated by `swift run --package-path Scripts generate-metadata-docs`._

@@ -17,6 +17,8 @@ final class GameViewModel {
     var inputAdapter: GameInputAdapter?
     var hud = HUDState()
     var pause = PauseState()
+    var hingeMotion = HingeMotionDetector()
+    var hingeSettleTask: Task<Void, Never>?
     var controls = ControlState()
     var isMenuOverlayPresented = false
 
@@ -109,7 +111,7 @@ final class GameViewModel {
     }
 
     var pauseButtonDisabled: Bool {
-        pause.pauseButtonDisabled
+        pause.pauseButtonDisabled || hingeMotion.isMoving
     }
 
     func updateTheme(_ theme: (any GameTheme)?) {

@@ -2,9 +2,9 @@
 
 Last updated: 2026-07-25
 
-**Status:** `READY_FOR_ASC` — SharePlay promo package implemented in repo (fixtures, metadata, screenshots, microsite, featuring + IAE copy). Submit featuring nomination and In-App Event in App Store Connect when launch week is set. Custom Product Page and App Preview deferred.
+**Status:** Historical campaign groundwork. The featuring nomination and Major Update In-App Event for 2.0 have been submitted; use [the current 2.0 release plan](11-release-2-0-duo-shareplay.md) and [event brief](../../AppStore/docs/20-major-update-2-0-in-app-event.md) for their actual copy, IDs, and review state. Custom Product Page and App Preview remain deferred.
 
-**Doc ownership:** Campaign strategy, nomination copy, In-App Event metadata, product-page asset plan, and microsite copy candidates live here. Shipped behavior remains in [`../../Requirements/shareplay_multiplayer.md`](../../Requirements/shareplay_multiplayer.md). Canonical staged App Store metadata is [`../../AppStore/metadata/retrorapid-v1.6.json`](../../AppStore/metadata/retrorapid-v1.6.json); the 1.5 catalog remains a historical snapshot.
+**Doc ownership:** Early campaign options and microsite ideas live here. Shipped behavior remains in [`../../Requirements/shareplay_multiplayer.md`](../../Requirements/shareplay_multiplayer.md). Canonical staged App Store metadata is [`../../AppStore/metadata/retrorapid-v2.0-candidate.json`](../../AppStore/metadata/retrorapid-v2.0-candidate.json); the 1.5 and 1.6 catalogs remain historical snapshots. Do not apply the candidate event copy below over the submitted 2.0 event.
 
 **See also:** [Submitted nominations voice guide](09-featuring-nominations-submitted.md) · [Product Page Optimization](../../AppStore/docs/09-product-page-optimization.md) · [Screenshots](../../AppStore/docs/06-screenshots.md) · [Submission gate](../../AppStore/docs/03-submission-quality-gate.md)
 
@@ -128,7 +128,7 @@ A share of proceeds supports AMMEC, advancing autonomy and social inclusion for 
 
 ## App Store Metadata Candidates
 
-Do not edit [`../../AppStore/docs/05-metadata-copy.md`](../../AppStore/docs/05-metadata-copy.md) directly; update `retrorapid-v1.6.json` and regenerate when these are approved.
+These are historical 1.6 candidates. For the active release, edit [`retrorapid-v2.0-candidate.json`](../../AppStore/metadata/retrorapid-v2.0-candidate.json) and regenerate [`05-metadata-copy.md`](../../AppStore/docs/05-metadata-copy.md); do not copy the older candidate text below into App Store Connect.
 
 Recommended iOS promotional text (125/170):
 

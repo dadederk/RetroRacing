@@ -80,7 +80,7 @@ public enum CLIUsageTexts {
 
         Flags:
           --check             Verify generated documents match disk without writing
-          --catalog <path>    Metadata catalog override (default: 1.6)
+          --catalog <path>    Metadata catalog override (default: 2.0)
         """
     }
 
@@ -96,7 +96,7 @@ public enum CLIUsageTexts {
           --keywords-only      Update hidden keywords only
           --include-app-info   Retry shared name/subtitle fields
           --helm <path>        Helm CLI path override
-          --catalog <path>     Metadata catalog override (default: 1.6)
+          --catalog <path>     Metadata catalog override (default: 2.0)
         """
     }
 

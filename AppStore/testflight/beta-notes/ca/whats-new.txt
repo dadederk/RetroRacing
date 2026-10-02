@@ -1,5 +1,7 @@
 Competix amb un amic amb SharePlay en iPhone, iPad i Mac! Esquiveu el mateix trànsit, seguiu el progrés de l’altre i torneu a la pista amb una revenja. Les carreres amb amics són gratuïtes i mai consumixen les teues partides diàries en solitari.
 
+Preparat per a iOS 27 i iPhone Duo. En la posició de taula parcialment plegada, la carretera queda damunt de la frontissa i els controls a sota. Si mous la frontissa durant una cursa, el joc es pausa. Quan el dispositiu s’estabilitzi, toca Juga per continuar la mateixa partida.
+
 Descobrix LCD i Pocket en la nova galeria d’estils. LCD està disponible per a tot el món; desbloqueja Pocket amb Partides il·limitades. Els dos estils continuen sent gratuïts en Apple Watch.
 
 Un nou aspecte per al teu joc de carreres retro preferit: hem redibuixat bona part dels gràfics, inclosos els cotxes i els cascos, conservant la personalitat de LCD i Pocket.

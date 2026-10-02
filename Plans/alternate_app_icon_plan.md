@@ -1,6 +1,6 @@
 # Alternate App Icons Plan
 
-**Status:** In progress — Pocket/LCD/Cartridge/CRT/Disc layered pilot and approved Special Edition appearances implemented; Polygon and full appearance/device QA remain open
+**Status:** In progress for the personalization stage *after* RetroRapid! 2.0 (working slot 2.1). Pocket/LCD/Cartridge/CRT/Disc layered pilot and approved Special Edition appearances are implemented; Polygon and full appearance/device QA remain open. The chooser and its App Store claims are excluded from the 2.0 SharePlay/Duo release.
 **Created:** 2026-08-12
 
 **See also:** [Monetization](../Requirements/monetization.md) · [Theming](../Requirements/theming_system.md) · [Accessibility](../Requirements/accessibility.md) · [Localization](../Requirements/localization.md) · [Testing](../Requirements/testing.md)

@@ -7,6 +7,37 @@
 
 import SwiftUI
 
+struct GameTabletopLayout<GameArea: View>: View {
+    let division: GameTabletopDivision
+    let hud: GameHUDInput
+    let controls: GameControlInput
+    let gameArea: GameArea
+    let inputOverlay: GameInputOverlay
+
+    var body: some View {
+        VStack(spacing: 0) {
+            gameArea
+                .frame(maxWidth: .infinity)
+                .frame(height: division.topHeight)
+
+            Color.clear
+                .frame(height: division.hingeHeight)
+                .allowsHitTesting(false)
+
+            VStack(spacing: 8) {
+                GameHUDHeaderView(input: hud, presentation: .fullWidth)
+                Spacer(minLength: 0)
+                GameDirectionControlsView(input: controls, presentation: .row)
+                    .overlay { inputOverlay }
+                    .frame(maxWidth: .infinity)
+                Spacer(minLength: 0)
+            }
+            .frame(height: division.bottomHeight)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+    }
+}
+
 struct PortraitGameLayout<GameArea: View>: View {
     let hud: GameHUDInput
     let controls: GameControlInput

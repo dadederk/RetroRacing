@@ -1,6 +1,6 @@
 # visionOS Pushed-Volume Spatial Game Plan
 
-**Status:** Pushed-volume implementation in automated validation — physical-device approval pending
+**Status:** Pushed-volume implementation in automated validation; physical-device approval pending. Public visionOS gameplay is planned after the 2.0 SharePlay/Duo release, the personalization stage, and the Apple TV stage (working slot 2.3). The existing public placeholder remains outside the 2.0 build and copy.
 
 **See also:** [visionOS gameplay](../Requirements/visionos_gameplay.md) · [Requirements index](../Requirements/INDEX.md) · [Road markers](../Requirements/road_markers.md) · [Accessibility](../Requirements/accessibility.md)
 

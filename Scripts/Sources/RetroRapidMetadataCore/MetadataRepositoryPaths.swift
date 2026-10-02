@@ -9,7 +9,7 @@ import Foundation
 import ScriptSupport
 
 public struct MetadataRepositoryPaths: Sendable {
-    public static let defaultCatalogRelativePath = "AppStore/metadata/retrorapid-v1.5-candidate.json"
+    public static let defaultCatalogRelativePath = "AppStore/metadata/retrorapid-v2.0-candidate.json"
 
     public let repositoryRoot: URL
 

@@ -19,12 +19,40 @@ extension GameViewModel {
 
     func togglePause() {
         guard let scene, pauseButtonDisabled == false else { return }
+        if pause.isHingePaused {
+            scene.setHingePauseLock(false)
+            pause.isHingePaused = false
+            return
+        }
         if pause.isUserPaused {
             scene.unpauseGameplay()
             pause.isUserPaused = false
         } else {
             scene.pauseGameplay()
             pause.isUserPaused = true
+        }
+    }
+
+    func observeHingeAngle(_ angleDegrees: Double?, at uptime: TimeInterval = ProcessInfo.processInfo.systemUptime) {
+        let detectedMovement = hingeMotion.observe(angleDegrees: angleDegrees, at: uptime)
+        if angleDegrees == nil {
+            hingeSettleTask?.cancel()
+            hingeSettleTask = nil
+            return
+        }
+        guard detectedMovement else { return }
+
+        if let scene, scene.gameState.isPaused == false {
+            scene.setHingePauseLock(true)
+            pause.isHingePaused = true
+        }
+
+        hingeSettleTask?.cancel()
+        hingeSettleTask = Task { @MainActor [weak self] in
+            try? await Task.sleep(for: .milliseconds(500))
+            guard let self, Task.isCancelled == false else { return }
+            self.hingeMotion.settle()
+            self.hingeSettleTask = nil
         }
     }
 
@@ -99,6 +127,8 @@ extension GameViewModel {
 
     func tearDown() {
         controls.cancelFlashTasks()
+        hingeSettleTask?.cancel()
+        hingeSettleTask = nil
         scene?.stopAllSounds()
         currentUpcomingFriendMilestone = nil
         scene = nil

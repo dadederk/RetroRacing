@@ -21,7 +21,10 @@
 
 - iOS/iPadOS:
   - touch regions and horizontal drag gestures move lanes
+  - on iPhone Duo with an active horizontal fold, the game fills the upper region; score and lives sit at the top of the lower region above the left/right control row, whose touch targets use the same lane actions
+  - unfolding or changing away from a horizontal fold restores the ordinary layout without restarting the run
   - keyboard arrows move; space toggles pause
+  - on iPhone Duo with iOS 27.1+, hinge angle movement pauses gameplay; after movement settles, the normal Play control resumes the same run
   - Direct Touch setting controls `.accessibilityDirectTouch`
   - VoiceOver Magic Tap toggles pause/resume
 - watchOS:

@@ -3,7 +3,9 @@
 Part of [ASO & growth plans](README.md). Index: [retrorapid_aso_growth_plan.md](../retrorapid_aso_growth_plan.md).
 
 Last updated: 2026-07-03
-**See also:** [Canonical staged metadata](../../AppStore/metadata/retrorapid-v1.6.json) · [Generated metadata copy](../../AppStore/docs/05-metadata-copy.md) · [90-day plan](../../AppStore/docs/11-execution-90-day.md)
+**Status:** Historical ASO decision snapshot. The priority table below predates the 2.0 SharePlay/Duo release and is not a current launch checklist. Use the [2.0 release plan](11-release-2-0-duo-shareplay.md) and [canonical staged metadata](../../AppStore/metadata/retrorapid-v2.0-candidate.json) for current work.
+
+**See also:** [Generated metadata copy](../../AppStore/docs/05-metadata-copy.md) · [submission gate](../../AppStore/docs/03-submission-quality-gate.md)
 
 
 ---

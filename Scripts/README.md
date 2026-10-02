@@ -119,7 +119,7 @@ is inert provenance and is not a supported command. Use only
 `./retrorapid assets optimize`; see [AssetSources/README.md](../AssetSources/README.md)
 for immutable snapshot and source-archive rules.
 
-Edit and apply App Store metadata (the default catalog is the planned 1.6 release):
+Edit and apply App Store metadata (the default catalog is the 2.0 release candidate):
 
 ```bash
 ./retrorapid metadata generate
@@ -182,12 +182,16 @@ Upload the current TestFlight build:
 
 ```bash
 ./retrorapid testflight --help
-./retrorapid testflight all --dry-run
-./retrorapid testflight all
+./retrorapid testflight all --version <version> --build-number <build> --developer-dir <Xcode.app/Contents/Developer> --helm <helm-asc-path> --dry-run
 ```
 
 Optional TestFlight flags include `--version`, `--build-number`, `--helm`,
 `--developer-dir`, `--external-group`, `--poll-attempts`, and `--poll-interval`.
+Always pass version/build explicitly: the parser defaults to historical `1.5`
+(34). `archive` and `all` use one Xcode for both platforms, and upload commands
+attach the external group; Helm then auto-submits an eligible build for beta
+review. Use the [local TestFlight runbook](../AppStore/docs/14-testflight-helm-upload.md)
+when toolchains differ or group submission needs separate control.
 
 ## Direct invocation (advanced)
 

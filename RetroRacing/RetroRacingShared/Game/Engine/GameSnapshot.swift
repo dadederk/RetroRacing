@@ -29,6 +29,7 @@ public enum GamePhase: Equatable, Sendable {
 public enum GamePauseReason: Hashable, Sendable {
     case startup
     case user
+    case hinge
     case overlay
     case presentationTransition
     case spatialReady

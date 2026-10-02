@@ -164,6 +164,44 @@ final class GameAreaLayoutConfigurationTests: XCTestCase {
         XCTAssertTrue(policy.expandsGameAreaIntoTopSafeArea)
     }
 
+    func testGivenHorizontalHingeWhenResolvingTabletopDivisionThenUsesBothUsableRegions() {
+        // Given
+        let size = CGSize(width: 800, height: 900)
+        let hinge = CGRect(x: 0, y: 440, width: 800, height: 20)
+
+        // When
+        let division = GameTabletopDivision.resolve(in: size, divisionFrames: [hinge])
+
+        // Then
+        XCTAssertEqual(division?.topHeight, 440)
+        XCTAssertEqual(division?.hingeHeight, 20)
+        XCTAssertEqual(division?.bottomHeight, 440)
+    }
+
+    func testGivenVerticalHingeWhenResolvingTabletopDivisionThenKeepsOrdinaryLayout() {
+        // Given
+        let size = CGSize(width: 900, height: 800)
+        let hinge = CGRect(x: 440, y: 0, width: 20, height: 800)
+
+        // When
+        let division = GameTabletopDivision.resolve(in: size, divisionFrames: [hinge])
+
+        // Then
+        XCTAssertNil(division)
+    }
+
+    func testGivenHingeNearEdgeWhenResolvingTabletopDivisionThenKeepsOrdinaryLayout() {
+        // Given
+        let size = CGSize(width: 800, height: 900)
+        let hinge = CGRect(x: 0, y: 90, width: 800, height: 20)
+
+        // When
+        let division = GameTabletopDivision.resolve(in: size, divisionFrames: [hinge])
+
+        // Then
+        XCTAssertNil(division)
+    }
+
     private var expandedCompactLandscapePolicy: GameLayoutPolicy {
         GameLayoutPolicy.resolve(
             containerSize: CGSize(width: 852, height: 393),

@@ -189,9 +189,25 @@ public struct GameView: View {
     }
 
     public var body: some View {
-        gameViewWithPreferenceHandlers
+        hingeAwareGameView
             .onDisappear(perform: handleGameViewDisappear)
             .fontPreferenceStore(fontPreferenceStore)
+    }
+
+    @ViewBuilder
+    private var hingeAwareGameView: some View {
+        #if os(iOS) && RETRORAPID_DUO_SDK
+        if #available(iOS 27.1, *) {
+            gameViewWithPreferenceHandlers
+                .onHingeChange(isEnabled: shouldStartGame) { _, context in
+                    model.observeHingeAngle(context.hinge?.angle.degrees)
+                }
+        } else {
+            gameViewWithPreferenceHandlers
+        }
+        #else
+        gameViewWithPreferenceHandlers
+        #endif
     }
 
     private var gameViewWithPreferenceHandlers: some View {
@@ -322,10 +338,12 @@ public struct GameView: View {
         GameDirectionButtonHeightReader { directionButtonHeight in
             GeometryReader { safeAreaReader in
                 let layoutPolicy = gameLayoutPolicy(containerSize: safeAreaReader.size)
+                let tabletopDivision = tabletopDivision(in: safeAreaReader)
                 ZStack {
                     GameLayoutView(
                         layoutPolicy: layoutPolicy,
                         topSafeAreaInset: safeAreaReader.safeAreaInsets.top,
+                        tabletopDivision: tabletopDivision,
                         hud: GameHUDInput(
                             style: style,
                             score: model.hud.score,
@@ -402,20 +420,20 @@ public struct GameView: View {
                         ),
                         gameArea: { _ in
                             gameAreaContent
-                        }
-                    )
-                    GameInputOverlay(
-                        onLeftTap: handleLeftTap,
-                        onRightTap: handleRightTap,
-                        onDrag: handleDrag,
-                        isInputEnabled: !isPausedGridExplorationMode,
-                        isAccessibilityEnabled: !isPausedGridExplorationMode,
-                        isDirectTouchEnabled: selectedDirectTouchEnabled
+                        },
+                        inputOverlay: GameInputOverlay(
+                            onLeftTap: handleLeftTap,
+                            onRightTap: handleRightTap,
+                            onDrag: handleDrag,
+                            isInputEnabled: !isPausedGridExplorationMode,
+                            isAccessibilityEnabled: !isPausedGridExplorationMode,
+                            isDirectTouchEnabled: selectedDirectTouchEnabled
+                        )
                     )
 
                     screenshotCaptureReadinessOverlay
                 }
-                .ignoresSafeArea(edges: ignoredSafeAreaEdges(for: layoutPolicy))
+                .ignoresSafeArea(edges: tabletopDivision == nil ? ignoredSafeAreaEdges(for: layoutPolicy) : [])
                 .dynamicTypeSize(dynamicTypeSize)
             }
         }
@@ -510,12 +528,12 @@ public struct GameView: View {
                         model.togglePause()
                     } label: {
                         Label(
-                            GameLocalizedStrings.string(model.pause.isUserPaused ? "resume" : "pause"),
-                            systemImage: model.pause.isUserPaused ? "play.fill" : "pause.fill"
+                            GameLocalizedStrings.string(model.pause.showsResume ? "resume" : "pause"),
+                            systemImage: model.pause.showsResume ? "play.fill" : "pause.fill"
                         )
                         .appFont(.headline)
                     }
-                    .accessibilityLabel(GameLocalizedStrings.string(model.pause.isUserPaused ? "resume" : "pause"))
+                    .accessibilityLabel(GameLocalizedStrings.string(model.pause.showsResume ? "resume" : "pause"))
                     .accessibilityShowsLargeContentViewer()
                     .accessibilityHidden(shouldHideGameplayChromeFromAccessibility)
                     .disabled(model.pauseButtonDisabled || toolbarControlsDisabled)
@@ -622,6 +640,18 @@ public struct GameView: View {
         guard style.preservesVerticalSafeAreaMargins == false else { return [] }
         guard policy.expandsGameAreaIntoTopSafeArea else { return .bottom }
         return [.top, .bottom]
+    }
+
+    private func tabletopDivision(in geometry: GeometryProxy) -> GameTabletopDivision? {
+        #if os(iOS) && RETRORAPID_DUO_SDK
+        if #available(iOS 27.1, *) {
+            return GameTabletopDivision.resolve(
+                in: geometry.size,
+                divisionFrames: geometry.reservedRegions(kind: .division).map(\.frame)
+            )
+        }
+        #endif
+        return nil
     }
 
     private func gameLayoutPolicy(containerSize: CGSize) -> GameLayoutPolicy {

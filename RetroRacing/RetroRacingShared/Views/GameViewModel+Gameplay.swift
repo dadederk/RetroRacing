@@ -13,6 +13,12 @@ extension GameViewModel {
             scene?.configureRandomTraffic()
         }
         scene?.start()
+        if hingeMotion.isMoving {
+            scene?.setHingePauseLock(true)
+            pause.isHingePaused = true
+        } else {
+            pause.isHingePaused = false
+        }
         resetRunAchievementTelemetry()
         if let scene {
             let (currentScore, currentLives) = Self.scoreAndLives(from: scene)

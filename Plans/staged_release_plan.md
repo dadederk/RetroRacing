@@ -1,23 +1,23 @@
-# Four-stage release plan
+# Staged release plan
 
-**Status:** Release-1 gates implemented and locally validated for integration into `master`. Public release preparation remains pending.
+**Status:** Stage 1 is now RetroRapid! **2.0**, the SharePlay and iPhone Duo release in [the active 2.0 plan](aso/11-release-2-0-duo-shareplay.md). The former 1.5 SharePlay launch sequence was superseded before public submission. The following stages remain planned and gated; their working version slots are 2.1, 2.2, and 2.3, subject to Apple SDK timing and release acceptance.
 
-Implemented evidence: stable Xcode 26.6 Release builds pass for iOS/Watch, Mac, and Vision Pro; Apple TV builds with the available Xcode 27 SDK (stable tvOS component is absent). The full shared/Universal unit-test suites, Scripts tests, the full repository check, and two gallery UI tests pass (release-1 LCD/Pocket flow and expanded icon preview). Generated spatial model containers were refreshed; exported USDA scene contents are byte-identical to the originals. Build 35 also includes the approved Pocket purchase policy, corrected first-day play-limit wording, and Rate visibility after entitlement resolution. The strict readiness audit reports all 20 locale packages still need fluent approval; real-device SharePlay QA also remains a release gate.
+The 2.0 candidate uses build 36: iOS with embedded Watch and macOS are both awaiting external TestFlight review. The 20-locale App Store What's New and TestFlight notes are applied on both platforms; the Mac 2.0 draft selects build 36. Fluent approval, screenshot alignment, real-device SharePlay and Duo acceptance, and an App Store-eligible Xcode 27.1 toolchain remain public-release gates. See [the candidate record](../AppStore/testflight/release-2.0-36.md) for exact states and IDs.
 
-Read-only App Store Connect verification on 2026-09-06: iOS/macOS 1.4.2 are live; both platforms already have editable 1.5 drafts. Release 1 targets 1.5. GitHub reports `master` is not protected; cloud merge protection still needs setup before relying on that lane. This integration uses the completed local validation, not a claimed cloud result. The active local toolchain is Xcode 27 beta; distribution validation must use the installed stable Xcode 26.6.
+Earlier 1.5/build-35 evidence remains in [its historical record](../AppStore/testflight/release-1.5-35.md). GitHub branch protection and Xcode Cloud setup are separate infrastructure work; neither is claimed as a gate that has already passed.
 
 ## Outcome and release sequence
 
 Integrate the feature work into `master` (the repository's default branch) with committed release defaults and local Debug overrides. Keep one development line; tag each public release and record its platform build numbers. Do not rename `master` as part of this work.
 
-| Stage | Public additions | Held back |
+| Stage / working version | Public additions | Held back |
 |---|---|---|
-| 1: Play with Friends | iPhone/iPad/macOS SharePlay; Styles gallery with LCD and Pocket only; existing-theme artwork refresh; landscape, launch, Game Center, font, accessibility, and general UX improvements; reviewed localization changes | Cartridge/CRT themes, alternate icons and icon gallery, Apple TV and Vision Pro launches |
-| 2: Personalization | Cartridge (8-bit) and CRT (16-bit) added to the Styles gallery; iPhone/iPad alternate icons and icon gallery | Apple TV and Vision Pro launches; Disc/Polygon gameplay styles on existing shipping platforms |
-| 3: Apple TV | Apple TV distribution, Disc platform style, remote/controller UX, validated TV SharePlay | Vision Pro launch |
-| 4: Vision Pro | Vision Pro distribution, Classic and spatial solo gameplay, Polygon style, validated Classic SharePlay | Spatial multiplayer remains out of scope |
+| 1: 2.0 SharePlay + Duo | Free iPhone/iPad friend races with SharePlay; iPhone Duo tabletop play and hinge pause; iPhone/iPad/Mac and embedded Watch updates; Styles gallery with LCD and Pocket; artwork, accessibility, and localization improvements | Cartridge/CRT themes, alternate icons and icon gallery, Apple TV and Vision Pro gameplay launches |
+| 2: 2.1 personalization (working slot) | Cartridge (8-bit) and CRT (16-bit) in the Styles gallery; iPhone/iPad alternate icons and icon gallery | Apple TV and Vision Pro launches; Disc/Polygon gameplay styles on existing shipping platforms |
+| 3: 2.2 Apple TV (working slot) | Apple TV distribution, Disc platform style, remote/controller UX, validated TV SharePlay | Vision Pro launch |
+| 4: 2.3 Vision Pro (working slot) | Vision Pro distribution, Classic and spatial solo gameplay, Polygon style, validated Classic SharePlay | Spatial multiplayer remains out of scope |
 
-Release 1 includes the current code refinements, including removal of the legacy Simplified Grid option; retain and verify Big Cars and accessible road rendering. Release 2 does not automatically expand Disc/Polygon gameplay availability beyond existing platform policy. Icon selection remains independent from gameplay style.
+These version numbers are planning slots, not release dates or promises. Xarra's major-version convention applies when a new SDK drives a release; choose the final marketing version for each later stage at its own gate. The 2.0 release includes removal of the legacy Simplified Grid option; retain and verify Big Cars and accessible road rendering. Personalization does not automatically expand Disc/Polygon gameplay availability beyond existing platform policy. Icon selection remains independent from gameplay style.
 
 ## First implementation: minimum release gates
 
@@ -30,19 +30,16 @@ Release 1 includes the current code refinements, including removal of the legacy
 - With new themes off, expose only LCD/Pocket: LCD is the iPhone/iPad/Mac default and Pocket is the Watch default. Preserve baseline free/purchased access. With the flag on, use the existing Cartridge/CRT platform defaults and entitlement policy.
 - Keep the existing Styles gallery as the selector, backed by the filtered catalog and entitlement resolver. In stage 1 it previews and selects only LCD/Pocket, keeping LCD free and requiring Unlimited Plays for Pocket outside watchOS. Future themes must be absent from previews, accessibility entry points, and benefit copy, not shown as locked teasers. Icons off hides its gallery and benefit copy without changing the installed icon.
 - Preserve explicit stored theme IDs when a known theme is temporarily unavailable; render the accessible platform fallback without overwriting the preference. Unknown IDs fall back safely. Turning features back on restores the preference if entitled. Existing accessible user selections beat new stage-2 defaults.
-- Screenshot capture uses the committed release configuration, not a developer's saved overrides. Future-feature test fixtures must opt in explicitly and must not feed release-1 store exports.
+- Screenshot capture uses the committed release configuration, not a developer's saved overrides. Future-feature test fixtures must opt in explicitly and must not feed 2.0 store exports.
 - Update the routed theming, icons, debug, monetization, screenshot, and launch contracts alongside implementation. Keep runtime changes small and reuse shared UI/services.
 
-## Release 1 critical path
+## Stage 1: 2.0 critical path
 
-1. **Confirm public baseline first.** Read App Store Connect versions, attached builds, platform availability, and current locale status. Reconcile the project version (currently 1.5), staged 1.6 metadata, and historical docs. Select the next unused marketing version and record the mapping; do not infer a shipped commit from `master` or invent a release tag.
-2. **Gate work on the integrated branch.** All feature work is merged into `master`; the two fully merged feature branches have been deleted locally and remotely. Release defaults and obsolete-flag cleanup are implemented.
-3. **Verify release-1 behavior.** Run the checks below, fix release-blocking regressions, merge into `master`, then verify the resulting commit and archive that exact commit. Do not expand this step into icon redesign, platform-launch polish, or an unrelated refactor.
-4. **Validate real SharePlay early.** iPhone-to-iPad in both host roles; Mac-to-Mac; Mac hosting iPhone/iPad and the reverse. Record device/OS/build and pass/fail evidence. Existing Mac QA is pending; do not claim it passed. The default scope includes Mac SharePlay. A blocking Mac failure requires an explicit scope decision; the platform flag permits deferral without holding back iPhone/iPad code.
-5. **Prepare accurate store material.** Reuse the canonical metadata pipeline with the confirmed version. Lead with free two-player SharePlay and include only shipped refinements. The LCD/Pocket Styles gallery may appear in release-1 screenshots and copy. Remove stage-2/TV/Vision claims and replace screenshots showing held-back styles or the icon gallery. Keep unchanged accurate assets where possible.
-6. **Close existing editorial gates.** Audit exact-digest locale approvals; Turkish/Polish were last documented as needing review. Freeze release-1 copy before review and capture. Follow the existing submission and localization gates; do not silently waive them for speed. Report any approval or keyword-baseline blocker immediately for a deliberate user decision.
-7. **Internal TestFlight, then submission.** Archive iOS with embedded Watch and macOS only, using the existing release lane and a supported distribution toolchain. Smoke-test those Release builds, resolve blockers, prepare concrete review notes, then obtain release authorization before submitting/publishing. Leave the existing Vision placeholder unchanged in this release.
-8. **Record the shipment.** Once public, tag the exact source commit and record marketing version, platform builds, release defaults, and validation evidence. Check initial crash reports, SharePlay failures, and purchase/restore regressions after launch; no monitoring automation is created by this plan.
+1. Finish the [active 2.0 release plan](aso/11-release-2-0-duo-shareplay.md) and [candidate record](../AppStore/testflight/release-2.0-36.md). Both iOS with embedded Watch and macOS must have processed beta builds with localized TestFlight notes, followed by the requested external review state.
+2. Validate SharePlay on two physical devices in both host roles, including Mac combinations where advertised. Verify Duo's partially folded layout, hinge pause, settle/resume, and unfold on a working simulator or device. Record device, OS, build, and result; unit tests alone do not close these gates.
+3. Freeze the 20-locale [canonical metadata](../AppStore/metadata/retrorapid-v2.0-candidate.json), obtain fluent approval for revised copy, and check screenshots against the LCD/Pocket and Duo claims. Keep alternate icons, Apple TV, and Vision Pro gameplay out of 2.0 public copy.
+4. When Apple accepts the required Xcode 27.1 SDK for App Store submission, archive the approved source with a new build number, then select the eligible builds on both platform drafts. Pass the [submission quality gate](../AppStore/docs/03-submission-quality-gate.md) before App Review. Both versions retain manual release control.
+5. Once 2.0 is public, tag the exact source commit and record platform builds, release defaults, availability, and initial crash/SharePlay/purchase observations. Promote the personalization stage only after its own gate passes.
 
 ## Validation and acceptance
 
@@ -60,7 +57,7 @@ Release 1 includes the current code refinements, including removal of the legacy
 - Stage 3 adds TV archive/submission actions only after remote focus, pause/exit, Game Center, purchase, and real-device SharePlay acceptance. Ship Disc according to its TV platform policy.
 - Stage 4 adds Vision archive/submission actions only after physical-device spatial placement, visibility/comfort, repeated 2D/3D handoff, accessibility, purchase, and Classic SharePlay acceptance. Replace the placeholder only then.
 - After each stage is publicly stable, remove that stage's temporary release flags, obsolete fallback UI, and override keys/tests. Retain platform eligibility, entitlements, unshipped experiment gates, and coverage for the permanent behavior.
-- Optional launch events, featuring campaigns, new videos, keyword experiments, and broader marketing work must not become new dependencies for stage 1. Existing documented submission requirements remain explicit until revised with authorization.
+- The 2.0 featuring nomination and Major Update event have their own review and schedule; coordinate them with app availability. New videos, keyword experiments, and broader marketing work remain separate decisions. Existing documented submission requirements remain explicit until revised with authorization.
 
 ## Related plans and operations
 

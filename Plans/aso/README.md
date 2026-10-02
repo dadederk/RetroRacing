@@ -1,6 +1,6 @@
 # RetroRapid ASO & Growth Plans
 
-Last updated: 2026-07-26
+Last updated: 2026-10-02
 
 Campaign context, historical decisions, and specialized playbooks. **Canonical staged metadata and rollout status** live in [AppStore/docs/](../../AppStore/README.md).
 
@@ -10,24 +10,25 @@ Legacy monolith: [retrorapid_aso_growth_plan.md](../retrorapid_aso_growth_plan.m
 
 | If you need to… | Read |
 |---|---|
-| Canonical staged metadata source | [AppStore/metadata/retrorapid-v1.6.json](../../AppStore/metadata/retrorapid-v1.6.json) |
+| Canonical 2.0 metadata source | [AppStore/metadata/retrorapid-v2.0-candidate.json](../../AppStore/metadata/retrorapid-v2.0-candidate.json) |
+| Current release and featuring sequence | [11-release-2-0-duo-shareplay.md](11-release-2-0-duo-shareplay.md) |
 | Current **live** metadata in App Store Connect | [AppStore/docs/02-listing-snapshot.md](../../AppStore/docs/02-listing-snapshot.md) |
 | Generated **staged** metadata to review or copy | [AppStore/docs/05-metadata-copy.md](../../AppStore/docs/05-metadata-copy.md) |
 | Why metadata is shaped this way | [AppStore/docs/04-metadata-strategy.md](../../AppStore/docs/04-metadata-strategy.md) |
 | Screenshot storyboard (current order) | [AppStore/docs/06-screenshots.md](../../AppStore/docs/06-screenshots.md) |
 | **Add a language / refresh screenshots** | [AppStore/docs/08-locale-expansion.md](../../AppStore/docs/08-locale-expansion.md) |
-| ES/CA text for every screenshot slide | [02-screenshot-localization-copy.md](02-screenshot-localization-copy.md) |
+| Historical ES/CA screenshot copy options | [02-screenshot-localization-copy.md](02-screenshot-localization-copy.md); verify against the current [screenshot storyboard](../../AppStore/docs/06-screenshots.md) |
 | GAAD nomination copy & timeline | [06-gaad-featuring.md](06-gaad-featuring.md) |
 | **Past featuring nominations & voice guide** | [09-featuring-nominations-submitted.md](09-featuring-nominations-submitted.md) |
 | Country pricing strategy | [04-pricing-strategy.md](04-pricing-strategy.md) |
-| Confirmed positioning decisions | [01-decisions-and-priorities.md](01-decisions-and-priorities.md) |
+| Historical positioning decisions | [01-decisions-and-priorities.md](01-decisions-and-priorities.md); use the 2.0 plan for current priorities |
 
 ## Table of contents
 
 | # | Theme | Doc | Status |
 |---:|---|---|---|
-| 01 | Decisions & priority actions | [01-decisions-and-priorities.md](01-decisions-and-priorities.md) | Active principles |
-| 02 | Screenshot localization (all slides) | [02-screenshot-localization-copy.md](02-screenshot-localization-copy.md) | Active copy tables |
+| 01 | Decisions & priority actions | [01-decisions-and-priorities.md](01-decisions-and-priorities.md) | Historical ASO snapshot |
+| 02 | Screenshot localization (all slides) | [02-screenshot-localization-copy.md](02-screenshot-localization-copy.md) | Historical copy options; confirm before reuse |
 | 03 | Metadata pack v1 | [03-metadata-v1-superseded.md](03-metadata-v1-superseded.md) | **Superseded** — use AppStore docs |
 | 04 | IAP pricing strategy | [04-pricing-strategy.md](04-pricing-strategy.md) | Active pricing policy |
 | 05 | 60-day operational checklist | [05-operational-checklist-60-day.md](05-operational-checklist-60-day.md) | **Historical** |
@@ -35,14 +36,15 @@ Legacy monolith: [retrorapid_aso_growth_plan.md](../retrorapid_aso_growth_plan.m
 | 07 | External sources | [07-sources.md](07-sources.md) | Reference links |
 | 08 | Locale expansion waves (summary) | [08-locale-expansion-waves.md](08-locale-expansion-waves.md) | Pointer — see [08-locale-expansion.md](../../AppStore/docs/08-locale-expansion.md) |
 | 09 | **Submitted featuring nominations** | [09-featuring-nominations-submitted.md](09-featuring-nominations-submitted.md) | Archive + voice guide |
-| 10 | SharePlay release campaign | [10-shareplay-release-campaign.md](10-shareplay-release-campaign.md) | Planned launch package |
+| 10 | SharePlay release campaign | [10-shareplay-release-campaign.md](10-shareplay-release-campaign.md) | Historical campaign groundwork; see 11 for current execution |
+| 11 | 2.0 SharePlay + Duo launch | [11-release-2-0-duo-shareplay.md](11-release-2-0-duo-shareplay.md) | Current release and featuring sequence |
 
 ## Canonical vs this folder
 
 | Topic | Canonical location |
 |---|---|
 | Live public facts, name/subtitle/keywords | [docs/02-listing-snapshot.md](../../AppStore/docs/02-listing-snapshot.md) |
-| Canonical staged metadata | [metadata/retrorapid-v1.6.json](../../AppStore/metadata/retrorapid-v1.6.json) |
+| Canonical staged metadata | [metadata/retrorapid-v2.0-candidate.json](../../AppStore/metadata/retrorapid-v2.0-candidate.json) |
 | Generated staged copy | [docs/05-metadata-copy.md](../../AppStore/docs/05-metadata-copy.md) |
 | Cross-localization & keyword strategy | [docs/04-metadata-strategy.md](../../AppStore/docs/04-metadata-strategy.md) |
 | Helm rollout & submission blockers | [docs/03-submission-quality-gate.md](../../AppStore/docs/03-submission-quality-gate.md) |

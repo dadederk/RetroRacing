@@ -224,6 +224,92 @@ final class GameViewModelTests: XCTestCase {
         XCTAssertFalse(viewModel.pause.isUserPaused)
     }
 
+    func testGivenRunningGameWhenHingeMovesThenPlayIsBlockedUntilItSettles() {
+        // Given
+        let scene = makeScene()
+        scene.unpauseGameplay()
+        viewModel.scene = scene
+
+        // When
+        viewModel.observeHingeAngle(90, at: 0)
+        viewModel.observeHingeAngle(95, at: 0.1)
+        viewModel.observeHingeAngle(101, at: 0.2)
+        viewModel.togglePause()
+
+        // Then
+        XCTAssertTrue(scene.gameState.isPaused)
+        XCTAssertTrue(viewModel.pause.isHingePaused)
+        XCTAssertTrue(viewModel.pause.showsResume)
+        XCTAssertTrue(viewModel.pauseButtonDisabled)
+
+        // When
+        viewModel.hingeMotion.settle()
+        viewModel.togglePause()
+
+        // Then
+        XCTAssertFalse(scene.gameState.isPaused)
+        XCTAssertFalse(viewModel.pause.isHingePaused)
+    }
+
+    func testGivenUserPausedGameWhenHingeMovesThenUserPauseRemainsAfterMovement() {
+        // Given
+        let scene = makeScene()
+        scene.unpauseGameplay()
+        viewModel.scene = scene
+        viewModel.togglePause()
+
+        // When
+        viewModel.observeHingeAngle(90, at: 0)
+        viewModel.observeHingeAngle(95, at: 0.1)
+        viewModel.observeHingeAngle(101, at: 0.2)
+        viewModel.hingeMotion.settle()
+
+        // Then
+        XCTAssertTrue(scene.gameState.isPaused)
+        XCTAssertTrue(viewModel.pause.isUserPaused)
+        XCTAssertFalse(viewModel.pause.isHingePaused)
+    }
+
+    func testGivenHingePauseAndMenuLockWhenPressingPlayThenMenuLockKeepsGamePaused() {
+        // Given
+        let scene = makeScene()
+        scene.unpauseGameplay()
+        viewModel.scene = scene
+        viewModel.observeHingeAngle(90, at: 0)
+        viewModel.observeHingeAngle(95, at: 0.1)
+        viewModel.observeHingeAngle(101, at: 0.2)
+        viewModel.hingeMotion.settle()
+        scene.setOverlayPauseLock(true)
+
+        // When
+        viewModel.togglePause()
+
+        // Then
+        XCTAssertTrue(scene.gameState.isPaused)
+        XCTAssertFalse(viewModel.pause.isHingePaused)
+    }
+
+    func testGivenResumedGameWhenHingeMovesAgainThenItPausesAgain() {
+        // Given
+        let scene = makeScene()
+        scene.unpauseGameplay()
+        viewModel.scene = scene
+        viewModel.observeHingeAngle(90, at: 0)
+        viewModel.observeHingeAngle(95, at: 0.1)
+        viewModel.observeHingeAngle(101, at: 0.2)
+        viewModel.hingeMotion.settle()
+        viewModel.togglePause()
+
+        // When
+        viewModel.observeHingeAngle(106, at: 0.3)
+        viewModel.observeHingeAngle(112, at: 0.4)
+
+        // Then
+        XCTAssertTrue(scene.gameState.isPaused)
+        XCTAssertTrue(viewModel.pause.isHingePaused)
+        XCTAssertTrue(viewModel.pauseButtonDisabled)
+    }
+
     func testGivenRatingIsPendingWhenGameOverModalPresentedTwiceThenRatingIsRequestedOnce() {
         // Given
         viewModel.hud.shouldRequestRatingOnGameOverModal = true

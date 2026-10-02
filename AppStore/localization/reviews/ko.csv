@@ -546,6 +546,8 @@ Featured in Create with Swift, Weekly Newsletter #96 (Indie App of the Week):
 ""향수와 탄탄한 게임플레이를 넘어, 진짜 돋보이는 건 접근성이에요.""",App Store metadata,description,≤ 4000 characters,needs_review,
 "Race a friend with SharePlay on iPhone, iPad, and Mac! Face the same traffic, follow each other’s progress, and go again with a rematch. Friend races are free and never use your daily solo plays.
 
+Built for iOS 27 and iPhone Duo. In a partially folded tabletop pose, the road moves above the hinge and the controls sit below. Moving the hinge during a race pauses it; once the device settles, tap Play to continue the same run.
+
 Explore LCD and Pocket in the new Styles gallery. LCD is available to everyone; unlock Pocket with Unlimited Plays. Both styles remain free on Apple Watch.
 
 A fresh look for your favorite retro racer: we’ve extensively redrawn the artwork, including cars and helmets, while keeping the character of LCD and Pocket.
@@ -557,6 +559,8 @@ Now available in German, Dutch, Italian, French for France and Canada, Japanese,
 Catching up? Recent updates added Game Center achievements, friend-score markers, and shareable results.
 
 Thanks for racing with us!","iPhone, iPad, Mac에서 SharePlay로 친구와 레이스하세요! 같은 교통 패턴에 도전하고 서로의 진행 상황을 확인하며 겨뤄 보세요. 한 번 더 달리고 싶다면 재대결도 할 수 있어요. 친구 레이스는 무료이며 일일 솔로 플레이 횟수를 사용하지 않아요.
+
+iOS 27과 iPhone Duo를 지원합니다. 반쯤 접은 탁상 모드에서는 도로가 힌지 위에, 조작 버튼이 아래에 표시됩니다. 경주 중 힌지를 움직이면 게임이 일시 정지되며, 기기가 안정되면 플레이를 탭해 같은 경주를 이어갈 수 있습니다.
 
 새로운 스타일 갤러리에서 LCD와 Pocket을 만나 보세요. LCD는 누구나 사용할 수 있고, Pocket은 무제한 플레이를 구매하면 이용할 수 있어요. Apple Watch에서는 두 스타일 모두 계속 무료예요.
 
@@ -719,6 +723,8 @@ Play Solo Or With Friends,솔로 또는 친구와,Screenshots,slide.9.title,,nee
 "Daily free plays, leaderboards, and live friend races.","매일 무료 플레이, 리더보드, 라이브 친구 레이스.",Screenshots,slide.9.body,,needs_review,
 "Race a friend with SharePlay on iPhone, iPad, and Mac! Face the same traffic, follow each other’s progress, and go again with a rematch. Friend races are free and never use your daily solo plays.
 
+Built for iOS 27 and iPhone Duo. In a partially folded tabletop pose, the road moves above the hinge and the controls sit below. Moving the hinge during a race pauses it; once the device settles, tap Play to continue the same run.
+
 Explore LCD and Pocket in the new Styles gallery. LCD is available to everyone; unlock Pocket with Unlimited Plays. Both styles remain free on Apple Watch.
 
 A fresh look for your favorite retro racer: we’ve extensively redrawn the artwork, including cars and helmets, while keeping the character of LCD and Pocket.
@@ -737,6 +743,8 @@ Testing focus:
 - Check that gameplay stays smooth during longer runs
 - Try landscape layouts, menus, and the game-over flow
 - Complete a run with VoiceOver and confirm every announcement is clear","iPhone, iPad, Mac에서 SharePlay로 친구와 레이스하세요! 같은 교통 패턴에 도전하고 서로의 진행 상황을 확인하며 겨뤄 보세요. 한 번 더 달리고 싶다면 재대결도 할 수 있어요. 친구 레이스는 무료이며 일일 솔로 플레이 횟수를 사용하지 않아요.
+
+iOS 27과 iPhone Duo를 지원합니다. 반쯤 접은 탁상 모드에서는 도로가 힌지 위에, 조작 버튼이 아래에 표시됩니다. 경주 중 힌지를 움직이면 게임이 일시 정지되며, 기기가 안정되면 플레이를 탭해 같은 경주를 이어갈 수 있습니다.
 
 새로운 스타일 갤러리에서 LCD와 Pocket을 만나 보세요. LCD는 누구나 사용할 수 있고, Pocket은 무제한 플레이를 구매하면 이용할 수 있어요. Apple Watch에서는 두 스타일 모두 계속 무료예요.
 

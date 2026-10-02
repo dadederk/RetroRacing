@@ -29,6 +29,7 @@
 - Overlay-driven pause is separate from user-driven pause.
 - Dismissing an overlay resumes only when the user did not explicitly pause.
 - Deferred audio/start callbacks must not clear an active overlay pause lock.
+- On iPhone Duo with iOS 27.1+, two angle changes in the same direction totaling at least 10 degrees within 500 ms pause an active run. A single spike, smaller changes, and the first hinge sample do not pause. Play remains unavailable until 500 ms after the last detected movement, then explicitly resumes the same run; movement never resumes automatically. Hinge pause is independent of menu and user pause reasons, and an unavailable hinge never triggers a new pause.
 - Toolbar controls are disabled when no game is active or an overlay is visible.
 
 ## Platform Notes

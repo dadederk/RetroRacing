@@ -123,7 +123,7 @@ final class GameEngineTests: XCTestCase {
         // Given
         let engine = makeEngine(values: [0])
         engine.handle(.start)
-        let reasons: [GamePauseReason] = [.user, .overlay, .presentationTransition, .appInactive]
+        let reasons: [GamePauseReason] = [.user, .hinge, .overlay, .presentationTransition, .appInactive]
         reasons.forEach { engine.handle(.setPause(reason: $0, isActive: true)) }
 
         // When / Then

@@ -76,7 +76,7 @@ public enum TestFlightUploadOptionsParser {
         Usage: ./retrorapid testflight <command> [options]
 
         Commands:
-          archive       Archive iOS and macOS with Xcode 26
+          archive       Archive iOS and macOS with the selected Xcode
           upload-ios    Upload iOS archive to App Store Connect, then configure via Helm
           upload-mac    Upload macOS archive to App Store Connect, then configure via Helm
           all           archive, upload-ios, then upload-mac
@@ -91,6 +91,10 @@ public enum TestFlightUploadOptionsParser {
           --external-group <id>        TestFlight group ID to attach
           --poll-attempts <count>      Build lookup attempts
           --poll-interval <seconds>    Seconds between build lookup attempts
+
+        Pass --version and --build-number explicitly for each release. Without
+        them, this helper uses historical defaults 1.5 (34). Upload commands
+        attach the external group; Helm can submit eligible builds for beta review.
         """
     }
 

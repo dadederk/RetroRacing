@@ -2,19 +2,28 @@
 
 Part of [App Store docs hub](../README.md). Index: [RETRORAPID_APP_STORE_REFERENCE.md](../RETRORAPID_APP_STORE_REFERENCE.md).
 
-Last updated: 2026-07-26
+Last updated: 2026-10-02
 
-**See also:** [Metadata copy](05-metadata-copy.md) · [Live listing](02-listing-snapshot.md) · [90-day plan](11-execution-90-day.md) · [Swift scripts](../../Scripts/README.md)
+**See also:** [Release candidate workflow](21-release-candidate-workflow.md) · [Metadata copy](05-metadata-copy.md) · [Live listing](02-listing-snapshot.md) · [Swift scripts](../../Scripts/README.md)
 
 ---
 
-## Current candidate: 1.5 (35)
+## Current candidate: 2.0 (36)
 
-The active catalog is [retrorapid-v1.5-candidate.json](../metadata/retrorapid-v1.5-candidate.json), targeting the existing iOS/macOS 1.5 drafts. Build 35 includes the shared release defaults and removes obsolete local flag helpers. SharePlay leads this release; the Styles gallery contains LCD/Pocket. Cartridge/CRT, alternate icons, and TV/Vision launches remain deferred. Pocket requires Unlimited Plays outside watchOS.
+The active catalog is [retrorapid-v2.0-candidate.json](../metadata/retrorapid-v2.0-candidate.json), applied to the editable iOS/macOS 2.0 drafts in all 20 locales per platform. The [2.0 (36) candidate record](../testflight/release-2.0-36.md) contains current build, beta, and toolchain status. SharePlay and iPhone Duo lead this release; tvOS and visionOS gameplay remain outside the public shipping scope.
 
-App Store and TestFlight copy covers all 20 supported locales. `DRAFT_APPLIED` means copy is staged, not approved or public. Before public submission, complete physical-device SharePlay acceptance (especially Mac), exact-digest fluent locale approval, and screenshot review against release-1 themes. Prior draft screenshots can contain deferred themes and are not evidence of candidate readiness. The existing public Vision placeholder remains outside this release's archive scope.
+App Store What's New matches the catalog on readback for all 40 platform/locale combinations. Full TestFlight notes were accepted on both processed builds for all 20 locales. Both iOS and macOS builds await external beta review; the Mac App Store draft selects build 36, while the iOS draft still selects build 35. `DRAFT_APPLIED` means copy is staged, not approved or public. Before App Review, complete Duo/SharePlay device acceptance, Mac smoke testing, fluent locale approval, and screenshot review against the features actually shipping. The current Studio storyboard still promises four retro eras; 2.0 exposes LCD and Pocket, so that screenshot copy and imagery must be corrected or omitted before submission. Helm confirms uploaded screenshots in all 20 iPhone/Watch locales and 18 iPad/Mac locales; Polish and Turkish have no iPad/Mac uploads. Attach only builds made with an App Store-accepted toolchain, keep manual release control, and use the [release candidate workflow](21-release-candidate-workflow.md) for the sequence.
 
-## Historical submission snapshot
+## Public submission gate
+
+- The exact selected source commit, Xcode build/SDK, marketing version, and build number are recorded for iOS with embedded Watch and macOS. Apple accepts each archive's toolchain for public App Store submission.
+- Both platform-specific draft versions have the intended build selected, `MANUAL` release control, correct export compliance, review contact, and review notes. Neither version is submitted merely because a TestFlight build passed beta review.
+- The canonical metadata catalog matches readback for every affected locale on both platform drafts. Fluent reviewers have approved the exact revised text; TestFlight What to Test is checked separately on each uploaded build.
+- Current screenshots and previews reflect shipped UI, supported devices, and the localized story. Public claims exclude unshipped tvOS and visionOS gameplay.
+- SharePlay, Duo fold/pause/resume behavior, Mac controls, accessibility, and Unlimited Plays purchase behavior have the required manual acceptance evidence. Any remaining limitation is recorded in the candidate file before the owner decides on submission.
+- The featuring nomination and In-App Event, if used, have IDs, statuses, deep link, and dates recorded. The event start is compatible with the planned app availability.
+
+## Historical 1.5 submission snapshot
 
 
 Status on 2026-07-26: `DRAFT_APPLIED`. Name, subtitle, keywords, promotional text, description, and What's New are applied to both 1.5 drafts across all 18 App Store listing locales. Today's pass updated What's New to list the full v1.5 localization set, removed em dashes from App Store metadata copy, and replaced the Simplified Chinese hidden keyword `watch` with native Chinese terms to resolve the related-language duplicate with Brazilian Portuguese. TestFlight beta-note source files were updated locally, but no build-level TestFlight notes were changed in App Store Connect in this pass. Two issues should still be closed before submission:
@@ -65,6 +74,6 @@ swift run --package-path Scripts apply-retrorapid-metadata --keywords-only
 swift run --package-path Scripts apply-retrorapid-metadata --include-app-info
 ```
 
-The Swift tool defaults to `AppStore/metadata/retrorapid-v1.5-candidate.json` and validates it before calling Helm. Planned catalogs may omit draft IDs for local generation, but apply and dry-run commands fail until complete iOS and macOS version-localization IDs are recorded. Use `--catalog` to select another release, `--keywords-only` for a keyword-only sync, and `--include-app-info` to sync shared name/subtitle fields.
+The Swift metadata tool now defaults to `AppStore/metadata/retrorapid-v2.0-candidate.json` and validates it before calling Helm. Planned catalogs may omit draft IDs for local generation, but apply and dry-run commands fail until complete iOS and macOS version-localization IDs are recorded. Use `--catalog` to select another release, `--keywords-only` for a keyword-only sync, and `--include-app-info` to sync shared name/subtitle fields.
 
-Do not submit until keyword ranks are baselined and the screenshot story is finalized.
+For the current candidate, follow the 2.0 gate above and record any unresolved ASO or screenshot decision before submission.

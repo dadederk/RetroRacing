@@ -367,6 +367,12 @@ public class GameScene: SKScene {
         synchronizeFromEngine()
     }
 
+    /// Keeps a run paused until the player resumes after hinge movement.
+    public func setHingePauseLock(_ isLocked: Bool) {
+        processEngineEvents(handleEngineCommand(.setPause(reason: .hinge, isActive: isLocked)))
+        synchronizeFromEngine()
+    }
+
     /// Locks or unlocks pause state while the menu overlay is visible.
     public func setOverlayPauseLock(_ isLocked: Bool) {
         isOverlayPauseLocked = isLocked

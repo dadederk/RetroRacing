@@ -2,9 +2,13 @@
 
 Part of [App Store docs hub](../README.md).
 
-Last updated: 2026-08-05
+Last updated: 2026-10-02
 
 **Status:** localized base captures via `./retrorapid screenshots capture`. Studio **export** and Connect **upload** stay **manual**.
+
+**2.0 submission check:** The existing Studio storyboard and slide 8 still say four retro eras, from Pocket to CRT. The 2.0 release configuration exposes LCD and Pocket only. Replace or omit that slide on iPhone, iPad, and Mac, then inspect the screenshots already attached to both 2.0 drafts in every locale before App Review. Do not treat this storyboard as approved 2.0 artwork until its copy and captured UI match the selected build.
+
+On October 2, Helm readback showed complete uploads for 20 locales on iPhone (two display sizes) and Watch, 18 locales on iPad (no `pl` or `tr`), and 18 locales on Mac (no `pl` or `tr`). Each listed iPhone/iPad locale has ten images, each Watch locale has seven, and each listed Mac locale has nine. This confirms upload coverage and processing state, **not** the words or pixels shown in those images. Review current App Store Connect crops and consider adding native `pl`/`tr` iPad and Mac captures rather than relying on locale fallback.
 
 **Ops (capture / install / refresh):** [`08-locale-expansion.md`](08-locale-expansion.md) · **Fixtures:** [`Requirements/screenshot_capture.md`](../../Requirements/screenshot_capture.md)
 
@@ -40,7 +44,7 @@ Bodies ≤ ~10 English words. Mac omits SharePlay (nine slides; indices shift af
 | 5 | Race Friends with SharePlay | Challenge friends for free. Countdown, compete, rematch. | SharePlay (iPhone/iPad) |
 | 6 | Climb the Leaderboard | Game Center scores and friend markers keep every run competitive. | Competition |
 | 7 | Customize Your Experience | Tune volume, haptics, controls… Go Cruise, Fast, or Rapid! | Personalization |
-| 8 | Choose Your Retro Aesthetic | Switch between four retro eras, from Pocket to CRT. | Theme |
+| 8 | Choose Your Retro Aesthetic | Switch between four retro eras, from Pocket to CRT. | Theme; historical Studio copy, **not approved for 2.0** |
 | 9 | Unlock Retro Achievements | Earn Game Center trophies as you race and improve. | Achievements |
 | 10 | Play Solo Or With Friends | Daily free plays, leaderboards, and live friend races. | Menu / breadth |
 

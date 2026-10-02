@@ -1,5 +1,7 @@
 Race a friend with SharePlay on iPhone, iPad, and Mac! Face the same traffic, follow each other’s progress, and go again with a rematch. Friend races are free and never use your daily solo plays.
 
+Built for iOS 27 and iPhone Duo. In a partially folded tabletop pose, the road moves above the hinge and the controls sit below. Moving the hinge during a race pauses it; once the device settles, tap Play to continue the same run.
+
 Explore LCD and Pocket in the new Styles gallery. LCD is available to everyone; unlock Pocket with Unlimited Plays. Both styles remain free on Apple Watch.
 
 A fresh look for your favourite retro racer: we’ve extensively redrawn the artwork, including cars and helmets, while keeping the character of LCD and Pocket.
