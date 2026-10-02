@@ -16,7 +16,7 @@ App Store What's New matches the catalog on readback for all 40 platform/locale 
 
 ## Public submission gate
 
-- The exact selected source commit, Xcode build/SDK, marketing version, and build number are recorded for iOS with embedded Watch and macOS. Apple accepts each archive's toolchain for public App Store submission.
+- The exact selected source commit, Xcode build/SDK, marketing version, and shared build number are recorded for iOS with embedded Watch and macOS. Apple accepts each archive's toolchain for public App Store submission.
 - Both platform-specific draft versions have the intended build selected, `MANUAL` release control, correct export compliance, review contact, and review notes. Neither version is submitted merely because a TestFlight build passed beta review.
 - The canonical metadata catalog matches readback for every affected locale on both platform drafts. Fluent reviewers have approved the exact revised text; TestFlight What to Test is checked separately on each uploaded build.
 - Current screenshots and previews reflect shipped UI, supported devices, and the localized story. Public claims exclude unshipped tvOS and visionOS gameplay.

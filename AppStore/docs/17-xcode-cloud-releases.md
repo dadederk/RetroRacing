@@ -8,6 +8,7 @@ Agent playbook for validating and archiving RetroRapid! with Xcode Cloud. Use th
 - Pin a specific Xcode release/RC environment that [Apple currently accepts for App Store distribution](https://developer.apple.com/help/app-store-connect/release-notes/) and contains the SDK required by the source. Use **Latest Release** only after confirming what it resolves to for that run; **Latest** may select a beta. A separate beta-SDK TestFlight workflow can exercise new APIs before they are public-submission eligible.
 - The release workflow archives only public shipping payloads: iOS/iPadOS with the embedded watchOS app, and macOS. Do not add tvOS or visionOS archive actions until their public status changes.
 - Build numbers (`CURRENT_PROJECT_VERSION`) should be managed by Xcode Cloud for the release workflow once enabled. Before the first real run, set Xcode Cloud's **Next Build Number** above the current maximum uploaded build across iOS and macOS.
+- Verify that the two archive actions produce the same build number. If managed numbering advances between actions, correct the workflow numbering before using the pair as one release candidate; do not silently ship mismatched iOS/Watch and Mac numbers.
 - Release workflow post-actions distribute only to **TestFlight Internal Testing**. External TestFlight group attachment, beta review submission, App Store version attachment, App Store review submission, phased release, and manual release stay deliberate human or Helm steps.
 - A successful internal TestFlight upload should be valid to promote: Release configuration, App Store distribution signing, no non-exempt encryption, current metadata/review notes, and both iOS and macOS build records available in App Store Connect.
 
@@ -76,7 +77,7 @@ When local machines have multiple simulator runtimes with the same device names,
 ```
 
 4. Start the **Release** workflow once from Xcode or App Store Connect.
-5. Wait for both archive actions and both internal TestFlight post-actions to complete.
+5. Wait for both archive actions and both internal TestFlight post-actions to complete. Read back their platform, marketing version, and build number; only treat them as a paired release candidate when those values align.
 6. Poll for processed builds and set export compliance/What to Test copy through Helm, continuing from step 3 of [14-testflight-helm-upload.md](14-testflight-helm-upload.md).
 7. Attach the internal group automatically through the Xcode Cloud post-action result. Attach external groups and submit for beta review only when ready to invite external testers.
 8. After internal/external feedback is good, attach the selected iOS and macOS builds to the App Store version, complete review notes and metadata checks, then submit for App Store review manually or through a dedicated Helm/App Store Connect API step.

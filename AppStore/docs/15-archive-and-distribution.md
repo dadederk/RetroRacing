@@ -14,6 +14,7 @@ Operational reference for TestFlight and App Store archive shape. For the end-to
 - Do not archive with a simulator or “My Mac” when producing the iOS/watchOS archive.
 - `RetroRacingUniversal` builds iOS and macOS. The dedicated `RetroRacingVisionOS` target owns the visionOS binary.
 - `RetroRacingUniversal` and `RetroRacingVisionOS` share `com.accessibilityUpTo11.RetroRacing`, but shared identity does not make visionOS a gameplay shipping promise.
+- Keep one build number per release candidate across the iOS archive, its embedded Watch app, and the macOS archive. For a later public rebuild, advance to one new number on all shipping platforms, including a platform whose previous archive could already be submitted. Check App Store Connect for the highest uploaded number before reserving it.
 
 ## Watch Embed Checks
 

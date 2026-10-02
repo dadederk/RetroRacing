@@ -7,7 +7,7 @@ Use this for local iOS with embedded Watch and macOS archives. Start with the [r
 - Confirm the intended app and Helm account: `helm-asc auth list --agent`, then `helm-asc apps 6758641625 testFlightGroups --agent`. The team is `PV9S9FTZF2`; resolve group IDs anew rather than relying on an old copy.
 - Resolve the installed Helm path with `command -v helm-asc`. The current machine uses `/opt/homebrew/bin/helm-asc`; older installs may use the Helm app helper. Pass `--agent` for machine-readable results.
 - Check `xcode-select -p`, `xcodebuild -version`, and [Apple's current App Store Connect release notes](https://developer.apple.com/help/app-store-connect/release-notes/). A beta Xcode can be accepted for TestFlight before it is accepted for public App Store submission. Verify the notice for the specific platform and SDK.
-- Confirm project marketing/build numbers before archiving. The upload helper's `--version` and `--build-number` filter App Store Connect lookups; they **do not** update the Xcode project.
+- Confirm one marketing version and build number across the iOS archive, embedded Watch app, and macOS archive before uploading. The upload helper's `--version` and `--build-number` filter App Store Connect lookups; they **do not** update the Xcode project.
 - Keep `AppStore/testflight/beta-notes/<locale>/whats-new.txt` complete for every supported locale. These are TestFlight What to Test notes, separate from the App Store What's New in the metadata catalog.
 
 ## Automation and its limits
