@@ -58,6 +58,8 @@ helm-asc build <build-id> attach --groups <external-group-id> --auto-notify fals
 
 Use the first form for attachment only, or the second when external beta review is authorized and testers should not receive automatic approval notifications. If already attached with `--no-submit`, use `helm-asc build <id> submit-for-review --auto-notify false --agent`. Re-list the build and record `WAITING_FOR_BETA_REVIEW`, `IN_BETA_TESTING`, or the actual state. An Internal Testing group can reject attachment with a 422; do not assume it is interchangeable with an external group.
 
+If Apple approves a build submitted with `--auto-notify false`, the approval alone does not notify existing testers or start the testing state. [Apple's instructions](https://developer.apple.com/help/app-store-connect/test-a-beta-version/invite-external-testers/) require **Notify Testers** on each approved platform build in App Store Connect. Helm has no command for this later action; a separately authenticated `asc testflight notifications send --build-id <build-id>` can send it. Verify the build changes from `BETA_APPROVED` to Testing / `IN_BETA_TESTING` afterward. Public-link enrollment is a separate invitation path.
+
 ## Alternate Helm file upload
 
 `helm-asc apps <app-id> builds upload --file <ipa-or-pkg> --platform <platform> --version <version> --number <build>` accepts exported `.ipa` and `.pkg` files. First run `helm-asc paths --agent` and stage agent-created artifacts under the reported `uploadsInbox`. Use `--wait-for-processing` when later steps need the processed build ID. Do not infer file access from shell access; `FILE_ACCESS` means Helm's sandbox cannot read the path. `cd` does not grant access.

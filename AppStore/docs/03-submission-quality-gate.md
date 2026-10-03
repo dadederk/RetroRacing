@@ -2,7 +2,7 @@
 
 Part of [App Store docs hub](../README.md). Index: [RETRORAPID_APP_STORE_REFERENCE.md](../RETRORAPID_APP_STORE_REFERENCE.md).
 
-Last updated: 2026-10-02
+Last updated: 2026-10-03
 
 **See also:** [Release candidate workflow](21-release-candidate-workflow.md) · [Metadata copy](05-metadata-copy.md) · [Live listing](02-listing-snapshot.md) · [Swift scripts](../../Scripts/README.md)
 
@@ -12,7 +12,7 @@ Last updated: 2026-10-02
 
 The active catalog is [retrorapid-v2.0-candidate.json](../metadata/retrorapid-v2.0-candidate.json), applied to the editable iOS/macOS 2.0 drafts in all 20 locales per platform. The [2.0 (36) candidate record](../testflight/release-2.0-36.md) contains current build, beta, and toolchain status. SharePlay and iPhone Duo lead this release; tvOS and visionOS gameplay remain outside the public shipping scope.
 
-App Store What's New matches the catalog on readback for all 40 platform/locale combinations. Full TestFlight notes were accepted on both processed builds for all 20 locales. Both iOS and macOS builds await external beta review; the Mac App Store draft selects build 36, while the iOS draft still selects build 35. `DRAFT_APPLIED` means copy is staged, not approved or public. Before App Review, complete Duo/SharePlay device acceptance, Mac smoke testing, fluent locale approval, and screenshot review against the features actually shipping. The current Studio storyboard still promises four retro eras; 2.0 exposes LCD and Pocket, so that screenshot copy and imagery must be corrected or omitted before submission. Helm confirms uploaded screenshots in all 20 iPhone/Watch locales and 18 iPad/Mac locales; Polish and Turkish have no iPad/Mac uploads. Attach only builds made with an App Store-accepted toolchain, keep manual release control, and use the [release candidate workflow](21-release-candidate-workflow.md) for the sequence.
+App Store What's New matches the catalog on readback for all 40 platform/locale combinations. Full TestFlight notes were accepted on both processed builds for all 20 locales. Both iOS and macOS builds are approved for external beta testing, but tester notification is pending; the Mac App Store draft selects build 36, while the iOS draft still selects build 35. `DRAFT_APPLIED` means copy is staged, not approved or public. Before App Review, complete Duo/SharePlay device acceptance, Mac smoke testing, fluent locale approval, and screenshot review against the features actually shipping. The current Studio storyboard still promises four retro eras; 2.0 exposes LCD and Pocket, so that screenshot copy and imagery must be corrected or omitted before submission. Helm confirms uploaded screenshots in all 20 iPhone/Watch locales and 18 iPad/Mac locales; Polish and Turkish have no iPad/Mac uploads. Attach only builds made with an App Store-accepted toolchain, keep manual release control, and use the [release candidate workflow](21-release-candidate-workflow.md) for the sequence.
 
 ## Public submission gate
 
