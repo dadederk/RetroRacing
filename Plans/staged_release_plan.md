@@ -2,7 +2,7 @@
 
 **Status:** Stage 1 is now RetroRapid! **2.0**, the SharePlay and iPhone Duo release in [the active 2.0 plan](aso/11-release-2-0-duo-shareplay.md). The former 1.5 SharePlay launch sequence was superseded before public submission. The following stages remain planned and gated; their working version slots are 2.1, 2.2, and 2.3, subject to Apple SDK timing and release acceptance.
 
-The 2.0 candidate uses build 36: iOS with embedded Watch and macOS are both approved for external TestFlight testing and attached to the group, with tester notification pending. The 20-locale App Store What's New and TestFlight notes are applied on both platforms; the Mac 2.0 draft selects build 36. Fluent approval, screenshot alignment, real-device SharePlay and Duo acceptance, and an App Store-eligible Xcode 27.1 toolchain remain public-release gates. See [the candidate record](../AppStore/testflight/release-2.0-36.md) for exact states and IDs.
+The 2.0 candidate uses build 36: iOS with embedded Watch and macOS are both `IN_BETA_TESTING` in the external group. The 20-locale App Store What's New and TestFlight notes are verified on both platforms; the Mac 2.0 draft selects build 36. Fluent approval, screenshot alignment, real-device SharePlay and Duo acceptance, and an App Store-eligible Xcode 27.1 toolchain remain public-release gates. See [the candidate record](../AppStore/testflight/release-2.0-36.md) for exact states and IDs.
 
 Earlier 1.5/build-35 evidence remains in [its historical record](../AppStore/testflight/release-1.5-35.md). GitHub branch protection and Xcode Cloud setup are separate infrastructure work; neither is claimed as a gate that has already passed.
 
