@@ -1,6 +1,6 @@
 # RetroRapid! App Store Docs
 
-Last updated: 2026-10-02
+Last updated: 2026-10-06
 
 Themed documentation for App Store copy, ASO, screenshots, rollout, and execution.
 
@@ -105,8 +105,10 @@ See [`../AGENTS.md`](../AGENTS.md) Brand Mark section and `RetroRacingShared/Uti
 
 - [`assets/brand-marks/`](assets/brand-marks/) — reusable transparent RetroRapid! period title treatments, canonical accessibility seal, and fictional publisher marks for marketing layouts
 - [`product-page-header-concepts/`](product-page-header-concepts/) — future, name-only product page headers; LCD console lead with two campaign-art alternatives
+- [`creative-assets/`](creative-assets/) — upload-sized header and search results candidates for the new App Store placements; preview and approval pending
 - `metadata/retrorapid-v2.0-candidate.json` — canonical 2.0 release candidate; applied to the editable iOS/macOS drafts
-- [`testflight/release-2.0-36.md`](testflight/release-2.0-36.md) — current 2.0 build, TestFlight, and store-readiness record
+- [`testflight/release-2.0-37.md`](testflight/release-2.0-37.md) — current 2.0 RC build, TestFlight, and App Review handoff record
+- [`testflight/release-2.0-36.md`](testflight/release-2.0-36.md) — historical beta candidate
 - `metadata/retrorapid-v1.5-candidate.json` — prior 1.5 release candidate; retained for history
 - `metadata/retrorapid-v1.5.json` — immutable earlier 1.5 applied-catalog snapshot
 - `metadata/retrorapid-v1.6.json` — superseded expanded-theme candidate; retained for history, not active rollout copy

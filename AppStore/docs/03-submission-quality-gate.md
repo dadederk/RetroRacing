@@ -2,17 +2,17 @@
 
 Part of [App Store docs hub](../README.md). Index: [RETRORAPID_APP_STORE_REFERENCE.md](../RETRORAPID_APP_STORE_REFERENCE.md).
 
-Last updated: 2026-10-03
+Last updated: 2026-10-06
 
 **See also:** [Release candidate workflow](21-release-candidate-workflow.md) · [Metadata copy](05-metadata-copy.md) · [Live listing](02-listing-snapshot.md) · [Swift scripts](../../Scripts/README.md)
 
 ---
 
-## Current candidate: 2.0 (36)
+## Current candidate: 2.0 (37)
 
-The active catalog is [retrorapid-v2.0-candidate.json](../metadata/retrorapid-v2.0-candidate.json), applied to the editable iOS/macOS 2.0 drafts in all 20 locales per platform. The [2.0 (36) candidate record](../testflight/release-2.0-36.md) contains current build, beta, and toolchain status. SharePlay and iPhone Duo lead this release; tvOS and visionOS gameplay remain outside the public shipping scope.
+The active catalog is [retrorapid-v2.0-candidate.json](../metadata/retrorapid-v2.0-candidate.json), applied to the editable iOS/macOS 2.0 drafts in all 20 locales per platform. The [2.0 (37) candidate record](../testflight/release-2.0-37.md) contains current build, beta, and toolchain status. SharePlay and iPhone Duo lead this release; tvOS and visionOS gameplay remain outside the public shipping scope.
 
-App Store What's New matches the catalog on October 3 readback for all 40 platform/locale combinations. Full TestFlight notes on both processed builds match all 20 locale files per platform in Helm dry-run comparisons. Both iOS and macOS builds are `IN_BETA_TESTING` in the external group; the Mac App Store draft selects build 36, while the iOS draft still selects build 35. `DRAFT_APPLIED` means copy is staged, not approved or public. Before App Review, complete Duo/SharePlay device acceptance, Mac smoke testing, fluent locale approval, and screenshot review against the features actually shipping. The current Studio storyboard still promises four retro eras; 2.0 exposes LCD and Pocket, so that screenshot copy and imagery must be corrected or omitted before submission. Helm confirms uploaded screenshots in all 20 iPhone/Watch locales and 18 iPad/Mac locales; Polish and Turkish have no iPad/Mac uploads. Attach only builds made with an App Store-accepted toolchain, keep manual release control, and use the [release candidate workflow](21-release-candidate-workflow.md) for the sequence.
+App Store What's New matched the catalog on October 6 readback for all 40 platform/locale combinations. Full TestFlight notes on both processed build 37 uploads match all 20 locale files per platform in Helm `noop` dry-run comparisons. Both drafts select the matching App Store-eligible Xcode 27.1 RC build 37, use manual release with a seven-day phase, and have staged review submissions that have **not** been sent to App Review. Both RC builds are `IN_BETA_TESTING`. Before App Review, complete Duo/SharePlay device acceptance, Mac smoke testing, fluent locale approval, and visual screenshot review. The old four-theme screenshot was removed from all attached iPhone/iPad/Mac sets; do not re-export it for 2.0. Helm confirms nine remaining images per listed iPhone/iPad locale, eight per Mac locale, and seven per Watch locale. Polish and Turkish have no iPad/Mac uploads and use fallback. Follow the [release candidate workflow](21-release-candidate-workflow.md) for the remaining sequence.
 
 ## Public submission gate
 

@@ -8,7 +8,7 @@ This is the operational brief for the 2.0 launch event. It highlights the arriva
 |---|---|
 | App and account | RetroRapid `6758641625`, AccessibilityUpTo11 |
 | Event ID | `6818452317` |
-| Event state | `WAITING_FOR_REVIEW` on 2026-10-02 |
+| Event state | `APPROVED` on 2026-10-06; review submission `15e913ab-a4a9-40e0-a308-4678ab34a492` is complete |
 | Primary locale | `en-US`; localization ID `521c30df-b3fa-46aa-a307-a95fba1a439c` |
 | Badge | **Major Update**, confirmed in App Store Connect |
 | Purpose / priority | Appropriate for all users / Normal, confirmed in App Store Connect |
@@ -38,6 +38,6 @@ The event tells users about significant new features, which fits [Apple's Major 
 1. Restore a working Duo visual capture or test hardware. On October 2, both the running app and the simulator Home screen captured as black in the iOS 27.1 beta runtime. Unit tests passed, but the layout and hinge interaction are not visually approved.
 2. Decide whether the October 16 advance discoverability is intended. Apple permits an event card to appear before its October 23 start, but the 2.0 update must be ready by the event start; move the schedule if the build slips.
 3. Test the saved deep link on a device. The app currently handles `/apps/retrorapid/open/` and lands at the game menu, where Play with Friends is visible.
-4. Monitor event review. Once approved, attach event `6818452317` to the submitted featuring nomination if it was not attached at submission. Apple does not allow attaching an event until it is approved or published.
+4. Attach approved event `6818452317` to the submitted featuring nomination if it was not attached at submission. Apple does not allow attaching an event until it is approved or published.
 
 Apple's [event setup instructions](https://developer.apple.com/help/app-store-connect/offer-in-app-events/offer-in-app-events) specify the 30/50/120-character copy limits, media, deep link, and schedule. See the [2.0 release plan](../../Plans/aso/11-release-2-0-duo-shareplay.md) for the build and App Review path.

@@ -2,13 +2,13 @@
 
 Part of [App Store docs hub](../README.md).
 
-Last updated: 2026-10-02
+Last updated: 2026-10-06
 
 **Status:** localized base captures via `./retrorapid screenshots capture`. Studio **export** and Connect **upload** stay **manual**.
 
-**2.0 submission check:** The existing Studio storyboard and slide 8 still say four retro eras, from Pocket to CRT. The 2.0 release configuration exposes LCD and Pocket only. Replace or omit that slide on iPhone, iPad, and Mac, then inspect the screenshots already attached to both 2.0 drafts in every locale before App Review. Do not treat this storyboard as approved 2.0 artwork until its copy and captured UI match the selected build.
+**2.0 submission check:** The existing Studio storyboard and slide 8 still say four retro eras, from Pocket to CRT. The 2.0 release configuration exposes LCD and Pocket only. On October 6, the inaccurate slide was removed from both App Store drafts: slide 8 on all attached iPhone/iPad sets and corresponding slide 7 on Mac, 76 screenshots total. Helm readback confirms their absence. Do not re-export that historical Studio slide for 2.0. Inspect the remaining screenshots and crops in every locale before App Review.
 
-On October 2, Helm readback showed complete uploads for 20 locales on iPhone (two display sizes) and Watch, 18 locales on iPad (no `pl` or `tr`), and 18 locales on Mac (no `pl` or `tr`). Each listed iPhone/iPad locale has ten images, each Watch locale has seven, and each listed Mac locale has nine. This confirms upload coverage and processing state, **not** the words or pixels shown in those images. Review current App Store Connect crops and consider adding native `pl`/`tr` iPad and Mac captures rather than relying on locale fallback.
+On October 6, Helm readback showed 20 locales on iPhone (two display sizes) and Watch, 18 locales on iPad (no `pl` or `tr`), and 18 locales on Mac (no `pl` or `tr`). Each listed iPhone/iPad locale now has nine images, Watch has seven, and Mac has eight. This confirms upload coverage and processing state, **not** the words or pixels shown in those images. Review current App Store Connect crops and consider adding native `pl`/`tr` iPad and Mac captures rather than relying on locale fallback.
 
 **Ops (capture / install / refresh):** [`08-locale-expansion.md`](08-locale-expansion.md) · **Fixtures:** [`Requirements/screenshot_capture.md`](../../Requirements/screenshot_capture.md)
 

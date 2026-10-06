@@ -1,6 +1,6 @@
 # Release Candidate Workflow
 
-Use this checklist for a new RetroRapid! marketing version. It links to the detailed [quality gate](03-submission-quality-gate.md), [local TestFlight runbook](14-testflight-helm-upload.md), [archive rules](15-archive-and-distribution.md), and [Xcode Cloud lane](17-xcode-cloud-releases.md). The [2.0 (36) record](../testflight/release-2.0-36.md) is an example of an incomplete candidate with explicit gates.
+Use this checklist for a new RetroRapid! marketing version. It links to the detailed [quality gate](03-submission-quality-gate.md), [local TestFlight runbook](14-testflight-helm-upload.md), [archive rules](15-archive-and-distribution.md), and [Xcode Cloud lane](17-xcode-cloud-releases.md). The [2.0 (37) record](../testflight/release-2.0-37.md) is the current example of a staged candidate with explicit manual gates.
 
 ## 1. Choose the release source and toolchains
 
@@ -29,7 +29,7 @@ Use this checklist for a new RetroRapid! marketing version. It links to the deta
 1. Re-read both draft versions and the selected build IDs. Confirm the final iOS/Watch and macOS builds share the reserved build number, then attach **only App Store-eligible, accepted-toolchain builds** to their matching platform drafts. Keep `MANUAL` release control until the intended launch. A TestFlight build under beta review is not proof that App Review can accept it.
 2. Check the [submission quality gate](03-submission-quality-gate.md): review contact and notes, export compliance, IAP, screenshots for current features, accessibility, privacy, locales, and platform availability. Do not imply public tvOS or visionOS gameplay from implemented targets.
 3. For a major update, prepare the featuring nomination and a bounded [In-App Event](20-major-update-2-0-in-app-event.md) when its badge and schedule fit. Helm supports event metadata/assets and review submission; featuring nomination may require App Store Connect UI. Record nomination and event IDs, statuses, deep link, preview/start/end dates, and the relationship between the event date and likely app availability.
-4. Submit each platform for App Review only after the chosen builds and manual checks are complete. App Review submission and public release are separate steps. Record submission IDs and preserve the manual release choice.
+4. Submit each platform for App Review only after the chosen builds and manual checks are complete. App Review submission and public release are separate steps. Record submission IDs and preserve the manual release choice. A manual seven-day phased release begins when each approved platform version is manually released, then advances through Apple's daily automatic-update percentages. Users can manually download from day one; choose the start date by counting back six calendar days from the desired seventh day and allow for review and time-zone variance.
 
 ## Candidate record
 

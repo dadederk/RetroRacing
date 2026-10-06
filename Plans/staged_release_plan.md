@@ -2,7 +2,7 @@
 
 **Status:** Stage 1 is now RetroRapid! **2.0**, the SharePlay and iPhone Duo release in [the active 2.0 plan](aso/11-release-2-0-duo-shareplay.md). The former 1.5 SharePlay launch sequence was superseded before public submission. The following stages remain planned and gated; their working version slots are 2.1, 2.2, and 2.3, subject to Apple SDK timing and release acceptance.
 
-The 2.0 candidate uses build 36: iOS with embedded Watch and macOS are both `IN_BETA_TESTING` in the external group. The 20-locale App Store What's New and TestFlight notes are verified on both platforms; the Mac 2.0 draft selects build 36. Fluent approval, screenshot alignment, real-device SharePlay and Duo acceptance, and an App Store-eligible Xcode 27.1 toolchain remain public-release gates. See [the candidate record](../AppStore/testflight/release-2.0-36.md) for exact states and IDs.
+The public 2.0 RC uses build 37 from Xcode 27.1 RC: iOS with embedded Watch and macOS are uploaded, processed, selected on their App Store drafts, and staged in separate review submissions. The 20-locale App Store What's New and TestFlight notes are verified on both platforms. Both build 37 uploads are in external testing. Fluent approval, visual screenshot review, and real-device SharePlay and Duo acceptance remain before App Review submission. See [the candidate record](../AppStore/testflight/release-2.0-37.md) for exact states and IDs.
 
 Earlier 1.5/build-35 evidence remains in [its historical record](../AppStore/testflight/release-1.5-35.md). GitHub branch protection and Xcode Cloud setup are separate infrastructure work; neither is claimed as a gate that has already passed.
 
@@ -35,10 +35,10 @@ These version numbers are planning slots, not release dates or promises. Xarra's
 
 ## Stage 1: 2.0 critical path
 
-1. Finish the [active 2.0 release plan](aso/11-release-2-0-duo-shareplay.md) and [candidate record](../AppStore/testflight/release-2.0-36.md). Both iOS with embedded Watch and macOS must have processed beta builds with localized TestFlight notes, followed by the requested external review state.
+1. Finish the [active 2.0 release plan](aso/11-release-2-0-duo-shareplay.md) and [candidate record](../AppStore/testflight/release-2.0-37.md). Both iOS with embedded Watch and macOS have processed build 37 uploads, localized TestFlight notes, and external testing access.
 2. Validate SharePlay on two physical devices in both host roles, including Mac combinations where advertised. Verify Duo's partially folded layout, hinge pause, settle/resume, and unfold on a working simulator or device. Record device, OS, build, and result; unit tests alone do not close these gates.
 3. Freeze the 20-locale [canonical metadata](../AppStore/metadata/retrorapid-v2.0-candidate.json), obtain fluent approval for revised copy, and check screenshots against the LCD/Pocket and Duo claims. Keep alternate icons, Apple TV, and Vision Pro gameplay out of 2.0 public copy.
-4. When Apple accepts the required Xcode 27.1 SDK for App Store submission, archive the approved source with one new shared build number for iOS with embedded Watch and macOS, then select those eligible builds on both platform drafts. Pass the [submission quality gate](../AppStore/docs/03-submission-quality-gate.md) before App Review. Both versions retain manual release control.
+4. Both platforms now select App Store-eligible Xcode 27.1 RC build 37 and retain manual release with a seven-day phase. Pass the [submission quality gate](../AppStore/docs/03-submission-quality-gate.md), then submit both staged App Review submissions. If approved in time, manually start the phase on October 17 so day seven coincides with iPhone Duo availability on October 23.
 5. Once 2.0 is public, tag the exact source commit and record platform builds, release defaults, availability, and initial crash/SharePlay/purchase observations. Promote the personalization stage only after its own gate passes.
 
 ## Validation and acceptance

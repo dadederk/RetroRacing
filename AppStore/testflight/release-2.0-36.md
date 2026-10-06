@@ -1,5 +1,7 @@
 # RetroRapid! 2.0 (36) candidate
 
+Historical beta candidate. The public RC and current handoff are recorded in [2.0 (37)](release-2.0-37.md).
+
 ## Source and scope
 
 - Candidate prepared on `master` on 2026-10-02. Record the exact approved source commit when making the final public archive; beta archives predate the release-preparation commit but no runtime source changed afterward.
