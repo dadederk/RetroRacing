@@ -1,6 +1,6 @@
 # Release Candidate Workflow
 
-Use this checklist for a new RetroRapid! marketing version. It links to the detailed [quality gate](03-submission-quality-gate.md), [local TestFlight runbook](14-testflight-helm-upload.md), [archive rules](15-archive-and-distribution.md), and [Xcode Cloud lane](17-xcode-cloud-releases.md). The [2.0 (37) record](../testflight/release-2.0-37.md) is the current example of a staged candidate with explicit manual gates.
+Use this checklist for a new RetroRapid! marketing version. It links to the detailed [quality gate](03-submission-quality-gate.md), [local TestFlight runbook](14-testflight-helm-upload.md), [archive rules](15-archive-and-distribution.md), and [Xcode Cloud lane](17-xcode-cloud-releases.md). The [2.0 (37) record](../testflight/release-2.0-37.md) tracks the current submitted candidate and its remaining manual checks.
 
 ## 1. Choose the release source and toolchains
 
