@@ -1,22 +1,9 @@
-iPhone, iPad ve Mac’te SharePlay ile bir arkadaşınla yarış! Aynı trafiğe meydan okuyun, birbirinizin ilerlemesini takip edin ve rövanş için yeniden piste çıkın. Arkadaş yarışları ücretsizdir ve günlük tek oyunculu oyun hakkını asla tüketmez.
+RetroRapid! artık Apple TV'de. Siri Remote veya desteklenen bir oyun kumandasıyla aksiyonu büyük ekrana taşıyın ve canlı yeni Disc tarzının keyfini çıkarın.
 
-iOS 27 ve iPhone Duo desteği. Kısmen katlanmış masa konumunda yol menteşenin üstünde, kontroller altında görünür. Yarış sırasında menteşeyi hareket ettirmek oyunu duraklatır. Aygıt sabitlenince Oyna’ya dokunarak aynı yarışa devam edebilirsin.
-
-Yeni stil galerisinde LCD ve Pocket’ı keşfet. LCD herkese açık; Pocket’ın kilidini Sınırsız oyun ile açabilirsin. Apple Watch’ta her iki stil de ücretsiz kalmaya devam ediyor.
-
-Sevdiğin retro yarış oyununa taze bir görünüm: Arabalar ve kasklar dahil pek çok görseli baştan çizdik. LCD ve Pocket’ın kendine özgü havasını ise koruduk.
-
-Daha akıcı oyunun, iyileştirilmiş yatay ekran düzeninin, elden geçirilmiş menülerin ve oyun sonu ekranlarının keyfini çıkar.
-
-Artık Almanca, Felemenkçe, İtalyanca, Fransa ve Kanada Fransızcası, Japonca, Korece, Brezilya ve Portekiz Portekizcesi, Basitleştirilmiş ve Geleneksel Çince, Türkçe ve Lehçe de destekleniyor.
-
-Son yenilikleri kaçırdın mı? Önceki güncellemelerle Game Center başarımları, arkadaşlarının puanlarını gösteren işaretler ve sonuçları paylaşma özelliği eklendi.
-
-Bizimle yarıştığın için teşekkürler!
+Game Center liderlik tablolarında yükselin, başarımları açın, arkadaş skoru işaretlerini takip edin veya canlı bir SharePlay yarışı başlatın. VoiceOver, ses ipuçları, büyük metin, yüksek kontrast, Hareketi Azalt ve uyarlanabilir oyun ayarları daha fazla oyuncunun yarışa katılmasına yardımcı olur.
 
 Test odağı:
-- Tarz Galerisi'nde LCD ve Pocket'ı önizle ve seç
-- iPhone, iPad veya Mac'te bir arkadaşınla SharePlay yarışı başlat
-- Uzun oyunlarda da oyunun akıcı kaldığını kontrol et
-- Yatay düzenleri, menüleri ve oyun sonu akışını dene
-- VoiceOver ile bir yarışı tamamla ve tüm duyuruların anlaşılır olduğunu doğrula
+- Siri Remote ve desteklenen bir oyun kumandasıyla birkaç yarış oynayın
+- TV'de Disc oynanışını, menüleri, ayarları ve oyun sonu akışını kontrol edin
+- Game Center, SharePlay ve arkadaş skoru işaretlerini deneyin
+- VoiceOver, ses ipuçları, büyük metin, yüksek kontrast ve Hareketi Azalt'ı test edin

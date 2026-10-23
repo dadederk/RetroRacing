@@ -24,6 +24,10 @@ let package = Package(
         .executable(name: "generate-road-dash-masks", targets: ["GenerateRoadDashMasks"]),
         .executable(name: "generate-app-icon-assets", targets: ["GenerateAppIconAssets"]),
         .executable(
+            name: "generate-app-store-creative",
+            targets: ["GenerateAppStoreCreative"]
+        ),
+        .executable(
             name: "sync-screenshot-studio-localizations",
             targets: ["SyncScreenshotStudioLocalizations"]
         ),
@@ -79,6 +83,10 @@ let package = Package(
         .executableTarget(
             name: "GenerateAppIconAssets",
             dependencies: ["RetroRacingAutomationCore"]
+        ),
+        .executableTarget(
+            name: "GenerateAppStoreCreative",
+            dependencies: ["RetroRacingAutomationCore", "ScriptSupport"]
         ),
         .executableTarget(
             name: "SyncScreenshotStudioLocalizations",

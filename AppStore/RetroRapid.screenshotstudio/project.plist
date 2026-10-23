@@ -51,9 +51,11 @@
 	<key>selectedPlatforms</key>
 	<array>
 		<string>iPhone</string>
+		<string>iPhoneDuo</string>
 		<string>iPad</string>
 		<string>mac</string>
 		<string>appleWatch</string>
+		<string>appleTv</string>
 	</array>
 </dict>
 </plist>

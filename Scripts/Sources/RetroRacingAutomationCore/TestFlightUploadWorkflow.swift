@@ -10,8 +10,10 @@ import ScriptSupport
 
 public enum TestFlightUploadCommand: String, CaseIterable, Sendable {
     case archive
+    case archiveTV = "archive-tv"
     case uploadIOS = "upload-ios"
     case uploadMac = "upload-mac"
+    case uploadTV = "upload-tv"
     case all
 }
 
@@ -61,10 +63,14 @@ public enum TestFlightUploadWorkflow {
         switch options.command {
         case .archive:
             return [archiveIOSCommand(plan: plan), archiveMacCommand(plan: plan)]
+        case .archiveTV:
+            return [archiveCommand(plan: plan, platform: .tvOS)]
         case .uploadIOS:
             return [exportArchiveCommand(plan: plan, platform: .iOS)]
         case .uploadMac:
             return [exportArchiveCommand(plan: plan, platform: .macOS)]
+        case .uploadTV:
+            return [exportArchiveCommand(plan: plan, platform: .tvOS)]
         case .all:
             return [
                 archiveIOSCommand(plan: plan),
@@ -85,10 +91,14 @@ public enum TestFlightUploadWorkflow {
         case .archive:
             try runArchive(plan: plan, platform: .iOS)
             try runArchive(plan: plan, platform: .macOS)
+        case .archiveTV:
+            try runArchive(plan: plan, platform: .tvOS)
         case .uploadIOS:
             try runUpload(plan: plan, platform: .iOS)
         case .uploadMac:
             try runUpload(plan: plan, platform: .macOS)
+        case .uploadTV:
+            try runUpload(plan: plan, platform: .tvOS)
         case .all:
             try runArchive(plan: plan, platform: .iOS)
             try runArchive(plan: plan, platform: .macOS)
@@ -236,7 +246,26 @@ public enum TestFlightUploadWorkflow {
         plan: BuildPlan,
         platform: ArchivePlatform
     ) -> ProcessCommand {
-        ProcessCommand(
+        let signingArguments: [String]
+        switch platform {
+        case .tvOS:
+            // Signing the generic tvOS archive for development requires a
+            // registered Apple TV. App Store distribution signing belongs to
+            // the authenticated export step and does not require a device.
+            signingArguments = [
+                "CODE_SIGNING_ALLOWED=NO",
+                "CODE_SIGNING_REQUIRED=NO",
+                "DEVELOPMENT_TEAM=PV9S9FTZF2",
+            ]
+        case .iOS, .macOS:
+            signingArguments = [
+                "CODE_SIGN_STYLE=Automatic",
+                "DEVELOPMENT_TEAM=PV9S9FTZF2",
+                "-allowProvisioningUpdates",
+            ]
+        }
+
+        return ProcessCommand(
             executable: "/usr/bin/xcrun",
             arguments: [
                 "xcodebuild",
@@ -244,15 +273,12 @@ public enum TestFlightUploadWorkflow {
                 "-project",
                 plan.project.path,
                 "-scheme",
-                "RetroRacingUniversal",
+                platform.scheme,
                 "-destination",
                 platform.destination,
                 "-archivePath",
                 plan.archivePath(for: platform).path,
-                "CODE_SIGN_STYLE=Automatic",
-                "DEVELOPMENT_TEAM=PV9S9FTZF2",
-                "-allowProvisioningUpdates",
-            ],
+            ] + signingArguments,
             environment: ["DEVELOPER_DIR": plan.options.developerDirectory]
         )
     }
@@ -376,6 +402,7 @@ private struct BuildPlan {
 private enum ArchivePlatform {
     case iOS
     case macOS
+    case tvOS
 
     var destination: String {
         switch self {
@@ -383,6 +410,17 @@ private enum ArchivePlatform {
             return "generic/platform=iOS"
         case .macOS:
             return "generic/platform=macOS"
+        case .tvOS:
+            return "generic/platform=tvOS"
+        }
+    }
+
+    var scheme: String {
+        switch self {
+        case .iOS, .macOS:
+            return "RetroRacingUniversal"
+        case .tvOS:
+            return "RetroRacingTvOS"
         }
     }
 
@@ -392,6 +430,8 @@ private enum ArchivePlatform {
             return "iOS"
         case .macOS:
             return "macOS"
+        case .tvOS:
+            return "tvOS"
         }
     }
 
@@ -401,6 +441,8 @@ private enum ArchivePlatform {
             return "RetroRacingUniversal-iOS.xcarchive"
         case .macOS:
             return "RetroRacingUniversal-macOS.xcarchive"
+        case .tvOS:
+            return "RetroRacingTvOS.xcarchive"
         }
     }
 }

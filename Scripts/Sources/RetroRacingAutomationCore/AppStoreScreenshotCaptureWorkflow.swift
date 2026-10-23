@@ -63,7 +63,7 @@ public struct AppStoreScreenshotCaptureOptions: Sendable, Equatable {
         return options
     }
 
-    /// One plan per platform. `--all-platforms` expands to iphone → ipad → mac → watch in order.
+    /// One plan per platform. `--all-platforms` expands to iphone → iphoneDuo → ipad → mac → watch → tv in order.
     public static func parsePlans(
         _ arguments: CLIArguments,
         repositoryRoot: URL
@@ -178,8 +178,8 @@ public struct AppStoreScreenshotCaptureOptions: Sendable, Equatable {
         )
     }
 
-    /// iPhone/iPad/Mac default to marketing status-bar override; Apple Watch defaults off because
-    /// watchOS has no `simctl status_bar` and host-clock changes are disruptive.
+    /// iPhone/iPad/Mac default to marketing status-bar override. Apple Watch and Apple TV default
+    /// off because Watch uses its own clock workflow and TV has no status bar.
     static func resolvedStatusBarOverrideEnabled(platform: String, arguments: CLIArguments) -> Bool {
         if arguments.contains("--status-bar-override") {
             return true
@@ -187,7 +187,9 @@ public struct AppStoreScreenshotCaptureOptions: Sendable, Equatable {
         if arguments.contains("--no-status-bar-override") {
             return false
         }
-        return AppStoreScreenshotCaptureDefaults.normalizedPlatform(platform) != "appleWatch"
+        return !["appleWatch", "appleTv"].contains(
+            AppStoreScreenshotCaptureDefaults.normalizedPlatform(platform)
+        )
     }
 
     public var studioLocales: [String] {
@@ -248,6 +250,9 @@ public enum AppStoreScreenshotCaptureError: LocalizedError {
     case simulatorLookupFailed(String)
     case invalidAllPlatformsUsage(String)
     case invalidAppearance(String)
+    case duoPoseConfirmationRequired(String)
+    case duoHostCaptureTimedOut(String)
+    case duoHostCaptureFailed(String)
 
     public var errorDescription: String? {
         switch self {
@@ -277,6 +282,12 @@ public enum AppStoreScreenshotCaptureError: LocalizedError {
             return message
         case let .invalidAppearance(value):
             return "Invalid --appearance value '\(value)'. Use light or dark."
+        case let .duoPoseConfirmationRequired(expected):
+            return "iPhone Duo capture stopped before the \(expected) batch because its Simulator pose was not confirmed."
+        case let .duoHostCaptureTimedOut(target):
+            return "Timed out waiting to capture the open iPhone Duo display for \(target)."
+        case let .duoHostCaptureFailed(message):
+            return "Could not capture the open iPhone Duo display: \(message)"
         }
     }
 }
@@ -286,12 +297,16 @@ public enum AppStoreScreenshotCaptureWorkflow {
         "RetroRacingUniversalUITests/AppStoreScreenshotTests/testCaptureConfiguredScreenshot"
     private static let watchScreenshotTestName =
         "RetroRacingWatchOSUITests/AppStoreScreenshotTests/testCaptureConfiguredScreenshot"
+    private static let tvScreenshotTestName =
+        "RetroRacingTvOSUITests/AppStoreScreenshotTests/testCaptureConfiguredScreenshot"
     private static let screenshotTestTimeout: TimeInterval = 180
 
     private static func captureScheme(for platform: String) -> String {
         switch AppStoreScreenshotCaptureDefaults.normalizedPlatform(platform) {
         case "appleWatch":
             return "RetroRacingWatchOSScreenshots"
+        case "appleTv":
+            return "RetroRacingTvOSScreenshots"
         default:
             return "RetroRacingScreenshots"
         }
@@ -301,6 +316,8 @@ public enum AppStoreScreenshotCaptureWorkflow {
         switch AppStoreScreenshotCaptureDefaults.normalizedPlatform(platform) {
         case "appleWatch":
             return watchScreenshotTestName
+        case "appleTv":
+            return tvScreenshotTestName
         default:
             return universalScreenshotTestName
         }
@@ -322,7 +339,7 @@ public enum AppStoreScreenshotCaptureWorkflow {
 
     private static func shouldApplySimulatorCaptureLocale(for platform: String) -> Bool {
         switch AppStoreScreenshotCaptureDefaults.normalizedPlatform(platform) {
-        case "appleWatch", "iphone", "ipad":
+        case "appleWatch", "appleTv", "iphone", "iphoneDuo", "ipad":
             return true
         default:
             return false
@@ -330,7 +347,7 @@ public enum AppStoreScreenshotCaptureWorkflow {
     }
 
     public static func run(repositoryRoot: URL, options: AppStoreScreenshotCaptureOptions) throws {
-        if options.installOnly == false {
+        if options.installOnly == false, options.checkOnly == false {
             try capture(repositoryRoot: repositoryRoot, options: options)
         }
 
@@ -368,6 +385,15 @@ public enum AppStoreScreenshotCaptureWorkflow {
         let report = ScreenshotCapturePlan.loadReport(from: options.stagingDirectory)
 
         if options.checkOnly {
+            let missingStudioImages = try ScreenshotStudioPlacementWorkflow.missingStudioImages(
+                repositoryRoot: repositoryRoot,
+                platform: options.platform,
+                locales: options.locales,
+                slideIndexes: options.slideIndexes
+            )
+            guard missingStudioImages.isEmpty else {
+                throw AppStoreScreenshotCaptureError.missingStudioImages(missingStudioImages)
+            }
             try ScreenshotStudioWorkflow.run(repositoryRoot: repositoryRoot, mode: .check)
             print("Screenshot capture check passed.")
         } else if options.dryRun {
@@ -453,16 +479,21 @@ public enum AppStoreScreenshotCaptureWorkflow {
         }
         let requestedTargets = options.requestedTargets
         let captureTargets = options.captureTargets
-        let targetsToCapture: [ScreenshotCaptureTarget]
+        let missingTargets: [ScreenshotCaptureTarget]
         if options.forceRecapture {
-            targetsToCapture = captureTargets
+            missingTargets = captureTargets
         } else {
-            targetsToCapture = ScreenshotCapturePlan.missingTargets(
+            missingTargets = ScreenshotCapturePlan.missingTargets(
                 in: options.stagingDirectory,
                 targets: captureTargets,
                 fileExtension: fileExtension
             )
         }
+        let targetsToCapture = IPhoneDuoScreenshotWorkflow.orderedTargets(
+            missingTargets,
+            platform: options.platform,
+            localeOrder: options.captureLocales
+        )
 
         if targetsToCapture.isEmpty {
             print("All requested screenshots are already staged; skipping UI test capture.")
@@ -557,6 +588,10 @@ public enum AppStoreScreenshotCaptureWorkflow {
                     platform: options.platform
                 )
             )
+            try installAppleTVCaptureAppIfNeeded(
+                repositoryRoot: repositoryRoot,
+                options: options
+            )
         } else {
             print("Dry run: would build UI test runner once, then capture without rebuilding.")
         }
@@ -637,9 +672,21 @@ public enum AppStoreScreenshotCaptureWorkflow {
         var capturedThisRun = 0
         var failedThisRun = 0
         var installedThisRun = 0
+        var activeDuoPresentation: IPhoneDuoScreenshotPresentation?
 
         for (index, target) in targetsToCapture.enumerated() {
             print("[\(index + 1)/\(targetsToCapture.count)] \(target.stem)")
+
+            if IPhoneDuoScreenshotWorkflow.shouldApply(platform: options.platform) {
+                let presentation = IPhoneDuoScreenshotPresentation.forSlide(target.slideIndex)
+                if presentation != activeDuoPresentation {
+                    try IPhoneDuoScreenshotWorkflow.confirmReady(
+                        presentation,
+                        dryRun: options.dryRun
+                    )
+                    activeDuoPresentation = presentation
+                }
+            }
 
             var succeeded = false
             for attempt in 1...options.maxRetries {
@@ -677,7 +724,7 @@ public enum AppStoreScreenshotCaptureWorkflow {
                     )
                 }
 
-                let environment = ScreenshotCapturePlan.captureEnvironment(
+                var environment = ScreenshotCapturePlan.captureEnvironment(
                     targets: [target],
                     maxRetries: 1,
                     skipExisting: false,
@@ -686,6 +733,15 @@ public enum AppStoreScreenshotCaptureWorkflow {
                     platform: options.platform,
                     appearance: options.appearance.rawValue
                 )
+                let usesDuoHostCapture = IPhoneDuoScreenshotWorkflow.shouldUseHostCapture(
+                    slideIndex: target.slideIndex,
+                    platform: options.platform
+                )
+                let duoHostCaptureToken = usesDuoHostCapture ? UUID().uuidString : nil
+                if let duoHostCaptureToken {
+                    environment[IPhoneDuoScreenshotWorkflow.hostCaptureTokenEnvironmentKey] =
+                        duoHostCaptureToken
+                }
 
                 let testOptions = TestRunnerOptions(
                     destination: options.destination,
@@ -727,8 +783,42 @@ public enum AppStoreScreenshotCaptureWorkflow {
                     try? FileManager.default.removeItem(at: stagedURL)
                 }
 
+                if AppStoreScreenshotCaptureDefaults.normalizedPlatform(options.platform) == "appleTv" {
+                    do {
+                        try captureAppleTVCompositedScreenshot(
+                            options: options,
+                            target: target,
+                            fileExtension: fileExtension
+                        )
+                        try? ScreenshotCapturePlan.recordSuccess(
+                            target: target,
+                            in: options.stagingDirectory
+                        )
+                        succeeded = true
+                        break
+                    } catch {
+                        fputs(
+                            "Apple TV compositor capture failed for \(target.stem): "
+                                + "\(error.localizedDescription)\n",
+                            stderr
+                        )
+                        continue
+                    }
+                }
+
                 do {
-                    try TestRunnerWorkflow.run(repositoryRoot: repositoryRoot, options: testOptions)
+                    if let duoHostCaptureToken {
+                        try captureOpenDuoScreenshot(
+                            repositoryRoot: repositoryRoot,
+                            options: options,
+                            target: target,
+                            fileExtension: fileExtension,
+                            testOptions: testOptions,
+                            token: duoHostCaptureToken
+                        )
+                    } else {
+                        try TestRunnerWorkflow.run(repositoryRoot: repositoryRoot, options: testOptions)
+                    }
                 } catch {
                     if markMacCaptureSucceededIfStaged(
                         options: options,
@@ -783,6 +873,195 @@ public enum AppStoreScreenshotCaptureWorkflow {
                 "\(installedThisRun) installed, \(failedThisRun) failed."
             )
         }
+    }
+
+    private static func captureOpenDuoScreenshot(
+        repositoryRoot: URL,
+        options: AppStoreScreenshotCaptureOptions,
+        target: ScreenshotCaptureTarget,
+        fileExtension: String,
+        testOptions: TestRunnerOptions,
+        token: String
+    ) throws {
+        guard let command = TestRunnerWorkflow.commands(
+            repositoryRoot: repositoryRoot,
+            options: testOptions
+        ).first else {
+            throw AppStoreScreenshotCaptureError.duoHostCaptureFailed(
+                "The screenshot UI test command was not created."
+            )
+        }
+
+        let readyURL = IPhoneDuoScreenshotWorkflow.hostCaptureSignalURL(
+            signal: "ready",
+            token: token
+        )
+        let doneURL = IPhoneDuoScreenshotWorkflow.hostCaptureSignalURL(
+            signal: "done",
+            token: token
+        )
+        try? FileManager.default.removeItem(at: readyURL)
+        try? FileManager.default.removeItem(at: doneURL)
+        defer {
+            try? FileManager.default.removeItem(at: readyURL)
+            try? FileManager.default.removeItem(at: doneURL)
+        }
+
+        print(command.rendered)
+        let process = Process()
+        process.executableURL = URL(fileURLWithPath: command.executable)
+        process.arguments = command.arguments
+        process.currentDirectoryURL = command.currentDirectory
+        process.environment = ProcessInfo.processInfo.environment
+            .merging(command.environment) { _, new in new }
+        process.standardOutput = FileHandle.standardOutput
+        process.standardError = FileHandle.standardError
+        try process.run()
+        defer {
+            if process.isRunning {
+                process.terminate()
+            }
+        }
+
+        let deadline = Date().addingTimeInterval(screenshotTestTimeout)
+        while process.isRunning && Date() < deadline {
+            if let data = try? Data(contentsOf: readyURL),
+               String(data: data, encoding: .utf8) == token {
+                let simulatorUDID = try appleTVSimulatorUDID(from: options.destination)
+                let outputURL = options.stagingDirectory
+                    .appending(path: target.stagedFileName(fileExtension: fileExtension))
+                try ProcessRunner.run(
+                    ProcessCommand(
+                        executable: "/usr/bin/xcrun",
+                        arguments: [
+                            "simctl",
+                            "io",
+                            simulatorUDID,
+                            "screenshot",
+                            "--type=jpeg",
+                            "--display=primary-1",
+                            outputURL.path,
+                        ]
+                    )
+                )
+                try Data(token.utf8).write(to: doneURL, options: .atomic)
+                process.waitUntilExit()
+                guard process.terminationStatus == 0 else {
+                    throw AppStoreScreenshotCaptureError.duoHostCaptureFailed(
+                        "The screenshot UI test exited with status \(process.terminationStatus)."
+                    )
+                }
+                guard FileManager.default.fileExists(atPath: outputURL.path) else {
+                    throw AppStoreScreenshotCaptureError.duoHostCaptureFailed(
+                        "The Simulator did not write \(outputURL.lastPathComponent)."
+                    )
+                }
+                return
+            }
+            Thread.sleep(forTimeInterval: 0.1)
+        }
+
+        if process.isRunning == false {
+            throw AppStoreScreenshotCaptureError.duoHostCaptureFailed(
+                "The screenshot UI test ended before requesting host capture."
+            )
+        }
+        throw AppStoreScreenshotCaptureError.duoHostCaptureTimedOut(target.stem)
+    }
+
+    private static func installAppleTVCaptureAppIfNeeded(
+        repositoryRoot: URL,
+        options: AppStoreScreenshotCaptureOptions
+    ) throws {
+        guard AppStoreScreenshotCaptureDefaults.normalizedPlatform(options.platform) == "appleTv" else {
+            return
+        }
+        let simulatorUDID = try appleTVSimulatorUDID(from: options.destination)
+        let appURL = URL(
+            fileURLWithPath: captureDerivedDataPath(
+                repositoryRoot: repositoryRoot,
+                platform: options.platform
+            ),
+            isDirectory: true
+        )
+        .appending(path: "Build/Products/Debug-appletvsimulator/RetroRacingTvOS.app")
+        try ProcessRunner.run(
+            ProcessCommand(
+                executable: "/usr/bin/xcrun",
+                arguments: ["simctl", "install", simulatorUDID, appURL.path]
+            )
+        )
+    }
+
+    private static func captureAppleTVCompositedScreenshot(
+        options: AppStoreScreenshotCaptureOptions,
+        target: ScreenshotCaptureTarget,
+        fileExtension: String
+    ) throws {
+        let simulatorUDID = try appleTVSimulatorUDID(from: options.destination)
+        let language = WatchScreenshotCaptureLocaleWorkflow.inAppLanguageIdentifier(
+            for: target.locale
+        )
+        _ = try? ProcessRunner.run(
+            ProcessCommand(
+                executable: "/usr/bin/xcrun",
+                arguments: [
+                    "simctl",
+                    "terminate",
+                    simulatorUDID,
+                    "com.accessibilityUpTo11.RetroRacing",
+                ]
+            )
+        )
+        Thread.sleep(forTimeInterval: 0.75)
+        try ProcessRunner.run(
+            ProcessCommand(
+                executable: "/usr/bin/xcrun",
+                arguments: [
+                    "simctl",
+                    "launch",
+                    simulatorUDID,
+                    "com.accessibilityUpTo11.RetroRacing",
+                    "-AppleLanguages",
+                    "(\(language))",
+                    "-AppleLocale",
+                    target.locale.replacingOccurrences(of: "-", with: "_"),
+                    "-ScreenshotCaptureEnabled",
+                    "1",
+                    "-ScreenshotCaptureSlide",
+                    String(target.slideIndex),
+                    "-ScreenshotCapturePlatform",
+                    "appleTv",
+                    "-ScreenshotCaptureAppearance",
+                    options.appearance.rawValue,
+                ]
+            )
+        )
+        Thread.sleep(forTimeInterval: 4.0)
+        let outputURL = options.stagingDirectory
+            .appending(path: target.stagedFileName(fileExtension: fileExtension))
+        try ProcessRunner.run(
+            ProcessCommand(
+                executable: "/usr/bin/xcrun",
+                arguments: [
+                    "simctl",
+                    "io",
+                    simulatorUDID,
+                    "screenshot",
+                    outputURL.path,
+                ]
+            )
+        )
+    }
+
+    private static func appleTVSimulatorUDID(from destination: String) throws -> String {
+        if let simulatorUDID = SimulatorStatusBarWorkflow.simulatorUDID(from: destination) {
+            return simulatorUDID
+        }
+        return try SimulatorStatusBarWorkflow.resolveSimulatorReference(
+            from: destination,
+            dryRun: false
+        )
     }
 
     private static func installCapturedTargetAndDerivatives(

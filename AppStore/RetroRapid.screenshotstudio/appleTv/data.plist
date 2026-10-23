@@ -1,5 +1,2206 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<array/>
+<array>
+	<dict>
+		<key>designConfiguration</key>
+		<dict>
+			<key>devicePosition</key>
+			<string>fullBottom</string>
+			<key>deviceTilt</key>
+			<dict>
+				<key>x</key>
+				<real>0.0</real>
+				<key>y</key>
+				<real>0.0</real>
+				<key>z</key>
+				<real>0.0</real>
+			</dict>
+			<key>hideDeviceFrame</key>
+			<true/>
+			<key>magnifier</key>
+			<dict>
+				<key>centerUnitX</key>
+				<real>0.5</real>
+				<key>centerUnitY</key>
+				<real>0.5</real>
+				<key>circularDiameterUnit</key>
+				<real>0.32000000000000001</real>
+				<key>isEnabled</key>
+				<false/>
+				<key>lensBorderColor</key>
+				<string>#FFFFFF</string>
+				<key>lensBorderWidthPoints</key>
+				<real>4</real>
+				<key>lensDropShadowColor</key>
+				<string>#00000059</string>
+				<key>lensDropShadowEnabled</key>
+				<false/>
+				<key>lensDropShadowRadiusPoints</key>
+				<real>8</real>
+				<key>lensDropShadowXOffsetPoints</key>
+				<real>0.0</real>
+				<key>lensDropShadowYOffsetPoints</key>
+				<real>4</real>
+				<key>lensShape</key>
+				<string>circle</string>
+				<key>rectCornerRadiusUnit</key>
+				<real>0.12</real>
+				<key>rectHeightUnit</key>
+				<real>0.45000000000000001</real>
+				<key>rectWidthUnit</key>
+				<real>0.5</real>
+				<key>scaleFactor</key>
+				<real>1.1000000000000001</real>
+				<key>snapPosition</key>
+				<string>center</string>
+			</dict>
+			<key>overrideDevicePosition</key>
+			<true/>
+		</dict>
+		<key>localizations</key>
+		<array>
+			<dict>
+				<key>body</key>
+				<string>Dodge traffic and chase overtakes in a retro arcade racer.</string>
+				<key>language</key>
+				<string>en-US</string>
+				<key>title</key>
+				<string>Race Through Endless Traffic</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Dodge traffic and chase overtakes in a retro arcade racer.</string>
+				<key>language</key>
+				<string>en-GB</string>
+				<key>title</key>
+				<string>Race Through Endless Traffic</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Dodge traffic and chase overtakes in a retro arcade racer.</string>
+				<key>language</key>
+				<string>en-AU</string>
+				<key>title</key>
+				<string>Race Through Endless Traffic</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Dodge traffic and chase overtakes in a retro arcade racer.</string>
+				<key>language</key>
+				<string>en-CA</string>
+				<key>title</key>
+				<string>Race Through Endless Traffic</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Weiche dem Verkehr aus und hol dir Überholungen in diesem Retro-Arcade-Rennen.</string>
+				<key>language</key>
+				<string>de-DE</string>
+				<key>title</key>
+				<string>Rase durch endlosen Verkehr</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Ontwijk verkeer en pak inhaalslagen in deze retro arcade-racer.</string>
+				<key>language</key>
+				<string>nl-NL</string>
+				<key>title</key>
+				<string>Race door eindeloos verkeer</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Schiva il traffico e conquista sorpassi in questo arcade di corse retro.</string>
+				<key>language</key>
+				<string>it</string>
+				<key>title</key>
+				<string>Corri nel traffico infinito</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Esquive le trafic et enchaîne les dépassements dans cette course arcade retro.</string>
+				<key>language</key>
+				<string>fr-FR</string>
+				<key>title</key>
+				<string>Fonce dans le trafic sans fin</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Évitez le trafic et enchaînez les dépassements dans cette course arcade rétro.</string>
+				<key>language</key>
+				<string>fr-CA</string>
+				<key>title</key>
+				<string>Foncez dans le trafic sans fin</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Esquiva tráfico y consigue adelantamientos en un arcade de carreras retro.</string>
+				<key>language</key>
+				<string>es-ES</string>
+				<key>title</key>
+				<string>Esquiva tráfico sin fin</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Esquiva carros y logra rebases en un arcade de carreras retro.</string>
+				<key>language</key>
+				<string>es-MX</string>
+				<key>title</key>
+				<string>Esquiva carros sin fin</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Esquiva trànsit i acumula avançaments en este arcade de carreres retro.</string>
+				<key>language</key>
+				<string>ca</string>
+				<key>title</key>
+				<string>Esquiva trànsit sense fi</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>交通を避け、レトロアーケードで追い抜きを狙おう。</string>
+				<key>language</key>
+				<string>ja</string>
+				<key>title</key>
+				<string>終わりなき交通を走り抜け</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>교통을 피하고 레트로 아케이드에서 추월을 노려보세요.</string>
+				<key>language</key>
+				<string>ko</string>
+				<key>title</key>
+				<string>끝없는 교통을 질주</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Desvie do tráfego e busque ultrapassagens neste arcade retrô.</string>
+				<key>language</key>
+				<string>pt-BR</string>
+				<key>title</key>
+				<string>Corra pelo tráfego infinito</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Desvie do trânsito e procure ultrapassagens neste arcade retro.</string>
+				<key>language</key>
+				<string>pt-PT</string>
+				<key>title</key>
+				<string>Corra pelo trânsito infinito</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>閃避車流，在復古街機中追逐超車。</string>
+				<key>language</key>
+				<string>zh-Hant</string>
+				<key>title</key>
+				<string>穿越無盡車流</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>闪避车流，在复古街机中追逐超车。</string>
+				<key>language</key>
+				<string>zh-Hans</string>
+				<key>title</key>
+				<string>穿越无尽车流</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Trafikten kaç, retro arcade yarışında sollamaları kovala.</string>
+				<key>language</key>
+				<string>tr</string>
+				<key>title</key>
+				<string>Sonsuz trafikte yarış</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Omijaj ruch i wyprzedzaj w wyścigowej grze retro.</string>
+				<key>language</key>
+				<string>pl</string>
+				<key>title</key>
+				<string>Pędź przez niekończący się ruch</string>
+			</dict>
+		</array>
+	</dict>
+	<dict>
+		<key>designConfiguration</key>
+		<dict>
+			<key>devicePosition</key>
+			<string>fullBottom</string>
+			<key>deviceTilt</key>
+			<dict>
+				<key>x</key>
+				<real>0.0</real>
+				<key>y</key>
+				<real>0.0</real>
+				<key>z</key>
+				<real>0.0</real>
+			</dict>
+			<key>hideDeviceFrame</key>
+			<true/>
+			<key>magnifier</key>
+			<dict>
+				<key>centerUnitX</key>
+				<real>0.5</real>
+				<key>centerUnitY</key>
+				<real>0.5</real>
+				<key>circularDiameterUnit</key>
+				<real>0.32000000000000001</real>
+				<key>isEnabled</key>
+				<false/>
+				<key>lensBorderColor</key>
+				<string>#FFFFFF</string>
+				<key>lensBorderWidthPoints</key>
+				<real>4</real>
+				<key>lensDropShadowColor</key>
+				<string>#00000059</string>
+				<key>lensDropShadowEnabled</key>
+				<false/>
+				<key>lensDropShadowRadiusPoints</key>
+				<real>8</real>
+				<key>lensDropShadowXOffsetPoints</key>
+				<real>0.0</real>
+				<key>lensDropShadowYOffsetPoints</key>
+				<real>4</real>
+				<key>lensShape</key>
+				<string>circle</string>
+				<key>rectCornerRadiusUnit</key>
+				<real>0.12</real>
+				<key>rectHeightUnit</key>
+				<real>0.45000000000000001</real>
+				<key>rectWidthUnit</key>
+				<real>0.5</real>
+				<key>scaleFactor</key>
+				<real>1.1000000000000001</real>
+				<key>snapPosition</key>
+				<string>center</string>
+			</dict>
+			<key>overrideDevicePosition</key>
+			<true/>
+		</dict>
+		<key>localizations</key>
+		<array>
+			<dict>
+				<key>body</key>
+				<string>Move left. Move right. Don't crash. Deceptively simple.</string>
+				<key>language</key>
+				<string>en-US</string>
+				<key>title</key>
+				<string>Simple Controls. Pure Arcade Action</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Move left. Move right. Don't crash. Deceptively simple.</string>
+				<key>language</key>
+				<string>en-GB</string>
+				<key>title</key>
+				<string>Simple Controls. Pure Arcade Action</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Move left. Move right. Don't crash. Deceptively simple.</string>
+				<key>language</key>
+				<string>en-AU</string>
+				<key>title</key>
+				<string>Simple Controls. Pure Arcade Action</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Move left. Move right. Don't crash. Deceptively simple.</string>
+				<key>language</key>
+				<string>en-CA</string>
+				<key>title</key>
+				<string>Simple Controls. Pure Arcade Action</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Links. Rechts. Nicht crashen. Täuschend einfach.</string>
+				<key>language</key>
+				<string>de-DE</string>
+				<key>title</key>
+				<string>Einfache Steuerung. Pure Arcade-Action</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Links. Rechts. Niet crashen. Bedrieglijk simpel.</string>
+				<key>language</key>
+				<string>nl-NL</string>
+				<key>title</key>
+				<string>Simpele besturing. Pure arcade-actie</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Sinistra. Destra. Non schiantarti. Ingannatamente semplice.</string>
+				<key>language</key>
+				<string>it</string>
+				<key>title</key>
+				<string>Controlli semplici. Pura azione arcade</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Gauche. Droite. Ne crash pas. D'une simplicité trompeuse.</string>
+				<key>language</key>
+				<string>fr-FR</string>
+				<key>title</key>
+				<string>Commandes simples. Action arcade pure</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Gauche. Droite. Ne crashez pas. D'une simplicité trompeuse.</string>
+				<key>language</key>
+				<string>fr-CA</string>
+				<key>title</key>
+				<string>Commandes simples. Action arcade pure</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Izquierda. Derecha. No choques. Engañosamente simple.</string>
+				<key>language</key>
+				<string>es-ES</string>
+				<key>title</key>
+				<string>Controles simples. Acción arcade pura</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Izquierda. Derecha. No choques. Engañosamente simple.</string>
+				<key>language</key>
+				<string>es-MX</string>
+				<key>title</key>
+				<string>Controles simples. Acción arcade pura</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Esquerra. Dreta. No xoques. Enganyosament simple.</string>
+				<key>language</key>
+				<string>ca</string>
+				<key>title</key>
+				<string>Controls simples. Acció arcade pura</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>左へ。右へ。クラッシュ禁止。シンプルなのに奥深い。</string>
+				<key>language</key>
+				<string>ja</string>
+				<key>title</key>
+				<string>シンプル操作。純粋アーケード</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>왼쪽. 오른쪽. 충돌 금지. 단순하지만 깊어요.</string>
+				<key>language</key>
+				<string>ko</string>
+				<key>title</key>
+				<string>간단한 조작. 순수 아케이드</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Esquerda. Direita. Não bata. Simples de enganar.</string>
+				<key>language</key>
+				<string>pt-BR</string>
+				<key>title</key>
+				<string>Controles simples. Ação arcade</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Esquerda. Direita. Não bata. Enganosamente simples.</string>
+				<key>language</key>
+				<string>pt-PT</string>
+				<key>title</key>
+				<string>Controlos simples. Ação arcade</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>左移。右移。別撞車。看似簡單。</string>
+				<key>language</key>
+				<string>zh-Hant</string>
+				<key>title</key>
+				<string>簡單操作。純粹街機</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>左移。右移。别撞车。看似简单。</string>
+				<key>language</key>
+				<string>zh-Hans</string>
+				<key>title</key>
+				<string>简单操作。纯粹街机</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Sola git. Sağa git. Çarpma. Göründüğünden zor.</string>
+				<key>language</key>
+				<string>tr</string>
+				<key>title</key>
+				<string>Basit kontroller. Saf arcade</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>W lewo. W prawo. Nie rozbij się. Pozornie proste.</string>
+				<key>language</key>
+				<string>pl</string>
+				<key>title</key>
+				<string>Proste sterowanie. Czyste arcade</string>
+			</dict>
+		</array>
+	</dict>
+	<dict>
+		<key>designConfiguration</key>
+		<dict>
+			<key>devicePosition</key>
+			<string>fullBottom</string>
+			<key>deviceTilt</key>
+			<dict>
+				<key>x</key>
+				<real>0.0</real>
+				<key>y</key>
+				<real>0.0</real>
+				<key>z</key>
+				<real>0.0</real>
+			</dict>
+			<key>hideDeviceFrame</key>
+			<true/>
+			<key>magnifier</key>
+			<dict>
+				<key>centerUnitX</key>
+				<real>0.5</real>
+				<key>centerUnitY</key>
+				<real>0.5</real>
+				<key>circularDiameterUnit</key>
+				<real>0.32000000000000001</real>
+				<key>isEnabled</key>
+				<false/>
+				<key>lensBorderColor</key>
+				<string>#FFFFFF</string>
+				<key>lensBorderWidthPoints</key>
+				<real>4</real>
+				<key>lensDropShadowColor</key>
+				<string>#00000059</string>
+				<key>lensDropShadowEnabled</key>
+				<false/>
+				<key>lensDropShadowRadiusPoints</key>
+				<real>8</real>
+				<key>lensDropShadowXOffsetPoints</key>
+				<real>0.0</real>
+				<key>lensDropShadowYOffsetPoints</key>
+				<real>4</real>
+				<key>lensShape</key>
+				<string>circle</string>
+				<key>rectCornerRadiusUnit</key>
+				<real>0.12</real>
+				<key>rectHeightUnit</key>
+				<real>0.45000000000000001</real>
+				<key>rectWidthUnit</key>
+				<real>0.5</real>
+				<key>scaleFactor</key>
+				<real>1.1000000000000001</real>
+				<key>snapPosition</key>
+				<string>center</string>
+			</dict>
+			<key>overrideDevicePosition</key>
+			<true/>
+		</dict>
+		<key>localizations</key>
+		<array>
+			<dict>
+				<key>body</key>
+				<string>One mistake ends your run. Restart fast, chase your high score!</string>
+				<key>language</key>
+				<string>en-US</string>
+				<key>title</key>
+				<string>One Wrong Move. Game Over</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>One mistake ends your run. Restart fast, chase your high score!</string>
+				<key>language</key>
+				<string>en-GB</string>
+				<key>title</key>
+				<string>One Wrong Move. Game Over</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>One mistake ends your run. Restart fast, chase your high score!</string>
+				<key>language</key>
+				<string>en-AU</string>
+				<key>title</key>
+				<string>One Wrong Move. Game Over</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>One mistake ends your run. Restart fast, chase your high score!</string>
+				<key>language</key>
+				<string>en-CA</string>
+				<key>title</key>
+				<string>One Wrong Move. Game Over</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Ein Fehler beendet deine Runde. Schnell neu starten, jag deinen Highscore!</string>
+				<key>language</key>
+				<string>de-DE</string>
+				<key>title</key>
+				<string>Ein Fehler. Game Over</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Één fout beëindigt je run. Snel herstarten, jaag op je highscore!</string>
+				<key>language</key>
+				<string>nl-NL</string>
+				<key>title</key>
+				<string>Één fout. Game Over</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Un errore termina la partita. Riparti in fretta, punta al tuo record!</string>
+				<key>language</key>
+				<string>it</string>
+				<key>title</key>
+				<string>Un errore. Game Over</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Une erreur termine ta partie. Recommence vite, vise ton record!</string>
+				<key>language</key>
+				<string>fr-FR</string>
+				<key>title</key>
+				<string>Une erreur. Game Over</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Une erreur termine votre partie. Recommencez vite, visez votre record!</string>
+				<key>language</key>
+				<string>fr-CA</string>
+				<key>title</key>
+				<string>Une erreur. Game Over</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Un fallo termina tu partida. Reinicia y persigue tu récord!</string>
+				<key>language</key>
+				<string>es-ES</string>
+				<key>title</key>
+				<string>Un error. Game Over</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Un fallo termina tu partida. Reinicia y persigue tu récord!</string>
+				<key>language</key>
+				<string>es-MX</string>
+				<key>title</key>
+				<string>Un error. Game Over</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Un error acaba la teua partida. Reinicia i perseguix el teu rècord!</string>
+				<key>language</key>
+				<string>ca</string>
+				<key>title</key>
+				<string>Un error. Game Over</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>一つのミスで終了。すぐ再スタート、ハイスコアを狙え！</string>
+				<key>language</key>
+				<string>ja</string>
+				<key>title</key>
+				<string>一ミスでゲームオーバー</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>실수 한 번이면 끝. 빠르게 재시작하고 최고 점수에 도전!</string>
+				<key>language</key>
+				<string>ko</string>
+				<key>title</key>
+				<string>한 번의 실수, 게임 오버</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Um erro encerra a corrida. Reinicie e busque seu recorde!</string>
+				<key>language</key>
+				<string>pt-BR</string>
+				<key>title</key>
+				<string>Um erro. Fim de jogo</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Um erro acaba a corrida. Reinicie e procure o seu recorde!</string>
+				<key>language</key>
+				<string>pt-PT</string>
+				<key>title</key>
+				<string>Um erro. Fim de jogo</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>一個失誤就結束。快速重來，挑戰最高分！</string>
+				<key>language</key>
+				<string>zh-Hant</string>
+				<key>title</key>
+				<string>一步失誤，遊戲結束</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>一个失误就结束。快速重来，挑战最高分！</string>
+				<key>language</key>
+				<string>zh-Hans</string>
+				<key>title</key>
+				<string>一步失误，游戏结束</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Bir hata yarışı bitirir. Hızla başla, rekorunu kovala!</string>
+				<key>language</key>
+				<string>tr</string>
+				<key>title</key>
+				<string>Tek hata. Oyun bitti</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Jeden błąd kończy przejazd. Szybki restart i pogoń za rekordem!</string>
+				<key>language</key>
+				<string>pl</string>
+				<key>title</key>
+				<string>Jeden błąd. Koniec gry</string>
+			</dict>
+		</array>
+	</dict>
+	<dict>
+		<key>designConfiguration</key>
+		<dict>
+			<key>devicePosition</key>
+			<string>fullBottom</string>
+			<key>deviceTilt</key>
+			<dict>
+				<key>x</key>
+				<real>0.0</real>
+				<key>y</key>
+				<real>0.0</real>
+				<key>z</key>
+				<real>0.0</real>
+			</dict>
+			<key>hideDeviceFrame</key>
+			<true/>
+			<key>magnifier</key>
+			<dict>
+				<key>centerUnitX</key>
+				<real>0.5</real>
+				<key>centerUnitY</key>
+				<real>0.5</real>
+				<key>circularDiameterUnit</key>
+				<real>0.32000000000000001</real>
+				<key>isEnabled</key>
+				<false/>
+				<key>lensBorderColor</key>
+				<string>#FFFFFF</string>
+				<key>lensBorderWidthPoints</key>
+				<real>4</real>
+				<key>lensDropShadowColor</key>
+				<string>#00000059</string>
+				<key>lensDropShadowEnabled</key>
+				<false/>
+				<key>lensDropShadowRadiusPoints</key>
+				<real>8</real>
+				<key>lensDropShadowXOffsetPoints</key>
+				<real>0.0</real>
+				<key>lensDropShadowYOffsetPoints</key>
+				<real>4</real>
+				<key>lensShape</key>
+				<string>circle</string>
+				<key>rectCornerRadiusUnit</key>
+				<real>0.12</real>
+				<key>rectHeightUnit</key>
+				<real>0.45000000000000001</real>
+				<key>rectWidthUnit</key>
+				<real>0.5</real>
+				<key>scaleFactor</key>
+				<real>1.1000000000000001</real>
+				<key>snapPosition</key>
+				<string>center</string>
+			</dict>
+			<key>overrideDevicePosition</key>
+			<true/>
+		</dict>
+		<key>localizations</key>
+		<array>
+			<dict>
+				<key>body</key>
+				<string>VoiceOver, audio cues, larger text, and adaptable gameplay settings.</string>
+				<key>language</key>
+				<string>en-US</string>
+				<key>title</key>
+				<string>Accessibility Front and Center</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>VoiceOver, audio cues, larger text, and adaptable gameplay settings.</string>
+				<key>language</key>
+				<string>en-GB</string>
+				<key>title</key>
+				<string>Accessibility Front and Center</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>VoiceOver, audio cues, larger text, and adaptable gameplay settings.</string>
+				<key>language</key>
+				<string>en-AU</string>
+				<key>title</key>
+				<string>Accessibility Front and Center</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>VoiceOver, audio cues, larger text, and adaptable gameplay settings.</string>
+				<key>language</key>
+				<string>en-CA</string>
+				<key>title</key>
+				<string>Accessibility Front and Center</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>VoiceOver, Audiohinweise, größerer Text und anpassbare Spieleinstellungen.</string>
+				<key>language</key>
+				<string>de-DE</string>
+				<key>title</key>
+				<string>Barrierefreiheit im Mittelpunkt</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>VoiceOver, audiosignalen, grotere tekst en aanpasbare spelinstellingen.</string>
+				<key>language</key>
+				<string>nl-NL</string>
+				<key>title</key>
+				<string>Toegankelijkheid voorop</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>VoiceOver, segnali audio, testo più grande e impostazioni di gioco adattabili.</string>
+				<key>language</key>
+				<string>it</string>
+				<key>title</key>
+				<string>Accessibilità al centro</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>VoiceOver, indices audio, texte plus grand et réglages de jeu adaptables.</string>
+				<key>language</key>
+				<string>fr-FR</string>
+				<key>title</key>
+				<string>Accessibilité au premier plan</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>VoiceOver, indices audio, texte plus grand et réglages de jeu adaptables.</string>
+				<key>language</key>
+				<string>fr-CA</string>
+				<key>title</key>
+				<string>Accessibilité au premier plan</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>VoiceOver, pistas de audio, texto más grande y ajustes de juego adaptables.</string>
+				<key>language</key>
+				<string>es-ES</string>
+				<key>title</key>
+				<string>Accesibilidad en primer plano</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>VoiceOver, pistas de audio, texto más grande y ajustes de juego adaptables.</string>
+				<key>language</key>
+				<string>es-MX</string>
+				<key>title</key>
+				<string>Accesibilidad en primer plano</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>VoiceOver, pistes d'àudio, text més gran i opcions de joc adaptables.</string>
+				<key>language</key>
+				<string>ca</string>
+				<key>title</key>
+				<string>Accessibilitat al davant</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>VoiceOver、音声キュー、大きい文字、調整可能な設定。</string>
+				<key>language</key>
+				<string>ja</string>
+				<key>title</key>
+				<string>アクセシビリティを前面に</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>VoiceOver, 오디오 큐, 큰 텍스트, 맞춤 설정.</string>
+				<key>language</key>
+				<string>ko</string>
+				<key>title</key>
+				<string>접근성을 중심에</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>VoiceOver, pistas sonoras, texto maior e ajustes adaptáveis.</string>
+				<key>language</key>
+				<string>pt-BR</string>
+				<key>title</key>
+				<string>Acessibilidade em destaque</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>VoiceOver, pistas sonoras, texto maior e definições adaptáveis.</string>
+				<key>language</key>
+				<string>pt-PT</string>
+				<key>title</key>
+				<string>Acessibilidade em destaque</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>VoiceOver、音效提示、較大字體與可調設定。</string>
+				<key>language</key>
+				<string>zh-Hant</string>
+				<key>title</key>
+				<string>無障礙設計放首位</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>VoiceOver、音效提示、较大字体与可调设置。</string>
+				<key>language</key>
+				<string>zh-Hans</string>
+				<key>title</key>
+				<string>无障碍设计放首位</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>VoiceOver, ses ipuçları, büyük metin ve uyarlanabilir ayarlar.</string>
+				<key>language</key>
+				<string>tr</string>
+				<key>title</key>
+				<string>Erişilebilirlik her şeyden önce</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>VoiceOver, wskazówki dźwiękowe, większy tekst i ustawienia adaptacyjne.</string>
+				<key>language</key>
+				<string>pl</string>
+				<key>title</key>
+				<string>Dostępność na pierwszym planie</string>
+			</dict>
+		</array>
+	</dict>
+	<dict>
+		<key>designConfiguration</key>
+		<dict>
+			<key>devicePosition</key>
+			<string>fullBottom</string>
+			<key>deviceTilt</key>
+			<dict>
+				<key>x</key>
+				<real>0.0</real>
+				<key>y</key>
+				<real>0.0</real>
+				<key>z</key>
+				<real>0.0</real>
+			</dict>
+			<key>hideDeviceFrame</key>
+			<true/>
+			<key>magnifier</key>
+			<dict>
+				<key>centerUnitX</key>
+				<real>0.5</real>
+				<key>centerUnitY</key>
+				<real>0.5</real>
+				<key>circularDiameterUnit</key>
+				<real>0.32000000000000001</real>
+				<key>isEnabled</key>
+				<false/>
+				<key>lensBorderColor</key>
+				<string>#FFFFFF</string>
+				<key>lensBorderWidthPoints</key>
+				<real>4</real>
+				<key>lensDropShadowColor</key>
+				<string>#00000059</string>
+				<key>lensDropShadowEnabled</key>
+				<false/>
+				<key>lensDropShadowRadiusPoints</key>
+				<real>8</real>
+				<key>lensDropShadowXOffsetPoints</key>
+				<real>0.0</real>
+				<key>lensDropShadowYOffsetPoints</key>
+				<real>4</real>
+				<key>lensShape</key>
+				<string>circle</string>
+				<key>rectCornerRadiusUnit</key>
+				<real>0.12</real>
+				<key>rectHeightUnit</key>
+				<real>0.45000000000000001</real>
+				<key>rectWidthUnit</key>
+				<real>0.5</real>
+				<key>scaleFactor</key>
+				<real>1.1000000000000001</real>
+				<key>snapPosition</key>
+				<string>center</string>
+			</dict>
+			<key>overrideDevicePosition</key>
+			<true/>
+		</dict>
+		<key>localizations</key>
+		<array>
+			<dict>
+				<key>body</key>
+				<string>Challenge friends for free. Countdown, compete, rematch.</string>
+				<key>language</key>
+				<string>en-US</string>
+				<key>title</key>
+				<string>Race Friends with SharePlay</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Challenge friends for free. Countdown, compete, rematch.</string>
+				<key>language</key>
+				<string>en-GB</string>
+				<key>title</key>
+				<string>Race Friends with SharePlay</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Challenge friends for free. Countdown, compete, rematch.</string>
+				<key>language</key>
+				<string>en-AU</string>
+				<key>title</key>
+				<string>Race Friends with SharePlay</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Challenge friends for free. Countdown, compete, rematch.</string>
+				<key>language</key>
+				<string>en-CA</string>
+				<key>title</key>
+				<string>Race Friends with SharePlay</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Fordere Freunde gratis heraus. Countdown, Wettbewerb, Rematch.</string>
+				<key>language</key>
+				<string>de-DE</string>
+				<key>title</key>
+				<string>Rase mit Freunden per SharePlay</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Daag vrienden gratis uit. Countdown, strijd, rematch.</string>
+				<key>language</key>
+				<string>nl-NL</string>
+				<key>title</key>
+				<string>Race met vrienden via SharePlay</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Sfida gli amici gratis. Countdown, gara, rematch.</string>
+				<key>language</key>
+				<string>it</string>
+				<key>title</key>
+				<string>Corri con amici via SharePlay</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Défie tes amis gratuitement. Compte à rebours, course, revanche.</string>
+				<key>language</key>
+				<string>fr-FR</string>
+				<key>title</key>
+				<string>Course avec des amis via SharePlay</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Défiez vos amis gratuitement. Compte à rebours, course, revanche.</string>
+				<key>language</key>
+				<string>fr-CA</string>
+				<key>title</key>
+				<string>Coursez avec des amis via SharePlay</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Reta a amigos gratis. Cuenta atrás, compite, revancha.</string>
+				<key>language</key>
+				<string>es-ES</string>
+				<key>title</key>
+				<string>Corre con amigos con SharePlay</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Reta a amigos gratis. Cuenta atrás, compite, revancha.</string>
+				<key>language</key>
+				<string>es-MX</string>
+				<key>title</key>
+				<string>Corre con amigos con SharePlay</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Desafia amistats gratis. Compte enrere, competeix, revenja.</string>
+				<key>language</key>
+				<string>ca</string>
+				<key>title</key>
+				<string>Corre amb amics amb SharePlay</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>無料でフレンドに挑戦。カウントダウン、対戦、リマッチ。</string>
+				<key>language</key>
+				<string>ja</string>
+				<key>title</key>
+				<string>SharePlayでフレンドとレース</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>무료로 친구에게 도전. 카운트다운, 대전, 리매치.</string>
+				<key>language</key>
+				<string>ko</string>
+				<key>title</key>
+				<string>SharePlay로 친구와 레이스</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Desafie amigos grátis. Contagem, competição, revanche.</string>
+				<key>language</key>
+				<string>pt-BR</string>
+				<key>title</key>
+				<string>Corra com amigos no SharePlay</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Desafie amigos grátis. Contagem, competição, desforra.</string>
+				<key>language</key>
+				<string>pt-PT</string>
+				<key>title</key>
+				<string>Corra com amigos no SharePlay</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>免費挑戰好友。倒數、對戰、重賽。</string>
+				<key>language</key>
+				<string>zh-Hant</string>
+				<key>title</key>
+				<string>SharePlay 與好友競賽</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>免费挑战好友。倒数、对战、重赛。</string>
+				<key>language</key>
+				<string>zh-Hans</string>
+				<key>title</key>
+				<string>SharePlay 与好友竞赛</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Arkadaşlarına ücretsiz meydan oku. Geri sayım, yarış, rövanş.</string>
+				<key>language</key>
+				<string>tr</string>
+				<key>title</key>
+				<string>SharePlay ile arkadaşlarınla yarış</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Rzuć znajomym bezpłatne wyzwanie. Odliczanie, wyścig, rewanż.</string>
+				<key>language</key>
+				<string>pl</string>
+				<key>title</key>
+				<string>Ścigaj się ze znajomymi przez SharePlay</string>
+			</dict>
+		</array>
+	</dict>
+	<dict>
+		<key>designConfiguration</key>
+		<dict>
+			<key>devicePosition</key>
+			<string>fullBottom</string>
+			<key>deviceTilt</key>
+			<dict>
+				<key>x</key>
+				<real>0.0</real>
+				<key>y</key>
+				<real>0.0</real>
+				<key>z</key>
+				<real>0.0</real>
+			</dict>
+			<key>hideDeviceFrame</key>
+			<true/>
+			<key>magnifier</key>
+			<dict>
+				<key>centerUnitX</key>
+				<real>0.5</real>
+				<key>centerUnitY</key>
+				<real>0.5</real>
+				<key>circularDiameterUnit</key>
+				<real>0.32000000000000001</real>
+				<key>isEnabled</key>
+				<false/>
+				<key>lensBorderColor</key>
+				<string>#FFFFFF</string>
+				<key>lensBorderWidthPoints</key>
+				<real>4</real>
+				<key>lensDropShadowColor</key>
+				<string>#00000059</string>
+				<key>lensDropShadowEnabled</key>
+				<false/>
+				<key>lensDropShadowRadiusPoints</key>
+				<real>8</real>
+				<key>lensDropShadowXOffsetPoints</key>
+				<real>0.0</real>
+				<key>lensDropShadowYOffsetPoints</key>
+				<real>4</real>
+				<key>lensShape</key>
+				<string>circle</string>
+				<key>rectCornerRadiusUnit</key>
+				<real>0.12</real>
+				<key>rectHeightUnit</key>
+				<real>0.45000000000000001</real>
+				<key>rectWidthUnit</key>
+				<real>0.5</real>
+				<key>scaleFactor</key>
+				<real>1.1000000000000001</real>
+				<key>snapPosition</key>
+				<string>center</string>
+			</dict>
+			<key>overrideDevicePosition</key>
+			<true/>
+		</dict>
+		<key>localizations</key>
+		<array>
+			<dict>
+				<key>body</key>
+				<string>Game Center scores and friend markers keep every run competitive.</string>
+				<key>language</key>
+				<string>en-US</string>
+				<key>title</key>
+				<string>Climb the Leaderboard</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Game Center scores and friend markers keep every run competitive.</string>
+				<key>language</key>
+				<string>en-GB</string>
+				<key>title</key>
+				<string>Climb the Leaderboard</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Game Center scores and friend markers keep every run competitive.</string>
+				<key>language</key>
+				<string>en-AU</string>
+				<key>title</key>
+				<string>Climb the Leaderboard</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Game Center scores and friend markers keep every run competitive.</string>
+				<key>language</key>
+				<string>en-CA</string>
+				<key>title</key>
+				<string>Climb the Leaderboard</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Game-Center-Punkte und Freundesmarker halten jede Runde spannend.</string>
+				<key>language</key>
+				<string>de-DE</string>
+				<key>title</key>
+				<string>Erklimme die Bestenliste</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Game Center-scores en vriendenmarkeringen houden elke run spannend.</string>
+				<key>language</key>
+				<string>nl-NL</string>
+				<key>title</key>
+				<string>Klim op het scorebord</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Punteggi Game Center e marcatori amici rendono ogni gara competitiva.</string>
+				<key>language</key>
+				<string>it</string>
+				<key>title</key>
+				<string>Scala la classifica</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Scores Game Center et marqueurs d'amis rendent chaque course compétitive.</string>
+				<key>language</key>
+				<string>fr-FR</string>
+				<key>title</key>
+				<string>Grimpe au classement</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Les scores Game Center et les marqueurs d'amis rendent chaque course compétitive.</string>
+				<key>language</key>
+				<string>fr-CA</string>
+				<key>title</key>
+				<string>Grimpez au classement</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Puntuaciones de Game Center y marcadores de amigos mantienen cada partida competitiva.</string>
+				<key>language</key>
+				<string>es-ES</string>
+				<key>title</key>
+				<string>Escala la clasificación</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Puntuaciones de Game Center y marcadores de amigos mantienen cada partida competitiva.</string>
+				<key>language</key>
+				<string>es-MX</string>
+				<key>title</key>
+				<string>Escala la clasificación</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Puntuacions de Game Center i marcadors d'amistats mantenen cada partida competitiva.</string>
+				<key>language</key>
+				<string>ca</string>
+				<key>title</key>
+				<string>Puja en la classificació</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Game Centerスコアとフレンドマーカーで毎ランが熱い。</string>
+				<key>language</key>
+				<string>ja</string>
+				<key>title</key>
+				<string>ランキングを駆け上がれ</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Game Center 점수와 친구 마커로 매 판이 경쟁적.</string>
+				<key>language</key>
+				<string>ko</string>
+				<key>title</key>
+				<string>리더보드를 올라가세요</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Pontuações do Game Center e marcadores mantêm cada corrida competitiva.</string>
+				<key>language</key>
+				<string>pt-BR</string>
+				<key>title</key>
+				<string>Suba no ranking</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Pontuações do Game Center e marcadores mantêm cada corrida competitiva.</string>
+				<key>language</key>
+				<string>pt-PT</string>
+				<key>title</key>
+				<string>Suba na classificação</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Game Center 分數與好友標記讓每局都競爭感十足。</string>
+				<key>language</key>
+				<string>zh-Hant</string>
+				<key>title</key>
+				<string>衝上排行榜</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Game Center 分数与好友标记让每局都竞争感十足。</string>
+				<key>language</key>
+				<string>zh-Hans</string>
+				<key>title</key>
+				<string>冲上排行榜</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Game Center skorları ve arkadaş işaretleri her yarışı rekabetçi kılar.</string>
+				<key>language</key>
+				<string>tr</string>
+				<key>title</key>
+				<string>Liderlik tablosunda yüksel</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Wyniki Game Center i znaczniki znajomych podkręcają każdy przejazd.</string>
+				<key>language</key>
+				<string>pl</string>
+				<key>title</key>
+				<string>Wspinaj się w rankingu</string>
+			</dict>
+		</array>
+	</dict>
+	<dict>
+		<key>designConfiguration</key>
+		<dict>
+			<key>devicePosition</key>
+			<string>fullBottom</string>
+			<key>deviceTilt</key>
+			<dict>
+				<key>x</key>
+				<real>0.0</real>
+				<key>y</key>
+				<real>0.0</real>
+				<key>z</key>
+				<real>0.0</real>
+			</dict>
+			<key>hideDeviceFrame</key>
+			<true/>
+			<key>magnifier</key>
+			<dict>
+				<key>centerUnitX</key>
+				<real>0.5</real>
+				<key>centerUnitY</key>
+				<real>0.5</real>
+				<key>circularDiameterUnit</key>
+				<real>0.32000000000000001</real>
+				<key>isEnabled</key>
+				<false/>
+				<key>lensBorderColor</key>
+				<string>#FFFFFF</string>
+				<key>lensBorderWidthPoints</key>
+				<real>4</real>
+				<key>lensDropShadowColor</key>
+				<string>#00000059</string>
+				<key>lensDropShadowEnabled</key>
+				<false/>
+				<key>lensDropShadowRadiusPoints</key>
+				<real>8</real>
+				<key>lensDropShadowXOffsetPoints</key>
+				<real>0.0</real>
+				<key>lensDropShadowYOffsetPoints</key>
+				<real>4</real>
+				<key>lensShape</key>
+				<string>circle</string>
+				<key>rectCornerRadiusUnit</key>
+				<real>0.12</real>
+				<key>rectHeightUnit</key>
+				<real>0.45000000000000001</real>
+				<key>rectWidthUnit</key>
+				<real>0.5</real>
+				<key>scaleFactor</key>
+				<real>1.1000000000000001</real>
+				<key>snapPosition</key>
+				<string>center</string>
+			</dict>
+			<key>overrideDevicePosition</key>
+			<true/>
+		</dict>
+		<key>localizations</key>
+		<array>
+			<dict>
+				<key>body</key>
+				<string>Explore five retro styles, from Pocket to Disc.</string>
+				<key>language</key>
+				<string>en-US</string>
+				<key>title</key>
+				<string>Choose Your Retro Aesthetic</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Explore five retro styles, from Pocket to Disc.</string>
+				<key>language</key>
+				<string>en-GB</string>
+				<key>title</key>
+				<string>Choose Your Retro Aesthetic</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Explore five retro styles, from Pocket to Disc.</string>
+				<key>language</key>
+				<string>en-AU</string>
+				<key>title</key>
+				<string>Choose Your Retro Aesthetic</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Explore five retro styles, from Pocket to Disc.</string>
+				<key>language</key>
+				<string>en-CA</string>
+				<key>title</key>
+				<string>Choose Your Retro Aesthetic</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Entdecke fünf Retro-Stile, von Pocket bis Disc.</string>
+				<key>language</key>
+				<string>de-DE</string>
+				<key>title</key>
+				<string>Wähle deinen Retro-Look</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Ontdek vijf retrostijlen, van Pocket tot Disc.</string>
+				<key>language</key>
+				<string>nl-NL</string>
+				<key>title</key>
+				<string>Kies je retro-stijl</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Scopri cinque stili retrò, da Pocket a Disc.</string>
+				<key>language</key>
+				<string>it</string>
+				<key>title</key>
+				<string>Scegli la tua estetica retro</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Explore cinq styles rétro, de Pocket à Disc.</string>
+				<key>language</key>
+				<string>fr-FR</string>
+				<key>title</key>
+				<string>Choisis ton style retro</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Explorez cinq styles rétro, de Pocket à Disc.</string>
+				<key>language</key>
+				<string>fr-CA</string>
+				<key>title</key>
+				<string>Choisissez votre style rétro</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Explora cinco estilos retro, desde Pocket hasta Disc.</string>
+				<key>language</key>
+				<string>es-ES</string>
+				<key>title</key>
+				<string>Elige tu estética retro</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Explora cinco estilos retro, desde Pocket hasta Disc.</string>
+				<key>language</key>
+				<string>es-MX</string>
+				<key>title</key>
+				<string>Elige tu estética retro</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Explora cinc estils retro, de Pocket a Disc.</string>
+				<key>language</key>
+				<string>ca</string>
+				<key>title</key>
+				<string>Tria la teua estètica retro</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>PocketからDiscまで、5つのレトロスタイルを楽しもう。</string>
+				<key>language</key>
+				<string>ja</string>
+				<key>title</key>
+				<string>レトロ美学を選ぼう</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Pocket부터 Disc까지 다섯 가지 레트로 스타일을 만나보세요.</string>
+				<key>language</key>
+				<string>ko</string>
+				<key>title</key>
+				<string>레트로 스타일 선택</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Explore cinco estilos retrô, de Pocket a Disc.</string>
+				<key>language</key>
+				<string>pt-BR</string>
+				<key>title</key>
+				<string>Escolha seu visual retro</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Explore cinco estilos retro, de Pocket a Disc.</string>
+				<key>language</key>
+				<string>pt-PT</string>
+				<key>title</key>
+				<string>Escolha o seu visual retro</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>探索五種復古風格，從 Pocket 到 Disc。</string>
+				<key>language</key>
+				<string>zh-Hant</string>
+				<key>title</key>
+				<string>選擇復古風格</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>探索五种复古风格，从 Pocket 到 Disc。</string>
+				<key>language</key>
+				<string>zh-Hans</string>
+				<key>title</key>
+				<string>选择复古风格</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Pocket'tan Disc'e beş retro tarzı keşfet.</string>
+				<key>language</key>
+				<string>tr</string>
+				<key>title</key>
+				<string>Retro tarzını seç</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Poznaj pięć stylów retro, od Pocket po Disc.</string>
+				<key>language</key>
+				<string>pl</string>
+				<key>title</key>
+				<string>Wybierz swój styl retro</string>
+			</dict>
+		</array>
+	</dict>
+	<dict>
+		<key>designConfiguration</key>
+		<dict>
+			<key>devicePosition</key>
+			<string>fullBottom</string>
+			<key>deviceTilt</key>
+			<dict>
+				<key>x</key>
+				<real>0.0</real>
+				<key>y</key>
+				<real>0.0</real>
+				<key>z</key>
+				<real>0.0</real>
+			</dict>
+			<key>hideDeviceFrame</key>
+			<true/>
+			<key>magnifier</key>
+			<dict>
+				<key>centerUnitX</key>
+				<real>0.5</real>
+				<key>centerUnitY</key>
+				<real>0.5</real>
+				<key>circularDiameterUnit</key>
+				<real>0.32000000000000001</real>
+				<key>isEnabled</key>
+				<false/>
+				<key>lensBorderColor</key>
+				<string>#FFFFFF</string>
+				<key>lensBorderWidthPoints</key>
+				<real>4</real>
+				<key>lensDropShadowColor</key>
+				<string>#00000059</string>
+				<key>lensDropShadowEnabled</key>
+				<false/>
+				<key>lensDropShadowRadiusPoints</key>
+				<real>8</real>
+				<key>lensDropShadowXOffsetPoints</key>
+				<real>0.0</real>
+				<key>lensDropShadowYOffsetPoints</key>
+				<real>4</real>
+				<key>lensShape</key>
+				<string>circle</string>
+				<key>rectCornerRadiusUnit</key>
+				<real>0.12</real>
+				<key>rectHeightUnit</key>
+				<real>0.45000000000000001</real>
+				<key>rectWidthUnit</key>
+				<real>0.5</real>
+				<key>scaleFactor</key>
+				<real>1.1000000000000001</real>
+				<key>snapPosition</key>
+				<string>center</string>
+			</dict>
+			<key>overrideDevicePosition</key>
+			<true/>
+		</dict>
+		<key>localizations</key>
+		<array>
+			<dict>
+				<key>body</key>
+				<string>A vivid late-1990s look made for Apple TV.</string>
+				<key>language</key>
+				<string>en-US</string>
+				<key>title</key>
+				<string>Disc Style on the Big Screen</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>A vivid late-1990s look made for Apple TV.</string>
+				<key>language</key>
+				<string>en-GB</string>
+				<key>title</key>
+				<string>Disc Style on the Big Screen</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>A vivid late-1990s look made for Apple TV.</string>
+				<key>language</key>
+				<string>en-AU</string>
+				<key>title</key>
+				<string>Disc Style on the Big Screen</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>A vivid late-1990s look made for Apple TV.</string>
+				<key>language</key>
+				<string>en-CA</string>
+				<key>title</key>
+				<string>Disc Style on the Big Screen</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Ein leuchtender Look der späten 90er, gemacht für Apple TV.</string>
+				<key>language</key>
+				<string>de-DE</string>
+				<key>title</key>
+				<string>Disc-Stil auf dem großen Bildschirm</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Een levendige late-jaren-90-look, gemaakt voor Apple TV.</string>
+				<key>language</key>
+				<string>nl-NL</string>
+				<key>title</key>
+				<string>Disc-stijl op het grote scherm</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Un vivace look di fine anni '90 creato per Apple TV.</string>
+				<key>language</key>
+				<string>it</string>
+				<key>title</key>
+				<string>Stile Disc sul grande schermo</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Un look éclatant de la fin des années 90 conçu pour Apple TV.</string>
+				<key>language</key>
+				<string>fr-FR</string>
+				<key>title</key>
+				<string>Le style Disc sur grand écran</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Un look éclatant de la fin des années 90 conçu pour Apple TV.</string>
+				<key>language</key>
+				<string>fr-CA</string>
+				<key>title</key>
+				<string>Le style Disc sur grand écran</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Un look vibrante de finales de los 90 creado para Apple TV.</string>
+				<key>language</key>
+				<string>es-ES</string>
+				<key>title</key>
+				<string>Estilo Disc en la gran pantalla</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Un look vibrante de finales de los 90 creado para Apple TV.</string>
+				<key>language</key>
+				<string>es-MX</string>
+				<key>title</key>
+				<string>Estilo Disc en la pantalla grande</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Un estil viu de finals dels 90 creat per a Apple TV.</string>
+				<key>language</key>
+				<string>ca</string>
+				<key>title</key>
+				<string>Estil Disc a la pantalla gran</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Apple TVのための鮮やかな90年代後半スタイル。</string>
+				<key>language</key>
+				<string>ja</string>
+				<key>title</key>
+				<string>大画面で楽しむDiscスタイル</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Apple TV를 위해 만든 생생한 1990년대 후반 스타일.</string>
+				<key>language</key>
+				<string>ko</string>
+				<key>title</key>
+				<string>큰 화면의 Disc 스타일</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Um visual vibrante do fim dos anos 90 feito para Apple TV.</string>
+				<key>language</key>
+				<string>pt-BR</string>
+				<key>title</key>
+				<string>Estilo Disc na tela grande</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Um visual vibrante do final dos anos 90 criado para Apple TV.</string>
+				<key>language</key>
+				<string>pt-PT</string>
+				<key>title</key>
+				<string>Estilo Disc no grande ecrã</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>專為 Apple TV 打造的鮮明 90 年代末風格。</string>
+				<key>language</key>
+				<string>zh-Hant</string>
+				<key>title</key>
+				<string>大螢幕上的 Disc 風格</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>专为 Apple TV 打造的鲜明 90 年代末风格。</string>
+				<key>language</key>
+				<string>zh-Hans</string>
+				<key>title</key>
+				<string>大屏幕上的 Disc 风格</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Apple TV için canlı bir 90'ların sonu görünümü.</string>
+				<key>language</key>
+				<string>tr</string>
+				<key>title</key>
+				<string>Büyük ekranda Disc tarzı</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Wyrazisty styl końca lat 90. stworzony dla Apple TV.</string>
+				<key>language</key>
+				<string>pl</string>
+				<key>title</key>
+				<string>Styl Disc na dużym ekranie</string>
+			</dict>
+		</array>
+	</dict>
+	<dict>
+		<key>designConfiguration</key>
+		<dict>
+			<key>devicePosition</key>
+			<string>fullBottom</string>
+			<key>deviceTilt</key>
+			<dict>
+				<key>x</key>
+				<real>0.0</real>
+				<key>y</key>
+				<real>0.0</real>
+				<key>z</key>
+				<real>0.0</real>
+			</dict>
+			<key>hideDeviceFrame</key>
+			<true/>
+			<key>magnifier</key>
+			<dict>
+				<key>centerUnitX</key>
+				<real>0.5</real>
+				<key>centerUnitY</key>
+				<real>0.5</real>
+				<key>circularDiameterUnit</key>
+				<real>0.32000000000000001</real>
+				<key>isEnabled</key>
+				<false/>
+				<key>lensBorderColor</key>
+				<string>#FFFFFF</string>
+				<key>lensBorderWidthPoints</key>
+				<real>4</real>
+				<key>lensDropShadowColor</key>
+				<string>#00000059</string>
+				<key>lensDropShadowEnabled</key>
+				<false/>
+				<key>lensDropShadowRadiusPoints</key>
+				<real>8</real>
+				<key>lensDropShadowXOffsetPoints</key>
+				<real>0.0</real>
+				<key>lensDropShadowYOffsetPoints</key>
+				<real>4</real>
+				<key>lensShape</key>
+				<string>circle</string>
+				<key>rectCornerRadiusUnit</key>
+				<real>0.12</real>
+				<key>rectHeightUnit</key>
+				<real>0.45000000000000001</real>
+				<key>rectWidthUnit</key>
+				<real>0.5</real>
+				<key>scaleFactor</key>
+				<real>1.1000000000000001</real>
+				<key>snapPosition</key>
+				<string>center</string>
+			</dict>
+			<key>overrideDevicePosition</key>
+			<true/>
+		</dict>
+		<key>localizations</key>
+		<array>
+			<dict>
+				<key>body</key>
+				<string>Earn Game Center trophies as you race and improve.</string>
+				<key>language</key>
+				<string>en-US</string>
+				<key>title</key>
+				<string>Unlock Retro Achievements</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Earn Game Center trophies as you race and improve.</string>
+				<key>language</key>
+				<string>en-GB</string>
+				<key>title</key>
+				<string>Unlock Retro Achievements</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Earn Game Center trophies as you race and improve.</string>
+				<key>language</key>
+				<string>en-AU</string>
+				<key>title</key>
+				<string>Unlock Retro Achievements</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Earn Game Center trophies as you race and improve.</string>
+				<key>language</key>
+				<string>en-CA</string>
+				<key>title</key>
+				<string>Unlock Retro Achievements</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Verdiene Game-Center-Trophäen, während du fährst und dich verbesserst.</string>
+				<key>language</key>
+				<string>de-DE</string>
+				<key>title</key>
+				<string>Schalte Retro-Erfolge frei</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Verdien Game Center-trofeeën terwijl je rijdt en verbetert.</string>
+				<key>language</key>
+				<string>nl-NL</string>
+				<key>title</key>
+				<string>Ontgrendel retro prestaties</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Ottieni trofei Game Center mentre corri e migliori.</string>
+				<key>language</key>
+				<string>it</string>
+				<key>title</key>
+				<string>Sblocca obiettivi retro</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Gagne des trophées Game Center en courant et en progressant.</string>
+				<key>language</key>
+				<string>fr-FR</string>
+				<key>title</key>
+				<string>Débloque des succès retro</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Gagnez des trophées Game Center en courant et en progressant.</string>
+				<key>language</key>
+				<string>fr-CA</string>
+				<key>title</key>
+				<string>Débloquez des succès rétro</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Gana trofeos de Game Center mientras corres y mejoras.</string>
+				<key>language</key>
+				<string>es-ES</string>
+				<key>title</key>
+				<string>Desbloquea logros retro</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Gana trofeos de Game Center mientras corres y mejoras.</string>
+				<key>language</key>
+				<string>es-MX</string>
+				<key>title</key>
+				<string>Desbloquea logros retro</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Guanya trofeus de Game Center mentre corres i millores.</string>
+				<key>language</key>
+				<string>ca</string>
+				<key>title</key>
+				<string>Desbloqueja assoliments retro</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>走って上達しながらGame Centerトロフィーを獲得。</string>
+				<key>language</key>
+				<string>ja</string>
+				<key>title</key>
+				<string>レトロ実績を解除</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>레이스하며 성장하고 Game Center 트로피를 획득.</string>
+				<key>language</key>
+				<string>ko</string>
+				<key>title</key>
+				<string>레트로 업적 해제</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Ganhe troféus do Game Center enquanto corre e melhora.</string>
+				<key>language</key>
+				<string>pt-BR</string>
+				<key>title</key>
+				<string>Desbloqueie conquistas retro</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Ganhe troféus do Game Center enquanto corre e melhora.</string>
+				<key>language</key>
+				<string>pt-PT</string>
+				<key>title</key>
+				<string>Desbloqueie conquistas retro</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>競速進步，贏得 Game Center 獎盃。</string>
+				<key>language</key>
+				<string>zh-Hant</string>
+				<key>title</key>
+				<string>解鎖復古成就</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>竞速进步，赢得 Game Center 奖杯。</string>
+				<key>language</key>
+				<string>zh-Hans</string>
+				<key>title</key>
+				<string>解锁复古成就</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Yarışıp geliştikçe Game Center kupaları kazan.</string>
+				<key>language</key>
+				<string>tr</string>
+				<key>title</key>
+				<string>Retro başarımları aç</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Zdobywaj trofea Game Center podczas wyścigów i rozwoju.</string>
+				<key>language</key>
+				<string>pl</string>
+				<key>title</key>
+				<string>Odblokuj osiągnięcia retro</string>
+			</dict>
+		</array>
+	</dict>
+	<dict>
+		<key>designConfiguration</key>
+		<dict>
+			<key>devicePosition</key>
+			<string>fullBottom</string>
+			<key>deviceTilt</key>
+			<dict>
+				<key>x</key>
+				<real>0.0</real>
+				<key>y</key>
+				<real>0.0</real>
+				<key>z</key>
+				<real>0.0</real>
+			</dict>
+			<key>hideDeviceFrame</key>
+			<true/>
+			<key>magnifier</key>
+			<dict>
+				<key>centerUnitX</key>
+				<real>0.5</real>
+				<key>centerUnitY</key>
+				<real>0.5</real>
+				<key>circularDiameterUnit</key>
+				<real>0.32000000000000001</real>
+				<key>isEnabled</key>
+				<false/>
+				<key>lensBorderColor</key>
+				<string>#FFFFFF</string>
+				<key>lensBorderWidthPoints</key>
+				<real>4</real>
+				<key>lensDropShadowColor</key>
+				<string>#00000059</string>
+				<key>lensDropShadowEnabled</key>
+				<false/>
+				<key>lensDropShadowRadiusPoints</key>
+				<real>8</real>
+				<key>lensDropShadowXOffsetPoints</key>
+				<real>0.0</real>
+				<key>lensDropShadowYOffsetPoints</key>
+				<real>4</real>
+				<key>lensShape</key>
+				<string>circle</string>
+				<key>rectCornerRadiusUnit</key>
+				<real>0.12</real>
+				<key>rectHeightUnit</key>
+				<real>0.45000000000000001</real>
+				<key>rectWidthUnit</key>
+				<real>0.5</real>
+				<key>scaleFactor</key>
+				<real>1.1000000000000001</real>
+				<key>snapPosition</key>
+				<string>center</string>
+			</dict>
+			<key>overrideDevicePosition</key>
+			<true/>
+		</dict>
+		<key>localizations</key>
+		<array>
+			<dict>
+				<key>body</key>
+				<string>Daily free plays, leaderboards, and live friend races.</string>
+				<key>language</key>
+				<string>en-US</string>
+				<key>title</key>
+				<string>Play Solo Or With Friends</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Daily free plays, leaderboards, and live friend races.</string>
+				<key>language</key>
+				<string>en-GB</string>
+				<key>title</key>
+				<string>Play Solo Or With Friends</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Daily free plays, leaderboards, and live friend races.</string>
+				<key>language</key>
+				<string>en-AU</string>
+				<key>title</key>
+				<string>Play Solo Or With Friends</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Daily free plays, leaderboards, and live friend races.</string>
+				<key>language</key>
+				<string>en-CA</string>
+				<key>title</key>
+				<string>Play Solo Or With Friends</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Tägliche Gratis-Spiele, Bestenlisten und Live-Freundesrennen.</string>
+				<key>language</key>
+				<string>de-DE</string>
+				<key>title</key>
+				<string>Spiele solo oder mit Freunden</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Dagelijkse gratis runs, scoreborden en live vriendenraces.</string>
+				<key>language</key>
+				<string>nl-NL</string>
+				<key>title</key>
+				<string>Speel solo of met vrienden</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Partite gratis ogni giorno, classifiche e gare live con amici.</string>
+				<key>language</key>
+				<string>it</string>
+				<key>title</key>
+				<string>Gioca in solo o con amici</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Parties gratuites quotidiennes, classements et courses live entre amis.</string>
+				<key>language</key>
+				<string>fr-FR</string>
+				<key>title</key>
+				<string>Joue solo ou avec des amis</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Parties gratuites quotidiennes, classements et courses en direct entre amis.</string>
+				<key>language</key>
+				<string>fr-CA</string>
+				<key>title</key>
+				<string>Jouez solo ou avec des amis</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Partidas gratis diarias, clasificaciones y carreras live con amigos.</string>
+				<key>language</key>
+				<string>es-ES</string>
+				<key>title</key>
+				<string>Juega solo o con amigos</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Partidas gratis diarias, clasificaciones y carreras live con amigos.</string>
+				<key>language</key>
+				<string>es-MX</string>
+				<key>title</key>
+				<string>Juega solo o con amigos</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Partides gratis diàries, classificacions i carreres live amb amics.</string>
+				<key>language</key>
+				<string>ca</string>
+				<key>title</key>
+				<string>Juga en solitari o amb amics</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>毎日無料プレイ、ランキング、ライブフレンドレース。</string>
+				<key>language</key>
+				<string>ja</string>
+				<key>title</key>
+				<string>ソロでもフレンドでも</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>매일 무료 플레이, 리더보드, 라이브 친구 레이스.</string>
+				<key>language</key>
+				<string>ko</string>
+				<key>title</key>
+				<string>솔로 또는 친구와</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Partidas grátis diárias, rankings e corridas live com amigos.</string>
+				<key>language</key>
+				<string>pt-BR</string>
+				<key>title</key>
+				<string>Jogue solo ou com amigos</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Partidas grátis diárias, classificações e corridas ao vivo com amigos.</string>
+				<key>language</key>
+				<string>pt-PT</string>
+				<key>title</key>
+				<string>Jogue a solo ou com amigos</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>每日免費次數、排行榜與即時好友競賽。</string>
+				<key>language</key>
+				<string>zh-Hant</string>
+				<key>title</key>
+				<string>單人或與好友同玩</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>每日免费次数、排行榜与即时好友竞赛。</string>
+				<key>language</key>
+				<string>zh-Hans</string>
+				<key>title</key>
+				<string>单人或与好友同玩</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Günlük ücretsiz oyunlar, liderlik tabloları ve canlı arkadaş yarışları.</string>
+				<key>language</key>
+				<string>tr</string>
+				<key>title</key>
+				<string>Tek başına veya arkadaşlarınla oyna</string>
+			</dict>
+			<dict>
+				<key>body</key>
+				<string>Codzienne bezpłatne gry, rankingi i wyścigi ze znajomymi na żywo.</string>
+				<key>language</key>
+				<string>pl</string>
+				<key>title</key>
+				<string>Graj solo lub ze znajomymi</string>
+			</dict>
+		</array>
+	</dict>
+</array>
 </plist>

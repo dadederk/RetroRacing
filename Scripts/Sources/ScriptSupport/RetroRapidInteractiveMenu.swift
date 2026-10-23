@@ -265,7 +265,7 @@ public enum RetroRapidInteractiveMenu {
             return
         }
 
-        write("Platform [iphone] (iphone|ipad|mac|watch|all): ")
+        write("Platform [iphone] (iphone|ipad|mac|watch|tv|all): ")
         let platformInput = readLine()?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
         let mode = promptMutationMode(supportsCheck: false, supportsDryRun: true, readLine: readLine, write: write)
         var args = mutationFlags(for: mode)

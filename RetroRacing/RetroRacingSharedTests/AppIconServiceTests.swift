@@ -39,7 +39,7 @@ final class AppIconServiceTests: XCTestCase {
 
         // When / Then
         do {
-            try await service.changeIcon(to: .polygon)
+            try await service.changeIcon(to: .pocket)
             XCTFail("Expected the platform failure to propagate")
         } catch {
             XCTAssertEqual(error as? TestFailure, .expected)
@@ -54,8 +54,8 @@ final class AppIconServiceTests: XCTestCase {
         let changer = TestAppIconChanger(supportsAlternateIcons: false)
         let service = AppIconService(
             changer: changer,
-            featureFlag: enabledFeatureFlag(),
-            isGalleryPlatformEnabled: true
+            isGalleryPlatformEnabled: true,
+            availableThemeIDsProvider: releasedThemeIDs
         )
 
         // When
@@ -67,51 +67,40 @@ final class AppIconServiceTests: XCTestCase {
         XCTAssertFalse(service.supportsAlternateIcons)
     }
 
-    func testGivenDisabledOrUnconfiguredServiceWhenChangingThenRequestIsRejected() async {
+    func testGivenUnconfiguredServiceWhenChangingThenRequestIsRejected() async {
         // Given
-        let disabled = AppIconService(
-            changer: TestAppIconChanger(supportsAlternateIcons: true),
-            featureFlag: FixedAppIconFeatureFlag(isEnabled: false),
-            isGalleryPlatformEnabled: true
-        )
         let unconfigured = AppIconService(
             changer: TestAppIconChanger(supportsAlternateIcons: true),
-            featureFlag: enabledFeatureFlag(),
-            isGalleryPlatformEnabled: false
+            isGalleryPlatformEnabled: false,
+            availableThemeIDsProvider: releasedThemeIDs
         )
 
         // When / Then
-        XCTAssertFalse(disabled.isGalleryAvailable)
-        await XCTAssertAppIconError(.featureDisabled) {
-            try await disabled.changeIcon(to: .lcd)
-        }
         XCTAssertFalse(unconfigured.isGalleryAvailable)
         await XCTAssertAppIconError(.unsupported) {
             try await unconfigured.changeIcon(to: .lcd)
         }
     }
 
-    func testGivenRolloutAndConfiguredPlatformWhenCheckingGalleryThenBothAreRequired() {
+    func testGivenPlatformConfigurationWhenCheckingGalleryThenItDeterminesAvailability() {
         // Given
-        let cases: [(isGalleryPlatformEnabled: Bool, isFeatureEnabled: Bool, expected: Bool)] = [
-            (false, false, false),
-            (false, true, false),
-            (true, false, false),
-            (true, true, true),
+        let cases: [(isGalleryPlatformEnabled: Bool, expected: Bool)] = [
+            (false, false),
+            (true, true),
         ]
 
         // When / Then
         for testCase in cases {
             let service = AppIconService(
                 changer: TestAppIconChanger(supportsAlternateIcons: false),
-                featureFlag: FixedAppIconFeatureFlag(isEnabled: testCase.isFeatureEnabled),
-                isGalleryPlatformEnabled: testCase.isGalleryPlatformEnabled
+                isGalleryPlatformEnabled: testCase.isGalleryPlatformEnabled,
+                availableThemeIDsProvider: releasedThemeIDs
             )
 
             XCTAssertEqual(
                 service.isGalleryAvailable,
                 testCase.expected,
-                "Expected platform=\(testCase.isGalleryPlatformEnabled), feature=\(testCase.isFeatureEnabled)"
+                "Expected platform=\(testCase.isGalleryPlatformEnabled)"
             )
         }
     }
@@ -147,7 +136,7 @@ final class AppIconServiceTests: XCTestCase {
         XCTAssertEqual(service.currentIconID, .pocket)
     }
 
-    func testGivenAlternateInstalledWhenFlagIsDisabledThenInstalledIconIsPreserved() async throws {
+    func testGivenAlternateInstalledOnUnconfiguredPlatformWhenInitializedThenInstalledIconIsPreserved() {
         // Given
         let changer = TestAppIconChanger(
             supportsAlternateIcons: true,
@@ -155,16 +144,31 @@ final class AppIconServiceTests: XCTestCase {
         )
         let service = AppIconService(
             changer: changer,
-            featureFlag: FixedAppIconFeatureFlag(isEnabled: true, allowsChanges: true),
-            isGalleryPlatformEnabled: true
+            isGalleryPlatformEnabled: false,
+            availableThemeIDsProvider: releasedThemeIDs
         )
 
-        // When
-        service.setFeatureEnabled(false)
-
-        // Then
+        // When / Then
         XCTAssertFalse(service.isGalleryAvailable)
         XCTAssertEqual(service.currentIconID, .crt)
+        XCTAssertTrue(changer.requestedNames.isEmpty)
+    }
+
+    func testGivenFutureIconIsNotReleasedWhenSelectingThenRequestIsRejectedButInstalledIconIsPreserved() async {
+        // Given
+        let changer = TestAppIconChanger(
+            supportsAlternateIcons: true,
+            alternateIconName: "RetroRapidDisc"
+        )
+        let service = makeService(changer: changer)
+
+        // When / Then
+        XCTAssertEqual(service.currentIconID, .disc)
+        XCTAssertFalse(service.availableOptions.contains { $0.id == .disc })
+        await XCTAssertAppIconError(.unavailableIcon) {
+            try await service.changeIcon(to: .polygon)
+        }
+        XCTAssertEqual(service.currentIconID, .disc)
         XCTAssertTrue(changer.requestedNames.isEmpty)
     }
 
@@ -190,16 +194,16 @@ final class AppIconServiceTests: XCTestCase {
         XCTAssertEqual(service.currentIconID, .cartridge)
     }
 
-    private func enabledFeatureFlag() -> FixedAppIconFeatureFlag {
-        FixedAppIconFeatureFlag(isEnabled: true)
-    }
-
     private func makeService(changer: TestAppIconChanger) -> AppIconService {
         AppIconService(
             changer: changer,
-            featureFlag: enabledFeatureFlag(),
-            isGalleryPlatformEnabled: true
+            isGalleryPlatformEnabled: true,
+            availableThemeIDsProvider: releasedThemeIDs
         )
+    }
+
+    private func releasedThemeIDs() -> Set<ThemeID> {
+        [.pocket, .lcd, .eightBit, .sixteenBit]
     }
 
     private func XCTAssertAppIconError(

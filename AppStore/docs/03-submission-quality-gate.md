@@ -2,17 +2,17 @@
 
 Part of [App Store docs hub](../README.md). Index: [RETRORAPID_APP_STORE_REFERENCE.md](../RETRORAPID_APP_STORE_REFERENCE.md).
 
-Last updated: 2026-10-08
+Last updated: 2026-10-19
 
 **See also:** [Release candidate workflow](21-release-candidate-workflow.md) · [Metadata copy](05-metadata-copy.md) · [Live listing](02-listing-snapshot.md) · [Swift scripts](../../Scripts/README.md)
 
 ---
 
-## Current candidate: 2.0 (37)
+## Current candidate: 2.2 (38)
 
-The active catalog is [retrorapid-v2.0-candidate.json](../metadata/retrorapid-v2.0-candidate.json), applied to the editable iOS/macOS 2.0 drafts in all 20 locales per platform. The [2.0 (37) candidate record](../testflight/release-2.0-37.md) contains current build, beta, and toolchain status. SharePlay and iPhone Duo lead this release; tvOS and visionOS gameplay remain outside the public shipping scope.
+The active catalog is [retrorapid-v2.2-candidate.json](../metadata/retrorapid-v2.2-candidate.json), applied to editable iOS, macOS, and tvOS 2.2 drafts in all 20 locales per platform. The [2.2 (38) candidate record](../testflight/release-2.2-38.md) contains current build, beta, screenshot, and toolchain status. iPhone, iPad, embedded Apple Watch, Mac, and Apple TV form one coordinated release train; visionOS remains outside this release.
 
-App Store What's New matched the catalog on October 6 readback for all 40 platform/locale combinations. Full TestFlight notes on both processed build 37 uploads match all 20 locale files per platform in Helm `noop` dry-run comparisons. Both drafts select the matching App Store-eligible Xcode 27.1 RC build 37 and use automatic release no earlier than October 16 at 12:00 UTC with a seven-day phase. At the owner's direction, both versions were sent to App Review on October 8 while Duo/SharePlay device acceptance, Mac smoke testing, fluent locale approval, and visual screenshot review remained unrecorded; both submissions are `WAITING_FOR_REVIEW`. Complete these checks before public availability. Both RC builds are `IN_BETA_TESTING`. The old four-theme screenshot was removed from all attached iPhone/iPad/Mac sets; do not re-export it for 2.0. Helm confirms nine remaining images per listed iPhone/iPad locale, eight per Mac locale, and seven per Watch locale. Polish and Turkish have no iPad/Mac uploads and use fallback. Follow the [release candidate workflow](21-release-candidate-workflow.md) for the remaining sequence.
+Helm readback confirms the 20-locale listing fields on all three drafts. The 2.2 What's New copy is applied to iOS and macOS, which covers the embedded Apple Watch release. App Store Connect does not expose What's New for a platform's first public version, so the tvOS records intentionally omit that field while retaining name, subtitle, keywords, promotional text, and description. No 2.2 public build is selected and no version has been submitted to App Review. Follow the [release candidate workflow](21-release-candidate-workflow.md) for the remaining screenshot, build-selection, acceptance, and coordinated-submit sequence.
 
 ## Public submission gate
 
@@ -74,6 +74,6 @@ swift run --package-path Scripts apply-retrorapid-metadata --keywords-only
 swift run --package-path Scripts apply-retrorapid-metadata --include-app-info
 ```
 
-The Swift metadata tool now defaults to `AppStore/metadata/retrorapid-v2.0-candidate.json` and validates it before calling Helm. Planned catalogs may omit draft IDs for local generation, but apply and dry-run commands fail until complete iOS and macOS version-localization IDs are recorded. Use `--catalog` to select another release, `--keywords-only` for a keyword-only sync, and `--include-app-info` to sync shared name/subtitle fields.
+The Swift metadata tool now defaults to `AppStore/metadata/retrorapid-v2.2-candidate.json` and validates it before calling Helm. Planned catalogs may omit draft IDs for local generation, but apply and dry-run commands fail until every configured platform has complete version-localization IDs. A platform draft may declare `omittedFields: ["whatsNew"]` when App Store Connect does not expose release notes, as with the first tvOS release. Use `--catalog` to select another release, `--keywords-only` for a keyword-only sync, and `--include-app-info` to sync shared name/subtitle fields.
 
 For the current candidate, follow the 2.0 gate above and record any unresolved ASO or screenshot decision before submission.

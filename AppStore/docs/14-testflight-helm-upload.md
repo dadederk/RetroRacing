@@ -1,6 +1,6 @@
 # Local TestFlight Uploads With Helm CLI
 
-Use this for local iOS with embedded Watch and macOS archives. Start with the [release candidate workflow](21-release-candidate-workflow.md) for version, SDK eligibility, metadata, acceptance, and App Store handoff. Xcode Cloud builds enter this runbook after processing; see [17-xcode-cloud-releases.md](17-xcode-cloud-releases.md).
+Use this for local iOS with embedded Watch, macOS, and Apple TV archives. Start with the [release candidate workflow](21-release-candidate-workflow.md) for version, SDK eligibility, metadata, acceptance, and App Store handoff. Xcode Cloud builds enter this runbook after processing; see [17-xcode-cloud-releases.md](17-xcode-cloud-releases.md).
 
 ## Preflight
 
@@ -15,12 +15,14 @@ Use this for local iOS with embedded Watch and macOS archives. Start with the [r
 ```bash
 ./retrorapid testflight --help
 ./retrorapid testflight all --version <version> --build-number <build> --developer-dir <Xcode.app/Contents/Developer> --helm <helm-asc-path> --dry-run
+./retrorapid testflight archive-tv --version <version> --build-number <build> --developer-dir <Xcode.app/Contents/Developer> --dry-run
+./retrorapid testflight upload-tv --version <version> --build-number <build> --developer-dir <Xcode.app/Contents/Developer> --helm <helm-asc-path> --dry-run
 ```
 
 - Always pass version and build number explicitly. The helper currently defaults to historical `1.5` (34).
 - `archive` and `all` archive **both** platforms using one `--developer-dir`. Use separate Xcode commands when iOS and Mac require different eligible toolchains.
-- `upload-ios`, `upload-mac`, and `all` export/upload, poll for the build, set no non-exempt encryption, apply the locale note files, and attach the configured **external** TestFlight group. Helm's `attach` auto-submits an eligible external build for beta review. Use these helper commands only when that external step is intended.
-- Archives live at `build/testflight-<version>/RetroRacingUniversal-{iOS,macOS}.xcarchive`. The path omits build number. Preserve the existing archive before making another build for the same marketing version.
+- `upload-ios`, `upload-mac`, `upload-tv`, and `all` export/upload, poll for the build, set no non-exempt encryption, apply the locale note files, and attach the configured **external** TestFlight group. Helm's `attach` auto-submits an eligible external build for beta review. Use these helper commands only when that external step is intended.
+- Archives live at `build/testflight-<version>/RetroRacingUniversal-{iOS,macOS}.xcarchive` or `build/testflight-<version>/RetroRacingTvOS.xcarchive`. The path omits build number. Preserve the existing archive before making another build for the same marketing version.
 - The export options are in `AppStore/testflight/ExportOptions-upload.plist`. Xcode export/upload requires valid team credentials in **Xcode → Settings → Accounts** even when archive/signing succeeded and Helm is authenticated. `Failed to Use Accounts` / missing `Xcode-Username` is an Xcode account gate; refresh that team sign-in, then retry the export. Helm credentials do not repair Xcode's keychain entry.
 
 ## Controlled per-platform sequence

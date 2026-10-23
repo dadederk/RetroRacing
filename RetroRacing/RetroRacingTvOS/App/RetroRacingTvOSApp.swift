@@ -9,9 +9,11 @@ struct RetroRacingTvOSApp: App {
     private let leaderboardConfiguration = LeaderboardConfigurationTvOS()
     private let authenticationPresenter = AuthenticationPresenterUniversal()
     private let gameCenterService: GameCenterService
+    private let screenshotGameCenterService: GameCenterService
     private let ratingService: RatingService
     private let themeManager: ThemeManager
     private let appIconService: AppIconService
+    private let screenshotAppIconService: AppIconService
     private let fontPreferenceStore: FontPreferenceStore
     private let hapticController: HapticFeedbackController
     private let highestScoreStore: HighestScoreStore
@@ -32,8 +34,12 @@ struct RetroRacingTvOSApp: App {
     @State private var isSharePlayGuidancePresented = false
 
     init() {
+        ScreenshotCaptureLocaleCatalog.configureCaptureLocaleDefaultsForLaunch()
+        ScreenshotCaptureAppearance.applySystemInterfaceStyleIfNeeded()
         AppBootstrap.configureAudioSession()
-        AppBootstrap.configureGameCenterAccessPoint()
+        if ScreenshotCaptureConfiguration.isCaptureModeEnabled == false {
+            AppBootstrap.configureGameCenterAccessPoint()
+        }
         let fontAvailability = AppBootstrap.registerFonts()
         let userDefaults = InfrastructureDefaults.userDefaults
         SettingsPreferenceMigration.runIfNeeded(
@@ -43,17 +49,28 @@ struct RetroRacingTvOSApp: App {
         storeKitService = StoreKitService(userDefaults: userDefaults)
         appIconService = AppIconService(
             changer: UnsupportedAppIconChanger(),
-            featureFlag: FixedAppIconFeatureFlag(isEnabled: false),
-            isGalleryPlatformEnabled: false
+            isGalleryPlatformEnabled: false,
+            availableThemeIDsProvider: { [] }
+        )
+        screenshotAppIconService = AppIconService(
+            changer: PreviewAppIconChanger(supportsAlternateIcons: false),
+            isGalleryPlatformEnabled: false,
+            availableThemeIDsProvider: { [] }
         )
         let releaseFeatures = ReleaseFeatureStore(
             platform: .tvOS, userDefaults: userDefaults,
             allowsOverrides: BuildConfiguration.shouldShowDebugFeatures
+                && !ScreenshotCaptureConfiguration.isCaptureModeEnabled
         )
         let themeConfig = releaseFeatures.themeConfiguration
+        let themeUserDefaults = ScreenshotCaptureConfiguration.isCaptureModeEnabled
+            ? ScreenshotCaptureThemePolicy.makeCaptureUserDefaults(
+                platform: ScreenshotCaptureConfiguration.capturePlatform
+            ) ?? userDefaults
+            : userDefaults
         let configuredThemeManager = ThemeManager(
             configuration: themeConfig,
-            userDefaults: userDefaults,
+            userDefaults: themeUserDefaults,
             hasPremiumAccess: storeKitService.hasPremiumAccessForGating,
             releaseFeatures: releaseFeatures
         )
@@ -95,6 +112,9 @@ struct RetroRacingTvOSApp: App {
             isDebugBuild: BuildConfiguration.isDebug,
             allowDebugScoreSubmission: false,
             pendingScoreStore: pendingLeaderboardScoreStore
+        )
+        screenshotGameCenterService = ScreenshotCaptureServices.makeGameCenterService(
+            configuration: leaderboardConfiguration
         )
         ratingService = StoreReviewService(userDefaults: userDefaults, ratingProvider: RatingServiceProviderTvOS())
         highestScoreStore = UserDefaultsHighestScoreStore(userDefaults: userDefaults)
@@ -147,7 +167,26 @@ struct RetroRacingTvOSApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ZStack {
+            rootView
+        }
+    }
+
+    @ViewBuilder
+    private var rootView: some View {
+        if let screenshotConfiguration = ScreenshotCaptureConfiguration.current {
+            screenshotCaptureView(for: screenshotConfiguration)
+                .environment(storeKitService)
+                .environment(
+                    \.paidStylesBenefitEnabled,
+                    themeManager.availableThemes.contains(where: \.isPremium)
+                )
+        } else {
+            normalRootView
+        }
+    }
+
+    private var normalRootView: some View {
+        ZStack {
                 GameView(
                     leaderboardService: gameCenterService,
                     ratingService: ratingService,
@@ -225,11 +264,13 @@ struct RetroRacingTvOSApp: App {
                 Text(GameLocalizedStrings.string("tvos_shareplay_facetime_required"))
             }
             .task {
+                guard ScreenshotCaptureConfiguration.isCaptureModeEnabled == false else { return }
                 await storeKitService.loadProducts()
                 await bestScoreSyncService.syncIfPossible()
                 await achievementProgressService.syncCompletedAchievementsAndReplay()
             }
             .task {
+                guard ScreenshotCaptureConfiguration.isCaptureModeEnabled == false else { return }
                 await sharePlayMatchService.setStateChangeHandler { uiState in
                     await MainActor.run {
                         handleSharePlayStateChanged(uiState)
@@ -238,14 +279,73 @@ struct RetroRacingTvOSApp: App {
                 await sharePlayMatchService.observeIncomingSessions()
             }
             .onReceive(NotificationCenter.default.publisher(for: .GKPlayerAuthenticationDidChangeNotificationName)) { _ in
+                guard ScreenshotCaptureConfiguration.isCaptureModeEnabled == false else { return }
                 Task {
                     await bestScoreSyncService.syncIfPossible()
                     await achievementProgressService.syncCompletedAchievementsAndReplay()
                     gameCenterService.flushPendingScoresIfPossible()
                     await achievementMetadataService.invalidate()
                 }
-            }
         }
+    }
+
+    private func screenshotCaptureView(
+        for configuration: ScreenshotCaptureConfiguration
+    ) -> some View {
+        ScreenshotCaptureRootView(
+            configuration: configuration,
+            dependencies: ScreenshotCaptureDependencies(
+                leaderboardService: screenshotGameCenterService,
+                gameCenterService: screenshotGameCenterService,
+                leaderboardConfiguration: leaderboardConfiguration,
+                authenticationPresenter: authenticationPresenter,
+                ratingService: ratingService,
+                themeManager: themeManager,
+                appIconService: screenshotAppIconService,
+                fontPreferenceStore: fontPreferenceStore,
+                screenshotFontPreferenceStore: makeScreenshotFontPreferenceStore(),
+                hapticController: hapticController,
+                supportsHapticFeedback: false,
+                highestScoreStore: highestScoreStore,
+                achievementProgressService: achievementProgressService,
+                playLimitService: playLimitService,
+                specialEventService: specialEventService,
+                sharePlayMatchService: sharePlayMatchService,
+                controllerInputSource: controllerInputSource,
+                controlsDescriptionKey: "settings_controls_tvos",
+                settingsPreviewDependencies: settingsPreviewDependencyFactory.make(
+                    hapticController: hapticController
+                )
+            )
+        )
+    }
+
+    private var settingsPreviewDependencyFactory: SettingsPreviewDependencyFactory {
+        SettingsPreviewDependencyFactory(
+            laneCuePlayerFactory: { PlatformFactories.makeLaneCuePlayer() },
+            announcementPoster: AccessibilityAnnouncementPoster(),
+            announcementTextProvider: {
+                GameLocalizedStrings.string("speed_increase_announcement")
+            },
+            volumeProvider: {
+                SoundEffectsVolumePreference.currentSelection(
+                    from: InfrastructureDefaults.userDefaults
+                )
+            }
+        )
+    }
+
+    private func makeScreenshotFontPreferenceStore() -> FontPreferenceStore {
+        let store = FontPreferenceStore(
+            userDefaults: UserDefaults(
+                suiteName: "com.accessibilityUpTo11.RetroRacing.screenshot-font"
+            ) ?? .standard,
+            availability: fontPreferenceStore.availability
+        )
+        if store.isCustomFontAvailable {
+            store.currentStyle = .custom
+        }
+        return store
     }
 
     private func handlePlayRequest() {

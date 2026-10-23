@@ -47,6 +47,7 @@ public enum ScriptCommandCatalog {
         "generate-spatial-assets",
         "generate-road-dash-masks",
         "generate-app-icon-assets",
+        "generate-app-store-creative",
         "sync-screenshot-studio-localizations",
         "capture-app-store-screenshots",
         "generate-metadata-docs",
@@ -91,6 +92,10 @@ public enum ScriptCommandCatalog {
         ScriptExecutable(
             name: "generate-app-icon-assets",
             purpose: "Builds theme layers, Special Edition appearances, and icon previews"
+        ),
+        ScriptExecutable(
+            name: "generate-app-store-creative",
+            purpose: "Builds localized App Store creative images and a Helm upload manifest"
         ),
         ScriptExecutable(
             name: "sync-screenshot-studio-localizations",
@@ -159,6 +164,7 @@ public enum ScriptCommandCatalog {
             executable: "sync-screenshot-studio-localizations",
             arguments: ["--check"]
         ),
+        ScriptRecipeStep(executable: "generate-app-store-creative", arguments: ["--check"]),
         ScriptRecipeStep(executable: "generate-metadata-docs", arguments: ["--check"]),
         ScriptRecipeStep(executable: "localization-workflow", arguments: ["audit"]),
         ScriptRecipeStep(executable: "check-documentation"),
@@ -219,6 +225,7 @@ public enum ScriptCommandCatalog {
           assets spatial [flags…]      Generate or check visionOS spatial assets
           assets masks [flags…]        Generate or check road dash mask assets
           assets app-icons [flags…]    Generate or check app icon pilot assets
+          assets creative [flags…]     Generate or check localized App Store creative
           testflight [args…]           Archive and upload TestFlight builds
           run <executable> [flags…]    Run any cataloged executable directly
 
@@ -243,6 +250,7 @@ public enum ScriptCommandCatalog {
         lines.append("  ./retrorapid assets optimize --check")
         lines.append("  ./retrorapid assets spatial --check")
         lines.append("  ./retrorapid assets app-icons --check")
+        lines.append("  ./retrorapid assets creative --check")
         lines.append("  ./retrorapid test")
         lines.append("  ./retrorapid test parallel-canary --workers 2,4")
         lines.append("  ./retrorapid test package")

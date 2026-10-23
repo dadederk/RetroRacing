@@ -41,9 +41,12 @@ public enum CLIUsageTexts {
         Usage:
           ./retrorapid screenshots capture [flags…]
 
+        iPhone Duo capture pauses before its open and closed batches so the
+        matching pose can be confirmed in Simulator.
+
         Flags:
-          --platform iphone|ipad|mac|watch   Platform (default: iphone)
-          --all-platforms                    Run iphone → ipad → mac → watch sequentially
+          --platform iphone|iphoneDuo|ipad|mac|watch|tv   Platform (default: iphone)
+          --all-platforms                       Run iphone → iphoneDuo → ipad → mac → watch → tv sequentially
           --locales <csv>                    Source locales (default: all source locales)
           --slides <csv>                     Slide indexes (platform-specific count)
           --appearance light|dark            Capture appearance (default: light)
@@ -141,7 +144,7 @@ public enum CLIUsageTexts {
         Flags:
           --first <n>              First screenshot position (1-based)
           --second <n>             Second screenshot position (1-based)
-          --platform iphone|ipad|mac|watch  Limit to one device set
+          --platform iphone|ipad|mac|watch|tv  Limit to one device set
           --dry-run                Print Helm plan without uploading
           --check                  Verify both positions exist without uploading
           --helm <path>            Helm CLI path override

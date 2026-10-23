@@ -108,7 +108,7 @@ struct RetroRacingApp: App {
             allowsOverrides: BuildConfiguration.shouldShowDebugFeatures
                 && !ScreenshotCaptureConfiguration.isCaptureModeEnabled
         )
-        let appIconFeatureFlag = ReleaseAppIconFeatureFlag(features: releaseFeatures)
+        let themeConfig = releaseFeatures.themeConfiguration
         #if os(iOS)
         let appIconChanger: any AppIconChanging
         if BuildConfiguration.usesDeterministicAppIconChanger {
@@ -118,20 +118,24 @@ struct RetroRacingApp: App {
         }
         appIconService = AppIconService(
             changer: appIconChanger,
-            featureFlag: appIconFeatureFlag,
-            isGalleryPlatformEnabled: true
+            isGalleryPlatformEnabled: true,
+            availableThemeIDsProvider: {
+                Set(releaseFeatures.themeConfiguration.availableThemes.map(\.id))
+            }
         )
         #else
         appIconService = AppIconService(
             changer: UnsupportedAppIconChanger(),
-            featureFlag: appIconFeatureFlag,
-            isGalleryPlatformEnabled: false
+            isGalleryPlatformEnabled: false,
+            availableThemeIDsProvider: { [] }
         )
         #endif
         screenshotAppIconService = AppIconService(
             changer: PreviewAppIconChanger(supportsAlternateIcons: false),
-            featureFlag: FixedAppIconFeatureFlag(isEnabled: false),
-            isGalleryPlatformEnabled: false
+            isGalleryPlatformEnabled: themePlatform == .iPhone || themePlatform == .iPad,
+            availableThemeIDsProvider: {
+                Set(ThemePlatformConfig.configuration(for: themePlatform).availableThemes.map(\.id))
+            }
         )
         let supportsHaptics = Self.deviceSupportsHapticFeedback()
         SettingsPreferenceMigration.runIfNeeded(
@@ -181,15 +185,14 @@ struct RetroRacingApp: App {
             allowDebugScoreSubmission: true,
             pendingScoreStore: pendingLeaderboardScoreStore
         )
-        screenshotGameCenterService = Self.makeScreenshotGameCenterService(
-            leaderboardConfiguration: leaderboardConfiguration
+        screenshotGameCenterService = ScreenshotCaptureServices.makeGameCenterService(
+            configuration: leaderboardConfiguration
         )
         #if canImport(UIKit)
         ratingService = StoreReviewService(userDefaults: userDefaults, ratingProvider: RatingServiceProviderUniversal())
         #else
         ratingService = StoreReviewService(userDefaults: userDefaults, ratingProvider: RatingServiceProviderMac())
         #endif
-        let themeConfig = releaseFeatures.themeConfiguration
         let themeUserDefaults = ScreenshotCaptureConfiguration.isCaptureModeEnabled
             ? ScreenshotCaptureThemePolicy.makeCaptureUserDefaults(
                 platform: ScreenshotCaptureConfiguration.capturePlatform
@@ -538,21 +541,6 @@ struct RetroRacingApp: App {
         )
     }
 
-    private static func makeScreenshotGameCenterService(
-        leaderboardConfiguration: LeaderboardConfiguration
-    ) -> GameCenterService {
-        GameCenterService(
-            configuration: leaderboardConfiguration,
-            friendSnapshotService: ScreenshotNoOpFriendSnapshotService(),
-            authenticationPresenter: nil,
-            authenticateHandlerSetter: nil,
-            isDebugBuild: true,
-            allowDebugScoreSubmission: false,
-            isAuthenticatedProvider: { false },
-            pendingScoreStore: nil
-        )
-    }
-
     /// Shared game view used across platforms.
     private var gameView: some View {
         GameView(
@@ -883,14 +871,5 @@ struct RetroRacingApp: App {
             store.currentStyle = .custom
         }
         return store
-    }
-}
-
-private struct ScreenshotNoOpFriendSnapshotService: GameCenterFriendSnapshotServicing {
-    func fetchFriendSnapshot(
-        from leaderboard: GKLeaderboard,
-        remoteBestScore: Int?
-    ) async -> FriendLeaderboardSnapshot? {
-        nil
     }
 }

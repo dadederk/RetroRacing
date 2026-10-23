@@ -2,11 +2,11 @@
 
 Part of [App Store docs hub](../README.md).
 
-Last updated: 2026-10-02
+Last updated: 2026-10-19
 
 **Status:** `DRAFT_APPLIED` — see field-level status in `12-validation-results.md`.
 
-**Canonical source:** [metadata/retrorapid-v2.0-candidate.json](../metadata/retrorapid-v2.0-candidate.json). Do not edit generated copy directly.
+**Canonical source:** [metadata/retrorapid-v2.2-candidate.json](../metadata/retrorapid-v2.2-candidate.json). Do not edit generated copy directly.
 
 **See also:** [Strategy](04-metadata-strategy.md) · [Validation](12-validation-results.md) · [Apply script](../../Scripts/README.md)
 
@@ -548,397 +548,217 @@ Use this shape for the next bug-fix or polish release if there is no larger feat
 ### en-US / en-CA
 
 ```text
-Race a friend with SharePlay on iPhone, iPad, and Mac! Face the same traffic, follow each other’s progress, and go again with a rematch. Friend races are free and never use your daily solo plays.
+RetroRapid! is racing onto Apple TV. Take the action to the big screen with the Siri Remote or a supported game controller, wrapped in the vivid new Disc style.
 
-Built for iOS 27 and iPhone Duo. In a partially folded tabletop pose, the road moves above the hinge and the controls sit below. Moving the hinge during a race pauses it; once the device settles, tap Play to continue the same run.
+Chase Game Center leaderboards and achievements, spot friend-score markers, or start a live SharePlay race. VoiceOver, audio cues, larger text, high contrast, Reduce Motion, and adaptable gameplay settings help more players join the action.
 
-Explore LCD and Pocket in the new Styles gallery. LCD is available to everyone; unlock Pocket with Unlimited Plays. Both styles remain free on Apple Watch.
-
-A fresh look for your favorite retro racer: we’ve extensively redrawn the artwork, including cars and helmets, while keeping the character of LCD and Pocket.
-
-Enjoy smoother gameplay, improved landscape layouts, and refined menus and game-over screens.
-
-Now available in German, Dutch, Italian, French for France and Canada, Japanese, Korean, Portuguese for Brazil and Portugal, Simplified and Traditional Chinese, Turkish, and Polish.
-
-Catching up? Recent updates added Game Center achievements, friend-score markers, and shareable results.
-
-Thanks for racing with us!
+Apple TV joins iPhone, iPad, Apple Watch, and Mac in the RetroRapid lineup. Thanks for racing with us!
 ```
 
-Count: 1155/4000 characters.
+Count: 506/4000 characters.
 
 ### en-GB / en-AU
 
 ```text
-Race a friend with SharePlay on iPhone, iPad, and Mac! Face the same traffic, follow each other’s progress, and go again with a rematch. Friend races are free and never use your daily solo plays.
+RetroRapid! is racing onto Apple TV. Take the action to the big screen with the Siri Remote or a supported game controller, wrapped in the vivid new Disc style.
 
-Built for iOS 27 and iPhone Duo. In a partially folded tabletop pose, the road moves above the hinge and the controls sit below. Moving the hinge during a race pauses it; once the device settles, tap Play to continue the same run.
+Chase Game Center leaderboards and achievements, spot friend-score markers, or start a live SharePlay race. VoiceOver, audio cues, larger text, high contrast, Reduce Motion, and adaptable gameplay settings help more players join the action.
 
-Explore LCD and Pocket in the new Styles gallery. LCD is available to everyone; unlock Pocket with Unlimited Plays. Both styles remain free on Apple Watch.
-
-A fresh look for your favourite retro racer: we’ve extensively redrawn the artwork, including cars and helmets, while keeping the character of LCD and Pocket.
-
-Enjoy smoother gameplay, improved landscape layouts, and refined menus and game-over screens.
-
-Now available in German, Dutch, Italian, French for France and Canada, Japanese, Korean, Portuguese for Brazil and Portugal, Simplified and Traditional Chinese, Turkish, and Polish.
-
-Catching up? Recent updates added Game Center achievements, friend-score markers, and shareable results.
-
-Thanks for racing with us!
+Apple TV joins iPhone, iPad, Apple Watch, and Mac in the RetroRapid line-up. Thanks for racing with us!
 ```
 
-Count: 1156/4000 characters.
+Count: 507/4000 characters.
 
 ### de-DE
 
 ```text
-Fahre mit SharePlay auf iPhone, iPad und Mac gegen einen Freund! Weicht demselben Verkehr aus, verfolgt gegenseitig euren Fortschritt und startet gleich eine Revanche. Rennen mit Freunden sind kostenlos und verbrauchen keine deiner täglichen Solospiele.
+RetroRapid! rast jetzt auf Apple TV. Bringen Sie die Action mit der Siri Remote oder einem unterstützten Gamecontroller auf den großen Bildschirm, im leuchtenden neuen Disc-Stil.
 
-Bereit für iOS 27 und iPhone Duo: In der halb aufgeklappten Tischposition liegt die Straße oberhalb des Scharniers, die Steuerung darunter. Wird das Scharnier während eines Rennens bewegt, pausiert das Spiel. Sobald es stillsteht, kannst du mit „Spielen“ dieselbe Fahrt fortsetzen.
+Jagen Sie Game Center-Bestenlisten und Erfolge, entdecken Sie Markierungen für Freundesrekorde oder starten Sie ein Live-Rennen über SharePlay. VoiceOver, Audiohinweise, größerer Text, hoher Kontrast, Bewegung reduzieren und anpassbare Spieleinstellungen machen den Einstieg leichter.
 
-Entdecke LCD und Pocket in der neuen Stilgalerie. LCD ist für alle verfügbar; Pocket schaltest du mit „Unbegrenzte Spiele“ frei. Auf der Apple Watch bleiben beide Stile kostenlos.
-
-Ein frischer Look für deinen Retro-Rennspaß: Wir haben die Grafik umfassend neu gezeichnet, darunter Autos und Helme. Der besondere Charakter von LCD und Pocket bleibt erhalten.
-
-Freu dich auf flüssigeres Spielen, verbesserte Ansichten im Querformat und überarbeitete Menüs und Game-over-Bildschirme.
-
-Jetzt auch auf Deutsch, Niederländisch, Italienisch, Französisch für Frankreich und Kanada, Japanisch, Koreanisch, Portugiesisch für Brasilien und Portugal, vereinfachtem und traditionellem Chinesisch, Türkisch und Polnisch.
-
-Länger nicht gespielt? Die letzten Updates brachten Game Center-Erfolge, Markierungen für die Punktestände deiner Freunde und Ergebnisse zum Teilen.
-
-Danke, dass du mit uns Rennen fährst!
+Apple TV ergänzt iPhone, iPad, Apple Watch und Mac in der RetroRapid-Familie. Danke, dass Sie mit uns Rennen fahren!
 ```
 
-Count: 1434/4000 characters.
+Count: 582/4000 characters.
 
 ### nl-NL
 
 ```text
-Race tegen een vriend met SharePlay op iPhone, iPad en Mac! Ontwijk hetzelfde verkeer, volg elkaars voortgang en ga meteen voor een revanche. Races met vrienden zijn gratis en gaan nooit van je dagelijkse solopogingen af.
+RetroRapid! racet nu naar Apple TV. Breng de actie naar het grote scherm met de Siri Remote of een ondersteunde gamecontroller, in de levendige nieuwe Disc-stijl.
 
-Klaar voor iOS 27 en iPhone Duo. In de halfgevouwen tafelstand staat de weg boven het scharnier en de bediening eronder. Als je het scharnier tijdens een race beweegt, pauzeert het spel. Zodra het toestel weer stil ligt, tik je op Spelen om dezelfde race te vervolgen.
+Jaag op Game Center-ranglijsten en prestaties, bekijk markeringen voor vriendenscores of start een live SharePlay-race. VoiceOver, audiosignalen, grotere tekst, hoog contrast, Verminder beweging en aanpasbare spelinstellingen helpen meer spelers mee te doen.
 
-Ontdek LCD en Pocket in de nieuwe stijlengalerij. LCD is beschikbaar voor iedereen; ontgrendel Pocket met Onbeperkt spelen. Op Apple Watch blijven beide stijlen gratis.
-
-Een frisse look voor je favoriete retroracer: we hebben het tekenwerk grondig vernieuwd, waaronder de auto’s en helmen. Het eigen karakter van LCD en Pocket blijft behouden.
-
-Geniet van soepeler spel, een betere indeling in liggende stand en verfijnde menu’s en game-overschermen.
-
-Nu ook beschikbaar in het Duits, Nederlands, Italiaans, Frans voor Frankrijk en Canada, Japans, Koreaans, Portugees voor Brazilië en Portugal, vereenvoudigd en traditioneel Chinees, Turks en Pools.
-
-Even bijpraten? Recente updates voegden Game Center-prestaties, scoremarkeringen van vrienden en resultaten om te delen toe.
-
-Bedankt dat je met ons racet!
+Apple TV voegt zich bij iPhone, iPad, Apple Watch en Mac in de RetroRapid-familie. Bedankt dat u met ons racet!
 ```
 
-Count: 1299/4000 characters.
+Count: 535/4000 characters.
 
 ### it
 
 ```text
-Sfida un amico con SharePlay su iPhone, iPad e Mac! Affrontate lo stesso traffico, seguite i progressi l’uno dell’altro e ripartite con una rivincita. Le gare con gli amici sono gratuite e non consumano mai le tue partite giornaliere in solitaria.
+RetroRapid! arriva su Apple TV. Porti l'azione sul grande schermo con il Siri Remote o un controller supportato, avvolta nel vivace nuovo stile Disc.
 
-Pronto per iOS 27 e iPhone Duo. Nella posizione da tavolo parzialmente piegata, la strada appare sopra la cerniera e i comandi sotto. Se muovi la cerniera durante una gara, il gioco si mette in pausa. Quando il dispositivo si stabilizza, tocca Gioca per riprendere la stessa gara.
+Scali le classifiche e sblocchi gli obiettivi di Game Center, segua i marcatori dei punteggi degli amici o inizi una gara live con SharePlay. VoiceOver, segnali audio, testo più grande, contrasto elevato, Riduci movimento e impostazioni adattabili aiutano più persone a partecipare.
 
-Esplora LCD e Pocket nella nuova galleria degli stili. LCD è disponibile per tutti; sblocca Pocket con Partite illimitate. Su Apple Watch entrambi gli stili restano gratuiti.
-
-Un nuovo look per il tuo gioco di corse retrò preferito: abbiamo ridisegnato gran parte della grafica, comprese auto e caschi, mantenendo il carattere di LCD e Pocket.
-
-Goditi un gioco più fluido, una disposizione migliorata in orizzontale e menu e schermate di fine partita più curati.
-
-Ora anche in tedesco, olandese, italiano, francese per Francia e Canada, giapponese, coreano, portoghese per Brasile e Portogallo, cinese semplificato e tradizionale, turco e polacco.
-
-Ti sei perso qualche novità? Gli ultimi aggiornamenti hanno aggiunto obiettivi di Game Center, indicatori dei punteggi degli amici e risultati da condividere.
-
-Grazie di correre con noi!
+Apple TV si unisce a iPhone, iPad, Apple Watch e Mac nella famiglia RetroRapid. Grazie per correre con noi!
 ```
 
-Count: 1366/4000 characters.
+Count: 542/4000 characters.
 
 ### fr-FR
 
 ```text
-Défie un ami avec SharePlay sur iPhone, iPad et Mac ! Affrontez le même trafic, suivez votre progression respective et enchaînez avec une revanche. Les courses entre amis sont gratuites et ne consomment jamais tes parties solo quotidiennes.
+RetroRapid! arrive sur Apple TV. Retrouvez l'action sur grand écran avec la Siri Remote ou une manette compatible, dans le nouveau style Disc éclatant.
 
-Prêt pour iOS 27 et iPhone Duo. En position de table partiellement pliée, la route apparaît au-dessus de la charnière et les commandes en dessous. Si la charnière bouge pendant une course, le jeu se met en pause. Une fois l’appareil stabilisé, touchez Jouer pour reprendre la même course.
+Grimpez dans les classements et débloquez les succès Game Center, repérez les scores de vos amis ou lancez une course SharePlay en direct. VoiceOver, indices audio, texte plus grand, contraste élevé, Réduire les animations et réglages adaptables permettent à davantage de joueurs de participer.
 
-Découvre LCD et Pocket dans la nouvelle galerie de styles. LCD est accessible à tous ; débloque Pocket avec Parties illimitées. Les deux styles restent gratuits sur Apple Watch.
-
-Un nouveau look pour ton jeu de course rétro préféré : nous avons largement redessiné les graphismes, notamment les voitures et les casques, tout en préservant le caractère de LCD et Pocket.
-
-Profite de parties plus fluides, d’une disposition améliorée en mode paysage et de menus et écrans de fin de partie plus soignés.
-
-Le jeu est désormais disponible en allemand, néerlandais, italien, français de France et du Canada, japonais, coréen, portugais du Brésil et du Portugal, chinois simplifié et traditionnel, turc et polonais.
-
-Tu as manqué les dernières nouveautés ? Les mises à jour précédentes ont ajouté des succès Game Center, des repères pour les scores de tes amis et le partage des résultats.
-
-Merci de faire la course avec nous !
+Apple TV rejoint l'iPhone, l'iPad, l'Apple Watch et le Mac dans la famille RetroRapid. Merci de faire la course avec nous !
 ```
 
-Count: 1452/4000 characters.
+Count: 572/4000 characters.
 
 ### fr-CA
 
 ```text
-Affrontez un ami avec SharePlay sur iPhone, iPad et Mac ! Évitez la même circulation, suivez votre progression respective et lancez une nouvelle course pour prendre votre revanche. Les courses entre amis sont gratuites et n’utilisent jamais vos parties solo quotidiennes.
+RetroRapid! arrive sur Apple TV. Retrouvez l'action sur grand écran avec la Siri Remote ou une manette compatible, dans le nouveau style Disc éclatant.
 
-Prêt pour iOS 27 et iPhone Duo. En position de table partiellement pliée, la route apparaît au-dessus de la charnière et les commandes en dessous. Si la charnière bouge pendant une course, le jeu se met en pause. Une fois l’appareil stabilisé, touchez Jouer pour reprendre la même course.
+Grimpez dans les classements et déverrouillez les succès Game Center, repérez les scores de vos amis ou lancez une course SharePlay en direct. VoiceOver, indices audio, texte plus grand, contraste élevé, Réduire le mouvement et réglages adaptables permettent à plus de joueurs de participer.
 
-Découvrez LCD et Pocket dans la nouvelle galerie de styles. LCD est accessible à tout le monde ; déverrouillez Pocket avec Parties illimitées. Les deux styles demeurent gratuits sur Apple Watch.
-
-Votre jeu de course rétro préféré fait peau neuve : nous avons redessiné une grande partie des éléments graphiques, dont les voitures et les casques, tout en conservant le caractère de LCD et Pocket.
-
-Profitez de parties plus fluides, d’une disposition améliorée en mode paysage ainsi que de menus et d’écrans de fin de partie plus soignés.
-
-Le jeu est maintenant offert en allemand, néerlandais, italien, français du Canada et de France, japonais, coréen, portugais du Brésil et du Portugal, chinois simplifié et traditionnel, turc et polonais.
-
-Vous avez manqué les dernières nouveautés ? Les mises à jour précédentes ont ajouté des succès Game Center, des repères pour les scores de vos amis et le partage des résultats.
-
-Merci de faire la course avec nous !
+Apple TV rejoint l'iPhone, l'iPad, l'Apple Watch et le Mac dans la famille RetroRapid. Merci de faire la course avec nous !
 ```
 
-Count: 1520/4000 characters.
+Count: 569/4000 characters.
 
 ### es-ES
 
 ```text
-¡Compite con un amigo con SharePlay en iPhone, iPad y Mac! Esquivad el mismo tráfico, seguid el progreso del otro y volved a la pista con una revancha. Las carreras con amigos son gratis y nunca consumen tus partidas diarias en solitario.
+RetroRapid! llega a Apple TV. Lleve la acción a la gran pantalla con el Siri Remote o un mando compatible, con el vibrante nuevo estilo Disc.
 
-Preparado para iOS 27 y iPhone Duo. En la posición de mesa parcialmente plegada, la carretera queda sobre la bisagra y los controles debajo. Si mueves la bisagra durante una carrera, el juego se pausa. Cuando el dispositivo se estabilice, toca Jugar para continuar la misma partida.
+Suba en las clasificaciones y consiga logros de Game Center, vea marcadores con las puntuaciones de sus amigos o inicie una carrera en directo con SharePlay. VoiceOver, pistas de audio, texto más grande, alto contraste, Reducir movimiento y ajustes adaptables ayudan a que más personas puedan jugar.
 
-Descubre LCD y Pocket en la nueva galería de estilos. LCD está disponible para todo el mundo; desbloquea Pocket con Partidas ilimitadas. Ambos estilos siguen siendo gratis en Apple Watch.
-
-Un nuevo aspecto para tu juego de carreras retro favorito: hemos redibujado gran parte de los gráficos, incluidos coches y cascos, conservando la personalidad de LCD y Pocket.
-
-Disfruta de partidas más fluidas, una mejor distribución en horizontal y menús y pantallas de fin de partida más cuidados.
-
-Ahora también en alemán, neerlandés, italiano, francés de Francia y Canadá, japonés, coreano, portugués de Brasil y Portugal, chino simplificado y tradicional, turco y polaco.
-
-¿Te has perdido alguna novedad? Las últimas actualizaciones añadieron logros de Game Center, indicadores de las puntuaciones de tus amigos y la opción de compartir resultados.
-
-¡Gracias por correr con nosotros!
+Apple TV se une al iPhone, iPad, Apple Watch y Mac en la familia RetroRapid. ¡Gracias por correr con nosotros!
 ```
 
-Count: 1401/4000 characters.
+Count: 554/4000 characters.
 
 ### ca
 
 ```text
-Competix amb un amic amb SharePlay en iPhone, iPad i Mac! Esquiveu el mateix trànsit, seguiu el progrés de l’altre i torneu a la pista amb una revenja. Les carreres amb amics són gratuïtes i mai consumixen les teues partides diàries en solitari.
+RetroRapid! arriba a l'Apple TV. Porte l'acció a la pantalla gran amb el Siri Remote o un comandament compatible, amb el nou i vibrant estil Disc.
 
-Preparat per a iOS 27 i iPhone Duo. En la posició de taula parcialment plegada, la carretera queda damunt de la frontissa i els controls a sota. Si mous la frontissa durant una cursa, el joc es pausa. Quan el dispositiu s’estabilitzi, toca Juga per continuar la mateixa partida.
+Puge en les classificacions i aconseguisca assoliments de Game Center, veja marcadors amb les puntuacions de les amistats o inicie una carrera en directe amb SharePlay. VoiceOver, pistes d'àudio, text més gran, contrast alt, Reduir moviment i opcions adaptables ajuden més persones a jugar.
 
-Descobrix LCD i Pocket en la nova galeria d’estils. LCD està disponible per a tot el món; desbloqueja Pocket amb Partides il·limitades. Els dos estils continuen sent gratuïts en Apple Watch.
-
-Un nou aspecte per al teu joc de carreres retro preferit: hem redibuixat bona part dels gràfics, inclosos els cotxes i els cascos, conservant la personalitat de LCD i Pocket.
-
-Disfruta de partides més fluides, una millor distribució en horitzontal i menús i pantalles de final de partida més cuidats.
-
-Ara també en alemany, neerlandés, italià, francés de França i del Canadà, japonés, coreà, portugués del Brasil i de Portugal, xinés simplificat i tradicional, turc i polonés.
-
-T’has perdut alguna novetat? Les últimes actualitzacions han afegit assoliments de Game Center, indicadors de les puntuacions dels teus amics i l’opció de compartir resultats.
-
-Gràcies per córrer amb nosaltres!
+L'Apple TV s'unix a l'iPhone, l'iPad, l'Apple Watch i el Mac en la família RetroRapid. Gràcies per córrer amb nosaltres!
 ```
 
-Count: 1407/4000 characters.
+Count: 560/4000 characters.
 
 ### es-MX
 
 ```text
-¡Compite con un amigo con SharePlay en iPhone, iPad y Mac! Esquiven el mismo tráfico, sigan el progreso del otro y vuelvan a la pista con una revancha. Las carreras con amigos son gratis y nunca consumen tus partidas diarias en solitario.
+RetroRapid! llega a Apple TV. Lleve la acción a la pantalla grande con el Siri Remote o un control compatible, con el vibrante nuevo estilo Disc.
 
-Preparado para iOS 27 y iPhone Duo. En la posición de mesa parcialmente plegada, el camino queda arriba de la bisagra y los controles abajo. Si mueves la bisagra durante una carrera, el juego se pausa. Cuando el dispositivo se estabilice, toca Jugar para continuar la misma partida.
+Suba en las clasificaciones y consiga logros de Game Center, vea marcadores con las puntuaciones de sus amigos o inicie una carrera en vivo con SharePlay. VoiceOver, pistas de audio, texto más grande, alto contraste, Reducir movimiento y ajustes adaptables ayudan a que más personas puedan jugar.
 
-Descubre LCD y Pocket en la nueva galería de estilos. LCD está disponible para todos; desbloquea Pocket con Partidas ilimitadas. Ambos estilos siguen siendo gratis en Apple Watch.
-
-Una nueva imagen para tu juego de carreras retro favorito: redibujamos gran parte de los gráficos, incluidos carros y cascos, conservando la personalidad de LCD y Pocket.
-
-Disfruta de partidas más fluidas, una mejor distribución en horizontal y menús y pantallas de fin de partida más cuidados.
-
-Ahora también en alemán, neerlandés, italiano, francés de Francia y Canadá, japonés, coreano, portugués de Brasil y Portugal, chino simplificado y tradicional, turco y polaco.
-
-¿Te perdiste alguna novedad? Las últimas actualizaciones agregaron logros de Game Center, indicadores de las puntuaciones de tus amigos y la opción de compartir resultados.
-
-¡Gracias por correr con nosotros!
+Apple TV se une al iPhone, iPad, Apple Watch y Mac en la familia RetroRapid. ¡Gracias por correr con nosotros!
 ```
 
-Count: 1385/4000 characters.
+Count: 555/4000 characters.
 
 ### ja
 
 ```text
-iPhone、iPad、MacでSharePlayを使って友達とレース！同じ交通パターンに挑み、お互いの進み具合を確認しながら競いましょう。もう一勝負したくなったら再戦も。友達とのレースは無料で、毎日のソロプレイ回数は消費しません。
+RetroRapid! が Apple TV に登場。Siri Remote または対応ゲームコントローラで、大画面ならではのレースを鮮やかな新しい Disc スタイルでお楽しみいただけます。
 
-iOS 27とiPhone Duoに対応しました。半分折りたたんだ卓上スタイルでは、道路がヒンジの上、操作ボタンが下に表示されます。レース中にヒンジを動かすと一時停止し、端末が安定したら「プレイ」をタップして同じレースを再開できます。
+Game Center のランキングや実績に挑戦し、フレンドのスコアマーカーを追いかけたり、SharePlay でライブレースを始めたりできます。VoiceOver、音声キュー、大きな文字、高コントラスト、視差効果を減らす、調整可能なゲーム設定にも対応しています。
 
-新しいスタイルギャラリーでLCDとPocketをチェック。LCDは誰でも使えます。Pocketは「無制限プレイ」で解放できます。Apple Watchでは、どちらのスタイルも引き続き無料です。
-
-お気に入りのレトロレーサーが装い新たに。車やヘルメットをはじめ、多くのグラフィックを描き直しました。LCDとPocketそれぞれの持ち味はそのままです。
-
-ゲームプレイがよりスムーズになり、横向きのレイアウトも改善。メニューやゲームオーバー画面も見やすく整えました。
-
-ドイツ語、オランダ語、イタリア語、フランス語（フランス・カナダ）、日本語、韓国語、ポルトガル語（ブラジル・ポルトガル）、中国語（簡体字・繁体字）、トルコ語、ポーランド語に対応しました。
-
-最近のアップデートもチェック！Game Centerの実績、友達のスコアを示すマーカー、結果の共有機能が加わっています。
-
-いつもレースを楽しんでくれてありがとうございます！
+Apple TV が iPhone、iPad、Apple Watch、Mac とともに RetroRapid ファミリーに加わりました。いつもプレイしていただきありがとうございます！
 ```
 
-Count: 651/4000 characters.
+Count: 323/4000 characters.
 
 ### ko
 
 ```text
-iPhone, iPad, Mac에서 SharePlay로 친구와 레이스하세요! 같은 교통 패턴에 도전하고 서로의 진행 상황을 확인하며 겨뤄 보세요. 한 번 더 달리고 싶다면 재대결도 할 수 있어요. 친구 레이스는 무료이며 일일 솔로 플레이 횟수를 사용하지 않아요.
+RetroRapid!이 Apple TV에 등장합니다. Siri Remote 또는 지원되는 게임 컨트롤러로 생생한 새 Disc 스타일의 레이스를 큰 화면에서 즐겨 보세요.
 
-iOS 27과 iPhone Duo를 지원합니다. 반쯤 접은 탁상 모드에서는 도로가 힌지 위에, 조작 버튼이 아래에 표시됩니다. 경주 중 힌지를 움직이면 게임이 일시 정지되며, 기기가 안정되면 플레이를 탭해 같은 경주를 이어갈 수 있습니다.
+Game Center 리더보드와 업적에 도전하고, 친구 점수 마커를 확인하거나 SharePlay 라이브 레이스를 시작할 수 있습니다. VoiceOver, 오디오 큐, 큰 텍스트, 고대비, 동작 줄이기와 조절 가능한 게임 설정으로 더 많은 플레이어가 함께할 수 있습니다.
 
-새로운 스타일 갤러리에서 LCD와 Pocket을 만나 보세요. LCD는 누구나 사용할 수 있고, Pocket은 무제한 플레이를 구매하면 이용할 수 있어요. Apple Watch에서는 두 스타일 모두 계속 무료예요.
-
-좋아하는 레트로 레이싱 게임이 새로운 모습으로 돌아왔어요. 자동차와 헬멧을 비롯한 많은 그래픽을 새로 그리면서 LCD와 Pocket만의 개성은 그대로 살렸어요.
-
-게임 플레이가 더 매끄러워졌어요. 가로 화면의 배치도 개선하고 메뉴와 게임 오버 화면도 다듬었어요.
-
-이제 독일어, 네덜란드어, 이탈리아어, 프랑스어(프랑스·캐나다), 일본어, 한국어, 포르투갈어(브라질·포르투갈), 중국어(간체·번체), 튀르키예어, 폴란드어도 지원해요.
-
-최근 소식도 확인해 보세요! 이전 업데이트에서는 Game Center 업적, 친구 점수 표시, 결과 공유 기능이 추가됐어요.
-
-함께 달려 주셔서 고마워요!
+Apple TV가 iPhone, iPad, Apple Watch, Mac과 함께 RetroRapid 제품군에 합류했습니다. 함께 달려 주셔서 감사합니다!
 ```
 
-Count: 734/4000 characters.
+Count: 333/4000 characters.
 
 ### pt-BR
 
 ```text
-Dispute uma corrida com um amigo usando o SharePlay no iPhone, iPad e Mac! Encarem o mesmo trânsito, acompanhem o progresso um do outro e partam para a revanche. As corridas com amigos são grátis e nunca usam suas partidas solo diárias.
+RetroRapid! está chegando à Apple TV. Leve a ação para a tela grande com o Siri Remote ou um controle compatível, no vibrante novo estilo Disc.
 
-Pronto para iOS 27 e iPhone Duo. Na posição de mesa parcialmente dobrada, a pista fica acima da dobradiça e os controles abaixo. Mover a dobradiça durante uma corrida pausa o jogo. Quando o aparelho se estabilizar, toque em Jogar para continuar a mesma corrida.
+Suba nos rankings e desbloqueie conquistas do Game Center, acompanhe marcadores de pontuação dos amigos ou inicie uma corrida ao vivo com SharePlay. VoiceOver, pistas sonoras, texto maior, alto contraste, Reduzir Movimento e ajustes adaptáveis ajudam mais pessoas a entrar na corrida.
 
-Explore LCD e Pocket na nova galeria de estilos. LCD está disponível para todo mundo; desbloqueie Pocket com Partidas ilimitadas. Os dois estilos continuam grátis no Apple Watch.
-
-Um novo visual para seu jogo de corrida retrô favorito: redesenhamos boa parte dos gráficos, incluindo carros e capacetes, sem perder a personalidade de LCD e Pocket.
-
-Aproveite partidas mais fluidas, uma disposição melhor na horizontal e menus e telas de fim de partida mais caprichados.
-
-Agora também em alemão, holandês, italiano, francês da França e do Canadá, japonês, coreano, português do Brasil e de Portugal, chinês simplificado e tradicional, turco e polonês.
-
-Perdeu alguma novidade? As últimas atualizações trouxeram conquistas do Game Center, marcadores das pontuações dos amigos e a opção de compartilhar resultados.
-
-Obrigado por correr com a gente!
+A Apple TV se junta ao iPhone, iPad, Apple Watch e Mac na família RetroRapid. Obrigado por correr com a gente!
 ```
 
-Count: 1345/4000 characters.
+Count: 541/4000 characters.
 
 ### pt-PT
 
 ```text
-Dispute uma corrida com um amigo através do SharePlay no iPhone, iPad e Mac! Enfrentem o mesmo trânsito, acompanhem o progresso um do outro e voltem à pista para uma desforra. As corridas com amigos são gratuitas e nunca gastam as partidas diárias a solo.
+RetroRapid! chega à Apple TV. Leve a ação para o grande ecrã com o Siri Remote ou um comando compatível, no vibrante novo estilo Disc.
 
-Preparado para iOS 27 e iPhone Duo. Na posição de mesa parcialmente dobrada, a estrada fica acima da dobradiça e os controlos abaixo. Mover a dobradiça durante uma corrida pausa o jogo. Quando o dispositivo estabilizar, toca em Jogar para continuar a mesma corrida.
+Suba nas classificações e desbloqueie conquistas do Game Center, acompanhe marcadores das pontuações dos amigos ou inicie uma corrida em direto com SharePlay. VoiceOver, pistas sonoras, texto maior, alto contraste, Reduzir movimento e definições adaptáveis ajudam mais pessoas a entrar na corrida.
 
-Explore LCD e Pocket na nova galeria de estilos. LCD está disponível para todos; desbloqueie Pocket com Partidas ilimitadas. Ambos os estilos continuam gratuitos no Apple Watch.
-
-Um novo visual para o seu jogo de corridas retro favorito: redesenhámos grande parte dos gráficos, incluindo carros e capacetes, mantendo a personalidade de LCD e Pocket.
-
-Desfrute de partidas mais fluidas, de uma melhor disposição na horizontal e de menus e ecrãs de fim de partida mais cuidados.
-
-Agora também em alemão, neerlandês, italiano, francês de França e do Canadá, japonês, coreano, português do Brasil e de Portugal, chinês simplificado e tradicional, turco e polaco.
-
-Perdeu alguma novidade? As últimas atualizações trouxeram conquistas do Game Center, marcadores das pontuações dos amigos e a opção de partilhar resultados.
-
-Obrigado por correr connosco!
+A Apple TV junta-se ao iPhone, iPad, Apple Watch e Mac na família RetroRapid. Obrigado por correr connosco!
 ```
 
-Count: 1371/4000 characters.
+Count: 542/4000 characters.
 
 ### zh-Hant
 
 ```text
-在 iPhone、iPad 和 Mac 上透過 SharePlay 和朋友比一場！挑戰相同的車流，隨時掌握彼此的進度，還能再賽一場。好友賽完全免費，也不會扣除每日單人遊玩次數。
+RetroRapid! 現已登上 Apple TV。使用 Siri Remote 或支援的遊戲控制器，在大螢幕上享受充滿活力的全新 Disc 風格。
 
-支援 iOS 27 和 iPhone Duo。部分摺疊成桌面姿態時，賽道顯示在轉軸上方，操控按鈕則在下方。比賽時移動轉軸會暫停遊戲；裝置穩定後，點一下「開始」即可接續同一場比賽。
+挑戰 Game Center 排行榜與成就、追蹤好友分數標記，或開始 SharePlay 即時競賽。VoiceOver、音效提示、較大字體、高對比、減少動態效果與可調整的遊戲設定，讓更多玩家都能加入。
 
-到全新的風格圖庫探索 LCD 和 Pocket。LCD 開放所有玩家使用；購買「無限暢玩」即可解鎖 Pocket。在 Apple Watch 上，兩種風格依然免費。
-
-喜愛的復古賽車遊戲換上新面貌！我們重新繪製了大量美術素材，包括車輛和安全帽，同時保留 LCD 和 Pocket 各自的特色。
-
-遊玩更流暢，橫向畫面配置也更完善，選單和遊戲結束畫面同樣經過細心調整。
-
-現在也支援德文、荷蘭文、義大利文、法文（法國及加拿大）、日文、韓文、葡萄牙文（巴西及葡萄牙）、簡體及繁體中文、土耳其文和波蘭文。
-
-錯過了最近的更新嗎？先前已加入 Game Center 成就、好友分數標記，以及分享遊戲結果的功能。
-
-感謝你和我們一起享受賽車樂趣！
+Apple TV 現與 iPhone、iPad、Apple Watch 和 Mac 一同加入 RetroRapid 系列。感謝您與我們一起競速！
 ```
 
-Count: 499/4000 characters.
+Count: 250/4000 characters.
 
 ### zh-Hans
 
 ```text
-在 iPhone、iPad 和 Mac 上通过 SharePlay 和朋友比一场！挑战相同的车流，随时查看彼此的进度，还能再来一局。好友比赛完全免费，也不会消耗每日单人游玩次数。
+RetroRapid! 现已登陆 Apple TV。使用 Siri Remote 或支持的游戏控制器，在大屏幕上体验充满活力的全新 Disc 风格。
 
-支持 iOS 27 和 iPhone Duo。部分折叠成桌面姿态时，赛道显示在转轴上方，控制按钮位于下方。比赛中移动转轴会暂停游戏；设备稳定后，轻点“开始”即可继续同一场比赛。
+挑战 Game Center 排行榜与成就、追踪好友分数标记，或开始 SharePlay 实时竞赛。VoiceOver、音效提示、较大字体、高对比度、减弱动态效果与可调游戏设置，让更多玩家都能加入。
 
-在全新的风格图库中探索 LCD 和 Pocket。所有玩家都能使用 LCD；购买“无限畅玩”即可解锁 Pocket。在 Apple Watch 上，两种风格依然免费。
-
-你喜爱的复古赛车游戏焕然一新！我们重新绘制了大量美术素材，包括车辆和头盔，同时保留了 LCD 和 Pocket 各自的特色。
-
-游戏体验更加流畅，横屏布局更合理，菜单和游戏结束画面也经过了精心打磨。
-
-现已支持德语、荷兰语、意大利语、法语（法国及加拿大）、日语、韩语、葡萄牙语（巴西及葡萄牙）、简体及繁体中文、土耳其语和波兰语。
-
-错过了最近的更新？此前已加入 Game Center 成就、好友分数标记，以及分享游戏结果的功能。
-
-感谢你和我们一起享受赛车的乐趣！
+Apple TV 现与 iPhone、iPad、Apple Watch 和 Mac 一同加入 RetroRapid 产品系列。感谢您与我们一起竞速！
 ```
 
-Count: 499/4000 characters.
+Count: 251/4000 characters.
 
 ### tr
 
 ```text
-iPhone, iPad ve Mac’te SharePlay ile bir arkadaşınla yarış! Aynı trafiğe meydan okuyun, birbirinizin ilerlemesini takip edin ve rövanş için yeniden piste çıkın. Arkadaş yarışları ücretsizdir ve günlük tek oyunculu oyun hakkını asla tüketmez.
+RetroRapid! artık Apple TV'de. Siri Remote veya desteklenen bir oyun kumandasıyla aksiyonu büyük ekrana taşıyın ve canlı yeni Disc tarzının keyfini çıkarın.
 
-iOS 27 ve iPhone Duo desteği. Kısmen katlanmış masa konumunda yol menteşenin üstünde, kontroller altında görünür. Yarış sırasında menteşeyi hareket ettirmek oyunu duraklatır. Aygıt sabitlenince Oyna’ya dokunarak aynı yarışa devam edebilirsin.
+Game Center liderlik tablolarında yükselin, başarımları açın, arkadaş skoru işaretlerini takip edin veya canlı bir SharePlay yarışı başlatın. VoiceOver, ses ipuçları, büyük metin, yüksek kontrast, Hareketi Azalt ve uyarlanabilir oyun ayarları daha fazla oyuncunun yarışa katılmasına yardımcı olur.
 
-Yeni stil galerisinde LCD ve Pocket’ı keşfet. LCD herkese açık; Pocket’ın kilidini Sınırsız oyun ile açabilirsin. Apple Watch’ta her iki stil de ücretsiz kalmaya devam ediyor.
-
-Sevdiğin retro yarış oyununa taze bir görünüm: Arabalar ve kasklar dahil pek çok görseli baştan çizdik. LCD ve Pocket’ın kendine özgü havasını ise koruduk.
-
-Daha akıcı oyunun, iyileştirilmiş yatay ekran düzeninin, elden geçirilmiş menülerin ve oyun sonu ekranlarının keyfini çıkar.
-
-Artık Almanca, Felemenkçe, İtalyanca, Fransa ve Kanada Fransızcası, Japonca, Korece, Brezilya ve Portekiz Portekizcesi, Basitleştirilmiş ve Geleneksel Çince, Türkçe ve Lehçe de destekleniyor.
-
-Son yenilikleri kaçırdın mı? Önceki güncellemelerle Game Center başarımları, arkadaşlarının puanlarını gösteren işaretler ve sonuçları paylaşma özelliği eklendi.
-
-Bizimle yarıştığın için teşekkürler!
+Apple TV; iPhone, iPad, Apple Watch ve Mac ile birlikte RetroRapid ailesine katılıyor. Bizimle yarıştığınız için teşekkürler!
 ```
 
-Count: 1339/4000 characters.
+Count: 582/4000 characters.
 
 ### pl
 
 ```text
-Ścigaj się ze znajomym przez SharePlay na iPhonie, iPadzie i Macu! Omijajcie te same auta, śledźcie swoje postępy i ruszajcie na rewanż. Wyścigi ze znajomymi są darmowe i nigdy nie zużywają dziennego limitu gier solo.
+RetroRapid! trafia na Apple TV. Przenieś akcję na duży ekran, korzystając z Siri Remote lub obsługiwanego kontrolera, w wyrazistym nowym stylu Disc.
 
-Obsługa iOS 27 i iPhone Duo. W częściowo złożonej pozycji stołowej droga jest nad zawiasem, a elementy sterujące pod nim. Poruszenie zawiasem w trakcie wyścigu wstrzymuje grę. Gdy urządzenie się ustabilizuje, stuknij Graj, aby kontynuować ten sam wyścig.
+Wspinaj się w rankingach i zdobywaj osiągnięcia Game Center, śledź znaczniki wyników znajomych lub rozpocznij wyścig na żywo przez SharePlay. VoiceOver, wskazówki dźwiękowe, większy tekst, wysoki kontrast, Ogranicz ruch i ustawienia adaptacyjne pomagają większej liczbie graczy dołączyć do zabawy.
 
-Odkryj LCD i Pocket w nowej galerii stylów. LCD jest dostępny dla wszystkich, a Pocket odblokujesz dzięki zakupowi „Nielimitowane gry”. Na Apple Watch oba style pozostają darmowe.
-
-Nowy wygląd ulubionej wyścigówki retro: narysowaliśmy od nowa dużą część grafik, w tym auta i kaski, zachowując charakter LCD i Pocket.
-
-Ciesz się płynniejszą rozgrywką, lepszym układem w poziomie oraz dopracowanymi menu i ekranami końca gry.
-
-Gra jest teraz dostępna także po niemiecku, niderlandzku, włosku, francusku w odmianach z Francji i Kanady, japońsku, koreańsku, portugalsku w odmianach z Brazylii i Portugalii, po chińsku w wersji uproszczonej i tradycyjnej, a także po turecku i polsku.
-
-Co jeszcze nowego? Poprzednie aktualizacje dodały osiągnięcia Game Center, znaczniki wyników znajomych i udostępnianie wyników.
-
-Dzięki za wspólne wyścigi!
+Apple TV dołącza do iPhone'a, iPada, Apple Watch i Maca w rodzinie RetroRapid. Dziękujemy za wspólne wyścigi!
 ```
 
-Count: 1311/4000 characters.
+Count: 558/4000 characters.
 
 _Generated by `swift run --package-path Scripts generate-metadata-docs`._

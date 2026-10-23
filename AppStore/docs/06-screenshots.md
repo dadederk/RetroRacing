@@ -2,7 +2,7 @@
 
 Part of [App Store docs hub](../README.md).
 
-Last updated: 2026-10-06
+Last updated: 2026-10-22
 
 **Status:** localized base captures via `./retrorapid screenshots capture`. Studio **export** and Connect **upload** stay **manual**.
 
@@ -14,7 +14,7 @@ On October 6, Helm readback showed 20 locales on iPhone (two display sizes) and 
 
 ## Studio project
 
-- [RetroRapid.screenshotstudio/](../RetroRapid.screenshotstudio/) — iPhone / iPad / Mac / Apple Watch
+- [RetroRapid.screenshotstudio/](../RetroRapid.screenshotstudio/) — iPhone / iPhone Duo / iPad / Mac / Apple Watch / Apple TV
 - Overlay copy source: `Scripts/Sources/RetroRacingAutomationCore/ScreenshotStudioWorkflow.swift`
 - After copy edits: `./retrorapid screenshots sync` · verify: `./retrorapid screenshots sync --check`
 
@@ -27,7 +27,7 @@ On October 6, Helm readback showed 20 locales on iPhone (two display sizes) and 
 
 `en-GB`/`en-AU` overlay spelling: British (`Customise…`). `en-CA` matches US. Watch overlays stay empty (sequence-only).
 
-**Do not** let sync overwrite source-locale pixels with `en-US`. Staging: `.build/screenshot-capture/{iphone,ipad,mac,appleWatch}/`.
+**Do not** let sync overwrite source-locale pixels with `en-US`. Staging: `.build/screenshot-capture/{iphone,iphoneDuo,ipad,mac,appleWatch,appleTv}/`.
 
 The 20-locale model uses 17 independent sources plus three English-derived locales. `es-MX` is a source locale with Mexican Spanish in-app pixels; only `en-GB`, `en-AU`, and `en-CA` derive from `en-US`. Recapture a source locale only after its fluent reviewer approves the current digest in [`../localization/review-status.json`](../localization/review-status.json), and keep existing Studio assets until the replacements pass visual inspection.
 
@@ -50,7 +50,24 @@ Bodies ≤ ~10 English words. Mac omits SharePlay (nine slides; indices shift af
 
 Optional PPO title variants for slides 1–4: keep body copy; test titles only if running a deliberate PPO experiment (`Endless Traffic Dodge Game`, `3-Lane Arcade Controls`, `One Mistake Ends Your Run`, `VoiceOver and Haptic Racing`).
 
+## iPhone Duo storyboard
+
+iPhone Duo reuses the iPhone template, captions, and ten-slide story. Its base captures deliberately alternate device posture in Studio order: slides 0, 2, 4, 6, and 8 use the open inner display; slides 1, 3, 5, 7, and 9 use the closed outer display. This shows both ways to play without introducing a separate copy track.
+
+Capture with `./retrorapid screenshots capture --platform iphoneDuo`. The workflow resolves the iOS 27.1 `iPhone Duo` simulator, captures every open slide first and every closed slide second, and pauses at each batch boundary until the operator confirms the matching Simulator pose. For open slides, the UI test prepares the deterministic app state and the host captures the active inner display directly; closed slides use the normal app capture path. Successful captures are installed into `iphoneDuo/images/`; RocketSim is not required.
+
+## Apple TV storyboard
+
+Apple TV follows the ten-slide sequence above with native 1920×1080 captures. It uses the TV menu/settings layouts, omits haptics from accessibility copy, and replaces the Pocket showcase with the shipping Disc theme.
+
+| # | Title | English body | TV-specific treatment |
+|---:|---|---|---|
+| 4 | Accessibility Front and Center | VoiceOver, audio cues, larger text, and adaptable gameplay settings. | No haptics claim |
+| 7 | Choose Your Retro Aesthetic | Explore five retro styles, from Pocket to Disc. | TV theme selector |
+| 8 | Disc Style on the Big Screen | A vivid late-1990s look made for Apple TV. | Disc gameplay showcase |
+
+All other Apple TV slides use the shared localized copy. Screenshot Studio must list `appleTv` in `selectedPlatforms` and contain ten images for each of the 20 locales before export.
+
 ## Platforms not in this campaign
 
-- **visionOS / Apple TV:** do not export or market screenshots until publicly shipping (`AGENTS.md` shipping table).
-- Studio `selectedPlatforms`: iPhone, iPad, Mac, Apple Watch only.
+- **visionOS:** do not export or market screenshots until publicly shipping (`AGENTS.md` shipping table).

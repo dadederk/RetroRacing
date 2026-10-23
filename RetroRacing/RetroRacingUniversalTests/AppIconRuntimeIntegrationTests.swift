@@ -15,10 +15,6 @@ final class AppIconRuntimeIntegrationTests: XCTestCase {
     @MainActor
     func testGivenRunningApplicationWhenResolvingAlternateIconsThenUIKitAndCatalogAgree() throws {
         // Given
-        let suiteName = "AppIconRuntimeIntegrationTests.featureFlag"
-        let defaults = try XCTUnwrap(UserDefaults(suiteName: suiteName))
-        defaults.removePersistentDomain(forName: suiteName)
-        defer { defaults.removePersistentDomain(forName: suiteName) }
         let bundleIcons = try XCTUnwrap(
             Bundle.main.object(forInfoDictionaryKey: "CFBundleIcons") as? [String: Any]
         )
@@ -26,21 +22,22 @@ final class AppIconRuntimeIntegrationTests: XCTestCase {
             bundleIcons["CFBundleAlternateIcons"] as? [String: Any]
         )
 
-        let features = ReleaseFeatureStore(
-            platform: .iPhone, userDefaults: defaults, allowsOverrides: true
-        )
-        features.setOverride(.enabled, for: .alternateIcons)
-
         // When
         let service = AppIconService(
             changer: UIApplicationAppIconChanger(application: SharedUIApplicationAppIconProxy()),
-            featureFlag: ReleaseAppIconFeatureFlag(features: features),
-            isGalleryPlatformEnabled: true
+            isGalleryPlatformEnabled: true,
+            availableThemeIDsProvider: {
+                [.pocket, .lcd, .eightBit, .sixteenBit]
+            }
         )
 
         // Then
         XCTAssertTrue(BuildConfiguration.shouldShowDebugFeatures)
         XCTAssertEqual(Set(alternateIcons.keys), Set(AppIconCatalog.alternateSystemIconNames))
+        XCTAssertEqual(
+            service.availableOptions.map(\.id),
+            [.classic, .pocket, .lcd, .cartridge, .crt, .retroCartridge, .retroVideoGame, .retroGameBox]
+        )
         XCTAssertEqual(service.supportsAlternateIcons, UIApplication.shared.supportsAlternateIcons)
         XCTAssertTrue(service.isGalleryAvailable)
     }

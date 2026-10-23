@@ -8,7 +8,7 @@
 import Foundation
 import ScriptSupport
 
-/// Best-effort simulator locale setup for iPhone, iPad, and Apple Watch screenshot capture.
+/// Best-effort simulator locale setup for iPhone, iPad, Apple Watch, and Apple TV capture.
 /// In-app strings follow launch-argument locale via `GameLocalizedStrings` and SwiftUI
 /// `.environment(\.locale)`; `simctl` defaults supplement system chrome on simulators.
 public enum WatchScreenshotCaptureLocaleWorkflow {

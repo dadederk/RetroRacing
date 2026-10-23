@@ -1,22 +1,9 @@
-Dispute uma corrida com um amigo usando o SharePlay no iPhone, iPad e Mac! Encarem o mesmo trânsito, acompanhem o progresso um do outro e partam para a revanche. As corridas com amigos são grátis e nunca usam suas partidas solo diárias.
+RetroRapid! está chegando à Apple TV. Leve a ação para a tela grande com o Siri Remote ou um controle compatível, no vibrante novo estilo Disc.
 
-Pronto para iOS 27 e iPhone Duo. Na posição de mesa parcialmente dobrada, a pista fica acima da dobradiça e os controles abaixo. Mover a dobradiça durante uma corrida pausa o jogo. Quando o aparelho se estabilizar, toque em Jogar para continuar a mesma corrida.
+Suba nos rankings e desbloqueie conquistas do Game Center, acompanhe marcadores de pontuação dos amigos ou inicie uma corrida ao vivo com SharePlay. VoiceOver, pistas sonoras, texto maior, alto contraste, Reduzir Movimento e ajustes adaptáveis ajudam mais pessoas a entrar na corrida.
 
-Explore LCD e Pocket na nova galeria de estilos. LCD está disponível para todo mundo; desbloqueie Pocket com Partidas ilimitadas. Os dois estilos continuam grátis no Apple Watch.
-
-Um novo visual para seu jogo de corrida retrô favorito: redesenhamos boa parte dos gráficos, incluindo carros e capacetes, sem perder a personalidade de LCD e Pocket.
-
-Aproveite partidas mais fluidas, uma disposição melhor na horizontal e menus e telas de fim de partida mais caprichados.
-
-Agora também em alemão, holandês, italiano, francês da França e do Canadá, japonês, coreano, português do Brasil e de Portugal, chinês simplificado e tradicional, turco e polonês.
-
-Perdeu alguma novidade? As últimas atualizações trouxeram conquistas do Game Center, marcadores das pontuações dos amigos e a opção de compartilhar resultados.
-
-Obrigado por correr com a gente!
-
-Pontos para testar:
-- Veja e selecione LCD e Pocket na Galeria de Estilos
-- Inicie uma corrida SharePlay com um amigo no iPhone, iPad ou Mac
-- Confira se o jogo continua fluido durante partidas longas
-- Teste layouts horizontais, menus e a tela de fim de jogo
-- Termine uma partida com VoiceOver e confira todos os anúncios
+Foco dos testes:
+- Jogue várias partidas com o Siri Remote e um controle compatível
+- Confira a jogabilidade Disc, menus, ajustes e tela de fim de jogo na TV
+- Teste Game Center, SharePlay e os marcadores de pontuação dos amigos
+- Teste VoiceOver, pistas sonoras, texto maior, alto contraste e Reduzir Movimento

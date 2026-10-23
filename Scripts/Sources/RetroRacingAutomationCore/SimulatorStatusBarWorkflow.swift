@@ -62,7 +62,10 @@ public enum SimulatorStatusBarWorkflow {
 
     public static func shouldApplyOverride(platform: String, enabled: Bool) -> Bool {
         let normalized = AppStoreScreenshotCaptureDefaults.normalizedPlatform(platform)
-        return enabled && normalized != "mac" && normalized != "appleWatch"
+        return enabled
+            && normalized != "mac"
+            && normalized != "appleWatch"
+            && normalized != "appleTv"
     }
 
     public static func simulatorName(from destination: String) -> String? {

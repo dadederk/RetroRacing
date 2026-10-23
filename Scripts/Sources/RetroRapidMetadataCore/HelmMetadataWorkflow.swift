@@ -54,7 +54,7 @@ public enum HelmMetadataWorkflow {
             throw MetadataToolError.missingPlatformDrafts(missingPlatforms)
         }
 
-        for platform in requiredPlatforms {
+        for platform in catalog.platformDrafts.keys.sorted() {
             guard let draft = catalog.platformDrafts[platform] else { continue }
             let missingLocales = catalog.localeOrder.filter {
                 draft.localizationIDs[$0] == nil
@@ -65,6 +65,13 @@ public enum HelmMetadataWorkflow {
                     locales: missingLocales
                 )
             }
+            let unsupportedOmissions = draft.omittedFields.subtracting(["whatsNew"])
+            guard unsupportedOmissions.isEmpty else {
+                throw MetadataToolError.invalidArguments(
+                    "\(platform) has unsupported omitted fields: "
+                        + unsupportedOmissions.sorted().joined(separator: ", ")
+                )
+            }
         }
     }
 
@@ -72,7 +79,8 @@ public enum HelmMetadataWorkflow {
         locale: LocaleMetadata,
         localizationID: String,
         includeAppInfo: Bool,
-        keywordsOnly: Bool
+        keywordsOnly: Bool,
+        includeWhatsNew: Bool = true
     ) -> [String] {
         var arguments = [
             "localization",
@@ -87,9 +95,13 @@ public enum HelmMetadataWorkflow {
                 normalizedHelmArgument(locale.promotionalText),
                 "--description",
                 normalizedHelmArgument(locale.description),
-                "--whats-new",
-                normalizedHelmArgument(locale.whatsNew),
             ]
+            if includeWhatsNew {
+                arguments += [
+                    "--whats-new",
+                    normalizedHelmArgument(locale.whatsNew),
+                ]
+            }
         }
         if includeAppInfo {
             arguments += [
@@ -125,7 +137,8 @@ public enum HelmMetadataWorkflow {
                         locale: locale,
                         localizationID: localizationID,
                         includeAppInfo: false,
-                        keywordsOnly: options.keywordsOnly
+                        keywordsOnly: options.keywordsOnly,
+                        includeWhatsNew: !draft.omittedFields.contains("whatsNew")
                     )
                 )
             }
@@ -172,6 +185,9 @@ public enum HelmMetadataWorkflow {
                 "\(platformName) \(catalog.version): "
                     + "\(draft.localizationIDs.count) locales (\(draft.versionID))"
             )
+            if !draft.omittedFields.isEmpty {
+                print("  Omitted fields: \(draft.omittedFields.sorted().joined(separator: ", "))")
+            }
         }
         print("Dry run complete; App Store Connect was not changed.")
     }

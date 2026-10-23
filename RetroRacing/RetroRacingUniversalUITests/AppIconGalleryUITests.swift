@@ -54,20 +54,14 @@ final class AppIconGalleryUITests: XCTestCase {
             ("retroGameBox", "Retro Game Box"),
         ], in: app)
 
-        app.navigationBars["Choose App Icon"].buttons["Settings"].tap()
-
-        let featureToggle = app.descendants(matching: .any)["release_feature_alternateIcons"].firstMatch
-        scrollUp(in: app, until: featureToggle)
-        XCTAssertTrue(featureToggle.exists, app.debugDescription)
-        XCTAssertTrue(featureToggle.isEnabled)
     }
 
     @MainActor
-    func testGivenReleaseOneWhenOpeningStylesThenPocketRequiresUnlimitedPlays() throws {
+    func testGivenBaseThemeCatalogWhenOpeningStylesThenPocketRequiresUnlimitedPlays() throws {
         // Given
-        let app = launchApplication(premiumSimulationMode: 2, previewsPersonalization: false)
+        let app = launchApplication(premiumSimulationMode: 2, previewsRetroThemes: false)
         openSettings(in: app)
-        XCTAssertFalse(app.buttons["settings_app_icon_gallery"].exists)
+        XCTAssertTrue(app.buttons["App Icon"].exists)
 
         // When
         app.buttons["Styles"].tap()
@@ -204,15 +198,14 @@ final class AppIconGalleryUITests: XCTestCase {
         premiumSimulationMode: Int,
         additionalArguments: [String] = [],
         usesDeterministicAppIconChanger: Bool = false,
-        previewsPersonalization: Bool = true
+        previewsRetroThemes: Bool = true
     ) -> XCUIApplication {
         let app = XCUIApplication()
         var launchArguments = [
             UITestLaunchOption.enabled.rawValue,
             "-AppleLanguages", "(en)",
             "-AppleLocale", "en_US",
-            "-releasePreview.alternateIcons", previewsPersonalization ? "enabled" : "disabled",
-            "-releasePreview.retroThemes", previewsPersonalization ? "enabled" : "disabled",
+            "-releasePreview.retroThemes", previewsRetroThemes ? "enabled" : "disabled",
             "-StoreKit.debugPremiumSimulationMode", String(premiumSimulationMode),
         ]
         if usesDeterministicAppIconChanger {
@@ -235,16 +228,6 @@ final class AppIconGalleryUITests: XCTestCase {
             object: option
         )
         XCTAssertEqual(XCTWaiter.wait(for: [selected], timeout: 15), .completed)
-    }
-
-    private func scrollUp(in app: XCUIApplication, until element: XCUIElement) {
-        let settingsList = app.collectionViews["settings_list"]
-        XCTAssertTrue(settingsList.waitForExistence(timeout: 5))
-        var scrollAttempts = 0
-        while element.exists == false && scrollAttempts < 8 {
-            settingsList.swipeUp()
-            scrollAttempts += 1
-        }
     }
 
     private func scrollApplicationUp(in app: XCUIApplication, until element: XCUIElement) {

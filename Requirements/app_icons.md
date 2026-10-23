@@ -4,8 +4,8 @@
 
 > Narrow tasks may stop here; open the related contracts for entitlement, localization, or asset work.
 
-- **Scope:** iPhone/iPad alternate-icon catalog, Debug rollout flag, Unlimited Plays access, gallery behavior, Icon Composer packages, and system integration.
-- **Must not break:** Classic remains the primary `nil` icon; system names are permanent; the committed Release default controls feature UI and copy; disabling the flag never changes the installed icon.
+- **Scope:** iPhone/iPad alternate-icon catalog, platform eligibility, Unlimited Plays access, gallery behavior, Icon Composer packages, and system integration.
+- **Must not break:** Classic remains the primary `nil` icon; system names are permanent; only eligible iPhone/iPad configurations expose the gallery; an installed alternate is never changed without a deliberate user selection.
 - **Key files:** `AppIconCatalog`, `AppIconService`, `AppIconGalleryView`, `UIApplicationAppIconChanger`, `RetroRacingUniversal/Assets/RetroRapid*.icon`.
 
 ## Catalog and compatibility
@@ -27,22 +27,21 @@
 - Classic uses `RetroRapid.icon`; its Default presentation remains visually equivalent to the shipped icon.
 - Icon choice is independent from gameplay Style. Neither selection changes the other.
 - The operating system's `alternateIconName` is authoritative; no duplicate selected-icon preference is stored.
+- Release 2.1 exposes Pocket, LCD, Cartridge, CRT, and the three Special Editions: seven alternate icons. Disc remains hidden until the Apple TV release promotes Disc to the shared iPhone/iPad Style catalog; Polygon remains hidden until the visionOS release promotes Polygon. Their packages and permanent system names stay compiled for compatibility and staged testing.
+- Theme-derived icons are visible only when the matching Style is in the injected platform catalog. Classic and the three Special Editions are independent of Style rollout.
 
-## Platform and rollout
+## Platform availability
 
-- The gallery is available when both the injected platform configuration enables it and the rollout flag is enabled. iPhone and iPad enable the platform configuration; macOS, watchOS, tvOS, and native visionOS disable it.
-- UIKit system capability remains separate observable diagnostic state. It is refreshed after app activation, when Settings or the gallery appears, and at selection time, but a transient or environment-specific `supportsAlternateIcons == false` neither hides the iPhone/iPad gallery or Debug toggle nor preflights a configured-platform request. The platform adapter's actual `setAlternateIconName` result is authoritative and failures use localized recovery copy plus structured error-domain/code logging.
+- The gallery is available whenever the injected platform configuration enables it. iPhone and iPad enable the platform configuration; macOS, watchOS, tvOS, and native visionOS disable it.
+- UIKit system capability remains separate observable diagnostic state. It is refreshed after app activation, when Settings or the gallery appears, and at selection time, but a transient or environment-specific `supportsAlternateIcons == false` neither hides the iPhone/iPad gallery nor preflights a configured-platform request. The platform adapter's actual `setAlternateIconName` result is authoritative and failures use localized recovery copy plus structured error-domain/code logging.
 - iPhone and iPad inject `UIApplicationAppIconChanger` through a proxy that resolves `UIApplication.shared` after launch; SwiftUI `App` construction must not retain the singleton's pre-launch `nil` value. macOS, watchOS, tvOS, and native visionOS inject `UnsupportedAppIconChanger` or omit the shared surface. Platform decisions belong in composition roots, not shared views or service compile conditions.
-- The injected `ReleaseAppIconFeatureFlag` bridges the shared `ReleaseFeatureProviding` policy to the icon service. Release 1 defaults off; Debug supports explicit preview and Reset. Release and screenshot capture ignore stored previews. Platform capability and Unlimited Plays remain independent checks.
-- Builds without Debug features use the committed release default regardless of saved previews; it is false for release 1.
-- Debug Settings shows the alternate-icon Release default / Enabled / Disabled picker on configured iPhone/iPad builds even when the current environment reports that icon changes are unsupported.
-- Alternate packages and generated `CFBundleAlternateIcons` declarations remain in Debug and Release products. Release 1 hides the Settings row, gallery, and icon-specific benefit. The Debug controls never appear in distribution builds.
-- Turning the flag off hides feature surfaces immediately but does not reset an installed alternate or call the system API.
+- The temporary 2.0 rollout flag and its Debug override are removed for the 2.1 personalization release. Platform capability and Unlimited Plays remain independent checks.
+- Alternate packages and generated `CFBundleAlternateIcons` declarations remain in Debug and Release products. Eligible iPhone/iPad builds show the Settings row, gallery, and icon-specific benefit.
 
 ## Access and selection
 
 - Classic is always selectable and passes `nil` to the platform adapter.
-- All nine alternates require Unlimited Plays.
+- Every visible alternate requires Unlimited Plays. Release 2.1 therefore offers seven alternates; the complete staged catalog contains nine.
 - Cached returning-purchaser access permits selection while the first entitlement refresh is unresolved.
 - Without cached access, unresolved alternates remain visible and disabled; no paywall is presented until resolution.
 - A resolved free user can inspect every icon. Selecting a locked alternate opens the voluntary Unlimited Plays paywall.
@@ -79,7 +78,7 @@
 - Disc uses the same semantic theme structure as the other layered packages: the canonical transparent 32-bit car and four perspective lane paths are in Subject, while appearance-specialized vector roads and the transparent circuit environment are in World. Default uses deep-teal off-road, pale-aqua `#CFEAEC` road, and `#073D4A` marks; Dark uses the same circuit environment with a charcoal-navy `#121E2B` road and aqua `#72E5E9` marks. The circuit layer is deterministically extracted from the approved v4 concept outside the shared projected road geometry, so no baked car or track pixels remain in that environment source. Polygon remains flattened with one neutral appearance. Classic is unchanged.
 - Gallery previews are `512×512` ordinary image assets. Each imageset uses Xcode's universal single-scale representation rather than mislabelling the high-resolution source as an intrinsic `1x` bitmap. Each pilot imageset contains a Default and a luminosity-Dark rendition generated from the corresponding package sources; the resizable gallery always draws them smaller than their source dimensions.
 - `./retrorapid assets app-icons` deterministically regenerates the Pocket/LCD/Cartridge/CRT/Disc SVG and canonical car layers, rasterizes CRT's transparent combined scanline/vignette overlays, derives Disc's transparent circuit environment from the approved v4 concept, copies all approved Special Edition sources into their packages, and generates the eight opaque RGB `512×512` adaptive gallery preview pairs. Each primary image set contains its inspectable Default and luminosity-Dark renditions; no duplicate appearance-specific image set is generated. `--dry-run` reports the mutation plan; `--check` rejects generated-output drift. Icon Composer appearance/material configuration remains in each tracked `icon.json` and is never overwritten by the generator.
-- `ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES` declares all nine alternates for Universal Debug and Release; Xcode generates Info.plist entries.
+- `ASSETCATALOG_COMPILER_ALTERNATE_APPICON_NAMES` declares all nine staged alternates for Universal Debug and Release; Xcode generates Info.plist entries even when Disc or Polygon is release-hidden.
 
 ## Diagnostics
 

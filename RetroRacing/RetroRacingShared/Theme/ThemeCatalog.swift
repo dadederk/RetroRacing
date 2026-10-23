@@ -62,7 +62,7 @@ public extension ThemePlatformConfig {
             .macOS
         case "watch", "applewatch":
             .watchOS
-        case "tv", "tvos":
+        case "appletv", "tv", "tvos":
             .tvOS
         default:
             .iPhone

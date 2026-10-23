@@ -46,12 +46,14 @@ public enum ScreenshotStudioWorkflow {
 
     private static let englishLocales = ["en-US", "en-GB", "en-AU", "en-CA"]
     private static let baseImageLocale = "en-US"
-    private static let platforms = ["iphone", "ipad", "mac"]
+    private static let platforms = ["iphone", "iphoneDuo", "ipad", "mac", "appleTv"]
     private static let imageExtensions = [
         "iphone": ".jpeg",
+        "iphoneDuo": ".jpeg",
         "ipad": ".jpeg",
         "mac": ".png",
         "appleWatch": ".jpeg",
+        "appleTv": ".png",
     ]
 
     public static func run(
@@ -92,7 +94,10 @@ public enum ScreenshotStudioWorkflow {
             if watchSequenceOnly, !englishLocales.contains(locale) {
                 return ["language": locale, "title": "", "body": ""]
             }
-            let copy = try slides[copyIndex].text(for: locale)
+            let copy = try slideCopy(
+                platform: platform,
+                slideIndex: copyIndex
+            ).text(for: locale)
             return [
                 "language": locale,
                 "title": copy.title,
@@ -190,6 +195,9 @@ public enum ScreenshotStudioWorkflow {
             projectLocales.append(locale)
         }
         project["localizations"] = projectLocales
+        project["selectedPlatforms"] = [
+            "iPhone", "iPhoneDuo", "iPad", "mac", "appleWatch", "appleTv",
+        ]
         return .propertyList(url: url, value: project)
     }
 
@@ -202,8 +210,9 @@ public enum ScreenshotStudioWorkflow {
         var platformSlides = try loadSlides(platform: platform, studioRoot: studioRoot)
 
         if platform != "iphone" {
+            let templatePlatform = platform == "appleTv" ? "ipad" : "iphone"
             let iphoneSlides = try loadSlides(
-                platform: "iphone",
+                platform: templatePlatform,
                 studioRoot: studioRoot
             )
             while platformSlides.count < slideCount,
@@ -227,6 +236,13 @@ public enum ScreenshotStudioWorkflow {
 
         platformSlides = Array(platformSlides.prefix(slideCount))
         for index in platformSlides.indices {
+            if platform == "appleTv",
+               var design = platformSlides[index]["designConfiguration"] as? [String: Any] {
+                design["hideDeviceFrame"] = true
+                design["devicePosition"] = "fullBottom"
+                design["overrideDevicePosition"] = true
+                platformSlides[index]["designConfiguration"] = design
+            }
             platformSlides[index]["localizations"] = try localizationEntries(
                 slideIndex: index,
                 watchSequenceOnly: false,
@@ -386,6 +402,17 @@ public enum ScreenshotStudioWorkflow {
             options: [],
             format: &format
         )
+    }
+
+    private static func slideCopy(
+        platform: String,
+        slideIndex: Int
+    ) -> SlideCopy {
+        if AppStoreScreenshotCaptureDefaults.normalizedPlatform(platform) == "appleTv",
+           let override = appleTVSlideOverrides[slideIndex] {
+            return override
+        }
+        return slides[slideIndex]
     }
 
     private static func write(_ artifacts: [ExpectedArtifact]) throws {
@@ -630,6 +657,66 @@ private let slides: [SlideCopy] = [
         "zh-Hans": ("单人或与好友同玩", "每日免费次数、排行榜与即时好友竞赛。"),
         "tr": ("Tek başına veya arkadaşlarınla oyna", "Günlük ücretsiz oyunlar, liderlik tabloları ve canlı arkadaş yarışları."),
         "pl": ("Graj solo lub ze znajomymi", "Codzienne bezpłatne gry, rankingi i wyścigi ze znajomymi na żywo."),
+    ]),
+]
+
+private let appleTVSlideOverrides: [Int: SlideCopy] = [
+    3: SlideCopy(byLocale: [
+        "en-US": ("Accessibility Front and Center", "VoiceOver, audio cues, larger text, and adaptable gameplay settings."),
+        "de-DE": ("Barrierefreiheit im Mittelpunkt", "VoiceOver, Audiohinweise, größerer Text und anpassbare Spieleinstellungen."),
+        "nl-NL": ("Toegankelijkheid voorop", "VoiceOver, audiosignalen, grotere tekst en aanpasbare spelinstellingen."),
+        "it": ("Accessibilità al centro", "VoiceOver, segnali audio, testo più grande e impostazioni di gioco adattabili."),
+        "fr-FR": ("Accessibilité au premier plan", "VoiceOver, indices audio, texte plus grand et réglages de jeu adaptables."),
+        "fr-CA": ("Accessibilité au premier plan", "VoiceOver, indices audio, texte plus grand et réglages de jeu adaptables."),
+        "es-ES": ("Accesibilidad en primer plano", "VoiceOver, pistas de audio, texto más grande y ajustes de juego adaptables."),
+        "es-MX": ("Accesibilidad en primer plano", "VoiceOver, pistas de audio, texto más grande y ajustes de juego adaptables."),
+        "ca": ("Accessibilitat al davant", "VoiceOver, pistes d'àudio, text més gran i opcions de joc adaptables."),
+        "ja": ("アクセシビリティを前面に", "VoiceOver、音声キュー、大きい文字、調整可能な設定。"),
+        "ko": ("접근성을 중심에", "VoiceOver, 오디오 큐, 큰 텍스트, 맞춤 설정."),
+        "pt-BR": ("Acessibilidade em destaque", "VoiceOver, pistas sonoras, texto maior e ajustes adaptáveis."),
+        "pt-PT": ("Acessibilidade em destaque", "VoiceOver, pistas sonoras, texto maior e definições adaptáveis."),
+        "zh-Hant": ("無障礙設計放首位", "VoiceOver、音效提示、較大字體與可調設定。"),
+        "zh-Hans": ("无障碍设计放首位", "VoiceOver、音效提示、较大字体与可调设置。"),
+        "tr": ("Erişilebilirlik her şeyden önce", "VoiceOver, ses ipuçları, büyük metin ve uyarlanabilir ayarlar."),
+        "pl": ("Dostępność na pierwszym planie", "VoiceOver, wskazówki dźwiękowe, większy tekst i ustawienia adaptacyjne."),
+    ]),
+    6: SlideCopy(byLocale: [
+        "en-US": ("Choose Your Retro Aesthetic", "Explore five retro styles, from Pocket to Disc."),
+        "de-DE": ("Wähle deinen Retro-Look", "Entdecke fünf Retro-Stile, von Pocket bis Disc."),
+        "nl-NL": ("Kies je retro-stijl", "Ontdek vijf retrostijlen, van Pocket tot Disc."),
+        "it": ("Scegli la tua estetica retro", "Scopri cinque stili retrò, da Pocket a Disc."),
+        "fr-FR": ("Choisis ton style retro", "Explore cinq styles rétro, de Pocket à Disc."),
+        "fr-CA": ("Choisissez votre style rétro", "Explorez cinq styles rétro, de Pocket à Disc."),
+        "es-ES": ("Elige tu estética retro", "Explora cinco estilos retro, desde Pocket hasta Disc."),
+        "es-MX": ("Elige tu estética retro", "Explora cinco estilos retro, desde Pocket hasta Disc."),
+        "ca": ("Tria la teua estètica retro", "Explora cinc estils retro, de Pocket a Disc."),
+        "ja": ("レトロ美学を選ぼう", "PocketからDiscまで、5つのレトロスタイルを楽しもう。"),
+        "ko": ("레트로 스타일 선택", "Pocket부터 Disc까지 다섯 가지 레트로 스타일을 만나보세요."),
+        "pt-BR": ("Escolha seu visual retro", "Explore cinco estilos retrô, de Pocket a Disc."),
+        "pt-PT": ("Escolha o seu visual retro", "Explore cinco estilos retro, de Pocket a Disc."),
+        "zh-Hant": ("選擇復古風格", "探索五種復古風格，從 Pocket 到 Disc。"),
+        "zh-Hans": ("选择复古风格", "探索五种复古风格，从 Pocket 到 Disc。"),
+        "tr": ("Retro tarzını seç", "Pocket'tan Disc'e beş retro tarzı keşfet."),
+        "pl": ("Wybierz swój styl retro", "Poznaj pięć stylów retro, od Pocket po Disc."),
+    ]),
+    7: SlideCopy(byLocale: [
+        "en-US": ("Disc Style on the Big Screen", "A vivid late-1990s look made for Apple TV."),
+        "de-DE": ("Disc-Stil auf dem großen Bildschirm", "Ein leuchtender Look der späten 90er, gemacht für Apple TV."),
+        "nl-NL": ("Disc-stijl op het grote scherm", "Een levendige late-jaren-90-look, gemaakt voor Apple TV."),
+        "it": ("Stile Disc sul grande schermo", "Un vivace look di fine anni '90 creato per Apple TV."),
+        "fr-FR": ("Le style Disc sur grand écran", "Un look éclatant de la fin des années 90 conçu pour Apple TV."),
+        "fr-CA": ("Le style Disc sur grand écran", "Un look éclatant de la fin des années 90 conçu pour Apple TV."),
+        "es-ES": ("Estilo Disc en la gran pantalla", "Un look vibrante de finales de los 90 creado para Apple TV."),
+        "es-MX": ("Estilo Disc en la pantalla grande", "Un look vibrante de finales de los 90 creado para Apple TV."),
+        "ca": ("Estil Disc a la pantalla gran", "Un estil viu de finals dels 90 creat per a Apple TV."),
+        "ja": ("大画面で楽しむDiscスタイル", "Apple TVのための鮮やかな90年代後半スタイル。"),
+        "ko": ("큰 화면의 Disc 스타일", "Apple TV를 위해 만든 생생한 1990년대 후반 스타일."),
+        "pt-BR": ("Estilo Disc na tela grande", "Um visual vibrante do fim dos anos 90 feito para Apple TV."),
+        "pt-PT": ("Estilo Disc no grande ecrã", "Um visual vibrante do final dos anos 90 criado para Apple TV."),
+        "zh-Hant": ("大螢幕上的 Disc 風格", "專為 Apple TV 打造的鮮明 90 年代末風格。"),
+        "zh-Hans": ("大屏幕上的 Disc 风格", "专为 Apple TV 打造的鲜明 90 年代末风格。"),
+        "tr": ("Büyük ekranda Disc tarzı", "Apple TV için canlı bir 90'ların sonu görünümü."),
+        "pl": ("Styl Disc na dużym ekranie", "Wyrazisty styl końca lat 90. stworzony dla Apple TV."),
     ]),
 ]
 

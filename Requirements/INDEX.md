@@ -64,7 +64,7 @@ Single entrypoint for shipped in-app behavior contracts. Requirements describe w
 - [theming_system.md](theming_system.md) — theme catalog and access rules
 - [font_system.md](font_system.md) — semantic fonts and preferences
 - [road_markers.md](road_markers.md) — perspective road markers and Big Cars rendering
-- [app_icons.md](app_icons.md) — iPhone/iPad alternate-icon gallery and rollout
+- [app_icons.md](app_icons.md) — iPhone/iPad alternate-icon gallery and platform availability
 
 ### Input, Accessibility, Audio, Localization
 

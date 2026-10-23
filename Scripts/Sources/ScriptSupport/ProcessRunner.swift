@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Darwin
 
 public struct ProcessCommand: Equatable, Sendable {
     public let executable: String
@@ -87,6 +88,40 @@ public enum ProcessRunner {
         state.lock.unlock()
         guard let process, process.isRunning else { return }
         process.terminate()
+    }
+
+    /// Replaces the current CLI process so an interactive child remains in the terminal's
+    /// foreground process group. `Process` deliberately isolates launched commands, which
+    /// prevents descendants that read from the terminal from receiving input.
+    public static func replaceCurrentProcess(with command: ProcessCommand) throws -> Never {
+        if let currentDirectory = command.currentDirectory,
+           FileManager.default.changeCurrentDirectoryPath(currentDirectory.path) == false {
+            throw ScriptSupportError.commandFailed(
+                command.rendered,
+                errno,
+                "Could not change directory to \(currentDirectory.path)."
+            )
+        }
+
+        for (key, value) in command.environment {
+            setenv(key, value, 1)
+        }
+
+        var arguments = ([command.executable] + command.arguments).map { strdup($0) }
+        arguments.append(nil)
+        defer {
+            for argument in arguments.compactMap({ $0 }) {
+                free(argument)
+            }
+        }
+
+        let status = command.executable.withCString { executable in
+            arguments.withUnsafeMutableBufferPointer { buffer in
+                execv(executable, buffer.baseAddress)
+            }
+        }
+        let failureReason = String(cString: strerror(errno))
+        throw ScriptSupportError.commandFailed(command.rendered, status, failureReason)
     }
 
     @discardableResult

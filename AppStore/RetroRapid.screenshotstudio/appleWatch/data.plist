@@ -5,34 +5,15 @@
 	<dict>
 		<key>designConfiguration</key>
 		<dict>
-			<key>backgroundColor</key>
-			<string>#FFFFFF</string>
-			<key>backgroundGradientColors</key>
-			<array>
-				<string>#004593</string>
-				<string>#007AFF</string>
-				<string>#007AFF</string>
-			</array>
-			<key>backgroundLinearGradientDirection</key>
-			<string>topToBottom</string>
-			<key>backgroundStyle</key>
-			<string>solid</string>
-			<key>bodyColor</key>
-			<string>#1D1C1F</string>
-			<key>bodyHighlightColor</key>
-			<string>#FFCC00</string>
-			<key>devicePosition</key>
-			<string>overflowBottom</string>
-			<key>deviceScaleFactor</key>
-			<real>1</real>
-			<key>glitchDirection</key>
-			<string>leadingToTrailing</string>
-			<key>glitchEndColor</key>
-			<string>#76FEFD</string>
-			<key>glitchStartColor</key>
-			<string>#F657FD</string>
-			<key>glowColor</key>
-			<string>#0088FF</string>
+			<key>deviceTilt</key>
+			<dict>
+				<key>x</key>
+				<real>0</real>
+				<key>y</key>
+				<real>0</real>
+				<key>z</key>
+				<real>0</real>
+			</dict>
 			<key>hideDeviceFrame</key>
 			<false/>
 			<key>magnifier</key>
@@ -72,40 +53,6 @@
 				<key>snapPosition</key>
 				<string>center</string>
 			</dict>
-			<key>overrideColor</key>
-			<false/>
-			<key>overrideDevicePosition</key>
-			<false/>
-			<key>overrideDeviceScaleFactor</key>
-			<false/>
-			<key>overrideTextAlignment</key>
-			<false/>
-			<key>stickerColor</key>
-			<string>#000000</string>
-			<key>textAlignment</key>
-			<string>center</string>
-			<key>textBackgroundColor</key>
-			<string>#004593</string>
-			<key>textBackgroundGradientColors</key>
-			<array>
-				<string>#004593</string>
-				<string>#007AFF</string>
-				<string>#007AFF00</string>
-			</array>
-			<key>textBackgroundLinearGradientDirection</key>
-			<string>topToBottom</string>
-			<key>textBackgroundStyle</key>
-			<string>none</string>
-			<key>textVerticalAlignment</key>
-			<string>center</string>
-			<key>titleColor</key>
-			<string>#1D1C1F</string>
-			<key>titleHighlightColor</key>
-			<string>#FFCC00</string>
-			<key>titleTextStyle</key>
-			<string>original</string>
-			<key>waveTime</key>
-			<real>0</real>
 		</dict>
 		<key>localizations</key>
 		<array>
@@ -290,34 +237,15 @@
 	<dict>
 		<key>designConfiguration</key>
 		<dict>
-			<key>backgroundColor</key>
-			<string>#FFFFFF</string>
-			<key>backgroundGradientColors</key>
-			<array>
-				<string>#004593</string>
-				<string>#007AFF</string>
-				<string>#007AFF</string>
-			</array>
-			<key>backgroundLinearGradientDirection</key>
-			<string>topToBottom</string>
-			<key>backgroundStyle</key>
-			<string>solid</string>
-			<key>bodyColor</key>
-			<string>#1D1C1F</string>
-			<key>bodyHighlightColor</key>
-			<string>#FFCC00</string>
-			<key>devicePosition</key>
-			<string>overflowBottom</string>
-			<key>deviceScaleFactor</key>
-			<real>1</real>
-			<key>glitchDirection</key>
-			<string>leadingToTrailing</string>
-			<key>glitchEndColor</key>
-			<string>#76FEFD</string>
-			<key>glitchStartColor</key>
-			<string>#F657FD</string>
-			<key>glowColor</key>
-			<string>#0088FF</string>
+			<key>deviceTilt</key>
+			<dict>
+				<key>x</key>
+				<real>0</real>
+				<key>y</key>
+				<real>0</real>
+				<key>z</key>
+				<real>0</real>
+			</dict>
 			<key>hideDeviceFrame</key>
 			<false/>
 			<key>magnifier</key>
@@ -357,40 +285,6 @@
 				<key>snapPosition</key>
 				<string>center</string>
 			</dict>
-			<key>overrideColor</key>
-			<false/>
-			<key>overrideDevicePosition</key>
-			<false/>
-			<key>overrideDeviceScaleFactor</key>
-			<false/>
-			<key>overrideTextAlignment</key>
-			<false/>
-			<key>stickerColor</key>
-			<string>#000000</string>
-			<key>textAlignment</key>
-			<string>center</string>
-			<key>textBackgroundColor</key>
-			<string>#004593</string>
-			<key>textBackgroundGradientColors</key>
-			<array>
-				<string>#004593</string>
-				<string>#007AFF</string>
-				<string>#007AFF00</string>
-			</array>
-			<key>textBackgroundLinearGradientDirection</key>
-			<string>topToBottom</string>
-			<key>textBackgroundStyle</key>
-			<string>none</string>
-			<key>textVerticalAlignment</key>
-			<string>center</string>
-			<key>titleColor</key>
-			<string>#1D1C1F</string>
-			<key>titleHighlightColor</key>
-			<string>#FFCC00</string>
-			<key>titleTextStyle</key>
-			<string>original</string>
-			<key>waveTime</key>
-			<real>0</real>
 		</dict>
 		<key>localizations</key>
 		<array>
@@ -575,34 +469,15 @@
 	<dict>
 		<key>designConfiguration</key>
 		<dict>
-			<key>backgroundColor</key>
-			<string>#FFFFFF</string>
-			<key>backgroundGradientColors</key>
-			<array>
-				<string>#004593</string>
-				<string>#007AFF</string>
-				<string>#007AFF</string>
-			</array>
-			<key>backgroundLinearGradientDirection</key>
-			<string>topToBottom</string>
-			<key>backgroundStyle</key>
-			<string>solid</string>
-			<key>bodyColor</key>
-			<string>#1D1C1F</string>
-			<key>bodyHighlightColor</key>
-			<string>#FFCC00</string>
-			<key>devicePosition</key>
-			<string>overflowBottom</string>
-			<key>deviceScaleFactor</key>
-			<real>1</real>
-			<key>glitchDirection</key>
-			<string>leadingToTrailing</string>
-			<key>glitchEndColor</key>
-			<string>#76FEFD</string>
-			<key>glitchStartColor</key>
-			<string>#F657FD</string>
-			<key>glowColor</key>
-			<string>#0088FF</string>
+			<key>deviceTilt</key>
+			<dict>
+				<key>x</key>
+				<real>0</real>
+				<key>y</key>
+				<real>0</real>
+				<key>z</key>
+				<real>0</real>
+			</dict>
 			<key>hideDeviceFrame</key>
 			<false/>
 			<key>magnifier</key>
@@ -642,40 +517,6 @@
 				<key>snapPosition</key>
 				<string>center</string>
 			</dict>
-			<key>overrideColor</key>
-			<false/>
-			<key>overrideDevicePosition</key>
-			<false/>
-			<key>overrideDeviceScaleFactor</key>
-			<false/>
-			<key>overrideTextAlignment</key>
-			<false/>
-			<key>stickerColor</key>
-			<string>#000000</string>
-			<key>textAlignment</key>
-			<string>center</string>
-			<key>textBackgroundColor</key>
-			<string>#004593</string>
-			<key>textBackgroundGradientColors</key>
-			<array>
-				<string>#004593</string>
-				<string>#007AFF</string>
-				<string>#007AFF00</string>
-			</array>
-			<key>textBackgroundLinearGradientDirection</key>
-			<string>topToBottom</string>
-			<key>textBackgroundStyle</key>
-			<string>none</string>
-			<key>textVerticalAlignment</key>
-			<string>center</string>
-			<key>titleColor</key>
-			<string>#1D1C1F</string>
-			<key>titleHighlightColor</key>
-			<string>#FFCC00</string>
-			<key>titleTextStyle</key>
-			<string>original</string>
-			<key>waveTime</key>
-			<real>0</real>
 		</dict>
 		<key>localizations</key>
 		<array>
@@ -860,34 +701,15 @@
 	<dict>
 		<key>designConfiguration</key>
 		<dict>
-			<key>backgroundColor</key>
-			<string>#FFFFFF</string>
-			<key>backgroundGradientColors</key>
-			<array>
-				<string>#004593</string>
-				<string>#007AFF</string>
-				<string>#007AFF</string>
-			</array>
-			<key>backgroundLinearGradientDirection</key>
-			<string>topToBottom</string>
-			<key>backgroundStyle</key>
-			<string>solid</string>
-			<key>bodyColor</key>
-			<string>#1D1C1F</string>
-			<key>bodyHighlightColor</key>
-			<string>#FFCC00</string>
-			<key>devicePosition</key>
-			<string>overflowBottom</string>
-			<key>deviceScaleFactor</key>
-			<real>1</real>
-			<key>glitchDirection</key>
-			<string>leadingToTrailing</string>
-			<key>glitchEndColor</key>
-			<string>#76FEFD</string>
-			<key>glitchStartColor</key>
-			<string>#F657FD</string>
-			<key>glowColor</key>
-			<string>#0088FF</string>
+			<key>deviceTilt</key>
+			<dict>
+				<key>x</key>
+				<real>0</real>
+				<key>y</key>
+				<real>0</real>
+				<key>z</key>
+				<real>0</real>
+			</dict>
 			<key>hideDeviceFrame</key>
 			<false/>
 			<key>magnifier</key>
@@ -927,40 +749,6 @@
 				<key>snapPosition</key>
 				<string>center</string>
 			</dict>
-			<key>overrideColor</key>
-			<false/>
-			<key>overrideDevicePosition</key>
-			<false/>
-			<key>overrideDeviceScaleFactor</key>
-			<false/>
-			<key>overrideTextAlignment</key>
-			<false/>
-			<key>stickerColor</key>
-			<string>#000000</string>
-			<key>textAlignment</key>
-			<string>center</string>
-			<key>textBackgroundColor</key>
-			<string>#004593</string>
-			<key>textBackgroundGradientColors</key>
-			<array>
-				<string>#004593</string>
-				<string>#007AFF</string>
-				<string>#007AFF00</string>
-			</array>
-			<key>textBackgroundLinearGradientDirection</key>
-			<string>topToBottom</string>
-			<key>textBackgroundStyle</key>
-			<string>none</string>
-			<key>textVerticalAlignment</key>
-			<string>center</string>
-			<key>titleColor</key>
-			<string>#1D1C1F</string>
-			<key>titleHighlightColor</key>
-			<string>#FFCC00</string>
-			<key>titleTextStyle</key>
-			<string>original</string>
-			<key>waveTime</key>
-			<real>0</real>
 		</dict>
 		<key>localizations</key>
 		<array>
@@ -1145,34 +933,15 @@
 	<dict>
 		<key>designConfiguration</key>
 		<dict>
-			<key>backgroundColor</key>
-			<string>#FFFFFF</string>
-			<key>backgroundGradientColors</key>
-			<array>
-				<string>#004593</string>
-				<string>#007AFF</string>
-				<string>#007AFF</string>
-			</array>
-			<key>backgroundLinearGradientDirection</key>
-			<string>topToBottom</string>
-			<key>backgroundStyle</key>
-			<string>solid</string>
-			<key>bodyColor</key>
-			<string>#1D1C1F</string>
-			<key>bodyHighlightColor</key>
-			<string>#FFCC00</string>
-			<key>devicePosition</key>
-			<string>overflowBottom</string>
-			<key>deviceScaleFactor</key>
-			<real>1</real>
-			<key>glitchDirection</key>
-			<string>leadingToTrailing</string>
-			<key>glitchEndColor</key>
-			<string>#76FEFD</string>
-			<key>glitchStartColor</key>
-			<string>#F657FD</string>
-			<key>glowColor</key>
-			<string>#0088FF</string>
+			<key>deviceTilt</key>
+			<dict>
+				<key>x</key>
+				<real>0</real>
+				<key>y</key>
+				<real>0</real>
+				<key>z</key>
+				<real>0</real>
+			</dict>
 			<key>hideDeviceFrame</key>
 			<false/>
 			<key>magnifier</key>
@@ -1212,40 +981,6 @@
 				<key>snapPosition</key>
 				<string>center</string>
 			</dict>
-			<key>overrideColor</key>
-			<false/>
-			<key>overrideDevicePosition</key>
-			<false/>
-			<key>overrideDeviceScaleFactor</key>
-			<false/>
-			<key>overrideTextAlignment</key>
-			<false/>
-			<key>stickerColor</key>
-			<string>#000000</string>
-			<key>textAlignment</key>
-			<string>center</string>
-			<key>textBackgroundColor</key>
-			<string>#004593</string>
-			<key>textBackgroundGradientColors</key>
-			<array>
-				<string>#004593</string>
-				<string>#007AFF</string>
-				<string>#007AFF00</string>
-			</array>
-			<key>textBackgroundLinearGradientDirection</key>
-			<string>topToBottom</string>
-			<key>textBackgroundStyle</key>
-			<string>none</string>
-			<key>textVerticalAlignment</key>
-			<string>center</string>
-			<key>titleColor</key>
-			<string>#1D1C1F</string>
-			<key>titleHighlightColor</key>
-			<string>#FFCC00</string>
-			<key>titleTextStyle</key>
-			<string>original</string>
-			<key>waveTime</key>
-			<real>0</real>
 		</dict>
 		<key>localizations</key>
 		<array>
@@ -1430,34 +1165,15 @@
 	<dict>
 		<key>designConfiguration</key>
 		<dict>
-			<key>backgroundColor</key>
-			<string>#FFFFFF</string>
-			<key>backgroundGradientColors</key>
-			<array>
-				<string>#004593</string>
-				<string>#007AFF</string>
-				<string>#007AFF</string>
-			</array>
-			<key>backgroundLinearGradientDirection</key>
-			<string>topToBottom</string>
-			<key>backgroundStyle</key>
-			<string>solid</string>
-			<key>bodyColor</key>
-			<string>#1D1C1F</string>
-			<key>bodyHighlightColor</key>
-			<string>#FFCC00</string>
-			<key>devicePosition</key>
-			<string>overflowBottom</string>
-			<key>deviceScaleFactor</key>
-			<real>1</real>
-			<key>glitchDirection</key>
-			<string>leadingToTrailing</string>
-			<key>glitchEndColor</key>
-			<string>#76FEFD</string>
-			<key>glitchStartColor</key>
-			<string>#F657FD</string>
-			<key>glowColor</key>
-			<string>#0088FF</string>
+			<key>deviceTilt</key>
+			<dict>
+				<key>x</key>
+				<real>0</real>
+				<key>y</key>
+				<real>0</real>
+				<key>z</key>
+				<real>0</real>
+			</dict>
 			<key>hideDeviceFrame</key>
 			<false/>
 			<key>magnifier</key>
@@ -1497,40 +1213,6 @@
 				<key>snapPosition</key>
 				<string>center</string>
 			</dict>
-			<key>overrideColor</key>
-			<false/>
-			<key>overrideDevicePosition</key>
-			<false/>
-			<key>overrideDeviceScaleFactor</key>
-			<false/>
-			<key>overrideTextAlignment</key>
-			<false/>
-			<key>stickerColor</key>
-			<string>#000000</string>
-			<key>textAlignment</key>
-			<string>center</string>
-			<key>textBackgroundColor</key>
-			<string>#004593</string>
-			<key>textBackgroundGradientColors</key>
-			<array>
-				<string>#004593</string>
-				<string>#007AFF</string>
-				<string>#007AFF00</string>
-			</array>
-			<key>textBackgroundLinearGradientDirection</key>
-			<string>topToBottom</string>
-			<key>textBackgroundStyle</key>
-			<string>none</string>
-			<key>textVerticalAlignment</key>
-			<string>center</string>
-			<key>titleColor</key>
-			<string>#1D1C1F</string>
-			<key>titleHighlightColor</key>
-			<string>#FFCC00</string>
-			<key>titleTextStyle</key>
-			<string>original</string>
-			<key>waveTime</key>
-			<real>0</real>
 		</dict>
 		<key>localizations</key>
 		<array>
@@ -1715,34 +1397,15 @@
 	<dict>
 		<key>designConfiguration</key>
 		<dict>
-			<key>backgroundColor</key>
-			<string>#FFFFFF</string>
-			<key>backgroundGradientColors</key>
-			<array>
-				<string>#004593</string>
-				<string>#007AFF</string>
-				<string>#007AFF</string>
-			</array>
-			<key>backgroundLinearGradientDirection</key>
-			<string>topToBottom</string>
-			<key>backgroundStyle</key>
-			<string>solid</string>
-			<key>bodyColor</key>
-			<string>#1D1C1F</string>
-			<key>bodyHighlightColor</key>
-			<string>#FFCC00</string>
-			<key>devicePosition</key>
-			<string>overflowBottom</string>
-			<key>deviceScaleFactor</key>
-			<real>1</real>
-			<key>glitchDirection</key>
-			<string>leadingToTrailing</string>
-			<key>glitchEndColor</key>
-			<string>#76FEFD</string>
-			<key>glitchStartColor</key>
-			<string>#F657FD</string>
-			<key>glowColor</key>
-			<string>#0088FF</string>
+			<key>deviceTilt</key>
+			<dict>
+				<key>x</key>
+				<real>0</real>
+				<key>y</key>
+				<real>0</real>
+				<key>z</key>
+				<real>0</real>
+			</dict>
 			<key>hideDeviceFrame</key>
 			<false/>
 			<key>magnifier</key>
@@ -1782,40 +1445,6 @@
 				<key>snapPosition</key>
 				<string>center</string>
 			</dict>
-			<key>overrideColor</key>
-			<false/>
-			<key>overrideDevicePosition</key>
-			<false/>
-			<key>overrideDeviceScaleFactor</key>
-			<false/>
-			<key>overrideTextAlignment</key>
-			<false/>
-			<key>stickerColor</key>
-			<string>#000000</string>
-			<key>textAlignment</key>
-			<string>center</string>
-			<key>textBackgroundColor</key>
-			<string>#004593</string>
-			<key>textBackgroundGradientColors</key>
-			<array>
-				<string>#004593</string>
-				<string>#007AFF</string>
-				<string>#007AFF00</string>
-			</array>
-			<key>textBackgroundLinearGradientDirection</key>
-			<string>topToBottom</string>
-			<key>textBackgroundStyle</key>
-			<string>none</string>
-			<key>textVerticalAlignment</key>
-			<string>center</string>
-			<key>titleColor</key>
-			<string>#1D1C1F</string>
-			<key>titleHighlightColor</key>
-			<string>#FFCC00</string>
-			<key>titleTextStyle</key>
-			<string>original</string>
-			<key>waveTime</key>
-			<real>0</real>
 		</dict>
 		<key>localizations</key>
 		<array>

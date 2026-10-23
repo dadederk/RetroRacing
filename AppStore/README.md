@@ -1,6 +1,6 @@
 # RetroRapid! App Store Docs
 
-Last updated: 2026-10-06
+Last updated: 2026-10-19
 
 Themed documentation for App Store copy, ASO, screenshots, rollout, and execution.
 
@@ -12,17 +12,19 @@ Legacy redirect: [RETRORAPID_APP_STORE_REFERENCE.md](RETRORAPID_APP_STORE_REFERE
 
 | If you need to… | Read |
 |---|---|
-| Edit the canonical 2.0 candidate metadata | [`metadata/retrorapid-v2.0-candidate.json`](metadata/retrorapid-v2.0-candidate.json), then run `./retrorapid metadata generate` |
+| Edit the canonical 2.2 candidate metadata | [`metadata/retrorapid-v2.2-candidate.json`](metadata/retrorapid-v2.2-candidate.json), then run `./retrorapid metadata generate` |
 | Apply staged metadata to App Store Connect | [03-submission-quality-gate.md](docs/03-submission-quality-gate.md) + [Scripts/README.md](../Scripts/README.md) |
 | Review **live** public facts, name, subtitle, and keywords | [02-listing-snapshot.md](docs/02-listing-snapshot.md) |
 | Copy/paste generated **staged** metadata | [05-metadata-copy.md](docs/05-metadata-copy.md) |
 | Understand ASO rationale, cross-localization, keyword rules | [04-metadata-strategy.md](docs/04-metadata-strategy.md) |
 | Deep-dive Appfigures / Krankie keyword tables | [appendices/README.md](docs/appendices/README.md) (add dated snapshots when captured) |
 | Update Screenshot Studio captions or storyboard | [06-screenshots.md](docs/06-screenshots.md) |
+| Maintain the public press kit | [22-press-kit.md](docs/22-press-kit.md) |
 | **Add a language / refresh screenshots** | [08-locale-expansion.md](docs/08-locale-expansion.md) |
 | Review localisation quality and approvals | [localization/README.md](localization/README.md) |
 | Localisation quality review procedure | [docs/19-localization-quality-review.md](docs/19-localization-quality-review.md) |
 | Write release notes | [07-release-notes-voice.md](docs/07-release-notes-voice.md) |
+| Review the coordinated 2.2 release notes | [`metadata/retrorapid-v2.2-whats-new.json`](metadata/retrorapid-v2.2-whats-new.json) |
 | Copy/paste **staged** What's New for next submit | [05-metadata-copy.md](docs/05-metadata-copy.md#whats-new-candidate) |
 | Check character/byte limits or validation status | [01-limits-and-sources.md](docs/01-limits-and-sources.md) + [12-validation-results.md](docs/12-validation-results.md) — regenerate with `swift run --package-path Scripts generate-metadata-docs --check` |
 | See what's live vs staged | [02-listing-snapshot.md](docs/02-listing-snapshot.md) + [03-submission-quality-gate.md](docs/03-submission-quality-gate.md) |
@@ -65,6 +67,7 @@ Legacy redirect: [RETRORAPID_APP_STORE_REFERENCE.md](RETRORAPID_APP_STORE_REFERE
 | 19 | Localisation quality review | [docs/19-localization-quality-review.md](docs/19-localization-quality-review.md) |
 | 20 | 2.0 Major Update In-App Event | [docs/20-major-update-2-0-in-app-event.md](docs/20-major-update-2-0-in-app-event.md) |
 | 21 | Release candidate workflow | [docs/21-release-candidate-workflow.md](docs/21-release-candidate-workflow.md) |
+| 22 | Press kit | [docs/22-press-kit.md](docs/22-press-kit.md) |
 
 ### Campaign & historical plans
 
@@ -106,8 +109,12 @@ See [`../AGENTS.md`](../AGENTS.md) Brand Mark section and `RetroRacingShared/Uti
 - [`assets/brand-marks/`](assets/brand-marks/) — reusable transparent RetroRapid! period title treatments, canonical accessibility seal, and fictional publisher marks for marketing layouts
 - [`product-page-header-concepts/`](product-page-header-concepts/) — future, name-only product page headers; LCD console lead with two campaign-art alternatives
 - [`creative-assets/`](creative-assets/) — upload-sized header and search results candidates for the new App Store placements; preview and approval pending
-- `metadata/retrorapid-v2.0-candidate.json` — canonical 2.0 release candidate; applied to the editable iOS/macOS drafts
-- [`testflight/release-2.0-37.md`](testflight/release-2.0-37.md) — current 2.0 RC build, TestFlight, and App Review handoff record
+- `metadata/retrorapid-v2.2-candidate.json` — canonical coordinated 2.2 release candidate; applied to the editable iOS, macOS, and tvOS drafts
+- `metadata/retrorapid-v2.0-candidate.json` — prior 2.0 applied-catalog snapshot retained for history
+- [`testflight/release-2.1-40.md`](testflight/release-2.1-40.md) — corrective iOS, embedded Watch, and Mac 2.1 candidate with the seven-icon gallery and current external beta status
+- [`testflight/release-2.2-38.md`](testflight/release-2.2-38.md) — coordinated iOS, embedded Watch, macOS, and Apple TV candidate; aligned builds, external beta status, screenshots, and remaining release gates
+- [`testflight/release-2.1-39.md`](testflight/release-2.1-39.md) — superseded standalone personalization candidate retained as upload history
+- [`testflight/release-2.0-37.md`](testflight/release-2.0-37.md) — prior 2.0 RC build, TestFlight, and App Review handoff record
 - [`testflight/release-2.0-36.md`](testflight/release-2.0-36.md) — historical beta candidate
 - `metadata/retrorapid-v1.5-candidate.json` — prior 1.5 release candidate; retained for history
 - `metadata/retrorapid-v1.5.json` — immutable earlier 1.5 applied-catalog snapshot
@@ -133,7 +140,9 @@ Historical material uses **Historical** or **Superseded** and is never an active
 | Source | Status |
 |---|---|
 | `docs/02-listing-snapshot.md` | `LIVE` metadata currently in App Store Connect (v1.4.2 snapshot from 2026-06-24) |
-| `metadata/retrorapid-v2.0-candidate.json` | Current 2.0 candidate; applied to both editable platform drafts, pending fluent review and public-release acceptance |
+| `metadata/retrorapid-v2.2-candidate.json` | Current coordinated 2.2 candidate; applied to the editable iOS, macOS, and tvOS drafts across all 20 locales |
+| `metadata/retrorapid-v2.2-whats-new.json` | Coordinated 2.2 What's New source for iOS, macOS, embedded watchOS, and later tvOS updates; App Store Connect does not expose What's New for the first tvOS release |
+| `metadata/retrorapid-v2.0-candidate.json` | Historical 2.0 applied-catalog snapshot |
 | `metadata/retrorapid-v1.5-candidate.json` | Historical 1.5 candidate |
 | `metadata/retrorapid-v1.5.json` | Historical 1.5 applied-catalog snapshot |
 | `docs/05-metadata-copy.md` + `docs/12-validation-results.md` | Generated human-readable views of the canonical catalog |

@@ -10,7 +10,7 @@ import XCTest
 
 @MainActor
 final class ReleaseFeatureTests: XCTestCase {
-    func testGivenFreshInstallWhenResolvingShippingCatalogsThenOnlyWatchKeepsBothOriginalThemesFree() throws {
+    func testGivenFreshInstallWhenResolvingShippingCatalogsThenExpandedThemesUsePlatformAccessPolicy() throws {
         // Given
         for platform in [ThemeCatalogPlatform.iPhone, .iPad, .macOS, .watchOS] {
             let defaults = try makeDefaults()
@@ -18,11 +18,26 @@ final class ReleaseFeatureTests: XCTestCase {
             let store = ReleaseFeatureStore(platform: platform, userDefaults: defaults, allowsOverrides: true)
             let configuration = store.themeConfiguration
             // Then
-            XCTAssertEqual(configuration.availableThemes.map(\.id), [.pocket, .lcd])
-            XCTAssertEqual(configuration.availableThemes.filter(\.isPremium).map(\.id),
-                           platform == .watchOS ? [] : [.pocket])
-            XCTAssertEqual(configuration.defaultThemeID, platform == .watchOS ? .pocket : .lcd)
-            XCTAssertFalse(store.isEnabled(.alternateIcons))
+            XCTAssertEqual(configuration.availableThemes.map(\.id), [.pocket, .lcd, .eightBit, .sixteenBit])
+            switch platform {
+            case .iPhone:
+                XCTAssertEqual(configuration.availableThemes.filter(\.isPremium).map(\.id),
+                               [.pocket, .eightBit, .sixteenBit])
+                XCTAssertEqual(configuration.defaultThemeID, .lcd)
+            case .iPad:
+                XCTAssertEqual(configuration.availableThemes.filter(\.isPremium).map(\.id),
+                               [.pocket, .lcd, .sixteenBit])
+                XCTAssertEqual(configuration.defaultThemeID, .eightBit)
+            case .macOS:
+                XCTAssertEqual(configuration.availableThemes.filter(\.isPremium).map(\.id),
+                               [.pocket, .lcd, .eightBit])
+                XCTAssertEqual(configuration.defaultThemeID, .sixteenBit)
+            case .watchOS:
+                XCTAssertEqual(configuration.availableThemes.filter(\.isPremium).map(\.id), [])
+                XCTAssertEqual(configuration.defaultThemeID, .pocket)
+            default:
+                XCTFail("Unexpected platform in shipping catalog test: \(platform)")
+            }
             XCTAssertEqual(store.isEnabled(.sharePlay), platform != .watchOS)
         }
     }
@@ -54,17 +69,15 @@ final class ReleaseFeatureTests: XCTestCase {
     func testGivenSavedOverridesWhenLaunchingReleaseThenCommittedDefaultsWin() throws {
         // Given
         let defaults = try makeDefaults()
-        for feature in ReleaseFeature.allCases { defaults.set("enabled", forKey: feature.storageKey) }
-        defaults.set("disabled", forKey: ReleaseFeature.sharePlay.storageKey)
+        for feature in ReleaseFeature.allCases { defaults.set("disabled", forKey: feature.storageKey) }
         // When
         let store = ReleaseFeatureStore(platform: .iPad, userDefaults: defaults, allowsOverrides: false)
         store.setOverride(.enabled, for: .retroThemes)
         store.resetOverrides()
         // Then
-        XCTAssertEqual(store.themeConfiguration.availableThemes.map(\.id), [.pocket, .lcd])
-        XCTAssertFalse(store.isEnabled(.alternateIcons))
+        XCTAssertEqual(store.themeConfiguration.availableThemes.map(\.id), [.pocket, .lcd, .eightBit, .sixteenBit])
         XCTAssertTrue(store.isEnabled(.sharePlay))
-        XCTAssertEqual(defaults.string(forKey: ReleaseFeature.retroThemes.storageKey), "enabled")
+        XCTAssertEqual(defaults.string(forKey: ReleaseFeature.retroThemes.storageKey), "disabled")
     }
 
     func testGivenDebugOverridesWhenResetAndRelaunchedThenProductionPreviewIsRestored() throws {
@@ -72,26 +85,24 @@ final class ReleaseFeatureTests: XCTestCase {
         let defaults = try makeDefaults()
         let store = ReleaseFeatureStore(platform: .iPhone, userDefaults: defaults, allowsOverrides: true)
         store.setOverride(.enabled, for: .retroThemes)
-        store.setOverride(.enabled, for: .alternateIcons)
         store.setOverride(.disabled, for: .sharePlay)
         // When
         let restored = ReleaseFeatureStore(platform: .iPhone, userDefaults: defaults, allowsOverrides: true)
         // Then
         XCTAssertTrue(restored.isEnabled(.retroThemes))
-        XCTAssertTrue(restored.isEnabled(.alternateIcons))
         XCTAssertFalse(restored.isEnabled(.sharePlay))
         restored.resetOverrides()
-        XCTAssertEqual(restored.themeConfiguration.availableThemes.map(\.id), [.pocket, .lcd])
-        XCTAssertFalse(restored.isEnabled(.alternateIcons))
+        XCTAssertEqual(restored.themeConfiguration.availableThemes.map(\.id), [.pocket, .lcd, .eightBit, .sixteenBit])
         XCTAssertTrue(restored.isEnabled(.sharePlay))
         XCTAssertNil(defaults.object(forKey: ReleaseFeature.retroThemes.storageKey))
     }
 
-    func testGivenFutureSelectionWhenFeatureIsHiddenThenPreferenceSurvivesAndRestores() throws {
+    func testGivenSelectionWhenDebugOverrideHidesThemesThenPreferenceSurvivesAndRestores() throws {
         // Given
         let defaults = try makeDefaults()
         defaults.set(ThemeID.eightBit.rawValue, forKey: ThemeManager.selectedThemeKey)
         let store = ReleaseFeatureStore(platform: .iPhone, userDefaults: defaults, allowsOverrides: true)
+        store.setOverride(.disabled, for: .retroThemes)
         let manager = ThemeManager(configuration: .iPhone, userDefaults: defaults,
                                    hasPremiumAccess: true, releaseFeatures: store)
         // When / Then
@@ -106,14 +117,18 @@ final class ReleaseFeatureTests: XCTestCase {
         XCTAssertEqual(manager.currentTheme.id, .eightBit)
         store.resetOverrides()
         manager.refreshReleaseFeatures()
-        XCTAssertEqual(manager.currentTheme.id, .lcd)
+        XCTAssertEqual(manager.currentTheme.id, .eightBit)
         XCTAssertEqual(defaults.string(forKey: ThemeManager.selectedThemeKey), ThemeID.eightBit.rawValue)
     }
 
     func testGivenHiddenOrForgedThemeWhenSelectingThenCatalogPolicyRejectsIt() throws {
         // Given
         let defaults = try makeDefaults()
-        let manager = ThemeManager(configuration: .iPhone, userDefaults: defaults, hasPremiumAccess: true)
+        let manager = ThemeManager(
+            configuration: .configuration(for: .iPhone, includesRetroThemes: false),
+            userDefaults: defaults,
+            hasPremiumAccess: true
+        )
         // When
         manager.setTheme(EightBitTheme(isPremium: false))
         // Then
@@ -127,25 +142,6 @@ final class ReleaseFeatureTests: XCTestCase {
         XCTAssertEqual(futureManager.currentTheme.id, .lcd)
     }
 
-    func testGivenIconPreviewWhenResetThenServiceHidesGalleryWithoutChangingInstalledIcon() throws {
-        // Given
-        let defaults = try makeDefaults()
-        let store = ReleaseFeatureStore(platform: .iPhone, userDefaults: defaults, allowsOverrides: true)
-        let changer = PreviewAppIconChanger(supportsAlternateIcons: true)
-        let service = AppIconService(changer: changer, featureFlag: ReleaseAppIconFeatureFlag(features: store),
-                                     isGalleryPlatformEnabled: true)
-        let original = service.currentIconID
-        // When
-        store.setOverride(.enabled, for: .alternateIcons)
-        service.refreshFeatureFlag()
-        // Then
-        XCTAssertTrue(service.isGalleryAvailable)
-        store.resetOverrides()
-        service.refreshFeatureFlag()
-        XCTAssertFalse(service.isGalleryAvailable)
-        XCTAssertEqual(service.currentIconID, original)
-    }
-
     func testGivenCaptureWithDeveloperOverridesWhenResolvingThemesThenReleaseDefaultsAreUsed() throws {
         // Given
         let defaults = try makeDefaults()
@@ -153,23 +149,24 @@ final class ReleaseFeatureTests: XCTestCase {
         // When
         let capture = ReleaseFeatureStore(platform: .macOS, userDefaults: defaults, allowsOverrides: false)
         // Then
-        XCTAssertEqual(capture.themeConfiguration.defaultThemeID, .lcd)
-        XCTAssertEqual(ThemePlatformConfig.screenshotCapture(platform: "mac").defaultThemeID, .lcd)
+        XCTAssertEqual(capture.themeConfiguration.defaultThemeID, .sixteenBit)
+        XCTAssertEqual(ThemePlatformConfig.screenshotCapture(platform: "mac").defaultThemeID, .sixteenBit)
     }
 
     func testGivenNoExplicitThemeWhenPreviewChangesThenDefaultChangesWithoutPersistingAChoice() throws {
         // Given
         let defaults = try makeDefaults()
         let store = ReleaseFeatureStore(platform: .iPad, userDefaults: defaults, allowsOverrides: true)
+        store.setOverride(.disabled, for: .retroThemes)
         let manager = ThemeManager(configuration: .iPad, userDefaults: defaults,
                                    hasPremiumAccess: false, releaseFeatures: store)
         // When
-        store.setOverride(.enabled, for: .retroThemes)
+        store.resetOverrides()
         manager.refreshReleaseFeatures()
         // Then
         XCTAssertEqual(manager.currentTheme.id, .eightBit)
         XCTAssertNil(defaults.object(forKey: ThemeManager.selectedThemeKey))
-        store.resetOverrides()
+        store.setOverride(.disabled, for: .retroThemes)
         manager.refreshReleaseFeatures()
         XCTAssertEqual(manager.currentTheme.id, .lcd)
     }

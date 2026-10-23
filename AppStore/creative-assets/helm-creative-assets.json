@@ -1,0 +1,247 @@
+{
+  "assets" : [
+    {
+      "kind" : "header",
+      "locale" : "en-US",
+      "localizationStatus" : "NEEDS_REVIEW",
+      "path" : "AppStore/creative-assets/product-page-header-coastal.png"
+    },
+    {
+      "kind" : "search-results",
+      "locale" : "en-US",
+      "localizationStatus" : "NEEDS_REVIEW",
+      "path" : "AppStore/creative-assets/localizations/en-US/search-results.png"
+    },
+    {
+      "kind" : "header",
+      "locale" : "en-GB",
+      "localizationStatus" : "NEEDS_REVIEW",
+      "path" : "AppStore/creative-assets/product-page-header-coastal.png"
+    },
+    {
+      "kind" : "search-results",
+      "locale" : "en-GB",
+      "localizationStatus" : "NEEDS_REVIEW",
+      "path" : "AppStore/creative-assets/localizations/en-GB/search-results.png"
+    },
+    {
+      "kind" : "header",
+      "locale" : "en-AU",
+      "localizationStatus" : "NEEDS_REVIEW",
+      "path" : "AppStore/creative-assets/product-page-header-coastal.png"
+    },
+    {
+      "kind" : "search-results",
+      "locale" : "en-AU",
+      "localizationStatus" : "NEEDS_REVIEW",
+      "path" : "AppStore/creative-assets/localizations/en-AU/search-results.png"
+    },
+    {
+      "kind" : "header",
+      "locale" : "en-CA",
+      "localizationStatus" : "NEEDS_REVIEW",
+      "path" : "AppStore/creative-assets/product-page-header-coastal.png"
+    },
+    {
+      "kind" : "search-results",
+      "locale" : "en-CA",
+      "localizationStatus" : "NEEDS_REVIEW",
+      "path" : "AppStore/creative-assets/localizations/en-CA/search-results.png"
+    },
+    {
+      "kind" : "header",
+      "locale" : "de-DE",
+      "localizationStatus" : "NEEDS_REVIEW",
+      "path" : "AppStore/creative-assets/product-page-header-coastal.png"
+    },
+    {
+      "kind" : "search-results",
+      "locale" : "de-DE",
+      "localizationStatus" : "NEEDS_REVIEW",
+      "path" : "AppStore/creative-assets/localizations/de-DE/search-results.png"
+    },
+    {
+      "kind" : "header",
+      "locale" : "nl-NL",
+      "localizationStatus" : "NEEDS_REVIEW",
+      "path" : "AppStore/creative-assets/product-page-header-coastal.png"
+    },
+    {
+      "kind" : "search-results",
+      "locale" : "nl-NL",
+      "localizationStatus" : "NEEDS_REVIEW",
+      "path" : "AppStore/creative-assets/localizations/nl-NL/search-results.png"
+    },
+    {
+      "kind" : "header",
+      "locale" : "it",
+      "localizationStatus" : "NEEDS_REVIEW",
+      "path" : "AppStore/creative-assets/product-page-header-coastal.png"
+    },
+    {
+      "kind" : "search-results",
+      "locale" : "it",
+      "localizationStatus" : "NEEDS_REVIEW",
+      "path" : "AppStore/creative-assets/localizations/it/search-results.png"
+    },
+    {
+      "kind" : "header",
+      "locale" : "fr-FR",
+      "localizationStatus" : "NEEDS_REVIEW",
+      "path" : "AppStore/creative-assets/product-page-header-coastal.png"
+    },
+    {
+      "kind" : "search-results",
+      "locale" : "fr-FR",
+      "localizationStatus" : "NEEDS_REVIEW",
+      "path" : "AppStore/creative-assets/localizations/fr-FR/search-results.png"
+    },
+    {
+      "kind" : "header",
+      "locale" : "fr-CA",
+      "localizationStatus" : "NEEDS_REVIEW",
+      "path" : "AppStore/creative-assets/product-page-header-coastal.png"
+    },
+    {
+      "kind" : "search-results",
+      "locale" : "fr-CA",
+      "localizationStatus" : "NEEDS_REVIEW",
+      "path" : "AppStore/creative-assets/localizations/fr-CA/search-results.png"
+    },
+    {
+      "kind" : "header",
+      "locale" : "es-ES",
+      "localizationStatus" : "NEEDS_REVIEW",
+      "path" : "AppStore/creative-assets/product-page-header-coastal.png"
+    },
+    {
+      "kind" : "search-results",
+      "locale" : "es-ES",
+      "localizationStatus" : "NEEDS_REVIEW",
+      "path" : "AppStore/creative-assets/localizations/es-ES/search-results.png"
+    },
+    {
+      "kind" : "header",
+      "locale" : "es-MX",
+      "localizationStatus" : "NEEDS_REVIEW",
+      "path" : "AppStore/creative-assets/product-page-header-coastal.png"
+    },
+    {
+      "kind" : "search-results",
+      "locale" : "es-MX",
+      "localizationStatus" : "NEEDS_REVIEW",
+      "path" : "AppStore/creative-assets/localizations/es-MX/search-results.png"
+    },
+    {
+      "kind" : "header",
+      "locale" : "ca",
+      "localizationStatus" : "NEEDS_REVIEW",
+      "path" : "AppStore/creative-assets/product-page-header-coastal.png"
+    },
+    {
+      "kind" : "search-results",
+      "locale" : "ca",
+      "localizationStatus" : "NEEDS_REVIEW",
+      "path" : "AppStore/creative-assets/localizations/ca/search-results.png"
+    },
+    {
+      "kind" : "header",
+      "locale" : "ja",
+      "localizationStatus" : "NEEDS_REVIEW",
+      "path" : "AppStore/creative-assets/product-page-header-coastal.png"
+    },
+    {
+      "kind" : "search-results",
+      "locale" : "ja",
+      "localizationStatus" : "NEEDS_REVIEW",
+      "path" : "AppStore/creative-assets/localizations/ja/search-results.png"
+    },
+    {
+      "kind" : "header",
+      "locale" : "ko",
+      "localizationStatus" : "NEEDS_REVIEW",
+      "path" : "AppStore/creative-assets/product-page-header-coastal.png"
+    },
+    {
+      "kind" : "search-results",
+      "locale" : "ko",
+      "localizationStatus" : "NEEDS_REVIEW",
+      "path" : "AppStore/creative-assets/localizations/ko/search-results.png"
+    },
+    {
+      "kind" : "header",
+      "locale" : "pt-BR",
+      "localizationStatus" : "NEEDS_REVIEW",
+      "path" : "AppStore/creative-assets/product-page-header-coastal.png"
+    },
+    {
+      "kind" : "search-results",
+      "locale" : "pt-BR",
+      "localizationStatus" : "NEEDS_REVIEW",
+      "path" : "AppStore/creative-assets/localizations/pt-BR/search-results.png"
+    },
+    {
+      "kind" : "header",
+      "locale" : "pt-PT",
+      "localizationStatus" : "NEEDS_REVIEW",
+      "path" : "AppStore/creative-assets/product-page-header-coastal.png"
+    },
+    {
+      "kind" : "search-results",
+      "locale" : "pt-PT",
+      "localizationStatus" : "NEEDS_REVIEW",
+      "path" : "AppStore/creative-assets/localizations/pt-PT/search-results.png"
+    },
+    {
+      "kind" : "header",
+      "locale" : "zh-Hant",
+      "localizationStatus" : "NEEDS_REVIEW",
+      "path" : "AppStore/creative-assets/product-page-header-coastal.png"
+    },
+    {
+      "kind" : "search-results",
+      "locale" : "zh-Hant",
+      "localizationStatus" : "NEEDS_REVIEW",
+      "path" : "AppStore/creative-assets/localizations/zh-Hant/search-results.png"
+    },
+    {
+      "kind" : "header",
+      "locale" : "zh-Hans",
+      "localizationStatus" : "NEEDS_REVIEW",
+      "path" : "AppStore/creative-assets/product-page-header-coastal.png"
+    },
+    {
+      "kind" : "search-results",
+      "locale" : "zh-Hans",
+      "localizationStatus" : "NEEDS_REVIEW",
+      "path" : "AppStore/creative-assets/localizations/zh-Hans/search-results.png"
+    },
+    {
+      "kind" : "header",
+      "locale" : "tr",
+      "localizationStatus" : "NEEDS_REVIEW",
+      "path" : "AppStore/creative-assets/product-page-header-coastal.png"
+    },
+    {
+      "kind" : "search-results",
+      "locale" : "tr",
+      "localizationStatus" : "NEEDS_REVIEW",
+      "path" : "AppStore/creative-assets/localizations/tr/search-results.png"
+    },
+    {
+      "kind" : "header",
+      "locale" : "pl",
+      "localizationStatus" : "NEEDS_REVIEW",
+      "path" : "AppStore/creative-assets/product-page-header-coastal.png"
+    },
+    {
+      "kind" : "search-results",
+      "locale" : "pl",
+      "localizationStatus" : "NEEDS_REVIEW",
+      "path" : "AppStore/creative-assets/localizations/pl/search-results.png"
+    }
+  ],
+  "copySource" : "ScreenshotStudioWorkflow.slide[0].title",
+  "headerLocalization" : "Universal artwork; only the RetroRapid! brand mark appears.",
+  "schemaVersion" : 1
+}

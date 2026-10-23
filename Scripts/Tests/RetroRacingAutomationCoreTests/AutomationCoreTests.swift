@@ -454,6 +454,34 @@ func givenCapturedTargetWhenInstallingIncrementallyThenCopiesSingleStudioImage()
 }
 
 @Test
+func givenManifestTargetsWhenStudioImageIsMissingThenValidationReportsIt() throws {
+    let root = FileManager.default.temporaryDirectory
+        .appending(path: "screenshot-studio-missing-\(UUID().uuidString)", directoryHint: .isDirectory)
+    defer { try? FileManager.default.removeItem(at: root) }
+
+    let presentImage = try ScreenshotStudioPlacementWorkflow.destinationURL(
+        repositoryRoot: root,
+        platform: "appleTv",
+        locale: "en-US",
+        slideIndex: 0
+    )
+    try FileManager.default.createDirectory(
+        at: presentImage.deletingLastPathComponent(),
+        withIntermediateDirectories: true
+    )
+    try Data("png".utf8).write(to: presentImage)
+
+    let missing = try ScreenshotStudioPlacementWorkflow.missingStudioImages(
+        repositoryRoot: root,
+        platform: "appleTv",
+        locales: ["en-US"],
+        slideIndexes: [0, 1]
+    )
+
+    #expect(missing == ["en-US_1.png"])
+}
+
+@Test
 func givenOnlyEnglishDerivedLocalesWhenResolvingCaptureLocalesThenMexicanSpanishIsASource() {
     let studioLocales = ScreenshotStudioWorkflow.locales
     let captureLocales = ScreenshotCapturePlan.captureLocales(from: studioLocales)
@@ -526,7 +554,7 @@ func givenLocalizedSourceCapturesWhenSyncingScreenshotStudioThenOnlyDerivedLocal
     )
     try iphoneData.write(to: studioRoot.appending(path: "iphone/data.plist"))
 
-    for platform in ["ipad", "mac", "appleWatch"] {
+    for platform in ["iphoneDuo", "ipad", "mac", "appleWatch", "appleTv"] {
         let platformRoot = studioRoot.appending(path: platform)
         try FileManager.default.createDirectory(at: platformRoot, withIntermediateDirectories: true)
         try iphoneData.write(to: platformRoot.appending(path: "data.plist"))
@@ -587,6 +615,33 @@ func givenTestFlightUploadOptionsWhenBuildingCommandThenExportArchiveIsPlanned()
     #expect(commands.count == 1)
     #expect(commands[0].arguments.contains("-exportArchive"))
     #expect(commands[0].arguments.contains("/repository/build/testflight-1.5/RetroRacingUniversal-iOS.xcarchive"))
+}
+
+@Test
+func givenAppleTVTestFlightOptionsWhenBuildingCommandsThenTVArchiveAndUploadArePlanned() {
+    let root = URL(fileURLWithPath: "/repository")
+    let archiveOptions = testFlightOptions(command: .archiveTV)
+    let uploadOptions = testFlightOptions(command: .uploadTV)
+
+    let archiveCommands = TestFlightUploadWorkflow.commands(
+        repositoryRoot: root,
+        options: archiveOptions
+    )
+    let uploadCommands = TestFlightUploadWorkflow.commands(
+        repositoryRoot: root,
+        options: uploadOptions
+    )
+
+    #expect(archiveCommands.count == 1)
+    #expect(archiveCommands[0].arguments.contains("RetroRacingTvOS"))
+    #expect(archiveCommands[0].arguments.contains("generic/platform=tvOS"))
+    #expect(archiveCommands[0].arguments.contains("/repository/build/testflight-1.5/RetroRacingTvOS.xcarchive"))
+    #expect(archiveCommands[0].arguments.contains("CODE_SIGNING_ALLOWED=NO"))
+    #expect(archiveCommands[0].arguments.contains("CODE_SIGNING_REQUIRED=NO"))
+    #expect(!archiveCommands[0].arguments.contains("-allowProvisioningUpdates"))
+    #expect(uploadCommands.count == 1)
+    #expect(uploadCommands[0].arguments.contains("-exportArchive"))
+    #expect(uploadCommands[0].arguments.contains("/repository/build/testflight-1.5/RetroRacingTvOS.xcarchive"))
 }
 
 @Test
@@ -1000,6 +1055,20 @@ func givenMacPlatformWhenBuildingManifestThenUsesNineSlides() throws {
 }
 
 @Test
+func givenIPhoneDuoPlatformWhenBuildingManifestThenUsesLocalizedJPEGs() throws {
+    let manifest = try ScreenshotStudioWorkflow.contentsManifest(
+        platform: "iphoneDuo",
+        slideCount: ScreenshotStudioWorkflow.slideCount(for: "iphoneDuo")
+    )
+    let images = try #require(manifest["images"] as? [[String: Any]])
+
+    #expect(images.count == ScreenshotStudioWorkflow.locales.count * 10)
+    #expect(images.contains { $0["filename"] as? String == "en-US_0.jpeg" })
+    #expect(images.contains { $0["filename"] as? String == "pl_9.jpeg" })
+    #expect(ScreenshotStudioWorkflow.imageExtension(for: "iphoneDuo") == ".jpeg")
+}
+
+@Test
 func givenMacSlideFiveWhenBuildingLocalizationsThenSkipsSharePlayCopy() throws {
     let entries = try ScreenshotStudioWorkflow.localizationEntries(
         slideIndex: 4,
@@ -1086,18 +1155,146 @@ func givenWatchPlatformWithStatusBarOverrideFlagWhenParsingThenOverrideIsEnabled
 }
 
 @Test
-func givenAllPlatformsFlagWhenParsingPlansThenReturnsIphoneIpadMacWatch() throws {
+func givenAllPlatformsFlagWhenParsingPlansThenReturnsEveryCapturePlatform() throws {
     let root = URL(fileURLWithPath: "/repository")
     let arguments = CLIArguments(["--all-platforms", "--force"])
     let plans = try AppStoreScreenshotCaptureOptions.parsePlans(arguments, repositoryRoot: root)
 
-    #expect(plans.map(\.platform) == ["iphone", "ipad", "mac", "appleWatch"])
-    #expect(plans.map(\.forceRecapture) == [true, true, true, true])
+    #expect(plans.map(\.platform) == ["iphone", "iphoneDuo", "ipad", "mac", "appleWatch", "appleTv"])
+    #expect(plans.map(\.forceRecapture) == [true, true, true, true, true, true])
     #expect(plans[0].statusBarOverrideEnabled == true)
-    #expect(plans[3].statusBarOverrideEnabled == false)
+    #expect(plans[1].statusBarOverrideEnabled == true)
+    #expect(plans[4].statusBarOverrideEnabled == false)
     #expect(plans[0].slideIndexes.count == 10)
-    #expect(plans[2].slideIndexes.count == 9)
-    #expect(plans[3].slideIndexes.count == 7)
+    #expect(plans[3].slideIndexes.count == 9)
+    #expect(plans[4].slideIndexes.count == 7)
+    #expect(plans[5].statusBarOverrideEnabled == false)
+    #expect(plans[5].slideIndexes.count == 10)
+}
+
+@Test
+func givenIPhoneDuoAliasesWhenResolvingCaptureDefaultsThenUsesDuoSimulator() {
+    #expect(AppStoreScreenshotCaptureDefaults.normalizedPlatform("duo") == "iphoneDuo")
+    #expect(AppStoreScreenshotCaptureDefaults.normalizedPlatform("iphone-duo") == "iphoneDuo")
+    #expect(
+        AppStoreScreenshotCaptureDefaults.destination(for: "iphoneDuo")
+            == "platform=iOS Simulator,name=iPhone Duo,OS=27.1"
+    )
+    #expect(SimulatorDestinationResolver.preferredSimulatorNames(for: "duo") == ["iPhone Duo"])
+}
+
+@Test(arguments: [
+    (0, IPhoneDuoScreenshotPresentation.open),
+    (1, IPhoneDuoScreenshotPresentation.closed),
+    (8, IPhoneDuoScreenshotPresentation.open),
+    (9, IPhoneDuoScreenshotPresentation.closed),
+])
+func givenDuoSlideWhenResolvingPresentationThenPosesAlternate(
+    slideIndex: Int,
+    expected: IPhoneDuoScreenshotPresentation
+) {
+    #expect(IPhoneDuoScreenshotPresentation.forSlide(slideIndex) == expected)
+}
+
+@Test
+func givenDuoTargetsWhenOrderingThenGroupsOpenAndClosedSlideBatches() {
+    let targets = ScreenshotCapturePlan.targets(
+        locales: ["en-US", "de-DE"],
+        slideIndexes: [0, 1, 2, 3]
+    )
+    let ordered = IPhoneDuoScreenshotWorkflow.orderedTargets(
+        targets,
+        platform: "iphoneDuo",
+        localeOrder: ["en-US", "de-DE"]
+    )
+
+    #expect(ordered.map(\.stem) == [
+        "en-US_0", "de-DE_0", "en-US_2", "de-DE_2",
+        "en-US_1", "de-DE_1", "en-US_3", "de-DE_3",
+    ])
+}
+
+@Test
+func givenDuoPresentationWhenConfirmingManualPoseThenRequiresMatchingText() throws {
+    var requestedInput = false
+    try IPhoneDuoScreenshotWorkflow.confirmReady(.closed, dryRun: false) {
+        requestedInput = true
+        return "CLOSED"
+    }
+
+    #expect(requestedInput)
+}
+
+@Test
+func givenMissingDuoPoseConfirmationWhenPreparingBatchThenStopsCapture() {
+    #expect(throws: AppStoreScreenshotCaptureError.self) {
+        try IPhoneDuoScreenshotWorkflow.confirmReady(.open, dryRun: false) { nil }
+    }
+}
+
+@Test
+func givenDuoDryRunWhenPreparingBatchThenDoesNotRequestInput() throws {
+    var requestedInput = false
+    try IPhoneDuoScreenshotWorkflow.confirmReady(.open, dryRun: true) {
+        requestedInput = true
+        return nil
+    }
+
+    #expect(requestedInput == false)
+}
+
+@Test
+func givenDuoSlidesWhenChoosingCapturePathThenOnlyOpenPoseUsesHostDisplayCapture() {
+    #expect(IPhoneDuoScreenshotWorkflow.shouldUseHostCapture(slideIndex: 0, platform: "iphoneDuo"))
+    #expect(IPhoneDuoScreenshotWorkflow.shouldUseHostCapture(slideIndex: 1, platform: "iphoneDuo") == false)
+    #expect(IPhoneDuoScreenshotWorkflow.shouldUseHostCapture(slideIndex: 0, platform: "iphone") == false)
+}
+
+@Test
+func givenDuoHostCaptureTokenWhenBuildingSignalURLsThenSignalsAreRunSpecific() {
+    let token = "capture-token"
+    #expect(
+        IPhoneDuoScreenshotWorkflow.hostCaptureSignalURL(signal: "ready", token: token).path
+            == "/tmp/retrorapid-duo-capture-ready-capture-token"
+    )
+    #expect(
+        IPhoneDuoScreenshotWorkflow.hostCaptureSignalURL(signal: "done", token: token).path
+            == "/tmp/retrorapid-duo-capture-done-capture-token"
+    )
+}
+
+@Test
+func givenAppleTVPlatformWhenResolvingCaptureDefaultsThenUsesTVSimulatorAndPNGStaging() {
+    #expect(AppStoreScreenshotCaptureDefaults.normalizedPlatform("tv") == "appleTv")
+    #expect(
+        AppStoreScreenshotCaptureDefaults.destination(for: "tv")
+            == "platform=tvOS Simulator,name=Apple TV 4K (3rd generation),OS=27.0"
+    )
+    #expect(ScreenshotStudioWorkflow.imageExtension(for: "appleTv") == ".png")
+    #expect(ScreenshotStudioWorkflow.slideCount(for: "appleTv") == 10)
+}
+
+@Test
+func givenAppleTVSimulatorsWhenResolvingDestinationThenUsesNewestRuntimeUDID() throws {
+    let json = Data("""
+    {
+      "devices": {
+        "com.apple.CoreSimulator.SimRuntime.tvOS-26-0": [
+          { "name": "Apple TV 4K (3rd generation)", "udid": "tv-26", "isAvailable": true }
+        ],
+        "com.apple.CoreSimulator.SimRuntime.tvOS-27-0": [
+          { "name": "Apple TV 4K (3rd generation)", "udid": "tv-27", "isAvailable": true }
+        ]
+      }
+    }
+    """.utf8)
+
+    let destination = try SimulatorDestinationResolver.resolveDefaultDestination(
+        for: "appleTv",
+        devicesJSON: json
+    )
+
+    #expect(destination == "platform=tvOS Simulator,id=tv-27")
 }
 
 @Test
@@ -1313,6 +1510,20 @@ func givenDestinationURLWhenBuildingPathThenUsesScreenshotStudioImagesFolder() t
     )
     #expect(
         destination.path.hasSuffix("AppStore/RetroRapid.screenshotstudio/iphone/images/fr-FR_3.jpeg")
+    )
+}
+
+@Test
+func givenDuoDestinationURLWhenBuildingPathThenUsesDuoStudioImagesFolder() throws {
+    let root = URL(fileURLWithPath: "/repository")
+    let destination = try ScreenshotStudioPlacementWorkflow.destinationURL(
+        repositoryRoot: root,
+        platform: "iphoneDuo",
+        locale: "fr-FR",
+        slideIndex: 3
+    )
+    #expect(
+        destination.path.hasSuffix("AppStore/RetroRapid.screenshotstudio/iphoneDuo/images/fr-FR_3.jpeg")
     )
 }
 

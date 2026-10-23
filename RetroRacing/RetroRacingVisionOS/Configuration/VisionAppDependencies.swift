@@ -152,8 +152,8 @@ struct VisionAppDependencies {
         self.themeManager = themeManager
         self.appIconService = AppIconService(
             changer: UnsupportedAppIconChanger(),
-            featureFlag: FixedAppIconFeatureFlag(isEnabled: false),
-            isGalleryPlatformEnabled: false
+            isGalleryPlatformEnabled: false,
+            availableThemeIDsProvider: { [] }
         )
         self.fontPreferenceStore = FontPreferenceStore(
             userDefaults: userDefaults,

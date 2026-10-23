@@ -14,10 +14,14 @@ public enum AppStoreScreenshotCaptureDefaults {
             return "mac"
         case "iphone", "ios":
             return "iphone"
+        case "iphoneduo", "iphone-duo", "duo":
+            return "iphoneDuo"
         case "ipad", "ipados":
             return "ipad"
         case "watch", "watchos", "applewatch":
             return "appleWatch"
+        case "tv", "tvos", "appletv":
+            return "appleTv"
         default:
             return platform
         }
@@ -29,7 +33,7 @@ public enum AppStoreScreenshotCaptureDefaults {
     }
 
     /// CLI platform tokens for a full multi-platform capture pass (order matters).
-    public static let capturePlatforms = ["iphone", "ipad", "mac", "watch"]
+    public static let capturePlatforms = ["iphone", "iphoneDuo", "ipad", "mac", "watch", "tv"]
 
     public static func stagingDirectory(repositoryRoot: URL, platform: String) -> URL {
         repositoryRoot
@@ -69,8 +73,12 @@ public enum AppStoreScreenshotCaptureDefaults {
             return "platform=macOS"
         case "ipad":
             return "platform=iOS Simulator,name=iPad Pro 13-inch (M5),OS=27.0"
+        case "iphoneDuo":
+            return "platform=iOS Simulator,name=iPhone Duo,OS=27.1"
         case "appleWatch":
             return "platform=watchOS Simulator,name=Apple Watch Ultra 3 (49mm),OS=27.0"
+        case "appleTv":
+            return "platform=tvOS Simulator,name=Apple TV 4K (3rd generation),OS=27.0"
         default:
             return "platform=iOS Simulator,name=iPhone 17 Pro Max,OS=27.0"
         }

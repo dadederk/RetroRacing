@@ -9,9 +9,9 @@ import Foundation
 import Observation
 
 public enum AppIconServiceError: Error, Equatable, Sendable {
-    case featureDisabled
     case unsupported
     case unknownIcon
+    case unavailableIcon
     case changeInProgress
 }
 
@@ -19,45 +19,36 @@ public enum AppIconServiceError: Error, Equatable, Sendable {
 @MainActor
 @Observable
 public final class AppIconService {
-    public private(set) var isFeatureEnabled: Bool
     public let isGalleryPlatformEnabled: Bool
     public private(set) var supportsAlternateIcons: Bool
     public private(set) var currentIconID: AppIconID?
     public private(set) var changingIconID: AppIconID?
 
     private let changer: any AppIconChanging
-    private let featureFlag: any AppIconFeatureFlagging
+    private let availableThemeIDsProvider: () -> Set<ThemeID>
 
     public var isGalleryAvailable: Bool {
-        isGalleryPlatformEnabled && isFeatureEnabled
+        isGalleryPlatformEnabled
     }
 
     public var currentOption: AppIconOption? {
         currentIconID.flatMap(AppIconCatalog.option(for:))
     }
 
+    public var availableOptions: [AppIconOption] {
+        AppIconCatalog.availableOptions(availableThemeIDs: availableThemeIDsProvider())
+    }
+
     public init(
         changer: any AppIconChanging,
-        featureFlag: any AppIconFeatureFlagging,
-        isGalleryPlatformEnabled: Bool
+        isGalleryPlatformEnabled: Bool,
+        availableThemeIDsProvider: @escaping () -> Set<ThemeID>
     ) {
         self.changer = changer
-        self.featureFlag = featureFlag
         self.isGalleryPlatformEnabled = isGalleryPlatformEnabled
-        isFeatureEnabled = featureFlag.isEnabled
+        self.availableThemeIDsProvider = availableThemeIDsProvider
         supportsAlternateIcons = changer.supportsAlternateIcons
         currentIconID = AppIconCatalog.option(forSystemIconName: changer.alternateIconName)?.id
-    }
-
-    public func setFeatureEnabled(_ isEnabled: Bool) {
-        featureFlag.setEnabled(isEnabled)
-        self.isFeatureEnabled = featureFlag.isEnabled
-        logRolloutChange()
-    }
-
-    public func refreshFeatureFlag() {
-        featureFlag.refresh()
-        isFeatureEnabled = featureFlag.isEnabled
     }
 
     public func refreshCurrentIcon() {
@@ -80,10 +71,6 @@ public final class AppIconService {
             fields: changeFields(requestedID: id)
         )
 
-        guard isFeatureEnabled else {
-            logBlockedChange(requestedID: id, reason: "feature_disabled")
-            throw AppIconServiceError.featureDisabled
-        }
         guard isGalleryPlatformEnabled else {
             logBlockedChange(requestedID: id, reason: "platform_disabled")
             throw AppIconServiceError.unsupported
@@ -95,6 +82,10 @@ public final class AppIconService {
         guard let option = AppIconCatalog.option(for: id) else {
             logBlockedChange(requestedID: id, reason: "unknown_icon")
             throw AppIconServiceError.unknownIcon
+        }
+        guard AppIconCatalog.isAvailable(id, availableThemeIDs: availableThemeIDsProvider()) else {
+            logBlockedChange(requestedID: id, reason: "release_unavailable")
+            throw AppIconServiceError.unavailableIcon
         }
         guard currentIconID != id else {
             AppLog.info(
@@ -151,7 +142,6 @@ public final class AppIconService {
         [
             .string("requestedIconID", requestedID.rawValue),
             .string("currentIconID", currentIconID?.rawValue ?? AppIconID.classic.rawValue),
-            .bool("featureEnabled", isFeatureEnabled),
             .bool("platformEnabled", isGalleryPlatformEnabled),
             .bool("systemSupported", supportsAlternateIcons),
         ]
@@ -167,22 +157,10 @@ public final class AppIconService {
         )
     }
 
-    private func logRolloutChange() {
-        let payload = availabilityLogPayload()
-        AppLog.info(
-            AppLog.assets + AppLog.lifecycle,
-            "APP_ICON_ROLLOUT_CHANGED",
-            outcome: payload.outcome,
-            fields: payload.fields
-        )
-    }
-
     private func availabilityLogPayload() -> (outcome: AppLog.Outcome, fields: [AppLog.Field]) {
         let reason: String
         if isGalleryPlatformEnabled == false {
             reason = "platform_disabled"
-        } else if isFeatureEnabled == false {
-            reason = "rollout_disabled"
         } else if supportsAlternateIcons == false {
             reason = "gallery_available_system_unsupported"
         } else {
@@ -193,7 +171,6 @@ public final class AppIconService {
             isGalleryAvailable ? .succeeded : .blocked,
             [
                 .reason(reason),
-                .bool("featureEnabled", isFeatureEnabled),
                 .bool("systemSupported", supportsAlternateIcons),
                 .string("currentIconID", currentIconID?.rawValue ?? AppIconID.classic.rawValue),
             ]

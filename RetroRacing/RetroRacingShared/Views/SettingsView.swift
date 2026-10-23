@@ -103,6 +103,9 @@ public struct SettingsView: View {
             initialPreferencesStore.applyScreenshotCapturePreset(focus: screenshotFocus)
         }
         _preferencesStore = State(initialValue: initialPreferencesStore)
+        _selectedTVSettingsCategory = State(
+            initialValue: Self.tvSettingsCategory(for: screenshotFocus)
+        )
     }
     private enum PresentedSettingsSheet: Hashable, Identifiable {
         case paywall
@@ -110,6 +113,19 @@ public struct SettingsView: View {
         case controlsHelp
 
         var id: Self { self }
+    }
+
+    private static func tvSettingsCategory(
+        for screenshotFocus: ScreenshotSettingsFocus?
+    ) -> TVSettingsCategory {
+        switch screenshotFocus {
+        case .accessibility:
+            .accessibility
+        case .themeAndFont, .customize:
+            .theme
+        case nil:
+            .speed
+        }
     }
     public var body: some View {
         settingsContent
@@ -120,7 +136,6 @@ public struct SettingsView: View {
             )
             .onAppear {
                 preferencesStore.loadIfNeeded()
-                appIconService.refreshFeatureFlag()
                 appIconService.refreshSystemState()
                 if let screenshotFriendOvertakeAnnouncementsEnabled {
                     friendOvertakeVoiceOverAnnouncementEnabled = screenshotFriendOvertakeAnnouncementsEnabled
@@ -957,11 +972,9 @@ public struct SettingsView: View {
                 if let features = themeManager.releaseFeatures {
                     ReleaseFeatureDebugControls(
                         features: features,
-                        showsIcons: appIconService.isGalleryPlatformEnabled,
                         isGameSessionInProgress: isGameSessionInProgress
                     ) {
                         themeManager.refreshReleaseFeatures()
-                        appIconService.refreshFeatureFlag()
                     }
                 }
             } header: {
@@ -1297,8 +1310,10 @@ private struct SettingsFooterTextStyle: ViewModifier {
         ),
         appIconService: AppIconService(
             changer: PreviewAppIconChanger(supportsAlternateIcons: true),
-            featureFlag: FixedAppIconFeatureFlag(isEnabled: true),
-            isGalleryPlatformEnabled: true
+            isGalleryPlatformEnabled: true,
+            availableThemeIDsProvider: {
+                [.pocket, .lcd, .eightBit, .sixteenBit]
+            }
         ),
         fontPreferenceStore: FontPreferenceStore(
             userDefaults: UserDefaults.standard,

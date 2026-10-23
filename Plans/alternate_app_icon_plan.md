@@ -1,6 +1,6 @@
 # Alternate App Icons Plan
 
-**Status:** In progress for the personalization stage *after* RetroRapid! 2.0 (working slot 2.1). Pocket/LCD/Cartridge/CRT/Disc layered pilot and approved Special Edition appearances are implemented; Polygon and full appearance/device QA remain open. The chooser and its App Store claims are excluded from the 2.0 SharePlay/Duo release.
+**Status:** In progress for the active RetroRapid! 2.1 personalization release. The chooser now ships on eligible iPhone/iPad configurations without a temporary rollout flag. Pocket/LCD/Cartridge/CRT/Disc layered pilot and approved Special Edition appearances are implemented; Polygon and full appearance/device QA remain open.
 **Created:** 2026-08-12
 
 **See also:** [Monetization](../Requirements/monetization.md) · [Theming](../Requirements/theming_system.md) · [Accessibility](../Requirements/accessibility.md) · [Localization](../Requirements/localization.md) · [Testing](../Requirements/testing.md)
@@ -18,8 +18,8 @@ The feature should feel like a collectible cosmetic benefit while keeping the ex
 - Unlock alternate selection with the existing Unlimited Plays entitlement. The primary icon remains selectable by everyone.
 - Let free users inspect the gallery. Selecting a locked alternate presents the existing Unlimited Plays paywall only after entitlement resolution; it never creates a separate purchase.
 - Never auto-sync the icon with the selected gameplay Style. A system-level icon change should always follow a deliberate user tap.
-- Do not automatically replace an already-selected alternate after an entitlement refund, debug revocation, or rollout-flag change. Lock further alternate changes but always allow returning to Classic; this avoids an unsolicited system icon-change alert on launch.
-- Bundle every package in Debug and Release. Expose the gallery only behind `debugGameplay.alternateAppIconsEnabled`, which defaults on for fresh Debug installs, respects a stored Debug override, and is forcibly false outside Debug features.
+- Do not automatically replace an already-selected alternate after an entitlement refund or revocation. Lock further alternate changes but always allow returning to Classic; this avoids an unsolicited system icon-change alert on launch.
+- Bundle every package in Debug and Release. Expose the gallery whenever the injected configuration identifies an eligible iPhone/iPad build; there is no release or Debug rollout flag.
 - Treat the theme PNGs in this plan as art-direction concepts; production Pocket/LCD/Cartridge/CRT/Disc use exact curated theme car artwork. Disc additionally derives a transparent circuit-environment layer from its approved concept. Retro Cartridge uses its approved neutral-grey v6 Default and charcoal v6 Dark sources; Retro Video Game uses its approved v4 Default and separately rendered charcoal-material v5 Dark companion.
 
 ## Concept Set
@@ -65,7 +65,7 @@ The shared UI is driven by injected platform eligibility so unsupported targets 
 
 - Add an **App Icon** disclosure row inside Theme, directly after the Style controls, on supported platforms.
 - The row value is the current option name, such as **Classic**, **Pocket**, or **Retro Video Game**.
-- Hide the entire row unless the injected service reports both iPhone/iPad platform eligibility and an enabled rollout flag. Do not hide it because UIKit temporarily reports no runtime support.
+- Hide the entire row unless the injected service reports iPhone/iPad platform eligibility. Do not hide it because UIKit temporarily reports no runtime support.
 - Do not disable icon changes while a race is active; the setting is cosmetic and does not affect game state.
 
 ### Gallery
@@ -228,8 +228,8 @@ Recommended gate after implementation:
 ## Implementation Record
 
 - `Requirements/app_icons.md` is the shipped behavior contract and is routed from `Requirements/INDEX.md`.
-- Shared catalog, selection policy, observable service, UIKit adapter, deterministic fakes, Theme-integrated Settings gallery, paywall gating, Debug flag, package declarations, previews, localization, and automated packaging checks are implemented.
-- Release bundles all packages but the resolver forcibly hides the gallery and icon-specific paywall copy.
+- Shared catalog, selection policy, observable service, UIKit adapter, deterministic fakes, Theme-integrated Settings gallery, paywall gating, platform eligibility, package declarations, previews, localization, and automated packaging checks are implemented.
+- The temporary 2.0 rollout flag and Debug override are removed for 2.1; eligible iPhone/iPad builds expose the gallery and icon-specific paywall copy.
 - Pocket, LCD, Cartridge, CRT, and Disc now use deterministic semantic SVG road/lane layers plus transparent canonical SpriteKit cars. Their tracked manifests preserve foreground-to-background ordering, full-height projected boundaries, flat Default/Dark/Tinted image source mappings, Mono (`tinted`) treatments, and no flattened `Default.png`. CRT rasterizes its scanlines and strengthened radial vignette together into the frontmost transparent Accents layer, so the tube falloff remains visible over the finished Composer composition. Disc keeps its approved circuit exterior as a deterministic transparent World layer behind the road.
 - Retro Cartridge uses its approved neutral-grey v6 PNG for Default and charcoal-plastic v6 companion for Dark. Retro Video Game uses its approved v4 PNG for Default and charcoal-plastic v5 companion for Dark. Retro Game Box uses its approved light-grey/blue/pink v8 PNG for Default and black/red v8 PNG for Dark. The cartridge and box sources use one canonical `Accessibility up to 11!` seal master. Each package uses one appearance-aware layer. This is a deliberate exception to semantic layering so the approved packaging and material depth remain intact.
 - `./retrorapid assets app-icons` copies these canonical sources into the Special Edition packages, owns the generated Pocket/LCD/Cartridge/CRT/Disc layers, derives Disc's transparent circuit environment from the approved concept, and generates all eight adaptive Default/Dark gallery pairs in their canonical image sets. The runtime asset audit verifies package references, geometry, layer order, flat image/opacity appearance specializations, the car/lanes/road Mono hierarchy without freezing manually tuned opacity values, preview appearance metadata, and output drift, while `./retrorapid check` includes the generator's `--check` gate.

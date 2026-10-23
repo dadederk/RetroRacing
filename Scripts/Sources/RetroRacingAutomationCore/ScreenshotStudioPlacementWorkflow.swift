@@ -209,9 +209,9 @@ public enum ScreenshotStudioPlacementWorkflow {
 extension ScreenshotStudioWorkflow {
     public static func imageExtension(for platform: String) -> String? {
         switch platform {
-        case "iphone", "ipad", "appleWatch":
+        case "iphone", "iphoneDuo", "ipad", "appleWatch":
             return ".jpeg"
-        case "mac":
+        case "appleTv", "mac":
             return ".png"
         default:
             return nil

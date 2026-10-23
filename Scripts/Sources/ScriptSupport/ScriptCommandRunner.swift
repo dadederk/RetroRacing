@@ -26,7 +26,8 @@ public enum ScriptCommandRunner {
                 scriptsPackagePath(in: repositoryRoot).path,
                 executable,
             ] + arguments,
-            currentDirectory: repositoryRoot
+            currentDirectory: repositoryRoot,
+            usesTerminalInput: executable == "capture-app-store-screenshots"
         )
     }
 

@@ -294,7 +294,7 @@ struct SettingsView: View {
             Section {
                 if let features = themeManager.releaseFeatures {
                     ReleaseFeatureDebugControls(
-                        features: features, showsIcons: false, isGameSessionInProgress: false
+                        features: features, isGameSessionInProgress: false
                     ) {
                         themeManager.refreshReleaseFeatures()
                     }

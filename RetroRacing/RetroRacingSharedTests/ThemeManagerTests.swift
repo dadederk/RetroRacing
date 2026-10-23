@@ -172,10 +172,10 @@ final class ThemeManagerTests: XCTestCase {
         let defaults = platforms.map { ThemePlatformConfig.screenshotCapture(platform: $0).defaultThemeID }
 
         // Then
-        XCTAssertTrue(defaults == [.lcd, .lcd, .lcd, .pocket])
+        XCTAssertTrue(defaults == [.lcd, .eightBit, .sixteenBit, .pocket])
         XCTAssertTrue(ThemePlatformConfig.screenshotCapture(platform: "iphone").defaultThemeID == .lcd)
-        XCTAssertTrue(ThemePlatformConfig.screenshotCapture(platform: "ipad").defaultThemeID == .lcd)
-        XCTAssertTrue(ThemePlatformConfig.screenshotCapture(platform: "mac").defaultThemeID == .lcd)
+        XCTAssertTrue(ThemePlatformConfig.screenshotCapture(platform: "ipad").defaultThemeID == .eightBit)
+        XCTAssertTrue(ThemePlatformConfig.screenshotCapture(platform: "mac").defaultThemeID == .sixteenBit)
         XCTAssertTrue(ThemePlatformConfig.screenshotCapture(platform: "watch").defaultThemeID == .pocket)
         XCTAssertTrue(ThemePlatformConfig.screenshotCapture(platform: "tv").defaultThemeID == .thirtyTwoBit)
     }

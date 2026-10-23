@@ -19,6 +19,7 @@ public enum SimulatorDestinationResolver {
         public enum PlatformFamily: Equatable, Sendable {
             case iOS
             case watchOS
+            case tvOS
             case visionOS
         }
 
@@ -28,6 +29,8 @@ public enum SimulatorDestinationResolver {
                 return "platform=iOS Simulator,id=\(udid)"
             case .watchOS:
                 return "platform=watchOS Simulator,id=\(udid)"
+            case .tvOS:
+                return "platform=tvOS Simulator,id=\(udid)"
             case .visionOS:
                 return "platform=visionOS Simulator,id=\(udid)"
             }
@@ -98,6 +101,8 @@ public enum SimulatorDestinationResolver {
 
     public static func preferredSimulatorNames(for platform: String) -> [String] {
         switch AppStoreScreenshotCaptureDefaults.normalizedPlatform(platform) {
+        case "iphoneDuo":
+            return ["iPhone Duo"]
         case "ipad":
             return [
                 "iPad Pro 13-inch (M5)",
@@ -106,6 +111,11 @@ public enum SimulatorDestinationResolver {
             ]
         case "appleWatch":
             return ["Apple Watch Ultra 3 (49mm)"]
+        case "appleTv":
+            return [
+                "Apple TV 4K (3rd generation)",
+                "Apple TV 4K (at 1080p) (3rd generation)",
+            ]
         default:
             return ["iPhone 17 Pro Max"]
         }
@@ -115,6 +125,8 @@ public enum SimulatorDestinationResolver {
         switch AppStoreScreenshotCaptureDefaults.normalizedPlatform(platform) {
         case "appleWatch":
             return .watchOS
+        case "appleTv":
+            return .tvOS
         default:
             return .iOS
         }
@@ -245,6 +257,8 @@ public enum SimulatorDestinationResolver {
             return runtimeIdentifier.contains("SimRuntime.iOS")
         case .watchOS:
             return runtimeIdentifier.contains("SimRuntime.watchOS")
+        case .tvOS:
+            return runtimeIdentifier.contains("SimRuntime.tvOS")
         case .visionOS:
             return runtimeIdentifier.contains("SimRuntime.xrOS")
         }

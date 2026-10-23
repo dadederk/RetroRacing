@@ -135,6 +135,12 @@ public enum ScreenshotSlideFixture: Equatable, Sendable, CaseIterable {
 
     public func themeID(for platform: String?) -> ThemeID {
         if usesPocketTheme {
+            switch platform?.lowercased() {
+            case "appletv", "tv", "tvos":
+                return .thirtyTwoBit
+            default:
+                break
+            }
             return .pocket
         }
         return ThemePlatformConfig.screenshotCapture(platform: platform).defaultThemeID

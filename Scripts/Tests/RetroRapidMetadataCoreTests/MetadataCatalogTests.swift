@@ -75,6 +75,23 @@ func givenLocaleWhenBuildingAppInfoCommandThenNameAndSubtitleAreIncluded() throw
 }
 
 @Test
+func givenFirstReleasePlatformWhenBuildingVersionCommandThenWhatsNewCanBeOmitted() throws {
+    let locale = try loadCanonicalCatalog().locales["en-US"]
+    let requiredLocale = try #require(locale)
+
+    let arguments = HelmMetadataWorkflow.commandArguments(
+        locale: requiredLocale,
+        localizationID: "localization-id",
+        includeAppInfo: false,
+        keywordsOnly: false,
+        includeWhatsNew: false
+    )
+
+    #expect(arguments.contains("--description"))
+    #expect(!arguments.contains("--whats-new"))
+}
+
+@Test
 func givenInvalidKeywordsWhenValidatingThenEveryRuleIsReported() {
     let errors = MetadataKeywordRules.keywordRuleErrors(
         locale: "en-US",

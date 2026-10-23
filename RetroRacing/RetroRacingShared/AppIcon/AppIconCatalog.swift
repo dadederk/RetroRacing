@@ -44,6 +44,18 @@ public enum AppIconCatalog {
         options.filter { $0.group == group }
     }
 
+    public static func availableOptions(availableThemeIDs: Set<ThemeID>) -> [AppIconOption] {
+        options.filter { isAvailable($0.id, availableThemeIDs: availableThemeIDs) }
+    }
+
+    public static func isAvailable(
+        _ id: AppIconID,
+        availableThemeIDs: Set<ThemeID>
+    ) -> Bool {
+        guard let themeID = themeID(for: id) else { return true }
+        return availableThemeIDs.contains(themeID)
+    }
+
     public static func option(for id: AppIconID) -> AppIconOption? {
         options.first { $0.id == id }
     }
@@ -57,6 +69,25 @@ public enum AppIconCatalog {
 
     public static var alternateSystemIconNames: [String] {
         options.compactMap(\.systemIconName)
+    }
+
+    private static func themeID(for id: AppIconID) -> ThemeID? {
+        switch id {
+        case .pocket:
+            .pocket
+        case .lcd:
+            .lcd
+        case .cartridge:
+            .eightBit
+        case .crt:
+            .sixteenBit
+        case .disc:
+            .thirtyTwoBit
+        case .polygon:
+            .sixtyFourBit
+        case .classic, .retroCartridge, .retroVideoGame, .retroGameBox:
+            nil
+        }
     }
 
     private static func option(

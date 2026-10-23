@@ -159,6 +159,7 @@ private struct LocaleFile: Decodable {
 private struct PlatformDraftFile: Decodable {
     let versionId: String
     let localizationIds: [String: String]
+    let omittedFields: [String]?
 
     func resolve(localeOrder: [String]) throws -> PlatformDraft {
         let missingLocales = localeOrder.filter { localizationIds[$0] == nil }
@@ -168,7 +169,8 @@ private struct PlatformDraftFile: Decodable {
 
         return PlatformDraft(
             versionID: versionId,
-            localizationIDs: localizationIds
+            localizationIDs: localizationIds,
+            omittedFields: Set(omittedFields ?? [])
         )
     }
 }

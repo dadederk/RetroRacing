@@ -171,7 +171,7 @@ public enum RetroRapidCLIParser {
     private static func parseAssetsRoute(_ remainder: [String]) throws -> ScriptDispatchPlan {
         guard let subcommand = remainder.first else {
             throw ScriptSupportError.unexpectedArgument(
-                "assets requires audit, optimize, spatial, masks, or app-icons"
+                "assets requires audit, optimize, spatial, masks, app-icons, or creative"
             )
         }
         let forwarded = Array(remainder.dropFirst())
@@ -199,6 +199,11 @@ public enum RetroRapidCLIParser {
         case "app-icons":
             return .runSwiftExecutable(
                 executable: "generate-app-icon-assets",
+                arguments: forwarded
+            )
+        case "creative":
+            return .runSwiftExecutable(
+                executable: "generate-app-store-creative",
                 arguments: forwarded
             )
         default:

@@ -10,18 +10,15 @@ import SwiftUI
 /// Shared rollout controls; platform launch itself remains a distribution decision.
 public struct ReleaseFeatureDebugControls: View {
     public let features: any ReleaseFeatureProviding
-    public let showsIcons: Bool
     public let isGameSessionInProgress: Bool
     public let onChange: () -> Void
 
     public init(
         features: any ReleaseFeatureProviding,
-        showsIcons: Bool,
         isGameSessionInProgress: Bool,
         onChange: @escaping () -> Void
     ) {
         self.features = features
-        self.showsIcons = showsIcons
         self.isGameSessionInProgress = isGameSessionInProgress
         self.onChange = onChange
     }
@@ -57,7 +54,6 @@ public struct ReleaseFeatureDebugControls: View {
     private var visibleFeatures: [ReleaseFeature] {
         ReleaseFeature.allCases.filter { feature in
             switch feature {
-            case .alternateIcons: showsIcons
             case .discTheme: features.platform.showsExperimentalToggle(for: .thirtyTwoBit)
             case .polygonTheme: features.platform.showsExperimentalToggle(for: .sixtyFourBit)
             case .sharePlay: features.platform == .iPhone || features.platform == .iPad || features.platform == .macOS

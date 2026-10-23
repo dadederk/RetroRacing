@@ -30,8 +30,10 @@
 - Source locales (17): `en-US`, `de-DE`, `nl-NL`, `it`, `fr-FR`, `fr-CA`, `es-ES`, `es-MX`, `ca`, `ja`, `ko`, `pt-BR`, `pt-PT`, `zh-Hant`, `zh-Hans`, `tr`, and `pl`.
 - Derived locales (3): `en-GB`, `en-AU`, and `en-CA` copy in-app pixels from `en-US`. Mexican Spanish is never derived from Spain Spanish.
 - `./retrorapid screenshots sync` may copy derived pixels and overlays but must never replace source locale captures with English.
-- iPhone/iPad default to light appearance and marketing status bar unless flags override.
-- Gameplay fixtures resolve platform-era defaults deterministically: LCD on iPhone, Cartridge on iPad, CRT on Mac, and Pocket on Apple Watch. Capture applies that default through a volatile preference so persisted developer state cannot change the settings fixture. The dedicated theme showcase uses Pocket on iPhone, iPad, and Mac, and LCD on Apple Watch.
+- iPhone, iPhone Duo, and iPad default to light appearance and marketing status bar unless flags override.
+- iPhone Duo uses the ten universal slides and alternates display poses by Studio position: even-numbered slides are open and odd-numbered slides are closed. Capture groups every open slide before every closed slide, pauses once at each batch boundary, and requires the operator to confirm the matching Simulator pose before continuing.
+- Universal gameplay captures use the shipping navigation container and show the normal Menu, Help, and Play/Pause toolbar controls. Apple TV keeps its platform-specific toolbar-free gameplay presentation.
+- Gameplay fixtures resolve platform-era defaults deterministically: LCD on iPhone, Cartridge on iPad, CRT on Mac, Pocket on Apple Watch, and Disc on Apple TV. Capture applies that default through a volatile preference so persisted developer state cannot change the settings fixture. The dedicated theme showcase uses Pocket on iPhone, iPad, and Mac, LCD on Apple Watch, and Disc on Apple TV.
 - Watch leaves marketing clock override off by default.
 - Mac writes PNG captures and uses capture-specific window sizing.
 
@@ -45,7 +47,7 @@
 
 ## Operations
 
-- Run full localized, multi-platform capture manually during release preparation when significant UI changes require refreshed screenshots.
+- Run full localized, multi-platform capture manually during release preparation when significant UI changes require refreshed screenshots. Duo captures come directly from the iPhone Duo Simulator and require manual open/closed pose confirmation; RocketSim is not required.
 - Do not declare a locale's captures final until its exact content digest has fluent approval. Preserve the prior Studio assets as the recoverable baseline until replacement captures pass visual inspection.
 - Storyboard and copy: [../AppStore/docs/06-screenshots.md](../AppStore/docs/06-screenshots.md).
 - Add language / refresh checklist: [../AppStore/docs/08-locale-expansion.md](../AppStore/docs/08-locale-expansion.md).
@@ -63,4 +65,4 @@
 
 ## Release availability
 
-Capture uses committed release defaults and ignores local Debug rollout overrides. Release 1 uses LCD on iPhone/iPad/Mac and Pocket on Watch; Styles gallery screenshots show only LCD/Pocket. Future-feature fixtures must explicitly opt in and must not be installed as release-1 store exports.
+Capture uses committed release defaults and ignores local Debug rollout overrides. The 2.1 App Icon gallery is visible in eligible iPhone/iPad capture configurations and remains absent on Mac, Watch, TV, and Vision. The committed 2.1 Style defaults are LCD on iPhone, Cartridge on iPad, CRT on Mac, and Pocket on Watch; Disc and Polygon remain limited to their TV/Vision platform policies or explicit Debug experiments.

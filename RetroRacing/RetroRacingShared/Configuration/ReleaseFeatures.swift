@@ -9,7 +9,7 @@ import Foundation
 import Observation
 
 public enum ReleaseFeature: String, CaseIterable, Sendable {
-    case retroThemes, alternateIcons, discTheme, polygonTheme, sharePlay
+    case retroThemes, discTheme, polygonTheme, sharePlay
 
     public var storageKey: String { "releasePreview.\(rawValue)" }
     public var titleKey: String { "debug_release_\(rawValue)" }
@@ -23,14 +23,12 @@ public enum ReleaseFeatureOverride: String, CaseIterable, Sendable {
 
 /// Committed shipping policy. Change these defaults when promoting the next release.
 public enum ReleaseFeatureDefaults {
-    public static let retroThemes = false
-    public static let alternateIcons = false
+    public static let retroThemes = true
     public static let macSharePlay = true
 
     public static func isEnabled(_ feature: ReleaseFeature, platform: ThemeCatalogPlatform) -> Bool {
         switch feature {
         case .retroThemes: retroThemes || platform == .tvOS || platform == .visionOS
-        case .alternateIcons: alternateIcons && (platform == .iPhone || platform == .iPad)
         case .discTheme: platform.alwaysIncludes(.thirtyTwoBit)
         case .polygonTheme: platform.alwaysIncludes(.sixtyFourBit)
         case .sharePlay: platform == .macOS ? macSharePlay : platform != .watchOS && platform != .custom

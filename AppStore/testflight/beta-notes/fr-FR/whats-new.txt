@@ -1,22 +1,9 @@
-Défie un ami avec SharePlay sur iPhone, iPad et Mac ! Affrontez le même trafic, suivez votre progression respective et enchaînez avec une revanche. Les courses entre amis sont gratuites et ne consomment jamais tes parties solo quotidiennes.
+RetroRapid! arrive sur Apple TV. Retrouvez l'action sur grand écran avec la Siri Remote ou une manette compatible, dans le nouveau style Disc éclatant.
 
-Prêt pour iOS 27 et iPhone Duo. En position de table partiellement pliée, la route apparaît au-dessus de la charnière et les commandes en dessous. Si la charnière bouge pendant une course, le jeu se met en pause. Une fois l’appareil stabilisé, touchez Jouer pour reprendre la même course.
-
-Découvre LCD et Pocket dans la nouvelle galerie de styles. LCD est accessible à tous ; débloque Pocket avec Parties illimitées. Les deux styles restent gratuits sur Apple Watch.
-
-Un nouveau look pour ton jeu de course rétro préféré : nous avons largement redessiné les graphismes, notamment les voitures et les casques, tout en préservant le caractère de LCD et Pocket.
-
-Profite de parties plus fluides, d’une disposition améliorée en mode paysage et de menus et écrans de fin de partie plus soignés.
-
-Le jeu est désormais disponible en allemand, néerlandais, italien, français de France et du Canada, japonais, coréen, portugais du Brésil et du Portugal, chinois simplifié et traditionnel, turc et polonais.
-
-Tu as manqué les dernières nouveautés ? Les mises à jour précédentes ont ajouté des succès Game Center, des repères pour les scores de tes amis et le partage des résultats.
-
-Merci de faire la course avec nous !
+Grimpez dans les classements et débloquez les succès Game Center, repérez les scores de vos amis ou lancez une course SharePlay en direct. VoiceOver, indices audio, texte plus grand, contraste élevé, Réduire les animations et réglages adaptables permettent à davantage de joueurs de participer.
 
 Points à tester :
-- Prévisualise et sélectionne LCD et Pocket dans la galerie de styles
-- Lance une course SharePlay avec un ami sur iPhone, iPad ou Mac
-- Vérifie que le jeu reste fluide pendant les longues parties
-- Teste le mode paysage, les menus et l'écran de fin de partie
-- Termine une partie avec VoiceOver et vérifie chaque annonce
+- Jouez plusieurs parties avec la Siri Remote et une manette compatible
+- Vérifiez le jeu Disc, les menus, les réglages et l'écran de fin de partie sur un téléviseur
+- Essayez Game Center, SharePlay et les repères de scores d'amis
+- Testez VoiceOver, les indices audio, le texte plus grand, le contraste élevé et Réduire les animations

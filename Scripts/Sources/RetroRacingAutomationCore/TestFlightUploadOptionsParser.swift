@@ -77,8 +77,10 @@ public enum TestFlightUploadOptionsParser {
 
         Commands:
           archive       Archive iOS and macOS with the selected Xcode
+          archive-tv    Archive tvOS with the selected Xcode
           upload-ios    Upload iOS archive to App Store Connect, then configure via Helm
           upload-mac    Upload macOS archive to App Store Connect, then configure via Helm
+          upload-tv     Upload tvOS archive to App Store Connect, then configure via Helm
           all           archive, upload-ios, then upload-mac
 
         Options:

@@ -229,9 +229,11 @@
   "allowedShortKeywords": [],
   "screenshotProfiles": {
     "iphone": 10,
+    "iphoneDuo": 10,
     "ipad": 10,
     "mac": 9,
-    "appleWatch": 7
+    "appleWatch": 7,
+    "appleTv": 10
   },
   "platformDrafts": {
     "iOS": {

@@ -30,8 +30,7 @@
 - Keep the debug override key prefixed under `PlayLimit.` and clear/sync it whenever simulation mode changes.
 - `ReleaseFeatureDefaults` defines shipping availability; `ReleaseFeatureStore` stores explicit `releasePreview.*` overrides only in Debug. Fresh Debug launches match Release. Legacy rollout helpers have been removed; old `debugGameplay` rollout values are ignored. Release and screenshot capture ignore saved previews.
 - Shared controls offer Release default / Enabled / Disabled and Reset release overrides. Themes and icons refresh immediately in Settings; SharePlay is resolved at launch and its control explicitly requires relaunch, preventing a live transport swap.
-- Release 1 disables retro themes and alternate icons while retaining the two-theme Styles gallery. Required TV/Vision development themes stay available; platform publication is controlled by archive/submission scope.
-- Disabling alternate icons hides feature surfaces without changing the installed system icon.
+- The retro-theme rollout remains previewable through Release default / Enabled / Disabled. The 2.1 App Icon gallery has no rollout override and is always visible on eligible iPhone/iPad configurations. Required TV/Vision development themes stay available; platform publication is controlled by archive/submission scope.
 
 ## UI and Localization
 
@@ -52,7 +51,7 @@
   - Release/production simulation isolation
   - Settings visibility through `BuildConfiguration.shouldShowDebugFeatures`
   - SpriteKit frame-stat option mapping for enabled and disabled states
-  - alternate-icon fresh-install default, stored Debug override, and Release isolation
+  - alternate-icon platform eligibility and Release visibility
 - Run targeted isolation tests before release-risk changes:
 
 ```bash

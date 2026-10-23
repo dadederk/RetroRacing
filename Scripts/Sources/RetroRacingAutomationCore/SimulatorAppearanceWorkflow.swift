@@ -12,7 +12,7 @@ import ScriptSupport
 public enum SimulatorAppearanceWorkflow {
     public static func shouldApply(platform: String) -> Bool {
         switch AppStoreScreenshotCaptureDefaults.normalizedPlatform(platform) {
-        case "iphone", "ipad":
+        case "iphone", "iphoneDuo", "ipad":
             return true
         default:
             return false

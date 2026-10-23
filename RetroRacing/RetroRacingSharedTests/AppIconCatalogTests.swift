@@ -90,22 +90,39 @@ final class AppIconCatalogTests: XCTestCase {
         )
     }
 
-    @MainActor
-    func testGivenProductionFlagWhenCallerAttemptsToEnableThenItRemainsDisabled() throws {
+    func testGivenReleasedStylesWhenResolvingGalleryThenFuturePlatformIconsStayHidden() {
         // Given
-        let suiteName = "AppIconCatalogTests.productionFeatureFlag"
-        let defaults = try XCTUnwrap(UserDefaults(suiteName: suiteName))
-        defaults.removePersistentDomain(forName: suiteName)
-        defer { defaults.removePersistentDomain(forName: suiteName) }
-        defaults.set("enabled", forKey: ReleaseFeature.alternateIcons.storageKey)
-        let store = ReleaseFeatureStore(platform: .iPhone, userDefaults: defaults, allowsOverrides: false)
-        let featureFlag = ReleaseAppIconFeatureFlag(features: store)
+        let releasedThemeIDs: Set<ThemeID> = [.pocket, .lcd, .eightBit, .sixteenBit]
 
         // When
-        featureFlag.setEnabled(true)
+        let options = AppIconCatalog.availableOptions(availableThemeIDs: releasedThemeIDs)
 
         // Then
-        XCTAssertFalse(featureFlag.isEnabled)
+        XCTAssertEqual(options.map(\.id), [
+            .classic,
+            .pocket,
+            .lcd,
+            .cartridge,
+            .crt,
+            .retroCartridge,
+            .retroVideoGame,
+            .retroGameBox,
+        ])
+        XCTAssertFalse(AppIconCatalog.isAvailable(.disc, availableThemeIDs: releasedThemeIDs))
+        XCTAssertFalse(AppIconCatalog.isAvailable(.polygon, availableThemeIDs: releasedThemeIDs))
+    }
+
+    func testGivenFutureStylesWhenResolvingGalleryThenMatchingIconsJoinInCatalogOrder() {
+        // Given
+        let futureThemeIDs: Set<ThemeID> = [
+            .pocket, .lcd, .eightBit, .sixteenBit, .thirtyTwoBit, .sixtyFourBit,
+        ]
+
+        // When
+        let options = AppIconCatalog.availableOptions(availableThemeIDs: futureThemeIDs)
+
+        // Then
+        XCTAssertEqual(options, AppIconCatalog.options)
     }
 
     private func action(

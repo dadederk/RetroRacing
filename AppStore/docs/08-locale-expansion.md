@@ -126,7 +126,7 @@ See **Refresh screenshots** below. For a brand-new locale, capture **all platfor
 If staging already has good files but Studio is stale:
 
 ```bash
-./retrorapid screenshots capture --platform <iphone|ipad|mac|watch> --install-only
+./retrorapid screenshots capture --platform <iphone|ipad|mac|watch|tv> --install-only
 ```
 
 ### 7. TestFlight notes

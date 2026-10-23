@@ -48,6 +48,7 @@ public struct LocaleMetadata: Equatable, Sendable {
 public struct PlatformDraft: Sendable {
     public let versionID: String
     public let localizationIDs: [String: String]
+    public let omittedFields: Set<String>
 }
 
 public struct MetadataFieldCounts: Equatable, Sendable {

@@ -1,22 +1,9 @@
-Ścigaj się ze znajomym przez SharePlay na iPhonie, iPadzie i Macu! Omijajcie te same auta, śledźcie swoje postępy i ruszajcie na rewanż. Wyścigi ze znajomymi są darmowe i nigdy nie zużywają dziennego limitu gier solo.
+RetroRapid! trafia na Apple TV. Przenieś akcję na duży ekran, korzystając z Siri Remote lub obsługiwanego kontrolera, w wyrazistym nowym stylu Disc.
 
-Obsługa iOS 27 i iPhone Duo. W częściowo złożonej pozycji stołowej droga jest nad zawiasem, a elementy sterujące pod nim. Poruszenie zawiasem w trakcie wyścigu wstrzymuje grę. Gdy urządzenie się ustabilizuje, stuknij Graj, aby kontynuować ten sam wyścig.
+Wspinaj się w rankingach i zdobywaj osiągnięcia Game Center, śledź znaczniki wyników znajomych lub rozpocznij wyścig na żywo przez SharePlay. VoiceOver, wskazówki dźwiękowe, większy tekst, wysoki kontrast, Ogranicz ruch i ustawienia adaptacyjne pomagają większej liczbie graczy dołączyć do zabawy.
 
-Odkryj LCD i Pocket w nowej galerii stylów. LCD jest dostępny dla wszystkich, a Pocket odblokujesz dzięki zakupowi „Nielimitowane gry”. Na Apple Watch oba style pozostają darmowe.
-
-Nowy wygląd ulubionej wyścigówki retro: narysowaliśmy od nowa dużą część grafik, w tym auta i kaski, zachowując charakter LCD i Pocket.
-
-Ciesz się płynniejszą rozgrywką, lepszym układem w poziomie oraz dopracowanymi menu i ekranami końca gry.
-
-Gra jest teraz dostępna także po niemiecku, niderlandzku, włosku, francusku w odmianach z Francji i Kanady, japońsku, koreańsku, portugalsku w odmianach z Brazylii i Portugalii, po chińsku w wersji uproszczonej i tradycyjnej, a także po turecku i polsku.
-
-Co jeszcze nowego? Poprzednie aktualizacje dodały osiągnięcia Game Center, znaczniki wyników znajomych i udostępnianie wyników.
-
-Dzięki za wspólne wyścigi!
-
-Co przetestować:
-- Obejrzyj i wybierz LCD oraz Pocket w Galerii Stylów
-- Rozpocznij wyścig SharePlay ze znajomym na iPhonie, iPadzie lub Macu
-- Sprawdź, czy gra pozostaje płynna podczas dłuższych rozgrywek
-- Sprawdź układy poziome, menu i ekran końca gry
-- Ukończ przejazd z VoiceOver i sprawdź, czy wszystkie komunikaty są zrozumiałe
+Zakres testów:
+- Rozegraj kilka wyścigów za pomocą Siri Remote i obsługiwanego kontrolera
+- Sprawdź rozgrywkę Disc, menu, ustawienia i ekran końca gry na telewizorze
+- Wypróbuj Game Center, SharePlay i znaczniki wyników znajomych
+- Przetestuj VoiceOver, wskazówki dźwiękowe, większy tekst, wysoki kontrast i Ogranicz ruch

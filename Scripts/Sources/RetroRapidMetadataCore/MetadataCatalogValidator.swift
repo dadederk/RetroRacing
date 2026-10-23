@@ -8,7 +8,7 @@
 import Foundation
 
 public enum MetadataCatalogValidator {
-    private static let parkedScreenshotPlatforms = Set(["appleTv", "appleVision"])
+    private static let parkedScreenshotPlatforms = Set(["appleVision"])
 
     public static func validationErrors(
         in catalog: MetadataCatalog,
@@ -259,6 +259,8 @@ public enum MetadataCatalogValidator {
         switch metadataPlatform {
         case "iphone":
             "iPhone"
+        case "iphoneDuo":
+            "iPhoneDuo"
         case "ipad":
             "iPad"
         default:

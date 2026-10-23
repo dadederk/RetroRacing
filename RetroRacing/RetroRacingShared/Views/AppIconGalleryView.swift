@@ -27,6 +27,7 @@ public struct AppIconGalleryView: View {
     public var body: some View {
         List {
             AppIconGallerySections(
+                options: appIconService.availableOptions,
                 currentIconID: appIconService.currentIconID,
                 changingIconID: appIconService.changingIconID,
                 showsUnlockSection: storeKit.shouldShowFreeTierAffordances,
@@ -124,6 +125,7 @@ public struct AppIconGalleryView: View {
 }
 
 struct AppIconGallerySections: View {
+    let options: [AppIconOption]
     let currentIconID: AppIconID?
     let changingIconID: AppIconID?
     let showsUnlockSection: Bool
@@ -142,7 +144,7 @@ struct AppIconGallerySections: View {
 
         ForEach(AppIconGroup.allCases) { group in
             Section {
-                ForEach(AppIconCatalog.options(in: group)) { option in
+                ForEach(options.filter { $0.group == group }) { option in
                     let action = selectionAction(for: option)
 
                     AppIconGalleryRow(
@@ -332,6 +334,9 @@ private struct AppIconGallerySectionsPreview: View {
         NavigationStack {
             List {
                 AppIconGallerySections(
+                    options: AppIconCatalog.availableOptions(
+                        availableThemeIDs: [.pocket, .lcd, .eightBit, .sixteenBit]
+                    ),
                     currentIconID: currentIconID,
                     changingIconID: changingIconID,
                     showsUnlockSection: showsUnlockSection,

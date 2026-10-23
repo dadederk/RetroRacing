@@ -721,46 +721,20 @@ Unlock Retro Achievements,Débloque des succès retro,Screenshots,slide.8.title,
 Earn Game Center trophies as you race and improve.,Gagne des trophées Game Center en courant et en progressant.,Screenshots,slide.8.body,,needs_review,
 Play Solo Or With Friends,Joue solo ou avec des amis,Screenshots,slide.9.title,,needs_review,
 "Daily free plays, leaderboards, and live friend races.","Parties gratuites quotidiennes, classements et courses live entre amis.",Screenshots,slide.9.body,,needs_review,
-"Race a friend with SharePlay on iPhone, iPad, and Mac! Face the same traffic, follow each other’s progress, and go again with a rematch. Friend races are free and never use your daily solo plays.
+"RetroRapid! is racing onto Apple TV. Take the action to the big screen with the Siri Remote or a supported game controller, wrapped in the vivid new Disc style.
 
-Built for iOS 27 and iPhone Duo. In a partially folded tabletop pose, the road moves above the hinge and the controls sit below. Moving the hinge during a race pauses it; once the device settles, tap Play to continue the same run.
-
-Explore LCD and Pocket in the new Styles gallery. LCD is available to everyone; unlock Pocket with Unlimited Plays. Both styles remain free on Apple Watch.
-
-A fresh look for your favorite retro racer: we’ve extensively redrawn the artwork, including cars and helmets, while keeping the character of LCD and Pocket.
-
-Enjoy smoother gameplay, improved landscape layouts, and refined menus and game-over screens.
-
-Now available in German, Dutch, Italian, French for France and Canada, Japanese, Korean, Portuguese for Brazil and Portugal, Simplified and Traditional Chinese, Turkish, and Polish.
-
-Catching up? Recent updates added Game Center achievements, friend-score markers, and shareable results.
-
-Thanks for racing with us!
+Chase Game Center leaderboards and achievements, spot friend-score markers, or start a live SharePlay race. VoiceOver, audio cues, larger text, high contrast, Reduce Motion, and adaptable gameplay settings help more players join the action.
 
 Testing focus:
-- Preview and select LCD and Pocket in the Styles gallery
-- Start a SharePlay race with a friend on iPhone, iPad, or Mac
-- Check that gameplay stays smooth during longer runs
-- Try landscape layouts, menus, and the game-over flow
-- Complete a run with VoiceOver and confirm every announcement is clear","Défie un ami avec SharePlay sur iPhone, iPad et Mac ! Affrontez le même trafic, suivez votre progression respective et enchaînez avec une revanche. Les courses entre amis sont gratuites et ne consomment jamais tes parties solo quotidiennes.
+- Play several runs with the Siri Remote and a supported game controller
+- Check Disc gameplay, menus, settings, and the game-over flow on a TV
+- Try Game Center, SharePlay, and friend-score markers
+- Test VoiceOver, audio cues, larger text, high contrast, and Reduce Motion","RetroRapid! arrive sur Apple TV. Retrouvez l'action sur grand écran avec la Siri Remote ou une manette compatible, dans le nouveau style Disc éclatant.
 
-Prêt pour iOS 27 et iPhone Duo. En position de table partiellement pliée, la route apparaît au-dessus de la charnière et les commandes en dessous. Si la charnière bouge pendant une course, le jeu se met en pause. Une fois l’appareil stabilisé, touchez Jouer pour reprendre la même course.
-
-Découvre LCD et Pocket dans la nouvelle galerie de styles. LCD est accessible à tous ; débloque Pocket avec Parties illimitées. Les deux styles restent gratuits sur Apple Watch.
-
-Un nouveau look pour ton jeu de course rétro préféré : nous avons largement redessiné les graphismes, notamment les voitures et les casques, tout en préservant le caractère de LCD et Pocket.
-
-Profite de parties plus fluides, d’une disposition améliorée en mode paysage et de menus et écrans de fin de partie plus soignés.
-
-Le jeu est désormais disponible en allemand, néerlandais, italien, français de France et du Canada, japonais, coréen, portugais du Brésil et du Portugal, chinois simplifié et traditionnel, turc et polonais.
-
-Tu as manqué les dernières nouveautés ? Les mises à jour précédentes ont ajouté des succès Game Center, des repères pour les scores de tes amis et le partage des résultats.
-
-Merci de faire la course avec nous !
+Grimpez dans les classements et débloquez les succès Game Center, repérez les scores de vos amis ou lancez une course SharePlay en direct. VoiceOver, indices audio, texte plus grand, contraste élevé, Réduire les animations et réglages adaptables permettent à davantage de joueurs de participer.
 
 Points à tester :
-- Prévisualise et sélectionne LCD et Pocket dans la galerie de styles
-- Lance une course SharePlay avec un ami sur iPhone, iPad ou Mac
-- Vérifie que le jeu reste fluide pendant les longues parties
-- Teste le mode paysage, les menus et l'écran de fin de partie
-- Termine une partie avec VoiceOver et vérifie chaque annonce",TestFlight,whats-new,"≤ 4,000 characters",needs_review,
+- Jouez plusieurs parties avec la Siri Remote et une manette compatible
+- Vérifiez le jeu Disc, les menus, les réglages et l'écran de fin de partie sur un téléviseur
+- Essayez Game Center, SharePlay et les repères de scores d'amis
+- Testez VoiceOver, les indices audio, le texte plus grand, le contraste élevé et Réduire les animations",TestFlight,whats-new,"≤ 4,000 characters",needs_review,

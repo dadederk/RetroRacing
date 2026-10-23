@@ -33,7 +33,7 @@ Single status entrypoint for roadmap and themed plans. Requirements define shipp
 
 | Theme | Doc | Notes |
 |---|---|---|
-| Four staged releases | [staged_release_plan.md](staged_release_plan.md) | 2.0 SharePlay + Duo is current; 2.1 personalization, 2.2 Apple TV, and 2.3 Vision Pro are working slots, each with its own acceptance gate. |
+| Four staged releases | [staged_release_plan.md](staged_release_plan.md) | 2.2 is the active coordinated personalization + Apple TV stage; Vision Pro remains separately gated. |
 | ASO & App Store growth | [aso/README.md](aso/README.md) | Metadata, screenshots, pricing, GAAD featuring |
 | Game Center challenges & ASC admin | [challenges_infrastructure_and_asc_admin_plan.md](challenges_infrastructure_and_asc_admin_plan.md) | Infrastructure IDs, not release copy |
 | SharePlay competitive mode | [shareplay_competitive_mode_plan.md](shareplay_competitive_mode_plan.md) | ✅ Implemented (2026-07-22); manual 2-device QA passed on 2026-07-23. One small glitch remains as non-blocking polish. |
@@ -42,7 +42,7 @@ Single status entrypoint for roadmap and themed plans. Requirements define shipp
 | SharePlay release campaign | [aso/10-shareplay-release-campaign.md](aso/10-shareplay-release-campaign.md) | Historical campaign groundwork; current 2.0 execution is in the next row. |
 | Version 2.0 SharePlay + iPhone Duo launch | [aso/11-release-2-0-duo-shareplay.md](aso/11-release-2-0-duo-shareplay.md) | Xcode 27.1 RC build 37 is staged for App Review; manual acceptance remains, and scheduled phased release is no earlier than October 16. |
 | visionOS spatial game and Polygon theme | [visionos_spatial_game_plan.md](visionos_spatial_game_plan.md) | Later public stage after Apple TV; physical-device acceptance still required. |
-| Alternate app icons | [alternate_app_icon_plan.md](alternate_app_icon_plan.md) | Next planned personalization stage after 2.0; Pocket/LCD/Cartridge/CRT/Disc are layered, three Special Editions use approved flattened artwork, and Polygon remains to convert. |
+| Alternate app icons | [alternate_app_icon_plan.md](alternate_app_icon_plan.md) | Active 2.1 personalization work; the gallery is permanent on eligible iPhone/iPad builds, Pocket/LCD/Cartridge/CRT/Disc are layered, three Special Editions use approved flattened artwork, and Polygon remains to convert. |
 | Developer CLI (`retrorapid`) | [retrorapid_developer_cli_plan.md](retrorapid_developer_cli_plan.md) | ✅ Done (2026-07-23); unified `./retrorapid` wrapper over Scripts executables and README recipes. |
 | Portfolio infrastructure parity | [portfolio_infrastructure_parity_plan.md](portfolio_infrastructure_parity_plan.md) | Proposed; add platform-boundary enforcement, documentation budgets, developer diagnostics, and verified release-E2E evidence while retaining RetroRapid's proven safety foundations. |
 
