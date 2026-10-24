@@ -1,4 +1,6 @@
-# RetroRapid! 2.2 (38) coordinated release candidate
+# RetroRapid! 2.2 (38) rejected coordinated release candidate
+
+**Status:** Rejected for public release on 2026-10-24. Physical-device acceptance found that Styles exposed only Pocket and LCD while the App Icon gallery exposed unreleased Disc and Polygon icons. Build 38 predates source commit `61e0904`, which promotes Cartridge/CRT and filters theme-derived icons through the released Style catalog. A coordinated corrective build is required for iOS with embedded Watch, macOS, and tvOS.
 
 ## Source and artifacts
 
@@ -16,6 +18,7 @@
 - `./retrorapid test package`: 137 automation tests passed after the final version alignment.
 - `./retrorapid check`: passed, including assets, Screenshot Studio sources, metadata, localization, documentation, IAP, and Game Center checks.
 - `./retrorapid test`: the shared and Universal test suites passed under Xcode 27.1 RC after all shipping targets were aligned to 2.2 (38).
+- Physical-device personalization acceptance failed on iPhone: Cartridge and CRT were missing from Styles, while Disc and Polygon were incorrectly visible in the App Icon gallery. The earlier automated checks did not assert the exact release catalog at the UI boundary.
 - Archive inspection confirms iPhone/iPad, embedded Apple Watch, macOS, and tvOS all use marketing version 2.2 and build number 38.
 - Screenshot Studio contains 10 Apple TV slides for each of 20 locales: 200 PNG source images at 3840 × 2160. The screenshot and localization checks pass against the complete manifest.
 - Representative English, German, Japanese, Polish, and Traditional Chinese Apple TV screenshots were visually inspected. The deterministic capture uses the Apple TV Disc style and includes gameplay, settings, accessibility, Game Center, SharePlay, and achievement states.
@@ -38,17 +41,19 @@ Editable public 2.2 App Store versions now exist for iOS (`1f8c3bf2-b4cf-42db-96
 ## Coordinated public-release rule
 
 - Treat iPhone, iPad, embedded Apple Watch, Mac, and Apple TV as one 2.2 release train.
-- Do not submit or release any 2.2 platform independently. All public versions must select build 38 and carry the approved 20-locale 2.2 What's New copy before submission.
+- Do not select or submit build 38 for public release on any platform.
+- Do not submit or release any 2.2 platform independently. The corrective public candidate must use one new shared build number and carry the approved 20-locale 2.2 What's New copy before submission.
 - Use a shared release date or hold every approved version for a coordinated manual release so availability remains aligned across storefronts.
 - Keep visionOS outside this release until its placeholder stage is explicitly promoted.
 
 ## Remaining release gates
 
-- Obtain external beta approval for iOS and macOS, then confirm all three TestFlight builds are available to the external group.
+- Archive and upload the coordinated corrective build from source that includes commit `61e0904` or its equivalent release-catalog fix. Confirm the same new build number on iOS, embedded Watch, macOS, and tvOS.
+- On iPhone and iPad, confirm Styles shows exactly Pocket, LCD, Cartridge, and CRT; confirm the App Icon gallery shows those four theme icons plus Classic and the three Special Editions, with Disc and Polygon absent.
+- Confirm the platform defaults on a clean install: LCD on iPhone, Cartridge on iPad, CRT on Mac, Pocket on Watch, and Disc on Apple TV.
 - Complete Apple TV hardware acceptance with the Siri Remote and a supported controller: launch/focus, gameplay, pause/exit, settings, Game Center, purchase/restore, VoiceOver, and SharePlay with a real FaceTime group.
-- Recheck the personalization features included in the shared source: the iPhone/iPad App Icon gallery and Cartridge/CRT Styles on iPhone, iPad, Mac, and Apple Watch.
 - Obtain fluent approval for the exact 20-locale What's New and What to Test copy. Machine validation does not replace native review.
 - Complete human visual approval of all 200 Apple TV screenshots in Screenshot Studio before exporting or uploading the public App Store screenshot sets.
-- Export, review, and upload the localized public screenshots, then select build 38 on all three public versions only after the owner explicitly authorizes the public-release step.
+- Export, review, and upload the localized public screenshots, then select the accepted corrective build on all three public versions only after the owner explicitly authorizes the public-release step.
 
-Use the [release candidate workflow](../docs/21-release-candidate-workflow.md) to resume. Do not create another build number unless code or release assets change.
+Use the [release candidate workflow](../docs/21-release-candidate-workflow.md) to resume. The personalization defect requires a new coordinated build; build 38 remains historical evidence only.

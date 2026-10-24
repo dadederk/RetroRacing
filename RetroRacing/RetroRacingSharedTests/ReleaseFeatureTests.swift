@@ -12,34 +12,96 @@ import XCTest
 final class ReleaseFeatureTests: XCTestCase {
     func testGivenFreshInstallWhenResolvingShippingCatalogsThenExpandedThemesUsePlatformAccessPolicy() throws {
         // Given
-        for platform in [ThemeCatalogPlatform.iPhone, .iPad, .macOS, .watchOS] {
+        for platform in [
+            ThemeCatalogPlatform.iPhone,
+            .iPad,
+            .macOS,
+            .watchOS,
+            .tvOS,
+            .visionOS,
+        ] {
             let defaults = try makeDefaults()
             // When
-            let store = ReleaseFeatureStore(platform: platform, userDefaults: defaults, allowsOverrides: true)
+            let store = ReleaseFeatureStore(platform: platform, userDefaults: defaults, allowsOverrides: false)
             let configuration = store.themeConfiguration
             // Then
-            XCTAssertEqual(configuration.availableThemes.map(\.id), [.pocket, .lcd, .eightBit, .sixteenBit])
             switch platform {
             case .iPhone:
+                XCTAssertEqual(configuration.availableThemes.map(\.id), [.pocket, .lcd, .eightBit, .sixteenBit])
                 XCTAssertEqual(configuration.availableThemes.filter(\.isPremium).map(\.id),
                                [.pocket, .eightBit, .sixteenBit])
                 XCTAssertEqual(configuration.defaultThemeID, .lcd)
             case .iPad:
+                XCTAssertEqual(configuration.availableThemes.map(\.id), [.pocket, .lcd, .eightBit, .sixteenBit])
                 XCTAssertEqual(configuration.availableThemes.filter(\.isPremium).map(\.id),
                                [.pocket, .lcd, .sixteenBit])
                 XCTAssertEqual(configuration.defaultThemeID, .eightBit)
             case .macOS:
+                XCTAssertEqual(configuration.availableThemes.map(\.id), [.pocket, .lcd, .eightBit, .sixteenBit])
                 XCTAssertEqual(configuration.availableThemes.filter(\.isPremium).map(\.id),
                                [.pocket, .lcd, .eightBit])
                 XCTAssertEqual(configuration.defaultThemeID, .sixteenBit)
             case .watchOS:
+                XCTAssertEqual(configuration.availableThemes.map(\.id), [.pocket, .lcd, .eightBit, .sixteenBit])
                 XCTAssertEqual(configuration.availableThemes.filter(\.isPremium).map(\.id), [])
                 XCTAssertEqual(configuration.defaultThemeID, .pocket)
+            case .tvOS:
+                XCTAssertEqual(
+                    configuration.availableThemes.map(\.id),
+                    [.pocket, .lcd, .eightBit, .sixteenBit, .thirtyTwoBit]
+                )
+                XCTAssertEqual(
+                    configuration.availableThemes.filter(\.isPremium).map(\.id),
+                    [.pocket, .lcd, .eightBit, .sixteenBit]
+                )
+                XCTAssertEqual(configuration.defaultThemeID, .thirtyTwoBit)
+            case .visionOS:
+                XCTAssertEqual(
+                    configuration.availableThemes.map(\.id),
+                    [.pocket, .lcd, .eightBit, .sixteenBit, .thirtyTwoBit, .sixtyFourBit]
+                )
+                XCTAssertEqual(
+                    configuration.availableThemes.filter(\.isPremium).map(\.id),
+                    [.pocket, .lcd, .eightBit, .sixteenBit, .thirtyTwoBit]
+                )
+                XCTAssertEqual(configuration.defaultThemeID, .sixtyFourBit)
             default:
                 XCTFail("Unexpected platform in shipping catalog test: \(platform)")
             }
             XCTAssertEqual(store.isEnabled(.sharePlay), platform != .watchOS)
         }
+    }
+
+    func testGivenShippingIOSCatalogWhenResolvingAppIconsThenOnlyReleasedStylesHaveThemeIcons() throws {
+        // Given
+        let defaults = try makeDefaults()
+        let store = ReleaseFeatureStore(
+            platform: .iPhone,
+            userDefaults: defaults,
+            allowsOverrides: false
+        )
+
+        // When
+        let availableThemeIDs = Set(store.themeConfiguration.availableThemes.map(\.id))
+        let availableIconIDs = AppIconCatalog.availableOptions(
+            availableThemeIDs: availableThemeIDs
+        ).map(\.id)
+
+        // Then
+        XCTAssertEqual(availableThemeIDs, [.pocket, .lcd, .eightBit, .sixteenBit])
+        XCTAssertEqual(
+            availableIconIDs,
+            [
+                .classic,
+                .pocket,
+                .lcd,
+                .cartridge,
+                .crt,
+                .retroCartridge,
+                .retroVideoGame,
+                .retroGameBox,
+            ]
+        )
     }
 
     func testGivenShippingPocketWhenResolvingGalleryAccessThenFreeUsersSeeLockAndPaywall() throws {

@@ -14,7 +14,7 @@ final class AppIconGalleryUITests: XCTestCase {
     }
 
     @MainActor
-    func testGivenConfiguredIOSPlatformWhenOpeningSettingsThenCompleteGalleryIsVisible() throws {
+    func testGivenShippingIOSPlatformWhenOpeningSettingsThenReleasedGalleryIsVisible() throws {
         // Given
         let app = launchApplication(premiumSimulationMode: 2)
 
@@ -41,9 +41,9 @@ final class AppIconGalleryUITests: XCTestCase {
             ("lcd", "LCD"),
             ("cartridge", "Cartridge"),
             ("crt", "CRT"),
-            ("disc", "Disc"),
-            ("polygon", "Polygon"),
         ], in: app)
+        XCTAssertFalse(app.buttons["app_icon_option_disc"].exists)
+        XCTAssertFalse(app.buttons["app_icon_option_polygon"].exists)
 
         let specialEditionsHeader = app.staticTexts["Special Editions"]
         scrollApplicationUp(in: app, until: specialEditionsHeader)
@@ -89,7 +89,7 @@ final class AppIconGalleryUITests: XCTestCase {
             let option = app.buttons["app_icon_option_\(optionID)"]
             var scrollAttempts = 0
             while option.exists == false && scrollAttempts < 6 {
-                app.swipeUp()
+                swipeGalleryUp(in: app)
                 scrollAttempts += 1
             }
             XCTAssertTrue(option.exists, "Missing app icon option: \(optionName)")
@@ -206,6 +206,8 @@ final class AppIconGalleryUITests: XCTestCase {
             "-AppleLanguages", "(en)",
             "-AppleLocale", "en_US",
             "-releasePreview.retroThemes", previewsRetroThemes ? "enabled" : "disabled",
+            "-releasePreview.discTheme", "releaseDefault",
+            "-releasePreview.polygonTheme", "releaseDefault",
             "-StoreKit.debugPremiumSimulationMode", String(premiumSimulationMode),
         ]
         if usesDeterministicAppIconChanger {
@@ -233,8 +235,17 @@ final class AppIconGalleryUITests: XCTestCase {
     private func scrollApplicationUp(in app: XCUIApplication, until element: XCUIElement) {
         var scrollAttempts = 0
         while element.exists == false && scrollAttempts < 8 {
-            app.swipeUp()
+            swipeGalleryUp(in: app)
             scrollAttempts += 1
+        }
+    }
+
+    private func swipeGalleryUp(in app: XCUIApplication) {
+        let gallery = app.collectionViews.firstMatch
+        if gallery.exists {
+            gallery.swipeUp()
+        } else {
+            app.swipeUp()
         }
     }
 }

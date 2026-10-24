@@ -112,7 +112,7 @@ See [`../AGENTS.md`](../AGENTS.md) Brand Mark section and `RetroRacingShared/Uti
 - `metadata/retrorapid-v2.2-candidate.json` — canonical coordinated 2.2 release candidate; applied to the editable iOS, macOS, and tvOS drafts
 - `metadata/retrorapid-v2.0-candidate.json` — prior 2.0 applied-catalog snapshot retained for history
 - [`testflight/release-2.1-40.md`](testflight/release-2.1-40.md) — corrective iOS, embedded Watch, and Mac 2.1 candidate with the seven-icon gallery and current external beta status
-- [`testflight/release-2.2-38.md`](testflight/release-2.2-38.md) — coordinated iOS, embedded Watch, macOS, and Apple TV candidate; aligned builds, external beta status, screenshots, and remaining release gates
+- [`testflight/release-2.2-38.md`](testflight/release-2.2-38.md) — rejected coordinated iOS, embedded Watch, macOS, and Apple TV candidate; retained as build, beta, and device-acceptance history
 - [`testflight/release-2.1-39.md`](testflight/release-2.1-39.md) — superseded standalone personalization candidate retained as upload history
 - [`testflight/release-2.0-37.md`](testflight/release-2.0-37.md) — prior 2.0 RC build, TestFlight, and App Review handoff record
 - [`testflight/release-2.0-36.md`](testflight/release-2.0-36.md) — historical beta candidate

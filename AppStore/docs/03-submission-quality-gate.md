@@ -2,17 +2,17 @@
 
 Part of [App Store docs hub](../README.md). Index: [RETRORAPID_APP_STORE_REFERENCE.md](../RETRORAPID_APP_STORE_REFERENCE.md).
 
-Last updated: 2026-10-19
+Last updated: 2026-10-24
 
 **See also:** [Release candidate workflow](21-release-candidate-workflow.md) · [Metadata copy](05-metadata-copy.md) · [Live listing](02-listing-snapshot.md) · [Swift scripts](../../Scripts/README.md)
 
 ---
 
-## Current candidate: 2.2 (38)
+## Current candidate: 2.2 corrective build 39 in preparation
 
-The active catalog is [retrorapid-v2.2-candidate.json](../metadata/retrorapid-v2.2-candidate.json), applied to editable iOS, macOS, and tvOS 2.2 drafts in all 20 locales per platform. The [2.2 (38) candidate record](../testflight/release-2.2-38.md) contains current build, beta, screenshot, and toolchain status. iPhone, iPad, embedded Apple Watch, Mac, and Apple TV form one coordinated release train; visionOS remains outside this release.
+The active catalog is [retrorapid-v2.2-candidate.json](../metadata/retrorapid-v2.2-candidate.json), applied to editable iOS, macOS, and tvOS 2.2 drafts in all 20 locales per platform. The [2.2 (38) candidate record](../testflight/release-2.2-38.md) is retained as rejected release history: device acceptance found an incorrect personalization catalog. Build 39 is reserved in source for the coordinated correction but has not been archived or uploaded. iPhone, iPad, embedded Apple Watch, Mac, and Apple TV form one coordinated release train; visionOS remains outside this release.
 
-Helm readback confirms the 20-locale listing fields on all three drafts. The 2.2 What's New copy is applied to iOS and macOS, which covers the embedded Apple Watch release. App Store Connect does not expose What's New for a platform's first public version, so the tvOS records intentionally omit that field while retaining name, subtitle, keywords, promotional text, and description. No 2.2 public build is selected and no version has been submitted to App Review. Follow the [release candidate workflow](21-release-candidate-workflow.md) for the remaining screenshot, build-selection, acceptance, and coordinated-submit sequence.
+Helm readback confirms that build 38 is the only uploaded 2.2 build on iOS, macOS, and tvOS and that all three are in beta testing. The 20-locale listing fields remain applied to all three drafts. The 2.2 What's New copy is applied to iOS and macOS, which covers the embedded Apple Watch release. App Store Connect does not expose What's New for a platform's first public version, so the tvOS records intentionally omit that field while retaining name, subtitle, keywords, promotional text, and description. No 2.2 public build is selected and no version has been submitted to App Review. Follow the [release candidate workflow](21-release-candidate-workflow.md) to archive, upload, and accept the coordinated corrective build before any build selection or submission.
 
 ## Public submission gate
 
