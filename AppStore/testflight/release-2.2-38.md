@@ -1,14 +1,14 @@
 # RetroRapid! 2.2 (38) rejected coordinated release candidate
 
-**Status:** Rejected for public release on 2026-10-24. Physical-device acceptance found that Styles exposed only Pocket and LCD while the App Icon gallery exposed unreleased Disc and Polygon icons. Build 38 predates source commit `61e0904`, which promotes Cartridge/CRT and filters theme-derived icons through the released Style catalog. A coordinated corrective build is required for iOS with embedded Watch, macOS, and tvOS.
+**Status:** Rejected for public release on 2026-10-24. Physical-device acceptance found that Styles exposed only Pocket and LCD while the App Icon gallery exposed unreleased Disc and Polygon icons. Build 38 predates source commit `61e0904`, which promotes Cartridge/CRT and filters theme-derived icons through the released Style catalog. [Corrective build 39](release-2.2-39.md) is uploaded and configured for iOS with embedded Watch, macOS, and tvOS.
 
 ## Source and artifacts
 
 - Working tree based on source commit `2f01a1a`, with the coordinated 2.2 release changes in the current uncommitted workspace.
 - Toolchain: Xcode 27.1 RC, build `27A9275`, selected at `/Applications/Xcode_27_1_RC.app/Contents/Developer`.
-- iOS and embedded Watch archive: `build/testflight-2.2/RetroRacingUniversal-iOS.xcarchive`; the iPhone/iPad app and Watch app are both version 2.2 (38), signed by team `PV9S9FTZF2`.
-- Mac archive: `build/testflight-2.2/RetroRacingUniversal-macOS.xcarchive`; version 2.2 (38), signed by the same team.
-- Apple TV archive: `build/testflight-2.2/RetroRacingTvOS.xcarchive`; version 2.2 (38), bundle ID `com.accessibilityUpTo11.RetroRacing`.
+- iOS and embedded Watch archive: `build/testflight-2.2-build38/RetroRacingUniversal-iOS.xcarchive`; the iPhone/iPad app and Watch app are both version 2.2 (38), signed by team `PV9S9FTZF2`.
+- Mac archive: `build/testflight-2.2-build38/RetroRacingUniversal-macOS.xcarchive`; version 2.2 (38), signed by the same team.
+- Apple TV archive: `build/testflight-2.2-build38/RetroRacingTvOS.xcarchive`; version 2.2 (38), bundle ID `com.accessibilityUpTo11.RetroRacing`.
 - The Apple TV generic archive is intentionally unsigned so creating it does not require a registered Apple TV. Xcode applies authenticated App Store distribution signing during export.
 - Apple TV was uploaded on 2026-10-18. iOS with embedded Watch and macOS were uploaded on 2026-10-19. App Store Connect processed all three packages as App Store eligible and reports no non-exempt encryption.
 - visionOS remains the separate public “Coming Soon” placeholder and is not part of this 2.2 release candidate.
