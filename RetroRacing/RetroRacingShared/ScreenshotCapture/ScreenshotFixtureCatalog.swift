@@ -32,6 +32,7 @@ public enum ScreenshotFixtureCatalog {
     public static let hookGameplayScore = 18
     public static let actionGameplayScore = 97
     public static let actionGameplayLives = 2
+    public static let themeShowcaseGameplayScore = 164
 
     public static var rivalFriendAheadSummary: GameOverFriendAheadSummary {
         GameOverFriendAheadSummary(

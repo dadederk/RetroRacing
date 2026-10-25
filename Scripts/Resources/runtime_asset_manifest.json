@@ -281,17 +281,20 @@
       "allowedIdioms": [
         "iphone",
         "ipad",
-        "mac"
+        "mac",
+        "tv"
       ],
       "maximumLongEdge": {
         "iphone": 226,
         "ipad": 226,
-        "mac": 226
+        "mac": 226,
+        "tv": 226
       },
       "requiredIdioms": [
         "iphone",
         "ipad",
-        "mac"
+        "mac",
+        "tv"
       ]
     },
     {

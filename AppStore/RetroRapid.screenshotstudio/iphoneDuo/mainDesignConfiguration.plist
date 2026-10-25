@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>backgroundColor</key>
-	<string>#007AFF</string>
+	<string>#F9F2E8</string>
 	<key>backgroundGradientColors</key>
 	<array>
 		<string>#FEFCFA</string>
@@ -12,7 +12,7 @@
 	<key>backgroundLinearGradientDirection</key>
 	<string>topToBottom</string>
 	<key>backgroundStyle</key>
-	<string>gradient</string>
+	<string>solid</string>
 	<key>bodyColor</key>
 	<string>#3A362D</string>
 	<key>bodyFontName</key>

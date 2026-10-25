@@ -170,6 +170,14 @@ final class ScreenshotCaptureConfigurationTests: XCTestCase {
             ScreenshotSlideFixture.gameOver.gameplayBackgroundLayout.score,
             GameScreenshotLayout.gameOverBackground.score
         )
+        XCTAssertEqual(
+            ScreenshotSlideFixture.pocketGameplay.layout?.score,
+            ScreenshotFixtureCatalog.themeShowcaseGameplayScore
+        )
+        XCTAssertNotEqual(
+            ScreenshotSlideFixture.pocketGameplay.layout?.score,
+            ScreenshotSlideFixture.hookGameplay.layout?.score
+        )
     }
 
     func testGivenWatchSlideFixturesWhenReadingRoutesThenMatchesStoryboard() {

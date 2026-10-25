@@ -73,8 +73,10 @@ public enum ScreenshotSlideFixture: Equatable, Sendable, CaseIterable {
 
     public var layout: GameScreenshotLayout? {
         switch self {
-        case .hookGameplay, .pocketGameplay:
+        case .hookGameplay:
             return .hookGameplay
+        case .pocketGameplay:
+            return .themeShowcaseGameplay
         case .actionGameplay:
             return .actionGameplay
         case .friendMarkerGameplay:
@@ -89,8 +91,10 @@ public enum ScreenshotSlideFixture: Equatable, Sendable, CaseIterable {
     /// Gameplay scene shown behind settings and game-over sheets.
     public var gameplayBackgroundLayout: GameScreenshotLayout {
         switch self {
-        case .hookGameplay, .pocketGameplay, .accessibilitySettings, .themeSettings:
+        case .hookGameplay, .accessibilitySettings, .themeSettings:
             return .hookGameplay
+        case .pocketGameplay:
+            return .themeShowcaseGameplay
         case .actionGameplay:
             return .actionGameplay
         case .gameOver:

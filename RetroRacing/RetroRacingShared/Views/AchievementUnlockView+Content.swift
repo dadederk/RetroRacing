@@ -24,6 +24,10 @@ extension AchievementUnlockView {
             Text(GameLocalizedStrings.string("achievement_modal_title"))
                 .appFont(.body)
                 .multilineTextAlignment(.center)
+            #elseif os(tvOS)
+            Text(GameLocalizedStrings.string("achievement_modal_title"))
+                .appFont(.headline)
+                .multilineTextAlignment(.center)
             #endif
 
             Text(achievementTitle)
@@ -39,7 +43,8 @@ extension AchievementUnlockView {
                 achievementActionButtons
             }
         }
-        .padding(achievementContentPadding)
+        .padding(.horizontal, achievementHorizontalContentPadding)
+        .padding(.vertical, achievementVerticalContentPadding)
         .frame(maxWidth: .infinity, alignment: .top)
     }
 
@@ -155,9 +160,21 @@ extension AchievementUnlockView {
         #endif
     }
 
-    var achievementContentPadding: CGFloat {
+    var achievementHorizontalContentPadding: CGFloat {
+        #if os(tvOS)
+        72
+        #elseif os(watchOS)
+        10
+        #else
+        20
+        #endif
+    }
+
+    var achievementVerticalContentPadding: CGFloat {
         #if os(watchOS)
         10
+        #elseif os(tvOS)
+        32
         #else
         20
         #endif

@@ -158,9 +158,7 @@ public struct ScreenshotCaptureRootView: View {
     @ViewBuilder
     private func settingsSheet(focus: ScreenshotSettingsFocus) -> some View {
         if isAppleTVCapture {
-            NavigationStack {
-                settingsView(focus: focus)
-            }
+            settingsView(focus: focus)
         } else {
             settingsView(focus: focus)
                 #if os(iOS)
@@ -198,15 +196,13 @@ public struct ScreenshotCaptureRootView: View {
     }
 
     private var appleTVSettingsCaptureContent: some View {
-        ZStack {
-            menuCaptureView(presentsSettingsOnAppear: false)
-            appleTVCaptureScrim
+        Group {
             if let settingsFocus {
-                appleTVCaptureModal {
-                    settingsSheet(focus: settingsFocus)
-                }
+                settingsSheet(focus: settingsFocus)
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(.background)
     }
 
     private var appleTVGameOverCaptureContent: some View {
@@ -248,7 +244,7 @@ public struct ScreenshotCaptureRootView: View {
         @ViewBuilder content: () -> Content
     ) -> some View {
         content()
-            .frame(width: 1_200, height: 820)
+            .frame(width: 1_200, height: 860)
             .background(.regularMaterial)
             .clipShape(.rect(cornerRadius: 36))
             .shadow(color: .black.opacity(0.45), radius: 40, y: 18)

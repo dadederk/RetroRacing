@@ -11,6 +11,10 @@
     {
       "filename" : "johnAppleseedAvatar-mac.png",
       "idiom" : "mac"
+    },
+    {
+      "filename" : "johnAppleseedAvatar-tv.png",
+      "idiom" : "tv"
     }
   ],
   "info" : {

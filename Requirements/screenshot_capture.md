@@ -34,6 +34,7 @@
 - iPhone Duo uses the ten universal slides and alternates display poses by Studio position: even-numbered slides are open and odd-numbered slides are closed. Capture groups every open slide before every closed slide, pauses once at each batch boundary, and requires the operator to confirm the matching Simulator pose before continuing.
 - Universal gameplay captures use the shipping navigation container and show the normal Menu, Help, and Play/Pause toolbar controls. Apple TV keeps its platform-specific toolbar-free gameplay presentation.
 - Gameplay fixtures resolve platform-era defaults deterministically: LCD on iPhone, Cartridge on iPad, CRT on Mac, Pocket on Apple Watch, and Disc on Apple TV. Capture applies that default through a volatile preference so persisted developer state cannot change the settings fixture. The dedicated theme showcase uses Pocket on iPhone, iPad, and Mac, LCD on Apple Watch, and Disc on Apple TV.
+- The dedicated theme showcase uses a distinct score, lives count, player lane, and traffic layout from the hook gameplay fixture even when a platform intentionally uses the same theme for both slides.
 - Watch leaves marketing clock override off by default.
 - Mac writes PNG captures and uses capture-specific window sizing.
 

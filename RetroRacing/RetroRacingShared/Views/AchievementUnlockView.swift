@@ -55,7 +55,7 @@ public struct AchievementUnlockView: View {
             #endif
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .background(.background)
-            #if os(watchOS)
+            #if os(watchOS) || os(tvOS)
             .navigationTitle("")
             #else
             .navigationTitle(GameLocalizedStrings.string("achievement_modal_title"))

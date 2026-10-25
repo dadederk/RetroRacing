@@ -113,10 +113,10 @@ final class RetroRacingTvOSUITests: XCTestCase {
         XCTAssertTrue(title.waitForExistence(timeout: 5))
         XCTAssertTrue(tutorialButton.waitForExistence(timeout: 5))
         XCTAssertTrue(settingsButton.waitForExistence(timeout: 5))
-        XCTAssertGreaterThan(tutorialButton.frame.minX, app.frame.midX)
-        XCTAssertGreaterThan(settingsButton.frame.minX, app.frame.midX)
         XCTAssertGreaterThan(tutorialButton.frame.width, tutorialButton.frame.height)
         XCTAssertGreaterThan(settingsButton.frame.width, settingsButton.frame.height)
+        XCTAssertLessThanOrEqual(tutorialButton.frame.maxY, title.frame.minY)
+        XCTAssertLessThanOrEqual(settingsButton.frame.maxY, title.frame.minY)
         XCTAssertFalse(tutorialButton.frame.intersects(title.frame))
         XCTAssertFalse(settingsButton.frame.intersects(title.frame))
 
@@ -138,19 +138,21 @@ final class RetroRacingTvOSUITests: XCTestCase {
         select(settingsButton)
 
         // Then
-        let settingsTabs = app.tabBars["Menu"]
-        let speedCategory = settingsTabs.buttons["Speed"]
-        let themeCategory = settingsTabs.buttons["Theme"]
+        let settingsSidebar = app.descendants(matching: .any)["tv_settings_sidebar"]
+        let speedCategory = app.descendants(matching: .any)["tv_settings_category_speed"]
+        let themeCategory = app.descendants(matching: .any)["tv_settings_category_theme"]
+        XCTAssertTrue(settingsSidebar.waitForExistence(timeout: 5))
         XCTAssertTrue(speedCategory.waitForExistence(timeout: 5))
         XCTAssertTrue(themeCategory.waitForExistence(timeout: 5))
         XCTAssertTrue(speedCategory.hasFocus)
         XCTAssertFalse(app.buttons["Done"].exists)
 
-        // When moving focus to another category without selecting it.
-        XCUIRemote.shared.press(.right)
-
-        // Then the focused tab becomes the active category and embeds its gallery.
+        // When selecting another category from the sidebar.
+        XCUIRemote.shared.press(.down)
         XCTAssertTrue(themeCategory.hasFocus)
+        XCUIRemote.shared.press(.select)
+
+        // Then the detail column shows the selected category and embeds its gallery.
         XCTAssertTrue(
             app.descendants(matching: .any)["tv_settings_category_content_theme"]
                 .waitForExistence(timeout: 5)

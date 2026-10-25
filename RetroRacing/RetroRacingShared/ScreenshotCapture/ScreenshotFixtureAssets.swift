@@ -20,7 +20,7 @@ enum ScreenshotFixtureAssets {
     }
 
     private static func pngData(forAssetNamed name: String) -> Data? {
-        #if canImport(UIKit) && !os(watchOS) && !os(tvOS)
+        #if canImport(UIKit) && !os(watchOS)
         guard let image = UIImage(named: name, in: sharedBundle, compatibleWith: nil) else {
             return nil
         }

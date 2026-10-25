@@ -52,6 +52,15 @@ public struct GameScreenshotLayout: Sendable {
         upcomingMilestones: []
     )
 
+    public static let themeShowcaseGameplay = GameScreenshotLayout(
+        gridState: Self.makeThemeShowcaseGrid(),
+        safetyMarkerRows: [],
+        score: ScreenshotFixtureCatalog.themeShowcaseGameplayScore,
+        lives: 2,
+        speedIncreaseImminent: false,
+        upcomingMilestones: []
+    )
+
     /// Same crash grid as action gameplay, but HUD score matches the game-over sheet run score
     /// so iPad/Mac sheet chrome that reveals the background stays consistent.
     public static let gameOverBackground = GameScreenshotLayout(
@@ -91,6 +100,16 @@ public struct GameScreenshotLayout: Sendable {
         gridState.grid[2] = [.Empty, .Empty, .Car]
         gridState.grid[3] = [.Empty, .Car, .Empty]
         gridState.grid[4] = [.Empty, .Empty, .Crash]
+        return gridState
+    }
+
+    private static func makeThemeShowcaseGrid() -> GridState {
+        var gridState = GridState(numberOfRows: 5, numberOfColumns: 3)
+        gridState.grid[0] = [.Empty, .Car, .Empty]
+        gridState.grid[1] = [.Car, .Empty, .Car]
+        gridState.grid[2] = [.Empty, .Car, .Empty]
+        gridState.grid[3] = [.Car, .Empty, .Empty]
+        gridState.grid[4] = [.Empty, .Empty, .Player]
         return gridState
     }
 

@@ -10,6 +10,11 @@ import SwiftUI
 extension GameOverView {
     var gameOverMainContent: some View {
         VStack(spacing: gameOverContentSpacing) {
+            #if os(tvOS)
+            Text(GameLocalizedStrings.string("game_over_encouragement_title"))
+                .appFont(.headline)
+                .multilineTextAlignment(.center)
+            #endif
             heroImage
             subtitleText
             scoreRows
@@ -19,7 +24,8 @@ extension GameOverView {
                 actionButtons
             }
         }
-        .padding(gameOverContentPadding)
+        .padding(.horizontal, gameOverHorizontalContentPadding)
+        .padding(.vertical, gameOverVerticalContentPadding)
         .frame(maxWidth: .infinity, alignment: .top)
     }
 
@@ -124,9 +130,21 @@ extension GameOverView {
         #endif
     }
 
-    var gameOverContentPadding: CGFloat {
+    var gameOverHorizontalContentPadding: CGFloat {
+        #if os(tvOS)
+        72
+        #elseif os(watchOS)
+        10
+        #else
+        20
+        #endif
+    }
+
+    var gameOverVerticalContentPadding: CGFloat {
         #if os(watchOS)
         10
+        #elseif os(tvOS)
+        32
         #else
         20
         #endif

@@ -162,10 +162,9 @@ public struct SettingsView: View {
     }
 
     private var settingsRoot: some View {
-        settingsRootContent
+        navigationTitledSettingsRootContent
             .environment(\.alternateAppIconsBenefitEnabled, appIconService.isGalleryAvailable)
             .environment(\.paidStylesBenefitEnabled, themeManager.availableThemes.contains(where: \.isPremium))
-            .navigationTitle(settingsNavigationTitle)
             .modifier(SettingsNavigationChromeModifier(screenshotFocus: screenshotFocus))
             .alert(GameLocalizedStrings.string("restore_purchases"), isPresented: $showingRestoreAlert) {
                 Button(GameLocalizedStrings.string("ok"), role: .cancel) {}
@@ -187,18 +186,20 @@ public struct SettingsView: View {
             #endif
     }
 
-    private var settingsNavigationTitle: String {
+    @ViewBuilder
+    private var navigationTitledSettingsRootContent: some View {
         if style.layout == .categories {
-            selectedTVSettingsCategory.title
+            settingsRootContent
         } else {
-            GameLocalizedStrings.string("settings")
+            settingsRootContent
+                .navigationTitle(GameLocalizedStrings.string("settings"))
         }
     }
 
     @ViewBuilder
     private var settingsRootContent: some View {
         if style.layout == .categories {
-            tvSettingsCategoryTabs
+            tvSettingsSidebarDetailView
         } else {
             sharedSettingsList
         }
@@ -228,74 +229,78 @@ public struct SettingsView: View {
         }
     }
 
-    private var tvSettingsCategoryTabs: some View {
-        TabView(selection: $selectedTVSettingsCategory) {
-            ForEach(tvSettingsCategories) { category in
-                Tab(value: category) {
-                    tvSettingsPage(for: category)
-                        .accessibilityIdentifier("tv_settings_category_content_\(category.rawValue)")
-                } label: {
-                    Label(category.title, systemImage: category.systemImage)
-                        .accessibilityIdentifier("tv_settings_category_\(category.rawValue)")
-                        #if os(tvOS)
-                        .prefersDefaultFocus(category == .speed, in: tvSettingsCategoryFocusScope)
-                        #endif
+    private var tvSettingsSidebarDetailView: some View {
+        HStack(spacing: 0) {
+            VStack(alignment: .leading, spacing: 16) {
+                Text(GameLocalizedStrings.string("settings"))
+                    .appFont(.title2)
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.65)
+                    .padding(.horizontal, 48)
+                    .padding(.top, 40)
+
+                List(tvSettingsCategories) { category in
+                    Button {
+                        selectedTVSettingsCategory = category
+                    } label: {
+                        Label(category.title, systemImage: category.systemImage)
+                            .appFont(.body)
+                            .foregroundStyle(
+                                category == selectedTVSettingsCategory ? Color.white : Color.primary
+                            )
+                    }
+                    .buttonStyle(.plain)
+                    .listRowBackground(
+                        category == selectedTVSettingsCategory
+                            ? Color.accentColor
+                            : Color.clear
+                    )
+                    .accessibilityIdentifier("tv_settings_category_\(category.rawValue)")
+                    #if os(tvOS)
+                    .focusable(screenshotFocus == nil)
+                    .prefersDefaultFocus(
+                        category == selectedTVSettingsCategory,
+                        in: tvSettingsCategoryFocusScope
+                    )
+                    #endif
                 }
+                .listStyle(.plain)
+            }
+            .frame(width: 560)
+            .background(.regularMaterial)
+            .accessibilityIdentifier("tv_settings_sidebar")
+
+            Divider()
+
+            VStack(spacing: 0) {
+                Text(selectedTVSettingsCategory.title)
+                    .appFont(.title)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal, 56)
+                    .padding(.top, 40)
+                    .padding(.bottom, 18)
+
+                tvSettingsDestination(for: selectedTVSettingsCategory)
+                    .accessibilityIdentifier(
+                        "tv_settings_category_content_\(selectedTVSettingsCategory.rawValue)"
+                    )
             }
         }
         #if os(tvOS)
-        .tabViewStyle(.tabBarOnly)
         .focusScope(tvSettingsCategoryFocusScope)
         #endif
+        .onAppear {
+            guard screenshotFocus != nil else { return }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
+                onScreenshotLayoutReady?()
+            }
+        }
     }
 
     private var tvSettingsCategories: [TVSettingsCategory] {
         TVSettingsCategory.visibleCategories(
             showsDebug: BuildConfiguration.shouldShowDebugFeatures
         )
-    }
-
-    private func tvSettingsPage(for category: TVSettingsCategory) -> some View {
-        HStack(spacing: 64) {
-            TVSettingsCategoryOverview(
-                category: category,
-                summary: tvSettingsSummary(for: category)
-            )
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-
-            tvSettingsDestination(for: category)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-        }
-        .padding(.horizontal, 64)
-        .padding(.bottom, 32)
-    }
-
-    private func tvSettingsSummary(for category: TVSettingsCategory) -> String {
-        switch category {
-        case .speed:
-            GameLocalizedStrings.string(preferencesStore.selectedDifficulty.localizedNameKey)
-        case .theme:
-            themeManager.currentTheme.name
-        case .sound:
-            GameLocalizedStrings.format(
-                "settings_percentage_value",
-                Int64(preferencesStore.selectedSoundEffectsVolume * 100)
-            )
-        case .accessibility:
-            GameLocalizedStrings.string("settings_voiceover_friend_overtake_announcements")
-        case .controls:
-            GameLocalizedStrings.string(controlsDescriptionKey)
-        case .purchases:
-            GameLocalizedStrings.string(
-                storeKit.hasPremiumAccessForGating
-                    ? "play_limit_thank_you"
-                    : "paywall_unlimited_and_themes"
-            )
-        case .about:
-            GameLocalizedStrings.string("about_app_subtitle")
-        case .debug:
-            GameLocalizedStrings.string("debug_simulate_premium_footer")
-        }
     }
 
     @ViewBuilder

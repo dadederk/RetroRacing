@@ -83,38 +83,6 @@ struct TVSettingsCategoryDetailView<Content: View>: View {
     }
 }
 
-struct TVSettingsCategoryOverview: View {
-    let category: TVSettingsCategory
-    let summary: String
-
-    @ScaledMetric(relativeTo: .title) private var iconContainerSize: CGFloat = 250
-    @ScaledMetric(relativeTo: .title) private var iconSize: CGFloat = 92
-
-    var body: some View {
-        VStack(spacing: 28) {
-            Image(systemName: category.systemImage)
-                .font(.system(size: iconSize, weight: .medium))
-                .foregroundStyle(.primary)
-                .frame(width: iconContainerSize, height: iconContainerSize)
-                .background(.secondary.opacity(0.16), in: .rect(cornerRadius: 44))
-                .accessibilityHidden(true)
-
-            Text(category.title)
-                .appFont(.title)
-                .multilineTextAlignment(.center)
-
-            Text(summary)
-                .appFont(.body)
-                .foregroundStyle(.secondary)
-                .multilineTextAlignment(.center)
-                .lineLimit(7)
-                .fixedSize(horizontal: false, vertical: true)
-        }
-        .frame(maxWidth: 560)
-        .accessibilityElement(children: .combine)
-    }
-}
-
 extension View {
     @ViewBuilder
     func tvNavigationLinkPickerStyle() -> some View {

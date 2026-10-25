@@ -99,6 +99,7 @@ extension RuntimeAssetOptimizationActionBuilder {
                 RuntimeAssetOptimizationVariant(name: "iphone", idiom: "iphone", maximumLongEdge: 226),
                 RuntimeAssetOptimizationVariant(name: "ipad", idiom: "ipad", maximumLongEdge: 226),
                 RuntimeAssetOptimizationVariant(name: "mac", idiom: "mac", maximumLongEdge: 226),
+                RuntimeAssetOptimizationVariant(name: "tv", idiom: "tv", maximumLongEdge: 226),
             ]
         )
     }

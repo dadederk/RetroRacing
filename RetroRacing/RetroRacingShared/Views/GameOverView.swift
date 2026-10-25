@@ -23,7 +23,11 @@ public struct GameOverView: View {
 
     @Environment(\.appTypography) var appTypography
     @Environment(\.colorScheme) var colorScheme
+    #if os(tvOS)
+    @ScaledMetric(relativeTo: .body) var avatarSize: CGFloat = 44
+    #else
     @ScaledMetric(relativeTo: .body) var avatarSize: CGFloat = 24
+    #endif
     @State private var pendingAchievementIDs: [AchievementIdentifier] = []
     @State private var presentedAchievementID: AchievementIdentifier?
     #if !os(watchOS) && !os(tvOS)

@@ -82,6 +82,9 @@ public struct SharePlayOverlayView: View {
             Text(title)
                 .appFont(.headline)
                 .multilineTextAlignment(.center)
+                .lineLimit(3)
+                .fixedSize(horizontal: false, vertical: true)
+                .frame(maxWidth: 520)
             if subtitleLines.isEmpty == false {
                 VStack(spacing: 4) {
                     ForEach(subtitleLines, id: \.self) { subtitle in

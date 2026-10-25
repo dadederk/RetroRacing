@@ -45,8 +45,8 @@ Shared SwiftUI views must avoid tvOS-unavailable APIs by using compile-time chec
 ## Settings (tvOS)
 
 - Settings is one full-screen destination in the menu's single `NavigationStack`, not a modal sheet. Menu/Back leaves Settings or Tutorial without Done buttons; Back at the menu root is inert and never reveals the pre-game canvas.
-- Settings uses a native top tab bar for Speed, Theme, Sound, Accessibility, Controls, Purchases, About, and Debug when available. Moving focus across the tabs switches category pages without a Select press.
-- Each category page uses a television-scale two-column composition: a semantic icon, title, and current-value summary on the left; a system `List` of controls on the right. Controls remain explicit actions so browsing categories cannot change preferences.
+- Settings uses a persistent sidebar/detail layout composed from system lists. The sidebar lists Speed, Theme, Sound, Accessibility, Controls, Purchases, About, and Debug when available; selecting a row updates the detail column.
+- Category details use system `List` controls and preserve the selected category while focus moves into its settings. Controls remain explicit actions so browsing categories cannot change preferences.
 - Category controls use system `List`, `Toggle`, and navigation-link `Picker` behavior with semantic TV-scale typography.
 - Theme embeds the complete selectable Styles gallery in its category page, followed by font and Big Cars controls; it does not push a gallery sub-screen.
 - The Sound Effects volume control uses a `Picker` with 5% steps (0% → 100%).
@@ -92,7 +92,7 @@ Both Universal and tvOS apps call these at startup.
 
 ## Testing
 
-Unit tests cover the mounted pre-game controller-listener lifecycle, platform presentation styles, vertical safe-area policy, category visibility, and shared SharePlay state transitions. tvOS UI-test launches suppress live Game Center authentication presentation so focus/navigation assertions are deterministic. tvOS UI tests cover Play, left/right remote commands, Play/Pause pause and resume, both outcomes of the Menu/Back finish-game alert, bounded Tutorial/Settings navigation, focus-driven settings tab changes, the embedded Theme gallery, menu-root Back behavior, utility-action placement, and menu focus restoration. Manual device QA covers FaceTime eligibility guidance and incoming/continued SharePlay sessions.
+Unit tests cover the mounted pre-game controller-listener lifecycle, platform presentation styles, vertical safe-area policy, category visibility, and shared SharePlay state transitions. tvOS UI-test launches suppress live Game Center authentication presentation so focus/navigation assertions are deterministic. tvOS UI tests cover Play, left/right remote commands, Play/Pause pause and resume, both outcomes of the Menu/Back finish-game alert, bounded Tutorial/Settings navigation, settings sidebar selection and detail updates, the embedded Theme gallery, menu-root Back behavior, utility-action placement, and menu focus restoration. Manual device QA covers FaceTime eligibility guidance and incoming/continued SharePlay sessions.
 
 After changes:
 

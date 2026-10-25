@@ -121,21 +121,9 @@ public struct MenuView: View {
 
     public var body: some View {
         NavigationStack(path: $navigationPath) {
-            menuContentContainer
+            menuRootContent
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .fontPreferenceStore(fontPreferenceStore)
-                .overlay(alignment: .topTrailing) {
-                    if style.utilityActionPlacement == .content {
-                        MenuUtilityActionsView(
-                            showsHelp: style.showsHelpAction,
-                            onHelp: presentHelp,
-                            onSettings: presentSettings
-                        )
-                        .padding(.top, style.utilityActionPadding)
-                        .padding(.trailing, style.utilityActionPadding)
-                        .modifier(MenuUtilityNavigationRegionModifier())
-                    }
-                }
             #if os(tvOS)
                 .focusScope(menuFocusScope)
             #endif
@@ -210,6 +198,27 @@ public struct MenuView: View {
         #endif
         .onDisappear {
             authModel.cancelAuthTimeout()
+        }
+    }
+
+    @ViewBuilder
+    private var menuRootContent: some View {
+        if style.utilityActionPlacement == .content {
+            menuContentContainer
+                .safeAreaInset(edge: .top, spacing: 0) {
+                    MenuUtilityActionsView(
+                        showsHelp: style.showsHelpAction,
+                        onHelp: presentHelp,
+                        onSettings: presentSettings
+                    )
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+                    .padding(.top, style.utilityActionPadding)
+                    .padding(.horizontal, style.utilityActionPadding)
+                    .padding(.bottom, 12)
+                    .modifier(MenuUtilityNavigationRegionModifier())
+                }
+        } else {
+            menuContentContainer
         }
     }
 
