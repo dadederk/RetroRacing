@@ -703,7 +703,7 @@ func testGivenRuntimeAssetManifestWhenLoadingThenPlatformBudgetsArePresent() thr
 }
 
 @Test
-func testGivenSharePlayAssetRulesWhenLoadingManifestThenWatchTVAndVisionAreExcluded() throws {
+func testGivenSharePlayResultAssetRulesWhenLoadingManifestThenWatchTVAndVisionAreExcluded() throws {
     let repositoryRoot = try RepositoryLocator.locate(
         containing: ["Scripts/Resources/runtime_asset_manifest.json"]
     )
@@ -716,6 +716,26 @@ func testGivenSharePlayAssetRulesWhenLoadingManifestThenWatchTVAndVisionAreExclu
     #expect(sharePlayRule.requiredIdioms == ["iphone", "ipad", "mac"])
     #expect(sharePlayRule.maximumLongEdge["iphone"] == 768)
     #expect(sharePlayRule.scalesByIdiom?["iphone"] == ["2x", "3x"])
+}
+
+@Test
+func testGivenSharePlayOverlayAssetRulesWhenLoadingManifestThenTVIsRequired() throws {
+    let repositoryRoot = try RepositoryLocator.locate(
+        containing: ["Scripts/Resources/runtime_asset_manifest.json"]
+    )
+    let manifest = try AssetAuditWorkflow.loadManifest(repositoryRoot: repositoryRoot)
+    let overlayPaths = [
+        "ConnectionLost.imageset",
+        "Icons/GetReady.imageset",
+        "Icons/WaitingForFriendToFinish.imageset",
+        "Icons/WaitingForFriendToJoin.imageset",
+    ]
+    let overlayRules = manifest.assets.filter { overlayPaths.contains($0.path) }
+
+    #expect(overlayRules.count == overlayPaths.count)
+    #expect(overlayRules.allSatisfy { $0.allowedIdioms.contains("tv") })
+    #expect(overlayRules.allSatisfy { $0.requiredIdioms.contains("tv") })
+    #expect(overlayRules.allSatisfy { $0.scalesByIdiom?["tv"] == ["1x"] })
 }
 
 @Test

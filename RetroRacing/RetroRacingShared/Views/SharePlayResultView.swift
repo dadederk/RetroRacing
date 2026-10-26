@@ -72,12 +72,14 @@ public struct SharePlayResultView: View {
                 }
                 .padding()
             }
-            #if os(iOS) || os(visionOS)
+            #if os(iOS) || os(tvOS) || os(visionOS)
             .safeAreaInset(edge: .bottom, spacing: 0) {
                 if usesBottomActionBar {
                     BottomActionBar { actions }
                 }
             }
+            #endif
+            #if os(iOS) || os(visionOS)
             .ignoresSafeArea(edges: .bottom)
             #endif
             .navigationTitle(navigationTitle)
@@ -118,16 +120,18 @@ public struct SharePlayResultView: View {
     private var actions: some View {
         switch state {
         case .finished:
-            VStack(spacing: 10) {
+            SharePlayResultActionGroup {
                 Button(action: onRetry) {
                     Text(GameLocalizedStrings.string("shareplay_retry_button"))
                         .appFont(.headline)
+                        .frame(maxWidth: .infinity)
                 }
                 .retroRacingPrimaryButtonStyle()
                 .bottomActionBarLargeContentViewer()
                 Button(action: onLeave) {
                     Text(GameLocalizedStrings.string("shareplay_leave_button"))
                         .appFont(.headline)
+                        .frame(maxWidth: .infinity)
                 }
                 .retroRacingSecondaryButtonStyle()
                 .bottomActionBarLargeContentViewer()
@@ -148,16 +152,18 @@ public struct SharePlayResultView: View {
                 .retroRacingSecondaryButtonStyle()
                 .bottomActionBarLargeContentViewer()
             } else {
-                VStack(spacing: 10) {
+                SharePlayResultActionGroup {
                     Button(action: onRetry) {
                         Text(retryButtonTitle(remoteReady: remoteReady))
                             .appFont(.headline)
+                            .frame(maxWidth: .infinity)
                     }
                     .retroRacingPrimaryButtonStyle()
                     .bottomActionBarLargeContentViewer()
                     Button(action: onLeave) {
                         Text(GameLocalizedStrings.string("shareplay_leave_button"))
                             .appFont(.headline)
+                            .frame(maxWidth: .infinity)
                     }
                     .retroRacingSecondaryButtonStyle()
                     .bottomActionBarLargeContentViewer()
@@ -405,4 +411,24 @@ public struct SharePlayResultView: View {
         }
     }
 
+}
+
+private struct SharePlayResultActionGroup<Content: View>: View {
+    let content: Content
+
+    init(@ViewBuilder content: () -> Content) {
+        self.content = content()
+    }
+
+    var body: some View {
+        #if os(tvOS)
+        HStack(spacing: 24) {
+            content
+        }
+        #else
+        VStack(spacing: 10) {
+            content
+        }
+        #endif
+    }
 }

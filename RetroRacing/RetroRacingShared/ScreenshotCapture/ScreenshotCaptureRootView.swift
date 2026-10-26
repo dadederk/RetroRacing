@@ -97,6 +97,12 @@ public struct ScreenshotCaptureRootView: View {
         layoutReadyContent
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .fontPreferenceStore(dependencies.screenshotFontPreferenceStore)
+            .modifier(
+                ScreenshotCaptureDynamicTypeModifier(
+                    usesMaximumAccessibilitySize: configuration.fixture
+                        .usesMaximumAccessibilityDynamicType
+                )
+            )
             .screenshotCaptureLocaleEnvironment()
             .screenshotCaptureColorScheme()
             .transaction { transaction in
@@ -477,7 +483,14 @@ public struct ScreenshotCaptureRootView: View {
     }
 
     private var gameViewStyle: GameViewStyle {
-        isAppleTVCapture ? .tvOS : .universal
+        switch ScreenshotCaptureConfiguration.capturePlatform?.lowercased() {
+        case "appletv", "tv", "tvos":
+            .tvOS
+        case "ipad", "mac":
+            .universalLargeScreen
+        default:
+            .universal
+        }
     }
 
     private var inputAdapterFactory: any GameInputAdapterFactory {
@@ -547,6 +560,19 @@ public struct ScreenshotCaptureRootView: View {
         }
         if isLayoutReady != shouldBeReady {
             isLayoutReady = shouldBeReady
+        }
+    }
+}
+
+private struct ScreenshotCaptureDynamicTypeModifier: ViewModifier {
+    let usesMaximumAccessibilitySize: Bool
+
+    @ViewBuilder
+    func body(content: Content) -> some View {
+        if usesMaximumAccessibilitySize {
+            content.dynamicTypeSize(.accessibility5)
+        } else {
+            content
         }
     }
 }

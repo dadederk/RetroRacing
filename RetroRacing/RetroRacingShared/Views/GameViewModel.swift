@@ -38,6 +38,7 @@ final class GameViewModel {
     var selectedLaneMoveCueStyle: LaneMoveCueStyle
     var selectedBigRivalCarsEnabled: Bool
     var shouldStartGame: Bool
+    let friendMilestoneDiameterScale: CGFloat
     var runInputTelemetry = RunAchievementTelemetry()
     var friendSnapshot: FriendLeaderboardSnapshot?
     var runBaselineBestScore: Int = 0
@@ -82,7 +83,8 @@ final class GameViewModel {
         selectedAudioFeedbackMode: AudioFeedbackMode,
         selectedLaneMoveCueStyle: LaneMoveCueStyle,
         selectedBigRivalCarsEnabled: Bool,
-        shouldStartGame: Bool
+        shouldStartGame: Bool,
+        friendMilestoneDiameterScale: CGFloat = 1
     ) {
         self.leaderboardService = leaderboardService
         self.ratingService = ratingService
@@ -102,6 +104,7 @@ final class GameViewModel {
         self.selectedLaneMoveCueStyle = selectedLaneMoveCueStyle
         self.selectedBigRivalCarsEnabled = selectedBigRivalCarsEnabled
         self.shouldStartGame = shouldStartGame
+        self.friendMilestoneDiameterScale = friendMilestoneDiameterScale
 
         if case .finished(let result) = initialSharePlayUIState.state {
             captureSharePlayResultSocialStatsIfNeeded(

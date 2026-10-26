@@ -700,7 +700,7 @@ private let appleTVSlideOverrides: [Int: SlideCopy] = [
         "pl": ("Wybierz swój styl retro", "Poznaj pięć stylów retro, od Pocket po Disc."),
     ]),
     7: SlideCopy(byLocale: [
-        "en-US": ("Disc Style on the Big Screen", "A vivid late-1990s look made for Apple TV."),
+        "en-US": ("Cartridge Style on the Big Screen", "A bold 8-bit look made for Apple TV."),
         "de-DE": ("Disc-Stil auf dem großen Bildschirm", "Ein leuchtender Look der späten 90er, gemacht für Apple TV."),
         "nl-NL": ("Disc-stijl op het grote scherm", "Een levendige late-jaren-90-look, gemaakt voor Apple TV."),
         "it": ("Stile Disc sul grande schermo", "Un vivace look di fine anni '90 creato per Apple TV."),

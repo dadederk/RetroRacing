@@ -55,6 +55,7 @@ public struct GameLivesStatusView: View {
     private let bundle: Bundle
     private let visibleHeight: CGFloat
     private let spacing: CGFloat
+    private let consumedOpacity: Double
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
@@ -63,13 +64,15 @@ public struct GameLivesStatusView: View {
         lifeAssetName: String,
         bundle: Bundle,
         visibleHeight: CGFloat,
-        spacing: CGFloat = 4
+        spacing: CGFloat = 4,
+        consumedOpacity: Double = 0.3
     ) {
         self.lives = lives
         self.lifeAssetName = lifeAssetName
         self.bundle = bundle
         self.visibleHeight = visibleHeight
         self.spacing = spacing
+        self.consumedOpacity = consumedOpacity
     }
 
     public var body: some View {
@@ -80,7 +83,8 @@ public struct GameLivesStatusView: View {
                     bundle: bundle,
                     canvasSize: helmetCanvasSize,
                     outlineColor: Self.consumedOutlineColor,
-                    isConsumed: Self.isConsumed(position, lives: lives)
+                    isConsumed: Self.isConsumed(position, lives: lives),
+                    consumedOpacity: consumedOpacity
                 )
             }
         }
@@ -155,8 +159,8 @@ private struct LifeHelmetIconView: View {
     let canvasSize: CGSize
     let outlineColor: Color
     let isConsumed: Bool
+    let consumedOpacity: Double
 
-    private static let consumedOpacity: Double = 0.3
     private static let outlineDirections: [OutlineDirection] = [
         OutlineDirection(id: 0, xMultiplier: -1, yMultiplier: 0),
         OutlineDirection(id: 1, xMultiplier: 1, yMultiplier: 0),
@@ -175,7 +179,7 @@ private struct LifeHelmetIconView: View {
                     .transition(.opacity)
             }
             helmetImage()
-                .opacity(isConsumed ? Self.consumedOpacity : 1)
+                .opacity(isConsumed ? consumedOpacity : 1)
         }
         .frame(width: canvasSize.width, height: canvasSize.height)
     }

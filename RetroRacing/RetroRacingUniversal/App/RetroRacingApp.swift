@@ -556,7 +556,7 @@ struct RetroRacingApp: App {
             specialEventService: specialEventService,
             sharePlayMatchService: sharePlayMatchService,
             sharePlayUIState: sharePlayUIState,
-            style: .universal,
+            style: gameViewStyle,
             inputAdapterFactory: TouchInputAdapterFactory(),
             controllerInputSource: controllerInputSource,
             controlsDescriptionKey: controlsDescriptionKey,
@@ -591,7 +591,7 @@ struct RetroRacingApp: App {
             specialEventService: specialEventService,
             style: .universal,
             settingsStyle: .universal,
-            gameViewStyle: .universal,
+            gameViewStyle: gameViewStyle,
             controlsDescriptionKey: controlsDescriptionKey,
             showRateButton: true,
             inputAdapterFactory: TouchInputAdapterFactory(),
@@ -633,7 +633,7 @@ struct RetroRacingApp: App {
             specialEventService: specialEventService,
             style: .universal,
             settingsStyle: .universal,
-            gameViewStyle: .universal,
+            gameViewStyle: gameViewStyle,
             controlsDescriptionKey: controlsDescriptionKey,
             showRateButton: true,
             inputAdapterFactory: TouchInputAdapterFactory(),
@@ -704,6 +704,16 @@ struct RetroRacingApp: App {
         )
         #else
         $isMenuPresented
+        #endif
+    }
+
+    private var gameViewStyle: GameViewStyle {
+        #if os(macOS)
+        .universalLargeScreen
+        #elseif os(iOS)
+        UIDevice.current.userInterfaceIdiom == .pad ? .universalLargeScreen : .universal
+        #else
+        .universal
         #endif
     }
 

@@ -122,16 +122,14 @@ struct ThemeGallerySections: View {
                 } label: {
                     ThemeGalleryPreviewRow(preview: preview, state: state)
                 }
-                .buttonStyle(.plain)
+                .modifier(ThemeGallerySelectionButtonStyleModifier())
+                .tvFocusSafeSettingsRow()
                 .disabled(isSelectionDisabled || action == .waitForEntitlement)
                 .accessibilityLabel(preview.accessibilityDescription)
                 .accessibilityValue(state.accessibilityValue)
                 .accessibilityInputLabels([preview.name])
                 .accessibilityIdentifier("theme_style_option_\(preview.id.rawValue)")
                 .accessibilityAddTraits(state == .selected ? .isSelected : [])
-            } header: {
-                Text(preview.name)
-                    .retroSectionHeader()
             }
         }
     }
@@ -325,10 +323,21 @@ private struct ThemeGalleryPreviewRow: View {
 
     @ScaledMetric(relativeTo: .body) private var assetHeight: CGFloat = 52
     @ScaledMetric(relativeTo: .body) private var paletteHeight: CGFloat = 26
+    #if os(tvOS)
+    @ScaledMetric(relativeTo: .headline) private var themeNameWidth: CGFloat = 400
+    @ScaledMetric(relativeTo: .title2) private var stateIconSize: CGFloat = 36
+    #else
     @ScaledMetric(relativeTo: .body) private var stateIconSize: CGFloat = 22
+    #endif
 
     var body: some View {
-        HStack(alignment: .center, spacing: 12) {
+        #if os(tvOS)
+        HStack(alignment: .center, spacing: 24) {
+            Text(preview.name)
+                .appFont(.headline)
+                .lineLimit(2)
+                .frame(width: themeNameWidth, alignment: .leading)
+
             VStack(alignment: .leading, spacing: 14) {
                 ThemeGalleryAssetStrip(assets: preview.assets, height: assetHeight)
                 ThemeGalleryPaletteBar(palette: preview.palette, height: paletteHeight)
@@ -340,7 +349,45 @@ private struct ThemeGalleryPreviewRow: View {
                 reservesSpaceWhenAvailable: true
             )
         }
+        .tvSettingsCardContentPadding()
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .contentShape(Rectangle())
+        #else
+        VStack(alignment: .leading, spacing: 14) {
+            HStack(alignment: .firstTextBaseline, spacing: 12) {
+                Text(preview.name)
+                    .appFont(themeNameTextStyle)
+
+                Spacer(minLength: 12)
+
+                SettingsGalleryStateIndicator(
+                    state: state,
+                    size: stateIconSize,
+                    reservesSpaceWhenAvailable: true
+                )
+            }
+
+            ThemeGalleryAssetStrip(assets: preview.assets, height: assetHeight)
+            ThemeGalleryPaletteBar(palette: preview.palette, height: paletteHeight)
+        }
         .padding(.vertical, 8)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .contentShape(Rectangle())
+        #endif
+    }
+
+    private var themeNameTextStyle: Font.TextStyle {
+        .headline
+    }
+}
+
+private struct ThemeGallerySelectionButtonStyleModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        #if os(tvOS)
+        content.buttonStyle(.card)
+        #else
+        content.buttonStyle(.plain)
+        #endif
     }
 }
 

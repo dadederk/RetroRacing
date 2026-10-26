@@ -17,7 +17,7 @@
 ## Content Contract
 
 - App information links to the RetroRapid microsite.
-- Rate opens the App Store write-review URL directly through `openURL`.
+- Rate opens the App Store write-review URL directly through `openURL` on iPhone, iPad, Mac, and visionOS. tvOS opens the App Store product page so the system can expose its supported rating surface.
 - Social section links to the blog and Dani’s social profiles.
 - Giving Back reuses AMMEC copy from the paywall and uses `ExternalLinks.ammec`.
 - Also Supporting highlights Swift for Swifts.
@@ -34,7 +34,7 @@
 - Official font and license-source URLs also belong in `ExternalLinks`.
 - Review URL belongs in `AppStoreReviewURL`.
 - iOS opens normal web links in in-app Safari where supported.
-- Rate intentionally bypasses in-app Safari so the system can route to App Store review.
+- Rate intentionally bypasses in-app Safari so the system can route to the App Store.
 
 ## Localization and Accessibility
 
@@ -49,5 +49,5 @@
 ## Testing
 
 - Tests or previews should cover Settings exposing About, constructing `AboutView` without service
-  dependencies, Rate opening `AppStoreReviewURL.writeReview`, ordered font attribution descriptors,
+  dependencies, Rate resolving the platform-appropriate `AppStoreReviewURL` destination, ordered font attribution descriptors,
   candidate previews, and loading the bundled full license resource.

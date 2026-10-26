@@ -10,11 +10,12 @@
 
 ## Behavior Contract
 
-- Manual Rate buttons open `https://apps.apple.com/app/id6758641625?action=write-review`.
+- Manual Rate buttons on iPhone, iPad, Mac, and visionOS open `https://apps.apple.com/app/id6758641625?action=write-review`.
+- The tvOS About Rate button opens `https://apps.apple.com/app/id6758641625`, allowing the system App Store to present the product/rating surface without depending on the unsupported written-review action.
 - Menu Rate CTA appears only when `shouldShowFreeTierAffordances` is true: entitlements have resolved and the user is free. It stays hidden during startup, including when no paid entitlement is cached.
 - About Rate button is always available for voluntary rating.
 - Native StoreKit prompt is automatic and tied to positive gameplay timing, not manual taps.
-- tvOS keeps the menu engagement block hidden and uses a no-op rating provider.
+- tvOS keeps the menu engagement block hidden and uses a no-op automatic rating provider; its voluntary About action remains available.
 - visionOS uses the shared menu Rate CTA and App Store review URL; its automatic positive-gameplay prompt remains inactive until game-over service reporting is connected.
 
 ## Automatic Prompt Eligibility
@@ -40,4 +41,4 @@
 
 ## Testing
 
-- Unit tests cover prompt thresholds, per-version throttling, prompt-date persistence, menu rate/support policies, and About review URL routing.
+- Unit tests cover prompt thresholds, per-version throttling, prompt-date persistence, menu rate/support policies, and both About rating URL destinations. The tvOS App Store handoff requires final hardware QA.

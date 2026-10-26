@@ -54,7 +54,7 @@ struct SettingsGalleryStateIndicator: View {
         if let systemImageName = state.systemImageName {
             Image(systemName: systemImageName)
                 .font(.system(size: size, weight: .semibold))
-                .foregroundStyle(.pink)
+                .foregroundStyle(Color.accentColor)
                 .frame(width: size, height: size)
                 .accessibilityHidden(true)
         } else if reservesSpaceWhenAvailable {

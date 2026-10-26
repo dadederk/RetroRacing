@@ -10,11 +10,14 @@ import SwiftUI
 extension View {
     @ViewBuilder
     public func retroRacingPrimaryButtonStyle() -> some View {
-        #if os(visionOS)
+        #if os(tvOS) || os(visionOS)
         buttonStyle(.borderedProminent)
+            .buttonBorderShape(.capsule)
+            .tint(Color.accentColor)
         #else
         buttonStyle(.glassProminent)
             .buttonBorderShape(.capsule)
+            .tint(Color.accentColor)
         #endif
     }
 

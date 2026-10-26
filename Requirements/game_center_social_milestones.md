@@ -21,7 +21,7 @@
 - Show up to two nearest upcoming friend scores.
 - Resolve marker placement to visible upcoming cars.
 - Render compact avatar/initial markers above target cars with perspective-aware sizing.
-- iPadOS and macOS may scale badges larger than iPhone/tvOS.
+- iPadOS, macOS, and tvOS inject the expanded 2× presentation scale; iPhone injects the compact scale. The shared scene applies the provided scale without platform checks.
 - Marker accessibility labels include friend name and target score.
 
 ## Game-Over Recap

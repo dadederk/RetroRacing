@@ -34,6 +34,11 @@
       "filename" : "WaitingForFriendToFinish-mac-2x.png",
       "idiom" : "mac",
       "scale" : "2x"
+    },
+    {
+      "filename" : "WaitingForFriendToFinish-tv.png",
+      "idiom" : "tv",
+      "scale" : "1x"
     }
   ],
   "info" : {

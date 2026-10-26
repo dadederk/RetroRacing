@@ -64,6 +64,7 @@ public struct MenuView: View {
     @State private var paywallTrigger: PaywallTrigger? = nil
     @State private var authModel: MenuAuthModel
     @Namespace private var menuFocusScope
+    @FocusState private var isPlayFocused: Bool
 
     public init(
         leaderboardService: LeaderboardService,
@@ -126,6 +127,7 @@ public struct MenuView: View {
                 .fontPreferenceStore(fontPreferenceStore)
             #if os(tvOS)
                 .focusScope(menuFocusScope)
+                .defaultFocus($isPlayFocused, true, priority: .userInitiated)
             #endif
                 .toolbar {
                     if style.utilityActionPlacement == .toolbar {
@@ -246,6 +248,7 @@ public struct MenuView: View {
         MenuContentView(
             style: style,
             menuFocusScope: menuFocusScope,
+            playFocus: $isPlayFocused,
             showRateButton: shouldShowRateButton,
             showSupportButton: shouldShowSupportButton,
             isLeaderboardAuthenticated: authModel.isAuthenticated,

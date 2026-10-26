@@ -12,8 +12,10 @@ extension GameOverView {
         VStack(spacing: gameOverContentSpacing) {
             #if os(tvOS)
             Text(GameLocalizedStrings.string("game_over_encouragement_title"))
-                .appFont(.headline)
+                .appFont(.largeTitle)
                 .multilineTextAlignment(.center)
+                .lineLimit(2)
+                .accessibilityAddTraits(.isHeader)
             #endif
             heroImage
             subtitleText
@@ -96,7 +98,7 @@ extension GameOverView {
             .padding(.top, 4)
     }
 
-    #if os(iOS) || os(visionOS)
+    #if os(iOS) || os(tvOS) || os(visionOS)
     var bottomActionBar: some View {
         BottomActionBar {
             actionButtonsContent
@@ -104,22 +106,39 @@ extension GameOverView {
     }
     #endif
 
+    @ViewBuilder
     private var actionButtonsContent: some View {
-        VStack(spacing: 10) {
-            Button(action: onRestart) {
-                Text(GameLocalizedStrings.string("restart"))
-                    .appFont(.headline)
-            }
-            .retroRacingPrimaryButtonStyle()
-            .bottomActionBarLargeContentViewer()
-
-            Button(action: onFinish) {
-                Text(GameLocalizedStrings.string("finish"))
-                    .appFont(.headline)
-            }
-            .retroRacingSecondaryButtonStyle()
-            .bottomActionBarLargeContentViewer()
+        #if os(tvOS)
+        HStack(spacing: 24) {
+            restartButton
+            finishButton
         }
+        #else
+        VStack(spacing: 10) {
+            restartButton
+            finishButton
+        }
+        #endif
+    }
+
+    private var restartButton: some View {
+        Button(action: onRestart) {
+            Text(GameLocalizedStrings.string("restart"))
+                .appFont(.headline)
+                .frame(maxWidth: .infinity)
+        }
+        .retroRacingPrimaryButtonStyle()
+        .bottomActionBarLargeContentViewer()
+    }
+
+    private var finishButton: some View {
+        Button(action: onFinish) {
+            Text(GameLocalizedStrings.string("finish"))
+                .appFont(.headline)
+                .frame(maxWidth: .infinity)
+        }
+        .retroRacingSecondaryButtonStyle()
+        .bottomActionBarLargeContentViewer()
     }
 
     var gameOverContentSpacing: CGFloat {

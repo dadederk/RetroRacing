@@ -11,7 +11,7 @@ struct GameSpeedAlertView: View {
     let input: GameHUDInput
     let usesCompactLandscapeLayout: Bool
 
-    @ScaledMetric(relativeTo: .body) private var iconMinimumHeight: CGFloat = 56
+    @ScaledMetric(relativeTo: .body) private var iconScale: CGFloat = 1
 
     var body: some View {
         Group {
@@ -40,7 +40,7 @@ struct GameSpeedAlertView: View {
         Image("HeyHo", bundle: input.bundle)
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .frame(height: iconMinimumHeight)
+            .frame(height: input.style.speedAlertIconHeight * iconScale)
             .accessibilityLabel(GameLocalizedStrings.string("speed_alert_hey_ho"))
     }
 

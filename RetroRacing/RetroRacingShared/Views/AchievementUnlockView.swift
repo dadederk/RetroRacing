@@ -47,10 +47,12 @@ public struct AchievementUnlockView: View {
             ScrollView {
                 achievementMainContent
             }
-            #if os(iOS) || os(visionOS)
+            #if os(iOS) || os(tvOS) || os(visionOS)
             .safeAreaInset(edge: .bottom, spacing: 0) {
                 bottomActionBar
             }
+            #endif
+            #if os(iOS) || os(visionOS)
             .ignoresSafeArea(edges: .bottom)
             #endif
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)

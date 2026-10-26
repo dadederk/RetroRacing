@@ -158,15 +158,18 @@ Use when copy/fixtures/locales already exist and you only need new pixels.
 # One platform, selected locales/slides
 ./retrorapid screenshots capture --platform iphone --locales ja,ko --slides 4,5,6,7,8 --force
 
-# All shipping platforms
-./retrorapid screenshots capture --all-platforms --force
+# Alternate appearance in Studio order; repeat per platform and locale scope
+./retrorapid screenshots capture --platform tv --slides 0,2,4,6,8 --appearance light --force
+./retrorapid screenshots capture --platform tv --slides 1,3,5,7,9 --appearance dark --force
 ```
 
 | Platform | Slides | Notes |
 |---|---|---|
 | iPhone / iPad | 0–9 | JPEG; iPad landscape |
 | Mac | 0–8 | PNG; no SharePlay slide (indices shift after 3) |
-| Watch | 0–4 | JPEG; sequence-only overlays; set simulator locale via CLI |
+| Watch | 0–6 | JPEG; sequence-only overlays; set simulator locale via CLI |
+
+Every platform uses light appearance for even-numbered slides and dark appearance for odd-numbered slides. Capture the two groups separately; adjust the final slide index to the platform's storyboard length.
 
 ### After capture
 

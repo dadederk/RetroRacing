@@ -15,7 +15,7 @@ extension View {
     /// Whether this platform renders action buttons in a floating bottom bar
     /// rather than inline with the scroll content.
     var usesBottomActionBar: Bool {
-        #if os(iOS) || os(visionOS)
+        #if os(iOS) || os(tvOS) || os(visionOS)
         true
         #else
         false
@@ -45,7 +45,7 @@ extension View {
     }
 }
 
-#if os(iOS) || os(visionOS)
+#if os(iOS) || os(tvOS) || os(visionOS)
 
 /// Floating glass action bar placed via `.safeAreaInset(edge: .bottom)`.
 ///
@@ -64,6 +64,19 @@ struct BottomActionBar<Content: View>: View {
     private let minimumCornerRadius: CGFloat = 24
 
     var body: some View {
+        #if os(tvOS)
+        VStack(spacing: 0) {
+            Divider()
+
+            content()
+                .dynamicTypeSize(...BottomActionBarLayoutPolicy.maximumActionDynamicTypeSize)
+                .controlSize(.large)
+                .padding(.horizontal, 48)
+                .padding(.vertical, 28)
+                .frame(maxWidth: .infinity)
+        }
+        .background(.regularMaterial)
+        #else
         let shape = ConcentricRectangle(
             corners: .concentric(minimum: .fixed(minimumCornerRadius)),
             isUniform: true
@@ -85,6 +98,7 @@ struct BottomActionBar<Content: View>: View {
             #endif
             .padding(edgePadding)
             .ignoresSafeArea(edges: .bottom)
+        #endif
     }
 }
 

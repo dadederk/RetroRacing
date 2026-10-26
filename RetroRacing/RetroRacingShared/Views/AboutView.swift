@@ -71,7 +71,7 @@ public struct AboutView: View {
     private var rateSection: some View {
         Section {
             Button {
-                openAppStoreReviewPage()
+                openAppStoreRatingPage()
             } label: {
                 HStack(spacing: 12) {
                     Image(systemName: "star.bubble.fill")
@@ -215,9 +215,14 @@ public struct AboutView: View {
         #endif
     }
 
-    private func openAppStoreReviewPage() {
-        guard let reviewURL = AppStoreReviewURL.writeReview else { return }
-        openURL(reviewURL)
+    private func openAppStoreRatingPage() {
+        #if os(tvOS)
+        let ratingURL = AppStoreReviewURL.productPage
+        #else
+        let ratingURL = AppStoreReviewURL.writeReview
+        #endif
+        guard let ratingURL else { return }
+        openURL(ratingURL)
     }
 }
 

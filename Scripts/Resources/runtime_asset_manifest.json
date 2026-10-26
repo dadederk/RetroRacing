@@ -36,7 +36,7 @@
       "targetDevices": [
         "tv"
       ],
-      "maximumAssetsCarBytes": 3056818
+      "maximumAssetsCarBytes": 3181160
     },
     {
       "platform": "vision",
@@ -178,12 +178,14 @@
       "allowedIdioms": [
         "iphone",
         "ipad",
-        "mac"
+        "mac",
+        "tv"
       ],
       "maximumLongEdge": {
         "iphone": 768,
         "ipad": 512,
-        "mac": 512
+        "mac": 512,
+        "tv": 360
       },
       "scalesByIdiom": {
         "iphone": [
@@ -196,12 +198,16 @@
         "mac": [
           "1x",
           "2x"
+        ],
+        "tv": [
+          "1x"
         ]
       },
       "requiredIdioms": [
         "iphone",
         "ipad",
-        "mac"
+        "mac",
+        "tv"
       ]
     },
     {
@@ -302,12 +308,14 @@
       "allowedIdioms": [
         "iphone",
         "ipad",
-        "mac"
+        "mac",
+        "tv"
       ],
       "maximumLongEdge": {
         "iphone": 256,
         "ipad": 256,
-        "mac": 256
+        "mac": 256,
+        "tv": 224
       },
       "scalesByIdiom": {
         "iphone": [
@@ -322,12 +330,16 @@
         "mac": [
           "1x",
           "2x"
+        ],
+        "tv": [
+          "1x"
         ]
       },
       "requiredIdioms": [
         "iphone",
         "ipad",
-        "mac"
+        "mac",
+        "tv"
       ]
     },
     {
@@ -335,12 +347,14 @@
       "allowedIdioms": [
         "iphone",
         "ipad",
-        "mac"
+        "mac",
+        "tv"
       ],
       "maximumLongEdge": {
         "iphone": 256,
         "ipad": 256,
-        "mac": 256
+        "mac": 256,
+        "tv": 224
       },
       "scalesByIdiom": {
         "iphone": [
@@ -355,12 +369,16 @@
         "mac": [
           "1x",
           "2x"
+        ],
+        "tv": [
+          "1x"
         ]
       },
       "requiredIdioms": [
         "iphone",
         "ipad",
-        "mac"
+        "mac",
+        "tv"
       ]
     },
     {
@@ -368,12 +386,14 @@
       "allowedIdioms": [
         "iphone",
         "ipad",
-        "mac"
+        "mac",
+        "tv"
       ],
       "maximumLongEdge": {
         "iphone": 256,
         "ipad": 256,
-        "mac": 256
+        "mac": 256,
+        "tv": 224
       },
       "scalesByIdiom": {
         "iphone": [
@@ -388,12 +408,16 @@
         "mac": [
           "1x",
           "2x"
+        ],
+        "tv": [
+          "1x"
         ]
       },
       "requiredIdioms": [
         "iphone",
         "ipad",
-        "mac"
+        "mac",
+        "tv"
       ]
     },
     {

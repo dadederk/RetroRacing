@@ -133,6 +133,10 @@ public enum ScreenshotSlideFixture: Equatable, Sendable, CaseIterable {
         self == .freeUserMenu
     }
 
+    public var usesMaximumAccessibilityDynamicType: Bool {
+        self == .accessibilitySettings
+    }
+
     public var usesPocketTheme: Bool {
         self == .pocketGameplay
     }
@@ -141,7 +145,7 @@ public enum ScreenshotSlideFixture: Equatable, Sendable, CaseIterable {
         if usesPocketTheme {
             switch platform?.lowercased() {
             case "appletv", "tv", "tvos":
-                return .thirtyTwoBit
+                return .eightBit
             default:
                 break
             }

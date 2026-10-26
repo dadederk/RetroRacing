@@ -18,20 +18,22 @@ import GameKit
 extension AchievementUnlockView {
     var achievementMainContent: some View {
         VStack(spacing: achievementContentSpacing) {
-            achievementArtwork(maxWidth: achievementArtworkMaxWidth)
-
             #if os(watchOS)
             Text(GameLocalizedStrings.string("achievement_modal_title"))
                 .appFont(.body)
                 .multilineTextAlignment(.center)
             #elseif os(tvOS)
             Text(GameLocalizedStrings.string("achievement_modal_title"))
-                .appFont(.headline)
+                .appFont(.largeTitle)
                 .multilineTextAlignment(.center)
+                .lineLimit(2)
+                .accessibilityAddTraits(.isHeader)
             #endif
 
+            achievementArtwork(maxWidth: achievementArtworkMaxWidth)
+
             Text(achievementTitle)
-                .appFont(.headline)
+                .appFont(achievementTitleTextStyle)
                 .multilineTextAlignment(.center)
 
             Text(achievementDescription)
@@ -53,6 +55,14 @@ extension AchievementUnlockView {
         gcMetadata[achievementID.rawValue]?.title ?? achievementID.localizedTitle
     }
 
+    var achievementTitleTextStyle: Font.TextStyle {
+        #if os(tvOS)
+        .title2
+        #else
+        .headline
+        #endif
+    }
+
     /// Uses the Game Center achieved description when available,
     /// falling back to the local ASC-aligned achieved description.
     var achievementDescription: String {
@@ -68,7 +78,7 @@ extension AchievementUnlockView {
             .padding(.top, 2)
     }
 
-    #if os(iOS) || os(visionOS)
+    #if os(iOS) || os(tvOS) || os(visionOS)
     var bottomActionBar: some View {
         BottomActionBar {
             achievementActionButtonsContent
@@ -76,14 +86,14 @@ extension AchievementUnlockView {
     }
     #endif
 
+    @ViewBuilder
     private var achievementActionButtonsContent: some View {
+        #if os(tvOS)
+        doneButton
+            .frame(maxWidth: 520)
+        #else
         VStack(spacing: 10) {
-            Button(action: onDone) {
-                Text(GameLocalizedStrings.string("done"))
-                    .appFont(.body)
-            }
-            .retroRacingPrimaryButtonStyle()
-            .bottomActionBarLargeContentViewer()
+            doneButton
 
             if canOpenGameCenterAchievements {
                 Button(action: openGameCenterAchievements) {
@@ -94,6 +104,17 @@ extension AchievementUnlockView {
                 .bottomActionBarLargeContentViewer()
             }
         }
+        #endif
+    }
+
+    private var doneButton: some View {
+        Button(action: onDone) {
+            Text(GameLocalizedStrings.string("done"))
+                .appFont(.body)
+                .frame(maxWidth: .infinity)
+        }
+        .retroRacingPrimaryButtonStyle()
+        .bottomActionBarLargeContentViewer()
     }
 
     func achievementArtwork(maxWidth: CGFloat) -> some View {

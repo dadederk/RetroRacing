@@ -1,10 +1,6 @@
 {
   "images" : [
     {
-      "idiom" : "iphone",
-      "scale" : "1x"
-    },
-    {
       "filename" : "Rematch-iphone-2x.png",
       "idiom" : "iphone",
       "scale" : "2x"
@@ -13,10 +9,6 @@
       "filename" : "Rematch-iphone-3x.png",
       "idiom" : "iphone",
       "scale" : "3x"
-    },
-    {
-      "idiom" : "ipad",
-      "scale" : "1x"
     },
     {
       "filename" : "Rematch-ipad-2x.png",

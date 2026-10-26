@@ -34,6 +34,11 @@
       "filename" : "GetReady-mac-2x.png",
       "idiom" : "mac",
       "scale" : "2x"
+    },
+    {
+      "filename" : "GetReady-tv.png",
+      "idiom" : "tv",
+      "scale" : "1x"
     }
   ],
   "info" : {

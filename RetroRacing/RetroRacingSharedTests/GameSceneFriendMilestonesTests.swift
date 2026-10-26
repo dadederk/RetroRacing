@@ -142,7 +142,42 @@ final class GameSceneFriendMilestonesTests: XCTestCase {
         )
     }
 
-    private func makeScene() -> GameScene {
+    func testGivenExpandedScaleWhenRenderingMilestoneThenBadgeIsTwiceCompactSize() throws {
+        // Given
+        let compactScene = makeScene(friendMilestoneDiameterScale: 1)
+        let expandedScene = makeScene(
+            friendMilestoneDiameterScale: FriendMilestoneConfiguration.expandedPlatformDiameterScale
+        )
+        let milestone = UpcomingFriendMilestone(
+            playerID: "friend-1",
+            displayName: "Alex",
+            targetScore: 1,
+            avatarPNGData: nil
+        )
+        for scene in [compactScene, expandedScene] {
+            scene.gridState = makeGridStateWithUpcomingCars()
+            scene.createGrid()
+        }
+
+        // When
+        compactScene.setUpcomingFriendMilestone(milestone)
+        expandedScene.setUpcomingFriendMilestone(milestone)
+        let compactMarker = try XCTUnwrap(
+            compactScene.children.first { $0.name == FriendMilestoneConfiguration.badgeNodeName }
+        )
+        let expandedMarker = try XCTUnwrap(
+            expandedScene.children.first { $0.name == FriendMilestoneConfiguration.badgeNodeName }
+        )
+
+        // Then
+        XCTAssertEqual(
+            expandedMarker.xScale,
+            compactMarker.xScale * FriendMilestoneConfiguration.expandedPlatformDiameterScale,
+            accuracy: 0.001
+        )
+    }
+
+    private func makeScene(friendMilestoneDiameterScale: CGFloat = 1) -> GameScene {
         GameScene(
             size: CGSize(width: 200, height: 200),
             theme: nil,
@@ -153,7 +188,8 @@ final class GameSceneFriendMilestonesTests: XCTestCase {
             audioFeedbackMode: .retro,
             laneMoveCueStyle: .laneConfirmationAndSafety,
             difficulty: .rapid,
-            gameEngine: makeDeterministicTestEngine()
+            gameEngine: makeDeterministicTestEngine(),
+            friendMilestoneDiameterScale: friendMilestoneDiameterScale
         )
     }
 

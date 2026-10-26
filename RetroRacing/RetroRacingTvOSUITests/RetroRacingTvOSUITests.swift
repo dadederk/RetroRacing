@@ -19,16 +19,20 @@ final class RetroRacingTvOSUITests: XCTestCase {
         app.launchArguments += ["--ui-testing", "-AppleLanguages", "(en)", "-AppleLocale", "en_US"]
         app.launch()
         let playButton = app.buttons["Play"]
+        let tutorialButton = app.buttons["Tutorial"]
         XCTAssertTrue(playButton.waitForExistence(timeout: 10))
-        XCTAssertTrue(playButton.hasFocus)
-        XCTAssertTrue(app.buttons["Tutorial"].exists)
+        XCTAssertTrue(waitForFocus(playButton))
+        XCTAssertTrue(tutorialButton.exists)
 
         // When
         select(playButton)
 
         // Then
+        XCTAssertTrue(
+            tutorialButton.waitForNonExistence(timeout: 5),
+            "Expected the menu to disappear after starting a game"
+        )
         XCTAssertFalse(app.buttons["Pause"].exists)
-        XCTAssertFalse(app.buttons["Tutorial"].exists)
         XCTAssertFalse(app.buttons["Menu"].exists)
 
         // When
@@ -75,7 +79,7 @@ final class RetroRacingTvOSUITests: XCTestCase {
         XCTAssertTrue(playButton.waitForExistence(timeout: 10))
         XCTAssertTrue(tutorialButton.waitForExistence(timeout: 5))
         XCTAssertTrue(settingsButton.waitForExistence(timeout: 5))
-        XCTAssertTrue(playButton.hasFocus)
+        XCTAssertTrue(waitForFocus(playButton))
 
         // When moving up from Play.
         XCUIRemote.shared.press(.up)
@@ -103,7 +107,12 @@ final class RetroRacingTvOSUITests: XCTestCase {
     func testGivenMenuWhenNavigatingHelpAndSettingsThenRemoteBackRestoresMenuFocus() throws {
         // Given
         let app = XCUIApplication()
-        app.launchArguments += ["--ui-testing", "-AppleLanguages", "(en)", "-AppleLocale", "en_US"]
+        app.launchArguments += [
+            "--ui-testing",
+            "-AppleLanguages", "(en)",
+            "-AppleLocale", "en_US",
+            "-AppleInterfaceStyle", "Dark",
+        ]
         app.launch()
         let playButton = app.buttons["Play"]
         let title = app.staticTexts["RetroRapid!"]
@@ -139,25 +148,59 @@ final class RetroRacingTvOSUITests: XCTestCase {
 
         // Then
         let settingsSidebar = app.descendants(matching: .any)["tv_settings_sidebar"]
-        let speedCategory = app.descendants(matching: .any)["tv_settings_category_speed"]
+        let gameCategory = app.descendants(matching: .any)["tv_settings_category_game"]
         let themeCategory = app.descendants(matching: .any)["tv_settings_category_theme"]
+        let accessibilityCategory = app.descendants(matching: .any)["tv_settings_category_accessibility"]
+        let aboutCategory = app.descendants(matching: .any)["tv_settings_category_about"]
         XCTAssertTrue(settingsSidebar.waitForExistence(timeout: 5))
-        XCTAssertTrue(speedCategory.waitForExistence(timeout: 5))
+        XCTAssertTrue(gameCategory.waitForExistence(timeout: 5))
         XCTAssertTrue(themeCategory.waitForExistence(timeout: 5))
-        XCTAssertTrue(speedCategory.hasFocus)
+        XCTAssertTrue(accessibilityCategory.waitForExistence(timeout: 5))
+        XCTAssertTrue(aboutCategory.waitForExistence(timeout: 5))
+        XCTAssertTrue(gameCategory.hasFocus)
         XCTAssertFalse(app.buttons["Done"].exists)
 
+        // The Game category exposes working, contrast-safe speed choices in dark appearance.
+        let cruiseOption = app.buttons["settings_speed_option_cruise"]
+        let fastOption = app.buttons["settings_speed_option_fast"]
+        let rapidOption = app.buttons["settings_speed_option_rapid"]
+        let fontSelection = app.buttons["settings_font_selection"]
+        XCTAssertTrue(cruiseOption.waitForExistence(timeout: 5))
+        XCTAssertTrue(fastOption.exists)
+        XCTAssertTrue(rapidOption.exists)
+        XCTAssertTrue(fontSelection.exists)
+        XCTAssertTrue(app.staticTexts["Fast"].exists)
+        XCTAssertTrue(app.staticTexts["Rapid"].exists)
+        XCUIRemote.shared.press(.right)
+        XCUIRemote.shared.press(.up)
+        XCUIRemote.shared.press(.up)
+        XCUIRemote.shared.press(.select)
+        XCTAssertTrue(fastOption.isSelected)
+        XCTAssertFalse(cruiseOption.isSelected)
+
         // When selecting another category from the sidebar.
-        XCUIRemote.shared.press(.down)
-        XCTAssertTrue(themeCategory.hasFocus)
+        XCUIRemote.shared.press(.left)
+        focusVertically(on: themeCategory)
         XCUIRemote.shared.press(.select)
 
-        // Then the detail column shows the selected category and embeds its gallery.
-        XCTAssertTrue(
-            app.descendants(matching: .any)["tv_settings_category_content_theme"]
-                .waitForExistence(timeout: 5)
-        )
+        // Then the detail column shows the selected category's gallery.
+        XCTAssertTrue(app.buttons["theme_style_option_pocket"].waitForExistence(timeout: 5))
         XCTAssertFalse(app.buttons["Styles"].exists)
+
+        // Accessibility contains the tvOS parity controls and warning preview.
+        focusVertically(on: accessibilityCategory)
+        XCUIRemote.shared.press(.select)
+        XCTAssertTrue(
+            app.descendants(matching: .any)["Big Cars"].waitForExistence(timeout: 5)
+        )
+        XCTAssertTrue(app.descendants(matching: .any)["Announce friend overtakes"].exists)
+        XCTAssertTrue(app.staticTexts["Speed increase warning feedback"].exists)
+        XCTAssertTrue(app.buttons["Preview warning"].exists)
+
+        // About exposes the App Store rating entry point without invoking it in tests.
+        focusVertically(on: aboutCategory)
+        XCUIRemote.shared.press(.select)
+        XCTAssertTrue(app.buttons["Rate RetroRapid!"].waitForExistence(timeout: 5))
 
         // When Settings is already showing the selected category page.
         XCUIRemote.shared.press(.menu)
@@ -192,4 +235,34 @@ final class RetroRacingTvOSUITests: XCTestCase {
         XCTAssertTrue(element.hasFocus, "Expected element to receive focus", file: file, line: line)
         remote.press(.select)
     }
+
+    @MainActor
+    private func waitForFocus(_ element: XCUIElement, timeout: TimeInterval = 3) -> Bool {
+        let focusExpectation = XCTNSPredicateExpectation(
+            predicate: NSPredicate { candidate, _ in
+                (candidate as? XCUIElement)?.hasFocus == true
+            },
+            object: element
+        )
+        return XCTWaiter.wait(for: [focusExpectation], timeout: timeout) == .completed
+    }
+
+    @MainActor
+    private func focusVertically(
+        on element: XCUIElement,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) {
+        let remote = XCUIRemote.shared
+
+        for _ in 0..<8 where !element.hasFocus {
+            remote.press(.up)
+        }
+        for _ in 0..<8 where !element.hasFocus {
+            remote.press(.down)
+        }
+
+        XCTAssertTrue(element.hasFocus, "Expected element to receive focus", file: file, line: line)
+    }
+
 }

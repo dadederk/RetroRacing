@@ -76,7 +76,7 @@
   strip. Accessibility labels remain explicit.
 - The friend row keeps the score on the left and a right-aligned strip of three full-color helmets. The friend's score uses one semantic text style below the player's score, and its helmets scale from that same style. At accessibility sizes the score and right-aligned helmet strip may reflow onto separate lines rather than clip. Consumed friend lives fade from left to right using the same `3 → 0` presentation as local lives.
 - Friend helmets are unmarked and use the rival-driver palette from the viewer's locally selected theme. Theme asset names are never transported or synchronized; missing friend art safely reuses the local player-life art.
-- Overlay and result assets come from the first-party SharePlay artwork set.
+- Overlay and result assets come from the first-party SharePlay artwork set. Waiting, countdown, friend-finish, and connection-loss artwork provides explicit tvOS renditions so Apple TV never falls back to text-only cards.
 - VoiceOver countdown announcements are not posted for each second; generated countdown cues provide the audio timing.
 
 ## Testing

@@ -2,7 +2,7 @@
 
 Part of [App Store docs hub](../README.md).
 
-Last updated: 2026-10-22
+Last updated: 2026-10-26
 
 **Status:** localized base captures via `./retrorapid screenshots capture`. Studio **export** and Connect **upload** stay **manual**.
 
@@ -31,6 +31,10 @@ On October 6, Helm readback showed 20 locales on iPhone (two display sizes) and 
 
 The 20-locale model uses 17 independent sources plus three English-derived locales. `es-MX` is a source locale with Mexican Spanish in-app pixels; only `en-GB`, `en-AU`, and `en-CA` derive from `en-US`. Recapture a source locale only after its fluent reviewer approves the current digest in [`../localization/review-status.json`](../localization/review-status.json), and keep existing Studio assets until the replacements pass visual inspection.
 
+## Appearance pattern
+
+All platforms and source locales alternate appearance in Studio order: even-numbered slides are light and odd-numbered slides are dark. Run each platform as two grouped capture passes so the installed images keep that pattern. iPhone Duo combines the same appearance alternation with its existing open-even and closed-odd pose sequence.
+
 ## Storyboard (iPhone / iPad)
 
 Bodies ≤ ~10 English words. Mac omits SharePlay (nine slides; indices shift after 3). Watch: seven sequence slides ordered as hook gameplay, game over/new-best, action gameplay, achievement unlock, LCD/theme gameplay, menu, and settings — see capture contract.
@@ -58,13 +62,15 @@ Capture with `./retrorapid screenshots capture --platform iphoneDuo`. The workfl
 
 ## Apple TV storyboard
 
-Apple TV follows the ten-slide sequence above with native 1920×1080 captures. It uses the TV menu/settings layouts, omits haptics from accessibility copy, and replaces the Pocket showcase with the shipping Disc theme.
+Apple TV follows the ten-slide sequence above with native 3840×2160 captures. It uses the TV menu/settings layouts, omits haptics from accessibility copy, and replaces the Pocket showcase with the Cartridge theme so it contrasts with the Disc hook gameplay.
+
+The Accessibility settings slide uses Accessibility 5, the largest supported Dynamic Type size, so the screenshot demonstrates the app's large-text layout. Derived English locales reuse the `en-US` pixels through screenshot sync.
 
 | # | Title | English body | TV-specific treatment |
 |---:|---|---|---|
 | 4 | Accessibility Front and Center | VoiceOver, audio cues, larger text, and adaptable gameplay settings. | No haptics claim |
 | 7 | Choose Your Retro Aesthetic | Explore five retro styles, from Pocket to Disc. | TV theme selector |
-| 8 | Disc Style on the Big Screen | A vivid late-1990s look made for Apple TV. | Disc gameplay showcase |
+| 8 | Cartridge Style on the Big Screen | A bold 8-bit look made for Apple TV. | Cartridge gameplay showcase |
 
 All other Apple TV slides use the shared localized copy. Screenshot Studio must list `appleTv` in `selectedPlatforms` and contain ten images for each of the 20 locales before export.
 

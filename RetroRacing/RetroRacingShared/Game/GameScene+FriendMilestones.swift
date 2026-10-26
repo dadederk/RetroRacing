@@ -6,9 +6,6 @@
 //
 
 import SpriteKit
-#if os(iOS)
-import UIKit
-#endif
 
 enum FriendMilestoneConfiguration {
     static let badgeNodeName = "friend_milestone_badge"
@@ -19,7 +16,7 @@ enum FriendMilestoneConfiguration {
     static let minBadgeDiameter: CGFloat = 14
     static let maxBadgeDiameter: CGFloat = 42
     static let baseBadgeDiameterFactor: CGFloat = 0.56
-    /// iPad and Mac use larger cells; double badge size so markers stay readable.
+    /// Large-screen presentation styles double badge size so markers stay readable.
     static let expandedPlatformDiameterScale: CGFloat = 2
     static let sourceRenderDiameter: CGFloat = 96
     static let pointerHeightFactor: CGFloat = 0.19
@@ -30,20 +27,9 @@ enum FriendMilestoneConfiguration {
     static let carClearanceFactor: CGFloat = 0.009
     static let overlapSpacingFactor: CGFloat = 0.58
 
-    /// Perspective scaling still applies; this only boosts the overall badge size on large screens.
-    static var platformDiameterScale: CGFloat {
-        #if os(iOS)
-        UIDevice.current.userInterfaceIdiom == .pad ? expandedPlatformDiameterScale : 1
-        #elseif os(macOS)
-        expandedPlatformDiameterScale
-        #else
-        1
-        #endif
-    }
-
     static func clampedBadgeDiameter(
         scaledDiameter: CGFloat,
-        platformScale: CGFloat = platformDiameterScale
+        platformScale: CGFloat = 1
     ) -> CGFloat {
         let scaled = scaledDiameter * platformScale
         return max(
@@ -178,7 +164,10 @@ extension GameScene {
         let scaledDiameter = cellSize.width
             * FriendMilestoneConfiguration.baseBadgeDiameterFactor
             * scaleFactor
-        return FriendMilestoneConfiguration.clampedBadgeDiameter(scaledDiameter: scaledDiameter)
+        return FriendMilestoneConfiguration.clampedBadgeDiameter(
+            scaledDiameter: scaledDiameter,
+            platformScale: friendMilestoneDiameterScale
+        )
     }
 
     private func friendMilestoneCenterY(row: Int, cell: SKShapeNode, badgeDiameter: CGFloat) -> CGFloat {

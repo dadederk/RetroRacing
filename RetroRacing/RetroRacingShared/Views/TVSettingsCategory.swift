@@ -8,7 +8,7 @@
 import SwiftUI
 
 enum TVSettingsCategory: String, CaseIterable, Identifiable {
-    case speed
+    case game
     case theme
     case sound
     case accessibility
@@ -21,8 +21,8 @@ enum TVSettingsCategory: String, CaseIterable, Identifiable {
 
     var titleKey: String {
         switch self {
-        case .speed:
-            "settings_speed"
+        case .game:
+            "settings_game"
         case .theme:
             "settings_theme"
         case .sound:
@@ -46,8 +46,8 @@ enum TVSettingsCategory: String, CaseIterable, Identifiable {
 
     var systemImage: String {
         switch self {
-        case .speed:
-            "speedometer"
+        case .game:
+            "gearshape"
         case .theme:
             "paintpalette"
         case .sound:
@@ -65,9 +65,13 @@ enum TVSettingsCategory: String, CaseIterable, Identifiable {
         }
     }
 
-    static func visibleCategories(showsDebug: Bool) -> [TVSettingsCategory] {
-        allCases.filter { category in
-            category != .debug || showsDebug
+    static func visibleCategories(
+        showsDebug: Bool,
+        isScreenshotCapture: Bool = false
+    ) -> [TVSettingsCategory] {
+        let includesDebug = showsDebug && isScreenshotCapture == false
+        return allCases.filter { category in
+            category != .debug || includesDebug
         }
     }
 }
@@ -80,6 +84,65 @@ struct TVSettingsCategoryDetailView<Content: View>: View {
             content
         }
         .tvNavigationLinkPickerStyle()
+        .tvFocusSafeSettingsList()
+    }
+}
+
+struct GameDifficultySelectionButton: View {
+    @Binding private var selection: GameDifficulty
+    let difficulty: GameDifficulty
+    let isDisabled: Bool
+
+    init(
+        selection: Binding<GameDifficulty>,
+        difficulty: GameDifficulty,
+        isDisabled: Bool
+    ) {
+        _selection = selection
+        self.difficulty = difficulty
+        self.isDisabled = isDisabled
+    }
+
+    var body: some View {
+        Button {
+            selection = difficulty
+        } label: {
+            HStack(spacing: 16) {
+                Image(systemName: difficulty.gaugeSystemImageName)
+                    .foregroundStyle(.secondary)
+                    .accessibilityHidden(true)
+
+                Text(GameLocalizedStrings.string(difficulty.localizedNameKey))
+                    .appFont(.body)
+                    .foregroundStyle(.primary)
+
+                Spacer(minLength: 16)
+
+                if selection == difficulty {
+                    Image(systemName: "checkmark")
+                        .foregroundStyle(.tint)
+                        .accessibilityHidden(true)
+                }
+            }
+            .tvSettingsCardContentPadding()
+            .contentShape(Rectangle())
+        }
+        .modifier(TVSettingsSelectionButtonStyleModifier())
+        .tvFocusSafeSettingsRow()
+        .disabled(isDisabled)
+        .accessibilityAddTraits(selection == difficulty ? .isSelected : [])
+        .accessibilityIdentifier("settings_speed_option_\(difficulty.rawValue)")
+    }
+}
+
+private struct TVSettingsSelectionButtonStyleModifier: ViewModifier {
+    @ViewBuilder
+    func body(content: Content) -> some View {
+        #if os(tvOS)
+        content.buttonStyle(.card)
+        #else
+        content.buttonStyle(.plain)
+        #endif
     }
 }
 
@@ -88,6 +151,37 @@ extension View {
     func tvNavigationLinkPickerStyle() -> some View {
         #if os(tvOS)
         pickerStyle(.navigationLink)
+        #else
+        self
+        #endif
+    }
+
+    @ViewBuilder
+    func tvFocusSafeSettingsList() -> some View {
+        #if os(tvOS)
+        contentMargins(.horizontal, 56, for: .scrollContent)
+            .contentMargins(.vertical, 40, for: .scrollContent)
+            .scrollClipDisabled()
+        #else
+        self
+        #endif
+    }
+
+    @ViewBuilder
+    func tvSettingsCardContentPadding() -> some View {
+        #if os(tvOS)
+        padding(.horizontal, 24)
+            .padding(.vertical, 18)
+        #else
+        self
+        #endif
+    }
+
+    @ViewBuilder
+    func tvFocusSafeSettingsRow() -> some View {
+        #if os(tvOS)
+        listRowInsets(EdgeInsets(top: 12, leading: 12, bottom: 12, trailing: 12))
+            .listRowBackground(Color.clear)
         #else
         self
         #endif

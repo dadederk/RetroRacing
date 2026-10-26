@@ -1,10 +1,6 @@
 {
   "images" : [
     {
-      "idiom" : "iphone",
-      "scale" : "1x"
-    },
-    {
       "filename" : "ConnectionLost-iphone-2x.png",
       "idiom" : "iphone",
       "scale" : "2x"
@@ -13,10 +9,6 @@
       "filename" : "ConnectionLost-iphone-3x.png",
       "idiom" : "iphone",
       "scale" : "3x"
-    },
-    {
-      "idiom" : "ipad",
-      "scale" : "1x"
     },
     {
       "filename" : "ConnectionLost-ipad-2x.png",
@@ -32,6 +24,11 @@
       "filename" : "ConnectionLost-mac-2x.png",
       "idiom" : "mac",
       "scale" : "2x"
+    },
+    {
+      "filename" : "ConnectionLost-tv.png",
+      "idiom" : "tv",
+      "scale" : "1x"
     }
   ],
   "info" : {

@@ -10,6 +10,7 @@ import SwiftUI
 struct MenuContentView: View {
     let style: MenuViewStyle
     let menuFocusScope: Namespace.ID
+    let playFocus: FocusState<Bool>.Binding
     let showRateButton: Bool
     let showSupportButton: Bool
     let isLeaderboardAuthenticated: Bool
@@ -104,6 +105,7 @@ struct MenuContentView: View {
         #if os(tvOS)
         .frame(maxWidth: .infinity)
         .focusSection()
+        .focused(playFocus)
         .prefersDefaultFocus(true, in: menuFocusScope)
         #endif
     }

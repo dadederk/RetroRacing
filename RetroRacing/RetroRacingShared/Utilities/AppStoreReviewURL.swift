@@ -7,9 +7,15 @@
 
 import Foundation
 
-/// Centralized App Store URL used by manual "Rate the app" entry points.
+/// Centralized App Store URLs used by manual "Rate the app" entry points.
 public enum AppStoreReviewURL {
+    private static let productURL = "https://apps.apple.com/app/id6758641625"
+
     public static var writeReview: URL? {
-        URL(string: "https://apps.apple.com/app/id6758641625?action=write-review")
+        URL(string: "\(productURL)?action=write-review")
+    }
+
+    public static var productPage: URL? {
+        URL(string: productURL)
     }
 }

@@ -30,10 +30,11 @@
 - Source locales (17): `en-US`, `de-DE`, `nl-NL`, `it`, `fr-FR`, `fr-CA`, `es-ES`, `es-MX`, `ca`, `ja`, `ko`, `pt-BR`, `pt-PT`, `zh-Hant`, `zh-Hans`, `tr`, and `pl`.
 - Derived locales (3): `en-GB`, `en-AU`, and `en-CA` copy in-app pixels from `en-US`. Mexican Spanish is never derived from Spain Spanish.
 - `./retrorapid screenshots sync` may copy derived pixels and overlays but must never replace source locale captures with English.
-- iPhone, iPhone Duo, and iPad default to light appearance and marketing status bar unless flags override.
+- Every platform alternates appearance in Studio order for every source locale: even-numbered slides are light and odd-numbered slides are dark. Capture the two appearance groups separately for each platform so every installed Studio image matches this contract. iPhone, iPhone Duo, and iPad keep the marketing status bar unless flags override it.
+- The Apple TV Accessibility settings fixture uses Accessibility 5, the largest supported Dynamic Type size. Other fixtures retain their normal text-size environment.
 - iPhone Duo uses the ten universal slides and alternates display poses by Studio position: even-numbered slides are open and odd-numbered slides are closed. Capture groups every open slide before every closed slide, pauses once at each batch boundary, and requires the operator to confirm the matching Simulator pose before continuing.
 - Universal gameplay captures use the shipping navigation container and show the normal Menu, Help, and Play/Pause toolbar controls. Apple TV keeps its platform-specific toolbar-free gameplay presentation.
-- Gameplay fixtures resolve platform-era defaults deterministically: LCD on iPhone, Cartridge on iPad, CRT on Mac, Pocket on Apple Watch, and Disc on Apple TV. Capture applies that default through a volatile preference so persisted developer state cannot change the settings fixture. The dedicated theme showcase uses Pocket on iPhone, iPad, and Mac, LCD on Apple Watch, and Disc on Apple TV.
+- Gameplay fixtures resolve platform-era defaults deterministically: LCD on iPhone, Cartridge on iPad, CRT on Mac, Pocket on Apple Watch, and Disc on Apple TV. Capture applies that default through a volatile preference so persisted developer state cannot change the settings fixture. The dedicated theme showcase uses Pocket on iPhone, iPad, and Mac, LCD on Apple Watch, and Cartridge on Apple TV so the showcase is visually distinct from the Apple TV hook.
 - The dedicated theme showcase uses a distinct score, lives count, player lane, and traffic layout from the hook gameplay fixture even when a platform intentionally uses the same theme for both slides.
 - Watch leaves marketing clock override off by default.
 - Mac writes PNG captures and uses capture-specific window sizing.
@@ -45,6 +46,7 @@
 - Capture fixtures must avoid persisted user-default writes except explicit capture configuration paths.
 - Game Center/social refreshes are pinned where needed so fixtures stay deterministic.
 - Capture mode skips live Game Center bootstrap and lifecycle refresh work so host account state cannot appear in App Store screenshots.
+- Apple TV settings captures omit Debug categories and controls even when the capture host runs a Debug build.
 
 ## Operations
 

@@ -108,6 +108,7 @@ public class GameScene: SKScene {
     public private(set) var audioFeedbackMode: AudioFeedbackMode = .defaultMode
     public private(set) var laneMoveCueStyle: LaneMoveCueStyle = .defaultStyle
     public private(set) var bigRivalCarsEnabled = false
+    private(set) var friendMilestoneDiameterScale: CGFloat = 1
 
     private var lastGameUpdateTime: TimeInterval?
     private var hasConfiguredScene = false
@@ -198,7 +199,8 @@ public class GameScene: SKScene {
         laneMoveCueStyle: LaneMoveCueStyle,
         difficulty: GameDifficulty,
         bigRivalCarsEnabled: Bool = false,
-        gameEngine: any GameEngineProtocol
+        gameEngine: any GameEngineProtocol,
+        friendMilestoneDiameterScale: CGFloat = 1
     ) {
         self.gameEngine = gameEngine
         super.init(size: size)
@@ -210,6 +212,7 @@ public class GameScene: SKScene {
         self.audioFeedbackMode = audioFeedbackMode
         self.laneMoveCueStyle = laneMoveCueStyle
         self.bigRivalCarsEnabled = bigRivalCarsEnabled
+        self.friendMilestoneDiameterScale = friendMilestoneDiameterScale
         applyDifficulty(difficulty)
     }
 
@@ -249,7 +252,8 @@ public class GameScene: SKScene {
         hapticController: HapticFeedbackController? = nil,
         audioFeedbackMode: AudioFeedbackMode = .defaultMode,
         laneMoveCueStyle: LaneMoveCueStyle = .defaultStyle,
-        bigRivalCarsEnabled: Bool = false
+        bigRivalCarsEnabled: Bool = false,
+        friendMilestoneDiameterScale: CGFloat = 1
     ) -> GameScene {
         let scene = GameScene(
             size: size,
@@ -262,7 +266,8 @@ public class GameScene: SKScene {
             laneMoveCueStyle: laneMoveCueStyle,
             difficulty: difficulty,
             bigRivalCarsEnabled: bigRivalCarsEnabled,
-            gameEngine: gameEngine
+            gameEngine: gameEngine,
+            friendMilestoneDiameterScale: friendMilestoneDiameterScale
         )
         scene.anchorPoint = CGPoint(x: 0, y: 0)
         scene.scaleMode = .aspectFit
@@ -277,13 +282,15 @@ public class GameScene: SKScene {
         snapshot: GameSnapshot,
         theme: (any GameTheme)?,
         imageLoader: any ImageLoader,
-        bigRivalCarsEnabled: Bool = false
+        bigRivalCarsEnabled: Bool = false,
+        friendMilestoneDiameterScale: CGFloat = 1
     ) -> GameScene {
         let scene = GameScene(size: size)
         scene.rendersExternalSnapshots = true
         scene.theme = theme
         scene.imageLoader = imageLoader
         scene.bigRivalCarsEnabled = bigRivalCarsEnabled
+        scene.friendMilestoneDiameterScale = friendMilestoneDiameterScale
         scene.anchorPoint = CGPoint(x: 0, y: 0)
         scene.scaleMode = .aspectFit
         scene.render(snapshot: snapshot)
@@ -301,7 +308,8 @@ public class GameScene: SKScene {
         hapticController: HapticFeedbackController? = nil,
         audioFeedbackMode: AudioFeedbackMode = .defaultMode,
         laneMoveCueStyle: LaneMoveCueStyle = .defaultStyle,
-        bigRivalCarsEnabled: Bool = false
+        bigRivalCarsEnabled: Bool = false,
+        friendMilestoneDiameterScale: CGFloat = 1
     ) -> GameScene {
         let defaultSize = CGSize(width: 800, height: 600)
         return scene(
@@ -315,7 +323,8 @@ public class GameScene: SKScene {
             hapticController: hapticController,
             audioFeedbackMode: audioFeedbackMode,
             laneMoveCueStyle: laneMoveCueStyle,
-            bigRivalCarsEnabled: bigRivalCarsEnabled
+            bigRivalCarsEnabled: bigRivalCarsEnabled,
+            friendMilestoneDiameterScale: friendMilestoneDiameterScale
         )
     }
 

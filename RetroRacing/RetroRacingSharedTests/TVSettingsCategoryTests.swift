@@ -14,7 +14,7 @@ final class TVSettingsCategoryTests: XCTestCase {
 
         XCTAssertEqual(
             categories,
-            [.speed, .theme, .sound, .accessibility, .controls, .purchases, .about]
+            [.game, .theme, .sound, .accessibility, .controls, .purchases, .about]
         )
     }
 
@@ -23,5 +23,16 @@ final class TVSettingsCategoryTests: XCTestCase {
 
         XCTAssertEqual(categories.last, .debug)
         XCTAssertEqual(categories.count, 8)
+    }
+
+    func testGivenScreenshotCaptureWhenDebugFeaturesAreAvailableThenDebugIsExcluded() {
+        // Given / When
+        let categories = TVSettingsCategory.visibleCategories(
+            showsDebug: true,
+            isScreenshotCapture: true
+        )
+
+        // Then
+        XCTAssertFalse(categories.contains(.debug))
     }
 }

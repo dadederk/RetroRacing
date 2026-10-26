@@ -253,6 +253,25 @@ final class FontPreferenceStoreTests: XCTestCase {
         XCTAssertTrue(styles.allSatisfy { $0.friendHUDTextStyle == .title2 })
         XCTAssertFalse(GameViewStyle.universal.preservesVerticalSafeAreaMargins)
         XCTAssertTrue(GameViewStyle.tvOS.preservesVerticalSafeAreaMargins)
+        XCTAssertGreaterThan(
+            GameViewStyle.tvOS.lifeIconSize,
+            GameViewStyle.universal.lifeIconSize
+        )
+        XCTAssertGreaterThan(
+            GameViewStyle.tvOS.friendLifeIconSize,
+            GameViewStyle.universal.friendLifeIconSize
+        )
+        XCTAssertGreaterThan(
+            GameViewStyle.tvOS.consumedLifeIconOpacity,
+            GameViewStyle.universal.consumedLifeIconOpacity
+        )
+        XCTAssertGreaterThan(
+            GameViewStyle.tvOS.speedAlertIconHeight,
+            GameViewStyle.universal.speedAlertIconHeight
+        )
+        XCTAssertEqual(GameViewStyle.universal.friendMilestoneDiameterScale, 1)
+        XCTAssertEqual(GameViewStyle.universalLargeScreen.friendMilestoneDiameterScale, 2)
+        XCTAssertEqual(GameViewStyle.tvOS.friendMilestoneDiameterScale, 2)
     }
 
     func testGivenPlatformStylesWhenReadingPresentationThenSemanticAdaptiveContractsRemain() {

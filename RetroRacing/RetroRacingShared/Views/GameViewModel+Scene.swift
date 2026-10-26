@@ -59,6 +59,7 @@ extension GameViewModel {
             audioFeedbackMode: selectedAudioFeedbackMode,
             laneMoveCueStyle: selectedLaneMoveCueStyle,
             bigRivalCarsEnabled: selectedBigRivalCarsEnabled,
+            friendMilestoneDiameterScale: friendMilestoneDiameterScale,
             theme: theme,
             hapticController: hapticController,
             volume: volume
@@ -172,6 +173,7 @@ extension GameViewModel {
         audioFeedbackMode: AudioFeedbackMode,
         laneMoveCueStyle: LaneMoveCueStyle,
         bigRivalCarsEnabled: Bool,
+        friendMilestoneDiameterScale: CGFloat,
         theme: (any GameTheme)?,
         hapticController: HapticFeedbackController?,
         volume: Double
@@ -195,7 +197,8 @@ extension GameViewModel {
             hapticController: hapticController,
             audioFeedbackMode: audioFeedbackMode,
             laneMoveCueStyle: laneMoveCueStyle,
-            bigRivalCarsEnabled: bigRivalCarsEnabled
+            bigRivalCarsEnabled: bigRivalCarsEnabled,
+            friendMilestoneDiameterScale: friendMilestoneDiameterScale
         )
     }
 

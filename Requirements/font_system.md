@@ -51,12 +51,14 @@
 - The red gameplay direction buttons use a 120-point Large Title-relative baseline capped at the
   Extra Extra Extra Large Dynamic Type category so they do not expand with accessibility text sizes.
 - Keep compact panels and controls sized for the longest localized string and largest supported Dynamic Type sizes.
+- tvOS result modals use Large Title for “Well Played!” and “Achievement Completed,” with the achievement name using Title 2. These remain semantic styles rather than fixed point sizes.
 - macOS navigation title behavior may use a platform-appropriate exception when SwiftUI navigation chrome cannot reliably apply the custom app font.
 
 ## Platform Notes
 
 - iOS, iPadOS, macOS, watchOS, tvOS, and visionOS expose the shared font preference using native
   list/navigation containers and shared selection-row behavior.
+- tvOS 27 responds to the system text-size control, while tvOS 26 still uses the same semantic styles and adaptive layout. The tvOS category sidebar widens and permits wrapped labels at accessibility sizes.
 - `AppFontRegistry` registers all bundled faces once per process from the shared framework and app
   bundle, treats PostScript-name presence as authoritative (including `UIAppFonts` registration),
   and injects an immutable availability snapshot into the store.

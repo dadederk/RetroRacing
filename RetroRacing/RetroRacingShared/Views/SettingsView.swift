@@ -50,7 +50,7 @@ public struct SettingsView: View {
     @State private var showingRestoreAlert = false
     @State private var showingOfferCodeRedemption = false
     @State private var presentedSettingsSheet: PresentedSettingsSheet?
-    @State private var selectedTVSettingsCategory: TVSettingsCategory = .speed
+    @State private var selectedTVSettingsCategory: TVSettingsCategory = .game
     @Namespace private var tvSettingsCategoryFocusScope
     #if os(macOS)
     @State private var offerCodeRedemptionHostController: NSViewController?
@@ -124,7 +124,7 @@ public struct SettingsView: View {
         case .themeAndFont, .customize:
             .theme
         case nil:
-            .speed
+            .game
         }
     }
     public var body: some View {
@@ -230,100 +230,45 @@ public struct SettingsView: View {
     }
 
     private var tvSettingsSidebarDetailView: some View {
-        HStack(spacing: 0) {
-            VStack(alignment: .leading, spacing: 16) {
-                Text(GameLocalizedStrings.string("settings"))
-                    .appFont(.title2)
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.65)
-                    .padding(.horizontal, 48)
-                    .padding(.top, 40)
-
-                List(tvSettingsCategories) { category in
-                    Button {
-                        selectedTVSettingsCategory = category
-                    } label: {
-                        Label(category.title, systemImage: category.systemImage)
-                            .appFont(.body)
-                            .foregroundStyle(
-                                category == selectedTVSettingsCategory ? Color.white : Color.primary
-                            )
-                    }
-                    .buttonStyle(.plain)
-                    .listRowBackground(
-                        category == selectedTVSettingsCategory
-                            ? Color.accentColor
-                            : Color.clear
-                    )
-                    .accessibilityIdentifier("tv_settings_category_\(category.rawValue)")
-                    #if os(tvOS)
-                    .focusable(screenshotFocus == nil)
-                    .prefersDefaultFocus(
-                        category == selectedTVSettingsCategory,
-                        in: tvSettingsCategoryFocusScope
-                    )
-                    #endif
-                }
-                .listStyle(.plain)
-            }
-            .frame(width: 560)
-            .background(.regularMaterial)
-            .accessibilityIdentifier("tv_settings_sidebar")
-
-            Divider()
-
-            VStack(spacing: 0) {
-                Text(selectedTVSettingsCategory.title)
-                    .appFont(.title)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.horizontal, 56)
-                    .padding(.top, 40)
-                    .padding(.bottom, 18)
-
-                tvSettingsDestination(for: selectedTVSettingsCategory)
-                    .accessibilityIdentifier(
-                        "tv_settings_category_content_\(selectedTVSettingsCategory.rawValue)"
-                    )
-            }
-        }
-        #if os(tvOS)
-        .focusScope(tvSettingsCategoryFocusScope)
-        #endif
-        .onAppear {
-            guard screenshotFocus != nil else { return }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.75) {
-                onScreenshotLayoutReady?()
-            }
+        TVSettingsSplitView(
+            categories: tvSettingsCategories,
+            selectedCategory: $selectedTVSettingsCategory,
+            isScreenshotCapture: screenshotFocus != nil,
+            focusScope: tvSettingsCategoryFocusScope,
+            onScreenshotLayoutReady: onScreenshotLayoutReady
+        ) {
+            tvSettingsDestination(for: selectedTVSettingsCategory)
         }
     }
 
     private var tvSettingsCategories: [TVSettingsCategory] {
         TVSettingsCategory.visibleCategories(
-            showsDebug: BuildConfiguration.shouldShowDebugFeatures
+            showsDebug: BuildConfiguration.shouldShowDebugFeatures,
+            isScreenshotCapture: screenshotFocus != nil
         )
     }
 
     @ViewBuilder
     private func tvSettingsDestination(for category: TVSettingsCategory) -> some View {
         switch category {
-        case .speed:
+        case .game:
             TVSettingsCategoryDetailView {
                 speedSection
+                fontSection
             }
         case .theme:
             TVSettingsCategoryDetailView {
                 tvThemeGallerySections
-                fontSection
-                tvAppearanceSection
             }
         case .sound:
             TVSettingsCategoryDetailView {
                 soundSection
-                tvSpeedWarningSection
             }
         case .accessibility:
             TVSettingsCategoryDetailView {
                 tvAccessibilitySection
+                tvAppearanceSection
+                tvSpeedWarningSection
             }
         case .controls:
             SettingsControlsHelpSheet(
@@ -675,28 +620,37 @@ public struct SettingsView: View {
 
     private var speedSection: some View {
         Section {
-            Picker(selection: preferencesStore.difficultySelection) {
+            if style.layout == .categories {
                 ForEach(GameDifficulty.allCases, id: \.self) { difficulty in
-                    Label {
-                        Text(GameLocalizedStrings.string(difficulty.localizedNameKey))
-                    } icon: {
-                        Image(systemName: difficulty.gaugeSystemImageName)
-                            .accessibilityHidden(true)
-                    }
-                    .appFont(.body)
-                    .accessibilityLabel(GameLocalizedStrings.string(difficulty.localizedNameKey))
-                    .tag(difficulty)
+                    GameDifficultySelectionButton(
+                        selection: preferencesStore.difficultySelection,
+                        difficulty: difficulty,
+                        isDisabled: isGameSessionInProgress
+                    )
                 }
-            } label: {
-                Text(GameLocalizedStrings.string("settings_speed"))
-                    .appFont(.body)
+            } else {
+                Picker(selection: preferencesStore.difficultySelection) {
+                    ForEach(GameDifficulty.allCases, id: \.self) { difficulty in
+                        Label {
+                            Text(GameLocalizedStrings.string(difficulty.localizedNameKey))
+                        } icon: {
+                            Image(systemName: difficulty.gaugeSystemImageName)
+                                .accessibilityHidden(true)
+                        }
+                        .appFont(.body)
+                        .accessibilityLabel(GameLocalizedStrings.string(difficulty.localizedNameKey))
+                        .tag(difficulty)
+                    }
+                } label: {
+                    Text(GameLocalizedStrings.string("settings_speed"))
+                        .appFont(.body)
+                }
+                .disabled(isGameSessionInProgress)
             }
-            .disabled(isGameSessionInProgress)
         } header: {
             settingsSectionHeader("settings_speed")
         }
         .id(ScreenshotCaptureIdentifiers.settingsCustomizeSection)
-        .accessibilityIdentifier(ScreenshotCaptureIdentifiers.settingsCustomizeSection)
     }
 
     private var soundSection: some View {
@@ -850,8 +804,6 @@ public struct SettingsView: View {
     private var tvSpeedWarningSection: some View {
         Section {
             speedWarningRows
-        } header: {
-            settingsSectionHeader("settings_speed_warning_feedback")
         }
     }
 
@@ -879,10 +831,18 @@ public struct SettingsView: View {
                 mode: preferencesStore.selectedSpeedWarningFeedbackMode
             )
         } label: {
-            Text(GameLocalizedStrings.string("settings_speed_warning_feedback_preview_warning"))
-                .appFont(.body)
+            Label {
+                Text(GameLocalizedStrings.string("settings_speed_warning_feedback_preview_warning"))
+                    .appFont(.body)
+            } icon: {
+                Image(systemName: "play.fill")
+                    .accessibilityHidden(true)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .tvSettingsCardContentPadding()
         }
-        .buttonStyle(.borderless)
+        .modifier(SettingsPreviewButtonStyleModifier())
+        .tvFocusSafeSettingsRow()
         .disabled(preferencesStore.shouldEnableSpeedWarningPreview == false)
     }
 
@@ -1205,6 +1165,17 @@ public struct SettingsView: View {
 
     /// Keeps section headers visible below the inline navigation title during screenshot capture.
     private static let screenshotSettingsScrollAnchor = UnitPoint(x: 0.5, y: 0.12)
+
+}
+
+private struct SettingsPreviewButtonStyleModifier: ViewModifier {
+    func body(content: Content) -> some View {
+        #if os(tvOS)
+        content.buttonStyle(.card)
+        #else
+        content.buttonStyle(.borderless)
+        #endif
+    }
 }
 
 #if os(iOS)

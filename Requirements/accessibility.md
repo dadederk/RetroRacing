@@ -41,7 +41,7 @@
 - Voice Control input labels include short and descriptive aliases: Left/Move left and Right/Move right.
 - HUD status and SpriteKit visuals are not Voice Control tap targets.
 - Settings speed options pair Cruise, Fast, and Rapid with decorative gauges at increasing needle positions; assistive technologies use the localized text names rather than the icon names.
-- Settings Styles rows are semantic buttons with localized theme descriptions and selected, locked, checking, or available values. The currently selected style exposes the selected accessibility trait in addition to its visual checkmark; locked and checking styles use distinct decorative lock and hourglass indicators.
+- Settings Styles rows are semantic buttons with localized theme descriptions and selected, locked, checking, or available values. Each row keeps its visible style name, artwork, palette, and state indicator inside one focusable element; the currently selected style exposes the selected accessibility trait in addition to a television-legible accent-colored checkmark. Locked and checking styles use distinct decorative lock and hourglass indicators.
 - App Icon Gallery rows are single semantic buttons with localized visual descriptions and selected, locked, checking, changing, or temporarily busy values. Preview art and state glyphs are decorative; native button, disabled, and selected traits remain authoritative.
 - The App Icon Gallery's native list preserves Classic, Themes, and Special Editions reading order for VoiceOver, Voice Control, Switch Control, and Full Keyboard Access. At accessibility Dynamic Type sizes, each row places its preview and state indicator together above a full-width name and caps the decorative preview at 180 points. A changing request does not dim or remove focus from unrelated rows; only unresolved-entitlement rows use the native disabled state.
 - tvOS maps Siri Remote directional input through `onMoveCommand`.
@@ -55,6 +55,7 @@
 - Speed warning feedback supports VoiceOver announcement, haptic, sound, or none, with haptics options hidden on unsupported platforms.
 - Speed warning announcement mode uses high-priority accessibility announcements.
 - In-game help includes previews/guidance for controls, audio cues, and speed warnings.
+- The tvOS Accessibility category exposes Big Cars, friend-overtake VoiceOver announcements, and speed-warning feedback with a secondary card-style preview action; these controls must not be hidden in Theme or Sound.
 
 ## Conditional Defaults
 
@@ -81,6 +82,8 @@
   when the horizontal presentation would clip.
 - Menu, Settings, About, paywall, galleries, game-over, achievements, SharePlay, and Vision ornaments
   must scroll or reflow rather than clip at large sizes. Menus never cap Dynamic Type.
+- On tvOS 27, Settings responds to the system text-size setting: accessibility sizes widen the category sidebar enough to keep its section heading intact and permit two-line category labels. tvOS 26 keeps the same semantic-font and reflow contract even where that system control is unavailable.
+- tvOS game-over and achievement modal headings use Large Title and the header trait; the achievement name beneath its modal heading uses Title 2.
 - Portrait gameplay stacks HUD above the game and controls below to avoid overlap.
 - Regular-width compact-height layouts may use side rails only below accessibility sizes. At
   accessibility sizes every orientation uses the full-width vertical HUD/game/control composition.
@@ -89,16 +92,17 @@
 - The red in-game direction buttons scale from the Large Title baseline but cap their Dynamic Type
   response at the Extra Extra Extra Large category so accessibility-size HUD text can grow without
   oversized controls.
-- Fixed bottom action bars on game-over, achievement, and SharePlay result screens let their action
-  labels scale through Extra Extra Extra Large, then expose each action through Large Content Viewer
-  at accessibility sizes. The surrounding screen content remains uncapped and scrollable.
+- Fixed bottom action bars on iOS, tvOS, and visionOS game-over, achievement, and SharePlay result
+  screens keep the actions available while the surrounding uncapped content scrolls. Action labels
+  scale through Extra Extra Extra Large; platforms with Large Content Viewer expose each action there
+  at accessibility sizes.
 
 ## Game-Over, Achievements, and Sharing
 
 - Game-over sheets are not interactively dismissible; Restart/Finish are explicit.
 - Decorative artwork and icons are hidden from accessibility when equivalent text exists.
 - Summary rows and social recaps are exposed in logical scroll order.
-- Achievement unlock sheets present above game over and include explicit Done plus Game Center link where supported.
+- Achievement unlock sheets present above game over, place the modal title before the artwork, and include explicit Done plus Game Center link where supported.
 - Share actions use semantic labels and export content-only images without action chrome.
 
 ## SharePlay Accessibility

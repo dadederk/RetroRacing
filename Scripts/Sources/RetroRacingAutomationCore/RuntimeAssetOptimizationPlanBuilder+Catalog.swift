@@ -16,7 +16,7 @@ extension RuntimeAssetOptimizationActionBuilder {
             RuntimeAssetOptimizationVariant(name: "mac-1x", idiom: "mac", scale: "1x", maximumLongEdge: 256),
             RuntimeAssetOptimizationVariant(name: "mac-2x", idiom: "mac", scale: "2x", maximumLongEdge: 512),
         ]
-        for name in ["WinWithFriend", "LoseWithFriend", "Tie", "Rematch", "ConnectionLost"] {
+        for name in ["WinWithFriend", "LoseWithFriend", "Tie", "Rematch"] {
             addImageset(
                 path: "\(name).imageset",
                 sourceFilename: "\(name).png",
@@ -24,6 +24,19 @@ extension RuntimeAssetOptimizationActionBuilder {
                 properties: ["template-rendering-intent": "original"]
             )
         }
+        addImageset(
+            path: "ConnectionLost.imageset",
+            sourceFilename: "ConnectionLost.png",
+            variants: variants + [
+                RuntimeAssetOptimizationVariant(
+                    name: "tv",
+                    idiom: "tv",
+                    scale: "1x",
+                    maximumLongEdge: 360
+                ),
+            ],
+            properties: ["template-rendering-intent": "original"]
+        )
     }
 
     mutating func addTemplateIcons() {
@@ -35,6 +48,7 @@ extension RuntimeAssetOptimizationActionBuilder {
             RuntimeAssetOptimizationVariant(name: "ipad-2x", idiom: "ipad", scale: "2x", maximumLongEdge: 192),
             RuntimeAssetOptimizationVariant(name: "mac-1x", idiom: "mac", scale: "1x", maximumLongEdge: 96),
             RuntimeAssetOptimizationVariant(name: "mac-2x", idiom: "mac", scale: "2x", maximumLongEdge: 192),
+            RuntimeAssetOptimizationVariant(name: "tv", idiom: "tv", scale: "1x", maximumLongEdge: 224),
         ]
         for name in ["GetReady", "WaitingForFriendToFinish", "WaitingForFriendToJoin"] {
             addImageset(

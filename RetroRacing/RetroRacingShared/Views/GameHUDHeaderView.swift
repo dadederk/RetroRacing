@@ -129,7 +129,8 @@ struct GameHUDHeaderView: View {
             lives: lives,
             lifeAssetName: input.friendLifeAssetName,
             bundle: input.bundle,
-            visibleHeight: input.style.friendLifeIconSize * friendLifeIconScale
+            visibleHeight: input.style.friendLifeIconSize * friendLifeIconScale,
+            consumedOpacity: input.style.consumedLifeIconOpacity
         )
         .accessibilityHidden(true)
     }
@@ -182,7 +183,8 @@ struct GameHUDHeaderView: View {
             lives: input.lives,
             lifeAssetName: input.lifeAssetName,
             bundle: input.bundle,
-            visibleHeight: input.style.lifeIconSize * lifeIconScale
+            visibleHeight: input.style.lifeIconSize * lifeIconScale,
+            consumedOpacity: input.style.consumedLifeIconOpacity
         )
         .accessibilityHidden(input.hidesFromAccessibility)
     }

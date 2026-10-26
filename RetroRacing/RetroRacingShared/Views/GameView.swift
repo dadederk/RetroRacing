@@ -184,7 +184,8 @@ public struct GameView: View {
             selectedAudioFeedbackMode: selectedAudioFeedbackMode,
             selectedLaneMoveCueStyle: selectedLaneMoveCueStyle,
             selectedBigRivalCarsEnabled: selectedBigRivalCarsEnabled,
-            shouldStartGame: shouldStartGame
+            shouldStartGame: shouldStartGame,
+            friendMilestoneDiameterScale: style.friendMilestoneDiameterScale
         ))
     }
 

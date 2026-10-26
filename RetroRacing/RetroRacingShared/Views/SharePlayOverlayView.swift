@@ -143,9 +143,25 @@ public struct SharePlayOverlayView: View {
             .renderingMode(usesTemplate ? .template : .original)
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .frame(maxWidth: usesTemplate ? 72 : 140)
+            .frame(width: usesTemplate ? templateAssetWidth : originalAssetWidth)
             .foregroundStyle(.primary)
             .accessibilityHidden(true)
+    }
+
+    private var templateAssetWidth: CGFloat {
+        #if os(tvOS)
+        112
+        #else
+        72
+        #endif
+    }
+
+    private var originalAssetWidth: CGFloat {
+        #if os(tvOS)
+        180
+        #else
+        140
+        #endif
     }
 
     private var sharePlayOpponentScoreLabel: String {
