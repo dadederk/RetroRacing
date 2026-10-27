@@ -62,17 +62,31 @@ Capture with `./retrorapid screenshots capture --platform iphoneDuo`. The workfl
 
 ## Apple TV storyboard
 
-Apple TV follows the ten-slide sequence above with native 3840×2160 captures. It uses the TV menu/settings layouts, omits haptics from accessibility copy, and replaces the Pocket showcase with the Cartridge theme so it contrasts with the Disc hook gameplay.
+Apple TV follows the same ten-step narrative arc with native 3840×2160 captures, but its English captions are written specifically for the big-screen experience. They lead with the feeling and outcome of play, then use searchable arcade-racing terms naturally. The TV sequence uses its native menu/settings layouts, omits haptics from accessibility copy, and replaces the Pocket showcase with the Cartridge theme so it contrasts with the Disc hook gameplay.
 
 The Accessibility settings slide uses Accessibility 5, the largest supported Dynamic Type size, so the screenshot demonstrates the app's large-text layout. Derived English locales reuse the `en-US` pixels through screenshot sync.
 
-| # | Title | English body | TV-specific treatment |
+| # | English title | English body | Story role |
 |---:|---|---|---|
-| 4 | Accessibility Front and Center | VoiceOver, audio cues, larger text, and adaptable gameplay settings. | No haptics claim |
-| 7 | Choose Your Retro Aesthetic | Explore five retro styles, from Pocket to Disc. | TV theme selector |
-| 8 | Cartridge Style on the Big Screen | A bold 8-bit look made for Apple TV. | Cartridge gameplay showcase |
+| 1 | Bring Retro Racing to the Big Screen | Dodge traffic, chase overtakes, and feel every close call. | Big-screen hook |
+| 2 | Every Run Gets Faster | Stay sharp as the speed climbs and traffic closes in. | Rising tension |
+| 3 | Crash. Restart. Beat Your Best. | Instant restarts keep your next high score within reach. | One-more-run loop |
+| 4 | Play the Way That Works for You | VoiceOver, audio cues, and larger text keep racing within reach. | Inclusive play |
+| 5 | Turn the Couch Into a Starting Grid | Race friends free with SharePlay, then rematch in seconds. | Live friend racing |
+| 6 | Make Every Overtake Personal | Friend markers turn every run into a score-chasing rivalry. | Personal competition |
+| 7 | Make the Arcade Yours | Choose five retro styles and race the one you love. | Personal expression |
+| 8 | Bring Back the 8-Bit Rush | Cartridge style fills the big screen with bold arcade energy. | Cartridge showcase |
+| 9 | Turn Great Runs Into Trophies | Unlock Game Center achievements as your racing skills grow. | Progress and mastery |
+| 10 | Your Next Run Starts Here | Play solo, race friends, or chase leaderboard glory. | Invitation to play |
 
-All other Apple TV slides use the shared localized copy. Screenshot Studio must list `appleTv` in `selectedPlatforms` and contain ten images for each of the 20 locales before export.
+All 17 source locales now use benefit-led transcreations of this story, with
+regional register preserved for `fr-CA`, `es-MX`, `pt-BR`, and `pt-PT`.
+The three derived English locales reuse `en-US` copy. Fluent approval remains
+tracked as `NEEDS_REVIEW` in
+[`localization/review-status.json`](../localization/review-status.json); do not
+describe these transcreations as native-approved until that record changes.
+Screenshot Studio must list `appleTv` in `selectedPlatforms` and contain ten
+images for each of the 20 locales before export.
 
 ## Platforms not in this campaign
 

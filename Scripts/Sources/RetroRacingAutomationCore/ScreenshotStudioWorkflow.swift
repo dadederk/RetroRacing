@@ -238,9 +238,7 @@ public enum ScreenshotStudioWorkflow {
         for index in platformSlides.indices {
             if platform == "appleTv",
                var design = platformSlides[index]["designConfiguration"] as? [String: Any] {
-                design["hideDeviceFrame"] = true
-                design["devicePosition"] = "fullBottom"
-                design["overrideDevicePosition"] = true
+                design = appleTVDesignConfiguration(from: design)
                 platformSlides[index]["designConfiguration"] = design
             }
             platformSlides[index]["localizations"] = try localizationEntries(
@@ -250,6 +248,16 @@ public enum ScreenshotStudioWorkflow {
             )
         }
         return .propertyList(url: url, value: platformSlides)
+    }
+
+    static func appleTVDesignConfiguration(
+        from current: [String: Any]
+    ) -> [String: Any] {
+        var design = current
+        design["hideDeviceFrame"] = false
+        design.removeValue(forKey: "devicePosition")
+        design.removeValue(forKey: "overrideDevicePosition")
+        return design
     }
 
     private static func expectedWatchDataPlist(
@@ -408,11 +416,10 @@ public enum ScreenshotStudioWorkflow {
         platform: String,
         slideIndex: Int
     ) -> SlideCopy {
-        if AppStoreScreenshotCaptureDefaults.normalizedPlatform(platform) == "appleTv",
-           let override = appleTVSlideOverrides[slideIndex] {
-            return override
+        guard AppStoreScreenshotCaptureDefaults.normalizedPlatform(platform) == "appleTv" else {
+            return slides[slideIndex]
         }
-        return slides[slideIndex]
+        return appleTVSlides[slideIndex]
     }
 
     private static func write(_ artifacts: [ExpectedArtifact]) throws {
@@ -660,63 +667,196 @@ private let slides: [SlideCopy] = [
     ]),
 ]
 
-private let appleTVSlideOverrides: [Int: SlideCopy] = [
-    3: SlideCopy(byLocale: [
-        "en-US": ("Accessibility Front and Center", "VoiceOver, audio cues, larger text, and adaptable gameplay settings."),
-        "de-DE": ("Barrierefreiheit im Mittelpunkt", "VoiceOver, Audiohinweise, größerer Text und anpassbare Spieleinstellungen."),
-        "nl-NL": ("Toegankelijkheid voorop", "VoiceOver, audiosignalen, grotere tekst en aanpasbare spelinstellingen."),
-        "it": ("Accessibilità al centro", "VoiceOver, segnali audio, testo più grande e impostazioni di gioco adattabili."),
-        "fr-FR": ("Accessibilité au premier plan", "VoiceOver, indices audio, texte plus grand et réglages de jeu adaptables."),
-        "fr-CA": ("Accessibilité au premier plan", "VoiceOver, indices audio, texte plus grand et réglages de jeu adaptables."),
-        "es-ES": ("Accesibilidad en primer plano", "VoiceOver, pistas de audio, texto más grande y ajustes de juego adaptables."),
-        "es-MX": ("Accesibilidad en primer plano", "VoiceOver, pistas de audio, texto más grande y ajustes de juego adaptables."),
-        "ca": ("Accessibilitat al davant", "VoiceOver, pistes d'àudio, text més gran i opcions de joc adaptables."),
-        "ja": ("アクセシビリティを前面に", "VoiceOver、音声キュー、大きい文字、調整可能な設定。"),
-        "ko": ("접근성을 중심에", "VoiceOver, 오디오 큐, 큰 텍스트, 맞춤 설정."),
-        "pt-BR": ("Acessibilidade em destaque", "VoiceOver, pistas sonoras, texto maior e ajustes adaptáveis."),
-        "pt-PT": ("Acessibilidade em destaque", "VoiceOver, pistas sonoras, texto maior e definições adaptáveis."),
-        "zh-Hant": ("無障礙設計放首位", "VoiceOver、音效提示、較大字體與可調設定。"),
-        "zh-Hans": ("无障碍设计放首位", "VoiceOver、音效提示、较大字体与可调设置。"),
-        "tr": ("Erişilebilirlik her şeyden önce", "VoiceOver, ses ipuçları, büyük metin ve uyarlanabilir ayarlar."),
-        "pl": ("Dostępność na pierwszym planie", "VoiceOver, wskazówki dźwiękowe, większy tekst i ustawienia adaptacyjne."),
+private let appleTVSlides: [SlideCopy] = [
+    SlideCopy(byLocale: [
+        "en-US": ("Bring Retro Racing to the Big Screen", "Dodge traffic, chase overtakes, and feel every close call."),
+        "de-DE": ("Retro-Rennen auf dem großen Bildschirm", "Weiche dem Verkehr aus, überhole und erlebe jedes knappe Manöver."),
+        "nl-NL": ("Retro-racen op het grote scherm", "Ontwijk verkeer, haal in en voel de spanning van elke nipte manoeuvre."),
+        "it": ("Porta le corse retrò sul grande schermo", "Schiva il traffico, sorpassa e vivi ogni manovra al limite."),
+        "fr-FR": ("La course rétro sur grand écran", "Esquive le trafic, dépasse tes rivaux et frôle la collision."),
+        "fr-CA": ("La course rétro sur grand écran", "Évitez le trafic, dépassez vos rivaux et frôlez la collision."),
+        "es-ES": ("Lleva las carreras retro a la gran pantalla", "Esquiva el tráfico, adelanta y siente cada maniobra al límite."),
+        "es-MX": ("Lleva las carreras retro a la pantalla grande", "Esquiva el tráfico, rebasa y siente cada maniobra al límite."),
+        "ca": ("Porta les carreres retro a la pantalla gran", "Esquiva el trànsit, avança rivals i sent cada maniobra al límit."),
+        "ja": ("大画面で楽しむレトロレース", "交通をかわし、追い抜きを決めて、ギリギリの興奮を味わおう。"),
+        "ko": ("큰 화면에서 즐기는 레트로 레이싱", "교통을 피하고 추월하며 아슬아슬한 순간을 느껴 보세요."),
+        "pt-BR": ("Leve a corrida retrô para a tela grande", "Desvie do tráfego, ultrapasse e sinta cada manobra no limite."),
+        "pt-PT": ("Leve as corridas retro ao grande ecrã", "Desvie-se do trânsito, ultrapasse e sinta cada manobra no limite."),
+        "zh-Hant": ("把復古賽車搬上大螢幕", "閃避車流、超越對手，感受每次驚險擦身。"),
+        "zh-Hans": ("把复古赛车搬上大屏幕", "闪避车流、超越对手，感受每次惊险擦身。"),
+        "tr": ("Retro yarışı büyük ekrana taşı", "Trafikten kaç, solla ve her kıl payı anın heyecanını yaşa."),
+        "pl": ("Przenieś wyścigi retro na duży ekran", "Omijaj ruch, wyprzedzaj i poczuj emocje przy każdym manewrze na granicy."),
     ]),
-    6: SlideCopy(byLocale: [
-        "en-US": ("Choose Your Retro Aesthetic", "Explore five retro styles, from Pocket to Disc."),
-        "de-DE": ("Wähle deinen Retro-Look", "Entdecke fünf Retro-Stile, von Pocket bis Disc."),
-        "nl-NL": ("Kies je retro-stijl", "Ontdek vijf retrostijlen, van Pocket tot Disc."),
-        "it": ("Scegli la tua estetica retro", "Scopri cinque stili retrò, da Pocket a Disc."),
-        "fr-FR": ("Choisis ton style retro", "Explore cinq styles rétro, de Pocket à Disc."),
-        "fr-CA": ("Choisissez votre style rétro", "Explorez cinq styles rétro, de Pocket à Disc."),
-        "es-ES": ("Elige tu estética retro", "Explora cinco estilos retro, desde Pocket hasta Disc."),
-        "es-MX": ("Elige tu estética retro", "Explora cinco estilos retro, desde Pocket hasta Disc."),
-        "ca": ("Tria la teua estètica retro", "Explora cinc estils retro, de Pocket a Disc."),
-        "ja": ("レトロ美学を選ぼう", "PocketからDiscまで、5つのレトロスタイルを楽しもう。"),
-        "ko": ("레트로 스타일 선택", "Pocket부터 Disc까지 다섯 가지 레트로 스타일을 만나보세요."),
-        "pt-BR": ("Escolha seu visual retro", "Explore cinco estilos retrô, de Pocket a Disc."),
-        "pt-PT": ("Escolha o seu visual retro", "Explore cinco estilos retro, de Pocket a Disc."),
-        "zh-Hant": ("選擇復古風格", "探索五種復古風格，從 Pocket 到 Disc。"),
-        "zh-Hans": ("选择复古风格", "探索五种复古风格，从 Pocket 到 Disc。"),
-        "tr": ("Retro tarzını seç", "Pocket'tan Disc'e beş retro tarzı keşfet."),
-        "pl": ("Wybierz swój styl retro", "Poznaj pięć stylów retro, od Pocket po Disc."),
+    SlideCopy(byLocale: [
+        "en-US": ("Every Run Gets Faster", "Stay sharp as the speed climbs and traffic closes in."),
+        "de-DE": ("Jede Runde wird schneller", "Bleib wachsam, wenn Tempo und Verkehr zunehmen."),
+        "nl-NL": ("Elke run gaat sneller", "Blijf scherp terwijl de snelheid stijgt en het verkeer dichter wordt."),
+        "it": ("Ogni partita accelera", "Resta all'erta mentre la velocità sale e il traffico si stringe."),
+        "fr-FR": ("Chaque partie accélère", "Reste concentré quand la vitesse grimpe et que le trafic se resserre."),
+        "fr-CA": ("Chaque partie accélère", "Restez alerte quand la vitesse grimpe et que le trafic se resserre."),
+        "es-ES": ("Cada partida va más rápido", "Mantente alerta mientras sube la velocidad y el tráfico se cierra."),
+        "es-MX": ("Cada partida va más rápido", "Mantente alerta mientras aumenta la velocidad y el tráfico se cierra."),
+        "ca": ("Cada partida accelera més", "Mantín-te alerta quan puja la velocitat i el trànsit es tanca."),
+        "ja": ("走るたびに加速", "速度が上がり、交通が迫るほど集中力が試されます。"),
+        "ko": ("달릴수록 더 빨라져요", "속도가 오르고 차량이 몰려올수록 집중해 보세요."),
+        "pt-BR": ("Cada partida fica mais rápida", "Fique atento enquanto a velocidade sobe e o tráfego aperta."),
+        "pt-PT": ("Cada partida fica mais rápida", "Mantenha-se atento enquanto a velocidade sobe e o trânsito aperta."),
+        "zh-Hant": ("每一局都更快", "速度不斷攀升、車流步步逼近，專注到底。"),
+        "zh-Hans": ("每一局都更快", "速度不断攀升、车流步步逼近，专注到底。"),
+        "tr": ("Her yarış daha da hızlanır", "Hız yükselip trafik sıkışırken dikkatini koru."),
+        "pl": ("Każdy przejazd przyspiesza", "Zachowaj czujność, gdy prędkość rośnie, a ruch się zagęszcza."),
     ]),
-    7: SlideCopy(byLocale: [
-        "en-US": ("Cartridge Style on the Big Screen", "A bold 8-bit look made for Apple TV."),
-        "de-DE": ("Disc-Stil auf dem großen Bildschirm", "Ein leuchtender Look der späten 90er, gemacht für Apple TV."),
-        "nl-NL": ("Disc-stijl op het grote scherm", "Een levendige late-jaren-90-look, gemaakt voor Apple TV."),
-        "it": ("Stile Disc sul grande schermo", "Un vivace look di fine anni '90 creato per Apple TV."),
-        "fr-FR": ("Le style Disc sur grand écran", "Un look éclatant de la fin des années 90 conçu pour Apple TV."),
-        "fr-CA": ("Le style Disc sur grand écran", "Un look éclatant de la fin des années 90 conçu pour Apple TV."),
-        "es-ES": ("Estilo Disc en la gran pantalla", "Un look vibrante de finales de los 90 creado para Apple TV."),
-        "es-MX": ("Estilo Disc en la pantalla grande", "Un look vibrante de finales de los 90 creado para Apple TV."),
-        "ca": ("Estil Disc a la pantalla gran", "Un estil viu de finals dels 90 creat per a Apple TV."),
-        "ja": ("大画面で楽しむDiscスタイル", "Apple TVのための鮮やかな90年代後半スタイル。"),
-        "ko": ("큰 화면의 Disc 스타일", "Apple TV를 위해 만든 생생한 1990년대 후반 스타일."),
-        "pt-BR": ("Estilo Disc na tela grande", "Um visual vibrante do fim dos anos 90 feito para Apple TV."),
-        "pt-PT": ("Estilo Disc no grande ecrã", "Um visual vibrante do final dos anos 90 criado para Apple TV."),
-        "zh-Hant": ("大螢幕上的 Disc 風格", "專為 Apple TV 打造的鮮明 90 年代末風格。"),
-        "zh-Hans": ("大屏幕上的 Disc 风格", "专为 Apple TV 打造的鲜明 90 年代末风格。"),
-        "tr": ("Büyük ekranda Disc tarzı", "Apple TV için canlı bir 90'ların sonu görünümü."),
-        "pl": ("Styl Disc na dużym ekranie", "Wyrazisty styl końca lat 90. stworzony dla Apple TV."),
+    SlideCopy(byLocale: [
+        "en-US": ("Crash. Restart. Beat Your Best.", "Instant restarts keep your next high score within reach."),
+        "de-DE": ("Crash. Neustart. Neuer Rekord.", "Sofortige Neustarts bringen deinen nächsten Highscore in Reichweite."),
+        "nl-NL": ("Crash. Herstart. Verbeter je record.", "Met directe herstarts ligt je volgende highscore binnen bereik."),
+        "it": ("Schianto. Riparti. Batti il record.", "I riavvii istantanei avvicinano il tuo prossimo record."),
+        "fr-FR": ("Crash. Repars. Bats ton record.", "Repars aussitôt : ton prochain record est à portée de main."),
+        "fr-CA": ("Collision. Rejouez. Battez votre record.", "Repartez aussitôt : votre prochain record est à portée de main."),
+        "es-ES": ("Choca. Reinicia. Bate tu récord.", "Reinicia al instante y vuelve a por tu próximo récord."),
+        "es-MX": ("Choca. Reinicia. Supera tu récord.", "Reinicia al instante y ve por tu próximo récord."),
+        "ca": ("Xoca. Reinicia. Supera la teua marca.", "Reinicia a l'instant i torna a buscar la teua millor puntuació."),
+        "ja": ("クラッシュ。再スタート。自己ベスト更新。", "すぐに再挑戦して、次のハイスコアを狙えます。"),
+        "ko": ("충돌. 재시작. 최고 기록 경신.", "바로 다시 시작하고 다음 최고 점수에 도전해 보세요."),
+        "pt-BR": ("Bateu. Reinicie. Supere seu recorde.", "Reinicie na hora e deixe o próximo recorde ao seu alcance."),
+        "pt-PT": ("Acidente. Recomece. Supere o recorde.", "Recomece de imediato e deixe o próximo recorde ao alcance."),
+        "zh-Hant": ("撞車。重來。刷新紀錄。", "立即重新出發，下一個最高分近在眼前。"),
+        "zh-Hans": ("撞车。重来。刷新纪录。", "立即重新出发，下一个最高分近在眼前。"),
+        "tr": ("Çarp. Yeniden başla. Rekorunu kır.", "Anında yeniden başla, bir sonraki yüksek skoruna yaklaş."),
+        "pl": ("Kraksa. Restart. Pobij rekord.", "Błyskawicznie wróć do gry i rusz po kolejny rekord."),
+    ]),
+    SlideCopy(byLocale: [
+        "en-US": ("Play the Way That Works for You", "VoiceOver, audio cues, and larger text keep racing within reach."),
+        "de-DE": ("Spiele so, wie es für dich passt", "VoiceOver, Audiohinweise und größere Schrift machen das Rennen zugänglicher."),
+        "nl-NL": ("Speel op jouw manier", "VoiceOver, audiosignalen en grotere tekst houden racen toegankelijk."),
+        "it": ("Gioca nel modo giusto per te", "VoiceOver, segnali audio e testo più grande rendono la corsa accessibile."),
+        "fr-FR": ("Joue comme il te convient", "VoiceOver, indices audio et texte agrandi rendent la course plus accessible."),
+        "fr-CA": ("Jouez à votre façon", "VoiceOver, les indices audio et le texte agrandi rendent la course plus accessible."),
+        "es-ES": ("Juega como mejor te funcione", "VoiceOver, las pistas de audio y el texto grande hacen la carrera más accesible."),
+        "es-MX": ("Juega como mejor te funcione", "VoiceOver, las pistas de audio y el texto grande hacen la carrera más accesible."),
+        "ca": ("Juga com millor et funcione", "VoiceOver, les pistes d'àudio i el text gran fan la carrera més accessible."),
+        "ja": ("自分に合った遊び方で", "VoiceOver、音声キュー、大きな文字でレースを楽しめます。"),
+        "ko": ("나에게 맞는 방식으로 플레이해요", "VoiceOver, 오디오 신호, 큰 텍스트로 레이싱을 즐길 수 있어요."),
+        "pt-BR": ("Jogue do jeito que funciona para você", "VoiceOver, pistas sonoras e texto maior tornam a corrida mais acessível."),
+        "pt-PT": ("Jogue à sua maneira", "VoiceOver, pistas sonoras e texto maior tornam a corrida mais acessível."),
+        "zh-Hant": ("用最適合你的方式玩", "VoiceOver、音效提示與大字體，讓更多玩家都能暢玩賽車。"),
+        "zh-Hans": ("用最适合你的方式玩", "VoiceOver、音效提示与大字体，让更多玩家都能畅享赛车。"),
+        "tr": ("Sana uygun şekilde oyna", "VoiceOver, ses ipuçları ve büyük metin yarışı erişilebilir kılar."),
+        "pl": ("Graj tak, jak ci wygodnie", "VoiceOver, wskazówki dźwiękowe i większy tekst ułatwiają grę."),
+    ]),
+    SlideCopy(byLocale: [
+        "en-US": ("Turn the Couch Into a Starting Grid", "Race friends free with SharePlay, then rematch in seconds."),
+        "de-DE": ("Mach dein Sofa zur Startlinie", "Tritt per SharePlay gratis gegen Freunde an und starte sofort die Revanche."),
+        "nl-NL": ("Maak van de bank een startgrid", "Race gratis met vrienden via SharePlay en start zo de rematch."),
+        "it": ("Dal divano alla griglia di partenza", "Sfida gratis gli amici con SharePlay e riparti subito per la rivincita."),
+        "fr-FR": ("Transforme le canapé en grille de départ", "Défie gratuitement tes amis avec SharePlay, puis relance aussitôt."),
+        "fr-CA": ("Transformez le divan en grille de départ", "Défiez vos amis gratuitement avec SharePlay, puis relancez en quelques secondes."),
+        "es-ES": ("Convierte el sofá en la parrilla de salida", "Compite gratis con amigos mediante SharePlay y repite en segundos."),
+        "es-MX": ("Convierte el sillón en la línea de salida", "Compite gratis con amigos por SharePlay y vuelve a retarlos en segundos."),
+        "ca": ("Convertix el sofà en la graella d'eixida", "Competix gratis amb amics per SharePlay i repetix la partida en segons."),
+        "ja": ("リビングがスタートグリッドに", "SharePlayで友達と無料対戦。すぐに再戦できます。"),
+        "ko": ("거실을 출발선으로 바꿔요", "SharePlay로 친구와 무료로 레이스하고 바로 재대결해요."),
+        "pt-BR": ("Transforme o sofá em linha de largada", "Corra grátis com amigos via SharePlay e dispute a revanche em segundos."),
+        "pt-PT": ("Transforme o sofá na grelha de partida", "Corra grátis com amigos por SharePlay e repita o duelo em segundos."),
+        "zh-Hant": ("讓客廳變成起跑線", "透過 SharePlay 免費和朋友競速，幾秒內再次對決。"),
+        "zh-Hans": ("让客厅变成起跑线", "通过 SharePlay 免费与好友竞速，几秒内再次对决。"),
+        "tr": ("Kanepeyi başlangıç çizgisine çevir", "SharePlay ile arkadaşlarınla ücretsiz yarış, saniyeler içinde rövanş yap."),
+        "pl": ("Zmień kanapę w linię startu", "Ścigaj się bezpłatnie ze znajomymi przez SharePlay i szybko weź rewanż."),
+    ]),
+    SlideCopy(byLocale: [
+        "en-US": ("Make Every Overtake Personal", "Friend markers turn every run into a score-chasing rivalry."),
+        "de-DE": ("Jedes Überholen wird persönlich", "Freundesmarker machen jede Runde zum Duell um den Highscore."),
+        "nl-NL": ("Maak elke inhaalactie persoonlijk", "Vriendenmarkeringen maken elke run een strijd om de highscore."),
+        "it": ("Rendi personale ogni sorpasso", "Gli indicatori degli amici trasformano ogni partita in una sfida al record."),
+        "fr-FR": ("Chaque dépassement devient personnel", "Les repères d'amis transforment chaque partie en duel de scores."),
+        "fr-CA": ("Chaque dépassement devient personnel", "Les repères d'amis transforment chaque partie en duel de pointage."),
+        "es-ES": ("Haz personal cada adelantamiento", "Los marcadores de amigos convierten cada partida en una lucha por la puntuación."),
+        "es-MX": ("Haz personal cada rebase", "Los marcadores de amigos convierten cada partida en una lucha por la puntuación."),
+        "ca": ("Fes personal cada avançament", "Els marcadors d'amics convertixen cada partida en un duel de puntuació."),
+        "ja": ("追い抜くたび、勝負が熱くなる", "フレンドマーカーで、毎回の走りがスコア争いになります。"),
+        "ko": ("추월할 때마다 더 짜릿하게", "친구 마커가 매번의 레이스를 점수 경쟁으로 바꿔 줘요."),
+        "pt-BR": ("Deixe cada ultrapassagem pessoal", "Marcadores de amigos transformam cada partida em disputa por pontuação."),
+        "pt-PT": ("Torne cada ultrapassagem pessoal", "Os marcadores de amigos transformam cada partida numa disputa de pontuação."),
+        "zh-Hant": ("每次超車都更有較勁感", "好友標記讓每一局都變成分數之爭。"),
+        "zh-Hans": ("每次超车都更有较量感", "好友标记让每一局都变成分数之争。"),
+        "tr": ("Her sollamayı kişisel kıl", "Arkadaş işaretleri her yarışı yüksek skor rekabetine çevirir."),
+        "pl": ("Każde wyprzedzenie to osobisty pojedynek", "Znaczniki znajomych zmieniają każdy przejazd w walkę o wynik."),
+    ]),
+    SlideCopy(byLocale: [
+        "en-US": ("Make the Arcade Yours", "Choose five retro styles and race the one you love."),
+        "de-DE": ("Dein Arcade-Look, deine Wahl", "Wähle aus fünf Retro-Stilen und fahre deinen Favoriten."),
+        "nl-NL": ("Jouw arcade, jouw stijl", "Kies uit vijf retrostijlen en race in jouw favoriet."),
+        "it": ("Scegli il tuo stile arcade", "Scegli fra cinque stili retrò e corri con il tuo preferito."),
+        "fr-FR": ("L'arcade à ton image", "Choisis parmi cinq styles rétro et adopte ton préféré."),
+        "fr-CA": ("L'arcade à votre image", "Choisissez parmi cinq styles rétro et adoptez votre préféré."),
+        "es-ES": ("Haz tuyo el arcade", "Elige entre cinco estilos retro y compite con tu favorito."),
+        "es-MX": ("Haz tuyo el arcade", "Elige entre cinco estilos retro y compite con tu favorito."),
+        "ca": ("Fes teu l'arcade", "Tria entre cinc estils retro i corre amb el teu preferit."),
+        "ja": ("自分だけのアーケードに", "5つのレトロスタイルから、お気に入りを選べます。"),
+        "ko": ("나만의 아케이드를 만들어요", "다섯 가지 레트로 스타일 중 마음에 드는 스타일로 달려요."),
+        "pt-BR": ("Faça o arcade do seu jeito", "Escolha entre cinco estilos retrô e corra com o seu favorito."),
+        "pt-PT": ("Dê um toque pessoal ao arcade", "Escolha entre cinco estilos retro e corra com o seu favorito."),
+        "zh-Hant": ("打造你的專屬街機", "五種復古風格任你選，挑出最愛投入競速。"),
+        "zh-Hans": ("打造你的专属街机", "五种复古风格任你选，挑出最爱投入竞速。"),
+        "tr": ("Arcade deneyimini kendin yarat", "Beş retro tarzdan favorini seç ve yarışa katıl."),
+        "pl": ("Stwórz własny salon arcade", "Wybierz jeden z pięciu stylów retro i ścigaj się w ulubionym stylu."),
+    ]),
+    SlideCopy(byLocale: [
+        "en-US": ("Bring Back the 8-Bit Rush", "Cartridge style fills the big screen with bold arcade energy."),
+        "de-DE": ("Hol dir den 8-Bit-Kick zurück", "Der Cartridge-Stil bringt kraftvolle Arcade-Energie auf den großen Bildschirm."),
+        "nl-NL": ("Herbeleef de 8-bit-rush", "Cartridge-stijl vult het grote scherm met krachtige arcade-energie."),
+        "it": ("Ritrova l'adrenalina a 8 bit", "Lo stile Cartridge porta sul grande schermo tutta l'energia arcade."),
+        "fr-FR": ("Retrouve le frisson du 8 bits", "Le style Cartridge remplit le grand écran d'énergie arcade."),
+        "fr-CA": ("Retrouvez le frisson du 8 bits", "Le style Cartridge remplit le grand écran d'énergie arcade."),
+        "es-ES": ("Recupera la emoción de los 8 bits", "El estilo Cartridge llena la gran pantalla de energía arcade."),
+        "es-MX": ("Revive la emoción de los 8 bits", "El estilo Cartridge llena la pantalla grande de energía arcade."),
+        "ca": ("Recupera l'emoció dels 8 bits", "L'estil Cartridge ompli la pantalla gran d'energia arcade."),
+        "ja": ("8ビットの興奮をもう一度", "Cartridgeスタイルが大画面に鮮烈なアーケード感を届けます。"),
+        "ko": ("8비트 질주를 다시 느껴요", "Cartridge 스타일이 큰 화면을 강렬한 아케이드 감성으로 채워요."),
+        "pt-BR": ("Reviva a emoção dos 8 bits", "O estilo Cartridge enche a tela grande de energia arcade."),
+        "pt-PT": ("Reviva a emoção dos 8 bits", "O estilo Cartridge enche o grande ecrã de energia arcade."),
+        "zh-Hant": ("重溫 8 位元狂飆快感", "Cartridge 風格為大螢幕注入強烈街機能量。"),
+        "zh-Hans": ("重温 8 位狂飙快感", "Cartridge 风格为大屏幕注入强烈街机能量。"),
+        "tr": ("8 bit heyecanını geri getir", "Cartridge tarzı büyük ekranı güçlü arcade enerjisiyle doldurur."),
+        "pl": ("Poczuj znów pęd 8 bitów", "Styl Cartridge napełnia duży ekran mocną energią arcade."),
+    ]),
+    SlideCopy(byLocale: [
+        "en-US": ("Turn Great Runs Into Trophies", "Unlock Game Center achievements as your racing skills grow."),
+        "de-DE": ("Mach starke Runden zu Trophäen", "Schalte Game-Center-Erfolge frei, während dein Fahrkönnen wächst."),
+        "nl-NL": ("Zet sterke runs om in trofeeën", "Speel Game Center-prestaties vrij terwijl je racevaardigheid groeit."),
+        "it": ("Trasforma le grandi corse in trofei", "Sblocca gli obiettivi Game Center mentre migliori alla guida."),
+        "fr-FR": ("Transforme tes exploits en trophées", "Débloque des succès Game Center à mesure que tu progresses."),
+        "fr-CA": ("Transformez vos exploits en trophées", "Débloquez des succès Game Center au fil de vos progrès."),
+        "es-ES": ("Convierte tus carreras en trofeos", "Desbloquea logros de Game Center mientras mejoras al volante."),
+        "es-MX": ("Convierte tus carreras en trofeos", "Desbloquea logros de Game Center mientras mejoras al volante."),
+        "ca": ("Convertix grans partides en trofeus", "Desbloqueja assoliments de Game Center mentre millores al volant."),
+        "ja": ("最高の走りをトロフィーに", "腕を磨きながらGame Centerの実績を解除できます。"),
+        "ko": ("멋진 질주를 트로피로 바꿔요", "실력이 늘수록 Game Center 업적도 잠금 해제돼요."),
+        "pt-BR": ("Transforme grandes corridas em troféus", "Desbloqueie conquistas do Game Center enquanto melhora suas habilidades."),
+        "pt-PT": ("Transforme grandes corridas em troféus", "Desbloqueie proezas no Game Center enquanto melhora a condução."),
+        "zh-Hant": ("把精彩車程化為獎盃", "技巧越純熟，解鎖的 Game Center 成就越多。"),
+        "zh-Hans": ("把精彩车程化为奖杯", "技巧越娴熟，解锁的 Game Center 成就越多。"),
+        "tr": ("Harika yarışları kupaya dönüştür", "Becerin geliştikçe Game Center başarımlarını aç."),
+        "pl": ("Zamień świetne przejazdy w trofea", "Odblokowuj osiągnięcia Game Center wraz ze wzrostem umiejętności."),
+    ]),
+    SlideCopy(byLocale: [
+        "en-US": ("Your Next Run Starts Here", "Play solo, race friends, or chase leaderboard glory."),
+        "de-DE": ("Deine nächste Runde startet hier", "Spiele solo, rase mit Freunden oder jage Ruhm in der Bestenliste."),
+        "nl-NL": ("Je volgende run start hier", "Speel solo, race met vrienden of jaag op glorie in het klassement."),
+        "it": ("La prossima corsa parte qui", "Gioca in solo, sfida gli amici o punta alla gloria in classifica."),
+        "fr-FR": ("Ta prochaine partie commence ici", "Joue en solo, défie tes amis ou vise la gloire au classement."),
+        "fr-CA": ("Votre prochaine partie commence ici", "Jouez en solo, défiez vos amis ou visez le sommet du classement."),
+        "es-ES": ("Tu próxima partida empieza aquí", "Juega solo, compite con amigos o busca la gloria en el ranking."),
+        "es-MX": ("Tu próxima partida empieza aquí", "Juega solo, compite con amigos o busca la gloria en el ranking."),
+        "ca": ("La teua pròxima partida comença ací", "Juga a soles, competix amb amics o busca la glòria en la classificació."),
+        "ja": ("次のレースはここから", "ソロ、友達対戦、ランキング上位を目指す遊び方が選べます。"),
+        "ko": ("다음 레이스는 여기서 시작해요", "혼자 달리고, 친구와 겨루고, 순위표 정상에 도전해요."),
+        "pt-BR": ("Sua próxima corrida começa aqui", "Jogue solo, corra com amigos ou busque a glória no ranking."),
+        "pt-PT": ("A próxima corrida começa aqui", "Jogue a solo, corra com amigos ou procure a glória na classificação."),
+        "zh-Hant": ("下一場競速從這裡開始", "單人暢玩、挑戰好友，或朝排行榜榮耀衝刺。"),
+        "zh-Hans": ("下一场竞速从这里开始", "单人畅玩、挑战好友，或向排行榜荣耀冲刺。"),
+        "tr": ("Sıradaki yarışın burada başlıyor", "Tek başına oyna, arkadaşlarınla yarış veya liderlik tablosunda zirveyi kovala."),
+        "pl": ("Następny przejazd zaczyna się tutaj", "Graj solo, ścigaj się ze znajomymi lub walcz o chwałę w rankingu."),
     ]),
 ]
 

@@ -5,8 +5,6 @@
 	<dict>
 		<key>designConfiguration</key>
 		<dict>
-			<key>devicePosition</key>
-			<string>fullBottom</string>
 			<key>deviceTilt</key>
 			<dict>
 				<key>x</key>
@@ -17,7 +15,7 @@
 				<real>0.0</real>
 			</dict>
 			<key>hideDeviceFrame</key>
-			<true/>
+			<false/>
 			<key>magnifier</key>
 			<dict>
 				<key>centerUnitX</key>
@@ -55,178 +53,174 @@
 				<key>snapPosition</key>
 				<string>center</string>
 			</dict>
-			<key>overrideDevicePosition</key>
-			<true/>
 		</dict>
 		<key>localizations</key>
 		<array>
 			<dict>
 				<key>body</key>
-				<string>Dodge traffic and chase overtakes in a retro arcade racer.</string>
+				<string>Dodge traffic, chase overtakes, and feel every close call.</string>
 				<key>language</key>
 				<string>en-US</string>
 				<key>title</key>
-				<string>Race Through Endless Traffic</string>
+				<string>Bring Retro Racing to the Big Screen</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Dodge traffic and chase overtakes in a retro arcade racer.</string>
+				<string>Dodge traffic, chase overtakes, and feel every close call.</string>
 				<key>language</key>
 				<string>en-GB</string>
 				<key>title</key>
-				<string>Race Through Endless Traffic</string>
+				<string>Bring Retro Racing to the Big Screen</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Dodge traffic and chase overtakes in a retro arcade racer.</string>
+				<string>Dodge traffic, chase overtakes, and feel every close call.</string>
 				<key>language</key>
 				<string>en-AU</string>
 				<key>title</key>
-				<string>Race Through Endless Traffic</string>
+				<string>Bring Retro Racing to the Big Screen</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Dodge traffic and chase overtakes in a retro arcade racer.</string>
+				<string>Dodge traffic, chase overtakes, and feel every close call.</string>
 				<key>language</key>
 				<string>en-CA</string>
 				<key>title</key>
-				<string>Race Through Endless Traffic</string>
+				<string>Bring Retro Racing to the Big Screen</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Weiche dem Verkehr aus und hol dir Überholungen in diesem Retro-Arcade-Rennen.</string>
+				<string>Weiche dem Verkehr aus, überhole und erlebe jedes knappe Manöver.</string>
 				<key>language</key>
 				<string>de-DE</string>
 				<key>title</key>
-				<string>Rase durch endlosen Verkehr</string>
+				<string>Retro-Rennen auf dem großen Bildschirm</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Ontwijk verkeer en pak inhaalslagen in deze retro arcade-racer.</string>
+				<string>Ontwijk verkeer, haal in en voel de spanning van elke nipte manoeuvre.</string>
 				<key>language</key>
 				<string>nl-NL</string>
 				<key>title</key>
-				<string>Race door eindeloos verkeer</string>
+				<string>Retro-racen op het grote scherm</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Schiva il traffico e conquista sorpassi in questo arcade di corse retro.</string>
+				<string>Schiva il traffico, sorpassa e vivi ogni manovra al limite.</string>
 				<key>language</key>
 				<string>it</string>
 				<key>title</key>
-				<string>Corri nel traffico infinito</string>
+				<string>Porta le corse retrò sul grande schermo</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Esquive le trafic et enchaîne les dépassements dans cette course arcade retro.</string>
+				<string>Esquive le trafic, dépasse tes rivaux et frôle la collision.</string>
 				<key>language</key>
 				<string>fr-FR</string>
 				<key>title</key>
-				<string>Fonce dans le trafic sans fin</string>
+				<string>La course rétro sur grand écran</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Évitez le trafic et enchaînez les dépassements dans cette course arcade rétro.</string>
+				<string>Évitez le trafic, dépassez vos rivaux et frôlez la collision.</string>
 				<key>language</key>
 				<string>fr-CA</string>
 				<key>title</key>
-				<string>Foncez dans le trafic sans fin</string>
+				<string>La course rétro sur grand écran</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Esquiva tráfico y consigue adelantamientos en un arcade de carreras retro.</string>
+				<string>Esquiva el tráfico, adelanta y siente cada maniobra al límite.</string>
 				<key>language</key>
 				<string>es-ES</string>
 				<key>title</key>
-				<string>Esquiva tráfico sin fin</string>
+				<string>Lleva las carreras retro a la gran pantalla</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Esquiva carros y logra rebases en un arcade de carreras retro.</string>
+				<string>Esquiva el tráfico, rebasa y siente cada maniobra al límite.</string>
 				<key>language</key>
 				<string>es-MX</string>
 				<key>title</key>
-				<string>Esquiva carros sin fin</string>
+				<string>Lleva las carreras retro a la pantalla grande</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Esquiva trànsit i acumula avançaments en este arcade de carreres retro.</string>
+				<string>Esquiva el trànsit, avança rivals i sent cada maniobra al límit.</string>
 				<key>language</key>
 				<string>ca</string>
 				<key>title</key>
-				<string>Esquiva trànsit sense fi</string>
+				<string>Porta les carreres retro a la pantalla gran</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>交通を避け、レトロアーケードで追い抜きを狙おう。</string>
+				<string>交通をかわし、追い抜きを決めて、ギリギリの興奮を味わおう。</string>
 				<key>language</key>
 				<string>ja</string>
 				<key>title</key>
-				<string>終わりなき交通を走り抜け</string>
+				<string>大画面で楽しむレトロレース</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>교통을 피하고 레트로 아케이드에서 추월을 노려보세요.</string>
+				<string>교통을 피하고 추월하며 아슬아슬한 순간을 느껴 보세요.</string>
 				<key>language</key>
 				<string>ko</string>
 				<key>title</key>
-				<string>끝없는 교통을 질주</string>
+				<string>큰 화면에서 즐기는 레트로 레이싱</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Desvie do tráfego e busque ultrapassagens neste arcade retrô.</string>
+				<string>Desvie do tráfego, ultrapasse e sinta cada manobra no limite.</string>
 				<key>language</key>
 				<string>pt-BR</string>
 				<key>title</key>
-				<string>Corra pelo tráfego infinito</string>
+				<string>Leve a corrida retrô para a tela grande</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Desvie do trânsito e procure ultrapassagens neste arcade retro.</string>
+				<string>Desvie-se do trânsito, ultrapasse e sinta cada manobra no limite.</string>
 				<key>language</key>
 				<string>pt-PT</string>
 				<key>title</key>
-				<string>Corra pelo trânsito infinito</string>
+				<string>Leve as corridas retro ao grande ecrã</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>閃避車流，在復古街機中追逐超車。</string>
+				<string>閃避車流、超越對手，感受每次驚險擦身。</string>
 				<key>language</key>
 				<string>zh-Hant</string>
 				<key>title</key>
-				<string>穿越無盡車流</string>
+				<string>把復古賽車搬上大螢幕</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>闪避车流，在复古街机中追逐超车。</string>
+				<string>闪避车流、超越对手，感受每次惊险擦身。</string>
 				<key>language</key>
 				<string>zh-Hans</string>
 				<key>title</key>
-				<string>穿越无尽车流</string>
+				<string>把复古赛车搬上大屏幕</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Trafikten kaç, retro arcade yarışında sollamaları kovala.</string>
+				<string>Trafikten kaç, solla ve her kıl payı anın heyecanını yaşa.</string>
 				<key>language</key>
 				<string>tr</string>
 				<key>title</key>
-				<string>Sonsuz trafikte yarış</string>
+				<string>Retro yarışı büyük ekrana taşı</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Omijaj ruch i wyprzedzaj w wyścigowej grze retro.</string>
+				<string>Omijaj ruch, wyprzedzaj i poczuj emocje przy każdym manewrze na granicy.</string>
 				<key>language</key>
 				<string>pl</string>
 				<key>title</key>
-				<string>Pędź przez niekończący się ruch</string>
+				<string>Przenieś wyścigi retro na duży ekran</string>
 			</dict>
 		</array>
 	</dict>
 	<dict>
 		<key>designConfiguration</key>
 		<dict>
-			<key>devicePosition</key>
-			<string>fullBottom</string>
 			<key>deviceTilt</key>
 			<dict>
 				<key>x</key>
@@ -237,7 +231,7 @@
 				<real>0.0</real>
 			</dict>
 			<key>hideDeviceFrame</key>
-			<true/>
+			<false/>
 			<key>magnifier</key>
 			<dict>
 				<key>centerUnitX</key>
@@ -275,178 +269,174 @@
 				<key>snapPosition</key>
 				<string>center</string>
 			</dict>
-			<key>overrideDevicePosition</key>
-			<true/>
 		</dict>
 		<key>localizations</key>
 		<array>
 			<dict>
 				<key>body</key>
-				<string>Move left. Move right. Don't crash. Deceptively simple.</string>
+				<string>Stay sharp as the speed climbs and traffic closes in.</string>
 				<key>language</key>
 				<string>en-US</string>
 				<key>title</key>
-				<string>Simple Controls. Pure Arcade Action</string>
+				<string>Every Run Gets Faster</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Move left. Move right. Don't crash. Deceptively simple.</string>
+				<string>Stay sharp as the speed climbs and traffic closes in.</string>
 				<key>language</key>
 				<string>en-GB</string>
 				<key>title</key>
-				<string>Simple Controls. Pure Arcade Action</string>
+				<string>Every Run Gets Faster</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Move left. Move right. Don't crash. Deceptively simple.</string>
+				<string>Stay sharp as the speed climbs and traffic closes in.</string>
 				<key>language</key>
 				<string>en-AU</string>
 				<key>title</key>
-				<string>Simple Controls. Pure Arcade Action</string>
+				<string>Every Run Gets Faster</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Move left. Move right. Don't crash. Deceptively simple.</string>
+				<string>Stay sharp as the speed climbs and traffic closes in.</string>
 				<key>language</key>
 				<string>en-CA</string>
 				<key>title</key>
-				<string>Simple Controls. Pure Arcade Action</string>
+				<string>Every Run Gets Faster</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Links. Rechts. Nicht crashen. Täuschend einfach.</string>
+				<string>Bleib wachsam, wenn Tempo und Verkehr zunehmen.</string>
 				<key>language</key>
 				<string>de-DE</string>
 				<key>title</key>
-				<string>Einfache Steuerung. Pure Arcade-Action</string>
+				<string>Jede Runde wird schneller</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Links. Rechts. Niet crashen. Bedrieglijk simpel.</string>
+				<string>Blijf scherp terwijl de snelheid stijgt en het verkeer dichter wordt.</string>
 				<key>language</key>
 				<string>nl-NL</string>
 				<key>title</key>
-				<string>Simpele besturing. Pure arcade-actie</string>
+				<string>Elke run gaat sneller</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Sinistra. Destra. Non schiantarti. Ingannatamente semplice.</string>
+				<string>Resta all'erta mentre la velocità sale e il traffico si stringe.</string>
 				<key>language</key>
 				<string>it</string>
 				<key>title</key>
-				<string>Controlli semplici. Pura azione arcade</string>
+				<string>Ogni partita accelera</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Gauche. Droite. Ne crash pas. D'une simplicité trompeuse.</string>
+				<string>Reste concentré quand la vitesse grimpe et que le trafic se resserre.</string>
 				<key>language</key>
 				<string>fr-FR</string>
 				<key>title</key>
-				<string>Commandes simples. Action arcade pure</string>
+				<string>Chaque partie accélère</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Gauche. Droite. Ne crashez pas. D'une simplicité trompeuse.</string>
+				<string>Restez alerte quand la vitesse grimpe et que le trafic se resserre.</string>
 				<key>language</key>
 				<string>fr-CA</string>
 				<key>title</key>
-				<string>Commandes simples. Action arcade pure</string>
+				<string>Chaque partie accélère</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Izquierda. Derecha. No choques. Engañosamente simple.</string>
+				<string>Mantente alerta mientras sube la velocidad y el tráfico se cierra.</string>
 				<key>language</key>
 				<string>es-ES</string>
 				<key>title</key>
-				<string>Controles simples. Acción arcade pura</string>
+				<string>Cada partida va más rápido</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Izquierda. Derecha. No choques. Engañosamente simple.</string>
+				<string>Mantente alerta mientras aumenta la velocidad y el tráfico se cierra.</string>
 				<key>language</key>
 				<string>es-MX</string>
 				<key>title</key>
-				<string>Controles simples. Acción arcade pura</string>
+				<string>Cada partida va más rápido</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Esquerra. Dreta. No xoques. Enganyosament simple.</string>
+				<string>Mantín-te alerta quan puja la velocitat i el trànsit es tanca.</string>
 				<key>language</key>
 				<string>ca</string>
 				<key>title</key>
-				<string>Controls simples. Acció arcade pura</string>
+				<string>Cada partida accelera més</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>左へ。右へ。クラッシュ禁止。シンプルなのに奥深い。</string>
+				<string>速度が上がり、交通が迫るほど集中力が試されます。</string>
 				<key>language</key>
 				<string>ja</string>
 				<key>title</key>
-				<string>シンプル操作。純粋アーケード</string>
+				<string>走るたびに加速</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>왼쪽. 오른쪽. 충돌 금지. 단순하지만 깊어요.</string>
+				<string>속도가 오르고 차량이 몰려올수록 집중해 보세요.</string>
 				<key>language</key>
 				<string>ko</string>
 				<key>title</key>
-				<string>간단한 조작. 순수 아케이드</string>
+				<string>달릴수록 더 빨라져요</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Esquerda. Direita. Não bata. Simples de enganar.</string>
+				<string>Fique atento enquanto a velocidade sobe e o tráfego aperta.</string>
 				<key>language</key>
 				<string>pt-BR</string>
 				<key>title</key>
-				<string>Controles simples. Ação arcade</string>
+				<string>Cada partida fica mais rápida</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Esquerda. Direita. Não bata. Enganosamente simples.</string>
+				<string>Mantenha-se atento enquanto a velocidade sobe e o trânsito aperta.</string>
 				<key>language</key>
 				<string>pt-PT</string>
 				<key>title</key>
-				<string>Controlos simples. Ação arcade</string>
+				<string>Cada partida fica mais rápida</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>左移。右移。別撞車。看似簡單。</string>
+				<string>速度不斷攀升、車流步步逼近，專注到底。</string>
 				<key>language</key>
 				<string>zh-Hant</string>
 				<key>title</key>
-				<string>簡單操作。純粹街機</string>
+				<string>每一局都更快</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>左移。右移。别撞车。看似简单。</string>
+				<string>速度不断攀升、车流步步逼近，专注到底。</string>
 				<key>language</key>
 				<string>zh-Hans</string>
 				<key>title</key>
-				<string>简单操作。纯粹街机</string>
+				<string>每一局都更快</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Sola git. Sağa git. Çarpma. Göründüğünden zor.</string>
+				<string>Hız yükselip trafik sıkışırken dikkatini koru.</string>
 				<key>language</key>
 				<string>tr</string>
 				<key>title</key>
-				<string>Basit kontroller. Saf arcade</string>
+				<string>Her yarış daha da hızlanır</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>W lewo. W prawo. Nie rozbij się. Pozornie proste.</string>
+				<string>Zachowaj czujność, gdy prędkość rośnie, a ruch się zagęszcza.</string>
 				<key>language</key>
 				<string>pl</string>
 				<key>title</key>
-				<string>Proste sterowanie. Czyste arcade</string>
+				<string>Każdy przejazd przyspiesza</string>
 			</dict>
 		</array>
 	</dict>
 	<dict>
 		<key>designConfiguration</key>
 		<dict>
-			<key>devicePosition</key>
-			<string>fullBottom</string>
 			<key>deviceTilt</key>
 			<dict>
 				<key>x</key>
@@ -457,7 +447,7 @@
 				<real>0.0</real>
 			</dict>
 			<key>hideDeviceFrame</key>
-			<true/>
+			<false/>
 			<key>magnifier</key>
 			<dict>
 				<key>centerUnitX</key>
@@ -495,178 +485,174 @@
 				<key>snapPosition</key>
 				<string>center</string>
 			</dict>
-			<key>overrideDevicePosition</key>
-			<true/>
 		</dict>
 		<key>localizations</key>
 		<array>
 			<dict>
 				<key>body</key>
-				<string>One mistake ends your run. Restart fast, chase your high score!</string>
+				<string>Instant restarts keep your next high score within reach.</string>
 				<key>language</key>
 				<string>en-US</string>
 				<key>title</key>
-				<string>One Wrong Move. Game Over</string>
+				<string>Crash. Restart. Beat Your Best.</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>One mistake ends your run. Restart fast, chase your high score!</string>
+				<string>Instant restarts keep your next high score within reach.</string>
 				<key>language</key>
 				<string>en-GB</string>
 				<key>title</key>
-				<string>One Wrong Move. Game Over</string>
+				<string>Crash. Restart. Beat Your Best.</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>One mistake ends your run. Restart fast, chase your high score!</string>
+				<string>Instant restarts keep your next high score within reach.</string>
 				<key>language</key>
 				<string>en-AU</string>
 				<key>title</key>
-				<string>One Wrong Move. Game Over</string>
+				<string>Crash. Restart. Beat Your Best.</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>One mistake ends your run. Restart fast, chase your high score!</string>
+				<string>Instant restarts keep your next high score within reach.</string>
 				<key>language</key>
 				<string>en-CA</string>
 				<key>title</key>
-				<string>One Wrong Move. Game Over</string>
+				<string>Crash. Restart. Beat Your Best.</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Ein Fehler beendet deine Runde. Schnell neu starten, jag deinen Highscore!</string>
+				<string>Sofortige Neustarts bringen deinen nächsten Highscore in Reichweite.</string>
 				<key>language</key>
 				<string>de-DE</string>
 				<key>title</key>
-				<string>Ein Fehler. Game Over</string>
+				<string>Crash. Neustart. Neuer Rekord.</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Één fout beëindigt je run. Snel herstarten, jaag op je highscore!</string>
+				<string>Met directe herstarts ligt je volgende highscore binnen bereik.</string>
 				<key>language</key>
 				<string>nl-NL</string>
 				<key>title</key>
-				<string>Één fout. Game Over</string>
+				<string>Crash. Herstart. Verbeter je record.</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Un errore termina la partita. Riparti in fretta, punta al tuo record!</string>
+				<string>I riavvii istantanei avvicinano il tuo prossimo record.</string>
 				<key>language</key>
 				<string>it</string>
 				<key>title</key>
-				<string>Un errore. Game Over</string>
+				<string>Schianto. Riparti. Batti il record.</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Une erreur termine ta partie. Recommence vite, vise ton record!</string>
+				<string>Repars aussitôt : ton prochain record est à portée de main.</string>
 				<key>language</key>
 				<string>fr-FR</string>
 				<key>title</key>
-				<string>Une erreur. Game Over</string>
+				<string>Crash. Repars. Bats ton record.</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Une erreur termine votre partie. Recommencez vite, visez votre record!</string>
+				<string>Repartez aussitôt : votre prochain record est à portée de main.</string>
 				<key>language</key>
 				<string>fr-CA</string>
 				<key>title</key>
-				<string>Une erreur. Game Over</string>
+				<string>Collision. Rejouez. Battez votre record.</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Un fallo termina tu partida. Reinicia y persigue tu récord!</string>
+				<string>Reinicia al instante y vuelve a por tu próximo récord.</string>
 				<key>language</key>
 				<string>es-ES</string>
 				<key>title</key>
-				<string>Un error. Game Over</string>
+				<string>Choca. Reinicia. Bate tu récord.</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Un fallo termina tu partida. Reinicia y persigue tu récord!</string>
+				<string>Reinicia al instante y ve por tu próximo récord.</string>
 				<key>language</key>
 				<string>es-MX</string>
 				<key>title</key>
-				<string>Un error. Game Over</string>
+				<string>Choca. Reinicia. Supera tu récord.</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Un error acaba la teua partida. Reinicia i perseguix el teu rècord!</string>
+				<string>Reinicia a l'instant i torna a buscar la teua millor puntuació.</string>
 				<key>language</key>
 				<string>ca</string>
 				<key>title</key>
-				<string>Un error. Game Over</string>
+				<string>Xoca. Reinicia. Supera la teua marca.</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>一つのミスで終了。すぐ再スタート、ハイスコアを狙え！</string>
+				<string>すぐに再挑戦して、次のハイスコアを狙えます。</string>
 				<key>language</key>
 				<string>ja</string>
 				<key>title</key>
-				<string>一ミスでゲームオーバー</string>
+				<string>クラッシュ。再スタート。自己ベスト更新。</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>실수 한 번이면 끝. 빠르게 재시작하고 최고 점수에 도전!</string>
+				<string>바로 다시 시작하고 다음 최고 점수에 도전해 보세요.</string>
 				<key>language</key>
 				<string>ko</string>
 				<key>title</key>
-				<string>한 번의 실수, 게임 오버</string>
+				<string>충돌. 재시작. 최고 기록 경신.</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Um erro encerra a corrida. Reinicie e busque seu recorde!</string>
+				<string>Reinicie na hora e deixe o próximo recorde ao seu alcance.</string>
 				<key>language</key>
 				<string>pt-BR</string>
 				<key>title</key>
-				<string>Um erro. Fim de jogo</string>
+				<string>Bateu. Reinicie. Supere seu recorde.</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Um erro acaba a corrida. Reinicie e procure o seu recorde!</string>
+				<string>Recomece de imediato e deixe o próximo recorde ao alcance.</string>
 				<key>language</key>
 				<string>pt-PT</string>
 				<key>title</key>
-				<string>Um erro. Fim de jogo</string>
+				<string>Acidente. Recomece. Supere o recorde.</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>一個失誤就結束。快速重來，挑戰最高分！</string>
+				<string>立即重新出發，下一個最高分近在眼前。</string>
 				<key>language</key>
 				<string>zh-Hant</string>
 				<key>title</key>
-				<string>一步失誤，遊戲結束</string>
+				<string>撞車。重來。刷新紀錄。</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>一个失误就结束。快速重来，挑战最高分！</string>
+				<string>立即重新出发，下一个最高分近在眼前。</string>
 				<key>language</key>
 				<string>zh-Hans</string>
 				<key>title</key>
-				<string>一步失误，游戏结束</string>
+				<string>撞车。重来。刷新纪录。</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Bir hata yarışı bitirir. Hızla başla, rekorunu kovala!</string>
+				<string>Anında yeniden başla, bir sonraki yüksek skoruna yaklaş.</string>
 				<key>language</key>
 				<string>tr</string>
 				<key>title</key>
-				<string>Tek hata. Oyun bitti</string>
+				<string>Çarp. Yeniden başla. Rekorunu kır.</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Jeden błąd kończy przejazd. Szybki restart i pogoń za rekordem!</string>
+				<string>Błyskawicznie wróć do gry i rusz po kolejny rekord.</string>
 				<key>language</key>
 				<string>pl</string>
 				<key>title</key>
-				<string>Jeden błąd. Koniec gry</string>
+				<string>Kraksa. Restart. Pobij rekord.</string>
 			</dict>
 		</array>
 	</dict>
 	<dict>
 		<key>designConfiguration</key>
 		<dict>
-			<key>devicePosition</key>
-			<string>fullBottom</string>
 			<key>deviceTilt</key>
 			<dict>
 				<key>x</key>
@@ -677,7 +663,7 @@
 				<real>0.0</real>
 			</dict>
 			<key>hideDeviceFrame</key>
-			<true/>
+			<false/>
 			<key>magnifier</key>
 			<dict>
 				<key>centerUnitX</key>
@@ -715,178 +701,174 @@
 				<key>snapPosition</key>
 				<string>center</string>
 			</dict>
-			<key>overrideDevicePosition</key>
-			<true/>
 		</dict>
 		<key>localizations</key>
 		<array>
 			<dict>
 				<key>body</key>
-				<string>VoiceOver, audio cues, larger text, and adaptable gameplay settings.</string>
+				<string>VoiceOver, audio cues, and larger text keep racing within reach.</string>
 				<key>language</key>
 				<string>en-US</string>
 				<key>title</key>
-				<string>Accessibility Front and Center</string>
+				<string>Play the Way That Works for You</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>VoiceOver, audio cues, larger text, and adaptable gameplay settings.</string>
+				<string>VoiceOver, audio cues, and larger text keep racing within reach.</string>
 				<key>language</key>
 				<string>en-GB</string>
 				<key>title</key>
-				<string>Accessibility Front and Center</string>
+				<string>Play the Way That Works for You</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>VoiceOver, audio cues, larger text, and adaptable gameplay settings.</string>
+				<string>VoiceOver, audio cues, and larger text keep racing within reach.</string>
 				<key>language</key>
 				<string>en-AU</string>
 				<key>title</key>
-				<string>Accessibility Front and Center</string>
+				<string>Play the Way That Works for You</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>VoiceOver, audio cues, larger text, and adaptable gameplay settings.</string>
+				<string>VoiceOver, audio cues, and larger text keep racing within reach.</string>
 				<key>language</key>
 				<string>en-CA</string>
 				<key>title</key>
-				<string>Accessibility Front and Center</string>
+				<string>Play the Way That Works for You</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>VoiceOver, Audiohinweise, größerer Text und anpassbare Spieleinstellungen.</string>
+				<string>VoiceOver, Audiohinweise und größere Schrift machen das Rennen zugänglicher.</string>
 				<key>language</key>
 				<string>de-DE</string>
 				<key>title</key>
-				<string>Barrierefreiheit im Mittelpunkt</string>
+				<string>Spiele so, wie es für dich passt</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>VoiceOver, audiosignalen, grotere tekst en aanpasbare spelinstellingen.</string>
+				<string>VoiceOver, audiosignalen en grotere tekst houden racen toegankelijk.</string>
 				<key>language</key>
 				<string>nl-NL</string>
 				<key>title</key>
-				<string>Toegankelijkheid voorop</string>
+				<string>Speel op jouw manier</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>VoiceOver, segnali audio, testo più grande e impostazioni di gioco adattabili.</string>
+				<string>VoiceOver, segnali audio e testo più grande rendono la corsa accessibile.</string>
 				<key>language</key>
 				<string>it</string>
 				<key>title</key>
-				<string>Accessibilità al centro</string>
+				<string>Gioca nel modo giusto per te</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>VoiceOver, indices audio, texte plus grand et réglages de jeu adaptables.</string>
+				<string>VoiceOver, indices audio et texte agrandi rendent la course plus accessible.</string>
 				<key>language</key>
 				<string>fr-FR</string>
 				<key>title</key>
-				<string>Accessibilité au premier plan</string>
+				<string>Joue comme il te convient</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>VoiceOver, indices audio, texte plus grand et réglages de jeu adaptables.</string>
+				<string>VoiceOver, les indices audio et le texte agrandi rendent la course plus accessible.</string>
 				<key>language</key>
 				<string>fr-CA</string>
 				<key>title</key>
-				<string>Accessibilité au premier plan</string>
+				<string>Jouez à votre façon</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>VoiceOver, pistas de audio, texto más grande y ajustes de juego adaptables.</string>
+				<string>VoiceOver, las pistas de audio y el texto grande hacen la carrera más accesible.</string>
 				<key>language</key>
 				<string>es-ES</string>
 				<key>title</key>
-				<string>Accesibilidad en primer plano</string>
+				<string>Juega como mejor te funcione</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>VoiceOver, pistas de audio, texto más grande y ajustes de juego adaptables.</string>
+				<string>VoiceOver, las pistas de audio y el texto grande hacen la carrera más accesible.</string>
 				<key>language</key>
 				<string>es-MX</string>
 				<key>title</key>
-				<string>Accesibilidad en primer plano</string>
+				<string>Juega como mejor te funcione</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>VoiceOver, pistes d'àudio, text més gran i opcions de joc adaptables.</string>
+				<string>VoiceOver, les pistes d'àudio i el text gran fan la carrera més accessible.</string>
 				<key>language</key>
 				<string>ca</string>
 				<key>title</key>
-				<string>Accessibilitat al davant</string>
+				<string>Juga com millor et funcione</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>VoiceOver、音声キュー、大きい文字、調整可能な設定。</string>
+				<string>VoiceOver、音声キュー、大きな文字でレースを楽しめます。</string>
 				<key>language</key>
 				<string>ja</string>
 				<key>title</key>
-				<string>アクセシビリティを前面に</string>
+				<string>自分に合った遊び方で</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>VoiceOver, 오디오 큐, 큰 텍스트, 맞춤 설정.</string>
+				<string>VoiceOver, 오디오 신호, 큰 텍스트로 레이싱을 즐길 수 있어요.</string>
 				<key>language</key>
 				<string>ko</string>
 				<key>title</key>
-				<string>접근성을 중심에</string>
+				<string>나에게 맞는 방식으로 플레이해요</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>VoiceOver, pistas sonoras, texto maior e ajustes adaptáveis.</string>
+				<string>VoiceOver, pistas sonoras e texto maior tornam a corrida mais acessível.</string>
 				<key>language</key>
 				<string>pt-BR</string>
 				<key>title</key>
-				<string>Acessibilidade em destaque</string>
+				<string>Jogue do jeito que funciona para você</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>VoiceOver, pistas sonoras, texto maior e definições adaptáveis.</string>
+				<string>VoiceOver, pistas sonoras e texto maior tornam a corrida mais acessível.</string>
 				<key>language</key>
 				<string>pt-PT</string>
 				<key>title</key>
-				<string>Acessibilidade em destaque</string>
+				<string>Jogue à sua maneira</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>VoiceOver、音效提示、較大字體與可調設定。</string>
+				<string>VoiceOver、音效提示與大字體，讓更多玩家都能暢玩賽車。</string>
 				<key>language</key>
 				<string>zh-Hant</string>
 				<key>title</key>
-				<string>無障礙設計放首位</string>
+				<string>用最適合你的方式玩</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>VoiceOver、音效提示、较大字体与可调设置。</string>
+				<string>VoiceOver、音效提示与大字体，让更多玩家都能畅享赛车。</string>
 				<key>language</key>
 				<string>zh-Hans</string>
 				<key>title</key>
-				<string>无障碍设计放首位</string>
+				<string>用最适合你的方式玩</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>VoiceOver, ses ipuçları, büyük metin ve uyarlanabilir ayarlar.</string>
+				<string>VoiceOver, ses ipuçları ve büyük metin yarışı erişilebilir kılar.</string>
 				<key>language</key>
 				<string>tr</string>
 				<key>title</key>
-				<string>Erişilebilirlik her şeyden önce</string>
+				<string>Sana uygun şekilde oyna</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>VoiceOver, wskazówki dźwiękowe, większy tekst i ustawienia adaptacyjne.</string>
+				<string>VoiceOver, wskazówki dźwiękowe i większy tekst ułatwiają grę.</string>
 				<key>language</key>
 				<string>pl</string>
 				<key>title</key>
-				<string>Dostępność na pierwszym planie</string>
+				<string>Graj tak, jak ci wygodnie</string>
 			</dict>
 		</array>
 	</dict>
 	<dict>
 		<key>designConfiguration</key>
 		<dict>
-			<key>devicePosition</key>
-			<string>fullBottom</string>
 			<key>deviceTilt</key>
 			<dict>
 				<key>x</key>
@@ -897,7 +879,7 @@
 				<real>0.0</real>
 			</dict>
 			<key>hideDeviceFrame</key>
-			<true/>
+			<false/>
 			<key>magnifier</key>
 			<dict>
 				<key>centerUnitX</key>
@@ -935,178 +917,174 @@
 				<key>snapPosition</key>
 				<string>center</string>
 			</dict>
-			<key>overrideDevicePosition</key>
-			<true/>
 		</dict>
 		<key>localizations</key>
 		<array>
 			<dict>
 				<key>body</key>
-				<string>Challenge friends for free. Countdown, compete, rematch.</string>
+				<string>Race friends free with SharePlay, then rematch in seconds.</string>
 				<key>language</key>
 				<string>en-US</string>
 				<key>title</key>
-				<string>Race Friends with SharePlay</string>
+				<string>Turn the Couch Into a Starting Grid</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Challenge friends for free. Countdown, compete, rematch.</string>
+				<string>Race friends free with SharePlay, then rematch in seconds.</string>
 				<key>language</key>
 				<string>en-GB</string>
 				<key>title</key>
-				<string>Race Friends with SharePlay</string>
+				<string>Turn the Couch Into a Starting Grid</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Challenge friends for free. Countdown, compete, rematch.</string>
+				<string>Race friends free with SharePlay, then rematch in seconds.</string>
 				<key>language</key>
 				<string>en-AU</string>
 				<key>title</key>
-				<string>Race Friends with SharePlay</string>
+				<string>Turn the Couch Into a Starting Grid</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Challenge friends for free. Countdown, compete, rematch.</string>
+				<string>Race friends free with SharePlay, then rematch in seconds.</string>
 				<key>language</key>
 				<string>en-CA</string>
 				<key>title</key>
-				<string>Race Friends with SharePlay</string>
+				<string>Turn the Couch Into a Starting Grid</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Fordere Freunde gratis heraus. Countdown, Wettbewerb, Rematch.</string>
+				<string>Tritt per SharePlay gratis gegen Freunde an und starte sofort die Revanche.</string>
 				<key>language</key>
 				<string>de-DE</string>
 				<key>title</key>
-				<string>Rase mit Freunden per SharePlay</string>
+				<string>Mach dein Sofa zur Startlinie</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Daag vrienden gratis uit. Countdown, strijd, rematch.</string>
+				<string>Race gratis met vrienden via SharePlay en start zo de rematch.</string>
 				<key>language</key>
 				<string>nl-NL</string>
 				<key>title</key>
-				<string>Race met vrienden via SharePlay</string>
+				<string>Maak van de bank een startgrid</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Sfida gli amici gratis. Countdown, gara, rematch.</string>
+				<string>Sfida gratis gli amici con SharePlay e riparti subito per la rivincita.</string>
 				<key>language</key>
 				<string>it</string>
 				<key>title</key>
-				<string>Corri con amici via SharePlay</string>
+				<string>Dal divano alla griglia di partenza</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Défie tes amis gratuitement. Compte à rebours, course, revanche.</string>
+				<string>Défie gratuitement tes amis avec SharePlay, puis relance aussitôt.</string>
 				<key>language</key>
 				<string>fr-FR</string>
 				<key>title</key>
-				<string>Course avec des amis via SharePlay</string>
+				<string>Transforme le canapé en grille de départ</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Défiez vos amis gratuitement. Compte à rebours, course, revanche.</string>
+				<string>Défiez vos amis gratuitement avec SharePlay, puis relancez en quelques secondes.</string>
 				<key>language</key>
 				<string>fr-CA</string>
 				<key>title</key>
-				<string>Coursez avec des amis via SharePlay</string>
+				<string>Transformez le divan en grille de départ</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Reta a amigos gratis. Cuenta atrás, compite, revancha.</string>
+				<string>Compite gratis con amigos mediante SharePlay y repite en segundos.</string>
 				<key>language</key>
 				<string>es-ES</string>
 				<key>title</key>
-				<string>Corre con amigos con SharePlay</string>
+				<string>Convierte el sofá en la parrilla de salida</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Reta a amigos gratis. Cuenta atrás, compite, revancha.</string>
+				<string>Compite gratis con amigos por SharePlay y vuelve a retarlos en segundos.</string>
 				<key>language</key>
 				<string>es-MX</string>
 				<key>title</key>
-				<string>Corre con amigos con SharePlay</string>
+				<string>Convierte el sillón en la línea de salida</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Desafia amistats gratis. Compte enrere, competeix, revenja.</string>
+				<string>Competix gratis amb amics per SharePlay i repetix la partida en segons.</string>
 				<key>language</key>
 				<string>ca</string>
 				<key>title</key>
-				<string>Corre amb amics amb SharePlay</string>
+				<string>Convertix el sofà en la graella d'eixida</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>無料でフレンドに挑戦。カウントダウン、対戦、リマッチ。</string>
+				<string>SharePlayで友達と無料対戦。すぐに再戦できます。</string>
 				<key>language</key>
 				<string>ja</string>
 				<key>title</key>
-				<string>SharePlayでフレンドとレース</string>
+				<string>リビングがスタートグリッドに</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>무료로 친구에게 도전. 카운트다운, 대전, 리매치.</string>
+				<string>SharePlay로 친구와 무료로 레이스하고 바로 재대결해요.</string>
 				<key>language</key>
 				<string>ko</string>
 				<key>title</key>
-				<string>SharePlay로 친구와 레이스</string>
+				<string>거실을 출발선으로 바꿔요</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Desafie amigos grátis. Contagem, competição, revanche.</string>
+				<string>Corra grátis com amigos via SharePlay e dispute a revanche em segundos.</string>
 				<key>language</key>
 				<string>pt-BR</string>
 				<key>title</key>
-				<string>Corra com amigos no SharePlay</string>
+				<string>Transforme o sofá em linha de largada</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Desafie amigos grátis. Contagem, competição, desforra.</string>
+				<string>Corra grátis com amigos por SharePlay e repita o duelo em segundos.</string>
 				<key>language</key>
 				<string>pt-PT</string>
 				<key>title</key>
-				<string>Corra com amigos no SharePlay</string>
+				<string>Transforme o sofá na grelha de partida</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>免費挑戰好友。倒數、對戰、重賽。</string>
+				<string>透過 SharePlay 免費和朋友競速，幾秒內再次對決。</string>
 				<key>language</key>
 				<string>zh-Hant</string>
 				<key>title</key>
-				<string>SharePlay 與好友競賽</string>
+				<string>讓客廳變成起跑線</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>免费挑战好友。倒数、对战、重赛。</string>
+				<string>通过 SharePlay 免费与好友竞速，几秒内再次对决。</string>
 				<key>language</key>
 				<string>zh-Hans</string>
 				<key>title</key>
-				<string>SharePlay 与好友竞赛</string>
+				<string>让客厅变成起跑线</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Arkadaşlarına ücretsiz meydan oku. Geri sayım, yarış, rövanş.</string>
+				<string>SharePlay ile arkadaşlarınla ücretsiz yarış, saniyeler içinde rövanş yap.</string>
 				<key>language</key>
 				<string>tr</string>
 				<key>title</key>
-				<string>SharePlay ile arkadaşlarınla yarış</string>
+				<string>Kanepeyi başlangıç çizgisine çevir</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Rzuć znajomym bezpłatne wyzwanie. Odliczanie, wyścig, rewanż.</string>
+				<string>Ścigaj się bezpłatnie ze znajomymi przez SharePlay i szybko weź rewanż.</string>
 				<key>language</key>
 				<string>pl</string>
 				<key>title</key>
-				<string>Ścigaj się ze znajomymi przez SharePlay</string>
+				<string>Zmień kanapę w linię startu</string>
 			</dict>
 		</array>
 	</dict>
 	<dict>
 		<key>designConfiguration</key>
 		<dict>
-			<key>devicePosition</key>
-			<string>fullBottom</string>
 			<key>deviceTilt</key>
 			<dict>
 				<key>x</key>
@@ -1117,7 +1095,7 @@
 				<real>0.0</real>
 			</dict>
 			<key>hideDeviceFrame</key>
-			<true/>
+			<false/>
 			<key>magnifier</key>
 			<dict>
 				<key>centerUnitX</key>
@@ -1155,178 +1133,174 @@
 				<key>snapPosition</key>
 				<string>center</string>
 			</dict>
-			<key>overrideDevicePosition</key>
-			<true/>
 		</dict>
 		<key>localizations</key>
 		<array>
 			<dict>
 				<key>body</key>
-				<string>Game Center scores and friend markers keep every run competitive.</string>
+				<string>Friend markers turn every run into a score-chasing rivalry.</string>
 				<key>language</key>
 				<string>en-US</string>
 				<key>title</key>
-				<string>Climb the Leaderboard</string>
+				<string>Make Every Overtake Personal</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Game Center scores and friend markers keep every run competitive.</string>
+				<string>Friend markers turn every run into a score-chasing rivalry.</string>
 				<key>language</key>
 				<string>en-GB</string>
 				<key>title</key>
-				<string>Climb the Leaderboard</string>
+				<string>Make Every Overtake Personal</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Game Center scores and friend markers keep every run competitive.</string>
+				<string>Friend markers turn every run into a score-chasing rivalry.</string>
 				<key>language</key>
 				<string>en-AU</string>
 				<key>title</key>
-				<string>Climb the Leaderboard</string>
+				<string>Make Every Overtake Personal</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Game Center scores and friend markers keep every run competitive.</string>
+				<string>Friend markers turn every run into a score-chasing rivalry.</string>
 				<key>language</key>
 				<string>en-CA</string>
 				<key>title</key>
-				<string>Climb the Leaderboard</string>
+				<string>Make Every Overtake Personal</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Game-Center-Punkte und Freundesmarker halten jede Runde spannend.</string>
+				<string>Freundesmarker machen jede Runde zum Duell um den Highscore.</string>
 				<key>language</key>
 				<string>de-DE</string>
 				<key>title</key>
-				<string>Erklimme die Bestenliste</string>
+				<string>Jedes Überholen wird persönlich</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Game Center-scores en vriendenmarkeringen houden elke run spannend.</string>
+				<string>Vriendenmarkeringen maken elke run een strijd om de highscore.</string>
 				<key>language</key>
 				<string>nl-NL</string>
 				<key>title</key>
-				<string>Klim op het scorebord</string>
+				<string>Maak elke inhaalactie persoonlijk</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Punteggi Game Center e marcatori amici rendono ogni gara competitiva.</string>
+				<string>Gli indicatori degli amici trasformano ogni partita in una sfida al record.</string>
 				<key>language</key>
 				<string>it</string>
 				<key>title</key>
-				<string>Scala la classifica</string>
+				<string>Rendi personale ogni sorpasso</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Scores Game Center et marqueurs d'amis rendent chaque course compétitive.</string>
+				<string>Les repères d'amis transforment chaque partie en duel de scores.</string>
 				<key>language</key>
 				<string>fr-FR</string>
 				<key>title</key>
-				<string>Grimpe au classement</string>
+				<string>Chaque dépassement devient personnel</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Les scores Game Center et les marqueurs d'amis rendent chaque course compétitive.</string>
+				<string>Les repères d'amis transforment chaque partie en duel de pointage.</string>
 				<key>language</key>
 				<string>fr-CA</string>
 				<key>title</key>
-				<string>Grimpez au classement</string>
+				<string>Chaque dépassement devient personnel</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Puntuaciones de Game Center y marcadores de amigos mantienen cada partida competitiva.</string>
+				<string>Los marcadores de amigos convierten cada partida en una lucha por la puntuación.</string>
 				<key>language</key>
 				<string>es-ES</string>
 				<key>title</key>
-				<string>Escala la clasificación</string>
+				<string>Haz personal cada adelantamiento</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Puntuaciones de Game Center y marcadores de amigos mantienen cada partida competitiva.</string>
+				<string>Los marcadores de amigos convierten cada partida en una lucha por la puntuación.</string>
 				<key>language</key>
 				<string>es-MX</string>
 				<key>title</key>
-				<string>Escala la clasificación</string>
+				<string>Haz personal cada rebase</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Puntuacions de Game Center i marcadors d'amistats mantenen cada partida competitiva.</string>
+				<string>Els marcadors d'amics convertixen cada partida en un duel de puntuació.</string>
 				<key>language</key>
 				<string>ca</string>
 				<key>title</key>
-				<string>Puja en la classificació</string>
+				<string>Fes personal cada avançament</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Game Centerスコアとフレンドマーカーで毎ランが熱い。</string>
+				<string>フレンドマーカーで、毎回の走りがスコア争いになります。</string>
 				<key>language</key>
 				<string>ja</string>
 				<key>title</key>
-				<string>ランキングを駆け上がれ</string>
+				<string>追い抜くたび、勝負が熱くなる</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Game Center 점수와 친구 마커로 매 판이 경쟁적.</string>
+				<string>친구 마커가 매번의 레이스를 점수 경쟁으로 바꿔 줘요.</string>
 				<key>language</key>
 				<string>ko</string>
 				<key>title</key>
-				<string>리더보드를 올라가세요</string>
+				<string>추월할 때마다 더 짜릿하게</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Pontuações do Game Center e marcadores mantêm cada corrida competitiva.</string>
+				<string>Marcadores de amigos transformam cada partida em disputa por pontuação.</string>
 				<key>language</key>
 				<string>pt-BR</string>
 				<key>title</key>
-				<string>Suba no ranking</string>
+				<string>Deixe cada ultrapassagem pessoal</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Pontuações do Game Center e marcadores mantêm cada corrida competitiva.</string>
+				<string>Os marcadores de amigos transformam cada partida numa disputa de pontuação.</string>
 				<key>language</key>
 				<string>pt-PT</string>
 				<key>title</key>
-				<string>Suba na classificação</string>
+				<string>Torne cada ultrapassagem pessoal</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Game Center 分數與好友標記讓每局都競爭感十足。</string>
+				<string>好友標記讓每一局都變成分數之爭。</string>
 				<key>language</key>
 				<string>zh-Hant</string>
 				<key>title</key>
-				<string>衝上排行榜</string>
+				<string>每次超車都更有較勁感</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Game Center 分数与好友标记让每局都竞争感十足。</string>
+				<string>好友标记让每一局都变成分数之争。</string>
 				<key>language</key>
 				<string>zh-Hans</string>
 				<key>title</key>
-				<string>冲上排行榜</string>
+				<string>每次超车都更有较量感</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Game Center skorları ve arkadaş işaretleri her yarışı rekabetçi kılar.</string>
+				<string>Arkadaş işaretleri her yarışı yüksek skor rekabetine çevirir.</string>
 				<key>language</key>
 				<string>tr</string>
 				<key>title</key>
-				<string>Liderlik tablosunda yüksel</string>
+				<string>Her sollamayı kişisel kıl</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Wyniki Game Center i znaczniki znajomych podkręcają każdy przejazd.</string>
+				<string>Znaczniki znajomych zmieniają każdy przejazd w walkę o wynik.</string>
 				<key>language</key>
 				<string>pl</string>
 				<key>title</key>
-				<string>Wspinaj się w rankingu</string>
+				<string>Każde wyprzedzenie to osobisty pojedynek</string>
 			</dict>
 		</array>
 	</dict>
 	<dict>
 		<key>designConfiguration</key>
 		<dict>
-			<key>devicePosition</key>
-			<string>fullBottom</string>
 			<key>deviceTilt</key>
 			<dict>
 				<key>x</key>
@@ -1337,7 +1311,7 @@
 				<real>0.0</real>
 			</dict>
 			<key>hideDeviceFrame</key>
-			<true/>
+			<false/>
 			<key>magnifier</key>
 			<dict>
 				<key>centerUnitX</key>
@@ -1375,178 +1349,174 @@
 				<key>snapPosition</key>
 				<string>center</string>
 			</dict>
-			<key>overrideDevicePosition</key>
-			<true/>
 		</dict>
 		<key>localizations</key>
 		<array>
 			<dict>
 				<key>body</key>
-				<string>Explore five retro styles, from Pocket to Disc.</string>
+				<string>Choose five retro styles and race the one you love.</string>
 				<key>language</key>
 				<string>en-US</string>
 				<key>title</key>
-				<string>Choose Your Retro Aesthetic</string>
+				<string>Make the Arcade Yours</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Explore five retro styles, from Pocket to Disc.</string>
+				<string>Choose five retro styles and race the one you love.</string>
 				<key>language</key>
 				<string>en-GB</string>
 				<key>title</key>
-				<string>Choose Your Retro Aesthetic</string>
+				<string>Make the Arcade Yours</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Explore five retro styles, from Pocket to Disc.</string>
+				<string>Choose five retro styles and race the one you love.</string>
 				<key>language</key>
 				<string>en-AU</string>
 				<key>title</key>
-				<string>Choose Your Retro Aesthetic</string>
+				<string>Make the Arcade Yours</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Explore five retro styles, from Pocket to Disc.</string>
+				<string>Choose five retro styles and race the one you love.</string>
 				<key>language</key>
 				<string>en-CA</string>
 				<key>title</key>
-				<string>Choose Your Retro Aesthetic</string>
+				<string>Make the Arcade Yours</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Entdecke fünf Retro-Stile, von Pocket bis Disc.</string>
+				<string>Wähle aus fünf Retro-Stilen und fahre deinen Favoriten.</string>
 				<key>language</key>
 				<string>de-DE</string>
 				<key>title</key>
-				<string>Wähle deinen Retro-Look</string>
+				<string>Dein Arcade-Look, deine Wahl</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Ontdek vijf retrostijlen, van Pocket tot Disc.</string>
+				<string>Kies uit vijf retrostijlen en race in jouw favoriet.</string>
 				<key>language</key>
 				<string>nl-NL</string>
 				<key>title</key>
-				<string>Kies je retro-stijl</string>
+				<string>Jouw arcade, jouw stijl</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Scopri cinque stili retrò, da Pocket a Disc.</string>
+				<string>Scegli fra cinque stili retrò e corri con il tuo preferito.</string>
 				<key>language</key>
 				<string>it</string>
 				<key>title</key>
-				<string>Scegli la tua estetica retro</string>
+				<string>Scegli il tuo stile arcade</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Explore cinq styles rétro, de Pocket à Disc.</string>
+				<string>Choisis parmi cinq styles rétro et adopte ton préféré.</string>
 				<key>language</key>
 				<string>fr-FR</string>
 				<key>title</key>
-				<string>Choisis ton style retro</string>
+				<string>L'arcade à ton image</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Explorez cinq styles rétro, de Pocket à Disc.</string>
+				<string>Choisissez parmi cinq styles rétro et adoptez votre préféré.</string>
 				<key>language</key>
 				<string>fr-CA</string>
 				<key>title</key>
-				<string>Choisissez votre style rétro</string>
+				<string>L'arcade à votre image</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Explora cinco estilos retro, desde Pocket hasta Disc.</string>
+				<string>Elige entre cinco estilos retro y compite con tu favorito.</string>
 				<key>language</key>
 				<string>es-ES</string>
 				<key>title</key>
-				<string>Elige tu estética retro</string>
+				<string>Haz tuyo el arcade</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Explora cinco estilos retro, desde Pocket hasta Disc.</string>
+				<string>Elige entre cinco estilos retro y compite con tu favorito.</string>
 				<key>language</key>
 				<string>es-MX</string>
 				<key>title</key>
-				<string>Elige tu estética retro</string>
+				<string>Haz tuyo el arcade</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Explora cinc estils retro, de Pocket a Disc.</string>
+				<string>Tria entre cinc estils retro i corre amb el teu preferit.</string>
 				<key>language</key>
 				<string>ca</string>
 				<key>title</key>
-				<string>Tria la teua estètica retro</string>
+				<string>Fes teu l'arcade</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>PocketからDiscまで、5つのレトロスタイルを楽しもう。</string>
+				<string>5つのレトロスタイルから、お気に入りを選べます。</string>
 				<key>language</key>
 				<string>ja</string>
 				<key>title</key>
-				<string>レトロ美学を選ぼう</string>
+				<string>自分だけのアーケードに</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Pocket부터 Disc까지 다섯 가지 레트로 스타일을 만나보세요.</string>
+				<string>다섯 가지 레트로 스타일 중 마음에 드는 스타일로 달려요.</string>
 				<key>language</key>
 				<string>ko</string>
 				<key>title</key>
-				<string>레트로 스타일 선택</string>
+				<string>나만의 아케이드를 만들어요</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Explore cinco estilos retrô, de Pocket a Disc.</string>
+				<string>Escolha entre cinco estilos retrô e corra com o seu favorito.</string>
 				<key>language</key>
 				<string>pt-BR</string>
 				<key>title</key>
-				<string>Escolha seu visual retro</string>
+				<string>Faça o arcade do seu jeito</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Explore cinco estilos retro, de Pocket a Disc.</string>
+				<string>Escolha entre cinco estilos retro e corra com o seu favorito.</string>
 				<key>language</key>
 				<string>pt-PT</string>
 				<key>title</key>
-				<string>Escolha o seu visual retro</string>
+				<string>Dê um toque pessoal ao arcade</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>探索五種復古風格，從 Pocket 到 Disc。</string>
+				<string>五種復古風格任你選，挑出最愛投入競速。</string>
 				<key>language</key>
 				<string>zh-Hant</string>
 				<key>title</key>
-				<string>選擇復古風格</string>
+				<string>打造你的專屬街機</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>探索五种复古风格，从 Pocket 到 Disc。</string>
+				<string>五种复古风格任你选，挑出最爱投入竞速。</string>
 				<key>language</key>
 				<string>zh-Hans</string>
 				<key>title</key>
-				<string>选择复古风格</string>
+				<string>打造你的专属街机</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Pocket'tan Disc'e beş retro tarzı keşfet.</string>
+				<string>Beş retro tarzdan favorini seç ve yarışa katıl.</string>
 				<key>language</key>
 				<string>tr</string>
 				<key>title</key>
-				<string>Retro tarzını seç</string>
+				<string>Arcade deneyimini kendin yarat</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Poznaj pięć stylów retro, od Pocket po Disc.</string>
+				<string>Wybierz jeden z pięciu stylów retro i ścigaj się w ulubionym stylu.</string>
 				<key>language</key>
 				<string>pl</string>
 				<key>title</key>
-				<string>Wybierz swój styl retro</string>
+				<string>Stwórz własny salon arcade</string>
 			</dict>
 		</array>
 	</dict>
 	<dict>
 		<key>designConfiguration</key>
 		<dict>
-			<key>devicePosition</key>
-			<string>fullBottom</string>
 			<key>deviceTilt</key>
 			<dict>
 				<key>x</key>
@@ -1557,7 +1527,7 @@
 				<real>0.0</real>
 			</dict>
 			<key>hideDeviceFrame</key>
-			<true/>
+			<false/>
 			<key>magnifier</key>
 			<dict>
 				<key>centerUnitX</key>
@@ -1595,178 +1565,174 @@
 				<key>snapPosition</key>
 				<string>center</string>
 			</dict>
-			<key>overrideDevicePosition</key>
-			<true/>
 		</dict>
 		<key>localizations</key>
 		<array>
 			<dict>
 				<key>body</key>
-				<string>A bold 8-bit look made for Apple TV.</string>
+				<string>Cartridge style fills the big screen with bold arcade energy.</string>
 				<key>language</key>
 				<string>en-US</string>
 				<key>title</key>
-				<string>Cartridge Style on the Big Screen</string>
+				<string>Bring Back the 8-Bit Rush</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>A bold 8-bit look made for Apple TV.</string>
+				<string>Cartridge style fills the big screen with bold arcade energy.</string>
 				<key>language</key>
 				<string>en-GB</string>
 				<key>title</key>
-				<string>Cartridge Style on the Big Screen</string>
+				<string>Bring Back the 8-Bit Rush</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>A bold 8-bit look made for Apple TV.</string>
+				<string>Cartridge style fills the big screen with bold arcade energy.</string>
 				<key>language</key>
 				<string>en-AU</string>
 				<key>title</key>
-				<string>Cartridge Style on the Big Screen</string>
+				<string>Bring Back the 8-Bit Rush</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>A bold 8-bit look made for Apple TV.</string>
+				<string>Cartridge style fills the big screen with bold arcade energy.</string>
 				<key>language</key>
 				<string>en-CA</string>
 				<key>title</key>
-				<string>Cartridge Style on the Big Screen</string>
+				<string>Bring Back the 8-Bit Rush</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Ein leuchtender Look der späten 90er, gemacht für Apple TV.</string>
+				<string>Der Cartridge-Stil bringt kraftvolle Arcade-Energie auf den großen Bildschirm.</string>
 				<key>language</key>
 				<string>de-DE</string>
 				<key>title</key>
-				<string>Disc-Stil auf dem großen Bildschirm</string>
+				<string>Hol dir den 8-Bit-Kick zurück</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Een levendige late-jaren-90-look, gemaakt voor Apple TV.</string>
+				<string>Cartridge-stijl vult het grote scherm met krachtige arcade-energie.</string>
 				<key>language</key>
 				<string>nl-NL</string>
 				<key>title</key>
-				<string>Disc-stijl op het grote scherm</string>
+				<string>Herbeleef de 8-bit-rush</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Un vivace look di fine anni '90 creato per Apple TV.</string>
+				<string>Lo stile Cartridge porta sul grande schermo tutta l'energia arcade.</string>
 				<key>language</key>
 				<string>it</string>
 				<key>title</key>
-				<string>Stile Disc sul grande schermo</string>
+				<string>Ritrova l'adrenalina a 8 bit</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Un look éclatant de la fin des années 90 conçu pour Apple TV.</string>
+				<string>Le style Cartridge remplit le grand écran d'énergie arcade.</string>
 				<key>language</key>
 				<string>fr-FR</string>
 				<key>title</key>
-				<string>Le style Disc sur grand écran</string>
+				<string>Retrouve le frisson du 8 bits</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Un look éclatant de la fin des années 90 conçu pour Apple TV.</string>
+				<string>Le style Cartridge remplit le grand écran d'énergie arcade.</string>
 				<key>language</key>
 				<string>fr-CA</string>
 				<key>title</key>
-				<string>Le style Disc sur grand écran</string>
+				<string>Retrouvez le frisson du 8 bits</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Un look vibrante de finales de los 90 creado para Apple TV.</string>
+				<string>El estilo Cartridge llena la gran pantalla de energía arcade.</string>
 				<key>language</key>
 				<string>es-ES</string>
 				<key>title</key>
-				<string>Estilo Disc en la gran pantalla</string>
+				<string>Recupera la emoción de los 8 bits</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Un look vibrante de finales de los 90 creado para Apple TV.</string>
+				<string>El estilo Cartridge llena la pantalla grande de energía arcade.</string>
 				<key>language</key>
 				<string>es-MX</string>
 				<key>title</key>
-				<string>Estilo Disc en la pantalla grande</string>
+				<string>Revive la emoción de los 8 bits</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Un estil viu de finals dels 90 creat per a Apple TV.</string>
+				<string>L'estil Cartridge ompli la pantalla gran d'energia arcade.</string>
 				<key>language</key>
 				<string>ca</string>
 				<key>title</key>
-				<string>Estil Disc a la pantalla gran</string>
+				<string>Recupera l'emoció dels 8 bits</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Apple TVのための鮮やかな90年代後半スタイル。</string>
+				<string>Cartridgeスタイルが大画面に鮮烈なアーケード感を届けます。</string>
 				<key>language</key>
 				<string>ja</string>
 				<key>title</key>
-				<string>大画面で楽しむDiscスタイル</string>
+				<string>8ビットの興奮をもう一度</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Apple TV를 위해 만든 생생한 1990년대 후반 스타일.</string>
+				<string>Cartridge 스타일이 큰 화면을 강렬한 아케이드 감성으로 채워요.</string>
 				<key>language</key>
 				<string>ko</string>
 				<key>title</key>
-				<string>큰 화면의 Disc 스타일</string>
+				<string>8비트 질주를 다시 느껴요</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Um visual vibrante do fim dos anos 90 feito para Apple TV.</string>
+				<string>O estilo Cartridge enche a tela grande de energia arcade.</string>
 				<key>language</key>
 				<string>pt-BR</string>
 				<key>title</key>
-				<string>Estilo Disc na tela grande</string>
+				<string>Reviva a emoção dos 8 bits</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Um visual vibrante do final dos anos 90 criado para Apple TV.</string>
+				<string>O estilo Cartridge enche o grande ecrã de energia arcade.</string>
 				<key>language</key>
 				<string>pt-PT</string>
 				<key>title</key>
-				<string>Estilo Disc no grande ecrã</string>
+				<string>Reviva a emoção dos 8 bits</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>專為 Apple TV 打造的鮮明 90 年代末風格。</string>
+				<string>Cartridge 風格為大螢幕注入強烈街機能量。</string>
 				<key>language</key>
 				<string>zh-Hant</string>
 				<key>title</key>
-				<string>大螢幕上的 Disc 風格</string>
+				<string>重溫 8 位元狂飆快感</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>专为 Apple TV 打造的鲜明 90 年代末风格。</string>
+				<string>Cartridge 风格为大屏幕注入强烈街机能量。</string>
 				<key>language</key>
 				<string>zh-Hans</string>
 				<key>title</key>
-				<string>大屏幕上的 Disc 风格</string>
+				<string>重温 8 位狂飙快感</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Apple TV için canlı bir 90'ların sonu görünümü.</string>
+				<string>Cartridge tarzı büyük ekranı güçlü arcade enerjisiyle doldurur.</string>
 				<key>language</key>
 				<string>tr</string>
 				<key>title</key>
-				<string>Büyük ekranda Disc tarzı</string>
+				<string>8 bit heyecanını geri getir</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Wyrazisty styl końca lat 90. stworzony dla Apple TV.</string>
+				<string>Styl Cartridge napełnia duży ekran mocną energią arcade.</string>
 				<key>language</key>
 				<string>pl</string>
 				<key>title</key>
-				<string>Styl Disc na dużym ekranie</string>
+				<string>Poczuj znów pęd 8 bitów</string>
 			</dict>
 		</array>
 	</dict>
 	<dict>
 		<key>designConfiguration</key>
 		<dict>
-			<key>devicePosition</key>
-			<string>fullBottom</string>
 			<key>deviceTilt</key>
 			<dict>
 				<key>x</key>
@@ -1777,7 +1743,7 @@
 				<real>0.0</real>
 			</dict>
 			<key>hideDeviceFrame</key>
-			<true/>
+			<false/>
 			<key>magnifier</key>
 			<dict>
 				<key>centerUnitX</key>
@@ -1815,178 +1781,174 @@
 				<key>snapPosition</key>
 				<string>center</string>
 			</dict>
-			<key>overrideDevicePosition</key>
-			<true/>
 		</dict>
 		<key>localizations</key>
 		<array>
 			<dict>
 				<key>body</key>
-				<string>Earn Game Center trophies as you race and improve.</string>
+				<string>Unlock Game Center achievements as your racing skills grow.</string>
 				<key>language</key>
 				<string>en-US</string>
 				<key>title</key>
-				<string>Unlock Retro Achievements</string>
+				<string>Turn Great Runs Into Trophies</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Earn Game Center trophies as you race and improve.</string>
+				<string>Unlock Game Center achievements as your racing skills grow.</string>
 				<key>language</key>
 				<string>en-GB</string>
 				<key>title</key>
-				<string>Unlock Retro Achievements</string>
+				<string>Turn Great Runs Into Trophies</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Earn Game Center trophies as you race and improve.</string>
+				<string>Unlock Game Center achievements as your racing skills grow.</string>
 				<key>language</key>
 				<string>en-AU</string>
 				<key>title</key>
-				<string>Unlock Retro Achievements</string>
+				<string>Turn Great Runs Into Trophies</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Earn Game Center trophies as you race and improve.</string>
+				<string>Unlock Game Center achievements as your racing skills grow.</string>
 				<key>language</key>
 				<string>en-CA</string>
 				<key>title</key>
-				<string>Unlock Retro Achievements</string>
+				<string>Turn Great Runs Into Trophies</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Verdiene Game-Center-Trophäen, während du fährst und dich verbesserst.</string>
+				<string>Schalte Game-Center-Erfolge frei, während dein Fahrkönnen wächst.</string>
 				<key>language</key>
 				<string>de-DE</string>
 				<key>title</key>
-				<string>Schalte Retro-Erfolge frei</string>
+				<string>Mach starke Runden zu Trophäen</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Verdien Game Center-trofeeën terwijl je rijdt en verbetert.</string>
+				<string>Speel Game Center-prestaties vrij terwijl je racevaardigheid groeit.</string>
 				<key>language</key>
 				<string>nl-NL</string>
 				<key>title</key>
-				<string>Ontgrendel retro prestaties</string>
+				<string>Zet sterke runs om in trofeeën</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Ottieni trofei Game Center mentre corri e migliori.</string>
+				<string>Sblocca gli obiettivi Game Center mentre migliori alla guida.</string>
 				<key>language</key>
 				<string>it</string>
 				<key>title</key>
-				<string>Sblocca obiettivi retro</string>
+				<string>Trasforma le grandi corse in trofei</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Gagne des trophées Game Center en courant et en progressant.</string>
+				<string>Débloque des succès Game Center à mesure que tu progresses.</string>
 				<key>language</key>
 				<string>fr-FR</string>
 				<key>title</key>
-				<string>Débloque des succès retro</string>
+				<string>Transforme tes exploits en trophées</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Gagnez des trophées Game Center en courant et en progressant.</string>
+				<string>Débloquez des succès Game Center au fil de vos progrès.</string>
 				<key>language</key>
 				<string>fr-CA</string>
 				<key>title</key>
-				<string>Débloquez des succès rétro</string>
+				<string>Transformez vos exploits en trophées</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Gana trofeos de Game Center mientras corres y mejoras.</string>
+				<string>Desbloquea logros de Game Center mientras mejoras al volante.</string>
 				<key>language</key>
 				<string>es-ES</string>
 				<key>title</key>
-				<string>Desbloquea logros retro</string>
+				<string>Convierte tus carreras en trofeos</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Gana trofeos de Game Center mientras corres y mejoras.</string>
+				<string>Desbloquea logros de Game Center mientras mejoras al volante.</string>
 				<key>language</key>
 				<string>es-MX</string>
 				<key>title</key>
-				<string>Desbloquea logros retro</string>
+				<string>Convierte tus carreras en trofeos</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Guanya trofeus de Game Center mentre corres i millores.</string>
+				<string>Desbloqueja assoliments de Game Center mentre millores al volant.</string>
 				<key>language</key>
 				<string>ca</string>
 				<key>title</key>
-				<string>Desbloqueja assoliments retro</string>
+				<string>Convertix grans partides en trofeus</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>走って上達しながらGame Centerトロフィーを獲得。</string>
+				<string>腕を磨きながらGame Centerの実績を解除できます。</string>
 				<key>language</key>
 				<string>ja</string>
 				<key>title</key>
-				<string>レトロ実績を解除</string>
+				<string>最高の走りをトロフィーに</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>레이스하며 성장하고 Game Center 트로피를 획득.</string>
+				<string>실력이 늘수록 Game Center 업적도 잠금 해제돼요.</string>
 				<key>language</key>
 				<string>ko</string>
 				<key>title</key>
-				<string>레트로 업적 해제</string>
+				<string>멋진 질주를 트로피로 바꿔요</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Ganhe troféus do Game Center enquanto corre e melhora.</string>
+				<string>Desbloqueie conquistas do Game Center enquanto melhora suas habilidades.</string>
 				<key>language</key>
 				<string>pt-BR</string>
 				<key>title</key>
-				<string>Desbloqueie conquistas retro</string>
+				<string>Transforme grandes corridas em troféus</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Ganhe troféus do Game Center enquanto corre e melhora.</string>
+				<string>Desbloqueie proezas no Game Center enquanto melhora a condução.</string>
 				<key>language</key>
 				<string>pt-PT</string>
 				<key>title</key>
-				<string>Desbloqueie conquistas retro</string>
+				<string>Transforme grandes corridas em troféus</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>競速進步，贏得 Game Center 獎盃。</string>
+				<string>技巧越純熟，解鎖的 Game Center 成就越多。</string>
 				<key>language</key>
 				<string>zh-Hant</string>
 				<key>title</key>
-				<string>解鎖復古成就</string>
+				<string>把精彩車程化為獎盃</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>竞速进步，赢得 Game Center 奖杯。</string>
+				<string>技巧越娴熟，解锁的 Game Center 成就越多。</string>
 				<key>language</key>
 				<string>zh-Hans</string>
 				<key>title</key>
-				<string>解锁复古成就</string>
+				<string>把精彩车程化为奖杯</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Yarışıp geliştikçe Game Center kupaları kazan.</string>
+				<string>Becerin geliştikçe Game Center başarımlarını aç.</string>
 				<key>language</key>
 				<string>tr</string>
 				<key>title</key>
-				<string>Retro başarımları aç</string>
+				<string>Harika yarışları kupaya dönüştür</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Zdobywaj trofea Game Center podczas wyścigów i rozwoju.</string>
+				<string>Odblokowuj osiągnięcia Game Center wraz ze wzrostem umiejętności.</string>
 				<key>language</key>
 				<string>pl</string>
 				<key>title</key>
-				<string>Odblokuj osiągnięcia retro</string>
+				<string>Zamień świetne przejazdy w trofea</string>
 			</dict>
 		</array>
 	</dict>
 	<dict>
 		<key>designConfiguration</key>
 		<dict>
-			<key>devicePosition</key>
-			<string>fullBottom</string>
 			<key>deviceTilt</key>
 			<dict>
 				<key>x</key>
@@ -1997,7 +1959,7 @@
 				<real>0.0</real>
 			</dict>
 			<key>hideDeviceFrame</key>
-			<true/>
+			<false/>
 			<key>magnifier</key>
 			<dict>
 				<key>centerUnitX</key>
@@ -2035,170 +1997,168 @@
 				<key>snapPosition</key>
 				<string>center</string>
 			</dict>
-			<key>overrideDevicePosition</key>
-			<true/>
 		</dict>
 		<key>localizations</key>
 		<array>
 			<dict>
 				<key>body</key>
-				<string>Daily free plays, leaderboards, and live friend races.</string>
+				<string>Play solo, race friends, or chase leaderboard glory.</string>
 				<key>language</key>
 				<string>en-US</string>
 				<key>title</key>
-				<string>Play Solo Or With Friends</string>
+				<string>Your Next Run Starts Here</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Daily free plays, leaderboards, and live friend races.</string>
+				<string>Play solo, race friends, or chase leaderboard glory.</string>
 				<key>language</key>
 				<string>en-GB</string>
 				<key>title</key>
-				<string>Play Solo Or With Friends</string>
+				<string>Your Next Run Starts Here</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Daily free plays, leaderboards, and live friend races.</string>
+				<string>Play solo, race friends, or chase leaderboard glory.</string>
 				<key>language</key>
 				<string>en-AU</string>
 				<key>title</key>
-				<string>Play Solo Or With Friends</string>
+				<string>Your Next Run Starts Here</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Daily free plays, leaderboards, and live friend races.</string>
+				<string>Play solo, race friends, or chase leaderboard glory.</string>
 				<key>language</key>
 				<string>en-CA</string>
 				<key>title</key>
-				<string>Play Solo Or With Friends</string>
+				<string>Your Next Run Starts Here</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Tägliche Gratis-Spiele, Bestenlisten und Live-Freundesrennen.</string>
+				<string>Spiele solo, rase mit Freunden oder jage Ruhm in der Bestenliste.</string>
 				<key>language</key>
 				<string>de-DE</string>
 				<key>title</key>
-				<string>Spiele solo oder mit Freunden</string>
+				<string>Deine nächste Runde startet hier</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Dagelijkse gratis runs, scoreborden en live vriendenraces.</string>
+				<string>Speel solo, race met vrienden of jaag op glorie in het klassement.</string>
 				<key>language</key>
 				<string>nl-NL</string>
 				<key>title</key>
-				<string>Speel solo of met vrienden</string>
+				<string>Je volgende run start hier</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Partite gratis ogni giorno, classifiche e gare live con amici.</string>
+				<string>Gioca in solo, sfida gli amici o punta alla gloria in classifica.</string>
 				<key>language</key>
 				<string>it</string>
 				<key>title</key>
-				<string>Gioca in solo o con amici</string>
+				<string>La prossima corsa parte qui</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Parties gratuites quotidiennes, classements et courses live entre amis.</string>
+				<string>Joue en solo, défie tes amis ou vise la gloire au classement.</string>
 				<key>language</key>
 				<string>fr-FR</string>
 				<key>title</key>
-				<string>Joue solo ou avec des amis</string>
+				<string>Ta prochaine partie commence ici</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Parties gratuites quotidiennes, classements et courses en direct entre amis.</string>
+				<string>Jouez en solo, défiez vos amis ou visez le sommet du classement.</string>
 				<key>language</key>
 				<string>fr-CA</string>
 				<key>title</key>
-				<string>Jouez solo ou avec des amis</string>
+				<string>Votre prochaine partie commence ici</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Partidas gratis diarias, clasificaciones y carreras live con amigos.</string>
+				<string>Juega solo, compite con amigos o busca la gloria en el ranking.</string>
 				<key>language</key>
 				<string>es-ES</string>
 				<key>title</key>
-				<string>Juega solo o con amigos</string>
+				<string>Tu próxima partida empieza aquí</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Partidas gratis diarias, clasificaciones y carreras live con amigos.</string>
+				<string>Juega solo, compite con amigos o busca la gloria en el ranking.</string>
 				<key>language</key>
 				<string>es-MX</string>
 				<key>title</key>
-				<string>Juega solo o con amigos</string>
+				<string>Tu próxima partida empieza aquí</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Partides gratis diàries, classificacions i carreres live amb amics.</string>
+				<string>Juga a soles, competix amb amics o busca la glòria en la classificació.</string>
 				<key>language</key>
 				<string>ca</string>
 				<key>title</key>
-				<string>Juga en solitari o amb amics</string>
+				<string>La teua pròxima partida comença ací</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>毎日無料プレイ、ランキング、ライブフレンドレース。</string>
+				<string>ソロ、友達対戦、ランキング上位を目指す遊び方が選べます。</string>
 				<key>language</key>
 				<string>ja</string>
 				<key>title</key>
-				<string>ソロでもフレンドでも</string>
+				<string>次のレースはここから</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>매일 무료 플레이, 리더보드, 라이브 친구 레이스.</string>
+				<string>혼자 달리고, 친구와 겨루고, 순위표 정상에 도전해요.</string>
 				<key>language</key>
 				<string>ko</string>
 				<key>title</key>
-				<string>솔로 또는 친구와</string>
+				<string>다음 레이스는 여기서 시작해요</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Partidas grátis diárias, rankings e corridas live com amigos.</string>
+				<string>Jogue solo, corra com amigos ou busque a glória no ranking.</string>
 				<key>language</key>
 				<string>pt-BR</string>
 				<key>title</key>
-				<string>Jogue solo ou com amigos</string>
+				<string>Sua próxima corrida começa aqui</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Partidas grátis diárias, classificações e corridas ao vivo com amigos.</string>
+				<string>Jogue a solo, corra com amigos ou procure a glória na classificação.</string>
 				<key>language</key>
 				<string>pt-PT</string>
 				<key>title</key>
-				<string>Jogue a solo ou com amigos</string>
+				<string>A próxima corrida começa aqui</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>每日免費次數、排行榜與即時好友競賽。</string>
+				<string>單人暢玩、挑戰好友，或朝排行榜榮耀衝刺。</string>
 				<key>language</key>
 				<string>zh-Hant</string>
 				<key>title</key>
-				<string>單人或與好友同玩</string>
+				<string>下一場競速從這裡開始</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>每日免费次数、排行榜与即时好友竞赛。</string>
+				<string>单人畅玩、挑战好友，或向排行榜荣耀冲刺。</string>
 				<key>language</key>
 				<string>zh-Hans</string>
 				<key>title</key>
-				<string>单人或与好友同玩</string>
+				<string>下一场竞速从这里开始</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Günlük ücretsiz oyunlar, liderlik tabloları ve canlı arkadaş yarışları.</string>
+				<string>Tek başına oyna, arkadaşlarınla yarış veya liderlik tablosunda zirveyi kovala.</string>
 				<key>language</key>
 				<string>tr</string>
 				<key>title</key>
-				<string>Tek başına veya arkadaşlarınla oyna</string>
+				<string>Sıradaki yarışın burada başlıyor</string>
 			</dict>
 			<dict>
 				<key>body</key>
-				<string>Codzienne bezpłatne gry, rankingi i wyścigi ze znajomymi na żywo.</string>
+				<string>Graj solo, ścigaj się ze znajomymi lub walcz o chwałę w rankingu.</string>
 				<key>language</key>
 				<string>pl</string>
 				<key>title</key>
-				<string>Graj solo lub ze znajomymi</string>
+				<string>Następny przejazd zaczyna się tutaj</string>
 			</dict>
 		</array>
 	</dict>

@@ -482,6 +482,72 @@ func givenManifestTargetsWhenStudioImageIsMissingThenValidationReportsIt() throw
 }
 
 @Test
+func givenAppleTVDesignWhenPreparingStudioDataThenScreenshotLayerRemainsVisible() {
+    let design = ScreenshotStudioWorkflow.appleTVDesignConfiguration(from: [
+        "hideDeviceFrame": true,
+        "devicePosition": "fullBottom",
+        "overrideDevicePosition": true,
+    ])
+
+    #expect(design["hideDeviceFrame"] as? Bool == false)
+    #expect(design["devicePosition"] == nil)
+    #expect(design["overrideDevicePosition"] == nil)
+}
+
+@Test(arguments: [
+    ("en-US", "Bring Retro Racing to the Big Screen"),
+    ("de-DE", "Retro-Rennen auf dem großen Bildschirm"),
+    ("nl-NL", "Retro-racen op het grote scherm"),
+    ("it", "Porta le corse retrò sul grande schermo"),
+    ("fr-FR", "La course rétro sur grand écran"),
+    ("fr-CA", "La course rétro sur grand écran"),
+    ("es-ES", "Lleva las carreras retro a la gran pantalla"),
+    ("es-MX", "Lleva las carreras retro a la pantalla grande"),
+    ("ca", "Porta les carreres retro a la pantalla gran"),
+    ("ja", "大画面で楽しむレトロレース"),
+    ("ko", "큰 화면에서 즐기는 레트로 레이싱"),
+    ("pt-BR", "Leve a corrida retrô para a tela grande"),
+    ("pt-PT", "Leve as corridas retro ao grande ecrã"),
+    ("zh-Hant", "把復古賽車搬上大螢幕"),
+    ("zh-Hans", "把复古赛车搬上大屏幕"),
+    ("tr", "Retro yarışı büyük ekrana taşı"),
+    ("pl", "Przenieś wyścigi retro na duży ekran"),
+])
+func testGivenAppleTVScreenshotCopyWhenLocalizingThenSourceLocaleUsesBenefitLedStory(
+    locale: String,
+    expectedTitle: String
+) throws {
+    let openingEntries = try ScreenshotStudioWorkflow.localizationEntries(
+        slideIndex: 0,
+        watchSequenceOnly: false,
+        platform: "appleTv"
+    )
+    let entry = try #require(openingEntries.first { $0["language"] == locale })
+
+    #expect(entry["title"] == expectedTitle)
+    #expect(entry["body"]?.isEmpty == false)
+}
+
+@Test(arguments: Array(0..<10))
+func testGivenAppleTVScreenshotCopyWhenLocalizingThenEverySlideCoversAllStudioLocales(
+    slideIndex: Int
+) throws {
+    let entries = try ScreenshotStudioWorkflow.localizationEntries(
+        slideIndex: slideIndex,
+        watchSequenceOnly: false,
+        platform: "appleTv"
+    )
+    let english = try #require(entries.first { $0["language"] == "en-US" })
+
+    #expect(entries.count == 20)
+    #expect(entries.allSatisfy { $0["title"]?.isEmpty == false })
+    #expect(entries.allSatisfy { $0["body"]?.isEmpty == false })
+    #expect(entries.first { $0["language"] == "en-GB" }?["title"] == english["title"])
+    #expect(entries.first { $0["language"] == "en-AU" }?["body"] == english["body"])
+    #expect(entries.first { $0["language"] == "en-CA" }?["body"] == english["body"])
+}
+
+@Test
 func givenOnlyEnglishDerivedLocalesWhenResolvingCaptureLocalesThenMexicanSpanishIsASource() {
     let studioLocales = ScreenshotStudioWorkflow.locales
     let captureLocales = ScreenshotCapturePlan.captureLocales(from: studioLocales)
